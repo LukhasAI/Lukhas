@@ -133,7 +133,7 @@ class BioSimulationController:
         self.affect_delta = 0.0
 
         # Time tracking for circadian rhythms
-        self.start_time = datetime.now()
+        self.start_time = datetime.now(timezone.utc)
         self.current_phase = 0.0  # 0-24 hour cycle
 
         # Hormone interactions
@@ -230,7 +230,7 @@ class BioSimulationController:
             self._check_system_states()
 
             # Log current state (reduced frequency)
-            if int(datetime.now().timestamp()) % 10 == 0:  # Log every 10 seconds
+            if int(datetime.now(timezone.utc).timestamp()) % 10 == 0:  # Log every 10 seconds
                 logger.info(f"Endocrine state: {self._calculate_overall_state(self.get_hormone_state()}")
                 logger.debug(f"Hormone levels: {self.get_hormone_state()}")
 
@@ -383,7 +383,7 @@ class BioSimulationController:
 
     def _update_circadian_phase(self):
         """Update the current circadian phase based on elapsed time."""
-        elapsed = (datetime.now() - self.start_time).total_seconds()
+        elapsed = (datetime.now(timezone.utc) - self.start_time).total_seconds()
         # Convert to 24-hour cycle (86400 seconds = 24 hours)
         # For AGI, we can speed this up for faster cycles
         cycle_speed = 10.0  # 10x speed: 2.4 hour real time = 24 hour cycle

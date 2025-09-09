@@ -293,7 +293,7 @@ class EntityExtractor:
                 if "T" in date_str:
                     return datetime.fromisoformat(date_str)
                 else:
-                    return datetime.strptime(date_str, "%Y-%m-%d")
+                    return datetime.strptime(date_str, "%Y-%m-%d").replace(tzinfo=timezone.utc)
 
             elif subtype == "relative_day":
                 day = match.group(0).lower()

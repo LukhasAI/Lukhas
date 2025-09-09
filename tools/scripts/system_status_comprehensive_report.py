@@ -449,7 +449,7 @@ class SystemHealthAnalyzer:
                 file_status[filename] = {
                     "exists": True,
                     "size_bytes": stat.st_size,
-                    "modified": datetime.fromtimestamp(stat.st_mtime).isoformat(),
+                    "modified": datetime.fromtimestamp(stat.st_mtime, tz=timezone.utc).isoformat(),
                     "readable": file_path.is_file() and os.access(file_path, os.R_OK),
                 }
             else:

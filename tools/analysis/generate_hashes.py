@@ -157,7 +157,7 @@ def generate_manifest_hash(manifest_file: str) -> dict[str, any]:
             "file_path": str(manifest_path),
             "file_name": manifest_path.name,
             "file_size_bytes": file_size,
-            "last_modified": datetime.fromtimestamp(modified_time).isoformat() + "Z",
+            "last_modified": datetime.fromtimestamp(modified_time, tz=timezone.utc).isoformat() + "Z",
             "hash_generated": timestamp,
         },
         "integrity_hashes": {

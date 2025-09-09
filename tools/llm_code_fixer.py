@@ -418,7 +418,7 @@ class LLMCodeFixer:
         self.llm_service = os.getenv("LOCAL_LLM_SERVICE", "ollama")
         self.llm_base_url = os.getenv("LOCAL_LLM_BASE_URL", "http://localhost:11434")
         self.dry_run = os.getenv("LUKHAS_CODE_FIX_DRY_RUN", "false").lower() == "true"
-        self.backup_dir = self.project_root / ".code_fix_backups" / datetime.now().strftime("%Y%m%d_%H%M%S")
+        self.backup_dir = self.project_root / ".code_fix_backups" / datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
 
         # Create backup directory
         self.backup_dir.mkdir(parents=True, exist_ok=True)
@@ -445,7 +445,7 @@ class LLMCodeFixer:
 
     def _save_progress(self):
         """Save current progress"""
-        self.progress["last_run"] = datetime.now().isoformat()
+        self.progress["last_run"] = datetime.now(timezone.utc).isoformat()
         with open(self.progress_file, "w") as f:
             json.dump(self.progress, f, indent=2)
 
@@ -657,7 +657,7 @@ class LLMCodeFixer:
     def _generate_final_report(self):
         """Generate final improvement report"""
 
-        report_path = self.project_root / f"code_improvement_report_{datetime.now().strftime('%Y%m%d_%H%M%S'}}.md"
+        report_path = self.project_root / f"code_improvement_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}}.md"
 
         total_attempted = self.progress["total_fixes_attempted"]
         successful = self.progress["successful_fixes"]
@@ -665,7 +665,7 @@ class LLMCodeFixer:
 
         report_content = f"""# 🧠 LUKHAS Code Quality Improvement Report
 
-**Generated:** {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+**Generated:** {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")}
 **LLM Service:** {self.llm_service} ({self.llm_base_url})
 **Mode:** {"Dry Run" if self.dry_run else "Live Fixes Applied"}
 

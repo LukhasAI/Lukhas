@@ -305,7 +305,7 @@ class ConsciousnessPattern:
 
         # Store patterns
         self.user_patterns[user_id] = {
-            "timestamp": datetime.utcnow(),
+            "timestamp": datetime.now(timezone.utc),
             "temporal_coherence": temporal_coherence,
             "symbolic_resonance": symbolic_resonance,
             "intentionality": intentionality,
@@ -406,7 +406,7 @@ class ConsciousnessPattern:
         # Create a deterministic string representation
         signature_data = {
             "user_id": user_id,
-            "timestamp": str(interaction_data.get("timestamp", datetime.utcnow())),
+            "timestamp": str(interaction_data.get("timestamp", datetime.now(timezone.utc))),
             "interaction_summary": str(interaction_data.get("context", {}))[:100],
         }
 
@@ -485,7 +485,7 @@ class DefaultEthicsEngine(AnthropicEthicsEngine):
             "principle_scores": scores,
             "violations": violations,
             "recommendations": recommendations,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def _evaluate_principle(
@@ -657,7 +657,7 @@ class SelfAwareAdaptationModule:
         # Store in history
         self.adaptation_history.append(
             {
-                "timestamp": datetime.utcnow(),
+                "timestamp": datetime.now(timezone.utc),
                 "insights": insights,
                 "state": current_state.to_dict(),
             }
@@ -751,7 +751,7 @@ class SelfAwareAdaptationModule:
             new_state.temporal_continuity = max(0.3, new_state.temporal_continuity - self.learning_rate * 0.05)
 
         # Update timestamp
-        new_state.last_update = datetime.utcnow()
+        new_state.last_update = datetime.now(timezone.utc)
 
         self.instance_logger.debug(f"State adapted: {new_state.to_dict()}")
         return new_state
@@ -821,7 +821,7 @@ class AGIConsciousnessEngine:
 
     async def register_agent(self, agent_id: str, agent_config: dict[str, Any]) -> bool:
         """Register an agent for multi-agent coordination."""
-        start_time = datetime.utcnow()
+        start_time = datetime.now(timezone.utc)
 
         try:
             self.agent_registry[agent_id] = {
@@ -842,7 +842,7 @@ class AGIConsciousnessEngine:
 
     async def broadcast_consciousness_state(self, target_agents: Optional[list[str]] = None) -> dict[str, Any]:
         """Broadcast current consciousness state to registered agents."""
-        start_time = datetime.utcnow()
+        start_time = datetime.now(timezone.utc)
 
         state_message = {
             "type": "consciousness_broadcast",
@@ -873,7 +873,7 @@ class AGIConsciousnessEngine:
 
     async def process_agent_message(self, sender_id: str, message: dict[str, Any]) -> dict[str, Any]:
         """Process incoming message from an agent."""
-        start_time = datetime.utcnow()
+        start_time = datetime.now(timezone.utc)
 
         message_type = message.get("type", "unknown")
 
@@ -887,7 +887,7 @@ class AGIConsciousnessEngine:
             response = {
                 "type": "error",
                 "message": f"Unknown message type: {message_type}",
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         await self._process_time_check(start_time, f"agent_message_{message_type}")
@@ -899,7 +899,7 @@ class AGIConsciousnessEngine:
 
     async def update_bio_oscillators(self, stimulus: dict[str, Any]) -> dict[str, float]:
         """Update bio-inspired oscillator states based on stimulus."""
-        start_time = datetime.utcnow()
+        start_time = datetime.now(timezone.utc)
 
         # Extract stimulus features
         complexity = stimulus.get("complexity", 0.5)
@@ -945,7 +945,7 @@ class AGIConsciousnessEngine:
 
     async def adaptive_consciousness_modulation(self, context: dict[str, Any]) -> ConsciousnessState:
         """Modulate consciousness state using bio-inspired adaptation."""
-        start_time = datetime.utcnow()
+        start_time = datetime.now(timezone.utc)
 
         # Update oscillators based on context
         stimulus = {
@@ -982,7 +982,7 @@ class AGIConsciousnessEngine:
         if self.resonance_patterns and np.mean(list(self.resonance_patterns)[-10:]) > 0.7:
             modulated_state.temporal_continuity = min(1.0, modulated_state.temporal_continuity + 0.05)
 
-        modulated_state.last_update = datetime.utcnow()
+        modulated_state.last_update = datetime.now(timezone.utc)
 
         await self._process_time_check(start_time, "consciousness_modulation")
         return modulated_state
@@ -993,7 +993,7 @@ class AGIConsciousnessEngine:
 
     async def _process_time_check(self, start_time: datetime, operation: str):
         """Monitor processing time to ensure <250ms performance target."""
-        end_time = datetime.utcnow()
+        end_time = datetime.now(timezone.utc)
         processing_time = (end_time - start_time).total_seconds() * 1000  # Convert to milliseconds
 
         self.processing_times.append(processing_time)
@@ -1021,7 +1021,7 @@ class AGIConsciousnessEngine:
             return {
                 "type": "consciousness_response",
                 "payload": self.consciousness_state.to_dict(),
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         elif query_type == "bio_state":
             return {
@@ -1031,13 +1031,13 @@ class AGIConsciousnessEngine:
                     "resonance": list(self.resonance_patterns)[-10:],  # Last 10 patterns
                     "adaptation_cycles": self.adaptation_cycles,
                 },
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         else:
             return {
                 "type": "error",
                 "message": f"Unknown query type: {query_type}",
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def _handle_context_handoff(self, sender_id: str, message: dict[str, Any]) -> dict[str, Any]:
@@ -1057,7 +1057,7 @@ class AGIConsciousnessEngine:
                     "resonance": (self.resonance_patterns[-1] if self.resonance_patterns else 0.0),
                 },
             },
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def _handle_performance_feedback(self, sender_id: str, message: dict[str, Any]) -> dict[str, Any]:
@@ -1083,7 +1083,7 @@ class AGIConsciousnessEngine:
 
         return {
             "type": "feedback_acknowledged",
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def authenticate_with_consciousness(self, user_id: str, interaction_data: dict[str, Any]) -> dict[str, Any]:
@@ -1095,7 +1095,7 @@ class AGIConsciousnessEngine:
         🧠 Consciousness: Bio-inspired adaptation and contextual awareness
         🛡️ Guardian: Ethical validation and compliance checking
         """
-        start_time = datetime.utcnow()
+        start_time = datetime.now(timezone.utc)
         logger.info(f"Trinity Framework consciousness authentication for user: {user_id}")
 
         # Analyze consciousness patterns
@@ -1142,14 +1142,14 @@ class AGIConsciousnessEngine:
                 "violations": ethical_evaluation.get("violations", []),
             },
             "self_reflection": reflection,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Store in history
         self.auth_history.append(
             {
                 "user_id": user_id,
-                "timestamp": datetime.utcnow(),
+                "timestamp": datetime.now(timezone.utc),
                 "authenticated": authenticated,
                 "consciousness_score": consciousness_score,
                 "ethical_score": ethical_evaluation.get("overall_score"),
@@ -1181,7 +1181,7 @@ class AGIConsciousnessEngine:
         # Performance monitoring
         await self._process_time_check(start_time, "consciousness_authentication")
         response["performance_metrics"] = {
-            "processing_time_ms": (datetime.utcnow() - start_time).total_seconds() * 1000,
+            "processing_time_ms": (datetime.now(timezone.utc) - start_time).total_seconds() * 1000,
             "avg_processing_time": self.context_handoff_metrics["avg_time"],
             "performance_violations": self.context_handoff_metrics["violations"],
         }
@@ -1265,7 +1265,7 @@ class AGIConsciousnessEngine:
                 "agent_communication": "active",
                 "performance_monitor": "active",
             },
-            "uptime": datetime.utcnow().isoformat(),
+            "uptime": datetime.now(timezone.utc).isoformat(),
         }
 
 

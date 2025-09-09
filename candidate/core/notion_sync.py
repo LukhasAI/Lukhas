@@ -189,7 +189,7 @@ def make_flat_block(module_name, header_text, usage_text):
                 "rich_text": [
                     {
                         "type": "text",
-                        "text": {"content": f"🕒 Synced on {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'}"},
+                        "text": {"content": f"🕒 Synced on {datetime.datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'}"},
                     }
                 ]
             },
@@ -276,7 +276,7 @@ def log_audit_with_lid(action: str, metadata: Optional[dict[str, Any]] = None):
         metadata = {}
 
     audit_entry = {
-        "timestamp": datetime.datetime.utcnow().isoformat(),
+        "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
         "action": action,
         "lambda_id": LAMBDA_ID,
         "metadata": metadata,

@@ -338,7 +338,7 @@ class MarketIntelligenceEngine(CoreInterface):
         # Simulate innovation cycle analysis
         for year in range(time_window):
             cycle = {
-                "year": datetime.now().year - year,
+                "year": datetime.now(timezone.utc).year - year,
                 "major_innovations": 2 + (year % 3),
                 "cycle_duration_months": 12 + (year * 2),
                 "innovation_types": ["product", "process", "business_model"][year % 3],

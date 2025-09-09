@@ -318,7 +318,7 @@ class ConsciousnessBridge:
             recent_states = [
                 state
                 for state in user_states[-100:]  # Last 100 states
-                if datetime.fromtimestamp(state.timestamp) >= cutoff_time
+                if datetime.fromtimestamp(state.timestamp, tz=timezone.utc) >= cutoff_time
             ]
 
             if not recent_states:

@@ -54,7 +54,7 @@ class OptimizationMetrics:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.now()
+            self.timestamp = datetime.now(timezone.utc)
 
 
 @dataclass
@@ -75,7 +75,7 @@ class OptimizationPlan:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.now()
+            self.timestamp = datetime.now(timezone.utc)
 
 
 @dataclass
@@ -95,7 +95,7 @@ class OptimizationResult:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.now()
+            self.timestamp = datetime.now(timezone.utc)
 
 
 class AGISystemOptimizer:
@@ -578,7 +578,7 @@ class AGISystemOptimizer:
         )
 
         # Store in optimization history
-        self.optimization_history.append({"plan": plan, "result": result, "timestamp": datetime.now()})
+        self.optimization_history.append({"plan": plan, "result": result, "timestamp": datetime.now(timezone.utc)})
 
         logger.info(
             f"Optimization plan {plan.plan_id} implemented in {implementation_time:.2f}s with {success_rate:.1%} success rate"

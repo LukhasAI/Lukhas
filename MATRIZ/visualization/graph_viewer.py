@@ -537,7 +537,7 @@ class MATRIZGraphViewer:
                     go.Frame(
                         data=frame_data,
                         name=str(timestamp),
-                        layout={"title": f"{title} - {datetime.fromtimestamp(timestamp / 1000).strftime('%H:%M:%S')}"},
+                        layout={"title": f"{title} - {datetime.fromtimestamp(timestamp / 1000, tz=timezone.utc).strftime('%H:%M:%S')}"},
                     )
                 )
 
@@ -599,7 +599,7 @@ class MATRIZGraphViewer:
                                         "transition": {"duration": 300},
                                     },
                                 ],
-                                "label": datetime.fromtimestamp(int(frame.name) / 1000).strftime("%H:%M:%S"),
+                                "label": datetime.fromtimestamp(int(frame.name, tz=timezone.utc) / 1000).strftime("%H:%M:%S"),
                                 "method": "animate",
                             }
                             for frame in frames
@@ -709,7 +709,7 @@ class MATRIZGraphViewer:
 
                 fig.add_trace(
                     go.Scatter(
-                        x=[datetime.fromtimestamp(ts / 1000) for ts in timestamps],
+                        x=[datetime.fromtimestamp(ts / 1000, tz=timezone.utc) for ts in timestamps],
                         y=activity_counts,
                         mode="lines+markers",
                         name="Activity",

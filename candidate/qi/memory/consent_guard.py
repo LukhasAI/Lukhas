@@ -216,7 +216,7 @@ def require_consent(guard: ConsentGuard, user_id: str, purpose: str) -> tuple[bo
         if consent and not consent.granted:
             return (
                 False,
-                f"Consent explicitly revoked at {datetime.fromtimestamp(consent.timestamp)}",
+                f"Consent explicitly revoked at {datetime.fromtimestamp(consent.timestamp, tz=timezone.utc)}",
             )
         else:
             return False, f"No consent on record for purpose: {purpose}"
@@ -287,7 +287,7 @@ def main():
             print(f"✅ Valid consent (expires in {days} days)")
         else:
             if consent:
-                print(f"🚫 Consent revoked at {datetime.fromtimestamp(consent.timestamp)}")
+                print(f"🚫 Consent revoked at {datetime.fromtimestamp(consent.timestamp, tz=timezone.utc)}")
             else:
                 print("❌ No consent on record")
 
@@ -307,7 +307,7 @@ def main():
             print(f"No consent changes in last {args.hours} hours")
         else:
             for event in trail:
-                dt = datetime.fromtimestamp(event["timestamp"])
+                dt = datetime.fromtimestamp(event["timestamp"], tz=timezone.utc)
                 action = "GRANTED" if event["granted"] else "REVOKED"
                 print(f"[{dt}] {action}: {event['purpose']}")
 

@@ -190,7 +190,7 @@ class AuditLogger:
 
     def _get_current_log_file(self) -> Path:
         """Get current log file path with rotation support"""
-        date_str = datetime.utcnow().strftime("%Y%m%d")
+        date_str = datetime.now(timezone.utc).strftime("%Y%m%d")
         base_name = f"audit_{date_str}"
 
         # Find latest file for today
@@ -305,13 +305,13 @@ class AuditLogger:
 
     async def _cleanup_old_logs(self):
         """Clean up logs older than retention period"""
-        cutoff_date = datetime.utcnow() - timedelta(days=self.retention_days)
+        cutoff_date = datetime.now(timezone.utc) - timedelta(days=self.retention_days)
 
         for log_file in self.log_dir.glob("audit_*.jsonl"):
             # Parse date from filename
             try:
                 date_str = log_file.stem.split("_")[1]
-                file_date = datetime.strptime(date_str, "%Y%m%d")
+                file_date = datetime.strptime(date_str, "%Y%m%d").replace(tzinfo=timezone.utc)
 
                 if file_date < cutoff_date:
                     # Archive before deletion
@@ -435,7 +435,7 @@ class AuditLogger:
         export_dir = self.log_dir / "exports"
         export_dir.mkdir(exist_ok=True)
 
-        timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         export_file = export_dir / f"audit_export_{timestamp}.{format}"
 
         events = await self.query(start_date, end_date)
@@ -450,7 +450,7 @@ class AuditLogger:
         # Generate export receipt
         receipt = {
             "export_id": str(uuid.uuid4()),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "start_date": start_date.isoformat(),
             "end_date": end_date.isoformat(),
             "event_count": len(events),

@@ -33,10 +33,10 @@ def fix_datetime_in_file(file_path):
                 # For "import datetime" style, we'll use datetime.timezone.utc
                 pass
 
-        # Fix datetime.now() -> datetime.now(timezone.utc)
+        # Fix datetime.now(timezone.utc) -> datetime.now(timezone.utc)
         content = re.sub(r"datetime\.now\(\)", "datetime.now(timezone.utc)", content)
 
-        # Fix datetime.utcnow() -> datetime.now(timezone.utc)
+        # Fix datetime.now(timezone.utc) -> datetime.now(timezone.utc)
         content = re.sub(r"datetime\.utcnow\(\)", "datetime.now(timezone.utc)", content)
 
         # For "import datetime" style

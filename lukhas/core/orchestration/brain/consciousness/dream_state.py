@@ -27,7 +27,7 @@ class DreamState:
     def __init__(self, state_type: DreamStateType):
         """Initialize dream state."""
         self.state_type = state_type
-        self.started_at = datetime.now()
+        self.started_at = datetime.now(timezone.utc)
         self.metadata = {}
         self.is_active = True
 
@@ -38,7 +38,7 @@ class DreamState:
     def transition_to(self, new_state: DreamStateType):
         """Transition to a new dream state."""
         self.state_type = new_state
-        self.started_at = datetime.now()
+        self.started_at = datetime.now(timezone.utc)
 
     def end_state(self):
         """End the current dream state."""

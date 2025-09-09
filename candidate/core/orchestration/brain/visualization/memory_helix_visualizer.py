@@ -207,7 +207,7 @@ class MemoryHelixVisualizer:
             sizes.append(10 * self.priority_size.get(memory_priority, 1.0))
 
             # Create hover text
-            created = datetime.fromtimestamp(memory.get("timestamp", 0)).strftime("%Y-%m-%d %H:%M:%S")
+            created = datetime.fromtimestamp(memory.get("timestamp", 0, tz=timezone.utc)).strftime("%Y-%m-%d %H:%M:%S")
             text = (
                 f"ID: {memory['id'][:8]}...<br>"
                 f"Type: {memory_type}<br>"

@@ -8,6 +8,9 @@ Orchestration Bridge - Connects brain components to consciousness module
 from typing import Any, Optional
 
 from candidate.core.common import get_logger
+from candidate.orchestration.brain.cognitive.cognitive_updater import (
+from candidate.orchestration.brain.monitoring.rate_modulator import RateModulator
+from candidate.orchestration.brain.personality.personality import PersonalityEngine
 
 logger = get_logger(__name__)
 
@@ -43,7 +46,7 @@ orchestration_bridge = OrchestrationBridge()
 
 # Import cognitive components
 try:
-    from candidate.orchestration.brain.cognitive.cognitive_updater import (
+
         CognitiveUpdater,
     )
 
@@ -53,7 +56,7 @@ except ImportError:
 
 # Import monitoring components
 try:
-    from candidate.orchestration.brain.monitoring.rate_modulator import RateModulator
+
 
     orchestration_bridge.register_brain_component("rate_modulator", RateModulator())
 except ImportError:
@@ -61,7 +64,7 @@ except ImportError:
 
 # Import personality components
 try:
-    from candidate.orchestration.brain.personality.personality import PersonalityEngine
+
 
     orchestration_bridge.register_brain_component("personality", PersonalityEngine())
 except ImportError:

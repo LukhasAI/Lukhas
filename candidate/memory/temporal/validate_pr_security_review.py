@@ -48,7 +48,7 @@ def validate_pr_security_review():
     try:
         # Extract the timestamp
         timestamp_str = last_entry.split(" - ")[0]
-        timestamp = datetime.strptime(timestamp_str, "%a %b %d %H:%M:%S %Z %Y")
+        timestamp = datetime.strptime(timestamp_str, "%a %b %d %H:%M:%S %Z %Y").replace(tzinfo=timezone.utc)
 
         # Check if the last entry is recent (within the last 24 hours)
         if datetime.now(timezone.utc) - timestamp < timedelta(hours=24):

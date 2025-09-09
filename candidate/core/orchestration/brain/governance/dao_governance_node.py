@@ -607,7 +607,7 @@ class DAOGovernanceNode:
                     "decision": p["status"],
                     "rationale": p.get("decision_rationale", ""),
                     "decided_at": (
-                        datetime.fromtimestamp(p["result"]["decided_at"]).isoformat()
+                        datetime.fromtimestamp(p["result"]["decided_at"], tz=timezone.utc).isoformat()
                         if p.get("result")
                         else None
                     ),

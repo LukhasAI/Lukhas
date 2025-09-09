@@ -94,7 +94,7 @@ class QIInspiredAttention:
         """Update entanglement relationships"""
         input_hash = hash(str(input_data))
         self.entanglement_map[input_hash] = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "attention_pattern": attended_data.get("attention_weights", {}),
         }
 

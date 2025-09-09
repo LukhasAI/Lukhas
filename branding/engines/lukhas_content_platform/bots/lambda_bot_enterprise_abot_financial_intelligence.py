@@ -107,7 +107,7 @@ class ABotFinancialIntelligence:
         if self.metrics.last_budget_refresh != today:
             # Calculate days since last refresh
             if self.metrics.last_budget_refresh:
-                last_date = datetime.strptime(self.metrics.last_budget_refresh, "%Y-%m-%d")
+                last_date = datetime.strptime(self.metrics.last_budget_refresh, "%Y-%m-%d").replace(tzinfo=timezone.utc)
                 days_passed = (datetime.now(timezone.utc) - last_date).days
             else:
                 days_passed = 1

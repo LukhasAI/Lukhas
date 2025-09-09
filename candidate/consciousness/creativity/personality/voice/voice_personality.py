@@ -44,6 +44,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 from candidate.core.common import get_logger
+from candidate.core.personality.creative_expressions import NeuroHaikuGenerator
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -54,7 +55,7 @@ MODULE_NAME = "voice_personality"
 
 # Import personality components
 try:
-    from candidate.core.personality.creative_expressions import NeuroHaikuGenerator
+
 
     HAIKU_AVAILABLE = True
 except ImportError:

@@ -85,7 +85,7 @@ class IntentNodeAdapter:
         Returns:
             Enhanced intent processing results
         """
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
 
         try:
             # Apply quantum attention
@@ -224,12 +224,12 @@ class IntentNodeAdapter:
         self.qi_like_state["entanglement"] = {
             "intent_type": intent_result["primary_intent"],
             "confidence": intent_result["confidence"],
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _get_metrics(self, start_time: datetime) -> dict[str, float]:
         """Get processing metrics"""
-        processing_time = (datetime.now() - start_time).total_seconds()
+        processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
         return {
             "processing_time": processing_time,

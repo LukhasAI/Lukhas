@@ -56,7 +56,7 @@ def crosslink_emotion_to_intent(emotion_ts, window=5):
     link_record = {
         "emotion": emotion_match,
         "intent": intent_match,
-        "linked_at": datetime.now().isoformat(),
+        "linked_at": datetime.now(timezone.utc).isoformat(),
     }
 
     os.makedirs(os.path.dirname(CROSSLINK_LOG), exist_ok=True)

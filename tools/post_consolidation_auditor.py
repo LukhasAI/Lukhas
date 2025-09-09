@@ -166,7 +166,7 @@ class PostConsolidationAuditor:
                     try:
                         file_stat = file_path.stat()
                         file_size = file_stat.st_size
-                        file_modified = datetime.fromtimestamp(file_stat.st_mtime)
+                        file_modified = datetime.fromtimestamp(file_stat.st_mtime, tz=timezone.utc)
                         file_ext = file_path.suffix.lower()
 
                         file_details = {

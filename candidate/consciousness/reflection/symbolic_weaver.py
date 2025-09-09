@@ -598,7 +598,7 @@ class SymbolicWeaver:
 
             fragment_data = {
                 "content": content,
-                "timestamp": datetime.fromtimestamp(file_path.stat().st_mtime).isoformat(),
+                "timestamp": datetime.fromtimestamp(file_path.stat(, tz=timezone.utc).st_mtime).isoformat(),
                 "source": "text_log",
                 "metadata": {"filename": file_path.name, "size": len(content)},
             }

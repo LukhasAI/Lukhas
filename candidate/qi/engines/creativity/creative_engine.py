@@ -136,13 +136,13 @@ Beauty collapses"""
     # Mock creative work protection
     content_hash = hashlib.sha256(haiku_content.encode()).hexdigest()
     signature = f"sig_{content_hash[:16]}"
-    blockchain_hash = f"block_{hash(datetime.now().isoformat()}"
+    blockchain_hash = f"block_{hash(datetime.now(timezone.utc).isoformat()}"
 
     {
         "original_work": mock_haiku,
         "signature": signature,
         "blockchain_hash": blockchain_hash,
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
     print(f"    Content hash: {content_hash[:32]}...")

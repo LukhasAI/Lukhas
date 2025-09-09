@@ -47,7 +47,7 @@ class CommunicationQuery:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.now()
+            self.timestamp = datetime.now(timezone.utc)
         if self.attention_requirements is None:
             self.attention_requirements = {"urgency": 0.5, "cognitive_cost": 0.3, "interruptibility": 0.7}
 
@@ -70,7 +70,7 @@ class CommunicationResult:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.now()
+            self.timestamp = datetime.now(timezone.utc)
 
 
 class CommunicationProductsEnhancer:
@@ -171,7 +171,7 @@ class CommunicationProductsEnhancer:
             }
 
             # 6. Store for learning
-            self.processing_history.append({"query": query, "result": result, "timestamp": datetime.now()})
+            self.processing_history.append({"query": query, "result": result, "timestamp": datetime.now(timezone.utc)})
 
             logger.info(f"Successfully processed communication query {query.id} in {result.processing_time:.3f}s")
             return result

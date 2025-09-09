@@ -206,7 +206,7 @@ class LambdaIDService:
                 generation_time_ms=generation_time,
                 metadata={
                     "tier_info": tier_info,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "version": "2.0.0",
                 },
             )
@@ -611,7 +611,7 @@ class LambdaIDService:
                     "tier": tier,
                     "user_context": asdict(user_context) if user_context else None,
                     "entropy_score": entropy_score,
-                    "created_at": datetime.now().isoformat(),
+                    "created_at": datetime.now(timezone.utc).isoformat(),
                 }
             )
 

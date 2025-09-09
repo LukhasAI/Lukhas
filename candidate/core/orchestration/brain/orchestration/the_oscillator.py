@@ -97,7 +97,7 @@ class GlobalComplianceFramework:
 
     def log_violation(self, message):
         """Maintain auditable trail of compliance events"""
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
         self.audit_log.append(f"{timestamp} - COMPLIANCE VIOLATION: {message}")
         logging.warning(message)
 

@@ -12,6 +12,7 @@ from typing import Optional
 import numpy as np
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
+import uvicorn
 
 app = FastAPI(
     title="LUKHAS Classical Emotional Intelligence API",
@@ -552,6 +553,6 @@ async def get_emotion_models():
 
 
 if __name__ == "__main__":
-    import uvicorn
+
 
     uvicorn.run(app, host="0.0.0.0", port=8005)

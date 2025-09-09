@@ -10,6 +10,9 @@ import asyncio
 import json
 import logging
 import sys
+from mcp.server import Server
+from mcp.server.models import InitializationOptions
+from mcp.server.stdio import stdio_server
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -17,9 +20,9 @@ logger = logging.getLogger(__name__)
 
 # MCP imports
 try:
-    from mcp.server import Server
-    from mcp.server.models import InitializationOptions
-    from mcp.server.stdio import stdio_server
+
+
+
     from mcp.types import (
         CallToolRequest,
         ListResourcesRequest,

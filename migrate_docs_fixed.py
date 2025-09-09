@@ -168,7 +168,7 @@ def determine_metadata(filepath, category):
         'title': filename.replace('.md', '').replace('_', ' ').title(),
         'status': status,
         'owner': owner,
-        'last_review': datetime.now().strftime('%Y-%m-%d'),
+        'last_review': datetime.now(timezone.utc).strftime('%Y-%m-%d'),
         'tags': tags,
         'facets': facets
     }

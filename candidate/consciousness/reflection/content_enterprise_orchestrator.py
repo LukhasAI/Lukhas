@@ -212,7 +212,7 @@ class ServiceRegistry:
             "host": host,
             "port": port,
             "metadata": metadata or {},
-            "registered_at": datetime.now(),
+            "registered_at": datetime.now(timezone.utc),
             "health_check_url": f"http://{host}:{port}/health",
         }
 
@@ -528,7 +528,7 @@ class TaskQueue:
         """Mark task as completed"""
         if task_id in self.processing:
             task = self.processing[task_id]
-            task.completed_at = datetime.now()
+            task.completed_at = datetime.now(timezone.utc)
             task.result = result
             task.error = error
             task.status = "completed" if error is None else "failed"
@@ -853,7 +853,7 @@ class ContentEnterpriseOrchestrator:
             return ServiceHealth(
                 service_name=service_name,
                 status=status,
-                last_check=datetime.now(),
+                last_check=datetime.now(timezone.utc),
                 response_time=response_time,
                 dependencies_healthy=True,
             )
@@ -862,7 +862,7 @@ class ContentEnterpriseOrchestrator:
             return ServiceHealth(
                 service_name=service_name,
                 status=ServiceStatus.CRITICAL,
-                last_check=datetime.now(),
+                last_check=datetime.now(timezone.utc),
                 error_message=str(e),
             )
 

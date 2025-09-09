@@ -124,7 +124,7 @@ class MetaLearningEnhancementSystem:
             rate_optimization_active=False,
             symbolic_feedback_active=False,
             federation_enabled=enable_federation,
-            last_health_check=datetime.now(),
+            last_health_check=datetime.now(timezone.utc),
             integration_errors=[],
         )
 
@@ -147,7 +147,7 @@ class MetaLearningEnhancementSystem:
         """
 
         discovery_results = {
-            "search_initiated": datetime.now().isoformat(),
+            "search_initiated": datetime.now(timezone.utc).isoformat(),
             "systems_discovered": [],
             "enhancement_results": [],
             "integration_summary": {},
@@ -213,7 +213,7 @@ class MetaLearningEnhancementSystem:
         """Start all enhancement operations based on current mode"""
 
         operations_status = {
-            "start_time": datetime.now().isoformat(),
+            "start_time": datetime.now(timezone.utc).isoformat(),
             "operations_started": [],
             "mode": self.enhancement_mode.value,
             "federation_active": False,
@@ -265,7 +265,7 @@ class MetaLearningEnhancementSystem:
         # Log coordination event
         coordination_event = {
             "event_type": "enhancement_operations_started",
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "operations": operations_status["operations_started"],
             "node_id": self.node_id,
         }
@@ -278,7 +278,7 @@ class MetaLearningEnhancementSystem:
     async def run_enhancement_cycle(self) -> dict[str, Any]:
         """Run a complete enhancement cycle across all integrated systems"""
 
-        cycle_start = datetime.now()
+        cycle_start = datetime.now(timezone.utc)
         cycle_results = {
             "cycle_id": f"enhancement_{cycle_start.strftime('%Y%m%d_%H%M%S')}",
             "start_time": cycle_start.isoformat(),
@@ -318,7 +318,7 @@ class MetaLearningEnhancementSystem:
         if cycle_ethical_audit["passed"]:
             cycle_results["ethical_audits_passed"] += 1
 
-        cycle_end = datetime.now()
+        cycle_end = datetime.now(timezone.utc)
         cycle_results["end_time"] = cycle_end.isoformat()
         cycle_results["duration_seconds"] = (cycle_end - cycle_start).total_seconds()
 
@@ -342,7 +342,7 @@ class MetaLearningEnhancementSystem:
                 "node_id": self.node_id,
                 "enhancement_mode": self.enhancement_mode.value,
                 "federation_enabled": self.enable_federation,
-                "uptime": (datetime.now() - self.integration_status.last_health_check).total_seconds(),
+                "uptime": (datetime.now(timezone.utc) - self.integration_status.last_health_check).total_seconds(),
             },
             "integration_status": {
                 "meta_learning_systems_found": self.integration_status.meta_learning_systems_found,
@@ -377,7 +377,7 @@ class MetaLearningEnhancementSystem:
 
         report = {
             "report_metadata": {
-                "generated_at": datetime.now().isoformat(),
+                "generated_at": datetime.now(timezone.utc).isoformat(),
                 "node_id": self.node_id,
                 "report_type": "meta_learning_enhancement_comprehensive",
                 "enhancement_mode": self.enhancement_mode.value,
@@ -461,7 +461,7 @@ class MetaLearningEnhancementSystem:
                         intent_patterns=intent_history.get("patterns", []),
                         success_rate=intent_history.get("success_rate", 0.5),
                         processing_efficiency=intent_history.get("efficiency", 0.5),
-                        timestamp=datetime.now(),
+                        timestamp=datetime.now(timezone.utc),
                     )
                 )
 
@@ -826,7 +826,7 @@ class MetaLearningEnhancementSystem:
         # Log ethical audit
         ethical_entry = {
             "audit_type": "enhancement_cycle",
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "passed": audit_result["passed"],
             "issues": audit_result["issues"],
             "cycle_id": cycle_results["cycle_id"],
@@ -840,7 +840,7 @@ class MetaLearningEnhancementSystem:
         return {
             "active": self.integration_status.monitoring_active,
             "metrics_tracked": len(getattr(self.monitor_dashboard, "session_data", {})),
-            "last_update": datetime.now().isoformat(),
+            "last_update": datetime.now(timezone.utc).isoformat(),
         }
 
     async def _get_rate_modulator_status(self) -> dict[str, Any]:

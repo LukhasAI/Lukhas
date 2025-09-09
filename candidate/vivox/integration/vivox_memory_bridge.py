@@ -128,7 +128,7 @@ class HelixMemoryAdapter:
             except BaseException:
                 return datetime.now(timezone.utc)
         elif isinstance(timestamp, (int, float)):
-            return datetime.fromtimestamp(timestamp)
+            return datetime.fromtimestamp(timestamp, tz=timezone.utc)
         else:
             return datetime.now(timezone.utc)
 

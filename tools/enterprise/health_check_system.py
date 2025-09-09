@@ -343,7 +343,7 @@ class HealthCheckSystem:
                 "free": psutil.disk_usage("/").free,
                 "percent": psutil.disk_usage("/").percent,
             },
-            "boot_time": datetime.fromtimestamp(psutil.boot_time()).isoformat(),
+            "boot_time": datetime.fromtimestamp(psutil.boot_time(, tz=timezone.utc)).isoformat(),
         }
 
     # Default health checks

@@ -190,7 +190,7 @@ class FileOrganizer:
             for file_path in self.root_path.rglob("*"):
                 if file_path.is_file() and re.match(pattern_regex, file_path.name):
                     # Check file age
-                    mtime = datetime.fromtimestamp(file_path.stat().st_mtime)
+                    mtime = datetime.fromtimestamp(file_path.stat(, tz=timezone.utc).st_mtime)
                     if mtime < cutoff_date:
                         archive_path = self.root_path / "archive" / "aged" / file_path.name
                         logger.info(

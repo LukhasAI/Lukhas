@@ -58,12 +58,12 @@ class SecurityTaskScheduler:
             if ":" in run_time:
                 # Time format like "14:30" (today) or "2025-08-22 14:30"
                 if "-" in run_time:
-                    scheduled_time = datetime.strptime(run_time, "%Y-%m-%d %H:%M").replace(
+                    scheduled_time = datetime.strptime(run_time, "%Y-%m-%d %H:%M").replace(tzinfo=timezone.utc).replace(
                         tzinfo=timezone.utc
                     )  # ΛTAG: utc
                 else:
                     today = datetime.now(timezone.utc).date()  # ΛTAG: utc
-                    time_part = datetime.strptime(run_time, "%H:%M").time()
+                    time_part = datetime.strptime(run_time, "%H:%M").replace(tzinfo=timezone.utc).time()
                     scheduled_time = datetime.combine(today, time_part, tzinfo=timezone.utc)
 
                     # If time is in the past, schedule for tomorrow

@@ -166,7 +166,7 @@ class AttributionFallbackLadder:
         # Check attribution window
         click_timestamp = tracking_params.get("timestamp")
         if click_timestamp:
-            click_time = datetime.fromtimestamp(int(click_timestamp))
+            click_time = datetime.fromtimestamp(int(click_timestamp, tz=timezone.utc))
             if datetime.now(timezone.utc) - click_time > self.attribution_windows[AttributionMethod.AFFILIATE_LINK]:
                 return None
 

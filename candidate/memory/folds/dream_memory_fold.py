@@ -75,7 +75,7 @@ class MemoryFoldState:
     def add_snapshot(self, snapshot: DreamSnapshot) -> None:
         """Add a snapshot to this fold."""
         self.snapshots.append(snapshot)
-        self.last_sync = datetime.now()
+        self.last_sync = datetime.now(timezone.utc)
         self.fold_depth += 1
 
 
@@ -114,8 +114,8 @@ class DreamMemoryFold:
 
         fold = MemoryFoldState(
             fold_id=fold_id,
-            creation_time=datetime.now(),
-            last_sync=datetime.now(),
+            creation_time=datetime.now(timezone.utc),
+            last_sync=datetime.now(timezone.utc),
             symbolic_tags=initial_tags or [],
         )
 
@@ -150,7 +150,7 @@ class DreamMemoryFold:
         fold = self.active_folds[fold_id]
 
         # Generate snapshot ID
-        snapshot_id = f"{fold_id}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        snapshot_id = f"{fold_id}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
         # Get drift metrics if available
         drift_metrics = {}
@@ -171,7 +171,7 @@ class DreamMemoryFold:
         # Create snapshot
         snapshot = DreamSnapshot(
             snapshot_id=snapshot_id,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             dream_state=dream_state,
             symbolic_annotations=symbolic_annotations or {},
             introspective_content=introspective_content,
@@ -217,7 +217,7 @@ class DreamMemoryFold:
             for snapshot in fold.snapshots:
                 await self._persist_snapshot(snapshot)
 
-            fold.last_sync = datetime.now()
+            fold.last_sync = datetime.now(timezone.utc)
             logger.info(f"Synchronized fold {fold_id} with {len(fold.snapshots)} snapshots")
             return True
 

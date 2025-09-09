@@ -347,7 +347,7 @@ class MetaLearningEnhancementAdapter:
         self.current_metrics.learning_rate_stability = self._calculate_rate_stability()
         self.adaptation_history.append(
             {
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
                 "type": "learning_rate",
                 "old_value": current_rate,
                 "new_value": new_rate,
@@ -412,7 +412,7 @@ class MetaLearningEnhancementAdapter:
         self.federated_cycles += 1
         self.federated_history.append(
             {
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
                 "active_nodes": len(self.active_learning_nodes),
                 "convergence": convergence,
                 "state": self.current_metrics.federated_state.value,
@@ -455,7 +455,7 @@ class MetaLearningEnhancementAdapter:
         self.current_metrics.dream_system_coherence = dream_coherence
         self.symbolic_feedback_buffer.append(
             {
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
                 "quality": symbolic_quality,
                 "intent": intent_integration,
                 "memoria": memoria_coupling,
@@ -503,7 +503,7 @@ class MetaLearningEnhancementAdapter:
         self.current_metrics.enhancement_factor = enhancement_factor
         self.performance_history.append(
             {
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
                 "overall": overall_performance,
                 "speed": adaptation_speed,
                 "stability": stability_score,
@@ -593,7 +593,7 @@ class MetaLearningEnhancementAdapter:
         logger.debug("performance_monitoring_initialized_stub")
 
     async def _update_current_metrics(self) -> None:
-        self.current_metrics.timestamp = datetime.now()
+        self.current_metrics.timestamp = datetime.now(timezone.utc)
         current_rate = self.current_metrics.current_learning_rate
         optimal_rate = self.learning_rate_bounds.optimal_rate
         self.current_metrics.optimal_rate_distance = abs(current_rate - optimal_rate) / max(
@@ -631,7 +631,7 @@ class MetaLearningEnhancementAdapter:
     async def _integrate_biological_symbolic_feedback(self, bio_signals: dict[str, Any]) -> None:
         self.symbolic_feedback_buffer.append(
             {
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
                 "type": "biological_integration",
                 **bio_signals,
             }

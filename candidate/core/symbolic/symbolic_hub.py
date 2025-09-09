@@ -205,7 +205,7 @@ class SymbolicHub:
         return {
             "glyph_processing": glyph_result,
             "loop_processing": loop_result,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "processed_by": "symbolic_hub",
         }
 
@@ -220,7 +220,7 @@ class SymbolicHub:
                 result = await bio_symbolic.integrate_bio_symbolic(bio_data, symbolic_context)
                 return {
                     "bio_symbolic_integration": result,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "processed_by": "bio_symbolic",
                 }
             except Exception as e:

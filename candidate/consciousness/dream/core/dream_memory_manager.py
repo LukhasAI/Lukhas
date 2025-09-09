@@ -49,6 +49,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 from .base_manager import BaseMemoryManager
+from lukhas.memory.folds.fold_engine import MemoryIntegrityLedger
 
 
 class DreamMemoryManager(BaseMemoryManager):
@@ -313,7 +314,7 @@ class DreamMemoryManager(BaseMemoryManager):
                     self._memory_index[memory_id]["deleted"] = True
                     self._memory_index[memory_id]["deleted_at"] = datetime.now(timezone.utc).isoformat()
                     self._save_index()
-                    from lukhas.memory.folds.fold_engine import MemoryIntegrityLedger
+
 
                     MemoryIntegrityLedger.log_fold_transition(
                         memory_id,

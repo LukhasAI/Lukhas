@@ -132,7 +132,7 @@ The narrative should be immersive and poetic, suitable for both reading and visu
                 "full_text": response,
                 "style": style,
                 "length": length,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "gpt_model": "gpt-4",
             }
 
@@ -214,7 +214,7 @@ Make it vivid and specific for image generation."""
             image_b64 = image_data.b64_json
 
             # Save image
-            timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+            timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
             dream_id = dream.get("dream_id", "unknown")
             image_path = self.output_dir / f"dream_{dream_id}_{timestamp}.png"
 
@@ -230,7 +230,7 @@ Make it vivid and specific for image generation."""
                 "quality": quality,
                 "style": style,
                 "revised_prompt": image_data.revised_prompt,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "model": self.dalle_model,
             }
 
@@ -277,7 +277,7 @@ Make it vivid and specific for image generation."""
             )
 
             # Save audio
-            timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+            timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
             dream_id = dream.get("dream_id", "unknown")
             audio_path = self.output_dir / f"dream_{dream_id}_{timestamp}.mp3"
 
@@ -290,7 +290,7 @@ Make it vivid and specific for image generation."""
                 "voice": voice,
                 "speed": speed,
                 "text_length": len(text),
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "model": self.tts_model,
             }
 
@@ -336,7 +336,7 @@ Make it vivid and specific for image generation."""
                 "transcription": transcribed_text,
                 "dream_prompt": enhanced_prompt,
                 "language": language,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
             logger.info(f"Voice transcribed to dream prompt: {len(transcribed_text)} chars")
@@ -388,12 +388,12 @@ Keep it concise but evocative."""
         Returns:
             Complete dream object with all generated content
         """
-        dream_id = f"DREAM_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}"
+        dream_id = f"DREAM_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
         # Initialize dream object
         dream = {
             "dream_id": dream_id,
-            "created_at": datetime.utcnow().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "initial_prompt": prompt,
             "pipeline_config": {
                 "generate_image": generate_image,

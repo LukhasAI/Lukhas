@@ -24,6 +24,7 @@ Provides summary statistics over symbolic dreams stored in dream_log.jsonl.
 import json
 import os
 from collections import defaultdict
+from pprint import pprint
 
 LOG_PATH = "data/dream_log.jsonl"
 
@@ -61,7 +62,7 @@ def summarize_dreams():
 
 
 if __name__ == "__main__":
-    from pprint import pprint
+
 
     pprint(summarize_dreams())
 

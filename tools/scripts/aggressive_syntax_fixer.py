@@ -12,7 +12,7 @@ from pathlib import Path
 
 class AggressiveSyntaxFixer:
     def __init__(self):
-        self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        self.timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         self.quarantine_dir = Path("quarantine") / self.timestamp
         self.quarantine_dir.mkdir(parents=True, exist_ok=True)
 

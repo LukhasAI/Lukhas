@@ -1812,7 +1812,7 @@ class LambdaMirror:
             # Log timestamp parsing error if logger available
             try:
                 # Try other common formats
-                dt = datetime.strptime(timestamp_str, "%Y-%m-%d %H:%M:%S")
+                dt = datetime.strptime(timestamp_str, "%Y-%m-%d %H:%M:%S").replace(tzinfo=timezone.utc)
                 # Make timezone aware
                 return dt.replace(tzinfo=timezone.utc)
             except (ValueError, TypeError, AttributeError):

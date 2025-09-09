@@ -643,7 +643,7 @@ class AuditLogger:
             try:
                 date_str = log_file.stem.split("_")[-1]
                 if len(date_str) == 10:  # YYYY-MM-DD format
-                    file_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+                    file_date = datetime.strptime(date_str, "%Y-%m-%d").replace(tzinfo=timezone.utc).date()
 
                     include_file = True
                     if start_time and file_date < start_time.date():

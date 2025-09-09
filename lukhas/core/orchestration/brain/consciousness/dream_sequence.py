@@ -17,7 +17,7 @@ class DreamSequence:
     def __init__(self, sequence_id: str):
         """Initialize dream sequence."""
         self.sequence_id = sequence_id
-        self.created_at = datetime.now()
+        self.created_at = datetime.now(timezone.utc)
         self.stages = []
 
     def add_stage(self, stage_data: dict[str, Any]):

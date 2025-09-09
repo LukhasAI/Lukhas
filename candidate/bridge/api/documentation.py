@@ -510,7 +510,7 @@ def generate_api_documentation(app: Optional[Any] = None) -> dict[str, Any]:
         "openapi_spec": generator.generate_openapi_spec(),
         "sdk_info": generator.generate_sdk_info(),
         "comprehensive_guide": generator.generate_comprehensive_guide(),
-        "generated_at": datetime.now().isoformat(),
+        "generated_at": datetime.now(timezone.utc).isoformat(),
         "version": "2.0.0",
     }
 

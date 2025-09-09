@@ -250,7 +250,7 @@ class ContextAnalyzer:
 
     def _analyze_time_context(self, timestamp: float, timezone: str) -> dict[str, Any]:
         """Analyze temporal context"""
-        dt = datetime.datetime.fromtimestamp(timestamp)
+        dt = datetime.fromtimestamp(timestamp, tz=timezone.utc, tz=timezone.utc)
         hour = dt.hour
 
         return {

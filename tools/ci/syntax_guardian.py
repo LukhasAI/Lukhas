@@ -169,7 +169,7 @@ def create_syntax_report() -> Dict:
     Returns:
         Complete report dictionary
     """
-    timestamp = datetime.now().isoformat()
+    timestamp = datetime.now(timezone.utc).isoformat()
     trends = check_syntax_trends()
     analysis = analyze_syntax_delta(trends)
     recovery_plan = generate_recovery_plan(analysis)

@@ -186,7 +186,7 @@ class AdvancedEthicalDecisionMaker:
             "average_processing_time": 0.0,
             "constitutional_violations": 0,
             "drift_detections": 0,
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
         logger.info("⚖️ Advanced Ethical Decision Maker initialized")
@@ -234,7 +234,7 @@ class AdvancedEthicalDecisionMaker:
         Returns:
             Comprehensive ethical decision with full analysis
         """
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
         decision_id = f"eth_dec_{uuid.uuid4().hex[:8]}"
 
         try:
@@ -300,7 +300,7 @@ class AdvancedEthicalDecisionMaker:
                 decision.escalation_reason = f"Drift threshold exceeded: {decision.drift_score:.3f}"
 
             # Finalize decision
-            decision.updated_at = datetime.now()
+            decision.updated_at = datetime.now(timezone.utc)
 
             # Update metrics
             await self._update_metrics(decision, start_time)
@@ -1163,7 +1163,7 @@ class AdvancedEthicalDecisionMaker:
     async def _update_metrics(self, decision: ComprehensiveEthicalDecision, start_time: datetime):
         """Update system metrics"""
 
-        processing_time = (datetime.now() - start_time).total_seconds()
+        processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
         self.metrics["total_decisions"] += 1
 
@@ -1188,7 +1188,7 @@ class AdvancedEthicalDecisionMaker:
         new_time_avg = ((current_time_avg * (total_decisions - 1)) + processing_time) / total_decisions
         self.metrics["average_processing_time"] = new_time_avg
 
-        self.metrics["last_updated"] = datetime.now().isoformat()
+        self.metrics["last_updated"] = datetime.now(timezone.utc).isoformat()
 
     def _maintain_history_size(self):
         """Maintain decision history size"""

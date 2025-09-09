@@ -104,7 +104,7 @@ def demo_audit_bundle():
 
     sample_bundle = {
         "audit_id": audit_id,
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "params": {
             "model": "gpt-4",
             "temperature": 0.7,

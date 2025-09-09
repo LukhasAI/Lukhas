@@ -569,7 +569,7 @@ class EmotionalMemory:
             f"ΛFUSE_ACTIVATED: Emergency stabilization complete. "
             f"new_emotion={self.current_emotion.get_primary_emotion()}, "
             f"stabilization_factor={stabilization_factor}, "
-            f"cooldown_until={datetime.fromtimestamp(self._fuse_cooldown_until)}"
+            f"cooldown_until={datetime.fromtimestamp(self._fuse_cooldown_until, tz=timezone.utc)}"
         )
 
     # LUKHAS_TAG: emotion_fuse_break
@@ -605,7 +605,7 @@ class EmotionalMemory:
 
         if is_active:
             log.debug(
-                f"ΛFUSE_ACTIVE: Circuit breaker in cooldown until {datetime.fromtimestamp(self._fuse_cooldown_until)}"
+                f"ΛFUSE_ACTIVE: Circuit breaker in cooldown until {datetime.fromtimestamp(self._fuse_cooldown_until, tz=timezone.utc)}"
             )
 
         return is_active

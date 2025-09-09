@@ -313,7 +313,7 @@ else:
         with open(log_file, "w") as f:
             json.dump(
                 {
-                    "session_start": datetime.fromtimestamp(self.session_start).isoformat(),
+                    "session_start": datetime.fromtimestamp(self.session_start, tz=timezone.utc).isoformat(),
                     "session_duration": time.time() - self.session_start,
                     "healing_log": self.healing_log,
                 },

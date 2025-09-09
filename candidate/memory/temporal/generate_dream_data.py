@@ -23,6 +23,8 @@ import datetime
 import json
 import pathlib
 import random
+from datetime import datetime, timezone
+
 
 # Number of dreams to generate
 NUM_DREAMS = 50
@@ -76,7 +78,7 @@ def generate_dream():
     """Generate a single dream entry"""
     # Generate timestamp between 30 days ago and now
     time_offset = random.randint(0, 30 * 24 * 60 * 60)  # Random seconds within 30 days
-    timestamp = datetime.datetime.now() - datetime.timedelta(seconds=time_offset)
+    timestamp = datetime.datetime.now(timezone.utc) - datetime.timedelta(seconds=time_offset)
     timestamp_str = timestamp.isoformat() + "Z"
 
     # Generate random dream data

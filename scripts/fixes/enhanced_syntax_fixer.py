@@ -332,7 +332,7 @@ class EnhancedSyntaxFixer:
         report = f"""
 Enhanced Syntax Fixer Report
 ============================
-Generated: {datetime.now().isoformat()}
+Generated: {datetime.now(timezone.utc).isoformat()}
 
 PROCESSING STATISTICS:
 - Files Processed: {self.stats['files_processed']}

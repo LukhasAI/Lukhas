@@ -256,7 +256,7 @@ if os.getenv(flag_name, "false").lower() == "true":
         shim_list_path.parent.mkdir(parents=True, exist_ok=True)
 
         content = f"""# LUKHAS AI Compatibility Shims
-Generated: {datetime.now().isoformat()}
+Generated: {datetime.now(timezone.utc).isoformat()}
 
 ## Active Shims ({len(self.shims_created)})
 

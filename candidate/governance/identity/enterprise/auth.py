@@ -523,7 +523,7 @@ class EnterpriseAuthenticationModule:
             payload = jwt.decode(token, self.jwt_secret, algorithms=[self.jwt_algorithm])
 
             # Check expiration
-            if datetime.fromtimestamp(payload.get("exp", 0)) < datetime.now(timezone.utc):
+            if datetime.fromtimestamp(payload.get("exp", 0, tz=timezone.utc)) < datetime.now(timezone.utc):
                 return self._failed_auth_result(session_id, "Token expired")
 
             # Get user from payload

@@ -1,0 +1,48 @@
+{
+  "mcpServers": {
+    "lukhas-consciousness": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "build/server.js"
+      ],
+      "cwd": "/Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-servers/lukhas-consciousness-mcp",
+      "env": {
+        "LUKHAS_ROOT": "/Users/agi_dev/LOCAL-REPOS/Lukhas"
+      }
+    },
+    "lukhas-memory": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "build/server.js"
+      ],
+      "cwd": "/Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-servers/lukhas-memory-mcp",
+      "env": {
+        "LUKHAS_ROOT": "/Users/agi_dev/LOCAL-REPOS/Lukhas"
+      }
+    },
+    "lukhas-trinity": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "build/server.js"
+      ],
+      "cwd": "/Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-servers/lukhas-trinity-mcp",
+      "env": {
+        "LUKHAS_ROOT": "/Users/agi_dev/LOCAL-REPOS/Lukhas"
+      }
+    },
+    "lukhas-devtools": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "build/server.js"
+      ],
+      "cwd": "/Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-servers/lukhas-devtools-mcp",
+      "env": {
+        "LUKHAS_ROOT": "/Users/agi_dev/LOCAL-REPOS/Lukhas"
+      }
+    }
+  }
+}

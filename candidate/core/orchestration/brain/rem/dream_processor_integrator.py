@@ -37,7 +37,7 @@ class DreamProcessorIntegration:
                 "patterns": patterns,
                 "relationships": relationships,
                 "emotional_context": emotional_context,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         except Exception as e:
             print(f"Error analyzing dream patterns: {e}")

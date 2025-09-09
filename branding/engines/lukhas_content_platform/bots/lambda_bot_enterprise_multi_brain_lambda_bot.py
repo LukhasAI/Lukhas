@@ -172,7 +172,7 @@ class MultiBrainΛBot:
         for brain_core in self.specialized_brains.values():
             brain_core.sync_with_orchestra(master_rhythm)
 
-        self.sync_state.last_sync = datetime.now()
+        self.sync_state.last_sync = datetime.now(timezone.utc)
         logger.info("🎵 Bio-rhythmic synchronization active")
 
     async def coordinate_agent_analysis(self, analysis_request: dict[str, Any]) -> dict[str, Any]:
@@ -187,7 +187,7 @@ class MultiBrainΛBot:
 
         analysis_results = {
                 "session_id": f"multi_brain_{int(time.time())}",
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "brain_states": {},
             "coordination_results": {},
             "synthesis": {},
@@ -306,7 +306,7 @@ class MultiBrainΛBot:
 
         synthesis = {
             "synthesis_brain_id": "multi_agent_integration_brain",
-            "synthesis_timestamp": datetime.now().isoformat(),
+            "synthesis_timestamp": datetime.now(timezone.utc).isoformat(),
             "harmonic_convergence": True,
             "integrated_findings": {
                 "optimal_modularization_strategy": {
@@ -366,7 +366,7 @@ class MultiBrainΛBot:
         """Get comprehensive status of Multi-Brain Symphony system"""
         status = {
             "system_name": "Multi-Brain Symphony LUKHAS AI ΛBot",
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "brain_symphony_available": self.brain_symphony is not None,
             "base_lambda_bot_available": self.base_lambda_bot is not None,
             "specialized_brains_count": len(self.specialized_brains),

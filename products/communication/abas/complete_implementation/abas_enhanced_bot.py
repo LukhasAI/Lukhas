@@ -76,7 +76,7 @@ class QITunnelingEthics:
             "qi_state": ethical_wavefunction,
             "collapsed_decision": collapsed_ethics,
             "ethical_resonance": self._calculate_ethical_resonance(collapsed_ethics),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _create_ethical_wavefunction(self, context: dict) -> dict:
@@ -196,7 +196,7 @@ class CardiolipinHash:
         combined_state = {
             **agi_state,
             **self.membrane_state,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "fatty_acid_signature": self._generate_fatty_acid_signature(),
         }
 
@@ -244,7 +244,7 @@ class RespiModule:
             "respirasomes": respirasomes,
             "coupled_output": coupled_output,
             "efficiency": self._calculate_overall_efficiency(respirasomes),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self.supercomplex_formation[supercomplex_id] = supercomplex
@@ -361,7 +361,7 @@ class ATPAllocator:
             "atp_synthesized": synthesized_atp,
             "remaining_atp": self.atp_pool,
             "efficiency": self._calculate_allocation_efficiency(allocations),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self.resource_allocation_history.append(allocation_result)
@@ -474,7 +474,7 @@ class CristaOptimizer:
             "remodeling_strategy": remodeling_strategy,
             "optimization_benefits": optimization_benefits,
             "performance_gain": optimization_benefits.get("overall_gain", 0.0),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Update current topology
@@ -621,7 +621,7 @@ class MitochondrialConductor:
             "synchronization_result": synchronization_result,
             "network_coherence": network_coherence,
             "performance_metrics": self._calculate_orchestration_metrics(synchronization_result),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         return orchestration_result
@@ -902,7 +902,7 @@ class QIInspiredAttention:
         """Update entanglement relationships"""
         key = str(hash(str(input_data)))[:8]
         self.entanglement_map[key] = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "attention_pattern": attended_data.get("attention_weights", []),
         }
 
@@ -1132,7 +1132,7 @@ class EnhancedAGIBot:
 
         self.config = config or {}
         self.session_id = str(uuid.uuid4())
-        self.initialization_time = datetime.now()
+        self.initialization_time = datetime.now(timezone.utc)
 
         # Initialize core AI components
         self.attention_mechanism = QIInspiredAttention()
@@ -1178,7 +1178,7 @@ class EnhancedAGIBot:
         Returns:
             AGIResponse with quantum-biological enhancements
         """
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
         context = context or {}
 
         try:
@@ -1207,7 +1207,7 @@ class EnhancedAGIBot:
                 },
                 {
                     "input_complexity": len(str(input_data)),
-                    "processing_time": (datetime.now() - start_time).total_seconds(),
+                    "processing_time": (datetime.now(timezone.utc) - start_time).total_seconds(),
                     "response_length": len(agi_response.content),
                 },
             )
@@ -1219,7 +1219,7 @@ class EnhancedAGIBot:
                         "identity_hash": identity_hash,
                         "ethical_evaluation": ethical_evaluation,
                         "topology_optimization": optimization_result,
-                        "processing_time": (datetime.now() - start_time).total_seconds(),
+                        "processing_time": (datetime.now(timezone.utc) - start_time).total_seconds(),
                     }
                 )
 
@@ -1252,7 +1252,7 @@ class EnhancedAGIBot:
         """Update conversation history with quantum-biological metadata"""
         self.conversation_history.append(
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "input": input_data,
                 "response": agi_response.content,
                 "confidence": agi_response.confidence,

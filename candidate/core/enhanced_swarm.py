@@ -43,7 +43,7 @@ class AgentCapability:
     def update_confidence(self, new_confidence: float):
         """Update capability confidence level"""
         self.confidence = max(0.0, min(1.0, new_confidence))
-        self.last_updated = datetime.now()
+        self.last_updated = datetime.now(timezone.utc)
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary representation"""
@@ -74,7 +74,7 @@ class AgentMemory:
             self.working[key] = value
         elif memory_type == MemoryType.EPISODIC:
             episode = {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "key": key,
                 "value": value
             }
@@ -120,7 +120,7 @@ class EnhancedSwarmAgent:
         self.capabilities: dict[str, AgentCapability] = {}
         self.memory = AgentMemory()
         self.active = True
-        self.created_at = datetime.now()
+        self.created_at = datetime.now(timezone.utc)
 
     def add_capability(self, domain: str, level: CapabilityLevel = CapabilityLevel.BASIC):
         """Add a new capability to the agent"""
@@ -141,7 +141,7 @@ class EnhancedColony:
     def __init__(self, colony_id: str):
         self.colony_id = colony_id
         self.agents: dict[str, EnhancedSwarmAgent] = {}
-        self.created_at = datetime.now()
+        self.created_at = datetime.now(timezone.utc)
         self.active = True
 
     def add_agent(self, agent: EnhancedSwarmAgent):
@@ -166,7 +166,7 @@ class EnhancedSwarmHub:
     def __init__(self, hub_id: str):
         self.hub_id = hub_id
         self.colonies: dict[str, EnhancedColony] = {}
-        self.created_at = datetime.now()
+        self.created_at = datetime.now(timezone.utc)
         self.active = True
 
     def add_colony(self, colony: EnhancedColony):

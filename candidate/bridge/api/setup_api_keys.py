@@ -43,6 +43,7 @@ __tier__ = 2
 import os
 import sys
 from pathlib import Path
+from dotenv import load_dotenv
 
 
 def setup_api_keys():
@@ -147,7 +148,7 @@ def verify_setup():
     print("🔍 Verifying API key configuration...")
 
     # Load environment variables
-    from dotenv import load_dotenv
+
 
     load_dotenv()
 

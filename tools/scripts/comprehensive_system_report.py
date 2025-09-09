@@ -286,7 +286,7 @@ class LUKHASSystemDiagnostic:
                 file_status[file_path] = {
                     "status": "✅ Exists",
                     "size": stat.st_size,
-                    "modified": datetime.fromtimestamp(stat.st_mtime).isoformat(),
+                    "modified": datetime.fromtimestamp(stat.st_mtime, tz=timezone.utc).isoformat(),
                 }
             else:
                 file_status[file_path] = {"status": "❌ Missing"}

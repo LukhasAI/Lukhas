@@ -384,8 +384,8 @@ class PerformanceAnalyzer:
         if metrics:
             timestamps = [m.timestamp for m in metrics]
             summary["time_range"] = {
-                "start": datetime.fromtimestamp(min(timestamps)).isoformat(),
-                "end": datetime.fromtimestamp(max(timestamps)).isoformat(),
+                "start": datetime.fromtimestamp(min(timestamps, tz=timezone.utc)).isoformat(),
+                "end": datetime.fromtimestamp(max(timestamps, tz=timezone.utc)).isoformat(),
                 "duration_seconds": max(timestamps) - min(timestamps),
             }
 

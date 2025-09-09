@@ -56,7 +56,7 @@ class AutoConsciousness:
 
     def __init__(self, enable_awareness=True, enable_reasoning=True):
         """Initialize Auto Consciousness system"""
-        self.consciousness_id = f"auto_consciousness_{datetime.now().timestamp()}"
+        self.consciousness_id = f"auto_consciousness_{datetime.now(timezone.utc).timestamp()}"
         self.active = True
         self.state_history: list[ConsciousnessState] = []
 
@@ -88,7 +88,7 @@ class AutoConsciousness:
             attention_focus=["initialization"],
             decision_confidence=0.7,
             reasoning_depth=1,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             active_contexts={},
         )
 
@@ -126,7 +126,7 @@ class AutoConsciousness:
                 attention_focus=[stimulus, *self.current_state.attention_focus[:4]],  # Keep last 5
                 decision_confidence=self.current_state.decision_confidence,
                 reasoning_depth=self.current_state.reasoning_depth,
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 active_contexts={**self.current_state.active_contexts, **context},
             )
 
@@ -157,7 +157,7 @@ class AutoConsciousness:
                 "stimulus_recognized": False,
                 "response_generated": False,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def make_decision(self, decision_input: dict[str, Any]) -> dict[str, Any]:
@@ -223,7 +223,7 @@ class AutoConsciousness:
                 "alternatives": alternatives,
                 "scenario": scenario,
                 "scores": scores,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -234,7 +234,7 @@ class AutoConsciousness:
                 "reasoning": [f"Decision failed: {e!s}"],
                 "alternatives": [],
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def get_consciousness_state(self) -> dict[str, Any]:
@@ -296,7 +296,7 @@ class AutoConsciousness:
             "awareness": awareness_result,
             "decision": decision_result,
             "consciousness_state": await self.get_consciousness_state(),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def is_available(self) -> bool:

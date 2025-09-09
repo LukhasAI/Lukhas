@@ -295,7 +295,7 @@ class BotCustomizer:
             "design": getattr(self, "current_design", {}),
             "action": getattr(self, "current_action", {}),
             "colors": getattr(self, "current_colors", {}),
-            "updated": datetime.now().isoformat(),
+            "updated": datetime.now(timezone.utc).isoformat(),
         }
 
         config_file = self.workspace / ".vscode" / "abot_config.json"

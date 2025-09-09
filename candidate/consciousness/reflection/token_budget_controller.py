@@ -108,9 +108,9 @@ class TokenBudgetController:
         self.monthly_spend = 0.0
         self.daily_spend = 0.0
         self.accumulated_credits = 0.0
-        self.last_reset_date = datetime.now()
-        self.last_daily_reset = datetime.now()
-        self.first_run_date = datetime.now()  # Track when ΛBot first started
+        self.last_reset_date = datetime.now(timezone.utc)
+        self.last_daily_reset = datetime.now(timezone.utc)
+        self.first_run_date = datetime.now(timezone.utc)  # Track when ΛBot first started
         self.is_initial_period = True  # Whether we're in the initial allowance period
 
         # Call logging for findings and recommendations
@@ -176,7 +176,7 @@ class TokenBudgetController:
                 if "first_run_date" in state:
                     self.first_run_date = datetime.fromisoformat(state["first_run_date"])
                 else:
-                    self.first_run_date = datetime.now()  # Default for existing installations
+                    self.first_run_date = datetime.now(timezone.utc)  # Default for existing installations
 
                 self.logger.info("Budget state loaded successfully")
             except Exception as e:
@@ -204,7 +204,7 @@ class TokenBudgetController:
                 "first_run_date": self.first_run_date.isoformat(),
                 "last_reset_date": self.last_reset_date.isoformat(),
                 "last_daily_reset": self.last_daily_reset.isoformat(),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
             with open(self.state_file, "w") as f:
@@ -215,7 +215,7 @@ class TokenBudgetController:
 
     def check_daily_reset(self) -> None:
         """Daily budget reset with initial allowance logic for ΛBot"""
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
         today_str = now.strftime("%Y-%m-%d")
         last_reset_str = self.last_daily_reset.strftime("%Y-%m-%d")
 
@@ -464,7 +464,7 @@ class TokenBudgetController:
             findings: List of findings from the API call
             recommendations: List of recommendations from the API call
         """
-        timestamp = datetime.now()
+        timestamp = datetime.now(timezone.utc)
 
         if success:
             self.daily_spend += cost
@@ -544,7 +544,7 @@ class TokenBudgetController:
         for i, rec in enumerate(self.recommendations_applied):
             if not rec["applied"] and recommendation in rec["recommendation"]:
                 self.recommendations_applied[i]["applied"] = True
-                self.recommendations_applied[i]["applied_timestamp"] = datetime.now().isoformat()
+                self.recommendations_applied[i]["applied_timestamp"] = datetime.now(timezone.utc).isoformat()
                 self.recommendations_applied[i]["application_details"] = details
                 self.logger.info(f"✅ Recommendation applied: {recommendation}")
                 break
@@ -552,7 +552,7 @@ class TokenBudgetController:
 
     def refresh_daily_budget(self) -> None:
         """Original ABot daily budget refresh with accumulation"""
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
         days_since_reset = (now - self.last_daily_reset).days
 
         if days_since_reset >= 1:
@@ -586,7 +586,7 @@ class TokenBudgetController:
         # Determine current budget limit (initial period vs strict daily)
         current_daily_limit = self.DAILY_BUDGET_LIMIT
         if self.is_initial_period:
-            days_since_first_run = (datetime.now().date() - self.first_run_date.date()).days
+            days_since_first_run = (datetime.now(timezone.utc).date() - self.first_run_date.date()).days
             if days_since_first_run < self.INITIAL_PERIOD_DAYS:
                 remaining_days = self.INITIAL_PERIOD_DAYS - days_since_first_run
                 current_daily_limit = self.INITIAL_ALLOWANCE / max(remaining_days, 1)
@@ -640,7 +640,7 @@ class TokenBudgetController:
             "budget_status": {
                 "current_daily_limit": current_daily_limit,
                 "is_initial_period": self.is_initial_period,
-                "days_since_first_run": (datetime.now().date() - self.first_run_date.date()).days,
+                "days_since_first_run": (datetime.now(timezone.utc).date() - self.first_run_date.date()).days,
                 "used_today": self.daily_spend,
                 "remaining_today": max(0, current_daily_limit - self.daily_spend),
                 "percentage_used": daily_usage_percentage,
@@ -655,7 +655,7 @@ class TokenBudgetController:
             "call_tracking": {
                 "total_calls_logged": len(self.call_log),
                 "recent_findings": len(
-                    [f for f in self.findings_log if (datetime.now() - datetime.fromisoformat(f["timestamp"])).days < 1]
+                    [f for f in self.findings_log if (datetime.now(timezone.utc) - datetime.fromisoformat(f["timestamp"])).days < 1]
                 ),
                 "pending_recommendations": len(pending_recommendations),
                 "applied_recommendations": len([r for r in self.recommendations_applied if r["applied"]]),

@@ -25,6 +25,8 @@ Provides semantic meaning and symbolic representation for dream processing.
 
 
 from core.utils.__init__ import symbolic_message
+import random
+import random
 
 
 def fix_later(*args, **kwargs):
@@ -276,7 +278,7 @@ def get_dream_symbol(category: str, item: str) -> str:
 
 def get_dream_narrative(phase: str) -> str:
     """Get random narrative text for dream phase."""
-    import random
+
 
     narratives = DREAM_NARRATIVES.get(phase, ["The dream unfolds..."])
     return random.choice(narratives)
@@ -284,7 +286,7 @@ def get_dream_narrative(phase: str) -> str:
 
 def get_visual_hint(phase: str) -> str:
     """Get random visual hint for dream phase."""
-    import random
+
 
     hints = VISUAL_HINTS.get(phase, ["A mysterious dreamscape"])
     return random.choice(hints)

@@ -416,7 +416,7 @@ class ObservabilitySystem:
             for timestamp, value in series["values"]:
                 records.append(
                     {
-                        "timestamp": datetime.fromtimestamp(timestamp),
+                        "timestamp": datetime.fromtimestamp(timestamp, tz=timezone.utc),
                         "value": float(value),
                         "metric": metric_name,
                     }
@@ -447,7 +447,7 @@ class ObservabilitySystem:
                 if result:
                     for series in result:
                         value = float(series["value"][1])
-                        timestamp = datetime.fromtimestamp(series["value"][0])
+                        timestamp = datetime.fromtimestamp(series["value"][0], tz=timezone.utc)
 
                         # Store in buffer
                         self.metric_buffer[rule.metric_query].append(
