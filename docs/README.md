@@ -1,3 +1,11 @@
+---
+title: LUKHAS AI Documentation Hub
+status: stable
+owner: docs-maintainer
+last_review: 2025-09-09
+tags: [documentation, overview, lukhas, index]
+---
+
 # LUKHAS AI Documentation Hub
 
 🏛️ **Comprehensive Documentation Center** | **Trinity Framework** ⚛️🧠🛡️
@@ -7,6 +15,38 @@
 ## 🌟 **Welcome to LUKHAS AI Documentation**
 
 This is the central documentation hub for LUKHAS AI, a consciousness-aware artificial general intelligence platform built on the Trinity Framework. All documentation is organized into professional categories for easy navigation and comprehensive coverage.
+
+## 🗂️ **Quick Navigation Index**
+
+### 🏗️ **Architecture & Design**
+- **[ARCHITECTURE.md](./ARCHITECTURE.md)** - System architecture and design patterns
+- **[architecture/](./architecture/)** - Detailed architectural documentation (30 files)
+- **[consciousness/](./consciousness/)** - Consciousness system design (44 files)
+
+### 🚀 **Getting Started**  
+- **[QUICK_START.md](./QUICK_START.md)** - Quick setup guide
+- **[DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)** - Deployment instructions
+- **[guides/](./guides/)** - Step-by-step guides (21 files)
+
+### 📚 **Reference & APIs**
+- **[API_REFERENCE.md](./API_REFERENCE.md)** - API documentation  
+- **[api/](./api/)** - API specifications (11 files)
+- **[reference/](./reference/)** - Technical references (47 files)
+
+### 📊 **Reports & Analysis**
+- **[reports/](./reports/)** - System reports and analysis (58 files)
+- **[status/](./status/)** - System status documentation (69 files)
+- **[audits/](./audits/)** - Audit reports (24 files)
+
+### 🔧 **Development**
+- **[development/](./development/)** - Development documentation (37 files)
+- **[testing/](./testing/)** - Testing guides (4 files)
+- **[integration/](./integration/)** - Integration docs (4 files)
+
+### 💼 **Business & Strategy** 
+- **[business/](./business/)** - Business documentation (6 files)
+- **[planning/](./planning/)** - Strategic planning (70 files)
+- **[roadmap/](./roadmap/)** - Product roadmaps (11 files)
 
 ---
 

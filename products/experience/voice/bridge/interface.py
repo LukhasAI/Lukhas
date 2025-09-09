@@ -72,7 +72,7 @@ class VoiceNode:
     the LUKHAS core system.
     """
 
-    def __init__(self, core_interface=None, config: dict[str, Any] = None):
+    def __init__(self, core_interface=None, config: Optional[dict[str, Any]] = None):
         """
         Initialize the Voice Node with access to the core system
 
@@ -221,7 +221,7 @@ class VoiceNode:
         emotion: Optional[str] = None,
         actor: str = "Lukhas",
         voice_id: Optional[str] = None,
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
         provider: Optional[str] = None,
     ) -> dict[str, Any]:
         """
@@ -503,7 +503,7 @@ class VoiceNode:
         return synthesis_entry
 
     async def process_voice_input(
-        self, audio_data, context: dict[str, Any] = None
+        self, audio_data, context: Optional[dict[str, Any]] = None
     ) -> dict[str, Any]:
         """
         Process voice input and convert to text
@@ -527,7 +527,7 @@ class VoiceNode:
         }
 
     async def manage_voice_handoff(
-        self, user_query: str, context_state: dict[str, Any] = None
+        self, user_query: str, context_state: Optional[dict[str, Any]] = None
     ) -> dict[str, Any]:
         """
         Orchestrate voice handoff between Lukhas and GPT

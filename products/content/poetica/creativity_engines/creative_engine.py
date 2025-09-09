@@ -44,13 +44,12 @@ from typing import (
     TypeVar,
 )
 
+import aioredis
 import numpy as np
 
 # from prometheus_client import Counter, Histogram, Gauge
 import torch
 from torch.nn import functional as F
-
-import aioredis
 
 # Type definitions
 T = TypeVar("T")
@@ -97,7 +96,7 @@ class CreativeConfig:
     cache_ttl_seconds: int = 3600
     max_concurrent_generations: int = 10
     enable_federated_learning: bool = True
-    neural_checkpoint_path: Optional[Path] = None
+    neural_checkpoint_path: Path | None = None
 
 
 @dataclass
@@ -272,7 +271,7 @@ class EnterpriseNeuralHaikuGenerator:
         neural_model: NeuralCreativeModel,
         symbolic_kb: SymbolicKnowledgeBase,
         federated_client: FederatedLearningClient,
-        redis_client: Optional[aioredis.Redis] = None,
+        redis_client: aioredis.Redis | None = None,
     ):
         self.config = config
         self.neural_model = neural_model
@@ -291,7 +290,7 @@ class EnterpriseNeuralHaikuGenerator:
 
         # Neural attention mechanisms
         self.attention_weights = defaultdict(float)
-        self.style_embeddings: Optional[torch.Tensor] = None
+        self.style_embeddings: torch.Tensor | None = None
 
         logger.info("EnterpriseNeuralHaikuGenerator initialized", config=config.__dict__)
 
@@ -332,7 +331,7 @@ class EnterpriseNeuralHaikuGenerator:
 
     @CircuitBreaker(failure_threshold=3, timeout=30.0)
     async def generate_haiku(
-        self, context: CreativeContext, style_override: Optional[CreativeStyle] = None
+        self, context: CreativeContext, style_override: CreativeStyle | None = None
     ) -> tuple[str, CreativeMetrics]:
         """
         Generate a neural-enhanced haiku with comprehensive monitoring.
@@ -407,7 +406,7 @@ class EnterpriseNeuralHaikuGenerator:
                 ACTIVE_GENERATORS.dec()
 
     async def _generate_base_haiku(
-        self, context: CreativeContext, style_override: Optional[CreativeStyle]
+        self, context: CreativeContext, style_override: CreativeStyle | None
     ) -> list[str]:
         """Generate base haiku structure using neural guidance."""
         lines = []
@@ -616,7 +615,7 @@ class EnterpriseNeuralHaikuGenerator:
 
         return np.mean(accuracy_scores)
 
-    def _generate_cache_key(self, context: CreativeContext, style_override: Optional[CreativeStyle]) -> str:
+    def _generate_cache_key(self, context: CreativeContext, style_override: CreativeStyle | None) -> str:
         """Generate cache key for haiku generation request."""
         key_components = [
             context.user_id,
@@ -629,7 +628,7 @@ class EnterpriseNeuralHaikuGenerator:
         key_string = "|".join(str(comp) for comp in key_components)
         return hashlib.sha256(key_string.encode()).hexdigest()[:16]
 
-    async def _get_cached_result(self, cache_key: str) -> Optional[tuple[str, CreativeMetrics]]:
+    async def _get_cached_result(self, cache_key: str) -> tuple[str, CreativeMetrics] | None:
         """Retrieve cached result if available and not expired."""
         if self.redis_client:
             try:
@@ -718,7 +717,7 @@ class CreativeEngineFactory:
 
     @staticmethod
     async def create_production_engine(
-        config_path: Optional[Path] = None, redis_url: Optional[str] = None
+        config_path: Path | None = None, redis_url: str | None = None
     ) -> EnterpriseNeuralHaikuGenerator:
         """Create a production-ready creative engine with full dependencies."""
 

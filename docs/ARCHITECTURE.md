@@ -1,4 +1,12 @@
-# LUKHAS  Architecture Documentation
+---
+title: LUKHAS Architecture Documentation  
+status: stable
+owner: consciousness-architect
+last_review: 2025-09-09
+tags: [architecture, consciousness, system-design, technical]
+---
+
+# LUKHAS Architecture Documentation
 
 ## Table of Contents
 1. [Executive Summary](#executive-summary)

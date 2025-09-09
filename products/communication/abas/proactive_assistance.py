@@ -507,7 +507,7 @@ class ProactiveAssistanceSystem:
         stuck_context = self._identify_stuck_context(user_id)
 
         return AssistanceOffer(
-            offer_id=f"stuck_{user_id}_{int(time.time()}",
+            offer_id=f"stuck_{user_id}_{int(time.time())}",
             assistance_type=AssistanceType.AI_SUGGESTION,
             title="Need Help?",
             message=f"I noticed you might be having trouble with {stuck_context}. Would you like me to help?",
@@ -521,7 +521,7 @@ class ProactiveAssistanceSystem:
         struggle_type = self._identify_struggle_type(user_id)
 
         return AssistanceOffer(
-            offer_id=f"struggle_{user_id}_{int(time.time()}",
+            offer_id=f"struggle_{user_id}_{int(time.time())",
             assistance_type=AssistanceType.TUTORIAL,
             title="Quick Tip",
             message=f"Here's a easier way to {struggle_type}",
@@ -533,7 +533,7 @@ class ProactiveAssistanceSystem:
     def _generate_frustration_assistance(self, user_id: str) -> Optional[AssistanceOffer]:
         """Generate assistance for frustrated user"""
         return AssistanceOffer(
-            offer_id=f"frustration_{user_id}_{int(time.time()}",
+            offer_id=f"frustration_{user_id}_{int(time.time())",
             assistance_type=AssistanceType.LIVE_CHAT,
             title="Let's Fix This Together",
             message="I can see this is frustrating. Would you like to chat with our support team?",
@@ -545,7 +545,7 @@ class ProactiveAssistanceSystem:
     def _generate_confusion_assistance(self, user_id: str) -> Optional[AssistanceOffer]:
         """Generate assistance for confused user"""
         return AssistanceOffer(
-            offer_id=f"confusion_{user_id}_{int(time.time()}",
+            offer_id=f"confusion_{user_id}_{int(time.time())",
             assistance_type=AssistanceType.VIDEO_GUIDE,
             title="Watch a Quick Demo",
             message="Would you like to see how this works?",
@@ -559,7 +559,7 @@ class ProactiveAssistanceSystem:
         suggested_action = self._suggest_next_action(user_id)
 
         return AssistanceOffer(
-            offer_id=f"idle_{user_id}_{int(time.time()}",
+            offer_id=f"idle_{user_id}_{int(time.time())",
             assistance_type=AssistanceType.FEATURE_HIGHLIGHT,
             title="While You're Here",
             message=f"Did you know you can {suggested_action}?",
@@ -573,7 +573,7 @@ class ProactiveAssistanceSystem:
         search_target = self._identify_search_target(user_id)
 
         return AssistanceOffer(
-            offer_id=f"search_{user_id}_{int(time.time()}",
+            offer_id=f"search_{user_id}_{int(time.time())",
             assistance_type=AssistanceType.SHORTCUT_TIP,
             title="Looking for Something?",
             message=f"Try pressing Ctrl+K to quickly find {search_target}",

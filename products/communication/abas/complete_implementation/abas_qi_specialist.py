@@ -17,7 +17,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import numpy as np
 
@@ -45,9 +45,9 @@ class QIBioResponse:
     qi_coherence: float
     atp_efficiency: float
     ethical_resonance: float
-    cristae_topology: Dict
+    cristae_topology: dict
     identity_signature: str
-    processing_pathway: List[Dict]
+    processing_pathway: list[dict]
     timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 class QITunnelingEthics:
@@ -66,7 +66,7 @@ class QITunnelingEthics:
         }
         self.qi_states = {}
 
-    def qi_ethical_arbitration(self, decision_context: Dict) -> Dict:
+    def qi_ethical_arbitration(self, decision_context: dict) -> dict:
         """Perform ethical arbitration using qi tunneling principles"""
         arbitration_id = str(uuid.uuid4())[:8]
 
@@ -85,7 +85,7 @@ class QITunnelingEthics:
         self.qi_states[arbitration_id] = arbitration_result
         return arbitration_result
 
-    def _create_ethical_wavefunction(self, context: Dict) -> Dict:
+    def _create_ethical_wavefunction(self, context: dict) -> dict:
         """Create qi wavefunction representing ethical superposition"""
         wavefunction = {}
 
@@ -108,7 +108,7 @@ class QITunnelingEthics:
 
         return wavefunction
 
-    def _collapse_wavefunction(self, wavefunction: Dict) -> Dict:
+    def _collapse_wavefunction(self, wavefunction: dict) -> dict:
         """Collapse ethical wavefunction to concrete decisions"""
         collapsed_state = {}
 
@@ -131,7 +131,7 @@ class QITunnelingEthics:
 
         return collapsed_state
 
-    def _calculate_relevance(self, context: Dict, dimension: str) -> float:
+    def _calculate_relevance(self, context: dict, dimension: str) -> float:
         """Calculate relevance of ethical dimension to context"""
         content = context.get("content", "").lower()
 
@@ -147,7 +147,7 @@ class QITunnelingEthics:
         relevance_score = sum(1 for keyword in keywords if keyword in content)
         return min(1.0, relevance_score / len(keywords)) if keywords else 0.5
 
-    def _calculate_tunneling_probabilities(self, wavefunction: Dict) -> Dict:
+    def _calculate_tunneling_probabilities(self, wavefunction: dict) -> dict:
         """Calculate qi tunneling probabilities for each dimension"""
         tunneling_probs = {}
 
@@ -161,7 +161,7 @@ class QITunnelingEthics:
 
         return tunneling_probs
 
-    def _calculate_ethical_resonance(self, collapsed_ethics: Dict) -> float:
+    def _calculate_ethical_resonance(self, collapsed_ethics: dict) -> float:
         """Calculate overall ethical resonance frequency"""
         if not collapsed_ethics:
             return 0.0
@@ -186,7 +186,7 @@ class ProtonMotiveProcessor:
         self.proton_gradient = {}
         self.atp_synthesis_history = []
 
-    def create_attention_gradient(self, input_data: Dict) -> Dict:
+    def create_attention_gradient(self, input_data: dict) -> dict:
         """Create attention gradient based on proton motive force"""
         gradient_id = str(uuid.uuid4())[:8]
 
@@ -212,7 +212,7 @@ class ProtonMotiveProcessor:
         self.proton_gradient[gradient_id] = gradient_result
         return gradient_result
 
-    def synthesize_symbolic_atp(self, gradient_id: str, processing_demand: Dict) -> Dict:
+    def synthesize_symbolic_atp(self, gradient_id: str, processing_demand: dict) -> dict:
         """Synthesize symbolic ATP for computational processes"""
         if gradient_id not in self.proton_gradient:
             return {"error": "gradient_not_found"}
@@ -249,7 +249,7 @@ class ProtonMotiveProcessor:
 
         return synthesis_event
 
-    def _calculate_proton_concentration(self, input_data: Dict) -> float:
+    def _calculate_proton_concentration(self, input_data: dict) -> float:
         """Calculate proton concentration based on input complexity"""
         content = input_data.get("content", "")
 
@@ -263,7 +263,7 @@ class ProtonMotiveProcessor:
         concentration = min(1.0, sum(complexity_factors) / len(complexity_factors))
         return concentration
 
-    def _generate_attention_flow(self, gradient_strength: float) -> Dict:
+    def _generate_attention_flow(self, gradient_strength: float) -> dict:
         """Generate attention flow patterns from gradient"""
         # Simulate electron transport chain-like flow
         flow_patterns = {
@@ -291,7 +291,7 @@ class ProtonMotiveProcessor:
 
         return min(1.0, base_efficiency + gradient_bonus)
 
-    def _calculate_processing_cost(self, demand: Dict) -> float:
+    def _calculate_processing_cost(self, demand: dict) -> float:
         """Calculate ATP cost for processing demand"""
         base_cost = 0.3
 
@@ -322,7 +322,7 @@ class CristaeTopologyManager:
         self.topology_history = []
         self.optimization_cycles = 0
 
-    def optimize_cristae_topology(self, current_state: Dict, performance_metrics: Dict) -> Dict:
+    def optimize_cristae_topology(self, current_state: dict, performance_metrics: dict) -> dict:
         """Optimize cristae topology for improved performance"""
         optimization_id = str(uuid.uuid4())[:8]
         self.optimization_cycles += 1
@@ -352,7 +352,7 @@ class CristaeTopologyManager:
 
         return optimization_result
 
-    def _analyze_topology_efficiency(self, state: Dict, metrics: Dict) -> Dict:
+    def _analyze_topology_efficiency(self, state: dict, metrics: dict) -> dict:
         """Analyze current topology efficiency"""
         # Calculate surface area to volume ratio (like cristae)
         surface_connections = len(state.get("connections", []))
@@ -374,7 +374,7 @@ class CristaeTopologyManager:
 
         return efficiency_analysis
 
-    def _design_optimal_cristae(self, efficiency_analysis: Dict) -> Dict:
+    def _design_optimal_cristae(self, efficiency_analysis: dict) -> dict:
         """Design optimal cristae configuration"""
         current_efficiency = efficiency_analysis["overall_efficiency"]
 
@@ -400,7 +400,7 @@ class CristaeTopologyManager:
 
         return optimal_config
 
-    def _apply_cristae_transformation(self, current_state: Dict, config: Dict) -> Dict:
+    def _apply_cristae_transformation(self, current_state: dict, config: dict) -> dict:
         """Apply cristae transformation to topology"""
         transformed = copy.deepcopy(current_state)
 
@@ -426,13 +426,13 @@ class CristaeTopologyManager:
 
         return transformed
 
-    def _apply_tubular_folding(self, topology: Dict, config: Dict) -> Dict:
+    def _apply_tubular_folding(self, topology: dict, config: dict) -> dict:
         """Apply tubular cristae folding pattern"""
         nodes = topology.get("nodes", {})
         fold_density = config["fold_density"]
 
         # Create tubular connections
-        for node_id, node_data in nodes.items():
+        for _node_id, node_data in nodes.items():
             # Increase branching factor
             current_connections = len(node_data.get("connections", []))
             target_connections = int(current_connections * (1 + fold_density))
@@ -449,7 +449,7 @@ class CristaeTopologyManager:
         topology["nodes"] = nodes
         return topology
 
-    def _apply_lamellar_folding(self, topology: Dict, config: Dict) -> Dict:
+    def _apply_lamellar_folding(self, topology: dict, config: dict) -> dict:
         """Apply lamellar cristae folding pattern"""
         nodes = topology.get("nodes", {})
 
@@ -469,7 +469,7 @@ class CristaeTopologyManager:
         topology["nodes"] = nodes
         return topology
 
-    def _apply_hybrid_folding(self, topology: Dict, config: Dict) -> Dict:
+    def _apply_hybrid_folding(self, topology: dict, config: dict) -> dict:
         """Apply hybrid cristae folding pattern"""
         # Combine tubular and lamellar approaches
         topology = self._apply_tubular_folding(topology, config)
@@ -484,7 +484,7 @@ class CristaeTopologyManager:
 
         return topology
 
-    def _calculate_atp_distribution(self, folding_pattern: str) -> Dict:
+    def _calculate_atp_distribution(self, folding_pattern: str) -> dict:
         """Calculate optimal ATP synthase distribution"""
         distributions = {
             "tubular": {"density": 0.8, "pattern": "dispersed"},
@@ -494,9 +494,9 @@ class CristaeTopologyManager:
 
         return distributions.get(folding_pattern, {"density": 0.5, "pattern": "uniform"})
 
-    def _calculate_improvement(self, analysis: Dict, config: Dict) -> float:
+    def _calculate_improvement(self, analysis: dict, config: dict) -> float:
         """Calculate expected performance improvement"""
-        current_efficiency = analysis["overall_efficiency"]
+        analysis["overall_efficiency"]
         fold_density = config["fold_density"]
         junction_strength = config["junction_strength"]
 
@@ -512,7 +512,7 @@ class QIBiologicalAGI:
     Main qi-biological AI system integrating all mitochondrial-inspired components
     """
 
-    def __init__(self, config: Dict = None):
+    def __init__(self, config: Optional[dict] = None):
         """Initialize qi-biological AI system"""
         logger.info("🧬 Initializing QI-Biological AI Specialist")
 
@@ -547,12 +547,12 @@ class QIBiologicalAGI:
         logger.info(f"✅ QI-Biological AI initialized - Session: {self.session_id}")
         logger.info(f"🔬 Initial capability level: {self.capability_level.value}")
 
-    async def process_with_qi_biology(self, input_text: str, context: Dict = None) -> QIBioResponse:
+    async def process_with_qi_biology(self, input_text: str, context: Optional[dict] = None) -> QIBioResponse:
         """Process input using complete qi-biological pipeline"""
         start_time = datetime.now(timezone.utc)
         logger.info(f"🧬 Processing with qi-biological architecture: {input_text[:100]}...")
 
-        processing_id = str(uuid.uuid4())[:8]
+        str(uuid.uuid4())[:8]
         context = context or {}
 
         try:
@@ -660,7 +660,7 @@ class QIBiologicalAGI:
                 processing_pathway=[{"step": "error", "details": str(e)}]
             )
 
-    def _passes_ethical_arbitration(self, arbitration: Dict) -> bool:
+    def _passes_ethical_arbitration(self, arbitration: dict) -> bool:
         """Check if processing passes qi ethical arbitration"""
         collapsed_ethics = arbitration["collapsed_decision"]
 
@@ -689,9 +689,9 @@ class QIBiologicalAGI:
         else:
             return "reasoning"
 
-    async def _generate_qi_bio_response(self, input_text: str, ethical_arbitration: Dict,
-                                           attention_gradient: Dict, atp_synthesis: Dict,
-                                           cristae_optimization: Dict) -> str:
+    async def _generate_qi_bio_response(self, input_text: str, ethical_arbitration: dict,
+                                           attention_gradient: dict, atp_synthesis: dict,
+                                           cristae_optimization: dict) -> str:
         """Generate response using qi-biological insights"""
 
         response_parts = []
@@ -728,7 +728,7 @@ class QIBiologicalAGI:
 
         return "".join(response_parts)
 
-    def _calculate_bio_confidence(self, component_scores: List[float]) -> float:
+    def _calculate_bio_confidence(self, component_scores: list[float]) -> float:
         """Calculate overall biological confidence"""
         if not component_scores:
             return 0.0
@@ -739,7 +739,7 @@ class QIBiologicalAGI:
         weighted_score = sum(score * weight for score, weight in zip(component_scores, weights))
         return min(1.0, weighted_score)
 
-    def _calculate_qi_coherence(self, ethical_arbitration: Dict) -> float:
+    def _calculate_qi_coherence(self, ethical_arbitration: dict) -> float:
         """Calculate qi coherence from ethical arbitration"""
         tunneling_probs = ethical_arbitration["tunneling_probabilities"]
 
@@ -820,7 +820,7 @@ class QIBiologicalAGI:
                 self.capability_level = QIBioCapabilityLevel.QUANTUM_TUNNELING
                 logger.info("🔬 Advanced to QUANTUM_TUNNELING capability level - Maximum bio-AI achieved!")
 
-    def get_biological_status(self) -> Dict:
+    def get_biological_status(self) -> dict:
         """Get comprehensive biological AI status"""
         return {
             "session_id": self.session_id,

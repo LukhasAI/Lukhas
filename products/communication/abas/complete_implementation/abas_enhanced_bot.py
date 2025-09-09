@@ -6,10 +6,12 @@ This file is part of the lukhas (lukhas Universal Knowledge & Holistic AI System
 Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
-from consciousness.qi import qi
-import time
 import random
+import time
+
 import streamlit as st
+
+from consciousness.qi import qi
 
 """
 Enhanced AI Bot - True Artificial General Intelligence System
@@ -1054,9 +1056,9 @@ class MetaCognitiveOrchestrator:
         if "qi_bio" in results:
             qb = results["qi_bio"]
             base_content += "🧬 Quantum-Bio Integration:\n"
-            base_content += f"   • Identity: {qb.get('identity_hash', 'N/A')}[:8]}...\n"
-            base_content += f"   • Resource Efficiency: {qb.get('resources', {)}).get('efficiency', 0):.2f}\n"
-            base_content += f"   • Coupling Strength: {qb.get('coupling', {)}).get('coupling_strength', 0):.2f}\n"
+            base_content += f"   • Identity: {qb.get('identity_hash', 'N/A')[:8]}...\n"
+            base_content += f"   • Resource Efficiency: {qb.get('resources', {}).get('efficiency', 0):.2f}\n"
+            base_content += f"   • Coupling Strength: {qb.get('coupling', {}).get('coupling_strength', 0):.2f}\n"
 
         return base_content
 
@@ -1243,7 +1245,7 @@ class EnhancedAGIBot:
         return (
             "I understand your request, but I must provide a response that adheres to safety guidelines. "
             "I'm designed to be helpful while ensuring ethical and safe interactions. "
-            f"Compliance issues detected: {', '.join(compliance_result.get('violations', [])}"
+            f"Compliance issues detected: {', '.join(compliance_result.get('violations', []))}"
         )
 
     def _update_conversation_history(self, input_data: dict, agi_response: AGIResponse):
