@@ -39,13 +39,12 @@ from functools import lru_cache, wraps
 from pathlib import Path
 from typing import Any, Callable, Protocol, TypeVar
 
+import aioredis
 import numpy as np
 
 # from prometheus_client import Counter, Histogram, Gauge
 import torch
 from torch.nn import functional as F
-
-import aioredis
 
 # Type definitions
 T = TypeVar("T")

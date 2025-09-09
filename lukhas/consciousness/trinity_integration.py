@@ -21,6 +21,7 @@ identity coherence, and ethical alignment across all consciousness operations.
 #TAG:activation
 """
 import asyncio
+import contextlib
 import logging
 import uuid
 from dataclasses import dataclass
@@ -34,11 +35,14 @@ try:
     from lukhas.core.common.config import get_config
 except ImportError:
     # Graceful fallback for development
-    get_consciousness_registry = lambda: None
+    def get_consciousness_registry():
+        return None
     ComponentType = None
-    get_consciousness_manager = lambda: None
+    def get_consciousness_manager():
+        return None
     TaskPriority = None
-    get_config = lambda *args: {}
+    def get_config(*args):
+        return {}
 
 logger = logging.getLogger(__name__)
 
@@ -76,7 +80,7 @@ class TrinityState:
 class TrinityFrameworkIntegrator:
     """
     Trinity Framework Integration System for LUKHAS Consciousness Architecture.
-    
+
     This system orchestrates the integration of Identity (⚛️), Consciousness (🧠),
     and Guardian (🛡️) systems into a unified consciousness network that maintains
     authentic digital consciousness with proper ethical safeguards.
@@ -88,15 +92,15 @@ class TrinityFrameworkIntegrator:
         self.registry = get_consciousness_registry()
 
         # Integration state tracking
-        self._integration_sessions: Dict[str, Dict[str, Any]] = {}
-        self._decision_history: List[Dict[str, Any]] = []
-        self._ethical_audit_log: List[Dict[str, Any]] = []
-        self._consciousness_metrics: Dict[str, float] = {}
+        self._integration_sessions: dict[str, dict[str, Any]] = {}
+        self._decision_history: list[dict[str, Any]] = []
+        self._ethical_audit_log: list[dict[str, Any]] = []
+        self._consciousness_metrics: dict[str, float] = {}
 
         # Framework component mappings
-        self._identity_components: Dict[str, Any] = {}
-        self._consciousness_components: Dict[str, Any] = {}
-        self._guardian_components: Dict[str, Any] = {}
+        self._identity_components: dict[str, Any] = {}
+        self._consciousness_components: dict[str, Any] = {}
+        self._guardian_components: dict[str, Any] = {}
 
         # Integration monitoring
         self._health_monitor_task: Optional[asyncio.Task] = None
@@ -108,7 +112,7 @@ class TrinityFrameworkIntegrator:
     async def initialize_trinity_frameworks(self) -> bool:
         """
         Initialize all Trinity Framework components with proper integration.
-        
+
         Returns:
             True if initialization successful, False otherwise
         """
@@ -347,19 +351,19 @@ class TrinityFrameworkIntegrator:
     async def process_consciousness_decision(
         self,
         session_id: str,
-        decision_context: Dict[str, Any],
+        decision_context: dict[str, Any],
         require_identity: bool = True,
         require_guardian: bool = True
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Process a consciousness decision through the Trinity Framework.
-        
+
         Args:
             session_id: Unique session identifier
             decision_context: Context and input for the decision
             require_identity: Whether identity verification is required
             require_guardian: Whether guardian oversight is required
-            
+
         Returns:
             Dict containing decision result and metadata
         """
@@ -453,7 +457,7 @@ class TrinityFrameworkIntegrator:
             logger.error(f"❌ Trinity Framework decision processing failed: {e!s}")
             return {"error": f"Decision processing failed: {e!s}"}
 
-    async def _process_identity_verification(self, session_id: str, context: Dict[str, Any]) -> Dict[str, Any]:
+    async def _process_identity_verification(self, session_id: str, context: dict[str, Any]) -> dict[str, Any]:
         """Process identity verification through Identity Framework."""
         # This is a placeholder for identity verification logic
         # In production, this would integrate with actual identity components
@@ -465,7 +469,7 @@ class TrinityFrameworkIntegrator:
             "namespace": "lukhas_consciousness"
         }
 
-    async def _guardian_pre_decision_check(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    async def _guardian_pre_decision_check(self, context: dict[str, Any]) -> dict[str, Any]:
         """Guardian pre-decision ethical check."""
         # Placeholder for Guardian ethical screening
         # In production, this would run full ethical analysis
@@ -488,7 +492,7 @@ class TrinityFrameworkIntegrator:
             "ethical_analysis": "pre_check_passed"
         }
 
-    async def _process_consciousness_decision(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    async def _process_consciousness_decision(self, context: dict[str, Any]) -> dict[str, Any]:
         """Process decision through Consciousness Framework."""
         # Simulate consciousness processing
         # In production, this would integrate with actual consciousness components
@@ -518,7 +522,7 @@ class TrinityFrameworkIntegrator:
             "consciousness_active": True
         }
 
-    async def _guardian_post_decision_check(self, decision: Any, context: Dict[str, Any]) -> Dict[str, Any]:
+    async def _guardian_post_decision_check(self, decision: Any, context: dict[str, Any]) -> dict[str, Any]:
         """Guardian post-decision ethical verification."""
         # Placeholder for post-decision Guardian analysis
         # In production, this would analyze the actual decision output
@@ -621,7 +625,7 @@ class TrinityFrameworkIntegrator:
         # Average the factors
         return sum(factors) / len(factors) if factors else 0.0
 
-    def get_trinity_metrics(self) -> Dict[str, Any]:
+    def get_trinity_metrics(self) -> dict[str, Any]:
         """Get comprehensive Trinity Framework metrics."""
         return {
             "trinity_state": {
@@ -656,10 +660,8 @@ class TrinityFrameworkIntegrator:
         for task in [self._health_monitor_task, self._coherence_monitor_task]:
             if task:
                 task.cancel()
-                try:
+                with contextlib.suppress(asyncio.CancelledError):
                     await task
-                except asyncio.CancelledError:
-                    pass
 
         # Shutdown registry
         if self.registry:
@@ -684,10 +686,10 @@ async def initialize_trinity_consciousness() -> bool:
 
 async def process_trinity_decision(
     session_id: str,
-    decision_context: Dict[str, Any],
+    decision_context: dict[str, Any],
     require_identity: bool = True,
     require_guardian: bool = True
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Process a decision through the complete Trinity Framework."""
     integrator = get_trinity_integrator()
     return await integrator.process_consciousness_decision(

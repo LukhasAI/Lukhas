@@ -16,7 +16,6 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-
 from ..common import GlyphIntegrationMixin
 
 logger = logging.getLogger(__name__)

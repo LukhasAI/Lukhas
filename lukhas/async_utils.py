@@ -36,7 +36,7 @@ def consciousness_task(
 ):
     """
     Decorator to automatically manage async tasks in consciousness system.
-    
+
     Usage:
         @consciousness_task(name="memory_processing", priority=TaskPriority.CRITICAL)
         async def process_memory():
@@ -81,17 +81,17 @@ async def await_with_timeout(
 ) -> Optional[T]:
     """
     Await an operation with timeout and proper error handling.
-    
+
     Args:
         awaitable: The awaitable to execute
         timeout: Timeout in seconds
         name: Name for logging/debugging
         default: Default value to return on timeout (if raise_on_timeout=False)
         raise_on_timeout: Whether to raise TimeoutError on timeout
-        
+
     Returns:
         Result of awaitable or default value
-        
+
     Raises:
         asyncio.TimeoutError: If timeout occurs and raise_on_timeout=True
     """
@@ -116,7 +116,7 @@ async def run_with_retry(
 ) -> T:
     """
     Run a coroutine with retry logic and exponential backoff.
-    
+
     Args:
         coro_factory: Factory function that creates the coroutine to retry
         max_retries: Maximum number of retry attempts
@@ -124,10 +124,10 @@ async def run_with_retry(
         backoff_factor: Multiplier for delay on each retry
         name: Name for logging/debugging
         exceptions: Exception types to retry on
-        
+
     Returns:
         Result of successful execution
-        
+
     Raises:
         The last exception if all retries fail
     """
@@ -159,10 +159,10 @@ async def consciousness_context(
 ):
     """
     Context manager for consciousness processing operations.
-    
+
     Provides automatic cleanup and error handling for consciousness-related
     async operations.
-    
+
     Usage:
         async with consciousness_context("memory_processing") as ctx:
             # All tasks created here will be tracked and cleaned up
@@ -223,13 +223,13 @@ async def gather_with_error_handling(
 ) -> list:
     """
     Enhanced asyncio.gather with error handling and logging.
-    
+
     Args:
         *awaitables: Awaitables to execute concurrently
         name: Name for logging/debugging
         return_exceptions: Whether to return exceptions instead of raising
         log_errors: Whether to log exceptions
-        
+
     Returns:
         List of results and/or exceptions
     """
@@ -259,13 +259,13 @@ async def run_background_task(
 ) -> asyncio.Task[T]:
     """
     Create and run a background task with proper management.
-    
+
     Args:
         coro: Coroutine to run in background
         name: Task name
         description: Task description
         manager: Optional specific task manager
-        
+
     Returns:
         The created task
     """
@@ -290,14 +290,14 @@ async def run_consciousness_task(
 ) -> asyncio.Task[T]:
     """
     Create and run a consciousness processing task.
-    
+
     Args:
         coro: Coroutine to run
         name: Task name
         priority: Task priority
         description: Task description
         consciousness_context: Consciousness context identifier
-        
+
     Returns:
         The created task
     """
@@ -321,13 +321,13 @@ async def run_guardian_task(
 ) -> asyncio.Task[T]:
     """
     Create and run a guardian/governance task.
-    
+
     Args:
         coro: Coroutine to run
         name: Task name
         description: Task description
         consciousness_context: Consciousness context identifier
-        
+
     Returns:
         The created task
     """
@@ -351,7 +351,7 @@ async def create_managed_task(
 ) -> asyncio.Task[T]:
     """
     Legacy compatibility function for creating managed tasks.
-    
+
     This function provides a simple interface for migrating from
     bare asyncio.create_task calls to managed tasks.
     """

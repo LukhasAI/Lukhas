@@ -31,7 +31,7 @@ class DreamState:
         self.metadata = {}
         self.is_active = True
 
-    def update_metadata(self, metadata: Dict[str, Any]):
+    def update_metadata(self, metadata: dict[str, Any]):
         """Update dream state metadata."""
         self.metadata.update(metadata)
 

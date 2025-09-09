@@ -17,7 +17,6 @@ import time
 import uuid
 from typing import Any, Optional, Union
 
-
 from candidate.core.common import get_logger
 
 """

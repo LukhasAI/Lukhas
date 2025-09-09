@@ -1056,7 +1056,7 @@ class SymbolicNetwork:
 
         error_levels_list = [node.error_level for node in self.nodes.values()]
         activity_levels_list = [node.activity_level for node in self.nodes.values()]
-        symbolic_weights_list = [node.symbolic_weight for node in self.nodes.values()]
+        [node.symbolic_weight for node in self.nodes.values()]
 
         num_nodes = len(self.nodes)
         num_connections = len(self.connections)

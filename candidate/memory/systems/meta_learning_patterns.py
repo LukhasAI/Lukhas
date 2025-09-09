@@ -2,7 +2,6 @@
 import logging
 from datetime import timezone
 
-
 logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -322,8 +321,8 @@ class LearningTrajectoryAnalyzer:
         current_phase = {"start_idx": 0, "phase_type": "novice", "characteristics": {}}
 
         for i in range(1, len(performance)):
-            delta = performance[i] - performance[i - 1]
-            rate = learning_rate[i] if i < len(learning_rate) else 0.0
+            performance[i] - performance[i - 1]
+            learning_rate[i] if i < len(learning_rate) else 0.0
 
             # Determine phase based on performance and learning rate
             if performance[i] < 0.3:

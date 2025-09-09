@@ -38,14 +38,14 @@ class AgentCapability:
     level: CapabilityLevel = CapabilityLevel.BASIC
     confidence: float = 0.5
     last_updated: datetime = field(default_factory=datetime.now)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def update_confidence(self, new_confidence: float):
         """Update capability confidence level"""
         self.confidence = max(0.0, min(1.0, new_confidence))
         self.last_updated = datetime.now()
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary representation"""
         return {
             "domain": self.domain,
@@ -58,10 +58,10 @@ class AgentCapability:
 @dataclass
 class AgentMemory:
     """Enhanced agent memory system"""
-    short_term: Dict[str, Any] = field(default_factory=dict)
-    long_term: Dict[str, Any] = field(default_factory=dict)
-    working: Dict[str, Any] = field(default_factory=dict)
-    episodic: List[Dict[str, Any]] = field(default_factory=list)
+    short_term: dict[str, Any] = field(default_factory=dict)
+    long_term: dict[str, Any] = field(default_factory=dict)
+    working: dict[str, Any] = field(default_factory=dict)
+    episodic: list[dict[str, Any]] = field(default_factory=list)
     max_episodic: int = 100
 
     def store(self, memory_type: MemoryType, key: str, value: Any):
@@ -117,7 +117,7 @@ class EnhancedSwarmAgent:
 
     def __init__(self, agent_id: str):
         self.agent_id = agent_id
-        self.capabilities: Dict[str, AgentCapability] = {}
+        self.capabilities: dict[str, AgentCapability] = {}
         self.memory = AgentMemory()
         self.active = True
         self.created_at = datetime.now()
@@ -140,7 +140,7 @@ class EnhancedColony:
 
     def __init__(self, colony_id: str):
         self.colony_id = colony_id
-        self.agents: Dict[str, EnhancedSwarmAgent] = {}
+        self.agents: dict[str, EnhancedSwarmAgent] = {}
         self.created_at = datetime.now()
         self.active = True
 
@@ -153,7 +153,7 @@ class EnhancedColony:
         if agent_id in self.agents:
             del self.agents[agent_id]
 
-    def get_agents_with_capability(self, domain: str) -> List[EnhancedSwarmAgent]:
+    def get_agents_with_capability(self, domain: str) -> list[EnhancedSwarmAgent]:
         """Get all agents that have a specific capability"""
         return [
             agent for agent in self.agents.values()
@@ -165,7 +165,7 @@ class EnhancedSwarmHub:
 
     def __init__(self, hub_id: str):
         self.hub_id = hub_id
-        self.colonies: Dict[str, EnhancedColony] = {}
+        self.colonies: dict[str, EnhancedColony] = {}
         self.created_at = datetime.now()
         self.active = True
 
@@ -182,7 +182,7 @@ class EnhancedSwarmHub:
         """Get total number of agents across all colonies"""
         return sum(len(colony.agents) for colony in self.colonies.values())
 
-    def find_agents_with_capability(self, domain: str) -> List[EnhancedSwarmAgent]:
+    def find_agents_with_capability(self, domain: str) -> list[EnhancedSwarmAgent]:
         """Find all agents across colonies with specified capability"""
         agents = []
         for colony in self.colonies.values():

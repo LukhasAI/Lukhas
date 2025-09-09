@@ -3,12 +3,10 @@
 NIAS Documentation Generator using LukhasDoc (LUKHAS Symbolic Documentation Engine)
 Generates comprehensive interactive documentation for the enhanced NIAS plan
 """
-from datetime import timezone
-
 import json
 import logging
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 # Configure logging

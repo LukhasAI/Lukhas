@@ -19,7 +19,6 @@ from typing import Any
 
 import numpy as np
 
-
 # Bio-inspired computation imports
 try:
     import scipy.optimize

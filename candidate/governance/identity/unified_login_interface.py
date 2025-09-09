@@ -35,8 +35,6 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-
-
 # Import our revolutionary authentication system
 try:
     from .core.unified_auth_manager import (

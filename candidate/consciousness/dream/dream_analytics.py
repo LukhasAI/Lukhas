@@ -17,11 +17,11 @@ class DreamAnalyticsEngine:
     """Advanced dream analytics with Trinity Framework compliance."""
 
     def __init__(self):
-        self.analytics_data: Dict[str, Dict] = {}
+        self.analytics_data: dict[str, dict] = {}
         self.analysis_counter = 0
         logger.info("📊 Dream Analytics Engine initialized - Trinity Framework active")
 
-    def analyze_dream_patterns(self, dream_data: List[Dict]) -> Dict[str, Any]:
+    def analyze_dream_patterns(self, dream_data: list[dict]) -> dict[str, Any]:
         """⚛️ Analyze dream patterns while preserving identity authenticity."""
         self.analysis_counter += 1
         analysis_id = f"analysis_{self.analysis_counter}_{int(datetime.now(timezone.utc).timestamp())}"
@@ -44,13 +44,13 @@ class DreamAnalyticsEngine:
         logger.info(f"📊 Dream patterns analyzed: {analysis_id}")
         return patterns
 
-    def _extract_themes(self, dream_data: List[Dict]) -> List[str]:
+    def _extract_themes(self, dream_data: list[dict]) -> list[str]:
         """Extract recurring themes from dream data."""
         # Simplified theme extraction
         themes = ["exploration", "transformation", "connection"]
         return themes
 
-    def _analyze_emotions(self, dream_data: List[Dict]) -> Dict[str, Any]:
+    def _analyze_emotions(self, dream_data: list[dict]) -> dict[str, Any]:
         """Analyze emotional patterns in dreams."""
         return {
             "primary_emotion": "wonder",
@@ -58,7 +58,7 @@ class DreamAnalyticsEngine:
             "positive_ratio": 0.75
         }
 
-    def _analyze_timing(self, dream_data: List[Dict]) -> Dict[str, Any]:
+    def _analyze_timing(self, dream_data: list[dict]) -> dict[str, Any]:
         """Analyze temporal patterns in dreams."""
         return {
             "peak_hours": ["2-4 AM", "6-8 AM"],
@@ -66,12 +66,12 @@ class DreamAnalyticsEngine:
             "duration_trend": "increasing"
         }
 
-    def generate_insights(self, analysis_id: str) -> Dict[str, Any]:
+    def generate_insights(self, analysis_id: str) -> dict[str, Any]:
         """🧠 Generate consciousness-aware insights from analysis."""
         if analysis_id not in self.analytics_data:
             return {"error": "Analysis not found"}
 
-        analysis = self.analytics_data[analysis_id]
+        self.analytics_data[analysis_id]
 
         insights = {
             "analysis_id": analysis_id,

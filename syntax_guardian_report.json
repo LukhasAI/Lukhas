@@ -1,0 +1,43 @@
+{
+  "timestamp": "2025-09-09T01:14:00.802913",
+  "status": "ok",
+  "trends": {
+    "candidate/": 0,
+    "lukhas/": 0,
+    ".": 0
+  },
+  "analysis": {
+    "candidate/": {
+      "current": 0,
+      "baseline": 0,
+      "delta": 0,
+      "severity": "ok",
+      "percentage_change": 0
+    },
+    "lukhas/": {
+      "current": 0,
+      "baseline": 0,
+      "delta": 0,
+      "severity": "ok",
+      "percentage_change": 0
+    },
+    ".": {
+      "current": 0,
+      "baseline": 0,
+      "delta": 0,
+      "severity": "ok",
+      "percentage_change": 0
+    }
+  },
+  "recovery_plan": [],
+  "baselines": {
+    "candidate/": 0,
+    "lukhas/": 0,
+    ".": 0
+  },
+  "thresholds": {
+    "warning": 100,
+    "critical": 500,
+    "emergency": 1000
+  }
+}

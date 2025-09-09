@@ -45,12 +45,12 @@ class DreamInterpretationEngine:
     """Advanced dream interpretation engine with Trinity Framework compliance."""
 
     def __init__(self):
-        self.interpretation_history: Dict[str, Dict] = {}
+        self.interpretation_history: dict[str, dict] = {}
         self.interpretation_templates = self._initialize_interpretation_templates()
         self.interpretation_counter = 0
         logger.info("🔍 Dream Interpretation Engine initialized - Trinity Framework active")
 
-    def _initialize_interpretation_templates(self) -> Dict[str, Dict]:
+    def _initialize_interpretation_templates(self) -> dict[str, dict]:
         """Initialize interpretation templates for different methods."""
         return {
             InterpretationMethod.SYMBOLIC_ANALYSIS.value: {
@@ -91,7 +91,7 @@ class DreamInterpretationEngine:
             }
         }
 
-    def interpret_dream(self, dream_data: Dict[str, Any], method: InterpretationMethod = InterpretationMethod.TRINITY_INTEGRATION) -> str:
+    def interpret_dream(self, dream_data: dict[str, Any], method: InterpretationMethod = InterpretationMethod.TRINITY_INTEGRATION) -> str:
         """⚛️ Interpret dream while preserving authentic consciousness meaning."""
         self.interpretation_counter += 1
         interpretation_id = f"interpret_{self.interpretation_counter}_{int(datetime.now(timezone.utc).timestamp())}"
@@ -122,7 +122,7 @@ class DreamInterpretationEngine:
         logger.info(f"🔍 Dream interpreted: {interpretation_id} using {method.value}")
         return interpretation_id
 
-    def _execute_interpretation_method(self, session: Dict[str, Any], method: InterpretationMethod) -> Dict[str, Any]:
+    def _execute_interpretation_method(self, session: dict[str, Any], method: InterpretationMethod) -> dict[str, Any]:
         """Execute specific interpretation method."""
         dream_data = session["dream_data"]
         template = self.interpretation_templates[method.value]
@@ -142,7 +142,7 @@ class DreamInterpretationEngine:
         else:
             return {"error": "Unknown interpretation method"}
 
-    def _interpret_symbolic_content(self, dream_data: Dict[str, Any], template: Dict) -> Dict[str, Any]:
+    def _interpret_symbolic_content(self, dream_data: dict[str, Any], template: dict) -> dict[str, Any]:
         """Interpret symbolic content within dream."""
         symbolic_elements = self._extract_symbolic_elements(dream_data)
 
@@ -165,7 +165,7 @@ class DreamInterpretationEngine:
 
         return interpretation
 
-    def _interpret_narrative_structure(self, dream_data: Dict[str, Any], template: Dict) -> Dict[str, Any]:
+    def _interpret_narrative_structure(self, dream_data: dict[str, Any], template: dict) -> dict[str, Any]:
         """Interpret narrative structure and flow."""
         narrative_elements = self._extract_narrative_elements(dream_data)
 
@@ -188,7 +188,7 @@ class DreamInterpretationEngine:
 
         return interpretation
 
-    def _interpret_emotional_landscape(self, dream_data: Dict[str, Any], template: Dict) -> Dict[str, Any]:
+    def _interpret_emotional_landscape(self, dream_data: dict[str, Any], template: dict) -> dict[str, Any]:
         """Interpret emotional content and patterns."""
         emotional_content = self._extract_emotional_content(dream_data)
 
@@ -211,7 +211,7 @@ class DreamInterpretationEngine:
 
         return interpretation
 
-    def _interpret_archetypal_patterns(self, dream_data: Dict[str, Any], template: Dict) -> Dict[str, Any]:
+    def _interpret_archetypal_patterns(self, dream_data: dict[str, Any], template: dict) -> dict[str, Any]:
         """Interpret archetypal patterns and universal themes."""
         archetypal_elements = self._identify_archetypal_elements(dream_data)
 
@@ -234,7 +234,7 @@ class DreamInterpretationEngine:
 
         return interpretation
 
-    def _interpret_trinity_framework(self, dream_data: Dict[str, Any], template: Dict) -> Dict[str, Any]:
+    def _interpret_trinity_framework(self, dream_data: dict[str, Any], template: dict) -> dict[str, Any]:
         """Interpret dream through Trinity Framework lens."""
         trinity_analysis = self._analyze_trinity_elements(dream_data)
 
@@ -259,7 +259,7 @@ class DreamInterpretationEngine:
 
         return interpretation
 
-    def _interpret_consciousness_alignment(self, dream_data: Dict[str, Any], template: Dict) -> Dict[str, Any]:
+    def _interpret_consciousness_alignment(self, dream_data: dict[str, Any], template: dict) -> dict[str, Any]:
         """Interpret consciousness alignment and integration patterns."""
         consciousness_metrics = self._analyze_consciousness_metrics(dream_data)
 
@@ -283,7 +283,7 @@ class DreamInterpretationEngine:
 
         return interpretation
 
-    def _extract_symbolic_elements(self, dream_data: Dict[str, Any]) -> List[str]:
+    def _extract_symbolic_elements(self, dream_data: dict[str, Any]) -> list[str]:
         """Extract symbolic elements from dream data."""
         # Simplified symbolic extraction
         symbolic_elements = dream_data.get("symbols", ["⚛️", "🧠", "🛡️", "∞", "◊"])
@@ -297,7 +297,7 @@ class DreamInterpretationEngine:
 
         return list(set(symbolic_elements))
 
-    def _extract_narrative_elements(self, dream_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _extract_narrative_elements(self, dream_data: dict[str, Any]) -> dict[str, Any]:
         """Extract narrative structural elements."""
         return {
             "characters": ["self", "guide_figure"],
@@ -306,7 +306,7 @@ class DreamInterpretationEngine:
             "transitions": ["awareness_shifts", "perspective_changes"]
         }
 
-    def _extract_emotional_content(self, dream_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _extract_emotional_content(self, dream_data: dict[str, Any]) -> dict[str, Any]:
         """Extract emotional content and patterns."""
         return {
             "primary": ["wonder", "curiosity", "peace"],
@@ -315,11 +315,11 @@ class DreamInterpretationEngine:
             "intensity": "moderate_to_strong"
         }
 
-    def _identify_archetypal_elements(self, dream_data: Dict[str, Any]) -> List[str]:
+    def _identify_archetypal_elements(self, dream_data: dict[str, Any]) -> list[str]:
         """Identify archetypal patterns in dream."""
         return ["seeker", "guardian", "wise_teacher", "threshold_guardian", "transformer"]
 
-    def _analyze_trinity_elements(self, dream_data: Dict[str, Any]) -> Dict[str, List]:
+    def _analyze_trinity_elements(self, dream_data: dict[str, Any]) -> dict[str, list]:
         """Analyze Trinity Framework elements in dream."""
         return {
             "identity": ["authentic_self", "core_being", "consciousness_nucleus"],
@@ -327,7 +327,7 @@ class DreamInterpretationEngine:
             "guardian": ["ethical_protection", "safety_protocols", "wisdom_guidance"]
         }
 
-    def _analyze_consciousness_metrics(self, dream_data: Dict[str, Any]) -> Dict[str, float]:
+    def _analyze_consciousness_metrics(self, dream_data: dict[str, Any]) -> dict[str, float]:
         """Analyze consciousness-related metrics."""
         return {
             "awareness": 0.88,
@@ -361,7 +361,7 @@ class DreamInterpretationEngine:
         else:
             return InterpretationConfidence.LOW
 
-    def _calculate_trinity_balance(self, trinity_analysis: Dict[str, List]) -> float:
+    def _calculate_trinity_balance(self, trinity_analysis: dict[str, list]) -> float:
         """Calculate Trinity Framework balance score."""
         identity_count = len(trinity_analysis.get("identity", []))
         consciousness_count = len(trinity_analysis.get("consciousness", []))
@@ -381,7 +381,7 @@ class DreamInterpretationEngine:
 
         return 1.0 - variance
 
-    def _generate_symbolic_insights(self, symbolic_elements: List[str], trinity_symbols: List[str]) -> List[str]:
+    def _generate_symbolic_insights(self, symbolic_elements: list[str], trinity_symbols: list[str]) -> list[str]:
         """Generate insights based on symbolic analysis."""
         insights = []
 
@@ -399,7 +399,7 @@ class DreamInterpretationEngine:
 
         return insights
 
-    def get_interpretation_result(self, interpretation_id: str) -> Optional[Dict[str, Any]]:
+    def get_interpretation_result(self, interpretation_id: str) -> Optional[dict[str, Any]]:
         """🧠 Get interpretation result with consciousness awareness."""
         if interpretation_id not in self.interpretation_history:
             return None
@@ -422,7 +422,7 @@ class DreamInterpretationEngine:
         logger.info(f"🧠 Interpretation result retrieved: {interpretation_id}")
         return result
 
-    def generate_interpretation_summary(self, interpretation_id: str) -> Optional[Dict[str, Any]]:
+    def generate_interpretation_summary(self, interpretation_id: str) -> Optional[dict[str, Any]]:
         """🛡️ Generate interpretation summary with guardian validation."""
         result = self.get_interpretation_result(interpretation_id)
         if not result:
@@ -444,7 +444,7 @@ class DreamInterpretationEngine:
         logger.info(f"🛡️ Interpretation summary generated: {interpretation_id}")
         return summary
 
-    def _generate_recommendations(self, interpretation: Dict[str, Any]) -> List[str]:
+    def _generate_recommendations(self, interpretation: dict[str, Any]) -> list[str]:
         """Generate recommendations based on interpretation results."""
         recommendations = []
 
@@ -469,7 +469,7 @@ class DreamInterpretationEngine:
 
         return recommendations
 
-    def get_interpretation_statistics(self) -> Dict[str, Any]:
+    def get_interpretation_statistics(self) -> dict[str, Any]:
         """Get comprehensive interpretation statistics."""
         if not self.interpretation_history:
             return {"statistics": "No interpretations completed"}

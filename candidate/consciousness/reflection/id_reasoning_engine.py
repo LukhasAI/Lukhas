@@ -42,7 +42,6 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional, Tuple
 
-
 # ΛTRACE: Initialize logger for this module. #ΛTEMPORAL_HOOK (Logger init
 # time - Event) #AIDENTITY_BRIDGE (Module identity) #ΛECHO (Logger
 # configuration echoes global settings)
@@ -131,7 +130,7 @@ class EmotionalMemoryVector:
     # Brief textual description of the context for this emotional state.
     context: str = ""
 
-    def to_dict(self) -> Dict[str, Any]:  # ΛEXPOSE:
+    def to_dict(self) -> dict[str, Any]:  # ΛEXPOSE:
         """Serializes the emotional memory vector to a dictionary for storage or transmission."""
         return {
             "valence": self.valence, "arousal": self.arousal, "dominance": self.dominance,
@@ -208,9 +207,9 @@ class AuditLogEntry:
     # Assessment of privacy impact (e.g., "Low", "Medium", "High").
     privacy_impact_level: str = "NotYetAssessed"
     # Summary/description of data involved, not the raw data itself.
-    data_involved_description: Optional[Dict[str, Any]] = None
+    data_involved_description: Optional[dict[str, Any]] = None
 
-    def to_dict(self) -> Dict[str, Any]:  # ΛEXPOSE:
+    def to_dict(self) -> dict[str, Any]:  # ΛEXPOSE:
         """Serializes the audit log entry to a dictionary for storage or transmission."""
         # Human-readable comment: Converts audit log entry to a dictionary,
         # handling optional and enum fields.
@@ -283,7 +282,7 @@ class TraumaLockedMemory:
         self.key_derivation_salt_bytes: bytes = key_derivation_salt_str.encode(
             "utf-8")  # Store salt as bytes for crypto operations
         # memory_id -> encrypted_record_details #ΛMEMORY_TIER: Volatile Store
-        self.locked_memories_store: Dict[str, Dict[str, Any]] = {}
+        self.locked_memories_store: dict[str, dict[str, Any]] = {}
         self.logger.debug(
             "ΛTRACE: TraumaLockedMemory instance initialized successfully.")
 
@@ -518,12 +517,12 @@ class ComplianceMonitor:
         self.violation_count = 0
         # Type hint added #ΛMEMORY_TIER: Volatile Log #ΛTEMPORAL_HOOK (Log stores
         # events over time)
-        self.audit_log: List[Dict[str, Any]] = []
+        self.audit_log: list[dict[str, Any]] = []
         self.logger.debug(
             f"ΛTRACE: ComplianceMonitor initialized. {len(self.compliance_rules)} rules loaded for {region.value}.")
 
     # ΛECHO (Loads static rules based on region)
-    def _load_compliance_rules(self) -> Dict:
+    def _load_compliance_rules(self) -> dict:
         # AIDENTITY_BRIDGE (Region)
         self.logger.debug(
             f"ΛTRACE: Loading compliance rules for region: {self.region.value}.")
@@ -549,7 +548,7 @@ class ComplianceMonitor:
     # Potential Recovery:
     # #ΛSTABILIZE: Implement versioning for compliance rules; allow rollback to known-good rule set if new rules cause issues.
     # #ΛRE_ALIGN: Periodically (or on major context change like new region) force re-evaluation of processes/data against current rules.
-    def check_compliance(self, action: str, context: Dict) -> Tuple[bool, List[str]]:
+    def check_compliance(self, action: str, context: dict) -> tuple[bool, list[str]]:
         """
         Check if an action complies with regulations.
         Returns (is_compliant, violation_reasons)
@@ -655,16 +654,16 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
             f"ΛTRACE: Initializing LukhasIdManager instance with compliance region: {compliance_region.value}.")
         # ΛMEMORY_TIER: Volatile Store (User data) #ΛDRIFT_HOOK (User records can
         # change over time)
-        self.users: Dict[str, Dict[str, Any]] = {}
+        self.users: dict[str, dict[str, Any]] = {}
         # ΛMEMORY_TIER: Volatile Store (Session data) #ΛDRIFT_HOOK (Sessions are
         # created and expire - temporal drift)
-        self.active_sessions: Dict[str, Dict[str, Any]] = {}
+        self.active_sessions: dict[str, dict[str, Any]] = {}
         # Instantiates class with its own logger #ΛECHO
         self.trauma_memory = TraumaLockedMemory()
         # Instantiates class with its own logger #ΛECHO #AIDENTITY_BRIDGE
         self.compliance_monitor = ComplianceMonitor(compliance_region)
         # ΛMEMORY_TIER: Volatile Log #ΛTEMPORAL_HOOK (Log grows over time)
-        self.audit_log_entries: List[AuditLogEntry] = []
+        self.audit_log_entries: list[AuditLogEntry] = []
         # AIDENTITY_BRIDGE (Unique ID for the system signer)
         self.qi_signer_id = f"lukhas_core_system_{secrets.token_hex(4)}"
         self.logger.debug(
@@ -676,7 +675,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
     # ΛECHO (User data and initial tier are echoed into the new user record)
     async def register_user(
             self,
-            user_data: Dict,
+            user_data: dict,
             initial_tier: AccessTier = AccessTier.TIER_1_BASIC) -> str:
         """Register a new user with Lukhas_ID system."""
         req_id = f"lim_reg_{int(time.time())*1000}"  # AIDENTITY_BRIDGE (Request ID)
@@ -738,8 +737,8 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
     async def authenticate_user(
             self,
             user_id: str,
-            credentials: Dict,
-            emotional_state: Optional[EmotionalMemoryVector] = None) -> Optional[Dict]:
+            credentials: dict,
+            emotional_state: Optional[EmotionalMemoryVector] = None) -> Optional[dict]:
         """Authenticate user based on their access tier requirements."""
         req_id = f"lim_auth_{int(time.time())*1000}"  # AIDENTITY_BRIDGE (Request ID)
         # AIDENTITY_BRIDGE (user_id)
@@ -821,8 +820,8 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
     # to a collapse of the tier's security.
     async def _verify_tier_credentials(
             self,
-            user_record: Dict,
-            credentials: Dict,
+            user_record: dict,
+            credentials: dict,
             tier: AccessTier) -> bool:
         """Verify credentials based on access tier requirements."""
         user_id = user_record.get("user_id", "UnknownUser")
@@ -949,7 +948,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
     # Human-readable comment: Gets permissions based on access tier.
     # AIDENTITY_BRIDGE (Permissions are tied to access tier, which is part of identity)
     # ΛECHO (Returns permissions based on predefined static tier definitions)
-    def _resolve_access_tier(self, tier: AccessTier) -> List[str]:
+    def _resolve_access_tier(self, tier: AccessTier) -> list[str]:
         """Get permissions based on access tier (cumulative)."""
         self.logger.debug(f"ΛTRACE: Getting permissions for tier {tier.name}.")
         base_perms = {
@@ -1061,7 +1060,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
     # ΛCOLLAPSE_POINT: If session data is corrupted or time synchronization is off, valid sessions might be prematurely expired or invalid ones used.
     # ΛDRIFT_HOOK: Active sessions list drifts as sessions are added and
     # removed due to expiry.
-    async def get_user_permissions(self, session_token: str) -> Optional[List[str]]:
+    async def get_user_permissions(self, session_token: str) -> Optional[list[str]]:
         """Get user permissions from valid session."""
         self.logger.debug(
             f"ΛTRACE: Getting user permissions for session token: {session_token[:8]}...")  # AIDENTITY_BRIDGE (session_token)
@@ -1177,7 +1176,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
     # ΛTEMPORAL_HOOK (Retrieves recent violations within a 24h timedelta)
     # ΛECHO (Echoes current state of compliance monitor, user counts, session counts, audit log length)
     # ΛDRIFT_HOOK (All counts reported here are subject to drift over time)
-    def get_compliance_status(self) -> Dict:
+    def get_compliance_status(self) -> dict:
         """Get current compliance status and audit summary."""
         self.logger.info("ΛTRACE: Retrieving system-wide compliance status.")
 

@@ -17,11 +17,11 @@ class LucidDreamController:
     """Advanced lucid dreaming control system with Trinity Framework compliance."""
 
     def __init__(self):
-        self.lucid_sessions: Dict[str, Dict] = {}
+        self.lucid_sessions: dict[str, dict] = {}
         self.control_counter = 0
         logger.info("🌟 Lucid Dream Controller initialized - Trinity Framework active")
 
-    def initiate_lucid_state(self, user_intent: Optional[Dict] = None) -> str:
+    def initiate_lucid_state(self, user_intent: Optional[dict] = None) -> str:
         """⚛️ Initiate lucid dreaming state with identity preservation."""
         self.control_counter += 1
         session_id = f"lucid_{self.control_counter}_{int(datetime.now(timezone.utc).timestamp())}"
@@ -38,7 +38,7 @@ class LucidDreamController:
         logger.info(f"🌟 Lucid dream state initiated: {session_id}")
         return session_id
 
-    def enhance_dream_control(self, session_id: str, control_parameters: Dict) -> Dict[str, Any]:
+    def enhance_dream_control(self, session_id: str, control_parameters: dict) -> dict[str, Any]:
         """🧠 Enhance user control within lucid dream."""
         if session_id not in self.lucid_sessions:
             return {"error": "Session not found"}
@@ -55,7 +55,7 @@ class LucidDreamController:
             "trinity_validated": True
         }
 
-    def validate_lucid_safety(self, session_id: str) -> Dict[str, Any]:
+    def validate_lucid_safety(self, session_id: str) -> dict[str, Any]:
         """🛡️ Guardian validation of lucid dream safety."""
         if session_id not in self.lucid_sessions:
             return {"safety_status": "unknown"}

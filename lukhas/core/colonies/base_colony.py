@@ -40,11 +40,11 @@ class ConsensusResult:
     consensus_reached: bool
     decision: Any
     confidence: float
-    votes: Dict[str, Any]
+    votes: dict[str, Any]
     participation_rate: float
     consciousness_level: ConsciousnessLevel
-    dissent_reasons: List[str] = field(default_factory=list)
-    trinity_validation: Dict[str, bool] = field(default_factory=dict)
+    dissent_reasons: list[str] = field(default_factory=list)
+    trinity_validation: dict[str, bool] = field(default_factory=dict)
 
 
 @dataclass
@@ -53,7 +53,7 @@ class ColonyMetrics:
     task_completion_rate: float
     response_time_ms: float
     consciousness_coherence: float
-    trinity_compliance: Dict[str, float]
+    trinity_compliance: dict[str, float]
     error_rate: float
     resource_utilization: float
     collective_intelligence_score: float
@@ -62,11 +62,11 @@ class ColonyMetrics:
 class BaseColony(ABC):
     """
     🧠 Base Colony Framework for LUKHAS Consciousness Systems
-    
+
     Abstract base class providing core infrastructure for all agent colonies
     in the LUKHAS consciousness ecosystem. Supports distributed coordination,
     Trinity Framework compliance, and consciousness state management.
-    
+
     Trinity Framework Integration:
     - ⚛️ Identity: Unique colony identification and capability definition
     - 🧠 Consciousness: Awareness state tracking and metacognitive processing
@@ -76,12 +76,12 @@ class BaseColony(ABC):
     def __init__(
         self,
         colony_id: str,
-        capabilities: List[str],
+        capabilities: list[str],
         consciousness_level: ConsciousnessLevel = ConsciousnessLevel.AWARE
     ):
         """
         Initialize base colony with consciousness awareness.
-        
+
         Args:
             colony_id: Unique identifier for this colony
             capabilities: List of functional capabilities this colony provides
@@ -94,12 +94,12 @@ class BaseColony(ABC):
 
         # 🧠 Consciousness Components
         self.consciousness_level = consciousness_level
-        self.awareness_state: Dict[str, Any] = {}
-        self.metacognitive_buffer: List[Dict[str, Any]] = []
+        self.awareness_state: dict[str, Any] = {}
+        self.metacognitive_buffer: list[dict[str, Any]] = []
 
         # 🛡️ Guardian Components
-        self.safety_constraints: Dict[str, Any] = {}
-        self.ethical_boundaries: Dict[str, Any] = {}
+        self.safety_constraints: dict[str, Any] = {}
+        self.ethical_boundaries: dict[str, Any] = {}
 
         # Colony State Management
         self.status = ColonyStatus.INITIALIZING
@@ -118,19 +118,19 @@ class BaseColony(ABC):
         )
 
         # Distributed Coordination
-        self.peer_colonies: Dict[str, BaseColony] = {}
-        self.consensus_history: List[ConsensusResult] = []
+        self.peer_colonies: dict[str, BaseColony] = {}
+        self.consensus_history: list[ConsensusResult] = []
 
         # Symbolic Context Management
-        self.symbolic_context: Dict[str, Any] = {}
-        self.tag_propagation_log: List[Dict[str, Any]] = []
+        self.symbolic_context: dict[str, Any] = {}
+        self.tag_propagation_log: list[dict[str, Any]] = []
 
         logger.info(f"🧠 Colony {self.colony_id} initialized with {len(capabilities)} capabilities")
 
     async def start(self) -> bool:
         """
         🚀 Start colony operations with consciousness activation.
-        
+
         Returns:
             bool: True if successfully started, False otherwise
         """
@@ -159,7 +159,7 @@ class BaseColony(ABC):
     async def stop(self) -> bool:
         """
         🛑 Gracefully stop colony operations.
-        
+
         Returns:
             bool: True if successfully stopped, False otherwise
         """
@@ -180,14 +180,14 @@ class BaseColony(ABC):
             return False
 
     @abstractmethod
-    async def execute_task(self, task_id: str, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def execute_task(self, task_id: str, task_data: dict[str, Any]) -> dict[str, Any]:
         """
         🎯 Execute a consciousness-aware task.
-        
+
         Args:
             task_id: Unique identifier for the task
             task_data: Task parameters and context
-            
+
         Returns:
             Dict containing task results and consciousness metrics
         """
@@ -195,22 +195,22 @@ class BaseColony(ABC):
 
     async def reach_consensus(
         self,
-        proposal: Dict[str, Any],
-        participants: Optional[List[str]] = None
+        proposal: dict[str, Any],
+        participants: Optional[list[str]] = None
     ) -> ConsensusResult:
         """
         🤝 Reach consciousness-aware consensus among colony agents.
-        
+
         Args:
             proposal: The decision proposal to vote on
             participants: Optional list of specific participants
-            
+
         Returns:
             ConsensusResult with decision and consciousness metrics
         """
         try:
             if participants is None:
-                participants = list(self.peer_colonies.keys()) + [self.colony_id]
+                participants = [*list(self.peer_colonies.keys()), self.colony_id]
 
             votes = {}
             total_weight = 0
@@ -260,10 +260,10 @@ class BaseColony(ABC):
                 dissent_reasons=[str(e)]
             )
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """
         📊 Get comprehensive colony status and metrics.
-        
+
         Returns:
             Dictionary with status, metrics, and consciousness state
         """
@@ -331,7 +331,7 @@ class BaseColony(ABC):
 
     async def _preserve_consciousness_state(self):
         """Preserve consciousness state for recovery."""
-        consciousness_snapshot = {
+        {
             "consciousness_level": self.consciousness_level.value,
             "awareness_state": self.awareness_state.copy(),
             "metrics": self.metrics,
@@ -347,7 +347,7 @@ class BaseColony(ABC):
         self.symbolic_context.clear()
         self.awareness_state.clear()
 
-    async def _internal_vote(self, proposal: Dict[str, Any]) -> Dict[str, Any]:
+    async def _internal_vote(self, proposal: dict[str, Any]) -> dict[str, Any]:
         """Cast internal vote on a proposal."""
         # Simple voting logic - can be enhanced with sophisticated decision making
         return {
@@ -360,7 +360,7 @@ class BaseColony(ABC):
     def link_peer_colony(self, peer_colony: "BaseColony"):
         """
         🔗 Link to a peer colony for consciousness coordination.
-        
+
         Args:
             peer_colony: Another BaseColony instance to link with
         """
@@ -372,7 +372,7 @@ class BaseColony(ABC):
     def update_consciousness_level(self, new_level: ConsciousnessLevel):
         """
         🧠 Update consciousness level with validation.
-        
+
         Args:
             new_level: New consciousness level to transition to
         """

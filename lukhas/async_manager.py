@@ -11,7 +11,7 @@ import logging
 import time
 import uuid
 from collections.abc import Awaitable
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, suppress
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Dict, Optional, Set, TypeVar
@@ -41,7 +41,7 @@ class TaskMetadata:
 class ConsciousnessTaskManager:
     """
     Production-grade async task manager for LUKHAS consciousness architecture.
-    
+
     Provides:
     - Task lifecycle management with graceful shutdown
     - Priority-based task organization
@@ -55,12 +55,12 @@ class ConsciousnessTaskManager:
         self.max_concurrent_tasks = max_concurrent_tasks
 
         # Task registries by priority
-        self._tasks: Dict[TaskPriority, Set[asyncio.Task]] = {
+        self._tasks: dict[TaskPriority, set[asyncio.Task]] = {
             priority: set() for priority in TaskPriority
         }
 
         # Task metadata tracking
-        self._task_metadata: Dict[asyncio.Task, TaskMetadata] = {}
+        self._task_metadata: dict[asyncio.Task, TaskMetadata] = {}
 
         # Shutdown coordination
         self._shutdown_event = asyncio.Event()
@@ -89,7 +89,7 @@ class ConsciousnessTaskManager:
     ) -> asyncio.Task[T]:
         """
         Create and register an async task with consciousness-aware management.
-        
+
         Args:
             coro: The coroutine to execute
             name: Human-readable task name
@@ -97,10 +97,10 @@ class ConsciousnessTaskManager:
             component: Component/module creating the task
             description: Optional task description
             consciousness_context: Optional consciousness context identifier
-            
+
         Returns:
             The created asyncio.Task
-            
+
         Raises:
             RuntimeError: If task limit exceeded or manager is shutting down
         """
@@ -169,7 +169,7 @@ class ConsciousnessTaskManager:
     async def shutdown(self, timeout: float = 30.0, force_after: float = 60.0) -> None:
         """
         Gracefully shutdown all managed tasks.
-        
+
         Args:
             timeout: Time to wait for graceful shutdown per priority level
             force_after: Time after which to force-cancel remaining tasks
@@ -236,7 +236,7 @@ class ConsciousnessTaskManager:
         logger.info(f"TaskManager[{self.name}] shutdown complete in {total_time:.2f}s")
         logger.info(f"Final stats: {self.get_stats()}")
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get task manager statistics."""
         active_tasks = {
             priority.value: len(tasks)
@@ -250,7 +250,7 @@ class ConsciousnessTaskManager:
             "is_shutting_down": self._is_shutting_down
         }
 
-    def get_active_tasks(self) -> Dict[str, list]:
+    def get_active_tasks(self) -> dict[str, list]:
         """Get details of currently active tasks."""
         result = {}
         for priority, tasks in self._tasks.items():
@@ -282,7 +282,7 @@ class ConsciousnessTaskManager:
     ):
         """
         Context manager for creating and automatically cleaning up a task.
-        
+
         Usage:
             async with task_manager.task_context(my_coro(), name="my_task") as task:
                 result = await task
@@ -300,13 +300,11 @@ class ConsciousnessTaskManager:
         finally:
             if not task.done():
                 task.cancel()
-                try:
+                with suppress(asyncio.CancelledError):
                     await task
-                except asyncio.CancelledError:
-                    pass
 
 # Global task managers for different consciousness subsystems
-_task_managers: Dict[str, ConsciousnessTaskManager] = {}
+_task_managers: dict[str, ConsciousnessTaskManager] = {}
 
 def get_task_manager(name: str, max_concurrent: int = 1000) -> ConsciousnessTaskManager:
     """Get or create a named task manager."""

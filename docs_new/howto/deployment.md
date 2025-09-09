@@ -1,15 +1,3 @@
----
-title: Deployment
-status: review
-owner: docs-team
-last_review: 2025-01-09
-tags: [howto]
-facets:
-  layer: [gateway]
-  domain: [symbolic]
-  audience: [dev]
----
-
 # LUKHAS  Deployment Guide
 
 ## Table of Contents

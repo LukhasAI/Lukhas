@@ -45,6 +45,7 @@ from enum import Enum, auto
 from typing import Any, Optional
 
 import aiohttp
+import aioredis
 import numpy as np
 import pandas as pd
 import redis.asyncio as aioredis
@@ -65,8 +66,6 @@ from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from scipy import stats
 from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import StandardScaler
-
-import aioredis
 
 # Custom imports (would be actual imports in production)
 # TODO: Restore this import when creative_expressions_v2 module is available

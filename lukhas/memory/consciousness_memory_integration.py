@@ -26,6 +26,7 @@ that have been built throughout the LUKHAS transformation phases.
 #TAG:cascade_prevention
 """
 import asyncio
+import contextlib
 import hashlib
 import json
 import logging
@@ -42,12 +43,16 @@ try:
     from lukhas.core.common.config import get_config
 except ImportError:
     # Graceful fallback for development
-    get_consciousness_registry = lambda: None
-    get_trinity_integrator = lambda: None
-    get_consciousness_manager = lambda: None
+    def get_consciousness_registry():
+        return None
+    def get_trinity_integrator():
+        return None
+    def get_consciousness_manager():
+        return None
     ComponentType = None
     TaskPriority = None
-    get_config = lambda *args: {}
+    def get_config(*args):
+        return {}
 
 logger = logging.getLogger(__name__)
 
@@ -84,22 +89,22 @@ class MemoryFold:
     """Individual memory fold in the consciousness system."""
     fold_id: str
     fold_type: MemoryFoldType
-    content: Dict[str, Any]
+    content: dict[str, Any]
     emotional_context: EmotionalContext
     consciousness_context: Optional[str] = None
     creation_timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     last_accessed: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     access_count: int = 0
     strength: float = 1.0  # Memory strength (0.0 to 1.0)
-    associations: List[str] = field(default_factory=list)  # Associated fold IDs
-    tags: Set[str] = field(default_factory=set)
+    associations: list[str] = field(default_factory=list)  # Associated fold IDs
+    tags: set[str] = field(default_factory=set)
     status: FoldStatus = FoldStatus.FORMING
 
     # Cascade prevention metadata
     cascade_risk: float = 0.0
-    cascade_triggers: List[str] = field(default_factory=list)
-    parent_folds: List[str] = field(default_factory=list)
-    child_folds: List[str] = field(default_factory=list)
+    cascade_triggers: list[str] = field(default_factory=list)
+    parent_folds: list[str] = field(default_factory=list)
+    child_folds: list[str] = field(default_factory=list)
 
 @dataclass
 class ConsciousnessMemoryState:
@@ -117,7 +122,7 @@ class ConsciousnessMemoryState:
 class ConsciousnessMemoryIntegrator:
     """
     Memory Fold Consciousness Integration System.
-    
+
     This system activates and integrates the sophisticated memory fold architecture
     with the LUKHAS consciousness system, providing authentic memory-consciousness
     coupling with cascade prevention and emotional context encoding.
@@ -129,9 +134,9 @@ class ConsciousnessMemoryIntegrator:
         self.state = ConsciousnessMemoryState()
 
         # Memory storage
-        self._memory_folds: Dict[str, MemoryFold] = {}
-        self._fold_indices: Dict[MemoryFoldType, Set[str]] = defaultdict(set)
-        self._association_graph: Dict[str, Set[str]] = defaultdict(set)
+        self._memory_folds: dict[str, MemoryFold] = {}
+        self._fold_indices: dict[MemoryFoldType, set[str]] = defaultdict(set)
+        self._association_graph: dict[str, set[str]] = defaultdict(set)
         self._cascade_history: deque = deque(maxlen=1000)
 
         # Memory processing queues
@@ -139,8 +144,8 @@ class ConsciousnessMemoryIntegrator:
         self._access_log: deque = deque(maxlen=10000)
 
         # Consciousness integration
-        self._consciousness_sessions: Dict[str, Dict[str, Any]] = {}
-        self._decision_memory_map: Dict[str, List[str]] = {}
+        self._consciousness_sessions: dict[str, dict[str, Any]] = {}
+        self._decision_memory_map: dict[str, list[str]] = {}
 
         # Monitoring and tasks
         self._consolidation_task: Optional[asyncio.Task] = None
@@ -257,22 +262,22 @@ class ConsciousnessMemoryIntegrator:
 
     async def create_consciousness_memory_fold(
         self,
-        content: Dict[str, Any],
+        content: dict[str, Any],
         fold_type: MemoryFoldType,
         consciousness_context: Optional[str] = None,
         emotional_context: Optional[EmotionalContext] = None,
-        tags: Optional[Set[str]] = None
+        tags: Optional[set[str]] = None
     ) -> str:
         """
         Create a new memory fold integrated with consciousness processing.
-        
+
         Args:
             content: Memory content to store
             fold_type: Type of memory fold
             consciousness_context: Associated consciousness context
             emotional_context: Emotional VAD encoding
             tags: Associated tags for retrieval
-            
+
         Returns:
             Fold ID of created memory fold
         """
@@ -324,20 +329,20 @@ class ConsciousnessMemoryIntegrator:
 
     async def recall_consciousness_memory(
         self,
-        query: Dict[str, Any],
+        query: dict[str, Any],
         consciousness_context: Optional[str] = None,
         max_results: int = 10,
         emotional_weight: float = 0.3
-    ) -> List[Tuple[str, MemoryFold, float]]:
+    ) -> list[tuple[str, MemoryFold, float]]:
         """
         Recall memory folds based on consciousness-aware query.
-        
+
         Args:
             query: Query parameters for memory retrieval
             consciousness_context: Current consciousness context
             max_results: Maximum number of results to return
             emotional_weight: Weight for emotional similarity in ranking
-            
+
         Returns:
             List of (fold_id, fold, relevance_score) tuples
         """
@@ -355,7 +360,7 @@ class ConsciousnessMemoryIntegrator:
         results = ranked_results[:max_results]
 
         # Update access patterns
-        for fold_id, fold, score in results:
+        for fold_id, _fold, score in results:
             await self._update_memory_access(fold_id, consciousness_context, score)
 
         # Calculate processing latency
@@ -372,19 +377,19 @@ class ConsciousnessMemoryIntegrator:
     async def integrate_decision_memory(
         self,
         decision_id: str,
-        decision_context: Dict[str, Any],
+        decision_context: dict[str, Any],
         decision_result: Any,
         consciousness_context: Optional[str] = None
-    ) -> List[str]:
+    ) -> list[str]:
         """
         Integrate a consciousness decision with memory system.
-        
+
         Args:
             decision_id: Unique decision identifier
             decision_context: Context of the decision
             decision_result: Result of the decision
             consciousness_context: Consciousness context
-            
+
         Returns:
             List of created/updated memory fold IDs
         """
@@ -429,13 +434,13 @@ class ConsciousnessMemoryIntegrator:
 
         return created_folds
 
-    def _generate_fold_id(self, content: Dict[str, Any], fold_type: MemoryFoldType) -> str:
+    def _generate_fold_id(self, content: dict[str, Any], fold_type: MemoryFoldType) -> str:
         """Generate unique fold ID."""
         content_hash = hashlib.sha256(json.dumps(content, sort_keys=True).encode()).hexdigest()[:12]
         timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         return f"fold_{fold_type.value}_{timestamp}_{content_hash}"
 
-    async def _analyze_emotional_context(self, content: Dict[str, Any]) -> EmotionalContext:
+    async def _analyze_emotional_context(self, content: dict[str, Any]) -> EmotionalContext:
         """Analyze emotional context of memory content."""
         # Simplified emotional analysis
         # In production, this would use sophisticated emotion detection
@@ -485,7 +490,7 @@ class ConsciousnessMemoryIntegrator:
             self._association_graph[fold.fold_id].add(related_fold_id)
             self._association_graph[related_fold_id].add(fold.fold_id)
 
-    async def _find_related_folds(self, fold: MemoryFold, max_relations: int = 5) -> List[str]:
+    async def _find_related_folds(self, fold: MemoryFold, max_relations: int = 5) -> list[str]:
         """Find related memory folds."""
         related = []
 
@@ -687,7 +692,7 @@ class ConsciousnessMemoryIntegrator:
         }
         self._access_log.append(access_record)
 
-    async def _search_memory_folds(self, query: Dict[str, Any], context: Optional[str]) -> List[str]:
+    async def _search_memory_folds(self, query: dict[str, Any], context: Optional[str]) -> list[str]:
         """Search memory folds based on query."""
         # Simplified search implementation
         # In production, this would use sophisticated indexing and search
@@ -707,11 +712,11 @@ class ConsciousnessMemoryIntegrator:
 
     async def _rank_memory_results(
         self,
-        candidates: List[str],
-        query: Dict[str, Any],
+        candidates: list[str],
+        query: dict[str, Any],
         emotional_weight: float,
         context: Optional[str]
-    ) -> List[Tuple[str, MemoryFold, float]]:
+    ) -> list[tuple[str, MemoryFold, float]]:
         """Rank memory search results."""
         ranked_results = []
 
@@ -734,7 +739,7 @@ class ConsciousnessMemoryIntegrator:
     async def _calculate_relevance_score(
         self,
         fold: MemoryFold,
-        query: Dict[str, Any],
+        query: dict[str, Any],
         emotional_weight: float,
         context: Optional[str]
     ) -> float:
@@ -776,7 +781,7 @@ class ConsciousnessMemoryIntegrator:
             strength_delta = relevance * 0.1
             fold.strength = min(1.0, fold.strength + strength_delta)
 
-    def get_memory_consciousness_metrics(self) -> Dict[str, Any]:
+    def get_memory_consciousness_metrics(self) -> dict[str, Any]:
         """Get comprehensive memory-consciousness integration metrics."""
         return {
             "memory_state": {
@@ -812,10 +817,8 @@ class ConsciousnessMemoryIntegrator:
         for task in [self._consolidation_task, self._cascade_monitor_task, self._health_monitor_task]:
             if task:
                 task.cancel()
-                try:
+                with contextlib.suppress(asyncio.CancelledError):
                     await task
-                except asyncio.CancelledError:
-                    pass
 
         logger.info("✅ Memory-Consciousness Integration shutdown complete")
 

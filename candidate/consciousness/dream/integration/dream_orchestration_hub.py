@@ -38,9 +38,9 @@ class DreamOrchestrationHub:
 
     def __init__(self):
         self.orchestration_status = OrchestrationStatus.IDLE
-        self.active_sessions: Dict[str, Dict] = {}
-        self.coordination_log: List[Dict] = []
-        self.registered_components: Dict[str, Any] = {}
+        self.active_sessions: dict[str, dict] = {}
+        self.coordination_log: list[dict] = []
+        self.registered_components: dict[str, Any] = {}
         self.session_counter = 0
         logger.info("🎭 Dream Orchestration Hub initialized - Trinity Framework active")
 
@@ -59,7 +59,7 @@ class DreamOrchestrationHub:
         logger.info(f"⚛️ Component registered: {component_name}")
         return True
 
-    def start_orchestration_session(self, session_config: Dict[str, Any]) -> str:
+    def start_orchestration_session(self, session_config: dict[str, Any]) -> str:
         """🧠 Start consciousness-aware orchestration session."""
         self.session_counter += 1
         session_id = f"orchestration_{self.session_counter}_{int(datetime.now(timezone.utc).timestamp())}"
@@ -110,7 +110,7 @@ class DreamOrchestrationHub:
 
         logger.info(f"🎭 Session coordination initialized: {session_id} - {len(available_components)} components")
 
-    async def coordinate_dream_sequence(self, session_id: str, dream_sequence: List[Dict]) -> Dict[str, Any]:
+    async def coordinate_dream_sequence(self, session_id: str, dream_sequence: list[dict]) -> dict[str, Any]:
         """🧠 Coordinate dream sequence with consciousness integration."""
         if session_id not in self.active_sessions:
             return {"error": "Session not found"}
@@ -148,7 +148,7 @@ class DreamOrchestrationHub:
         logger.info(f"🧠 Dream sequence coordinated: {session_id} - Quality: {coordination_quality:.2f}")
         return coordination_summary
 
-    async def _coordinate_dream_phase(self, session_id: str, dream_phase: Dict, phase_index: int) -> Dict[str, Any]:
+    async def _coordinate_dream_phase(self, session_id: str, dream_phase: dict, phase_index: int) -> dict[str, Any]:
         """Coordinate individual dream phase."""
         session = self.active_sessions[session_id]
 
@@ -171,7 +171,7 @@ class DreamOrchestrationHub:
 
         return phase_result
 
-    def _calculate_coordination_quality(self, coordination_results: List[Dict]) -> float:
+    def _calculate_coordination_quality(self, coordination_results: list[dict]) -> float:
         """Calculate overall coordination quality."""
         if not coordination_results:
             return 0.0
@@ -179,7 +179,7 @@ class DreamOrchestrationHub:
         total_score = sum(result["coordination_score"] for result in coordination_results)
         return total_score / len(coordination_results)
 
-    def synchronize_trinity_framework(self, session_id: str) -> Dict[str, Any]:
+    def synchronize_trinity_framework(self, session_id: str) -> dict[str, Any]:
         """🛡️ Synchronize Trinity Framework across orchestration components."""
         if session_id not in self.active_sessions:
             return {"error": "Session not found"}
@@ -212,7 +212,7 @@ class DreamOrchestrationHub:
         logger.info(f"🛡️ Trinity Framework synchronized: {session_id} - Score: {trinity_sync['overall_trinity_score']:.2f}")
         return trinity_sync
 
-    def get_orchestration_status(self, session_id: Optional[str] = None) -> Dict[str, Any]:
+    def get_orchestration_status(self, session_id: Optional[str] = None) -> dict[str, Any]:
         """Get orchestration status information."""
         if session_id:
             if session_id not in self.active_sessions:
@@ -236,7 +236,7 @@ class DreamOrchestrationHub:
                 "system_health": "optimal"
             }
 
-    def end_orchestration_session(self, session_id: str) -> Dict[str, Any]:
+    def end_orchestration_session(self, session_id: str) -> dict[str, Any]:
         """End orchestration session and generate summary."""
         if session_id not in self.active_sessions:
             return {"error": "Session not found"}
@@ -261,7 +261,7 @@ class DreamOrchestrationHub:
         logger.info(f"🎭 Orchestration session ended: {session_id}")
         return session_summary
 
-    def get_coordination_analytics(self) -> Dict[str, Any]:
+    def get_coordination_analytics(self) -> dict[str, Any]:
         """Get comprehensive coordination analytics."""
         total_sessions = self.session_counter
         active_sessions = len(self.active_sessions)

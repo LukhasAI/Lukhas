@@ -20,7 +20,7 @@ def get_cache_path(seed: str) -> str:
     return os.path.join(CACHE_DIR, f"{seed_hash}.json")
 
 
-def read_from_cache(seed: str) -> Optional[Dict[str, Any]]:
+def read_from_cache(seed: str) -> Optional[dict[str, Any]]:
     cache_path = get_cache_path(seed)
     if os.path.exists(cache_path):
         try:

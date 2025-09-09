@@ -27,7 +27,7 @@ class EthicalDecision:
     rationale: str
     severity: EthicalSeverity
     confidence: float
-    trinity_compliance: Dict[str, bool]  # ⚛️🧠🛡️
+    trinity_compliance: dict[str, bool]  # ⚛️🧠🛡️
 
 class ConstitutionalFramework:
     """Constitutional AI framework for LUKHAS ethical governance"""
@@ -41,7 +41,7 @@ class ConstitutionalFramework:
             "accountability": "Take responsibility for decisions"
         }
 
-    def evaluate_action(self, action: str, context: Dict[str, Any]) -> EthicalDecision:
+    def evaluate_action(self, action: str, context: dict[str, Any]) -> EthicalDecision:
         """Evaluate an action against constitutional principles"""
         # Simplified ethical evaluation
         severity = EthicalSeverity.LOW
@@ -68,7 +68,7 @@ class SafetyMonitor:
         self.framework = constitutional_framework
         self.active_monitors = []
 
-    def monitor_action(self, action: str, context: Optional[Dict[str, Any]] = None) -> bool:
+    def monitor_action(self, action: str, context: Optional[dict[str, Any]] = None) -> bool:
         """Monitor an action for safety compliance"""
         context = context or {}
         decision = self.framework.evaluate_action(action, context)
@@ -85,11 +85,11 @@ class EthicsEngine:
         self.framework = ConstitutionalFramework()
         self.safety_monitor = SafetyMonitor(self.framework)
 
-    def validate_action(self, action: str, context: Optional[Dict[str, Any]] = None) -> EthicalDecision:
+    def validate_action(self, action: str, context: Optional[dict[str, Any]] = None) -> EthicalDecision:
         """Validate an action against ethical framework"""
         return self.framework.evaluate_action(action, context or {})
 
-    def is_safe(self, action: str, context: Optional[Dict[str, Any]] = None) -> bool:
+    def is_safe(self, action: str, context: Optional[dict[str, Any]] = None) -> bool:
         """Check if an action is safe to execute"""
         return self.safety_monitor.monitor_action(action, context)
 

@@ -20,7 +20,7 @@ class DreamSequence:
         self.created_at = datetime.now()
         self.stages = []
 
-    def add_stage(self, stage_data: Dict[str, Any]):
+    def add_stage(self, stage_data: dict[str, Any]):
         """Add a stage to the dream sequence."""
         self.stages.append(stage_data)
 

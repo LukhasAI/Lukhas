@@ -139,7 +139,7 @@ mime: {mime or "-"} | size: {size or "-"}<br/>>"""
                 reasons.append(f"{r.get('kind','?')}: {r.get('reason','')}")
             else:
                 reasons.append(str(r))
-    teq_lines = "<br/>".join([verdict or "(no replay)"] + list(reasons[:6]))
+    teq_lines = "<br/>".join([verdict or "(no replay)", *list(reasons[:6])])
     pol_label = f"""<<b>TEQ Policy</b><br/>{pol_id_or_dash(policy_id)}<br/>{escape_html(teq_lines)}>"""
     lines.append('  subgraph cluster_policy { label="Policy & Decision"; color="#DDE7F0";}')
     lines.append(f'    teq [label={pol_label}, fillcolor="#FFF8F0"];')

@@ -17,11 +17,11 @@ class DreamSequenceCoordinator:
     """Coordinates dream sequences with Trinity Framework compliance."""
 
     def __init__(self):
-        self.active_sequences: Dict[str, Dict] = {}
+        self.active_sequences: dict[str, dict] = {}
         self.sequence_counter = 0
         logger.info("🎬 Dream Sequence Coordinator initialized")
 
-    def create_dream_sequence(self, sequence_data: Dict[str, Any]) -> str:
+    def create_dream_sequence(self, sequence_data: dict[str, Any]) -> str:
         """Create new dream sequence."""
         self.sequence_counter += 1
         sequence_id = f"seq_{self.sequence_counter}_{int(datetime.now(timezone.utc).timestamp())}"
@@ -36,7 +36,7 @@ class DreamSequenceCoordinator:
         logger.info(f"🎬 Dream sequence created: {sequence_id}")
         return sequence_id
 
-    def coordinate_sequence_flow(self, sequence_id: str) -> Dict[str, Any]:
+    def coordinate_sequence_flow(self, sequence_id: str) -> dict[str, Any]:
         """Coordinate dream sequence flow."""
         if sequence_id not in self.active_sequences:
             return {"error": "Sequence not found"}

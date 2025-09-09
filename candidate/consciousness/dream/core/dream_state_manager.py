@@ -41,20 +41,20 @@ class DreamStateManager:
     """
 
     def __init__(self):
-        self.active_states: Dict[str, Dict] = {}
-        self.state_history: List[Dict] = []
+        self.active_states: dict[str, dict] = {}
+        self.state_history: list[dict] = []
         self.state_counter = 0
         logger.info("🌙 Dream State Manager initialized - Trinity Framework active")
 
-    def create_dream_state(self, user_context: Optional[Dict] = None,
+    def create_dream_state(self, user_context: Optional[dict] = None,
                          initial_state: DreamState = DreamState.FORMING) -> str:
         """
         ⚛️ Identity-coherent dream state creation.
-        
+
         Args:
             user_context: User identity and dream preferences
             initial_state: Starting dream state
-            
+
         Returns:
             Dream state ID
         """
@@ -77,14 +77,14 @@ class DreamStateManager:
         logger.info(f"🌙 Dream state created: {state_id} in {initial_state.value} state")
         return state_id
 
-    def transition_dream_state(self, state_id: str, target_state: DreamState) -> Dict[str, Any]:
+    def transition_dream_state(self, state_id: str, target_state: DreamState) -> dict[str, Any]:
         """
         🧠 Consciousness-aware dream state transition.
-        
+
         Args:
             state_id: Dream state to transition
             target_state: Target dream state
-            
+
         Returns:
             Transition result and validation
         """
@@ -117,13 +117,13 @@ class DreamStateManager:
         logger.info(f"🧠 Dream state transitioned: {state_id} {previous_state} -> {target_state.value}")
         return transition_result
 
-    def get_dream_state_info(self, state_id: str) -> Optional[Dict[str, Any]]:
+    def get_dream_state_info(self, state_id: str) -> Optional[dict[str, Any]]:
         """
         🔍 Retrieve comprehensive dream state information.
-        
+
         Args:
             state_id: Dream state to query
-            
+
         Returns:
             Complete dream state information
         """
@@ -137,13 +137,13 @@ class DreamStateManager:
         logger.info(f"🔍 Dream state info retrieved: {state_id}")
         return dream_state
 
-    def monitor_dream_state_health(self, state_id: str) -> Dict[str, Any]:
+    def monitor_dream_state_health(self, state_id: str) -> dict[str, Any]:
         """
         🛡️ Guardian-supervised dream state health monitoring.
-        
+
         Args:
             state_id: Dream state to monitor
-            
+
         Returns:
             Health monitoring report
         """
@@ -166,13 +166,13 @@ class DreamStateManager:
         logger.info(f"🛡️ Dream state health monitored: {state_id}")
         return health_metrics
 
-    def archive_dream_state(self, state_id: str) -> Dict[str, Any]:
+    def archive_dream_state(self, state_id: str) -> dict[str, Any]:
         """
         📚 Archive completed dream state.
-        
+
         Args:
             state_id: Dream state to archive
-            
+
         Returns:
             Archive completion status
         """
@@ -219,7 +219,7 @@ class DreamStateManager:
         age = datetime.now(timezone.utc) - created_time
         return str(age)
 
-    def get_manager_status(self) -> Dict[str, Any]:
+    def get_manager_status(self) -> dict[str, Any]:
         """Get overall dream state manager status."""
         return {
             "active_states": len(self.active_states),

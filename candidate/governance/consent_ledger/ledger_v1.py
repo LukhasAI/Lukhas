@@ -38,7 +38,6 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Optional
 
-
 # Trinity Framework and LUKHAS integrations
 try:
     from candidate.core.glyph.glyph_engine import GlyphEngine

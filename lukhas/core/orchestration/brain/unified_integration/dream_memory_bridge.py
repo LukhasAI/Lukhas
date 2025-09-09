@@ -29,7 +29,7 @@ class DreamMemoryBridge:
     """
 
     def __init__(self):
-        self.dream_memories: Dict[str, List[Dict]] = {}
+        self.dream_memories: dict[str, list[dict]] = {}
         self.memory_counter = 0
         logger.info("🌉 Dream Memory Bridge initialized - Trinity Framework active")
 
@@ -37,12 +37,12 @@ class DreamMemoryBridge:
                           memory_type: str = "episodic") -> str:
         """
         ⚛️ Identity-preserving dream memory storage.
-        
+
         Args:
             dream_id: Source dream session ID
             memory_content: Memory content to store
             memory_type: Type of memory (episodic, semantic, procedural)
-            
+
         Returns:
             Memory storage ID
         """
@@ -67,13 +67,13 @@ class DreamMemoryBridge:
         logger.info(f"🧠 Dream memory stored: {memory_id} for dream {dream_id}")
         return memory_id
 
-    def retrieve_dream_memories(self, dream_id: str) -> List[Dict[str, Any]]:
+    def retrieve_dream_memories(self, dream_id: str) -> list[dict[str, Any]]:
         """
         🧠 Consciousness-aware dream memory retrieval.
-        
+
         Args:
             dream_id: Dream session ID to retrieve memories for
-            
+
         Returns:
             List of associated dream memories
         """
@@ -85,13 +85,13 @@ class DreamMemoryBridge:
         logger.info(f"🔍 Retrieved {len(memories)} memories for dream {dream_id}")
         return memories
 
-    def bridge_to_consciousness(self, memory_id: str) -> Dict[str, Any]:
+    def bridge_to_consciousness(self, memory_id: str) -> dict[str, Any]:
         """
         🌉 Bridge dream memory to conscious awareness.
-        
+
         Args:
             memory_id: Memory to bridge to consciousness
-            
+
         Returns:
             Consciousness integration status
         """
@@ -117,10 +117,10 @@ class DreamMemoryBridge:
     def validate_memory_ethics(self, memory_content: Any) -> bool:
         """
         🛡️ Guardian validation of dream memory ethics.
-        
+
         Args:
             memory_content: Memory content to validate
-            
+
         Returns:
             Ethics validation status
         """
@@ -138,7 +138,7 @@ class DreamMemoryBridge:
         logger.info("🛡️ Memory content passed ethics validation")
         return True
 
-    def get_all_dream_memories(self) -> Dict[str, List[Dict]]:
+    def get_all_dream_memories(self) -> dict[str, list[dict]]:
         """Return all stored dream memories."""
         return self.dream_memories.copy()
 

@@ -27,7 +27,6 @@ from typing import Any, Optional
 
 from PIL import Image
 
-
 # Import LUKHAS components
 try:
     from ...auth.qrg_generators import LUKHASQRGManager, QRGType

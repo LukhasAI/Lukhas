@@ -1,16 +1,16 @@
 ---
-title: Quick Start
-status: review
-owner: docs-team
-last_review: 2025-01-09
-tags: [howto]
+title: LUKHAS Quick Start Guide
+status: stable
+owner: docs-maintainer
+last_review: 2025-09-08
+tags: [howto, quick-start, setup, installation]
 facets:
   layer: [gateway]
   domain: [symbolic]
-  audience: [dev]
+  audience: [dev, user]
 ---
 
-# 🚀 LUKHAS  Quick Start Guide
+# 🚀 LUKHAS Quick Start Guide
 
 Welcome to LUKHAS  - Pack What Matters! This guide will get you up and running quickly.
 

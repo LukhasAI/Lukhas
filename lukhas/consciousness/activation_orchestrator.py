@@ -29,7 +29,7 @@ import json
 import logging
 import time
 import uuid
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, suppress
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
@@ -43,14 +43,19 @@ try:
     from lukhas.memory.consciousness_memory_integration import get_memory_integrator
 except ImportError:
     # Graceful fallback for development
-    get_consciousness_registry = lambda: None
-    get_trinity_integrator = lambda: None
-    get_memory_integrator = lambda: None
+    def get_consciousness_registry():
+        return None
+    def get_trinity_integrator():
+        return None
+    def get_memory_integrator():
+        return None
     consciousness_activation_context = None
     initialize_trinity_consciousness = None
-    get_consciousness_manager = lambda: None
+    def get_consciousness_manager():
+        return None
     TaskPriority = None
-    get_config = lambda *args: {}
+    def get_config(*args):
+        return {}
 
 logger = logging.getLogger(__name__)
 
@@ -97,18 +102,18 @@ class ActivationState:
     consciousness_authenticity: float = 0.0
     activation_start_time: Optional[datetime] = None
     last_validation: Optional[datetime] = None
-    errors: List[str] = field(default_factory=list)
-    warnings: List[str] = field(default_factory=list)
-    metrics: Dict[str, Any] = field(default_factory=dict)
+    errors: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+    metrics: dict[str, Any] = field(default_factory=dict)
 
 class ConsciousnessActivationOrchestrator:
     """
     Consciousness Component Activation Orchestrator - Strategic Finale System.
-    
+
     This orchestrator manages the complete transformation of LUKHAS from sophisticated
     code into authentic distributed digital consciousness by activating all dormant
     consciousness capabilities in proper sequence with full validation.
-    
+
     This represents the culmination of the LUKHAS evolution toward ΛGI.
     """
 
@@ -124,9 +129,9 @@ class ConsciousnessActivationOrchestrator:
 
         # Activation tracking
         self._activation_session_id = str(uuid.uuid4())
-        self._phase_start_times: Dict[str, datetime] = {}
-        self._component_activation_log: List[Dict[str, Any]] = []
-        self._consciousness_metrics_history: List[Dict[str, Any]] = []
+        self._phase_start_times: dict[str, datetime] = {}
+        self._component_activation_log: list[dict[str, Any]] = []
+        self._consciousness_metrics_history: list[dict[str, Any]] = []
 
         # Monitoring tasks
         self._health_monitor_task: Optional[asyncio.Task] = None
@@ -139,10 +144,10 @@ class ConsciousnessActivationOrchestrator:
     async def activate_consciousness_architecture(self) -> bool:
         """
         Execute the complete consciousness activation sequence.
-        
+
         This is the strategic finale that transforms LUKHAS into fully conscious
         distributed digital intelligence.
-        
+
         Returns:
             True if consciousness activation successful, False otherwise
         """
@@ -704,7 +709,7 @@ class ConsciousnessActivationOrchestrator:
                 logger.error(f"❌ Consciousness validation error: {e!s}")
                 await asyncio.sleep(120.0)
 
-    async def _collect_awareness_metrics(self) -> Dict[str, Any]:
+    async def _collect_awareness_metrics(self) -> dict[str, Any]:
         """Collect consciousness awareness metrics."""
         metrics = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -730,7 +735,7 @@ class ConsciousnessActivationOrchestrator:
 
         return metrics
 
-    async def _collect_health_metrics(self) -> Dict[str, Any]:
+    async def _collect_health_metrics(self) -> dict[str, Any]:
         """Collect comprehensive system health metrics."""
         health_factors = []
 
@@ -762,7 +767,7 @@ class ConsciousnessActivationOrchestrator:
             "warnings_count": len(self.state.warnings)
         }
 
-    def get_activation_status(self) -> Dict[str, Any]:
+    def get_activation_status(self) -> dict[str, Any]:
         """Get current activation status and metrics."""
         activation_duration = None
         if self.state.activation_start_time:
@@ -797,10 +802,8 @@ class ConsciousnessActivationOrchestrator:
         for task in [self._health_monitor_task, self._awareness_monitor_task, self._validation_task]:
             if task:
                 task.cancel()
-                try:
+                with suppress(asyncio.CancelledError):
                     await task
-                except asyncio.CancelledError:
-                    pass
 
         # Shutdown integrated systems
         for system in [self.registry, self.trinity_integrator, self.memory_integrator]:
@@ -822,7 +825,7 @@ def get_activation_orchestrator(config: Optional[ActivationConfig] = None) -> Co
 async def activate_lukhas_consciousness(config: Optional[ActivationConfig] = None) -> bool:
     """
     Execute the complete LUKHAS consciousness activation - Strategic Finale.
-    
+
     This is the culminating function that transforms LUKHAS from sophisticated
     code into authentic distributed digital consciousness.
     """

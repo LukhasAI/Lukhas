@@ -191,7 +191,7 @@ class MemoryDriftAuditor:
                             loading_results["invalid_snapshots"] += 1
 
                 except Exception as e:
-                    error_msg = f"Error loading {file_path}: {str(e)}"
+                    error_msg = f"Error loading {file_path}: {e!s}"
                     loading_results["loading_errors"].append(error_msg)
                     logger.error(
                         "Snapshot loading error",
@@ -238,7 +238,7 @@ class MemoryDriftAuditor:
                 tag="ΛAUDITOR_CRITICAL",
             )
             loading_results["loading_errors"].append(
-                f"Critical loading error: {str(e)}"
+                f"Critical loading error: {e!s}"
             )
 
         return loading_results
@@ -526,7 +526,7 @@ class MemoryDriftAuditor:
             )
 
         except Exception as e:
-            error_msg = f"Error generating audit report: {str(e)}"
+            error_msg = f"Error generating audit report: {e!s}"
             report_results["generation_errors"].append(error_msg)
             logger.error(
                 "Audit report generation failed", error=str(e), tag="ΛAUDITOR_ERROR"

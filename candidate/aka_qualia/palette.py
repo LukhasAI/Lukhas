@@ -247,10 +247,10 @@ def get_safe_palette_recommendation(current_colorfield: str, culture: str = "def
 def _japanese_to_english(japanese_color: str) -> str:
     """
     Convert Japanese color names to English equivalents.
-    
+
     Args:
         japanese_color: Japanese color name (e.g., "aka", "aoi", "midori")
-        
+
     Returns:
         English color name
     """

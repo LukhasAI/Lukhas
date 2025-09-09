@@ -36,8 +36,8 @@ class DreamMemoryFusion:
     """Advanced dream memory fusion with Trinity Framework compliance."""
 
     def __init__(self):
-        self.fusion_history: Dict[str, Dict] = {}
-        self.memory_templates: Dict[str, Dict] = {}
+        self.fusion_history: dict[str, dict] = {}
+        self.memory_templates: dict[str, dict] = {}
         self.fusion_counter = 0
         self._initialize_memory_templates()
         logger.info("🔮 Dream Memory Fusion initialized - Trinity Framework active")
@@ -62,7 +62,7 @@ class DreamMemoryFusion:
             }
         }
 
-    def initiate_fusion(self, dream_id: str, memory_context: Dict[str, Any], strategy: FusionStrategy = FusionStrategy.SYMBOLIC_INTEGRATION) -> str:
+    def initiate_fusion(self, dream_id: str, memory_context: dict[str, Any], strategy: FusionStrategy = FusionStrategy.SYMBOLIC_INTEGRATION) -> str:
         """⚛️ Initiate memory fusion while preserving identity authenticity."""
         self.fusion_counter += 1
         fusion_id = f"fusion_{self.fusion_counter}_{int(datetime.now(timezone.utc).timestamp())}"
@@ -83,7 +83,7 @@ class DreamMemoryFusion:
         logger.info(f"🔮 Dream memory fusion initiated: {fusion_id} using {strategy.value}")
         return fusion_id
 
-    def execute_fusion(self, fusion_id: str) -> Dict[str, Any]:
+    def execute_fusion(self, fusion_id: str) -> dict[str, Any]:
         """🧠 Execute consciousness-aware memory fusion process."""
         if fusion_id not in self.fusion_history:
             return {"error": "Fusion session not found"}
@@ -104,7 +104,7 @@ class DreamMemoryFusion:
         logger.info(f"🧠 Dream memory fusion executed: {fusion_id} - Quality: {fusion_result['quality'].value}")
         return fusion_result
 
-    def _execute_fusion_strategy(self, strategy: FusionStrategy, session: Dict[str, Any]) -> Dict[str, Any]:
+    def _execute_fusion_strategy(self, strategy: FusionStrategy, session: dict[str, Any]) -> dict[str, Any]:
         """Execute specific fusion strategy."""
         if strategy == FusionStrategy.SYMBOLIC_INTEGRATION:
             return self._fuse_symbolic_content(session)
@@ -119,7 +119,7 @@ class DreamMemoryFusion:
         else:
             return {"quality": FusionQuality.FAILED, "content": None, "trinity_validated": False}
 
-    def _fuse_symbolic_content(self, session: Dict[str, Any]) -> Dict[str, Any]:
+    def _fuse_symbolic_content(self, session: dict[str, Any]) -> dict[str, Any]:
         """Fuse symbolic dream content with memory."""
         template = self.memory_templates["symbolic"]
 
@@ -147,7 +147,7 @@ class DreamMemoryFusion:
             "trinity_validated": trinity_validated
         }
 
-    def _fuse_narrative_content(self, session: Dict[str, Any]) -> Dict[str, Any]:
+    def _fuse_narrative_content(self, session: dict[str, Any]) -> dict[str, Any]:
         """Fuse narrative dream content with memory."""
         return {
             "fusion_id": session["fusion_id"],
@@ -161,7 +161,7 @@ class DreamMemoryFusion:
             "trinity_validated": True
         }
 
-    def _fuse_emotional_content(self, session: Dict[str, Any]) -> Dict[str, Any]:
+    def _fuse_emotional_content(self, session: dict[str, Any]) -> dict[str, Any]:
         """Fuse emotional dream content with memory."""
         return {
             "fusion_id": session["fusion_id"],
@@ -175,7 +175,7 @@ class DreamMemoryFusion:
             "trinity_validated": True
         }
 
-    def _fuse_archetypal_content(self, session: Dict[str, Any]) -> Dict[str, Any]:
+    def _fuse_archetypal_content(self, session: dict[str, Any]) -> dict[str, Any]:
         """Fuse archetypal dream content with memory."""
         return {
             "fusion_id": session["fusion_id"],
@@ -189,7 +189,7 @@ class DreamMemoryFusion:
             "trinity_validated": True
         }
 
-    def _fuse_temporal_content(self, session: Dict[str, Any]) -> Dict[str, Any]:
+    def _fuse_temporal_content(self, session: dict[str, Any]) -> dict[str, Any]:
         """Fuse temporal dream content with memory."""
         return {
             "fusion_id": session["fusion_id"],
@@ -203,15 +203,15 @@ class DreamMemoryFusion:
             "trinity_validated": True
         }
 
-    def _extract_dream_symbols(self, dream_id: str) -> List[str]:
+    def _extract_dream_symbols(self, dream_id: str) -> list[str]:
         """Extract symbols from dream content."""
         return ["⚛️", "🧠", "∞", "◊", "🌈"]
 
-    def _extract_memory_symbols(self, memory_context: Dict[str, Any]) -> List[str]:
+    def _extract_memory_symbols(self, memory_context: dict[str, Any]) -> list[str]:
         """Extract symbols from memory context."""
         return ["🛡️", "✨", "🌙", "⚛️"]
 
-    def _merge_symbol_sets(self, dream_symbols: List[str], memory_symbols: List[str], template: Dict) -> List[str]:
+    def _merge_symbol_sets(self, dream_symbols: list[str], memory_symbols: list[str], template: dict) -> list[str]:
         """Merge dream and memory symbol sets."""
         merged = list(set(dream_symbols + memory_symbols))
 
@@ -222,12 +222,12 @@ class DreamMemoryFusion:
 
         return trinity_symbols + other_symbols
 
-    def _validate_trinity_symbols(self, symbols: List[str]) -> bool:
+    def _validate_trinity_symbols(self, symbols: list[str]) -> bool:
         """Validate Trinity Framework symbol presence."""
         trinity_symbols = ["⚛️", "🧠", "🛡️"]
         return all(symbol in symbols for symbol in trinity_symbols)
 
-    def retrieve_fusion_result(self, fusion_id: str) -> Optional[Dict[str, Any]]:
+    def retrieve_fusion_result(self, fusion_id: str) -> Optional[dict[str, Any]]:
         """🛡️ Retrieve fusion result with guardian validation."""
         if fusion_id not in self.fusion_history:
             return None
@@ -251,7 +251,7 @@ class DreamMemoryFusion:
         logger.info(f"🛡️ Fusion result retrieved: {fusion_id}")
         return result
 
-    def get_fusion_statistics(self) -> Dict[str, Any]:
+    def get_fusion_statistics(self) -> dict[str, Any]:
         """Get comprehensive fusion statistics."""
         completed_fusions = [s for s in self.fusion_history.values() if s["status"] == "completed"]
 

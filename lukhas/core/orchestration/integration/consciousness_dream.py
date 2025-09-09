@@ -29,20 +29,20 @@ class ConsciousnessDreamIntegrator:
     """
 
     def __init__(self):
-        self.integration_sessions: Dict[str, Dict] = {}
-        self.consciousness_states: Dict[str, str] = {}
+        self.integration_sessions: dict[str, dict] = {}
+        self.consciousness_states: dict[str, str] = {}
         self.integration_counter = 0
         logger.info("🌉 Consciousness-Dream Integrator initialized - Trinity Framework active")
 
     def initiate_consciousness_dream_bridge(self, consciousness_id: str,
-                                          dream_context: Optional[Dict] = None) -> str:
+                                          dream_context: Optional[dict] = None) -> str:
         """
         ⚛️ Identity-coherent consciousness-dream bridge initiation.
-        
+
         Args:
             consciousness_id: Active consciousness session ID
             dream_context: Dream integration context
-            
+
         Returns:
             Integration bridge ID
         """
@@ -66,13 +66,13 @@ class ConsciousnessDreamIntegrator:
         logger.info(f"🌉 Consciousness-dream bridge initiated: {bridge_id}")
         return bridge_id
 
-    def synchronize_consciousness_dream_states(self, bridge_id: str) -> Dict[str, Any]:
+    def synchronize_consciousness_dream_states(self, bridge_id: str) -> dict[str, Any]:
         """
         🧠 Consciousness-aware state synchronization.
-        
+
         Args:
             bridge_id: Integration bridge to synchronize
-            
+
         Returns:
             Synchronization status and metrics
         """
@@ -100,14 +100,14 @@ class ConsciousnessDreamIntegrator:
         return sync_metrics
 
     def transfer_dream_insights_to_consciousness(self, bridge_id: str,
-                                               insights: List[Dict]) -> Dict[str, Any]:
+                                               insights: list[dict]) -> dict[str, Any]:
         """
         🌉 Transfer dream insights to conscious awareness.
-        
+
         Args:
             bridge_id: Active integration bridge
             insights: Dream insights to transfer
-            
+
         Returns:
             Transfer completion status
         """
@@ -143,13 +143,13 @@ class ConsciousnessDreamIntegrator:
         logger.info(f"🌉 {len(insights)} dream insights transferred to consciousness: {bridge_id}")
         return transfer_result
 
-    def validate_consciousness_dream_coherence(self, bridge_id: str) -> Dict[str, Any]:
+    def validate_consciousness_dream_coherence(self, bridge_id: str) -> dict[str, Any]:
         """
         🛡️ Guardian validation of consciousness-dream coherence.
-        
+
         Args:
             bridge_id: Bridge to validate
-            
+
         Returns:
             Coherence validation report
         """
@@ -174,13 +174,13 @@ class ConsciousnessDreamIntegrator:
         logger.info(f"🛡️ Consciousness-dream coherence validated: {bridge_id}")
         return coherence_report
 
-    def dissolve_consciousness_dream_bridge(self, bridge_id: str) -> Dict[str, Any]:
+    def dissolve_consciousness_dream_bridge(self, bridge_id: str) -> dict[str, Any]:
         """
         🌉 Graceful dissolution of consciousness-dream bridge.
-        
+
         Args:
             bridge_id: Bridge to dissolve
-            
+
         Returns:
             Dissolution completion status
         """
@@ -209,7 +209,7 @@ class ConsciousnessDreamIntegrator:
         logger.info(f"🌉 Consciousness-dream bridge gracefully dissolved: {bridge_id}")
         return dissolution_result
 
-    def get_integration_status(self) -> Dict[str, Any]:
+    def get_integration_status(self) -> dict[str, Any]:
         """Get overall integration system status."""
         active_bridges = sum(1 for s in self.integration_sessions.values()
                            if s["status"] not in ["dissolved", "concluded"])

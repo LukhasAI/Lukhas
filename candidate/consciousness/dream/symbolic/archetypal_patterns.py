@@ -49,12 +49,12 @@ class ArchetypalPatternRecognizer:
 
     def __init__(self):
         self.archetypal_registry = self._initialize_archetypal_registry()
-        self.pattern_history: List[Dict] = []
+        self.pattern_history: list[dict] = []
         self.recognition_templates = self._initialize_recognition_templates()
         self.recognition_counter = 0
         logger.info("🎭 Archetypal Pattern Recognizer initialized - Trinity Framework active")
 
-    def _initialize_archetypal_registry(self) -> Dict[str, Dict]:
+    def _initialize_archetypal_registry(self) -> dict[str, dict]:
         """Initialize comprehensive archetypal registry."""
         return {
             ArchetypalRole.SEEKER.value: {
@@ -123,7 +123,7 @@ class ArchetypalPatternRecognizer:
             }
         }
 
-    def _initialize_recognition_templates(self) -> Dict[str, Dict]:
+    def _initialize_recognition_templates(self) -> dict[str, dict]:
         """Initialize pattern recognition templates."""
         return {
             "symbol_recognition": {
@@ -148,7 +148,7 @@ class ArchetypalPatternRecognizer:
             }
         }
 
-    def recognize_archetypal_patterns(self, dream_content: Dict[str, Any]) -> str:
+    def recognize_archetypal_patterns(self, dream_content: dict[str, Any]) -> str:
         """⚛️ Recognize archetypal patterns while preserving authentic meaning."""
         self.recognition_counter += 1
         recognition_id = f"archetypal_recognition_{self.recognition_counter}_{int(datetime.now(timezone.utc).timestamp())}"
@@ -189,7 +189,7 @@ class ArchetypalPatternRecognizer:
         logger.info(f"🎭 Archetypal patterns recognized: {recognition_id} - {len(dominant_archetypes)} dominant archetypes")
         return recognition_id
 
-    def _extract_symbolic_content(self, dream_content: Dict[str, Any]) -> List[str]:
+    def _extract_symbolic_content(self, dream_content: dict[str, Any]) -> list[str]:
         """Extract symbolic elements from dream content."""
         symbols = []
 
@@ -205,7 +205,7 @@ class ArchetypalPatternRecognizer:
 
         return list(set(symbols))
 
-    def _extract_thematic_content(self, dream_content: Dict[str, Any]) -> List[str]:
+    def _extract_thematic_content(self, dream_content: dict[str, Any]) -> list[str]:
         """Extract thematic elements from dream content."""
         themes = dream_content.get("themes", [])
 
@@ -228,7 +228,7 @@ class ArchetypalPatternRecognizer:
 
         return list(set(themes))
 
-    def _extract_emotional_content(self, dream_content: Dict[str, Any]) -> List[str]:
+    def _extract_emotional_content(self, dream_content: dict[str, Any]) -> list[str]:
         """Extract emotional undertones from dream content."""
         emotions = dream_content.get("emotions", [])
 
@@ -238,7 +238,7 @@ class ArchetypalPatternRecognizer:
 
         return emotions
 
-    def _analyze_archetypal_presence(self, role: ArchetypalRole, symbols: List[str], themes: List[str], emotions: List[str]) -> Dict[str, Any]:
+    def _analyze_archetypal_presence(self, role: ArchetypalRole, symbols: list[str], themes: list[str], emotions: list[str]) -> dict[str, Any]:
         """Analyze presence of specific archetypal role."""
         archetype_data = self.archetypal_registry[role.value]
         templates = self.recognition_templates
@@ -302,7 +302,7 @@ class ArchetypalPatternRecognizer:
         else:
             return ArchetypalResonance.DORMANT
 
-    def _identify_dominant_archetypes(self, archetypal_analysis: Dict[str, Dict]) -> List[Dict]:
+    def _identify_dominant_archetypes(self, archetypal_analysis: dict[str, dict]) -> list[dict]:
         """Identify dominant archetypal patterns."""
         # Filter archetypes with significant presence
         significant_archetypes = [
@@ -315,7 +315,7 @@ class ArchetypalPatternRecognizer:
 
         return significant_archetypes[:3]  # Return top 3 dominant archetypes
 
-    def _calculate_trinity_archetypal_resonance(self, archetypal_analysis: Dict[str, Dict]) -> Dict[str, Any]:
+    def _calculate_trinity_archetypal_resonance(self, archetypal_analysis: dict[str, dict]) -> dict[str, Any]:
         """Calculate Trinity Framework resonance within archetypal patterns."""
         trinity_aspects = {"identity": [], "consciousness": [], "guardian": []}
 
@@ -344,7 +344,7 @@ class ArchetypalPatternRecognizer:
             "dominant_aspect": max(aspect_scores, key=aspect_scores.get) if aspect_scores else "none"
         }
 
-    def _assess_transformation_potential(self, dominant_archetypes: List[Dict]) -> Dict[str, Any]:
+    def _assess_transformation_potential(self, dominant_archetypes: list[dict]) -> dict[str, Any]:
         """Assess transformation potential based on dominant archetypes."""
         if not dominant_archetypes:
             return {"potential": "minimal", "pathways": []}
@@ -384,7 +384,7 @@ class ArchetypalPatternRecognizer:
             "dominant_archetype_influence": dominant_archetypes[0]["role"] if dominant_archetypes else "none"
         }
 
-    def _generate_archetypal_insights(self, dominant_archetypes: List[Dict], trinity_resonance: Dict[str, Any]) -> List[str]:
+    def _generate_archetypal_insights(self, dominant_archetypes: list[dict], trinity_resonance: dict[str, Any]) -> list[str]:
         """🧠 Generate consciousness-aware archetypal insights."""
         insights = []
 
@@ -428,7 +428,7 @@ class ArchetypalPatternRecognizer:
 
         return insights
 
-    def get_recognition_result(self, recognition_id: str) -> Optional[Dict[str, Any]]:
+    def get_recognition_result(self, recognition_id: str) -> Optional[dict[str, Any]]:
         """🛡️ Get archetypal recognition result with guardian validation."""
         result = next((r for r in self.pattern_history if r["recognition_id"] == recognition_id), None)
         if not result:
@@ -441,7 +441,7 @@ class ArchetypalPatternRecognizer:
         logger.info(f"🛡️ Archetypal recognition result retrieved: {recognition_id}")
         return validated_result
 
-    def analyze_archetypal_evolution(self, dream_sequence: List[str]) -> Dict[str, Any]:
+    def analyze_archetypal_evolution(self, dream_sequence: list[str]) -> dict[str, Any]:
         """Analyze archetypal evolution across dream sequence."""
         if not dream_sequence:
             return {"evolution": "No dream sequence provided"}
@@ -470,7 +470,7 @@ class ArchetypalPatternRecognizer:
 
         return evolution_analysis
 
-    def _track_archetypal_changes(self, sequence_results: List[Dict]) -> Dict[str, Any]:
+    def _track_archetypal_changes(self, sequence_results: list[dict]) -> dict[str, Any]:
         """Track changes in archetypal patterns over sequence."""
         if len(sequence_results) < 2:
             return {"insufficient_data": True}
@@ -494,7 +494,7 @@ class ArchetypalPatternRecognizer:
             "stability_indicator": 1.0 - (len(dominant_changes) / (len(sequence_results) - 1))
         }
 
-    def _calculate_archetypal_stability(self, sequence_results: List[Dict]) -> float:
+    def _calculate_archetypal_stability(self, sequence_results: list[dict]) -> float:
         """Calculate stability of archetypal patterns."""
         if len(sequence_results) < 2:
             return 1.0
@@ -505,7 +505,7 @@ class ArchetypalPatternRecognizer:
 
         return 1.0 - min(score_variance, 1.0)
 
-    def _track_trinity_development(self, sequence_results: List[Dict]) -> Dict[str, Any]:
+    def _track_trinity_development(self, sequence_results: list[dict]) -> dict[str, Any]:
         """Track Trinity Framework development across sequence."""
         trinity_scores = [result["trinity_resonance"]["overall_score"] for result in sequence_results]
 
@@ -527,7 +527,7 @@ class ArchetypalPatternRecognizer:
             "consistency": self._calculate_archetypal_stability(sequence_results)
         }
 
-    def _analyze_transformation_trajectory(self, sequence_results: List[Dict]) -> Dict[str, Any]:
+    def _analyze_transformation_trajectory(self, sequence_results: list[dict]) -> dict[str, Any]:
         """Analyze transformation potential trajectory."""
         transformation_scores = [
             result["transformation_potential"]["average_score"]
@@ -553,7 +553,7 @@ class ArchetypalPatternRecognizer:
             "peak_potential": max(transformation_scores)
         }
 
-    def _calculate_growth_indicator(self, evolution_patterns: Dict[str, Any]) -> str:
+    def _calculate_growth_indicator(self, evolution_patterns: dict[str, Any]) -> str:
         """Calculate overall growth indicator."""
         if evolution_patterns.get("insufficient_data"):
             return "insufficient_data"
@@ -570,7 +570,7 @@ class ArchetypalPatternRecognizer:
         else:
             return "steady_development"
 
-    def get_archetypal_statistics(self) -> Dict[str, Any]:
+    def get_archetypal_statistics(self) -> dict[str, Any]:
         """Get comprehensive archetypal pattern statistics."""
         if not self.pattern_history:
             return {"statistics": "No archetypal patterns recognized"}

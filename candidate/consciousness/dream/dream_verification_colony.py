@@ -35,12 +35,12 @@ class DreamVerificationColony:
     """Advanced dream verification system with Trinity Framework compliance."""
 
     def __init__(self):
-        self.verification_records: Dict[str, Dict] = {}
+        self.verification_records: dict[str, dict] = {}
         self.verification_rules = self._initialize_verification_rules()
         self.verification_counter = 0
         logger.info("🔍 Dream Verification Colony initialized - Trinity Framework active")
 
-    def _initialize_verification_rules(self) -> Dict[str, Dict]:
+    def _initialize_verification_rules(self) -> dict[str, dict]:
         """Initialize verification rules for different levels."""
         return {
             VerificationLevel.BASIC.value: {
@@ -65,7 +65,7 @@ class DreamVerificationColony:
             }
         }
 
-    def initiate_verification(self, dream_id: str, dream_data: Dict[str, Any], level: VerificationLevel = VerificationLevel.STANDARD) -> str:
+    def initiate_verification(self, dream_id: str, dream_data: dict[str, Any], level: VerificationLevel = VerificationLevel.STANDARD) -> str:
         """⚛️ Initiate dream verification while preserving authenticity."""
         self.verification_counter += 1
         verification_id = f"verify_{self.verification_counter}_{int(datetime.now(timezone.utc).timestamp())}"
@@ -85,7 +85,7 @@ class DreamVerificationColony:
         logger.info(f"🔍 Dream verification initiated: {verification_id} for dream {dream_id} at level {level.value}")
         return verification_id
 
-    def execute_verification(self, verification_id: str) -> Dict[str, Any]:
+    def execute_verification(self, verification_id: str) -> dict[str, Any]:
         """🧠 Execute consciousness-aware verification process."""
         if verification_id not in self.verification_records:
             return {"error": "Verification not found"}
@@ -153,7 +153,7 @@ class DreamVerificationColony:
         # Simplified Trinity validation
         return True
 
-    def get_verification_status(self, verification_id: str) -> Dict[str, Any]:
+    def get_verification_status(self, verification_id: str) -> dict[str, Any]:
         """🛡️ Get verification status with guardian protection."""
         if verification_id not in self.verification_records:
             return {"error": "Verification not found"}
@@ -174,7 +174,7 @@ class DreamVerificationColony:
         logger.info(f"🛡️ Verification status retrieved: {verification_id}")
         return status_info
 
-    def batch_verify_dreams(self, dream_ids: List[str], level: VerificationLevel = VerificationLevel.STANDARD) -> Dict[str, str]:
+    def batch_verify_dreams(self, dream_ids: list[str], level: VerificationLevel = VerificationLevel.STANDARD) -> dict[str, str]:
         """Batch verification for multiple dreams."""
         verification_ids = {}
 
@@ -186,7 +186,7 @@ class DreamVerificationColony:
         logger.info(f"🔍 Batch verification completed for {len(dream_ids)} dreams")
         return verification_ids
 
-    def generate_verification_report(self, verification_id: str) -> Optional[Dict[str, Any]]:
+    def generate_verification_report(self, verification_id: str) -> Optional[dict[str, Any]]:
         """Generate comprehensive verification report."""
         if verification_id not in self.verification_records:
             return None
@@ -214,7 +214,7 @@ class DreamVerificationColony:
         logger.info(f"📊 Verification report generated: {verification_id}")
         return report
 
-    def _generate_recommendations(self, record: Dict[str, Any]) -> List[str]:
+    def _generate_recommendations(self, record: dict[str, Any]) -> list[str]:
         """Generate recommendations based on verification results."""
         recommendations = []
 

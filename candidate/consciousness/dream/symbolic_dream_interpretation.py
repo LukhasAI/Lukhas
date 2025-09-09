@@ -28,12 +28,12 @@ class SymbolicDreamInterpreter:
     """Advanced symbolic dream interpretation with Trinity Framework compliance."""
 
     def __init__(self):
-        self.interpretation_history: Dict[str, Dict] = {}
+        self.interpretation_history: dict[str, dict] = {}
         self.symbolic_lexicon = self._initialize_symbolic_lexicon()
         self.interpretation_counter = 0
         logger.info("🔮 Symbolic Dream Interpreter initialized - Trinity Framework active")
 
-    def _initialize_symbolic_lexicon(self) -> Dict[str, Dict]:
+    def _initialize_symbolic_lexicon(self) -> dict[str, dict]:
         """Initialize symbolic interpretation lexicon."""
         return {
             "⚛️": {
@@ -68,7 +68,7 @@ class SymbolicDreamInterpreter:
             }
         }
 
-    def interpret_dream_symbols(self, dream_id: str, symbolic_content: List[str]) -> Dict[str, Any]:
+    def interpret_dream_symbols(self, dream_id: str, symbolic_content: list[str]) -> dict[str, Any]:
         """⚛️ Interpret dream symbols while preserving authentic meaning."""
         self.interpretation_counter += 1
         interpretation_id = f"interpret_{self.interpretation_counter}_{int(datetime.now(timezone.utc).timestamp())}"
@@ -104,7 +104,7 @@ class SymbolicDreamInterpreter:
         logger.info(f"🔮 Dream symbols interpreted: {interpretation_id} for dream {dream_id}")
         return interpretation
 
-    def _map_symbolic_domains(self, symbol_analysis: List[Dict]) -> Dict[str, int]:
+    def _map_symbolic_domains(self, symbol_analysis: list[dict]) -> dict[str, int]:
         """Map symbols to their primary domains."""
         domain_count = {}
         for analysis in symbol_analysis:
@@ -112,7 +112,7 @@ class SymbolicDreamInterpreter:
             domain_count[domain] = domain_count.get(domain, 0) + 1
         return domain_count
 
-    def _weave_narrative_threads(self, symbol_analysis: List[Dict]) -> List[str]:
+    def _weave_narrative_threads(self, symbol_analysis: list[dict]) -> list[str]:
         """Weave narrative threads from symbolic analysis."""
         if not symbol_analysis:
             return ["No symbolic content to interpret"]
@@ -135,7 +135,7 @@ class SymbolicDreamInterpreter:
 
         return threads if threads else ["Symbolic patterns suggest transitional consciousness state"]
 
-    def _calculate_trinity_resonance(self, symbol_analysis: List[Dict]) -> float:
+    def _calculate_trinity_resonance(self, symbol_analysis: list[dict]) -> float:
         """Calculate Trinity Framework resonance score."""
         trinity_symbols = [s for s in symbol_analysis if s["symbol"] in ["⚛️", "🧠", "🛡️"]]
         if not symbol_analysis:
@@ -147,7 +147,7 @@ class SymbolicDreamInterpreter:
 
         return (trinity_ratio * 0.6 + resonance_ratio * 0.4)
 
-    def generate_symbolic_insights(self, interpretation_id: str) -> Dict[str, Any]:
+    def generate_symbolic_insights(self, interpretation_id: str) -> dict[str, Any]:
         """🧠 Generate consciousness-aware insights from symbolic interpretation."""
         if interpretation_id not in self.interpretation_history:
             return {"error": "Interpretation not found"}
@@ -172,7 +172,7 @@ class SymbolicDreamInterpreter:
         logger.info(f"🧠 Symbolic insights generated: {interpretation_id}")
         return insights
 
-    def _generate_recommendations(self, interpretation: Dict[str, Any]) -> List[str]:
+    def _generate_recommendations(self, interpretation: dict[str, Any]) -> list[str]:
         """Generate recommendations based on symbolic interpretation."""
         recommendations = []
 
@@ -192,7 +192,7 @@ class SymbolicDreamInterpreter:
 
         return recommendations
 
-    def export_interpretation(self, interpretation_id: str) -> Optional[Dict[str, Any]]:
+    def export_interpretation(self, interpretation_id: str) -> Optional[dict[str, Any]]:
         """🛡️ Export interpretation with guardian validation."""
         if interpretation_id not in self.interpretation_history:
             return None

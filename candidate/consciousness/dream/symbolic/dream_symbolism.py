@@ -36,9 +36,9 @@ class DreamSymbolismProcessor:
     """Advanced symbolic processing for dream consciousness with Trinity Framework compliance."""
 
     def __init__(self):
-        self.symbol_registry: Dict[str, Dict] = {}
-        self.symbolic_patterns: Dict[str, List] = {}
-        self.processing_history: List[Dict] = []
+        self.symbol_registry: dict[str, dict] = {}
+        self.symbolic_patterns: dict[str, list] = {}
+        self.processing_history: list[dict] = []
         self.processing_counter = 0
         self._initialize_symbol_registry()
         logger.info("🔮 Dream Symbolism Processor initialized - Trinity Framework active")
@@ -116,7 +116,7 @@ class DreamSymbolismProcessor:
             }
         }
 
-    def analyze_symbolic_content(self, dream_content: Dict[str, Any]) -> Dict[str, Any]:
+    def analyze_symbolic_content(self, dream_content: dict[str, Any]) -> dict[str, Any]:
         """⚛️ Analyze symbolic content while preserving authentic meaning."""
         self.processing_counter += 1
         analysis_id = f"symbolic_analysis_{self.processing_counter}_{int(datetime.now(timezone.utc).timestamp())}"
@@ -149,7 +149,7 @@ class DreamSymbolismProcessor:
         logger.info(f"🔮 Symbolic content analyzed: {analysis_id} - {len(extracted_symbols)} symbols")
         return analysis_result
 
-    def _extract_symbols_from_content(self, dream_content: Dict[str, Any]) -> List[str]:
+    def _extract_symbols_from_content(self, dream_content: dict[str, Any]) -> list[str]:
         """Extract symbolic elements from dream content."""
         symbols = []
 
@@ -167,7 +167,7 @@ class DreamSymbolismProcessor:
 
         return list(set(symbols))  # Remove duplicates
 
-    def _analyze_symbolic_layers(self, symbols: List[str]) -> Dict[str, Any]:
+    def _analyze_symbolic_layers(self, symbols: list[str]) -> dict[str, Any]:
         """Analyze symbolic content across different layers."""
         layer_distribution = {}
         for layer in SymbolicLayer:
@@ -189,7 +189,7 @@ class DreamSymbolismProcessor:
             "trinity_layer_presence": len(layer_distribution[SymbolicLayer.TRINITY.value])
         }
 
-    def _calculate_resonance_patterns(self, symbols: List[str]) -> Dict[str, Any]:
+    def _calculate_resonance_patterns(self, symbols: list[str]) -> dict[str, Any]:
         """Calculate resonance patterns for symbolic content."""
         resonance_scores = []
         resonance_distribution = {}
@@ -221,7 +221,7 @@ class DreamSymbolismProcessor:
             "resonance_diversity": len([r for r in resonance_distribution.values() if r])
         }
 
-    def _identify_symbolic_relationships(self, symbols: List[str]) -> List[Dict[str, Any]]:
+    def _identify_symbolic_relationships(self, symbols: list[str]) -> list[dict[str, Any]]:
         """Identify relationships between symbols."""
         relationships = []
 
@@ -259,7 +259,7 @@ class DreamSymbolismProcessor:
 
         return relationships
 
-    def _calculate_trinity_presence(self, symbols: List[str]) -> Dict[str, Any]:
+    def _calculate_trinity_presence(self, symbols: list[str]) -> dict[str, Any]:
         """Calculate Trinity Framework presence in symbolic content."""
         trinity_symbols = ["⚛️", "🧠", "🛡️"]
         present_trinity = [s for s in symbols if s in trinity_symbols]
@@ -276,7 +276,7 @@ class DreamSymbolismProcessor:
 
         return trinity_presence
 
-    def generate_symbolic_narrative(self, analysis_id: str) -> Optional[Dict[str, Any]]:
+    def generate_symbolic_narrative(self, analysis_id: str) -> Optional[dict[str, Any]]:
         """🧠 Generate consciousness-aware symbolic narrative."""
         analysis = next((a for a in self.processing_history if a["analysis_id"] == analysis_id), None)
         if not analysis:
@@ -326,7 +326,7 @@ class DreamSymbolismProcessor:
         logger.info(f"🧠 Symbolic narrative generated: {analysis_id}")
         return narrative
 
-    def _determine_symbolic_theme(self, symbols: List[str]) -> str:
+    def _determine_symbolic_theme(self, symbols: list[str]) -> str:
         """Determine overarching symbolic theme."""
         if not symbols:
             return "neutral"
@@ -350,7 +350,7 @@ class DreamSymbolismProcessor:
 
         return "personal_processing"
 
-    def get_symbol_information(self, symbol: str) -> Optional[Dict[str, Any]]:
+    def get_symbol_information(self, symbol: str) -> Optional[dict[str, Any]]:
         """🛡️ Get comprehensive symbol information with guardian validation."""
         if symbol not in self.symbol_registry:
             return None
@@ -365,7 +365,7 @@ class DreamSymbolismProcessor:
         logger.info(f"🛡️ Symbol information retrieved: {symbol}")
         return symbol_info
 
-    def get_processing_statistics(self) -> Dict[str, Any]:
+    def get_processing_statistics(self) -> dict[str, Any]:
         """Get comprehensive processing statistics."""
         if not self.processing_history:
             return {"statistics": "No processing history available"}

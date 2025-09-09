@@ -29,17 +29,17 @@ class DreamAdapter:
     """
 
     def __init__(self):
-        self.active_dreams: Dict[str, Any] = {}
+        self.active_dreams: dict[str, Any] = {}
         self.dream_counter = 0
         logger.info("🌙 Dream Adapter initialized - Trinity Framework active")
 
-    def initiate_dream_state(self, user_context: Optional[Dict] = None) -> str:
+    def initiate_dream_state(self, user_context: Optional[dict] = None) -> str:
         """
         ⚛️ Identity-aware dream state initiation.
-        
+
         Args:
             user_context: Optional user identity context
-            
+
         Returns:
             Dream session ID
         """
@@ -57,14 +57,14 @@ class DreamAdapter:
         logger.info(f"🌙 Dream state initiated: {dream_id}")
         return dream_id
 
-    def process_dream_content(self, dream_id: str, content: Any) -> Dict[str, Any]:
+    def process_dream_content(self, dream_id: str, content: Any) -> dict[str, Any]:
         """
         🧠 Consciousness-aware dream content processing.
-        
+
         Args:
             dream_id: Active dream session ID
             content: Dream content to process
-            
+
         Returns:
             Processed dream data
         """
@@ -86,10 +86,10 @@ class DreamAdapter:
     def terminate_dream_state(self, dream_id: str) -> bool:
         """
         🛡️ Guardian-supervised dream state termination.
-        
+
         Args:
             dream_id: Dream session to terminate
-            
+
         Returns:
             Success status
         """
@@ -102,7 +102,7 @@ class DreamAdapter:
         logger.info(f"🛡️ Dream state safely terminated: {dream_id}")
         return True
 
-    def get_active_dreams(self) -> Dict[str, Any]:
+    def get_active_dreams(self) -> dict[str, Any]:
         """Return all active dream sessions."""
         return {k: v for k, v in self.active_dreams.items() if v["status"] == "active"}
 

@@ -18,7 +18,7 @@ import os
 import time
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 # Configure logging
 logger = logging.getLogger("Enhanced.BrainIntegration")
@@ -165,9 +165,9 @@ class EnhancedEmotionalProcessor:
         self.emotional_history = []
         self.max_history = 50
 
-    def update_emotional_state(self, primary_emotion: str, intensity: float = None,
-                               secondary_emotions: Dict[str, float] = None,
-                               metadata: Dict[str, Any] = None) -> Dict[str, Any]:
+    def update_emotional_state(self, primary_emotion: str, intensity: Optional[float] = None,
+                               secondary_emotions: Optional[dict[str, float]] = None,
+                               metadata: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Update emotional state with enhanced tracking"""
 
         # Store previous state
@@ -217,7 +217,7 @@ class EnhancedEmotionalProcessor:
         distance = sum((a - b) ** 2 for a, b in zip(vec1, vec2)) ** 0.5
         return distance
 
-    def get_voice_modulation_params(self) -> Dict[str, Any]:
+    def get_voice_modulation_params(self) -> dict[str, Any]:
         """Generate voice modulation parameters based on emotional state"""
         emotion = self.current_state["primary_emotion"]
         intensity = self.current_state["intensity"]
@@ -263,9 +263,9 @@ class EnhancedMemorySystem:
             "retrievals": 0
         }
 
-    def store_memory_with_emotion(self, key: str, content: Any, emotion: str = None,
-                                  tags: List[str] = None, priority: str = "medium",
-                                  metadata: Dict[str, Any] = None) -> Dict[str, Any]:
+    def store_memory_with_emotion(self, key: str, content: Any, emotion: Optional[str] = None,
+                                  tags: Optional[list[str]] = None, priority: str = "medium",
+                                  metadata: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Store memory with emotional context"""
 
         # Use current emotional state if none provided
@@ -311,8 +311,8 @@ class EnhancedMemorySystem:
             "timestamp": memory_entry["timestamp"]
         }
 
-    def retrieve_with_emotional_context(self, key: str = None, target_emotion: str = None,
-                                        similarity_threshold: float = 0.7) -> Dict[str, Any]:
+    def retrieve_with_emotional_context(self, key: Optional[str] = None, target_emotion: Optional[str] = None,
+                                        similarity_threshold: float = 0.7) -> dict[str, Any]:
         """Retrieve memories with emotional context"""
 
         self.stats["retrievals"] += 1
@@ -355,7 +355,7 @@ class EnhancedMemorySystem:
                 "message": "Either key or target_emotion must be provided"
             }
 
-    def dream_consolidate_memories(self, max_memories: int = 50) -> Dict[str, Any]:
+    def dream_consolidate_memories(self, max_memories: int = 50) -> dict[str, Any]:
         """Consolidate memories through dream-like processing"""
 
         if not self.consolidation_queue:
@@ -393,7 +393,7 @@ class EnhancedMemorySystem:
             "consolidated_memories": consolidated_memories
         }
 
-    def _generate_dream_associations(self, memory: Dict[str, Any]) -> List[str]:
+    def _generate_dream_associations(self, memory: dict[str, Any]) -> list[str]:
         """Generate dream-like associations for memory consolidation"""
         associations = []
 
@@ -423,7 +423,7 @@ class EnhancedBrainIntegration:
     This is the superior replacement for the previous brain_integration.py
     """
 
-    def __init__(self, config: Dict[str, Any] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize the Enhanced Brain Integration System"""
 
         self.config = config or {}
@@ -569,7 +569,7 @@ class EnhancedBrainIntegration:
             logger.error(f"Failed to initialize AI subsystems: {e}")
             self.advanced_agi_available = False
 
-    async def process_with_agi_enhancement(self, input_data: Any, context: Dict[str, Any] = None) -> Dict[str, Any]:
+    async def process_with_agi_enhancement(self, input_data: Any, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Enhanced processing that integrates all AI components including
         compliance, governance, ethics, meta-cognitive, reasoning, memory,
@@ -682,8 +682,8 @@ class EnhancedBrainIntegration:
             result["processing_time"] = time.time() - start_time
             return result
 
-    async def _integrate_agi_results(self, result: Dict[str, Any], input_data: Any,
-                                     context: Dict[str, Any]) -> Dict[str, Any]:
+    async def _integrate_agi_results(self, result: dict[str, Any], input_data: Any,
+                                     context: dict[str, Any]) -> dict[str, Any]:
         """Integrate results from all AI components into a coherent response"""
 
         # Extract key insights from each component
@@ -719,7 +719,7 @@ class EnhancedBrainIntegration:
 
 
 # Factory function for backwards compatibility
-def create_enhanced_brain_integration(config: Dict[str, Any] = None) -> EnhancedBrainIntegration:
+def create_enhanced_brain_integration(config: Optional[dict[str, Any]] = None) -> EnhancedBrainIntegration:
     """Create an Enhanced Brain Integration System instance"""
     return EnhancedBrainIntegration(config)
 

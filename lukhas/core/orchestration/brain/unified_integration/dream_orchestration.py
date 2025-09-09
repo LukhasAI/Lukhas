@@ -29,20 +29,20 @@ class DreamOrchestrator:
     """
 
     def __init__(self):
-        self.active_sessions: Dict[str, Dict] = {}
-        self.orchestration_history: List[Dict] = []
+        self.active_sessions: dict[str, dict] = {}
+        self.orchestration_history: list[dict] = []
         self.session_counter = 0
         logger.info("🎭 Dream Orchestrator initialized - Trinity Framework active")
 
-    def orchestrate_dream_session(self, user_context: Optional[Dict] = None,
+    def orchestrate_dream_session(self, user_context: Optional[dict] = None,
                                 dream_type: str = "lucid") -> str:
         """
         ⚛️ Identity-driven dream session orchestration.
-        
+
         Args:
             user_context: User identity and preferences
             dream_type: Type of dream session (lucid, guided, free)
-            
+
         Returns:
             Session orchestration ID
         """
@@ -68,13 +68,13 @@ class DreamOrchestrator:
         logger.info(f"🎭 Dream session orchestration initiated: {session_id}")
         return session_id
 
-    def coordinate_consciousness_integration(self, session_id: str) -> Dict[str, Any]:
+    def coordinate_consciousness_integration(self, session_id: str) -> dict[str, Any]:
         """
         🧠 Consciousness-aware orchestration coordination.
-        
+
         Args:
             session_id: Session to coordinate
-            
+
         Returns:
             Integration coordination status
         """
@@ -101,13 +101,13 @@ class DreamOrchestrator:
         logger.info(f"🧠 Consciousness integration coordinated for {session_id}")
         return coordination_result
 
-    def monitor_dream_health(self, session_id: str) -> Dict[str, Any]:
+    def monitor_dream_health(self, session_id: str) -> dict[str, Any]:
         """
         🛡️ Guardian-supervised dream session health monitoring.
-        
+
         Args:
             session_id: Session to monitor
-            
+
         Returns:
             Health monitoring report
         """
@@ -128,13 +128,13 @@ class DreamOrchestrator:
         logger.info(f"🛡️ Dream health monitored for {session_id}")
         return health_metrics
 
-    def conclude_orchestration(self, session_id: str) -> Dict[str, Any]:
+    def conclude_orchestration(self, session_id: str) -> dict[str, Any]:
         """
         🎭 Graceful orchestration conclusion with full cleanup.
-        
+
         Args:
             session_id: Session to conclude
-            
+
         Returns:
             Conclusion summary
         """
@@ -166,7 +166,7 @@ class DreamOrchestrator:
         uptime = datetime.now(timezone.utc) - start_time
         return str(uptime)
 
-    def get_orchestration_status(self) -> Dict[str, Any]:
+    def get_orchestration_status(self) -> dict[str, Any]:
         """Get overall orchestration system status."""
         return {
             "active_sessions": len(self.active_sessions),

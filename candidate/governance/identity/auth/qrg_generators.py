@@ -31,18 +31,16 @@ import numpy as np
 import qrcode
 from PIL import Image, ImageDraw
 
-
 # Replaced insecure random with secure random for consistency
 from lukhas.security import secure_random
 
 # Import LUKHAS components
 try:
-    from utils.cultural_safety_checker import CulturalSafetyChecker
-
     from candidate.core.interfaces.as_agent.core.gatekeeper import (
         ConstitutionalGatekeeper,
     )
     from governance.identity.auth.entropy_synchronizer import EntropySynchronizer
+    from utils.cultural_safety_checker import CulturalSafetyChecker
 except ImportError:
     print("Warning: LUKHAS core components not found. Running in standalone mode.")
 

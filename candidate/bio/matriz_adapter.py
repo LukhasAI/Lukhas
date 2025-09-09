@@ -2,13 +2,13 @@
 MATRIZ Adapter for Bio Module
 Emits MATRIZ-compliant nodes for bio-inspired processing events
 """
-import streamlit as st
-
 import json
 import time
 import uuid
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
 
 
 class BioMatrizAdapter:
@@ -27,7 +27,7 @@ class BioMatrizAdapter:
 
         node = {
             "version": 1,
-            "id": f"LT-BIO-{uuid.uuid4()}.hex[:8]}",
+            "id": f"LT-BIO-{uuid.uuid4().hex[:8]}",
             "type": node_type,
             "state": {
                 "confidence": state.get("confidence", 0.75),

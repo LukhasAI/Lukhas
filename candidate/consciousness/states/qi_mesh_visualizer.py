@@ -819,9 +819,9 @@ class QIMeshVisualizer:
     def _create_html_template(self, data: dict[str, Any]) -> str:
         """Create HTML template for reports"""
         unified_field = data["unified_field"]
-        conflicts = data.get("conflicts", [])
+        data.get("conflicts", [])
 
-        risk_color = self.color_schemes["risk"].get(unified_field["risk_level"], "#666")
+        self.color_schemes["risk"].get(unified_field["risk_level"], "#666")
 
         html = "Basic HTML test"
         return html

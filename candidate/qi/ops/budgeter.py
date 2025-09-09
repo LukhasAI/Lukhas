@@ -7,7 +7,6 @@ import time
 from dataclasses import dataclass, field
 from typing import Any
 
-
 STATE = os.environ.get("LUKHAS_STATE", os.path.expanduser("~/.lukhas/state"))
 BUDGET_FILE = os.path.join(STATE, "budget_state.json")
 CONF_FILE = os.path.join(STATE, "budget_config.json")

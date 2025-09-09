@@ -1,6 +1,5 @@
 import logging
 
-
 logger = logging.getLogger(__name__)
 """
 LUKHAS Audit Logger - Constitutional Event Logger

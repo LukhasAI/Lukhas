@@ -18,26 +18,26 @@ class SymbolicTrace:
     component: str
     level: str
     message: str
-    context: Dict[str, Any]
-    symbolic_markers: List[str]
+    context: dict[str, Any]
+    symbolic_markers: list[str]
 
 
 class SymbolicTraceLogger:
     """
     Enhanced logger for consciousness awareness with symbolic tracing.
-    
+
     Provides Trinity Framework-compliant logging with consciousness awareness.
     """
 
     def __init__(self, name: str = "ΛTRACE.symbolic"):
         """Initialize the symbolic trace logger."""
         self.logger = logging.getLogger(name)
-        self.traces: List[SymbolicTrace] = []
+        self.traces: list[SymbolicTrace] = []
         self.trace_counter = 0
 
     def trace(self, component: str, message: str, level: str = "INFO",
-              context: Optional[Dict[str, Any]] = None,
-              symbolic_markers: Optional[List[str]] = None) -> None:
+              context: Optional[dict[str, Any]] = None,
+              symbolic_markers: Optional[list[str]] = None) -> None:
         """Log a symbolic trace entry."""
         if context is None:
             context = {}
@@ -76,7 +76,7 @@ class SymbolicTraceLogger:
         """Log a debug-level trace."""
         self.trace(component, message, "DEBUG", kwargs)
 
-    def get_traces(self, component: Optional[str] = None) -> List[SymbolicTrace]:
+    def get_traces(self, component: Optional[str] = None) -> list[SymbolicTrace]:
         """Get traces, optionally filtered by component."""
         if component is None:
             return self.traces.copy()

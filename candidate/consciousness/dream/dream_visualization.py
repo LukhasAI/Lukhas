@@ -17,11 +17,11 @@ class DreamVisualizationEngine:
     """Advanced dream visualization with Trinity Framework compliance."""
 
     def __init__(self):
-        self.visualization_cache: Dict[str, Dict] = {}
+        self.visualization_cache: dict[str, dict] = {}
         self.render_counter = 0
         logger.info("🎨 Dream Visualization Engine initialized - Trinity Framework active")
 
-    def render_dream_landscape(self, dream_id: str, dream_data: Dict[str, Any]) -> Dict[str, Any]:
+    def render_dream_landscape(self, dream_id: str, dream_data: dict[str, Any]) -> dict[str, Any]:
         """⚛️ Render symbolic dream landscape while preserving authenticity."""
         self.render_counter += 1
         render_id = f"render_{self.render_counter}_{int(datetime.now(timezone.utc).timestamp())}"
@@ -45,7 +45,7 @@ class DreamVisualizationEngine:
         logger.info(f"🎨 Dream landscape rendered: {render_id} for dream {dream_id}")
         return landscape
 
-    def _generate_visual_elements(self, dream_data: Dict[str, Any]) -> List[Dict]:
+    def _generate_visual_elements(self, dream_data: dict[str, Any]) -> list[dict]:
         """Generate visual elements from dream data."""
         return [
             {"type": "horizon", "properties": {"color": "ethereal_blue", "opacity": 0.8}},
@@ -53,7 +53,7 @@ class DreamVisualizationEngine:
             {"type": "consciousness_tree", "properties": {"branches": "infinite", "glow": "trinity"}}
         ]
 
-    def _create_symbolic_mapping(self, dream_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _create_symbolic_mapping(self, dream_data: dict[str, Any]) -> dict[str, Any]:
         """Create symbolic representation mapping."""
         return {
             "symbols": ["⚛️", "🧠", "🛡️", "∞", "◊"],
@@ -61,11 +61,11 @@ class DreamVisualizationEngine:
             "archetypal_forms": ["guardian", "seeker", "creator"]
         }
 
-    def _extract_color_palette(self, dream_data: Dict[str, Any]) -> List[str]:
+    def _extract_color_palette(self, dream_data: dict[str, Any]) -> list[str]:
         """Extract color palette from dream essence."""
         return ["iridescent_purple", "consciousness_gold", "trinity_silver", "dream_azure"]
 
-    def _map_spatial_elements(self, dream_data: Dict[str, Any]) -> Dict[str, Tuple[float, float, float]]:
+    def _map_spatial_elements(self, dream_data: dict[str, Any]) -> dict[str, tuple[float, float, float]]:
         """Map spatial elements in 3D dream space."""
         return {
             "consciousness_center": (0.0, 0.0, 0.0),
@@ -74,7 +74,7 @@ class DreamVisualizationEngine:
             "identity_nexus": (0.0, 0.5, -0.3)
         }
 
-    def create_symbolic_narrative(self, render_id: str) -> Dict[str, Any]:
+    def create_symbolic_narrative(self, render_id: str) -> dict[str, Any]:
         """🧠 Create consciousness-aware symbolic narrative from visualization."""
         if render_id not in self.visualization_cache:
             return {"error": "Render not found"}
@@ -100,7 +100,7 @@ class DreamVisualizationEngine:
         logger.info(f"🧠 Symbolic narrative created for render: {render_id}")
         return narrative
 
-    def export_visualization_data(self, render_id: str, format_type: str = "trinity") -> Dict[str, Any]:
+    def export_visualization_data(self, render_id: str, format_type: str = "trinity") -> dict[str, Any]:
         """🛡️ Export visualization data with guardian validation."""
         if render_id not in self.visualization_cache:
             return {"error": "Render not found"}

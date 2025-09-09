@@ -80,7 +80,7 @@ class IdentityImportBridge:
         else:
             # Check if existing module is the real identity module
             existing = sys.modules["identity"]
-            if hasattr(existing, "get_identity_status") and callable(getattr(existing, "get_identity_status")):
+            if hasattr(existing, "get_identity_status") and callable(existing.get_identity_status):
                 logger.info("Real identity module already exists - not overriding")
                 return
             else:
@@ -193,7 +193,7 @@ except ImportError:
     else:
         # Check if existing module is the real identity module
         existing = sys.modules["identity"]
-        if not (hasattr(existing, "get_identity_status") and callable(getattr(existing, "get_identity_status"))):
+        if not (hasattr(existing, "get_identity_status") and callable(existing.get_identity_status)):
             logger.info("Overriding non-functional identity module with bridge")
             sys.modules["identity"] = _bridge
         else:
@@ -239,15 +239,15 @@ def verify_tier_access(user_id: str, required_tier: str) -> bool:
 # Create auth module stub for compatibility
 class AuthModule:
     """Auth module compatibility stub"""
-    
+
     def __getattr__(self, name: str):
         from . import import_bridge
         return getattr(import_bridge, name, None) or self._create_auth_fallback(name)
-    
+
     def _create_auth_fallback(self, name: str):
         """Create fallback for auth components"""
         logger.warning(f"Creating auth fallback for {name}")
-        
+
         if "Logger" in name or "Audit" in name:
             class FallbackLogger:
                 def __init__(self, *args, **kwargs):
@@ -257,7 +257,7 @@ class AuthModule:
                 def audit(self, *args, **kwargs):
                     pass
             return FallbackLogger
-        
+
         # Generic fallback class
         class FallbackAuth:
             def __init__(self, *args, **kwargs):

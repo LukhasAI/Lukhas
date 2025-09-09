@@ -41,15 +41,15 @@ class ValidationReport:
     result: ValidationResult
     confidence_score: float  # 0.0 to 1.0
     validation_time_ms: float
-    issues_found: List[str]
-    recommendations: List[str]
-    metadata: Dict[str, Any]
+    issues_found: list[str]
+    recommendations: list[str]
+    metadata: dict[str, Any]
 
 
 class GuardianValidator:
     """
     Guardian Validator for audio processing operations
-    
+
     Provides comprehensive validation for audio operations including:
     - Audio format safety checks
     - Content policy compliance
@@ -60,7 +60,7 @@ class GuardianValidator:
     def __init__(self, strict_mode: bool = False):
         """
         Initialize GuardianValidator
-        
+
         Args:
             strict_mode: Enable strict validation mode
         """
@@ -95,13 +95,13 @@ class GuardianValidator:
                                      **kwargs) -> ValidationReport:
         """
         Validate an audio processing operation
-        
+
         Args:
             operation_type: Type of operation (encode, decode, process, analyze)
             audio_data: Optional audio data to validate
             context: Validation context information
             **kwargs: Additional validation parameters
-            
+
         Returns:
             ValidationReport with validation results
         """
@@ -181,7 +181,7 @@ class GuardianValidator:
                 result=ValidationResult.DENIED,
                 confidence_score=0.0,
                 validation_time_ms=(time.time() - start_time) * 1000,
-                issues_found=[f"Validation error: {str(e)}"],
+                issues_found=[f"Validation error: {e!s}"],
                 recommendations=["Review audio operation parameters"],
                 metadata={"error": str(e)}
             )
@@ -208,7 +208,7 @@ class GuardianValidator:
         max_duration = self.quality_limits["max_duration_minutes"] * 60
         return duration_seconds <= max_duration
 
-    def _validate_audio_data(self, audio_data: bytes) -> List[str]:
+    def _validate_audio_data(self, audio_data: bytes) -> list[str]:
         """Validate raw audio data"""
         issues = []
 
@@ -236,7 +236,7 @@ class GuardianValidator:
 
         return issues
 
-    def _generate_recommendations(self, context: AudioValidationContext, issues: List[str]) -> List[str]:
+    def _generate_recommendations(self, context: AudioValidationContext, issues: list[str]) -> list[str]:
         """Generate recommendations based on validation results"""
         recommendations = []
 
@@ -254,7 +254,7 @@ class GuardianValidator:
 
         return recommendations
 
-    def _determine_result(self, issues: List[str], confidence: float) -> ValidationResult:
+    def _determine_result(self, issues: list[str], confidence: float) -> ValidationResult:
         """Determine validation result based on issues and confidence"""
         if not issues and confidence >= 0.9:
             return ValidationResult.APPROVED
@@ -274,7 +274,7 @@ class GuardianValidator:
         else:
             self.validation_stats["warnings"] += 1
 
-    def get_validation_stats(self) -> Dict[str, Any]:
+    def get_validation_stats(self) -> dict[str, Any]:
         """Get validation statistics"""
         if self.validation_stats["total_validations"] > 0:
             self.validation_stats["avg_validation_time_ms"] = (
@@ -284,7 +284,7 @@ class GuardianValidator:
 
         return self.validation_stats.copy()
 
-    async def validate_batch_operations(self, operations: List[Dict[str, Any]]) -> List[ValidationReport]:
+    async def validate_batch_operations(self, operations: list[dict[str, Any]]) -> list[ValidationReport]:
         """Validate multiple audio operations in batch"""
         results = []
 

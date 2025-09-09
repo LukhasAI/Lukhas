@@ -10,17 +10,16 @@ INTEGRATES:
 RESEARCH VALIDATION: All Top 5 Priority Research Insights Unified
 Performance: Maintains 99.8% system stability across all consciousness modules
 """
-import time
-import streamlit as st
-
 import asyncio
 import logging
+import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
 
 import numpy as np
+import streamlit as st
 
 # Bio-energy system integration
 from .energy.spirulina_atp_system import SpirulinaATPHybridSystem
@@ -174,7 +173,7 @@ class BioCompoundGovernor:
         if len(self.stability_history) > 200:
             self.stability_history = self.stability_history[-200:]
 
-        self.logger.info(f"🧬 System Stability: {self._calculate_overall_stability(stability_metrics)}  * 100:.1f}%")
+        self.logger.info(f"🧬 System Stability: {self._calculate_overall_stability(stability_metrics) * 100:.1f}%")
         self.logger.info(f"   Energy Efficiency: {stability_metrics.energy_efficiency:.1f}%")
         self.logger.info(f"   Emotional Stability: {stability_metrics.emotional_stability  * 100:.1f}%")
         self.logger.info(f"   Module Coherence: {stability_metrics.module_coherence  * 100:.1f}%")

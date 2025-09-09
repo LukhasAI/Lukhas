@@ -6,7 +6,6 @@ from datetime import datetime, timezone
 from typing import Any
 
 
-
 class NLPEngine:
     def analyze(self, text: str) -> dict:
         # Mock implementation

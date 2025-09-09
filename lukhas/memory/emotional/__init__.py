@@ -38,11 +38,11 @@ class EmotionalMemory:
         self.memories.append(memory)
         return memory_id
 
-    def get_by_emotion(self, emotion_type: str) -> List[Dict]:
+    def get_by_emotion(self, emotion_type: str) -> list[dict]:
         """Get memories by emotion type"""
         return [m for m in self.memories if m["emotion_type"] == emotion_type]
 
-    def trigger_replay(self, emotion_type: str, threshold: float = 0.5) -> List[Dict]:
+    def trigger_replay(self, emotion_type: str, threshold: float = 0.5) -> list[dict]:
         """Trigger replay of emotional memories above threshold"""
         return [m for m in self.memories
                 if m["emotion_type"] == emotion_type and m["intensity"] >= threshold]

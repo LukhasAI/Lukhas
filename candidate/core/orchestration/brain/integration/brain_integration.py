@@ -19,31 +19,33 @@ import threading
 import time
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 # Configure logging
 logger = logging.getLogger("Enhanced.BrainIntegration")
 handler = logging.StreamHandler()
-formatter = logging.Formatter('%(asctime)s [%(levelname)s] %(name)s: %(message)s')
+formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 logger.setLevel(logging.INFO)
 
 # Import MultiBrainSymphony components with fallback paths
 try:
-    from .MultiBrainSymphony import (DreamBrainSpecialist,
-                                     LearningBrainSpecialist,
-                                     MemoryBrainSpecialist,
-                                     MultiBrainSymphonyOrchestrator)
+    from .MultiBrainSymphony import (
+        DreamBrainSpecialist,
+        LearningBrainSpecialist,
+        MemoryBrainSpecialist,
+        MultiBrainSymphonyOrchestrator,
+    )
     SYMPHONY_AVAILABLE = True
 except ImportError:
     try:
         # from MultiBrainSymphony  # External dependency import
         from MultiBrainSymphony import (
-            MultiBrainSymphonyOrchestrator,
             DreamBrainSpecialist,
+            LearningBrainSpecialist,
             MemoryBrainSpecialist,
-            LearningBrainSpecialist
+            MultiBrainSymphonyOrchestrator,
         )
         SYMPHONY_AVAILABLE = True
     except ImportError:
@@ -53,8 +55,7 @@ except ImportError:
 
 # Import core components with fallbacks
 try:
-    from candidate.orchestration.brain.spine.fold_engine import (
-        AGIMemory, MemoryFold, MemoryPriority, MemoryType)
+    from candidate.orchestration.brain.spine.fold_engine import AGIMemory, MemoryFold, MemoryPriority, MemoryType
 except ImportError:
     logger.warning("Core memory components not available - using fallbacks")
     AGIMemory = None
@@ -74,8 +75,7 @@ except ImportError:
     VoiceIntegrator = None
 
 try:
-    from lukhas.consciousness.core_consciousness.dream_engine.dream_reflection_loop import \
-        DreamReflectionLoop
+    from lukhas.consciousness.core_consciousness.dream_engine.dream_reflection_loop import DreamReflectionLoop
 except ImportError:
     DreamReflectionLoop = None
 
@@ -106,9 +106,9 @@ class EnhancedEmotionalProcessor:
         self.emotional_history = []
         self.max_history = 50
 
-    def update_emotional_state(self, primary_emotion: str, intensity: float = None,
-                              secondary_emotions: Dict[str, float] = None,
-                              metadata: Dict[str, Any] = None) -> Dict[str, Any]:
+    def update_emotional_state(self, primary_emotion: str, intensity: Optional[float] = None,
+                              secondary_emotions: Optional[dict[str, float]] = None,
+                              metadata: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Update emotional state with enhanced tracking"""
 
         # Store previous state
@@ -158,7 +158,7 @@ class EnhancedEmotionalProcessor:
         distance = sum((a - b) ** 2 for a, b in zip(vec1, vec2)) ** 0.5
         return distance
 
-    def get_voice_modulation_params(self) -> Dict[str, Any]:
+    def get_voice_modulation_params(self) -> dict[str, Any]:
         """Generate voice modulation parameters based on emotional state"""
         emotion = self.current_state["primary_emotion"]
         intensity = self.current_state["intensity"]
@@ -203,9 +203,9 @@ class EnhancedMemorySystem:
             "retrievals": 0
         }
 
-    def store_memory_with_emotion(self, key: str, content: Any, emotion: str = None,
-                                  tags: List[str] = None, priority: str = "medium",
-                                  metadata: Dict[str, Any] = None) -> Dict[str, Any]:
+    def store_memory_with_emotion(self, key: str, content: Any, emotion: Optional[str] = None,
+                                  tags: Optional[list[str]] = None, priority: str = "medium",
+                                  metadata: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Store memory with emotional context"""
 
         # Use current emotional state if none provided
@@ -251,8 +251,8 @@ class EnhancedMemorySystem:
             "timestamp": memory_entry["timestamp"]
         }
 
-    def retrieve_with_emotional_context(self, key: str = None, target_emotion: str = None,
-                                        similarity_threshold: float = 0.7) -> Dict[str, Any]:
+    def retrieve_with_emotional_context(self, key: Optional[str] = None, target_emotion: Optional[str] = None,
+                                        similarity_threshold: float = 0.7) -> dict[str, Any]:
         """Retrieve memories with emotional context"""
 
         self.stats["retrievals"] += 1
@@ -295,7 +295,7 @@ class EnhancedMemorySystem:
                 "message": "Either key or target_emotion must be provided"
             }
 
-    def dream_consolidate_memories(self, max_memories: int = 50) -> Dict[str, Any]:
+    def dream_consolidate_memories(self, max_memories: int = 50) -> dict[str, Any]:
         """Consolidate memories through dream-like processing"""
 
         if not self.consolidation_queue:
@@ -333,7 +333,7 @@ class EnhancedMemorySystem:
             "consolidated_memories": consolidated_memories
         }
 
-    def _generate_dream_associations(self, memory: Dict[str, Any]) -> List[str]:
+    def _generate_dream_associations(self, memory: dict[str, Any]) -> list[str]:
         """Generate dream-like associations for memory consolidation"""
         associations = []
 
@@ -362,7 +362,7 @@ class EnhancedBrainIntegration:
     This is the superior replacement for the previous brain_integration.py
     """
 
-    def __init__(self, config: Dict[str, Any] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize the Enhanced Brain Integration System"""
 
         self.config = config or {}
@@ -424,7 +424,7 @@ class EnhancedBrainIntegration:
 
         logger.info("✅ Enhanced Brain Integration System initialized successfully")
 
-    async def process_with_symphony(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_with_symphony(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Process input through Multi-Brain Symphony if available, fallback to standard processing"""
 
         if self.symphony_available and self.symphony_orchestrator:
@@ -455,8 +455,8 @@ class EnhancedBrainIntegration:
         else:
             return await self._standard_processing(input_data)
 
-    async def _integrate_symphony_results(self, symphony_result: Dict[str, Any],
-                                          original_input: Dict[str, Any]) -> Dict[str, Any]:
+    async def _integrate_symphony_results(self, symphony_result: dict[str, Any],
+                                          original_input: dict[str, Any]) -> dict[str, Any]:
         """Integrate symphony results with brain subsystems"""
 
         integrated = {
@@ -516,7 +516,7 @@ class EnhancedBrainIntegration:
 
         return integrated
 
-    async def _standard_processing(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _standard_processing(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Standard processing fallback when symphony is not available"""
 
         # Extract content
@@ -561,7 +561,7 @@ class EnhancedBrainIntegration:
             "voice_modulation": self.emotional_processor.get_voice_modulation_params()
         }
 
-    def speak_with_emotion(self, text: str, override_emotion: str = None) -> Dict[str, Any]:
+    def speak_with_emotion(self, text: str, override_emotion: Optional[str] = None) -> dict[str, Any]:
         """Generate speech with emotional modulation"""
 
         # Use override emotion or current state
@@ -627,7 +627,7 @@ class EnhancedBrainIntegration:
             return True
         return False
 
-    def get_comprehensive_status(self) -> Dict[str, Any]:
+    def get_comprehensive_status(self) -> dict[str, Any]:
         """Get comprehensive status of all brain systems"""
 
         status = {
@@ -657,7 +657,7 @@ class EnhancedBrainIntegration:
 
 # Factory function for easy integration
 
-def create_enhanced_brain_integration(config: Dict[str, Any] = None) -> EnhancedBrainIntegration:
+def create_enhanced_brain_integration(config: Optional[dict[str, Any]] = None) -> EnhancedBrainIntegration:
     """
     Factory function to create Enhanced Brain Integration system
 
@@ -693,7 +693,7 @@ async def demo_enhanced_integration():
         result = await brain.process_with_symphony(test_input)
         print(f"Processing: {result['processing_type']}")
 
-        if result['processing_type'] == 'symphony_enhanced':
+        if result["processing_type"] == "symphony_enhanced":
             print(f"Coordination Quality: {result['coordination_quality']:.2f}")
             print(f"Insights: {len(result['symphony_result'].get('synthesized_insights', []))}")
 

@@ -37,7 +37,6 @@ from datetime import datetime, timezone
 from functools import wraps
 from typing import Any, Callable, Optional
 
-
 try:
     from ..security.secure_logging import get_security_logger
     from .constitutional_ai import DecisionContext, get_constitutional_framework

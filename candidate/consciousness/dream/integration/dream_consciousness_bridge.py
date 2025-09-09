@@ -28,12 +28,12 @@ class DreamConsciousnessBridge:
 
     def __init__(self):
         self.bridge_state = ConsciousnessBridgeState.DISCONNECTED
-        self.active_connections: Dict[str, Dict] = {}
-        self.synchronization_log: List[Dict] = []
+        self.active_connections: dict[str, dict] = {}
+        self.synchronization_log: list[dict] = []
         self.bridge_counter = 0
         logger.info("🌉 Dream Consciousness Bridge initialized - Trinity Framework active")
 
-    def establish_bridge(self, dream_id: str, consciousness_context: Dict[str, Any]) -> str:
+    def establish_bridge(self, dream_id: str, consciousness_context: dict[str, Any]) -> str:
         """⚛️ Establish bridge between dream and consciousness while preserving identity."""
         self.bridge_counter += 1
         bridge_id = f"bridge_{self.bridge_counter}_{int(datetime.now(timezone.utc).timestamp())}"
@@ -58,7 +58,7 @@ class DreamConsciousnessBridge:
         logger.info(f"🌉 Dream consciousness bridge established: {bridge_id} for dream {dream_id}")
         return bridge_id
 
-    def synchronize_states(self, bridge_id: str) -> Dict[str, Any]:
+    def synchronize_states(self, bridge_id: str) -> dict[str, Any]:
         """🧠 Synchronize consciousness-aware dream and consciousness states."""
         if bridge_id not in self.active_connections:
             return {"error": "Bridge not found"}
@@ -87,7 +87,7 @@ class DreamConsciousnessBridge:
         logger.info(f"🧠 Dream consciousness states synchronized: {bridge_id}")
         return sync_result
 
-    def _extract_dream_state(self, dream_id: str) -> Dict[str, Any]:
+    def _extract_dream_state(self, dream_id: str) -> dict[str, Any]:
         """Extract current dream state information."""
         return {
             "dream_id": dream_id,
@@ -97,7 +97,7 @@ class DreamConsciousnessBridge:
             "temporal_position": "mid_sequence"
         }
 
-    def _extract_consciousness_state(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _extract_consciousness_state(self, context: dict[str, Any]) -> dict[str, Any]:
         """Extract current consciousness state information."""
         return {
             "awareness_level": "heightened",
@@ -118,7 +118,7 @@ class DreamConsciousnessBridge:
         """Validate Trinity Framework coherence across bridge."""
         return 0.89  # Simplified coherence validation
 
-    def transfer_symbolic_content(self, bridge_id: str, content: List[str]) -> Dict[str, Any]:
+    def transfer_symbolic_content(self, bridge_id: str, content: list[str]) -> dict[str, Any]:
         """🛡️ Transfer symbolic content with guardian validation."""
         if bridge_id not in self.active_connections:
             return {"error": "Bridge not found"}
@@ -144,7 +144,7 @@ class DreamConsciousnessBridge:
         safe_symbols = ["⚛️", "🧠", "🛡️", "∞", "◊", "🌈", "✨", "🌙"]
         return symbol in safe_symbols or len(symbol) == 1
 
-    def close_bridge(self, bridge_id: str) -> Dict[str, Any]:
+    def close_bridge(self, bridge_id: str) -> dict[str, Any]:
         """Close consciousness bridge connection."""
         if bridge_id not in self.active_connections:
             return {"error": "Bridge not found"}
@@ -167,7 +167,7 @@ class DreamConsciousnessBridge:
         logger.info(f"🌉 Dream consciousness bridge closed: {bridge_id}")
         return closure_result
 
-    def get_bridge_status(self) -> Dict[str, Any]:
+    def get_bridge_status(self) -> dict[str, Any]:
         """Get current bridge system status."""
         return {
             "bridge_state": self.bridge_state.value,

@@ -63,7 +63,7 @@ except ImportError:
 
     @dataclass
     class _MockResponseDreamsDP:
-        choices: List[_MockMessageDreamsDP] = field(default_factory=lambda: [_MockMessageDreamsDP()])
+        choices: list[_MockMessageDreamsDP] = field(default_factory=lambda: [_MockMessageDreamsDP()])
         model: str = "placeholder_dream_model_dp"
 
     class OpenAI:  # type: ignore
@@ -131,7 +131,7 @@ except ImportError as e_sym_dreams_imp:
         error_msg=str(e_sym_dreams_imp),
     )
 
-    def load_all_entries(entry_type_filter: Optional[str] = None) -> List[Dict[str, Any]]:
+    def load_all_entries(entry_type_filter: Optional[str] = None) -> list[dict[str, Any]]:
         log.warning("PLACEHOLDER: load_all_entries() in Dreams module.")
         return [
             {
@@ -141,7 +141,7 @@ except ImportError as e_sym_dreams_imp:
             }
         ]
 
-    def load_traits() -> Dict[str, Any]:
+    def load_traits() -> dict[str, Any]:
         log.warning("PLACEHOLDER: load_traits() in Dreams module.")
         return {
             "creativity_bias": 0.8,
@@ -222,7 +222,7 @@ def generate_dream_narrative(
         set_temperature=temperature,
     )
 
-    current_traits_data = load_traits()
+    load_traits()
     memory_fragments_data = load_all_entries()
     if memory_fragments_data:
         sampled = np.random.choice(
@@ -285,7 +285,7 @@ def generate_dream_narrative(
     return None
 
 
-def extract_visual_prompts_from_dream(dream_text_content: str) -> List[str]:
+def extract_visual_prompts_from_dream(dream_text_content: str) -> list[str]:
     """Extracts potential visual prompts from dream text using keywords."""
     if not dream_text_content:
         return []
@@ -329,7 +329,7 @@ def extract_visual_prompts_from_dream(dream_text_content: str) -> List[str]:
 def save_dream_to_log(
     dream_text_content: str,
     dream_id_val: Optional[str] = None,
-    dream_metadata: Optional[Dict[str, Any]] = None,
+    dream_metadata: Optional[dict[str, Any]] = None,
 ) -> Path:
     """Saves the generated dream text and metadata to a dated JSONL file.
     Includes survival_score for future value alignment."""

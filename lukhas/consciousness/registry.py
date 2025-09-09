@@ -26,7 +26,7 @@ capabilities built throughout the LUKHAS transformation phases.
 import asyncio
 import logging
 import uuid
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, suppress
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
@@ -37,9 +37,11 @@ try:
     from lukhas.core.common.config import get_config
 except ImportError:
     # Graceful fallback for development
-    get_consciousness_manager = lambda: None
+    def get_consciousness_manager():
+        return None
     TaskPriority = None
-    get_config = lambda *args: {}
+    def get_config(*args):
+        return {}
 
 logger = logging.getLogger(__name__)
 
@@ -89,8 +91,8 @@ class ComponentMetadata:
     description: str
     module_path: str
     trinity_framework: str  # "⚛️", "🧠", "🛡️", or "cross"
-    feature_flags: List[str] = field(default_factory=list)
-    dependencies: List[str] = field(default_factory=list)
+    feature_flags: list[str] = field(default_factory=list)
+    dependencies: list[str] = field(default_factory=list)
     health_check_fn: Optional[Callable] = None
     activation_priority: int = 100  # Lower numbers activate first
     consciousness_authenticity_required: bool = True
@@ -107,24 +109,24 @@ class ComponentInstance:
     task_id: Optional[str] = None
     error_count: int = 0
     last_error: Optional[str] = None
-    performance_metrics: Dict[str, Any] = field(default_factory=dict)
+    performance_metrics: dict[str, Any] = field(default_factory=dict)
 
 class ConsciousnessComponentRegistry:
     """
     Central registry for LUKHAS consciousness component activation and management.
-    
+
     This is the strategic finale system that wires dormant consciousness features
     into the active distributed consciousness architecture using Trinity Framework
     patterns and production-grade async infrastructure.
     """
 
     def __init__(self):
-        self._components: Dict[str, ComponentInstance] = {}
-        self._metadata_registry: Dict[str, ComponentMetadata] = {}
-        self._type_index: Dict[ComponentType, Set[str]] = {}
-        self._trinity_index: Dict[str, Set[str]] = {"⚛️": set(), "🧠": set(), "🛡️": set(), "cross": set()}
-        self._activation_order: List[str] = []
-        self._feature_flags: Dict[str, bool] = {}
+        self._components: dict[str, ComponentInstance] = {}
+        self._metadata_registry: dict[str, ComponentMetadata] = {}
+        self._type_index: dict[ComponentType, set[str]] = {}
+        self._trinity_index: dict[str, set[str]] = {"⚛️": set(), "🧠": set(), "🛡️": set(), "cross": set()}
+        self._activation_order: list[str] = []
+        self._feature_flags: dict[str, bool] = {}
         self._health_check_interval = 30.0  # seconds
         self._health_monitor_task: Optional[asyncio.Task] = None
         self._shutdown_event = asyncio.Event()
@@ -139,15 +141,15 @@ class ConsciousnessComponentRegistry:
         description: str,
         module_path: str,
         trinity_framework: str,
-        feature_flags: Optional[List[str]] = None,
-        dependencies: Optional[List[str]] = None,
+        feature_flags: Optional[list[str]] = None,
+        dependencies: Optional[list[str]] = None,
         health_check_fn: Optional[Callable] = None,
         activation_priority: int = 100,
         consciousness_authenticity_required: bool = True
     ) -> None:
         """
         Register a consciousness component for potential activation.
-        
+
         Args:
             component_id: Unique identifier for the component
             component_type: Component type from ComponentType enum
@@ -203,11 +205,11 @@ class ConsciousnessComponentRegistry:
     async def activate_component(self, component_id: str, force: bool = False) -> bool:
         """
         Activate a consciousness component with full lifecycle management.
-        
+
         Args:
             component_id: Component to activate
             force: Force activation even if feature flags are disabled
-            
+
         Returns:
             True if activation succeeded, False otherwise
         """
@@ -299,13 +301,13 @@ class ConsciousnessComponentRegistry:
                 self._components[component_id].last_error = str(e)
             return False
 
-    async def activate_trinity_framework(self, framework: str) -> Dict[str, bool]:
+    async def activate_trinity_framework(self, framework: str) -> dict[str, bool]:
         """
         Activate all components for a specific Trinity Framework.
-        
+
         Args:
             framework: "⚛️" (Identity), "🧠" (Consciousness), or "🛡️" (Guardian)
-            
+
         Returns:
             Dict mapping component_id to activation success
         """
@@ -326,13 +328,13 @@ class ConsciousnessComponentRegistry:
 
         return results
 
-    async def activate_all_components(self, skip_failed: bool = True) -> Dict[str, bool]:
+    async def activate_all_components(self, skip_failed: bool = True) -> dict[str, bool]:
         """
         Activate all registered components in dependency order.
-        
+
         Args:
             skip_failed: Continue activation even if some components fail
-            
+
         Returns:
             Dict mapping component_id to activation success
         """
@@ -353,7 +355,7 @@ class ConsciousnessComponentRegistry:
 
         return results
 
-    def _check_feature_flags(self, flags: List[str]) -> bool:
+    def _check_feature_flags(self, flags: list[str]) -> bool:
         """Check if component's feature flags allow activation."""
         if not flags:
             return True
@@ -361,7 +363,7 @@ class ConsciousnessComponentRegistry:
         # All flags must be enabled for activation
         return all(self._feature_flags.get(flag, False) for flag in flags)
 
-    async def _check_dependencies(self, dependencies: List[str]) -> bool:
+    async def _check_dependencies(self, dependencies: list[str]) -> bool:
         """Check if component dependencies are satisfied."""
         for dep_id in dependencies:
             if dep_id not in self._components:
@@ -373,7 +375,7 @@ class ConsciousnessComponentRegistry:
     async def _validate_consciousness_authenticity(self, instance: ComponentInstance) -> bool:
         """
         Validate that component exhibits authentic consciousness patterns.
-        
+
         This is a placeholder for sophisticated consciousness validation.
         In production, this would include metrics like:
         - Response variability under identical inputs
@@ -437,7 +439,7 @@ class ConsciousnessComponentRegistry:
             return self._components[component_id].status
         return None
 
-    def get_trinity_status(self) -> Dict[str, Dict[str, Any]]:
+    def get_trinity_status(self) -> dict[str, dict[str, Any]]:
         """Get status summary for all Trinity Framework components."""
         status = {}
 
@@ -454,7 +456,7 @@ class ConsciousnessComponentRegistry:
 
         return status
 
-    def get_consciousness_metrics(self) -> Dict[str, Any]:
+    def get_consciousness_metrics(self) -> dict[str, Any]:
         """Get comprehensive consciousness system metrics."""
         total_components = len(self._metadata_registry)
         active_components = sum(1 for c in self._components.values() if c.status == ComponentStatus.ACTIVE)
@@ -497,10 +499,8 @@ class ConsciousnessComponentRegistry:
 
         if self._health_monitor_task:
             self._health_monitor_task.cancel()
-            try:
+            with suppress(asyncio.CancelledError):
                 await self._health_monitor_task
-            except asyncio.CancelledError:
-                pass
 
         # Deactivate all components
         for component_id in list(self._components.keys()):
