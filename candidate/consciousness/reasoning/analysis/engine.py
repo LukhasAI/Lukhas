@@ -2,7 +2,16 @@ import os
 import logging
 import streamlit as st
 from typing import Dict
-logger = logging.getLogger(__name__)
+
+# Try to use structlog if available, fall back to standard logging
+try:
+    import structlog
+    logger = structlog.get_logger(__name__)
+    STRUCTLOG_AVAILABLE = True
+except ImportError:
+    logger = logging.getLogger(__name__)
+    STRUCTLOG_AVAILABLE = False
+
 from datetime import datetime, timezone
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -55,8 +64,7 @@ try:
     logger.info("Successfully imported core dependencies for LucasAnalyzeEngine.")
 except ImportError as e:
     logger.error(
-        "Failed to import core dependencies for LucasAnalyzeEngine. Engine may be non-functional.",
-        error=str(e),
+        f"Failed to import core dependencies for LucasAnalyzeEngine. Engine may be non-functional. Error: {e}",
         exc_info=True,
     )
 
@@ -132,8 +140,38 @@ class LucasAnalyzeEngine:
     """
 
     def __init__(self, config: Optional[Any] = None):  # Changed LucasConfig to Any due to potential import issues
-        self.logger = logger.bind(engine_instance_id=f"LAE_{time.monotonic_ns()}")
+        # Set up logger with fallback for non-structlog environments
+        if STRUCTLOG_AVAILABLE:
+            self.logger = logger.bind(engine_instance_id=f"LAE_{time.monotonic_ns()}")
+            self.structured_logging = True
+        else:
+            self.logger = logger
+            self.structured_logging = False
         self.logger.info("Initializing LucasAnalyzeEngine instance.")
+
+    def _log_info(self, message: str, **kwargs):
+        """Helper method for structured logging with fallback"""
+        if self.structured_logging:
+            self.logger.info(message, **kwargs)
+        else:
+            details = ", ".join(f"{k}={v}" for k, v in kwargs.items())
+            self.logger.info(f"{message} ({details})" if details else message)
+
+    def _log_error(self, message: str, **kwargs):
+        """Helper method for structured error logging with fallback"""
+        if self.structured_logging:
+            self.logger.error(message, **kwargs)
+        else:
+            details = ", ".join(f"{k}={v}" for k, v in kwargs.items())
+            self.logger.error(f"{message} ({details})" if details else message)
+
+    def _log_debug(self, message: str, **kwargs):
+        """Helper method for structured debug logging with fallback"""
+        if self.structured_logging:
+            self.logger.debug(message, **kwargs)
+        else:
+            details = ", ".join(f"{k}={v}" for k, v in kwargs.items())
+            self.logger.debug(f"{message} ({details})" if details else message)
 
         # ΛNOTE: Config handling assumes LucasConfig.get_default() or passed config.
         self.config = (
@@ -244,17 +282,16 @@ class LucasAnalyzeEngine:
                 quality_score=data_profile.get("quality_score"),
             )
         except ValueError as e_prep:
-            self.logger.error("Data preparation failed.", error=str(e_prep), exc_info=True)
+            self.logger.error(f"Data preparation failed. Error: {e_prep}", exc_info=True)
             return self._format_response(
                 {"error": f"Data preparation error: {e_prep!s}"},
                 time.time() - _start_time,
                 error_state=True,
             )
         except Exception as e_prep_other:  # Catch other unexpected errors during prep
-            self.logger.error(
+            self._log_error(
                 "Unexpected error during data preparation.",
                 error=str(e_prep_other),
-                exc_info=True,
             )
             return self._format_response(
                 {"error": f"Unexpected data preparation error: {e_prep_other!s}"},
@@ -270,7 +307,7 @@ class LucasAnalyzeEngine:
 
         # ΛPHASE_NODE: Access Control Check
         # AIDENTITY: Access control check based on user_id and data size.
-        self.logger.debug(
+        self._log_debug(
             "Checking access permissions.",
             user_id=request.user_id,
             data_size=len(processed_data),
@@ -363,7 +400,7 @@ class LucasAnalyzeEngine:
                 try:
                     return pd.read_csv(io.StringIO(data_input))
                 except Exception as e_strio:
-                    self.logger.error("Failed to parse input string as CSV.", error=str(e_strio))
+                    self.logger.error(f"Failed to parse input string as CSV. Error: {e_strio}")
                     raise ValueError(
                         f"Input string could not be parsed as CSV and is not a valid file/URL: {data_input[:100]}..."
                     ) from e_strio

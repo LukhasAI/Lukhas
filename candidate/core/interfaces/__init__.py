@@ -11,7 +11,14 @@ Components:
 - Intelligence engine registry
 - Additional protocol interfaces
 """
-import lukhas_pb2
+# Import gRPC protocol buffer implementations
+try:
+    from .api.v1.grpc.pb2 import *
+    from .api.v1.grpc import pb2 as lukhas_pb2
+except ImportError:
+    # Fallback for missing gRPC components
+    lukhas_pb2 = None
+
 import streamlit as st
 
 from .core_interface import CoreInterface, get_module as get_core_module, register_module as register_core_module

@@ -1,0 +1,4 @@
+{
+  "error": "Testing dependencies not available",
+  "suggestion": "Install testing dependencies: pip install pytest httpx websockets"
+}

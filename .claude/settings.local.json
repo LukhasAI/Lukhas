@@ -96,7 +96,8 @@
       "Bash(gtimeout 3 npm run start)",
       "Bash(timeout 3 npm run start:http)",
       "Bash(gtimeout 3 npm run start:http)",
-      "Bash(dig:*)"
+      "Bash(dig:*)",
+      "Bash(mkdir:*)"
     ],
     "deny": [],
     "ask": []

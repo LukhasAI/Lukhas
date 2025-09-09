@@ -1,0 +1,69 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.1, pluggy-1.6.0
+rootdir: /Users/agi_dev/LOCAL-REPOS/Lukhas
+configfile: pytest.ini
+plugins: asyncio-1.1.0, xdist-3.8.0, httpx-0.35.0, anyio-4.10.0, Faker-37.6.0, cov-6.2.1, mock-3.14.1, hypothesis-6.138.14, postgresql-7.0.2
+asyncio: mode=auto, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 13 items
+
+tests/memory/test_memory_basic.py ...                                    [ 23%]
+tests/test_memory_fold_system.py ..                                      [ 38%]
+tests/test_memory_system_validation.py FFsFFsFF                          [100%]
+
+=================================== FAILURES ===================================
+____ TestMemorySystemValidation.test_unified_memory_core_cascade_prevention ____
+tests/test_memory_system_validation.py:23: in test_unified_memory_core_cascade_prevention
+    from candidate.memory.folds.unified_memory_core import (
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/memory/folds/unified_memory_core.py", line 371
+E       fold_key = f"fold_{memory_id}_{int(time.time(} * 1000}"
+E                                                              ^
+E   SyntaxError: f-string: closing parenthesis '}' does not match opening parenthesis '('
+_________ TestMemorySystemValidation.test_memory_operation_performance _________
+tests/test_memory_system_validation.py:66: in test_memory_operation_performance
+    from candidate.memory.folds.unified_memory_core import (
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/memory/folds/unified_memory_core.py", line 371
+E       fold_key = f"fold_{memory_id}_{int(time.time(} * 1000}"
+E                                                              ^
+E   SyntaxError: f-string: closing parenthesis '}' does not match opening parenthesis '('
+________ TestMemorySystemValidation.test_dream_trace_quantum_resonance _________
+tests/test_memory_system_validation.py:143: in test_dream_trace_quantum_resonance
+    from candidate.memory.systems.dream_trace_linker import DreamtraceLinker
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/memory/systems/dream_trace_linker.py", line 242
+E       trace_id = f"ΛTRACE::MEM.{hashlib.md5(f\'{dream_id)}_{datetime.now(timezone.utc)}\'.encode()).hexdigest()[:5].upper()}"
+E                                                                                                                              ^
+E   SyntaxError: f-string expression part cannot include a backslash
+_____ TestMemorySystemValidation.test_memory_cleaner_comprehensive_health ______
+tests/test_memory_system_validation.py:179: in test_memory_cleaner_comprehensive_health
+    from candidate.memory.causal.memory_cleaner import MemoryCleaner
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/memory/causal/memory_cleaner.py", line 60
+E       self.agent_id = f"{parent_id}_MEMORY_{int(datetime.now(timezone.utc).timestamp()}"
+E                                                                                         ^
+E   SyntaxError: f-string: closing parenthesis '}' does not match opening parenthesis '('
+______ TestMemorySystemValidation.test_predictive_compression_scheduling _______
+tests/test_memory_system_validation.py:239: in test_predictive_compression_scheduling
+    from candidate.memory.systems.symbolic_delta_compression import (
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/memory/systems/symbolic_delta_compression.py", line 1277
+E       "schedule_id": f"schedule_{int(time.time())",
+E                                                   ^
+E   SyntaxError: f-string: expecting '}'
+_______ TestMemorySystemValidation.test_memory_system_integration_smoke ________
+tests/test_memory_system_validation.py:286: in test_memory_system_integration_smoke
+    __import__(module)
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/memory/folds/unified_memory_core.py", line 371
+E       fold_key = f"fold_{memory_id}_{int(time.time(} * 1000}"
+E                                                              ^
+E   SyntaxError: f-string: closing parenthesis '}' does not match opening parenthesis '('
+---- generated xml file: /Users/agi_dev/LOCAL-REPOS/Lukhas/test-results.xml ----
+============================= slowest 10 durations =============================
+0.05s setup    tests/memory/test_memory_basic.py::test_memory_wrapper_import
+0.01s call     tests/test_memory_fold_system.py::TestMemoryFoldSystem::test_cascade_prevention_with_quarantine
+
+(8 durations < 0.005s hidden.  Use -vv to show these durations.)
+=========================== short test summary info ============================
+FAILED tests/test_memory_system_validation.py::TestMemorySystemValidation::test_unified_memory_core_cascade_prevention
+FAILED tests/test_memory_system_validation.py::TestMemorySystemValidation::test_memory_operation_performance
+FAILED tests/test_memory_system_validation.py::TestMemorySystemValidation::test_dream_trace_quantum_resonance
+FAILED tests/test_memory_system_validation.py::TestMemorySystemValidation::test_memory_cleaner_comprehensive_health
+FAILED tests/test_memory_system_validation.py::TestMemorySystemValidation::test_predictive_compression_scheduling
+FAILED tests/test_memory_system_validation.py::TestMemorySystemValidation::test_memory_system_integration_smoke
+==================== 6 failed, 5 passed, 2 skipped in 3.54s ====================
