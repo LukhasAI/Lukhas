@@ -25,8 +25,13 @@ Modules:
 - qi/: Quantum-inspired processing modules
 - voice/: Voice and communication systems
 """
+
 # from consciousness.qi import qi  # Temporarily disabled due to import cascade
-import streamlit as st
+try:
+    import streamlit as st
+except ImportError:  # pragma: no cover
+    st = None
+    # Optional UI dependency; core runtime must not require it.
 
 # Version information
 __version__ = "1.0.0-dev"

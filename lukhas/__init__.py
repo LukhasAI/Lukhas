@@ -2,7 +2,12 @@
 LUKHAS AI - Accepted/Production Code
 Stable, tested, and ready for production use
 """
-import streamlit as st
+
+try:
+    import streamlit as st
+except ImportError:  # pragma: no cover
+    st = None
+    # Optional UI dependency; core runtime must not require it.
 
 # Import all lukhas submodules to enable lukhas.* namespace access
 try:
