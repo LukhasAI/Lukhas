@@ -13,7 +13,7 @@ Status: ACTIVE
 Priority: HIGH
 """
 
-from typing import Any, Dict
+from typing import Any
 
 
 class _VoiceSymbolicVocabulary:
@@ -39,6 +39,27 @@ except ImportError:
     BIO_SYMBOLS = {}
     EMOTION_SYMBOLS = {}
     DEVICE_SYMBOLS = {}
+
+
+# Create SymbolicVocabulary class for compatibility
+class SymbolicVocabulary:
+    """Symbolic vocabulary for consistent symbol/emoji mappings"""
+
+    def __init__(self, symbols=None):
+        self.symbols = symbols or {}
+
+    def get_symbol(self, key: str, default: str = "❓") -> str:
+        """Get symbol by key"""
+        return self.symbols.get(key, default)
+
+    def add_symbol(self, key: str, symbol: str):
+        """Add a symbol to the vocabulary"""
+        self.symbols[key] = symbol
+
+    def get_all_symbols(self) -> dict:
+        """Get all symbols"""
+        return self.symbols.copy()
+
 
 try:
     from .dream_vocabulary import (
@@ -114,6 +135,8 @@ def get_symbol(vocabulary_name: str, key: str, default: str = "❓") -> str:
 
 # Export all symbols
 __all__ = [
+    # Main class
+    "SymbolicVocabulary",
     # Bio module
     "BIO_SYMBOLS",
     "DEVICE_SYMBOLS",

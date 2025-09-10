@@ -4,6 +4,7 @@
 **Execution Model**: 4 parallel streams (A-D) with dependency management
 **Sprint Duration**: 1 week (same-day parallel execution where possible)
 
+
 ## Stream Dependencies
 
 ```
@@ -15,6 +16,81 @@ Stream C (Security/SBOM) ── Independent
 
 Stream D (Syntax/Cycles) ── Waits for A+B merge
 ```
+
+## Multi‑Agent Task Matrix (Assignable IDs)
+
+**Roster**: Jules01…Jules10 (generalists), Codex (shell/patch heavy), Claude Code (multi‑file plans).
+**WIP**: Max 3 PRs open at once. Prefer ≤300 LOC per PR.
+**Branching**: `fix/…` (A), `feat/…` (B), `sec/…` (C), `chore/…` (D).
+
+### Stream A — Lane Integrity (Critical Path)
+**Issues**: #184 | **Lead**: Jules01
+
+| ID  | Task                                                                                  | Default Assignee | Branch                          | Acceptance Criteria |
+|-----|----------------------------------------------------------------------------------------|------------------|----------------------------------|---------------------|
+| A1  | Inventory all imports using `quarantine/cross_lane`; produce call‑site list           | Jules01          | fix/stream-a-a1-inventory        | List committed in `reports/audit/lane/cross_lane_calls.txt` |
+| A2  | Create minimal shims under `lukhas/shims/…` matching used symbols                     | Jules02          | fix/stream-a-a2-shims            | API parity for used symbols; unit stub tests pass |
+| A3  | Replace cross‑lane imports with shims across `lukhas/**`                               | Jules01          | fix/stream-a-a3-rewire           | `make lane-guard` green; `lint-imports` green |
+| A4  | Add/verify `.importlinter` contracts incl. `root_packages = lukhas, matriz`           | Jules03          | fix/stream-a-a4-archlint         | Deliberate bad import turns CI red; then removed |
+| A5  | Add runtime guard + tripwire (already present) — prove it fails without flag          | Jules03          | fix/stream-a-a5-runtime-guard    | `runtime_lane_guard.py` fails when ALLOW flag unset on synthetic leak |
+| A6  | Delete `quarantine/cross_lane` and dead aliases                                       | Jules02          | fix/stream-a-a6-remove-quarantine| Grep shows 0 refs; tests & guards green |
+
+**Runbook**: `PYTHONPATH=. python3 tools/ci/runtime_lane_guard.py && PYTHONPATH=. lint-imports -v && ruff check --select E9,F63,F7,F82 lukhas`
+
+---
+
+### Stream B — MATRIZ Trace API
+**Issues**: #185, #189 | **Lead**: Jules04
+
+| ID  | Task                                                                 | Default Assignee | Branch                         | Acceptance Criteria |
+|-----|----------------------------------------------------------------------|------------------|-------------------------------|---------------------|
+| B1  | Implement `matriz.traces_router`: `/traces/latest`, `/traces/{id}`   | Jules04          | feat/stream-b-b1-router       | 200 + JSON with `trace_id` for golden file |
+| B2  | List endpoint `/traces/` (merge LIVE `reports/matriz/traces` + GOLD) | Jules05          | feat/stream-b-b2-list         | Returns `{traces:[…], count:n}` |
+| B3  | Wire router in `serve/main.py` (conditional include)                 | Jules05          | feat/stream-b-b3-wire         | Smoke GET passes in CI |
+| B4  | Golden tests: `tests/smoke/test_traces_router.py`                    | Jules04          | feat/stream-b-b4-tests        | Tests pass in CI; no network |
+| B5  | Contracts: ensure Tier‑1 has at least one MATRIZ golden trace        | Jules05          | feat/stream-b-b5-contracts    | Contracts & goldens validated by `contracts-smoke` job |
+
+Env override: `MATRIZ_TRACES_DIR` for runtime; default GOLD=`tests/golden/tier1`, LIVE=`reports/matriz/traces`.
+
+---
+
+### Stream C — Security & SBOM
+**Issue**: #186 | **Lead**: Jules06
+
+| ID  | Task                                                               | Default Assignee | Branch                        | Acceptance Criteria |
+|-----|--------------------------------------------------------------------|------------------|------------------------------|---------------------|
+| C1  | Reference CycloneDX at `reports/sbom/cyclonedx.json` in security doc | Jules06        | sec/stream-c-c1-sbom-doc     | Path + generation command present in `SECURITY_ARCHITECTURE.json` |
+| C2  | Add/refresh `constraints.txt` for critical deps                     | Jules06          | sec/stream-c-c2-constraints  | CI installs with `-c constraints.txt` |
+| C3  | Add non‑blocking `gitleaks` scan step                               | Jules06          | sec/stream-c-c3-gitleaks     | Report artifact; fails only on findings |
+
+---
+
+### Stream D — Syntax & Cycle Hygiene (post A+B)
+**Issues**: #187, #188 | **Lead**: Jules07
+
+| ID  | Task                                                                     | Default Assignee | Branch                         | Acceptance Criteria |
+|-----|--------------------------------------------------------------------------|------------------|-------------------------------|---------------------|
+| D1  | Fix F821 logger references in `memory/**` (scoped)                       | Jules07          | chore/stream-d-d1-logger      | `ruff --select E9,F63,F7,F82` clean on touched files |
+| D2  | Break Identity↔Governance cycle via small interface module               | Jules08          | chore/stream-d-d2-cycle       | `lint-imports` shows cycle removed; tests green |
+| D3  | Normalize scoreboard keys & add CI sanity for contradictions artifact    | Jules09          | chore/stream-d-d3-auditdash   | `scoreboard.json` normalized; contradictions check present |
+
+---
+
+## Agent Assignment & Handover Protocol
+
+1. **Claim** a task by adding a checklist item to the PR description: `Took: <ID>`.
+2. **Create branch** with the suggested name, keep PR ≤300 LOC.
+3. **Run gates locally**: runtime guard → tripwire → import‑linter → smoke tests.
+4. **Handover**: on block >2h, push WIP, tag next Jules by ID, and note blockers in PR.
+5. **Close** the task by pasting evidence (commands output) into the PR under **Acceptance Criteria**.
+
+## Current Default Assignments
+- A1/A3 → Jules01, A2/A6 → Jules02, A4/A5 → Jules03
+- B1/B4 → Jules04, B2/B3/B5 → Jules05
+- C1/C2/C3 → Jules06
+- D1 → Jules07, D2 → Jules08, D3 → Jules09
+- **Codex**: shell edits, CI wiring, search/replace ops across tree
+- **Claude Code**: multi‑file diffs, refactors, documentation updates
 
 ## Stream A: Lane Integrity (Critical Path)
 **Issues**: #184

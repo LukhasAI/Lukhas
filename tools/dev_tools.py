@@ -431,7 +431,9 @@ class DeveloperTools(BaseCommand):
         for file_path in python_files:
             with open(file_path, encoding="utf-8") as f:
                 code = f.read()
-                lines_of_code += len([l for l in code.split("\n") if l.strip() and not l.strip().startswith("#")])
+                lines_of_code += len(
+                    [line for line in code.split("\n") if line.strip() and not line.strip().startswith("#")]
+                )
                 functions_count += code.count("def ")
                 classes_count += code.count("class ")
 

@@ -9,7 +9,7 @@ from typing import Any, Union
 from .tier_validator import TierValidator
 
 # Initialize a global tier validator instance
-_tier_validator = TierValidator()
+_tier_validator = TierValidator(config_path=None)
 
 
 def check_access_level(user_id: str, required_tier: int) -> Union[bool, dict[str, Any]]:

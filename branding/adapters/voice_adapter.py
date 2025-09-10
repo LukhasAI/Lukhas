@@ -9,6 +9,9 @@ import sys
 from pathlib import Path
 from typing import Any, Optional
 
+# Module logger
+logger = logging.getLogger(__name__)
+
 # Add bridge module to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent / "bridge"))
 
@@ -25,14 +28,18 @@ except ImportError as e:
     logging.warning(f"LLM Bridge not available: {e}")
     LLM_BRIDGE_AVAILABLE = False
 
-# Import voice systems with fallback
+# Import voice systems with fallback (avoiding circular imports)
 try:
-    from products.experience.voice.core import (
-        LUKHASAudioProcessor,
-        LUKHASVoiceSystem,
-        VoiceEffectsProcessor,
-        VoiceModulator,
-    )
+    # Try importing voice systems, but catch circular import issues
+    from products.experience.voice.bridge.interface import VoiceNode
+    from products.experience.voice.bridge.modulator import VoiceModulator
+    from products.experience.voice.bridge.synthesis import VoiceSynthesis
+
+    VOICE_SYSTEMS_AVAILABLE = True
+    logger.info("✅ Using products.experience.voice.bridge systems (REAL)")
+except ImportError as e:
+    logger.debug(f"Voice bridge systems not available ({e}), using compatibility layer")
+    VOICE_SYSTEMS_AVAILABLE = False
 
     VOICE_SYSTEMS_AVAILABLE = True
     logging.info("Real LUKHAS voice systems loaded successfully")

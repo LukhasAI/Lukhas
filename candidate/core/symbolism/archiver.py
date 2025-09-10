@@ -76,3 +76,9 @@ class SymbolicShellArchiver:
         if self.task:
             self.task.cancel()
         logger.info("SymbolicShellArchiver stopped")
+
+
+# Alias for backward compatibility
+Archiver = SymbolicShellArchiver
+
+__all__ = ["SymbolicShellArchiver", "Archiver"]

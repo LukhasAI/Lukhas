@@ -54,6 +54,7 @@ from bio.core.symbolic_adaptive_threshold_colony import AdaptiveThresholdColony
 
 # Import existing LUKHAS adaptive systems
 from bio.core.symbolic_fallback_systems import BioSymbolicFallbackManager
+from candidate.core.event_bus import EventBus
 
 # Dashboard system imports
 from dashboard.core.dashboard_colony_agent import DashboardAgentRole, DashboardColonyAgent

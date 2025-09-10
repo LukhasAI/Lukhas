@@ -12,7 +12,6 @@ Components:
 - Additional protocol interfaces
 """
 import lukhas_pb2
-import streamlit as st
 
 from .core_interface import CoreInterface
 from .core_interface import get_module as get_core_module

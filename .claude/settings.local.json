@@ -74,7 +74,8 @@
       "Bash(then echo \"✓ $dir exists\")",
       "Bash(else echo \"✗ $dir MISSING\")",
       "Bash(do echo \"Processing $file...\")",
-      "Bash(sed:*)"
+      "Bash(sed:*)",
+      "Bash(python3:*)"
     ],
     "deny": [],
     "ask": []

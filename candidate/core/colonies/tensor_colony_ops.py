@@ -82,3 +82,30 @@ def plot_throughput(timings: list[float]) -> None:
     plt.title("Colony Reasoning Throughput")
     plt.tight_layout()
     plt.show()
+
+
+class TensorColonyOps:
+    """Tensor-based colony operations class"""
+
+    def __init__(self):
+        self.device = _device
+        self.resolver = _resolver
+
+    def tags_to_tensor(self, tag_data):
+        """Convert tag data to tensor"""
+        return tags_to_tensor(tag_data)
+
+    def batch_propagate(self, colonies):
+        """Batch propagate across colonies"""
+        return batch_propagate(colonies)
+
+    def colony_reasoning_tensor(self, colony_vectors):
+        """Perform tensor-based reasoning"""
+        return colony_reasoning_tensor(colony_vectors)
+
+    def simulate_throughput(self, colony_vectors, steps=10):
+        """Run throughput simulation"""
+        return simulate_throughput(colony_vectors, steps)
+
+
+__all__ = ["TensorColonyOps", "tags_to_tensor", "batch_propagate", "colony_reasoning_tensor", "simulate_throughput", "plot_throughput"]

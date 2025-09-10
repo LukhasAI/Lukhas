@@ -35,6 +35,9 @@ logger = logging.getLogger(__name__)
 QI_ACTIVE = os.getenv("QI_ACTIVE", "false").lower() == "true"
 QI_DRY_RUN = os.getenv("QI_DRY_RUN", "true").lower() == "true"
 
+# Feature flag for candidate bridge (runtime lane integrity)
+USE_CANDIDATE_BRIDGE = os.getenv("ALLOW_CANDIDATE_RUNTIME") == "1"
+
 
 class ConstitutionalSafetyGuard:
     """Constitutional AI safety checks following Anthropic's principles"""
@@ -455,7 +458,7 @@ class QIIntegration:
         """Initialize QI integrations with candidate module"""
         try:
             # Try to connect to candidate QI module
-            if QI_ACTIVE:
+            if QI_ACTIVE and USE_CANDIDATE_BRIDGE:
                 try:
                     # Import candidate module components without path hacks
                     import importlib
@@ -479,6 +482,14 @@ class QIIntegration:
                             "state": {"error": str(e)},
                         }
                     )
+            elif QI_ACTIVE and not USE_CANDIDATE_BRIDGE:
+                logger.debug("QI active but candidate bridge disabled for production lane integrity")
+                emit(
+                    {
+                        "ntype": "qi_candidate_bridge_disabled",
+                        "state": {"reason": "production_lane_integrity"},
+                    }
+                )
 
             # Initialize local processors
             self._quantum_processor = QIInspiredProcessor()

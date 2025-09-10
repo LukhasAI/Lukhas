@@ -9,13 +9,17 @@ This module intentionally avoids any cross-lane imports from `candidate`.
 import importlib
 import importlib.util
 import logging
+import os
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Any, List, Optional
-
-import streamlit as st
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
+
+# Feature flag for candidate bridge (default OFF for production lane integrity)
+USE_CANDIDATE_BRIDGE = os.getenv("ALLOW_CANDIDATE_RUNTIME") == "1"
+if USE_CANDIDATE_BRIDGE:
+    logger.warning("ALLOW_CANDIDATE_RUNTIME=1: candidate bridge enabled for migration")
 
 
 # Import router for fallback imports
@@ -43,6 +47,11 @@ logger.debug("Attempting to import colony implementations from candidate lane")
 
 
 def _try_import(name: str, candidate_module: str, item_name: str):
+    """Attempt to import from candidate module if bridge is enabled."""
+    if not USE_CANDIDATE_BRIDGE:
+        logger.debug(f"Candidate bridge disabled, skipping {candidate_module}")
+        return None
+
     try:
         mod = importlib.import_module(candidate_module)
         if hasattr(mod, item_name):
@@ -65,7 +74,16 @@ class ConsensusResult:
     dissent_reasons: list[str] = field(default_factory=list)
 
 
-BaseColony = _try_import("BaseColony", "candidate.core.colonies.base_colony", "BaseColony")
+BaseColony = None
+
+# Try to import from real lukhas.core implementation first
+try:
+    from lukhas.core.colonies.base_colony import BaseColony
+
+    logger.info("✅ Using lukhas.core.colonies.base_colony.BaseColony (REAL)")
+except ImportError:
+    # Fall back to candidate implementation if lukhas.core not available
+    BaseColony = _try_import("BaseColony", "candidate.core.colonies.base_colony", "BaseColony")
 
 if BaseColony is None:
     logger.warning("Using BaseColony stub (no cross-lane imports)")

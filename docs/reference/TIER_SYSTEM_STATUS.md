@@ -66,7 +66,7 @@ from identity.core.tier import TierValidator
 
 @audit_security("tier_access")
 async def check_tier_access(user_id: str, resource: str, required_tier: str):
-    validator = TierValidator()
+    validator = TierValidator(config_path=None)
     return validator.validate_tier(user_id, required_tier)
 ```
 

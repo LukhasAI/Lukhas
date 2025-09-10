@@ -357,7 +357,7 @@ class T4MasterFixer:
         quote_patterns = [
             ('"', '"'),  # Left curly quote
             ('"', '"'),  # Right curly quote  
-            ('''', "'"),  # Right single curly quote
+            ("'", "'"),  # Right single curly quote
             ('\"', '"'),  # Unicode left double quote
             ('\"', '"'),  # Unicode right double quote
             ('\'', "'"),  # Unicode left single quote
@@ -376,9 +376,8 @@ class T4MasterFixer:
                 for old_quote, new_quote in quote_patterns:
                     content = content.replace(old_quote, new_quote)
                 
-                # Fix incomplete docstrings
-                content = re.sub(r'"""', '"""', content)  # Six quotes to three
-                content = re.sub(r"'''", "'''", content)   # Six single quotes to three
+                # Fix incomplete docstrings - disabled due to regex complexity
+                # Would fix six consecutive quotes to three
                 
                 if content != original:
                     if not self.dry_run:
