@@ -149,6 +149,8 @@ reports/*
 !reports/lints/
 # Exception: Track SBOM files for security audits
 !reports/sbom/
+# Exception: Track audit reports for external auditor access
+!reports/audit/
 .pytest_cache/
 .venv/
 .venv_test/
