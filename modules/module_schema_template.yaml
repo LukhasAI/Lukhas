@@ -1,0 +1,357 @@
+# LUKHAS Module Schema Template v1.0
+# Enhanced framework for comprehensive module metadata management
+# Save under: modules/<module_name>.yaml
+
+# Core module identity and classification
+identity:
+  name: "candidate.memory"                    # Full module path (lane.module)
+  layer: "infrastructure"                     # foundational | infrastructure | application | interface
+  summary: "Fold-based memory with cascade prevention and temporal indexer"
+  status: "active"                           # active | paused | deprecated
+  tier: 2                                    # 1-5 criticality tier
+  
+# Module discovery and import patterns
+discovery:
+  import_patterns:
+    - "from candidate.memory import MemoryService"
+    - "from candidate.memory.folds import FoldManager"
+  import_aliases:
+    - "memory_service"
+    - "fold_mgr" 
+  file_patterns:
+    - "candidate/memory/**/*.py"
+    - "tests/memory/**/*.py"
+  entry_points:
+    - "candidate/memory/__init__.py"
+    - "candidate/memory/api.py"
+
+# Ownership and governance
+ownership:
+  owner: "@Agent02"                          # Primary maintainer
+  escalation: "@Gonzalo"                     # Escalation contact
+  lifecycle: "stable"                        # experimental | evolving | stable | deprecated
+  last_review: "2025-08-28T00:00:00Z"       # ISO 8601 timestamp
+  next_review: "2025-11-28T00:00:00Z"
+  promotion_rules:
+    from_lane: "candidate"
+    to_lane: "lukhas"
+    required_checks: ["tests/smoke", "golden", "lane-guard", "no-new-waivers"]
+    min_coverage: 0.85
+    min_uptime_days: 30
+
+# API contracts and compatibility guarantees
+contracts:
+  api:
+    surface:                                 # Public interfaces exposed
+      - "python: lukhas.memory.api:MemoryService"
+      - "event: execution.trace.memory"
+      - "rest: /api/v2/memory/*"
+      - "grpc: MemoryService"
+    version: "v2.0"
+    schema_version: "1.0"                    # Schema format version
+    compatibility:
+      backward: true                         # Backward compatibility maintained
+      forward: "minor"                       # Forward compatibility level
+    deprecation_policy:
+      min_notice_days: 90
+      migration_guide: "docs/migrations/memory_v2_to_v3.md"
+  invariants:
+    - "idempotent: write(trace_id) once"
+    - "timeout <= 200ms for read() at P95"
+    - "retry: exponential_backoff x2"
+    - "ordering: causal chain preserved"
+    - "cascade_prevention: 99.7% success rate"
+  error_taxonomy:
+    - code: "MEM_NOT_FOUND"
+      retriable: false
+      http_status: 404
+    - code: "MEM_RETRYABLE"
+      retriable: true
+      http_status: 503
+      backoff: "exponential"
+
+# Internal and external dependencies
+dependencies:
+  internal:
+    requires: 
+      - "candidate.core"
+      - "candidate.emotion" 
+      - "candidate.governance"
+    provides:
+      - "candidate.consciousness"
+      - "candidate.orchestration"
+      - "lukhas.memory"
+    circular_dependencies: []                # Known circular deps
+    weak_dependencies:                       # Optional dependencies
+      - "candidate.qi"
+  external:
+    libs:
+      - name: "redis"
+        version: "5.0.3"
+        license: "BSD-3"
+        purpose: "Distributed caching"
+      - name: "lmdb"
+        version: "1.4.1" 
+        license: "OpenLDAP"
+        purpose: "Memory fold storage"
+    services:
+      - name: "redis-cluster"
+        criticality: "high"                  # high | medium | low
+        endpoint_env: "REDIS_URL"
+        fallback: "local_cache"
+    system_dependencies:
+      - "python>=3.9"
+      - "liblmdb-dev"
+  coupling_metrics:
+    afferent: 18                            # Incoming dependencies
+    efferent: 9                             # Outgoing dependencies  
+    instability_index: 0.33                # Ce/(Ca+Ce)
+    abstractness: 0.15                      # Abstract classes ratio
+
+# Runtime configuration and deployment
+runtime:
+  processes:
+    entrypoints:
+      - "python -m lukhas.memory.service"
+      - "python -m lukhas.memory.worker"
+    concurrency_model: "async"              # thread | async | process | hybrid
+    scaling_policy: "horizontal"            # horizontal | vertical | none
+  config:
+    files: 
+      - "config/memory_config.yaml"
+      - "config/fold_limits.json"
+    env_vars_required: 
+      - "REDIS_URL"
+      - "MEMORY_POOL_SIZE"
+    env_vars_optional:
+      - "MEMORY_DEBUG_MODE"
+    feature_flags: 
+      - "MEMORY_CASCADE_GUARD=true"
+      - "FOLD_COMPRESSION=true"
+    secrets:
+      - "REDIS_PASSWORD"
+      - "ENCRYPTION_KEY"
+  resources:
+    cpu_limit: "1 vcpu"
+    mem_limit: "512 MiB"
+    disk_limit: "2 GiB"
+    network_bandwidth: "100 Mbps"
+  deployment:
+    container_image: "lukhas/memory:v2.0"
+    replicas: 3
+    health_check: "/health"
+    ready_check: "/ready"
+
+# Data schemas and event contracts
+data_and_events:
+  data_classes:
+    - name: "Fold"
+      schema_ref: "audit/SCHEMAS/fold.json"
+      description: "Memory fold data structure"
+    - name: "MemoryTrace"
+      schema_ref: "audit/SCHEMAS/memory_trace.json"  
+      description: "Execution trace for memory operations"
+  emits:
+    - topic: "execution.trace.memory"
+      schema_ref: "audit/SCHEMAS/execution_trace.json"
+      frequency: "high"                     # high | medium | low
+      retention: "7d"
+    - topic: "memory.fold.created"
+      schema_ref: "audit/SCHEMAS/fold_event.json"
+      frequency: "medium"
+      retention: "30d"
+  consumes:
+    - topic: "awareness.state"
+      schema_ref: "audit/SCHEMAS/awareness_state.json"
+      required: true
+    - topic: "user.session.events"
+      schema_ref: "audit/SCHEMAS/session_event.json"
+      required: false
+  storage:
+    databases:
+      - name: "memory_folds"
+        type: "lmdb"
+        retention: "permanent"
+        backup_frequency: "daily"
+    caches:
+      - name: "memory_index"
+        type: "redis"
+        ttl: "1h"
+  pii:
+    contains: false
+    notes: "user_id may appear as a foreign key only"
+    classification: "internal"              # public | internal | confidential | restricted
+
+# Security configuration and compliance
+security:
+  secrets:
+    sources: ["env", "secret_store", "vault"]
+    files: []                               # No secrets in files
+    rotation_frequency: "90d"
+  authz_model: "service_token + scope memory:*"
+  authentication:
+    required: true
+    methods: ["service_token", "mTLS"]
+    token_scope: ["memory:read", "memory:write"]
+  encryption:
+    at_rest: true
+    in_transit: true
+    key_management: "vault"
+  compliance:
+    data_classification: "internal"
+    regulations: ["GDPR", "CCPA"]
+    cve_watch: ["redis", "lmdb"]
+    vulnerability_scanning: true
+    penetration_testing: "quarterly"
+
+# Observability, monitoring, and SLOs
+observability:
+  logs:
+    format: "structured_json"               # structured_json | plaintext
+    level: "info"                          # debug | info | warn | error
+    destination: "stdout"                   # stdout | file | syslog
+    retention: "30d"
+  metrics:
+    exporter: "prometheus"                  # prometheus | datadog | custom
+    port: 9090
+    key_metrics:
+      - name: "memory_read_latency_ms_p95"
+        target: "<=200"
+        alert_threshold: ">300"
+      - name: "cascade_prevented_count"
+        target: ">=0.997"
+        alert_threshold: "<0.99"
+      - name: "fold_creation_rate"
+        target: ">0"
+        type: "counter"
+  traces:
+    format: "ExecutionTrace"                # ExecutionTrace | jaeger | zipkin
+    sampling_rate: 0.1                     # 10% sampling
+    id_key: "trace_id"
+    propagation: "b3"                      # b3 | jaeger | zipkin
+  alerts:
+    channels: ["slack", "pagerduty"]
+    escalation_policy: "memory_team"
+  dashboards:
+    grafana_dashboard_id: "memory-overview"
+    custom_dashboards: ["memory-performance", "fold-health"]
+  slos:
+    latency_p95_ms: 200
+    latency_p99_ms: 500  
+    error_rate_pct: 0.5
+    availability_pct: 99.9
+    throughput_rps: 1000
+
+# Testing strategy and quality metrics
+test_posture:
+  coverage:
+    current: 0.72
+    target: 0.85
+    threshold: 0.70                        # Minimum acceptable
+  tests:
+    unit: 34
+    integration: 8
+    e2e: 3
+    property: 3                            # Property-based tests
+    smoke: 1
+    load: 2
+    chaos: 1                               # Chaos engineering tests
+    security: 5                            # Security-focused tests
+  golden_tests:
+    count: 3
+    paths: 
+      - "tests/golden/memory_flow_*.json"
+      - "tests/golden/fold_operations_*.json"
+    determinism: "TZ=UTC PYTHONHASHSEED=0"
+    validation: "deep_comparison"
+  reality_tests:                           # Production-like testing
+    present: true
+    hook: "scripts/memory_reality_test.py"
+    frequency: "weekly"
+  quality_gates:
+    code_quality_score: 8.5                # 1-10 scale
+    technical_debt_ratio: 0.15             # 0-1 scale
+    cyclomatic_complexity: 10              # Max complexity
+    duplicate_code_pct: 5                  # Max duplication %
+  performance_tests:
+    load_test_scenarios: ["normal_load", "peak_load", "stress_test"]
+    baseline_rps: 1000
+    max_latency_ms: 200
+
+# Risk management and change control
+risk_and_change:
+  risks:
+    - id: "R-MEM-COUPLING"
+      title: "High coupling to consciousness"
+      likelihood: "medium"                  # low | medium | high
+      impact: "high"                       # low | medium | high | critical
+      risk_score: 15                       # 1-25 scale (likelihood × impact × 5)
+      mitigation: "abstract MemoryRead via interface; event bus split"
+      owner: "@Agent03"
+      review_date: "2025-10-01"
+      status: "open"                       # open | mitigated | accepted | closed
+    - id: "R-MEM-PERF"
+      title: "Memory fold cascade failure"
+      likelihood: "low"
+      impact: "critical" 
+      risk_score: 10
+      mitigation: "99.7% cascade prevention system active"
+      owner: "@Agent02"
+      status: "mitigated"
+  change_control:
+    change_approval_required: true
+    approval_threshold: "major"             # patch | minor | major
+    reviewers: ["@Agent02", "@TechLead"]
+    automated_checks: ["tests", "security", "performance"]
+  deprecation_policy:
+    min_notice_days: 90
+    migration_notes: 
+      - "docs/migrations/memory_v2_to_v3.md"
+      - "docs/breaking_changes/fold_schema.md"
+    support_timeline: "12_months"
+  upgrade_path:
+    current: "v2.0"
+    planned: "v3.0"
+    breaking_changes: 
+      - "fold schema v3"
+      - "API endpoint restructure"
+    strategy: "dual-write + reader shim 6 weeks"
+    rollback_plan: "automated_rollback_v2"
+
+# Schema metadata and provenance  
+provenance:
+  schema_version: "1.0"                     # Schema format version
+  last_updated: "2025-09-10T00:00:00Z"     # Last schema update
+  last_review: "2025-08-28T00:00:00Z"      # Last human review
+  next_review: "2025-11-28T00:00:00Z"      # Scheduled review
+  source_paths:                            # Code paths covered
+    - "lukhas/memory/**"
+    - "candidate/memory/**"
+    - "tests/memory/**"
+  generated_by:
+    tool: "lukhas-module-generator"         # Generation tool
+    version: "1.0.0"
+    args: "--include memory --deep-scan"
+    timestamp: "2025-09-10T00:00:00Z"
+  scope_hash: "sha256:abc123..."            # Content hash for change detection
+  contributors:
+    - "@Agent02"
+    - "@Gonzalo" 
+    - "@TechLead"
+  validation:
+    schema_valid: true
+    last_validated: "2025-09-10T00:00:00Z"
+    validator_version: "1.0.0"
+
+# Custom extensions (optional)
+extensions:
+  lukhas_specific:
+    consciousness_integration: true
+    trinity_framework_role: "memory_pillar"
+    quantum_features: ["fold_superposition", "entanglement_links"]
+    bio_inspired_components: ["neural_pruning", "synaptic_weights"]
+  business_context:
+    revenue_impact: "medium"                # low | medium | high
+    user_facing: false
+    competitive_advantage: true
+    regulatory_requirements: ["data_retention"]
