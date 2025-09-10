@@ -1,6 +1,12 @@
 # LUKHAS AI Platform
 
-Production-ready consciousness-aware AI platform with Constellation Framework.
+Production-ready consciousness-aware AI platform with Constellation Framework and multi-agent development system.
+
+## 🤖 Current Mission: MATRIZ-R1 Execution
+
+**📋 Active Development:** [MATRIZ-R1 Execution Plan](docs/project/MATRIZ_R1_EXECUTION_PLAN.md) - Multi-stream parallel development with agent task assignments
+
+**🎯 Agent System:** [AGENTS.md](AGENTS.md) - Complete guide to the multi-agent development platform
 
 ## Overview
 
@@ -54,21 +60,26 @@ pytest
 ## Project Structure
 
 ```
-├── lukhas/           # Production code (accepted lane)
-├── candidate/        # Development code under review
-├── matriz/           # Data processing and symbolic reasoning
-├── ops/             # Operations and configuration
-│   └── matriz.yaml  # Lane definitions and rules
-├── tests/           # Test suites
-│   └── smoke/       # Smoke tests for each lane
-├── docs/            # Documentation
-├── scripts/         # Utility scripts
-├── reports/         # Analysis and audit reports
-└── config/          # Configuration files
+├── lukhas/            # Production code (accepted lane)
+├── candidate/         # Development code under review
+├── matriz/            # Data processing and symbolic reasoning
+├── agents_external/   # External agent configurations and deployment
+├── .claude/agents/    # Claude Code UI specialists
+├── ops/              # Operations and configuration
+│   └── matriz.yaml   # Lane definitions and rules
+├── tests/            # Test suites
+│   └── smoke/        # Smoke tests for each lane
+├── docs/             # Documentation
+│   └── project/      # Project execution plans
+├── scripts/          # Utility scripts
+├── reports/          # Analysis and audit reports
+├── config/           # Configuration files
+└── AGENTS.md         # Multi-agent system guide
 ```
 
 ## Key Features
 
+- **Multi-Agent Development**: Specialized AI agents for complex task orchestration
 - **Lane-based Architecture**: Modular development with strict boundaries
 - **Import Validation**: Automated checking of cross-lane dependencies  
 - **Consciousness Framework**: Advanced cognitive patterns and reasoning
@@ -77,10 +88,12 @@ pytest
 
 ## Documentation
 
-- **Architecture**: `docs/LUKHAS_ARCHITECTURE_MASTER.json`
-- **Lane System**: `ops/matriz.yaml`
-- **Audit Reports**: `reports/deep_search/README_FOR_AUDITOR.md` ✨
-- **Original Documentation**: `docs/ORIGINAL_README.md`
+- **🤖 Agent System**: [`AGENTS.md`](AGENTS.md) - Multi-agent development platform guide
+- **📋 Current Tasks**: [`docs/project/MATRIZ_R1_EXECUTION_PLAN.md`](docs/project/MATRIZ_R1_EXECUTION_PLAN.md) - Active execution plan
+- **🏗️ Architecture**: `docs/LUKHAS_ARCHITECTURE_MASTER.json`
+- **🛤️ Lane System**: `ops/matriz.yaml`
+- **📊 Audit Reports**: `reports/deep_search/README_FOR_AUDITOR.md` ✨
+- **📜 Original Docs**: `docs/ORIGINAL_README.md`
 
 ## Recent Improvements
 
@@ -96,9 +109,11 @@ pytest
 3. Run smoke tests before committing changes
 4. Maintain audit compliance through proper documentation
 
-## Support
+## Agent Development Support
 
-For detailed agent coordination and development workflows, see `docs/ORIGINAL_README.md`.
+- **🎯 Current Tasks**: Check [`docs/project/MATRIZ_R1_EXECUTION_PLAN.md`](docs/project/MATRIZ_R1_EXECUTION_PLAN.md) for stream assignments
+- **🤖 Agent Selection**: See [`AGENTS.md`](AGENTS.md) for specialist recommendations
+- **📚 Legacy Docs**: Historical workflows in `docs/ORIGINAL_README.md`
 
 ## License
 

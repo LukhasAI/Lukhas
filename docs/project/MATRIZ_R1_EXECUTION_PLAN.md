@@ -1,5 +1,11 @@
 # 🚀 LUKHAS MATRIZ-R1 Parallel Stream Execution Plan
 
+**🤖 Agent System**: [`../../AGENTS.md`](../../AGENTS.md) - Complete guide to the multi-agent platform
+
+**External Configurations**: [`../../agents_external/`](../../agents_external/) - External agent deployment hub
+
+---
+
 **WIP Policy**: Max 3 PRs in-flight across "Fix Now" bucket
 **Execution Model**: 4 parallel streams (A-D) with dependency management
 **Sprint Duration**: 1 week (same-day parallel execution where possible)
@@ -77,6 +83,8 @@ Env override: `MATRIZ_TRACES_DIR` for runtime; default GOLD=`tests/golden/tier1`
 ---
 
 ## Agent Assignment & Handover Protocol
+
+**🤖 For Agent Selection Help**: See [`../../AGENTS.md`](../../AGENTS.md) - Agent selection guide by stream
 
 1. **Claim** a task by adding a checklist item to the PR description: `Took: <ID>`.
 2. **Create branch** with the suggested name, keep PR ≤300 LOC.
