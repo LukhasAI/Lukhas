@@ -27,54 +27,37 @@ class ModuleRouter:
     MODULE_REGISTRY: ClassVar[dict[str, list[str]]] = {
         # Core modules
         "lukhas.core.actor_system": [
-            "candidate.core.actor_system",
             "core.actor_system",
         ],
         "lukhas.core.colonies": [
-            "candidate.core.colonies",
-            "candidate.colonies",
             "core.colonies",
         ],
         # Bio modules
         "lukhas.bio.utilities": [
-            "candidate.bio.bio_utilities",
             "bio.bio_utilities",
             "bio.utilities",
         ],
         "lukhas.bio.core.bio_symbolic": [
-            "candidate.core.symbolic.symbolic_bio_symbolic",
-            "candidate.consciousness.unified.symbolic_bio_symbolic_orchestrator",
             "bio.core.symbolic_bio_symbolic",
         ],
         # Memory modules
         "lukhas.memory.emotional": [
-            "candidate.memory.emotional_memory_manager_unified",
-            "candidate.memory.systems.emotional_memory_manager",
-            "candidate.consciousness.states.emotional_memory_manager",
             "memory.emotional",
         ],
         # QI modules
         "qi.bio.bio_integration": [
-            "candidate.qi.bio",
-            "candidate.qi.bio.bio_coordinator",
             "qi.bio",
         ],
         "qi.processing.qi_coordinator": [
-            "candidate.qi.processing.qi_coordinator",
-            "candidate.qi.processing.qi_engine",
         ],
         "qi.systems.consciousness_integration": [
-            "candidate.qi.engines.consciousness.engine",
-            "candidate.qi.states.integration",
         ],
         # Bridge modules
         "lukhas.bridge.openai_core_service": [
-            "candidate.bridge.openai_core_service",
             "bridge.openai_core_service",
         ],
         # Communication modules
         "lukhas.core.efficient_communication": [
-            "candidate.core.efficient_communication",
             "core.communication",
         ],
     }
@@ -199,8 +182,6 @@ class ModuleRouter:
         common_modules = [
             "lukhas.core.actor_system",
             "lukhas.core.colonies",
-            "candidate.core.actor_system",
-            "candidate.core.colonies.base_colony",
         ]
 
         for module_path in common_modules:

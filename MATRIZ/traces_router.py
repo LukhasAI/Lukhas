@@ -132,42 +132,41 @@ async def get_trace_by_id(trace_id: str) -> JSONResponse:
 @router.get("/")
 async def list_traces() -> JSONResponse:
     """
-    List all available traces.
+    List all available traces, merging live and golden traces.
 
     Returns:
         JSON list of available trace IDs and metadata
     """
     try:
-        traces = []
+        traces_by_id = {}
 
-        # Collect from MATRIZ traces
-        if TRACES_BASE_PATH.exists():
-            for trace_file in TRACES_BASE_PATH.glob("*.json"):
-                trace_data = load_trace_file(trace_file)
-                if trace_data:
-                    traces.append(
-                        {
-                            "trace_id": trace_data.get("trace_id", trace_file.stem),
-                            "source": "matriz",
-                            "file": str(trace_file.relative_to(Path.cwd())),
-                            "size": trace_file.stat().st_size,
-                        }
-                    )
-
-        # Collect from golden traces
+        # Collect from golden traces first
         if GOLDEN_TRACES_PATH.exists():
             for golden_file in GOLDEN_TRACES_PATH.glob("*.json"):
                 trace_data = load_trace_file(golden_file)
                 if trace_data:
-                    traces.append(
-                        {
-                            "trace_id": trace_data.get("trace_id", golden_file.stem),
-                            "source": "golden",
-                            "file": str(golden_file.relative_to(Path.cwd())),
-                            "size": golden_file.stat().st_size,
-                        }
-                    )
+                    trace_id = trace_data.get("trace_id", golden_file.stem)
+                    traces_by_id[trace_id] = {
+                        "trace_id": trace_id,
+                        "source": "golden",
+                        "file": str(golden_file),
+                        "size": golden_file.stat().st_size,
+                    }
 
+        # Collect from MATRIZ traces, overwriting golden traces
+        if TRACES_BASE_PATH.exists():
+            for trace_file in TRACES_BASE_PATH.glob("*.json"):
+                trace_data = load_trace_file(trace_file)
+                if trace_data:
+                    trace_id = trace_data.get("trace_id", trace_file.stem)
+                    traces_by_id[trace_id] = {
+                        "trace_id": trace_id,
+                        "source": "matriz",
+                        "file": str(trace_file),
+                        "size": trace_file.stat().st_size,
+                    }
+
+        traces = list(traces_by_id.values())
         return JSONResponse(content={"traces": traces, "count": len(traces)}, status_code=status.HTTP_200_OK)
 
     except Exception as e:

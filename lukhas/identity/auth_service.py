@@ -68,11 +68,11 @@ def _try_import_candidate_components():
 
 
 # Try to load candidate components
-_candidate_components = _try_import_candidate_components()
-if _candidate_components:
-    REAL_IDENTITY_AVAILABLE = True
-    # Assign to module level for backward compatibility
-    locals().update(_candidate_components)
+# _candidate_components = _try_import_candidate_components()
+# if _candidate_components:
+#     REAL_IDENTITY_AVAILABLE = True
+#     # Assign to module level for backward compatibility
+#     locals().update(_candidate_components)
 
 # Maintain backward compatibility
 IDENTITY_MANAGER_AVAILABLE = REAL_IDENTITY_AVAILABLE

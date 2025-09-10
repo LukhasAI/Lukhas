@@ -8,21 +8,18 @@ by re-exporting classes from the colonies module.
 from .colonies import SwarmAgent
 
 # For compatibility with legacy imports
-try:
-    from candidate.core.swarm import AgentColony, SwarmHub
-except ImportError:
-    # Fallback implementations if candidate module unavailable
-    class SwarmHub:
-        """Fallback SwarmHub implementation"""
+# Fallback implementations if candidate module unavailable
+class SwarmHub:
+    """Fallback SwarmHub implementation"""
 
-        def __init__(self, *args, **kwargs):
-            pass
+    def __init__(self, *args, **kwargs):
+        pass
 
-    class AgentColony:
-        """Fallback AgentColony implementation"""
+class AgentColony:
+    """Fallback AgentColony implementation"""
 
-        def __init__(self, *args, **kwargs):
-            pass
+    def __init__(self, *args, **kwargs):
+        pass
 
 
 __all__ = ["SwarmAgent", "SwarmHub", "AgentColony"]
