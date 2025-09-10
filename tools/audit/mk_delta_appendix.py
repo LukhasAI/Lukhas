@@ -7,9 +7,13 @@ Usage:
     --out reports/audit/appendix_delta.md
 """
 
-import argparse, subprocess, json, hashlib, os
-from pathlib import Path
+import argparse
+import hashlib
+import json
+import os
+import subprocess
 from collections import Counter, defaultdict
+from pathlib import Path
 
 KEY_JSONS = [
     "LUKHAS_ARCHITECTURE_MASTER.json",
@@ -26,8 +30,10 @@ CODE_DIRS = ("lukhas/", "MATRIZ/", "ops/")
 TEST_DIRS = ("tests/",)
 CI_DIR = ".github/workflows/"
 
+
 def sh(cmd):
     return subprocess.check_output(cmd, shell=True, text=True).strip()
+
 
 def file_hash_at(ref, path):
     try:
@@ -36,13 +42,16 @@ def file_hash_at(ref, path):
     except subprocess.CalledProcessError:
         return None
 
+
 def exists_at(ref, path):
     try:
-        subprocess.check_call(["git", "cat-file", "-e", f"{ref}:{path}"],
-                              stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.check_call(
+            ["git", "cat-file", "-e", f"{ref}:{path}"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+        )
         return True
     except subprocess.CalledProcessError:
         return False
+
 
 def classify(path):
     if any(path.startswith(d) for d in CODE_DIRS):
@@ -57,6 +66,7 @@ def classify(path):
         return "docs"
     return "other"
 
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--old", required=True, help="old tag (baseline)")
@@ -65,11 +75,12 @@ def main():
     args = ap.parse_args()
 
     old, new = args.old, args.new
-    out = Path(args.out); out.parent.mkdir(parents=True, exist_ok=True)
+    out = Path(args.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
 
     # Diff lists
     # name-status: M = modified, A = added, D = deleted, R = renamed
-    name_status = sh(f'git diff --name-status {old}..{new}')
+    name_status = sh(f"git diff --name-status {old}..{new}")
     lines = [l for l in name_status.splitlines() if l.strip()]
     changes = []
     for ln in lines:
@@ -78,36 +89,38 @@ def main():
         changes.append((status, path))
 
     # Stats overview
-    stat = sh(f'git diff --stat {old}..{new} | tail -1 2>/dev/null || true')
-    commits = sh(f'git log --oneline --no-merges {old}..{new} | wc -l')
-    commit_list = sh(f'git log --oneline --no-merges {old}..{new}')
+    stat = sh(f"git diff --stat {old}..{new} | tail -1 2>/dev/null || true")
+    commits = sh(f"git log --oneline --no-merges {old}..{new} | wc -l")
+    commit_list = sh(f"git log --oneline --no-merges {old}..{new}")
 
     # Buckets
     bucket_counts = Counter(classify(p) for _, p in changes)
-    status_counts = Counter(s for s,_ in changes)
+    status_counts = Counter(s for s, _ in changes)
 
     # Key JSON deltas
     key_rows = []
     for p in KEY_JSONS:
         before = file_hash_at(old, p) if exists_at(old, p) else None
-        after  = file_hash_at(new, p) if exists_at(new, p) else None
+        after = file_hash_at(new, p) if exists_at(new, p) else None
         if before != after:
             key_rows.append((p, before or "—", after or "—"))
 
     # SBOM presence
     sbom_path = "reports/sbom/cyclonedx.json"
     sbom_before = exists_at(old, sbom_path)
-    sbom_after  = exists_at(new, sbom_path)
+    sbom_after = exists_at(new, sbom_path)
 
     # Test additions by marker-ish filename hint
-    test_added = [p for s,p in changes if s.startswith("A") and p.startswith("tests/")]
+    test_added = [p for s, p in changes if s.startswith("A") and p.startswith("tests/")]
     test_matriz = [p for p in test_added if ("matriz" in p.lower() or "golden" in p.lower() or "smoke" in p.lower())]
 
     # Cross-lane guard changes (lane guard script/workflow touched?)
-    guard_touched = [p for s,p in changes if p.startswith("tools/ci/lane_guard.sh") or p.startswith(".github/workflows/")]
+    guard_touched = [
+        p for s, p in changes if p.startswith("tools/ci/lane_guard.sh") or p.startswith(".github/workflows/")
+    ]
 
     # CI workflow files touched
-    ci_files = [p for s,p in changes if p.startswith(CI_DIR)]
+    ci_files = [p for s, p in changes if p.startswith(CI_DIR)]
 
     # Build appendix MD
     md = []
@@ -116,19 +129,19 @@ def main():
     md.append(f"- Commits: **{int(commits)}**\n- File changes: **{len(changes)}**\n- Diff stat: `{stat or 'n/a'}`\n")
     md.append("### Change buckets\n")
     md.append("| Bucket | Files |\n|---|---:|\n")
-    for k in ("code","tests","ci","audit","docs","other"):
+    for k in ("code", "tests", "ci", "audit", "docs", "other"):
         md.append(f"| {k} | {bucket_counts.get(k,0)} |")
     md.append("")
     md.append("### Change types\n")
     md.append("| Type | Count |\n|---|---:|\n")
-    for t in ("A","M","D","R"):
+    for t in ("A", "M", "D", "R"):
         md.append(f"| {t} | {status_counts.get(t,0)} |")
     md.append("")
 
     if key_rows:
         md.append("## Key Governance Artifacts Changed\n")
         md.append("| File | Hash @ old | Hash @ new |\n|---|---|---|\n")
-        for p,b,a in key_rows:
+        for p, b, a in key_rows:
             md.append(f"| {p} | `{b}` | `{a}` |")
         md.append("")
 
@@ -154,13 +167,13 @@ def main():
     cues = []
     if sbom_after and not sbom_before:
         cues.append("- Ensure CI job `audit-validate` publishes SBOM artifact; block merges if SBOM step fails.")
-    if any(p.endswith("DEPENDENCY_MATRIX.json") for p,_,_ in key_rows):
+    if any(p.endswith("DEPENDENCY_MATRIX.json") for p, _, _ in key_rows):
         cues.append("- Re-run referential integrity (master ↔ dependency matrix) and update `provenance`.")
-    if any(p.endswith("LUKHAS_ARCHITECTURE_MASTER.json") for p,_,_ in key_rows):
+    if any(p.endswith("LUKHAS_ARCHITECTURE_MASTER.json") for p, _, _ in key_rows):
         cues.append("- Confirm all `module_uid`s exist and lanes match `AUDIT/LANES.yaml`.")
-    if any(p.startswith("tests/") for _,p in changes):
+    if any(p.startswith("tests/") for _, p in changes):
         cues.append("- Keep `contracts-smoke` green; add new tests to nightly dashboard counts.")
-    if any(p.startswith(".github/workflows/") for _,p in changes):
+    if any(p.startswith(".github/workflows/") for _, p in changes):
         cues.append("- Verify `SELF_HEALING_DISABLED=1` remains set in CI for safety.")
     if not cues:
         cues.append("- No critical governance deltas detected.")
@@ -177,5 +190,7 @@ def main():
 
     out.write_text("\n".join(md), encoding="utf-8")
     print(f"OK: wrote {out}")
+
+
 if __name__ == "__main__":
     main()
