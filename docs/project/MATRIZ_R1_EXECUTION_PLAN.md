@@ -94,11 +94,16 @@ Env override: `MATRIZ_TRACES_DIR` for runtime; default GOLD=`tests/golden/tier1`
 
 ## Current Default Assignments
 - A1/A3 → Jules01, A2/A6 → Jules02, A4/A5 → Jules03
+- **A-CC1** → Claude Code (Stream A planning task)
 - B1/B4 → Jules04, B2/B3/B5 → Jules05
+- **B-CX1** → Codex (FastAPI router implementation)
 - C1/C2/C3 → Jules06
+- **C-CC1** → Claude Code (Security & SBOM task)
 - D1 → Jules07, D2 → Jules08, D3 → Jules09
-- **Codex**: shell edits, CI wiring, search/replace ops across tree
-- **Claude Code**: multi‑file diffs, refactors, documentation updates
+
+### Agent Specializations:
+- **Claude Code**: Multi-file planning, security updates, documentation
+- **Codex**: API implementation, shell scripts, CI automation
 
 ## Stream A: Lane Integrity (Critical Path)
 **Issues**: #184
@@ -117,7 +122,12 @@ Env override: `MATRIZ_TRACES_DIR` for runtime; default GOLD=`tests/golden/tier1`
 - No `lukhas→candidate` imports
 - All tests green
 
-### Claude Code Prompt
+### A-CC1: Claude Code Planning Task
+**Assignable ID**: A-CC1  
+**Assignee**: Claude Code  
+**Branch**: `fix/stream-a-cc1-planning`
+
+**Prompt Template**:
 ```
 /plan
 Goal: Remove quarantine/cross_lane by promoting stable APIs into lukhas/.
@@ -129,6 +139,8 @@ Steps:
 4) Run: make lane-guard && ruff check --select E9,F63,F7,F82 .
 Deliverables: PR with shims, lane_guard + importlinter passing.
 ```
+
+**Acceptance Criteria**: Multi-file execution plan ready for Stream A tasks A1-A6
 
 ---
 
@@ -148,7 +160,12 @@ Deliverables: PR with shims, lane_guard + importlinter passing.
 - Golden test passes for trace retrieval
 - Smoke test verifies endpoint availability
 
-### Codex CLI Prompt
+### B-CX1: Codex Implementation Task
+**Assignable ID**: B-CX1  
+**Assignee**: Codex  
+**Branch**: `feat/stream-b-cx1-router`
+
+**Prompt Template**:
 ```
 codex: create FastAPI router traces_router with GET /traces/latest and GET /traces/{id}
 - Reads JSON from reports/matriz/traces/
@@ -157,6 +174,8 @@ codex: create FastAPI router traces_router with GET /traces/latest and GET /trac
 - Wire router in serve/main.py if present
 - Run: pytest -q tests/smoke tests/golden
 ```
+
+**Acceptance Criteria**: FastAPI router implemented with tests passing
 
 ---
 
@@ -175,7 +194,12 @@ codex: create FastAPI router traces_router with GET /traces/latest and GET /trac
 - Critical dependencies pinned to secure versions
 - Gitleaks job green (fail-on-findings only)
 
-### Claude Code Prompt
+### C-CC1: Claude Code Security Task
+**Assignable ID**: C-CC1  
+**Assignee**: Claude Code  
+**Branch**: `sec/stream-c-cc1-security`
+
+**Prompt Template**:
 ```
 /edit
 1) Open SECURITY_ARCHITECTURE.json; add a "sbom" section linking reports/sbom/cyclonedx.json and generation command.
@@ -183,6 +207,8 @@ codex: create FastAPI router traces_router with GET /traces/latest and GET /trac
 3) Update CI to install with -c constraints.txt; add non-blocking gitleaks job (fail on findings).
 4) Commit PR: "security: pin critical deps + reference SBOM"
 ```
+
+**Acceptance Criteria**: Security docs updated, dependencies pinned, gitleaks CI added
 
 ---
 
