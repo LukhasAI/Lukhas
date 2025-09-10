@@ -12,7 +12,7 @@ if REPO_ROOT not in sys.path:
 TIER1_ONLY = os.getenv("T4_TIER1_ONLY", "1") == "1"
 
 
-def pytest_collection_modifyitems(_config, items):
+def pytest_collection_modifyitems(config, items):  # noqa: ARG001
     """Modify test collection to enforce Tier-1 freeze and quarantine policies."""
     for item in list(items):
         p = str(item.fspath)
