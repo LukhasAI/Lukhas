@@ -14,7 +14,8 @@
       "Bash(pip install:*)",
       "Bash(git commit:*)",
       "Bash(pre-commit install:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []
