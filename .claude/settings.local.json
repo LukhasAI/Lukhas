@@ -97,7 +97,12 @@
       "Bash(timeout 3 npm run start:http)",
       "Bash(gtimeout 3 npm run start:http)",
       "Bash(dig:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(git rev-parse:*)",
+      "Bash(for module in lukhas_orchestration lukhas_api lukhas_identity lukhas_governance)",
+      "Bash(do)",
+      "Bash(done)",
+      "Bash(SELF_HEALING_DISABLED=1 python3 tools/dashboard/self_healing_dashboard.py --mode would-change)"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,31 @@
+tier1_active:
+- lukhas.api
+- lukhas.memory
+- lukhas.identity
+- lukhas.orchestration
+- lukhas.governance
+- lukhas.consciousness
+non_tier1_frozen:
+- lukhas.matriz
+- lukhas.agents
+- lukhas.utils
+- lukhas.rl
+- lukhas.vivox
+- lukhas.emotion
+- lukhas.observability
+- lukhas.bridge
+- lukhas.security
+- lukhas.qi
+- lukhas.accepted
+- lukhas.branding
+- lukhas.bio
+- lukhas.core
+freeze_metadata:
+  frozen_date: '2025-09-10T13:00:00Z'
+  reason: 'Scope freeze: Tier-1 validation path implementation'
+  unfreeze_criteria:
+  - All Tier-1 modules have valid contracts
+  - Golden traces complete for Tier-1
+  - Reality tests passing
+  - CI contracts-smoke job passing
+  - 90-day stability demonstrated

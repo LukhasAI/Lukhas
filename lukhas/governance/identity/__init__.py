@@ -27,6 +27,28 @@ except ImportError as e:
     logger.warning(f"IdentityClient import failed: {e}")
     # Provide fallback
 
+# Import auth_integration from the correct location
+try:
+    # Import from lukhas.identity.auth_integration and alias it
+    from lukhas.identity import auth_integration
+except ImportError as e:
+    logger.warning(f"auth_integration import failed: {e}")
+    # Create fallback
+    class AuthIntegrationModule:
+        """Fallback for auth_integration module"""
+        def __init__(self):
+            self.logger = logging.getLogger(__name__)
+            
+        async def get_integration(self):
+            from lukhas.identity.auth_integration import AuthenticationIntegration
+            return AuthenticationIntegration()
+            
+        def __getattr__(self, name):
+            logger.warning(f"auth_integration fallback access: {name}")
+            return None
+    
+    auth_integration = AuthIntegrationModule()
+
     class IdentityClient:
         def __init__(self) -> None:
             logger.warning("Using fallback IdentityClient")
@@ -273,6 +295,7 @@ __all__ = [
     "IdentityClient",
     "IdentityImportBridge",
     "auth",
+    "auth_integration",
     "get_identity_client",
     "verify_tier_access",
 ]

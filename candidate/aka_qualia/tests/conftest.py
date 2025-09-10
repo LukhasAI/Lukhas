@@ -19,7 +19,7 @@ from unittest.mock import Mock
 
 import pytest
 import streamlit as st
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.pool import StaticPool
 
 from candidate.aka_qualia.core import AkaQualia
@@ -55,9 +55,20 @@ def sqlite_engine():
         echo=False,
         connect_args={
             "check_same_thread": False,  # Allow SQLite to be used across threads
+            "timeout": 20,  # 20 second timeout for thread contention
         },
         poolclass=StaticPool,  # Use single connection pool
     )
+    
+    # Configure SQLite for better threading safety
+    with engine.connect() as conn:
+        # Enable WAL mode for better concurrent access
+        conn.execute(text("PRAGMA journal_mode=WAL"))
+        # Set busy timeout for thread safety
+        conn.execute(text("PRAGMA busy_timeout=30000"))  # 30 seconds
+        # Enable foreign keys
+        conn.execute(text("PRAGMA foreign_keys=ON"))
+        conn.commit()
 
     yield engine
 

@@ -5,87 +5,9 @@ configfile: pytest.ini
 testpaths: tests
 plugins: asyncio-1.1.0, xdist-3.8.0, httpx-0.35.0, anyio-4.10.0, Faker-37.6.0, cov-6.2.1, mock-3.14.1, hypothesis-6.138.14, postgresql-7.0.2
 asyncio: mode=auto, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
-collected 735 items / 44 errors / 3 skipped
+collected 821 items / 33 errors / 3 skipped
 
 ==================================== ERRORS ====================================
-_____ ERROR collecting tests/candidate/aka_qualia/test_c5_observability.py _____
-.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
-    mod = import_path(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
-    mod = _import_module_using_spec(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
-    spec.loader.exec_module(mod)  # type: ignore[union-attr]
-.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
-    exec(co, module.__dict__)
-tests/candidate/aka_qualia/test_c5_observability.py:13: in <module>
-    from monitoring_dashboard import MonitoringDashboard
-monitoring_dashboard.py:7: in <module>
-    from candidate.core.observability.unified_monitoring_dashboard import UnifiedMonitoringDashboard as MonitoringDashboard
-candidate/core/observability/__init__.py:74: in <module>
-    from .unified_monitoring_dashboard import (
-E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/core/observability/unified_monitoring_dashboard.py", line 576
-E       alert_id=f"guardian_{alert_data.get('id', uuid.uuid4(}.hex[:8])}",
-E                                                                        ^
-E   SyntaxError: f-string: closing parenthesis '}' does not match opening parenthesis '('
-------------------------------- Captured stdout --------------------------------
- LUKHAS AI Governance Module loaded: Phase 7 - Registry Updates and Policy Integration
-< Trinity Framework: Identity-Consciousness-Guardian
- Phase 7 ID Integration: Available
-✅ Loaded environment from: /Users/agi_dev/Library/Mobile Documents/com~apple~CloudDocs/Prototype/Lukhas-ecosystem/ABot/LukhasBot/.env
-ℹ️ 2025-09-09 22:17:11  candidate.memory.integrity - INFO - integrity module initialized. Available components: ['CollapseHash']
-ℹ️ 2025-09-09 22:17:11  candidate.memory.protection - INFO - protection module initialized. Available components: ['SymbolicQuarantineSanctum']
-ℹ️ 2025-09-09 22:17:11  candidate.memory.scaffold - INFO - scaffold module initialized. Available components: ['AtomicMemoryScaffold']
-ℹ️ 2025-09-09 22:17:11  candidate.memory.systems - INFO - Memory systems module initialized. Available components: ['CoreMemoryComponent', 'MemoryOrchestrator', 'MemorySystem']
-Warning: Memory components not available: No module named 'lukhas_pb2'
-ℹ️ 2025-09-09 22:17:11  candidate.memory.core - INFO - core module initialized. Available components: ['ColonyMemoryValidator', 'HybridMemoryFold', 'UnifiedMemoryOrchestrator', 'create_hybrid_memory_fold']
-i 2025-09-09 22:17:11  lukhas.governance.security.access_control - INFO - 🛡️ Production Permission Manager initialized
-🛡️ Sync Access Control Engine initialized
-i 2025-09-09 22:17:11  lukhas.governance.ethics.constitutional_ai - INFO - 🛡️ Production Constitutional AI Framework initialized
-i 2025-09-09 22:17:11  lukhas.governance.ethics.constitutional_ai - INFO - 🛡️ Production Safety Monitor initialized
-✅ Identity Connector: Using real production implementations
-Info: Integration hub not available, using standalone mode
-✅ Identity Connector initialized: production implementation
-🛡️ Constitutional AI Safety: ACTIVE
-⚛️ Tiered Access Control T1-T5: ACTIVE
-📋 Full Audit Compliance: ACTIVE
-⚠️ Extreme performance optimizations not available - falling back to standard implementation
-Warning: Could not initialize identity components: Could not import lukhas.governance.identity: cannot import name 'auth_integration' from 'lukhas.governance.identity' (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/identity/__init__.py)
-_______ ERROR collecting tests/candidate/aka_qualia/test_memory_unit.py ________
-'contract' not found in `markers` configuration option
-_______ ERROR collecting tests/candidate/core/test_nias_transcendence.py _______
-'nias_transcendence' not found in `markers` configuration option
-____________ ERROR collecting tests/comprehensive_ecosystem_test.py ____________
-.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
-    mod = import_path(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
-    mod = _import_module_using_spec(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
-    spec.loader.exec_module(mod)  # type: ignore[union-attr]
-.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
-    tree = ast.parse(source, filename=strfn)
-/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
-    return compile(source, filename, mode, flags,
-E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/comprehensive_ecosystem_test.py", line 29
-E       return False, f"❌ {type(e).__name__}: {str(e}[:40]}..."
-E                                                              ^
-E   SyntaxError: f-string: closing parenthesis '}' does not match opening parenthesis '('
-____________ ERROR collecting tests/golden/test_memory_contract.py _____________
-'no_mock' not found in `markers` configuration option
-______ ERROR collecting tests/governance/test_constitutional_ai_safety.py ______
-ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/governance/test_constitutional_ai_safety.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-tests/governance/test_constitutional_ai_safety.py:6: in <module>
-    from candidate.governance.safety.constitutional_ai_safety import (
-candidate/governance/safety/constitutional_ai_safety.py:36: in <module>
-    from candidate.core.interfaces import CoreInterface
-candidate/core/interfaces/__init__.py:14: in <module>
-    import lukhas_pb2
-E   ModuleNotFoundError: No module named 'lukhas_pb2'
-______ ERROR collecting tests/integration/test_multi_ai_orchestration.py _______
-'benchmark' not found in `markers` configuration option
 _________ ERROR collecting tests/phase2/test_performance_benchmarks.py _________
 governance/identity/__init__.py:13: in <module>
     from lukhas.governance.identity import (
@@ -109,15 +31,6 @@ candidate/governance/identity/import_bridge.py:71: in find_spec
 governance/identity/__init__.py:31: in <module>
     warnings.warn(f"Could not import lukhas.governance.identity: {e}", ImportWarning, stacklevel=2)
 E   ImportWarning: Could not import lukhas.governance.identity: cannot import name 'auth_integration' from 'lukhas.governance.identity' (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/identity/__init__.py)
-____________ ERROR collecting tests/security/test_authentication.py ____________
-ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/security/test_authentication.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-tests/security/test_authentication.py:40: in <module>
-    from candidate.core.interfaces.api.v1.common.auth import (
-candidate/core/interfaces/__init__.py:14: in <module>
-    import lukhas_pb2
-E   ModuleNotFoundError: No module named 'lukhas_pb2'
 __________ ERROR collecting tests/test_advanced_components_focused.py __________
 .venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
     result: TResult | None = func()
@@ -205,8 +118,6 @@ ____________ ERROR collecting tests/test_api_security_functional.py ____________
 .venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
     warnings.warn_explicit(
 E   pytest.PytestCollectionWarning: cannot collect test class 'TestSuiteRunner' because it has a __init__ constructor (from: tests/test_api_security_functional.py)
-________________ ERROR collecting tests/test_basic_functions.py ________________
-'no_mock' not found in `markers` configuration option
 ___________ ERROR collecting tests/test_comprehensive_all_systems.py ___________
 .venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
     mod = import_path(
@@ -347,10 +258,6 @@ candidate/governance/consent_ledger/ledger_v1.py:49: in <module>
 governance/identity/__init__.py:31: in <module>
     warnings.warn(f"Could not import lukhas.governance.identity: {e}", ImportWarning, stacklevel=2)
 E   ImportWarning: Could not import lukhas.governance.identity: cannot import name 'auth_integration' from 'lukhas.governance.identity' (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/identity/__init__.py)
-____________________ ERROR collecting tests/test_imports.py ____________________
-'no_mock' not found in `markers` configuration option
-__________________ ERROR collecting tests/test_integration.py __________________
-'no_mock' not found in `markers` configuration option
 _________ ERROR collecting tests/test_memory_integration_validation.py _________
 .venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
     mod = import_path(
@@ -484,15 +391,7 @@ ________________ ERROR collecting tests/test_ruff_formatting.py ________________
 E   pytest.PytestCollectionWarning: cannot collect test class 'TestClass' because it has a __init__ constructor (from: tests/test_ruff_formatting.py)
 ---- generated xml file: /Users/agi_dev/LOCAL-REPOS/Lukhas/test-results.xml ----
 =========================== short test summary info ============================
-ERROR tests/candidate/aka_qualia/test_c5_observability.py
-ERROR tests/candidate/aka_qualia/test_memory_unit.py - Failed: 'contract' not...
-ERROR tests/candidate/core/test_nias_transcendence.py - Failed: 'nias_transce...
-ERROR tests/comprehensive_ecosystem_test.py
-ERROR tests/golden/test_memory_contract.py - Failed: 'no_mock' not found in `...
-ERROR tests/governance/test_constitutional_ai_safety.py
-ERROR tests/integration/test_multi_ai_orchestration.py - Failed: 'benchmark' ...
 ERROR tests/phase2/test_performance_benchmarks.py - ImportWarning: Could not ...
-ERROR tests/security/test_authentication.py
 ERROR tests/test_advanced_components_focused.py::TestActorSystemAdvanced - py...
 ERROR tests/test_advanced_components_focused.py::TestTierSystemAdvanced - pyt...
 ERROR tests/test_advanced_lukhas_components.py::TestIdentitySystem - pytest.P...
@@ -501,7 +400,6 @@ ERROR tests/test_advanced_lukhas_components.py::TestDreamSystem - pytest.Pyte...
 ERROR tests/test_advanced_lukhas_components.py::TestEncryptionGovernance - py...
 ERROR tests/test_advanced_suite_standalone.py
 ERROR tests/test_api_security_functional.py::TestSuiteRunner - pytest.PytestC...
-ERROR tests/test_basic_functions.py - Failed: 'no_mock' not found in `markers...
 ERROR tests/test_comprehensive_all_systems.py
 ERROR tests/test_comprehensive_security_validation.py - Failed: 'audit_safe' ...
 ERROR tests/test_concurrent_fix.py::TestSqlMemory - pytest.PytestCollectionWa...
@@ -515,8 +413,6 @@ ERROR tests/test_core_systems_functional.py::TestSuiteRunner - pytest.PytestC...
 ERROR tests/test_cross_component_integration.py::TestActorTierIntegration - p...
 ERROR tests/test_e2e_audit_dryrun.py - Failed: 'audit_safe' not found in `mar...
 ERROR tests/test_guardian_system.py - ImportWarning: Could not import lukhas....
-ERROR tests/test_imports.py - Failed: 'no_mock' not found in `markers` config...
-ERROR tests/test_integration.py - Failed: 'no_mock' not found in `markers` co...
 ERROR tests/test_memory_integration_validation.py
 ERROR tests/test_priority4_systems_functional.py
 ERROR tests/test_real_consciousness_emergence.py
@@ -528,5 +424,5 @@ ERROR tests/test_remaining_systems.py::TestDeploymentOperationsSystems - pyte...
 ERROR tests/test_remaining_systems.py::TestDocumentationComplianceSystems - p...
 ERROR tests/test_remaining_systems.py::TestWebFrontendSystems - pytest.Pytest...
 ERROR tests/test_ruff_formatting.py::TestClass - pytest.PytestCollectionWarni...
-!!!!!!!!!!!!!!!!!!! Interrupted: 44 errors during collection !!!!!!!!!!!!!!!!!!!
-======================== 3 skipped, 44 errors in 8.67s =========================
+!!!!!!!!!!!!!!!!!!! Interrupted: 33 errors during collection !!!!!!!!!!!!!!!!!!!
+======================== 3 skipped, 33 errors in 7.61s =========================

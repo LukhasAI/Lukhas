@@ -144,3 +144,17 @@ provenance:
     schema_valid: true
     last_validated: '2025-09-10T11:32:19.425748+00:00'
     validator_version: 1.0.0
+
+# GENERATION FREEZE: Non-Tier-1 modules frozen pending validation
+# This module is frozen until Tier-1 validation path is proven
+# To unfreeze: Remove this section and update the freeze registry
+generation_freeze:
+  frozen: true
+  reason: "Tier-1 validation path implementation"
+  frozen_date: "2025-09-10T13:00:00Z"
+  unfreeze_criteria:
+    - "Tier-1 validation path proven stable"
+    - "All Tier-1 contracts validated"
+    - "Reality tests passing for Tier-1"
+    - "Architectural review approval"
+

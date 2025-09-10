@@ -251,7 +251,23 @@ if [[ -f tools/monitoring/diagnostic_monitor.py ]]; then
     }
 fi
 
-# 7. Cleanup old logs (keep last 30 days) 
+# 7. Run self-healing dashboard health check (CI-safe mode)
+log "🤖 Running self-healing dashboard health check..."
+if [[ -f tools/dashboard/self_healing_dashboard.py ]]; then
+    # Enable CI safety mode for nightly runs
+    SELF_HEALING_DISABLED=1 python3 tools/dashboard/self_healing_dashboard.py \
+        --mode single --generate-artifacts --ci-mode 2>&1 | tee -a "$LOG_FILE" || {
+        warn "Dashboard health check had issues, continuing..."
+    }
+    
+    # Also generate would-change analysis for CI artifacts
+    SELF_HEALING_DISABLED=1 python3 tools/dashboard/self_healing_dashboard.py \
+        --mode would-change --generate-artifacts 2>&1 | tee -a "$LOG_FILE" || {
+        warn "Would-change analysis had issues, continuing..."
+    }
+fi
+
+# 8. Cleanup old logs (keep last 30 days) 
 find data/ -name "nightly_autofix_*.log" -mtime +30 -delete 2>/dev/null || true
 
 log "🌙 Nightly T4 autofix completed"

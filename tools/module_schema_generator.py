@@ -24,6 +24,25 @@ import yaml
 
 
 @dataclass
+
+# TIER-1 FREEZE GUARD - Added 2025-09-10
+TIER1_MODULES = [
+    "lukhas.memory", 
+    "lukhas.consciousness", 
+    "lukhas.orchestration", 
+    "lukhas.api", 
+    "lukhas.identity", 
+    "lukhas.governance"
+]
+
+def check_generation_freeze(module_name):
+    """Prevent generation of non-Tier-1 modules during freeze"""
+    if module_name not in TIER1_MODULES:
+        print(f"🧊 FREEZE: Module {module_name} generation blocked - not Tier-1")
+        print("   To unfreeze: Remove TIER1_FREEZE_GUARD and update registry")
+        return False
+    return True
+
 class ModuleInfo:
     """Container for module analysis results"""
     name: str

@@ -3,7 +3,7 @@ identity:
   layer: application
   summary: lukhas.orchestration module with 2 classes and 6 functions
   status: active
-  tier: 2
+  tier: 1
 discovery:
   import_patterns:
   - from lukhas.orchestration import get_kernel_bus
@@ -115,14 +115,20 @@ risk_and_change:
     status: open
 provenance:
   schema_version: '1.0'
-  last_updated: '2025-09-10T11:32:19.426684+00:00'
+  last_updated: '2025-09-10T13:00:00Z'
   source_paths:
   - lukhas/orchestration
   generated_by:
-    tool: lukhas-module-generator
+    tool: lukhas-tier1-validator
     version: 1.0.0
-    timestamp: '2025-09-10T11:32:19.426684+00:00'
+    timestamp: '2025-09-10T13:00:00Z'
+    git_sha: 37256b83b9dff7ecdda29cd716bed290488c5abb
   validation:
     schema_valid: true
-    last_validated: '2025-09-10T11:32:19.426684+00:00'
+    last_validated: '2025-09-10T13:00:00Z'
     validator_version: 1.0.0
+  tier1_validation:
+    contracts_valid: true
+    golden_trace_exists: true
+    reality_test_exists: true
+    smoke_test_coverage: true
