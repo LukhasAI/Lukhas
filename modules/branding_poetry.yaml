@@ -1,0 +1,137 @@
+identity:
+  name: branding.poetry
+  layer: application
+  summary: branding.poetry module with 12 classes and 34 functions
+  status: active
+  tier: 2
+discovery:
+  import_patterns:
+  - from branding.poetry import main
+  - from branding.poetry import Soul
+  - from branding.poetry import demonstrate
+  - from branding.poetry import track_usage
+  - from branding.poetry import enrich_text
+  import_aliases:
+  - poetry
+  file_patterns:
+  - branding/poetry/**/*.py
+  - tests/branding/poetry/**/*.py
+  entry_points:
+  - branding/poetry/__init__.py
+ownership:
+  owner: '@MarketingTeam'
+  lifecycle: evolving
+  last_review: '2025-09-10T11:32:19.473981+00:00'
+  promotion_rules: {}
+contracts:
+  api:
+    surface:
+    - 'python: branding.poetry.main'
+    - 'python: branding.poetry.Soul'
+    - 'python: branding.poetry.demonstrate'
+    - 'python: branding.poetry.track_usage'
+    - 'python: branding.poetry.enrich_text'
+    - 'python: branding.poetry.get_random_from_category'
+    - 'python: branding.poetry.ExpandedLUKHASLexicon'
+    - 'python: branding.poetry.create_rich_phrase'
+    - 'python: branding.poetry.VocabularyBalancer'
+    - 'python: branding.poetry.PoeticForm'
+    version: v1.0
+    compatibility:
+      backward: true
+      forward: minor
+  invariants:
+  - module loads without errors
+  - public API remains stable
+dependencies:
+  internal:
+    requires: []
+    provides:
+    - branding.poetry
+  external:
+    libs: []
+  coupling_metrics:
+    afferent: 2
+    efferent: 0
+    instability_index: 1.0
+runtime:
+  processes:
+    entrypoints:
+    - python -m branding.poetry
+    concurrency_model: async
+  config:
+    files: []
+    env_vars_required: []
+    feature_flags: []
+  resources:
+    cpu_limit: 0.5 vcpu
+    mem_limit: 256 MiB
+data_and_events:
+  data_classes:
+  - name: Soul
+    schema_ref: audit/SCHEMAS/soul.json
+    description: Soul data class
+  - name: AdvancedHaikuGenerator
+    schema_ref: audit/SCHEMAS/advancedhaikugenerator.json
+    description: AdvancedHaikuGenerator data class
+  - name: VocabularyAmplifier
+    schema_ref: audit/SCHEMAS/vocabularyamplifier.json
+    description: VocabularyAmplifier data class
+  - name: ExpandedLUKHASLexicon
+    schema_ref: audit/SCHEMAS/expandedlukhaslexicon.json
+    description: ExpandedLUKHASLexicon data class
+  - name: PoeticTechniques
+    schema_ref: audit/SCHEMAS/poetictechniques.json
+    description: PoeticTechniques data class
+  pii:
+    contains: false
+    classification: internal
+security:
+  secrets:
+    sources:
+    - env
+    files: []
+  authz_model: internal_only
+  compliance:
+    data_classification: internal
+observability:
+  logs:
+    format: structured_json
+    level: info
+  metrics:
+    exporter: prometheus
+    key_metrics:
+    - name: branding_poetry_calls_total
+      target: '>0'
+      type: counter
+  slos:
+    error_rate_pct: 1.0
+    availability_pct: 99.0
+test_posture:
+  coverage:
+    current: 0.0
+    target: 0.8
+  tests:
+    unit: 0
+    integration: 0
+risk_and_change:
+  risks:
+  - id: R-BRANDING-POETRY-GENERATED
+    title: Auto-generated schema may be incomplete
+    likelihood: medium
+    impact: low
+    mitigation: Manual review and enhancement required
+    status: open
+provenance:
+  schema_version: '1.0'
+  last_updated: '2025-09-10T11:32:19.473981+00:00'
+  source_paths:
+  - branding/poetry
+  generated_by:
+    tool: lukhas-module-generator
+    version: 1.0.0
+    timestamp: '2025-09-10T11:32:19.473981+00:00'
+  validation:
+    schema_valid: true
+    last_validated: '2025-09-10T11:32:19.473981+00:00'
+    validator_version: 1.0.0

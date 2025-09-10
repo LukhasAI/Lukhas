@@ -465,7 +465,7 @@ def run_cost_analysis():
         cost_info = estimate_costs(candidates, model)
         print(f"\n{model.upper()}:")
         print(f"  Total estimated cost: ${cost_info['total_estimated_cost']:.3f}")
-        print(f"  Per file: ${cost_info['total_estimated_cost'] / len(candidates)}:.3f}")
+        print(f"  Per file: ${cost_info['total_estimated_cost'] / len(candidates):.3f}")
 
     print("\n📁 CANDIDATE FILES:")
     for i, candidate in enumerate(candidates, 1):

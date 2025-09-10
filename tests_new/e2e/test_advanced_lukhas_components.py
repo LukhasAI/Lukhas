@@ -20,6 +20,7 @@ import uuid
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
+from datetime import timezone
 
 # Test environment setup
 TEST_MODE = True

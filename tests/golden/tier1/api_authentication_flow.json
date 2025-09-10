@@ -1,0 +1,213 @@
+{
+  "trace_name": "api_authentication_flow",
+  "description": "External API request through authentication to response",
+  "version": "1.0",
+  "generated": "2025-09-10T13:00:00Z", 
+  "determinism": "TZ=UTC PYTHONHASHSEED=0",
+  
+  "initial_state": {
+    "active_requests": 0,
+    "authenticated_sessions": 0,
+    "rate_limit_usage": 0
+  },
+  
+  "trace_steps": [
+    {
+      "step": 1,
+      "timestamp": "2025-09-10T13:00:00.000Z",
+      "action": "receive_api_request",
+      "module": "lukhas.api",
+      "input": {
+        "method": "POST",
+        "endpoint": "/api/v1/consciousness/query",
+        "headers": {
+          "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...",
+          "Content-Type": "application/json",
+          "User-Agent": "LUKHAS-Client/1.0"
+        },
+        "body": {
+          "query": "What is the nature of consciousness?",
+          "context": "philosophical_inquiry"
+        },
+        "client_ip": "192.168.1.100"
+      },
+      "signals_emitted": [
+        {
+          "signal": "api.request.received", 
+          "payload": {
+            "request_id": "req_20250910_001",
+            "method": "POST",
+            "endpoint": "/api/v1/consciousness/query",
+            "headers": {
+              "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...",
+              "Content-Type": "application/json",
+              "User-Agent": "LUKHAS-Client/1.0"
+            },
+            "body_size_bytes": 128,
+            "client_ip": "192.168.1.100", 
+            "user_agent": "LUKHAS-Client/1.0",
+            "timestamp": 1725984000000
+          }
+        },
+        {
+          "signal": "api.auth.required",
+          "payload": {
+            "request_id": "req_20250910_001",
+            "endpoint": "/api/v1/consciousness/query",
+            "required_scopes": ["consciousness:query", "api:read"],
+            "timestamp": 1725984000000
+          }
+        }
+      ],
+      "expected_state": {
+        "active_requests": 1,
+        "pending_auth": 1
+      }
+    },
+    
+    {
+      "step": 2,
+      "timestamp": "2025-09-10T13:00:00.050Z", 
+      "action": "validate_token",
+      "module": "lukhas.identity",
+      "input": {
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...",
+        "required_scopes": ["consciousness:query", "api:read"],
+        "client_context": {
+          "ip": "192.168.1.100",
+          "user_agent": "LUKHAS-Client/1.0"
+        }
+      },
+      "signals_emitted": [
+        {
+          "signal": "identity.auth.token_validated",
+          "payload": {
+            "token_id": "token_20250910_001",
+            "user_id": "user_12345", 
+            "scopes": ["consciousness:query", "api:read", "api:write"],
+            "expires_at": 1725987600000,
+            "validation_duration_ms": 45,
+            "timestamp": 1725984000050
+          }
+        }
+      ],
+      "expected_state": {
+        "authenticated_sessions": 1,
+        "valid_tokens": 1,
+        "auth_latency_ms": 45
+      }
+    },
+    
+    {
+      "step": 3,
+      "timestamp": "2025-09-10T13:00:00.100Z",
+      "action": "route_authenticated_request", 
+      "module": "lukhas.orchestration",
+      "input": {
+        "request_id": "req_20250910_001",
+        "authenticated_user": "user_12345",
+        "target_workflow": "consciousness_query_processing",
+        "priority": "normal"
+      },
+      "signals_emitted": [
+        {
+          "signal": "orchestration.workflow.started",
+          "payload": {
+            "workflow_id": "workflow_20250910_001",
+            "workflow_type": "consciousness_query_processing",
+            "participating_modules": ["lukhas.consciousness", "lukhas.memory"],
+            "expected_duration_ms": 1500,
+            "priority": "medium",
+            "timestamp": 1725984000100
+          }
+        },
+        {
+          "signal": "orchestration.task.assigned",
+          "payload": {
+            "task_id": "task_20250910_001",
+            "target_module": "lukhas.consciousness", 
+            "task_type": "process_philosophical_query",
+            "payload": {
+              "query": "What is the nature of consciousness?",
+              "context": "philosophical_inquiry",
+              "user_id": "user_12345"
+            },
+            "timeout_ms": 2000,
+            "retry_policy": {"max_retries": 2, "backoff_ms": 500},
+            "timestamp": 1725984000100
+          }
+        }
+      ],
+      "expected_state": {
+        "active_workflows": 1,
+        "assigned_tasks": 1,
+        "routing_latency_ms": 50
+      }
+    },
+    
+    {
+      "step": 4,
+      "timestamp": "2025-09-10T13:00:01.200Z",
+      "action": "complete_processing_return_response",
+      "module": "lukhas.api",
+      "input": {
+        "request_id": "req_20250910_001", 
+        "processing_result": {
+          "status": "success",
+          "response": {
+            "answer": "Consciousness is an emergent property of complex information processing systems...",
+            "confidence": 0.85,
+            "sources": ["memory_fold_001", "knowledge_base_philosophy"]
+          }
+        },
+        "processing_duration_ms": 1100
+      },
+      "signals_emitted": [
+        {
+          "signal": "api.response.sent",
+          "payload": {
+            "request_id": "req_20250910_001",
+            "status_code": 200,
+            "response_size_bytes": 256, 
+            "processing_duration_ms": 1200,
+            "cache_hit": false,
+            "timestamp": 1725984001200
+          }
+        }
+      ],
+      "expected_state": {
+        "completed_requests": 1,
+        "total_processing_time_ms": 1200,
+        "success_rate": 1.0
+      }
+    }
+  ],
+  
+  "final_state": {
+    "active_requests": 0,
+    "completed_requests": 1,
+    "authenticated_sessions": 1,
+    "total_processing_time_ms": 1200,
+    "auth_success_rate": 1.0,
+    "api_success_rate": 1.0
+  },
+  
+  "invariants_validated": [
+    "all_requests_receive_response_within_timeout",
+    "authentication_required_endpoints_reject_unauthed",
+    "request_response_correlation_maintained", 
+    "error_responses_include_correlation_ids",
+    "api_versioning_backward_compatible"
+  ],
+  
+  "slo_validation": {
+    "api_availability_target": "99.95%",
+    "actual_api_availability": "100%",
+    "response_time_p95_target": "500ms",
+    "actual_response_time": "1200ms",
+    "auth_latency_p95_target": "100ms", 
+    "actual_auth_latency": "45ms",
+    "error_rate_target": "0.1%",
+    "actual_error_rate": "0%"
+  }
+}

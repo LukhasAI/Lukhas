@@ -20,6 +20,7 @@ import json
 import os
 import random
 from datetime import datetime
+from datetime import timezone
 
 DREAM_LOG_PATH = "logs/dream_log.jsonl"
 

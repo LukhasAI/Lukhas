@@ -21,6 +21,7 @@ from candidate.core.self_healing import HealingStrategy, HealthStatus, SelfHeali
 
 # Import identity components
 from governance.identity.core.events import IdentityEventPriority, IdentityEventPublisher, get_identity_event_publisher
+from datetime import timezone
 
 logger = logging.getLogger("LUKHAS_IDENTITY_HEALTH")
 

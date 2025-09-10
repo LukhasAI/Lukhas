@@ -30,6 +30,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Callable, Optional
+from datetime import timezone
 
 try:
     from candidate.governance.consent_ledger.ledger_v1 import ConsentLedgerV1, PolicyVerdict

@@ -151,12 +151,14 @@ class APIPerformanceMetric:
     # API identification
     endpoint: str
     method: str
-    version: Optional[str] = None
 
     # Performance metrics
     response_time: float  # milliseconds
     throughput: float  # requests per second
     error_rate: float  # percentage
+    
+    # Fields with defaults
+    version: Optional[str] = None
     status_code: int = 200
 
     # Resource usage

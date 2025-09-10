@@ -880,7 +880,7 @@ Generated on: {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")}
 """
 
         for section, status in metrics["documentation_coverage"].items():
-            metrics_md += f"- **{section.replace('_', ' ').title(}}**: {status}\n"
+            metrics_md += f"- **{section.replace('_', ' ').title(}**: {status}\n"
 
         metrics_md += f"""
 ## 🎯 Success Metrics

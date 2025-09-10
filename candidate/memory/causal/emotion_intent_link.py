@@ -15,6 +15,7 @@ Integration Date: 2025-05-31T07:55:28.107734
 import json
 import os
 from datetime import datetime
+from datetime import timezone
 
 INTENT_LOG = "symbolic_ai/memoria/intent_log.jsonl"
 EMOTION_LOG = "symbolic_ai/memoria/emotion_log.jsonl"

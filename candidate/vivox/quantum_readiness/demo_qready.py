@@ -147,7 +147,7 @@ def demonstrate_quantum_synchronization():
             corr = abs(np.vdot(states[i], states[j])) ** 2
             correlations.append(corr)
 
-    print(f"   Average correlation after sync: {np.mean(correlations)}:.3f}")
+    print(f"   Average correlation after sync: {np.mean(correlations):.3f}")
 
 
 def demonstrate_moral_superposition():

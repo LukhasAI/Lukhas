@@ -453,7 +453,7 @@ class CollapseTracker:
 
         elif scenario == "collapse":
             # High entropy, system collapse
-            symbols = [f"glyph_{random.randint(0, 100)}:03d}" for _ in range(100)]
+            symbols = [f"glyph_{random.randint(0, 100):03d}" for _ in range(100)]
             component_scores = {
                 "memory": 0.85,
                 "reasoning": 0.78,

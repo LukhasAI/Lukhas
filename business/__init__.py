@@ -7,6 +7,7 @@ Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 import logging
 from datetime import datetime
 from typing import Any, Optional
+from datetime import timezone
 
 # Version info
 __version__ = "2.0.0"

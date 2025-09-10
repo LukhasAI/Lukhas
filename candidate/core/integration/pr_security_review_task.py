@@ -256,7 +256,7 @@ class PRSecurityReviewTask:
             )
 
         except Exception as e:
-            logger.error(f"Error analyzing PR "number']} in {repo_full_name}: {e}")
+            logger.error(f"Error analyzing PR "number']} in {repo_full_name}: {e}")'
             return SecurityPR(
                 pr_number=pr["number"],
                 repo_name=repo_full_name,
@@ -273,7 +273,7 @@ class PRSecurityReviewTask:
             if not security_pr.security_issues:
                 logger.info(
                     f"No security issues found in PR  "
-                    marking as reviewed"
+                    marking as reviewed""
                 )
                 return True
 
@@ -325,8 +325,8 @@ class PRSecurityReviewTask:
                 return True
             else:
                 logger.error(
-                    f"Failed to add review to PR  # {pr_number}: {response.status_code},
-                    {response.text}"
+                    f"Failed to add review to PR  # {pr_number}: {response.status_code},"
+                    {response.text}""
                 )
                 return False
 

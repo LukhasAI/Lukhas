@@ -380,9 +380,9 @@ class DecisionExplainer:
         elif factor_name == "efficiency":
             return f"resource usage: {context.get('resource_usage', 'normal')}"
         elif factor_name == "ethical_alignment":
-            return f"ethics score: {outcome.get('ethical_score', 0.5)}:.2f}"
+            return f"ethics score: {outcome.get('ethical_score', 0.5):.2f}"
         elif factor_name == "uncertainty":
-            return f"confidence: {outcome.get('confidence', 0.5)}:.2f}"
+            return f"confidence: {outcome.get('confidence', 0.5):.2f}"
         elif factor_name == "past_success":
             return f"historical success: {context.get('success_rate', 'unknown')}%"
         elif factor_name == "system_state":

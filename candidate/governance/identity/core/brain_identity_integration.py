@@ -9,6 +9,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 from candidate.core.common import get_logger
+from datetime import timezone
 
 try:
     from .brain_identity_connector import (

@@ -13,6 +13,7 @@ import argparse
 import json
 import os
 from datetime import datetime
+from datetime import timezone
 
 EXPRESSION_LOG = "logs/expressions/lukhas_expression_log.jsonl"
 OUTPUT_DIR = "logs/publication_simulation"

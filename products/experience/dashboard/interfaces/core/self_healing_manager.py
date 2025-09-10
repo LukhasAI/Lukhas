@@ -59,6 +59,7 @@ from bio.core.symbolic_fallback_systems import BioSymbolicFallbackManager
 from dashboard.core.dashboard_colony_agent import DashboardAgentRole, DashboardColonyAgent
 from lukhas.core.monitoring.drift_monitor import UnifiedDriftMonitor
 from lukhas.memory.systems.healix_memory_core import HealixMemoryCore
+from datetime import timezone
 
 logger = logging.getLogger("ΛTRACE.self_healing_manager")
 

@@ -1,0 +1,113 @@
+{
+  "module": "lukhas.consciousness",
+  "version": "1.0", 
+  "generated": "2025-09-10T13:00:00Z",
+  "description": "Consciousness processing, awareness states, and decision-making signal contracts",
+  
+  "emit": [
+    {
+      "signal": "consciousness.awareness.state_change",
+      "payload": {
+        "previous_state": "enum[dormant,processing,aware,deciding,reflecting]",
+        "new_state": "enum[dormant,processing,aware,deciding,reflecting]", 
+        "transition_reason": "string",
+        "confidence_level": "number[0-1]",
+        "timestamp": "number",
+        "trace_id": "string"
+      },
+      "frequency": "medium",
+      "criticality": "high"
+    },
+    {
+      "signal": "consciousness.decision.made",
+      "payload": {
+        "decision_id": "string",
+        "decision_type": "string",
+        "options_considered": "array[object]",
+        "chosen_option": "object",
+        "confidence": "number[0-1]",
+        "reasoning_trace": "array[string]",
+        "timestamp": "number"
+      },
+      "frequency": "medium", 
+      "criticality": "high"
+    },
+    {
+      "signal": "consciousness.reflection.insight",
+      "payload": {
+        "insight_id": "string",
+        "insight_content": "string",
+        "related_experiences": "array[string]", 
+        "novelty_score": "number[0-1]",
+        "timestamp": "number"
+      },
+      "frequency": "low",
+      "criticality": "medium"
+    }
+  ],
+  
+  "receive": [
+    {
+      "signal": "memory.fold.created",
+      "handler": "integrate_new_experience", 
+      "required": false,
+      "timeout_ms": 500
+    },
+    {
+      "signal": "orchestration.task.assigned",
+      "handler": "evaluate_task_complexity",
+      "required": true,
+      "timeout_ms": 200
+    },
+    {
+      "signal": "governance.ethics.violation_detected", 
+      "handler": "halt_processing_and_reflect",
+      "required": true,
+      "timeout_ms": 100
+    }
+  ],
+  
+  "glyphs": {
+    "consciousness_flow_diagram": {
+      "type": "state_machine_visual",
+      "shows": "current awareness state and transitions",
+      "updates_on": ["awareness.state_change"]
+    },
+    "decision_tree_visualization": {
+      "type": "hierarchical_tree", 
+      "shows": "decision reasoning process",
+      "updates_on": ["decision.made"]
+    }
+  },
+  
+  "invariants": [
+    "awareness_state_transitions_follow_valid_paths",
+    "decision_confidence_decreases_with_complexity", 
+    "reflection_occurs_after_significant_decisions",
+    "ethical_violations_immediately_halt_processing",
+    "consciousness_state_persists_across_restarts",
+    "decision_traces_maintained_for_audit"
+  ],
+  
+  "error_modes": [
+    {
+      "code": "CONSCIOUSNESS_STATE_INVALID",
+      "description": "Attempted invalid state transition",
+      "recovery": "revert_to_last_valid_state",
+      "emit_signal": "consciousness.error.invalid_state"
+    },
+    {
+      "code": "DECISION_TIMEOUT",
+      "description": "Decision process exceeded timeout",
+      "recovery": "escalate_to_human_operator",
+      "emit_signal": "consciousness.error.decision_timeout" 
+    }
+  ],
+  
+  "slos": {
+    "availability": "99.95%",
+    "decision_latency_p95": "2000ms",
+    "state_transition_latency_p95": "100ms",
+    "error_rate": "0.05%"
+  }
+}

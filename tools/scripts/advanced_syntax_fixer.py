@@ -87,8 +87,8 @@ class AdvancedSyntaxFixer:
             "\u2013": "-",  # En dash
             "\u201c": '"',  # Left double quote
             "\u201d": '"',  # Right double quote
-            "\u2018": "'",  # Left single quote
-            "\u2019": "'",  # Right single quote
+            "'": "'",  # Left single quote
+            "'": "'",  # Right single quote
         }
 
         for old, new in replacements.items():
@@ -196,7 +196,7 @@ def main():
     print(f"\n[Fixing] Attempting advanced fixes on {len(errors)} files...")
 
     for i, filepath in enumerate(errors):
-        print(f"Fixing {i+1}/{len(errors}}: {filepath}...", end="")
+        print(f"Fixing {i+1}/{len(errors}: {filepath}...", end="")
         success = fixer.fix_file(filepath)
         print(" [OK]" if success else " [FAILED]")
 
@@ -217,7 +217,7 @@ def main():
         for f in remaining[:10]:
             print(f"  - {f}")
         if len(remaining) > 10:
-            print(f"  ... and {len(remaining}} - 10} more")
+            print(f"  ... and {len(remaining} - 10} more")
 
 
 if __name__ == "__main__":

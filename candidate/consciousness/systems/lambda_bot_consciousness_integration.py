@@ -9,6 +9,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 from candidate.core.common import get_logger
+from datetime import timezone
 
 try:
     from .λBot_consciousness_monitor import ConsciousnessLevel, ΛBotAGICore, ΛBotConsciousnessMonitor

@@ -1,0 +1,126 @@
+{
+  "module": "lukhas.orchestration",
+  "version": "1.0",
+  "generated": "2025-09-10T13:00:00Z", 
+  "description": "Multi-module coordination, workflow management, and system integration contracts",
+  
+  "emit": [
+    {
+      "signal": "orchestration.workflow.started",
+      "payload": {
+        "workflow_id": "string",
+        "workflow_type": "string",
+        "participating_modules": "array[string]",
+        "expected_duration_ms": "number", 
+        "priority": "enum[low,medium,high,critical]",
+        "timestamp": "number"
+      },
+      "frequency": "high",
+      "criticality": "medium"
+    },
+    {
+      "signal": "orchestration.task.assigned", 
+      "payload": {
+        "task_id": "string",
+        "target_module": "string",
+        "task_type": "string",
+        "payload": "object",
+        "timeout_ms": "number",
+        "retry_policy": "object",
+        "timestamp": "number"
+      },
+      "frequency": "very_high",
+      "criticality": "high"
+    },
+    {
+      "signal": "orchestration.execution.trace",
+      "payload": {
+        "trace_id": "string", 
+        "workflow_id": "string",
+        "module_path": "array[string]",
+        "duration_ms": "number",
+        "status": "enum[success,error,timeout,cancelled]",
+        "error_details": "object",
+        "timestamp": "number"
+      },
+      "frequency": "very_high", 
+      "criticality": "medium"
+    },
+    {
+      "signal": "orchestration.shutdown.prepare",
+      "payload": {
+        "shutdown_reason": "string",
+        "grace_period_ms": "number",
+        "affected_workflows": "array[string]",
+        "timestamp": "number"
+      },
+      "frequency": "very_low",
+      "criticality": "critical"
+    }
+  ],
+  
+  "receive": [
+    {
+      "signal": "consciousness.decision.made",
+      "handler": "execute_decision_workflow",
+      "required": true,
+      "timeout_ms": 100
+    },
+    {
+      "signal": "memory.cascade.prevented", 
+      "handler": "pause_memory_intensive_workflows",
+      "required": true,
+      "timeout_ms": 50
+    },
+    {
+      "signal": "api.request.received",
+      "handler": "route_to_appropriate_modules",
+      "required": true,
+      "timeout_ms": 10
+    }
+  ],
+  
+  "glyphs": {
+    "workflow_execution_graph": {
+      "type": "directed_graph",
+      "shows": "active workflows and their execution status", 
+      "updates_on": ["workflow.started", "task.assigned", "execution.trace"]
+    },
+    "system_load_heatmap": {
+      "type": "module_grid",
+      "shows": "current load distribution across modules",
+      "updates_on": ["task.assigned", "execution.trace"] 
+    }
+  },
+  
+  "invariants": [
+    "workflow_dependencies_form_dag_no_cycles",
+    "task_assignments_respect_module_capacity",
+    "execution_traces_maintained_for_all_workflows",
+    "shutdown_allows_graceful_workflow_completion",
+    "failed_workflows_trigger_appropriate_rollback",
+    "orchestration_itself_remains_stateless"
+  ],
+  
+  "error_modes": [
+    {
+      "code": "ORCHESTRATION_DEADLOCK_DETECTED",
+      "description": "Circular dependency detected in workflow",
+      "recovery": "cancel_conflicting_workflows_and_retry",
+      "emit_signal": "orchestration.error.deadlock"
+    },
+    {
+      "code": "MODULE_CAPACITY_EXCEEDED",
+      "description": "Target module cannot accept more tasks",
+      "recovery": "queue_task_or_load_balance",
+      "emit_signal": "orchestration.error.capacity_exceeded"
+    }
+  ],
+  
+  "slos": {
+    "availability": "99.99%",
+    "task_assignment_latency_p95": "10ms", 
+    "workflow_completion_rate": "99.5%",
+    "error_rate": "0.01%"
+  }
+}

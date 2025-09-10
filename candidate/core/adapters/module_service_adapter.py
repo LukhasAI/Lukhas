@@ -12,6 +12,7 @@ from typing import Any, Optional
 from lukhas.core.container.service_container import ServiceLifetime, injectable
 from lukhas.core.events.contracts import MemoryFoldCreated, serialize_event
 from lukhas.core.interfaces.services import (
+from datetime import timezone
     IBridgeService,
     IConsciousnessService,
     IDreamService,

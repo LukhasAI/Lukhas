@@ -16,6 +16,7 @@ from typing import Any, Optional
 import numpy as np
 
 from candidate.core.common import get_logger
+from datetime import timezone
 
 # Bio-symbolic components - using compatibility layer
 class CardiolipinEncoder:

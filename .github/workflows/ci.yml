@@ -56,10 +56,81 @@ jobs:
           # Run a scoped mypy check; allow mypy to fail without failing the CI job
           mypy --follow-imports=skip --ignore-missing-imports serve/main.py || true
 
+  contracts-smoke:
+    name: Tier-1 Contracts Smoke Test
+    runs-on: ubuntu-latest
+    needs: [check]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Validate Tier-1 contracts exist
+        run: |
+          set -euo pipefail
+          echo "🔍 Validating Tier-1 module contracts..."
+          
+          # Check TIER1.txt exists
+          if [[ ! -f "audit/TIER1.txt" ]]; then
+            echo "❌ audit/TIER1.txt missing"
+            exit 1
+          fi
+          
+          # Extract module names and validate contracts
+          tier1_modules=$(grep -E "^lukhas\." audit/TIER1.txt || true)
+          if [[ -z "$tier1_modules" ]]; then
+            echo "❌ No Tier-1 modules found in audit/TIER1.txt"
+            exit 1
+          fi
+          
+          missing_contracts=0
+          while IFS= read -r module; do
+            if [[ -n "$module" ]]; then
+              # Convert lukhas.memory -> lukhas_memory for file names
+              contract_file="audit/NODE_CONTRACTS/$(echo $module | sed 's/\./_/g').json"
+              golden_pattern="tests/golden/tier1/$(echo $module | cut -d. -f2)_*.json"
+              
+              # Check contract exists
+              if [[ ! -f "$contract_file" ]]; then
+                echo "❌ Missing contract: $contract_file"
+                missing_contracts=$((missing_contracts + 1))
+              else
+                echo "✅ Contract exists: $contract_file"
+              fi
+              
+              # Check golden trace exists
+              module_short=$(echo $module | cut -d. -f2)
+              if ls tests/golden/tier1/${module_short}_*.json 1> /dev/null 2>&1; then
+                golden_file=$(ls tests/golden/tier1/${module_short}_*.json | head -1)
+                echo "✅ Golden trace exists for: $module ($golden_file)"
+              else
+                echo "❌ Missing golden trace for: $module"
+                missing_contracts=$((missing_contracts + 1))
+              fi
+            fi
+          done <<< "$tier1_modules"
+          
+          if [[ $missing_contracts -gt 0 ]]; then
+            echo "❌ $missing_contracts Tier-1 validation files missing"
+            exit 1
+          fi
+          
+          # Check reality tests exist
+          if [[ ! -f "tests_new/reality/tier1/test_tier1_reality.py" ]]; then
+            echo "❌ Missing Tier-1 reality tests"
+            exit 1
+          fi
+          
+          echo "✅ All Tier-1 contracts and validation files present"
+
   test:
     name: Test
     runs-on: ubuntu-latest
-    needs: [check]
+    needs: [check, contracts-smoke]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

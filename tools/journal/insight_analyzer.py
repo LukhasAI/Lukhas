@@ -10,6 +10,7 @@ from datetime import datetime, timedelta
 from typing import Any, Optional
 
 from .journal_engine import JournalEngine, JournalEntry
+from datetime import timezone
 
 
 class Insight:

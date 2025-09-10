@@ -388,7 +388,7 @@ class ImportErrorFixer:
                 with open(init_file, "w", encoding="utf-8") as f:
                     f.write(f'"""\n{module_name} Module\n"""\n\n')
 
-                logger.info(f"✅ Created __init__.py in {directory.relative_to(self.root_path}}")
+                logger.info(f"✅ Created __init__.py in {directory.relative_to(self.root_path}")
                 self.fixed_files.append(str(init_file))
 
     def fix_common_import_patterns(self) -> None:
@@ -437,7 +437,7 @@ class ImportErrorFixer:
                     with open(py_file, "w", encoding="utf-8") as f:
                         f.write(content)
 
-                    logger.info(f"✅ Fixed import patterns in {py_file.relative_to(self.root_path}}")
+                    logger.info(f"✅ Fixed import patterns in {py_file.relative_to(self.root_path}")
                     self.fixed_files.append(str(py_file))
 
             except Exception as e:

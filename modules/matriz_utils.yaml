@@ -1,0 +1,117 @@
+identity:
+  name: matriz.utils
+  layer: application
+  summary: matriz.utils module with 0 classes and 3 functions
+  status: active
+  tier: 2
+discovery:
+  import_patterns:
+  - from matriz.utils import main
+  - from matriz.utils import validate_node
+  - from matriz.utils import validate_nodes
+  import_aliases:
+  - utils
+  file_patterns:
+  - matriz/utils/**/*.py
+  - tests/matriz/utils/**/*.py
+  entry_points:
+  - matriz/utils/__init__.py
+ownership:
+  owner: '@ArchitectureTeam'
+  lifecycle: evolving
+  last_review: '2025-09-10T11:32:19.601305+00:00'
+  promotion_rules: {}
+contracts:
+  api:
+    surface:
+    - 'python: matriz.utils.main'
+    - 'python: matriz.utils.validate_node'
+    - 'python: matriz.utils.validate_nodes'
+    version: v1.0
+    compatibility:
+      backward: true
+      forward: minor
+  invariants:
+  - module loads without errors
+  - public API remains stable
+dependencies:
+  internal:
+    requires: []
+    provides:
+    - matriz.utils
+  external:
+    libs:
+    - name: collections
+      version: unknown
+      license: unknown
+      purpose: library dependency
+  coupling_metrics:
+    afferent: 0
+    efferent: 0
+    instability_index: 0.0
+runtime:
+  processes:
+    entrypoints:
+    - python -m matriz.utils
+    concurrency_model: thread
+  config:
+    files: []
+    env_vars_required: []
+    feature_flags: []
+  resources:
+    cpu_limit: 0.5 vcpu
+    mem_limit: 256 MiB
+data_and_events:
+  data_classes: []
+  pii:
+    contains: false
+    classification: internal
+security:
+  secrets:
+    sources:
+    - env
+    files: []
+  authz_model: internal_only
+  compliance:
+    data_classification: internal
+observability:
+  logs:
+    format: structured_json
+    level: info
+  metrics:
+    exporter: prometheus
+    key_metrics:
+    - name: matriz_utils_calls_total
+      target: '>0'
+      type: counter
+  slos:
+    error_rate_pct: 1.0
+    availability_pct: 99.0
+test_posture:
+  coverage:
+    current: 0.0
+    target: 0.8
+  tests:
+    unit: 0
+    integration: 0
+risk_and_change:
+  risks:
+  - id: R-MATRIZ-UTILS-GENERATED
+    title: Auto-generated schema may be incomplete
+    likelihood: medium
+    impact: low
+    mitigation: Manual review and enhancement required
+    status: open
+provenance:
+  schema_version: '1.0'
+  last_updated: '2025-09-10T11:32:19.601305+00:00'
+  source_paths:
+  - matriz/utils
+  generated_by:
+    tool: lukhas-module-generator
+    version: 1.0.0
+    timestamp: '2025-09-10T11:32:19.601305+00:00'
+  validation:
+    schema_valid: true
+    last_validated: '2025-09-10T11:32:19.601305+00:00'
+    validator_version: 1.0.0

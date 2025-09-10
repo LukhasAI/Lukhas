@@ -776,7 +776,7 @@ class APIDocumentationGenerator:
                             }
                         ],
                         "url": {
-                            "raw": f"{{{{base_url}}}}{endpoint.path}",
+                            "raw": f"{{{{base_url}}}{endpoint.path}",
                             "host": ["{{base_url}}"],
                             "path": endpoint.path.strip("/").split("/"),
                         },

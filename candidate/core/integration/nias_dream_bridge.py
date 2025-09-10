@@ -11,6 +11,7 @@ Bidirectional communication bridge between NIAS and Dream systems
 
 import logging
 from typing import Any
+from datetime import timezone
 
 logger = logging.getLogger(__name__)
 

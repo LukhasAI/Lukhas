@@ -26,6 +26,7 @@ from enum import Enum
 from typing import Any, Optional
 
 from PIL import Image
+from datetime import timedelta
 
 # Import LUKHAS components
 try:

@@ -4,7 +4,7 @@ Safe Batch F-String Syntax Fixer for LUKHAS
 
 Fixes common f-string syntax errors in a safe, batched approach:
 1. f"text-{uuid.uuid4()}.hex}" → f"text-{uuid.uuid4().hex}"  
-2. f"text {var}}" → f"text {var}"
+2. f"text {var}" → f"text {var}"
 3. Missing closing braces in f-strings
 
 Safety measures:

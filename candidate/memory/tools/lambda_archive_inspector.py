@@ -1177,7 +1177,7 @@ class LambdaArchiveInspector:
         md = []
 
         md.append(")  #  🏛️ ΛARCHIVE FORENSIC MEMORY REPORT"
-        md.append(")
+        md.append(")"
         md.append(f"**Report ID:** `{report.report_id}`")
         md.append(f"**Timestamp:** {report.timestamp}")
         md.append(f"**Vault Directory:** `{report.vault_directory}`")
@@ -1197,13 +1197,13 @@ class LambdaArchiveInspector:
             md.append("#)  #  🌀 Entropy Analysis"
             md.append("")
             md.append(
-                f"- **Mean Entropy:** {report.entropy_analysis.get('mean', 0)}:.3f}"
+                f"- **Mean Entropy:** {report.entropy_analysis.get('mean', 0):.3f}"
             )
             md.append(
                 f"- **High Entropy Ratio:** {report.entropy_analysis.get('high_entropy_ratio', 0)}:.2%}"
             )
             md.append(
-                f"- **Entropy Range:** {report.entropy_analysis.get('min', 0):.3f} - {report.entropy_analysis.get('max', 0)}:.3f}"
+                f"- **Entropy Range:** {report.entropy_analysis.get('min', 0):.3f} - {report.entropy_analysis.get('max', 0):.3f}"
             )
             md.append("")
 

@@ -8,6 +8,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 from candidate.core.common import get_logger
+from datetime import timezone
 
 try:
     from .qi_consciousness_integration import (MODULE_NAME, MODULE_VERSION,

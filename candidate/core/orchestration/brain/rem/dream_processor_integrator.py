@@ -12,6 +12,7 @@ Integration module for DreamProcessor and pattern recognition.
 
 from datetime import datetime
 from typing import Any
+from datetime import timezone
 
 
 class DreamProcessorIntegration:

@@ -435,7 +435,7 @@ class PerformanceSetup:
         logger.info(f"📈 Total Optimizations: {total}")
         logger.info(f"✅ Successful: {successful}")
         logger.info(f"❌ Failed: {total - successful}")
-        logger.info(f"📊 Success Rate: {(successful / total * 100)}:.1f}%")
+        logger.info(f"📊 Success Rate: {(successful / total * 100):.1f}%")
         logger.info("=" * 70)
 
         if successful > 0:

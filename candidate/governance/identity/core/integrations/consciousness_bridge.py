@@ -24,6 +24,7 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
+from datetime import timezone
 
 # Import LUKHAS components
 try:

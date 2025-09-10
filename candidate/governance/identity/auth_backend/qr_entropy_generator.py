@@ -21,6 +21,7 @@ from typing import Any, Optional
 
 import qrcode
 from PIL import Image
+from datetime import timezone
 
 try:
     from cryptography.fernet import Fernet

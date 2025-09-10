@@ -793,7 +793,7 @@ if __name__ == "__main__":
         print("\n📊 Legacy Performance & Security Metrics:")
         legacy_metrics = service.get_performance_metrics()
         print(f"🏃 Operations: {legacy_metrics['performance']['operations_count']}")
-        print(f"🎯 Average Latency: {legacy_metrics['performance'].get('average_latency', 0)}:.2f}ms")
+        print(f"🎯 Average Latency: {legacy_metrics['performance'].get('average_latency', 0):.2f}ms")
         print(f"⚛️ Trinity Integration: {legacy_metrics['trinity_status']}")
 
         # Test error handling

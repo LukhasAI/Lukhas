@@ -66,7 +66,7 @@ class EnhancedMemoryVisualizer:
         st.sidebar.metric(
             "Quantum Coherence",
             f"{coherence:.2f}",
-            delta=f"{(coherence - self.config.coherence_threshold)}:.2f}",
+            delta=f"{(coherence - self.config.coherence_threshold):.2f}",
         )
 
     async def visualize_memory_fold(

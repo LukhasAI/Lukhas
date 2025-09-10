@@ -403,7 +403,7 @@ class EmotionalResonance:
         # Integrate with symbolic world if available
         if self.symbolic_world:
             # Create an emotion event in the symbolic world
-            event_symbol_name = f"emotional_event_{timestamp.strftime('%Y%m%d_%H%M%S_%f\')}"
+            event_symbol_name = f"emotional_event_{timestamp.strftime('%Y%m%d_%H%M%S_%f\')}"'
             event_properties = {
                 "type": "emotional_event_record",
                 "emotion_state_name": emotion_state,
@@ -899,7 +899,7 @@ Last Updated: {self.last_update.strftime("%H:%M:%S")}
                 emotion_symbol.update_property(param_name, param_value)
 
             # Create a voice modulation event in the symbolic world
-            modulation_symbol_name = f"voice_modulation_{timestamp.strftime('%Y%m%d_%H%M%S_%f\')}"
+            modulation_symbol_name = f"voice_modulation_{timestamp.strftime('%Y%m%d_%H%M%S_%f\')}"'
             modulation_properties = {
                 "type": "voice_modulation_snapshot",
                 "timestamp": timestamp.isoformat(),

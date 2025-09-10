@@ -109,7 +109,7 @@ def main():
             pattern = r"\{([^{}]*)\}\)"
             sample_matches = re.findall(pattern, original_content)[:5]  # Show first 5
             for i, match in enumerate(sample_matches, 1):
-                print(f"  {i}. {{{match}}} → {{{match}}}")
+                print(f"  {i}. {{{match}} → {{{match}}")
                 if i >= 5:
                     break
             if len(sample_matches) > 5:

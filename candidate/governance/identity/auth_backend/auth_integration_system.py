@@ -37,6 +37,7 @@ from .auth_governance_policies import auth_governance_policy_engine
 
 # LUKHAS governance imports
 from .auth_guardian_integration import AuthenticationGuardian, AuthEventType
+from datetime import timezone
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)

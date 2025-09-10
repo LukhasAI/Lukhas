@@ -68,6 +68,7 @@ from enum import Enum
 from typing import Any, Callable
 
 from candidate.core.bio_systems.bio_oscillator import OscillationType
+from datetime import timezone
 
 logger = logging.getLogger("bio_simulation_controller")
 

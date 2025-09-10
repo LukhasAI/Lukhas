@@ -1,0 +1,176 @@
+{
+  "accepted": {
+    "description": "Production-ready code with strict quality requirements",
+    "risk_tolerance": "conservative",
+    "validation_level": "extensive",
+    "allowed_fixes": [
+      "CONFIG_MARKERS",
+      "IMPORT_BRIDGE"
+    ],
+    "requires_approval": [
+      "SYNTAX_FSTRING",
+      "BRACKET_MATCH"
+    ],
+    "forbidden_fixes": [],
+    "backup_retention": 30,
+    "test_requirements": [
+      "smoke",
+      "reality_imports", 
+      "no_safe_fixable_lints"
+    ],
+    "validation_steps": [
+      "syntax_check",
+      "import_validation",
+      "test_collection",
+      "lint_check"
+    ],
+    "promotion_criteria": {
+      "from": "candidate",
+      "required_labels": ["promotion", "autofix-clear"],
+      "required_checks": ["tests/smoke", "reality_imports", "no_safe_fixable_lints"]
+    }
+  },
+  
+  "candidate": {
+    "description": "Development code with moderate quality requirements",
+    "risk_tolerance": "moderate",
+    "validation_level": "standard", 
+    "allowed_fixes": [
+      "SYNTAX_FSTRING",
+      "CONFIG_MARKERS",
+      "IMPORT_BRIDGE",
+      "BRACKET_MATCH"
+    ],
+    "requires_approval": [],
+    "forbidden_fixes": [],
+    "backup_retention": 14,
+    "test_requirements": [
+      "smoke"
+    ],
+    "validation_steps": [
+      "syntax_check",
+      "basic_validation"
+    ],
+    "promotion_criteria": {
+      "to": "accepted",
+      "required_checks": ["tests/smoke"]
+    }
+  },
+  
+  "core": {
+    "description": "Core infrastructure with maximum stability requirements",
+    "risk_tolerance": "ultra_conservative", 
+    "validation_level": "maximum",
+    "allowed_fixes": [
+      "CONFIG_MARKERS"
+    ],
+    "requires_approval": [
+      "SYNTAX_FSTRING",
+      "IMPORT_BRIDGE", 
+      "BRACKET_MATCH"
+    ],
+    "forbidden_fixes": [],
+    "backup_retention": 90,
+    "test_requirements": [
+      "comprehensive",
+      "integration",
+      "performance"
+    ],
+    "validation_steps": [
+      "syntax_check",
+      "import_validation",
+      "test_collection", 
+      "lint_check",
+      "security_scan",
+      "performance_test"
+    ]
+  },
+  
+  "matriz": {
+    "description": "Symbolic reasoning and data processing with specialized requirements",
+    "risk_tolerance": "moderate",
+    "validation_level": "standard",
+    "allowed_fixes": [
+      "SYNTAX_FSTRING",
+      "CONFIG_MARKERS"
+    ],
+    "requires_approval": [
+      "IMPORT_BRIDGE"
+    ],
+    "forbidden_fixes": [],
+    "backup_retention": 21,
+    "test_requirements": [
+      "smoke",
+      "symbolic_reasoning"
+    ],
+    "validation_steps": [
+      "syntax_check",
+      "symbolic_validation",
+      "data_flow_check"
+    ],
+    "specializations": [
+      "bio_symbolic_adaptation",
+      "consciousness_data_flow",
+      "quantum_inspired_processing"
+    ]
+  },
+  
+  "experimental": {
+    "description": "Bleeding-edge experimental code with high risk tolerance",
+    "risk_tolerance": "aggressive",
+    "validation_level": "minimal",
+    "allowed_fixes": [
+      "SYNTAX_FSTRING",
+      "CONFIG_MARKERS", 
+      "IMPORT_BRIDGE",
+      "BRACKET_MATCH",
+      "EXPERIMENTAL"
+    ],
+    "requires_approval": [],
+    "forbidden_fixes": [],
+    "backup_retention": 7,
+    "test_requirements": [],
+    "validation_steps": [
+      "syntax_check"
+    ],
+    "experimental_features": [
+      "bleeding_edge_fixes",
+      "ai_assisted_refactoring",
+      "pattern_prediction"
+    ]
+  },
+  
+  "archive": {
+    "description": "Historical code archive - read-only preservation",
+    "risk_tolerance": "none",
+    "validation_level": "read_only",
+    "allowed_fixes": [],
+    "requires_approval": ["*"],
+    "forbidden_fixes": ["*"],
+    "backup_retention": 365,
+    "test_requirements": [],
+    "validation_steps": [],
+    "archive_policy": {
+      "read_only": true,
+      "preservation_priority": "maximum",
+      "modification_policy": "manual_approval_only"
+    }
+  },
+  
+  "quarantine": {
+    "description": "Quarantined code requiring special handling",
+    "risk_tolerance": "none",
+    "validation_level": "quarantine",
+    "allowed_fixes": [],
+    "requires_approval": ["*"],
+    "forbidden_fixes": ["*"],
+    "backup_retention": 90,
+    "test_requirements": [],
+    "validation_steps": [],
+    "quarantine_policy": {
+      "isolation": true,
+      "manual_review_required": true,
+      "security_scan_required": true
+    }
+  }
+}

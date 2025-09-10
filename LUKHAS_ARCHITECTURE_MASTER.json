@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.1.0",
+  "lanes": {
+    "lukhas": {
+      "modules": {
+        "memory": {
+          "module_uid": "lukhas.memory",
+          "owner": "lukhas-core",
+          "lifecycle": "active",
+          "tier": 1,
+          "summary": "Memory fold management, cascade prevention, temporal indexing",
+          "public_interfaces": [
+            "memory.fold.created",
+            "memory.fold.accessed",
+            "memory.consolidation.completed",
+            "memory.cascade.prevented"
+          ],
+          "code_paths": [
+            "lukhas/memory"
+          ]
+        },
+        "consciousness": {
+          "module_uid": "lukhas.consciousness",
+          "owner": "lukhas-core",
+          "lifecycle": "active",
+          "tier": 1,
+          "summary": "Awareness processing, decision making, consciousness states",
+          "public_interfaces": [
+            "consciousness.awareness.state_change",
+            "consciousness.decision.made",
+            "consciousness.reflection.insight"
+          ],
+          "code_paths": [
+            "lukhas/consciousness"
+          ]
+        },
+        "orchestration": {
+          "module_uid": "lukhas.orchestration",
+          "owner": "lukhas-core",
+          "lifecycle": "active",
+          "tier": 1,
+          "summary": "Multi-module coordination, workflow management, system integration",
+          "public_interfaces": [
+            "orchestration.workflow.started",
+            "orchestration.coordination.initiated",
+            "orchestration.workflow.completed"
+          ],
+          "code_paths": [
+            "lukhas/orchestration"
+          ]
+        },
+        "api": {
+          "module_uid": "lukhas.api",
+          "owner": "lukhas-core",
+          "lifecycle": "active",
+          "tier": 1,
+          "summary": "External API gateway, request routing, response management",
+          "public_interfaces": [
+            "api.request.received",
+            "api.auth.required",
+            "api.response.sent"
+          ],
+          "code_paths": [
+            "lukhas/api"
+          ]
+        },
+        "identity": {
+          "module_uid": "lukhas.identity",
+          "owner": "lukhas-core",
+          "lifecycle": "active",
+          "tier": 1,
+          "summary": "Authentication, authorization, user management, security",
+          "public_interfaces": [
+            "identity.auth.initiated",
+            "identity.auth.validated",
+            "identity.token.refreshed",
+            "identity.session.terminated"
+          ],
+          "code_paths": [
+            "lukhas/identity"
+          ]
+        },
+        "governance": {
+          "module_uid": "lukhas.governance",
+          "owner": "lukhas-core",
+          "lifecycle": "active",
+          "tier": 1,
+          "summary": "Policy enforcement, compliance monitoring, ethical oversight",
+          "public_interfaces": [
+            "governance.policy.decision_made",
+            "governance.ethics.violation_detected",
+            "governance.compliance.audit_event",
+            "governance.drift.detected"
+          ],
+          "code_paths": [
+            "lukhas/governance"
+          ]
+        }
+      }
+    },
+    "candidate": {
+      "modules": {
+        "consciousness": {
+          "module_uid": "candidate.consciousness",
+          "owner": "candidate-research",
+          "lifecycle": "experimental",
+          "tier": 3,
+          "summary": "Experimental consciousness research components",
+          "public_interfaces": [],
+          "code_paths": [
+            "candidate/consciousness"
+          ]
+        }
+      }
+    }
+  },
+  "tier1_validation": {
+    "validated_modules": [
+      "lukhas.memory",
+      "lukhas.consciousness",
+      "lukhas.orchestration",
+      "lukhas.api",
+      "lukhas.identity",
+      "lukhas.governance"
+    ],
+    "contracts_valid": true,
+    "golden_traces_complete": true,
+    "reality_tests_passing": true,
+    "freeze_status": "non_tier1_frozen"
+  },
+  "provenance": {
+    "git_sha": "ae824698a13d21007f2b2d3e9080d976deaff6b2",
+    "timestamp_utc": "2025-09-10T12:30:11Z",
+    "generated_by": {
+      "tool": "tier1-bootstrap",
+      "model": "claude-code",
+      "scope_freeze": "tier1_only"
+    },
+    "scope_hash": "sha256:e8a34faf96cf2931e6ea74caaff38b6d499be5504e7f53a61a96ba28440ba0d2"
+  },
+  "schema_url": "schemas/architecture_master.schema.json"
+}

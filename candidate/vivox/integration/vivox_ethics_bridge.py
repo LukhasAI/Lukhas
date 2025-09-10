@@ -9,6 +9,7 @@ from typing import Any, Callable, Optional
 
 # VIVOX imports
 from ..moral_alignment.vivox_mae_core import ActionProposal, MAEDecision, VIVOXMoralAlignmentEngine
+from datetime import timezone
 
 
 @dataclass

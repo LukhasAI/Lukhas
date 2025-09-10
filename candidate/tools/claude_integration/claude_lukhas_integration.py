@@ -14,6 +14,7 @@ import yaml
 from .journal_engine import JournalEngine
 from .learning_assistant import LearningAssistant
 from .solo_dev_support import SoloDeveloperSupport
+from datetime import timezone
 
 
 class ClaudeLUKHASIntegration:

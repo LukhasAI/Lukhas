@@ -1,0 +1,137 @@
+identity:
+  name: branding.intelligence
+  layer: application
+  summary: branding.intelligence module with 5 classes and 10 functions
+  status: active
+  tier: 2
+discovery:
+  import_patterns:
+  - from branding.intelligence import analyze_brand_consistency
+  - from branding.intelligence import perform_comprehensive_brand_analysis
+  - from branding.intelligence import BrandSentimentEngine
+  - from branding.intelligence import generate_brand_intelligence
+  - from branding.intelligence import generate_brand_recommendations
+  import_aliases:
+  - intelligence
+  file_patterns:
+  - branding/intelligence/**/*.py
+  - tests/branding/intelligence/**/*.py
+  entry_points:
+  - branding/intelligence/__init__.py
+ownership:
+  owner: '@MarketingTeam'
+  lifecycle: evolving
+  last_review: '2025-09-10T11:32:19.473638+00:00'
+  promotion_rules: {}
+contracts:
+  api:
+    surface:
+    - 'python: branding.intelligence.analyze_brand_consistency'
+    - 'python: branding.intelligence.perform_comprehensive_brand_analysis'
+    - 'python: branding.intelligence.BrandSentimentEngine'
+    - 'python: branding.intelligence.generate_brand_intelligence'
+    - 'python: branding.intelligence.generate_brand_recommendations'
+    - 'python: branding.intelligence.get_sentiment_trends'
+    - 'python: branding.intelligence.SentimentPolarity'
+    - 'python: branding.intelligence.generate_sentiment_report'
+    - 'python: branding.intelligence.SentimentResult'
+    - 'python: branding.intelligence.generate_brand_predictions'
+    version: v1.0
+    compatibility:
+      backward: true
+      forward: minor
+  invariants:
+  - module loads without errors
+  - public API remains stable
+dependencies:
+  internal:
+    requires: []
+    provides:
+    - branding.intelligence
+  external:
+    libs: []
+  coupling_metrics:
+    afferent: 0
+    efferent: 0
+    instability_index: 0.0
+runtime:
+  processes:
+    entrypoints:
+    - python -m branding.intelligence
+    concurrency_model: async
+  config:
+    files: []
+    env_vars_required: []
+    feature_flags: []
+  resources:
+    cpu_limit: 0.5 vcpu
+    mem_limit: 256 MiB
+data_and_events:
+  data_classes:
+  - name: BrandSentimentEngine
+    schema_ref: audit/SCHEMAS/brandsentimentengine.json
+    description: BrandSentimentEngine data class
+  - name: SentimentPolarity
+    schema_ref: audit/SCHEMAS/sentimentpolarity.json
+    description: SentimentPolarity data class
+  - name: SentimentResult
+    schema_ref: audit/SCHEMAS/sentimentresult.json
+    description: SentimentResult data class
+  - name: BrandIntelligenceMonitor
+    schema_ref: audit/SCHEMAS/brandintelligencemonitor.json
+    description: BrandIntelligenceMonitor data class
+  - name: BrandDimension
+    schema_ref: audit/SCHEMAS/branddimension.json
+    description: BrandDimension data class
+  pii:
+    contains: false
+    classification: internal
+security:
+  secrets:
+    sources:
+    - env
+    files: []
+  authz_model: internal_only
+  compliance:
+    data_classification: internal
+observability:
+  logs:
+    format: structured_json
+    level: info
+  metrics:
+    exporter: prometheus
+    key_metrics:
+    - name: branding_intelligence_calls_total
+      target: '>0'
+      type: counter
+  slos:
+    error_rate_pct: 1.0
+    availability_pct: 99.0
+test_posture:
+  coverage:
+    current: 0.0
+    target: 0.8
+  tests:
+    unit: 0
+    integration: 0
+risk_and_change:
+  risks:
+  - id: R-BRANDING-INTELLIGENCE-GENERATED
+    title: Auto-generated schema may be incomplete
+    likelihood: medium
+    impact: low
+    mitigation: Manual review and enhancement required
+    status: open
+provenance:
+  schema_version: '1.0'
+  last_updated: '2025-09-10T11:32:19.473638+00:00'
+  source_paths:
+  - branding/intelligence
+  generated_by:
+    tool: lukhas-module-generator
+    version: 1.0.0
+    timestamp: '2025-09-10T11:32:19.473638+00:00'
+  validation:
+    schema_valid: true
+    last_validated: '2025-09-10T11:32:19.473638+00:00'
+    validator_version: 1.0.0

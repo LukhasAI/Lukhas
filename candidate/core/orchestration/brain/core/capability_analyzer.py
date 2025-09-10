@@ -12,6 +12,7 @@ import time
 from typing import Any
 
 from bio.ai_client import BioAIClient
+from datetime import timezone
 
 
 class LUKHASCapabilityAnalyzer:

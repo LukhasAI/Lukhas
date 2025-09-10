@@ -81,6 +81,11 @@ auto_fix = [
     "E273",   # Tab after keyword
     "E274",   # Tab before keyword
     "E275",   # Missing whitespace after keyword
+    # Enhanced diagnostic-driven fixes
+    "SYNTAX_FSTRING",  # F-string syntax error fixes
+    "CONFIG_MARKERS",  # Pytest marker configuration fixes  
+    "IMPORT_BRIDGE",   # Import path resolution fixes
+    "BRACKET_MATCH",   # Bracket/brace mismatch fixes
 ]
 
 # Rules requiring human review
@@ -138,9 +143,9 @@ import_replacements = [
 
 # Common docstring issues
 docstring_patterns = [
-    ["\"\"\"\"\"\"", '"""'],  # Six quotes to three
+    ['""""""', '"""'],  # Six quotes to three
     ["''''''", "'''"],      # Six single quotes to three
-    ["\"\"", '"""'],         # Incomplete docstring
+    ['""', '"""']         # Incomplete docstring
 ]
 
 [syntax_validation]
@@ -152,3 +157,14 @@ fail_on_syntax_error = true
 auto_fix_imports = true
 auto_fix_quotes = true
 auto_fix_docstrings = true
+
+# Enhanced validation with AST parsing
+enable_fstring_validation = true
+fstring_validation_script = "tools/automation/precommit_fstring_validator.py"
+fail_on_fstring_syntax_error = true
+auto_fix_fstring_errors = true
+
+# Pytest configuration validation
+enable_pytest_config_validation = true
+validate_test_markers = true
+validate_test_class_structure = true

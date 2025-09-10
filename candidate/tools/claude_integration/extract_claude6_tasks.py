@@ -8,6 +8,7 @@ from datetime import datetime
 from pathlib import Path
 
 import yaml
+from datetime import timezone
 
 
 def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_ARMY/tasks"):

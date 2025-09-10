@@ -37,6 +37,7 @@ from typing import Any, Optional, Union
 
 from governance.identity.lambda_id_auth import AuthCredentials, AuthTier, LambdaIDSystem
 from governance.security.secret_manager import get_secret_manager
+from datetime import timezone
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 

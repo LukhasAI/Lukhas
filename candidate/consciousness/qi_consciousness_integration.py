@@ -46,6 +46,7 @@ import asyncio
 import logging
 from datetime import datetime
 from typing import Any, Optional, Union
+from datetime import timezone
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.consciousness.qi_consciousness_integration", timezone)

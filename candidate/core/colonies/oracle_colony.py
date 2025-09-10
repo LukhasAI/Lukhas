@@ -34,6 +34,7 @@ from typing import Any, Optional
 
 from candidate.consciousness.reflection.openai_core_service import ModelType, OpenAICoreService, OpenAIRequest
 from candidate.core.colonies.base_colony import BaseColony
+from datetime import timezone
 
 logger = logging.getLogger("ΛTRACE.oracle_colony")
 

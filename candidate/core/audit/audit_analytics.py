@@ -11,6 +11,7 @@ from enum import Enum
 from typing import Any, Optional
 
 from .audit_trail import AuditEvent, AuditEventType, AuditQuery, AuditSeverity, AuditTrail
+from datetime import timezone
 
 
 class AnomalyType(Enum):

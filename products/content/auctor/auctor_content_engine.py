@@ -9,6 +9,7 @@ import json
 from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
+from datetime import timezone
 
 
 class ContentType(Enum):

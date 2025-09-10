@@ -127,7 +127,7 @@ class T4CoreBatchProcessor:
 
                 verification_file = (
                     self.verification_dir
-                    / f"fix_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{file_path.replace('/', '_'}}.json"
+                    / f"fix_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{file_path.replace('/', '_'}.json"
                 )
                 with open(verification_file, "w") as f:
                     json.dump(verification, f, indent=2)
@@ -186,7 +186,7 @@ class T4CoreBatchProcessor:
                 # Apply safe fixes
                 fixes = self.apply_safe_fixes(file_path)
                 if fixes:
-                    print(f"    ✅ Fixes applied: {', '.join(fixes}}")
+                    print(f"    ✅ Fixes applied: {', '.join(fixes}")
                     total_fixes += len(fixes)
             else:
                 print("    ✅ Clean")

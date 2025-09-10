@@ -14,7 +14,7 @@ from pathlib import Path
 def fix_specific_patterns(content: str) -> str:
     """Fix specific f-string bracket patterns"""
     
-    # Pattern 1: f'{variable}}' -> f'{variable}'  (extra closing brace)
+    # Pattern 1: f'{variable}' -> f'{variable}'  (extra closing brace)
     content = re.sub(r"f'([^']*\{[^}]*)\}'", r"f'\1'", content)
     content = re.sub(r'f"([^"]*\{[^}]*)\}"', r'f"\1"', content)
     

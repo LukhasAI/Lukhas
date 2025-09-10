@@ -235,7 +235,7 @@ class ExtremePerformanceValidator:
         )
 
         print(f"   Import cache P95: {p95_import_time:.2f}ms (target: {self.targets['import_cache_ms']}ms)")
-        print(f"   Cache hit rate: {cache_stats.get('hit_rate_percent', 0)}:.1f}%")
+        print(f"   Cache hit rate: {cache_stats.get('hit_rate_percent', 0):.1f}%")
 
     async def _validate_hash_calculation_performance(self):
         """Validate async hash calculation performance"""
@@ -276,7 +276,7 @@ class ExtremePerformanceValidator:
         )
 
         print(f"   Hash calculation P95: {p95_hash_time:.2f}ms (target: {self.targets['hash_calculation_ms']}ms)")
-        print(f"   Cache hit rate: {hash_stats.get('cache_hit_rate_percent', 0)}:.1f}%")
+        print(f"   Cache hit rate: {hash_stats.get('cache_hit_rate_percent', 0):.1f}%")
 
     async def _validate_audit_buffer_performance(self):
         """Validate async audit buffer eliminates file I/O blocking"""
@@ -565,7 +565,7 @@ class ExtremePerformanceValidator:
                 for r in self.results
             ],
             "key_achievements": [
-                f"Authentication latency: {min(r.actual_value for r in critical_results if 'Authentication' in r.test_name)}:.1f}ms (target: 25ms)",
+                f"Authentication latency: {min(r.actual_value for r in critical_results if 'Authentication' in r.test_name):.1f}ms (target: 25ms)",
                 "Import cache optimization: Sub-millisecond component loading",
                 "Audit buffer optimization: <1ms audit event logging",
                 "Async hash calculation: <2ms SHA-256 operations",
@@ -637,7 +637,7 @@ async def main():
 
     print(f"Tests run: {summary.get('total_tests', 0)}")
     print(f"Tests passed: {summary.get('passed_tests', 0)}")
-    print(f"Pass rate: {summary.get('pass_rate_percent', 0)}:.1f}%")
+    print(f"Pass rate: {summary.get('pass_rate_percent', 0):.1f}%")
     print(f"OpenAI scale ready: {'✅ YES' if assessment.get('openai_scale_ready')} else '❌ NO'}")
     print(f"Performance level: {assessment.get('performance_level', 'unknown')}")
 

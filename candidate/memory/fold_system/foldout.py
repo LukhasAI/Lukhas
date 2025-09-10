@@ -36,6 +36,7 @@ from typing import Any, Optional
 
 import msgpack
 import zstandard as zstd
+from datetime import timezone
 
 # LKF-Pack v1 magic bytes
 MAGIC = b"LKF\x01"

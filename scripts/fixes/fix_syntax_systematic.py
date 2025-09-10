@@ -43,7 +43,7 @@ def fix_fstring_errors(content: str) -> tuple[str, int]:
 
     # Pattern 3: Extra closing brace in f-strings (more conservative)
     # Only fix obvious cases where there's a format specifier
-    # f"Value: {variable}:.2f}}" -> f"Value: {variable:.2f}"
+    # f"Value: {variable:.2f}" -> f"Value: {variable:.2f}"
     pattern3 = r'(f["\'][^"\']*\{[^}]*):([^}]*)}}'
     def fix_double_brace(match):
         nonlocal fixes

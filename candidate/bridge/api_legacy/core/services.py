@@ -10,6 +10,7 @@ from typing import Any, Dict, List, Optional
 from hub.service_registry import get_service
 
 from candidate.core.common import get_logger
+from datetime import timezone
 
 logger = get_logger(__name__)
 

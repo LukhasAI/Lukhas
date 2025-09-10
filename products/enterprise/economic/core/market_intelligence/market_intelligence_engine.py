@@ -9,6 +9,7 @@ from datetime import datetime
 from typing import Any
 
 from core.interfaces import CoreInterface
+from datetime import timezone
 
 logger = logging.getLogger(__name__)
 

@@ -609,7 +609,7 @@ async def demonstrate_ripple_generator():
     ripple = await generator.generate_ripple(memory_sequence=test_memories[:3], ripple_type=RippleType.SINGLE)
     if ripple:
         print(f"Generated: {ripple.ripple_id[:8]}...")
-        print(f"  Power: {ripple.calculate_power()}:.2f}")
+        print(f"  Power: {ripple.calculate_power():.2f}")
         print(f"  Coupling: {ripple.coupling_strength:.2f}")
 
     # Ripple sequence

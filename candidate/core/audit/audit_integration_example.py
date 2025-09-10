@@ -8,6 +8,7 @@ from datetime import datetime
 from typing import Any
 
 from lukhas.core.audit import (
+from datetime import timezone
     AuditEventType,
     AuditSeverity,
     audit_decision,

@@ -206,9 +206,9 @@ class AdaptiveExporter:
         if "symbolic_state" in data:
             state = data["symbolic_state"]
             md += "## Symbolic State\n"
-            md += f"- **Drift Score**: {state.get('drift_score', 0)}:.3f}\n"
-            md += f"- **Stability**: {state.get('stability', 0)}:.3f}\n"
-            md += f"- **Entropy**: {state.get('entropy_level', 0)}:.3f}\n\n"
+            md += f"- **Drift Score**: {state.get('drift_score', 0):.3f}\n"
+            md += f"- **Stability**: {state.get('stability', 0):.3f}\n"
+            md += f"- **Entropy**: {state.get('entropy_level', 0):.3f}\n\n"
 
         if "content" in data:
             md += "## Content\n"
@@ -284,8 +284,8 @@ class AdaptiveExporter:
             latex += r"\section{Symbolic State}" + "\n"
             state = data["symbolic_state"]
             latex += r"\begin{itemize}" + "\n"
-            latex += f"\\item Drift Score: {state.get('drift_score', 0)}:.3f}\n"
-            latex += f"\\item Stability: {state.get('stability', 0)}:.3f}\n"
+            latex += f"\\item Drift Score: {state.get('drift_score', 0):.3f}\n"
+            latex += f"\\item Stability: {state.get('stability', 0):.3f}\n"
             latex += r"\end{itemize}" + "\n"
 
         latex += r"\end{document}"

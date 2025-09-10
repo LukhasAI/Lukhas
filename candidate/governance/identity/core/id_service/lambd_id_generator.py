@@ -5,6 +5,7 @@ implementation lives in `lambda_id_generator.py` (canonical name).
 """
 
 from .lambda_id_generator import LambdaIDGenerator
+from datetime import timezone
 
 # Backwards-compatible alias
 LambdIDGenerator = LambdaIDGenerator

@@ -1,0 +1,169 @@
+identity:
+  name: tools.scripts
+  layer: application
+  summary: tools.scripts module with 30 classes and 160 functions
+  status: active
+  tier: 2
+discovery:
+  import_patterns:
+  - from tools.scripts import main
+  - from tools.scripts import Tag
+  - from tools.scripts import create_connectivity_enhancer
+  - from tools.scripts import TimestampVerifier
+  - from tools.scripts import ImportFixer
+  import_aliases:
+  - scripts
+  file_patterns:
+  - tools/scripts/**/*.py
+  - tests/tools/scripts/**/*.py
+  entry_points:
+  - tools/scripts/__init__.py
+ownership:
+  owner: '@DevOpsTeam'
+  lifecycle: evolving
+  last_review: '2025-09-10T11:32:19.472034+00:00'
+  promotion_rules: {}
+contracts:
+  api:
+    surface:
+    - 'python: tools.scripts.main'
+    - 'python: tools.scripts.Tag'
+    - 'python: tools.scripts.create_connectivity_enhancer'
+    - 'python: tools.scripts.TimestampVerifier'
+    - 'python: tools.scripts.ImportFixer'
+    - 'python: tools.scripts.fix_file'
+    - 'python: tools.scripts.count_working_systems'
+    - 'python: tools.scripts.AggressiveFileConsolidator'
+    - 'python: tools.scripts.visit_ClassDef'
+    - 'python: tools.scripts.categorize_file'
+    version: v1.0
+    compatibility:
+      backward: true
+      forward: minor
+  invariants:
+  - module loads without errors
+  - public API remains stable
+dependencies:
+  internal:
+    requires: []
+    provides:
+    - tools.scripts
+  external:
+    libs:
+    - name: collections
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: agents
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: integrations
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: deployment
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: scripts
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: auctor
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: importlib
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: plugins
+      version: unknown
+      license: unknown
+      purpose: library dependency
+  coupling_metrics:
+    afferent: 1
+    efferent: 0
+    instability_index: 1.0
+runtime:
+  processes:
+    entrypoints:
+    - python -m tools.scripts
+    concurrency_model: async
+  config:
+    files: []
+    env_vars_required: []
+    feature_flags: []
+  resources:
+    cpu_limit: 0.5 vcpu
+    mem_limit: 256 MiB
+data_and_events:
+  data_classes:
+  - name: Tag
+    schema_ref: audit/SCHEMAS/tag.json
+    description: Tag data class
+  - name: LUKHASNameTransformer
+    schema_ref: audit/SCHEMAS/lukhasnametransformer.json
+    description: LUKHASNameTransformer data class
+  - name: TimestampVerifier
+    schema_ref: audit/SCHEMAS/timestampverifier.json
+    description: TimestampVerifier data class
+  - name: ImportFixer
+    schema_ref: audit/SCHEMAS/importfixer.json
+    description: ImportFixer data class
+  - name: SmartNamingRefactor
+    schema_ref: audit/SCHEMAS/smartnamingrefactor.json
+    description: SmartNamingRefactor data class
+  pii:
+    contains: false
+    classification: internal
+security:
+  secrets:
+    sources:
+    - env
+    files: []
+  authz_model: internal_only
+  compliance:
+    data_classification: internal
+observability:
+  logs:
+    format: structured_json
+    level: info
+  metrics:
+    exporter: prometheus
+    key_metrics:
+    - name: tools_scripts_calls_total
+      target: '>0'
+      type: counter
+  slos:
+    error_rate_pct: 1.0
+    availability_pct: 99.0
+test_posture:
+  coverage:
+    current: 0.04838709677419355
+    target: 0.8
+  tests:
+    unit: 3
+    integration: 0
+risk_and_change:
+  risks:
+  - id: R-TOOLS-SCRIPTS-GENERATED
+    title: Auto-generated schema may be incomplete
+    likelihood: medium
+    impact: low
+    mitigation: Manual review and enhancement required
+    status: open
+provenance:
+  schema_version: '1.0'
+  last_updated: '2025-09-10T11:32:19.472034+00:00'
+  source_paths:
+  - tools/scripts
+  generated_by:
+    tool: lukhas-module-generator
+    version: 1.0.0
+    timestamp: '2025-09-10T11:32:19.472034+00:00'
+  validation:
+    schema_valid: true
+    last_validated: '2025-09-10T11:32:19.472034+00:00'
+    validator_version: 1.0.0

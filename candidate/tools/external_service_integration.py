@@ -7,6 +7,7 @@ Integrates tool execution with external service adapters (Gmail, Dropbox, etc.)
 import logging
 from datetime import datetime
 from typing import Any, Optional
+from datetime import timezone
 
 # Service Adapter Integration
 try:

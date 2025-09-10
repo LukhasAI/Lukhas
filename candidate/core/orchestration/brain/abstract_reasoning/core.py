@@ -11,6 +11,7 @@ import numpy as np
 
 from .bio_quantum_engine import BioQuantumSymbolicReasoner, BrainSymphony, BrainSymphonyConfig
 from .confidence_calibrator import AdvancedConfidenceCalibrator
+from datetime import timezone
 
 # Import brain components with graceful fallback
 try:

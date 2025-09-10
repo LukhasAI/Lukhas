@@ -12,6 +12,7 @@ from datetime import datetime
 
 import numpy as np
 from vivox.encrypted_perception import (
+from datetime import timezone
     MotionDetector,
     MultimodalFusion,
     PerceptualVector,

@@ -45,6 +45,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+from datetime import timedelta
 
 try:
     from ..guardian.drift_detector import AdvancedDriftDetector, DriftSeverity, DriftType

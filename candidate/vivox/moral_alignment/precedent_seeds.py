@@ -7,6 +7,7 @@ from datetime import datetime
 from typing import Any
 
 from ..moral_alignment.vivox_mae_core import ActionProposal, MAEDecision
+from datetime import timezone
 
 
 def get_ethical_precedent_seeds() -> list[dict[str, Any]]:

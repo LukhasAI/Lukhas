@@ -897,7 +897,7 @@ async def demo_advanced_consensus():
 
     print(f"   Decision: {outcome.decision.value}")
     print(f"   Confidence: {outcome.confidence:.3f}")
-    print(f"   Swarm convergence: {outcome.metadata.get('swarm_convergence_score', 0)}:.3f}")
+    print(f"   Swarm convergence: {outcome.metadata.get('swarm_convergence_score', 0):.3f}")
 
     # Clean up
     del consensus.active_proposals[proposal_id]
@@ -944,7 +944,7 @@ async def demo_advanced_consensus():
 
     print(f"   Decision: {outcome.decision.value}")
     print(f"   Confidence: {outcome.confidence:.3f}")
-    print(f"   Delegation power: {outcome.metadata.get('total_delegation_power', 0)}:.2f}")
+    print(f"   Delegation power: {outcome.metadata.get('total_delegation_power', 0):.2f}")
 
     # 5. Multi-Stage Pipeline
     print("\n5️⃣ Multi-Stage Consensus Pipeline:")
