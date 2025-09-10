@@ -147,6 +147,8 @@ reports/*
 !reports/deep_search/
 # Exception: Track linting reports for code quality analysis
 !reports/lints/
+# Exception: Track SBOM files for security audits
+!reports/sbom/
 .pytest_cache/
 .venv/
 .venv_test/
