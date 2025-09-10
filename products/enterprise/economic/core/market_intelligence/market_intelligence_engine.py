@@ -3,13 +3,13 @@ Market Intelligence Engine
 
 Provides comprehensive market analysis and opportunity detection capabilities.
 """
+
 import logging
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 from core.interfaces import CoreInterface
-from datetime import timezone
 
 logger = logging.getLogger(__name__)
 

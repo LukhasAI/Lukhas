@@ -3,6 +3,7 @@
 Base Parser Module for ΛLens
 Abstract base class for all file parsers
 """
+
 from abc import ABC, abstractmethod
 from typing import Any
 

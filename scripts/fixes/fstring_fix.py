@@ -31,17 +31,28 @@ Tip: After running with --apply, validate:
   .venv/bin/ruff check . --select=SYNTAX --output-format=concise
   # Optionally only re-check changed files with --force-exclude and explicit paths.
 """
+
 import argparse
 import difflib
 import sys
 from pathlib import Path
 
 DEFAULT_EXCLUDES = [
-    ".venv/**", "venv/**", "env/**",
-    "**/site-packages/**", "**/dist/**", "**/build/**",
-    "**/__pycache__/**", "**/.mypy_cache/**", "**/.ruff_cache/**",
-    "migrations/**", "third_party/**", "vendor/**", "generated/**",
+    ".venv/**",
+    "venv/**",
+    "env/**",
+    "**/site-packages/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/__pycache__/**",
+    "**/.mypy_cache/**",
+    "**/.ruff_cache/**",
+    "migrations/**",
+    "third_party/**",
+    "vendor/**",
+    "generated/**",
 ]
+
 
 def iter_python_files(root: Path, includes, excludes):
     """Yield Python files under root obeying include/exclude globs."""
@@ -73,15 +84,15 @@ def iter_python_files(root: Path, includes, excludes):
         if not skip:
             yield p
 
+
 def is_fstring_prefix(prefix: str) -> bool:
     # Valid f-string prefixes: f, F, rf, fr, rF, Fr, etc., but we skip raw forms to be safe.
     prefix_lower = prefix.lower()
     if "f" not in prefix_lower:
         return False
     # Raw f-strings (rf/fr) have tricky escapes; skip them for safety
-    if "r" in prefix_lower:
-        return False
-    return True
+    return "r" not in prefix_lower
+
 
 def find_fstring_spans(line: str):
     """
@@ -117,7 +128,7 @@ def find_fstring_spans(line: str):
                 prefix = line[i:j]
                 q = line[j]
                 # Check for triple quotes
-                is_triple = (j + 2 < n and line[j+1] == q and line[j+2] == q)
+                is_triple = j + 2 < n and line[j + 1] == q and line[j + 2] == q
                 if is_fstring_prefix(prefix) and not is_triple:
                     # Find the end of the string
                     k = j + 1
@@ -141,7 +152,7 @@ def find_fstring_spans(line: str):
                             continue
                         # End for triple vs single
                         if is_triple:
-                            if (k + 2 < n) and line[k] == q and line[k+1] == q and line[k+2] == q:
+                            if (k + 2 < n) and line[k] == q and line[k + 1] == q and line[k + 2] == q:
                                 k += 3
                                 break
                         else:
@@ -153,6 +164,7 @@ def find_fstring_spans(line: str):
                     continue
         i += 1
     return spans
+
 
 def simple_expression_ok(s: str) -> bool:
     """
@@ -168,7 +180,7 @@ def simple_expression_ok(s: str) -> bool:
         c = s[i]
         # Handle escaped literal braces
         if c == "{":
-            if i + 1 < n and s[i+1] == "{":
+            if i + 1 < n and s[i + 1] == "{":
                 i += 2
                 continue
             depth += 1
@@ -178,7 +190,7 @@ def simple_expression_ok(s: str) -> bool:
             i += 1
             continue
         if c == "}":
-            if i + 1 < n and s[i+1] == "}":
+            if i + 1 < n and s[i + 1] == "}":
                 i += 2
                 continue
             depth -= 1
@@ -191,6 +203,7 @@ def simple_expression_ok(s: str) -> bool:
         i += 1
     return True
 
+
 def missing_closing_braces_count(s: str) -> int:
     """Count how many closing braces are needed to balance top-level f-string fields."""
     depth = 0
@@ -199,12 +212,12 @@ def missing_closing_braces_count(s: str) -> int:
     for i in range(n):
         c = s[i]
         if c == "{":
-            if i + 1 < n and s[i+1] == "{":
+            if i + 1 < n and s[i + 1] == "{":
                 i += 1
                 continue
             depth += 1
         elif c == "}":
-            if i + 1 < n and s[i+1] == "}":
+            if i + 1 < n and s[i + 1] == "}":
                 i += 1
                 continue
             if depth > 0:
@@ -213,6 +226,7 @@ def missing_closing_braces_count(s: str) -> int:
                 # Stray closing brace; we won't "fix" this automatically.
                 pass
     return depth
+
 
 def fix_line(line: str):
     """
@@ -226,7 +240,7 @@ def fix_line(line: str):
     new_line = line
     offset = 0
     fixes = 0
-    for (start, end, q, _triple) in spans:
+    for start, end, q, _triple in spans:
         start += offset
         end += offset
         segment = new_line[start:end]
@@ -236,7 +250,7 @@ def fix_line(line: str):
         first_quote_idx = segment.find(q)
         if first_quote_idx == -1:
             continue
-        inner = segment[first_quote_idx+1:-1]  # omit surrounding quotes
+        inner = segment[first_quote_idx + 1 : -1]  # omit surrounding quotes
 
         # Heuristic: only touch if simple enough
         if not simple_expression_ok(inner):
@@ -248,13 +262,14 @@ def fix_line(line: str):
 
         # Insert the missing number of '}' right before the closing quote.
         fixed_inner = inner + ("}" * missing)
-        fixed_segment = segment[:first_quote_idx+1] + fixed_inner + segment[-1:]
+        fixed_segment = segment[: first_quote_idx + 1] + fixed_inner + segment[-1:]
         # Update line
         new_line = new_line[:start] + fixed_segment + new_line[end:]
         # Update offset for subsequent spans
         offset += len(fixed_segment) - (end - start)
         fixes += missing
     return new_line, fixes
+
 
 def process_file(path: Path, apply: bool = False):
     original = path.read_text(encoding="utf-8", errors="ignore")
@@ -284,6 +299,7 @@ def process_file(path: Path, apply: bool = False):
     else:
         path.write_text(new_content, encoding="utf-8")
         return True, total_fixes, ""
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -318,6 +334,7 @@ def main():
     print(f"\n[{mode}] Changed files: {changed_files}, braces inserted: {total_inserted}")
     if not args.apply:
         print("Use --apply to write changes.")
+
 
 if __name__ == "__main__":
     main()

@@ -19,6 +19,7 @@ from typing import Dict, List, Optional, Union
 @dataclass
 class SymbolInfo:
     """Information about a function or class."""
+
     name: str
     type: str  # 'function', 'class', 'method'
     file_path: str
@@ -26,18 +27,19 @@ class SymbolInfo:
     signature: str
     docstring_summary: str
     class_name: Optional[str]  # For methods
-    issues: List[str]  # Issue flags
+    issues: list[str]  # Issue flags
 
 
 @dataclass
 class ModuleInfo:
     """Information about a module."""
+
     file_path: str
     role: str
-    intent_clues: List[str]
-    symbols: List[str]
-    imports: List[str]
-    violations: List[dict]
+    intent_clues: list[str]
+    symbols: list[str]
+    imports: list[str]
+    violations: list[dict]
 
 
 class FocusedAtlasBuilder:
@@ -45,23 +47,50 @@ class FocusedAtlasBuilder:
 
     def __init__(self, root_path: str = "."):
         self.root_path = Path(root_path)
-        self.symbols: Dict[str, SymbolInfo] = {}
-        self.modules: Dict[str, ModuleInfo] = {}
-        self.violations: Dict[str, List[dict]] = defaultdict(list)
+        self.symbols: dict[str, SymbolInfo] = {}
+        self.modules: dict[str, ModuleInfo] = {}
+        self.violations: dict[str, list[dict]] = defaultdict(list)
 
         # Focus on LUKHAS core directories
         self.focus_dirs = [
-            "lukhas/", "candidate/", "consciousness/", "memory/",
-            "identity/", "governance/", "core/", "orchestration/",
-            "quantum/", "bio/", "creativity/", "emotion/", "vivox/",
-            "bridge/", "api/", "branding/", "agents/"
+            "lukhas/",
+            "candidate/",
+            "consciousness/",
+            "memory/",
+            "identity/",
+            "governance/",
+            "core/",
+            "orchestration/",
+            "quantum/",
+            "bio/",
+            "creativity/",
+            "emotion/",
+            "vivox/",
+            "bridge/",
+            "api/",
+            "branding/",
+            "agents/",
         ]
 
         # LUKHAS consciousness keywords
         self.consciousness_keywords = {
-            "consciousness", "lucid", "dream", "identity", "memory", "fold",
-            "guardian", "ethics", "quantum", "bio", "matriz", "glyph",
-            "constellation", "drift", "cascade", "vivox", "qualia"
+            "consciousness",
+            "lucid",
+            "dream",
+            "identity",
+            "memory",
+            "fold",
+            "guardian",
+            "ethics",
+            "quantum",
+            "bio",
+            "matriz",
+            "glyph",
+            "constellation",
+            "drift",
+            "cascade",
+            "vivox",
+            "qualia",
         }
 
     def run(self):
@@ -109,7 +138,7 @@ class FocusedAtlasBuilder:
                     [sys.executable, "-m", "ruff", "check", focus_path, "--format=json"],
                     capture_output=True,
                     text=True,
-                    timeout=30  # 30 second timeout per directory
+                    timeout=30,  # 30 second timeout per directory
                 )
 
                 if result.stdout:
@@ -178,7 +207,7 @@ class FocusedAtlasBuilder:
                     intent_clues=["SYNTAX_ERROR"],
                     symbols=[],
                     imports=[],
-                    violations=[]
+                    violations=[],
                 )
                 return False
 
@@ -190,7 +219,7 @@ class FocusedAtlasBuilder:
                 intent_clues=self.extract_module_intent_clues(content, file_path),
                 symbols=[],
                 imports=[],
-                violations=[]
+                violations=[],
             )
 
             # Analyze AST nodes
@@ -289,14 +318,14 @@ class FocusedAtlasBuilder:
                 signature=signature,
                 docstring_summary=docstring,
                 class_name=class_name,
-                issues=[]
+                issues=[],
             )
 
         except Exception as e:
             print(f"Error extracting symbol info for {node.name}: {e}")
             return None
 
-    def extract_imports(self, node: Union[ast.Import, ast.ImportFrom]) -> List[str]:
+    def extract_imports(self, node: Union[ast.Import, ast.ImportFrom]) -> list[str]:
         """Extract import statements."""
         imports = []
         try:
@@ -311,7 +340,7 @@ class FocusedAtlasBuilder:
             pass
         return imports
 
-    def extract_module_intent_clues(self, content: str, file_path: Path) -> List[str]:
+    def extract_module_intent_clues(self, content: str, file_path: Path) -> list[str]:
         """Extract intent clues from module content."""
         clues = []
 
@@ -329,7 +358,7 @@ class FocusedAtlasBuilder:
 
         # Key comments and TODOs (sample first 50 lines to avoid performance issues)
         lines = content.split("\n")[:50]
-        for i, line in enumerate(lines):
+        for _i, line in enumerate(lines):
             stripped = line.strip()
             if stripped.startswith("#") and len(stripped) > 5:
                 comment = stripped[1:].strip()
@@ -406,7 +435,9 @@ class FocusedAtlasBuilder:
                 # Associate with nearby modules (simplified)
                 doc_stem = doc_file.stem.lower()
                 for module_path, module_info in self.modules.items():
-                    if doc_stem in module_path.lower() or any(doc_stem in clue.lower() for clue in module_info.intent_clues):
+                    if doc_stem in module_path.lower() or any(
+                        doc_stem in clue.lower() for clue in module_info.intent_clues
+                    ):
                         module_info.intent_clues.extend(intent_clues[:5])  # Limit to 5 clues
 
             except Exception as e:
@@ -417,8 +448,7 @@ class FocusedAtlasBuilder:
         print("📋 Generating focused atlas...")
 
         # Map violations to symbols
-        for symbol_key, symbol_info in self.symbols.items():
-            symbol_violations = []
+        for symbol_info in self.symbols.values():
             for rule_violations in self.violations.values():
                 for violation in rule_violations:
                     if symbol_info.file_path in violation.get("filename", ""):
@@ -436,7 +466,7 @@ class FocusedAtlasBuilder:
                 "total_symbols": len(self.symbols),
                 "total_violations": sum(len(v) for v in self.violations.values()),
                 "violation_types": list(self.violations.keys()),
-                "consciousness_keywords": list(self.consciousness_keywords)
+                "consciousness_keywords": list(self.consciousness_keywords),
             },
             "symbols": {k: asdict(v) for k, v in self.symbols.items()},
             "modules": {k: asdict(v) for k, v in self.modules.items()},
@@ -444,7 +474,7 @@ class FocusedAtlasBuilder:
             "module_roles": {
                 role: [k for k, v in self.modules.items() if v.role == role]
                 for role in set(m.role for m in self.modules.values())
-            }
+            },
         }
 
         return atlas
@@ -462,7 +492,7 @@ class FocusedAtlasBuilder:
             "DTZ003": "datetime_utcnow",
             "E402": "import_not_top",
             "F841": "unused_variable",
-            "B007": "unused_loop_var"
+            "B007": "unused_loop_var",
         }
         return flag_mapping.get(rule_code, f"rule_{rule_code}")
 
@@ -482,9 +512,8 @@ class FocusedAtlasBuilder:
                     "violations": violations,
                     "affected_files": list(set(v.get("filename", "") for v in violations)),
                     "focus_directories_affected": [
-                        d for d in self.focus_dirs
-                        if any(d in v.get("filename", "") for v in violations)
-                    ]
+                        d for d in self.focus_dirs if any(d in v.get("filename", "") for v in violations)
+                    ],
                 }
 
                 with open(index_file, "w") as f:
@@ -503,7 +532,7 @@ class FocusedAtlasBuilder:
             "DTZ003": "datetime.utcnow() usage",
             "E402": "Module level import not at top",
             "F841": "Unused local variable",
-            "B007": "Unused loop control variable"
+            "B007": "Unused loop control variable",
         }
         return descriptions.get(rule_code, f"Rule {rule_code}")
 

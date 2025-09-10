@@ -1,7 +1,8 @@
 import logging
+from typing import Dict, List
+
 import streamlit as st
-from typing import Dict
-from typing import List
+
 logger = logging.getLogger(__name__)
 """
 CRITICAL FILE - DO NOT MODIFY WITHOUT APPROVAL

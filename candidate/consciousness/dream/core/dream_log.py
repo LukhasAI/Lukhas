@@ -4,8 +4,7 @@ Temporary implementation - see MOCK_TRANSPARENCY_LOG.md
 """
 
 import logging
-from datetime import datetime
-from datetime import timezone
+from datetime import datetime, timezone
 
 
 class DreamLog:

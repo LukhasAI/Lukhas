@@ -81,9 +81,7 @@ def main():
         for py_file in full_dir.glob("*.py"):
             error = get_syntax_error(py_file)
             if error:
-                print(
-                    f"Fixing {py_file.relative_to(base_dir)}: Line {error[0]} - {error[1]}"
-                )
+                print(f"Fixing {py_file.relative_to(base_dir)}: Line {error[0]} - {error[1]}")
                 if fix_multiline_string_error(py_file):
                     print("  ✓ Fixed")
                     fixed_count += 1

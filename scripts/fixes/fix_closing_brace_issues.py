@@ -25,7 +25,6 @@ def fix_fstring_specific_issues(content):
         (r'(\{[^{}]*?\()}"', r'\1)}"'),
     ]
 
-    original_content = content
 
     for pattern, replacement in patterns:
         content = re.sub(pattern, replacement, content)
@@ -52,12 +51,13 @@ def find_and_fix_files():
             continue
 
         # Check if file has the specific error
-        compile_result = subprocess.run(
-            [sys.executable, "-m", "py_compile", file_path],
-            capture_output=True, text=True
-        )
+        compile_result = subprocess.run([sys.executable, "-m", "py_compile", file_path], capture_output=True, text=True)
 
-        if compile_result.returncode != 0 and "closing parenthesis" in compile_result.stderr and "does not match" in compile_result.stderr:
+        if (
+            compile_result.returncode != 0
+            and "closing parenthesis" in compile_result.stderr
+            and "does not match" in compile_result.stderr
+        ):
             try:
                 with open(file_path, encoding="utf-8") as f:
                     content = f.read()
@@ -70,8 +70,7 @@ def find_and_fix_files():
 
                     # Test if fix worked
                     test_result = subprocess.run(
-                        [sys.executable, "-m", "py_compile", file_path],
-                        capture_output=True, text=True
+                        [sys.executable, "-m", "py_compile", file_path], capture_output=True, text=True
                     )
 
                     if test_result.returncode == 0:

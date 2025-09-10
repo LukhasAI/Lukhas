@@ -8,17 +8,17 @@
 # ═══════════════════════════════════════════════════════════════════════════
 
 import json
+import logging
 import os
 import subprocess
 import sys
-from typing import Optional
+import time
+from typing import Dict, Optional
+
+import streamlit as st
 
 # ΛTAG: core, router, config
 from candidate.core.common.config import config
-import streamlit as st
-import time
-import logging
-from typing import Dict
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.core.direct_ai_router")

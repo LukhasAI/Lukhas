@@ -4,7 +4,7 @@ Enhanced T4 Autofix Safe - Extended with Diagnostic-Driven Fixes
 ===============================================================
 Extends the original auto_fix_safe.py with additional fix categories:
 - SYNTAX_FSTRING: F-string pattern fixes
-- CONFIG_MARKERS: Pytest marker additions  
+- CONFIG_MARKERS: Pytest marker additions
 - IMPORT_BRIDGE: Import path resolution
 - BRACKET_MATCH: Bracket/brace mismatch fixes
 
@@ -12,11 +12,11 @@ Maintains full T4 compliance and policy enforcement.
 """
 
 import json
+import re
 import subprocess
 import sys
-import re
 from pathlib import Path
-from typing import Dict, List, Set, Optional
+from typing import Dict, List, Optional, Set
 
 try:
     import tomllib  # py3.11+
@@ -32,7 +32,18 @@ LOG_PATH = ROOT / "reports" / "lints" / "enhanced_autofix_log.json"
 POLICY = ROOT / ".t4autofix.toml"
 
 # Extended default allow rules
-DEFAULT_ALLOW = {"UP006", "UP035", "SIM102", "SIM103", "F841", "B007", "C401", "SYNTAX_FSTRING", "CONFIG_MARKERS", "IMPORT_BRIDGE"}
+DEFAULT_ALLOW = {
+    "UP006",
+    "UP035",
+    "SIM102",
+    "SIM103",
+    "F841",
+    "B007",
+    "C401",
+    "SYNTAX_FSTRING",
+    "CONFIG_MARKERS",
+    "IMPORT_BRIDGE",
+}
 
 # Import the enhanced f-string fixer
 sys.path.insert(0, str(ROOT / "tools" / "automation"))
@@ -76,6 +87,7 @@ def git_staged_py_files():
 def path_matches(patterns, path):
     """Check if path matches any of the given patterns"""
     from fnmatch import fnmatch
+
     return any(fnmatch(path, pat) for pat in patterns)
 
 
@@ -114,15 +126,15 @@ def load_ruff(allowed_codes):
 
 class EnhancedFixer(cst.CSTTransformer):
     """Enhanced CST transformer with additional fix capabilities"""
-    
-    def __init__(self, rules: Set[str]):
+
+    def __init__(self, rules: set[str]):
         self.rules = rules
         self.stats = {
-            "removed_assigns": 0, 
+            "removed_assigns": 0,
             "renamed_loops": 0,
             "fstring_fixes": 0,
             "bracket_fixes": 0,
-            "import_fixes": 0
+            "import_fixes": 0,
         }
 
     # Original fixes from auto_fix_safe.py
@@ -156,15 +168,15 @@ class EnhancedFixer(cst.CSTTransformer):
         return updated
 
 
-def apply_enhanced_fixes(file_path: Path, rules: Set[str]) -> tuple[bool, Dict]:
+def apply_enhanced_fixes(file_path: Path, rules: set[str]) -> tuple[bool, dict]:
     """Apply enhanced fixes including f-string fixes"""
     stats = {"cst_changes": False, "fstring_changes": False, "total_stats": {}}
-    
+
     try:
         # Read original content
         src = file_path.read_text(encoding="utf-8", errors="ignore")
         original_content = src
-        
+
         # Apply f-string fixes if enabled
         if "SYNTAX_FSTRING" in rules and EnhancedFStringFixer:
             fixer = EnhancedFStringFixer(validate_syntax=True)
@@ -173,7 +185,7 @@ def apply_enhanced_fixes(file_path: Path, rules: Set[str]) -> tuple[bool, Dict]:
                 src = fixed_content
                 stats["fstring_changes"] = True
                 stats["total_stats"].update(fixer.get_stats())
-        
+
         # Apply CST transformations
         if any(rule in rules for rule in ["UP006", "UP035", "F841", "B007"]):
             try:
@@ -186,52 +198,52 @@ def apply_enhanced_fixes(file_path: Path, rules: Set[str]) -> tuple[bool, Dict]:
                     stats["total_stats"].update(enhanced_fixer.stats)
             except Exception as e:
                 print(f"CST transformation failed for {file_path}: {e}")
-                
+
         # Write changes if any were made
         if src != original_content:
             file_path.write_text(src, encoding="utf-8")
             return True, stats
-            
+
         return False, stats
-        
+
     except Exception as e:
         print(f"Enhanced fix failed for {file_path}: {e}")
         return False, stats
 
 
-def apply_config_fixes(target_files: List[str], rules: Set[str]) -> Dict:
+def apply_config_fixes(target_files: list[str], rules: set[str]) -> dict:
     """Apply configuration fixes like pytest markers"""
     results = {"pytest_markers_added": 0}
-    
+
     if "CONFIG_MARKERS" in rules:
         pytest_ini = ROOT / "pytest.ini"
         if pytest_ini.exists():
             content = pytest_ini.read_text()
-            
+
             # Check if audit_safe marker exists
             if "audit_safe:" not in content:
                 # Add audit_safe marker
-                lines = content.split('\n')
+                lines = content.split("\n")
                 marker_section = False
                 marker_added = False
-                
+
                 for i, line in enumerate(lines):
-                    if line.strip().startswith('markers'):
+                    if line.strip().startswith("markers"):
                         marker_section = True
-                    elif marker_section and line.strip() and not line.startswith(' '):
+                    elif marker_section and line.strip() and not line.startswith(" "):
                         marker_section = False
                     elif marker_section and not marker_added:
                         # Add marker at the end of markers section
-                        if i + 1 < len(lines) and (not lines[i + 1].strip() or not lines[i + 1].startswith(' ')):
+                        if i + 1 < len(lines) and (not lines[i + 1].strip() or not lines[i + 1].startswith(" ")):
                             lines.insert(i + 1, "    audit_safe: Tests safe for audit and compliance review")
                             marker_added = True
                             break
-                
+
                 if marker_added:
-                    pytest_ini.write_text('\n'.join(lines))
+                    pytest_ini.write_text("\n".join(lines))
                     results["pytest_markers_added"] = 1
                     print("✅ Added audit_safe marker to pytest.ini")
-    
+
     return results
 
 
@@ -248,7 +260,7 @@ def main():
         target_files = []
         for pattern in allow_globs:
             target_files.extend([str(p) for p in ROOT.rglob(pattern)])
-        target_files = [f for f in target_files if f.endswith('.py')]
+        target_files = [f for f in target_files if f.endswith(".py")]
     else:
         staged = git_staged_py_files()
         target_files = filter_files(staged, allow_globs, deny_globs, iface_deny)
@@ -258,7 +270,7 @@ def main():
 
     # Load ruff violations
     ruff_by_file = load_ruff(allow_codes)
-    
+
     # Filter files that need fixes
     files_to_fix = []
     for f in target_files:
@@ -275,16 +287,18 @@ def main():
         rules_for_file = ruff_by_file.get(str(file_path), set())
         if "SYNTAX_FSTRING" in allow_codes:
             rules_for_file.add("SYNTAX_FSTRING")
-            
+
         ok, stats = apply_enhanced_fixes(file_path, rules_for_file)
-        
-        ledger.append({
-            "file": str(file_path),
-            "rules_considered": sorted(rules_for_file),
-            "changed": ok,
-            "stats": stats,
-        })
-        
+
+        ledger.append(
+            {
+                "file": str(file_path),
+                "rules_considered": sorted(rules_for_file),
+                "changed": ok,
+                "stats": stats,
+            }
+        )
+
         if ok:
             changed += 1
             print(f"✅ Enhanced fixes applied to: {file_path}")
@@ -293,7 +307,7 @@ def main():
     log_data = {
         "policy": {
             "allow_globs": allow_globs,
-            "deny_globs": deny_globs, 
+            "deny_globs": deny_globs,
             "iface_deny": iface_deny,
             "allow_codes": sorted(allow_codes),
         },
@@ -307,15 +321,15 @@ def main():
             "fstring_fixer_available": EnhancedFStringFixer is not None,
             "diagnostic_driven": True,
             "t4_compliant": True,
-        }
+        },
     }
-    
+
     LOG_PATH.write_text(json.dumps(log_data, indent=2), encoding="utf-8")
 
     print(f"✅ Enhanced auto_fix_safe: processed {len(files_to_fix)} files, modified {changed}")
     if config_results["pytest_markers_added"]:
         print(f"✅ Configuration fixes: {config_results['pytest_markers_added']} markers added")
-    
+
     return 0
 
 

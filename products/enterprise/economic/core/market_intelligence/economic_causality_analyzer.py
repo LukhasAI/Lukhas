@@ -3,6 +3,7 @@ Economic Causality Analyzer
 
 Analyzes economic cause-and-effect relationships for strategic decision making.
 """
+
 import logging
 from collections import defaultdict
 from dataclasses import dataclass

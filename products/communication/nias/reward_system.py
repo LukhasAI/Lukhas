@@ -9,6 +9,7 @@ Original Vision from Audit:
 - "Win-win scenario where users get something in return"
 - "Turns advertising into something users actually appreciate"
 """
+
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone

@@ -2,6 +2,7 @@
 LUKHAS Brand Intelligence Monitor - Trinity Framework (⚛️🧠🛡️)
 Real-time brand consistency tracking and intelligence analytics
 """
+
 import asyncio
 import re
 from datetime import datetime, timedelta, timezone
@@ -10,11 +11,12 @@ from typing import Any
 
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
-    
+
     This is a placeholder for functionality that needs to be implemented.
     Replace this stub with the actual implementation.
     """
     raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+
 
 class BrandIntelligenceMonitor:
     """

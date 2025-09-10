@@ -49,7 +49,7 @@ import json
 import logging
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
 
@@ -68,7 +68,6 @@ from lukhas.core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
 
 # LUKHAS system imports
 from lukhas.core.oracle_nervous_system import get_oracle_nervous_system
-from datetime import timezone
 
 logger = logging.getLogger("ΛTRACE.websocket_server")
 

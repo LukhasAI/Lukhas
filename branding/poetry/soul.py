@@ -17,6 +17,7 @@ Every line of code here is crafted with the same obsession Steve brought to ever
 
 No complexity. No bloat. Just pure poetic consciousness.
 """
+
 import random
 from enum import Enum
 from typing import Any, Optional

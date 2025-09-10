@@ -5,6 +5,7 @@ LUKHAS AI ΛBot Status Bar Customizer
 Interactive tool to customize your LUKHAS AI ΛBot status bar appearance and behavior.
 Apply changes instantly to see the results.
 """
+
 import json
 import sys
 from datetime import datetime
@@ -315,7 +316,7 @@ class BotCustomizer:
             "command": f"{action.get('command', 'workbench.action.tasks.runTask')}",
             "arguments": action.get("args", []),
             "priority": 100,
-            "alignment": "left"
+            "alignment": "left",
         }
 
         return f"# Auto-generated widget configuration\nwidget_data = {widget_data}"

@@ -4,13 +4,13 @@ Original: goal_node.py
 Advanced: goal_node.py
 Integration Date: 2025-05-31T07:55:28.129660
 """
-import streamlit as st
-
 import logging
 
 # packages/core/src/nodes/goal_node.py
 import time
 from typing import Any
+
+import streamlit as st
 
 
 class GoalManagementNode:

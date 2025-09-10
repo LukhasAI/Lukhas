@@ -51,7 +51,7 @@ def sqlite_engine():
     os.close(fd)  # Close the file descriptor, but keep the file
 
     engine = create_engine(
-        f"sqlite:///{db_path}", 
+        f"sqlite:///{db_path}",
         echo=False,
         connect_args={
             "check_same_thread": False,  # Allow SQLite to be used across threads
@@ -59,7 +59,7 @@ def sqlite_engine():
         },
         poolclass=StaticPool,  # Use single connection pool
     )
-    
+
     # Configure SQLite for better threading safety
     with engine.connect() as conn:
         # Enable WAL mode for better concurrent access

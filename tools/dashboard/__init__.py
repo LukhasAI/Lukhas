@@ -11,14 +11,6 @@ Components:
 Trinity Framework Integration: ⚛️🧠🛡️
 """
 
-from .self_healing_dashboard import (
-    SelfHealingDashboard,
-    SystemHealthMetrics,
-    DashboardState
-)
+from .self_healing_dashboard import DashboardState, SelfHealingDashboard, SystemHealthMetrics
 
-__all__ = [
-    "SelfHealingDashboard",
-    "SystemHealthMetrics", 
-    "DashboardState"
-]
+__all__ = ["SelfHealingDashboard", "SystemHealthMetrics", "DashboardState"]

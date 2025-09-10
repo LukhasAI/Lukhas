@@ -4,6 +4,7 @@ Unified OpenAI integration combining all client features
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 """
+
 import logging
 import os
 import uuid

@@ -3,6 +3,7 @@
 Consciousness Broadcaster - Real-time WebSocket stream of consciousness states
 Emits live updates with privacy protection and GDPR compliance
 """
+
 import asyncio
 import hashlib
 import json
@@ -131,7 +132,9 @@ class ConsciousnessBroadcaster:
 
             # Check GDPR consent
             gdpr = data.get("gdpr_consent", {})
-            if gdpr.get("streaming_authorized") and datetime.fromisoformat(gdpr["expires"]) > datetime.now(timezone.utc):
+            if gdpr.get("streaming_authorized") and datetime.fromisoformat(gdpr["expires"]) > datetime.now(
+                timezone.utc
+            ):
                 self.gdpr_consent["global"] = gdpr
         else:
             # Generate simulated state

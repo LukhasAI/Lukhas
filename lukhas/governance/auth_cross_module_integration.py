@@ -21,6 +21,7 @@ Author: LUKHAS AI System
 Version: 1.0.0
 Trinity Framework: ⚛️🧠🛡️
 """
+
 import uuid
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from typing import List
+
 """
 
 #TAG:bridge
@@ -10,12 +11,11 @@ from typing import List
 True Core Analyzer: Separate actual lukhas AI core from external packages
 Shows what's actually your AI system vs external dependencies
 """
-import streamlit as st
-from datetime import timezone
-
 import os
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
+
+import streamlit as st
 
 
 class TrueCoreAnalyzer:

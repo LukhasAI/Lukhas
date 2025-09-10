@@ -4,6 +4,7 @@ Quantum-enhanced memory management for LUKHAS AGI system.
 This module provides quantum-enhanced memory operations including storage,
 retrieval, and consolidation, with integration to voice and dream processing.
 """
+
 import asyncio
 import logging
 from dataclasses import dataclass

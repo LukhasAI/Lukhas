@@ -4,6 +4,7 @@ LUKHAS AI Document Engine - Database Integrated
 Premium document generation with integrated knowledge base
 Trinity Framework ⚛️🧠🛡️ integrated consciousness technology documentation
 """
+
 import sys
 from pathlib import Path
 
@@ -96,7 +97,7 @@ class DocEngine:
             "doc_type": doc_type,
             "voice_coherence": voice_coherence,
             "knowledge_items_used": len(related_content),
-            "trinity_integrated": True
+            "trinity_integrated": True,
         }
 
     def _calculate_voice_coherence(self, content: str) -> float:
@@ -171,7 +172,7 @@ class DocEngine:
             "available_formats": len(self.get_available_formats()),
             "knowledge_base_items": len(db.get_all_content(1000)),
             "trinity_integration": True,
-            "database_connected": True
+            "database_connected": True,
         }
 
 

@@ -17,14 +17,13 @@ a unified interface for external systems to interact with memory.
 
 import asyncio
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 from candidate.core.bridges.memory_consciousness_bridge import get_memory_consciousness_bridge
 from candidate.core.bridges.memory_learning_bridge import MemoryLearningBridge
 from candidate.core.common import get_logger
 from lukhas.memory.core.base_manager import BaseMemoryManager
-from datetime import timezone
 
 # Task 3C: Add connectivity imports
 try:

@@ -3,6 +3,7 @@
 Candidate Internal Import Fix Script
 Fixes internal imports within candidate/ modules
 """
+
 import re
 from pathlib import Path
 

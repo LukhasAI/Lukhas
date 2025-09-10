@@ -2,6 +2,7 @@
 LUKHAS Brand Personality Adapter - Trinity Framework (⚛️🧠🛡️)
 Smart interface to core/personality/ systems for brand-aware personality operations
 """
+
 import sys
 from pathlib import Path
 from typing import Any, Optional

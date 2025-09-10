@@ -3,10 +3,10 @@
 Generate compatibility shims for LUKHAS AI migration
 Creates backward-compatible imports with deprecation warnings
 """
+
 import sqlite3
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
-from datetime import timezone
 
 SHIM_TEMPLATE = '''"""
 Compatibility shim for {old_module}

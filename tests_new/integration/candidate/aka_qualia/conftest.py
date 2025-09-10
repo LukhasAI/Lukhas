@@ -161,7 +161,7 @@ def low_risk_scene(base_proto_qualia):
 
 
 @pytest.fixture
-def high_risk_scene(_base_proto_qualia):  # noqa: ARG001 - fixture creates independent data
+def high_risk_scene(_base_proto_qualia):
     """High-risk scene that should trigger TEQ enforcement"""
     risky_proto = ProtoQualia(
         tone=-0.8,
@@ -255,7 +255,7 @@ def sql_memory_with_data(sql_memory, low_risk_scene, test_glyphs, test_policy, t
 
 
 @pytest.fixture
-def sql_memory_with_100k_rows(_sql_memory):  # noqa: ARG001 - fixture skips and creates independent test scenario
+def sql_memory_with_100k_rows(_sql_memory):
     """SQL memory with 100k rows for performance testing"""
     # This would be too slow for regular tests, so we'll mock it
     # or use pytest markers to skip unless specifically requested
@@ -334,12 +334,12 @@ def create_test_scene(**overrides) -> dict[str, Any]:
     return default
 
 
-def create_test_glyph(key: str = "test:glyph", **attrs) -> Dict[str, Any]:
+def create_test_glyph(key: str = "test:glyph", **attrs) -> dict[str, Any]:
     """Create test glyph data"""
     return {"key": key, "attrs": {"tone": 0.0, "risk_score": 0.1, **attrs}}
 
 
-def create_varying_scene(scene_id: str) -> Dict[str, Any]:
+def create_varying_scene(scene_id: str) -> dict[str, Any]:
     """Create scene with varying data for performance tests"""
     import hashlib
 

@@ -39,10 +39,9 @@ import statistics
 import time
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
-from datetime import timezone
 
 # Configure Trinity Framework logging
 logger = logging.getLogger("ΛTRACE.consciousness.constellation.framework", timezone)

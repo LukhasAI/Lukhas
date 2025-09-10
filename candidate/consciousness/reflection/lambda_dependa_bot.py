@@ -52,12 +52,7 @@ from typing import Any, Optional
 
 # ΛBot Elite Integration
 try:
-    from ΛBot_elite_orchestrator import (
-        BotEvolutionEngine,
-        BotProtocol,
-        QIBotConfig,
-        QIDecisionEngine,
-        ReasoningContext)
+    from ΛBot_elite_orchestrator import BotEvolutionEngine, BotProtocol, QIBotConfig, QIDecisionEngine, ReasoningContext
 
     ΛBOT_INTEGRATION = True
     print("🤖 ΛBot Elite integration active")

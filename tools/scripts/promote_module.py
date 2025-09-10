@@ -20,6 +20,7 @@ Notes:
 - This does not delete anything in `candidate/`.
 - Run tests/smoke before and after; see AUTHORATIVE_PROMOTION_PROCESS.md
 """
+
 from __future__ import annotations
 
 import argparse

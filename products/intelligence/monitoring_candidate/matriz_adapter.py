@@ -2,13 +2,14 @@
 MATRIZ Adapter for Monitoring Module
 Emits MATRIZ-compliant nodes for monitoring events
 """
-import streamlit as st
 
 import json
 import time
 import uuid
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
 
 
 class MonitoringMatrizAdapter:

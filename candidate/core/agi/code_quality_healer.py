@@ -9,7 +9,7 @@ import asyncio
 import json
 import logging
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
@@ -17,7 +17,6 @@ from typing import Any, Optional
 from candidate.bridge.local_llm_fixer import CodeIssue, FixType, LocalLLMFixer
 from candidate.core.agi.self_healing import FailureType, HealingAction, HealingStrategy, SystemFailure
 from lukhas.governance.guardian import GuardianSystem
-from datetime import timezone
 
 logger = logging.getLogger(__name__)
 

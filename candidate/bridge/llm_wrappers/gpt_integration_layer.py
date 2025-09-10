@@ -4,16 +4,15 @@ LUKHΛS GPT Integration Layer
 Symbolic wrapper for GPT model responses with drift detection and healing
 Trinity Framework: ⚛️🧠🛡️
 """
-from typing import List
-import time
-import streamlit as st
-
 import json
 import logging
 import re
+import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, List, Optional
+
+import streamlit as st
 
 # Import LUKHΛS modules
 from embedding import LukhasEmbedding

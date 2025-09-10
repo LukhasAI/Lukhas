@@ -10,13 +10,13 @@ Bio-inspired awareness system that manages consciousness, monitoring,
 and self-reflection using quantum-biological metaphors.
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np
 
 from candidate.core.common import get_logger
-from datetime import timezone
+
 
 # Bio-symbolic components - using compatibility layer
 class CardiolipinEncoder:

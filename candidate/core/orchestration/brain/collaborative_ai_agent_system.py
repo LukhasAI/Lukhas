@@ -12,10 +12,9 @@ import asyncio
 import json
 import logging
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
-from datetime import timezone
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

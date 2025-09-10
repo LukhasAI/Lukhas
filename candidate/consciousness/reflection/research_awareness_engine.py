@@ -67,13 +67,10 @@ Version: 1.0.0 - Research Experimental Edition
 Date: June 2025
 Classification: RESEARCH GRADE - EXPERIMENTAL & FLEXIBLE
 """
-from consciousness.qi import qi
-import time
-import streamlit as st
-
 import json
 import logging
 import random
+import time
 import uuid
 from collections import defaultdict
 from dataclasses import dataclass, field
@@ -81,7 +78,10 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
+import streamlit as st
 from pydantic import BaseModel, Field
+
+from consciousness.qi import qi
 
 # Import base framework
 from identity.backend.app.institution_manager import global_timestamp

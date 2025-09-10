@@ -2,6 +2,7 @@
 DocuTutor Plugin Integration with Lukhas AGI
 Implements core integration patterns for connecting with Lukhas's systems.
 """
+
 import logging
 from enum import Enum
 from typing import Any, Optional

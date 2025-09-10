@@ -4,11 +4,10 @@ Extract comprehensive tasks from Claude_6.yml and create detailed task files for
 """
 
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 import yaml
-from datetime import timezone
 
 
 def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_ARMY/tasks"):

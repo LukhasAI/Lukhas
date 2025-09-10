@@ -9,6 +9,7 @@ Fixes:
 
 This is a conservative, text-only pass to restore parseability.
 """
+
 from __future__ import annotations
 
 from pathlib import Path

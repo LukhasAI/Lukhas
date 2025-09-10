@@ -4,19 +4,16 @@ Original: lukhas_trait_sync_gpt_synb_ref.py
 Advanced: lukhas_trait_sync_gpt_synb_ref.py
 Integration Date: 2025-05-31T07:55:28.103537
 """
-import streamlit as st
-from datetime import timezone
-
 # lukhas_trait_sync.py
 # Compare and synchronize Big Five trait profiles across distributed
 # Lukhas nodes with GPT reflection
-
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 import openai
+import streamlit as st
 
 from candidate.orchestration.brain.spine.trait_manager import load_traits
 

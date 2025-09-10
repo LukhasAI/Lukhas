@@ -2,17 +2,16 @@
 LUKHAS Production Monitoring & Telemetry
 Enterprise-grade observability for AGI systems
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import json
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
+
+import streamlit as st
 
 
 class MetricType(Enum):

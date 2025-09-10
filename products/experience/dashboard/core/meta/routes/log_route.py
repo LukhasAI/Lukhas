@@ -7,6 +7,7 @@ Displays Trinity Framework activity and glyph sequences.
 
 Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
+
 import json
 import logging
 from datetime import datetime, timezone

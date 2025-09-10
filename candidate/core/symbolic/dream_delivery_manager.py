@@ -14,14 +14,13 @@
 """
 
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 from lukhas.core.interfaces.voice.voice_emotional.context_aware_modular_voice import VoiceModulator
 
 # Voice components
 from .voice_parameter import VoiceParameter
-from datetime import timezone
 
 try:
     from tools.documentation.memory_evolution.voice_synthesis import (

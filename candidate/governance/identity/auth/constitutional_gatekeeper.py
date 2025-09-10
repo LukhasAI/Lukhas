@@ -12,10 +12,9 @@ Constitutional AI Guidelines: Enforced
 
 import logging
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
-from datetime import timezone
 
 # Configure constitutional logging
 logging.basicConfig(level=logging.INFO)

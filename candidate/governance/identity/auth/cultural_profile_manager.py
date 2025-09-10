@@ -13,13 +13,12 @@ Integration: Cultural sensitivity with constitutional oversight
 
 import logging
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
 # Import constitutional enforcement
 from .constitutional_gatekeeper import ConstitutionalLevel, get_constitutional_gatekeeper
-from datetime import timezone
 
 # Configure cultural logging
 logging.basicConfig(level=logging.INFO)

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from datetime import timezone
 import logging
+from datetime import timezone
 
 log = logging.getLogger(__name__)
 

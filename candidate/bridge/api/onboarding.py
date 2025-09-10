@@ -17,16 +17,15 @@ Features:
 - API key generation and authentication setup
 - Real-time validation and error handling
 """
-from typing import List
-import streamlit as st
-
 import hashlib
 import logging
 import secrets
 import time
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any, List, Optional
+
+import streamlit as st
 
 try:
     from candidate.bridge.api.validation import (

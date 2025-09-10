@@ -192,12 +192,12 @@ class MonitoringReport:
     time_period: tuple[datetime, datetime]
     scope: MonitoringScope
 
-    # Summary statistics  
+    # Summary statistics
     total_metrics: int
-    
+
     # System health
     health_status: SystemHealthStatus
-    
+
     # Fields with defaults
     metrics_by_category: dict[str, int] = field(default_factory=dict)
     alert_summary: dict[AlertSeverity, int] = field(default_factory=dict)

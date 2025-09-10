@@ -6,13 +6,14 @@ This file is part of the lukhas (lukhas Universal Knowledge & Holistic AI System
 Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
+
 import random
 import time
+from datetime import timezone
 
 import streamlit as st
 
 from consciousness.qi import qi
-from datetime import timezone
 
 """
 Enhanced AI Bot - True Artificial General Intelligence System

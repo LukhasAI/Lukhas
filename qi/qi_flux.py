@@ -9,6 +9,7 @@ from typing import Any, Dict
 
 logger = logging.getLogger(__name__)
 
+
 class QiFlux:
     """Quantum-inspired flux dynamics for consciousness streams"""
 
@@ -16,13 +17,15 @@ class QiFlux:
         self.flux_state = {}
         logger.info("QI Flux initialized")
 
-    def process_flux(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def process_flux(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process flux data through QI dynamics"""
         return {"status": "processed", "flux_data": data}
+
 
 def create_qi_flux() -> QiFlux:
     """Create QI flux instance"""
     return QiFlux()
+
 
 # Module initialization
 logger.info("✅ QI Flux module loaded")

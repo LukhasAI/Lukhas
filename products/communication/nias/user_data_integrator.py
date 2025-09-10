@@ -6,6 +6,7 @@ Part of the Lambda Products Suite by LUKHAS AI
 This module handles user data integration from various sources with full
 consent management and privacy protection.
 """
+
 import asyncio
 import hashlib
 import json
@@ -333,7 +334,11 @@ class UserDataIntegrator:
         )
 
         # Check if sync needed
-        if not force_refresh and profile.last_sync and datetime.now(timezone.utc) - profile.last_sync < timedelta(hours=24):
+        if (
+            not force_refresh
+            and profile.last_sync
+            and datetime.now(timezone.utc) - profile.last_sync < timedelta(hours=24)
+        ):
             logger.info(f"Using cached profile for {user_id}")
             return profile
 

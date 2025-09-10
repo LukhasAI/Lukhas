@@ -14,17 +14,15 @@ Features:
 - User data usage transparency
 - Bias detection and reporting
 """
-from typing import Dict
-import streamlit as st
-from datetime import timezone
-
 import json
 import logging
 import time
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Dict, Optional
+
+import streamlit as st
 
 # Configure transparency logging
 transparency_logger = logging.getLogger("EU.AI.Transparency", timezone)

@@ -6,11 +6,10 @@ Analyze what worked, what didn't, and extract learnings
 
 import re
 from collections import Counter, defaultdict
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
 
 from .journal_engine import JournalEngine, JournalEntry
-from datetime import timezone
 
 
 class Insight:
@@ -24,7 +23,8 @@ class Insight:
         impact_level: str,  # high, medium, low
         actionable: bool,
         related_files: Optional[list[str]] = None,
-        tags: Optional[list[str]] = None):
+        tags: Optional[list[str]] = None,
+    ):
         self.content = content
         self.category = category
         self.sentiment = sentiment
@@ -242,9 +242,7 @@ class InsightAnalyzer:
 
         return list(set(tags))  # Remove duplicates
 
-    def _create_emotional_state(
-        self, insight: Insight, from_failure: bool
-    ) -> dict[str, float]:
+    def _create_emotional_state(self, insight: Insight, from_failure: bool) -> dict[str, float]:
         """Create emotional state based on insight"""
         emotions = {
             "curiosity": 0.5,
@@ -295,9 +293,7 @@ class InsightAnalyzer:
         start_of_day = date.replace(hour=0, minute=0, second=0, microsecond=0)
         end_of_day = start_of_day + timedelta(days=1)
 
-        insights = self.journal.search(
-            type="insight", date_range=(start_of_day, end_of_day)
-        )
+        insights = self.journal.search(type="insight", date_range=(start_of_day, end_of_day))
 
         analysis = {
             "date": date.strftime("%Y-%m-%d"),
@@ -364,9 +360,7 @@ class InsightAnalyzer:
     def find_patterns(self, days: int = 30) -> dict[str, Any]:
         """Find patterns in insights over time"""
         start_date = datetime.now(timezone.utc) - timedelta(days=days)
-        insights = self.journal.search(
-            type="insight", date_range=(start_date, datetime.now(timezone.utc))
-        )
+        insights = self.journal.search(type="insight", date_range=(start_date, datetime.now(timezone.utc)))
 
         patterns = {
             "recurring_challenges": self._find_recurring_themes(insights, "challenge"),
@@ -374,21 +368,15 @@ class InsightAnalyzer:
             "learning_velocity": self._calculate_learning_velocity(insights, days),
             "sentiment_trends": self._analyze_sentiment_trends(insights),
             "impact_distribution": self._analyze_impact_distribution(insights),
-            "actionable_completion_rate": self._calculate_actionable_completion(
-                insights
-            ),
+            "actionable_completion_rate": self._calculate_actionable_completion(insights),
             "growth_indicators": self._identify_growth_indicators(insights),
         }
 
         return patterns
 
-    def _find_recurring_themes(
-        self, insights: list[JournalEntry], category: str
-    ) -> list[dict[str, Any]]:
+    def _find_recurring_themes(self, insights: list[JournalEntry], category: str) -> list[dict[str, Any]]:
         """Find recurring themes in a specific category"""
-        category_insights = [
-            i for i in insights if i.metadata.get("category") == category
-        ]
+        category_insights = [i for i in insights if i.metadata.get("category") == category]
 
         # Extract key phrases
         phrase_counts = Counter()
@@ -407,23 +395,15 @@ class InsightAnalyzer:
                     {
                         "theme": phrase,
                         "occurrences": count,
-                        "examples": [
-                            i.content[:100]
-                            for i in category_insights
-                            if phrase in i.content.lower()
-                        ][:3],
+                        "examples": [i.content[:100] for i in category_insights if phrase in i.content.lower()][:3],
                     }
                 )
 
         return recurring
 
-    def _calculate_learning_velocity(
-        self, insights: list[JournalEntry], days: int
-    ) -> dict[str, float]:
+    def _calculate_learning_velocity(self, insights: list[JournalEntry], days: int) -> dict[str, float]:
         """Calculate how fast you're learning"""
-        learning_insights = [
-            i for i in insights if i.metadata.get("category") == "learning"
-        ]
+        learning_insights = [i for i in insights if i.metadata.get("category") == "learning"]
 
         # Group by week
         weeks = defaultdict(int)
@@ -450,9 +430,7 @@ class InsightAnalyzer:
     def _analyze_sentiment_trends(self, insights: list[JournalEntry]) -> dict[str, Any]:
         """Analyze how sentiment changes over time"""
         # Group by day
-        daily_sentiments = defaultdict(
-            lambda: {"positive": 0, "negative": 0, "neutral": 0}
-        )
+        daily_sentiments = defaultdict(lambda: {"positive": 0, "negative": 0, "neutral": 0})
 
         for insight in insights:
             day = insight.timestamp.strftime("%Y-%m-%d")
@@ -465,18 +443,10 @@ class InsightAnalyzer:
             first_half = days_sorted[: len(days_sorted) // 2]
             second_half = days_sorted[len(days_sorted) // 2 :]
 
-            first_half_positive = sum(
-                daily_sentiments[d]["positive"] for d in first_half
-            )
-            second_half_positive = sum(
-                daily_sentiments[d]["positive"] for d in second_half
-            )
+            first_half_positive = sum(daily_sentiments[d]["positive"] for d in first_half)
+            second_half_positive = sum(daily_sentiments[d]["positive"] for d in second_half)
 
-            trend = (
-                "improving"
-                if second_half_positive > first_half_positive
-                else "declining"
-            )
+            trend = "improving" if second_half_positive > first_half_positive else "declining"
         else:
             trend = "insufficient_data"
 
@@ -484,20 +454,14 @@ class InsightAnalyzer:
             "overall_trend": trend,
             "daily_breakdown": dict(daily_sentiments),
             "most_positive_day": (
-                max(daily_sentiments.items(), key=lambda x: x[1]["positive"])[0]
-                if daily_sentiments
-                else None
+                max(daily_sentiments.items(), key=lambda x: x[1]["positive"])[0] if daily_sentiments else None
             ),
             "most_challenging_day": (
-                max(daily_sentiments.items(), key=lambda x: x[1]["negative"])[0]
-                if daily_sentiments
-                else None
+                max(daily_sentiments.items(), key=lambda x: x[1]["negative"])[0] if daily_sentiments else None
             ),
         }
 
-    def _analyze_impact_distribution(
-        self, insights: list[JournalEntry]
-    ) -> dict[str, int]:
+    def _analyze_impact_distribution(self, insights: list[JournalEntry]) -> dict[str, int]:
         """Analyze distribution of impact levels"""
         distribution = {"high": 0, "medium": 0, "low": 0}
 
@@ -537,58 +501,38 @@ class InsightAnalyzer:
             indicators.append("Learning velocity is increasing")
 
         # Check success/failure ratio over time
-        early_insights = [
-            i for i in insights if (datetime.now(timezone.utc) - i.timestamp).days > 15
-        ]
-        recent_insights = [
-            i for i in insights if (datetime.now(timezone.utc) - i.timestamp).days <= 15
-        ]
+        early_insights = [i for i in insights if (datetime.now(timezone.utc) - i.timestamp).days > 15]
+        recent_insights = [i for i in insights if (datetime.now(timezone.utc) - i.timestamp).days <= 15]
 
-        early_success_rate = sum(
-            1 for i in early_insights if i.metadata.get("category") == "success"
-        ) / max(len(early_insights), 1)
-        recent_success_rate = sum(
-            1 for i in recent_insights if i.metadata.get("category") == "success"
-        ) / max(len(recent_insights), 1)
+        early_success_rate = sum(1 for i in early_insights if i.metadata.get("category") == "success") / max(
+            len(early_insights), 1
+        )
+        recent_success_rate = sum(1 for i in recent_insights if i.metadata.get("category") == "success") / max(
+            len(recent_insights), 1
+        )
 
         if recent_success_rate > early_success_rate:
             indicators.append("Success rate is improving")
 
         # Check complexity of challenges
-        early_challenges = [
-            i for i in early_insights if i.metadata.get("category") == "challenge"
-        ]
-        recent_challenges = [
-            i for i in recent_insights if i.metadata.get("category") == "challenge"
-        ]
+        early_challenges = [i for i in early_insights if i.metadata.get("category") == "challenge"]
+        recent_challenges = [i for i in recent_insights if i.metadata.get("category") == "challenge"]
 
         if recent_challenges and early_challenges:
             # Simple complexity measure - length of description
-            early_complexity = sum(len(i.content) for i in early_challenges) / len(
-                early_challenges
-            )
-            recent_complexity = sum(len(i.content) for i in recent_challenges) / len(
-                recent_challenges
-            )
+            early_complexity = sum(len(i.content) for i in early_challenges) / len(early_challenges)
+            recent_complexity = sum(len(i.content) for i in recent_challenges) / len(recent_challenges)
 
             if recent_complexity > early_complexity:
                 indicators.append("Taking on more complex challenges")
 
         # Check emotional resilience
-        early_emotions = [
-            i.emotional_vector for i in early_insights if i.emotional_vector
-        ]
-        recent_emotions = [
-            i.emotional_vector for i in recent_insights if i.emotional_vector
-        ]
+        early_emotions = [i.emotional_vector for i in early_insights if i.emotional_vector]
+        recent_emotions = [i.emotional_vector for i in recent_insights if i.emotional_vector]
 
         if early_emotions and recent_emotions:
-            early_frustration = sum(
-                e.get("frustration", 0) for e in early_emotions
-            ) / len(early_emotions)
-            recent_frustration = sum(
-                e.get("frustration", 0) for e in recent_emotions
-            ) / len(recent_emotions)
+            early_frustration = sum(e.get("frustration", 0) for e in early_emotions) / len(early_emotions)
+            recent_frustration = sum(e.get("frustration", 0) for e in recent_emotions) / len(recent_emotions)
 
             if recent_frustration < early_frustration:
                 indicators.append("Building emotional resilience")
@@ -657,9 +601,7 @@ This week you captured {sum(day['total_insights'] for day in week_analysis.value
         if sentiment_trends["overall_trend"] == "improving":
             reflection += "- 📈 Overall sentiment is improving\n"
         elif sentiment_trends["overall_trend"] == "declining":
-            reflection += (
-                "- 📉 Overall sentiment is declining - consider what might help\n"
-            )
+            reflection += "- 📉 Overall sentiment is declining - consider what might help\n"
 
         reflection += "\n## Action Items\n"
 

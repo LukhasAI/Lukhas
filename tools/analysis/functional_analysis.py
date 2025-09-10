@@ -3,6 +3,7 @@
  Functional Analysis - Identify what actually WORKS vs what's just connected
 Analyzes functional capabilities, dependencies, and operational readiness
 """
+
 import ast
 import json
 import re

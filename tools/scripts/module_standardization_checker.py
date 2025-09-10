@@ -3,6 +3,7 @@
 LUKHAS Module Standardization Checker
 Checks which modules meet enterprise standards
 """
+
 import json
 from datetime import datetime, timezone
 from pathlib import Path

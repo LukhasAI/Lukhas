@@ -56,19 +56,18 @@
 ║ - Stress Response Systems (Sapolsky, 2004)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import time
-import streamlit as st
-
 import asyncio
 import contextlib
 import logging
+import time
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable
 
+import streamlit as st
+
 from candidate.core.bio_systems.bio_oscillator import OscillationType
-from datetime import timezone
 
 logger = logging.getLogger("bio_simulation_controller")
 

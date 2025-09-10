@@ -2,22 +2,26 @@
 Bio Symbolic Awareness Module
 Provides bio-inspired awareness components for symbolic processing
 """
+
 import logging
 from dataclasses import dataclass
 from typing import Any, Dict, List
 
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class SymbolicAwarenessState:
     """State of symbolic awareness processing"""
+
     level: float = 0.5
     symbols_processed: int = 0
-    active_patterns: List[str] = None
+    active_patterns: list[str] = None
 
     def __post_init__(self):
         if self.active_patterns is None:
             self.active_patterns = []
+
 
 class BioSymbolicAwareness:
     """Bio-inspired symbolic awareness processor"""
@@ -27,7 +31,7 @@ class BioSymbolicAwareness:
         self.symbolic_memory = {}
         self.pattern_registry = {}
 
-    def process_symbols(self, symbols: List[str]) -> Dict[str, Any]:
+    def process_symbols(self, symbols: list[str]) -> dict[str, Any]:
         """Process symbolic input and update awareness state"""
         processed = []
         for symbol in symbols:
@@ -35,11 +39,7 @@ class BioSymbolicAwareness:
                 processed.append(self.pattern_registry[symbol])
             else:
                 # Learn new symbolic pattern
-                self.pattern_registry[symbol] = {
-                    "pattern": symbol,
-                    "frequency": 1,
-                    "associations": []
-                }
+                self.pattern_registry[symbol] = {"pattern": symbol, "frequency": 1, "associations": []}
                 processed.append(self.pattern_registry[symbol])
 
         self.state.symbols_processed += len(symbols)
@@ -48,7 +48,7 @@ class BioSymbolicAwareness:
         return {
             "processed_symbols": processed,
             "awareness_level": self.state.level,
-            "new_patterns": len([s for s in symbols if s not in self.symbolic_memory])
+            "new_patterns": len([s for s in symbols if s not in self.symbolic_memory]),
         }
 
     def get_awareness_level(self) -> float:
@@ -58,6 +58,7 @@ class BioSymbolicAwareness:
     def reset_awareness(self):
         """Reset awareness state"""
         self.state = SymbolicAwarenessState()
+
 
 # Export main components
 __all__ = ["BioSymbolicAwareness", "SymbolicAwarenessState"]

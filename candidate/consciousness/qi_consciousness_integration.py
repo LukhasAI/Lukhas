@@ -44,9 +44,8 @@
 # Module imports
 import asyncio
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional, Union
-from datetime import timezone
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.consciousness.qi_consciousness_integration", timezone)
@@ -100,8 +99,11 @@ ElevatedConsciousnessModule, ConsciousnessLevel, QualiaType, ConsciousExperience
 try:
     # Corrected import path (assuming lukhasElevatedConsciousnessModule.py exists)
     from consciousness.consciousness_service import (
-        ConsciousExperience, ConsciousnessLevel, ElevatedConsciousnessModule,
-        QualiaType)
+        ConsciousExperience,
+        ConsciousnessLevel,
+        ElevatedConsciousnessModule,
+        QualiaType,
+    )
 
     CONSCIOUSNESS_AVAILABLE = True
     logger.info(

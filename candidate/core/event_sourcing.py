@@ -25,9 +25,8 @@ import time
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
-from datetime import timezone
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)

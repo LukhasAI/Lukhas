@@ -594,15 +594,15 @@ class TestGuardianSecurity:
             auditor = MockSecurityAuditor()
 
             # Test various security events
-            login_id = auditor.log_security_event(
+            auditor.log_security_event(
                 "login_success", "user_001", {"ip_address": "192.168.1.100", "user_agent": "TestAgent"}
             )
 
-            failed_login_id = auditor.log_security_event(
+            auditor.log_security_event(
                 "login_failure", "user_002", {"ip_address": "192.168.1.200", "reason": "invalid_password"}
             )
 
-            violation_id = auditor.log_security_event(
+            auditor.log_security_event(
                 "security_violation", "user_003", {"violation_type": "injection_attempt", "blocked": True}
             )
 

@@ -4,6 +4,7 @@ Emergency Response System for Healthcare Guardian
 Handles medical emergencies, fall detection, and automatic dispatch for elderly users
 Consolidated from Enhanced Guardian Medical emergency_aid.py
 """
+
 import asyncio
 import json
 import logging
@@ -422,7 +423,9 @@ class EmergencyResponseSystem:
         }
 
         # Log the call
-        incident.actions_taken.append(f"Emergency services called at {datetime.now(timezone.utc)}: {self.emergency_number}")
+        incident.actions_taken.append(
+            f"Emergency services called at {datetime.now(timezone.utc)}: {self.emergency_number}"
+        )
         incident.contacts_notified.append(self.emergency_number)
 
         # In production, this would make actual call

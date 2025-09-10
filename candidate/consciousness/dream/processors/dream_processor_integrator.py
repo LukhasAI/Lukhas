@@ -6,8 +6,9 @@ This file is part of the LUKHAS (Logical Unified Knowledge Hyper-Adaptable Syste
 Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
-import streamlit as st
 from datetime import timezone
+
+import streamlit as st
 
 """
 Integration module for DreamProcessor and pattern recognition.

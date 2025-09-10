@@ -57,7 +57,7 @@ def load_lukhas_env() -> dict[str, str]:
     # FIXED: Removed iCloud dependency, using only local paths
     env_files = [
         "/Users/agi_dev/LOCAL-REPOS/Lukhas/.env",
-        "./.env", 
+        "./.env",
         "../.env",
         "~/.lukhas/.env",
     ]

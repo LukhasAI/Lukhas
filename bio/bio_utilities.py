@@ -11,13 +11,16 @@ from typing import Any, Dict
 
 logger = logging.getLogger(__name__)
 
+
 class FatigueLevel(Enum):
     """Fatigue levels for bio-inspired processing"""
+
     FRESH = 0
     SLIGHT = 1
     MODERATE = 2
     HIGH = 3
     EXHAUSTED = 4
+
 
 class BioUtilities:
     """Bio-inspired utility functions for consciousness systems"""
@@ -42,7 +45,7 @@ class BioUtilities:
         else:
             return FatigueLevel.EXHAUSTED
 
-    def adapt_to_environment(self, environment_data: Dict[str, Any]) -> float:
+    def adapt_to_environment(self, environment_data: dict[str, Any]) -> float:
         """Bio-inspired adaptation to environment changes"""
         adaptation_score = 0.5  # Base adaptation
 
@@ -54,14 +57,15 @@ class BioUtilities:
 
         return min(1.0, max(0.0, adaptation_score))
 
-    def get_energy_status(self) -> Dict[str, Any]:
+    def get_energy_status(self) -> dict[str, Any]:
         """Get current energy and fatigue status"""
         return {
             "energy_level": self.energy_level,
             "fatigue_level": self.fatigue_level.name,
             "adaptation_rate": self.adaptation_rate,
-            "status": "operational" if self.energy_level > 0.2 else "low_energy"
+            "status": "operational" if self.energy_level > 0.2 else "low_energy",
         }
+
 
 # Module-level utility functions
 def fatigue_level(workload: float = 0.0, duration: float = 0.0) -> FatigueLevel:
@@ -69,15 +73,12 @@ def fatigue_level(workload: float = 0.0, duration: float = 0.0) -> FatigueLevel:
     bio_utils = BioUtilities()
     return bio_utils.calculate_fatigue(workload, duration)
 
-def bio_adapt(environment: Dict[str, Any]) -> float:
+
+def bio_adapt(environment: dict[str, Any]) -> float:
     """Bio-inspired adaptation function"""
     bio_utils = BioUtilities()
     return bio_utils.adapt_to_environment(environment)
 
+
 # Export main components
-__all__ = [
-    "BioUtilities",
-    "FatigueLevel",
-    "fatigue_level",
-    "bio_adapt"
-]
+__all__ = ["BioUtilities", "FatigueLevel", "fatigue_level", "bio_adapt"]

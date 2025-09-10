@@ -18,13 +18,12 @@ import json
 import os
 import re
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Optional
 
 import requests
 from safe_subprocess_executor import safe_subprocess_run
-from datetime import timezone
 
 
 @dataclass

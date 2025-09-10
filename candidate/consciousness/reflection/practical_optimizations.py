@@ -1,7 +1,9 @@
 import logging
-import streamlit as st
 import random
 from typing import Dict
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 

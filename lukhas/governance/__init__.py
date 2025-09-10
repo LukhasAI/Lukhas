@@ -28,6 +28,7 @@ Version: 1.0.0
 Trinity Framework: Identity-Consciousness-Guardian
 Phase: Phase 7 - Registry Updates and Policy Integration
 """
+
 import logging
 import time
 

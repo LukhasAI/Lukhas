@@ -4,8 +4,8 @@ Bidirectional communication bridge between Memory and Learning systems
 """
 
 import logging
-from typing import Any
 from datetime import timezone
+from typing import Any
 
 logger = logging.getLogger(__name__)
 

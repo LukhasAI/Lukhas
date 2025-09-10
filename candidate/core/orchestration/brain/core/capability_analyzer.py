@@ -9,10 +9,10 @@ import asyncio
 import datetime
 import json
 import time
+from datetime import timezone
 from typing import Any
 
 from bio.ai_client import BioAIClient
-from datetime import timezone
 
 
 class LUKHASCapabilityAnalyzer:

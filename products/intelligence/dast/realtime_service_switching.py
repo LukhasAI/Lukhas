@@ -2,6 +2,7 @@
 Real-Time Service Switching for DAST
 Dynamic failover and service selection for resilient operations
 """
+
 import asyncio
 import statistics
 import time

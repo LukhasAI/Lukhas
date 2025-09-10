@@ -11,9 +11,6 @@ Original: lukhas_trait_sync.py
 Advanced: lukhas_trait_sync.py
 Integration Date: 2025-05-31T07:55:28.108413
 """
-import streamlit as st
-from datetime import timezone
-
 # ===============================================================
 # 📂 FILE: lukhas_trait_sync.py
 # 📍 RECOMMENDED PATH: /Users/grdm_admin/Downloads/oxn/symbolic_ai/personas/lukhas/
@@ -36,11 +33,12 @@ from datetime import timezone
 # 💬 ADHD & Non-coder Friendly Note:
 # Just run this file and Lukhas will analyze who he is compared to other versions of himself 🧍‍♂️🪞🧍‍♀️
 # Think of it like a symbolic family reunion where they compare personalities.
-
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
+
+import streamlit as st
 
 from candidate.orchestration.brain.spine.trait_manager import load_traits
 

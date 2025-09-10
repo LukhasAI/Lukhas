@@ -3,6 +3,7 @@
 Heartbeat Visualization - Console-based pulse display based on consciousness states
 Shows real-time system heartbeat with symbolic glyph pulsing
 """
+
 import asyncio
 import contextlib
 import json

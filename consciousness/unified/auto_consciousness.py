@@ -9,11 +9,11 @@ decision-making, and consciousness state management.
 Author: LUKHAS AI System
 Version: 1.0.0
 """
+
 import logging
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
-from datetime import timezone
 
 # Import LUKHAS components
 try:

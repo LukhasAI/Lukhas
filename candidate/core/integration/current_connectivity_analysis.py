@@ -13,10 +13,9 @@ Analyzes the current state of module connectivity and identifies isolated files
 import ast
 import json
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
-from datetime import timezone
 
 
 class ConnectivityAnalyzer:

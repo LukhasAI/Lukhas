@@ -26,24 +26,23 @@
 ║ • Comprehensive error handling and fallbacks
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import time
-import streamlit as st
-
 import asyncio
 import base64
 import json
 import logging
 import os
-from datetime import datetime
+import time
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
 
 # OpenAI imports
 from openai import AsyncOpenAI, OpenAI
 
 # Internal imports
 from candidate.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
-from datetime import timezone
 
 logger = logging.getLogger("ΛTRACE.dream.openai_integration")
 

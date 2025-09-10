@@ -4,13 +4,12 @@ API Services Layer
 Provides clean service interfaces for all API endpoints.
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
 from hub.service_registry import get_service
 
 from candidate.core.common import get_logger
-from datetime import timezone
 
 logger = get_logger(__name__)
 
@@ -39,13 +38,13 @@ class MemoryAPIService(APIServiceBase):
     """Service layer for memory API operations"""
 
     def __init__(self):
-        super().__init__('memory_service')
+        super().__init__("memory_service")
 
     async def store_memory(self,
                            agent_id: str,
                            content: str,
-                           context: Optional[Dict[str, Any]] = None,
-                           metadata: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+                           context: Optional[dict[str, Any]] = None,
+                           metadata: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Store a memory"""
         self._ensure_service()
 
@@ -71,7 +70,7 @@ class MemoryAPIService(APIServiceBase):
                                 agent_id: str,
                                 query: Optional[str] = None,
                                 limit: int = 10,
-                                memory_type: Optional[str] = None) -> List[Dict[str,
+                                memory_type: Optional[str] = None) -> list[dict[str,
                                                                                 Any]]:
         """Retrieve memories"""
         self._ensure_service()
@@ -89,7 +88,7 @@ class MemoryAPIService(APIServiceBase):
 
         return memories
 
-    async def fold_memories(self, agent_id: str) -> Dict[str, Any]:
+    async def fold_memories(self, agent_id: str) -> dict[str, Any]:
         """Perform memory folding operation"""
         self._ensure_service()
 
@@ -109,20 +108,20 @@ class DreamAPIService(APIServiceBase):
     """Service layer for dream API operations"""
 
     def __init__(self):
-        super().__init__('dream_service')
+        super().__init__("dream_service")
 
     async def generate_dream(self,
                              agent_id: str,
                              theme: Optional[str] = None,
                              intensity: float = 0.7,
-                             lucidity: float = 0.5) -> Dict[str, Any]:
+                             lucidity: float = 0.5) -> dict[str, Any]:
         """Generate a dream synthesis"""
         self._ensure_service()
 
         if not self._service:
             # Fallback to creativity service if dream service not available
             try:
-                creativity_service = get_service('creativity_service')
+                creativity_service = get_service("creativity_service")
                 return await creativity_service.dream_inspired_creation(
                     agent_id,
                     {"theme": theme, "intensity": intensity}
@@ -150,9 +149,9 @@ class ConsciousnessAPIService(APIServiceBase):
     """Service layer for consciousness API operations"""
 
     def __init__(self):
-        super().__init__('consciousness_service')
+        super().__init__("consciousness_service")
 
-    async def get_awareness_state(self, agent_id: str) -> Dict[str, Any]:
+    async def get_awareness_state(self, agent_id: str) -> dict[str, Any]:
         """Get current awareness state"""
         self._ensure_service()
 
@@ -172,7 +171,7 @@ class ConsciousnessAPIService(APIServiceBase):
     async def process_stimulus(self,
                                agent_id: str,
                                stimulus_type: str,
-                               stimulus_data: Dict[str, Any]) -> Dict[str, Any]:
+                               stimulus_data: dict[str, Any]) -> dict[str, Any]:
         """Process a stimulus through consciousness"""
         self._ensure_service()
 
@@ -199,9 +198,9 @@ class EmotionAPIService(APIServiceBase):
     """Service layer for emotion API operations"""
 
     def __init__(self):
-        super().__init__('emotion_service')
+        super().__init__("emotion_service")
 
-    async def get_emotional_state(self, agent_id: str) -> Dict[str, Any]:
+    async def get_emotional_state(self, agent_id: str) -> dict[str, Any]:
         """Get current emotional state"""
         # Since emotion service might not be registered, use a fallback
         try:
@@ -226,7 +225,7 @@ class EmotionAPIService(APIServiceBase):
     async def update_emotion(self,
                              agent_id: str,
                              event: str,
-                             intensity: float = 0.5) -> Dict[str, Any]:
+                             intensity: float = 0.5) -> dict[str, Any]:
         """Update emotional state based on event"""
         # Fallback implementation
         return {
@@ -246,12 +245,12 @@ class LearningAPIService(APIServiceBase):
     """Service layer for learning API operations"""
 
     def __init__(self):
-        super().__init__('learning_service')
+        super().__init__("learning_service")
 
     async def train_model(self,
                           agent_id: str,
-                          training_data: List[Dict[str, Any]],
-                          model_type: str = "default") -> Dict[str, Any]:
+                          training_data: list[dict[str, Any]],
+                          model_type: str = "default") -> dict[str, Any]:
         """Train a model"""
         self._ensure_service()
 
@@ -276,7 +275,7 @@ class LearningAPIService(APIServiceBase):
             "agent_id": agent_id
         }
 
-    async def get_learning_status(self, agent_id: str) -> Dict[str, Any]:
+    async def get_learning_status(self, agent_id: str) -> dict[str, Any]:
         """Get learning status"""
         self._ensure_service()
 
@@ -296,11 +295,11 @@ class IdentityAPIService(APIServiceBase):
     """Service layer for identity API operations"""
 
     def __init__(self):
-        super().__init__('identity_service')
+        super().__init__("identity_service")
 
     async def verify_identity(self,
                               agent_id: str,
-                              credentials: Dict[str, Any]) -> Dict[str, Any]:
+                              credentials: dict[str, Any]) -> dict[str, Any]:
         """Verify agent identity"""
         self._ensure_service()
 
@@ -323,7 +322,7 @@ class IdentityAPIService(APIServiceBase):
             "permissions": self._resolve_access_tier(tier)
         }
 
-    def _resolve_access_tier(self, tier: int) -> List[str]:
+    def _resolve_access_tier(self, tier: int) -> list[str]:
         """Get permissions for a tier"""
         tier_permissions = {
             0: [],
@@ -394,16 +393,16 @@ def get_identity_api_service() -> IdentityAPIService:
 
 
 __all__ = [
-    'MemoryAPIService',
-    'DreamAPIService',
-    'ConsciousnessAPIService',
-    'EmotionAPIService',
-    'LearningAPIService',
-    'IdentityAPIService',
-    'get_memory_api_service',
-    'get_dream_api_service',
-    'get_consciousness_api_service',
-    'get_emotion_api_service',
-    'get_learning_api_service',
-    'get_identity_api_service'
+    "MemoryAPIService",
+    "DreamAPIService",
+    "ConsciousnessAPIService",
+    "EmotionAPIService",
+    "LearningAPIService",
+    "IdentityAPIService",
+    "get_memory_api_service",
+    "get_dream_api_service",
+    "get_consciousness_api_service",
+    "get_emotion_api_service",
+    "get_learning_api_service",
+    "get_identity_api_service"
 ]

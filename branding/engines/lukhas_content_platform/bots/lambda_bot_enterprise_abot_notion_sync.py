@@ -2,6 +2,7 @@
 LUKHAS AI ΛBot Comprehensive Notion Sync System
 Automatically generates and syncs daily reports with financial, AI routing, and system health data
 """
+
 import json
 import logging
 from dataclasses import asdict, dataclass
@@ -11,13 +12,15 @@ from typing import Any
 
 # Configure logging
 
+
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
-    
+
     This is a placeholder for functionality that needs to be implemented.
     Replace this stub with the actual implementation.
     """
     raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

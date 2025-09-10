@@ -850,7 +850,6 @@ class TestBrandingSystems:
         """Test Trinity Framework (⚛️🧠🛡️) compliance and validation"""
         try:
             # Check for Trinity Framework references
-            trinity_symbols = ["⚛️", "🧠", "🛡️"]
             trinity_keywords = ["identity", "consciousness", "guardian", "trinity"]
 
             trinity_found = False
@@ -956,12 +955,12 @@ def run_priority4_tests():
                 results["passed_tests"] += 1
 
             except pytest.skip.Exception as e:
-                print(f"  ⏭️  {method_name} (skipped: {str(e)}[:80]...)")
+                print(f"  ⏭️  {method_name} (skipped: {e!s}[:80]...)")
                 system_result.tests_skipped += 1
                 results["skipped_tests"] += 1
 
             except Exception as e:
-                print(f"  ❌ {method_name} (failed: {str(e)}[:80]...)")
+                print(f"  ❌ {method_name} (failed: {e!s}[:80]...)")
                 system_result.tests_failed += 1
                 results["failed_tests"] += 1
 

@@ -3,8 +3,6 @@
 WΛLLET Core - Digital Identity & Wallet System
 Self-Sovereign Identity with NFT verification and symbolic currency
 """
-from consciousness.qi import qi
-import streamlit as st
 
 import asyncio
 import hashlib
@@ -16,6 +14,10 @@ import uuid
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 
 class CredentialType(Enum):

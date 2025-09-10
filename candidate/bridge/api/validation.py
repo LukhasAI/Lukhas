@@ -19,8 +19,6 @@ Features:
 - Function calling validation and security
 - Error handling with detailed error codes
 """
-import streamlit as st
-
 import asyncio
 import hashlib
 import logging
@@ -30,6 +28,8 @@ import uuid
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 try:
     import jwt

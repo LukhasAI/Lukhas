@@ -21,16 +21,12 @@ def collect_violations():
     # Get violations in text format and parse
     try:
         result = subprocess.run(
-            [sys.executable, "-m", "ruff", "check", ".", "--no-cache"],
-            capture_output=True,
-            text=True,
-            timeout=120
+            [sys.executable, "-m", "ruff", "check", ".", "--no-cache"], capture_output=True, text=True, timeout=120
         )
 
         if result.stdout:
             # Parse text format violations
             lines = result.stdout.strip().split("\n")
-            current_violation = {}
 
             for line in lines:
                 # Match file:line:col: CODE message pattern
@@ -43,7 +39,7 @@ def collect_violations():
                         "location": {"row": int(line_no), "column": int(col)},
                         "code": code,
                         "message": message,
-                        "rule_description": get_rule_description(code)
+                        "rule_description": get_rule_description(code),
                     }
 
                     violations[code].append(violation)
@@ -57,7 +53,7 @@ def collect_violations():
                         [sys.executable, "-m", "ruff", "check", focus_dir, "--format=json"],
                         capture_output=True,
                         text=True,
-                        timeout=30
+                        timeout=30,
                     )
 
                     if result.stdout:
@@ -97,7 +93,7 @@ def get_rule_description(code):
         "F811": "Redefinition of unused name",
         "UP032": "Use f-string instead of format call",
         "E501": "Line too long",
-        "W291": "Trailing whitespace"
+        "W291": "Trailing whitespace",
     }
     return descriptions.get(code, f"Rule {code}")
 
@@ -127,9 +123,12 @@ def generate_violation_indices(violations):
                 "total_violations": len(unique_violations),
                 "violations": unique_violations,
                 "affected_files": list(set(v.get("filename", "") for v in unique_violations)),
-                "lukhas_files": [f for f in set(v.get("filename", "") for v in unique_violations)
-                               if "lukhas/" in f or "candidate/" in f],
-                "severity": get_severity(rule_code)
+                "lukhas_files": [
+                    f
+                    for f in set(v.get("filename", "") for v in unique_violations)
+                    if "lukhas/" in f or "candidate/" in f
+                ],
+                "severity": get_severity(rule_code),
             }
 
             with open(index_file, "w") as f:

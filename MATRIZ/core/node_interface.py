@@ -11,6 +11,7 @@ The MATRIZ format ensures:
 - Ethical governance through provenance tracking
 - Causal chain reconstruction for interpretability
 """
+
 import time
 import uuid
 from abc import ABC, abstractmethod

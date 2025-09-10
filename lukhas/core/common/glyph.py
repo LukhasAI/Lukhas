@@ -3,6 +3,7 @@
 ========================
 Centralized GLYPH token handling for all modules.
 """
+
 import json
 import uuid
 from dataclasses import asdict, dataclass, field

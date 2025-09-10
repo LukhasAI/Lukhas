@@ -32,7 +32,7 @@ class TestConsciousnessIntegration:
             {"category": "quantum", "state": "superposition"},
             {"category": "identity", "user_id": "test_123"},
             {"category": "voice", "audio_data": "mock_audio"},
-            "generic_string_data"
+            "generic_string_data",
         ]
 
         for test_data in test_cases:
@@ -65,17 +65,13 @@ class TestConsciousnessIntegration:
         )
 
         # Create engine with real configuration
-        config = CreativeConfig(
-            expansion_depth=3,
-            temperature=0.7,
-            max_concurrent_generations=5
-        )
+        config = CreativeConfig(expansion_depth=3, temperature=0.7, max_concurrent_generations=5)
 
         engine = EnterpriseNeuralHaikuGenerator(
             config=config,
             neural_model=MockNeuralModel(),
             symbolic_kb=MockSymbolicKB(),
-            federated_client=MockFederatedClient()
+            federated_client=MockFederatedClient(),
         )
 
         # Test multiple generation contexts
@@ -87,7 +83,7 @@ class TestConsciousnessIntegration:
                 emotional_state={"tranquil": 0.9, "contemplative": 0.7},
                 previous_outputs=[],
                 style_preferences={CreativeStyle.CLASSICAL: 0.8},
-                constraints={}
+                constraints={},
             ),
             CreativeContext(
                 user_id="user_2",
@@ -96,8 +92,8 @@ class TestConsciousnessIntegration:
                 emotional_state={"energetic": 0.8, "creative": 0.9},
                 previous_outputs=[],
                 style_preferences={CreativeStyle.MODERN: 0.9},
-                constraints={"max_length": 100}
-            )
+                constraints={"max_length": 100},
+            ),
         ]
 
         async with engine:
@@ -165,7 +161,7 @@ class TestConsciousnessIntegration:
         test_request = {
             "id": "integration_test_001",
             "action": "consciousness_processing",
-            "components": ["awareness", "bridge"]
+            "components": ["awareness", "bridge"],
         }
 
         result = await platform.process_consciousness_request(test_request)
@@ -208,7 +204,7 @@ class TestConsciousnessIntegration:
             config=CreativeConfig(),
             neural_model=MockNeuralModel(),
             symbolic_kb=MockSymbolicKB(),
-            federated_client=MockFederatedClient()
+            federated_client=MockFederatedClient(),
         )
         await platform.register_component("creativity", engine)
 
@@ -217,7 +213,7 @@ class TestConsciousnessIntegration:
             "category": "consciousness",
             "user_id": "e2e_user",
             "intent": "creative_generation",
-            "context": "poetry"
+            "context": "poetry",
         }
 
         # Process through awareness
@@ -233,7 +229,7 @@ class TestConsciousnessIntegration:
                 emotional_state={"inspired": 0.8},
                 previous_outputs=[],
                 style_preferences={CreativeStyle.MODERN: 0.7},
-                constraints={}
+                constraints={},
             )
 
             haiku, metrics = await engine.generate_haiku(context)
@@ -306,6 +302,7 @@ class TestConsciousnessIntegration:
 if __name__ == "__main__":
     # Direct execution for debugging
     import sys
+
     sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas")
 
     test_instance = TestConsciousnessIntegration()

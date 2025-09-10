@@ -5,6 +5,7 @@ Template for creating tier-protected API endpoints with proper authentication.
 
 Copy this template when creating new API endpoints.
 """
+
 # Configure logging
 import logging
 from datetime import datetime, timezone
@@ -235,9 +236,7 @@ async def consciousness_endpoint(
 
 
 @app.post("/protected/quantum", response_model=BaseResponse, tags=["T4-Protected"])
-async def qi_endpoint(
-    request: BaseRequest, user: AuthContext = Depends(require_t4_or_above)
-) -> BaseResponse:
+async def qi_endpoint(request: BaseRequest, user: AuthContext = Depends(require_t4_or_above)) -> BaseResponse:
     """
     T4+ Protected quantum endpoint.
     Requires Quantum tier for quantum processing access.

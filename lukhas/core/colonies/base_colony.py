@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 
 class ColonyStatus(Enum):
     """Status states for colony lifecycle management."""
+
     INITIALIZING = "initializing"
     ACTIVE = "active"
     SUSPENDED = "suspended"
@@ -27,6 +28,7 @@ class ColonyStatus(Enum):
 
 class ConsciousnessLevel(Enum):
     """Consciousness integration levels for colonies."""
+
     DORMANT = 0
     AWARE = 1
     CONSCIOUS = 2
@@ -37,6 +39,7 @@ class ConsciousnessLevel(Enum):
 @dataclass
 class ConsensusResult:
     """Result of consciousness consensus operation in a colony."""
+
     consensus_reached: bool
     decision: Any
     confidence: float
@@ -50,6 +53,7 @@ class ConsensusResult:
 @dataclass
 class ColonyMetrics:
     """Comprehensive metrics for colony performance and consciousness."""
+
     task_completion_rate: float
     response_time_ms: float
     consciousness_coherence: float
@@ -77,7 +81,7 @@ class BaseColony(ABC):
         self,
         colony_id: str,
         capabilities: list[str],
-        consciousness_level: ConsciousnessLevel = ConsciousnessLevel.AWARE
+        consciousness_level: ConsciousnessLevel = ConsciousnessLevel.AWARE,
     ):
         """
         Initialize base colony with consciousness awareness.
@@ -107,14 +111,10 @@ class BaseColony(ABC):
             task_completion_rate=0.0,
             response_time_ms=0.0,
             consciousness_coherence=0.0,
-            trinity_compliance={
-                "identity": 1.0,
-                "consciousness": 0.0,
-                "guardian": 1.0
-            },
+            trinity_compliance={"identity": 1.0, "consciousness": 0.0, "guardian": 1.0},
             error_rate=0.0,
             resource_utilization=0.0,
-            collective_intelligence_score=0.0
+            collective_intelligence_score=0.0,
         )
 
         # Distributed Coordination
@@ -194,9 +194,7 @@ class BaseColony(ABC):
         pass
 
     async def reach_consensus(
-        self,
-        proposal: dict[str, Any],
-        participants: Optional[list[str]] = None
+        self, proposal: dict[str, Any], participants: Optional[list[str]] = None
     ) -> ConsensusResult:
         """
         🤝 Reach consciousness-aware consensus among colony agents.
@@ -242,7 +240,7 @@ class BaseColony(ABC):
                 confidence=total_weight / (len(participants) * 5),  # Normalized confidence
                 votes=votes,
                 participation_rate=len(votes) / len(participants),
-                consciousness_level=ConsciousnessLevel(min(int(avg_consciousness), 4))
+                consciousness_level=ConsciousnessLevel(min(int(avg_consciousness), 4)),
             )
 
             self.consensus_history.append(result)
@@ -257,7 +255,7 @@ class BaseColony(ABC):
                 votes={},
                 participation_rate=0.0,
                 consciousness_level=ConsciousnessLevel.DORMANT,
-                dissent_reasons=[str(e)]
+                dissent_reasons=[str(e)],
             )
 
     def get_status(self) -> dict[str, Any]:
@@ -278,12 +276,12 @@ class BaseColony(ABC):
                 "consciousness_coherence": self.metrics.consciousness_coherence,
                 "trinity_compliance": self.metrics.trinity_compliance,
                 "error_rate": self.metrics.error_rate,
-                "collective_intelligence_score": self.metrics.collective_intelligence_score
+                "collective_intelligence_score": self.metrics.collective_intelligence_score,
             },
             "peer_colonies": len(self.peer_colonies),
             "consensus_history": len(self.consensus_history),
             "creation_timestamp": self.creation_timestamp,
-            "uptime_seconds": time.time() - self.creation_timestamp
+            "uptime_seconds": time.time() - self.creation_timestamp,
         }
 
     async def _initialize_consciousness(self):
@@ -292,7 +290,7 @@ class BaseColony(ABC):
             "identity_coherence": 1.0,
             "environmental_awareness": 0.5,
             "metacognitive_depth": self.consciousness_level.value / 4.0,
-            "collective_synchronization": 0.0
+            "collective_synchronization": 0.0,
         }
 
         # Update Trinity Framework compliance
@@ -311,11 +309,13 @@ class BaseColony(ABC):
             guardian_valid = True  # Basic validation - can be enhanced
 
             # Update compliance metrics
-            self.metrics.trinity_compliance.update({
-                "identity": 1.0 if identity_valid else 0.0,
-                "consciousness": 1.0 if consciousness_valid else 0.0,
-                "guardian": 1.0 if guardian_valid else 0.0
-            })
+            self.metrics.trinity_compliance.update(
+                {
+                    "identity": 1.0 if identity_valid else 0.0,
+                    "consciousness": 1.0 if consciousness_valid else 0.0,
+                    "guardian": 1.0 if guardian_valid else 0.0,
+                }
+            )
 
             return identity_valid and consciousness_valid and guardian_valid
 
@@ -335,7 +335,7 @@ class BaseColony(ABC):
             "consciousness_level": self.consciousness_level.value,
             "awareness_state": self.awareness_state.copy(),
             "metrics": self.metrics,
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         # In a real implementation, this would be persisted to storage
@@ -354,7 +354,7 @@ class BaseColony(ABC):
             "vote": "approve",  # Simplified for now
             "confidence": 0.8,
             "reasoning": "Basic approval logic",
-            "consciousness_contribution": self.consciousness_level.value
+            "consciousness_contribution": self.consciousness_level.value,
         }
 
     def link_peer_colony(self, peer_colony: "BaseColony"):
@@ -386,10 +386,4 @@ class BaseColony(ABC):
 
 
 # Export main classes
-__all__ = [
-    "BaseColony",
-    "ColonyStatus",
-    "ConsciousnessLevel",
-    "ConsensusResult",
-    "ColonyMetrics"
-]
+__all__ = ["BaseColony", "ColonyStatus", "ConsciousnessLevel", "ConsensusResult", "ColonyMetrics"]

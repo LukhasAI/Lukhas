@@ -52,15 +52,14 @@ import logging
 └────────────────────────────────────────────────────────────────────────────────┘
 ```
 """
-import streamlit as st
-from datetime import timezone
-
 import uuid
 from collections import defaultdict, deque
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 from candidate.core.common import get_logger
 

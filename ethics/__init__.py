@@ -47,6 +47,7 @@ except ImportError as e:
     def safety_checks():
         return SafetyChecker()
 
+
 # Create aliases for backward compatibility
 meg_bridge = MegBridge
 policy_engines = PolicyEngines

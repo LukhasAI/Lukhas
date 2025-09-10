@@ -2,8 +2,8 @@ log = logging.getLogger(__name__)
 
 """Oscillator-based ethical dynamics controller."""
 
-import math
 import logging
+import math
 
 
 class OscillatingConscience:

@@ -8,15 +8,15 @@ This system combines:
 - Causality tracking for enterprise compliance
 - Token profiling for resource management
 """
-import streamlit as st
-from datetime import timezone
 
 import logging
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -357,7 +357,9 @@ class UnifiedDreamSystem:
         causality_map["total_causation_strength"] = total_strength / (len(scenarios) + len(seeds))
 
         # Store causality event
-        self.causality_events.append({"timestamp": datetime.now(timezone.utc).isoformat(), "causality_map": causality_map})
+        self.causality_events.append(
+            {"timestamp": datetime.now(timezone.utc).isoformat(), "causality_map": causality_map}
+        )
 
         return causality_map
 

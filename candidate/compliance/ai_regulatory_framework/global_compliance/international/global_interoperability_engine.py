@@ -6,14 +6,12 @@ regulations while maintaining competitive advantage.
 
 Integration with LUKHAS Trinity Framework (⚛️🧠🛡️)
 """
-from typing import List
-import streamlit as st
-from datetime import timezone
-
 import logging
 from dataclasses import dataclass
-from datetime import datetime
-from typing import Any
+from datetime import datetime, timezone
+from typing import Any, List
+
+import streamlit as st
 
 from candidate.core.container.service_container import ServiceContainer
 from candidate.core.interfaces import CoreInterface

@@ -6,6 +6,7 @@ GitHub Student Pack Integration ($300/month value)
 
 Configures comprehensive monitoring for LUKHAS AI production system.
 """
+
 import logging
 import os
 import time

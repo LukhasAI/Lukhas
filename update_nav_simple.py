@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 """
-Simple navigation update for mkdocs.yml 
+Simple navigation update for mkdocs.yml
 """
 
 # Create a comprehensive but manageable navigation structure
 nav_content = """nav:
   - Overview: index.md
   - Concepts:
-      - Constellation Framework: concepts/constellation-framework.md  
+      - Constellation Framework: concepts/constellation-framework.md
       - Identity & Authentication: concepts/identity-system.md
       - Memory & Persistence: concepts/memory-system.md
       - Ethics & Governance: concepts/ethics-governance.md
       - Quantum-Bio Processing: concepts/quantum-bio.md
-      - Vocabularies: 
+      - Vocabularies:
           - LUKHAS Vocabulary: concepts/vocabularies/LUKHAS_VOCABULARY_PUBLIC.md
           - Constellation Framework: concepts/vocabularies/CONSTELLATION_FRAMEWORK.md
           - Two Stream Vocabulary: concepts/vocabularies/TWO_STREAM_VOCABULARY_COMPLETE.md
@@ -56,40 +56,42 @@ nav_content = """nav:
       - Change Log: changelogs/changelog.md
   - Reports:
       - Migration Report: reports/docs_reorg.md
-      - Analysis Reports: 
+      - Analysis Reports:
           - Audit Reports: reports/audit/README.md
           - Business Reports: reports/business/README.md
 """
 
+
 def update_mkdocs_navigation():
     """Update mkdocs.yml navigation section"""
-    
+
     # Read original file
-    with open('mkdocs.yml', 'r') as f:
+    with open("mkdocs.yml") as f:
         lines = f.readlines()
-    
+
     # Find nav section and replace it
     new_lines = []
     skip_nav = False
-    
+
     for line in lines:
-        if line.startswith('nav:'):
+        if line.startswith("nav:"):
             skip_nav = True
             # Add our new nav content
-            new_lines.extend(nav_content.split('\n'))
-            new_lines.append('\n')
+            new_lines.extend(nav_content.split("\n"))
+            new_lines.append("\n")
             continue
-        elif skip_nav and line.startswith('markdown_extensions:'):
+        elif skip_nav and line.startswith("markdown_extensions:"):
             skip_nav = False
-        
+
         if not skip_nav:
             new_lines.append(line)
-    
+
     # Write updated file
-    with open('mkdocs.yml', 'w') as f:
+    with open("mkdocs.yml", "w") as f:
         f.writelines(new_lines)
-    
+
     print("✅ Updated mkdocs.yml navigation")
+
 
 if __name__ == "__main__":
     update_mkdocs_navigation()

@@ -3,6 +3,7 @@
 Glyph Trail Renderer - Visualizes trust mutations and symbolic reversals
 Creates visual representations of glyph transformations over time
 """
+
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone

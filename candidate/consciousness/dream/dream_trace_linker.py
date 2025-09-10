@@ -1,7 +1,10 @@
 import logging
-import streamlit as st
 import time
+
+import streamlit as st
+
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 """
 ═══════════════════════════════════════════════════════════════════════════════════

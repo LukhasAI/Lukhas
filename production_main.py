@@ -348,7 +348,6 @@ class LUKHASProduction:
         try:
             # Import and run the public API
             import uvicorn
-
             from public_api import app
 
             # Configure uvicorn

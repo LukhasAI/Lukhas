@@ -29,14 +29,12 @@ Features:
 Performance Target: <250ms context handoff times
 Compliance: Drift threshold 0.15, ethics enforcement enabled
 """
-import time
-import random
-import streamlit as st
-
 import asyncio
 import hashlib
 import json
 import os
+import random
+import time
 from abc import ABC, abstractmethod
 from collections import deque
 from dataclasses import asdict, dataclass, field
@@ -45,6 +43,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 import numpy as np
+import streamlit as st
 
 # Initialize logger
 logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.agi_consciousness_engine_complete")

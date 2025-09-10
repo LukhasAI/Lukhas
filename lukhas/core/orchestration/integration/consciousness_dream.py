@@ -34,8 +34,7 @@ class ConsciousnessDreamIntegrator:
         self.integration_counter = 0
         logger.info("🌉 Consciousness-Dream Integrator initialized - Trinity Framework active")
 
-    def initiate_consciousness_dream_bridge(self, consciousness_id: str,
-                                          dream_context: Optional[dict] = None) -> str:
+    def initiate_consciousness_dream_bridge(self, consciousness_id: str, dream_context: Optional[dict] = None) -> str:
         """
         ⚛️ Identity-coherent consciousness-dream bridge initiation.
 
@@ -57,7 +56,7 @@ class ConsciousnessDreamIntegrator:
             "initiated_at": datetime.now(timezone.utc).isoformat(),
             "trinity_compliance": True,
             "integration_depth": "deep",
-            "coherence_level": "high"
+            "coherence_level": "high",
         }
 
         self.integration_sessions[bridge_id] = integration_session
@@ -90,7 +89,7 @@ class ConsciousnessDreamIntegrator:
             "synchronization_quality": "excellent",
             "coherence_score": 0.95,
             "trinity_validated": True,
-            "synchronized_at": datetime.now(timezone.utc).isoformat()
+            "synchronized_at": datetime.now(timezone.utc).isoformat(),
         }
 
         session["status"] = "synchronized"
@@ -99,8 +98,7 @@ class ConsciousnessDreamIntegrator:
         logger.info(f"🧠 Consciousness-dream states synchronized: {bridge_id}")
         return sync_metrics
 
-    def transfer_dream_insights_to_consciousness(self, bridge_id: str,
-                                               insights: list[dict]) -> dict[str, Any]:
+    def transfer_dream_insights_to_consciousness(self, bridge_id: str, insights: list[dict]) -> dict[str, Any]:
         """
         🌉 Transfer dream insights to conscious awareness.
 
@@ -125,7 +123,7 @@ class ConsciousnessDreamIntegrator:
                 "significance": insight.get("significance", "medium"),
                 "consciousness_ready": True,
                 "trinity_validated": True,
-                "processed_at": datetime.now(timezone.utc).isoformat()
+                "processed_at": datetime.now(timezone.utc).isoformat(),
             }
             processed_insights.append(processed)
 
@@ -134,7 +132,7 @@ class ConsciousnessDreamIntegrator:
             "insights_transferred": len(processed_insights),
             "transfer_status": "complete",
             "consciousness_enrichment": "significant",
-            "integration_quality": "high"
+            "integration_quality": "high",
         }
 
         session["transferred_insights"] = processed_insights
@@ -166,7 +164,7 @@ class ConsciousnessDreamIntegrator:
             "integration_safety": "confirmed",
             "trinity_compliance": True,
             "overall_coherence": "optimal",
-            "validated_at": datetime.now(timezone.utc).isoformat()
+            "validated_at": datetime.now(timezone.utc).isoformat(),
         }
 
         session["coherence_validation"] = coherence_report
@@ -203,7 +201,7 @@ class ConsciousnessDreamIntegrator:
             "dissolution_status": "complete",
             "consciousness_restored": True,
             "dream_integration_preserved": True,
-            "trinity_validated": True
+            "trinity_validated": True,
         }
 
         logger.info(f"🌉 Consciousness-dream bridge gracefully dissolved: {bridge_id}")
@@ -211,15 +209,16 @@ class ConsciousnessDreamIntegrator:
 
     def get_integration_status(self) -> dict[str, Any]:
         """Get overall integration system status."""
-        active_bridges = sum(1 for s in self.integration_sessions.values()
-                           if s["status"] not in ["dissolved", "concluded"])
+        active_bridges = sum(
+            1 for s in self.integration_sessions.values() if s["status"] not in ["dissolved", "concluded"]
+        )
 
         return {
             "active_bridges": active_bridges,
             "total_integrations": len(self.integration_sessions),
             "consciousness_states": len(self.consciousness_states),
             "system_status": "operational",
-            "trinity_framework_active": True
+            "trinity_framework_active": True,
         }
 
 

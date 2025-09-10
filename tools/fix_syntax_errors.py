@@ -3,6 +3,7 @@
 Comprehensive Python Syntax Error Fixer
 Automatically detects and fixes common Python syntax errors at scale
 """
+
 import argparse
 import ast
 import json
@@ -141,10 +142,8 @@ class PythonSyntaxFixer:
         replacements = {
             "\u201c": '"',  # Left double quotation mark
             "\u201d": '"',  # Right double quotation mark
-            "'": "'",  # Left single quotation mark
             "'": "'",  # Right single quotation mark
-            '"': '"',  # Another right double quote variant
-            """'""": "'",  # Another right single quote variant
+            '"': '"',  # Another right single quote variant
         }
 
         for old, new in replacements.items():

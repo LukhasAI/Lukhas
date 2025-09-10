@@ -13,9 +13,8 @@ Features:
 - Zero-knowledge proof support (future)
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
-from datetime import timezone
 
 
 class ConsentHistoryManager:

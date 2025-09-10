@@ -3,6 +3,7 @@
 LUKHAS Enterprise API Framework
 Production-grade API with versioning, type safety, and OpenAPI documentation
 """
+import asyncio
 import hashlib
 import logging
 import uuid
@@ -23,7 +24,6 @@ from pydantic.generics import GenericModel
 # from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
-import asyncio
 
 # Configure structured logging
 logger = logging.getLogger("ΛTRACE.bridge.adapters.api_framework")

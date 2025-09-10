@@ -6,9 +6,8 @@ Commercial API for memory storage, retrieval, and management
 import asyncio
 import uuid
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
-from datetime import timezone
 
 
 @dataclass

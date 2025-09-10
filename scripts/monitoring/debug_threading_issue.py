@@ -24,16 +24,16 @@ def create_test_database():
     # Create a temporary database file
     fd, db_path = tempfile.mkstemp(suffix=".db")
     os.close(fd)  # Close the file descriptor, but keep the file
-    
+
     engine = create_engine(
-        f"sqlite:///{db_path}", 
+        f"sqlite:///{db_path}",
         echo=False,
         connect_args={
             "check_same_thread": False,  # Allow SQLite to be used across threads
         },
         poolclass=StaticPool,  # Use single connection pool
     )
-    
+
     return engine, db_path
 
 
@@ -93,44 +93,44 @@ def apply_migration(engine):
 
 def test_threading_issue():
     """Test concurrent database operations to reproduce the threading issue"""
-    
+
     # Create database and apply migration
     engine, db_path = create_test_database()
-    
+
     print(f"Created test database at: {db_path}")
-    
+
     # Apply migration in main thread
     apply_migration(engine)
-    
+
     # Verify tables exist in main thread
     with engine.begin() as conn:
         result = conn.execute(text("SELECT name FROM sqlite_master WHERE type='table'"))
         tables = [row[0] for row in result.fetchall()]
         print(f"Tables in main thread: {tables}")
-    
+
     # Test concurrent operations
     results_queue = queue.Queue()
     error_queue = queue.Queue()
-    
+
     def save_scene_thread(thread_id):
         """Simulate saving a scene in a separate thread"""
         try:
             # Create a new connection in this thread
             thread_engine = create_engine(
-                f"sqlite:///{db_path}", 
+                f"sqlite:///{db_path}",
                 echo=False,
                 connect_args={
                     "check_same_thread": False,
                 },
                 poolclass=StaticPool,
             )
-            
+
             # Check if tables exist in this thread
             with thread_engine.begin() as conn:
                 result = conn.execute(text("SELECT name FROM sqlite_master WHERE type='table'"))
                 tables = [row[0] for row in result.fetchall()]
                 print(f"Thread {thread_id} - Tables available: {tables}")
-                
+
                 # Try to insert a test scene
                 scene_id = f"test_scene_{thread_id}"
                 conn.execute(
@@ -138,7 +138,7 @@ def test_threading_issue():
                         """
                         INSERT INTO akaq_scene (
                             scene_id, user_id, subject, object, proto, proto_vec, risk, context,
-                            drift_phi, congruence_index, neurosis_risk, repair_delta, 
+                            drift_phi, congruence_index, neurosis_risk, repair_delta,
                             sublimation_rate, cfg_version
                         ) VALUES (
                             :scene_id, :user_id, :subject, :object, :proto, :proto_vec, :risk, :context,
@@ -164,43 +164,43 @@ def test_threading_issue():
                         "cfg_version": "wave_c_v1.0.0",
                     },
                 )
-                
+
                 print(f"Thread {thread_id} - Successfully inserted scene {scene_id}")
                 results_queue.put((thread_id, scene_id))
-                
+
         except Exception as e:
             error_msg = f"Thread {thread_id} - Error: {e!s}"
             print(error_msg)
             error_queue.put((thread_id, str(e)))
-    
+
     # Launch 5 concurrent threads
     threads = []
     for i in range(5):
         t = threading.Thread(target=save_scene_thread, args=(i,))
         threads.append(t)
         t.start()
-    
+
     # Wait for all to complete
     for t in threads:
         t.join(timeout=5.0)
-    
+
     # Check results
     print(f"\nResults: {results_queue.qsize()} successful, {error_queue.qsize()} errors")
-    
+
     # Print errors if any
     if not error_queue.empty():
         print("Errors:")
         while not error_queue.empty():
             thread_id, error = error_queue.get()
             print(f"  Thread {thread_id}: {error}")
-    
+
     # Print successful results
     if not results_queue.empty():
         print("Successful saves:")
         while not results_queue.empty():
             thread_id, scene_id = results_queue.get()
             print(f"  Thread {thread_id}: {scene_id}")
-    
+
     # Cleanup
     engine.dispose()
     try:

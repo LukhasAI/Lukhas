@@ -28,20 +28,18 @@
 ║ • Quantum Error Correction: Self-healing consciousness states
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
 import math
 import random
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
 
 import numpy as np
+import streamlit as st
 
 # Configure quantum consciousness logging
 logger = logging.getLogger("ΛTRACE.consciousness.quantum.superposition", timezone)

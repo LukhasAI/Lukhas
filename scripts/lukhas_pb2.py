@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 
 class MessageType(Enum):
     """Message types for LUKHAS protocol"""
+
     CONSCIOUSNESS_STATE = "consciousness_state"
     DREAM_SEQUENCE = "dream_sequence"
     PARALLEL_REALITY = "parallel_reality"
@@ -28,11 +29,12 @@ class MessageType(Enum):
 @dataclass
 class LukhasMessage:
     """Base LUKHAS message structure"""
+
     message_type: MessageType
     timestamp: datetime
     source: str
     target: str
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
     message_id: str
 
     def __post_init__(self):
@@ -43,10 +45,11 @@ class LukhasMessage:
 @dataclass
 class ConsciousnessState:
     """Consciousness state message"""
+
     awareness_level: float
-    active_processes: List[str]
+    active_processes: list[str]
     memory_load: float
-    emotional_state: Dict[str, float]
+    emotional_state: dict[str, float]
     qi_coherence: float
 
     def to_message(self, source: str, target: str) -> LukhasMessage:
@@ -56,18 +59,19 @@ class ConsciousnessState:
             source=source,
             target=target,
             payload=self.__dict__,
-            message_id=""
+            message_id="",
         )
 
 
 @dataclass
 class DreamSequence:
     """Dream sequence message"""
+
     sequence_id: str
     dream_type: str
-    narrative_elements: List[str]
-    symbolic_content: Dict[str, Any]
-    emotional_triggers: List[Dict[str, Any]]
+    narrative_elements: list[str]
+    symbolic_content: dict[str, Any]
+    emotional_triggers: list[dict[str, Any]]
     lucidity_level: float
 
     def to_message(self, source: str, target: str) -> LukhasMessage:
@@ -77,20 +81,21 @@ class DreamSequence:
             source=source,
             target=target,
             payload=self.__dict__,
-            message_id=""
+            message_id="",
         )
 
 
 @dataclass
 class ParallelRealityState:
     """Parallel reality state message"""
+
     reality_id: str
     branch_id: str
-    divergence_point: Dict[str, Any]
+    divergence_point: dict[str, Any]
     probability: float
-    causal_chain: List[Dict[str, Any]]
+    causal_chain: list[dict[str, Any]]
     ethical_score: float
-    safety_metrics: Dict[str, float]
+    safety_metrics: dict[str, float]
 
     def to_message(self, source: str, target: str) -> LukhasMessage:
         return LukhasMessage(
@@ -99,18 +104,19 @@ class ParallelRealityState:
             source=source,
             target=target,
             payload=self.__dict__,
-            message_id=""
+            message_id="",
         )
 
 
 @dataclass
 class EmotionTrigger:
     """Emotion trigger message"""
+
     emotion_type: str
     intensity: float
-    trigger_context: Dict[str, Any]
-    memory_associations: List[str]
-    dream_replay_candidates: List[str]
+    trigger_context: dict[str, Any]
+    memory_associations: list[str]
+    dream_replay_candidates: list[str]
 
     def to_message(self, source: str, target: str) -> LukhasMessage:
         return LukhasMessage(
@@ -119,19 +125,20 @@ class EmotionTrigger:
             source=source,
             target=target,
             payload=self.__dict__,
-            message_id=""
+            message_id="",
         )
 
 
 @dataclass
 class MemoryFold:
     """Memory fold message"""
+
     fold_id: str
     memory_type: str
-    fold_content: Dict[str, Any]
+    fold_content: dict[str, Any]
     compression_ratio: float
     accessibility_score: float
-    causal_links: List[str]
+    causal_links: list[str]
 
     def to_message(self, source: str, target: str) -> LukhasMessage:
         return LukhasMessage(
@@ -140,19 +147,20 @@ class MemoryFold:
             source=source,
             target=target,
             payload=self.__dict__,
-            message_id=""
+            message_id="",
         )
 
 
 @dataclass
 class IdentityValidation:
     """Identity validation message"""
+
     lambda_id: str
     tier_level: int
     validation_status: bool
     confidence_score: float
-    validation_context: Dict[str, Any]
-    trinity_compliance: Dict[str, bool]
+    validation_context: dict[str, Any]
+    trinity_compliance: dict[str, bool]
 
     def to_message(self, source: str, target: str) -> LukhasMessage:
         return LukhasMessage(
@@ -161,19 +169,20 @@ class IdentityValidation:
             source=source,
             target=target,
             payload=self.__dict__,
-            message_id=""
+            message_id="",
         )
 
 
 @dataclass
 class GuardianAlert:
     """Guardian system alert message"""
+
     alert_type: str
     severity: str
-    threat_assessment: Dict[str, Any]
-    recommended_actions: List[str]
-    affected_systems: List[str]
-    drift_metrics: Dict[str, float]
+    threat_assessment: dict[str, Any]
+    recommended_actions: list[str]
+    affected_systems: list[str]
+    drift_metrics: dict[str, float]
 
     def to_message(self, source: str, target: str) -> LukhasMessage:
         return LukhasMessage(
@@ -182,18 +191,19 @@ class GuardianAlert:
             source=source,
             target=target,
             payload=self.__dict__,
-            message_id=""
+            message_id="",
         )
 
 
 @dataclass
 class QiFlux:
     """QI flux message"""
+
     flux_type: str
     magnitude: float
-    direction: Dict[str, float]
+    direction: dict[str, float]
     coherence: float
-    entanglement_state: Dict[str, Any]
+    entanglement_state: dict[str, Any]
     quantum_signature: str
 
     def to_message(self, source: str, target: str) -> LukhasMessage:
@@ -203,7 +213,7 @@ class QiFlux:
             source=source,
             target=target,
             payload=self.__dict__,
-            message_id=""
+            message_id="",
         )
 
 
@@ -244,6 +254,7 @@ class LukhasProtocol:
 
 # Global protocol instance
 _protocol = None
+
 
 def get_protocol() -> LukhasProtocol:
     """Get global protocol instance"""

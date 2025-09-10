@@ -1,6 +1,7 @@
 """
 Redis cache client for real-time data
 """
+
 import asyncio
 import logging
 from typing import Any, Optional

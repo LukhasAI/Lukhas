@@ -44,6 +44,7 @@ def rollback_bad_fstring_patterns(content):
 
     return content, fixes
 
+
 def process_files_rollback():
     """Process all Python files to rollback bad f-string fixes"""
     total_files_fixed = 0
@@ -81,6 +82,7 @@ def process_files_rollback():
                 continue
 
     return total_files_fixed, total_fixes
+
 
 if __name__ == "__main__":
     print("🔧 ROLLBACK BAD F-STRING FIXES")

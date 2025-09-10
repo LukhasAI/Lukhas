@@ -5,13 +5,13 @@
 
 import hashlib
 import logging
+import time
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
+
 import streamlit as st
-import time
-from typing import Dict
-from typing import List
+
 from consciousness.qi import qi
 
 # TAG:qim

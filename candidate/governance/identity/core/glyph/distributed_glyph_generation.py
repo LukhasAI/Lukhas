@@ -11,7 +11,7 @@ import hashlib
 import io
 import logging
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -25,7 +25,6 @@ from candidate.core.enhanced_swarm import AgentState, EnhancedSwarmAgent as Swar
 # Import identity components
 from governance.identity.core.events import IdentityEventType, get_identity_event_publisher
 from governance.identity.core.visualization.lukhas_orb import OrbVisualization
-from datetime import timezone
 
 logger = logging.getLogger("LUKHAS_DISTRIBUTED_GLYPH")
 

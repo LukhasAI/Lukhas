@@ -11,11 +11,10 @@ import json
 import math
 import time
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np
-from datetime import timezone
 
 
 @dataclass

@@ -11,12 +11,12 @@
 ===============================
 Monitor the autonomous AGI system in real-time
 """
-import streamlit as st
-
 import json
 import os
 import time
 from datetime import datetime, timezone
+
+import streamlit as st
 
 
 def monitor_agi_system():

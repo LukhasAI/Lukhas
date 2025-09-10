@@ -1,8 +1,6 @@
 """Tool Usage Analytics & Incident Tracking ⚛️🛡️
 Tracks actual tool invocations and blocks disallowed attempts.
 """
-import streamlit as st
-
 import hashlib
 import json
 import threading
@@ -11,6 +9,8 @@ import uuid
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
 
 from lukhas.flags import get_flags
 

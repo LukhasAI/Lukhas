@@ -16,7 +16,6 @@ import contextlib
 # Import intelligence bridge system
 _available = False
 with contextlib.suppress(ImportError):
-
     _available = True
 
 __all__ = (

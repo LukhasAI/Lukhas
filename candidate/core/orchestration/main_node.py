@@ -20,8 +20,7 @@ import asyncio
 import json
 import logging
 import sys
-from datetime import datetime
-from datetime import timezone
+from datetime import datetime, timezone
 
 # Configure logging
 logging.basicConfig(

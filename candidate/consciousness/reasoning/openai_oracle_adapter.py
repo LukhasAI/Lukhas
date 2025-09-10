@@ -29,11 +29,10 @@ import json
 import logging
 import re
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 from candidate.consciousness.reflection.openai_core_service import ModelType, OpenAICoreService, OpenAIRequest
-from datetime import timezone
 
 logger = logging.getLogger("ΛTRACE.oracle.openai_adapter")
 

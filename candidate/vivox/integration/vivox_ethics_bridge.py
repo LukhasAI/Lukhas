@@ -4,12 +4,11 @@ Bridge SEEDRA/Guardian ethics with VIVOX.MAE
 """
 
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Callable, Optional
 
 # VIVOX imports
 from ..moral_alignment.vivox_mae_core import ActionProposal, MAEDecision, VIVOXMoralAlignmentEngine
-from datetime import timezone
 
 
 @dataclass

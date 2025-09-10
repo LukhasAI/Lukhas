@@ -13,20 +13,19 @@ Bio-Quantum Symbolic Reasoning Engine and Multi-Brain Symphony Architecture.
 Created: 2025-07-02
 Status: PRODUCTION READY
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import os
 import sys
 import time
 import uuid
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
+import streamlit as st
 from ΛBot_auditor import ΛBotAuditor
+
+from consciousness.qi import qi
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")

@@ -1,6 +1,8 @@
 import logging
-import streamlit as st
 import time
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮

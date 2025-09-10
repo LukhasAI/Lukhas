@@ -17,8 +17,7 @@ Integration Date: 2025-05-31T07:55:28.113331
 
 import json
 import os
-from datetime import datetime
-from datetime import timezone
+from datetime import datetime, timezone
 
 TRAIT_FILE = "logs/lukhas_traits.json"
 

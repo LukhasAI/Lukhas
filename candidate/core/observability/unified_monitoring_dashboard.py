@@ -48,7 +48,8 @@ try:
     from candidate.governance.guardian.monitoring_dashboard import (
         AlertSeverity,
         GuardianMonitoringDashboard,
-        MonitoringScope)
+        MonitoringScope,
+    )
 except ImportError:
     GuardianMonitoringDashboard = None
     MonitoringScope = None
@@ -170,7 +171,7 @@ class UnifiedAlert:
 
     # Timing
     created_at: datetime
-    
+
     # Fields with defaults
     component: Optional[str] = None
     updated_at: Optional[datetime] = None

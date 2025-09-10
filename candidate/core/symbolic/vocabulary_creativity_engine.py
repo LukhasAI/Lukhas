@@ -15,9 +15,9 @@ from dataclasses import dataclass
 from typing import Any
 
 from core.symbolic import VisualSymbol
+from symbolic.vocabularies.vision_vocabulary import VisionSymbolicVocabulary
 
 from ..core import AnalysisType, VisionProvider
-from symbolic.vocabularies.vision_vocabulary import VisionSymbolicVocabulary
 
 
 @dataclass

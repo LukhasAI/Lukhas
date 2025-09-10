@@ -34,9 +34,8 @@ __tier__ = 2
 
 import asyncio
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
-from datetime import timezone
 
 
 class QIValidator:

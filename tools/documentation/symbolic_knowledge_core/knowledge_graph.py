@@ -3,6 +3,7 @@ SystemKnowledgeGraph: The core knowledge representation system for DocuTutor.
 Represents system knowledge as a graph of interconnected nodes representing
 code elements, documentation, and concepts.
 """
+
 import logging
 from enum import Enum
 from typing import Any, Optional

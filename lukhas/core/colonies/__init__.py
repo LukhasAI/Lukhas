@@ -5,6 +5,7 @@ Trinity Framework: ⚛️🧠🛡️
 
 This module intentionally avoids any cross-lane imports from `candidate`.
 """
+
 import importlib
 import importlib.util
 import logging
@@ -39,6 +40,7 @@ def import_with_fallback(primary_path: str, fallback_paths: list, item_name: str
 
 # Try to prefer real implementations from candidate lane first
 logger.debug("Attempting to import colony implementations from candidate lane")
+
 
 def _try_import(name: str, candidate_module: str, item_name: str):
     try:

@@ -5,7 +5,7 @@ import json
 import os
 import time
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 from fastapi import BackgroundTasks, Body, FastAPI, HTTPException, Query
@@ -16,7 +16,6 @@ from qi.feedback.proposals import ProposalMapper
 from qi.feedback.schema import FeedbackCard
 from qi.feedback.store import get_store
 from qi.feedback.triage import get_triage
-from datetime import timezone
 
 app = FastAPI(title="LUKHAS Feedback Ingestion API", version="0.1.0")
 

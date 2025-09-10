@@ -4,6 +4,7 @@ Servicio Andaluz de Salud (SAS) Integration Template
 This module provides specific integration points for the Spanish
 healthcare system SAS (Servicio Andaluz de Salud).
 """
+
 from typing import Any
 
 from ...interfaces.ehr_interface import EHRInterface

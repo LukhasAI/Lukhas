@@ -18,12 +18,11 @@
 # Module imports
 import asyncio
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 from candidate.core.common import get_logger
-from datetime import timezone
 
 # Configure module logger
 logger = get_logger(__name__)

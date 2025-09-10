@@ -3,6 +3,7 @@
 Dependency Injection Container for Dream Commerce Orchestrator
 Provides service registration, resolution, and lifecycle management
 """
+
 import asyncio
 import inspect
 from dataclasses import dataclass, field

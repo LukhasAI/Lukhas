@@ -17,10 +17,9 @@ import os
 import tempfile
 import time
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
-from datetime import timezone
 
 # Test environment setup
 TEST_MODE = True
@@ -114,10 +113,7 @@ class TestIdentitySystem:
 
             print("    🔑 Testing credential management...")
 
-            if not self.user_ids:
-                user_id = "test_user_default"
-            else:
-                user_id = self.user_ids[0]
+            user_id = "test_user_default" if not self.user_ids else self.user_ids[0]
 
             # Test credential listing
             list_result = list_credentials(user_id, mode="dry_run")
@@ -243,7 +239,7 @@ class TestMemoryFoldSystem:
                 self.fold_manager = FoldManager()
 
             # Test cascade prevention trigger
-            initial_count = len(self.fold_manager.folds)
+            len(self.fold_manager.folds)
 
             # Simulate near-max capacity
             self.fold_manager.folds = {f"fold_{i}": None for i in range(995)}
@@ -292,7 +288,7 @@ class TestMemoryFoldSystem:
 
             # Test fold retrieval after operations
             if self.fold_manager.folds:
-                first_fold_id = list(self.fold_manager.folds.keys())[0]
+                first_fold_id = next(iter(self.fold_manager.folds.keys()))
                 retrieved = self.fold_manager.retrieve_fold(first_fold_id, mode="dry_run")
                 if retrieved is None:
                     raise Exception("Fold retrieval after consolidation failed")
@@ -446,7 +442,7 @@ class TestDreamSystem:
             print("    🌙 Testing dream replay functionality...")
 
             # Setup mock dream log
-            log_path = self.setup_mock_dream_log()
+            self.setup_mock_dream_log()
 
             # Mock the dream replay module
             dreams_data = []
@@ -638,7 +634,7 @@ class TestEncryptionGovernance:
 
             # Create a temporary database for testing
             temp_dir = tempfile.mkdtemp()
-            db_path = Path(temp_dir) / "test_consent.db"
+            Path(temp_dir) / "test_consent.db"
 
             # Test basic consent data structure
             consent_record = {

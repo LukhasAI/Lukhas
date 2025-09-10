@@ -5,8 +5,6 @@ Enhanced Threat Monitor - Advanced system threat detection and monitoring
 Monitors system stability, entropy, consciousness drift, and anomalies with
 full governance integration and Trinity Framework (⚛️🧠🛡️) compliance.
 """
-import streamlit as st
-
 import asyncio
 import logging
 import random  # For simulation - replace with actual metrics in production
@@ -14,6 +12,8 @@ import time
 from collections import deque
 from dataclasses import dataclass
 from enum import Enum
+
+import streamlit as st
 
 from ..common import GlyphIntegrationMixin
 

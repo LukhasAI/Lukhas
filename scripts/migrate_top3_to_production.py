@@ -173,7 +173,9 @@ warnings.warn(
 def create_migration_log():
     """Create a log of the migration"""
 
-    log_path = LUKHAS_ROOT / "docs/migration_logs" / f"migration_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.md"
+    log_path = (
+        LUKHAS_ROOT / "docs/migration_logs" / f"migration_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.md"
+    )
     log_path.parent.mkdir(parents=True, exist_ok=True)
 
     log_content = f"""# Migration Log - Top 3 Modules to Production

@@ -4,6 +4,7 @@ Memory Visualization Framework for LUKHAS AI
 Provides visualization tools for memory folds, consciousness states, and data flows.
 Works with or without external visualization libraries (matplotlib, plotly, etc.).
 """
+
 import json
 import logging
 import math

@@ -32,10 +32,10 @@ COMPLIANCE STATUS: ENTERPRISE GRADE
 - ✅ SOX Section 404 (Audit Controls)
 - ✅ ISO 27001 Security Controls
 """
-import streamlit as st
-
 import logging
 from pathlib import Path
+
+import streamlit as st
 
 """
 Main AGI Controller for LUKHAS AGI System - Enterprise Compliance Edition

@@ -1,7 +1,8 @@
-import os
 import logging
-import streamlit as st
+import os
 from typing import Dict
+
+import streamlit as st
 
 # Try to use structlog if available, fall back to standard logging
 try:

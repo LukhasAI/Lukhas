@@ -7,4 +7,4 @@ Monitoring Dashboard alias for test compatibility
 from candidate.core.observability.unified_monitoring_dashboard import UnifiedMonitoringDashboard as MonitoringDashboard
 
 # Export for backward compatibility
-__all__ = ['MonitoringDashboard']
+__all__ = ["MonitoringDashboard"]

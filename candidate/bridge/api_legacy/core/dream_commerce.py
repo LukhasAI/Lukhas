@@ -46,10 +46,8 @@ dream experiences. This system provides:
 ΛTODO: Add blockchain integration for decentralized dream commerce
 AIDEA: Implement dream content NFT marketplace with royalty distribution
 """
-import time
-import streamlit as st
-
 import logging
+import time
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -57,6 +55,7 @@ from decimal import Decimal
 from enum import Enum
 from typing import Any, Optional
 
+import streamlit as st
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, Field
 

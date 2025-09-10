@@ -51,11 +51,10 @@
 
 # Module imports
 import asyncio
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, Callable, Optional, Union
 
 import structlog
-from datetime import timezone
 
 # Configure module logger
 
@@ -645,7 +644,7 @@ class ConsciousnessService:
                             required_consent=detailed_access_config["consent_key"],
                         )
                         report_state_data["detailed_metrics_status"] = (
-                            f"Access granted, but consent for \'{detailed_access_config['consent_key']}' is required for full details."
+                            f"Access granted, but consent for '{detailed_access_config['consent_key']}' is required for full details."
                         )
                         report_state_data["report_detail_level"] = "detailed_consent_pending"
                 else:

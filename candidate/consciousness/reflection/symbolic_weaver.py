@@ -37,14 +37,14 @@ import sys
 import time
 from collections import Counter, defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
 import numpy as np
+
 from dream.modifiers.qi_like_state_modifier import QILikeStateModifier
-from datetime import timezone
 
 # Configure structured logging
 logging.basicConfig(level=logging.INFO)

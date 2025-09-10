@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 
 class ThoughtType(Enum):
     """Types of thoughts in the reasoning tree."""
+
     ROOT = "root"
     HYPOTHESIS = "hypothesis"
     ANALYSIS = "analysis"
@@ -27,6 +28,7 @@ class ThoughtType(Enum):
 
 class ThoughtStatus(Enum):
     """Status of a thought node."""
+
     PENDING = "pending"
     PROCESSING = "processing"
     COMPLETED = "completed"
@@ -116,12 +118,16 @@ class TreeOfThoughts:
                 best_path=best_path,
                 all_paths=complete_paths,
                 total_nodes=len(self.thoughts),
-                exploration_depth=max((await self._get_node_depth(node_id) for node_id in self.thoughts.keys()), default=0),
+                exploration_depth=max(
+                    (await self._get_node_depth(node_id) for node_id in self.thoughts), default=0
+                ),
                 reasoning_time=reasoning_time,
-                success=True
+                success=True,
             )
 
-            logger.info(f"Tree reasoning completed: {len(complete_paths)} paths, best confidence: {best_path.total_confidence if best_path else 0:.3f}")
+            logger.info(
+                f"Tree reasoning completed: {len(complete_paths)} paths, best confidence: {best_path.total_confidence if best_path else 0:.3f}"
+            )
             return result
 
         except Exception as e:
@@ -136,7 +142,7 @@ class TreeOfThoughts:
                 exploration_depth=0,
                 reasoning_time=reasoning_time,
                 success=False,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _create_root_thought(self, problem: str, context: dict[str, Any]) -> Thought:
@@ -149,7 +155,7 @@ class TreeOfThoughts:
             thought_type=ThoughtType.ROOT,
             confidence=1.0,
             status=ThoughtStatus.COMPLETED,
-            metadata={"context": context, "problem": problem}
+            metadata={"context": context, "problem": problem},
         )
 
         self.thoughts[root_id] = root_thought
@@ -188,7 +194,7 @@ class TreeOfThoughts:
         # Determine next thought types based on parent type and depth
         next_types = await self._get_next_thought_types(parent_thought.thought_type, depth)
 
-        for thought_type in next_types[:self.max_branches]:
+        for thought_type in next_types[: self.max_branches]:
             child_content = await self._generate_thought_content(parent_thought, thought_type)
             child_confidence = await self._calculate_thought_confidence(parent_thought, thought_type, child_content)
 
@@ -199,7 +205,7 @@ class TreeOfThoughts:
                 thought_type=thought_type,
                 parent_id=parent_thought.id,
                 confidence=child_confidence,
-                status=ThoughtStatus.COMPLETED
+                status=ThoughtStatus.COMPLETED,
             )
 
             child_thoughts.append(child_thought)
@@ -239,7 +245,9 @@ class TreeOfThoughts:
         else:
             return f"Thought following: {parent_thought.content[:50]}..."
 
-    async def _calculate_thought_confidence(self, parent_thought: Thought, thought_type: ThoughtType, content: str) -> float:
+    async def _calculate_thought_confidence(
+        self, parent_thought: Thought, thought_type: ThoughtType, content: str
+    ) -> float:
         """Calculate confidence for a thought."""
 
         # Base confidence from parent
@@ -251,13 +259,14 @@ class TreeOfThoughts:
             ThoughtType.ANALYSIS: 1.0,
             ThoughtType.EVALUATION: 0.95,
             ThoughtType.SYNTHESIS: 0.85,
-            ThoughtType.CONCLUSION: 0.8
+            ThoughtType.CONCLUSION: 0.8,
         }
 
         type_confidence = base_confidence * type_multipliers.get(thought_type, 0.7)
 
         # Add some randomness to simulate reasoning uncertainty
         import random
+
         randomness = random.uniform(0.8, 1.2)
 
         final_confidence = min(1.0, max(0.0, type_confidence * randomness))
@@ -270,7 +279,8 @@ class TreeOfThoughts:
 
         # Find all leaf nodes (conclusion nodes or nodes with no children)
         leaf_nodes = [
-            node for node in self.thoughts.values()
+            node
+            for node in self.thoughts.values()
             if (not node.children or node.thought_type == ThoughtType.CONCLUSION)
             and node.status == ThoughtStatus.COMPLETED
         ]
@@ -325,7 +335,7 @@ class TreeOfThoughts:
             reasoning_quality=reasoning_quality,
             path_length=len(path_nodes),
             is_complete=is_complete,
-            final_conclusion=final_node.content if is_complete else None
+            final_conclusion=final_node.content if is_complete else None,
         )
 
     async def _select_best_path(self, paths: list[ReasoningPath]) -> Optional[ReasoningPath]:
@@ -362,19 +372,22 @@ class TreeOfThoughts:
         """Get a representation of the entire thought tree."""
 
         return {
-            "thoughts": {node_id: {
-                "content": thought.content,
-                "type": thought.thought_type.value,
-                "confidence": thought.confidence,
-                "status": thought.status.value,
-                "children": thought.children,
-                "parent": thought.parent_id
-            } for node_id, thought in self.thoughts.items()},
+            "thoughts": {
+                node_id: {
+                    "content": thought.content,
+                    "type": thought.thought_type.value,
+                    "confidence": thought.confidence,
+                    "status": thought.status.value,
+                    "children": thought.children,
+                    "parent": thought.parent_id,
+                }
+                for node_id, thought in self.thoughts.items()
+            },
             "statistics": {
                 "total_nodes": len(self.thoughts),
-                "max_depth": max((await self._get_node_depth(node_id) for node_id in self.thoughts.keys()), default=0),
-                "total_paths": len(self.reasoning_paths)
-            }
+                "max_depth": max((await self._get_node_depth(node_id) for node_id in self.thoughts), default=0),
+                "total_paths": len(self.reasoning_paths),
+            },
         }
 
     def reset(self):
@@ -385,6 +398,7 @@ class TreeOfThoughts:
 
 # Convenience functions
 
+
 async def solve_with_tree_reasoning(problem: str, max_depth: int = 8, max_branches: int = 3) -> TreeOfThoughtsResult:
     """Solve a problem using tree of thoughts reasoning."""
 
@@ -392,14 +406,12 @@ async def solve_with_tree_reasoning(problem: str, max_depth: int = 8, max_branch
     return await tree.reason(problem)
 
 
-def create_tree_of_thoughts(max_depth: int = 10, max_branches: int = 3, pruning_threshold: float = 0.2) -> TreeOfThoughts:
+def create_tree_of_thoughts(
+    max_depth: int = 10, max_branches: int = 3, pruning_threshold: float = 0.2
+) -> TreeOfThoughts:
     """Create a new TreeOfThoughts instance with specified parameters."""
 
-    return TreeOfThoughts(
-        max_depth=max_depth,
-        max_branches=max_branches,
-        pruning_threshold=pruning_threshold
-    )
+    return TreeOfThoughts(max_depth=max_depth, max_branches=max_branches, pruning_threshold=pruning_threshold)
 
 
 # Export main classes and functions
@@ -411,5 +423,5 @@ __all__ = [
     "ReasoningPath",
     "TreeOfThoughtsResult",
     "solve_with_tree_reasoning",
-    "create_tree_of_thoughts"
+    "create_tree_of_thoughts",
 ]

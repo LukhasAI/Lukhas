@@ -2,6 +2,7 @@
 LUKHAS Brand Voice Adapter - Trinity Framework (⚛️🧠🛡️)
 Smart interface to bridge/voice/ systems for brand-aware voice operations
 """
+
 import asyncio
 import logging
 import sys
@@ -56,9 +57,10 @@ try:
             # Use real voice modulation parameters
             return {
                 "pitch": 1.0 + (intensity * 0.3 if emotion in ["happy", "excited"] else -intensity * 0.2),
-                "rate": 1.0 + (intensity * 0.2 if emotion == "excited" else -intensity * 0.3 if emotion == "sad" else 0),
+                "rate": 1.0
+                + (intensity * 0.2 if emotion == "excited" else -intensity * 0.3 if emotion == "sad" else 0),
                 "volume": 1.0,
-                "emphasis": intensity
+                "emphasis": intensity,
             }
 
         def enhance_text_expression(self, text: str, emotion: str, **kwargs) -> str:
@@ -68,7 +70,7 @@ try:
                 "sad": "<prosody rate='-20%' pitch='-10%'>",
                 "excited": "<prosody rate='+20%' pitch='+15%'>",
                 "calm": "<prosody rate='-5%'>",
-                "angry": "<prosody pitch='+20%' volume='+5dB'>"
+                "angry": "<prosody pitch='+20%' volume='+5dB'>",
             }
 
             marker = emotion_markers.get(emotion, "")
@@ -151,7 +153,7 @@ class BrandVoiceAdapter:
                 "emotional_resonance": 0.85,
                 "pace": "contemplative",
                 "tone_descriptors": ["inspiring", "mystical", "conscious"],
-                "lambda_emphasis": True
+                "lambda_emphasis": True,
             },
             "user_friendly": {
                 "expressiveness": 0.7,

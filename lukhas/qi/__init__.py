@@ -48,6 +48,7 @@ Usage:
         "user_id": "user123"
     })
 """
+
 import logging
 import os
 from typing import Any, Optional
@@ -263,7 +264,7 @@ __all__ = [
     "initialize_qi_module",
     "make_quantum_decision",
     # Processing functions
-    "process_quantum_inspired", 
+    "process_quantum_inspired",
     "validate_qi_module",
     "QI",  # Add QI class export
 ]

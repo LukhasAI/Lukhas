@@ -1,8 +1,8 @@
 # core/interfaces/logic/context/context_builder.py
+import logging
 from typing import Any
 
 import structlog  # ΛMODIFICATION: Added structlog for standardized logging
-import logging
 
 # ΛAGENT: Jules-[01]
 # ΛPURPOSE: Aggregates and synthesizes user context (emotional, consent, symbolic tags, tier state) for various agent operations.

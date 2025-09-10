@@ -11,10 +11,9 @@ Auto-heal conflicts without user interaction
 """
 
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 from conflict_healer import ConflictHealer
-from datetime import timezone
 
 
 def main():

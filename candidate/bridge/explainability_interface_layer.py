@@ -28,8 +28,6 @@
 ║ SYMBOLIC TAGS: ΛXIL, ΛEXPLAIN, ΛPROOF, ΛTRUST, ΛHUMAN
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import streamlit as st
-
 import logging
 import uuid
 from abc import ABC, abstractmethod
@@ -37,6 +35,8 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.bridge.explainability_interface_layer")

@@ -10,6 +10,7 @@ import asyncio
 import json
 import logging
 import sys
+
 from mcp.server import Server
 from mcp.server.models import InitializationOptions
 from mcp.server.stdio import stdio_server
@@ -20,9 +21,6 @@ logger = logging.getLogger(__name__)
 
 # MCP imports
 try:
-
-
-
     from mcp.types import (
         CallToolRequest,
         ListResourcesRequest,

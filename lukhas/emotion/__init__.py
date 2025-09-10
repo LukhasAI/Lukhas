@@ -52,12 +52,20 @@ try:
     def process_emotion(data, **kwargs):
         """Process emotion using advanced wrapper"""
         wrapper = get_advanced_emotion_wrapper()
-        return wrapper.process_emotion_with_memory(data) if hasattr(wrapper, "process_emotion_with_memory") else {"status": "processed"}
+        return (
+            wrapper.process_emotion_with_memory(data)
+            if hasattr(wrapper, "process_emotion_with_memory")
+            else {"status": "processed"}
+        )
 
     def regulate_mood(*args, **kwargs):
         """Regulate mood using advanced wrapper"""
         wrapper = get_advanced_emotion_wrapper()
-        return wrapper.regulate_mood_with_learning(*args, **kwargs) if hasattr(wrapper, "regulate_mood_with_learning") else {"status": "regulated"}
+        return (
+            wrapper.regulate_mood_with_learning(*args, **kwargs)
+            if hasattr(wrapper, "regulate_mood_with_learning")
+            else {"status": "regulated"}
+        )
 
     def track_valence(*args, **kwargs):
         """Track valence"""

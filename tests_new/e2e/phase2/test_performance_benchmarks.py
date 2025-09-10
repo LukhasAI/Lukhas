@@ -25,6 +25,7 @@ Benchmarking Areas:
 
 import asyncio
 import json
+import os
 import statistics
 import time
 from dataclasses import dataclass
@@ -32,7 +33,6 @@ from unittest.mock import AsyncMock, Mock
 
 import psutil
 import pytest
-import os
 
 PLACEHOLDER_PASSWORD = "a-secure-password"  # nosec B105
 

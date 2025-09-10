@@ -46,12 +46,11 @@ import random
 import threading
 from collections import namedtuple
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional, Union
 
 import numpy as np
-from datetime import timezone
 
 # Experience tuple for storing RL experiences
 Experience = namedtuple(

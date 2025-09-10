@@ -6,12 +6,11 @@ Provides real-time analysis of audit trails for compliance and security
 import statistics
 from collections import Counter, defaultdict
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
 from .audit_trail import AuditEvent, AuditEventType, AuditQuery, AuditSeverity, AuditTrail
-from datetime import timezone
 
 
 class AnomalyType(Enum):

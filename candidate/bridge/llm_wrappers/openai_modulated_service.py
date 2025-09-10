@@ -11,9 +11,6 @@ Contract:
 - Safety: Guardian pre/post moderation hooks
 - Outputs: normalized response dict with content and metadata
 """
-from typing import List
-import streamlit as st
-
 from __future__ import annotations
 
 import asyncio
@@ -21,7 +18,9 @@ import contextlib
 import logging
 import time
 import uuid
-from typing import Any, cast
+from typing import Any, List, cast
+
+import streamlit as st
 
 from candidate.bridge.llm_wrappers.tool_executor import (
     execute_tool as bridged_execute_tool,

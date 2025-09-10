@@ -7,6 +7,7 @@ Systematically fixes __future__ import positioning issues across the codebase.
 __future__ imports MUST be at the very beginning of the file (after docstring)
 before any other imports or code.
 """
+
 import ast
 from pathlib import Path
 
@@ -218,13 +219,7 @@ def main():
     fixer = FutureImportFixer()
 
     # Focus on core consciousness and system directories
-    target_directories = [
-        "candidate/consciousness",
-        "candidate/memory",
-        "candidate/core",
-        "lukhas",
-        "consciousness"
-    ]
+    target_directories = ["candidate/consciousness", "candidate/memory", "candidate/core", "lukhas", "consciousness"]
 
     fixer.run_future_import_fixes(target_directories)
 

@@ -3,6 +3,7 @@
 LUKHAS AI Vocabulary Integration System
 Intelligent integration of the comprehensive vocabulary system with automation
 """
+
 import logging
 import sys
 from datetime import datetime, timezone

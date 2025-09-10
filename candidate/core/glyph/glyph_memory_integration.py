@@ -62,12 +62,11 @@
 import logging
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-from datetime import timezone
 
 # Internal imports
 try:

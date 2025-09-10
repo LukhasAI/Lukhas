@@ -3,6 +3,7 @@
 LUKHAS AI ΛBot Autonomous Self-Healing Mode
 Let LUKHAS AI ΛBot run completely free to diagnose, fix, and improve itself
 """
+
 import json
 import os
 import subprocess
@@ -13,11 +14,12 @@ from datetime import datetime, timezone
 
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
-    
+
     This is a placeholder for functionality that needs to be implemented.
     Replace this stub with the actual implementation.
     """
     raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+
 
 sys.path.append("/Users/A_G_I/Λ", timezone)
 

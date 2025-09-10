@@ -42,6 +42,7 @@
 ║ ΛTAG: ΛWEBSOCKET, ΛSTREAMING, ΛREALTIME, ΛDASHBOARD, ΛINTELLIGENCE
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import asyncio
 import builtins
 import contextlib
@@ -183,7 +184,9 @@ class DashboardWebSocketServer:
                 "status": "healthy",
                 "server_id": self.server_id,
                 "connected_clients": len(self.clients),
-                "uptime": ((datetime.now(timezone.utc) - self.start_time).total_seconds() if hasattr(self, "start_time") else 0),
+                "uptime": (
+                    (datetime.now(timezone.utc) - self.start_time).total_seconds() if hasattr(self, "start_time") else 0
+                ),
             }
 
         # Metrics endpoint

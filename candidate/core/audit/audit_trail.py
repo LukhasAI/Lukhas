@@ -2,22 +2,21 @@
 Enterprise AGI Audit Trail System
 Provides comprehensive logging, tracking, and compliance for all AGI operations
 """
-import logging
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import gzip
 import hashlib
 import json
+import logging
 import sqlite3
 import uuid
 from collections import defaultdict
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
 
 
 class AuditEventType(Enum):

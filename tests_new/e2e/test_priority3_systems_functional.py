@@ -331,7 +331,7 @@ class TestMonitoringSystems:
             for path in dashboard_paths:
                 try:
                     if "." in path:
-                        module = importlib.import_module(path)
+                        importlib.import_module(path)
                         dashboard_found = True
                     else:
                         # Check directory existence

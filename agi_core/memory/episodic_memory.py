@@ -467,10 +467,8 @@ class EpisodicMemorySystem:
         # Determine importance based on success and learning
         importance = MemoryImportance.MEDIUM
         if (
-            (episode.success_score
-            and episode.success_score > 0.8)
-            or (episode.learning_score
-            and episode.learning_score > 0.8)
+            (episode.success_score and episode.success_score > 0.8)
+            or (episode.learning_score and episode.learning_score > 0.8)
             or len(episode.key_insights) > 0
             or len(episode.lessons_learned) > 0
         ):

@@ -5,10 +5,9 @@ This module provides quantum-inspired attention processing for the AI system,
 implementing attention gates, superposition, and entanglement-based processing.
 """
 import copy
-from datetime import datetime
+from datetime import datetime, timezone
 
 import numpy as np
-from datetime import timezone
 
 
 class QIInspiredAttention:

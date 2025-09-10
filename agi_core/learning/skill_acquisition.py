@@ -12,6 +12,7 @@ from typing import Any, Optional
 
 class SkillLevel(Enum):
     """Levels of skill proficiency."""
+
     NOVICE = "novice"
     BEGINNER = "beginner"
     INTERMEDIATE = "intermediate"
@@ -22,6 +23,7 @@ class SkillLevel(Enum):
 
 class LearningPhase(Enum):
     """Phases of skill acquisition."""
+
     DISCOVERY = "discovery"
     PRACTICE = "practice"
     REFINEMENT = "refinement"
@@ -90,7 +92,7 @@ class SkillAcquisitionEngine:
         name: str,
         description: str,
         target_level: SkillLevel = SkillLevel.INTERMEDIATE,
-        prerequisites: Optional[list[str]] = None
+        prerequisites: Optional[list[str]] = None,
     ) -> Skill:
         """Register a new skill for acquisition."""
         skill = Skill(
@@ -98,19 +100,21 @@ class SkillAcquisitionEngine:
             name=name,
             description=description,
             target_level=target_level,
-            prerequisites=prerequisites or []
+            prerequisites=prerequisites or [],
         )
 
         self.skills[skill_id] = skill
 
         # Log skill registration
-        self.acquisition_history.append({
-            "event": "skill_registered",
-            "skill_id": skill_id,
-            "name": name,
-            "target_level": target_level.value,
-            "timestamp": datetime.now(timezone.utc)
-        })
+        self.acquisition_history.append(
+            {
+                "event": "skill_registered",
+                "skill_id": skill_id,
+                "name": name,
+                "target_level": target_level.value,
+                "timestamp": datetime.now(timezone.utc),
+            }
+        )
 
         return skill
 
@@ -119,7 +123,7 @@ class SkillAcquisitionEngine:
         skill_id: str,
         duration_minutes: float,
         activities: Optional[list[str]] = None,
-        performance_score: Optional[float] = None
+        performance_score: Optional[float] = None,
     ) -> LearningSession:
         """Practice a skill and record the session."""
         if skill_id not in self.skills:
@@ -133,7 +137,7 @@ class SkillAcquisitionEngine:
             skill_id=skill_id,
             duration_minutes=duration_minutes,
             activities=activities or [],
-            performance_score=performance_score
+            performance_score=performance_score,
         )
 
         self.learning_sessions.append(session)
@@ -157,20 +161,18 @@ class SkillAcquisitionEngine:
     async def _evaluate_skill_progression(self, skill: Skill) -> None:
         """Evaluate if a skill should progress to the next level."""
         progression_thresholds = {
-            SkillLevel.NOVICE: (1.0, 0.3),      # 1 hour, 30% success
-            SkillLevel.BEGINNER: (5.0, 0.5),    # 5 hours, 50% success
-            SkillLevel.INTERMEDIATE: (20.0, 0.7), # 20 hours, 70% success
-            SkillLevel.ADVANCED: (50.0, 0.8),   # 50 hours, 80% success
-            SkillLevel.EXPERT: (100.0, 0.9),    # 100 hours, 90% success
+            SkillLevel.NOVICE: (1.0, 0.3),  # 1 hour, 30% success
+            SkillLevel.BEGINNER: (5.0, 0.5),  # 5 hours, 50% success
+            SkillLevel.INTERMEDIATE: (20.0, 0.7),  # 20 hours, 70% success
+            SkillLevel.ADVANCED: (50.0, 0.8),  # 50 hours, 80% success
+            SkillLevel.EXPERT: (100.0, 0.9),  # 100 hours, 90% success
         }
 
         current_level = skill.current_level
         if current_level in progression_thresholds:
             hours_required, success_required = progression_thresholds[current_level]
 
-            if (skill.practice_hours >= hours_required and
-                skill.success_rate >= success_required):
-
+            if skill.practice_hours >= hours_required and skill.success_rate >= success_required:
                 # Progress to next level
                 levels = list(SkillLevel)
                 current_index = levels.index(current_level)
@@ -178,15 +180,17 @@ class SkillAcquisitionEngine:
                     skill.current_level = levels[current_index + 1]
 
                     # Log progression
-                    self.acquisition_history.append({
-                        "event": "level_progression",
-                        "skill_id": skill.skill_id,
-                        "old_level": current_level.value,
-                        "new_level": skill.current_level.value,
-                        "practice_hours": skill.practice_hours,
-                        "success_rate": skill.success_rate,
-                        "timestamp": datetime.now(timezone.utc)
-                    })
+                    self.acquisition_history.append(
+                        {
+                            "event": "level_progression",
+                            "skill_id": skill.skill_id,
+                            "old_level": current_level.value,
+                            "new_level": skill.current_level.value,
+                            "practice_hours": skill.practice_hours,
+                            "success_rate": skill.success_rate,
+                            "timestamp": datetime.now(timezone.utc),
+                        }
+                    )
 
     def get_skill_progress(self, skill_id: str) -> Optional[dict[str, Any]]:
         """Get detailed progress information for a skill."""
@@ -204,7 +208,7 @@ class SkillAcquisitionEngine:
             "target_level": skill.target_level.value,
             "success_rate": skill.success_rate,
             "recent_sessions": sessions[-5:] if sessions else [],
-            "level_progress": self._calculate_level_progress(skill)
+            "level_progress": self._calculate_level_progress(skill),
         }
 
     def _calculate_level_progress(self, skill: Skill) -> dict[str, Any]:
@@ -233,7 +237,7 @@ class SkillAcquisitionEngine:
             "hours_progress": hours_progress,
             "success_progress": success_progress,
             "hours_needed": max(0, hours_required - skill.practice_hours),
-            "success_needed": max(0, success_required - skill.success_rate)
+            "success_needed": max(0, success_required - skill.success_rate),
         }
 
     def get_all_skills(self) -> list[Skill]:
@@ -249,40 +253,26 @@ class SkillAcquisitionEngine:
 
 # Convenience functions for quick skill acquisition
 async def quick_skill_practice(
-    skill_name: str,
-    duration_minutes: float,
-    performance_score: Optional[float] = None
+    skill_name: str, duration_minutes: float, performance_score: Optional[float] = None
 ) -> LearningSession:
     """Quick skill practice for simple use cases."""
     engine = SkillAcquisitionEngine()
 
     # Register skill if not exists
     skill_id = skill_name.lower().replace(" ", "_")
-    engine.register_skill(
-        skill_id=skill_id,
-        name=skill_name,
-        description=f"Quick practice of {skill_name}"
-    )
+    engine.register_skill(skill_id=skill_id, name=skill_name, description=f"Quick practice of {skill_name}")
 
     # Practice the skill
     return await engine.practice_skill(
-        skill_id=skill_id,
-        duration_minutes=duration_minutes,
-        performance_score=performance_score
+        skill_id=skill_id, duration_minutes=duration_minutes, performance_score=performance_score
     )
 
 
 def create_skill_acquisition_context(
-    learning_style: str = "adaptive",
-    practice_intensity: str = "moderate",
-    **kwargs
+    learning_style: str = "adaptive", practice_intensity: str = "moderate", **kwargs
 ) -> SkillAcquisitionContext:
     """Create a skill acquisition context with common settings."""
-    return SkillAcquisitionContext(
-        learning_style=learning_style,
-        practice_intensity=practice_intensity,
-        **kwargs
-    )
+    return SkillAcquisitionContext(learning_style=learning_style, practice_intensity=practice_intensity, **kwargs)
 
 
 # Export main classes and functions
@@ -294,5 +284,5 @@ __all__ = [
     "LearningSession",
     "SkillAcquisitionContext",
     "quick_skill_practice",
-    "create_skill_acquisition_context"
+    "create_skill_acquisition_context",
 ]

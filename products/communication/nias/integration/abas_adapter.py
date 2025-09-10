@@ -2,6 +2,7 @@
 ABAS Integration Adapter for NIΛS
 Integrates Lambda Boundary Attention System with NIAS message processing
 """
+
 import logging
 import sys
 from datetime import datetime, timezone

@@ -659,15 +659,20 @@ class LUKHASAudioProcessor:
 
             # Emit GLYPH event
             # Create GLYPH event
-            create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
-                "audio.processing.completed",
+            create_glyph(
+                GLYPHSymbol.CREATE,
+                "voice_pipeline",
+                "consciousness",
                 {
-                    "quality": quality.value,
-                    "processing_time_ms": processing_time,
-                    "sample_rate": sample_rate,
-                    "channels": channels,
+                    "audio.processing.completed",
+                    {
+                        "quality": quality.value,
+                        "processing_time_ms": processing_time,
+                        "sample_rate": sample_rate,
+                        "channels": channels,
+                    },
                 },
-            })
+            )
 
             return processed_bytes, metadata
 
@@ -675,7 +680,12 @@ class LUKHASAudioProcessor:
             self.logger.error(f"Audio processing failed: {e!s}")
 
             # Create GLYPH event
-            create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {"type": "audio.processing.error", "error": str(e), "quality": quality.value})
+            create_glyph(
+                GLYPHSymbol.CREATE,
+                "voice_pipeline",
+                "consciousness",
+                {"type": "audio.processing.error", "error": str(e), "quality": quality.value},
+            )
 
             return audio_data, {
                 "success": False,

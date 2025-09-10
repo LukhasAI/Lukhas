@@ -3,10 +3,9 @@ Enhanced Swarm Architecture Components
 Provides enhanced implementations for swarm-based consciousness systems
 """
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional
-from datetime import timezone
 
 
 class AgentState(Enum):

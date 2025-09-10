@@ -2,15 +2,14 @@
 LUKHAS Self-Healing Architecture
 Autonomous error recovery and system resilience
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
+
+import streamlit as st
 
 
 class FailureType(Enum):

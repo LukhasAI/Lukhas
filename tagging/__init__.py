@@ -12,39 +12,46 @@ from typing import Any, Dict, List, Optional, Set
 
 logger = logging.getLogger(__name__)
 
+
 class TagScope(Enum):
     """Scope levels for symbolic tags"""
+
     LOCAL = "local"
     COLONY = "colony"
     GLOBAL = "global"
     CONSCIOUSNESS = "consciousness"
     TRINITY = "trinity"
 
+
 class TagPriority(Enum):
     """Priority levels for tag resolution"""
+
     LOW = 1
     MEDIUM = 2
     HIGH = 3
     CRITICAL = 4
     TRINITY = 5
 
+
 @dataclass
 class SymbolicTag:
     """Represents a symbolic tag with metadata"""
+
     key: str
     value: Any
     scope: TagScope
     priority: TagPriority
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
     created_timestamp: float
+
 
 class SimpleTagResolver:
     """Simple tag resolution system for consciousness coordination"""
 
     def __init__(self):
-        self.tags: Dict[str, SymbolicTag] = {}
-        self.tag_hierarchy: Dict[str, Set[str]] = {}
-        self.resolution_cache: Dict[str, Any] = {}
+        self.tags: dict[str, SymbolicTag] = {}
+        self.tag_hierarchy: dict[str, set[str]] = {}
+        self.resolution_cache: dict[str, Any] = {}
 
     def register_tag(self, tag: SymbolicTag) -> bool:
         """Register a symbolic tag in the system"""
@@ -69,7 +76,7 @@ class SimpleTagResolver:
         logger.debug(f"🏷️ Tag not found: {key}, using default: {default}")
         return default
 
-    def resolve_tags_by_scope(self, scope: TagScope) -> Dict[str, Any]:
+    def resolve_tags_by_scope(self, scope: TagScope) -> dict[str, Any]:
         """Resolve all tags within a specific scope"""
         result = {}
         for key, tag in self.tags.items():
@@ -77,7 +84,7 @@ class SimpleTagResolver:
                 result[key] = tag.value
         return result
 
-    def resolve_tags_by_priority(self, min_priority: TagPriority) -> Dict[str, Any]:
+    def resolve_tags_by_priority(self, min_priority: TagPriority) -> dict[str, Any]:
         """Resolve tags with priority >= min_priority"""
         result = {}
         for key, tag in self.tags.items():
@@ -94,19 +101,20 @@ class SimpleTagResolver:
         """Get total number of registered tags"""
         return len(self.tags)
 
-    def get_tag_metadata(self, key: str) -> Optional[Dict[str, Any]]:
+    def get_tag_metadata(self, key: str) -> Optional[dict[str, Any]]:
         """Get metadata for a specific tag"""
         if key in self.tags:
             return self.tags[key].metadata
         return None
+
 
 class AdvancedTagResolver(SimpleTagResolver):
     """Advanced tag resolver with consciousness integration"""
 
     def __init__(self):
         super().__init__()
-        self.consciousness_tags: Set[str] = set()
-        self.trinity_tags: Set[str] = set()
+        self.consciousness_tags: set[str] = set()
+        self.trinity_tags: set[str] = set()
 
     def register_consciousness_tag(self, tag: SymbolicTag) -> bool:
         """Register a consciousness-aware tag"""
@@ -118,7 +126,7 @@ class AdvancedTagResolver(SimpleTagResolver):
             return True
         return False
 
-    def resolve_consciousness_context(self) -> Dict[str, Any]:
+    def resolve_consciousness_context(self) -> dict[str, Any]:
         """Resolve all consciousness-related tags"""
         context = {}
         for tag_key in self.consciousness_tags:
@@ -126,7 +134,7 @@ class AdvancedTagResolver(SimpleTagResolver):
                 context[tag_key] = self.tags[tag_key].value
         return context
 
-    def resolve_trinity_context(self) -> Dict[str, Any]:
+    def resolve_trinity_context(self) -> dict[str, Any]:
         """Resolve Trinity Framework tags"""
         context = {}
         for tag_key in self.trinity_tags:
@@ -134,23 +142,21 @@ class AdvancedTagResolver(SimpleTagResolver):
                 context[tag_key] = self.tags[tag_key].value
         return context
 
+
 # Module-level convenience functions
-def create_tag(key: str, value: Any, scope: TagScope = TagScope.LOCAL,
-               priority: TagPriority = TagPriority.MEDIUM) -> SymbolicTag:
+def create_tag(
+    key: str, value: Any, scope: TagScope = TagScope.LOCAL, priority: TagPriority = TagPriority.MEDIUM
+) -> SymbolicTag:
     """Create a symbolic tag with default metadata"""
     import time
-    return SymbolicTag(
-        key=key,
-        value=value,
-        scope=scope,
-        priority=priority,
-        metadata={},
-        created_timestamp=time.time()
-    )
+
+    return SymbolicTag(key=key, value=value, scope=scope, priority=priority, metadata={}, created_timestamp=time.time())
+
 
 def quick_resolve(resolver: SimpleTagResolver, key: str, default: Any = None) -> Any:
     """Quick tag resolution helper"""
     return resolver.resolve_tag(key, default)
+
 
 # Export main components
 __all__ = [
@@ -160,5 +166,5 @@ __all__ = [
     "SimpleTagResolver",
     "AdvancedTagResolver",
     "create_tag",
-    "quick_resolve"
+    "quick_resolve",
 ]

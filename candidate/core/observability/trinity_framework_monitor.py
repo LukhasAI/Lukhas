@@ -24,18 +24,17 @@ Features:
 #TAG:api
 #TAG:framework
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
 import statistics
 import uuid
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -156,7 +155,7 @@ class APIPerformanceMetric:
     response_time: float  # milliseconds
     throughput: float  # requests per second
     error_rate: float  # percentage
-    
+
     # Fields with defaults
     version: Optional[str] = None
     status_code: int = 200

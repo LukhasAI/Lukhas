@@ -23,12 +23,11 @@ import asyncio
 import uuid
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
 from candidate.core.common import get_logger
-from datetime import timezone
 
 logger = get_logger(__name__)
 

@@ -4,6 +4,7 @@ LUKHAS Feedback System
 
 Human-in-the-loop feedback collection and bounded adaptation system.
 """
+
 import streamlit as st
 
 from consciousness.qi import qi

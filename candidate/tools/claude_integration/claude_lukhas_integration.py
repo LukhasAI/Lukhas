@@ -5,7 +5,7 @@ Leveraging Claude Code's capabilities with LUKHAS's consciousness
 """
 
 import json
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Optional
 
@@ -14,7 +14,6 @@ import yaml
 from .journal_engine import JournalEngine
 from .learning_assistant import LearningAssistant
 from .solo_dev_support import SoloDeveloperSupport
-from datetime import timezone
 
 
 class ClaudeLUKHASIntegration:

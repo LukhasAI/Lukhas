@@ -4,12 +4,13 @@ Enhanced Monitoring System Capabilities Demo
 ===========================================
 Live demonstration of all monitoring system capabilities
 """
-import time
-import streamlit as st
 
 import asyncio
 import sys
+import time
 from pathlib import Path
+
+import streamlit as st
 
 # Add monitoring to path
 sys.path.append(str(Path(__file__).parent))

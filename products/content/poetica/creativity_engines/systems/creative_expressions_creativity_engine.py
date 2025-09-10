@@ -11,6 +11,7 @@
 │ downloadable inspiration profiles (leaders, philosophies, etc).    │
 └─────────────────────────────────────────────────────────────────────┘
 """
+
 import json
 import random
 

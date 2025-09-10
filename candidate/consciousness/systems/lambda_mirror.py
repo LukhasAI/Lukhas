@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 import logging
 
@@ -53,22 +54,20 @@ LUKHAS_TAG: lambda_mirror, self_reflection, sentiment_alignment, claude_code
 TODO: Implement quantum-coherent reflection states for enhanced self-awareness
 IDEA: Add predictive reflection modeling for proactive identity maintenance
 """
-from typing import List
-import random
-import streamlit as st
-
 import argparse
 import asyncio
 import json
+import random
 import time
 from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, List, Optional
 
 import numpy as np
+import streamlit as st
 
 # Import LUKHAS emotion and memory systems
 try:

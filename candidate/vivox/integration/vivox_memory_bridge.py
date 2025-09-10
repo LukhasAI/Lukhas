@@ -8,12 +8,11 @@ import builtins
 import contextlib
 import json
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 # VIVOX imports
 from ..memory_expansion.vivox_me_core import EmotionalDNA, MemoryHelixEntry, VIVOXMemoryExpansion
-from datetime import timezone
 
 
 @dataclass

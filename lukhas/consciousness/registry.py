@@ -23,6 +23,7 @@ capabilities built throughout the LUKHAS transformation phases.
 #TAG:activation
 #TAG:observability
 """
+
 import asyncio
 import logging
 import uuid
@@ -39,13 +40,17 @@ except ImportError:
     # Graceful fallback for development
     def get_consciousness_manager():
         return None
+
     TaskPriority = None
+
     def get_config(*args):
         return {}
+
 
 logger = logging.getLogger(__name__)
 
 T = TypeVar("T")
+
 
 class ComponentType(Enum):
     """Consciousness component types aligned with Trinity Framework."""
@@ -73,18 +78,22 @@ class ComponentType(Enum):
     BIO_ADAPTATION = "bio_adaptation"
     SYMBOLIC_GLYPH = "symbolic_glyph"
 
+
 class ComponentStatus(Enum):
     """Component lifecycle states."""
-    DORMANT = "dormant"           # Component exists but not activated
-    INITIALIZING = "initializing" # Component starting up
-    ACTIVE = "active"            # Component operational
-    DEGRADED = "degraded"        # Component operational with issues
-    FAILED = "failed"           # Component non-operational
-    DEACTIVATING = "deactivating" # Component shutting down
+
+    DORMANT = "dormant"  # Component exists but not activated
+    INITIALIZING = "initializing"  # Component starting up
+    ACTIVE = "active"  # Component operational
+    DEGRADED = "degraded"  # Component operational with issues
+    FAILED = "failed"  # Component non-operational
+    DEACTIVATING = "deactivating"  # Component shutting down
+
 
 @dataclass
 class ComponentMetadata:
     """Metadata for consciousness components."""
+
     component_id: str
     component_type: ComponentType
     name: str
@@ -100,9 +109,11 @@ class ComponentMetadata:
     activated_at: Optional[datetime] = None
     last_health_check: Optional[datetime] = None
 
+
 @dataclass
 class ComponentInstance:
     """Running consciousness component instance."""
+
     metadata: ComponentMetadata
     instance: Any
     status: ComponentStatus
@@ -110,6 +121,7 @@ class ComponentInstance:
     error_count: int = 0
     last_error: Optional[str] = None
     performance_metrics: dict[str, Any] = field(default_factory=dict)
+
 
 class ConsciousnessComponentRegistry:
     """
@@ -145,7 +157,7 @@ class ConsciousnessComponentRegistry:
         dependencies: Optional[list[str]] = None,
         health_check_fn: Optional[Callable] = None,
         activation_priority: int = 100,
-        consciousness_authenticity_required: bool = True
+        consciousness_authenticity_required: bool = True,
     ) -> None:
         """
         Register a consciousness component for potential activation.
@@ -174,7 +186,7 @@ class ConsciousnessComponentRegistry:
             dependencies=dependencies or [],
             health_check_fn=health_check_fn,
             activation_priority=activation_priority,
-            consciousness_authenticity_required=consciousness_authenticity_required
+            consciousness_authenticity_required=consciousness_authenticity_required,
         )
 
         self._metadata_registry[component_id] = metadata
@@ -240,11 +252,7 @@ class ConsciousnessComponentRegistry:
             logger.info(f"🚀 Activating consciousness component: {metadata.name}")
 
             # Create component instance
-            instance = ComponentInstance(
-                metadata=metadata,
-                instance=None,
-                status=ComponentStatus.INITIALIZING
-            )
+            instance = ComponentInstance(metadata=metadata, instance=None, status=ComponentStatus.INITIALIZING)
             self._components[component_id] = instance
 
             # Dynamic import and initialization
@@ -257,8 +265,9 @@ class ConsciousnessComponentRegistry:
                 component_instance = module.create_component()
             else:
                 # Fallback: look for main class
-                main_classes = [obj for name, obj in module.__dict__.items()
-                               if isinstance(obj, type) and not name.startswith("_")]
+                main_classes = [
+                    obj for name, obj in module.__dict__.items() if isinstance(obj, type) and not name.startswith("_")
+                ]
                 if main_classes:
                     component_instance = main_classes[0]()
                 else:
@@ -281,7 +290,7 @@ class ConsciousnessComponentRegistry:
                     priority=TaskPriority.HIGH,
                     component="consciousness_registry",
                     description=f"Lifecycle monitoring for {metadata.name}",
-                    consciousness_context=f"trinity_{metadata.trinity_framework}"
+                    consciousness_context=f"trinity_{metadata.trinity_framework}",
                 )
 
             # Consciousness authenticity validation
@@ -385,14 +394,20 @@ class ConsciousnessComponentRegistry:
         """
         # Basic validation: check if component has consciousness-related methods
         consciousness_indicators = [
-            "process_awareness", "update_consciousness_state", "generate_thoughts",
-            "recall_memory", "dream_state", "ethical_reasoning", "self_reflection"
+            "process_awareness",
+            "update_consciousness_state",
+            "generate_thoughts",
+            "recall_memory",
+            "dream_state",
+            "ethical_reasoning",
+            "self_reflection",
         ]
 
         if hasattr(instance.instance, "__dict__"):
             component_methods = dir(instance.instance)
-            consciousness_score = sum(1 for indicator in consciousness_indicators
-                                    if any(indicator in method for method in component_methods))
+            consciousness_score = sum(
+                1 for indicator in consciousness_indicators if any(indicator in method for method in component_methods)
+            )
 
             # Require at least 2 consciousness indicators for authenticity
             return consciousness_score >= 2
@@ -451,7 +466,7 @@ class ConsciousnessComponentRegistry:
             status[framework] = {
                 "active": active,
                 "total": total,
-                "health": "healthy" if active == total else "degraded" if active > 0 else "inactive"
+                "health": "healthy" if active == total else "degraded" if active > 0 else "inactive",
             }
 
         return status
@@ -467,7 +482,7 @@ class ConsciousnessComponentRegistry:
             "activation_rate": active_components / total_components if total_components > 0 else 0,
             "trinity_status": self.get_trinity_status(),
             "feature_flags": dict(self._feature_flags),
-            "last_updated": datetime.now(timezone.utc).isoformat()
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
     async def start_health_monitoring(self) -> None:
@@ -533,8 +548,10 @@ class ConsciousnessComponentRegistry:
             instance.status = ComponentStatus.FAILED
             return False
 
+
 # Global registry instance
 _global_registry: Optional[ConsciousnessComponentRegistry] = None
+
 
 def get_consciousness_registry() -> ConsciousnessComponentRegistry:
     """Get the global consciousness component registry instance."""
@@ -542,6 +559,7 @@ def get_consciousness_registry() -> ConsciousnessComponentRegistry:
     if _global_registry is None:
         _global_registry = ConsciousnessComponentRegistry()
     return _global_registry
+
 
 @asynccontextmanager
 async def consciousness_activation_context():

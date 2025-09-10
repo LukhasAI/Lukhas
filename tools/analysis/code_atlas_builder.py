@@ -11,7 +11,9 @@ Created for LUKHAS consciousness architecture transformation project.
 
 import argparse
 import ast
+import functools
 import json
+import operator
 import re
 import subprocess
 import sys
@@ -24,6 +26,7 @@ from typing import Dict, List, Optional, Set, Union
 @dataclass
 class FunctionInfo:
     """Information about a function or method."""
+
     name: str
     file_path: str
     line_number: int
@@ -31,33 +34,35 @@ class FunctionInfo:
     docstring_summary: str
     is_method: bool
     class_name: Optional[str]
-    callers: List[str]  # Functions that call this
-    callees: List[str]  # Functions this calls
-    string_references: List[str]  # References by name as strings
-    issues: List[str]  # Issue flags like "unused_param", "unused_func"
+    callers: list[str]  # Functions that call this
+    callees: list[str]  # Functions this calls
+    string_references: list[str]  # References by name as strings
+    issues: list[str]  # Issue flags like "unused_param", "unused_func"
 
 
 @dataclass
 class ClassInfo:
     """Information about a class."""
+
     name: str
     file_path: str
     line_number: int
     docstring_summary: str
-    methods: List[str]
-    base_classes: List[str]
-    issues: List[str]
+    methods: list[str]
+    base_classes: list[str]
+    issues: list[str]
 
 
 @dataclass
 class ModuleInfo:
     """Information about a module."""
+
     file_path: str
     role: str  # orchestrator, integration, adapter, domain_model, test_helper
-    intent_clues: List[str]  # From docstrings, comments, TODOs
-    functions: List[str]
-    classes: List[str]
-    imports: List[str]
+    intent_clues: list[str]  # From docstrings, comments, TODOs
+    functions: list[str]
+    classes: list[str]
+    imports: list[str]
 
 
 class CodeAtlasBuilder:
@@ -65,18 +70,33 @@ class CodeAtlasBuilder:
 
     def __init__(self, root_path: str = "."):
         self.root_path = Path(root_path)
-        self.functions: Dict[str, FunctionInfo] = {}
-        self.classes: Dict[str, ClassInfo] = {}
-        self.modules: Dict[str, ModuleInfo] = {}
-        self.violations: Dict[str, List[dict]] = defaultdict(list)
-        self.call_graph: Dict[str, Set[str]] = defaultdict(set)
-        self.string_references: Dict[str, Set[str]] = defaultdict(set)
+        self.functions: dict[str, FunctionInfo] = {}
+        self.classes: dict[str, ClassInfo] = {}
+        self.modules: dict[str, ModuleInfo] = {}
+        self.violations: dict[str, list[dict]] = defaultdict(list)
+        self.call_graph: dict[str, set[str]] = defaultdict(set)
+        self.string_references: dict[str, set[str]] = defaultdict(set)
 
         # LUKHAS-specific patterns
         self.consciousness_keywords = {
-            "consciousness", "lucid", "dream", "identity", "memory", "fold",
-            "guardian", "ethics", "quantum", "bio", "MATRIZ", "glyph",
-            "constellation", "drift", "cascade", "vivox", "qualia", "aka_qualia"
+            "consciousness",
+            "lucid",
+            "dream",
+            "identity",
+            "memory",
+            "fold",
+            "guardian",
+            "ethics",
+            "quantum",
+            "bio",
+            "MATRIZ",
+            "glyph",
+            "constellation",
+            "drift",
+            "cascade",
+            "vivox",
+            "qualia",
+            "aka_qualia",
         }
 
         # Module role patterns
@@ -85,7 +105,7 @@ class CodeAtlasBuilder:
             "integration": ["integrat", "bridge", "connector", "adapter", "wrapper"],
             "adapter": ["adapter", "client", "api", "service", "external"],
             "domain_model": ["model", "entity", "schema", "data", "storage"],
-            "test_helper": ["test", "mock", "fixture", "helper", "util"]
+            "test_helper": ["test", "mock", "fixture", "helper", "util"],
         }
 
     def analyze_codebase(self):
@@ -121,7 +141,7 @@ class CodeAtlasBuilder:
                 [sys.executable, "-m", "ruff", "check", ".", "--format=json"],
                 capture_output=True,
                 text=True,
-                cwd=self.root_path
+                cwd=self.root_path,
             )
 
             if result.stdout:
@@ -130,7 +150,7 @@ class CodeAtlasBuilder:
                     rule_code = violation.get("code", "UNKNOWN")
                     self.violations[rule_code].append(violation)
 
-            print(f"📋 Found {len(sum(self.violations.values(), []))} total violations")
+            print(f"📋 Found {len(functools.reduce(operator.iadd, self.violations.values(), []))} total violations")
             print(f"📝 Violation types: {list(self.violations.keys())[:10]}...")
 
         except Exception as e:
@@ -140,9 +160,17 @@ class CodeAtlasBuilder:
         """Analyze all Python files for functions, classes, and structure."""
         # Focus on LUKHAS core modules and exclude problematic paths
         exclude_patterns = [
-            ".cleanenv/", ".venv/", "__pycache__/", ".git/",
-            "node_modules/", "venv/", "env/", ".pytest_cache/",
-            "site-packages/", "dist/", "build/"
+            ".cleanenv/",
+            ".venv/",
+            "__pycache__/",
+            ".git/",
+            "node_modules/",
+            "venv/",
+            "env/",
+            ".pytest_cache/",
+            "site-packages/",
+            "dist/",
+            "build/",
         ]
 
         python_files = []
@@ -187,19 +215,14 @@ class CodeAtlasBuilder:
                     intent_clues=[f"SYNTAX_ERROR: {str(e)[:100]}"],
                     functions=[],
                     classes=[],
-                    imports=[]
+                    imports=[],
                 )
                 return
 
             # Initialize module info
             rel_path = str(file_path.relative_to(self.root_path))
             module_info = ModuleInfo(
-                file_path=rel_path,
-                role="unknown",
-                intent_clues=[],
-                functions=[],
-                classes=[],
-                imports=[]
+                file_path=rel_path, role="unknown", intent_clues=[], functions=[], classes=[], imports=[]
             )
 
             # Analyze AST nodes
@@ -243,10 +266,16 @@ class CodeAtlasBuilder:
             # Get docstring
             docstring = ""
             if node.body and isinstance(node.body[0], ast.Expr) and isinstance(node.body[0].value, ast.Str):
-                docstring = node.body[0].value.s[:200] + "..." if len(node.body[0].value.s) > 200 else node.body[0].value.s
+                docstring = (
+                    node.body[0].value.s[:200] + "..." if len(node.body[0].value.s) > 200 else node.body[0].value.s
+                )
             elif node.body and isinstance(node.body[0], ast.Expr) and isinstance(node.body[0].value, ast.Constant):
                 if isinstance(node.body[0].value.value, str):
-                    docstring = node.body[0].value.value[:200] + "..." if len(node.body[0].value.value) > 200 else node.body[0].value.value
+                    docstring = (
+                        node.body[0].value.value[:200] + "..."
+                        if len(node.body[0].value.value) > 200
+                        else node.body[0].value.value
+                    )
 
             # Check if it's a method
             is_method = False
@@ -275,7 +304,7 @@ class CodeAtlasBuilder:
                 callers=[],
                 callees=[],
                 string_references=[],
-                issues=[]
+                issues=[],
             )
 
         except Exception as e:
@@ -288,10 +317,16 @@ class CodeAtlasBuilder:
             # Get docstring
             docstring = ""
             if node.body and isinstance(node.body[0], ast.Expr) and isinstance(node.body[0].value, ast.Str):
-                docstring = node.body[0].value.s[:200] + "..." if len(node.body[0].value.s) > 200 else node.body[0].value.s
+                docstring = (
+                    node.body[0].value.s[:200] + "..." if len(node.body[0].value.s) > 200 else node.body[0].value.s
+                )
             elif node.body and isinstance(node.body[0], ast.Expr) and isinstance(node.body[0].value, ast.Constant):
                 if isinstance(node.body[0].value.value, str):
-                    docstring = node.body[0].value.value[:200] + "..." if len(node.body[0].value.value) > 200 else node.body[0].value.value
+                    docstring = (
+                        node.body[0].value.value[:200] + "..."
+                        if len(node.body[0].value.value) > 200
+                        else node.body[0].value.value
+                    )
 
             # Get methods
             methods = []
@@ -314,14 +349,14 @@ class CodeAtlasBuilder:
                 docstring_summary=docstring,
                 methods=methods,
                 base_classes=base_classes,
-                issues=[]
+                issues=[],
             )
 
         except Exception as e:
             print(f"Error extracting class info for {node.name}: {e}")
             return None
 
-    def extract_imports(self, node: Union[ast.Import, ast.ImportFrom]) -> List[str]:
+    def extract_imports(self, node: Union[ast.Import, ast.ImportFrom]) -> list[str]:
         """Extract import statements."""
         imports = []
         try:
@@ -336,7 +371,7 @@ class CodeAtlasBuilder:
             pass
         return imports
 
-    def extract_module_intent_clues(self, content: str, file_path: Path) -> List[str]:
+    def extract_module_intent_clues(self, content: str, file_path: Path) -> list[str]:
         """Extract intent clues from module content."""
         clues = []
 
@@ -376,7 +411,7 @@ class CodeAtlasBuilder:
         """Build call graphs for functions."""
         print("🔗 Building function call graphs...")
 
-        for module_path, module_info in self.modules.items():
+        for module_path in self.modules:
             try:
                 with open(self.root_path / module_path, encoding="utf-8", errors="ignore") as f:
                     content = f.read()
@@ -458,7 +493,7 @@ class CodeAtlasBuilder:
         best_match = None
         best_line = 0
 
-        for func_key, func_info in self.functions.items():
+        for func_info in self.functions.values():
             if func_info.file_path == module_path:
                 if func_info.line_number <= line_no and func_info.line_number > best_line:
                     best_match = func_info.name
@@ -497,12 +532,12 @@ class CodeAtlasBuilder:
             except Exception as e:
                 print(f"Error reading doc file {doc_file}: {e}")
 
-    def extract_doc_intent_clues(self, content: str, file_path: str) -> List[str]:
+    def extract_doc_intent_clues(self, content: str, file_path: str) -> list[str]:
         """Extract intent clues from documentation content."""
         clues = []
 
         lines = content.split("\n")
-        for i, line in enumerate(lines):
+        for _i, line in enumerate(lines):
             stripped = line.strip()
 
             # Headers and important sections
@@ -617,7 +652,7 @@ class CodeAtlasBuilder:
             "DTZ003": "datetime_utcnow",
             "E402": "import_not_top",
             "F841": "unused_variable",
-            "B007": "unused_loop_var"
+            "B007": "unused_loop_var",
         }
 
         return flag_mapping.get(rule_code, f"rule_{rule_code}")
@@ -633,7 +668,7 @@ class CodeAtlasBuilder:
         for func_key, func_info in self.functions.items():
             for callee in func_info.callees:
                 # Find the callee and add this function as a caller
-                for other_func_key, other_func_info in self.functions.items():
+                for other_func_info in self.functions.values():
                     if other_func_info.name == callee or callee in other_func_info.name:
                         other_func_info.callers.append(func_key)
 
@@ -644,12 +679,12 @@ class CodeAtlasBuilder:
                 "total_functions": len(self.functions),
                 "total_classes": len(self.classes),
                 "total_violations": sum(len(v) for v in self.violations.values()),
-                "violation_rules": list(self.violations.keys())
+                "violation_rules": list(self.violations.keys()),
             },
             "functions": {k: asdict(v) for k, v in self.functions.items()},
             "classes": {k: asdict(v) for k, v in self.classes.items()},
             "modules": {k: asdict(v) for k, v in self.modules.items()},
-            "violations_summary": {k: len(v) for k, v in self.violations.items()}
+            "violations_summary": {k: len(v) for k, v in self.violations.items()},
         }
 
         return atlas
@@ -670,7 +705,7 @@ class CodeAtlasBuilder:
                     "total_violations": len(violations),
                     "violations": violations,
                     "affected_files": list(set(v.get("filename", "") for v in violations)),
-                    "description": self.get_rule_description(rule_code)
+                    "description": self.get_rule_description(rule_code),
                 }
 
                 with open(index_file, "w") as f:
@@ -691,7 +726,7 @@ class CodeAtlasBuilder:
             "DTZ003": "datetime.utcnow() usage",
             "E402": "Module level import not at top of file",
             "F841": "Local variable assigned but never used",
-            "B007": "Loop control variable not used within loop body"
+            "B007": "Loop control variable not used within loop body",
         }
 
         return descriptions.get(rule_code, f"Rule {rule_code}")

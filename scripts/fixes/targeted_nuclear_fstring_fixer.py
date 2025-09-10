@@ -27,19 +27,15 @@ class TargetedNuclearFixer:
             (r'f"([^"]*)\{([^}]+\.lower)\(\}([^"]*)"', r'f"\1{\2()}\3"', "METHOD_CALL"),
             (r'f"([^"]*)\{([^}]+\.strip)\(\}([^"]*)"', r'f"\1{\2()}\3"', "METHOD_CALL"),
             (r'f"([^"]*)\{([^}]+\.timestamp)\(\}([^"]*)"', r'f"\1{\2()}\3"', "METHOD_CALL"),
-
             # Pattern 2: Missing ) in function calls
             (r'f"([^"]*)\{(time\.time)\(\}([^"]*)"', r'f"\1{\2()}\3"', "FUNCTION_CALL"),
             (r'f"([^"]*)\{(uuid\.uuid4)\(\}([^"]*)"', r'f"\1{\2()}\3"', "FUNCTION_CALL"),
-
             # Pattern 3: Missing ) in nested function calls
             (r'f"([^"]*)\{([^}]*\([^}]*)\}([^"]*)"', r'f"\1{\2}\3"', "NESTED_CALL"),
-
             # Pattern 4: The specific upper()_ pattern we found
             (r"\.upper\(\}_", r".upper()}_", "UPPER_UNDERSCORE"),
             (r"\.lower\(\}_", r".lower()}_", "LOWER_UNDERSCORE"),
             (r"\.strip\(\}_", r".strip()}_", "STRIP_UNDERSCORE"),
-
             # Pattern 5: Missing ) in hash/int/str calls
             (r'f"([^"]*)\{hash\(([^}]*)\}([^"]*)"', r'f"\1{hash(\2)}\3"', "HASH_CALL"),
             (r'f"([^"]*)\{int\(([^}]*)\}([^"]*)"', r'f"\1{int(\2)}\3"', "INT_CALL"),
@@ -123,13 +119,11 @@ class TargetedNuclearFixer:
             "business/__init__.py",
             "security/__init__.py",
             "products/__init__.py",
-
             # Lukhas core namespace
             "lukhas/**/__init__.py",
             "lukhas/**/config.py",
             "lukhas/**/*service.py",
             "lukhas/**/*adapter.py",
-
             # Critical candidate files
             "candidate/consciousness/*.py",
             "candidate/memory/*.py",
@@ -158,12 +152,7 @@ class TargetedNuclearFixer:
         for file_path in priority_files:
             if os.path.exists(file_path):
                 success, fixes, patterns = self.fix_file_targeted(file_path)
-                results.append({
-                    "file": file_path,
-                    "success": success,
-                    "fixes": fixes,
-                    "patterns": patterns
-                })
+                results.append({"file": file_path, "success": success, "fixes": fixes, "patterns": patterns})
 
         print()
         print("📊 TARGETED FIXING RESULTS:")

@@ -10,6 +10,7 @@ Migration Path:
 
 This module provides compatibility shims to support both patterns.
 """
+
 import importlib
 import logging
 import sys
@@ -33,20 +34,23 @@ try:
     from lukhas.identity import auth_integration
 except ImportError as e:
     logger.warning(f"auth_integration import failed: {e}")
+
     # Create fallback
     class AuthIntegrationModule:
         """Fallback for auth_integration module"""
+
         def __init__(self):
             self.logger = logging.getLogger(__name__)
-            
+
         async def get_integration(self):
             from lukhas.identity.auth_integration import AuthenticationIntegration
+
             return AuthenticationIntegration()
-            
+
         def __getattr__(self, name):
             logger.warning(f"auth_integration fallback access: {name}")
             return None
-    
+
     auth_integration = AuthIntegrationModule()
 
     class IdentityClient:
@@ -264,6 +268,7 @@ class AuthModule:
 
     def __getattr__(self, name: str):
         from . import import_bridge
+
         return getattr(import_bridge, name, None) or self._create_auth_fallback(name)
 
     def _create_auth_fallback(self, name: str):
@@ -271,20 +276,26 @@ class AuthModule:
         logger.warning(f"Creating auth fallback for {name}")
 
         if "Logger" in name or "Audit" in name:
+
             class FallbackLogger:
                 def __init__(self, *args, **kwargs):
                     pass
+
                 def log(self, *args, **kwargs):
                     pass
+
                 def audit(self, *args, **kwargs):
                     pass
+
             return FallbackLogger
 
         # Generic fallback class
         class FallbackAuth:
             def __init__(self, *args, **kwargs):
                 pass
+
         return FallbackAuth
+
 
 # Export auth module
 auth = AuthModule()

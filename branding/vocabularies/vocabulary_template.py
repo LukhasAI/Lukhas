@@ -1,4 +1,3 @@
-
 """
 LUKHAS [MODULE_NAME] Vocabulary Template
 ========================================

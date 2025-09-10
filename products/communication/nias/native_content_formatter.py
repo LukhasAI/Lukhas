@@ -2,14 +2,14 @@
 Native Content Formatter for NIAS
 Makes ads feel like natural content or useful suggestions
 """
-from typing import List
-import time
-import streamlit as st
 
 import json
+import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, List, Optional
+
+import streamlit as st
 
 
 class ContentFormat(Enum):

@@ -2,13 +2,13 @@
 MATRIZ Adapter for Bridge Module
 Emits MATRIZ-compliant nodes for external API integration events
 """
-import streamlit as st
-
 import json
 import time
 import uuid
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
 
 
 class BridgeMatrizAdapter:

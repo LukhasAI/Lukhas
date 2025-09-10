@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-import logging
 import asyncio
+import logging
 
 logger = logging.getLogger(__name__)
 

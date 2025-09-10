@@ -2,6 +2,7 @@
 Bio Adaptation Engine for ABAS (ΛBAS) System
 Provides biological adaptation and biometric processing capabilities
 """
+
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum

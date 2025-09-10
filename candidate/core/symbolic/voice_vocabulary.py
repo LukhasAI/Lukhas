@@ -15,9 +15,9 @@ from dataclasses import dataclass
 from typing import Any
 
 from core.symbolic import VoiceSymbol
+from symbolic.vocabularies.voice_vocabulary import VoiceSymbolicVocabulary
 
 from ..core import VoiceEmotion, VoiceProvider
-from symbolic.vocabularies.voice_vocabulary import VoiceSymbolicVocabulary
 
 
 @dataclass

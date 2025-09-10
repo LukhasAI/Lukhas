@@ -20,16 +20,20 @@ logger = logging.getLogger(__name__)
 
 T = TypeVar("T")
 
+
 class TaskPriority(Enum):
     """Task priority levels for consciousness system."""
+
     CRITICAL = "critical"  # Core consciousness processing
-    HIGH = "high"        # Orchestration and communication
-    NORMAL = "normal"    # Background services
-    LOW = "low"          # Maintenance tasks
+    HIGH = "high"  # Orchestration and communication
+    NORMAL = "normal"  # Background services
+    LOW = "low"  # Maintenance tasks
+
 
 @dataclass
 class TaskMetadata:
     """Metadata for tracking async tasks."""
+
     task_id: str
     name: str
     priority: TaskPriority
@@ -37,6 +41,7 @@ class TaskMetadata:
     component: str
     description: str = ""
     consciousness_context: Optional[str] = None
+
 
 class ConsciousnessTaskManager:
     """
@@ -55,9 +60,7 @@ class ConsciousnessTaskManager:
         self.max_concurrent_tasks = max_concurrent_tasks
 
         # Task registries by priority
-        self._tasks: dict[TaskPriority, set[asyncio.Task]] = {
-            priority: set() for priority in TaskPriority
-        }
+        self._tasks: dict[TaskPriority, set[asyncio.Task]] = {priority: set() for priority in TaskPriority}
 
         # Task metadata tracking
         self._task_metadata: dict[asyncio.Task, TaskMetadata] = {}
@@ -72,7 +75,7 @@ class ConsciousnessTaskManager:
             "tasks_completed": 0,
             "tasks_cancelled": 0,
             "tasks_failed": 0,
-            "shutdown_count": 0
+            "shutdown_count": 0,
         }
 
         logger.info(f"Initialized {self.__class__.__name__}[{name}] with max_concurrent_tasks={max_concurrent_tasks}")
@@ -85,7 +88,7 @@ class ConsciousnessTaskManager:
         priority: TaskPriority = TaskPriority.NORMAL,
         component: str = "unknown",
         description: str = "",
-        consciousness_context: Optional[str] = None
+        consciousness_context: Optional[str] = None,
     ) -> asyncio.Task[T]:
         """
         Create and register an async task with consciousness-aware management.
@@ -109,7 +112,9 @@ class ConsciousnessTaskManager:
 
         total_tasks = sum(len(tasks) for tasks in self._tasks.values())
         if total_tasks >= self.max_concurrent_tasks:
-            raise RuntimeError(f"TaskManager[{self.name}] task limit exceeded: {total_tasks}/{self.max_concurrent_tasks}")
+            raise RuntimeError(
+                f"TaskManager[{self.name}] task limit exceeded: {total_tasks}/{self.max_concurrent_tasks}"
+            )
 
         # Create task with name for better debugging
         task_id = str(uuid.uuid4())
@@ -124,7 +129,7 @@ class ConsciousnessTaskManager:
             created_at=time.time(),
             component=component,
             description=description,
-            consciousness_context=consciousness_context
+            consciousness_context=consciousness_context,
         )
 
         # Register task
@@ -197,10 +202,7 @@ class ConsciousnessTaskManager:
 
             try:
                 # Wait for tasks to complete naturally
-                await asyncio.wait_for(
-                    asyncio.gather(*tasks, return_exceptions=True),
-                    timeout=timeout
-                )
+                await asyncio.wait_for(asyncio.gather(*tasks, return_exceptions=True), timeout=timeout)
                 logger.info(f"All {priority.value} priority tasks completed gracefully")
             except asyncio.TimeoutError:
                 logger.warning(f"Timeout waiting for {priority.value} priority tasks, proceeding to next level")
@@ -238,16 +240,13 @@ class ConsciousnessTaskManager:
 
     def get_stats(self) -> dict[str, Any]:
         """Get task manager statistics."""
-        active_tasks = {
-            priority.value: len(tasks)
-            for priority, tasks in self._tasks.items()
-        }
+        active_tasks = {priority.value: len(tasks) for priority, tasks in self._tasks.items()}
 
         return {
             **self._stats,
             "active_tasks": active_tasks,
             "total_active": sum(active_tasks.values()),
-            "is_shutting_down": self._is_shutting_down
+            "is_shutting_down": self._is_shutting_down,
         }
 
     def get_active_tasks(self) -> dict[str, list]:
@@ -258,14 +257,16 @@ class ConsciousnessTaskManager:
             for task in tasks:
                 metadata = self._task_metadata.get(task)
                 if metadata:
-                    task_info.append({
-                        "name": task.get_name(),
-                        "component": metadata.component,
-                        "description": metadata.description,
-                        "age": time.time() - metadata.created_at,
-                        "done": task.done(),
-                        "cancelled": task.cancelled()
-                    })
+                    task_info.append(
+                        {
+                            "name": task.get_name(),
+                            "component": metadata.component,
+                            "description": metadata.description,
+                            "age": time.time() - metadata.created_at,
+                            "done": task.done(),
+                            "cancelled": task.cancelled(),
+                        }
+                    )
             result[priority.value] = task_info
         return result
 
@@ -278,7 +279,7 @@ class ConsciousnessTaskManager:
         priority: TaskPriority = TaskPriority.NORMAL,
         component: str = "unknown",
         description: str = "",
-        consciousness_context: Optional[str] = None
+        consciousness_context: Optional[str] = None,
     ):
         """
         Context manager for creating and automatically cleaning up a task.
@@ -293,7 +294,7 @@ class ConsciousnessTaskManager:
             priority=priority,
             component=component,
             description=description,
-            consciousness_context=consciousness_context
+            consciousness_context=consciousness_context,
         )
         try:
             yield task
@@ -303,14 +304,17 @@ class ConsciousnessTaskManager:
                 with suppress(asyncio.CancelledError):
                     await task
 
+
 # Global task managers for different consciousness subsystems
 _task_managers: dict[str, ConsciousnessTaskManager] = {}
+
 
 def get_task_manager(name: str, max_concurrent: int = 1000) -> ConsciousnessTaskManager:
     """Get or create a named task manager."""
     if name not in _task_managers:
         _task_managers[name] = ConsciousnessTaskManager(name, max_concurrent)
     return _task_managers[name]
+
 
 async def shutdown_all_managers(timeout: float = 30.0) -> None:
     """Shutdown all registered task managers."""
@@ -321,28 +325,29 @@ async def shutdown_all_managers(timeout: float = 30.0) -> None:
     logger.info(f"Shutting down {len(_task_managers)} task managers")
 
     # Shutdown in parallel
-    shutdown_tasks = [
-        manager.shutdown(timeout)
-        for manager in _task_managers.values()
-    ]
+    shutdown_tasks = [manager.shutdown(timeout) for manager in _task_managers.values()]
 
     await asyncio.gather(*shutdown_tasks, return_exceptions=True)
 
     _task_managers.clear()
     logger.info("All task managers shutdown complete")
 
+
 # Pre-configured managers for consciousness subsystems
 def get_consciousness_manager() -> ConsciousnessTaskManager:
     """Get task manager for consciousness processing."""
     return get_task_manager("consciousness", max_concurrent=500)
 
+
 def get_orchestration_manager() -> ConsciousnessTaskManager:
     """Get task manager for orchestration and communication."""
     return get_task_manager("orchestration", max_concurrent=300)
 
+
 def get_background_manager() -> ConsciousnessTaskManager:
     """Get task manager for background services."""
     return get_task_manager("background", max_concurrent=200)
+
 
 def get_guardian_manager() -> ConsciousnessTaskManager:
     """Get task manager for guardian/governance tasks."""

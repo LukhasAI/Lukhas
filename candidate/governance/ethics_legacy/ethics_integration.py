@@ -14,7 +14,7 @@ This module connects:
 - Security engines - Security-aware ethical decisions
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
 
@@ -35,7 +35,6 @@ from ethics.self_reflective_debugger import EnhancedSelfReflectiveDebugger as Se
 from ethics.sentinel.ethical_drift_sentinel import EthicalDriftSentinel
 from ethics.service import EthicsService
 from ethics.stabilization.tuner import StabilizationTuner
-from datetime import timezone
 
 logger = get_logger(__name__)
 

@@ -8,6 +8,7 @@ Tests all major components and provides a functionality percentage.
 
 Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
+
 import importlib.util
 import os
 import sys

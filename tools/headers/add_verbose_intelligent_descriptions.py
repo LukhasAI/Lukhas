@@ -8,15 +8,16 @@ Creates rich, narrative module descriptions with:
 2. Full technical and academic explanations
 Perfect for content generation systems.
 """
-from consciousness.qi import qi
-import streamlit as st
 
 import os
 import re
 from pathlib import Path
 
+import streamlit as st
 from dotenv import load_dotenv
 from openai import OpenAI
+
+from consciousness.qi import qi
 
 # Load environment variables
 load_dotenv(Path(__file__).parent.parent.parent / ".env")

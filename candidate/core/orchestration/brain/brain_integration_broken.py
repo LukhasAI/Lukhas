@@ -692,15 +692,14 @@ class EnhancedBrainIntegration:
 
             # Stage 7: Governance Decision Making (for major decisions)
             if (self.advanced_agi_available and
-                    context.get("requires_governance", False)):
-                if hasattr(self, "dao_governance"):
-                    governance_result = (
-                        await self.dao_governance.evaluate_decision(
-                            input_data, context, result
-                        )
+                    context.get("requires_governance", False)) and hasattr(self, "dao_governance"):
+                governance_result = (
+                    await self.dao_governance.evaluate_decision(
+                        input_data, context, result
                     )
-                    result["agi_enhancements"]["governance"] = governance_result
-                    self.stats["governance_decisions"] += 1
+                )
+                result["agi_enhancements"]["governance"] = governance_result
+                self.stats["governance_decisions"] += 1
 
             # Stage 8: Integration and Final Processing
             result = await self._integrate_agi_results(result, input_data, context)

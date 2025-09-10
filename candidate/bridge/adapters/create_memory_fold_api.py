@@ -5,13 +5,12 @@ Adds causal chain preservation and temporal navigation to any AI system
 """
 
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 
 import numpy as np
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
-from datetime import timezone
 
 app = FastAPI(
     title="LUKHAS Memory Fold API",

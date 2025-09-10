@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Fix syntax errors in Python files - specifically EOL string literals"""
+
 import ast
 import os
 from pathlib import Path

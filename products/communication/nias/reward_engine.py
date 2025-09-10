@@ -2,6 +2,7 @@
 NIAS Reward Engine - Mutual Benefit Model Implementation
 Transforms advertising from interruption to opportunity
 """
+
 import json
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone

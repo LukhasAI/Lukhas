@@ -611,9 +611,7 @@ class IntegrationAnalyzer:
                 r"^(get|set|process|validate|compute|update|create)",
                 func.name,
                 re.IGNORECASE,
-            ).group(
-                1
-            )  # type: ignore
+            ).group(1)  # type: ignore
             verb_pattern = f"{verb.lower()} + noun"
         domain = self._infer_domain(func.name)
         preferred = func.name

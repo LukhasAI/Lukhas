@@ -18,9 +18,8 @@ import base64
 import json
 import secrets
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
-from datetime import timezone
 
 try:
     from webauthn import (

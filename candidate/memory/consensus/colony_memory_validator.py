@@ -44,10 +44,10 @@ import logging
 import time
 from collections import defaultdict
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
 from uuid import uuid4
-from datetime import datetime, timezone
 
 # Update imports for current LUKHAS structure
 try:
@@ -176,7 +176,7 @@ class ColonyMemoryValidator:
     """
     Main validator for memory operations across colonies.
     Implements Byzantine fault-tolerant consensus for memory integrity.
-    
+
     This validator provides distributed validation capabilities for LUKHAS
     consciousness memory operations, ensuring integrity through consensus
     rather than centralized authority.
@@ -461,9 +461,9 @@ class ColonyMemoryValidator:
             # Mock validation logic - in production this would interface with actual colonies
             success = True
             validation_result = ValidationResult.VALID
-            
+
             # Generate content hash for integrity checking
-            if hasattr(request.operation, 'content') and request.operation.content:
+            if hasattr(request.operation, "content") and request.operation.content:
                 content_hash = hashlib.sha256(str(request.operation.content).encode()).hexdigest()
             else:
                 content_hash = None
@@ -639,7 +639,7 @@ class ColonyMemoryValidator:
             expired_requests = []
 
             for request_id, request in self.active_validations.items():
-                request_timestamp = request.timestamp.timestamp() if hasattr(request.timestamp, 'timestamp') else request.timestamp
+                request_timestamp = request.timestamp.timestamp() if hasattr(request.timestamp, "timestamp") else request.timestamp
                 if current_time - request_timestamp > request.timeout_seconds * 2:
                     expired_requests.append(request_id)
 

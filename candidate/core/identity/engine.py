@@ -22,9 +22,8 @@ This component handles identity functionality in the AI consciousness computing 
 
 import asyncio
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
-from datetime import timezone
 
 
 class IdentityEngine:

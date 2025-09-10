@@ -9,10 +9,9 @@ import gzip
 import json
 import struct
 from collections.abc import Iterable
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
-from datetime import timezone
 
 # Magic bytes for LKF-Pack format
 MAGIC = b"LKF\x01"

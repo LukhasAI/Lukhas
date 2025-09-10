@@ -6,11 +6,10 @@ This component handles consciousness functionality in the AI consciousness compu
 """
 
 import asyncio
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 from candidate.core.common import get_logger
-from datetime import timezone
 
 
 class SelfReflectionEngine:

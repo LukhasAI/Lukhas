@@ -10,9 +10,9 @@ from enum import Enum
 from typing import Optional
 
 import numpy as np
+import uvicorn
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
-import uvicorn
 
 app = FastAPI(
     title="LUKHAS Classical Emotional Intelligence API",

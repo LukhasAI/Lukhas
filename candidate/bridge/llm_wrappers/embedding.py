@@ -12,13 +12,12 @@ import json
 import logging
 import re
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any
 
 import yaml
-from datetime import timezone
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

@@ -38,16 +38,6 @@ def generate_final_coverage_summary():
     }
 
     # Priority 3 results (from latest testing)
-    priority_3_results = {
-        "emotion_system": {"success_rate": 50.0, "tests_run": 2, "tests_passed": 1},
-        "bio_system": {"success_rate": 100.0, "tests_run": 1, "tests_passed": 1},
-        "monitoring_system": {"success_rate": 100.0, "tests_run": 2, "tests_passed": 2},
-        "tools_system": {"success_rate": 100.0, "tests_run": 4, "tests_passed": 4},
-        "cross_integration": {"success_rate": 100.0, "tests_run": 1, "tests_passed": 1},
-        "overall_success_rate": 90.0,
-        "total_tests_run": 10,
-        "total_tests_passed": 9,
-    }
 
     # Calculate comprehensive final coverage
     # Systems with 100% functional coverage: Identity, Memory, Consciousness, API, Security, Bio, Monitoring, Tools = 8 systems

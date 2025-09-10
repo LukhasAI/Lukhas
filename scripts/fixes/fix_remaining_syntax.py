@@ -2,6 +2,7 @@
 """
 Fix remaining syntax errors in LUKHAS codebase
 """
+
 import os
 import re
 
@@ -20,9 +21,9 @@ def fix_file_syntax(file_path):
     original_content = content
 
     # Fix f-string parentheses mismatches
-    content = re.sub(r'f"[^"]*time\.time\(\s*\}[^"]*"',
-                     lambda m: m.group(0).replace("time.time(}", "time.time())"),
-                     content)
+    content = re.sub(
+        r'f"[^"]*time\.time\(\s*\}[^"]*"', lambda m: m.group(0).replace("time.time(}", "time.time())"), content
+    )
 
     # Fix missing closing brackets in dictionaries
     # Pattern: {"key": {"nested": value without closing }}
@@ -39,11 +40,12 @@ def fix_file_syntax(file_path):
         except Exception as e:
             print(f"  ❌ Error writing {file_path}: {e}")
 
+
 # Files with known syntax errors
 problematic_files = [
     "candidate/bridge/api/flows.py",
     "candidate/core/security/secure_logging.py",
-    "tests/test_aka_qualia.py"
+    "tests/test_aka_qualia.py",
 ]
 
 print("🔧 Fixing remaining syntax errors in LUKHAS codebase...")

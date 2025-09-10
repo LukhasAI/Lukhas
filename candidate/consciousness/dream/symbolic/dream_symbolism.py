@@ -155,7 +155,7 @@ class DreamSymbolismProcessor:
 
         # Extract from text content
         text_content = dream_content.get("text", "")
-        for symbol in self.symbol_registry.keys():
+        for symbol in self.symbol_registry:
             if symbol in text_content:
                 symbols.append(symbol)
 

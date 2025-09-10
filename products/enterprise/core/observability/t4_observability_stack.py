@@ -7,6 +7,7 @@ Enterprise Leadership Level: "Complete visibility into every system component"
 Comprehensive observability for LUKHAS AI Trinity Framework
 Designed for Jules Agent #4: Enterprise Observability Specialist
 """
+
 import json
 import logging
 import os

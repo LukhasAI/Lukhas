@@ -2,7 +2,9 @@
 Bio module compatibility layer
 Provides backward compatibility for bio.bio_utilities imports
 """
+
 import warnings
+
 from lukhas.accepted.bio.utils import *
 
 # Import bio_utilities for backward compatibility
@@ -11,19 +13,19 @@ try:
 except ImportError:
     import sys
     import types
-    
+
     # Create a virtual bio_utilities module
-    bio_utilities = types.ModuleType('bio_utilities')
-    
+    bio_utilities = types.ModuleType("bio_utilities")
+
     # Re-export everything from lukhas.accepted.bio.utils
     for name in dir():
-        if not name.startswith('_'):
+        if not name.startswith("_"):
             setattr(bio_utilities, name, globals()[name])
-    
-    sys.modules['bio.bio_utilities'] = bio_utilities
+
+    sys.modules["bio.bio_utilities"] = bio_utilities
 
 warnings.warn(
     "Import 'bio.bio_utilities' is deprecated. Please update to 'lukhas.accepted.bio.utils'",
     DeprecationWarning,
-    stacklevel=2
+    stacklevel=2,
 )

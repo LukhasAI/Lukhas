@@ -46,7 +46,7 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np
@@ -54,7 +54,6 @@ import numpy as np
 from candidate.core.common import get_logger
 
 from ..bio_core.bio_symbolic import CardiolipinEncoder, CristaFilter, ProtonGradient, QIAttentionGate
-from datetime import timezone
 
 logger = get_logger(__name__)
 

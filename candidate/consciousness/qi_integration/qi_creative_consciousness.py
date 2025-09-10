@@ -17,17 +17,17 @@ Creator: Gonzalo R. Dominguez Marchan
 Demo Date: June 11, 2025
 Status: QUANTUM CREATIVE CONSCIOUSNESS ACHIEVED ✅
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import json
 import os
 import random
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

@@ -6,6 +6,7 @@ Minimal, safe passkey verification with registry pattern.
 - Works with builtin provider (stub) in DRY_RUN
 - Real WebAuthn provider can be registered via registry when enabled
 """
+
 import streamlit as st
 
 from .api import verify_passkey

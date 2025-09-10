@@ -1,7 +1,9 @@
 import logging
-import streamlit as st
 import time
 from typing import List
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: conflict_resolver.py

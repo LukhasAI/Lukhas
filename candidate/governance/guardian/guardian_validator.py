@@ -126,22 +126,19 @@ class GuardianValidator:
                 confidence -= 0.3
 
             # Validate audio format if provided
-            if context.audio_format:
-                if not self._validate_audio_format(context.audio_format):
-                    issues.append(f"Unsafe audio format: {context.audio_format}")
-                    confidence -= 0.4
+            if context.audio_format and not self._validate_audio_format(context.audio_format):
+                issues.append(f"Unsafe audio format: {context.audio_format}")
+                confidence -= 0.4
 
             # Validate file size constraints
-            if context.file_size_bytes:
-                if not self._validate_file_size(context.file_size_bytes):
-                    issues.append(f"File size exceeds limits: {context.file_size_bytes} bytes")
-                    confidence -= 0.2
+            if context.file_size_bytes and not self._validate_file_size(context.file_size_bytes):
+                issues.append(f"File size exceeds limits: {context.file_size_bytes} bytes")
+                confidence -= 0.2
 
             # Validate duration constraints
-            if context.duration_seconds:
-                if not self._validate_duration(context.duration_seconds):
-                    issues.append(f"Duration exceeds limits: {context.duration_seconds}s")
-                    confidence -= 0.2
+            if context.duration_seconds and not self._validate_duration(context.duration_seconds):
+                issues.append(f"Duration exceeds limits: {context.duration_seconds}s")
+                confidence -= 0.2
 
             # Validate audio data if provided
             if audio_data:

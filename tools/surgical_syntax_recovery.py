@@ -8,6 +8,7 @@ This tool uses AST parsing and pattern matching to surgically fix
 syntax errors introduced during automated import insertion while
 preserving the 84% F821 reduction achievement.
 """
+
 import ast
 import re
 from pathlib import Path
@@ -24,28 +25,28 @@ class SurgicalSyntaxRecovery:
             "function_param_timezone": {
                 "pattern": r"def\s+(\w+)\s*\([^)]*,\s*timezone\s*\)",
                 "description": "Functions with timezone wrongly added as parameter",
-                "fix_type": "remove_param"
+                "fix_type": "remove_param",
             },
             "logger_getlogger_timezone": {
                 "pattern": r"logging\.getLogger\([^,)]+,\s*timezone\)",
                 "description": "Logger calls with timezone as extra parameter",
-                "fix_type": "remove_param"
+                "fix_type": "remove_param",
             },
             "get_logger_timezone": {
                 "pattern": r"get_logger\([^,)]+,\s*timezone\)",
                 "description": "get_logger calls with timezone as extra parameter",
-                "fix_type": "remove_param"
+                "fix_type": "remove_param",
             },
             "import_trailing_timezone": {
                 "pattern": r"import\s+[^,\n]+,\s*timezone\)",
                 "description": "Import statements with trailing timezone)",
-                "fix_type": "remove_trailing"
+                "fix_type": "remove_trailing",
             },
             "from_import_trailing_timezone": {
                 "pattern": r"from\s+[^,\n]+\s+import\s+[^,\n]+,\s*timezone\)",
                 "description": "From-import with trailing timezone)",
-                "fix_type": "remove_trailing"
-            }
+                "fix_type": "remove_trailing",
+            },
         }
 
     def validate_syntax(self, content: str) -> bool:
@@ -138,12 +139,7 @@ class SurgicalSyntaxRecovery:
 
     def process_directory(self, directory: Path) -> dict[str, int]:
         """Process all Python files in directory"""
-        results = {
-            "files_processed": 0,
-            "files_fixed": 0,
-            "syntax_errors_resolved": 0,
-            "fixes_applied": 0
-        }
+        results = {"files_processed": 0, "files_fixed": 0, "syntax_errors_resolved": 0, "fixes_applied": 0}
 
         for py_file in directory.rglob("*.py"):
             # Skip certain directories
@@ -164,11 +160,7 @@ class SurgicalSyntaxRecovery:
         print("🔧 SURGICAL SYNTAX RECOVERY - Future-Proof Edition")
         print("=" * 60)
 
-        total_results = {
-            "files_processed": 0,
-            "files_fixed": 0,
-            "fixes_applied": 0
-        }
+        total_results = {"files_processed": 0, "files_fixed": 0, "fixes_applied": 0}
 
         for dir_name in target_dirs:
             dir_path = Path(dir_name)
@@ -209,7 +201,7 @@ def main():
         "candidate/governance",
         "candidate/tools",
         "lukhas",
-        "branding"
+        "branding",
     ]
 
     recovery.run_surgical_recovery(target_directories)

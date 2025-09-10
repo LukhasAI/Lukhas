@@ -1,5 +1,7 @@
 import logging
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 ⚛️🧠🛡️ TRINITY FRAMEWORK CREATIVE CORE MODULE

@@ -47,7 +47,7 @@ import asyncio
 import logging
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
 
@@ -55,7 +55,6 @@ from typing import Any, Callable, Optional
 from bio.core.symbolic_fallback_systems import BioSymbolicFallbackManager
 from dashboard.core.dashboard_colony_agent import DashboardAgentRole, DashboardColonyAgent
 from dashboard.core.self_healing_manager import SelfHealingManager
-from datetime import timezone
 
 logger = logging.getLogger("ΛTRACE.fallback_system")
 

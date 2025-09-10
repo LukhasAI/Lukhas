@@ -30,13 +30,12 @@ import binascii
 import json
 import struct
 from collections.abc import Iterable
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
 import msgpack
 import zstandard as zstd
-from datetime import timezone
 
 # LKF-Pack v1 magic bytes
 MAGIC = b"LKF\x01"

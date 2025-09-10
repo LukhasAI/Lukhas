@@ -19,8 +19,6 @@ Features:
 - API key rotation and management
 - IP-based access controls and geo-restrictions
 """
-import streamlit as st
-
 import hashlib
 import ipaddress
 import logging
@@ -31,6 +29,7 @@ from enum import Enum
 from typing import Any, Optional
 
 import jwt
+import streamlit as st
 
 try:
     from fastapi import HTTPException, Request, status

@@ -5,13 +5,12 @@ Enhanced features for solo developers - pair programming, motivation, burnout pr
 """
 
 import random
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
 
 from .journal_engine import JournalEngine
 from .learning_assistant import LearningAssistant
 from .pattern_detector import PatternDetector
-from datetime import timezone
 
 
 class SoloDeveloperSupport:
@@ -211,9 +210,7 @@ class SoloDeveloperSupport:
         """Provide mood-based recommendations"""
         if mood == "challenging":
             if emotions["frustration"] > 0.7:
-                return (
-                    "Take a break. Step away for 10 minutes. Fresh perspective helps."
-                )
+                return "Take a break. Step away for 10 minutes. Fresh perspective helps."
             else:
                 return "Start with a small, easy win to build momentum."
         elif mood == "okay":
@@ -243,9 +240,7 @@ class SoloDeveloperSupport:
         )
 
         if recent_wins:
-            motivations.append(
-                f"You've had {len(recent_wins)} wins this week! Keep the momentum! 🔥"
-            )
+            motivations.append(f"You've had {len(recent_wins)} wins this week! Keep the momentum! 🔥")
 
         return random.choice(motivations)
 
@@ -423,10 +418,7 @@ Keep crushing it! 💪
         for pattern in patterns:
             if "late-night" in pattern.description.lower():
                 burnout_indicators["late_night_work"] = True
-            if (
-                "frustration" in pattern.description.lower()
-                and pattern.impact == "negative"
-            ):
+            if "frustration" in pattern.description.lower() and pattern.impact == "negative":
                 burnout_indicators["increasing_frustration"] = True
 
         # Calculate burnout risk
@@ -449,9 +441,7 @@ Keep crushing it! 💪
             "next_check": (datetime.now(timezone.utc) + timedelta(days=3)).strftime("%Y-%m-%d"),
         }
 
-    def _burnout_recommendations(
-        self, risk_level: str, indicators: dict[str, bool]
-    ) -> list[str]:
+    def _burnout_recommendations(self, risk_level: str, indicators: dict[str, bool]) -> list[str]:
         """Provide burnout prevention recommendations"""
         recommendations = []
 
@@ -630,9 +620,7 @@ if __name__ == "__main__":
     print(f"Today's standup: {standup['motivation_boost']}")
 
     # Celebrate a win
-    win = support.celebrate_win(
-        "Implemented quantum coherence algorithm", impact="high"
-    )
+    win = support.celebrate_win("Implemented quantum coherence algorithm", impact="high")
     print(win["message"])
 
     # Check burnout

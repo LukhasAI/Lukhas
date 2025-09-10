@@ -9,9 +9,9 @@ from typing import Any, Dict
 
 class LucasConfig:
     """Simple configuration class for LUKHAS consciousness reasoning engine"""
-    
+
     @staticmethod
-    def get_default() -> Dict[str, Any]:
+    def get_default() -> dict[str, Any]:
         """Get default configuration for the reasoning engine"""
         return {
             "analysis_timeout": 30,

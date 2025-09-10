@@ -19,12 +19,11 @@ import hashlib
 import logging
 import time
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-from datetime import timezone
 
 # Import LUKHAS components
 try:

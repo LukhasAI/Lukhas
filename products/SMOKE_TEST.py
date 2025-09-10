@@ -3,6 +3,7 @@
 🧪 Products Smoke Test Suite
 Test all product components and document working vs broken state
 """
+
 import sys
 import traceback
 from dataclasses import dataclass

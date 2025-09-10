@@ -10,6 +10,7 @@ This module integrates:
 - QRG advanced authentication flows
 - Trinity Framework compliance (⚛️🧠🛡️)
 """
+
 import logging
 from dataclasses import dataclass
 from enum import Enum

@@ -20,11 +20,10 @@ This component handles governance functionality in the AI consciousness computin
 """
 
 import asyncio
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 from candidate.core.common import get_logger
-from datetime import timezone
 
 
 class ComplianceValidator:

@@ -18,6 +18,7 @@ details and authentication for custom Large Language Models compatible with Chat
           Fern generations. If changes are needed, consider modifying the API definition
           from which this file is generated.
 """
+import logging
 import typing
 
 # AIMPORTS_START
@@ -27,7 +28,6 @@ import structlog  # ΛMODIFICATION: Added structlog for standardized logging
 from ..core.pydantic_utilities import IS_PYDANTIC_V2  # ΛDEP: project-specific
 from ..core.unchecked_base_model import UncheckedBaseModel  # ΛDEP: project-specific
 from .conv_ai_secret_locator import ConvAiSecretLocator
-import logging
 
 # AIMPORTS_END
 

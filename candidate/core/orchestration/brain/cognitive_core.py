@@ -18,9 +18,8 @@ import os
 # Import our organized components
 import sys
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
-from datetime import timezone
 
 # Add brain directory to path for imports
 brain_dir = os.path.dirname(os.path.abspath(__file__))

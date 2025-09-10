@@ -16,12 +16,11 @@ import io
 import json
 import secrets
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
 
 import qrcode
 from PIL import Image
-from datetime import timezone
 
 try:
     from cryptography.fernet import Fernet

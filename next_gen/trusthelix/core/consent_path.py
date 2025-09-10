@@ -3,6 +3,7 @@
 Consent Path Logger - Immutable audit trail of consent decisions
 Maps glyph sequences to actions with cryptographic proof
 """
+
 import hashlib
 import json
 import logging

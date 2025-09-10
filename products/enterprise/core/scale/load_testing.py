@@ -10,6 +10,8 @@ class ExperimentType(Enum):
 @dataclass
 class LoadTestConfig:
     target_url: str
+
+
 concurrent_users: int
 test_duration_minutes: int
 expected_latency_p95_ms: float

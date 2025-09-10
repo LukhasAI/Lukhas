@@ -14,10 +14,12 @@ import subprocess
 def get_syntax_errors():
     """Get files with syntax errors from ruff output."""
     try:
-        result = subprocess.run([
-            "python3", "-m", "ruff", "check", ".",
-            "--output-format=json"
-        ], capture_output=True, text=True, cwd="/Users/agi_dev/LOCAL-REPOS/Lukhas")
+        result = subprocess.run(
+            ["python3", "-m", "ruff", "check", ".", "--output-format=json"],
+            capture_output=True,
+            text=True,
+            cwd="/Users/agi_dev/LOCAL-REPOS/Lukhas",
+        )
 
         if result.stdout:
             violations = json.loads(result.stdout)
@@ -25,11 +27,13 @@ def get_syntax_errors():
 
             for violation in violations:
                 message = violation.get("message", "").lower()
-                if ("syntax" in message or
-                    "expected" in message or
-                    "unexpected" in message or
-                    "cannot follow" in message or
-                    "positional argument" in message):
+                if (
+                    "syntax" in message
+                    or "expected" in message
+                    or "unexpected" in message
+                    or "cannot follow" in message
+                    or "positional argument" in message
+                ):
                     syntax_errors.append(violation)
 
             return syntax_errors
@@ -52,8 +56,9 @@ def fix_common_syntax_patterns(file_path):
         content = re.sub(r"= None,\s*timezone\)", r"= None, timezone=None)", content)
 
         # Fix 2: Fix logger calls with incorrect timezone params
-        content = re.sub(r"logger\.getLogger\([^)]+,\s*timezone\)",
-                        lambda m: m.group(0).replace(", timezone", ""), content)
+        content = re.sub(
+            r"logger\.getLogger\([^)]+,\s*timezone\)", lambda m: m.group(0).replace(", timezone", ""), content
+        )
 
         # Fix 3: Fix incomplete f-strings
         content = re.sub(r'f"[^"]*\{[^}]*:\s*$', lambda m: m.group(0) + "}", content)

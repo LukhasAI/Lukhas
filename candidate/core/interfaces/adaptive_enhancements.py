@@ -4,21 +4,20 @@ LUKHΛS Adaptive Interface Enhancements
 Selective integration of valuable UX components into existing system.
 Enhances rather than replaces current capabilities.
 """
-from consciousness.qi import qi
-import time
-import streamlit as st
-
 import asyncio
 import json
+import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
+import streamlit as st
 from cognition.symbolic_feedback_loop import SymbolicState
 
 # Import existing LUKHΛS components
 from candidate.orchestration.symbolic_kernel_bus import emit, kernel_bus
+from consciousness.qi import qi
 from identity.identity_core import AccessTier
 
 # We'll only take what enhances our system

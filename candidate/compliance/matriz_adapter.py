@@ -2,13 +2,13 @@
 MATRIZ Adapter for Compliance Module
 Emits MATRIZ-compliant nodes for compliance and regulatory events
 """
-import streamlit as st
-
 import json
 import time
 import uuid
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
 
 
 class ComplianceMatrizAdapter:

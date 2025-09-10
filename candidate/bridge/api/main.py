@@ -1,4 +1,9 @@
+import logging
+import time
 from typing import List
+
+import streamlit as st
+
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: main.py
 # MODULE: oneiric_core
@@ -10,7 +15,6 @@ from typing import List
 #               .analysis.drift_score, .settings
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
-
 from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -19,9 +23,6 @@ from .analysis.drift_score import update_user_drift_profile
 from .db.db import init_db
 from .identity.auth_middleware import AuthUser, get_current_user
 from .settings import get_settings
-import streamlit as st
-import time
-import logging
 
 # Initialize FastAPI app
 

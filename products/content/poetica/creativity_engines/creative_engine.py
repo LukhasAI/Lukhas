@@ -405,9 +405,7 @@ class EnterpriseNeuralHaikuGenerator:
             finally:
                 ACTIVE_GENERATORS.dec()
 
-    async def _generate_base_haiku(
-        self, context: CreativeContext, style_override: CreativeStyle | None
-    ) -> list[str]:
+    async def _generate_base_haiku(self, context: CreativeContext, style_override: CreativeStyle | None) -> list[str]:
         """Generate base haiku structure using neural guidance."""
         lines = []
         syllable_pattern = [5, 7, 5]

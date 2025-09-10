@@ -28,7 +28,7 @@ import asyncio
 import logging
 import uuid
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 from .auth_cross_module_integration import ModuleType, auth_cross_module_integrator
@@ -37,7 +37,6 @@ from .auth_governance_policies import auth_governance_policy_engine
 
 # LUKHAS governance imports
 from .auth_guardian_integration import AuthenticationGuardian, AuthEventType
-from datetime import timezone
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)

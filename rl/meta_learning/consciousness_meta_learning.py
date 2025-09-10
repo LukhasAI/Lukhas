@@ -464,7 +464,9 @@ class ConsciousnessMetaLearning:
         adaptation_trend = (
             "faster"
             if adaptation_times[-1] < adaptation_times[0]
-            else "slower" if len(adaptation_times) > 1 else "stable"
+            else "slower"
+            if len(adaptation_times) > 1
+            else "stable"
         )
 
         # Strategy effectiveness analysis

@@ -4,8 +4,6 @@ Comprehensive AI safety, security, and assistance framework with Lambda branding
 
 Integrated from existing guardian_engine.py implementation.
 """
-from consciousness.qi import qi
-import streamlit as st
 
 import asyncio
 import logging
@@ -14,6 +12,10 @@ import uuid
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 logger = logging.getLogger("ΛGuardian.Core")
 

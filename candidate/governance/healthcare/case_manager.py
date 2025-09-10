@@ -5,13 +5,13 @@ Manages clinical cases, reviews, and consultations with support
 for various EHR system integrations. Integrated with LUKHAS governance
 and ethical oversight systems.
 """
+import asyncio
 import logging
 import uuid
 from datetime import datetime, timezone
 from typing import Any, Optional
 
 from ..common import GlyphIntegrationMixin
-import asyncio
 
 # Authentication and authorization imports
 try:
