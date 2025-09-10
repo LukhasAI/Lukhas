@@ -1,0 +1,13 @@
+{
+  "api readiness": "Green",
+  "governance vs code": "Yellow",
+  "identity/web": "Green",
+  "import/lane hygiene": "Green",
+  "lane integrity": "Red",
+  "matriz readiness": "Yellow",
+  "module coupling": "Yellow",
+  "security supply chain": "Yellow",
+  "security/supply chain": "Green",
+  "syntax health": "Yellow",
+  "testing posture": "Green"
+}

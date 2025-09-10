@@ -1,0 +1,14 @@
+category,file,risk,when,citation_path,line_range
+Identity/Web,serve/main.py,Low,"Later - Expand health check to cover database connections or critical subsystems (memory, awareness) status",serve/main.py,139-148
+Identity/Web,serve/main.py,Low,"Later - Expand health check to cover database connections or critical subsystems (memory, awareness) status",serve/main.py,102-109
+MATRIZ Readiness,audit/TIER1.txt,Medium,Now - Flesh out contract details (inputs/outputs) and link golden trace tests to actual module behaviors for full coverage,audit/TIER1.txt,42-48
+Import Cycles,candidate/governance/identity/constellation_glyph_integration.py,Medium,Later - Refactor IdentitySystem init to break import loop,candidate/governance/identity/constellation_glyph_integration.py,852-860
+Governance vs Code,docs/architecture/LUKHAS_ARCHITECTURE_MASTER.json,Medium,Now - Update LUKHAS_ARCHITECTURE_MASTER.json to include the API module listed in Tier-1 docs,audit/TIER1.txt,24-32
+Cross-Lane Imports,lukhas/bridge/llm_wrappers/anthropic_wrapper.py,High,Now - Remove quarantine layer and refactor cross-lane dependencies,lukhas/bridge/llm_wrappers/anthropic_wrapper.py,24-24
+Cross-Lane Imports,lukhas/core/swarm.py,High,Now - Remove quarantine layer and refactor cross-lane dependencies,lukhas/core/swarm.py,12-12
+Syntax Errors,memory/fold_lineage_tracker.py,Critical,Now - Define or remove undefined logger references,memory/fold_lineage_tracker.py,7-15
+Lane Integrity,quarantine/cross_lane/__init__.py,High,Now - Remove or refactor the quarantine layer. Provide official interfaces in lukhas for any needed functionality from candidate,quarantine/cross_lane/__init__.py,23-30
+MATRIZ Readiness,reports/audit/appendix_delta.md,Low,Later - Implement endpoints to serve these trace JSONs and add tests verifying that each golden trace can be retrieved and matches expected outcomes,reports/audit/appendix_delta.md,44-49
+Lane Integrity,reports/audit/appendix_delta.md,Medium,Later - Monitor that no new cross-lane imports are introduced (keep CI guard). Plan removal of quarantine/,reports/audit/appendix_delta.md,79-81
+Security Supply Chain,reports/audit/appendix_delta.md,Medium,Now - Add the SBOM reference into SECURITY_ARCHITECTURE.json and consider signing build artifacts,reports/audit/appendix_delta.md,37-42
+Security Supply Chain,scripts/audit.sh,Low,Later - Add security scan result validation and failure handling,scripts/audit.sh,30-34
