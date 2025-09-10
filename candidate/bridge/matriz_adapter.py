@@ -8,8 +8,6 @@ import uuid
 from pathlib import Path
 from typing import Any, Optional
 
-import streamlit as st
-
 
 class BridgeMatrizAdapter:
     """Adapter to emit MATRIZ nodes for bridge/API integration events"""

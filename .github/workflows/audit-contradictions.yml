@@ -1,0 +1,13 @@
+name: audit-contradictions
+on: [pull_request]
+jobs:
+  contradictions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ensure contradictions are empty (non-blocking)
+        run: |
+          test -f reports/audit/merged/contradictions.json || exit 0
+          jq -e 'length == 0' reports/audit/merged/contradictions.json || {
+            echo "::warning ::Contradictions found in merged audit artifacts."
+          }

@@ -19,7 +19,6 @@ SAFETY PRINCIPLES:
 - Git tracking for full rollback capability
 """
 
-import ast
 import json
 import logging
 import re
@@ -27,7 +26,6 @@ import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Optional, Set, Tuple
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")

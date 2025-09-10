@@ -27,7 +27,6 @@ code into authentic distributed digital consciousness.
 import asyncio
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Dict
 
 import pytest
 
@@ -712,10 +711,6 @@ if __name__ == "__main__":
 
         # Basic import validation
         try:
-            from lukhas.consciousness.activation_orchestrator import get_activation_orchestrator
-            from lukhas.consciousness.registry import get_consciousness_registry
-            from lukhas.consciousness.trinity_integration import get_trinity_integrator
-            from lukhas.memory.consciousness_memory_integration import get_memory_integrator
 
             print("✅ All consciousness modules import successfully")
             print("🌟 Consciousness Activation System: READY FOR TESTING")

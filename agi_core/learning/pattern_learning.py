@@ -7,7 +7,7 @@ Advanced pattern recognition and learning system for consciousness development.
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 
 class PatternType(Enum):

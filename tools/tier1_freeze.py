@@ -8,7 +8,6 @@ This script implements the scope freeze by:
 3. Creating a registry of Tier-1 vs non-Tier-1 modules
 """
 
-import os
 from pathlib import Path
 
 import yaml

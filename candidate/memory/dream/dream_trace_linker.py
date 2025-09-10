@@ -34,7 +34,6 @@ TECHNICAL ARCHITECTURE:
 ΛTAG: ΛLUKHAS, ΛDREAM, ΛMEMORY, ΛSYMBOLIC, ΛENTANGLEMENT
 """
 
-import hashlib
 import json
 import logging
 import os

@@ -39,8 +39,6 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
 
-import streamlit as st
-
 # Try to import optional dependencies
 try:
     import numpy as np

@@ -31,6 +31,8 @@ try:
     from lukhas.memory.systems.tier_system import (
         PermissionScope,
         TierLevel,
+    )
+    from lukhas.memory.systems.tier_system import (
         lukhas_tier_required as _tier_required_impl,
     )
 

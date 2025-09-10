@@ -19,13 +19,11 @@ Features:
 
 import ast
 import logging
-import re
 import shutil
 import subprocess
 import sys
-import tempfile
 from pathlib import Path
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Optional
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

@@ -13,10 +13,6 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Optional
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 logger = logging.getLogger("ΛGuardian.Core")
 
 

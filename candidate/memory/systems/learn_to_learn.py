@@ -9,7 +9,6 @@ Version: 1.1 (Standardized)
 """
 
 # Standard Library Imports
-import logging
 from datetime import datetime, timezone
 from typing import Any, Optional
 

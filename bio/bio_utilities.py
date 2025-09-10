@@ -7,7 +7,7 @@ Bio-inspired utility functions and classes for LUKHAS consciousness systems
 
 import logging
 from enum import Enum
-from typing import Any, Dict
+from typing import Any
 
 logger = logging.getLogger(__name__)
 

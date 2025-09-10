@@ -29,7 +29,6 @@ from enum import Enum
 from typing import Any, Optional
 
 import jwt
-import streamlit as st
 
 try:
     from fastapi import HTTPException, Request, status

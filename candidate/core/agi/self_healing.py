@@ -9,8 +9,6 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
 
-import streamlit as st
-
 
 class FailureType(Enum):
     """Types of system failures"""

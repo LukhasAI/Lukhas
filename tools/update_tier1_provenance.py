@@ -3,7 +3,6 @@
 Update Tier-1 module schemas with enhanced provenance
 """
 
-import os
 import re
 from pathlib import Path
 

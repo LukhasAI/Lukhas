@@ -34,10 +34,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 from .dream_engine.lukhas_oracle_dream import OracleDreamGenerator
 
 # Internal imports

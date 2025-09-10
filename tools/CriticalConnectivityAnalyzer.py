@@ -9,8 +9,6 @@ import json
 from collections import Counter, defaultdict
 from pathlib import Path
 
-import streamlit as st
-
 
 class CriticalConnectivityAnalyzer:
     def __init__(self, report_path):

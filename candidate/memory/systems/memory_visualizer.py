@@ -1,7 +1,5 @@
 import logging
 
-from consciousness.qi import qi
-
 logger = logging.getLogger(__name__)
 """
 lukhas AI System - Function Library

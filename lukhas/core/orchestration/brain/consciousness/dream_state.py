@@ -7,7 +7,7 @@ Description: Dream state management for consciousness processing.
 
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 
 class DreamStateType(Enum):

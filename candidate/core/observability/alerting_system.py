@@ -38,8 +38,6 @@ from email.mime.text import MimeText
 from enum import Enum
 from typing import Any, Optional
 
-import streamlit as st
-
 logger = logging.getLogger(__name__)
 
 

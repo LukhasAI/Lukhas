@@ -18,8 +18,6 @@ from enum import Enum
 from pathlib import Path  # Added Path
 from typing import Any, Callable, Optional  # Added Union
 
-import streamlit as st
-
 # Initialize logger for ΛTRACE
 
 # TAG:consciousness

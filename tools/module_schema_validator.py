@@ -11,7 +11,6 @@ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 import json
 import sys
 from pathlib import Path
-from typing import Dict, List, Set, Tuple
 
 import jsonschema
 import yaml

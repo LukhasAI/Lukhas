@@ -5,7 +5,7 @@ Quantum-inspired flux dynamics for dream consciousness integration
 """
 
 import logging
-from typing import Any, Dict
+from typing import Any
 
 logger = logging.getLogger(__name__)
 

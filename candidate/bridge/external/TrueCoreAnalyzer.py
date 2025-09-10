@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from typing import List
 
 """
 
@@ -14,8 +13,6 @@ Shows what's actually your AI system vs external dependencies
 import os
 from collections import defaultdict
 from datetime import datetime, timezone
-
-import streamlit as st
 
 
 class TrueCoreAnalyzer:

@@ -1,9 +1,7 @@
 # lukhas_empathy.py
 # Empathic response generator for LUKHAS AI based on symbolic dream and emotion input
 
-from typing import TYPE_CHECKING, Optional
-
-import streamlit as st
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from candidate.orchestration.brain.spine.trait_manager import load_traits

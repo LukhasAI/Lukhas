@@ -7,10 +7,7 @@ across consciousness systems after the async guardian reliability hardening.
 
 import asyncio
 import gc
-import logging
 import time
-from typing import List, Set
-from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
@@ -25,7 +22,6 @@ from lukhas.async_utils import (
     await_with_timeout,
     consciousness_context,
     gather_with_error_handling,
-    run_consciousness_task,
     run_guardian_task,
 )
 

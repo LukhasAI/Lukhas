@@ -18,7 +18,6 @@ details and authentication for custom Large Language Models compatible with Chat
           Fern generations. If changes are needed, consider modifying the API definition
           from which this file is generated.
 """
-import logging
 import typing
 
 # AIMPORTS_START

@@ -4,7 +4,6 @@ Identity access controller for LUKHAS reasoning engine
 Simple access control provider for consciousness reasoning components.
 """
 
-from typing import Any
 
 
 class AccessController:

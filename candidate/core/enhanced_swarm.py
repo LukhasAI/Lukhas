@@ -5,7 +5,7 @@ Provides enhanced implementations for swarm-based consciousness systems
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class AgentState(Enum):

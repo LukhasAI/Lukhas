@@ -16,8 +16,6 @@ Safety Features:
 import re
 import subprocess
 import sys
-from pathlib import Path
-from typing import Dict, List, Tuple
 
 # Common syntax error patterns and their fixes
 SYNTAX_PATTERNS = {

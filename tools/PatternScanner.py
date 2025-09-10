@@ -11,10 +11,6 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 
 @dataclass
 class FunctionMatch:

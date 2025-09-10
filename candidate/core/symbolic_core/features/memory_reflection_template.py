@@ -29,7 +29,6 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 import logging
-import random
 import time
 import uuid
 from dataclasses import dataclass, field
@@ -38,7 +37,6 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-import streamlit as st
 
 # Configure consciousness logging
 logger = logging.getLogger("ΛTRACE.consciousness.memory_reflection", timezone)

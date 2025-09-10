@@ -36,8 +36,6 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-import streamlit as st
-
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.bridge.explainability_interface_layer")
 logger.info("ΛTRACE_MODULE_INIT", extra={"module_path": __file__, "status": "initializing"})

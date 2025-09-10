@@ -77,7 +77,6 @@ import logging
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 import asyncio
-import random
 from collections import deque
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -85,10 +84,8 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-import streamlit as st
 
 from candidate.core.common import get_logger
-from consciousness.qi import qi
 
 # Initialize logger for consciousness tracing
 logger = logging.getLogger("ΛTRACE.consciousness.engine", timezone)

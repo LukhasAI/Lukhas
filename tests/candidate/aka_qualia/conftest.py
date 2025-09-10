@@ -15,7 +15,7 @@ import contextlib
 import tempfile
 import time
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 from unittest.mock import Mock
 
 import pytest

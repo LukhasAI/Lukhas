@@ -16,14 +16,11 @@ Integration with lukhas-id:
 - Tier-based access to different creative capabilities
 - Respect user preferences and ethical boundaries
 """
-import logging
 import os
 import random
 import sys
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
-
-import streamlit as st
+from typing import Any, Optional
 
 # Add parent directory to path for identity interface
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))

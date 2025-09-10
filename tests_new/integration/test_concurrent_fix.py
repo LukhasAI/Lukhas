@@ -10,7 +10,6 @@ import sys
 import tempfile
 import threading
 import time
-from pathlib import Path
 
 # Add paths for imports
 sys.path.insert(0, ".")

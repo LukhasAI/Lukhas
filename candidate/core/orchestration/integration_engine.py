@@ -18,7 +18,6 @@ log = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 import asyncio
-import logging
 from datetime import datetime, timezone
 from typing import Any, Optional
 

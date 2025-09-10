@@ -24,7 +24,6 @@
    - BIO_SYMBOLIC.qi_attention
 """
 
-import json
 import logging
 import os
 import threading
@@ -32,9 +31,7 @@ import time
 import uuid
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
-
-from candidate.core.common import get_logger
+from typing import Any, Optional
 
 # Configure logging
 logger = logging.getLogger("lucas.brain", timezone)

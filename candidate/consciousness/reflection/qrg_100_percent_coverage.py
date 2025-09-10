@@ -31,10 +31,8 @@ import threading
 import time
 import unittest
 
-import streamlit as st
 from qrg_integration import LukhusQRGIntegrator, QRGType
 
-from consciousness.qi import qi
 from lukhas.qi.steganographic_demo import (
     GlyphStyle,
     QIQRInfluencer,

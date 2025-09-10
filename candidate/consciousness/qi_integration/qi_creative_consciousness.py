@@ -25,10 +25,6 @@ import sys
 from datetime import datetime, timezone
 from typing import Any
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 

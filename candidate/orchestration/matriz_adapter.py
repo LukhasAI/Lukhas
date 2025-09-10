@@ -8,8 +8,6 @@ import uuid
 from pathlib import Path
 from typing import Any, Optional
 
-import streamlit as st
-
 
 class OrchestrationMatrizAdapter:
     """Adapter to emit MATRIZ nodes for orchestration/brain events"""

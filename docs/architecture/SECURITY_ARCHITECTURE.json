@@ -400,7 +400,10 @@
       "sbom_required": true,
       "sbom_format": "CycloneDX",
       "sbom_path": "reports/sbom/cyclonedx.json",
-      "license_policy": "allowlist-strict"
+      "sbom_generation_command": "cyclonedx-bom -o reports/sbom/cyclonedx.json",
+      "sbom_validation": "automated_sbom_integrity_checks",
+      "license_policy": "allowlist-strict",
+      "dependency_constraints": "constraints.txt"
     },
     "software_supply_chain": {
       "dependency_management": {

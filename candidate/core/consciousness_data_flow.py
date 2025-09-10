@@ -16,10 +16,9 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, List, Optional
+from typing import Any, Callable, Optional
 
 import numpy as np
-import streamlit as st
 
 # Import enhanced MATRIZ components
 from .enhanced_matriz_adapter import (

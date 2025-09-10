@@ -12,11 +12,9 @@ Maintains full T4 compliance and policy enforcement.
 """
 
 import json
-import re
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, List, Optional, Set
 
 try:
     import tomllib  # py3.11+

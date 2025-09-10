@@ -50,9 +50,7 @@ import asyncio  # For tier decorator placeholder
 import logging
 from collections import defaultdict, deque  # Added defaultdict
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, Optional  # Added Any, Optional
-
-import streamlit as st
+from typing import Any, Optional  # Added Any, Optional
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.consciousness.cognitive.reflective_introspection", timezone)

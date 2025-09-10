@@ -18,7 +18,6 @@ from typing import Any
 from unittest.mock import Mock
 
 import pytest
-import streamlit as st
 from sqlalchemy import create_engine, text
 from sqlalchemy.pool import StaticPool
 

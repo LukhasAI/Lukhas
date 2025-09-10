@@ -5,12 +5,8 @@ Critical for consciousness timestamp accuracy and temporal coherence
 """
 
 import json
-import os
 import re
 import subprocess
-import sys
-from pathlib import Path
-from typing import Dict, List, Set, Tuple
 
 
 def get_dtz005_violations() -> list[dict]:

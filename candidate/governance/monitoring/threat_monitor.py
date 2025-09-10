@@ -13,8 +13,6 @@ from collections import deque
 from dataclasses import dataclass
 from enum import Enum
 
-import streamlit as st
-
 from ..common import GlyphIntegrationMixin
 
 logger = logging.getLogger(__name__)

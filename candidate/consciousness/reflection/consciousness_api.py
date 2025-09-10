@@ -15,10 +15,6 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 
 class ConsciousnessLevel(Enum):
     """Levels of consciousness simulation"""

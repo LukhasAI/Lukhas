@@ -6,8 +6,6 @@ consciousness-aware task prioritization for production reliability.
 """
 
 import asyncio
-import time
-from unittest.mock import AsyncMock, patch
 
 import pytest
 
@@ -24,7 +22,6 @@ from lukhas.async_utils import (
     await_with_timeout,
     consciousness_context,
     consciousness_task,
-    create_managed_task,
     run_with_retry,
 )
 

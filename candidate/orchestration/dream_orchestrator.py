@@ -4,7 +4,7 @@ import sys
 import time
 from queue import Queue
 from threading import Thread
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from openai import OpenAI
 

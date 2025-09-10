@@ -4,7 +4,6 @@ Quick f-string fixer for single brace errors
 Fixes patterns like f"text{variable}" where } is missing
 """
 
-import os
 import re
 from pathlib import Path
 

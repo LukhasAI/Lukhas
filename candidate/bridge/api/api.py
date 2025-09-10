@@ -31,10 +31,6 @@ from datetime import datetime, timezone
 from enum import Enum  # Added for QRGType fallback
 from typing import Any, Optional
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 # Initialize ΛTRACE logger for this module
 logger = logging.getLogger("ΛTRACE.lukhas_id.api.unified_api", timezone)
 logger.info("ΛTRACE: Initializing unified_api module.")

@@ -5,7 +5,7 @@ Provides bio-inspired awareness components for symbolic processing
 
 import logging
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 logger = logging.getLogger(__name__)
 

@@ -32,6 +32,8 @@ from typing import Any, Optional
 
 from vivox.emotional_regulation.vivox_ern_core import (
     RegulationStrategy,
+)
+from vivox.emotional_regulation.vivox_ern_core import (
     VIVOXEmotionalRegulationNetwork as VivoxERN,
 )
 

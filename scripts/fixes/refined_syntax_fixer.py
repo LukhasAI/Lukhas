@@ -20,7 +20,6 @@ import logging
 import re
 import subprocess
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
 logger = logging.getLogger(__name__)

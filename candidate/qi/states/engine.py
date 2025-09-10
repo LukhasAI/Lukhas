@@ -28,12 +28,8 @@ This is critical for managing memory complexity and preventing runaway growth.
 
 For more information, visit: https://lukhas.ai
 """
-import time
-from typing import List
 
-import streamlit as st
 
-from consciousness.qi import qi
 
 # ΛTRACE: Symbolic collapse engine
 # ΛORIGIN_AGENT: Claude Code

@@ -88,10 +88,20 @@ except ImportError as e:
     # ΛCORE: Import fallback services from dedicated module
     from .fallback_services import (
         FallbackConsciousnessService as ConsciousnessService,
+    )
+    from .fallback_services import (
         FallbackCreativityService as CreativityService,
+    )
+    from .fallback_services import (
         FallbackEthicsService as EthicsService,
+    )
+    from .fallback_services import (
         FallbackIdentityClient as IdentityClient,
+    )
+    from .fallback_services import (
         FallbackMemoryService as MemoryService,
+    )
+    from .fallback_services import (
         FallbackQuantumService as QIService,
     )
 

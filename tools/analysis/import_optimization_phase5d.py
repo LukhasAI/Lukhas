@@ -5,12 +5,7 @@ Critical for module loading efficiency and undefined name resolution
 """
 
 import json
-import os
-import re
 import subprocess
-import sys
-from pathlib import Path
-from typing import Dict, List, Set, Tuple
 
 
 def get_import_violations() -> list[dict]:

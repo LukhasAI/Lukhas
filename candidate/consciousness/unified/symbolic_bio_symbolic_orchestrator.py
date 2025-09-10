@@ -25,7 +25,6 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np
-import streamlit as st
 
 from bio.core.symbolic_adaptive_threshold_colony import create_threshold_colony
 from bio.core.symbolic_anomaly_filter_colony import create_anomaly_filter_colony
@@ -34,7 +33,6 @@ from bio.core.symbolic_fallback_systems import get_fallback_manager
 from bio.core.symbolic_preprocessing_colony import create_preprocessing_colony
 from candidate.core.colonies.base_colony import BaseColony
 from candidate.core.symbolism.tags import TagPermission, TagScope
-from consciousness.qi import qi
 
 logger = logging.getLogger("ΛTRACE.bio.orchestrator", timezone)
 

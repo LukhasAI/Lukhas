@@ -23,9 +23,6 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-import streamlit as st
-
-from consciousness.qi import qi
 
 # Import existing consensus components
 from .consensus_mechanisms import (

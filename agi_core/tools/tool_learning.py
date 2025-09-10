@@ -6,11 +6,10 @@ to learn how to use tools more effectively and discover optimal tool combination
 """
 
 import logging
-import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 

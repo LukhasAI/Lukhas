@@ -17,7 +17,8 @@ import numpy as np
 
 # Import colony infrastructure
 from candidate.core.colonies.base_colony import BaseColony, ConsensusResult
-from candidate.core.enhanced_swarm import AgentCapability, AgentState, EnhancedSwarmAgent as SwarmAgent
+from candidate.core.enhanced_swarm import AgentCapability, AgentState
+from candidate.core.enhanced_swarm import EnhancedSwarmAgent as SwarmAgent
 
 # Import identity events
 try:

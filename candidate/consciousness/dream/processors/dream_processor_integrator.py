@@ -8,8 +8,6 @@ Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 from datetime import timezone
 
-import streamlit as st
-
 """
 Integration module for DreamProcessor and pattern recognition.
 """

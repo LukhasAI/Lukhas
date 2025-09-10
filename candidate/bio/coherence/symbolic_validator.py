@@ -40,8 +40,6 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-import streamlit as st
-
 # Configure bio-symbolic logging
 logger = logging.getLogger("ΛTRACE.bio.coherence.symbolic_validator", timezone)
 logger.info("ΛTRACE: Initializing Bio-Symbolic Coherence Validation System v1.0.0")

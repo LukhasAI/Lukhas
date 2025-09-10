@@ -16,7 +16,6 @@ A.4) Never alter expression semantics
 import re
 import subprocess
 from pathlib import Path
-from typing import List, Tuple
 
 
 def apply_mechanical_fixes(content: str) -> str:

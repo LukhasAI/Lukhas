@@ -1,0 +1,26 @@
+# LUKHAS Security Constraints
+# Pin critical dependencies to secure versions
+# Used with: pip install -r requirements.txt -c constraints.txt
+
+# Cryptography
+cryptography>=41.0.0,<42.0.0
+
+# Machine Learning
+transformers>=4.30.0,<5.0.0
+
+# HTTP Client
+aiohttp>=3.8.5,<4.0.0
+
+# Data Validation
+pydantic>=2.0.0,<3.0.0
+
+# Web Framework
+fastapi>=0.100.0,<1.0.0
+
+# ASGI Server
+uvicorn>=0.23.0,<1.0.0
+
+# Additional Security-Critical Packages
+requests>=2.31.0,<3.0.0
+urllib3>=2.0.0,<3.0.0
+certifi>=2023.7.22

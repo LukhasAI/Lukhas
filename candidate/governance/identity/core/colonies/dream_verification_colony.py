@@ -19,7 +19,8 @@ import numpy as np
 
 # Import colony infrastructure
 from candidate.core.colonies.base_colony import BaseColony, ConsensusResult
-from candidate.core.enhanced_swarm import AgentCapability, AgentMemory, AgentState, EnhancedSwarmAgent as SwarmAgent
+from candidate.core.enhanced_swarm import AgentCapability, AgentMemory, AgentState
+from candidate.core.enhanced_swarm import EnhancedSwarmAgent as SwarmAgent
 
 # Import event bus for dream coordination
 try:

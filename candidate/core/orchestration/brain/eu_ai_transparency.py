@@ -20,9 +20,7 @@ import time
 import uuid
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, Optional
-
-import streamlit as st
+from typing import Any, Optional
 
 # Configure transparency logging
 transparency_logger = logging.getLogger("EU.AI.Transparency", timezone)

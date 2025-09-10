@@ -23,8 +23,6 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-import streamlit as st
-
 try:
     from fastapi import FastAPI
     from fastapi.openapi.utils import get_openapi

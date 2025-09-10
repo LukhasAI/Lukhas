@@ -1,9 +1,4 @@
 import logging
-from typing import List
-
-import streamlit as st
-
-from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 """

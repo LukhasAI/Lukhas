@@ -4,12 +4,8 @@ Phase 5C continuation: Fix deprecated datetime.utcnow() and fromtimestamp() call
 """
 
 import json
-import os
 import re
 import subprocess
-import sys
-from pathlib import Path
-from typing import Dict, List, Tuple
 
 
 def get_dtz_violations() -> list[dict]:

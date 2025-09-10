@@ -22,10 +22,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-import streamlit as st
 from ΛBot_auditor import ΛBotAuditor
-
-from consciousness.qi import qi
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")

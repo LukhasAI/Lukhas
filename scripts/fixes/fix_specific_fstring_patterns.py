@@ -8,7 +8,6 @@ Target the exact f-string bracket mismatch patterns identified in error files.
 
 import re
 import subprocess
-from pathlib import Path
 
 
 def fix_specific_patterns(content: str) -> str:

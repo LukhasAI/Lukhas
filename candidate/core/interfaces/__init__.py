@@ -11,11 +11,12 @@ Components:
 - Intelligence engine registry
 - Additional protocol interfaces
 """
+import lukhas_pb2
 import streamlit as st
 
-import lukhas_pb2
-
-from .core_interface import CoreInterface, get_module as get_core_module, register_module as register_core_module
+from .core_interface import CoreInterface
+from .core_interface import get_module as get_core_module
+from .core_interface import register_module as register_core_module
 
 # Import dependency injection system
 from .dependency_injection import (
@@ -37,19 +38,31 @@ from .dependency_injection import (
 )
 from .encrypted_perception_interface import (
     Encrypted_PerceptionInterface,
+)
+from .encrypted_perception_interface import (
     get_module as get_encrypted_perception_module,
+)
+from .encrypted_perception_interface import (
     register_module as register_encrypted_perception_module,
 )
 
 # Import interface modules for circular dependency resolution
 from .memory_interface import (
     MemoryInterface,
+)
+from .memory_interface import (
     get_module as get_memory_module,
+)
+from .memory_interface import (
     register_module as register_memory_module,
 )
 from .moral_alignment_interface import (
     Moral_AlignmentInterface,
+)
+from .moral_alignment_interface import (
     get_module as get_moral_alignment_module,
+)
+from .moral_alignment_interface import (
     register_module as register_moral_alignment_module,
 )
 

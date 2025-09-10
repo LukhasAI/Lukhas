@@ -24,12 +24,10 @@ Date: September 9, 2025
 Version: 1.0.0 - Post Syntax Error Elimination
 """
 
-import asyncio
 import logging
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional
-from unittest.mock import MagicMock, Mock, patch
+from unittest.mock import Mock, patch
 
 import pytest
 
@@ -65,7 +63,6 @@ class TestConsciousnessModuleIntegrity:
     def test_no_syntax_errors_in_consciousness_files(self):
         """Verify no syntax errors exist in consciousness Python files"""
         import py_compile
-        import tempfile
 
         consciousness_dir = project_root / "candidate" / "consciousness"
         syntax_errors = []
@@ -104,7 +101,6 @@ class TestConsciousnessReasoningEngine:
     def test_emotional_memory_vector_creation(self, mock_dependencies):
         """Test emotional memory vector processing (recently fixed syntax)"""
         try:
-            from candidate.consciousness.reasoning.id_reasoning_engine import EmotionalMemoryVector
 
             # Test the fixed dictionary comprehension logic
             mock_data = {"emotion1": 0.8, "emotion2": 0.3, "emotion3": 0.9, "invalid": "not_a_number"}
@@ -123,7 +119,6 @@ class TestConsciousnessReasoningEngine:
         """Test emotional similarity calculations"""
         try:
             # Test that the module structure is intact after syntax fixes
-            import candidate.consciousness.reasoning.id_reasoning_engine as reasoning
 
             # Mock test for similarity calculation logic
             mock_vector_a = {"joy": 0.8, "sadness": 0.2}

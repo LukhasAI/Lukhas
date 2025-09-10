@@ -4,7 +4,7 @@ Configuration module for LUKHAS reasoning engine
 Simple configuration provider for consciousness reasoning components.
 """
 
-from typing import Any, Dict
+from typing import Any
 
 
 class LucasConfig:
