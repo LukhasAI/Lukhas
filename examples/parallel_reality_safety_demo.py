@@ -13,7 +13,6 @@ import asyncio
 import json
 from typing import Any
 
-from core.common import get_logger
 from lukhas.consciousness.dream.parallel_reality_safety import (
     SafetyLevel,
 )
@@ -21,6 +20,7 @@ from lukhas.consciousness.dream.parallel_reality_simulator import (
     ParallelRealitySimulator,
     RealityType,
 )
+from lukhas.core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -51,7 +51,7 @@ class SafetyDemo:
         # Mock services
         from unittest.mock import AsyncMock, Mock
 
-        from core.interfaces.dependency_injection import register_service
+        from lukhas.core.interfaces.dependency_injection import register_service
 
         mock_memory = Mock()
         mock_memory.store = AsyncMock(return_value="safety_demo_mem")

@@ -14,12 +14,8 @@ Migrate 1000+ docs from scattered structure to clean MkDocs categories:
 Add YAML front-matter to all files using controlled vocabulary.
 """
 
-import os
-import re
-import shutil
 import time
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 CONTROLLED_VOCABULARY = {
     "status": ["draft", "review", "stable", "deprecated"],

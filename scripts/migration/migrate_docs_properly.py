@@ -4,8 +4,6 @@ PROPER Documentation Migration Script - DOCUMENTATION FILES ONLY
 Only migrates actual documentation markdown files, not code or build artifacts
 """
 
-import os
-import re
 import shutil
 import subprocess
 from datetime import datetime

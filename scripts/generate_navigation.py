@@ -3,7 +3,6 @@
 Generate comprehensive MkDocs navigation from migrated documentation
 """
 
-import os
 from pathlib import Path
 
 import yaml

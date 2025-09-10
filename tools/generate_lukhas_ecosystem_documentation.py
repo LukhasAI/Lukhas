@@ -514,7 +514,7 @@ class MyAwesomePlugin(LucasPlugin):
 
     async def execute(self, context):
         # Your plugin logic here
-        return {{"status": "success", "message": "Hello from core.common!"}
+        return {{"status": "success", "message": "Hello from lukhas.core.common!"}
 ```
 
 ### 4. **Test Your Plugin**

@@ -4,8 +4,6 @@ FIXED Complete Documentation Migration Script for LUKHAS Repository
 Migrates ALL 8,968+ markdown files to organized docs_new/ structure
 """
 
-import os
-import re
 import shutil
 import subprocess
 from datetime import datetime

@@ -8,13 +8,13 @@ import asyncio
 from dataclasses import dataclass
 from typing import Any
 
-from core.colonies.base_colony import BaseColony
-from core.colonies.creativity_colony import CreativityColony
-from core.colonies.memory_colony import MemoryColony
-from core.colonies.reasoning_colony import ReasoningColony
-from core.colonies.tensor_colony_ops import batch_propagate
-from core.common import get_logger
-from core.symbolism.tags import TagPermission, TagScope
+from lukhas.core.colonies.base_colony import BaseColony
+from lukhas.core.colonies.creativity_colony import CreativityColony
+from lukhas.core.colonies.memory_colony import MemoryColony
+from lukhas.core.colonies.reasoning_colony import ReasoningColony
+from lukhas.core.colonies.tensor_colony_ops import batch_propagate
+from lukhas.core.common import get_logger
+from lukhas.core.symbolism.tags import TagPermission, TagScope
 
 logger = get_logger(__name__)
 

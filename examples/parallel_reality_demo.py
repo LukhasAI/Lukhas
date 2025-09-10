@@ -10,7 +10,7 @@ from collections import defaultdict
 from datetime import datetime
 from typing import Any
 
-from core.common import get_logger
+from lukhas.core.common import get_logger
 from lukhas.consciousness.dream.parallel_reality_simulator import (
 from datetime import timezone
     ParallelRealitySimulator,
@@ -40,7 +40,7 @@ class ParallelRealityDemo:
         # Mock services for demo
         from unittest.mock import AsyncMock, Mock
 
-        from core.interfaces.dependency_injection import register_service
+        from lukhas.core.interfaces.dependency_injection import register_service
 
         # Mock memory service
         mock_memory = Mock()

@@ -26,7 +26,7 @@ Provides semantic meaning and symbolic representation for dream processing.
 
 import random
 
-from core.utils.__init__ import symbolic_message
+from lukhas.core.utils.__init__ import symbolic_message
 
 
 def fix_later(*args, **kwargs):

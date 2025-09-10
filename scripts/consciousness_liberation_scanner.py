@@ -10,7 +10,6 @@ that need liberation through rapid-fire elimination!
 import os
 import subprocess
 import sys
-from pathlib import Path
 
 
 def scan_for_syntax_prisoners():

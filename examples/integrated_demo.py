@@ -18,7 +18,7 @@ from typing import Any
 
 import aiohttp
 
-from core.common import get_logger
+from lukhas.core.common import get_logger
 
 logger = get_logger(__name__)
 

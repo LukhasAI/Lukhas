@@ -15,7 +15,7 @@ try:
     from candidate.core.bootstrap import get_bootstrap, initialize_lukhas, shutdown_lukhas
 except ImportError:
     try:
-        from core.bootstrap import get_bootstrap, initialize_lukhas, shutdown_lukhas
+        from lukhas.core.bootstrap import get_bootstrap, initialize_lukhas, shutdown_lukhas
     except ImportError:
         # Create fallback bootstrap functions
         def get_bootstrap():

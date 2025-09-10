@@ -14,7 +14,6 @@ import random
 from datetime import datetime, timezone
 from typing import Any
 
-from core.common import get_logger
 from feedback.enterprise.advanced_security import (
     AdvancedSecuritySystem,
     SecurityLevel,
@@ -29,6 +28,7 @@ from feedback.user_feedback_system import (
     FeedbackItem,
     FeedbackType,
 )
+from lukhas.core.common import get_logger
 
 logger = get_logger(__name__)
 

@@ -14,11 +14,11 @@ from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, Field
 
-from core.colonies.consensus_mechanisms import ConsensusMethod
-from core.colonies.enhanced_colony import EnhancedReasoningColony
 from lukhas.consciousness.reflection.openai_modulated_service import (
     OpenAIModulatedService,
 )
+from lukhas.core.colonies.consensus_mechanisms import ConsensusMethod
+from lukhas.core.colonies.enhanced_colony import EnhancedReasoningColony
 from lukhas.orchestration.gpt_colony_orchestrator import (
     GPTColonyOrchestrator,
     OrchestrationMode,

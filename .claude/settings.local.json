@@ -69,7 +69,12 @@
       "Bash(while read venv_dir)",
       "Bash(for:*)",
       "Bash(__NEW_LINE__ echo \"products/experience/dashboard/core/backend/.venv:\")",
-      "Bash(if [ -d \"products/experience/dashboard/core/backend/.venv\" ])"
+      "Bash(if [ -d \"products/experience/dashboard/core/backend/.venv\" ])",
+      "Bash(do if [ -d \"$dir\" ])",
+      "Bash(then echo \"✓ $dir exists\")",
+      "Bash(else echo \"✗ $dir MISSING\")",
+      "Bash(do echo \"Processing $file...\")",
+      "Bash(sed:*)"
     ],
     "deny": [],
     "ask": []

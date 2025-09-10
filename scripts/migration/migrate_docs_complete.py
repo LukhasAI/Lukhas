@@ -4,13 +4,9 @@ Complete Documentation Migration Script for LUKHAS Repository
 Migrates ALL 8,967+ markdown files to organized docs_new/ structure
 """
 
-import os
-import re
 import shutil
 from datetime import datetime
 from pathlib import Path
-
-import yaml
 
 # Controlled vocabulary from lukhas_docs_tests_starter
 VOCABULARY = {

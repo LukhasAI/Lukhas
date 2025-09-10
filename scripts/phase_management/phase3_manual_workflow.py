@@ -20,11 +20,9 @@ SYSTEMATIC PATTERNS TO FIX:
 WORKFLOW: File -> Identify -> Fix -> Test -> Commit -> Next
 """
 
-import json
 import logging
 import subprocess
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)

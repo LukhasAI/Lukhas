@@ -1,0 +1,48 @@
+./candidate/core/consciousness/oracle/receptivity_windows.py:# from core.architectures.abas.core import ABASFlowState
+./candidate/core/consciousness/oracle/prediction_engine.py:# from core.architectures.abas.core import ABASAttentionState
+./candidate/core/consciousness/oracle/prediction_engine.py:# from core.architectures.dast.core import DASTTemporalPatterns
+./candidate/core/orchestration/__init__.py:# Import OrchestrationCore directly from core.py to avoid circular imports
+./candidate/qi/ui/abstract_reasoning_demo.original.py:            "ΛTRACE: Advanced processing results received from core.",
+./tools/analysis/import_fixer.py:            "from core.common": "from core.common",
+./tools/analysis/comprehensive_f821_eliminator.py:            "VisualSymbol": "from core.symbolic import VisualSymbol",
+./tools/analysis/comprehensive_f821_eliminator.py:            "VoiceSymbol": "from core.symbolic import VoiceSymbol",
+./tools/analysis/comprehensive_f821_eliminator.py:            "VisualSymbol": [r"from.*symbolic.*import.*VisualSymbol", r"from core.symbolic import.*VisualSymbol"],
+./tools/analysis/comprehensive_f821_eliminator.py:            "VoiceSymbol": [r"from.*symbolic.*import.*VoiceSymbol", r"from core.symbolic import.*VoiceSymbol"],
+./tools/analysis/mass_f821_elimination_phase2.py:                'import_fix': 'from core.symbolic import VisualSymbol',
+./tools/analysis/mass_f821_elimination_phase2.py:                'import_fix': 'from core.symbolic import VoiceSymbol',
+./tools/analysis/comprehensive_import_fixer.py:            "core.interfaces": "from core.interfaces import",
+./tools/analysis/comprehensive_import_fixer.py:            "core.interfaces.dependency_injection": "from core.interfaces.dependency_injection import",
+./tools/analysis/comprehensive_import_fixer.py:            ("from core.common.logger import", "from core.common.logger import"),
+./tools/analysis/comprehensive_import_fixer.py:            ("from core.common.config import", "from core.common.config import"),
+./tools/analysis/comprehensive_import_fixer.py:            ("from core.interfaces import", "from core.interfaces import"),
+./tools/scripts/fix_candidate_imports.py:            # from core.module -> from candidate.core.module (but avoid lukhas.core)
+./tools/scripts/consolidate_modules.py:Updates modules to use common utilities from core.common
+./tools/scripts/consolidate_modules.py:            # Skip if already importing from core.common
+./tools/scripts/consolidate_modules.py:            if "from core.common" in line:
+./tools/scripts/execute_directory_reorganization.py:from core.architectures import something
+./tools/scripts/execute_directory_reorganization.py:from core.orchestration import something
+./tools/scripts/execute_directory_reorganization.py:from core.symbolic_core import something
+Binary file ./products/communication/abas/archived_specs/override_logic.py matches
+./.venv/lib/python3.9/site-packages/torch/_refs/_conversions.py:# exact_dtype is for compat with complex_check_dtype from core.
+./.venv/lib/python3.9/site-packages/torch/_refs/_conversions.py:# exact_dtype is for compat with complex_check_dtype from core.
+./.venv/lib/python3.9/site-packages/numpy/matrixlib/tests/test_interaction.py:    # 2018-04-29: moved here from core.tests.test_index.
+./.venv/lib/python3.9/site-packages/numpy/matrixlib/tests/test_interaction.py:    # 2018-04-29: moved here from core.tests.test_multiarray
+./.venv/lib/python3.9/site-packages/numpy/matrixlib/tests/test_interaction.py:    # 2018-04-29: moved here from core.tests.test_multiarray
+./.venv/lib/python3.9/site-packages/numpy/matrixlib/tests/test_interaction.py:    # 2018-04-29: moved here from core.tests.test_multiarray
+./.venv/lib/python3.9/site-packages/numpy/matrixlib/tests/test_interaction.py:    # 2018-04-29: moved here from core.tests.test_multiarray
+./.venv/lib/python3.9/site-packages/numpy/matrixlib/tests/test_interaction.py:    # 2018-04-29: moved here from core.tests.test_multiarray
+./.venv/lib/python3.9/site-packages/numpy/matrixlib/tests/test_interaction.py:    # 2018-04-29: moved here from core.tests.test_nditer, given the
+./.venv/lib/python3.9/site-packages/numpy/matrixlib/tests/test_interaction.py:    # 2018-04-29: moved here from core.tests.test_numeric
+./.venv/lib/python3.9/site-packages/numpy/matrixlib/tests/test_interaction.py:    # 2018-04-29: copied here from core.tests.test_api
+./.venv/lib/python3.9/site-packages/numpy/matrixlib/tests/test_interaction.py:    # 2018-04-29: copied here from core.tests.test_shape_base
+./.venv/lib/python3.9/site-packages/numpy/matrixlib/tests/test_interaction.py:    # 2018-04-29: moved here from core.tests.test_ufunc
+./.venv/lib/python3.9/site-packages/numpy/matrixlib/tests/test_interaction.py:    # 2018-04-29: moved here from core.tests.test_nanfunctions
+./.venv/lib/python3.9/site-packages/numpy/matrixlib/tests/test_interaction.py:    # 2018-04-29: moved here from core.tests.test_nanfunctions
+./.venv/lib/python3.9/site-packages/numpy/matrixlib/tests/test_interaction.py:    # 2018-04-29: moved here from core.tests.test_function_base.
+./.venv/lib/python3.9/site-packages/numpy/matrixlib/tests/test_interaction.py:    # 2018-04-29: moved here from core.tests.test_function_base.
+./.venv/lib/python3.9/site-packages/numpy/matrixlib/tests/test_interaction.py:    # 2018-04-29: moved here from core.tests.test_arraysetops.
+./.venv/lib/python3.9/site-packages/numpy/matrixlib/tests/test_interaction.py:    # 2018-04-29: moved here from core.tests.test_shape_base.
+./.venv/lib/python3.9/site-packages/numpy/matrixlib/tests/test_interaction.py:    # 2018-04-29: moved here from core.tests.test_shape_base.
+./.venv/lib/python3.9/site-packages/numpy/matrixlib/tests/test_interaction.py:    # 2018-04-29: moved here from core.tests.test_index_tricks.
+./.venv/lib/python3.9/site-packages/pandas/core/array_algos/__init__.py:- May dispatch to ExtensionArray methods, but should not import from core.arrays.
+./scripts/migrate_top3_to_production.py:        ("from core.", "from lukhas.acceptance.accepted.core."),

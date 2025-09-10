@@ -27,7 +27,7 @@ nias_path = Path(__file__).parent.parent
 sys.path.insert(0, str(nias_path))
 
 try:
-    from core.nias_engine import get_nias_engine
+    from lukhas.core.nias_engine import get_nias_engine
 
     NIAS_AVAILABLE = True
 except ImportError:

@@ -15,7 +15,7 @@ emotional expression, and vocal communication.
 from dataclasses import dataclass
 from typing import Any
 
-from core.symbolic import VoiceSymbol
+from lukhas.core.symbolic import VoiceSymbol
 from symbolic.vocabularies.voice_vocabulary import VoiceSymbolicVocabulary
 
 from ..core import VoiceEmotion, VoiceProvider

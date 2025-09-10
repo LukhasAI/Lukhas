@@ -69,9 +69,9 @@ try:
 except ImportError:
     try:
         # Try alternative imports from root core
-        from core.glyph import GLYPHEngine
         from identity.lid_core import LIDCore
         from lukhas.consciousness.awareness import ConsciousnessEngine
+        from lukhas.core.glyph import GLYPHEngine
         from lukhas.governance.guardian_system import GuardianSystem
         from lukhas.memory.fold_manager import FoldManager
 

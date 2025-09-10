@@ -1,0 +1,2 @@
+🧊 TIER-1 MODE: Legacy and non-Tier-1 tests excluded
+...............                                                          [100%]
