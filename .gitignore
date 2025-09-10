@@ -290,3 +290,10 @@ lukhas_branding_consolidated.*
 consolidate_branding.py
 memory/protection/sanctum_vault/*.vault
 # test artifacts
+
+# Local development files that should never be committed
+.venv*/
+.venv311/
+.claude/
+reports/dashboard/*.json
+.lukhas_audit/*.jsonl
