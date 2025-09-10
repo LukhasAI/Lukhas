@@ -57,7 +57,19 @@
       "Bash(pip -q install pytest pytest-xdist pytest-cov)",
       "Bash(git restore:*)",
       "Bash(pip show:*)",
-      "Bash(git tag:*)"
+      "Bash(git tag:*)",
+      "Bash(for venv in .cleanenv .venv .venv-lock .venv_runtime_test .venv311)",
+      "Bash(do)",
+      "Bash(if [ -d \"$venv\" ])",
+      "Bash(then)",
+      "Bash(fi)",
+      "Bash(done)",
+      "Bash(do if [ -d \"$venv\" ])",
+      "Bash(then echo \"📦 $venv packages:\" if [ -f \"$venv/bin/pip\" ])",
+      "Bash(while read venv_dir)",
+      "Bash(for:*)",
+      "Bash(__NEW_LINE__ echo \"products/experience/dashboard/core/backend/.venv:\")",
+      "Bash(if [ -d \"products/experience/dashboard/core/backend/.venv\" ])"
     ],
     "deny": [],
     "ask": []
