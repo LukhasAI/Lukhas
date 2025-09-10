@@ -25,7 +25,6 @@ def fix_fstring_specific_issues(content):
         (r'(\{[^{}]*?\()}"', r'\1)}"'),
     ]
 
-
     for pattern, replacement in patterns:
         content = re.sub(pattern, replacement, content)
 

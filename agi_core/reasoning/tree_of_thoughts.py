@@ -118,9 +118,7 @@ class TreeOfThoughts:
                 best_path=best_path,
                 all_paths=complete_paths,
                 total_nodes=len(self.thoughts),
-                exploration_depth=max(
-                    (await self._get_node_depth(node_id) for node_id in self.thoughts), default=0
-                ),
+                exploration_depth=max((await self._get_node_depth(node_id) for node_id in self.thoughts), default=0),
                 reasoning_time=reasoning_time,
                 success=True,
             )
