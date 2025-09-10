@@ -25,13 +25,23 @@ Stream D (Syntax/Cycles) ── Waits for A+B merge
 
 ## Multi‑Agent Task Matrix (Assignable IDs)
 
-**Roster**: Jules01…Jules10 (generalists), Codex (shell/patch heavy), Claude Code (multi‑file plans).
+### Task Types:
+- **Jules Tasks (A1-A6, B1-B5, C1-C3, D1-D3)**: Individual implementation tasks for human-like agents
+- **Claude Code Tasks (A-CC1, C-CC1)**: Multi-file planning and documentation tasks  
+- **Codex Tasks (B-CX1)**: API implementation and automation tasks
+
+### Agent Roster:
+- **Jules01…Jules10**: Generalist agents for focused implementation tasks
+- **Codex**: Shell scripting, API implementation, CI automation
+- **Claude Code**: Multi-file planning, security updates, documentation
+
 **WIP**: Max 3 PRs open at once. Prefer ≤300 LOC per PR.
 **Branching**: `fix/…` (A), `feat/…` (B), `sec/…` (C), `chore/…` (D).
 
 ### Stream A — Lane Integrity (Critical Path)
 **Issues**: #184 | **Lead**: Jules01
 
+#### Jules Implementation Tasks:
 | ID  | Task                                                                                  | Default Assignee | Branch                          | Acceptance Criteria |
 |-----|----------------------------------------------------------------------------------------|------------------|----------------------------------|---------------------|
 | A1  | Inventory all imports using `quarantine/cross_lane`; produce call‑site list           | Jules01          | fix/stream-a-a1-inventory        | List committed in `reports/audit/lane/cross_lane_calls.txt` |
@@ -41,6 +51,8 @@ Stream D (Syntax/Cycles) ── Waits for A+B merge
 | A5  | Add runtime guard + tripwire (already present) — prove it fails without flag          | Jules03          | fix/stream-a-a5-runtime-guard    | `runtime_lane_guard.py` fails when ALLOW flag unset on synthetic leak |
 | A6  | Delete `quarantine/cross_lane` and dead aliases                                       | Jules02          | fix/stream-a-a6-remove-quarantine| Grep shows 0 refs; tests & guards green |
 
+#### AI Agent Planning Task:
+
 **Runbook**: `PYTHONPATH=. python3 tools/ci/runtime_lane_guard.py && PYTHONPATH=. lint-imports -v && ruff check --select E9,F63,F7,F82 lukhas`
 
 ---
@@ -48,6 +60,7 @@ Stream D (Syntax/Cycles) ── Waits for A+B merge
 ### Stream B — MATRIZ Trace API
 **Issues**: #185, #189 | **Lead**: Jules04
 
+#### Jules Implementation Tasks:
 | ID  | Task                                                                 | Default Assignee | Branch                         | Acceptance Criteria |
 |-----|----------------------------------------------------------------------|------------------|-------------------------------|---------------------|
 | B1  | Implement `matriz.traces_router`: `/traces/latest`, `/traces/{id}`   | Jules04          | feat/stream-b-b1-router       | 200 + JSON with `trace_id` for golden file |
@@ -56,6 +69,8 @@ Stream D (Syntax/Cycles) ── Waits for A+B merge
 | B4  | Golden tests: `tests/smoke/test_traces_router.py`                    | Jules04          | feat/stream-b-b4-tests        | Tests pass in CI; no network |
 | B5  | Contracts: ensure Tier‑1 has at least one MATRIZ golden trace        | Jules05          | feat/stream-b-b5-contracts    | Contracts & goldens validated by `contracts-smoke` job |
 
+#### AI Agent Implementation Task:
+
 Env override: `MATRIZ_TRACES_DIR` for runtime; default GOLD=`tests/golden/tier1`, LIVE=`reports/matriz/traces`.
 
 ---
@@ -63,22 +78,28 @@ Env override: `MATRIZ_TRACES_DIR` for runtime; default GOLD=`tests/golden/tier1`
 ### Stream C — Security & SBOM
 **Issue**: #186 | **Lead**: Jules06
 
+#### Jules Implementation Tasks:
 | ID  | Task                                                               | Default Assignee | Branch                        | Acceptance Criteria |
 |-----|--------------------------------------------------------------------|------------------|------------------------------|---------------------|
 | C1  | Reference CycloneDX at `reports/sbom/cyclonedx.json` in security doc | Jules06        | sec/stream-c-c1-sbom-doc     | Path + generation command present in `SECURITY_ARCHITECTURE.json` |
 | C2  | Add/refresh `constraints.txt` for critical deps                     | Jules06          | sec/stream-c-c2-constraints  | CI installs with `-c constraints.txt` |
 | C3  | Add non‑blocking `gitleaks` scan step                               | Jules06          | sec/stream-c-c3-gitleaks     | Report artifact; fails only on findings |
 
+#### AI Agent Documentation Task:
+
 ---
 
 ### Stream D — Syntax & Cycle Hygiene (post A+B)
 **Issues**: #187, #188 | **Lead**: Jules07
 
+#### Jules Implementation Tasks:
 | ID  | Task                                                                     | Default Assignee | Branch                         | Acceptance Criteria |
 |-----|--------------------------------------------------------------------------|------------------|-------------------------------|---------------------|
 | D1  | Fix F821 logger references in `memory/**` (scoped)                       | Jules07          | chore/stream-d-d1-logger      | `ruff --select E9,F63,F7,F82` clean on touched files |
 | D2  | Break Identity↔Governance cycle via small interface module               | Jules08          | chore/stream-d-d2-cycle       | `lint-imports` shows cycle removed; tests green |
-| D3  | Normalize scoreboard keys & add CI sanity for contradictions artifact    | Jules09          | chore/stream-d-d3-auditdash   | `scoreboard.json` normalized; contradictions check present |
+| D3  | normalize scoreboard keys & add CI sanity for contradictions artifact    | Jules09          | chore/stream-d-d3-auditdash   | `scoreboard.json` normalized; contradictions check present |
+
+*Note: Stream D has only Jules tasks - no AI agent tasks currently assigned.*
 
 ---
 
@@ -93,17 +114,22 @@ Env override: `MATRIZ_TRACES_DIR` for runtime; default GOLD=`tests/golden/tier1`
 5. **Close** the task by pasting evidence (commands output) into the PR under **Acceptance Criteria**.
 
 ## Current Default Assignments
-- A1/A3 → Jules01, A2/A6 → Jules02, A4/A5 → Jules03
-- **A-CC1** → Claude Code (Stream A planning task)
-- B1/B4 → Jules04, B2/B3/B5 → Jules05
-- **B-CX1** → Codex (FastAPI router implementation)
-- C1/C2/C3 → Jules06
-- **C-CC1** → Claude Code (Security & SBOM task)
-- D1 → Jules07, D2 → Jules08, D3 → Jules09
+
+### Jules Implementation Tasks (Individual PRs):
+- **Stream A**: A1/A3 → Jules01, A2/A6 → Jules02, A4/A5 → Jules03
+- **Stream B**: B1/B4 → Jules04, B2/B3/B5 → Jules05  
+- **Stream C**: C1/C2/C3 → Jules06
+- **Stream D**: D1 → Jules07, D2 → Jules08, D3 → Jules09
+
+### AI Agent Tasks (Specialized):
+- **A-CC1** → Claude Code (Multi-file planning for lane integrity)
+- **B-CX1** → Codex (FastAPI router implementation)  
+- **C-CC1** → Claude Code (Security documentation & dependency management)
 
 ### Agent Specializations:
-- **Claude Code**: Multi-file planning, security updates, documentation
-- **Codex**: API implementation, shell scripts, CI automation
+- **Jules01-Jules10**: Focused implementation tasks, single-file changes, specific fixes
+- **Claude Code**: Multi-file planning, documentation updates, security configurations
+- **Codex**: API implementation, shell scripts, CI automation, code generation
 
 ## Stream A: Lane Integrity (Critical Path)
 **Issues**: #184
@@ -127,7 +153,7 @@ Env override: `MATRIZ_TRACES_DIR` for runtime; default GOLD=`tests/golden/tier1`
 **Assignee**: Claude Code  
 **Branch**: `fix/stream-a-cc1-planning`
 
-**Prompt Template**:
+**Task Instructions**:
 ```
 /plan
 Goal: Remove quarantine/cross_lane by promoting stable APIs into lukhas/.
@@ -165,7 +191,7 @@ Deliverables: PR with shims, lane_guard + importlinter passing.
 **Assignee**: Codex  
 **Branch**: `feat/stream-b-cx1-router`
 
-**Prompt Template**:
+**Task Instructions**:
 ```
 codex: create FastAPI router traces_router with GET /traces/latest and GET /traces/{id}
 - Reads JSON from reports/matriz/traces/
@@ -199,7 +225,7 @@ codex: create FastAPI router traces_router with GET /traces/latest and GET /trac
 **Assignee**: Claude Code  
 **Branch**: `sec/stream-c-cc1-security`
 
-**Prompt Template**:
+**Task Instructions**:
 ```
 /edit
 1) Open SECURITY_ARCHITECTURE.json; add a "sbom" section linking reports/sbom/cyclonedx.json and generation command.
