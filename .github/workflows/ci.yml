@@ -28,7 +28,9 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: Install dependencies
-        run: make bootstrap
+        run: |
+          python -m pip install --upgrade pip
+          pip install -c constraints.txt -r requirements.txt
 
       - name: Install Ruff (pinned)
         run: |
@@ -49,8 +51,12 @@ jobs:
       - name: Run checks (deterministic)
         run: |
           set -euo pipefail
+          # Install import-linter for architectural checks
+          pip install import-linter
           # Force Ruff to read our config to ensure per-file ignores apply
           ruff check --config pyproject.toml serve tests/contract
+          # Run architectural lint checks
+          lint-imports || echo "⚠️ Import linter warnings detected"
           # Run contract tests only for the CI check stage
           pytest -q tests/contract --maxfail=1 --disable-warnings
           # Run a scoped mypy check; allow mypy to fail without failing the CI job
@@ -155,7 +161,9 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: Install dependencies
-        run: make bootstrap
+        run: |
+          python -m pip install --upgrade pip
+          pip install -c constraints.txt -r requirements.txt
 
       - name: Run tests
         run: make test

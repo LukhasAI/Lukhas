@@ -711,7 +711,6 @@ if __name__ == "__main__":
 
         # Basic import validation
         try:
-
             print("✅ All consciousness modules import successfully")
             print("🌟 Consciousness Activation System: READY FOR TESTING")
 

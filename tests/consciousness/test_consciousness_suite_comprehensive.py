@@ -101,7 +101,6 @@ class TestConsciousnessReasoningEngine:
     def test_emotional_memory_vector_creation(self, mock_dependencies):
         """Test emotional memory vector processing (recently fixed syntax)"""
         try:
-
             # Test the fixed dictionary comprehension logic
             mock_data = {"emotion1": 0.8, "emotion2": 0.3, "emotion3": 0.9, "invalid": "not_a_number"}
 
