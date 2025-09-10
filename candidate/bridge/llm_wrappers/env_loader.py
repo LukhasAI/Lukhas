@@ -53,11 +53,13 @@ MODULE_NAME = "env_loader"
 
 
 def load_lukhas_env() -> dict[str, str]:
-    """Load environment variables from Lukhas professional .env file"""
+    """Load environment variables from Lukhas .env file (local paths only)"""
+    # FIXED: Removed iCloud dependency, using only local paths
     env_files = [
-        "/Users/A_G_I/L_U_K_H_A_C_O_X/.env",
-        "/Users/agi_dev/Library/Mobile Documents/com~apple~CloudDocs/Prototype/Lukhas-ecosystem/ABot/LukhasBot/.env",
         "/Users/agi_dev/LOCAL-REPOS/Lukhas/.env",
+        "./.env", 
+        "../.env",
+        "~/.lukhas/.env",
     ]
 
     env_vars = {}
