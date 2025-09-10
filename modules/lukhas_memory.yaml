@@ -36,7 +36,7 @@ contracts:
     - 'python: lukhas.memory.emit_consolidation'
     - 'python: lukhas.memory.EmotionalMemoryManager'
     - 'python: lukhas.memory.get_emotional_state'
-    version: 1.0.0
+    version: v1.0.0
     compatibility:
       backward: true
       forward: minor
@@ -45,13 +45,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - lukhas.observability.matriz_decorators
-    - lukhas.async_manager
-    - lukhas.core.common.config
-    - lukhas.consciousness.registry
-    - lukhas.observability.matriz_emit
-    - lukhas.consciousness.trinity_integration
+    requires: []
     provides:
     - lukhas.memory
   external:

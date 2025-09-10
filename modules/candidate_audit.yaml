@@ -52,8 +52,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - lukhas.flags
+    requires: []
     provides:
     - candidate.audit
   external:

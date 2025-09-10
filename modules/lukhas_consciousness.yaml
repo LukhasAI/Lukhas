@@ -36,7 +36,7 @@ contracts:
     - 'python: lukhas.consciousness.set_feature_flag'
     - 'python: lukhas.consciousness.ComponentMetadata'
     - 'python: lukhas.consciousness.ConsciousnessActivationOrchestrator'
-    version: 1.0.0
+    version: v1.0.0
     compatibility:
       backward: true
       forward: minor
@@ -45,12 +45,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - lukhas.async_manager
-    - lukhas.core.common.config
-    - lukhas.consciousness.registry
-    - lukhas.memory.consciousness_memory_integration
-    - lukhas.consciousness.trinity_integration
+    requires: []
     provides:
     - lukhas.consciousness
   external:

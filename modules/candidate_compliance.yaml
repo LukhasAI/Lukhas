@@ -52,13 +52,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - candidate.core.symbolic_engine
-    - candidate.orchestration.symbolic_kernel_bus
-    - candidate.core.tracing
-    - lukhas.governance.guardian_system
-    - candidate.core.interfaces
-    - candidate.core.container.service_container
+    requires: []
     provides:
     - candidate.compliance
   external:

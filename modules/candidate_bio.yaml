@@ -52,10 +52,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - lukhas.accepted.bio.engine
-    - lukhas.accepted.bio.hub
-    - lukhas.accepted.bio.utils
+    requires: []
     provides:
     - candidate.bio
   external:

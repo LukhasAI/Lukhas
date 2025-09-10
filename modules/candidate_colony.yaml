@@ -47,10 +47,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - lukhas.dna.interfaces
-    - lukhas.flags
-    - lukhas.colony.contracts
+    requires: []
     provides:
     - candidate.colony
   external:

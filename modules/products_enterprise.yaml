@@ -47,21 +47,10 @@ dependencies:
   internal:
     requires:
     - lukhas.consciousness
-    - candidate.bridge.orchestration.consensus_engine
-    - lukhas.guardian
     - lukhas.memory
-    - lukhas.constellation
-    - lukhas.governance.ethics.constitutional_ai
     - candidate.consciousness
-    - lukhas.governance.guardian_system
     - candidate.memory
-    - tools.t4_quality_gate_validator
-    - candidate.bridge.orchestration.multi_ai_orchestrator
-    - lukhas.orchestration.symbolic_kernel_bus
-    - lukhas.trinity
-    - candidate.bridge.llm_wrappers.base
     - candidate.governance
-    - lukhas.governance.security.access_control
     provides:
     - products.enterprise
   external:

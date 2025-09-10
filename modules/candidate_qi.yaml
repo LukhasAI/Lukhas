@@ -44,7 +44,7 @@ contracts:
     - 'python: candidate.qi.Card'
     - 'python: candidate.qi.LocalUploader'
     - 'python: candidate.qi.QIService'
-    version: 2.0.0
+    version: v2.0.0
     compatibility:
       backward: true
       forward: minor
@@ -53,36 +53,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - candidate.core.monitoring.collapse_tracker
-    - candidate.core.colonies.oracle_colony
-    - lukhas.memory.systems.memory_collapse_verifier
-    - candidate.core.bridges.consciousness_quantum_bridge
-    - tools.documentation.symbolic_knowledge_core.knowledge_graph
-    - lukhas.consciousness.systems.consciousness_colony_integration
-    - candidate.orchestration.brain.mesh.collapse_mesh
-    - candidate.core.integration.service_discovery
-    - candidate.core.colonies.base_colony
-    - lukhas.candidate.qim
-    - candidate.core.symbolic_diagnostics.trace_repair_engine
-    - candidate.bridge.voice.bio_core.oscillator.qi_layer
-    - candidate.orchestration.brain.collapse_chain_integrity
-    - lukhas.qi.processing.qi_engine
-    - lukhas.consciousness.awareness.symbolic_trace_logger
-    - candidate.orchestration.brain.integrity_probe
-    - candidate.qi.processing.qi_engine
-    - candidate.core.identity.identity_engine
-    - candidate.core.testing.plugin_test_framework
-    - candidate.orchestration.brain.unified_collapse_system
-    - candidate.core.unified_integration
-    - candidate.core.bridges.quantum_memory_bridge
-    - lukhas.memory.distributed_state_manager
-    - candidate.core.symbolism.tags
-    - candidate.core.enhanced_swarm
-    - candidate.core.bio_systems.qi_layer
-    - lukhas.bridge.voice.bio_core.oscillator.qi_layer
-    - candidate.core.integration.governance.__init__
-    - lukhas.memory.core_memory.memory_collapse_verifier
+    requires: []
     provides:
     - candidate.qi
   external:

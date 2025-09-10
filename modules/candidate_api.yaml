@@ -52,25 +52,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - lukhas.api.perf
-    - lukhas.flags
-    - lukhas.metrics
-    - lukhas.migration.legacy_jsonl
-    - lukhas.audit.store
-    - lukhas.audit.analytics_read
-    - lukhas.feedback.store
-    - lukhas.api.incidents
-    - lukhas.openai.tooling
-    - lukhas.api.admin
-    - lukhas.api.audit
-    - lukhas.api.dna
-    - lukhas.audit.tool_analytics
-    - lukhas.dna.memory_inmem
-    - lukhas.api.feedback
-    - lukhas.api.ops
-    - lukhas.api.metrics
-    - lukhas.api.tools
+    requires: []
     provides:
     - candidate.api
   external:

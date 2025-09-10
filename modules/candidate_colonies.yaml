@@ -43,7 +43,7 @@ contracts:
     - 'python: candidate.colonies.get_governance_colony'
     - 'python: candidate.colonies.process_all_queues'
     - 'python: candidate.colonies.get_consciousness_colony'
-    version: 1.0.0
+    version: v1.0.0
     compatibility:
       backward: true
       forward: minor

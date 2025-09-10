@@ -43,7 +43,7 @@ contracts:
     - 'python: candidate.bridge.generate_api_key'
     - 'python: candidate.bridge.IntegrationBridge'
     - 'python: candidate.bridge.get_user_tier'
-    version: 2.0.0
+    version: v2.0.0
     compatibility:
       backward: true
       forward: minor
@@ -52,70 +52,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - candidate.bridge.api.documentation
-    - candidate.identity.auth_service
-    - lukhas.memory.core.base_manager
-    - lukhas.bridge.plugin_base
-    - candidate.bridge.api.onboarding
-    - candidate.tools.tool_executor
-    - candidate.core.colonies.reasoning_colony
-    - candidate.orchestration.signals.signal_bus
-    - candidate.core.utils.base_module
-    - candidate.orchestration.multi_model_orchestration
-    - lukhas.branding.terminology
-    - lukhas.accepted.adapters.base
-    - candidate.core.swarm
-    - candidate.orchestration.service_registry
-    - candidate.bridge.llm_wrappers.unified_openai_client
-    - candidate.branding.terminology
-    - lukhas.core.registry
-    - lukhas.memory.vector_store
-    - lukhas.audit.store
-    - candidate.governance.identity.connector
-    - lukhas.core.utils.base_module
-    - candidate.bridge.plugin_loader
-    - candidate.core.colonies.base_colony
-    - candidate.bridge.llm_wrappers.openai_function_bridge
-    - candidate.bridge.llm_wrappers.base
-    - candidate.core.common.config
-    - lukhas.consciousness.consciousness_service
-    - candidate.core.event_bus
-    - candidate.bridge.plugin_base
-    - lukhas.memory.emotional
-    - candidate.bridge.api.validation
-    - candidate.bridge.message_bus
-    - candidate.core.common
-    - candidate.openai.tooling
-    - lukhas.governance.guardian_sentinel
-    - lukhas.memory.service
-    - lukhas.branding_bridge
-    - lukhas.governance.identity.interface
-    - lukhas.identity.auth_service
-    - lukhas.memory.core.qi_memory_manager
-    - candidate.metrics
-    - lukhas.memory.memory_service
-    - lukhas.bridge.plugin_loader
-    - lukhas.governance.consent_ledger.ledger_v1
-    - candidate.orchestration.signals.modulator
-    - candidate.bridge.llm_wrappers.anthropic_function_bridge
-    - candidate.bridge.llm_wrappers.tool_executor
-    - candidate.bridge.llm_wrappers.gemini_wrapper
-    - candidate.orchestration.symbolic_kernel_bus
-    - lukhas.governance.guardian_system
-    - candidate.bridge.adapters.service_adapter_base
-    - lukhas.consciousness.reflection.unified_memory_manager
-    - candidate.bridge.api.orchestration_api_bridge
-    - candidate.bridge.api.security
-    - candidate.core.registry
-    - candidate.bridge.llm_wrappers.perplexity_wrapper
-    - candidate.bridge.llm_wrappers.anthropic_wrapper
-    - lukhas.audit.tool_analytics
-    - lukhas.governance.identity.connector
-    - candidate.orchestration.signals.homeostasis
-    - lukhas.tools.tool_executor
-    - lukhas.memory.embeddings
-    - candidate.bridge.api.orchestration_endpoints
+    requires: []
     provides:
     - candidate.bridge
   external:

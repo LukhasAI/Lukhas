@@ -36,7 +36,7 @@ contracts:
     - 'python: products.experience.prepare_metadata'
     - 'python: products.experience.isdict'
     - 'python: products.experience.test_iter_best_order_multi_index_2d'
-    version: 1.7.4
+    version: v1.7.4
     compatibility:
       backward: true
       forward: minor
@@ -45,44 +45,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - candidate.emotion.emotion_hub
-    - candidate.voice.audio_processing
-    - candidate.core.interfaces.as_agent.sys.nias.narration_controller
-    - lukhas.core.colonies.ethics_swarm_colony
-    - candidate.core.voice_profiling
-    - candidate.core.utils.symbolic_utils
-    - candidate.core.swarm
-    - candidate.core.interfaces.voice.core.sayit
-    - candidate.consciousness.awareness.awareness_engine
-    - candidate.core.common.logger
-    - lukhas.core.monitoring.drift_monitor
-    - candidate.core.interfaces.dependency_injection
-    - candidate.memory.temporal.ContextAnalyzer
-    - candidate.voice.voice_modulator
-    - candidate.core.common.config
-    - candidate.core.voice_safety_guard
-    - candidate.voice.voice_effects
-    - candidate.memory.voice_memory_manager
-    - candidate.core.common
-    - candidate.governance.guardian
-    - lukhas.memory.systems.helix_dna
-    - candidate.core.colonies.ethics_swarm_colony
-    - candidate.core.interfaces
-    - lukhas.core.colonies.base_colony
-    - candidate.voice.tts_integration
-    - candidate.core.modules.nias.__init__
-    - candidate.orchestration.brain.dynamic_adaptive_dashboard
-    - candidate.core.personality.voice_personality
-    - candidate.core.interfaces.voice.voice_emotional.context_aware_modular_voice
-    - lukhas.memory.systems.healix_memory_core
-    - candidate.core.common.exceptions
-    - lukhas.core.oracle_nervous_system
-    - lukhas.core.symbolism.tags
-    - candidate.memory.service
-    - candidate.core.oracle_nervous_system
-    - candidate.core.common.glyph
-    - candidate.core.voice_memory_helix
+    requires: []
     provides:
     - products.experience
   external:

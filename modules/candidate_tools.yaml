@@ -43,7 +43,7 @@ contracts:
     - 'python: candidate.tools.get_external_service_integration'
     - 'python: candidate.tools.get_available_operations'
     - 'python: candidate.tools.get_guardian_status'
-    version: 1.0.0
+    version: v1.0.0
     compatibility:
       backward: true
       forward: minor
@@ -52,18 +52,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - candidate.governance.guardian_system
-    - candidate.bridge.llm_wrappers.gemini_wrapper
-    - candidate.bridge.adapters.service_adapter_base
-    - candidate.bridge.adapters.drive_adapter
-    - candidate.core.symbolic_tokens
-    - candidate.bridge.adapters.gmail_adapter
-    - candidate.bridge.llm_wrappers.anthropic_wrapper
-    - candidate.bridge.llm_wrappers.perplexity_wrapper
-    - candidate.core.security
-    - candidate.bridge.llm_wrappers.unified_openai_client
-    - candidate.bridge.adapters.dropbox_adapter
+    requires: []
     provides:
     - candidate.tools
   external:

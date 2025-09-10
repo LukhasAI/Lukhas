@@ -27,7 +27,7 @@ contracts:
     - 'python: lukhas.accepted.get_symbolic_processor'
     - 'python: lukhas.accepted.BioAwareness'
     - 'python: lukhas.accepted.BioEngine'
-    version: 1.0.0
+    version: v1.0.0
     compatibility:
       backward: true
       forward: minor
@@ -36,13 +36,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - candidate.bio.awareness
-    - candidate.bio.bio_integration_hub
-    - candidate.bio.core
-    - candidate.bio.adapters
-    - candidate.bio.bio_utilities
-    - candidate.bio.symbolic
+    requires: []
     provides:
     - lukhas.accepted
   external:

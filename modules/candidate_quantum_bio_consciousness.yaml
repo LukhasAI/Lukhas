@@ -47,11 +47,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - lukhas.bio.core.bio_symbolic
-    - lukhas.qi.qi_wrapper
-    - candidate.bio.oscillator
-    - candidate.bio.awareness
+    requires: []
     provides:
     - candidate.quantum_bio_consciousness
   external:

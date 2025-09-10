@@ -36,7 +36,7 @@ contracts:
     - 'python: lukhas.vivox.matriz_trace'
     - 'python: lukhas.vivox.VIVOXConsciousnessInterpretationLayer'
     - 'python: lukhas.vivox.register_vivox_me'
-    version: 1.0.0
+    version: v1.0.0
     compatibility:
       backward: true
       forward: minor

@@ -52,10 +52,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - candidate.core.endocrine.hormone_system
-    - candidate.core.common
-    - lukhas.candidate.vivox
+    requires: []
     provides:
     - candidate.vivox
   external:

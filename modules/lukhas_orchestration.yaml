@@ -43,9 +43,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - lukhas.branding_bridge
-    - lukhas.observability.matriz_decorators
+    requires: []
     provides:
     - lukhas.orchestration
   external:

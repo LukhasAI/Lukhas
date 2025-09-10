@@ -36,7 +36,7 @@ contracts:
     - 'python: products.infrastructure.IntrinsicEthicalGovernor'
     - 'python: products.infrastructure.add_log_entry'
     - 'python: products.infrastructure.update_compliance_settings'
-    version: 1.0.0
+    version: v1.0.0
     compatibility:
       backward: true
       forward: minor
@@ -45,9 +45,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - lukhas.governance.identity.interface
-    - lukhas.orchestration.brain.safety_guardrails
+    requires: []
     provides:
     - products.infrastructure
   external:

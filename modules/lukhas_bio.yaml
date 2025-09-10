@@ -1,7 +1,7 @@
 identity:
   name: lukhas.bio
   layer: application
-  summary: bio
+  summary: Biological computation and bio-inspired algorithms for LUKHAS AI
   status: active
   tier: 2
 discovery:
@@ -36,7 +36,7 @@ contracts:
     - 'python: lukhas.bio.calculate_bio_energy'
     - 'python: lukhas.bio.process_homeostasis'
     - 'python: lukhas.bio.process_energy'
-    version: 2.0.0
+    version: v2.0.0
     compatibility:
       backward: true
       forward: minor

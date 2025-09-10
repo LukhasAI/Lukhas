@@ -42,7 +42,7 @@ contracts:
     - 'python: candidate.orchestration.OrchestrationPipeline'
     - 'python: candidate.orchestration.AgentType'
     - 'python: candidate.orchestration.LukhasAgentBridge'
-    version: 1.0.0
+    version: v1.0.0
     compatibility:
       backward: true
       forward: minor
@@ -51,19 +51,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - lukhas.bridge.anthropic_bridge
-    - candidate.orchestration.high_performance_context_bus
-    - candidate.orchestration.symbolic_kernel_bus
-    - lukhas.branding_bridge
-    - lukhas.consciousness.reasoning.advanced_engines.intelligence_engines
-    - lukhas.consciousness.reflection.openai_modulated_service
-    - candidate.orchestration.signals.signal_bus
-    - lukhas.bridge.google_bridge
-    - lukhas.bridge.openai_bridge
-    - lukhas.accepted.orchestrator.brain
-    - candidate.core.colonies.consensus_mechanisms
-    - candidate.core.colonies.enhanced_colony
+    requires: []
     provides:
     - candidate.orchestration
   external:

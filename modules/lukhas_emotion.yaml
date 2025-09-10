@@ -48,9 +48,6 @@ dependencies:
     requires:
     - lukhas.consciousness
     - lukhas.memory
-    - lukhas.observability.matriz_decorators
-    - lukhas.emotion.emotion_wrapper
-    - lukhas.observability.matriz_emit
     provides:
     - lukhas.emotion
   external:

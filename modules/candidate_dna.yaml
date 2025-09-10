@@ -43,7 +43,7 @@ contracts:
     - 'python: candidate.dna.add_causal_context'
     - 'python: candidate.dna.export'
     - 'python: candidate.dna.cosine_similarity'
-    version: 2.0.0
+    version: v2.0.0
     compatibility:
       backward: true
       forward: minor
@@ -52,9 +52,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - lukhas.dna.interfaces
-    - lukhas.core.common
+    requires: []
     provides:
     - candidate.dna
   external:

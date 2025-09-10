@@ -5,7 +5,8 @@ identity:
   status: active
   tier: 3
 discovery:
-  import_patterns: []
+  import_patterns:
+  - from candidate.adapters import *
   import_aliases:
   - adapters
   file_patterns:

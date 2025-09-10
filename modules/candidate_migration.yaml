@@ -50,10 +50,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - lukhas.migration.legacy_store
-    - lukhas.dna.interfaces
-    - lukhas.flags
+    requires: []
     provides:
     - candidate.migration
   external:

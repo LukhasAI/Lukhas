@@ -45,9 +45,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - lukhas.observability.matriz_emit
-    - lukhas.observability.matriz_decorators
+    requires: []
     provides:
     - lukhas.qi
   external:

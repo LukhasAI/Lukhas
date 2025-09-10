@@ -45,11 +45,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - candidate.bridge.llm_wrappers.anthropic_wrapper
-    - lukhas.core.common
-    - lukhas.observability.matriz_emit
-    - lukhas.observability.matriz_decorators
+    requires: []
     provides:
     - lukhas.bridge
   external:

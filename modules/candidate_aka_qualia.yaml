@@ -43,7 +43,7 @@ contracts:
     - 'python: candidate.aka_qualia.test_partial_transaction_rollback'
     - 'python: candidate.aka_qualia.PhenomenalGlyph'
     - 'python: candidate.aka_qualia.test_incremental_write_performance'
-    version: 1.0.0
+    version: v1.0.0
     compatibility:
       backward: true
       forward: minor
@@ -52,29 +52,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - candidate.aka_qualia.tests.test_consciousness_ablation
-    - candidate.aka_qualia.vivox_integration
-    - candidate.aka_qualia.oneiric_hook
-    - candidate.aka_qualia.pls
-    - candidate.core.orchestration.core_modules.symbolic_signal_router
-    - candidate.aka_qualia.palette
-    - candidate.aka_qualia.glyphs
-    - candidate.aka_qualia.memory_sql
-    - candidate.aka_qualia.metrics
-    - candidate.orchestration.signals
-    - candidate.aka_qualia.core
-    - candidate.aka_qualia.router_client
-    - candidate.vivox.collapse.z_collapse_engine
-    - candidate.metrics
-    - candidate.aka_qualia.memory_noop
-    - candidate.aka_qualia.memory
-    - candidate.aka_qualia.models
-    - candidate.aka_qualia.util
-    - candidate.aka_qualia.teq_hook
-    - candidate.aka_qualia.tests.test_ethics_validation
-    - candidate.aka_qualia.regulation
-    - candidate.vivox.memory_expansion.vivox_me_core
+    requires: []
     provides:
     - candidate.aka_qualia
   external:

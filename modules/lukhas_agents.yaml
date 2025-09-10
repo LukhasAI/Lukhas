@@ -5,7 +5,8 @@ identity:
   status: active
   tier: 2
 discovery:
-  import_patterns: []
+  import_patterns:
+  - from lukhas.agents import *
   import_aliases:
   - agents
   file_patterns:

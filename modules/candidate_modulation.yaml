@@ -47,9 +47,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - lukhas.feedback.store
-    - lukhas.flags
+    requires: []
     provides:
     - candidate.modulation
   external:

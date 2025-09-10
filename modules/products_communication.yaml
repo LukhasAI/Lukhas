@@ -36,7 +36,7 @@ contracts:
     - 'python: products.communication.MockUserDatabase'
     - "python: products.communication.NI\u039BS"
     - 'python: products.communication.get_user_rewards_dashboard'
-    version: 1.0.0
+    version: v1.0.0
     compatibility:
       backward: true
       forward: minor
@@ -45,10 +45,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - candidate.core.neural_architectures.abas.abas_quantum_specialist_wrapper
-    - candidate.orchestration.golden_trio
-    - candidate.orchestration.golden_trio.trio_orchestrator
+    requires: []
     provides:
     - products.communication
   external:

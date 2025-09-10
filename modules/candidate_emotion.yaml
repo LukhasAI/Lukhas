@@ -52,15 +52,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - candidate.core.common
-    - candidate.memory.governance.ethical_drift_governor
-    - candidate.core.bio_systems.bio_oscillator
-    - candidate.core.bio_systems.symbolic_entropy
-    - candidate.core.bio_systems.stability_anchor
-    - candidate.core.bio_systems.bio_simulation_controller
-    - candidate.core.bio_systems.stress_signal
-    - lukhas.memory.emotional
+    requires: []
     provides:
     - candidate.emotion
   external:

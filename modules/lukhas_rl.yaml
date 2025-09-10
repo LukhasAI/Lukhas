@@ -36,7 +36,7 @@ contracts:
     - 'python: lukhas.rl.load_buffer'
     - 'python: lukhas.rl.forward'
     - 'python: lukhas.rl.sample_action'
-    version: 0.1.0
+    version: v0.1.0
     compatibility:
       backward: true
       forward: minor
@@ -47,13 +47,9 @@ dependencies:
   internal:
     requires:
     - lukhas.consciousness
-    - lukhas.rl.experience.consciousness_buffer
     - lukhas.emotion
     - lukhas.memory
-    - lukhas.rl.environments.consciousness_environment
-    - lukhas.observability.matriz_decorators
     - lukhas.governance
-    - lukhas.rl.engine.policy_networks
     provides:
     - lukhas.rl
   external:

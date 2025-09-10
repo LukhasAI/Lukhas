@@ -13,7 +13,7 @@
       "properties": {
         "name": {
           "type": "string",
-          "pattern": "^(candidate|lukhas|products|tools)\\.[a-z_][a-z0-9_]*$",
+          "pattern": "^(candidate|lukhas|products|tools|branding|matriz)\\.[a-z_][a-z0-9_-]*$",
           "description": "Full module path (lane.module)"
         },
         "layer": {

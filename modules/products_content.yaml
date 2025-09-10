@@ -36,7 +36,7 @@ contracts:
     - 'python: products.content.VoicePersonalityCreativityEngine'
     - 'python: products.content.run_narration_queue_builder'
     - 'python: products.content.narrate_dreams'
-    version: 1.0.0
+    version: v1.0.0
     compatibility:
       backward: true
       forward: minor
@@ -45,11 +45,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - lukhas.branding_bridge
-    - lukhas.orchestration.brain.orchestration.emotional_oscillator
-    - lukhas.orchestration.brain.personality.personality_refiner
-    - lukhas.consciousness.core_consciousness.qi_consciousness_integration
+    requires: []
     provides:
     - products.content
   external:

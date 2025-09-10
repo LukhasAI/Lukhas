@@ -36,7 +36,7 @@ contracts:
     - 'python: products.intelligence.run_setup'
     - "python: products.intelligence.D\u039BST"
     - 'python: products.intelligence.MarkdownParser'
-    version: 2.0.0
+    version: v2.0.0
     compatibility:
       backward: true
       forward: minor
@@ -45,14 +45,7 @@ contracts:
   - public API remains stable
 dependencies:
   internal:
-    requires:
-    - lukhas.consciousness.unified.auto_consciousness
-    - candidate.orchestration.signals.homeostasis_controller
-    - candidate.orchestration.signals.signal_bus
-    - lukhas.emotion.service
-    - candidate.core.endocrine.hormone_system
-    - lukhas.async_utils
-    - lukhas.memory.memoria
+    requires: []
     provides:
     - products.intelligence
   external:
