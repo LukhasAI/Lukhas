@@ -103,11 +103,13 @@ jobs:
               fi
               
               # Check golden trace exists
-              if ! ls $golden_pattern 1> /dev/null 2>&1; then
+              module_short=$(echo $module | cut -d. -f2)
+              if ls tests/golden/tier1/${module_short}_*.json 1> /dev/null 2>&1; then
+                golden_file=$(ls tests/golden/tier1/${module_short}_*.json | head -1)
+                echo "✅ Golden trace exists for: $module ($golden_file)"
+              else
                 echo "❌ Missing golden trace for: $module"
                 missing_contracts=$((missing_contracts + 1))
-              else
-                echo "✅ Golden trace exists for: $module"
               fi
             fi
           done <<< "$tier1_modules"
