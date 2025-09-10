@@ -3,11 +3,17 @@ Smoke tests for MATRIZ traces router.
 Part of Stream B implementation for issue #185.
 """
 
+import sys
 from pathlib import Path
 from unittest.mock import patch
 
 import pytest
 from fastapi.testclient import TestClient
+
+# Add project root to Python path for imports
+project_root = Path(__file__).parent.parent.parent
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
 
 # Import the router
 from matriz.traces_router import router
