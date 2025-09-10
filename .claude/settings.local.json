@@ -97,7 +97,8 @@
       "Bash(timeout 3 npm run start:http)",
       "Bash(gtimeout 3 npm run start:http)",
       "Bash(dig:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(git merge:*)"
     ],
     "deny": [],
     "ask": []
