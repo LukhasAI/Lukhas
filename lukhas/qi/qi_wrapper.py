@@ -457,39 +457,6 @@ class QIIntegration:
     def initialize_integrations(self) -> None:
         """Initialize QI integrations with candidate module"""
         try:
-            # Try to connect to candidate QI module
-            if QI_ACTIVE and USE_CANDIDATE_BRIDGE:
-                try:
-                    # Import candidate module components without path hacks
-                    import importlib
-
-                    # Try to import key QI components (as packaged module)
-                    importlib.import_module("candidate.qi")
-                    self._candidate_available = True
-
-                    emit(
-                        {
-                            "ntype": "qi_candidate_connected",
-                            "state": {"status": "success"},
-                        }
-                    )
-
-                except ImportError as e:
-                    logger.debug(f"Candidate QI module unavailable: {e}")
-                    emit(
-                        {
-                            "ntype": "qi_candidate_unavailable",
-                            "state": {"error": str(e)},
-                        }
-                    )
-            elif QI_ACTIVE and not USE_CANDIDATE_BRIDGE:
-                logger.debug("QI active but candidate bridge disabled for production lane integrity")
-                emit(
-                    {
-                        "ntype": "qi_candidate_bridge_disabled",
-                        "state": {"reason": "production_lane_integrity"},
-                    }
-                )
 
             # Initialize local processors
             self._quantum_processor = QIInspiredProcessor()

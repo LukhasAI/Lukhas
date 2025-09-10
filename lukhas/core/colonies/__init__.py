@@ -46,22 +46,6 @@ def import_with_fallback(primary_path: str, fallback_paths: list, item_name: str
 logger.debug("Attempting to import colony implementations from candidate lane")
 
 
-def _try_import(name: str, candidate_module: str, item_name: str):
-    """Attempt to import from candidate module if bridge is enabled."""
-    if not USE_CANDIDATE_BRIDGE:
-        logger.debug(f"Candidate bridge disabled, skipping {candidate_module}")
-        return None
-
-    try:
-        mod = importlib.import_module(candidate_module)
-        if hasattr(mod, item_name):
-            logger.info(f"Imported {item_name} from {candidate_module}")
-            return getattr(mod, item_name)
-    except Exception:
-        logger.debug(f"Could not import {item_name} from {candidate_module}")
-    return None
-
-
 @dataclass
 class ConsensusResult:
     """Result of a consensus operation in a colony."""
@@ -82,8 +66,8 @@ try:
 
     logger.info("✅ Using lukhas.core.colonies.base_colony.BaseColony (REAL)")
 except ImportError:
-    # Fall back to candidate implementation if lukhas.core not available
-    BaseColony = _try_import("BaseColony", "candidate.core.colonies.base_colony", "BaseColony")
+    # Fall back to stub implementation if lukhas.core not available
+    BaseColony = None
 
 if BaseColony is None:
     logger.warning("Using BaseColony stub (no cross-lane imports)")

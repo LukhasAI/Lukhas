@@ -7,22 +7,8 @@ by re-exporting classes from the colonies module.
 
 from .colonies import SwarmAgent
 
-# For compatibility with legacy imports
-try:
-    from candidate.core.swarm import AgentColony, SwarmHub
-except ImportError:
-    # Fallback implementations if candidate module unavailable
-    class SwarmHub:
-        """Fallback SwarmHub implementation"""
-
-        def __init__(self, *args, **kwargs):
-            pass
-
-    class AgentColony:
-        """Fallback AgentColony implementation"""
-
-        def __init__(self, *args, **kwargs):
-            pass
+# For compatibility with legacy imports, import from the shim
+from ..shims.core_swarm import AgentColony, SwarmHub
 
 
 __all__ = ["SwarmAgent", "SwarmHub", "AgentColony"]
