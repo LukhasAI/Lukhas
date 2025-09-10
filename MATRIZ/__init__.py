@@ -15,7 +15,12 @@ Key Features:
 - Causal chain reconstruction
 - Multi-modal processing support
 """
-import streamlit as st
+
+try:
+    import streamlit as st
+except ImportError:  # pragma: no cover
+    st = None
+    # Optional UI dependency; core runtime must not require it.
 
 from .core import (
     CognitiveNode,

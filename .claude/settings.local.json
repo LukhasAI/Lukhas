@@ -53,7 +53,11 @@
       "Bash(gtimeout 3 npm run start)",
       "Bash(timeout 3 npm run start:http)",
       "Bash(gtimeout 3 npm run start:http)",
-      "Bash(dig:*)"
+      "Bash(dig:*)",
+      "Bash(pip -q install pytest pytest-xdist pytest-cov)",
+      "Bash(git restore:*)",
+      "Bash(pip show:*)",
+      "Bash(git tag:*)"
     ],
     "deny": [],
     "ask": []

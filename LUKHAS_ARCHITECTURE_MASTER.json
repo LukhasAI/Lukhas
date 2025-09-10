@@ -129,14 +129,14 @@
     "freeze_status": "non_tier1_frozen"
   },
   "provenance": {
-    "git_sha": "ae824698a13d21007f2b2d3e9080d976deaff6b2",
-    "timestamp_utc": "2025-09-10T12:30:11Z",
+    "git_sha": "200541e030dc462e153ad3924f149a28a0e4efed",
+    "timestamp_utc": "2025-09-10T13:43:53Z",
     "generated_by": {
       "tool": "tier1-bootstrap",
       "model": "claude-code",
       "scope_freeze": "tier1_only"
     },
-    "scope_hash": "sha256:e8a34faf96cf2931e6ea74caaff38b6d499be5504e7f53a61a96ba28440ba0d2"
+    "scope_hash": "sha256:7528103c08c33f40594ea77cefef4bf447bfb8367321dc8939702543309a661e"
   },
   "schema_url": "schemas/architecture_master.schema.json"
 }

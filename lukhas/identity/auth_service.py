@@ -4,6 +4,7 @@ LUKHAS Identity Authentication Service
 Unified authentication service that bridges legacy systems with modern identity management.
 Provides secure authentication with fallback support and progressive enhancement.
 """
+
 import asyncio
 import hashlib
 import hmac
@@ -908,6 +909,9 @@ def authenticate_api_key(api_key: str, service_name: str = "unknown") -> AuthRes
     return get_auth_service().authenticate_api_key(api_key, service_name)
 
 
+# Create default instance for backwards compatibility
+auth_service = get_auth_service()
+
 # Export key components
 __all__ = [
     "AuthResult",
@@ -917,4 +921,5 @@ __all__ = [
     "authenticate_token",
     "authenticate_user",
     "get_auth_service",
+    "auth_service",  # Add the missing export
 ]

@@ -1718,3 +1718,61 @@ Combined permissions from both branches:
 - Maintained clean permission structure
 
 🤖 Generated with Claude Code","security_scan":"pending"}
+{"timestamp":"2025-09-10T13:01:11Z","commit":"d6862e99c2273bfba3a398af6814a9f103b8765c","branch":"main","author":"LukhasAI","message":"chore: Update security audit log post-merge","security_scan":"pending"}
+{"timestamp":"2025-09-10T13:21:58Z","commit":"cb3cd85eb0e82c81ca9de2e031c89cc8ec85e1d2","branch":"main","author":"LukhasAI","message":"fix(init): guard optional streamlit import to unblock Tier-1 tests
+
+🚧 Made streamlit imports optional across all core modules to prevent test failures when streamlit is not installed:
+- lukhas/__init__.py: Guarded streamlit import with try/except 
+- candidate/__init__.py: Added streamlit import guard
+- matriz/__init__.py: Added streamlit import guard  
+- matriz/core/__init__.py: Added streamlit import guard
+- lukhas/memory/__init__.py: Added streamlit import guard
+
+🔧 Enhanced testing infrastructure:
+- pytest.ini: Locked to minimal configuration for Tier-1 focus
+- tests/conftest.py: Added bio module quarantine xfail handling
+- .github/workflows/ci.yml: Updated contracts-smoke job to use Python 3.11 and match local test selection
+
+✅ Tier-1 tests now pass completely: 8/8 passed with Python 3.11
+✅ Lane guard validation: OK - no cross-lane imports detected
+✅ Audit validation: All schemas validated and references consistent
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>","security_scan":"pending"}
+{"timestamp":"2025-09-10T13:22:34Z","commit":"dd5567ba663c6fa68c2e0167bf2206d020db6048","branch":"main","author":"LukhasAI","message":"fix(init): guard optional streamlit import to unblock Tier-1 tests
+
+🚧 Made streamlit imports optional across all core modules to prevent test failures when streamlit is not installed:
+- lukhas/__init__.py: Guarded streamlit import with try/except 
+- candidate/__init__.py: Added streamlit import guard
+- matriz/__init__.py: Added streamlit import guard  
+- matriz/core/__init__.py: Added streamlit import guard
+- lukhas/memory/__init__.py: Added streamlit import guard
+
+🔧 Enhanced testing infrastructure:
+- pytest.ini: Locked to minimal configuration for Tier-1 focus
+- tests/conftest.py: Added bio module quarantine xfail handling
+- .github/workflows/ci.yml: Updated contracts-smoke job to use Python 3.11 and match local test selection
+
+✅ Tier-1 tests now pass completely: 8/8 passed with Python 3.11
+✅ Lane guard validation: OK - no cross-lane imports detected
+✅ Audit validation: All schemas validated and references consistent
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>","security_scan":"pending"}
+{"timestamp":"2025-09-10T13:39:02Z","commit":"53cff5d877786bfe8f3dffbce792afc3fd053b60","branch":"main","author":"LukhasAI","message":"chore(git): ignore venv, local Claude settings, dashboard artifacts
+
+fix(hooks): make pre-commit non-blocking for smooth development
+- Move AI analyzer to manual-only (stages: [manual])
+- Move syntax-guardian to push-only (stages: [push])
+- Move mypy to push-only (avoid .venv311 conflicts)
+- Keep ruff and gitleaks on commit (fast and reliable)
+- Add excludes for noisy directories (candidate/, quarantine/, archive/)","security_scan":"pending"}
+{"timestamp":"2025-09-10T13:42:34Z","commit":"200541e030dc462e153ad3924f149a28a0e4efed","branch":"main","author":"LukhasAI","message":"chore(sbom): generate CycloneDX snapshot
+
+- Install cyclonedx-bom and pipdeptree in .venv311
+- Generate SBOM with cyclonedx-py environment command
+- Add reports/sbom/ exception to .gitignore for security audits
+- SBOM includes Python 3.11 environment dependencies","security_scan":"pending"}
+{"timestamp":"2025-09-10T13:44:31Z","commit":"b0a419cb39c2db52c597c9fb0d3f36fdedda0018","branch":"main","author":"LukhasAI","message":"fix(conftest): restore config parameter name for pytest compatibility","security_scan":"pending"}
