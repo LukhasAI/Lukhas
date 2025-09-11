@@ -136,7 +136,8 @@ def parse_scoreboard(md: str) -> dict:
     for line in md.splitlines():
         m = SCOREBOARD_LINE.match(line)
         if m:
-            k = m.group(1).strip().lower()
+            raw_key = m.group(1).strip().lower()
+            k = re.sub(r"[\s/:-]+", "_", raw_key)
             v = m.group(2).capitalize()
             board[k] = v
     return board
