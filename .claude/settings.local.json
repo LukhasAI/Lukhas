@@ -69,7 +69,10 @@
       "Bash(while read venv_dir)",
       "Bash(for:*)",
       "Bash(__NEW_LINE__ echo \"products/experience/dashboard/core/backend/.venv:\")",
-      "Bash(if [ -d \"products/experience/dashboard/core/backend/.venv\" ])"
+      "Bash(if [ -d \"products/experience/dashboard/core/backend/.venv\" ])",
+      "Bash([ -f pyproject.toml ])",
+      "Bash([ -f pytest.ini ])",
+      "Bash([ -f \"$d/__init__.py\" ])"
     ],
     "deny": [],
     "ask": []
