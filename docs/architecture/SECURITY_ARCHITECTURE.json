@@ -400,10 +400,17 @@
       "sbom_required": true,
       "sbom_format": "CycloneDX",
       "sbom_path": "reports/sbom/cyclonedx.json",
-      "sbom_generation_command": "cyclonedx-bom -o reports/sbom/cyclonedx.json",
+      "sbom_generation_command": "cyclonedx-bom -o reports/sbom/cyclonedx.json --validate --output-format=json --output-reproducible",
       "sbom_validation": "automated_sbom_integrity_checks",
+      "sbom_validation_command": "cyclonedx-bom --validate reports/sbom/cyclonedx.json",
+      "sbom_components_count": 53,
+      "sbom_last_generated": "2025-09-10T13:44:01.466186+00:00",
+      "sbom_serial_number": "urn:uuid:23467ed2-3d15-4790-b353-a095bc96028b",
+      "sbom_spec_version": "1.6",
       "license_policy": "allowlist-strict",
-      "dependency_constraints": "constraints.txt"
+      "dependency_constraints": "constraints.txt",
+      "vulnerability_scanning": "enabled",
+      "supply_chain_attestation": "SLSA-level-3"
     },
     "software_supply_chain": {
       "dependency_management": {
