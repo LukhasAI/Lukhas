@@ -5,6 +5,7 @@ Feedback Cards System for LUKHAS
 Human-in-the-loop fine-tuning with feedback cards.
 Based on GPT5 audit recommendations.
 """
+
 import json
 import sqlite3
 import time
@@ -540,7 +541,9 @@ class FeedbackCardsManager:
         quality_score = min(accuracy_feedback / max(total_feedback, 1) + 0.5, 1.0)
 
         # Factor 5: Time factor (recent activity is valued)
-        recent_feedback = sum(1 for row in history if (datetime.now(timezone.utc).timestamp() - float(row[4])) < 604800)  # 1 week
+        recent_feedback = sum(
+            1 for row in history if (datetime.now(timezone.utc).timestamp() - float(row[4])) < 604800
+        )  # 1 week
         recency_score = min(recent_feedback / 5.0, 1.0)
 
         # Weighted combination

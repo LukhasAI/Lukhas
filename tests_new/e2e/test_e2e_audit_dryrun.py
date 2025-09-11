@@ -24,7 +24,7 @@ class AuditSafetyChecker:
     """Verify audit safety conditions before running tests."""
 
     @staticmethod
-    def verify_audit_mode():
+    def verify_audit_mode() -> None:
         """Verify system is in audit mode."""
         required_env = {
             "LUKHAS_DRY_RUN_MODE": "true",
@@ -38,7 +38,7 @@ class AuditSafetyChecker:
                 pytest.fail(f"Audit safety failure: {var} = {actual}, expected {expected}")
 
     @staticmethod
-    def verify_dangerous_features_disabled():
+    def verify_dangerous_features_disabled() -> None:
         """Verify dangerous features are disabled."""
         dangerous_features = [
             "FEATURE_REAL_API_CALLS",
@@ -51,7 +51,7 @@ class AuditSafetyChecker:
                 pytest.fail(f"Dangerous feature enabled: {feature}")
 
     @staticmethod
-    def verify_no_api_keys_required():
+    def verify_no_api_keys_required() -> None:
         """Verify no real API keys are required."""
         api_keys = ["OPENAI_API_KEY", "ANTHROPIC_API_KEY", "GOOGLE_API_KEY"]
 

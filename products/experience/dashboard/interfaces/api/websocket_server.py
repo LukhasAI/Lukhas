@@ -42,6 +42,7 @@
 ║ ΛTAG: ΛWEBSOCKET, ΛSTREAMING, ΛREALTIME, ΛDASHBOARD, ΛINTELLIGENCE
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import asyncio
 import builtins
 import contextlib
@@ -183,7 +184,9 @@ class DashboardWebSocketServer:
                 "status": "healthy",
                 "server_id": self.server_id,
                 "connected_clients": len(self.clients),
-                "uptime": ((datetime.now(timezone.utc) - self.start_time).total_seconds() if hasattr(self, "start_time") else 0),
+                "uptime": (
+                    (datetime.now(timezone.utc) - self.start_time).total_seconds() if hasattr(self, "start_time") else 0
+                ),
             }
 
         # Metrics endpoint
@@ -476,14 +479,12 @@ class DashboardWebSocketServer:
                 target_clients = []
                 async with self.client_lock:
                     for client in self.clients.values():
-                        # Check if client is subscribed to this stream type
+                        # Check if client is subscribed to this stream type and message is targeted to client
                         if (
                             message.stream_type in client.subscribed_streams
                             or StreamType.ALL_STREAMS in client.subscribed_streams
-                        ):
-                            # Check if message is targeted to specific clients
-                            if message.target_clients is None or client.client_id in message.target_clients:
-                                target_clients.append(client)
+                        ) and (message.target_clients is None or client.client_id in message.target_clients):
+                            target_clients.append(client)
 
                 # Broadcast to target clients
                 broadcast_data = {

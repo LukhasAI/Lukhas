@@ -42,6 +42,7 @@ except ImportError:
         task.add_done_callback(lambda t: run_background_task._tasks.discard(t))
         return task
 
+
 import structlog
 
 from candidate.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
@@ -367,25 +368,19 @@ class AdaptiveMetricsCollector:
             task = create_managed_task(
                 self._collect_metric_loop(metric_name, metric_def),
                 name=f"collect_metric_{metric_name}",
-                component="monitoring.adaptive_metrics"
+                component="monitoring.adaptive_metrics",
             )
             self.collection_tasks[metric_name] = task
 
         # Start context monitoring and analysis with background tasks
         run_background_task(
-            self._context_monitoring_loop(),
-            name="context_monitoring",
-            description="Monitor adaptive metrics context"
+            self._context_monitoring_loop(), name="context_monitoring", description="Monitor adaptive metrics context"
         )
         run_background_task(
-            self._correlation_analysis_loop(),
-            name="correlation_analysis",
-            description="Analyze metric correlations"
+            self._correlation_analysis_loop(), name="correlation_analysis", description="Analyze metric correlations"
         )
         run_background_task(
-            self._adaptive_tuning_loop(),
-            name="adaptive_tuning",
-            description="Tune adaptive metrics collection"
+            self._adaptive_tuning_loop(), name="adaptive_tuning", description="Tune adaptive metrics collection"
         )
 
     async def stop_collection(self):

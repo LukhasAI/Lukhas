@@ -24,21 +24,19 @@
    - BIO_SYMBOLIC.qi_attention
 """
 
-import json
+import logging
 import os
 import threading
 import time
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
-
-from candidate.core.common import get_logger
+from typing import Any, Optional
 
 # Configure logging
 logger = logging.getLogger("lucas.brain", timezone)
 handler = logging.StreamHandler()
-formatter = logging.Formatter('%(asctime)s [%(levelname)s] %(name)s: %(message)s')
+formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 logger.setLevel(logging.INFO)
@@ -50,7 +48,7 @@ try:
     #     AGIMemory, MemoryFold, MemoryType, MemoryPriority, ContextReasoner
     # )
     AGIMemory = None
-    MemoryFold = None  
+    MemoryFold = None
     MemoryType = None
     MemoryPriority = None
     ContextReasoner = None
@@ -165,7 +163,7 @@ class EmotionVector:
             # Convert to distance (0-2, where lower is more similar)
             return 1.0 - similarity
 
-    def closest_emotion(self, target_emotion: str, limit: int = 3) -> List[Tuple[str, float]]:
+    def closest_emotion(self, target_emotion: str, limit: int = 3) -> list[tuple[str, float]]:
         """Find the closest emotions to a target emotion"""
         if target_emotion not in self.emotion_vectors:
             target_emotion = "neutral"
@@ -182,7 +180,7 @@ class EmotionVector:
         distances.sort(key=lambda x: x[1])
         return distances[:limit]
 
-    def get_vector(self, emotion: str) -> List[float]:
+    def get_vector(self, emotion: str) -> list[float]:
         """Get the vector for a specified emotion"""
         if emotion in self.emotion_vectors:
             return self.emotion_vectors[emotion]
@@ -210,9 +208,9 @@ class EmotionalOscillator:
 
     def update_emotional_state(self,
                              primary_emotion: str,
-                             intensity: float = None,
-                             secondary_emotions: Dict[str, float] = None,
-                             metadata: Dict[str, Any] = None) -> Dict[str, Any]:
+                             intensity: Optional[float] = None,
+                             secondary_emotions: Optional[dict[str, float]] = None,
+                             metadata: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Update the current emotional state"""
         # Store previous state in trend before updating
         self.emotional_trend.append(self.current_state.copy())
@@ -259,11 +257,11 @@ class EmotionalOscillator:
 
         return self.current_state
 
-    def get_current_state(self) -> Dict[str, Any]:
+    def get_current_state(self) -> dict[str, Any]:
         """Get the current emotional state"""
         return self.current_state
 
-    def get_voice_modulation_params(self) -> Dict[str, Any]:
+    def get_voice_modulation_params(self) -> dict[str, Any]:
         """
         Generate voice modulation parameters based on the current emotional state.
         This bridges the emotional state to voice synthesis.
@@ -373,11 +371,11 @@ class MemoryEmotionalIntegrator:
     def store_memory_with_emotion(self,
                                 key: str,
                                 content: Any,
-                                emotion: str = None,
-                                tags: List[str] = None,
-                                owner_id: str = None,
+                                emotion: Optional[str] = None,
+                                tags: Optional[list[str]] = None,
+                                owner_id: Optional[str] = None,
                                 priority: Any = None,
-                                additional_metadata: Dict[str, Any] = None) -> Dict[str, Any]:
+                                additional_metadata: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Store memory with emotional context
 
@@ -466,7 +464,7 @@ class MemoryEmotionalIntegrator:
         # Create emotional memory fold
         if emotion and create_memory_fold:
             context_snippet = str(content)[:100] if isinstance(content, str) else key
-            emotional_fold = create_memory_fold(emotion, context_snippet)
+            create_memory_fold(emotion, context_snippet)
             status["emotional_fold"] = True
 
             # Update stats
@@ -484,9 +482,9 @@ class MemoryEmotionalIntegrator:
 
     def retrieve_with_emotional_context(self,
                                       key: str,
-                                      target_emotion: str = None,
+                                      target_emotion: Optional[str] = None,
                                       user_identity = None,
-                                      include_similar_emotions: bool = False) -> Dict[str, Any]:
+                                      include_similar_emotions: bool = False) -> dict[str, Any]:
         """
         Retrieve memory with emotional context
 
@@ -563,7 +561,7 @@ class MemoryEmotionalIntegrator:
     def find_emotionally_similar_memories(self,
                                         target_emotion: str,
                                         limit: int = 5,
-                                        min_similarity: float = 0.7) -> List[Dict[str, Any]]:
+                                        min_similarity: float = 0.7) -> list[dict[str, Any]]:
         """
         Find memories with similar emotional context
 
@@ -643,7 +641,7 @@ class MemoryEmotionalIntegrator:
 
     def dream_consolidate_memories(self,
                                 hours_limit: int = 24,
-                                max_memories: int = 100) -> Dict[str, Any]:
+                                max_memories: int = 100) -> dict[str, Any]:
         """
         Consolidate recent memories through the dream system
 
@@ -712,11 +710,11 @@ class MemoryEmotionalIntegrator:
                 primary_emotion = emotional_context["dominant_emotions"][0]
 
             # Store the consolidated memory
-            result = self.store_memory_with_emotion(
+            self.store_memory_with_emotion(
                 key=consolidated_key,
                 content=summary,
                 emotion=primary_emotion,
-                tags=common_tags + ["consolidated_memory", "dream_system"],
+                tags=[*common_tags, "consolidated_memory", "dream_system"],
                 priority=MemoryPriority.HIGH if hasattr(MemoryPriority, "HIGH") else 1
             )
 
@@ -771,8 +769,8 @@ class MemoryVoiceIntegrator:
 
     def speak_with_emotional_context(self,
                                   text: str,
-                                  context_keys: List[str] = None,
-                                  override_emotion: str = None) -> Dict[str, Any]:
+                                  context_keys: Optional[list[str]] = None,
+                                  override_emotion: Optional[str] = None) -> dict[str, Any]:
         """
         Speak text with emotional context from memory
 
@@ -932,7 +930,7 @@ class LucasBrainIntegration:
 
         logger.info("Lucas Brain Integration system initialized")
 
-    def process_message(self, message_envelope: Dict[str, Any]) -> Dict[str, Any]:
+    def process_message(self, message_envelope: dict[str, Any]) -> dict[str, Any]:
         """
         Process incoming messages from the core integrator
 
@@ -946,8 +944,8 @@ class LucasBrainIntegration:
         metadata = message_envelope.get("metadata", {})
 
         # Extract message information
-        message_type = metadata.get("message_type", "command")
-        source = metadata.get("source")
+        metadata.get("message_type", "command")
+        metadata.get("source")
         action = content.get("action")
 
         # Process based on action type
@@ -1102,15 +1100,15 @@ class LucasBrainIntegration:
         logger.info("Memory consolidation thread stopped")
         return True
 
-    def store_memory(self, **kwargs) -> Dict[str, Any]:
+    def store_memory(self, **kwargs) -> dict[str, Any]:
         """Convenience method to store memory directly"""
         return self.memory_emotional.store_memory_with_emotion(**kwargs)
 
-    def retrieve_memory(self, **kwargs) -> Dict[str, Any]:
+    def retrieve_memory(self, **kwargs) -> dict[str, Any]:
         """Convenience method to retrieve memory directly"""
         return self.memory_emotional.retrieve_with_emotional_context(**kwargs)
 
-    def speak(self, **kwargs) -> Dict[str, Any]:
+    def speak(self, **kwargs) -> dict[str, Any]:
         """Convenience method to speak with emotional context directly"""
         return self.memory_voice.speak_with_emotional_context(**kwargs)
 

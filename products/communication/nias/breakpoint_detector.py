@@ -2,6 +2,7 @@
 Natural Breakpoint Detection System for NIAS
 Identifies optimal moments for ad display without disrupting user workflow
 """
+
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone

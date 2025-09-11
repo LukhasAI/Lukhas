@@ -219,7 +219,7 @@ class GlyphEthicsValidator:
 
         logger.info(
             f"Glyph creation validation: {result.value}(ethical: {ethical_score: .3f},"
-                                                        safety: {safety_score: .3f})"
+                                                        safety: {safety_score: .3f})""
         )
 
         return report

@@ -90,14 +90,18 @@ except ImportError as e:
 try:
     from candidate.governance.guardian.monitoring_dashboard import (
         AlertSeverity as GuardianAlertSeverity,
+    )
+    from candidate.governance.guardian.monitoring_dashboard import (
         ComplianceViolation,
         GuardianMonitoringDashboard,
         MonitoringMetric,
         MonitoringReport,
         MonitoringScope,
-        SystemHealthStatus as GuardianHealthStatus,
         ThreatDetection,
         ThreatLevel,
+    )
+    from candidate.governance.guardian.monitoring_dashboard import (
+        SystemHealthStatus as GuardianHealthStatus,
     )
 
     GUARDIAN_MONITORING_AVAILABLE = True

@@ -3,6 +3,7 @@ LUKHAS AI Bio Core Module
 Core biological-inspired processing components
 Trinity Framework: ⚛️🧠🛡️
 """
+
 import streamlit as st
 
 from .bio_symbolic import (

@@ -6,6 +6,7 @@ Fail-closed acceptance gate:
 - Flags "facade" files (tiny wrappers that are mostly imports)
 Exit code: 0 = pass, 1 = violations
 """
+
 import ast
 import os
 import sys

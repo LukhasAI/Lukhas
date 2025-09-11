@@ -5,7 +5,7 @@ Integrates tool execution with external service adapters (Gmail, Dropbox, etc.)
 """
 
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 # Service Adapter Integration

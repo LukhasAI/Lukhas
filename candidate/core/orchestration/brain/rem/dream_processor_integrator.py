@@ -10,7 +10,7 @@ Integration Date: 2025-05-31T07:55:28.207738
 Integration module for DreamProcessor and pattern recognition.
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 

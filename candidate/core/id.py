@@ -10,11 +10,6 @@ Date: May 30, 2025 | Updated: July 27, 2025
 Version: v1.0.0-integration | Consolidated from 4 duplicate files
 Compliance: EU AI Act, GDPR, US NIST AI Framework
 """
-from consciousness.qi import qi
-import time
-import random
-import streamlit as st
-
 import asyncio
 import base64
 import hashlib
@@ -23,7 +18,7 @@ import logging
 import secrets
 import uuid
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 

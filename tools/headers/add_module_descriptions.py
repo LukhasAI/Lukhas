@@ -6,6 +6,7 @@ LUKHAS Module Description Adder
 This script adds proper module descriptions to all quantum files
 explaining what each module does in technical but accessible terms.
 """
+
 import re
 from pathlib import Path
 

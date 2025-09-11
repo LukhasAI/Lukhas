@@ -4,6 +4,7 @@ LUKHAS AI Elite Content Orchestrator
 Unified coordination engine for all 14 content creation and enterprise systems
 Ensures 85%+ voice coherence and consciousness technology messaging consistency
 """
+
 import asyncio
 import json
 import logging
@@ -14,13 +15,15 @@ from pathlib import Path
 
 # Add branding modules to path
 
+
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
-    
+
     This is a placeholder for functionality that needs to be implemented.
     Replace this stub with the actual implementation.
     """
     raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+
 
 sys.path.append(str(Path(__file__).parent.parent))
 

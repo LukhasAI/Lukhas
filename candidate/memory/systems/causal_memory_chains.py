@@ -298,7 +298,7 @@ class TemporalCausalAnalyzer:
             confidence=min(0.9, causal_strength + 0.2),
             timestamp=datetime.now(timezone.utc),
             source_memories=[memory_a["id"], memory_b["id"]],
-            description=f"Temporal sequence analysis: {time_diff.total_seconds()}:.1f}s gap",
+            description=f"Temporal sequence analysis: {time_diff.total_seconds():.1f}s gap",
         )
 
         # Create causal relation
@@ -1072,7 +1072,7 @@ async def example_causal_reasoning():
         print(f"    Strength: {relation.strength:.3f}")
         print(f"    Confidence: {relation.confidence:.3f}")
         if relation.temporal_delay:
-            print(f"    Delay: {relation.temporal_delay.total_seconds()}:.0f}s")
+            print(f"    Delay: {relation.temporal_delay.total_seconds():.0f}s")
         print()
 
     # Find causal explanation for final memory

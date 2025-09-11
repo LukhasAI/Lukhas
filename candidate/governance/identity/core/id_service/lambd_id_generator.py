@@ -4,6 +4,8 @@ This shim keeps the legacy module path importable while the real
 implementation lives in `lambda_id_generator.py` (canonical name).
 """
 
+from datetime import timezone
+
 from .lambda_id_generator import LambdaIDGenerator
 
 # Backwards-compatible alias

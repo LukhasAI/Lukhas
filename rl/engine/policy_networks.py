@@ -87,7 +87,9 @@ class ConsciousnessActorCritic(nn.Module if nn else object):
         self.module_state_encoder = nn.Sequential(nn.Linear(state_dim, hidden_dim), nn.ReLU(), nn.LayerNorm(hidden_dim))
 
         self.temporal_encoder = nn.Sequential(
-            nn.Linear(4, 64), nn.ReLU(), nn.Linear(64, 64)  # coherence, reflection_depth, ethics, efficiency
+            nn.Linear(4, 64),
+            nn.ReLU(),
+            nn.Linear(64, 64),  # coherence, reflection_depth, ethics, efficiency
         )
 
         self.emotion_encoder = nn.Sequential(nn.Linear(3, 32), nn.ReLU(), nn.Linear(32, 32))  # VAD emotional state

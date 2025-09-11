@@ -12,6 +12,7 @@ to agents, modules, and symbolic functions.
 ΛCOMMIT_WINDOW: pre-O3-init
 ΛPROVED_BY: Human Overseer (Gonzalo)
 """
+
 import logging
 from functools import wraps
 

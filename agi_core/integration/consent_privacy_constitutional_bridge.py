@@ -869,7 +869,9 @@ if __name__ == "__main__":
 
         for component_name, component in bridge.agi_components.items():
             success = await bridge.apply_governance_to_component(
-                component_name, component, test_scenarios[1]  # Use personal data scenario
+                component_name,
+                component,
+                test_scenarios[1],  # Use personal data scenario
             )
             print(f"  Applied governance to {component_name}: {success}")
 

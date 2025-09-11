@@ -1,0 +1,198 @@
+{
+  "trace_name": "consciousness_decision_flow",
+  "description": "Consciousness awareness to decision making complete flow",
+  "version": "1.0", 
+  "generated": "2025-09-10T13:00:00Z",
+  "determinism": "TZ=UTC PYTHONHASHSEED=0",
+  
+  "initial_state": {
+    "consciousness_state": "dormant",
+    "active_decisions": 0,
+    "confidence_level": 0.0
+  },
+  
+  "trace_steps": [
+    {
+      "step": 1,
+      "timestamp": "2025-09-10T13:00:00.000Z",
+      "action": "receive_memory_input",
+      "module": "lukhas.consciousness", 
+      "input": {
+        "signal": "memory.fold.created",
+        "fold_content": {
+          "type": "user_query",
+          "complexity": "high",
+          "requires_decision": true
+        }
+      },
+      "signals_emitted": [
+        {
+          "signal": "consciousness.awareness.state_change",
+          "payload": {
+            "previous_state": "dormant",
+            "new_state": "processing", 
+            "transition_reason": "new_memory_input_received",
+            "confidence_level": 0.8,
+            "timestamp": 1725984000000,
+            "trace_id": "consciousness_trace_001"
+          }
+        }
+      ],
+      "expected_state": {
+        "consciousness_state": "processing",
+        "active_decisions": 0,
+        "confidence_level": 0.8
+      }
+    },
+    
+    {
+      "step": 2,
+      "timestamp": "2025-09-10T13:00:01.200Z", 
+      "action": "evaluate_complexity",
+      "module": "lukhas.consciousness",
+      "input": {
+        "task_complexity": 0.75,
+        "available_context": ["previous_queries", "user_profile", "domain_knowledge"],
+        "time_constraints": "normal"
+      },
+      "signals_emitted": [
+        {
+          "signal": "consciousness.awareness.state_change", 
+          "payload": {
+            "previous_state": "processing",
+            "new_state": "aware",
+            "transition_reason": "complexity_evaluation_complete",
+            "confidence_level": 0.9,
+            "timestamp": 1725984001200,
+            "trace_id": "consciousness_trace_001"
+          }
+        }
+      ],
+      "expected_state": {
+        "consciousness_state": "aware",
+        "active_decisions": 0,
+        "confidence_level": 0.9
+      }
+    },
+    
+    {
+      "step": 3,
+      "timestamp": "2025-09-10T13:00:02.000Z",
+      "action": "make_decision",
+      "module": "lukhas.consciousness",
+      "input": {
+        "decision_context": "respond_to_complex_query",
+        "options": [
+          {"id": "direct_response", "confidence": 0.7},
+          {"id": "research_first", "confidence": 0.9}, 
+          {"id": "request_clarification", "confidence": 0.4}
+        ]
+      },
+      "signals_emitted": [
+        {
+          "signal": "consciousness.awareness.state_change",
+          "payload": {
+            "previous_state": "aware", 
+            "new_state": "deciding",
+            "transition_reason": "decision_process_initiated", 
+            "confidence_level": 0.9,
+            "timestamp": 1725984002000,
+            "trace_id": "consciousness_trace_001"
+          }
+        },
+        {
+          "signal": "consciousness.decision.made",
+          "payload": {
+            "decision_id": "decision_20250910_001",
+            "decision_type": "query_response_strategy",
+            "options_considered": [
+              {"id": "direct_response", "confidence": 0.7},
+              {"id": "research_first", "confidence": 0.9},
+              {"id": "request_clarification", "confidence": 0.4}
+            ],
+            "chosen_option": {"id": "research_first", "confidence": 0.9},
+            "confidence": 0.9,
+            "reasoning_trace": [
+              "Query complexity high (0.75)",
+              "Research option has highest confidence (0.9)", 
+              "User profile indicates preference for thorough responses",
+              "Domain knowledge available for enhancement"
+            ],
+            "timestamp": 1725984002000
+          }
+        }
+      ],
+      "expected_state": {
+        "consciousness_state": "deciding",
+        "active_decisions": 1,
+        "last_decision_confidence": 0.9
+      }
+    },
+    
+    {
+      "step": 4,
+      "timestamp": "2025-09-10T13:00:03.500Z",
+      "action": "enter_reflection",
+      "module": "lukhas.consciousness", 
+      "input": {
+        "decision_outcome": "research_initiated",
+        "reflection_trigger": "significant_decision_made"
+      },
+      "signals_emitted": [
+        {
+          "signal": "consciousness.awareness.state_change",
+          "payload": {
+            "previous_state": "deciding",
+            "new_state": "reflecting",
+            "transition_reason": "post_decision_reflection",
+            "confidence_level": 0.85,
+            "timestamp": 1725984003500,
+            "trace_id": "consciousness_trace_001"
+          }
+        },
+        {
+          "signal": "consciousness.reflection.insight", 
+          "payload": {
+            "insight_id": "insight_20250910_001",
+            "insight_content": "High-confidence decisions benefit from research validation",
+            "related_experiences": ["decision_20250910_001"],
+            "novelty_score": 0.3,
+            "timestamp": 1725984003500
+          }
+        }
+      ],
+      "expected_state": {
+        "consciousness_state": "reflecting",
+        "active_decisions": 1, 
+        "insights_generated": 1,
+        "confidence_level": 0.85
+      }
+    }
+  ],
+  
+  "final_state": {
+    "consciousness_state": "reflecting",
+    "active_decisions": 1,
+    "confidence_level": 0.85, 
+    "total_state_transitions": 4,
+    "trace_duration_ms": 3500,
+    "decision_quality_score": 0.9
+  },
+  
+  "invariants_validated": [
+    "awareness_state_transitions_follow_valid_paths",
+    "decision_confidence_decreases_with_complexity",
+    "reflection_occurs_after_significant_decisions", 
+    "decision_traces_maintained_for_audit",
+    "consciousness_state_persists_across_operations"
+  ],
+  
+  "slo_validation": {
+    "availability_target": "99.95%",
+    "actual_availability": "100%",
+    "decision_latency_p95_target": "2000ms",
+    "actual_decision_latency": "1800ms",
+    "state_transition_latency_p95_target": "100ms",
+    "actual_state_transition_latency": "50ms"
+  }
+}

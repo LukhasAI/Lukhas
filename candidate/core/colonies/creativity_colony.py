@@ -4,7 +4,18 @@ Creativity Colony - A specialized colony for creative tasks.
 import logging
 from typing import Any
 
-from bio.bio_utilities import fatigue_level
+# Updated import path to avoid deprecation warning
+try:
+    from lukhas.accepted.bio.utils import fatigue_level
+except ImportError:
+    # Fallback to legacy import if new path not available
+    try:
+        from bio.bio_utilities import fatigue_level
+    except ImportError:
+        # Fallback stub if bio utilities not available
+        def fatigue_level(*args, **kwargs):
+            return 0.0
+
 from lukhas.core.colonies.base_colony import BaseColony
 
 logger = logging.getLogger(__name__)

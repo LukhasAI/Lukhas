@@ -43,7 +43,7 @@ dream_options = [
     ("Lukhas exhaled the memory.", "🫁🧠"),
 ]
 text, emotion = random.choice(dream_options)
-message_id = f"lukhas_dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S%f\')}"
+message_id = f"lukhas_dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S%f\')}"'
 with open(queue_file, "a") as f:
     f.write(
         json.dumps(

@@ -18,7 +18,7 @@ import os
 # Import our organized components
 import sys
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 
 # Add brain directory to path for imports

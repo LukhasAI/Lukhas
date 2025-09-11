@@ -26,6 +26,7 @@
 ║ - Any security-sensitive random values
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
+
 import random
 import secrets
 import string

@@ -2,6 +2,7 @@
 """
 Simple module enhancer - creates proper structure for all modules
 """
+
 import json
 import os
 from datetime import datetime, timezone

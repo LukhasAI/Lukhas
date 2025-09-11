@@ -3,6 +3,7 @@
 Batch fix for the most common linting issues
 Processes files in batches to avoid overwhelming the system
 """
+
 import subprocess
 import sys
 import time

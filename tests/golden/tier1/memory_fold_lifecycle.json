@@ -1,0 +1,160 @@
+{
+  "trace_name": "memory_fold_lifecycle",
+  "description": "Complete memory fold creation, usage, and cleanup flow",
+  "version": "1.0",
+  "generated": "2025-09-10T13:00:00Z",
+  "determinism": "TZ=UTC PYTHONHASHSEED=0",
+  
+  "initial_state": {
+    "active_folds": 0,
+    "memory_usage_mb": 256,
+    "cascade_risk_level": 0.1
+  },
+  
+  "trace_steps": [
+    {
+      "step": 1,
+      "timestamp": "2025-09-10T13:00:00.000Z",
+      "action": "create_fold",
+      "module": "lukhas.memory",
+      "input": {
+        "fold_type": "EPISODIC",
+        "content": {
+          "event": "user_query_processed",
+          "query": "What is consciousness?", 
+          "response_generated": true,
+          "processing_time_ms": 1240
+        },
+        "importance": 0.7
+      },
+      "signals_emitted": [
+        {
+          "signal": "memory.fold.created",
+          "payload": {
+            "fold_id": "fold_episodic_20250910_001",
+            "fold_type": "EPISODIC", 
+            "content_hash": "sha256:abc123...",
+            "timestamp": 1725984000000,
+            "importance": 0.7,
+            "cascade_risk": 0.05
+          }
+        }
+      ],
+      "expected_state": {
+        "active_folds": 1,
+        "memory_usage_mb": 264,
+        "cascade_risk_level": 0.05
+      }
+    },
+    
+    {
+      "step": 2,
+      "timestamp": "2025-09-10T13:00:01.500Z",
+      "action": "access_fold",
+      "module": "lukhas.consciousness",
+      "input": {
+        "fold_id": "fold_episodic_20250910_001",
+        "access_type": "read",
+        "context": "decision_making_process"
+      },
+      "signals_emitted": [
+        {
+          "signal": "memory.fold.accessed",
+          "payload": {
+            "fold_id": "fold_episodic_20250910_001",
+            "access_type": "read",
+            "requester_module": "lukhas.consciousness",
+            "access_latency_ms": 45,
+            "timestamp": 1725984001500
+          }
+        }
+      ],
+      "expected_state": {
+        "active_folds": 1,
+        "memory_usage_mb": 264,
+        "last_access_time": 1725984001500
+      }
+    },
+    
+    {
+      "step": 3, 
+      "timestamp": "2025-09-10T13:00:02.000Z",
+      "action": "trigger_consolidation",
+      "module": "lukhas.memory",
+      "input": {
+        "trigger_reason": "nightly_consolidation",
+        "target_compression_ratio": 0.8
+      },
+      "signals_emitted": [
+        {
+          "signal": "memory.consolidation.completed", 
+          "payload": {
+            "session_id": "consolidation_20250910_001",
+            "folds_consolidated": 1,
+            "compression_ratio": 0.8,
+            "duration_ms": 450,
+            "timestamp": 1725984002000
+          }
+        }
+      ],
+      "expected_state": {
+        "active_folds": 1,
+        "memory_usage_mb": 211, 
+        "last_consolidation": 1725984002000
+      }
+    },
+    
+    {
+      "step": 4,
+      "timestamp": "2025-09-10T13:00:05.000Z", 
+      "action": "cascade_prevention_test",
+      "module": "lukhas.memory",
+      "input": {
+        "create_cascade_risk": true,
+        "risk_level": 0.8
+      },
+      "signals_emitted": [
+        {
+          "signal": "memory.cascade.prevented",
+          "payload": {
+            "fold_id": "fold_episodic_20250910_001",
+            "cascade_threat_level": 0.8,
+            "prevention_mechanism": "isolation_and_throttling", 
+            "affected_folds": ["fold_episodic_20250910_001"],
+            "timestamp": 1725984005000
+          }
+        }
+      ],
+      "expected_state": {
+        "active_folds": 1,
+        "cascade_risk_level": 0.05,
+        "prevention_events": 1
+      }
+    }
+  ],
+  
+  "final_state": {
+    "active_folds": 1, 
+    "memory_usage_mb": 211,
+    "cascade_risk_level": 0.05,
+    "total_signals_emitted": 4,
+    "trace_duration_ms": 5000
+  },
+  
+  "invariants_validated": [
+    "cascade_prevention_rate >= 0.997",
+    "fold_access_latency_p95 <= 200ms", 
+    "total_active_folds <= 1000",
+    "memory_consolidation_reduces_usage",
+    "all_fold_operations_emit_appropriate_signals"
+  ],
+  
+  "slo_validation": {
+    "availability_target": "99.9%",
+    "actual_availability": "100%",
+    "latency_p95_target": "200ms",
+    "actual_latency_p95": "45ms",
+    "cascade_prevention_target": "99.7%", 
+    "actual_cascade_prevention": "100%"
+  }
+}

@@ -5,6 +5,7 @@ Example Usage of MATRIZ Graph Visualization System
 This script demonstrates how to use the MATRIZGraphViewer to visualize
 cognitive nodes and their relationships in various ways.
 """
+
 import time
 from typing import Any, Optional
 

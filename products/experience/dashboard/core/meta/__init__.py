@@ -12,6 +12,7 @@ Components:
 - Symbolic collapse visualization
 - Persona distribution analytics
 """
+
 import time
 
 import streamlit as st

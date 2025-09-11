@@ -13,12 +13,11 @@ def analyze_ruff_errors():
     try:
         # Run ruff check and get JSON output
         import subprocess
-        result = subprocess.run(["python3", "-m", "ruff", "check", "candidate/", "--output-format=json"],
-                              capture_output=True, text=True)
-        if result.returncode != 0:
-            errors_data = json.loads(result.stdout) if result.stdout else []
-        else:
-            errors_data = []
+
+        result = subprocess.run(
+            ["python3", "-m", "ruff", "check", "candidate/", "--output-format=json"], capture_output=True, text=True
+        )
+        errors_data = (json.loads(result.stdout) if result.stdout else []) if result.returncode != 0 else []
     except Exception as e:
         print(f"Error running ruff check: {e}")
         return
@@ -123,7 +122,9 @@ def analyze_ruff_errors():
     print("- Performance issues (PERF codes)")
     print("- Undefined variables (F821)")
     print("- Unused imports/variables")
-    print(f"- Total Medium: {len(performance_errors) + len([e for e in other_errors if e.get('code', '').startswith('F')])}")
+    print(
+        f"- Total Medium: {len(performance_errors) + len([e for e in other_errors if e.get('code', '').startswith('F')])}"
+    )
     print()
 
     print("### 🟢 LOW (Fix When Time Permits)")
@@ -146,7 +147,9 @@ def analyze_ruff_errors():
         print("## 7. COMMON SYNTAX ERROR PATTERNS")
 
         f_string_errors = [e for e in syntax_errors if "f-string" in e["message"].lower()]
-        bracket_errors = [e for e in syntax_errors if any(x in e["message"] for x in ["Expected", "found", "bracket", "brace"])]
+        bracket_errors = [
+            e for e in syntax_errors if any(x in e["message"] for x in ["Expected", "found", "bracket", "brace"])
+        ]
 
         if f_string_errors:
             print(f"\n### F-String Errors ({len(f_string_errors)})")
@@ -161,6 +164,7 @@ def analyze_ruff_errors():
                 short_path = error["filename"].replace("/Users/agi_dev/LOCAL-REPOS/Lukhas/", "")
                 line = error["location"]["row"]
                 print(f"  {short_path}:{line} - {error['message']}")
+
 
 if __name__ == "__main__":
     analyze_ruff_errors()

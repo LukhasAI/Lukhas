@@ -2,13 +2,11 @@
 NIΛS Engine - Core processing engine for Non-Intrusive Advertising System
 Coordinates emotional gating, symbolic processing, and message delivery
 """
-import streamlit as st
-from datetime import timezone
 
 import logging
 import sys
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any
@@ -494,7 +492,7 @@ class NIASEngine:
                         }
 
                         logger.debug(
-                            f"DΛST symbolic processing for {user_id}: {len(symbolic_context.get('symbolic_tags', []))} symbols, coherence {symbolic_context.get('coherence_score', 0)}:.2f}"
+                            f"DΛST symbolic processing for {user_id}: {len(symbolic_context.get('symbolic_tags', []))} symbols, coherence {symbolic_context.get('coherence_score', 0):.2f}"
                         )
                         return {"processed_message": processed_message}
 

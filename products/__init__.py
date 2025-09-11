@@ -14,6 +14,7 @@ Consolidated products organized by functional domain:
 
 All lambda_core/ and lambda_products/ layers have been eliminated for simplicity.
 """
+
 import logging
 import time
 from typing import Any, Optional

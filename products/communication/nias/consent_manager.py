@@ -3,6 +3,7 @@
 NIΛS Consent Manager - Comprehensive consent validation and management
 Part of the Lambda Products Suite by LUKHAS AI
 """
+
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone

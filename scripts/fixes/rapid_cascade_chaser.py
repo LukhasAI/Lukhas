@@ -21,8 +21,7 @@ class RapidCascadeChaser:
     def get_current_blocker(self) -> Optional[tuple[str, int, str]]:
         """Get the current cascade blocker from functional test"""
         try:
-            result = subprocess.run(["python3", "functional_test_suite.py"],
-                                  capture_output=True, text=True, timeout=30)
+            result = subprocess.run(["python3", "functional_test_suite.py"], capture_output=True, text=True, timeout=30)
 
             output = result.stdout
 

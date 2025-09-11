@@ -41,6 +41,7 @@
 ║ ΛTAG: ΛDASHBOARD, ΛCOLONY, ΛCOORDINATION, ΛHEALING, ΛINTELLIGENCE
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import asyncio
 import logging
 from dataclasses import dataclass

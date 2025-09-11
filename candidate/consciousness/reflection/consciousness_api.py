@@ -9,13 +9,9 @@
 Consciousness Platform API
 Commercial API for consciousness simulation and awareness tracking
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 

@@ -2,6 +2,7 @@
 LUKHAS Real-Time Brand Validator - Trinity Framework (⚛️🧠🛡️)
 Live brand compliance checking and automatic correction system
 """
+
 import asyncio
 import logging
 import re
@@ -11,7 +12,6 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
-
 
 
 class ValidationSeverity(Enum):
@@ -696,7 +696,7 @@ class RealTimeBrandValidator:
     async def _trigger_validation_callbacks(self, result: ValidationResult, content: str) -> None:
         """Trigger registered validation callbacks"""
 
-        for callback_name, callback_func in self.validation_callbacks.items():
+        for callback_func in self.validation_callbacks.values():
             try:
                 if asyncio.iscoroutinefunction(callback_func):
                     await callback_func(result, content)
@@ -809,7 +809,9 @@ class RealTimeBrandValidator:
                 "performance_trend": (
                     "excellent"
                     if average_performance < 50
-                    else "good" if average_performance < 100 else "needs_optimization"
+                    else "good"
+                    if average_performance < 100
+                    else "needs_optimization"
                 ),
             },
         }

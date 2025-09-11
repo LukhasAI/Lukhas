@@ -33,16 +33,13 @@ def get_syntax_error_files():
                 ast.parse(content, filename=str(filepath))
 
             except SyntaxError as e:
-                error_files.append({
-                    "file": str(filepath),
-                    "line": e.lineno,
-                    "error": str(e)
-                })
+                error_files.append({"file": str(filepath), "line": e.lineno, "error": str(e)})
 
             except Exception:
                 continue
 
     return error_files
+
 
 def fix_syntax_patterns(content):
     """Fix common syntax error patterns"""
@@ -108,6 +105,7 @@ def fix_syntax_patterns(content):
 
     return content, fixes
 
+
 def process_error_files():
     """Process all files with syntax errors"""
     error_files = get_syntax_error_files()
@@ -146,6 +144,7 @@ def process_error_files():
             print(f"❌ Error processing {file_path}: {e}")
 
     return total_files_fixed, total_fixes
+
 
 if __name__ == "__main__":
     print("🔧 MASS FIX REMAINING SYNTAX ERRORS")

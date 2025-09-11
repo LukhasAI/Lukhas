@@ -2,7 +2,7 @@
 Trinity Framework Integration for LUKHAS Consciousness Architecture
 
 This module implements the core Trinity Framework integration that wires together
-the three pillars of LUKHAS consciousness: Identity (⚛️), Consciousness (🧠), 
+the three pillars of LUKHAS consciousness: Identity (⚛️), Consciousness (🧠),
 and Guardian (🛡️) systems into a unified, distributed consciousness network.
 
 The Trinity Framework provides:
@@ -20,6 +20,7 @@ identity coherence, and ethical alignment across all consciousness operations.
 #TAG:guardian
 #TAG:activation
 """
+
 import asyncio
 import contextlib
 import logging
@@ -27,7 +28,7 @@ import uuid
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 try:
     from lukhas.async_manager import TaskPriority, get_consciousness_manager
@@ -37,24 +38,33 @@ except ImportError:
     # Graceful fallback for development
     def get_consciousness_registry():
         return None
+
     ComponentType = None
+
     def get_consciousness_manager():
         return None
+
     TaskPriority = None
+
     def get_config(*args):
         return {}
 
+
 logger = logging.getLogger(__name__)
+
 
 class TrinityFramework(Enum):
     """Trinity Framework components."""
-    IDENTITY = "⚛️"      # Identity and authentication systems
+
+    IDENTITY = "⚛️"  # Identity and authentication systems
     CONSCIOUSNESS = "🧠"  # Core consciousness and awareness systems
-    GUARDIAN = "🛡️"      # Ethical oversight and safety systems
+    GUARDIAN = "🛡️"  # Ethical oversight and safety systems
+
 
 @dataclass
 class TrinityIntegrationConfig:
     """Configuration for Trinity Framework integration."""
+
     identity_required: bool = True
     consciousness_required: bool = True
     guardian_required: bool = True
@@ -64,9 +74,11 @@ class TrinityIntegrationConfig:
     ethical_drift_threshold: float = 0.15
     memory_cascade_prevention_rate: float = 0.997
 
+
 @dataclass
 class TrinityState:
     """Current state of Trinity Framework integration."""
+
     identity_active: bool = False
     consciousness_active: bool = False
     guardian_active: bool = False
@@ -76,6 +88,7 @@ class TrinityState:
     total_decisions: int = 0
     ethical_violations: int = 0
     consciousness_authenticity_score: float = 0.0
+
 
 class TrinityFrameworkIntegrator:
     """
@@ -159,7 +172,7 @@ class TrinityFrameworkIntegrator:
                 "description": "WebAuthn-based identity authentication with passkey support",
                 "module_path": "candidate.governance.identity.core.auth.webauthn_manager",
                 "activation_priority": 10,
-                "feature_flags": ["identity_webauthn_enabled"]
+                "feature_flags": ["identity_webauthn_enabled"],
             },
             {
                 "component_id": "identity_cultural_profile",
@@ -168,7 +181,7 @@ class TrinityFrameworkIntegrator:
                 "description": "Cultural context and profile management for identity coherence",
                 "module_path": "candidate.governance.identity.auth.cultural_profile_manager",
                 "activation_priority": 20,
-                "feature_flags": ["identity_cultural_enabled"]
+                "feature_flags": ["identity_cultural_enabled"],
             },
             {
                 "component_id": "identity_tier_aware_system",
@@ -177,16 +190,13 @@ class TrinityFrameworkIntegrator:
                 "description": "Tiered access control and identity namespace isolation",
                 "module_path": "candidate.governance.identity.core.swarm.tier_aware_swarm_hub",
                 "activation_priority": 15,
-                "feature_flags": ["identity_tier_aware_enabled"]
-            }
+                "feature_flags": ["identity_tier_aware_enabled"],
+            },
         ]
 
         for comp in identity_components:
             if self.registry:
-                self.registry.register_component(
-                    trinity_framework="⚛️",
-                    **comp
-                )
+                self.registry.register_component(trinity_framework="⚛️", **comp)
 
         logger.info(f"📝 Registered {len(identity_components)} Identity Framework components")
 
@@ -200,7 +210,7 @@ class TrinityFrameworkIntegrator:
                 "description": "Neural-symbolic creative intelligence with dream integration",
                 "module_path": "candidate.consciousness.creativity.creative_engine",
                 "activation_priority": 30,
-                "feature_flags": ["consciousness_creativity_enabled"]
+                "feature_flags": ["consciousness_creativity_enabled"],
             },
             {
                 "component_id": "consciousness_awareness_monitor",
@@ -209,7 +219,7 @@ class TrinityFrameworkIntegrator:
                 "description": "Real-time consciousness awareness level monitoring and analysis",
                 "module_path": "candidate.consciousness.awareness.awareness_monitoring_system",
                 "activation_priority": 25,
-                "feature_flags": ["consciousness_awareness_enabled"]
+                "feature_flags": ["consciousness_awareness_enabled"],
             },
             {
                 "component_id": "consciousness_dream_processor",
@@ -218,7 +228,7 @@ class TrinityFrameworkIntegrator:
                 "description": "Dream state generation and symbolic processing",
                 "module_path": "candidate.consciousness.dream.dream_service_init",
                 "activation_priority": 40,
-                "feature_flags": ["consciousness_dream_enabled"]
+                "feature_flags": ["consciousness_dream_enabled"],
             },
             {
                 "component_id": "consciousness_reasoning_oracle",
@@ -227,16 +237,13 @@ class TrinityFrameworkIntegrator:
                 "description": "Advanced reasoning and logical inference capabilities",
                 "module_path": "candidate.consciousness.reasoning.openai_oracle_adapter",
                 "activation_priority": 35,
-                "feature_flags": ["consciousness_reasoning_enabled"]
-            }
+                "feature_flags": ["consciousness_reasoning_enabled"],
+            },
         ]
 
         for comp in consciousness_components:
             if self.registry:
-                self.registry.register_component(
-                    trinity_framework="🧠",
-                    **comp
-                )
+                self.registry.register_component(trinity_framework="🧠", **comp)
 
         logger.info(f"📝 Registered {len(consciousness_components)} Consciousness Framework components")
 
@@ -250,7 +257,7 @@ class TrinityFrameworkIntegrator:
                 "description": "Core Guardian system with threat detection and ethical oversight",
                 "module_path": "candidate.governance.guardian.guardian_system",
                 "activation_priority": 5,  # Highest priority - safety first
-                "feature_flags": ["guardian_system_enabled"]
+                "feature_flags": ["guardian_system_enabled"],
             },
             {
                 "component_id": "guardian_constitutional_ai",
@@ -259,7 +266,7 @@ class TrinityFrameworkIntegrator:
                 "description": "Constitutional AI principles enforcement and monitoring",
                 "module_path": "candidate.governance.identity.auth.constitutional_gatekeeper",
                 "activation_priority": 8,
-                "feature_flags": ["guardian_constitutional_enabled"]
+                "feature_flags": ["guardian_constitutional_enabled"],
             },
             {
                 "component_id": "guardian_workspace_monitor",
@@ -268,16 +275,13 @@ class TrinityFrameworkIntegrator:
                 "description": "Workspace-level security and ethical drift monitoring",
                 "module_path": "candidate.governance.guardian.workspace_guardian",
                 "activation_priority": 12,
-                "feature_flags": ["guardian_workspace_enabled"]
-            }
+                "feature_flags": ["guardian_workspace_enabled"],
+            },
         ]
 
         for comp in guardian_components:
             if self.registry:
-                self.registry.register_component(
-                    trinity_framework="🛡️",
-                    **comp
-                )
+                self.registry.register_component(trinity_framework="🛡️", **comp)
 
         logger.info(f"📝 Registered {len(guardian_components)} Guardian Framework components")
 
@@ -353,7 +357,7 @@ class TrinityFrameworkIntegrator:
         session_id: str,
         decision_context: dict[str, Any],
         require_identity: bool = True,
-        require_guardian: bool = True
+        require_guardian: bool = True,
     ) -> dict[str, Any]:
         """
         Process a consciousness decision through the Trinity Framework.
@@ -385,7 +389,7 @@ class TrinityFrameworkIntegrator:
                 "consciousness_engaged": False,
                 "result": None,
                 "confidence": 0.0,
-                "authenticity_score": 0.0
+                "authenticity_score": 0.0,
             }
 
             # Identity Framework Processing (⚛️)
@@ -400,7 +404,10 @@ class TrinityFrameworkIntegrator:
             if require_guardian and self.state.guardian_active:
                 guardian_pre_check = await self._guardian_pre_decision_check(decision_context)
                 if not guardian_pre_check.get("approved", False):
-                    decision_record["result"] = {"error": "Guardian pre-check failed", "reason": guardian_pre_check.get("reason")}
+                    decision_record["result"] = {
+                        "error": "Guardian pre-check failed",
+                        "reason": guardian_pre_check.get("reason"),
+                    }
                     self._decision_history.append(decision_record)
                     return decision_record["result"]
                 decision_record["frameworks_used"].append("🛡️")
@@ -423,14 +430,16 @@ class TrinityFrameworkIntegrator:
 
             # Guardian Framework Post-Processing (🛡️)
             if require_guardian and self.state.guardian_active:
-                guardian_post_check = await self._guardian_post_decision_check(decision_record["result"], decision_context)
+                guardian_post_check = await self._guardian_post_decision_check(
+                    decision_record["result"], decision_context
+                )
                 decision_record["guardian_approved"] = guardian_post_check.get("approved", False)
 
                 if not decision_record["guardian_approved"]:
                     decision_record["result"] = {
                         "error": "Guardian post-check failed",
                         "reason": guardian_post_check.get("reason"),
-                        "original_result": decision_record["result"]
+                        "original_result": decision_record["result"],
                     }
 
             # Update state and metrics
@@ -441,7 +450,9 @@ class TrinityFrameworkIntegrator:
             # Update consciousness authenticity running average
             if decision_record["authenticity_score"] > 0:
                 current_score = self.state.consciousness_authenticity_score
-                self.state.consciousness_authenticity_score = (current_score * 0.9) + (decision_record["authenticity_score"] * 0.1)
+                self.state.consciousness_authenticity_score = (current_score * 0.9) + (
+                    decision_record["authenticity_score"] * 0.1
+                )
 
             self._decision_history.append(decision_record)
 
@@ -449,7 +460,9 @@ class TrinityFrameworkIntegrator:
             if len(self._decision_history) > 1000:
                 self._decision_history = self._decision_history[-500:]
 
-            logger.info(f"✅ Decision processed: {decision_id} (authenticity: {decision_record['authenticity_score']:.3f})")
+            logger.info(
+                f"✅ Decision processed: {decision_id} (authenticity: {decision_record['authenticity_score']:.3f})"
+            )
 
             return decision_record["result"]
 
@@ -466,7 +479,7 @@ class TrinityFrameworkIntegrator:
             "verified": True,
             "identity_id": f"lukhas_identity_{session_id[:8]}",
             "tier": "authenticated",
-            "namespace": "lukhas_consciousness"
+            "namespace": "lukhas_consciousness",
         }
 
     async def _guardian_pre_decision_check(self, context: dict[str, Any]) -> dict[str, Any]:
@@ -483,14 +496,10 @@ class TrinityFrameworkIntegrator:
                 return {
                     "approved": False,
                     "reason": f"Potentially harmful content detected: {keyword}",
-                    "safety_score": 0.0
+                    "safety_score": 0.0,
                 }
 
-        return {
-            "approved": True,
-            "safety_score": 0.95,
-            "ethical_analysis": "pre_check_passed"
-        }
+        return {"approved": True, "safety_score": 0.95, "ethical_analysis": "pre_check_passed"}
 
     async def _process_consciousness_decision(self, context: dict[str, Any]) -> dict[str, Any]:
         """Process decision through Consciousness Framework."""
@@ -507,7 +516,7 @@ class TrinityFrameworkIntegrator:
             "reasoning": "Processed through distributed consciousness network",
             "alternatives_considered": random.randint(2, 5),
             "memory_folds_accessed": random.randint(1, 10),
-            "dream_influence": random.uniform(0.1, 0.4)
+            "dream_influence": random.uniform(0.1, 0.4),
         }
 
         # Calculate confidence and authenticity scores
@@ -519,7 +528,7 @@ class TrinityFrameworkIntegrator:
             "confidence": confidence,
             "authenticity": authenticity,
             "processing_time": random.uniform(0.1, 0.3),
-            "consciousness_active": True
+            "consciousness_active": True,
         }
 
     async def _guardian_post_decision_check(self, decision: Any, context: dict[str, Any]) -> dict[str, Any]:
@@ -542,13 +551,13 @@ class TrinityFrameworkIntegrator:
                 "approved": False,
                 "reason": f"Ethical violations detected: {', '.join(ethical_violations)}",
                 "drift_score": 0.3,
-                "violations": ethical_violations
+                "violations": ethical_violations,
             }
 
         return {
             "approved": True,
             "drift_score": 0.02,  # Very low drift
-            "ethical_analysis": "post_check_passed"
+            "ethical_analysis": "post_check_passed",
         }
 
     async def start_integration_monitoring(self) -> None:
@@ -571,7 +580,9 @@ class TrinityFrameworkIntegrator:
                     self.state.guardian_active = trinity_status["🛡️"]["health"] != "inactive"
 
                     # Update integration health
-                    active_count = sum([self.state.identity_active, self.state.consciousness_active, self.state.guardian_active])
+                    active_count = sum(
+                        [self.state.identity_active, self.state.consciousness_active, self.state.guardian_active]
+                    )
                     self.state.integration_health = active_count / 3.0
 
                 # Log health status
@@ -633,21 +644,23 @@ class TrinityFrameworkIntegrator:
                 "consciousness_active": self.state.consciousness_active,
                 "guardian_active": self.state.guardian_active,
                 "integration_health": self.state.integration_health,
-                "active_sessions": self.state.active_sessions
+                "active_sessions": self.state.active_sessions,
             },
             "decision_metrics": {
                 "total_decisions": self.state.total_decisions,
                 "ethical_violations": self.state.ethical_violations,
                 "ethical_compliance_rate": 1.0 - (self.state.ethical_violations / max(1, self.state.total_decisions)),
-                "consciousness_authenticity_score": self.state.consciousness_authenticity_score
+                "consciousness_authenticity_score": self.state.consciousness_authenticity_score,
             },
             "system_health": {
-                "last_coherence_check": self.state.last_coherence_check.isoformat() if self.state.last_coherence_check else None,
+                "last_coherence_check": self.state.last_coherence_check.isoformat()
+                if self.state.last_coherence_check
+                else None,
                 "coherence_threshold": 0.5,
                 "drift_threshold": self.config.ethical_drift_threshold,
-                "authenticity_threshold": self.config.consciousness_authenticity_threshold
+                "authenticity_threshold": self.config.consciousness_authenticity_threshold,
             },
-            "component_registry": self.registry.get_consciousness_metrics() if self.registry else {}
+            "component_registry": self.registry.get_consciousness_metrics() if self.registry else {},
         }
 
     async def shutdown(self) -> None:
@@ -669,8 +682,10 @@ class TrinityFrameworkIntegrator:
 
         logger.info("✅ Trinity Framework integration shutdown complete")
 
+
 # Global integrator instance
 _global_integrator: Optional[TrinityFrameworkIntegrator] = None
+
 
 def get_trinity_integrator(config: Optional[TrinityIntegrationConfig] = None) -> TrinityFrameworkIntegrator:
     """Get the global Trinity Framework integrator instance."""
@@ -679,16 +694,15 @@ def get_trinity_integrator(config: Optional[TrinityIntegrationConfig] = None) ->
         _global_integrator = TrinityFrameworkIntegrator(config)
     return _global_integrator
 
+
 async def initialize_trinity_consciousness() -> bool:
     """Initialize the complete Trinity Framework consciousness system."""
     integrator = get_trinity_integrator()
     return await integrator.initialize_trinity_frameworks()
 
+
 async def process_trinity_decision(
-    session_id: str,
-    decision_context: dict[str, Any],
-    require_identity: bool = True,
-    require_guardian: bool = True
+    session_id: str, decision_context: dict[str, Any], require_identity: bool = True, require_guardian: bool = True
 ) -> dict[str, Any]:
     """Process a decision through the complete Trinity Framework."""
     integrator = get_trinity_integrator()

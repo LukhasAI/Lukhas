@@ -369,7 +369,9 @@ class ConstitutionalAI:
         cache_key = self._generate_cache_key(action, context)
         if cache_key in self.decision_cache:
             cached_result, cached_time = self.decision_cache[cache_key]
-            if datetime.now(timezone.utc) - datetime.fromisoformat(cached_time) < timedelta(minutes=self.cache_ttl_minutes):
+            if datetime.now(timezone.utc) - datetime.fromisoformat(cached_time) < timedelta(
+                minutes=self.cache_ttl_minutes
+            ):
                 return cached_result
 
         violations = []

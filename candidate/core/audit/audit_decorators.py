@@ -7,7 +7,7 @@ import asyncio
 import functools
 import inspect
 import traceback
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Callable, Optional
 
 from .audit_trail import AuditEventType, AuditSeverity, get_audit_trail

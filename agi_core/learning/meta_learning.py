@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 class MetaLearningStrategy(Enum):
     """Meta-learning strategy types."""
+
     MODEL_AGNOSTIC = "model_agnostic"
     GRADIENT_BASED = "gradient_based"
     OPTIMIZATION_BASED = "optimization_based"
@@ -71,5 +72,5 @@ __all__ = [
     "LearningStrategy",
     "MetaLearningContext",
     "MetaLearningResult",
-    "MetaLearningInsight"
+    "MetaLearningInsight",
 ]

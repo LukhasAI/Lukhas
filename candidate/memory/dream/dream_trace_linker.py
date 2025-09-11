@@ -19,7 +19,7 @@ Authors: LUKHAS AI Neuroscience Team
 ESSENCE: The Dreaming Memory Bridge
 In the liminal space between sleeping and waking consciousness,
 where symbols dance and meaning transforms, the Dream Trace Linker
-serves as the bridge between the realm of dreams and the 
+serves as the bridge between the realm of dreams and the
 architecture of memory. This system captures the ephemeral
 threads of dream symbolism and weaves them into the fabric
 of conscious recollection.
@@ -34,7 +34,6 @@ TECHNICAL ARCHITECTURE:
 ΛTAG: ΛLUKHAS, ΛDREAM, ΛMEMORY, ΛSYMBOLIC, ΛENTANGLEMENT
 """
 
-import hashlib
 import json
 import logging
 import os
@@ -513,30 +512,30 @@ class DreamTraceLinker:
         ]
 
         detail_words = ["very", "extremely", "incredibly", "amazingly", "clearly", "vividly"]
-        
+
         sensory_score = sum(1 for indicator in sensory_indicators if indicator in text_content)
         detail_score = sum(1 for word in detail_words if word in text_content)
-        
+
         # Normalize to 0-1 range
         return min(1.0, (sensory_score * 0.1 + detail_score * 0.15))
 
     def _calculate_coherence(self, content: dict[str, Any]) -> float:
         """Calculate coherence score based on narrative structure."""
         text_content = str(content).lower()
-        
+
         # Check for narrative connectors
         connectors = ["then", "next", "after", "before", "while", "during", "because", "so", "but", "and"]
         connector_count = sum(1 for connector in connectors if connector in text_content)
-        
+
         # Check for logical progression
         progression_words = ["first", "second", "finally", "beginning", "middle", "end"]
         progression_count = sum(1 for word in progression_words if word in text_content)
-        
+
         # Simple heuristic for coherence
         content_length = len(text_content.split())
         if content_length == 0:
             return 0.0
-            
+
         return min(1.0, (connector_count + progression_count) / max(1, content_length / 10))
 
     def _calculate_symbolic_signature(self, content: dict[str, Any]) -> dict[str, float]:
@@ -593,7 +592,7 @@ class DreamTraceLinker:
         symbolic_strength = sum(memory_trace.symbolic_signature.values())
 
         total_overlap = (glyph_overlap * 0.7 + pattern_overlap * 0.3) * min(1.0, symbolic_strength)
-        
+
         # Normalize by maximum possible overlap
         max_possible = len(dream_glyphs) + len(dream_patterns)
         return min(1.0, total_overlap / max(1, max_possible))
@@ -606,7 +605,7 @@ class DreamTraceLinker:
         # - Recent memory access patterns
         # - Sleep cycle timing
         # - Memory consolidation phases
-        
+
         return 0.5  # Placeholder correlation
 
     def _calculate_emotional_resonance(self, dream_fragment: DreamFragment, memory_trace: MemoryTrace) -> float:
@@ -614,7 +613,7 @@ class DreamTraceLinker:
         # Use emotional intensity from dream and emotional weights from memory
         dream_emotional = dream_fragment.emotional_intensity
         memory_emotional = memory_trace.symbolic_signature.get("emotional", 0.0)
-        
+
         # Higher resonance when both have high emotional content
         return min(1.0, (dream_emotional + memory_emotional) / 2.0)
 
@@ -641,13 +640,13 @@ class DreamTraceLinker:
 
         # Get entanglements for this memory
         entanglement_ids = self.entanglement_index.get(memory_trace.trace_id, set())
-        
+
         linked_dreams = []
         for entanglement_id in entanglement_ids:
             if entanglement_id in self.entanglements:
                 entanglement = self.entanglements[entanglement_id]
                 dream_fragment = self.dream_fragments.get(entanglement.dream_fragment_id)
-                
+
                 if dream_fragment:
                     linked_dreams.append({
                         "fragment_id": dream_fragment.fragment_id,
@@ -675,11 +674,11 @@ class DreamTraceLinker:
         for memory_trace_id in dream_fragment.linked_memories:
             if memory_trace_id in self.memory_traces:
                 memory_trace = self.memory_traces[memory_trace_id]
-                
+
                 # Find the entanglement
                 entanglement = None
                 for ent in self.entanglements.values():
-                    if (ent.dream_fragment_id == dream_fragment_id and 
+                    if (ent.dream_fragment_id == dream_fragment_id and
                         ent.memory_trace_id == memory_trace_id):
                         entanglement = ent
                         break
@@ -701,15 +700,15 @@ class DreamTraceLinker:
     def process_pending_entanglements(self, max_to_process: int = 10) -> int:
         """Process pending dream fragments for entanglement creation."""
         processed = 0
-        
+
         while self.processing_queue and processed < max_to_process:
             fragment_id = self.processing_queue.popleft()
-            
+
             if fragment_id not in self.dream_fragments:
                 continue
 
             dream_fragment = self.dream_fragments[fragment_id]
-            
+
             # Find potential memory traces for entanglement
             candidates = []
             for trace in self.memory_traces.values():
@@ -720,7 +719,7 @@ class DreamTraceLinker:
 
             # Sort candidates by overlap and process top candidates
             candidates.sort(key=lambda x: x[1], reverse=True)
-            
+
             for trace_id, _ in candidates[:3]:  # Process top 3 candidates
                 entanglement_id = self.create_entanglement(fragment_id, trace_id)
                 if entanglement_id:
@@ -762,7 +761,7 @@ class DreamTraceLinker:
         """Save current state to persistent storage."""
         try:
             os.makedirs(self.storage_path, exist_ok=True)
-            
+
             # Prepare state data
             state = {
                 "dream_fragments": {
@@ -780,9 +779,9 @@ class DreamTraceLinker:
 
             # Convert enums to strings for JSON serialization
             for fragment_data in state["dream_fragments"].values():
-                fragment_data["symbolic_patterns"] = [p.value if hasattr(p, 'value') else p for p in fragment_data["symbolic_patterns"]]
-                fragment_data["glyph_patterns"] = [g.value if hasattr(g, 'value') else g for g in fragment_data["glyph_patterns"]]
-                fragment_data["dream_state"] = fragment_data["dream_state"].value if hasattr(fragment_data["dream_state"], 'value') else fragment_data["dream_state"]
+                fragment_data["symbolic_patterns"] = [p.value if hasattr(p, "value") else p for p in fragment_data["symbolic_patterns"]]
+                fragment_data["glyph_patterns"] = [g.value if hasattr(g, "value") else g for g in fragment_data["glyph_patterns"]]
+                fragment_data["dream_state"] = fragment_data["dream_state"].value if hasattr(fragment_data["dream_state"], "value") else fragment_data["dream_state"]
                 fragment_data["linked_memories"] = list(fragment_data["linked_memories"])
 
             # Save to file
@@ -801,12 +800,12 @@ class DreamTraceLinker:
         """Load state from persistent storage."""
         try:
             state_file = os.path.join(self.storage_path, "dream_trace_state.json")
-            
+
             if not os.path.exists(state_file):
                 logger.info("No existing state file found", file=state_file)
                 return False
 
-            with open(state_file, "r", encoding="utf-8") as f:
+            with open(state_file, encoding="utf-8") as f:
                 state = json.load(f)
 
             # Restore dream fragments
@@ -816,7 +815,7 @@ class DreamTraceLinker:
                 fragment_data["glyph_patterns"] = [GlyphType(g) for g in fragment_data["glyph_patterns"]]
                 fragment_data["dream_state"] = DreamState(fragment_data["dream_state"])
                 fragment_data["linked_memories"] = set(fragment_data["linked_memories"])
-                
+
                 self.dream_fragments[fid] = DreamFragment(**fragment_data)
 
             # Restore memory traces
@@ -860,7 +859,7 @@ class DreamTraceLinker:
                 self.glyph_index[glyph].add(fragment_id)
             for pattern in fragment.symbolic_patterns:
                 self.pattern_index[pattern].add(fragment_id)
-            
+
             # Rebuild temporal index
             date_key = datetime.fromisoformat(fragment.timestamp_utc).date().isoformat()
             self.temporal_index[date_key].append(fragment_id)
@@ -892,7 +891,7 @@ def get_dream_trace_linker() -> DreamTraceLinker:
 __all__ = [
     "DreamTraceLinker",
     "DreamFragment",
-    "MemoryTrace", 
+    "MemoryTrace",
     "SymbolicEntanglement",
     "DreamState",
     "SymbolicPattern",

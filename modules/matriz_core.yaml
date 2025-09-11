@@ -1,0 +1,137 @@
+identity:
+  name: matriz.core
+  layer: foundational
+  summary: matriz.core module with 18 classes and 17 functions
+  status: active
+  tier: 1
+discovery:
+  import_patterns:
+  - from matriz.core import MemoryType
+  - from matriz.core import MemoryItem
+  - from matriz.core import decay_memories
+  - from matriz.core import MemoryPriority
+  - from matriz.core import NodeState
+  import_aliases:
+  - core
+  file_patterns:
+  - matriz/core/**/*.py
+  - tests/matriz/core/**/*.py
+  entry_points:
+  - matriz/core/__init__.py
+ownership:
+  owner: '@ArchitectureTeam'
+  lifecycle: evolving
+  last_review: '2025-09-10T11:32:19.475009+00:00'
+  promotion_rules: {}
+contracts:
+  api:
+    surface:
+    - 'python: matriz.core.MemoryType'
+    - 'python: matriz.core.MemoryItem'
+    - 'python: matriz.core.decay_memories'
+    - 'python: matriz.core.MemoryPriority'
+    - 'python: matriz.core.NodeState'
+    - 'python: matriz.core.get_memory_stats'
+    - 'python: matriz.core.consolidate_memories'
+    - 'python: matriz.core.get_deterministic_hash'
+    - 'python: matriz.core.ConsolidationRule'
+    - 'python: matriz.core.store_memory'
+    version: v1.0.0
+    compatibility:
+      backward: true
+      forward: minor
+  invariants:
+  - module loads without errors
+  - public API remains stable
+dependencies:
+  internal:
+    requires: []
+    provides:
+    - matriz.core
+  external:
+    libs: []
+  coupling_metrics:
+    afferent: 0
+    efferent: 0
+    instability_index: 0.0
+runtime:
+  processes:
+    entrypoints:
+    - python -m matriz.core
+    concurrency_model: thread
+  config:
+    files: []
+    env_vars_required: []
+    feature_flags: []
+  resources:
+    cpu_limit: 0.5 vcpu
+    mem_limit: 256 MiB
+data_and_events:
+  data_classes:
+  - name: NodeReflection
+    schema_ref: audit/SCHEMAS/nodereflection.json
+    description: NodeReflection data class
+  - name: MemoryType
+    schema_ref: audit/SCHEMAS/memorytype.json
+    description: MemoryType data class
+  - name: NodeState
+    schema_ref: audit/SCHEMAS/nodestate.json
+    description: NodeState data class
+  - name: _ReflectionEmitter
+    schema_ref: audit/SCHEMAS/_reflectionemitter.json
+    description: _ReflectionEmitter data class
+  - name: NodeLink
+    schema_ref: audit/SCHEMAS/nodelink.json
+    description: NodeLink data class
+  pii:
+    contains: false
+    classification: internal
+security:
+  secrets:
+    sources:
+    - env
+    files: []
+  authz_model: internal_only
+  compliance:
+    data_classification: internal
+observability:
+  logs:
+    format: structured_json
+    level: info
+  metrics:
+    exporter: prometheus
+    key_metrics:
+    - name: matriz_core_calls_total
+      target: '>0'
+      type: counter
+  slos:
+    error_rate_pct: 1.0
+    availability_pct: 99.0
+test_posture:
+  coverage:
+    current: 0.0
+    target: 0.8
+  tests:
+    unit: 0
+    integration: 0
+risk_and_change:
+  risks:
+  - id: R-MATRIZ-CORE-GENERATED
+    title: Auto-generated schema may be incomplete
+    likelihood: medium
+    impact: low
+    mitigation: Manual review and enhancement required
+    status: open
+provenance:
+  schema_version: '1.0'
+  last_updated: '2025-09-10T11:32:19.475009+00:00'
+  source_paths:
+  - matriz/core
+  generated_by:
+    tool: lukhas-module-generator
+    version: 1.0.0
+    timestamp: '2025-09-10T11:32:19.475009+00:00'
+  validation:
+    schema_valid: true
+    last_validated: '2025-09-10T11:32:19.475009+00:00'
+    validator_version: 1.0.0

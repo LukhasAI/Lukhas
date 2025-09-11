@@ -250,7 +250,12 @@ class ContentProductsEnhancer:
 
             # 7. Store for learning and evolution
             self.processing_history.append(
-                {"query": query, "result": result, "dream_insights": dream_insights, "timestamp": datetime.now(timezone.utc)}
+                {
+                    "query": query,
+                    "result": result,
+                    "dream_insights": dream_insights,
+                    "timestamp": datetime.now(timezone.utc),
+                }
             )
 
             logger.info(f"Successfully processed content query {query.id} in {result.processing_time:.3f}s")

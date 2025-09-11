@@ -6,6 +6,7 @@ Building the freemium base for the LUKHAS AI ΛBot ecosystem
 This implementation extracts the core capabilities from the Enhanced AI Bot
 and implements tiered access for freemium monetization.
 """
+
 import asyncio
 import logging
 import sys

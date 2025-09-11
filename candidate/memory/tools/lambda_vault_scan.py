@@ -677,7 +677,7 @@ Scanner Version: `v1.0.0`
                     else link_data["missing_reason"]
                 )
                 expected = (
-                    f"{link_data.get('expected_cooccurrence', 'N/A')}:.1f}"
+                    f"{link_data.get('expected_cooccurrence', 'N/A'):.1f}"
                     if isinstance(link_data.get("expected_cooccurrence"), (int, float))
                     else "N/A"
                 )

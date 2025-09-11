@@ -2,11 +2,12 @@
 """
 Aggressive Syntax Fixer - Fixes or quarantines all syntax errors
 """
+
 import ast
 import json
 import os
 import shutil
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 

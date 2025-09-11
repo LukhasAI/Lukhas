@@ -8,6 +8,7 @@ This focuses on Phase 1 critical integrations:
 - Ethics system unification
 - Core system connectivity improvements
 """
+
 import asyncio
 import logging
 from datetime import datetime, timezone
@@ -44,7 +45,7 @@ class PracticalIntegrationHub:
     def _initialize_core_components(self):
         """Initialize core system components"""
         try:
-            from core.core_hub import CoreHub
+            from lukhas.core.core_hub import CoreHub
 
             self.core_hub = CoreHub()
             self.available_components["core_hub"] = self.core_hub

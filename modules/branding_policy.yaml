@@ -1,0 +1,112 @@
+identity:
+  name: branding.policy
+  layer: application
+  summary: branding.policy module with 0 classes and 2 functions
+  status: active
+  tier: 2
+discovery:
+  import_patterns:
+  - from branding.policy import normalize_chunk
+  - from branding.policy import normalize_output
+  import_aliases:
+  - policy
+  file_patterns:
+  - branding/policy/**/*.py
+  - tests/branding/policy/**/*.py
+  entry_points:
+  - branding/policy/__init__.py
+ownership:
+  owner: '@MarketingTeam'
+  lifecycle: evolving
+  last_review: '2025-09-10T11:32:19.474836+00:00'
+  promotion_rules: {}
+contracts:
+  api:
+    surface:
+    - 'python: branding.policy.normalize_chunk'
+    - 'python: branding.policy.normalize_output'
+    version: v1.0
+    compatibility:
+      backward: true
+      forward: minor
+  invariants:
+  - module loads without errors
+  - public API remains stable
+dependencies:
+  internal:
+    requires: []
+    provides:
+    - branding.policy
+  external:
+    libs: []
+  coupling_metrics:
+    afferent: 0
+    efferent: 0
+    instability_index: 0.0
+runtime:
+  processes:
+    entrypoints:
+    - python -m branding.policy
+    concurrency_model: thread
+  config:
+    files:
+    - branding/policy/branding_metadata.json
+    env_vars_required: []
+    feature_flags: []
+  resources:
+    cpu_limit: 0.5 vcpu
+    mem_limit: 256 MiB
+data_and_events:
+  data_classes: []
+  pii:
+    contains: false
+    classification: internal
+security:
+  secrets:
+    sources:
+    - env
+    files: []
+  authz_model: internal_only
+  compliance:
+    data_classification: internal
+observability:
+  logs:
+    format: structured_json
+    level: info
+  metrics:
+    exporter: prometheus
+    key_metrics:
+    - name: branding_policy_calls_total
+      target: '>0'
+      type: counter
+  slos:
+    error_rate_pct: 1.0
+    availability_pct: 99.0
+test_posture:
+  coverage:
+    current: 0.0
+    target: 0.8
+  tests:
+    unit: 0
+    integration: 0
+risk_and_change:
+  risks:
+  - id: R-BRANDING-POLICY-GENERATED
+    title: Auto-generated schema may be incomplete
+    likelihood: medium
+    impact: low
+    mitigation: Manual review and enhancement required
+    status: open
+provenance:
+  schema_version: '1.0'
+  last_updated: '2025-09-10T11:32:19.474836+00:00'
+  source_paths:
+  - branding/policy
+  generated_by:
+    tool: lukhas-module-generator
+    version: 1.0.0
+    timestamp: '2025-09-10T11:32:19.474836+00:00'
+  validation:
+    schema_valid: true
+    last_validated: '2025-09-10T11:32:19.474836+00:00'
+    validator_version: 1.0.0

@@ -11,7 +11,7 @@ import json
 import logging
 import time
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -19,7 +19,8 @@ import numpy as np
 
 # Import colony infrastructure
 from candidate.core.colonies.base_colony import BaseColony, ConsensusResult
-from candidate.core.enhanced_swarm import AgentCapability, AgentMemory, AgentState, EnhancedSwarmAgent as SwarmAgent
+from candidate.core.enhanced_swarm import AgentCapability, AgentMemory, AgentState
+from candidate.core.enhanced_swarm import EnhancedSwarmAgent as SwarmAgent
 
 # Import event bus for dream coordination
 try:

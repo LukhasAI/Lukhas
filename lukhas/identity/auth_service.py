@@ -4,6 +4,7 @@ LUKHAS Identity Authentication Service
 Unified authentication service that bridges legacy systems with modern identity management.
 Provides secure authentication with fallback support and progressive enhancement.
 """
+
 import asyncio
 import hashlib
 import hmac
@@ -67,11 +68,16 @@ def _try_import_candidate_components():
 
 
 # Try to load candidate components
-_candidate_components = _try_import_candidate_components()
-if _candidate_components:
-    REAL_IDENTITY_AVAILABLE = True
-    # Assign to module level for backward compatibility
-    locals().update(_candidate_components)
+import os
+USE_CANDIDATE_BRIDGE = os.getenv("ALLOW_CANDIDATE_RUNTIME") == "1"
+if USE_CANDIDATE_BRIDGE:
+    _candidate_components = _try_import_candidate_components()
+    if _candidate_components:
+        REAL_IDENTITY_AVAILABLE = True
+        # Assign to module level for backward compatibility
+        locals().update(_candidate_components)
+else:
+    _candidate_components = None
 
 # Maintain backward compatibility
 IDENTITY_MANAGER_AVAILABLE = REAL_IDENTITY_AVAILABLE
@@ -908,6 +914,9 @@ def authenticate_api_key(api_key: str, service_name: str = "unknown") -> AuthRes
     return get_auth_service().authenticate_api_key(api_key, service_name)
 
 
+# Create default instance for backwards compatibility
+auth_service = get_auth_service()
+
 # Export key components
 __all__ = [
     "AuthResult",
@@ -917,4 +926,5 @@ __all__ = [
     "authenticate_token",
     "authenticate_user",
     "get_auth_service",
+    "auth_service",  # Add the missing export
 ]

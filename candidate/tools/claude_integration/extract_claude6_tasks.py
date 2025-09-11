@@ -4,7 +4,7 @@ Extract comprehensive tasks from Claude_6.yml and create detailed task files for
 """
 
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 import yaml

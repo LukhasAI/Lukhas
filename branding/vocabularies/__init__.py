@@ -12,6 +12,7 @@ Created: 2025-07-25
 Status: ACTIVE
 Priority: HIGH
 """
+
 import streamlit as st
 
 # Import existing vocabularies

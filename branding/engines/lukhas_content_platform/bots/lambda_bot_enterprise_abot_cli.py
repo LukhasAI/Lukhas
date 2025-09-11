@@ -5,6 +5,7 @@ LUKHAS AI ΛBot Comprehensive CLI Integration
 Connects LUKHAS AI ΛBot PR Review with all documentation, web management,
 compliance, and content creation tools
 """
+
 import asyncio
 import json
 import os
@@ -249,7 +250,7 @@ def check(pr_number: int, full: bool):
         ("Risk Assessment", "✅ Compliant"),
     ]
 
-    for check_name, status in checks:
+    for _check_name, _status in checks:
         click.echo("abot_cli_processing")
 
     if full:
@@ -331,7 +332,7 @@ def status():
         ("Webhook Server", "⚠️ Not Running"),
     ]
 
-    for system, status in systems:
+    for _system, _status in systems:
         click.echo("abot_cli_processing")
 
 
@@ -379,7 +380,7 @@ def test(component: str):
         ("Self-Healing", "✅ Pass"),
     ]
 
-    for test_name, result in tests:
+    for test_name, _result in tests:
         if not component or component in test_name.lower():
             click.echo("abot_cli_processing")
 
@@ -851,9 +852,7 @@ def services():
             click.echo(f"   Creative: {service.creative_quality}")
             click.echo(f"   Factual: {service.factual_accuracy}")
             click.echo(f"   Streaming: {'✅' if service.supports_streaming else '❌'}")
-            click.echo(
-                "abot_cli_processing"
-            )
+            click.echo("abot_cli_processing")
 
             # Check if service is available
             if router._get_keychain_value(service.keychain_service):
@@ -1399,7 +1398,7 @@ def list_traces(user_ref: str, action: str, limit: int):
             click.echo("📭 No traces found")
             return
 
-        for i, trace in enumerate(traces[:limit], 1):
+        for _i, trace in enumerate(traces[:limit], 1):
             click.echo("abot_cli_processing")
             click.echo(f"   🎯 Action: {trace['action']}")
             click.echo(f"   ⏰ Time: {trace['timestamp']}")

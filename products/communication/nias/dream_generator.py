@@ -4,6 +4,7 @@ NIΛS Dream Generator - AI-powered dream commerce content generation
 Integrates OpenAI APIs for narrative, image, and video generation
 Part of the Lambda Products Suite by LUKHAS AI
 """
+
 import asyncio
 import hashlib
 import logging
@@ -147,7 +148,9 @@ class DreamGenerator:
             cache_key = self._get_cache_key(context)
             if cache_key in self.dream_cache:
                 cached_dream = self.dream_cache[cache_key]
-                if (datetime.now(timezone.utc) - cached_dream.created_at).seconds < self.config["cache_duration_minutes"] * 60:
+                if (datetime.now(timezone.utc) - cached_dream.created_at).seconds < self.config[
+                    "cache_duration_minutes"
+                ] * 60:
                     logger.info(f"Returning cached dream: {cached_dream.dream_id}")
                     return cached_dream
 

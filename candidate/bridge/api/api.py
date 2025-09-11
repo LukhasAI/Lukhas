@@ -24,14 +24,10 @@
 ║ primary gateway for all identity-related operations.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import logging
 import os  # Added for ENV variable access example for API version
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum  # Added for QRGType fallback
 from typing import Any, Optional
 

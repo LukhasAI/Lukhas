@@ -7,11 +7,12 @@ Advanced pattern recognition and learning system for consciousness development.
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 
 class PatternType(Enum):
     """Types of patterns that can be learned."""
+
     SEQUENTIAL = "sequential"
     SPATIAL = "spatial"
     TEMPORAL = "temporal"
@@ -48,7 +49,7 @@ class PatternLearningContext:
     max_patterns: int = 1000
     learning_rate: float = 0.1
     decay_rate: float = 0.01
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class PatternLearningEngine:
@@ -57,16 +58,11 @@ class PatternLearningEngine:
     def __init__(self, context: Optional[PatternLearningContext] = None):
         """Initialize the pattern learning engine."""
         self.context = context or PatternLearningContext()
-        self.learned_patterns: Dict[str, Pattern] = {}
-        self.pattern_relationships: Dict[str, Set[str]] = {}
-        self.learning_history: List[Dict[str, Any]] = []
+        self.learned_patterns: dict[str, Pattern] = {}
+        self.pattern_relationships: dict[str, set[str]] = {}
+        self.learning_history: list[dict[str, Any]] = []
 
-    async def learn_pattern(
-        self,
-        data: Any,
-        pattern_type: PatternType,
-        pattern_id: Optional[str] = None
-    ) -> Pattern:
+    async def learn_pattern(self, data: Any, pattern_type: PatternType, pattern_id: Optional[str] = None) -> Pattern:
         """Learn a new pattern from data."""
         if pattern_id is None:
             pattern_id = f"{pattern_type.value}_{len(self.learned_patterns)}"
@@ -78,27 +74,27 @@ class PatternLearningEngine:
             pattern_id=pattern_id,
             pattern_type=pattern_type,
             structure=structure,
-            confidence=self._calculate_confidence(data, pattern_type)
+            confidence=self._calculate_confidence(data, pattern_type),
         )
 
         self.learned_patterns[pattern_id] = pattern
 
         # Log learning event
-        self.learning_history.append({
-            "event": "pattern_learned",
-            "pattern_id": pattern_id,
-            "pattern_type": pattern_type.value,
-            "confidence": pattern.confidence,
-            "timestamp": datetime.now(timezone.utc)
-        })
+        self.learning_history.append(
+            {
+                "event": "pattern_learned",
+                "pattern_id": pattern_id,
+                "pattern_type": pattern_type.value,
+                "confidence": pattern.confidence,
+                "timestamp": datetime.now(timezone.utc),
+            }
+        )
 
         return pattern
 
     async def recognize_pattern(
-        self,
-        data: Any,
-        pattern_types: Optional[List[PatternType]] = None
-    ) -> List[Tuple[Pattern, float]]:
+        self, data: Any, pattern_types: Optional[list[PatternType]] = None
+    ) -> list[tuple[Pattern, float]]:
         """Recognize patterns in new data."""
         if pattern_types is None:
             pattern_types = list(PatternType)
@@ -116,10 +112,7 @@ class PatternLearningEngine:
         return recognized
 
     async def update_pattern(
-        self,
-        pattern_id: str,
-        new_data: Any,
-        learning_rate: Optional[float] = None
+        self, pattern_id: str, new_data: Any, learning_rate: Optional[float] = None
     ) -> Optional[Pattern]:
         """Update an existing pattern with new data."""
         if pattern_id not in self.learned_patterns:
@@ -136,11 +129,7 @@ class PatternLearningEngine:
 
         return pattern
 
-    async def _extract_pattern_structure(
-        self,
-        data: Any,
-        pattern_type: PatternType
-    ) -> Dict[str, Any]:
+    async def _extract_pattern_structure(self, data: Any, pattern_type: PatternType) -> dict[str, Any]:
         """Extract pattern structure from data."""
         # Simplified pattern extraction
         if pattern_type == PatternType.SEQUENTIAL:
@@ -178,12 +167,7 @@ class PatternLearningEngine:
         else:
             return 0.3
 
-    async def _update_pattern_structure(
-        self,
-        pattern: Pattern,
-        new_data: Any,
-        learning_rate: float
-    ) -> None:
+    async def _update_pattern_structure(self, pattern: Pattern, new_data: Any, learning_rate: float) -> None:
         """Update pattern structure with new data."""
         # Simplified pattern update
         pattern.structure["last_update"] = datetime.now(timezone.utc).isoformat()
@@ -195,26 +179,17 @@ PatternLearner = PatternLearningEngine
 
 
 # Convenience functions for quick pattern learning
-async def quick_pattern_learning(
-    data: Any,
-    pattern_type: PatternType = PatternType.SEQUENTIAL
-) -> Pattern:
+async def quick_pattern_learning(data: Any, pattern_type: PatternType = PatternType.SEQUENTIAL) -> Pattern:
     """Quick pattern learning for simple use cases."""
     engine = PatternLearningEngine()
     return await engine.learn_pattern(data, pattern_type)
 
 
 def create_pattern_learning_context(
-    learning_mode: str = "adaptive",
-    confidence_threshold: float = 0.7,
-    **kwargs
+    learning_mode: str = "adaptive", confidence_threshold: float = 0.7, **kwargs
 ) -> PatternLearningContext:
     """Create a pattern learning context with common settings."""
-    return PatternLearningContext(
-        learning_mode=learning_mode,
-        confidence_threshold=confidence_threshold,
-        **kwargs
-    )
+    return PatternLearningContext(learning_mode=learning_mode, confidence_threshold=confidence_threshold, **kwargs)
 
 
 # Export main classes and functions
@@ -226,5 +201,5 @@ __all__ = [
     "LearningPattern",  # Alias for Pattern
     "PatternLearningContext",
     "quick_pattern_learning",
-    "create_pattern_learning_context"
+    "create_pattern_learning_context",
 ]

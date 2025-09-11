@@ -108,7 +108,11 @@ def generate_performance_report() -> dict[str, Any]:
             "prometheus_metrics_available": True,
         }
 
-        return {"performance_report": report, "report_time": datetime.now(timezone.utc).isoformat(), "status": "generated"}
+        return {
+            "performance_report": report,
+            "report_time": datetime.now(timezone.utc).isoformat(),
+            "status": "generated",
+        }
 
     except Exception as e:
         logger.error(f"Performance report generation failed: {e}")

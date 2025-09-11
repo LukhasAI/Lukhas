@@ -762,7 +762,7 @@ def main():
 
     stats = audit_results["summary_statistics"]
     print(f"📁 Total Files Remaining: {stats.get('total_files_remaining', 0)}")
-    print(f"📊 Total Size: {stats.get('total_size_remaining_mb', 0)}:.2f} MB")
+    print(f"📊 Total Size: {stats.get('total_size_remaining_mb', 0):.2f} MB")
     print(f"🏷️  Categorized Files: {sum(stats.get('files_by_category', {)}).values())}")
     print(f"❓ Unclassified Files: {len(audit_results['unclassified_components']['unclassified_files'])}")
     print(f"🔄 Recommendations: {len(audit_results['consolidation_recommendations'])}")

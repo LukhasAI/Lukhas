@@ -980,7 +980,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
             )
 
             # Uptime
-            uptime_str = f"{int(self.current_metrics.uptime // 3600):02d}:{int((self.current_metrics.uptime % 3600) // 60):02d}:{int(self.current_metrics.uptime % 60)}:02d}"
+            uptime_str = f"{int(self.current_metrics.uptime // 3600):02d}:{int((self.current_metrics.uptime % 3600) // 60):02d}:{int(self.current_metrics.uptime % 60):02d}"
             print(Console.move_cursor(9, 5), end="")
             print(f"Uptime: {Console.CYAN}{uptime_str}{Console.RESET}", end="")
 

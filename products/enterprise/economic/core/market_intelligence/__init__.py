@@ -7,9 +7,9 @@ from .market_intelligence_engine import MarketIntelligenceEngine
 from .value_creation_synthesizer import ValueCreationSynthesizer
 
 __all__ = [
-"CompetitiveLandscapeController",
-"EconomicCausalityAnalyzer",
-"EconomicRealityManipulator",
-"MarketIntelligenceEngine",
-"ValueCreationSynthesizer",
+    "CompetitiveLandscapeController",
+    "EconomicCausalityAnalyzer",
+    "EconomicRealityManipulator",
+    "MarketIntelligenceEngine",
+    "ValueCreationSynthesizer",
 ]

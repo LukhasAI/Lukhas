@@ -14,7 +14,12 @@ Key Components:
 All components ensure complete traceability and governance through
 the MATRIZ node format.
 """
-import streamlit as st
+
+try:
+    import streamlit as st
+except ImportError:  # pragma: no cover
+    st = None
+    # Optional UI dependency; core runtime must not require it.
 
 from .node_interface import (
     CognitiveNode,

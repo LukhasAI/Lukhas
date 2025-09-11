@@ -11,11 +11,14 @@ from collections import defaultdict
 def run_command(cmd):
     """Run shell command and return output"""
     try:
-        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, cwd="/Users/agi_dev/LOCAL-REPOS/Lukhas")
+        result = subprocess.run(
+            cmd, shell=True, capture_output=True, text=True, cwd="/Users/agi_dev/LOCAL-REPOS/Lukhas"
+        )
         return result.stdout.strip(), result.returncode
     except Exception as e:
         print(f"Error running command: {e}")
         return "", 1
+
 
 def get_syntax_errors_for_commit(commit_hash):
     """Get syntax errors for a specific commit"""
@@ -25,7 +28,9 @@ def get_syntax_errors_for_commit(commit_hash):
     run_command(f"git checkout {commit_hash} --quiet")
 
     # Run ruff to get syntax errors
-    output, returncode = run_command(".venv/bin/ruff check branding/ candidate/ tools/ products/ matriz/ next_gen/ lukhas/ --select=E999 --output-format=json --quiet")
+    output, returncode = run_command(
+        ".venv/bin/ruff check branding/ candidate/ tools/ products/ matriz/ next_gen/ lukhas/ --select=E999 --output-format=json --quiet"
+    )
 
     # Return to main
     run_command("git checkout main --quiet")
@@ -39,11 +44,14 @@ def get_syntax_errors_for_commit(commit_hash):
     except json.JSONDecodeError:
         return []
 
+
 def find_clean_files_in_history():
     """Find files that were clean in previous commits but have errors now"""
 
     # Get current files with syntax errors
-    output, _ = run_command(".venv/bin/ruff check branding/ candidate/ tools/ products/ matriz/ next_gen/ lukhas/ --select=E999 --output-format=json --quiet")
+    output, _ = run_command(
+        ".venv/bin/ruff check branding/ candidate/ tools/ products/ matriz/ next_gen/ lukhas/ --select=E999 --output-format=json --quiet"
+    )
 
     if not output:
         print("No current syntax errors found")
@@ -77,11 +85,7 @@ def find_clean_files_in_history():
                 clean_file_opportunities[file_path].append(commit)
 
     # Sort by most opportunities (files clean in multiple commits)
-    sorted_opportunities = sorted(
-        clean_file_opportunities.items(),
-        key=lambda x: len(x[1]),
-        reverse=True
-    )
+    sorted_opportunities = sorted(clean_file_opportunities.items(), key=lambda x: len(x[1]), reverse=True)
 
     print("\n🎯 CLEAN FILE RESTORATION OPPORTUNITIES:")
     print(f"Found {len(sorted_opportunities)} files that were clean in past commits")
@@ -102,13 +106,16 @@ def find_clean_files_in_history():
             most_recent_clean = commits[0]  # First is most recent
             f.write(f'echo "Restoring {file_path} from {most_recent_clean}..."\n')
             f.write(f'git checkout {most_recent_clean} -- "{file_path}"\n')
-            f.write(f'python -c "import py_compile; py_compile.compile(\'{file_path}\', doraise=True)" && echo "✅ Compiles" || echo "❌ Still broken"\n')
+            f.write(
+                f'python -c "import py_compile; py_compile.compile(\'{file_path}\', doraise=True)" && echo "✅ Compiles" || echo "❌ Still broken"\n'
+            )
             f.write("\n")
 
         f.write('echo "Restoration complete! Check files and commit if successful."\n')
 
     print("\n📝 Created restoration script: tools/analysis/clean_file_restoration_script.sh")
     return sorted_opportunities
+
 
 if __name__ == "__main__":
     find_clean_files_in_history()

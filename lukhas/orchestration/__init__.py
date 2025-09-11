@@ -5,6 +5,7 @@ Trinity Framework: ⚛️🧠🛡️
 Orchestration system with integrated branding compliance for
 multi-agent coordination and Trinity Framework decision making.
 """
+
 import streamlit as st
 
 # Import context bus components

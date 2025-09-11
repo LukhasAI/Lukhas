@@ -3,6 +3,7 @@
 Custom F-String Error Fixer
 Targets the most common f-string syntax errors in the LUKHAS codebase
 """
+
 import re
 import sys
 from pathlib import Path
@@ -45,9 +46,8 @@ class FStringFixer:
         if 'f"' in line:
             if line.count('"') % 2 != 0:
                 line = line.rstrip() + '"\n'
-        elif "f'" in line:
-            if line.count("'") % 2 != 0:
-                line = line.rstrip() + "'\n"
+        elif "f'" in line and line.count("'") % 2 != 0:
+            line = line.rstrip() + "'\n"
         return line
 
     def fix_file(self, filepath: Path) -> bool:

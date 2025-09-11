@@ -16,6 +16,7 @@
 ║ and aggregate pattern for AI agent state reconstruction.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import json
 import logging
 import sqlite3

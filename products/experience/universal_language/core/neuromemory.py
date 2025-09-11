@@ -5,6 +5,7 @@ Neuroscience-Inspired Memory System for Universal Language
 Implements hippocampal-like episodic memory and cortical semantic memory.
 Based on what Demis Hassabis/DeepMind would implement.
 """
+
 import hashlib
 import logging
 import time

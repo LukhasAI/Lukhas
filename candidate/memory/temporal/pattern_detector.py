@@ -551,7 +551,7 @@ class PatternDetector:
                     occurrences = [
                         {
                             "timestamp": e.timestamp,
-                            "context": f"{dominant_emotion[0]}: {e.emotional_vector.get(dominant_emotion[0], 0)}:.2f}",
+                            "context": f"{dominant_emotion[0]}: {e.emotional_vector.get(dominant_emotion[0], 0):.2f}",
                         }
                         for e in emotional_entries
                         if e.timestamp.strftime("%A") == day
@@ -921,7 +921,7 @@ Found {len(self.detected_patterns)} patterns in your development workflow.
         if automations:
             report += "\n## 🤖 Automation Opportunities\n"
             for i, automation in enumerate(automations[:5], 1):
-                report += f"\n##"pattern']}\n"
+                report += f"\n##"pattern']}\n"'
                 report += f"- Type: {automation['automation_type']}\n"
                 report += f"- Implementation: {automation['implementation']}\n"
                 report += f"- Time saved: {automation['estimated_time_saved']}\n"

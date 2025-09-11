@@ -631,12 +631,11 @@ class SymbolicAnomalyExplorer:
             dissonance_score = emotion_variance * 0.4 + emotion_range * 0.3
 
             for neg, pos in opposing_emotions:
-                if neg in dream.emotional_state and pos in dream.emotional_state:
-                    if (
-                        abs(dream.emotional_state[neg] - dream.emotional_state[pos])
-                        > 0.7
-                    ):
-                        dissonance_score += 0.3
+                if neg in dream.emotional_state and pos in dream.emotional_state and (
+                    abs(dream.emotional_state[neg] - dream.emotional_state[pos])
+                    > 0.7
+                ):
+                    dissonance_score += 0.3
 
             if dissonance_score > self.thresholds["emotional_dissonance"]:
                 severity = self._calculate_severity(dissonance_score)

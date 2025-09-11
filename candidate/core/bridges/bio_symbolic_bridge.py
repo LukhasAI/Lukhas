@@ -4,6 +4,7 @@ Bidirectional communication bridge between Bio and Symbolic systems
 """
 
 import logging
+from datetime import timezone
 from typing import Any
 
 from lukhas.core.integration.hub_registry import HubRegistry

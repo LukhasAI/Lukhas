@@ -11,12 +11,25 @@ from pathlib import Path
 def is_lukhas_project_file(file_path: str) -> bool:
     """Filter to only process LUKHAS project files."""
     exclude_patterns = [
-        "site-packages", "lib/python", ".venv", "venv/", "__pycache__",
-        "transformers/", "kubernetes/", "scipy/", "numpy/", "pandas/",
-        ".git/", "node_modules/", "dist/", "build/", "*.egg-info"
+        "site-packages",
+        "lib/python",
+        ".venv",
+        "venv/",
+        "__pycache__",
+        "transformers/",
+        "kubernetes/",
+        "scipy/",
+        "numpy/",
+        "pandas/",
+        ".git/",
+        "node_modules/",
+        "dist/",
+        "build/",
+        "*.egg-info",
     ]
 
     return not any(pattern in file_path for pattern in exclude_patterns)
+
 
 def fix_f_string_braces(content: str) -> str:
     """Fix f-string brace issues."""
@@ -32,6 +45,7 @@ def fix_f_string_braces(content: str) -> str:
                 lines[i] = line
 
     return "\n".join(lines)
+
 
 def fix_eol_strings(content: str) -> str:
     """Fix EOL while scanning string literal errors."""
@@ -53,6 +67,7 @@ def fix_eol_strings(content: str) -> str:
 
     return "\n".join(lines)
 
+
 def fix_parentheses_mismatch(content: str) -> str:
     """Fix parentheses and bracket mismatches."""
     # Simple fix for common patterns
@@ -63,24 +78,27 @@ def fix_parentheses_mismatch(content: str) -> str:
 
     return content
 
+
 def fix_unexpected_indent(content: str) -> str:
     """Fix unexpected indent errors."""
     lines = content.split("\n")
 
     for i in range(1, len(lines)):
         if lines[i].startswith("    "):  # Has indentation
-            prev_line = lines[i-1].strip()
+            prev_line = lines[i - 1].strip()
             # If previous line doesn't end with : and current is indented, remove indent
             if prev_line and not prev_line.endswith(":") and not prev_line.endswith("\\"):
                 lines[i] = lines[i].lstrip()
 
     return "\n".join(lines)
 
+
 def fix_invalid_characters(content: str) -> str:
     """Fix invalid Unicode characters."""
     content = content.replace("→", "->")  # Arrow to ->
     content = content.replace("…", "...")  # Ellipsis
     return content
+
 
 def fix_syntax_errors(file_path: Path) -> bool:
     """Apply targeted syntax fixes to a file."""
@@ -117,6 +135,7 @@ def fix_syntax_errors(file_path: Path) -> bool:
         print(f"🚨 Error processing {file_path}: {e}")
         return False
 
+
 def main():
     """Main execution function."""
     workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
@@ -149,6 +168,7 @@ def main():
     print(f"✅ Files fixed/valid: {fixed_count}")
     print(f"❌ Files with remaining errors: {error_count}")
     print(f"📈 Syntax success rate: {success_rate:.1f}%")
+
 
 if __name__ == "__main__":
     main()

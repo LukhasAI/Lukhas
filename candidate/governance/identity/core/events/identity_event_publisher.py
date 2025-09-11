@@ -12,6 +12,7 @@ from typing import Any, Callable, Optional
 from candidate.core.event_bus import EventBus, get_global_event_bus
 
 from .identity_event_types import (
+from datetime import timezone
     AuthenticationContext,
     IdentityEvent,
     IdentityEventPriority,

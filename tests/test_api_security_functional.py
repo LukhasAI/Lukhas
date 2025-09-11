@@ -96,7 +96,7 @@ class TestAPIBackendSystems(unittest.TestCase):
             }
 
             # Test endpoint structure
-            for endpoint, config in mock_endpoints.items():
+            for config in mock_endpoints.values():
                 self.assertIn("method", config)
                 self.assertIn("response", config)
                 self.assertIn(config["method"], ["GET", "POST", "PUT", "DELETE"])
@@ -165,7 +165,7 @@ class TestAPIBackendSystems(unittest.TestCase):
             }
 
             # Validate streaming configuration
-            for stream_name, config in streaming_config.items():
+            for config in streaming_config.values():
                 self.assertIn("enabled", config)
                 self.assertIn("buffer_size", config)
                 self.assertTrue(config["enabled"])
@@ -443,7 +443,7 @@ class TestInfrastructureIntegration(unittest.TestCase):
                 component_config = trinity_infrastructure[component]
 
                 # Each component should have API endpoints
-                endpoint_keys = [key for key in component_config.keys() if "endpoint" in key or "api" in key]
+                endpoint_keys = [key for key in component_config if "endpoint" in key or "api" in key]
                 self.assertGreater(len(endpoint_keys), 0)
 
             print("✅ Trinity-Infrastructure alignment validated")

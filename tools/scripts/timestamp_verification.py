@@ -4,6 +4,7 @@ Timestamp Verification
 =====================
 Minimal implementation for testing infrastructure.
 """
+
 from datetime import datetime, timezone
 from typing import Any
 

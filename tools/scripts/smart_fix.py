@@ -2,6 +2,7 @@
 """
 Smart Linting Fix - Only fixes critical issues without breaking code
 """
+
 import json
 import re
 import subprocess

@@ -3,6 +3,7 @@
 Critical Syntax Fixer for LUKHAS Workspace
 Fixes the most common and critical syntax errors preventing basic operation.
 """
+
 import ast
 import re
 import sys
@@ -21,7 +22,7 @@ class CriticalSyntaxFixer:
         content = re.sub(r'(f"[^"]*\{[^}]+)\}(\[:?\d+\])\}', r"\1\2}", content)
         content = re.sub(r"(f'[^']*\{[^}]+)\}(\[:?\d+\])\}", r"\1\2}", content)
 
-        # Pattern 2: f"...{var}:.3f}" -> f"...{var:.3f}"
+        # Pattern 2: f"...{var:.3f}" -> f"...{var:.3f}"
         content = re.sub(r'(f"[^"]*\{[^}]+)\}(\:[.\d]+f)\}', r"\1\2}", content)
         content = re.sub(r"(f'[^']*\{[^}]+)\}(\:[.\d]+f)\}", r"\1\2}", content)
 
@@ -113,12 +114,7 @@ class CriticalSyntaxFixer:
 
     def process_directory(self, root_path: Path) -> dict:
         """Process all Python files in directory."""
-        results = {
-            "total_files": 0,
-            "fixed_files": 0,
-            "valid_files": 0,
-            "error_files": 0
-        }
+        results = {"total_files": 0, "fixed_files": 0, "valid_files": 0, "error_files": 0}
 
         # Skip problematic directories - ONLY process actual LUKHAS project files
         skip_dirs = {".git", "__pycache__", ".venv", ".lintvenv", ".venv_runtime_test", "node_modules", "venv"}
@@ -130,11 +126,13 @@ class CriticalSyntaxFixer:
 
             # Only process files that are clearly part of the LUKHAS project
             file_path_str = str(py_file)
-            if ("site-packages" in file_path_str or
-                "lib/python" in file_path_str or
-                "transformers/" in file_path_str or
-                "kubernetes/" in file_path_str or
-                "scipy/" in file_path_str):
+            if (
+                "site-packages" in file_path_str
+                or "lib/python" in file_path_str
+                or "transformers/" in file_path_str
+                or "kubernetes/" in file_path_str
+                or "scipy/" in file_path_str
+            ):
                 continue
 
             results["total_files"] += 1

@@ -4,6 +4,7 @@ Security utilities for provider plugin implementations
 This module provides security-related utilities for HIPAA compliance,
 encryption, and audit logging.
 """
+
 import json
 import logging
 from datetime import datetime, timezone

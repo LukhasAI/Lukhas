@@ -4,6 +4,7 @@ Trigger Flow Example
 ===================
 Demonstrates how the monitoring system triggers adaptations from real LUKHAS data
 """
+
 import asyncio
 import time
 from collections import deque

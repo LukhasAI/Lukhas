@@ -9,6 +9,7 @@ from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
+
 class DreamProcessor:
     """Core dream processing functionality"""
 
@@ -19,6 +20,7 @@ class DreamProcessor:
     def process_dream(self, dream_data: dict[str, Any]) -> dict[str, Any]:
         """Process dream data"""
         return {"status": "processed", "dream": dream_data}
+
 
 class DreamBridge:
     """Bridge for dream consciousness integration"""
@@ -31,9 +33,11 @@ class DreamBridge:
         """Establish dream bridge connection"""
         return True
 
+
 def create_dream_bridge() -> DreamBridge:
     """Create dream bridge instance"""
     return DreamBridge()
+
 
 # Module initialization
 logger.info("✅ Dream module loaded")

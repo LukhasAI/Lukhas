@@ -11,15 +11,10 @@ This module combines the best features from both prototypes:
 ΛLOCKED: false
 ΛCANONICAL: Consolidated FastAPI-enabled dream engine
 """
-from typing import List
-from typing import Dict
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import contextlib
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import uvicorn
@@ -41,15 +36,14 @@ logger = logging.getLogger("enhanced_dream_fastapi")
 
 # LUKHAS imports (with fallback handling)
 try:
-    from dream.core.dream_engine import DreamEngineSystem
-    from dream.core.qi_dream_adapter import DreamQuantumConfig, QIDreamAdapter
-
     from bio.core import BioOrchestrator
     from candidate.core.bio_systems.qi_layer import QIBioOscillator
     from candidate.core.unified_integration import UnifiedIntegration
     from consciousness.core_consciousness.dream_engine.dream_reflection_loop import (
         DreamReflectionLoop,
     )
+    from dream.core.dream_engine import DreamEngineSystem
+    from dream.core.qi_dream_adapter import DreamQuantumConfig, QIDreamAdapter
     from lukhas.memory.core_memory.dream_memory_manager import DreamMemoryManager
 
     BIO_CORE_AVAILABLE = True

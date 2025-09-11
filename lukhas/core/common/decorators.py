@@ -3,6 +3,7 @@
 ===================
 Reusable decorators for LUKHAS modules.
 """
+
 import logging
 
 log = logging.getLogger(__name__)

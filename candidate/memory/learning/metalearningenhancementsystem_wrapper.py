@@ -28,6 +28,8 @@ except ImportError as e:
         from .metalearningenhancementsystem_mock import (
             EnhancementMode,
             MetaLearningEnhancementsystem,
+        )
+        from .metalearningenhancementsystem_mock import (
             get_meta_learning_enhancement as get_mock_enhancement,
         )
 

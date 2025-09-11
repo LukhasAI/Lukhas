@@ -1,0 +1,336 @@
+identity:
+  name: candidate.memory
+  layer: infrastructure
+  summary: Quantum Healix Mapper
+  status: active
+  tier: 2
+discovery:
+  import_patterns:
+  - from candidate.memory import MemoryPriority
+  - from candidate.memory import consolidate_memories
+  - from candidate.memory import remember
+  - from candidate.memory import detect_memory_drift
+  - from candidate.memory import get_quantum_mind
+  import_aliases:
+  - memory
+  file_patterns:
+  - candidate/memory/**/*.py
+  - tests/candidate/memory/**/*.py
+  entry_points:
+  - candidate/memory/__init__.py
+ownership:
+  owner: '@Agent02'
+  lifecycle: evolving
+  last_review: '2025-09-10T11:32:19.310189+00:00'
+  promotion_rules:
+    from_lane: candidate
+    to_lane: lukhas
+    required_checks:
+    - tests/smoke
+    - coverage
+    - lint
+    min_coverage: 0.8
+contracts:
+  api:
+    surface:
+    - 'python: candidate.memory.MemoryPriority'
+    - 'python: candidate.memory.consolidate_memories'
+    - 'python: candidate.memory.remember'
+    - 'python: candidate.memory.detect_memory_drift'
+    - 'python: candidate.memory.get_quantum_mind'
+    - 'python: candidate.memory.MEGConfig'
+    - 'python: candidate.memory.HealixMemoryCore'
+    - 'python: candidate.memory.decrypt_user_file'
+    - 'python: candidate.memory.SafeMemoryFold'
+    - 'python: candidate.memory.DreamTraceLinker'
+    version: v1.1.0
+    compatibility:
+      backward: true
+      forward: minor
+  invariants:
+  - module loads without errors
+  - public API remains stable
+dependencies:
+  internal:
+    requires: []
+    provides:
+    - candidate.memory
+  external:
+    libs:
+    - name: collections
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: memory
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: hippocampal
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: content_generation_engine
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: symbolic
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: interfaces
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: symbolic_knowledge_core
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: trace
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: scaffold
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: tutoring_engine
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: consolidation
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: protection
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: ethics
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: seedra
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: qi_processing
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: dream
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: flask_limiter
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: bio_awareness
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: hub
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: backend
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: qi
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: opentelemetry
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: bio
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: neocortical
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: docututor
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: seedra_docs
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: cryptography
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: identity
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: core
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: frontend
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: learning
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: consciousness
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: systems
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: matplotlib
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: fold_system
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: compliance
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: services
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: integrity
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: config
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: folds
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: fromfromfromcandidate
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: governance
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: torch
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: oneiric
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: common
+      version: unknown
+      license: unknown
+      purpose: library dependency
+  coupling_metrics:
+    afferent: 48
+    efferent: 1
+    instability_index: 0.98
+runtime:
+  processes:
+    entrypoints:
+    - python -m candidate.memory
+    concurrency_model: async
+  config:
+    files:
+    - candidate/memory/fold_config.yaml
+    - candidate/memory/MEMORY_FOLD_IMPLEMENTATION.json
+    - candidate/memory/MATRIZ_COGNITIVE_DNA_CONCEPTS.json
+    - candidate/memory/MODULE_MANIFEST.json
+    - candidate/memory/temporal/HYBRID_COMPONENT.json
+    - candidate/memory/causal/HYBRID_COMPONENT.json
+    - candidate/memory/learning/meta_learning_manifest.json
+    - candidate/memory/learning/security_learning_patterns.json
+    - candidate/memory/learning/adaptive_agi/GUARDIAN/meta_learning_manifest.json
+    - candidate/memory/learning/adaptive_agi/GUARDIAN/meta_learning_manifest_broken.json
+    - candidate/memory/learning/adaptive_agi/GUARDIAN/meta_learning_manifest_fixed.json
+    - candidate/memory/helix_vault/vault.json
+    env_vars_required: []
+    feature_flags: []
+  resources:
+    cpu_limit: 0.5 vcpu
+    mem_limit: 256 MiB
+data_and_events:
+  data_classes:
+  - name: GlyphMemoryIndex
+    schema_ref: audit/SCHEMAS/glyphmemoryindex.json
+    description: GlyphMemoryIndex data class
+  - name: TemporalIndex
+    schema_ref: audit/SCHEMAS/temporalindex.json
+    description: TemporalIndex data class
+  - name: MemoryPriority
+    schema_ref: audit/SCHEMAS/memorypriority.json
+    description: MemoryPriority data class
+  - name: ReplayMode
+    schema_ref: audit/SCHEMAS/replaymode.json
+    description: ReplayMode data class
+  - name: PluginLearningEngine
+    schema_ref: audit/SCHEMAS/pluginlearningengine.json
+    description: PluginLearningEngine data class
+  pii:
+    contains: false
+    classification: internal
+security:
+  secrets:
+    sources:
+    - env
+    files: []
+  authz_model: internal_only
+  compliance:
+    data_classification: internal
+observability:
+  logs:
+    format: structured_json
+    level: info
+  metrics:
+    exporter: prometheus
+    key_metrics:
+    - name: candidate_memory_calls_total
+      target: '>0'
+      type: counter
+  slos:
+    error_rate_pct: 1.0
+    availability_pct: 99.0
+test_posture:
+  coverage:
+    current: 0.0
+    target: 0.8
+  tests:
+    unit: 0
+    integration: 0
+risk_and_change:
+  risks:
+  - id: R-CANDIDATE-MEMORY-GENERATED
+    title: Auto-generated schema may be incomplete
+    likelihood: medium
+    impact: low
+    mitigation: Manual review and enhancement required
+    status: open
+provenance:
+  schema_version: '1.0'
+  last_updated: '2025-09-10T11:32:19.310189+00:00'
+  source_paths:
+  - candidate/memory
+  generated_by:
+    tool: lukhas-module-generator
+    version: 1.0.0
+    timestamp: '2025-09-10T11:32:19.310189+00:00'
+  validation:
+    schema_valid: true
+    last_validated: '2025-09-10T11:32:19.310189+00:00'
+    validator_version: 1.0.0

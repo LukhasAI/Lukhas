@@ -11,8 +11,8 @@ import logging
 import sys
 from pathlib import Path
 
-from core.endocrine.hormone_system import get_endocrine_system
 from feedback.card_system import FeedbackCardSystem
+from lukhas.core.endocrine.hormone_system import get_endocrine_system
 from lukhas.orchestration.signals.signal_bus import Signal, SignalType, get_signal_bus
 
 # Add parent directory to path for imports
@@ -81,7 +81,7 @@ async def activate_endocrine_system():
         logger.info(f"📊 Dominant State: {profile['dominant_state']}")
 
         # Get neuroplasticity
-        from core.endocrine.hormone_system import get_neuroplasticity
+        from lukhas.core.endocrine.hormone_system import get_neuroplasticity
 
         plasticity = get_neuroplasticity()
         logger.info(f"🧠 Current Neuroplasticity: {plasticity:.2f}")

@@ -2,6 +2,7 @@
 LUKHAS Brand Personality Adapter - Trinity Framework (⚛️🧠🛡️)
 Smart interface to core/personality/ systems for brand-aware personality operations
 """
+
 import sys
 from pathlib import Path
 from typing import Any, Optional
@@ -10,9 +11,9 @@ from typing import Any, Optional
 sys.path.append(str(Path(__file__).parent.parent.parent / "core"))
 
 try:
-    from core.personality.creative_expressions import CreativeExpressions
-    from core.personality.creative_personality import CreativePersonality
-    from core.personality.personality import Personality
+    from lukhas.core.personality.creative_expressions import CreativeExpressions
+    from lukhas.core.personality.creative_personality import CreativePersonality
+    from lukhas.core.personality.personality import Personality
 except ImportError:
     # Fallback for development/testing
     print("Warning: Core personality systems not available, using mock implementations")

@@ -5,6 +5,7 @@ Real-time voice consistency and personality alignment system
 
 Target: 85%+ voice coherence across all LUKHAS AI communications
 """
+
 import asyncio
 import re
 
@@ -718,9 +719,7 @@ async def main():
         print(f"Content {i + 1}: {status} ({coherence_pct:.1f}% coherence)")
         print(f'Content: "{content[:60]}{"..." if len(content) > 60 else ""}"')
         print(f"Profile: {result.voice_profile_match}")
-        print(
-            "voice_coherence_processing"
-        )
+        print("voice_coherence_processing")
 
         if result.suggested_improvements:
             print("Improvements:")

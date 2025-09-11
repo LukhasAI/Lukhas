@@ -21,9 +21,8 @@ class LearningAssistant:
     """
 
     def __init__(
-        self,
-        journal_engine: Optional[JournalEngine] = None,
-        personality: str = "encouraging_technical_mentor"):
+        self, journal_engine: Optional[JournalEngine] = None, personality: str = "encouraging_technical_mentor"
+    ):
         self.journal = journal_engine or JournalEngine()
         self.decision_tracker = DecisionTracker(self.journal)
         self.insight_analyzer = InsightAnalyzer(self.journal)
@@ -145,12 +144,8 @@ class LearningAssistant:
 
         # Generate answer
         if relevant_entries or kb_results:
-            response["answer"] = self._generate_answer(
-                question, relevant_entries, kb_results
-            )
-            response["confidence"] = self._calculate_confidence(
-                relevant_entries, kb_results
-            )
+            response["answer"] = self._generate_answer(question, relevant_entries, kb_results)
+            response["confidence"] = self._calculate_confidence(relevant_entries, kb_results)
             response["sources"] = self._format_sources(relevant_entries, kb_results)
             response["related_concepts"] = self._find_related_concepts(question)
         else:
@@ -179,9 +174,7 @@ class LearningAssistant:
         )
 
         # Generate follow-up questions
-        response["follow_up_questions"] = self._generate_follow_up_questions(
-            question, response
-        )
+        response["follow_up_questions"] = self._generate_follow_up_questions(question, response)
 
         # Suggest resources
         response["suggested_resources"] = self._suggest_resources(question, response)
@@ -280,28 +273,24 @@ class LearningAssistant:
                 )
 
         # Search solutions
-        for _sol_id, solution in self.knowledge_base.get("solutions", {}).items():
+        for solution in self.knowledge_base.get("solutions", {}).values():
             if any(term in solution["solution"].lower() for term in key_terms):
                 results["solutions"].append(solution)
 
         # Search learnings
-        for _learn_id, learning in self.knowledge_base.get("learnings", {}).items():
+        for learning in self.knowledge_base.get("learnings", {}).values():
             if any(term in learning["learning"].lower() for term in key_terms):
                 results["learnings"].append(learning)
 
         return results
 
-    def _generate_answer(
-        self, question: str, entries: list[JournalEntry], kb_results: dict[str, Any]
-    ) -> str:
+    def _generate_answer(self, question: str, entries: list[JournalEntry], kb_results: dict[str, Any]) -> str:
         """Generate answer based on found information"""
         answer_parts = []
 
         # Add personality-based intro
         if self.personality == "encouraging_technical_mentor":
-            answer_parts.append(
-                "Based on your development journey, here's what I found:"
-            )
+            answer_parts.append("Based on your development journey, here's what I found:")
 
         # Include insights from journal entries
         if entries:
@@ -310,9 +299,7 @@ class LearningAssistant:
                 if entry.type == "insight":
                     answer_parts.append(f"- {entry.content[:150]}...")
                 elif entry.type == "decision":
-                    answer_parts.append(
-                        f"- You decided: {entry.metadata.get('title', entry.content[:100])}..."
-                    )
+                    answer_parts.append(f"- You decided: {entry.metadata.get('title', entry.content[:100])}...")
 
         # Include knowledge base results
         if kb_results["concepts"]:
@@ -346,8 +333,7 @@ class LearningAssistant:
         self._extract_key_terms(question)
 
         answer = (
-            "I don't have specific information about this in your journal yet, "
-            "but let's explore it together.\n\n"
+            "I don't have specific information about this in your journal yet, " "but let's explore it together.\n\n"
         )
 
         # Check if it's about LUKHAS concepts
@@ -371,9 +357,7 @@ class LearningAssistant:
 
         return answer
 
-    def _calculate_confidence(
-        self, entries: list[JournalEntry], kb_results: dict[str, Any]
-    ) -> float:
+    def _calculate_confidence(self, entries: list[JournalEntry], kb_results: dict[str, Any]) -> float:
         """Calculate confidence in the answer"""
         confidence = 0.3  # Base confidence
 
@@ -391,9 +375,7 @@ class LearningAssistant:
 
         return min(confidence, 0.95)  # Cap at 95%
 
-    def _format_sources(
-        self, entries: list[JournalEntry], kb_results: dict[str, Any]
-    ) -> list[dict[str, str]]:
+    def _format_sources(self, entries: list[JournalEntry], kb_results: dict[str, Any]) -> list[dict[str, str]]:
         """Format sources for the answer"""
         sources = []
 
@@ -414,33 +396,23 @@ class LearningAssistant:
         related = []
         question_lower = question.lower()
 
-        for concept, _definition in self.knowledge_base.get(
-            "lukhas_concepts", {}
-        ).items():
-            if concept in question_lower or any(
-                word in question_lower for word in concept.split("_")
-            ):
+        for concept in self.knowledge_base.get("lukhas_concepts", {}):
+            if concept in question_lower or any(word in question_lower for word in concept.split("_")):
                 related.append(concept)
 
         return related
 
-    def _generate_follow_up_questions(
-        self, question: str, response: dict[str, Any]
-    ) -> list[str]:
+    def _generate_follow_up_questions(self, question: str, response: dict[str, Any]) -> list[str]:
         """Generate follow-up questions to deepen understanding"""
         follow_ups = []
 
         # Based on concepts mentioned
         for concept in response["related_concepts"]:
-            follow_ups.append(
-                f"How could {concept} be applied to your current project?"
-            )
+            follow_ups.append(f"How could {concept} be applied to your current project?")
 
         # Based on confidence level
         if response["confidence"] < 0.5:
-            follow_ups.append(
-                "What specific aspect of this would you like to explore first?"
-            )
+            follow_ups.append("What specific aspect of this would you like to explore first?")
             follow_ups.append("Have you encountered similar challenges before?")
 
         # General learning questions
@@ -454,9 +426,7 @@ class LearningAssistant:
 
         return follow_ups[:3]  # Return top 3
 
-    def _suggest_resources(
-        self, question: str, response: dict[str, Any]
-    ) -> list[dict[str, str]]:
+    def _suggest_resources(self, question: str, response: dict[str, Any]) -> list[dict[str, str]]:
         """Suggest learning resources based on the question"""
         resources = []
 
@@ -494,7 +464,7 @@ class LearningAssistant:
 
         return resources
 
-    def track_progress(self, skill: str, level: int = None) -> dict[str, Any]:
+    def track_progress(self, skill: str, level: Optional[int] = None) -> dict[str, Any]:
         """Track learning progress for specific skills"""
         # Create skill entry
         skill_data = {
@@ -534,28 +504,18 @@ class LearningAssistant:
             level += min(len(skill_entries) // 5, 3)  # Up to +3 for frequency
 
         # Check for successful applications
-        successes = [
-            e for e in skill_entries if e.metadata.get("category") == "success"
-        ]
+        successes = [e for e in skill_entries if e.metadata.get("category") == "success"]
         if successes:
             level += min(len(successes) // 2, 3)  # Up to +3 for successes
 
         # Check for teaching/explaining (higher level skill)
-        explanations = [
-            e
-            for e in skill_entries
-            if "explain" in e.content.lower() or "how" in e.content.lower()
-        ]
+        explanations = [e for e in skill_entries if "explain" in e.content.lower() or "how" in e.content.lower()]
         if explanations:
             level += 1
 
         # Check for complex applications
         complex_indicators = ["advanced", "complex", "optimize", "architect", "design"]
-        complex_entries = [
-            e
-            for e in skill_entries
-            if any(ind in e.content.lower() for ind in complex_indicators)
-        ]
+        complex_entries = [e for e in skill_entries if any(ind in e.content.lower() for ind in complex_indicators)]
         if complex_entries:
             level += 1
 
@@ -589,13 +549,9 @@ class LearningAssistant:
         # Calculate growth
         first_level = skill_history[0]["level"]
         current_level = skill_history[-1]["level"]
-        time_span = (
-            skill_history[-1]["timestamp"] - skill_history[0]["timestamp"]
-        ).days
+        time_span = (skill_history[-1]["timestamp"] - skill_history[0]["timestamp"]).days
 
-        growth_rate = (
-            (current_level - first_level) / max(time_span, 1) * 30
-        )  # Per month
+        growth_rate = (current_level - first_level) / max(time_span, 1) * 30  # Per month
 
         return {
             "trend": "improving" if growth_rate > 0 else "stable",
@@ -643,9 +599,7 @@ class LearningAssistant:
 
         return suggestions[:3]
 
-    def generate_learning_plan(
-        self, goals: list[str], timeframe_days: int = 30
-    ) -> dict[str, Any]:
+    def generate_learning_plan(self, goals: list[str], timeframe_days: int = 30) -> dict[str, Any]:
         """Generate a personalized learning plan"""
         plan = {
             "goals": goals,
@@ -706,9 +660,7 @@ class LearningAssistant:
 
         return plan
 
-    def _generate_daily_tasks(
-        self, goals: list[str], current_skills: dict[str, int], day: int
-    ) -> list[str]:
+    def _generate_daily_tasks(self, goals: list[str], current_skills: dict[str, int], day: int) -> list[str]:
         """Generate tasks for a specific day"""
         tasks = []
 
@@ -864,7 +816,8 @@ class LearningAssistant:
             "Take breaks - insights often come when you step away",
             "Connect new concepts to what you already know",
             "Teaching others solidifies your own understanding",
-            "Embrace experiments - failed attempts teach as much as successes",]
+            "Embrace experiments - failed attempts teach as much as successes",
+        ]
 
         # Pick based on day
         import random
@@ -878,22 +831,13 @@ class LearningAssistant:
         situation_lower = situation.lower()
 
         # Determine type of support needed
-        if any(
-            word in situation_lower for word in ["stuck", "blocked", "confused", "lost"]
-        ):
+        if any(word in situation_lower for word in ["stuck", "blocked", "confused", "lost"]):
             return self._mentor_for_blocks(situation)
-        elif any(
-            word in situation_lower for word in ["failed", "broke", "error", "bug"]
-        ):
+        elif any(word in situation_lower for word in ["failed", "broke", "error", "bug"]):
             return self._mentor_for_failures(situation)
-        elif any(
-            word in situation_lower
-            for word in ["choice", "decide", "option", "alternative"]
-        ):
+        elif any(word in situation_lower for word in ["choice", "decide", "option", "alternative"]):
             return self._mentor_for_decisions(situation)
-        elif any(
-            word in situation_lower for word in ["learn", "understand", "know", "skill"]
-        ):
+        elif any(word in situation_lower for word in ["learn", "understand", "know", "skill"]):
             return self._mentor_for_learning(situation)
         else:
             return self._mentor_general(situation)
@@ -1044,13 +988,9 @@ if __name__ == "__main__":
     print(f"\n{check_in}")
 
     # Get mentorship
-    mentor_response = assistant.mentor_response(
-        "I'm stuck on this bug and feeling frustrated"
-    )
+    mentor_response = assistant.mentor_response("I'm stuck on this bug and feeling frustrated")
     print(f"\nMentor says:\n{mentor_response}")
 
     # Generate learning plan
-    plan = assistant.generate_learning_plan(
-        ["quantum computing", "memory optimization"], timeframe_days=30
-    )
+    plan = assistant.generate_learning_plan(["quantum computing", "memory optimization"], timeframe_days=30)
     print(f"\nLearning Plan: {plan['goals']} over {plan['timeframe']} days")

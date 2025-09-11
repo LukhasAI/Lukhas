@@ -3,6 +3,7 @@
 LUKHAS Symbol Resolution Tool
 Analyzes F821 violations and provides strategic resolution suggestions
 """
+
 import json
 from collections import defaultdict
 
@@ -16,9 +17,15 @@ class LUKHASSymbolResolver:
         self.symbol_patterns = defaultdict(list)
         self.file_patterns = defaultdict(int)
         self.consciousness_tiers = {
-            "TIER_1_CORE": ["candidate/consciousness", "candidate/memory", "lukhas/identity", "candidate/bio", "governance"],
+            "TIER_1_CORE": [
+                "candidate/consciousness",
+                "candidate/memory",
+                "lukhas/identity",
+                "candidate/bio",
+                "governance",
+            ],
             "TIER_2_INTEGRATION": ["orchestration/brain", "bridge", "api", "visualization"],
-            "TIER_3_EXPERIMENTAL": ["candidate/core", "products/", "branding/", "tools/"]
+            "TIER_3_EXPERIMENTAL": ["candidate/core", "products/", "branding/", "tools/"],
         }
 
     def load_violations(self):
@@ -80,7 +87,7 @@ class LUKHASSymbolResolver:
             "integeration": "integration",
             "consciousnes": "consciousness",
             "managment": "management",
-            "procesing": "processing"
+            "procesing": "processing",
         }
 
         # Variables that might need definitions
@@ -88,27 +95,28 @@ class LUKHASSymbolResolver:
 
         for symbol, count in self.symbol_counts.items():
             if symbol in typo_patterns:
-                fixes.append({
-                    "type": "TYPO_FIX",
-                    "symbol": symbol,
-                    "correct": typo_patterns[symbol],
-                    "count": count,
-                    "files": self.symbol_patterns[symbol]
-                })
+                fixes.append(
+                    {
+                        "type": "TYPO_FIX",
+                        "symbol": symbol,
+                        "correct": typo_patterns[symbol],
+                        "count": count,
+                        "files": self.symbol_patterns[symbol],
+                    }
+                )
             elif symbol in common_undefined:
-                fixes.append({
-                    "type": "MISSING_DEFINITION",
-                    "symbol": symbol,
-                    "count": count,
-                    "files": self.symbol_patterns[symbol]
-                })
+                fixes.append(
+                    {
+                        "type": "MISSING_DEFINITION",
+                        "symbol": symbol,
+                        "count": count,
+                        "files": self.symbol_patterns[symbol],
+                    }
+                )
             elif symbol.endswith("_later") or symbol.startswith("fix_"):
-                fixes.append({
-                    "type": "TODO_STUB",
-                    "symbol": symbol,
-                    "count": count,
-                    "files": self.symbol_patterns[symbol]
-                })
+                fixes.append(
+                    {"type": "TODO_STUB", "symbol": symbol, "count": count, "files": self.symbol_patterns[symbol]}
+                )
 
         return fixes
 
@@ -119,9 +127,9 @@ class LUKHASSymbolResolver:
         tier_counts, tier_files = self.categorize_by_tier()
         fixes = self.identify_common_fixes()
 
-        print("\n" + "="*80)
+        print("\n" + "=" * 80)
         print("LUKHAS SYMBOL RESOLUTION ANALYSIS")
-        print("="*80)
+        print("=" * 80)
 
         print(f"\nTOTAL F821 VIOLATIONS: {len(self.violations)}")
 
@@ -148,8 +156,9 @@ class LUKHASSymbolResolver:
             "tier_counts": tier_counts,
             "symbol_counts": self.symbol_counts,
             "file_counts": self.file_counts,
-            "recommended_fixes": fixes
+            "recommended_fixes": fixes,
         }
+
 
 if __name__ == "__main__":
     resolver = LUKHASSymbolResolver("/Users/agi_dev/LOCAL-REPOS/Lukhas/reports/idx_F821.json")

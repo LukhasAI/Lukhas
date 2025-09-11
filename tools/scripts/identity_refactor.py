@@ -3,6 +3,7 @@
 Identity Module Refactoring Script
 Consolidates identity logic into identity_core.py and removes legacy files
 """
+
 import json
 import re
 import shutil

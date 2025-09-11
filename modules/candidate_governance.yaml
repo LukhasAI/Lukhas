@@ -1,0 +1,326 @@
+identity:
+  name: candidate.governance
+  layer: infrastructure
+  summary: candidate.governance module with 669 classes and 835 functions
+  status: active
+  tier: 1
+discovery:
+  import_patterns:
+  - from candidate.governance import check_tier_access
+  - from candidate.governance import get_required_tier_for_scopes
+  - from candidate.governance import EthicalPolicy
+  - from candidate.governance import ComponentType
+  - from candidate.governance import log_decision
+  import_aliases:
+  - governance
+  file_patterns:
+  - candidate/governance/**/*.py
+  - tests/candidate/governance/**/*.py
+  entry_points: []
+ownership:
+  owner: '@Gonzalo'
+  lifecycle: evolving
+  last_review: '2025-09-10T11:32:19.419282+00:00'
+  promotion_rules:
+    from_lane: candidate
+    to_lane: lukhas
+    required_checks:
+    - tests/smoke
+    - coverage
+    - lint
+    min_coverage: 0.8
+contracts:
+  api:
+    surface:
+    - 'python: candidate.governance.check_tier_access'
+    - 'python: candidate.governance.get_required_tier_for_scopes'
+    - 'python: candidate.governance.EthicalPolicy'
+    - 'python: candidate.governance.ComponentType'
+    - 'python: candidate.governance.log_decision'
+    - 'python: candidate.governance.should_skip_stage'
+    - 'python: candidate.governance.GDPRValidator'
+    - 'python: candidate.governance.validate_neurodivergent_accessibility'
+    - 'python: candidate.governance.SafetyLevel'
+    - 'python: candidate.governance.assess_ethical_violation'
+    version: v1.0.0
+    compatibility:
+      backward: true
+      forward: minor
+  invariants:
+  - module loads without errors
+  - public API remains stable
+dependencies:
+  internal:
+    requires:
+    - candidate.identity
+    - lukhas.security
+    provides:
+    - candidate.governance
+  external:
+    libs:
+    - name: consent
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: collections
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: xml
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: nacl
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: symbolic
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: policy_engines
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: visualization
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: fastapi
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: id_service
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: concurrent
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: ethics
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: guardian
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: qi_processing
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: bio_awareness
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: utils
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: voice
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: dashboard
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: tier
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: importlib
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: backend
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: lucas_governance
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: bio
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: privacy
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: vault
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: cryptography
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: core
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: identity
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: _plotly_utils
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: auth_backend
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: frontend
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: auth
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: compliance
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: plotly
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: dao
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: webauthn
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: orchestration
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: enterprise
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: governance
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: unittest
+      version: unknown
+      license: unknown
+      purpose: library dependency
+  coupling_metrics:
+    afferent: 39
+    efferent: 1
+    instability_index: 0.975
+runtime:
+  processes:
+    entrypoints: []
+    concurrency_model: async
+  config:
+    files:
+    - candidate/governance/pwm_config.yaml
+    - candidate/governance/identity/lambda_id_config.yaml
+    - candidate/governance/identity/protocols/auth_protocol_lukas_id.yaml
+    - candidate/governance/ethics_legacy/ethics_config.yaml
+    - candidate/governance/identity/identity_trace.json
+    - candidate/governance/identity/qrg_schemas/qrg-payload-schema.json
+    - candidate/governance/identity/core/id_service/lambd_id_config.json
+    - candidate/governance/identity/core/id_service/tier_permissions.json
+    - candidate/governance/identity/core/sent/consent_tiers.json
+    - candidate/governance/identity/config/consent_policies.json
+    - candidate/governance/identity/config/trace_policies.json
+    - candidate/governance/identity/config/trace_config.json
+    - candidate/governance/identity/config/qrs_config.json
+    - candidate/governance/identity/config/tier_permissions.json
+    - candidate/governance/identity/config/commercial_config.json
+    - candidate/governance/identity/config/lambd_id_settings.json
+    - candidate/governance/identity/config/sso_settings.json
+    - candidate/governance/identity/config/user_config.json
+    - candidate/governance/identity/dao/voters_registry.json
+    - candidate/governance/identity/dao/proposals/proposal_dream_dream_20250502T153356Z.json
+    - candidate/governance/identity/public/web_interface_config.json
+    - candidate/governance/ethics/HYBRID_COMPONENT.json
+    - candidate/governance/ethics_legacy/ethics_manifest.json
+    - candidate/governance/ethics_legacy/ethics_vote.json
+    - candidate/governance/ethics_legacy/stabilization/tuner_config.json
+    - candidate/governance/policy/HYBRID_COMPONENT.json
+    env_vars_required: []
+    feature_flags: []
+  resources:
+    cpu_limit: 0.5 vcpu
+    mem_limit: 256 MiB
+data_and_events:
+  data_classes:
+  - name: EthicalPolicy
+    schema_ref: audit/SCHEMAS/ethicalpolicy.json
+    description: EthicalPolicy data class
+  - name: ConstellationStar
+    schema_ref: audit/SCHEMAS/constellationstar.json
+    description: ConstellationStar data class
+  - name: AttentionMonitor
+    schema_ref: audit/SCHEMAS/attentionmonitor.json
+    description: AttentionMonitor data class
+  - name: ComponentType
+    schema_ref: audit/SCHEMAS/componenttype.json
+    description: ComponentType data class
+  - name: InferenceResult
+    schema_ref: audit/SCHEMAS/inferenceresult.json
+    description: InferenceResult data class
+  pii:
+    contains: false
+    classification: internal
+security:
+  secrets:
+    sources:
+    - env
+    files: []
+  authz_model: internal_only
+  compliance:
+    data_classification: internal
+observability:
+  logs:
+    format: structured_json
+    level: info
+  metrics:
+    exporter: prometheus
+    key_metrics:
+    - name: candidate_governance_calls_total
+      target: '>0'
+      type: counter
+  slos:
+    error_rate_pct: 1.0
+    availability_pct: 99.0
+test_posture:
+  coverage:
+    current: 0.005555555555555556
+    target: 0.8
+  tests:
+    unit: 2
+    integration: 0
+risk_and_change:
+  risks:
+  - id: R-CANDIDATE-GOVERNANCE-GENERATED
+    title: Auto-generated schema may be incomplete
+    likelihood: medium
+    impact: low
+    mitigation: Manual review and enhancement required
+    status: open
+provenance:
+  schema_version: '1.0'
+  last_updated: '2025-09-10T11:32:19.419282+00:00'
+  source_paths:
+  - candidate/governance
+  generated_by:
+    tool: lukhas-module-generator
+    version: 1.0.0
+    timestamp: '2025-09-10T11:32:19.419282+00:00'
+  validation:
+    schema_valid: true
+    last_validated: '2025-09-10T11:32:19.419282+00:00'
+    validator_version: 1.0.0

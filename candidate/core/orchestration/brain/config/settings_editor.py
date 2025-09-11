@@ -211,7 +211,7 @@ if settings:
         st.markdown(f"**Version:** {settings.get('version', 'unknown')}")
         st.markdown(
             f"** Last Updated: ** {settings.get('update', {)}).get('last_updated',"}
-                                                                  'unknown')}"
+                                                                  'unknown')}""
         )
 
     # Access Scope

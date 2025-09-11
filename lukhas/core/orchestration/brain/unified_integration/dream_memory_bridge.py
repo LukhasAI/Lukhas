@@ -17,7 +17,7 @@ TRINITY FRAMEWORK:
 
 import logging
 from datetime import datetime, timezone
-from typing import Any, Dict, List
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -33,8 +33,7 @@ class DreamMemoryBridge:
         self.memory_counter = 0
         logger.info("🌉 Dream Memory Bridge initialized - Trinity Framework active")
 
-    def store_dream_memory(self, dream_id: str, memory_content: Any,
-                          memory_type: str = "episodic") -> str:
+    def store_dream_memory(self, dream_id: str, memory_content: Any, memory_type: str = "episodic") -> str:
         """
         ⚛️ Identity-preserving dream memory storage.
 
@@ -59,7 +58,7 @@ class DreamMemoryBridge:
             "type": memory_type,
             "stored_at": datetime.now(timezone.utc).isoformat(),
             "trinity_validated": True,
-            "persistence_level": "permanent"
+            "persistence_level": "permanent",
         }
 
         self.dream_memories[dream_id].append(memory_entry)
@@ -108,7 +107,7 @@ class DreamMemoryBridge:
                         "status": "integrated",
                         "memory_id": memory_id,
                         "dream_id": dream_id,
-                        "integration_complete": True
+                        "integration_complete": True,
                     }
 
         logger.warning(f"🚨 Memory {memory_id} not found for consciousness bridging")

@@ -2,6 +2,7 @@
 
 Handles content filtering and recommendations for the Golden Trio.
 """
+
 import logging
 from typing import Any
 

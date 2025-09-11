@@ -6,6 +6,7 @@ LUKHAS Module Description Fixer
 Fixes overly verbose descriptions and ensures they follow the
 3-4 line format with academic-poetic blend.
 """
+
 import re
 from pathlib import Path
 

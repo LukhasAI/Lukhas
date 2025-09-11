@@ -4,6 +4,7 @@ Unified Vocabulary System for Universal Language
 
 Consolidates all domain vocabularies from scattered implementations.
 """
+
 import json
 import logging
 from dataclasses import dataclass, field

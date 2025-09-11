@@ -64,6 +64,7 @@
 ║ Symbolic Tags: {ΛWORDSMITH}, {ΛLANGUAGE}, {ΛTRANSFORMATION}, {ΛPOETRY}, {ΛBEAUTY}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import logging
 import random
 import re
@@ -139,7 +140,7 @@ class ConsciousnessWordsmith:
                 "quantum": "ΛQUANTUM",
                 "bio": "ΛBIO",
                 "api": "ΛAPI",
-                "trace": "ΛTRACE"
+                "trace": "ΛTRACE",
             },
             "sacred_symbols": {
                 "consciousness": "🧠",

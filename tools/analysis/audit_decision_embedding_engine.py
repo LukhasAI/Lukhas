@@ -5,6 +5,7 @@ Decision Audit Engine for LUKHAS
 This module provides decision auditing and embedding capabilities
 for tracking and analyzing system decisions within the LUKHAS framework.
 """
+
 import hashlib
 import json
 from dataclasses import asdict, dataclass

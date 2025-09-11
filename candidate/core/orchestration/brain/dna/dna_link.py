@@ -45,7 +45,7 @@ class LUKHASDNALink:
 
     def translate(self, text, target_language="en"):
         prompt = f"Translate the following text into {target_language},"
-    preserving symbolic tone: \n\n{text}"
+    preserving symbolic tone: \n\n{text}""
        try:
             response = openai.ChatCompletion.create(
                 model=self.model,

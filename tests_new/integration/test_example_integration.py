@@ -1,6 +1,7 @@
 """
 Example integration test - tests I/O, databases, APIs, file systems.
 """
+
 import pytest
 
 
@@ -10,10 +11,10 @@ def test_example_integration():
     assert True
 
 
-@pytest.mark.integration 
+@pytest.mark.integration
 class TestDatabaseIntegration:
     """Database integration tests."""
-    
+
     def test_db_connection(self):
         """Test database connectivity."""
         assert True
@@ -22,7 +23,7 @@ class TestDatabaseIntegration:
 @pytest.mark.integration
 class TestAPIIntegration:
     """API integration tests."""
-    
+
     def test_external_api_calls(self):
         """Test external API integrations."""
         assert True

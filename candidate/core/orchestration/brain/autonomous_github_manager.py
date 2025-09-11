@@ -14,9 +14,6 @@ Features:
 - Multi-repository dependency updates
 - Intelligent prioritization system
 """
-import streamlit as st
-from datetime import timezone
-
 import argparse
 import json
 import logging
@@ -24,7 +21,7 @@ import os
 import sys
 import time
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -582,9 +579,9 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
         report.append(f"Successful Autonomous Fixes: {total_successful}")
         report.append(f"Pull Requests Created: {total_prs}")
         report.append(f"Total Cost: ${total_cost:.4f}")
-        report.append(f"Budget Remaining: ${self.budget_controller.get_daily_budget_remaining()}:.4f}")
+        report.append(f"Budget Remaining: ${self.budget_controller.get_daily_budget_remaining():.4f}")
         report.append(
-            f"Success Rate: {(total_successful/total_processed*100)}:.1f}%"
+            f"Success Rate: {(total_successful/total_processed*100):.1f}%"
             if total_processed > 0
             else "Success Rate: 0%"
         )
@@ -605,7 +602,7 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
         report.append("💰 BUDGET ANALYSIS")
         report.append(f"Initial Budget: ${self.budget_controller.INITIAL_ALLOWANCE}")
         report.append(f"Used: ${self.budget_controller.daily_spend:.4f}")
-        report.append(f"Remaining: ${self.budget_controller.get_daily_budget_remaining()}:.4f}")
+        report.append(f"Remaining: ${self.budget_controller.get_daily_budget_remaining():.4f}")
         report.append(f"Efficiency Score: {self.budget_controller.efficiency_score:.1f}/100")
         report.append("")
 
@@ -705,7 +702,7 @@ def main():
             print(f"✅ Fixes Applied: {total_successful}")
             print(f"🔄 PRs Created: {total_prs}")
             print(f"💰 Total Cost: ${total_cost:.4f}")
-            print(f"💵 Budget Remaining: ${manager.budget_controller.get_daily_budget_remaining()}:.4f}")
+            print(f"💵 Budget Remaining: ${manager.budget_controller.get_daily_budget_remaining():.4f}")
 
         if args.report:
             print("\n" + manager.generate_comprehensive_report())

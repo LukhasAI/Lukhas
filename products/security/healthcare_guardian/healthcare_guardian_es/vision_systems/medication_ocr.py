@@ -4,6 +4,7 @@ Medication OCR System for Healthcare Guardian
 Consolidates OCR capabilities from Enhanced Guardian Medical
 Specialized for Spanish medication labels and elderly users
 """
+
 import hashlib
 import logging
 import re

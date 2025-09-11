@@ -36,7 +36,7 @@ class CascadeCrusher:
 
         # Pattern 1: Fix any {word} pattern missing closing parenthesis
         content = re.sub(r'f"([^"]*)\{([^}]+)\(([^)]*)\}([^"]*)"',
-                        lambda m: f'f"{m.group(1)}{{{m.group(2)}({m.group(3)})}}{m.group(4)}"',
+                        lambda m: f'f"{m.group(1)}{{{m.group(2)}({m.group(3)})}{m.group(4)}"',
                         content)
 
         # Pattern 2: Fix method calls specifically

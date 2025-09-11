@@ -305,7 +305,7 @@ class UniversalMeshArchitecture:
         """Generate implementation code templates"""
 
         # Tag System Implementation
-        tag_system_code = '''#!/usr/bin/env python3
+        tag_system_code = '''#!/usr/bin/env python3'
 """
 LUKHAS 2030 Universal Tag System
 Mycelium-inspired mesh communication

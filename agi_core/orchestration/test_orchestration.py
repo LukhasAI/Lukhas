@@ -228,7 +228,6 @@ class TestModelRouter:
                 ),
             ],
         ) as mock_call:
-
             decision, response = await router.route_request(request)
 
             assert response is not None

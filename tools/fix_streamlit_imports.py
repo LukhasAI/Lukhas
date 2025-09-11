@@ -3,6 +3,7 @@
 Fix Streamlit (st) import issues across LUKHAS codebase
 Resolves F821 violations for st usage
 """
+
 import json
 from pathlib import Path
 
@@ -98,6 +99,7 @@ def fix_streamlit_imports():
 
     print(f"\n🎯 Applied {fixes_applied} streamlit import fixes")
     return fixes_applied
+
 
 if __name__ == "__main__":
     fix_streamlit_imports()

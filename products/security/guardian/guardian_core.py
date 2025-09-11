@@ -4,8 +4,6 @@ Comprehensive AI safety, security, and assistance framework with Lambda branding
 
 Integrated from existing guardian_engine.py implementation.
 """
-from consciousness.qi import qi
-import streamlit as st
 
 import asyncio
 import logging

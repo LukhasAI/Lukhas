@@ -7,6 +7,7 @@ LUKHAS AI Emotion Wrapper
 Advanced emotion wrapper that integrates with memory and consciousness systems.
 Provides budget-optimized emotion processing with memory integration.
 """
+
 import logging
 from typing import Any, Optional
 
@@ -221,7 +222,7 @@ class AdvancedEmotionWrapper:
             "sad": ["sad", "depressed", "down", "unhappy", "miserable", "awful"],
             "angry": ["angry", "mad", "furious", "rage", "hate", "annoyed"],
             "anxious": ["worried", "nervous", "anxious", "stressed", "concerned"],
-            "calm": ["calm", "peaceful", "relaxed", "serene", "content"]
+            "calm": ["calm", "peaceful", "relaxed", "serene", "content"],
         }
 
         text = input_data.lower()
@@ -234,21 +235,18 @@ class AdvancedEmotionWrapper:
                 confidence = 0.8
                 break
 
-        return {
-            "emotion": detected_emotion,
-            "confidence": confidence,
-            "input": input_data,
-            "processed": True
-        }
+        return {"emotion": detected_emotion, "confidence": confidence, "input": input_data, "processed": True}
 
-    def _regulate_basic_mood(self, target_state: Optional[str] = None, hormone_context: Optional[dict[str, float]] = None) -> dict[str, Any]:
+    def _regulate_basic_mood(
+        self, target_state: Optional[str] = None, hormone_context: Optional[dict[str, float]] = None
+    ) -> dict[str, Any]:
         """Basic mood regulation - simplified but functional"""
         # Simple mood regulation simulation
         regulation_strategies = {
             "calm": ["breathing", "meditation", "relaxation"],
             "energetic": ["exercise", "movement", "stimulation"],
             "focused": ["concentration", "mindfulness", "clarity"],
-            "happy": ["positive_thinking", "gratitude", "joy_induction"]
+            "happy": ["positive_thinking", "gratitude", "joy_induction"],
         }
 
         target = target_state or "calm"
@@ -259,7 +257,7 @@ class AdvancedEmotionWrapper:
             "strategies_applied": strategies,
             "regulation_success": True,
             "confidence": 0.7,
-            "hormone_context": hormone_context or {}
+            "hormone_context": hormone_context or {},
         }
 
     @instrument("advanced_emotion_init")

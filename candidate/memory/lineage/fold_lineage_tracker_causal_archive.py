@@ -28,7 +28,7 @@ across all LUKHAS subsystems.
 
 KEY DIFFERENCES FROM FOLD SYSTEM VERSION:
 - Enhanced causal analysis algorithms
-- Improved dream integration mechanisms  
+- Improved dream integration mechanisms
 - Advanced predictive modeling capabilities
 - Refined intervention point identification
 - Optimized memory resilience calculations
@@ -531,7 +531,7 @@ class FoldLineageTracker:
         """Identify critical decision points in the fold lineage."""
         critical_points = []
 
-        for i, node in enumerate(lineage_trace):
+        for _i, node in enumerate(lineage_trace):
             # Check for high drift events
             if node.drift_score > 0.5:
                 critical_points.append(

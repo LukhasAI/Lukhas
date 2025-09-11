@@ -1,5 +1,5 @@
 import logging
-from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 """
 lukhas AI System - Function Library
@@ -66,7 +66,7 @@ class EnhancedMemoryVisualizer:
         st.sidebar.metric(
             "Quantum Coherence",
             f"{coherence:.2f}",
-            delta=f"{(coherence - self.config.coherence_threshold)}:.2f}",
+            delta=f"{(coherence - self.config.coherence_threshold):.2f}",
         )
 
     async def visualize_memory_fold(

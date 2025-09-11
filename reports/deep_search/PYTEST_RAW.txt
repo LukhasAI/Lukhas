@@ -2,39 +2,96 @@
 platform darwin -- Python 3.9.6, pytest-8.4.1, pluggy-1.6.0
 rootdir: /Users/agi_dev/LOCAL-REPOS/Lukhas
 configfile: pytest.ini
-testpaths: tests, rl/tests
+testpaths: tests
 plugins: asyncio-1.1.0, xdist-3.8.0, httpx-0.35.0, anyio-4.10.0, Faker-37.6.0, cov-6.2.1, mock-3.14.1, hypothesis-6.138.14, postgresql-7.0.2
 asyncio: mode=auto, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
-collected 598 items / 17 errors / 6 skipped
+collected 821 items / 33 errors / 3 skipped
 
 ==================================== ERRORS ====================================
-__________ ERROR collecting tests/core/test_exceptions_additional.py ___________
-ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/core/test_exceptions_additional.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-tests/core/test_exceptions_additional.py:11: in <module>
-    from lukhas.core.common.exceptions import (
-E   ImportError: cannot import name 'GLYPHTokenError' from 'lukhas.core.common.exceptions' (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/core/common/exceptions.py)
-______________ ERROR collecting tests/rl/test_consciousness_rl.py ______________
-ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/rl/test_consciousness_rl.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-tests/rl/test_consciousness_rl.py:20: in <module>
-    from lukhas.rl.coordination.multi_agent_trainer import MultiAgentConsciousnessTrainer, TrainingConfiguration
-lukhas/rl/__init__.py:14: in <module>
-    from .coordination.multi_agent_trainer import MultiAgentConsciousnessTrainer
-lukhas/rl/coordination/__init__.py:9: in <module>
-    from .multi_agent_trainer import ConsciousnessModuleAgent, MultiAgentConsciousnessTrainer, TrainingConfiguration
-lukhas/rl/coordination/multi_agent_trainer.py:28: in <module>
-    from lukhas.rl.engine.policy_networks import ConsciousnessActorCritic
-lukhas/rl/engine/__init__.py:9: in <module>
-    from ..environments.consciousness_environment import (
-lukhas/rl/environments/__init__.py:8: in <module>
-    from .consciousness_environment import (
-lukhas/rl/environments/consciousness_environment.py:31: in <module>
-    from lukhas.emotion import EmotionalAwareness
-E   ImportError: cannot import name 'EmotionalAwareness' from 'lukhas.emotion' (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/emotion/__init__.py)
-__________________ ERROR collecting tests/test_aka_qualia.py ___________________
+_________ ERROR collecting tests/phase2/test_performance_benchmarks.py _________
+governance/identity/__init__.py:13: in <module>
+    from lukhas.governance.identity import (
+E   ImportError: cannot import name 'auth_integration' from 'lukhas.governance.identity' (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/identity/__init__.py)
+
+During handling of the above exception, another exception occurred:
+tests/phase2/test_performance_benchmarks.py:41: in <module>
+    from candidate.memory.service import MemoryService
+candidate/memory/service.py:60: in <module>
+    from identity.interface import IdentityClient
+<frozen importlib._bootstrap>:1007: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:982: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:925: in _find_spec
+    ???
+candidate/governance/identity/import_bridge.py:71: in find_spec
+    spec = importlib.util.find_spec(new_name)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/util.py:94: in find_spec
+    parent = __import__(parent_name, fromlist=['__path__'])
+governance/identity/__init__.py:31: in <module>
+    warnings.warn(f"Could not import lukhas.governance.identity: {e}", ImportWarning, stacklevel=2)
+E   ImportWarning: Could not import lukhas.governance.identity: cannot import name 'auth_integration' from 'lukhas.governance.identity' (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/identity/__init__.py)
+__________ ERROR collecting tests/test_advanced_components_focused.py __________
+.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+    result: TResult | None = func()
+.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestActorSystemAdvanced' because it has a __init__ constructor (from: tests/test_advanced_components_focused.py)
+__________ ERROR collecting tests/test_advanced_components_focused.py __________
+.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+    result: TResult | None = func()
+.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestTierSystemAdvanced' because it has a __init__ constructor (from: tests/test_advanced_components_focused.py)
+__________ ERROR collecting tests/test_advanced_lukhas_components.py ___________
+.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+    result: TResult | None = func()
+.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestIdentitySystem' because it has a __init__ constructor (from: tests/test_advanced_lukhas_components.py)
+__________ ERROR collecting tests/test_advanced_lukhas_components.py ___________
+.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+    result: TResult | None = func()
+.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestMemoryFoldSystem' because it has a __init__ constructor (from: tests/test_advanced_lukhas_components.py)
+__________ ERROR collecting tests/test_advanced_lukhas_components.py ___________
+.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+    result: TResult | None = func()
+.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestDreamSystem' because it has a __init__ constructor (from: tests/test_advanced_lukhas_components.py)
+__________ ERROR collecting tests/test_advanced_lukhas_components.py ___________
+.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+    result: TResult | None = func()
+.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestEncryptionGovernance' because it has a __init__ constructor (from: tests/test_advanced_lukhas_components.py)
+___________ ERROR collecting tests/test_advanced_suite_standalone.py ___________
 .venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
     mod = import_path(
 .venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
@@ -47,66 +104,161 @@ __________________ ERROR collecting tests/test_aka_qualia.py ___________________
     tree = ast.parse(source, filename=strfn)
 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
     return compile(source, filename, mode, flags,
-E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_aka_qualia.py", line 535
-E       goals = {"maintain_wellbeing": True}
-E       ^
-E   SyntaxError: invalid syntax
-________________ ERROR collecting tests/test_basic_functions.py ________________
-tests/test_basic_functions.py:10: in <module>
-    assert mw is not None
-E   NameError: name 'mw' is not defined
-____________ ERROR collecting tests/test_core_memory_validation.py _____________
-.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
-    mod = import_path(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
-    mod = _import_module_using_spec(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
-    spec.loader.exec_module(mod)  # type: ignore[union-attr]
-.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
-    tree = ast.parse(source, filename=strfn)
-/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
-    return compile(source, filename, mode, flags,
-E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_core_memory_validation.py", line 148
-E       if hasattr(compressor, "compress_memory_fold"):
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_advanced_suite_standalone.py", line 424
+E       print(f"  ... and {len(violations)} - 5} more")
 E                                                     ^
-E   SyntaxError: invalid syntax
+E   SyntaxError: f-string: single '}' is not allowed
+____________ ERROR collecting tests/test_api_security_functional.py ____________
+.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+    result: TResult | None = func()
+.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestSuiteRunner' because it has a __init__ constructor (from: tests/test_api_security_functional.py)
+___________ ERROR collecting tests/test_comprehensive_all_systems.py ___________
+.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
+    mod = _import_module_using_spec(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
+    spec.loader.exec_module(mod)  # type: ignore[union-attr]
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
+    return compile(source, filename, mode, flags,
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_comprehensive_all_systems.py", line 994
+E       print(f"  🧪 Estimated Real Coverage: ~{(total_tests / max(total_discovered, 1)} * 100:.1f}%")
+E                                                                                                    ^
+E   SyntaxError: f-string: closing parenthesis '}' does not match opening parenthesis '('
+_______ ERROR collecting tests/test_comprehensive_security_validation.py _______
+'audit_safe' not found in `markers` configuration option
+________________ ERROR collecting tests/test_concurrent_fix.py _________________
+.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+    result: TResult | None = func()
+.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestSqlMemory' because it has a __init__ constructor (from: tests/test_concurrent_fix.py)
+_____________ ERROR collecting tests/test_consciousness_direct.py ______________
+.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
+    mod = _import_module_using_spec(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
+    spec.loader.exec_module(mod)  # type: ignore[union-attr]
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
+    return compile(source, filename, mode, flags,
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_consciousness_direct.py", line 235
+E       print(f"   - Network health: {demo_data.get('final_network_health', 0)}:.3f}")
+E                                                                                    ^
+E   SyntaxError: f-string: single '}' is not allowed
+_________ ERROR collecting tests/test_core_components_comprehensive.py _________
+.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+    result: TResult | None = func()
+.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestActorSystem' because it has a __init__ constructor (from: tests/test_core_components_comprehensive.py)
+_________ ERROR collecting tests/test_core_components_comprehensive.py _________
+.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+    result: TResult | None = func()
+.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestTierSystem' because it has a __init__ constructor (from: tests/test_core_components_comprehensive.py)
+_________ ERROR collecting tests/test_core_components_comprehensive.py _________
+.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+    result: TResult | None = func()
+.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestMemorySQL' because it has a __init__ constructor (from: tests/test_core_components_comprehensive.py)
+_________ ERROR collecting tests/test_core_components_comprehensive.py _________
+.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+    result: TResult | None = func()
+.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestMainApplication' because it has a __init__ constructor (from: tests/test_core_components_comprehensive.py)
+__________ ERROR collecting tests/test_core_systems_comprehensive.py ___________
+.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
+    mod = _import_module_using_spec(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
+    spec.loader.exec_module(mod)  # type: ignore[union-attr]
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
+    return compile(source, filename, mode, flags,
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_core_systems_comprehensive.py", line 557
+E       "event_id": f"audit_{uuid.uuid4()}.hex[:8]}",
+E                                                   ^
+E   SyntaxError: f-string: single '}' is not allowed
+____________ ERROR collecting tests/test_core_systems_functional.py ____________
+.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+    result: TResult | None = func()
+.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestSuiteRunner' because it has a __init__ constructor (from: tests/test_core_systems_functional.py)
+__________ ERROR collecting tests/test_cross_component_integration.py __________
+.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+    result: TResult | None = func()
+.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestActorTierIntegration' because it has a __init__ constructor (from: tests/test_cross_component_integration.py)
 _______________ ERROR collecting tests/test_e2e_audit_dryrun.py ________________
-.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
-    mod = import_path(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
-    mod = _import_module_using_spec(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
-    spec.loader.exec_module(mod)  # type: ignore[union-attr]
-.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
-    tree = ast.parse(source, filename=strfn)
-/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
-    return compile(source, filename, mode, flags,
-E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_e2e_audit_dryrun.py", line 96
-E       "consent_id": f"audit_consent_{hash(str(consent_data)} % 10000}",
-E                                                                       ^
-E   SyntaxError: f-string: closing parenthesis '}' does not match opening parenthesis '('
-_________ ERROR collecting tests/test_guardian_integrated_platform.py __________
-.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
-    mod = import_path(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
-    mod = _import_module_using_spec(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
-    spec.loader.exec_module(mod)  # type: ignore[union-attr]
-.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
-    tree = ast.parse(source, filename=strfn)
-/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
-    return compile(source, filename, mode, flags,
-E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_guardian_integrated_platform.py", line 72
-E       result = await guardian_adapter.check_content_ethics(clean_content, user_context)
-E       ^
-E   SyntaxError: invalid syntax
+'audit_safe' not found in `markers` configuration option
 ________________ ERROR collecting tests/test_guardian_system.py ________________
+governance/identity/__init__.py:13: in <module>
+    from lukhas.governance.identity import (
+E   ImportError: cannot import name 'auth_integration' from 'lukhas.governance.identity' (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/identity/__init__.py)
+
+During handling of the above exception, another exception occurred:
+tests/test_guardian_system.py:27: in <module>
+    from candidate.governance.guardian_system_integration import (
+candidate/governance/guardian_system_integration.py:44: in <module>
+    from candidate.governance.consent_ledger.ledger_v1 import (
+candidate/governance/consent_ledger/ledger_v1.py:49: in <module>
+    from governance.identity.core.id_service.lambd_id_validator import LambdIDValidator
+governance/identity/__init__.py:31: in <module>
+    warnings.warn(f"Could not import lukhas.governance.identity: {e}", ImportWarning, stacklevel=2)
+E   ImportWarning: Could not import lukhas.governance.identity: cannot import name 'auth_integration' from 'lukhas.governance.identity' (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/identity/__init__.py)
+_________ ERROR collecting tests/test_memory_integration_validation.py _________
 .venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
     mod = import_path(
 .venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
@@ -119,15 +271,11 @@ ________________ ERROR collecting tests/test_guardian_system.py ________________
     tree = ast.parse(source, filename=strfn)
 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
     return compile(source, filename, mode, flags,
-E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_guardian_system.py", line 639
-E       request_id=f"test_{uuid.uuid4()}.hex[:8]}",
-E                                                 ^
-E   SyntaxError: f-string: single '}' is not allowed
-__________________ ERROR collecting tests/test_integration.py __________________
-tests/test_integration.py:10: in <module>
-    assert mw is not None
-E   NameError: name 'mw' is not defined
-_ ERROR collecting tests/tools/scripts/test_generate_final_research_report.py __
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_memory_integration_validation.py", line 92
+E       ]
+E       ^
+E   SyntaxError: closing parenthesis ']' does not match opening parenthesis '{' on line 91
+_________ ERROR collecting tests/test_priority4_systems_functional.py __________
 .venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
     mod = import_path(
 .venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
@@ -140,26 +288,11 @@ _ ERROR collecting tests/tools/scripts/test_generate_final_research_report.py __
     tree = ast.parse(source, filename=strfn)
 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
     return compile(source, filename, mode, flags,
-E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/tools/scripts/test_generate_final_research_report.py", line 25
-E       def _create_drift_test(path: Path) -> None:
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_priority4_systems_functional.py", line 936
+E       for test_class, system_name in test_classes:
 E       ^
 E   SyntaxError: invalid syntax
-____________ ERROR collecting tests/tools/test_dependency_hasher.py ____________
-.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
-    mod = import_path(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
-    mod = _import_module_using_spec(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
-    spec.loader.exec_module(mod)  # type: ignore[union-attr]
-.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
-    exec(co, module.__dict__)
-tests/tools/test_dependency_hasher.py:14: in <module>
-    from tools.security.dependency_hasher import DependencyHasher
-E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/./tools/security/dependency_hasher.py", line 228
-E       content.append(f"# Generated at: {time.strftime('%Y-%m-%d %H:%M:%S UTC', time.gmtime()}")
-E                                                                                               ^
-E   SyntaxError: f-string: closing parenthesis '}' does not match opening parenthesis '('
-_______ ERROR collecting tests/tools/test_tool_executor_comprehensive.py _______
+_________ ERROR collecting tests/test_real_consciousness_emergence.py __________
 .venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
     mod = import_path(
 .venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
@@ -172,117 +305,124 @@ _______ ERROR collecting tests/tools/test_tool_executor_comprehensive.py _______
     tree = ast.parse(source, filename=strfn)
 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
     return compile(source, filename, mode, flags,
-E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/tools/test_tool_executor_comprehensive.py", line 467
-E       )
-E       ^
-E   SyntaxError: closing parenthesis ')' does not match opening parenthesis '{' on line 466
-_______ ERROR collecting tests/universal_language/test_compositional.py ________
-.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
-    mod = import_path(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
-    mod = _import_module_using_spec(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
-    spec.loader.exec_module(mod)  # type: ignore[union-attr]
-.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
-    tree = ast.parse(source, filename=strfn)
-/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
-    return compile(source, filename, mode, flags,
-E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/universal_language/test_compositional.py", line 64
-E       comp._execute_line("# this is a comment", env)
-E       ^
-E   SyntaxError: invalid syntax
-_________ ERROR collecting tests/universal_language/test_multimodal.py _________
-.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
-    mod = import_path(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
-    mod = _import_module_using_spec(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
-    spec.loader.exec_module(mod)  # type: ignore[union-attr]
-.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:359: in _rewrite_test
-    co = compile(tree, strfn, "exec", dont_inherit=True)
-E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/universal_language/test_multimodal.py", line 12
-E       return mod
-E       ^
-E   SyntaxError: 'return' outside function
-____________ ERROR collecting rl/tests/test_chaos_consciousness.py _____________
-.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
-    mod = import_path(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
-    mod = _import_module_using_spec(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:687: in _import_module_using_spec
-    parent_module = _import_module_using_spec(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:687: in _import_module_using_spec
-    parent_module = _import_module_using_spec(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
-    spec.loader.exec_module(mod)  # type: ignore[union-attr]
-<frozen importlib._bootstrap_external>:850: in exec_module
-    ???
-<frozen importlib._bootstrap>:228: in _call_with_frames_removed
-    ???
-rl/__init__.py:20: in <module>
-    from .engine.consciousness_environment import ConsciousnessEnvironment
-rl/engine/__init__.py:9: in <module>
-    from .consciousness_environment import ConsciousnessEnvironment
-E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/rl/engine/consciousness_environment.py", line 42
-E       id: str = field(default_factory=lambda: f"RL-{uuid.uuid4()}.hex[:8]}")
-E                                                                            ^
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_real_consciousness_emergence.py", line 461
+E       print(f"   - Average awareness level: {emergence_results.get('avg_awareness_level', 0)}:.3f}")
+E                                                                                                    ^
 E   SyntaxError: f-string: single '}' is not allowed
-__________ ERROR collecting rl/tests/test_consciousness_properties.py __________
-.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
-    mod = import_path(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
-    mod = _import_module_using_spec(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
-    spec.loader.exec_module(mod)  # type: ignore[union-attr]
-.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
-    tree = ast.parse(source, filename=strfn)
-/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
-    return compile(source, filename, mode, flags,
-E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/rl/tests/test_consciousness_properties.py", line 74
-E       node_id = f"test-{node_type.lower()}-{draw(st.integers(min_value=1, max_value=999999)}"
-E                                                                                              ^
-E   SyntaxError: f-string: closing parenthesis '}' does not match opening parenthesis '('
-_____________ ERROR collecting rl/tests/test_generative_oracles.py _____________
-.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
-    mod = import_path(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
-    mod = _import_module_using_spec(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
-    spec.loader.exec_module(mod)  # type: ignore[union-attr]
-.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
-    source_stat, co = _rewrite_test(fn, self.config)
-.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
-    tree = ast.parse(source, filename=strfn)
-/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
-    return compile(source, filename, mode, flags,
-E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/rl/tests/test_generative_oracles.py", line 719
-E       print(f"   Evolution quality: {evolution_judgment.metrics.get('overall_evolution_quality', 0.0)}:.3f}")
-E                                                                                                             ^
-E   SyntaxError: f-string: single '}' is not allowed
+_______________ ERROR collecting tests/test_remaining_systems.py _______________
+.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+    result: TResult | None = func()
+.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestSymbolicLanguageSystems' because it has a __init__ constructor (from: tests/test_remaining_systems.py)
+_______________ ERROR collecting tests/test_remaining_systems.py _______________
+.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+    result: TResult | None = func()
+.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestDreamsPersonalitySystems' because it has a __init__ constructor (from: tests/test_remaining_systems.py)
+_______________ ERROR collecting tests/test_remaining_systems.py _______________
+.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+    result: TResult | None = func()
+.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestIntegrationAdapterSystems' because it has a __init__ constructor (from: tests/test_remaining_systems.py)
+_______________ ERROR collecting tests/test_remaining_systems.py _______________
+.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+    result: TResult | None = func()
+.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestToolsUtilitiesSystems' because it has a __init__ constructor (from: tests/test_remaining_systems.py)
+_______________ ERROR collecting tests/test_remaining_systems.py _______________
+.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+    result: TResult | None = func()
+.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestDeploymentOperationsSystems' because it has a __init__ constructor (from: tests/test_remaining_systems.py)
+_______________ ERROR collecting tests/test_remaining_systems.py _______________
+.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+    result: TResult | None = func()
+.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestDocumentationComplianceSystems' because it has a __init__ constructor (from: tests/test_remaining_systems.py)
+_______________ ERROR collecting tests/test_remaining_systems.py _______________
+.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+    result: TResult | None = func()
+.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestWebFrontendSystems' because it has a __init__ constructor (from: tests/test_remaining_systems.py)
+________________ ERROR collecting tests/test_ruff_formatting.py ________________
+.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+    result: TResult | None = func()
+.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestClass' because it has a __init__ constructor (from: tests/test_ruff_formatting.py)
 ---- generated xml file: /Users/agi_dev/LOCAL-REPOS/Lukhas/test-results.xml ----
 =========================== short test summary info ============================
-ERROR tests/core/test_exceptions_additional.py
-ERROR tests/rl/test_consciousness_rl.py
-ERROR tests/test_aka_qualia.py
-ERROR tests/test_basic_functions.py - NameError: name 'mw' is not defined
-ERROR tests/test_core_memory_validation.py
-ERROR tests/test_e2e_audit_dryrun.py
-ERROR tests/test_guardian_integrated_platform.py
-ERROR tests/test_guardian_system.py
-ERROR tests/test_integration.py - NameError: name 'mw' is not defined
-ERROR tests/tools/scripts/test_generate_final_research_report.py
-ERROR tests/tools/test_dependency_hasher.py
-ERROR tests/tools/test_tool_executor_comprehensive.py
-ERROR tests/universal_language/test_compositional.py
-ERROR tests/universal_language/test_multimodal.py
-ERROR rl/tests/test_chaos_consciousness.py
-ERROR rl/tests/test_consciousness_properties.py
-ERROR rl/tests/test_generative_oracles.py
-!!!!!!!!!!!!!!!!!!! Interrupted: 17 errors during collection !!!!!!!!!!!!!!!!!!!
-======================== 6 skipped, 17 errors in 10.29s ========================
+ERROR tests/phase2/test_performance_benchmarks.py - ImportWarning: Could not ...
+ERROR tests/test_advanced_components_focused.py::TestActorSystemAdvanced - py...
+ERROR tests/test_advanced_components_focused.py::TestTierSystemAdvanced - pyt...
+ERROR tests/test_advanced_lukhas_components.py::TestIdentitySystem - pytest.P...
+ERROR tests/test_advanced_lukhas_components.py::TestMemoryFoldSystem - pytest...
+ERROR tests/test_advanced_lukhas_components.py::TestDreamSystem - pytest.Pyte...
+ERROR tests/test_advanced_lukhas_components.py::TestEncryptionGovernance - py...
+ERROR tests/test_advanced_suite_standalone.py
+ERROR tests/test_api_security_functional.py::TestSuiteRunner - pytest.PytestC...
+ERROR tests/test_comprehensive_all_systems.py
+ERROR tests/test_comprehensive_security_validation.py - Failed: 'audit_safe' ...
+ERROR tests/test_concurrent_fix.py::TestSqlMemory - pytest.PytestCollectionWa...
+ERROR tests/test_consciousness_direct.py
+ERROR tests/test_core_components_comprehensive.py::TestActorSystem - pytest.P...
+ERROR tests/test_core_components_comprehensive.py::TestTierSystem - pytest.Py...
+ERROR tests/test_core_components_comprehensive.py::TestMemorySQL - pytest.Pyt...
+ERROR tests/test_core_components_comprehensive.py::TestMainApplication - pyte...
+ERROR tests/test_core_systems_comprehensive.py
+ERROR tests/test_core_systems_functional.py::TestSuiteRunner - pytest.PytestC...
+ERROR tests/test_cross_component_integration.py::TestActorTierIntegration - p...
+ERROR tests/test_e2e_audit_dryrun.py - Failed: 'audit_safe' not found in `mar...
+ERROR tests/test_guardian_system.py - ImportWarning: Could not import lukhas....
+ERROR tests/test_memory_integration_validation.py
+ERROR tests/test_priority4_systems_functional.py
+ERROR tests/test_real_consciousness_emergence.py
+ERROR tests/test_remaining_systems.py::TestSymbolicLanguageSystems - pytest.P...
+ERROR tests/test_remaining_systems.py::TestDreamsPersonalitySystems - pytest....
+ERROR tests/test_remaining_systems.py::TestIntegrationAdapterSystems - pytest...
+ERROR tests/test_remaining_systems.py::TestToolsUtilitiesSystems - pytest.Pyt...
+ERROR tests/test_remaining_systems.py::TestDeploymentOperationsSystems - pyte...
+ERROR tests/test_remaining_systems.py::TestDocumentationComplianceSystems - p...
+ERROR tests/test_remaining_systems.py::TestWebFrontendSystems - pytest.Pytest...
+ERROR tests/test_ruff_formatting.py::TestClass - pytest.PytestCollectionWarni...
+!!!!!!!!!!!!!!!!!!! Interrupted: 33 errors during collection !!!!!!!!!!!!!!!!!!!
+======================== 3 skipped, 33 errors in 7.61s =========================

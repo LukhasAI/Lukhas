@@ -4,6 +4,7 @@ German Public Health Insurance (GKV) Integration Template
 This module provides integration points for Germany's statutory health
 insurance system (Gesetzliche Krankenversicherung - GKV).
 """
+
 from typing import Any
 
 from ...interfaces.ehr_interface import EHRInterface

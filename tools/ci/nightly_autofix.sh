@@ -63,10 +63,28 @@ fi
 log "🔧 Running comprehensive autofix..."
 initial_changes=$(git diff --name-only | wc -l)
 
-# Apply safe transformations to allowed files
-python3 tools/ci/auto_fix_safe.py . --batch || {
-    warn "Some autofix operations failed, continuing..."
-}
+# Run diagnostic-driven orchestrator first
+log "🎼 Running diagnostic-driven fix orchestrator..."
+if [[ -f tools/automation/diagnostic_orchestrator.py ]]; then
+    python3 tools/automation/diagnostic_orchestrator.py --verbose 2>&1 | tee -a "$LOG_FILE" || {
+        warn "Diagnostic orchestrator had issues, continuing with standard autofix..."
+    }
+fi
+
+# Apply enhanced safe transformations
+if [[ -f tools/ci/enhanced_auto_fix_safe.py ]]; then
+    python3 tools/ci/enhanced_auto_fix_safe.py --batch || {
+        warn "Enhanced autofix had issues, falling back to standard autofix..."
+        python3 tools/ci/auto_fix_safe.py . --batch || {
+            warn "Some autofix operations failed, continuing..."
+        }
+    }
+else
+    # Fallback to original autofix
+    python3 tools/ci/auto_fix_safe.py . --batch || {
+        warn "Some autofix operations failed, continuing..."
+    }
+fi
 
 # 3. Mark remaining TODOs
 log "📝 Annotating remaining TODOs..."
@@ -119,6 +137,28 @@ log "📊 Generating TODO summary..."
     echo "- Last nightly run: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
     echo "- Git status: $(git status --porcelain | wc -l) uncommitted changes"
     echo "- Repository size: $(du -sh . 2>/dev/null | cut -f1 || echo 'unknown')"
+    
+    # Include orchestrator results if available
+    if [[ -f "reports/autofix/orchestrator.json" ]]; then
+        echo ""
+        echo "## Diagnostic Orchestrator Results"
+        python3 -c "
+import json
+try:
+    with open('reports/autofix/orchestrator.json') as f:
+        data = json.load(f)
+    summary = data.get('summary', {})
+    print(f\"- Errors found: {summary.get('total_errors_found', 0)}\")
+    print(f\"- Fix strategies applied: {summary.get('fix_strategies_applied', 0)}\")
+    print(f\"- Successful fixes: {summary.get('successful_fixes', 0)}\")
+    fixes = data.get('fixes_applied', {})
+    for strategy, result in fixes.items():
+        status = result.get('status', 'unknown')
+        print(f\"- {strategy}: {status}\")
+except Exception as e:
+    print(f\"- Orchestrator report unavailable: {e}\")
+" 2>/dev/null || echo "- Orchestrator report unavailable"
+    fi
 
 } > "$REPORT_FILE"
 
@@ -203,7 +243,31 @@ else
     log "✅ No changes needed, repository clean"
 fi
 
-# 6. Cleanup old logs (keep last 30 days)
+# 6. Run diagnostic monitoring
+log "🔍 Running diagnostic monitoring..."
+if [[ -f tools/monitoring/diagnostic_monitor.py ]]; then
+    python3 tools/monitoring/diagnostic_monitor.py --verbose 2>&1 | tee -a "$LOG_FILE" || {
+        warn "Diagnostic monitoring had issues, continuing..."
+    }
+fi
+
+# 7. Run self-healing dashboard health check (CI-safe mode)
+log "🤖 Running self-healing dashboard health check..."
+if [[ -f tools/dashboard/self_healing_dashboard.py ]]; then
+    # Enable CI safety mode for nightly runs
+    SELF_HEALING_DISABLED=1 python3 tools/dashboard/self_healing_dashboard.py \
+        --mode single --generate-artifacts --ci-mode 2>&1 | tee -a "$LOG_FILE" || {
+        warn "Dashboard health check had issues, continuing..."
+    }
+    
+    # Also generate would-change analysis for CI artifacts
+    SELF_HEALING_DISABLED=1 python3 tools/dashboard/self_healing_dashboard.py \
+        --mode would-change --generate-artifacts 2>&1 | tee -a "$LOG_FILE" || {
+        warn "Would-change analysis had issues, continuing..."
+    }
+fi
+
+# 8. Cleanup old logs (keep last 30 days) 
 find data/ -name "nightly_autofix_*.log" -mtime +30 -delete 2>/dev/null || true
 
 log "🌙 Nightly T4 autofix completed"

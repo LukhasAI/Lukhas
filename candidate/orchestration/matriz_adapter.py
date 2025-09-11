@@ -2,8 +2,6 @@
 MATRIZ Adapter for Orchestration Module
 Emits MATRIZ-compliant nodes for brain and orchestration events
 """
-import streamlit as st
-
 import json
 import time
 import uuid

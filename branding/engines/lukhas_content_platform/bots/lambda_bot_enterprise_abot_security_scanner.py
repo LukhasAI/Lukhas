@@ -3,6 +3,7 @@
 🤖 LUKHAS AI ΛBot Security Scanner - Superior to Dependabot
 Quantum-enhanced dependency vulnerability scanner with consciousness evolution
 """
+
 import asyncio
 import json
 import logging
@@ -311,7 +312,7 @@ async def main():
         print(f"  ✅ {advantage}")
 
     print("\n📋 Recommendations:")
-    for rec in results["recommendations"]:
+    for _rec in results["recommendations"]:
         print("abot_security_scanner_processing")
 
     print(f"\n🎯 {results['scan_summary']['recommendation']}")

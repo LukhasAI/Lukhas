@@ -3,6 +3,7 @@
 Systematic Syntax Fixer for LUKHAS
 Fixes the most common syntax error patterns
 """
+
 import re
 import sys
 from pathlib import Path
@@ -15,6 +16,7 @@ def fix_fstring_errors(content: str) -> tuple[str, int]:
     # Pattern 1: Missing closing parenthesis in f-string expressions
     # f"...{len(something} - 10}" -> f"...{len(something)} - 10}"
     pattern1 = r'(f["\'][^"\']*\{[^}]*\([^)]*)(})'
+
     def fix_parens(match):
         nonlocal fixes
         expr = match.group(1)
@@ -31,6 +33,7 @@ def fix_fstring_errors(content: str) -> tuple[str, int]:
     # return {"key": "value", "key2": value
     # Look for lines ending with incomplete dict/list
     pattern2 = r"(\s+return\s+\{[^}]*),?\s*$"
+
     def fix_incomplete_dict(match):
         nonlocal fixes
         line = match.group(0)
@@ -43,8 +46,9 @@ def fix_fstring_errors(content: str) -> tuple[str, int]:
 
     # Pattern 3: Extra closing brace in f-strings (more conservative)
     # Only fix obvious cases where there's a format specifier
-    # f"Value: {variable}:.2f}}" -> f"Value: {variable:.2f}"
+    # f"Value: {variable:.2f}" -> f"Value: {variable:.2f}"
     pattern3 = r'(f["\'][^"\']*\{[^}]*):([^}]*)}}'
+
     def fix_double_brace(match):
         nonlocal fixes
         fixes += 1
@@ -53,6 +57,7 @@ def fix_fstring_errors(content: str) -> tuple[str, int]:
     content = re.sub(pattern3, fix_double_brace, content)
 
     return content, fixes
+
 
 def fix_import_errors(content: str) -> tuple[str, int]:
     """Fix common missing imports"""
@@ -88,7 +93,7 @@ def fix_import_errors(content: str) -> tuple[str, int]:
         for i, line in enumerate(lines):
             if line.strip().startswith('"""') or line.strip().startswith("'''"):
                 # Find end of docstring
-                for j in range(i+1, len(lines)):
+                for j in range(i + 1, len(lines)):
                     if lines[j].strip().endswith('"""') or lines[j].strip().endswith("'''"):
                         import_insertion_point = j
                         break
@@ -110,6 +115,7 @@ def fix_import_errors(content: str) -> tuple[str, int]:
             lines.insert(import_insertion_point + 1, insert)
 
     return "\n".join(lines), fixes
+
 
 def fix_file(filepath: Path) -> dict:
     """Fix a single Python file"""
@@ -135,13 +141,14 @@ def fix_file(filepath: Path) -> dict:
                 "status": "fixed",
                 "fstring_fixes": fstring_fixes,
                 "import_fixes": import_fixes,
-                "total_fixes": total_fixes
+                "total_fixes": total_fixes,
             }
 
         return {"status": "unchanged"}
 
     except Exception as e:
         return {"status": "error", "error": str(e)}
+
 
 def main():
     if len(sys.argv) < 2:
@@ -162,7 +169,7 @@ def main():
         "errors": 0,
         "total_fstring_fixes": 0,
         "total_import_fixes": 0,
-        "total_fixes": 0
+        "total_fixes": 0,
     }
 
     for i, filepath in enumerate(python_files):
@@ -184,6 +191,7 @@ def main():
     print(f"  Total f-string fixes: {stats['total_fstring_fixes']}")
     print(f"  Total import fixes: {stats['total_import_fixes']}")
     print(f"  Total fixes: {stats['total_fixes']}")
+
 
 if __name__ == "__main__":
     main()

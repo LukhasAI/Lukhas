@@ -17,10 +17,10 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-from core.common import get_logger
-from core.common.exceptions import LukhasError
-from core.interfaces import CoreInterface
 from feedback.user_feedback_system import FeedbackItem, FeedbackType
+from lukhas.core.common import get_logger
+from lukhas.core.common.exceptions import LukhasError
+from lukhas.core.interfaces import CoreInterface
 
 logger = get_logger(__name__)
 

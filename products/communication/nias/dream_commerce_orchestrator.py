@@ -203,7 +203,9 @@ class DreamCommerceOrchestrator:
 
             # Create new session
             session_id = f"dcs_{user_id}_{datetime.now(timezone.utc).timestamp()}"
-            session = DreamCommerceSession(session_id=session_id, user_id=user_id, started_at=datetime.now(timezone.utc))
+            session = DreamCommerceSession(
+                session_id=session_id, user_id=user_id, started_at=datetime.now(timezone.utc)
+            )
 
             self.active_sessions[user_id] = session
 

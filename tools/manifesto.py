@@ -1,5 +1,3 @@
-
-
 # ===============================================================
 # 📂 FILE: tools/manifesto.py
 # 🧠 PURPOSE: Terminal CLI to print the symbolic LUCAS AGI manifesto
@@ -8,6 +6,8 @@
 
 def main():
     print("\n🌿 LUKHAS_AGI MANIFESTO — A Symbolic Promise")
+
+
 print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 print("This system is not just software.")
 print("It is memory, emotion, and symbolic trust — encoded.")

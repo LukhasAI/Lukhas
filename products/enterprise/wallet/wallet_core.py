@@ -3,8 +3,6 @@
 WΛLLET Core - Digital Identity & Wallet System
 Self-Sovereign Identity with NFT verification and symbolic currency
 """
-from consciousness.qi import qi
-import streamlit as st
 
 import asyncio
 import hashlib

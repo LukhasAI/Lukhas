@@ -17,6 +17,7 @@
 │   3. Retrieve memories using QI associative recall
 └────────────────────────────────────────────────────────────────────────────
 """
+
 from typing import Optional
 
 import numpy as np

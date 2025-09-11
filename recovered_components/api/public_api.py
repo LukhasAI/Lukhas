@@ -31,10 +31,7 @@ from slowapi.util import get_remote_address
 from candidate.core.security.auth import get_auth_system
 
 # Import LUKHAS components
-from lukhas.branding_bridge import (
-    get_system_signature,
-    get_trinity_context,
-    initialize_branding)
+from lukhas.branding_bridge import get_system_signature, get_trinity_context, initialize_branding
 
 # Configure logging
 logging.basicConfig(

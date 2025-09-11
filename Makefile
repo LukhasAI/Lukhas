@@ -3,7 +3,7 @@
 .PHONY: security security-scan security-update security-audit security-fix
 .PHONY: policy policy-review policy-brand policy-tone policy-registries
 .PHONY: verify phase1 status hook-install
-.PHONY: lane-guard
+.PHONY: lane-guard audit-appendix
 
 # Default target
 help:
@@ -759,4 +759,34 @@ type:
 	mypy --follow-imports=skip --ignore-missing-imports serve/main.py || true
 check: lint test type
 	@echo "✅ make check passed (lint + tests + scoped mypy)"
+
+# Generate audit delta appendix between two tags
+audit-appendix:
+	tools/audit/mk_delta_appendix.py --old $(OLD_TAG) --new $(NEW_TAG) --out reports/audit/appendix_delta.md
+
+# --- Audit merge helpers (T4) -----------------------------------------------
+
+STRAT ?= reports/audit/strategic_20250910T143306Z.md
+NEUT  ?= reports/audit/neutral_20250910T143306Z.md
+OUT   ?= reports/audit/merged
+
+.PHONY: audit-normalize audit-merge audit-merge-auto audit-merge-check
+
+audit-normalize:
+	@python3 tools/audit/normalize_audit_md.py --in $(STRAT) --out $(STRAT)
+	@python3 tools/audit/normalize_audit_md.py --in $(NEUT)  --out $(NEUT)
+
+audit-merge:
+	@python3 merge_audits.py --strategic $(STRAT) --neutral $(NEUT) --out-dir $(OUT)
+
+audit-merge-auto:
+	@python3 merge_audits.py --auto --out-dir $(OUT)
+
+audit-merge-check:
+	@echo "Findings parsed from Strategic:"
+	@python3 -c "import importlib.util; spec=importlib.util.spec_from_file_location('merge_audits','merge_audits.py'); m=importlib.util.module_from_spec(spec); spec.loader.exec_module(m); print(len(m.parse_findings_table(m.load_text('$(STRAT)'))))"
+	@echo "Findings parsed from Neutral:"
+	@python3 -c "import importlib.util; spec=importlib.util.spec_from_file_location('merge_audits','merge_audits.py'); m=importlib.util.module_from_spec(spec); spec.loader.exec_module(m); print(len(m.parse_findings_table(m.load_text('$(NEUT)'))))"
+	@echo "Merged scoreboard (if present):"
+	@[ -f $(OUT)/scoreboard.json ] && cat $(OUT)/scoreboard.json || echo "(not generated yet)"
 

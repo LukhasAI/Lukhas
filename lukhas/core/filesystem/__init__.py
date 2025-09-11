@@ -8,15 +8,15 @@ Provides path management, directory utilities, and project structure helpers.
 
 from .path_manager import (
     LukhasPathManager,
-    paths,
-    get_lukhas_root,
     ensure_lukhas_structure,
+    get_lukhas_root,
     migrate_deprecated_path,
+    paths,
 )
 
 __all__ = [
     "LukhasPathManager",
-    "paths", 
+    "paths",
     "get_lukhas_root",
     "ensure_lukhas_structure",
     "migrate_deprecated_path",

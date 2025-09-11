@@ -10,6 +10,7 @@ This ensures rich, varied expression by:
 3. Preserving beautiful metaphors when appropriate
 4. Enriching with LUKHAS-specific terms
 """
+
 import random
 import re
 from collections import Counter
@@ -18,11 +19,12 @@ from typing import Optional
 
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
-    
+
     This is a placeholder for functionality that needs to be implemented.
     Replace this stub with the actual implementation.
     """
     raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+
 
 class VocabularyBalancer:
     """
@@ -256,7 +258,7 @@ if __name__ == "__main__":
     ]
 
     print("▸ TRACKING REPETITION:\n")
-    for i, text in enumerate(texts, 1):
+    for _i, text in enumerate(texts, 1):
         enriched = balancer.enrich_text(text)
         print(fix_later)
         print(f"  Enriched: {enriched}\n")

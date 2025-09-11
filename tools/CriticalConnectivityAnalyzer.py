@@ -4,7 +4,6 @@ lukhas SYSTEM CRITICAL CONNECTIVITY ISSUES ANALYZER
 ==============================================
 Identifies and categorizes the most critical connectivity issues in the lukhas system.
 """
-import streamlit as st
 
 import json
 from collections import Counter, defaultdict
@@ -138,7 +137,7 @@ class CriticalConnectivityAnalyzer:
         print(f"   Total Files: {self.report['total_files']}")
         print(f"   Broken Imports: {self.report['broken_imports_count']}")
         print(f"   Isolated Files: {self.report['isolated_files_count']}")
-        print(f"   Isolation Rate: {(self.report['isolated_files_count'] / self.report['total_files'] * 100)}:.1f}%")
+        print(f"   Isolation Rate: {(self.report['isolated_files_count'] / self.report['total_files'] * 100):.1f}%")
 
         print("\n🚨 CRITICAL MISSING MODULES:")
         for issue in critical_issues["missing_core_modules"][:5]:

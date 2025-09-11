@@ -18,6 +18,7 @@ This module provides:
 
 Default mode: DRY-RUN (simulation only) with QI_ACTIVE feature flag required.
 """
+
 import logging
 import os
 from datetime import datetime, timezone
@@ -33,6 +34,9 @@ logger = logging.getLogger(__name__)
 # Feature flag for QI module activation
 QI_ACTIVE = os.getenv("QI_ACTIVE", "false").lower() == "true"
 QI_DRY_RUN = os.getenv("QI_DRY_RUN", "true").lower() == "true"
+
+# Feature flag for candidate bridge (runtime lane integrity)
+USE_CANDIDATE_BRIDGE = os.getenv("ALLOW_CANDIDATE_RUNTIME") == "1"
 
 
 class ConstitutionalSafetyGuard:
@@ -453,31 +457,6 @@ class QIIntegration:
     def initialize_integrations(self) -> None:
         """Initialize QI integrations with candidate module"""
         try:
-            # Try to connect to candidate QI module
-            if QI_ACTIVE:
-                try:
-                    # Import candidate module components without path hacks
-                    import importlib
-
-                    # Try to import key QI components (as packaged module)
-                    importlib.import_module("candidate.qi")
-                    self._candidate_available = True
-
-                    emit(
-                        {
-                            "ntype": "qi_candidate_connected",
-                            "state": {"status": "success"},
-                        }
-                    )
-
-                except ImportError as e:
-                    logger.debug(f"Candidate QI module unavailable: {e}")
-                    emit(
-                        {
-                            "ntype": "qi_candidate_unavailable",
-                            "state": {"error": str(e)},
-                        }
-                    )
 
             # Initialize local processors
             self._quantum_processor = QIInspiredProcessor()

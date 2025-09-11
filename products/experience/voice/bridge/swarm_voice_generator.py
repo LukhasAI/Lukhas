@@ -5,6 +5,8 @@ from voice.synthesis import VoiceSynthesis
 
 from candidate.core.swarm import (
     AgentColony as SymbioticSwarm,  # reuse simple colony
+)
+from candidate.core.swarm import (
     SwarmAgent,
 )
 

@@ -4,6 +4,7 @@
 =================================
 Analyzes current module communication patterns to identify optimization opportunities.
 """
+
 import ast
 import json
 import logging

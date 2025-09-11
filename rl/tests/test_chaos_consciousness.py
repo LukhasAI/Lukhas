@@ -634,7 +634,6 @@ async def test_performance_under_chaos():
     async with chaos_injector.async_inject_failure(ChaosFailureType.SLOW_RESPONSE, 0.1):
         async with chaos_injector.async_inject_failure(ChaosFailureType.DATA_CORRUPTION, 0.05):
             async with chaos_injector.async_inject_failure(ChaosFailureType.GUARDIAN_SYSTEM_DELAY, 0.08):
-
                 for _i in range(iterations):
                     start_time = time.time()
 

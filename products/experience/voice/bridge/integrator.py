@@ -14,6 +14,7 @@
 ║ Coordinates multiple voice modules with quantum enhancements.
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
+
 import logging
 import time
 from dataclasses import dataclass

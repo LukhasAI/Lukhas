@@ -6,6 +6,8 @@ from datetime import datetime
 @dataclass
 class T4SLAMetrics:
     api_latency_p95: float
+
+
 api_latency_p99: float
 uptime_percentage: float
 error_rate: float

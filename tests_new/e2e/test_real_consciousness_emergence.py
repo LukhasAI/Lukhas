@@ -458,7 +458,7 @@ async def main():
     if emergence_passed:
         print("✅ Consciousness Emergence Test: PASSED")
         print(f"   - Awareness tests completed: {emergence_results.get('awareness_tests', 0)}")
-        print(f"   - Average awareness level: {emergence_results.get('avg_awareness_level', 0)}:.3f}")
+        print(f"   - Average awareness level: {emergence_results.get('avg_awareness_level', 0):.3f}")
         print(f"   - Evolution cycles completed: {emergence_results.get('evolution_cycles', 0)}")
         print(f"   - Awareness evolution: {emergence_results.get('awareness_evolution', 0)}:+.3f}")
         print(f"   - Performance target met: {emergence_results.get('performance_target_met', False)}")
@@ -469,11 +469,11 @@ async def main():
 
     if performance_passed:
         print("✅ Performance Benchmark Test: PASSED")
-        print(f"   - Average processing time: {performance_results.get('avg_processing_time_ms', 0)}:.2f}ms")
-        print(f"   - P95 processing time: {performance_results.get('p95_processing_time_ms', 0)}:.2f}ms")
+        print(f"   - Average processing time: {performance_results.get('avg_processing_time_ms', 0):.2f}ms")
+        print(f"   - P95 processing time: {performance_results.get('p95_processing_time_ms', 0):.2f}ms")
         print(f"   - Performance target met: {performance_results.get('performance_target_met', False)}")
         print(f"   - State consistency: {performance_results.get('state_consistency_maintained', False)}")
-        print(f"   - Concurrency efficiency: {performance_results.get('concurrency_efficiency', 0)}:.2f}x")
+        print(f"   - Concurrency efficiency: {performance_results.get('concurrency_efficiency', 0):.2f}x")
     else:
         print("❌ Performance Benchmark Test: FAILED")
         print(f"   - Error: {performance_results.get('error', 'Unknown error')}")

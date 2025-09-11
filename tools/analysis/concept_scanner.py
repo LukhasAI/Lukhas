@@ -3,6 +3,7 @@
 LUKHAS Concept Scanner
 Finds and reports on LUKHAS-specific concepts throughout the codebase
 """
+
 import ast
 import re
 from collections import defaultdict

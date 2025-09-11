@@ -44,8 +44,7 @@ def process_file(file_path):
                 f.write(fixed_content)
 
             # Test compilation
-            result = subprocess.run([sys.executable, "-m", "py_compile", file_path],
-                                  capture_output=True, text=True)
+            result = subprocess.run([sys.executable, "-m", "py_compile", file_path], capture_output=True, text=True)
             if result.returncode == 0:
                 print(f"✅ Fixed: {file_path}")
                 return True
@@ -72,8 +71,7 @@ def main():
                 file_path = os.path.join(root, file)
 
                 # Check if file has f-string bracket mismatch
-                result = subprocess.run([sys.executable, "-m", "py_compile", file_path],
-                                      capture_output=True, text=True)
+                result = subprocess.run([sys.executable, "-m", "py_compile", file_path], capture_output=True, text=True)
                 if result.returncode != 0 and "f-string: closing parenthesis" in result.stderr:
                     python_files.append(file_path)
 

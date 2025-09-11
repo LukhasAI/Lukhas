@@ -9,7 +9,7 @@ context encoding and cascade prevention.
 Features:
 - Fold-based memory with 1000-fold limit and 99.7% cascade prevention
 - Emotional context encoding with VAD (Valence-Arousal-Dominance) integration
-- Memory-consciousness coupling for authentic awareness patterns  
+- Memory-consciousness coupling for authentic awareness patterns
 - Temporal memory systems with consciousness state tracking
 - Memory analytics integrated with consciousness decision-making
 - Real-time memory health monitoring and cascade detection
@@ -25,6 +25,7 @@ that have been built throughout the LUKHAS transformation phases.
 #TAG:authenticity
 #TAG:cascade_prevention
 """
+
 import asyncio
 import contextlib
 import hashlib
@@ -34,7 +35,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 try:
     from lukhas.async_manager import TaskPriority, get_consciousness_manager
@@ -45,48 +46,61 @@ except ImportError:
     # Graceful fallback for development
     def get_consciousness_registry():
         return None
+
     def get_trinity_integrator():
         return None
+
     def get_consciousness_manager():
         return None
+
     ComponentType = None
     TaskPriority = None
+
     def get_config(*args):
         return {}
 
+
 logger = logging.getLogger(__name__)
+
 
 class MemoryFoldType(Enum):
     """Types of memory folds in the consciousness system."""
-    EPISODIC = "episodic"           # Specific experiences and events
-    SEMANTIC = "semantic"           # General knowledge and facts
-    PROCEDURAL = "procedural"       # Skills and procedures
-    EMOTIONAL = "emotional"         # Emotional associations and affects
-    CREATIVE = "creative"           # Creative insights and inspirations
-    IDENTITY = "identity"           # Identity-related memories
-    DREAM = "dream"                 # Dream-state generated content
-    QUANTUM = "quantum"             # Quantum-superposition memory states
+
+    EPISODIC = "episodic"  # Specific experiences and events
+    SEMANTIC = "semantic"  # General knowledge and facts
+    PROCEDURAL = "procedural"  # Skills and procedures
+    EMOTIONAL = "emotional"  # Emotional associations and affects
+    CREATIVE = "creative"  # Creative insights and inspirations
+    IDENTITY = "identity"  # Identity-related memories
+    DREAM = "dream"  # Dream-state generated content
+    QUANTUM = "quantum"  # Quantum-superposition memory states
+
 
 class FoldStatus(Enum):
     """Status of individual memory folds."""
-    FORMING = "forming"             # Fold being created
-    STABLE = "stable"              # Fold established and stable
-    CONSOLIDATING = "consolidating" # Fold being strengthened
-    DEGRADING = "degrading"        # Fold weakening over time
-    CASCADING = "cascading"        # Fold triggering cascade
-    ARCHIVED = "archived"          # Fold moved to long-term storage
+
+    FORMING = "forming"  # Fold being created
+    STABLE = "stable"  # Fold established and stable
+    CONSOLIDATING = "consolidating"  # Fold being strengthened
+    DEGRADING = "degrading"  # Fold weakening over time
+    CASCADING = "cascading"  # Fold triggering cascade
+    ARCHIVED = "archived"  # Fold moved to long-term storage
+
 
 @dataclass
 class EmotionalContext:
     """VAD emotional context for memory encoding."""
-    valence: float      # Positive/negative emotional tone (-1.0 to 1.0)
-    arousal: float      # Emotional intensity (0.0 to 1.0)
-    dominance: float    # Sense of control (0.0 to 1.0)
+
+    valence: float  # Positive/negative emotional tone (-1.0 to 1.0)
+    arousal: float  # Emotional intensity (0.0 to 1.0)
+    dominance: float  # Sense of control (0.0 to 1.0)
     confidence: float = 1.0  # Confidence in emotional assessment
+
 
 @dataclass
 class MemoryFold:
     """Individual memory fold in the consciousness system."""
+
     fold_id: str
     fold_type: MemoryFoldType
     content: dict[str, Any]
@@ -106,9 +120,11 @@ class MemoryFold:
     parent_folds: list[str] = field(default_factory=list)
     child_folds: list[str] = field(default_factory=list)
 
+
 @dataclass
 class ConsciousnessMemoryState:
     """Current state of consciousness-memory integration."""
+
     total_folds: int = 0
     active_folds: int = 0
     cascade_events: int = 0
@@ -118,6 +134,7 @@ class ConsciousnessMemoryState:
     consciousness_memory_coupling: float = 0.0
     last_consolidation: Optional[datetime] = None
     memory_processing_latency: float = 0.0  # milliseconds
+
 
 class ConsciousnessMemoryIntegrator:
     """
@@ -177,13 +194,15 @@ class ConsciousnessMemoryIntegrator:
             self.state.consciousness_memory_coupling = await self._calculate_coupling_strength()
 
             integration_success = (
-                cascade_validation and
-                self.state.memory_coherence_score > 0.7 and
-                self.state.consciousness_memory_coupling > 0.5
+                cascade_validation
+                and self.state.memory_coherence_score > 0.7
+                and self.state.consciousness_memory_coupling > 0.5
             )
 
             logger.info(f"✅ Memory-Consciousness Integration: {'successful' if integration_success else 'degraded'}")
-            logger.info(f"   Coherence: {self.state.memory_coherence_score:.3f}, Coupling: {self.state.consciousness_memory_coupling:.3f}")
+            logger.info(
+                f"   Coherence: {self.state.memory_coherence_score:.3f}, Coupling: {self.state.consciousness_memory_coupling:.3f}"
+            )
 
             return integration_success
 
@@ -208,7 +227,7 @@ class ConsciousnessMemoryIntegrator:
                 "trinity_framework": "cross",
                 "activation_priority": 20,
                 "feature_flags": ["memory_fold_enabled"],
-                "health_check_fn": self._memory_health_check
+                "health_check_fn": self._memory_health_check,
             },
             {
                 "component_id": "memory_cascade_prevention",
@@ -218,7 +237,7 @@ class ConsciousnessMemoryIntegrator:
                 "module_path": "candidate.memory.consolidation.emergency_override",
                 "trinity_framework": "🛡️",
                 "activation_priority": 15,
-                "feature_flags": ["memory_cascade_prevention_enabled"]
+                "feature_flags": ["memory_cascade_prevention_enabled"],
             },
             {
                 "component_id": "memory_emotional_encoder",
@@ -228,8 +247,8 @@ class ConsciousnessMemoryIntegrator:
                 "module_path": "candidate.memory.temporal.emotion_log",
                 "trinity_framework": "🧠",
                 "activation_priority": 25,
-                "feature_flags": ["memory_emotional_encoding_enabled"]
-            }
+                "feature_flags": ["memory_emotional_encoding_enabled"],
+            },
         ]
 
         for component in memory_components:
@@ -266,7 +285,7 @@ class ConsciousnessMemoryIntegrator:
         fold_type: MemoryFoldType,
         consciousness_context: Optional[str] = None,
         emotional_context: Optional[EmotionalContext] = None,
-        tags: Optional[set[str]] = None
+        tags: Optional[set[str]] = None,
     ) -> str:
         """
         Create a new memory fold integrated with consciousness processing.
@@ -299,7 +318,7 @@ class ConsciousnessMemoryIntegrator:
             content=content,
             emotional_context=emotional_context,
             consciousness_context=consciousness_context,
-            tags=tags or set()
+            tags=tags or set(),
         )
 
         # Store fold
@@ -314,7 +333,9 @@ class ConsciousnessMemoryIntegrator:
 
         # Update state
         self.state.total_folds = len(self._memory_folds)
-        self.state.active_folds = sum(1 for f in self._memory_folds.values() if f.status in [FoldStatus.STABLE, FoldStatus.CONSOLIDATING])
+        self.state.active_folds = sum(
+            1 for f in self._memory_folds.values() if f.status in [FoldStatus.STABLE, FoldStatus.CONSOLIDATING]
+        )
 
         # Cascade risk assessment
         fold.cascade_risk = await self._assess_cascade_risk(fold)
@@ -332,7 +353,7 @@ class ConsciousnessMemoryIntegrator:
         query: dict[str, Any],
         consciousness_context: Optional[str] = None,
         max_results: int = 10,
-        emotional_weight: float = 0.3
+        emotional_weight: float = 0.3,
     ) -> list[tuple[str, MemoryFold, float]]:
         """
         Recall memory folds based on consciousness-aware query.
@@ -352,9 +373,7 @@ class ConsciousnessMemoryIntegrator:
         candidates = await self._search_memory_folds(query, consciousness_context)
 
         # Rank by relevance including emotional context
-        ranked_results = await self._rank_memory_results(
-            candidates, query, emotional_weight, consciousness_context
-        )
+        ranked_results = await self._rank_memory_results(candidates, query, emotional_weight, consciousness_context)
 
         # Select top results
         results = ranked_results[:max_results]
@@ -379,7 +398,7 @@ class ConsciousnessMemoryIntegrator:
         decision_id: str,
         decision_context: dict[str, Any],
         decision_result: Any,
-        consciousness_context: Optional[str] = None
+        consciousness_context: Optional[str] = None,
     ) -> list[str]:
         """
         Integrate a consciousness decision with memory system.
@@ -400,14 +419,14 @@ class ConsciousnessMemoryIntegrator:
             "decision_id": decision_id,
             "context": decision_context,
             "result": decision_result,
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         episodic_fold_id = await self.create_consciousness_memory_fold(
             content=episodic_content,
             fold_type=MemoryFoldType.EPISODIC,
             consciousness_context=consciousness_context,
-            tags={"decision", "episodic", decision_id}
+            tags={"decision", "episodic", decision_id},
         )
         created_folds.append(episodic_fold_id)
 
@@ -418,7 +437,7 @@ class ConsciousnessMemoryIntegrator:
                 content={"patterns": semantic_patterns, "source_decision": decision_id},
                 fold_type=MemoryFoldType.SEMANTIC,
                 consciousness_context=consciousness_context,
-                tags={"semantic", "patterns", decision_id}
+                tags={"semantic", "patterns", decision_id},
             )
             created_folds.append(semantic_fold_id)
 
@@ -471,7 +490,7 @@ class ConsciousnessMemoryIntegrator:
             valence=valence,
             arousal=arousal,
             dominance=dominance,
-            confidence=0.6  # Moderate confidence in simple analysis
+            confidence=0.6,  # Moderate confidence in simple analysis
         )
 
     async def _update_memory_associations(self, fold: MemoryFold) -> None:
@@ -496,7 +515,7 @@ class ConsciousnessMemoryIntegrator:
 
         # Same type folds
         same_type_folds = list(self._fold_indices[fold.fold_type])
-        same_type_folds = [f for f in same_type_folds if f != fold.fold_id][:max_relations//2]
+        same_type_folds = [f for f in same_type_folds if f != fold.fold_id][: max_relations // 2]
         related.extend(same_type_folds)
 
         # Emotionally similar folds
@@ -522,7 +541,7 @@ class ConsciousnessMemoryIntegrator:
         dominance_diff = abs(ctx1.dominance - ctx2.dominance)
 
         # Weighted Euclidean distance
-        return ((valence_diff ** 2) * 0.5 + (arousal_diff ** 2) * 0.3 + (dominance_diff ** 2) * 0.2) ** 0.5
+        return ((valence_diff**2) * 0.5 + (arousal_diff**2) * 0.3 + (dominance_diff**2) * 0.2) ** 0.5
 
     async def _assess_cascade_risk(self, fold: MemoryFold) -> float:
         """Assess cascade risk for memory fold."""
@@ -537,9 +556,12 @@ class ConsciousnessMemoryIntegrator:
         risk_factors.append(emotional_intensity * 0.3)
 
         # Recent similar folds increase cascade risk
-        recent_similar = sum(1 for f in self._memory_folds.values()
-                           if f.fold_type == fold.fold_type and
-                           (datetime.now(timezone.utc) - f.creation_timestamp).total_seconds() < 3600)
+        recent_similar = sum(
+            1
+            for f in self._memory_folds.values()
+            if f.fold_type == fold.fold_type
+            and (datetime.now(timezone.utc) - f.creation_timestamp).total_seconds() < 3600
+        )
         similarity_risk = min(1.0, recent_similar / 10.0)
         risk_factors.append(similarity_risk * 0.3)
 
@@ -553,7 +575,7 @@ class ConsciousnessMemoryIntegrator:
             fold_type=MemoryFoldType.EMOTIONAL,
             content={"test": "cascade_risk_simulation"},
             emotional_context=EmotionalContext(valence=-0.9, arousal=0.9, dominance=0.1),
-            cascade_risk=0.8  # High cascade risk
+            cascade_risk=0.8,  # High cascade risk
         )
 
         # Simulate cascade prevention
@@ -565,7 +587,9 @@ class ConsciousnessMemoryIntegrator:
         else:
             self.state.cascade_prevention_rate = max(0.990, self.state.cascade_prevention_rate - 0.001)
 
-        logger.info(f"🛡️ Cascade prevention validation: {prevention_success} (rate: {self.state.cascade_prevention_rate:.3f})")
+        logger.info(
+            f"🛡️ Cascade prevention validation: {prevention_success} (rate: {self.state.cascade_prevention_rate:.3f})"
+        )
         return prevention_success
 
     async def _prevent_memory_cascade(self, fold: MemoryFold) -> bool:
@@ -597,7 +621,7 @@ class ConsciousnessMemoryIntegrator:
             "original_risk": fold.cascade_risk,
             "prevention_strategies": prevention_strategies,
             "timestamp": datetime.now(timezone.utc).isoformat(),
-            "success": True
+            "success": True,
         }
         self._cascade_history.append(cascade_event)
 
@@ -627,10 +651,7 @@ class ConsciousnessMemoryIntegrator:
         """Background cascade monitoring loop."""
         while not self._shutdown_event.is_set():
             try:
-                high_risk_folds = [
-                    f for f in self._memory_folds.values()
-                    if f.cascade_risk > self.cascade_threshold
-                ]
+                high_risk_folds = [f for f in self._memory_folds.values() if f.cascade_risk > self.cascade_threshold]
 
                 for fold in high_risk_folds:
                     prevention_success = await self._prevent_memory_cascade(fold)
@@ -688,7 +709,7 @@ class ConsciousnessMemoryIntegrator:
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "access_type": access_type,
             "fold_ids": fold_ids if isinstance(fold_ids, list) else [fold_ids],
-            "consciousness_context": context
+            "consciousness_context": context,
         }
         self._access_log.append(access_record)
 
@@ -711,11 +732,7 @@ class ConsciousnessMemoryIntegrator:
         return candidates
 
     async def _rank_memory_results(
-        self,
-        candidates: list[str],
-        query: dict[str, Any],
-        emotional_weight: float,
-        context: Optional[str]
+        self, candidates: list[str], query: dict[str, Any], emotional_weight: float, context: Optional[str]
     ) -> list[tuple[str, MemoryFold, float]]:
         """Rank memory search results."""
         ranked_results = []
@@ -737,11 +754,7 @@ class ConsciousnessMemoryIntegrator:
         return ranked_results
 
     async def _calculate_relevance_score(
-        self,
-        fold: MemoryFold,
-        query: dict[str, Any],
-        emotional_weight: float,
-        context: Optional[str]
+        self, fold: MemoryFold, query: dict[str, Any], emotional_weight: float, context: Optional[str]
     ) -> float:
         """Calculate relevance score for memory fold."""
         factors = []
@@ -791,20 +804,19 @@ class ConsciousnessMemoryIntegrator:
                 "cascade_prevention_rate": self.state.cascade_prevention_rate,
                 "average_fold_strength": self.state.average_fold_strength,
                 "memory_coherence_score": self.state.memory_coherence_score,
-                "consciousness_memory_coupling": self.state.consciousness_memory_coupling
+                "consciousness_memory_coupling": self.state.consciousness_memory_coupling,
             },
             "processing_metrics": {
                 "memory_processing_latency_ms": self.state.memory_processing_latency,
-                "last_consolidation": self.state.last_consolidation.isoformat() if self.state.last_consolidation else None,
+                "last_consolidation": self.state.last_consolidation.isoformat()
+                if self.state.last_consolidation
+                else None,
                 "consolidation_queue_size": len(self._consolidation_queue),
-                "access_log_size": len(self._access_log)
+                "access_log_size": len(self._access_log),
             },
-            "fold_distribution": {
-                fold_type.value: len(fold_ids)
-                for fold_type, fold_ids in self._fold_indices.items()
-            },
+            "fold_distribution": {fold_type.value: len(fold_ids) for fold_type, fold_ids in self._fold_indices.items()},
             "cascade_history": list(self._cascade_history)[-10:],  # Last 10 events
-            "health_status_available": hasattr(self, "_memory_health_check")
+            "health_status_available": hasattr(self, "_memory_health_check"),
         }
 
     async def shutdown(self) -> None:
@@ -822,8 +834,10 @@ class ConsciousnessMemoryIntegrator:
 
         logger.info("✅ Memory-Consciousness Integration shutdown complete")
 
+
 # Global memory integrator instance
 _global_memory_integrator: Optional[ConsciousnessMemoryIntegrator] = None
+
 
 def get_memory_integrator() -> ConsciousnessMemoryIntegrator:
     """Get the global memory consciousness integrator instance."""

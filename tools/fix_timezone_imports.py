@@ -3,6 +3,7 @@
 Fix timezone import issues across LUKHAS codebase
 Resolves F821 violations for timezone usage
 """
+
 import json
 from pathlib import Path
 
@@ -43,8 +44,7 @@ def fix_timezone_imports():
                 # Look for datetime import pattern and update it
                 if "from datetime import datetime" in content:
                     new_content = content.replace(
-                        "from datetime import datetime",
-                        "from datetime import datetime, timezone"
+                        "from datetime import datetime", "from datetime import datetime, timezone"
                     )
 
                     # Write back the fixed content
@@ -72,6 +72,7 @@ def fix_timezone_imports():
 
     print(f"\n🎯 Applied {fixes_applied} timezone import fixes")
     return fixes_applied
+
 
 if __name__ == "__main__":
     fix_timezone_imports()

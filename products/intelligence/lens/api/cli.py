@@ -7,6 +7,7 @@ Usage:
 This script ensures the repository root is on PYTHONPATH and launches Uvicorn
 with the canonical application object (`main:app`).
 """
+
 import argparse
 import sys
 from pathlib import Path

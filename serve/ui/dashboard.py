@@ -15,7 +15,7 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 
-from core.identity.lambda_id_core import LukhasIdentityService
+from lukhas.core.identity.lambda_id_core import LukhasIdentityService
 from lukhas.governance.consent_ledger.ledger_v1 import ConsentLedgerV1, PolicyEngine
 from lukhas.orchestration.context_bus_enhanced import (
     ContextBusOrchestrator,

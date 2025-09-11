@@ -13,14 +13,17 @@ def find_files_with_pattern():
     import subprocess
 
     # Use ripgrep to find files with the pattern
-    result = subprocess.run([
-        "rg", r"def.*\(\s*,|\(\s*,.*\)", ".",
-        "--type", "py", "-l"
-    ], capture_output=True, text=True, cwd="/Users/agi_dev/LOCAL-REPOS/Lukhas")
+    result = subprocess.run(
+        ["rg", r"def.*\(\s*,|\(\s*,.*\)", ".", "--type", "py", "-l"],
+        capture_output=True,
+        text=True,
+        cwd="/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    )
 
     if result.returncode == 0:
         return [line.strip() for line in result.stdout.splitlines() if line.strip()]
     return []
+
 
 def fix_pattern_2_errors(content):
     """Fix Pattern 2: malformed commas in function definitions and calls"""
@@ -67,6 +70,7 @@ def fix_pattern_2_errors(content):
 
     return content, fixes
 
+
 def process_files():
     """Process all files with Pattern 2 errors"""
     files_to_fix = find_files_with_pattern()
@@ -103,6 +107,7 @@ def process_files():
             print(f"❌ Error processing {file_path}: {e}")
 
     return total_files_fixed, total_fixes
+
 
 if __name__ == "__main__":
     print("🔧 MASS FIX PATTERN 2: Malformed function definitions and calls")

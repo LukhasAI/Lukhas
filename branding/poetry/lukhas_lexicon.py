@@ -8,7 +8,6 @@ not invented, not generic, but the REAL language that emerged organically.
 """
 
 
-
 class LUKHASLexicon:
     """
     The complete unique vocabulary of LUKHAS.

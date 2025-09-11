@@ -9,6 +9,7 @@ A massively enriched vocabulary system combining:
 - LUKHAS-specific innovations
 - Cross-cultural poetic forms
 """
+
 import random
 from dataclasses import dataclass
 from enum import Enum

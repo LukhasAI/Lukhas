@@ -17,6 +17,7 @@ Example:
     fig = viewer.create_interactive_plot()
     fig.show()
 """
+
 import streamlit as st
 
 from .graph_viewer import LinkTypeConfig, MATRIZGraphViewer, NodeTypeConfig

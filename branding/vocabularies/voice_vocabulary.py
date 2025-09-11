@@ -11,21 +11,24 @@ This module defines the symbolic vocabulary for the LUKHAS Voice Module,
 providing the symbolic language elements used for voice synthesis,
 emotional expression, and vocal communication.
 """
+
 from dataclasses import dataclass
 from typing import Any
 
-from core.symbolic import VoiceSymbol
+from lukhas.core.symbolic import VoiceSymbol
+from symbolic.vocabularies.voice_vocabulary import VoiceSymbolicVocabulary
 
 from ..core import VoiceEmotion, VoiceProvider
 
 
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
-    
+
     This is a placeholder for functionality that needs to be implemented.
     Replace this stub with the actual implementation.
     """
     raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+
 
 @dataclass
 class Voicesymbol:
@@ -392,8 +395,8 @@ class Voicesymbolicvocabulary:
 
     def create_synthesis_phrase(self, emotion: VoiceEmotion, provider: VoiceProvider, text: str) -> str:
         """Create a symbolic phrase for voice synthesis."""
-        emotion_symbol = self.get_symbol_for_emotion(emotion)
-        provider_symbol = self.get_symbol_for_provider(provider)
+        self.get_symbol_for_emotion(emotion)
+        self.get_symbol_for_provider(provider)
 
         return fix_later
 

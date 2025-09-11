@@ -2,6 +2,7 @@
 Documentation Version Control System for DocuTutor.
 Handles versioning, change tracking, and evolution of documentation.
 """
+
 import hashlib
 import json
 import time

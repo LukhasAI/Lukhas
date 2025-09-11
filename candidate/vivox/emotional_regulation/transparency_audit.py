@@ -1,7 +1,5 @@
 import logging
-import streamlit as st
-import random
-import time
+
 logger = logging.getLogger(__name__)
 """
 VIVOX.ERN Transparency & Audit System
@@ -157,7 +155,7 @@ Generated: {self.generated_at.isoformat()}
 """
         for strategy, stats in self.regulation_insights.get("strategy_breakdown", {}).items():
             report += (
-                f"- {strategy}: {stats.get('count', 0)} uses, {stats.get('effectiveness', 0)}:.2f} avg effectiveness\n"
+                f"- {strategy}: {stats.get('count', 0)} uses, {stats.get('effectiveness', 0):.2f} avg effectiveness\n"
             )
 
         report += """

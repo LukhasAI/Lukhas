@@ -38,28 +38,8 @@ def generate_ultimate_coverage_summary():
     }
 
     # Priority 3 results (emotion, bio, monitoring, tools)
-    priority_3_results = {
-        "emotion_system": {"success_rate": 50.0, "coverage_level": "partial"},
-        "bio_system": {"success_rate": 100.0, "coverage_level": "full"},
-        "monitoring_system": {"success_rate": 100.0, "coverage_level": "full"},
-        "tools_system": {"success_rate": 100.0, "coverage_level": "full"},
-        "cross_integration": {"success_rate": 100.0, "coverage_level": "full"},
-        "overall_success_rate": 90.0,
-        "systems_added": 4,  # Bio, Monitoring, Tools + partial Emotion
-    }
 
     # Priority 4 results (quantum, governance, orchestration, creativity, data, testing, branding)
-    priority_4_results = {
-        "quantum_system": {"success_rate": 50.0, "coverage_level": "partial"},
-        "governance_system": {"success_rate": 100.0, "coverage_level": "excellent"},
-        "orchestration_system": {"success_rate": 0.0, "coverage_level": "poor"},
-        "creativity_system": {"success_rate": 0.0, "coverage_level": "poor"},
-        "data_system": {"success_rate": 100.0, "coverage_level": "excellent"},
-        "testing_system": {"success_rate": 100.0, "coverage_level": "excellent"},
-        "branding_system": {"success_rate": 100.0, "coverage_level": "excellent"},
-        "overall_success_rate": 80.0,
-        "systems_added": 5,  # Governance, Data, Testing, Branding + partial Quantum
-    }
 
     # Calculate ULTIMATE comprehensive coverage
     # Full coverage systems: Identity, Memory, Consciousness, API, Security, Bio, Monitoring, Tools, Governance, Data, Testing, Branding = 12 systems
@@ -252,7 +232,7 @@ def save_and_display_ultimate_summary():
     # Complete progression
     print("📈 COMPLETE COVERAGE PROGRESSION:")
     progression = summary["complete_coverage_progression"]
-    for phase_key, data in progression.items():
+    for data in progression.values():
         phase_name = data["phase"]
         print(
             f"  {phase_name}: {data['coverage_percentage']}% "

@@ -2,6 +2,7 @@
 LUKHAS Brand Monitoring Adapter - Trinity Framework (⚛️🧠🛡️)
 Smart interface to monitoring/ systems for brand-aware analytics and tracking
 """
+
 import sys
 from datetime import datetime, timezone
 from pathlib import Path

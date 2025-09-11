@@ -3,8 +3,8 @@
 Safe Batch F-String Syntax Fixer for LUKHAS
 
 Fixes common f-string syntax errors in a safe, batched approach:
-1. f"text-{uuid.uuid4()}.hex}" → f"text-{uuid.uuid4().hex}"  
-2. f"text {var}}" → f"text {var}"
+1. f"text-{uuid.uuid4()}.hex}" → f"text-{uuid.uuid4().hex}"
+2. f"text {var}" → f"text {var}"
 3. Missing closing braces in f-strings
 
 Safety measures:
@@ -19,7 +19,7 @@ import os
 import re
 import shutil
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Optional
 
 
 class SafeFStringFixer:
@@ -31,37 +31,18 @@ class SafeFStringFixer:
         # Safe patterns to fix (order matters - most specific first)
         self.patterns = [
             # Pattern 1: uuid.uuid4()}.hex} → uuid.uuid4().hex
-            (
-                r"(\buuid\.uuid4\(\))\.hex\}",
-                r"\1.hex",
-                "Fix uuid.hex brace mismatch"
-            ),
+            (r"(\buuid\.uuid4\(\))\.hex\}", r"\1.hex", "Fix uuid.hex brace mismatch"),
             # Pattern 2: time.time()}  → time.time())
-            (
-                r"(\btime\.time\(\))\}",
-                r"\1)",
-                "Fix time.time() brace mismatch"
-            ),
+            (r"(\btime\.time\(\))\}", r"\1)", "Fix time.time() brace mismatch"),
             # Pattern 3: Double closing braces }} → }
-            (
-                r'([^{}\s])\}\}(["\'])',
-                r"\1}\2",
-                "Fix double closing braces in f-strings"
-            ),
+            (r'([^{}\s])\}\}(["\'])', r"\1}\2", "Fix double closing braces in f-strings"),
             # Pattern 4: Missing closing parenthesis in f-strings
-            (
-                r'(\{[^}]*\([^}]*)\}(["\'])',
-                r"\1)}\2",
-                "Fix missing closing parenthesis in f-strings"
-            ),
+            (r'(\{[^}]*\([^}]*)\}(["\'])', r"\1)}\2", "Fix missing closing parenthesis in f-strings"),
         ]
 
-    def find_python_files(self, root_dir: str) -> List[Path]:
+    def find_python_files(self, root_dir: str) -> list[Path]:
         """Find all Python files, excluding virtual environments."""
-        exclude_patterns = [
-            ".venv", ".cleanenv", "__pycache__", ".git",
-            "node_modules", ".pytest_cache", ".mypy_cache"
-        ]
+        exclude_patterns = [".venv", ".cleanenv", "__pycache__", ".git", "node_modules", ".pytest_cache", ".mypy_cache"]
 
         python_files = []
         for root, dirs, files in os.walk(root_dir):
@@ -93,13 +74,12 @@ class SafeFStringFixer:
             # Other errors (encoding, etc.) - be conservative
             return False
 
-    def fix_file(self, file_path: Path) -> Tuple[bool, List[str], str]:
+    def fix_file(self, file_path: Path) -> tuple[bool, list[str], str]:
         """Fix f-string patterns in a single file."""
         try:
             with open(file_path, encoding="utf-8") as f:
                 content = f.read()
 
-            original_content = content
             fixes = []
 
             # Apply each pattern
@@ -132,18 +112,12 @@ class SafeFStringFixer:
         except Exception as e:
             return False, [], f"Error processing file: {e}"
 
-    def process_files(self, files: List[Path], batch_size: int = 50) -> Dict:
+    def process_files(self, files: list[Path], batch_size: int = 50) -> dict:
         """Process files in batches."""
-        results = {
-            "total_files": len(files),
-            "processed": 0,
-            "fixed": 0,
-            "failed": 0,
-            "fixes": []
-        }
+        results = {"total_files": len(files), "processed": 0, "fixed": 0, "failed": 0, "fixes": []}
 
         for i in range(0, len(files), batch_size):
-            batch = files[i:i + batch_size]
+            batch = files[i : i + batch_size]
             print(f"\nProcessing batch {i//batch_size + 1}: files {i+1}-{min(i+batch_size, len(files))}")
 
             for file_path in batch:
@@ -159,10 +133,7 @@ class SafeFStringFixer:
 
                     if success and fixes:
                         results["fixed"] += 1
-                        results["fixes"].append({
-                            "file": str(file_path),
-                            "fixes": fixes
-                        })
+                        results["fixes"].append({"file": str(file_path), "fixes": fixes})
                         status = "✅" if not self.dry_run else "🔍"
                         print(f"{status} {file_path}: {'; '.join(fixes)}")
 
@@ -179,7 +150,7 @@ class SafeFStringFixer:
 
         return results
 
-    def run_batch_fix(self, root_dir: str = ".", file_patterns: List[str] = None, batch_size: int = 50):
+    def run_batch_fix(self, root_dir: str = ".", file_patterns: Optional[list[str]] = None, batch_size: int = 50):
         """Run the batch fixing process."""
         print("🔧 LUKHAS F-String Batch Fixer")
         print(f"Mode: {'DRY RUN' if self.dry_run else 'LIVE FIX'}")
@@ -230,16 +201,9 @@ def main():
 
     args = parser.parse_args()
 
-    fixer = SafeFStringFixer(
-        dry_run=not args.live,
-        create_backups=not args.no_backup
-    )
+    fixer = SafeFStringFixer(dry_run=not args.live, create_backups=not args.no_backup)
 
-    fixer.run_batch_fix(
-        root_dir=args.dir,
-        file_patterns=args.files,
-        batch_size=args.batch_size
-    )
+    fixer.run_batch_fix(root_dir=args.dir, file_patterns=args.files, batch_size=args.batch_size)
 
 
 if __name__ == "__main__":

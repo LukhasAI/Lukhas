@@ -5,7 +5,7 @@ import json
 import os
 import time
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 from fastapi import BackgroundTasks, Body, FastAPI, HTTPException, Query

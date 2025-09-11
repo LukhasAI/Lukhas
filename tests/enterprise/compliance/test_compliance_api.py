@@ -8,8 +8,10 @@ from fastapi.testclient import TestClient
 from consent.api import ConsentService, get_consent_service
 from enterprise.compliance.api import (
     get_data_protection_service,
-    router as protection_router,
     user_router,
+)
+from enterprise.compliance.api import (
+    router as protection_router,
 )
 from enterprise.compliance.data_protection_service import DataProtectionService
 

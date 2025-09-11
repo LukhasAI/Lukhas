@@ -13,7 +13,7 @@ Enterprise Causal Analysis & Dream Integration
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 
 Module: fold_lineage_tracker_archive.py
-Path: candidate/memory/causal/fold_lineage_tracker_archive.py  
+Path: candidate/memory/causal/fold_lineage_tracker_archive.py
 Version: v2.0.0 | Enhanced: 2025-07-20
 Author: CLAUDE-HARMONIZER
 

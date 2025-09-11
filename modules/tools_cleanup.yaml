@@ -1,0 +1,125 @@
+identity:
+  name: tools.cleanup
+  layer: application
+  summary: tools.cleanup module with 1 classes and 9 functions
+  status: active
+  tier: 2
+discovery:
+  import_patterns:
+  - from tools.cleanup import main
+  - from tools.cleanup import generate_cleanup_script
+  - from tools.cleanup import find_duplicate_modules
+  - from tools.cleanup import DuplicateCodeAnalyzer
+  - from tools.cleanup import consolidate_duplicates
+  import_aliases:
+  - cleanup
+  file_patterns:
+  - tools/cleanup/**/*.py
+  - tests/tools/cleanup/**/*.py
+  entry_points:
+  - tools/cleanup/__init__.py
+ownership:
+  owner: '@DevOpsTeam'
+  lifecycle: evolving
+  last_review: '2025-09-10T11:32:19.471890+00:00'
+  promotion_rules: {}
+contracts:
+  api:
+    surface:
+    - 'python: tools.cleanup.main'
+    - 'python: tools.cleanup.generate_cleanup_script'
+    - 'python: tools.cleanup.find_duplicate_modules'
+    - 'python: tools.cleanup.DuplicateCodeAnalyzer'
+    - 'python: tools.cleanup.consolidate_duplicates'
+    - 'python: tools.cleanup.cleanup_duplicates'
+    - 'python: tools.cleanup.cleanup_imports'
+    - 'python: tools.cleanup.archive_backups'
+    - 'python: tools.cleanup.find_backup_directories'
+    - 'python: tools.cleanup.analyze'
+    version: v1.0
+    compatibility:
+      backward: true
+      forward: minor
+  invariants:
+  - module loads without errors
+  - public API remains stable
+dependencies:
+  internal:
+    requires: []
+    provides:
+    - tools.cleanup
+  external:
+    libs: []
+  coupling_metrics:
+    afferent: 0
+    efferent: 0
+    instability_index: 0.0
+runtime:
+  processes:
+    entrypoints:
+    - python -m tools.cleanup
+    concurrency_model: thread
+  config:
+    files: []
+    env_vars_required: []
+    feature_flags: []
+  resources:
+    cpu_limit: 0.5 vcpu
+    mem_limit: 256 MiB
+data_and_events:
+  data_classes:
+  - name: DuplicateCodeAnalyzer
+    schema_ref: audit/SCHEMAS/duplicatecodeanalyzer.json
+    description: DuplicateCodeAnalyzer data class
+  pii:
+    contains: false
+    classification: internal
+security:
+  secrets:
+    sources:
+    - env
+    files: []
+  authz_model: internal_only
+  compliance:
+    data_classification: internal
+observability:
+  logs:
+    format: structured_json
+    level: info
+  metrics:
+    exporter: prometheus
+    key_metrics:
+    - name: tools_cleanup_calls_total
+      target: '>0'
+      type: counter
+  slos:
+    error_rate_pct: 1.0
+    availability_pct: 99.0
+test_posture:
+  coverage:
+    current: 0.0
+    target: 0.8
+  tests:
+    unit: 0
+    integration: 0
+risk_and_change:
+  risks:
+  - id: R-TOOLS-CLEANUP-GENERATED
+    title: Auto-generated schema may be incomplete
+    likelihood: medium
+    impact: low
+    mitigation: Manual review and enhancement required
+    status: open
+provenance:
+  schema_version: '1.0'
+  last_updated: '2025-09-10T11:32:19.471890+00:00'
+  source_paths:
+  - tools/cleanup
+  generated_by:
+    tool: lukhas-module-generator
+    version: 1.0.0
+    timestamp: '2025-09-10T11:32:19.471890+00:00'
+  validation:
+    schema_valid: true
+    last_validated: '2025-09-10T11:32:19.471890+00:00'
+    validator_version: 1.0.0

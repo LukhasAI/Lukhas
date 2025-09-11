@@ -1,8 +1,8 @@
-
 """
 Setup configuration for LUKHAS Lambda Products Suite
 Enterprise-ready AI modules for integration with Lukhas
 """
+
 import os
 
 from setuptools import find_packages, setup

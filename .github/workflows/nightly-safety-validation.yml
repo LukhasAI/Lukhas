@@ -1,0 +1,318 @@
+name: Nightly Safety Validation
+
+on:
+  schedule:
+    # Run at 1:00 AM UTC daily (before main nightly autofix)
+    - cron: '0 1 * * *'
+  workflow_dispatch: # Allow manual triggering
+    inputs:
+      create_pr:
+        description: 'Create PR if issues found'
+        required: false
+        default: 'true'
+        type: boolean
+      full_validation:
+        description: 'Run full comprehensive validation'
+        required: false  
+        default: 'false'
+        type: boolean
+
+jobs:
+  safety-validation:
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'LukhasAI'
+
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          # Install validation tools
+          pip install bandit pytest ruff libcst
+          pip install -e .
+
+      - name: Create reports directory
+        run: |
+          mkdir -p reports/{validation,dashboard,audit,matriz,contracts}
+
+      # Job 1: Comprehensive Audit Validation
+      - name: Run audit validation
+        id: audit
+        env:
+          SELF_HEALING_DISABLED: 1
+          CI: true
+        run: |
+          echo "🔍 Running comprehensive audit validation..."
+          
+          # Run system audit
+          if [[ -f scripts/audit_quick.sh ]]; then
+            bash scripts/audit_quick.sh 2>&1 | tee reports/audit/audit-results.log || true
+          fi
+          
+          # Run security scan
+          bandit -r . -f json -o reports/audit/security-scan.json --severity-level medium || true
+          
+          # Check for critical security issues
+          CRITICAL_COUNT=$(jq -r '.results | map(select(.issue_severity == "HIGH" or .issue_severity == "CRITICAL")) | length' reports/audit/security-scan.json 2>/dev/null || echo 0)
+          echo "critical_issues=$CRITICAL_COUNT" >> $GITHUB_OUTPUT
+          
+          if [[ $CRITICAL_COUNT -gt 0 ]]; then
+            echo "❌ Found $CRITICAL_COUNT critical security issues"
+            echo "audit_status=failed" >> $GITHUB_OUTPUT
+          else
+            echo "✅ Audit validation passed"  
+            echo "audit_status=passed" >> $GITHUB_OUTPUT
+          fi
+
+      # Job 2: MATRIZ Lane Compliance Check
+      - name: Run MATRIZ lane validation
+        id: matriz
+        env:
+          SELF_HEALING_DISABLED: 1
+          CI: true
+        run: |
+          echo "🛣️ Running MATRIZ lane compliance check..."
+          
+          # Validate lane policies
+          if [[ -f config/lane_fix_policies.json ]]; then
+            echo "✅ Lane policies configuration found"
+            LANE_CONFIG_VALID=true
+          else
+            echo "❌ Lane policies configuration missing"
+            LANE_CONFIG_VALID=false
+          fi
+          
+          # Check for lane boundary violations  
+          VIOLATIONS=0
+          
+          # Check for cross-lane imports (simplified check)
+          if grep -r "from accepted" candidate/ 2>/dev/null | head -5; then
+            echo "⚠️ Potential cross-lane import violations found"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          fi
+          
+          if grep -r "from core" matriz/ 2>/dev/null | head -5; then
+            echo "⚠️ Potential core access violations found"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          fi
+          
+          echo "lane_violations=$VIOLATIONS" >> $GITHUB_OUTPUT
+          
+          if [[ $VIOLATIONS -eq 0 && "$LANE_CONFIG_VALID" == "true" ]]; then
+            echo "✅ MATRIZ lane compliance check passed"
+            echo "matriz_status=passed" >> $GITHUB_OUTPUT
+          else
+            echo "❌ MATRIZ lane compliance issues found"
+            echo "matriz_status=failed" >> $GITHUB_OUTPUT
+          fi
+
+      # Job 3: Contract & Smoke Tests
+      - name: Run contracts and smoke tests  
+        id: contracts
+        env:
+          SELF_HEALING_DISABLED: 1
+          CI: true
+        run: |
+          echo "🧪 Running contract and smoke tests..."
+          
+          # Collect contract files
+          find . -name "*contract*.py" -type f > reports/contracts/contract-files.txt || true
+          CONTRACT_COUNT=$(wc -l < reports/contracts/contract-files.txt || echo 0)
+          echo "contract_files_found=$CONTRACT_COUNT" >> $GITHUB_OUTPUT
+          
+          # Run smoke tests if they exist
+          SMOKE_TESTS_PASSED=0
+          SMOKE_TESTS_FAILED=0
+          
+          if [[ -f candidate/aka_qualia/demo_smoke.py ]]; then
+            echo "Running aka_qualia smoke test..."
+            if python3 -m pytest candidate/aka_qualia/demo_smoke.py -v --tb=short; then
+              SMOKE_TESTS_PASSED=$((SMOKE_TESTS_PASSED + 1))
+            else
+              SMOKE_TESTS_FAILED=$((SMOKE_TESTS_FAILED + 1))
+            fi
+          fi
+          
+          # Look for other smoke tests
+          find . -name "*smoke*.py" -type f | while read -r smoke_file; do
+            if [[ "$smoke_file" != "./candidate/aka_qualia/demo_smoke.py" ]]; then
+              echo "Found additional smoke test: $smoke_file"
+              if python3 -c "import sys; sys.path.insert(0, '.'); exec(open('$smoke_file').read())" 2>/dev/null; then
+                SMOKE_TESTS_PASSED=$((SMOKE_TESTS_PASSED + 1))
+              else
+                SMOKE_TESTS_FAILED=$((SMOKE_TESTS_FAILED + 1))
+              fi
+            fi
+          done
+          
+          echo "smoke_passed=$SMOKE_TESTS_PASSED" >> $GITHUB_OUTPUT
+          echo "smoke_failed=$SMOKE_TESTS_FAILED" >> $GITHUB_OUTPUT
+          
+          if [[ $SMOKE_TESTS_FAILED -eq 0 ]]; then
+            echo "✅ Contract and smoke tests passed"
+            echo "contracts_status=passed" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Some contract/smoke tests failed"
+            echo "contracts_status=failed" >> $GITHUB_OUTPUT
+          fi
+
+      # Job 4: Self-Healing Dashboard Analysis (Read-Only)
+      - name: Run dashboard analysis
+        id: dashboard
+        env:
+          SELF_HEALING_DISABLED: 1
+          CI: true
+          GITHUB_ACTIONS: true
+        run: |
+          echo "🤖 Running self-healing dashboard analysis (read-only mode)..."
+          
+          if [[ -f tools/dashboard/self_healing_dashboard.py ]]; then
+            # Generate would-change analysis
+            python3 tools/dashboard/self_healing_dashboard.py \
+              --mode would-change --generate-artifacts --ci-mode 2>&1 | tee reports/dashboard/analysis.log || true
+            
+            # Run health check in read-only mode
+            python3 tools/dashboard/self_healing_dashboard.py \
+              --mode single --generate-artifacts --ci-mode 2>&1 | tee -a reports/dashboard/analysis.log || true
+            
+            # Extract metrics if available
+            if [[ -f reports/dashboard/would-change-report.json ]]; then
+              PROPOSED_FIXES=$(jq -r '.change_budget.proposed_fixes' reports/dashboard/would-change-report.json 2>/dev/null || echo 0)
+              RISK_LEVEL=$(jq -r '.change_budget.risk_level' reports/dashboard/would-change-report.json 2>/dev/null || echo "unknown")
+              SAFETY_SCORE=$(jq -r '.risk_assessment.safety_score' reports/dashboard/would-change-report.json 2>/dev/null || echo 0)
+              
+              echo "proposed_fixes=$PROPOSED_FIXES" >> $GITHUB_OUTPUT
+              echo "risk_level=$RISK_LEVEL" >> $GITHUB_OUTPUT
+              echo "safety_score=$SAFETY_SCORE" >> $GITHUB_OUTPUT
+              
+              echo "✅ Dashboard analysis complete: $PROPOSED_FIXES proposed fixes, risk: $RISK_LEVEL"
+              echo "dashboard_status=passed" >> $GITHUB_OUTPUT
+            else
+              echo "⚠️ Dashboard analysis completed but no report generated"
+              echo "dashboard_status=warning" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "❌ Dashboard not found"
+            echo "dashboard_status=missing" >> $GITHUB_OUTPUT
+          fi
+
+      # Generate comprehensive validation report
+      - name: Generate validation summary
+        run: |
+          echo "📊 Generating validation summary..."
+          
+          cat > reports/validation/nightly-safety-summary.md << 'EOF'
+          # Nightly Safety Validation Report
+          
+          **Generated**: $(date -u +%Y-%m-%dT%H:%M:%SZ)
+          **Commit**: ${{ github.sha }}
+          
+          ## Validation Results
+          
+          | Component | Status | Details |
+          |-----------|--------|---------|
+          | Audit Validation | ${{ steps.audit.outputs.audit_status }} | ${{ steps.audit.outputs.critical_issues }} critical issues |
+          | MATRIZ Compliance | ${{ steps.matriz.outputs.matriz_status }} | ${{ steps.matriz.outputs.lane_violations }} violations |  
+          | Contract Tests | ${{ steps.contracts.outputs.contracts_status }} | ${{ steps.contracts.outputs.contract_files_found }} contracts, ${{ steps.contracts.outputs.smoke_passed }}/${{ steps.contracts.outputs.smoke_failed }} smoke tests |
+          | Dashboard Analysis | ${{ steps.dashboard.outputs.dashboard_status }} | ${{ steps.dashboard.outputs.proposed_fixes }} fixes, risk: ${{ steps.dashboard.outputs.risk_level }} |
+          
+          ## Summary
+          
+          - **Security**: ${{ steps.audit.outputs.critical_issues }} critical security issues
+          - **Compliance**: ${{ steps.matriz.outputs.lane_violations }} lane violations  
+          - **Testing**: ${{ steps.contracts.outputs.smoke_passed }} smoke tests passed
+          - **Automation**: ${{ steps.dashboard.outputs.proposed_fixes }} proposed fixes available
+          - **Safety Score**: ${{ steps.dashboard.outputs.safety_score }}/100
+          
+          ## Recommendations
+          
+          - Review security scan results if critical issues > 0
+          - Address lane compliance violations if found
+          - Investigate smoke test failures
+          - Consider applying proposed fixes if safety score > 80
+          
+          EOF
+
+      # Upload all validation artifacts
+      - name: Upload validation artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: nightly-safety-validation
+          path: |
+            reports/validation/
+            reports/dashboard/
+            reports/audit/ 
+            reports/matriz/
+            reports/contracts/
+          retention-days: 30
+
+      # Create PR if significant issues found  
+      - name: Create validation PR
+        if: |
+          always() && 
+          inputs.create_pr == 'true' &&
+          (steps.audit.outputs.audit_status == 'failed' || 
+           steps.matriz.outputs.matriz_status == 'failed' || 
+           steps.contracts.outputs.contracts_status == 'failed')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "🚨 Creating validation PR due to failed checks..."
+          
+          # Create branch
+          BRANCH="safety-validation-$(date +%Y%m%d)"
+          git checkout -b "$BRANCH"
+          
+          # Add validation reports
+          git add reports/
+          git commit -m "🛡️ Nightly safety validation results $(date +%Y-%m-%d)
+
+          Validation Summary:
+          - Audit: ${{ steps.audit.outputs.audit_status }}
+          - MATRIZ: ${{ steps.matriz.outputs.matriz_status }}  
+          - Contracts: ${{ steps.contracts.outputs.contracts_status }}
+          - Dashboard: ${{ steps.dashboard.outputs.dashboard_status }}
+          
+          Critical Issues: ${{ steps.audit.outputs.critical_issues }}
+          Lane Violations: ${{ steps.matriz.outputs.lane_violations }}
+          Proposed Fixes: ${{ steps.dashboard.outputs.proposed_fixes }}
+          
+          Generated by nightly safety validation workflow." || true
+          
+          # Push branch
+          git push origin "$BRANCH" || true
+          
+          # Create PR
+          gh pr create \
+            --title "🛡️ Nightly Safety Validation Issues - $(date +%Y-%m-%d)" \
+            --body-file reports/validation/nightly-safety-summary.md \
+            --label "safety-validation" \
+            --label "automated" \
+            --label "needs-review" || true
+
+      # Notify on Discord/Slack if critical issues
+      - name: Notify on critical issues
+        if: |
+          always() && 
+          steps.audit.outputs.critical_issues > 0
+        run: |
+          echo "🚨 Critical security issues found: ${{ steps.audit.outputs.critical_issues }}"
+          echo "This would normally send alerts to Discord/Slack"
+          # Future: Add actual notification integration

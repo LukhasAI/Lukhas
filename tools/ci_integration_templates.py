@@ -5,6 +5,7 @@ Implements CI pipeline logic without execution - for workspace audit preparation
 
 Purpose: Provide CI integration templates for pre/post-MATRIZ audit validation.
 """
+
 from __future__ import annotations
 
 import json

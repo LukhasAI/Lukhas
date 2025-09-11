@@ -28,7 +28,7 @@ from collections import deque
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import asynccontextmanager
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional, Union
 
 # High-performance imports
@@ -59,7 +59,7 @@ except ImportError:
 
 
 try:
-    import lz4.frame  # Ultra-fast compression for large payloads
+    import lz4.frame as _  # Ultra-fast compression for large payloads
 
     COMPRESSION_AVAILABLE = True
 except ImportError:
@@ -217,7 +217,7 @@ class AsyncHashCalculator:
 
         # Generate cache key for data
         if isinstance(data, dict):
-            cache_key = f"dict_{hash(str(sorted(data.items())}"
+            cache_key = f"dict_{hash(str(sorted(data.items())))}"
             data_str = fast_json_dumps(data)
         elif isinstance(data, str):
             cache_key = f"str_{hash(data)}"
@@ -665,7 +665,9 @@ class ExtremeAuthPerformanceOptimizer:
                     "performance_level": (
                         "ultra_fast"
                         if metrics.total_duration_ms < 10
-                        else "fast" if metrics.is_target_met() else "needs_optimization"
+                        else "fast"
+                        if metrics.is_target_met()
+                        else "needs_optimization"
                     ),
                 },
                 "openai_scale_ready": metrics.is_target_met() and metrics.total_duration_ms < 15.0,
@@ -719,9 +721,9 @@ class ExtremeAuthPerformanceOptimizer:
                 "p99_latency_ms": p99,
                 "target_p95_ms": self.target_p95_latency_ms,
                 "improvement_vs_target": (
-                    f"{((self.target_p95_latency_ms - p95} / self.target_p95_latency_ms * 100}:.1f}%"
+                    f"{((self.target_p95_latency_ms - p95) / self.target_p95_latency_ms * 100):.1f}%"
                     if p95 <= self.target_p95_latency_ms
-                    else f"{((p95 - self.target_p95_latency_ms} / self.target_p95_latency_ms * 100}:.1f)}% OVER target"
+                    else f"{((p95 - self.target_p95_latency_ms) / self.target_p95_latency_ms * 100):.1f}% OVER target"
                 ),
             },
             "component_performance": component_stats,

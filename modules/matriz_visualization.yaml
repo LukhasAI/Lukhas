@@ -1,0 +1,136 @@
+identity:
+  name: matriz.visualization
+  layer: application
+  summary: matriz.visualization module with 3 classes and 21 functions
+  status: active
+  tier: 2
+discovery:
+  import_patterns:
+  - from matriz.visualization import export_visualization
+  - from matriz.visualization import main
+  - from matriz.visualization import get_style
+  - from matriz.visualization import clear_graph
+  - from matriz.visualization import create_sample_matriz_node
+  import_aliases:
+  - visualization
+  file_patterns:
+  - matriz/visualization/**/*.py
+  - tests/matriz/visualization/**/*.py
+  entry_points:
+  - matriz/visualization/__init__.py
+ownership:
+  owner: '@ArchitectureTeam'
+  lifecycle: evolving
+  last_review: '2025-09-10T11:32:19.474948+00:00'
+  promotion_rules: {}
+contracts:
+  api:
+    surface:
+    - 'python: matriz.visualization.export_visualization'
+    - 'python: matriz.visualization.main'
+    - 'python: matriz.visualization.get_style'
+    - 'python: matriz.visualization.clear_graph'
+    - 'python: matriz.visualization.create_sample_matriz_node'
+    - 'python: matriz.visualization.get_width_multiplier'
+    - 'python: matriz.visualization.add_node'
+    - 'python: matriz.visualization.get_size_multiplier'
+    - 'python: matriz.visualization.create_interactive_plot'
+    - 'python: matriz.visualization.search_nodes'
+    version: v1.0.0
+    compatibility:
+      backward: true
+      forward: minor
+  invariants:
+  - module loads without errors
+  - public API remains stable
+dependencies:
+  internal:
+    requires: []
+    provides:
+    - matriz.visualization
+  external:
+    libs:
+    - name: plotly
+      version: unknown
+      license: unknown
+      purpose: library dependency
+  coupling_metrics:
+    afferent: 0
+    efferent: 0
+    instability_index: 0.0
+runtime:
+  processes:
+    entrypoints:
+    - python -m matriz.visualization
+    concurrency_model: thread
+  config:
+    files:
+    - matriz/visualization/cognitive_chain.json
+    env_vars_required: []
+    feature_flags: []
+  resources:
+    cpu_limit: 0.5 vcpu
+    mem_limit: 256 MiB
+data_and_events:
+  data_classes:
+  - name: MATRIZGraphViewer
+    schema_ref: audit/SCHEMAS/matrizgraphviewer.json
+    description: MATRIZGraphViewer data class
+  - name: LinkTypeConfig
+    schema_ref: audit/SCHEMAS/linktypeconfig.json
+    description: LinkTypeConfig data class
+  - name: NodeTypeConfig
+    schema_ref: audit/SCHEMAS/nodetypeconfig.json
+    description: NodeTypeConfig data class
+  pii:
+    contains: false
+    classification: internal
+security:
+  secrets:
+    sources:
+    - env
+    files: []
+  authz_model: internal_only
+  compliance:
+    data_classification: internal
+observability:
+  logs:
+    format: structured_json
+    level: info
+  metrics:
+    exporter: prometheus
+    key_metrics:
+    - name: matriz_visualization_calls_total
+      target: '>0'
+      type: counter
+  slos:
+    error_rate_pct: 1.0
+    availability_pct: 99.0
+test_posture:
+  coverage:
+    current: 0.0
+    target: 0.8
+  tests:
+    unit: 0
+    integration: 0
+risk_and_change:
+  risks:
+  - id: R-MATRIZ-VISUALIZATION-GENERATED
+    title: Auto-generated schema may be incomplete
+    likelihood: medium
+    impact: low
+    mitigation: Manual review and enhancement required
+    status: open
+provenance:
+  schema_version: '1.0'
+  last_updated: '2025-09-10T11:32:19.474948+00:00'
+  source_paths:
+  - matriz/visualization
+  generated_by:
+    tool: lukhas-module-generator
+    version: 1.0.0
+    timestamp: '2025-09-10T11:32:19.474948+00:00'
+  validation:
+    schema_valid: true
+    last_validated: '2025-09-10T11:32:19.474948+00:00'
+    validator_version: 1.0.0

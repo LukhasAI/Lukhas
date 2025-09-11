@@ -4,8 +4,6 @@ Enhanced Monitoring System Capabilities Demo
 ===========================================
 Live demonstration of all monitoring system capabilities
 """
-import time
-import streamlit as st
 
 import asyncio
 import sys
@@ -133,7 +131,7 @@ class SystemCapabilitiesDemo:
                 print(f"   📋 {trigger.trigger_type.value}:")
                 print(f"      Strategy: {plan.rule.strategy.value}")
                 print(f"      Impact: {plan.estimated_impact:.3f}")
-                print(f"      Risk: {plan.risk_assessment.get('risk_score', 0)}:.3f}")
+                print(f"      Risk: {plan.risk_assessment.get('risk_score', 0):.3f}")
 
         print("\n🔗 STEP 4: Bio-Symbolic Coherence Check")
         bio_state = {"hormone_levels": stress_hormones, "homeostasis_state": "stressed"}
@@ -295,8 +293,8 @@ class SystemCapabilitiesDemo:
         )
 
         print(f"   📊 Learning Context Metrics: {len(context_metrics)}")
-        print(f"   🎯 Key Metric - Learning Readiness: {context_metrics.get('learning_readiness', 0)}:.3f}")
-        print(f"   🧠 Key Metric - Cognitive Load: {context_metrics.get('cognitive_load', 0)}:.3f}")
+        print(f"   🎯 Key Metric - Learning Readiness: {context_metrics.get('learning_readiness', 0):.3f}")
+        print(f"   🧠 Key Metric - Cognitive Load: {context_metrics.get('cognitive_load', 0):.3f}")
 
         print("\n🚀 STEP 5: Performance Enhancement Execution")
         if optimization_plans:
@@ -442,7 +440,7 @@ class SystemCapabilitiesDemo:
         social_coherence = await self.coherence_monitor.measure_coherence(bio_social_state, symbolic_social_state)
 
         print(
-            f"   🔗 Bio-Social Coherence: {sum(c.coherence_score for c in social_coherence) / len(social_coherence)}:.3f}"
+            f"   🔗 Bio-Social Coherence: {sum(c.coherence_score for c in social_coherence) / len(social_coherence):.3f}"
         )
 
         print("\n🚀 STEP 5: Social Enhancement Implementation")

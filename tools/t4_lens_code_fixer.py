@@ -3,6 +3,7 @@
 T4 Lens Code Quality Automation
 Based on the four pillars: Scale, Safety, Rigor, Experience
 """
+
 import hashlib
 import json
 import subprocess

@@ -650,7 +650,10 @@ class DreamGuidedToolFramework:
             session
             for session in self.dream_bridge.dream_sessions[-5:]  # Last 5 sessions
             if session.success
-            and (datetime.now(timezone.utc) - datetime.fromisoformat(session.session_id.split("_")[1]) < timedelta(hours=24))
+            and (
+                datetime.now(timezone.utc) - datetime.fromisoformat(session.session_id.split("_")[1])
+                < timedelta(hours=24)
+            )
         ]
 
         for session in recent_dream_sessions:
@@ -660,7 +663,6 @@ class DreamGuidedToolFramework:
                     keyword in insight_data.get("content", "").lower()
                     for keyword in ["tool", "method", "approach", "technique"]
                 ):
-
                     tool_insight = ToolInsight(
                         insight_id=f"dream_tool_{session.session_id}_{len(insights)}",
                         tool_id="",  # Will be matched later

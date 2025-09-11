@@ -46,23 +46,21 @@ except ImportError:
     def get_auth_system():
         return None
 
+
 # Import LUKHAS components - with fallbacks for development
 try:
-    from lukhas.branding_bridge import (
-        get_system_signature,
-        get_trinity_context,
-        initialize_branding
-    )
+    from lukhas.branding_bridge import get_system_signature, get_trinity_context, initialize_branding
 except ImportError:
     # Development fallbacks
     def get_system_signature():
         return "LUKHAS AI v2.0.0 - Consciousness Technology Platform"
-    
+
     def get_trinity_context():
         return {"framework": "⚛️🧠🛡️ Trinity Framework - Identity・Consciousness・Guardian"}
-    
+
     async def initialize_branding():
         pass
+
 
 # Configure logging
 logging.basicConfig(
@@ -588,7 +586,7 @@ async def startup_event():
         logger.info("✅ Authentication system initialized")
 
         # For development: generate a dev key if none exist
-        if hasattr(auth_system, '_api_keys_mem') and not auth_system._api_keys_mem:
+        if hasattr(auth_system, "_api_keys_mem") and not auth_system._api_keys_mem:
             dev_key_id, dev_key_secret = auth_system.generate_api_key("dev_user", ["read", "write"])
             dev_token = base64.b64encode(f"{dev_key_id}:{dev_key_secret}".encode()).decode()
             logger.warning("=" * 80)

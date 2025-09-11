@@ -6,14 +6,11 @@ Provides integration wrapper for connecting the quantum neuro symbolic engine to
 import hashlib
 import logging
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 try:
-    from .neuro_symbolic_engine import (
-        CausalReasoningModule,
-        QIInspiredAttention,
-        QINeuroSymbolicEngine)
+    from .neuro_symbolic_engine import CausalReasoningModule, QIInspiredAttention, QINeuroSymbolicEngine
 
     NEURO_SYMBOLIC_AVAILABLE = True
 except ImportError as e:

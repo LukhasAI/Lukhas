@@ -48,8 +48,9 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Optional
 
-from .base_manager import BaseMemoryManager
 from lukhas.memory.folds.fold_engine import MemoryIntegrityLedger
+
+from .base_manager import BaseMemoryManager
 
 
 class DreamMemoryManager(BaseMemoryManager):

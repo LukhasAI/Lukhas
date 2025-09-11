@@ -2,8 +2,6 @@
 # Empathic response generator for LUKHAS AI based on symbolic dream and emotion input
 
 from typing import TYPE_CHECKING
-import streamlit as st
-from typing import Optional
 
 if TYPE_CHECKING:
     from candidate.orchestration.brain.spine.trait_manager import load_traits
@@ -85,7 +83,7 @@ def trait_bar(trait_name, value):
     bar = "█" * int(value * 10)
     space = " " * (10 - len(bar))
     emoji = EMOJI_MAP.get(trait_name, "")
-    return f"{trait_name.upper()}:18}: {bar}{space}  ({value:.2f}) {emoji}"
+    return f"{trait_name.upper():18}: {bar}{space}  ({value:.2f}) {emoji}"
 
 
 def display_visual_traits():

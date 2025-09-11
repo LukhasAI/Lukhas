@@ -27,7 +27,7 @@ def fix_fstring_parentheses(content: str) -> tuple[str, int]:
         # Only fix if params_part is clearly incomplete (no closing paren expected)
         if not params_part.strip() or params_part.count("(") > params_part.count(")"):
             fixes_count += 1
-            return f"{{{var_part}({params_part})}}"
+            return f"{{{var_part}({params_part})}"
         return match.group(0)
 
     content = pattern1.sub(fix_pattern1, content)

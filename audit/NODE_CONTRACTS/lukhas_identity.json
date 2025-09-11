@@ -1,0 +1,127 @@
+{
+  "module": "lukhas.identity",
+  "version": "1.0",
+  "generated": "2025-09-10T13:00:00Z",
+  "description": "Authentication, authorization, user management, and security signal contracts",
+  
+  "emit": [
+    {
+      "signal": "identity.auth.token_validated",
+      "payload": {
+        "token_id": "string",
+        "user_id": "string",
+        "scopes": "array[string]",
+        "expires_at": "number",
+        "validation_duration_ms": "number",
+        "timestamp": "number"
+      },
+      "frequency": "very_high",
+      "criticality": "high"
+    },
+    {
+      "signal": "identity.auth.token_invalid", 
+      "payload": {
+        "token_id": "string",
+        "reason": "enum[expired,malformed,revoked,insufficient_scope]",
+        "attempted_scopes": "array[string]",
+        "client_ip": "string", 
+        "timestamp": "number"
+      },
+      "frequency": "medium",
+      "criticality": "high"
+    },
+    {
+      "signal": "identity.user.login_attempt",
+      "payload": {
+        "user_id": "string",
+        "login_method": "enum[password,webauthn,oauth,api_key]",
+        "success": "boolean",
+        "client_ip": "string",
+        "user_agent": "string",
+        "risk_score": "number[0-1]",
+        "timestamp": "number"
+      },
+      "frequency": "high", 
+      "criticality": "high"
+    },
+    {
+      "signal": "identity.security.anomaly_detected",
+      "payload": {
+        "anomaly_type": "enum[brute_force,credential_stuffing,impossible_travel,device_mismatch]",
+        "user_id": "string",
+        "confidence": "number[0-1]",
+        "affected_resources": "array[string]",
+        "recommended_action": "string",
+        "timestamp": "number"
+      },
+      "frequency": "low",
+      "criticality": "critical"
+    }
+  ],
+  
+  "receive": [
+    {
+      "signal": "api.auth.required",
+      "handler": "validate_request_credentials",
+      "required": true,
+      "timeout_ms": 100
+    },
+    {
+      "signal": "governance.policy.access_control_updated",
+      "handler": "refresh_authorization_rules", 
+      "required": true,
+      "timeout_ms": 500
+    },
+    {
+      "signal": "orchestration.shutdown.prepare",
+      "handler": "revoke_all_active_sessions",
+      "required": true,
+      "timeout_ms": 2000
+    }
+  ],
+  
+  "glyphs": {
+    "authentication_flow_diagram": {
+      "type": "sequence_diagram",
+      "shows": "authentication and authorization flows",
+      "updates_on": ["auth.token_validated", "auth.token_invalid", "user.login_attempt"]
+    },
+    "security_threat_radar": {
+      "type": "radar_chart", 
+      "shows": "current security threat levels and trends",
+      "updates_on": ["security.anomaly_detected", "user.login_attempt"]
+    }
+  },
+  
+  "invariants": [
+    "all_tokens_have_expiration_times",
+    "failed_login_attempts_trigger_rate_limiting", 
+    "security_anomalies_immediately_logged",
+    "user_permissions_never_escalate_without_approval",
+    "authentication_events_immutably_audited", 
+    "token_revocation_immediately_effective_system_wide"
+  ],
+  
+  "error_modes": [
+    {
+      "code": "IDENTITY_AUTH_SERVICE_UNAVAILABLE",
+      "description": "Authentication backend unreachable",
+      "recovery": "fail_closed_deny_all_requests",
+      "emit_signal": "identity.error.service_unavailable"
+    },
+    {
+      "code": "IDENTITY_BRUTE_FORCE_DETECTED",
+      "description": "Excessive failed login attempts detected", 
+      "recovery": "temporarily_lock_account_and_alert",
+      "emit_signal": "identity.security.brute_force_detected"
+    }
+  ],
+  
+  "slos": {
+    "availability": "99.99%",
+    "auth_latency_p95": "100ms",
+    "auth_latency_p99": "200ms", 
+    "false_positive_rate": "0.01%",
+    "account_lockout_resolution_time": "300s"
+  }
+}

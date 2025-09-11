@@ -24,7 +24,8 @@ GCS_PREFIX = os.environ.get("PROV_GCS_PREFIX", "lukhas/provenance/")
 #  Integrate with signed attestation from qi.ops.provenance
 _HAVE_ATTEST = False
 try:
-    from qi.ops.provenance import attest as _attest, merkle_chain
+    from qi.ops.provenance import attest as _attest
+    from qi.ops.provenance import merkle_chain
 
     _HAVE_ATTEST = True
 except Exception:

@@ -17,15 +17,11 @@
 ║ Authors: LUKHAS Bio-Symbolic Team | Claude Code
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np

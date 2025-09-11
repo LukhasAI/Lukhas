@@ -10,9 +10,6 @@ Enhanced Swarm System with Real Agent Behaviors
 Integrated with Colony Coherence Upgrade
 Fixes the current implementation gaps and aligns with BaseColony infrastructure
 """
-from consciousness.qi import qi
-import streamlit as st
-
 import asyncio
 import logging
 import random

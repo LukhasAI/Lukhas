@@ -2,6 +2,7 @@
 LUKHAS Brand Sentiment Intelligence Engine - Trinity Framework (⚛️🧠🛡️)
 Advanced sentiment analysis and brand perception tracking for LUKHAS AI
 """
+
 import re
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
@@ -11,11 +12,12 @@ from typing import Any, Optional
 
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
-    
+
     This is a placeholder for functionality that needs to be implemented.
     Replace this stub with the actual implementation.
     """
     raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+
 
 class SentimentPolarity(Enum):
     VERY_POSITIVE = "very_positive"
@@ -714,7 +716,9 @@ class BrandSentimentEngine:
                 "trend": (
                     "improving"
                     if dimension_scores[-1] > dimension_scores[0]
-                    else "declining" if len(dimension_scores) > 1 else "stable"
+                    else "declining"
+                    if len(dimension_scores) > 1
+                    else "stable"
                 ),
             }
 
@@ -727,7 +731,9 @@ class BrandSentimentEngine:
                 "trend": (
                     "improving"
                     if component_scores[-1] > component_scores[0]
-                    else "declining" if len(component_scores) > 1 else "stable"
+                    else "declining"
+                    if len(component_scores) > 1
+                    else "stable"
                 ),
             }
 
@@ -740,7 +746,9 @@ class BrandSentimentEngine:
                 "trend": (
                     "improving"
                     if overall_sentiments[-1] > overall_sentiments[0]
-                    else "declining" if len(overall_sentiments) > 1 else "stable"
+                    else "declining"
+                    if len(overall_sentiments) > 1
+                    else "stable"
                 ),
             },
             "average_confidence": sum(confidences) / len(confidences),
@@ -879,7 +887,9 @@ class BrandSentimentEngine:
                     "performance_level": (
                         "excellent"
                         if dimension_data["average"] > 0.7
-                        else "good" if dimension_data["average"] > 0.3 else "needs_improvement"
+                        else "good"
+                        if dimension_data["average"] > 0.3
+                        else "needs_improvement"
                     ),
                 }
 
@@ -999,13 +1009,13 @@ if __name__ == "__main__":
         top_dimensions = sorted(result.brand_dimensions.items(), key=lambda x: abs(x[1]), reverse=True)[:3]
 
         print("Top Brand Dimensions:")
-        for dimension, score in top_dimensions:
+        for _dimension, score in top_dimensions:
             if score != 0.0:
                 print(fix_later)
 
         # Show Trinity sentiment
         print("Trinity Sentiment:")
-        for component, score in result.trinity_sentiment.items():
+        for score in result.trinity_sentiment.values():
             if score != 0.0:
                 print(fix_later)
 

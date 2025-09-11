@@ -23,7 +23,7 @@ import asyncio
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from core.common import get_logger
+from lukhas.core.common import get_logger
 
 
 class ComplianceValidator:

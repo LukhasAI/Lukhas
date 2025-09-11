@@ -19,8 +19,6 @@ Features:
 - Function calling validation and security
 - Error handling with detailed error codes
 """
-import streamlit as st
-
 import asyncio
 import hashlib
 import logging

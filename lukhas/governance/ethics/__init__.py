@@ -25,5 +25,5 @@ __all__ = [
     "EthicsEngine",
     "SafetyChecker",
     "EthicalDecision",
-    "EthicalSeverity"
+    "EthicalSeverity",
 ]

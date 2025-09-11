@@ -2,7 +2,6 @@
 MATRIZ Adapter for Monitoring Module
 Emits MATRIZ-compliant nodes for monitoring events
 """
-import streamlit as st
 
 import json
 import time

@@ -2,6 +2,7 @@
 """
 Migration script to update imports to use common utilities
 """
+
 import re
 from pathlib import Path
 

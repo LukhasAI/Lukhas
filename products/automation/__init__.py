@@ -7,6 +7,7 @@
 
 Note: ΛBot integration from archive pending evaluation.
 """
+
 import streamlit as st
 
 __all__ = ["ecosystem", "github_app", "lambda_bot", "workflows"]

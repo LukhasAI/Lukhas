@@ -5,6 +5,7 @@
 =====================
 Safely removes identified redundant code while preserving functionality.
 """
+
 import ast
 import json
 import logging

@@ -293,7 +293,7 @@ class NuclearFStringFixer:
         print(f"Files processed: {total_files}")
         print(f"Files successfully processed: {successful}")
         print(f"Total fixes applied: {total_fixes}")
-        print(f"Validation success rate: {(validation_passed/total_files*100}:.1f}%")
+        print(f"Validation success rate: {(validation_passed/total_files*100:.1f}%")
 
         # Risk breakdown
         risk_counts = {}

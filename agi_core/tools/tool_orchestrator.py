@@ -9,13 +9,14 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
 
 class OrchestrationStrategy(Enum):
     """Strategies for tool orchestration."""
+
     SEQUENTIAL = "sequential"
     PARALLEL = "parallel"
     PIPELINE = "pipeline"
@@ -25,6 +26,7 @@ class OrchestrationStrategy(Enum):
 
 class ToolStatus(Enum):
     """Status of a tool in the orchestration."""
+
     IDLE = "idle"
     RUNNING = "running"
     COMPLETED = "completed"
@@ -39,7 +41,7 @@ class ToolTask:
     task_id: str
     tool_name: str
     function_name: str
-    parameters: Dict[str, Any] = field(default_factory=dict)
+    parameters: dict[str, Any] = field(default_factory=dict)
     priority: int = 0  # Higher number = higher priority
     timeout: Optional[float] = None
     retry_count: int = 0
@@ -95,17 +97,13 @@ class ToolOrchestrator:
     def __init__(self, context: Optional[OrchestrationContext] = None):
         """Initialize the tool orchestrator."""
         self.context = context or OrchestrationContext()
-        self.registered_tools: Dict[str, Dict[str, Callable]] = {}
-        self.active_tasks: Dict[str, ToolTask] = {}
-        self.completed_tasks: List[ToolTask] = []
-        self.task_queue: List[ToolTask] = []
-        self.orchestration_history: List[Dict[str, Any]] = []
+        self.registered_tools: dict[str, dict[str, Callable]] = {}
+        self.active_tasks: dict[str, ToolTask] = {}
+        self.completed_tasks: list[ToolTask] = []
+        self.task_queue: list[ToolTask] = []
+        self.orchestration_history: list[dict[str, Any]] = []
 
-    def register_tool(
-        self,
-        tool_name: str,
-        tool_functions: Dict[str, Callable]
-    ) -> None:
+    def register_tool(self, tool_name: str, tool_functions: dict[str, Callable]) -> None:
         """Register a tool with its available functions."""
         self.registered_tools[tool_name] = tool_functions
 
@@ -116,10 +114,10 @@ class ToolOrchestrator:
         self,
         tool_name: str,
         function_name: str,
-        parameters: Optional[Dict[str, Any]] = None,
+        parameters: Optional[dict[str, Any]] = None,
         priority: int = 0,
         timeout: Optional[float] = None,
-        task_id: Optional[str] = None
+        task_id: Optional[str] = None,
     ) -> ToolTask:
         """Create a new tool task."""
         if task_id is None:
@@ -131,7 +129,7 @@ class ToolOrchestrator:
             function_name=function_name,
             parameters=parameters or {},
             priority=priority,
-            timeout=timeout or self.context.default_timeout
+            timeout=timeout or self.context.default_timeout,
         )
 
         return task
@@ -157,10 +155,7 @@ class ToolOrchestrator:
 
             # Execute with timeout
             if asyncio.iscoroutinefunction(func):
-                result = await asyncio.wait_for(
-                    func(**task.parameters),
-                    timeout=task.timeout
-                )
+                result = await asyncio.wait_for(func(**task.parameters), timeout=task.timeout)
             else:
                 result = func(**task.parameters)
 
@@ -188,10 +183,8 @@ class ToolOrchestrator:
         return task
 
     async def orchestrate_tasks(
-        self,
-        tasks: List[ToolTask],
-        strategy: Optional[OrchestrationStrategy] = None
-    ) -> List[ToolTask]:
+        self, tasks: list[ToolTask], strategy: Optional[OrchestrationStrategy] = None
+    ) -> list[ToolTask]:
         """Orchestrate multiple tool tasks."""
         strategy = strategy or self.context.strategy
 
@@ -206,7 +199,7 @@ class ToolOrchestrator:
         else:  # ADAPTIVE
             return await self._execute_adaptive(tasks)
 
-    async def _execute_sequential(self, tasks: List[ToolTask]) -> List[ToolTask]:
+    async def _execute_sequential(self, tasks: list[ToolTask]) -> list[ToolTask]:
         """Execute tasks sequentially."""
         results = []
         for task in tasks:
@@ -214,7 +207,7 @@ class ToolOrchestrator:
             results.append(result)
         return results
 
-    async def _execute_parallel(self, tasks: List[ToolTask]) -> List[ToolTask]:
+    async def _execute_parallel(self, tasks: list[ToolTask]) -> list[ToolTask]:
         """Execute tasks in parallel."""
         # Limit concurrent tasks
         max_concurrent = self.context.max_concurrent_tools
@@ -227,13 +220,13 @@ class ToolOrchestrator:
             # Execute in batches
             results = []
             for i in range(0, len(tasks), max_concurrent):
-                batch = tasks[i:i + max_concurrent]
+                batch = tasks[i : i + max_concurrent]
                 batch_coroutines = [self.execute_task(task) for task in batch]
                 batch_results = await asyncio.gather(*batch_coroutines)
                 results.extend(batch_results)
             return results
 
-    async def _execute_pipeline(self, tasks: List[ToolTask]) -> List[ToolTask]:
+    async def _execute_pipeline(self, tasks: list[ToolTask]) -> list[ToolTask]:
         """Execute tasks in pipeline mode (output of one feeds into next)."""
         results = []
         previous_result = None
@@ -249,13 +242,13 @@ class ToolOrchestrator:
 
         return results
 
-    async def _execute_priority_based(self, tasks: List[ToolTask]) -> List[ToolTask]:
+    async def _execute_priority_based(self, tasks: list[ToolTask]) -> list[ToolTask]:
         """Execute tasks based on priority."""
         # Sort by priority (highest first)
         sorted_tasks = sorted(tasks, key=lambda t: t.priority, reverse=True)
         return await self._execute_sequential(sorted_tasks)
 
-    async def _execute_adaptive(self, tasks: List[ToolTask]) -> List[ToolTask]:
+    async def _execute_adaptive(self, tasks: list[ToolTask]) -> list[ToolTask]:
         """Execute tasks using adaptive strategy."""
         # Simple adaptive logic: use parallel for independent tasks,
         # sequential for dependent tasks
@@ -275,11 +268,11 @@ class ToolOrchestrator:
 
         return None
 
-    def get_active_tasks(self) -> List[ToolTask]:
+    def get_active_tasks(self) -> list[ToolTask]:
         """Get all currently active tasks."""
         return list(self.active_tasks.values())
 
-    def get_completed_tasks(self) -> List[ToolTask]:
+    def get_completed_tasks(self) -> list[ToolTask]:
         """Get all completed tasks."""
         return self.completed_tasks.copy()
 
@@ -300,10 +293,10 @@ class ToolOrchestrator:
 
 # Convenience functions for quick orchestration
 async def quick_tool_orchestration(
-    tool_functions: Dict[str, Callable],
-    function_calls: List[Dict[str, Any]],
-    strategy: OrchestrationStrategy = OrchestrationStrategy.PARALLEL
-) -> List[ToolTask]:
+    tool_functions: dict[str, Callable],
+    function_calls: list[dict[str, Any]],
+    strategy: OrchestrationStrategy = OrchestrationStrategy.PARALLEL,
+) -> list[ToolTask]:
     """Quick tool orchestration for simple use cases."""
     orchestrator = ToolOrchestrator()
 
@@ -317,7 +310,7 @@ async def quick_tool_orchestration(
             tool_name="quick_tool",
             function_name=call["function"],
             parameters=call.get("parameters", {}),
-            task_id=f"quick_task_{i}"
+            task_id=f"quick_task_{i}",
         )
         tasks.append(task)
 
@@ -326,16 +319,10 @@ async def quick_tool_orchestration(
 
 
 def create_orchestration_context(
-    strategy: OrchestrationStrategy = OrchestrationStrategy.ADAPTIVE,
-    max_concurrent_tools: int = 5,
-    **kwargs
+    strategy: OrchestrationStrategy = OrchestrationStrategy.ADAPTIVE, max_concurrent_tools: int = 5, **kwargs
 ) -> OrchestrationContext:
     """Create an orchestration context with common settings."""
-    return OrchestrationContext(
-        strategy=strategy,
-        max_concurrent_tools=max_concurrent_tools,
-        **kwargs
-    )
+    return OrchestrationContext(strategy=strategy, max_concurrent_tools=max_concurrent_tools, **kwargs)
 
 
 # Export main classes and functions
@@ -348,5 +335,5 @@ __all__ = [
     "ExecutionPlan",
     "ToolChain",
     "quick_tool_orchestration",
-    "create_orchestration_context"
+    "create_orchestration_context",
 ]

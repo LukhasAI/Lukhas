@@ -17,7 +17,7 @@ TRINITY FRAMEWORK:
 
 import logging
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -34,8 +34,7 @@ class DreamOrchestrator:
         self.session_counter = 0
         logger.info("🎭 Dream Orchestrator initialized - Trinity Framework active")
 
-    def orchestrate_dream_session(self, user_context: Optional[dict] = None,
-                                dream_type: str = "lucid") -> str:
+    def orchestrate_dream_session(self, user_context: Optional[dict] = None, dream_type: str = "lucid") -> str:
         """
         ⚛️ Identity-driven dream session orchestration.
 
@@ -56,11 +55,7 @@ class DreamOrchestrator:
             "status": "orchestrating",
             "started_at": datetime.now(timezone.utc).isoformat(),
             "trinity_compliance": True,
-            "components": {
-                "adapter_active": False,
-                "memory_bridge_active": False,
-                "consciousness_link_active": False
-            }
+            "components": {"adapter_active": False, "memory_bridge_active": False, "consciousness_link_active": False},
         }
 
         self.active_sessions[session_id] = session_config
@@ -95,7 +90,7 @@ class DreamOrchestrator:
             "session_id": session_id,
             "coordination_status": "complete",
             "active_components": sum(session["components"].values()),
-            "trinity_validated": True
+            "trinity_validated": True,
         }
 
         logger.info(f"🧠 Consciousness integration coordinated for {session_id}")
@@ -122,7 +117,7 @@ class DreamOrchestrator:
             "component_health": session["components"],
             "trinity_compliance": session.get("trinity_compliance", False),
             "ethical_status": "validated",
-            "overall_health": "excellent"
+            "overall_health": "excellent",
         }
 
         logger.info(f"🛡️ Dream health monitored for {session_id}")
@@ -154,7 +149,7 @@ class DreamOrchestrator:
             "conclusion_status": "successful",
             "total_duration": self._calculate_uptime(session["started_at"]),
             "archived": True,
-            "trinity_validated": True
+            "trinity_validated": True,
         }
 
         logger.info(f"🎭 Dream orchestration concluded: {session_id}")
@@ -172,7 +167,7 @@ class DreamOrchestrator:
             "active_sessions": len(self.active_sessions),
             "total_sessions_processed": len(self.orchestration_history),
             "system_status": "operational",
-            "trinity_framework_active": True
+            "trinity_framework_active": True,
         }
 
 

@@ -2,6 +2,7 @@
 Voice Synthesis Adapter for DocuTutor.
 Integrates with Lukhas AGI voice capabilities for audio documentation interaction.
 """
+
 import json
 from dataclasses import dataclass
 from datetime import datetime, timezone

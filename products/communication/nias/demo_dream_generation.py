@@ -152,7 +152,7 @@ async def generate_demo_dream():
         for emotion, value in dream.emotional_profile.items():
             if value > 0:
                 bar = "●" * int(value * 10) + "○" * (10 - int(value * 10))
-                print(f"   {emotion.capitalize()}:8s} {bar} {value:.0%}")
+                print(f"   {emotion.capitalize():8s} {bar} {value:.0%}")
 
         print("\n🎯 GENTLE INVITATION:")
         print(f"   '{dream.call_to_action['text']}'")

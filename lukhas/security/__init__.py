@@ -17,6 +17,7 @@
 ║ password hashing, token generation, and other security primitives.
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
+
 import random
 
 import streamlit as st

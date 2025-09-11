@@ -15,7 +15,7 @@ class ClaudeMaxCoordinator:
             "adapter": "adapter-integration-specialist",
             "orchestrator": "context-orchestrator-specialist",
             "testing": "testing-devops-specialist",
-            "ux": "ux-feedback-specialist"
+            "ux": "ux-feedback-specialist",
         }
         self.max_concurrent = 6  # Max x20 plan limit
 
@@ -27,7 +27,7 @@ class ClaudeMaxCoordinator:
             ("consent", "Request and log consent"),
             ("adapter", "Connect to Gmail and Dropbox"),
             ("orchestrator", "Coordinate multi-AI analysis"),
-            ("ux", "Display results and collect feedback")
+            ("ux", "Display results and collect feedback"),
         ]
 
         for agent_key, task in workflow:
@@ -51,6 +51,7 @@ class ClaudeMaxCoordinator:
         print(f"⚡ {agent_name} working...")
         await asyncio.sleep(2)
         print(f"✅ {agent_name} task complete")
+
 
 if __name__ == "__main__":
     coordinator = ClaudeMaxCoordinator()

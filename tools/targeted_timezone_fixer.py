@@ -5,6 +5,7 @@ Targeted Timezone Import Fixer
 Future-proof addition of missing timezone imports for consciousness modules
 that need UTC datetime functionality.
 """
+
 import ast
 import re
 from pathlib import Path
@@ -33,7 +34,7 @@ class TargetedTimezoneFixer:
         import_patterns = [
             r"from datetime import.*timezone",
             r"import datetime.*timezone",
-            r"from datetime import datetime, timezone"
+            r"from datetime import datetime, timezone",
         ]
 
         has_import = any(re.search(pattern, content) for pattern in import_patterns)
@@ -68,8 +69,7 @@ class TargetedTimezoneFixer:
                 continue
 
             # Track imports
-            if (stripped.startswith("import ") or
-                (stripped.startswith("from ") and " import " in stripped)):
+            if stripped.startswith("import ") or (stripped.startswith("from ") and " import " in stripped):
                 last_import_idx = i
             elif stripped and not stripped.startswith("#"):
                 # Found first non-import line
@@ -139,7 +139,7 @@ class TargetedTimezoneFixer:
             "candidate/memory/causal/causal_reasoning.py",
             "candidate/bridge/openai/openai_adapter.py",
             "candidate/governance/ethics/drift_detector.py",
-            "lukhas/core/glyph.py"
+            "lukhas/core/glyph.py",
         ]
 
         print("🔧 TARGETED TIMEZONE IMPORT FIXER")

@@ -7,13 +7,16 @@
 # ═══════════════════════════════════════════════════════════════════════════
 
 import random  # For request ID generation
+
 # from flask_cors import CORS # CORS might be handled by unified_api's app instance
 import time
 from typing import Any, Optional
 
-from flask import \
-    jsonify  # Flask import remains, though app is from unified_api
-from flask import request, session
+from flask import (
+    jsonify,  # Flask import remains, though app is from unified_api
+    request,
+    session,
+)
 
 # Initialize ΛTRACE logger for this specific API module
 
@@ -28,11 +31,13 @@ logger.info("ΛTRACE: Initializing onboarding_api module.")
 try:
     # Assuming EnhancedOnboardingManager, OnboardingStage,
     # OnboardingPersonality are correctly located
-    from ..core.onboarding.enhanced_onboarding import (
-        EnhancedOnboardingManager, OnboardingStage)
+    from ..core.onboarding.enhanced_onboarding import EnhancedOnboardingManager, OnboardingStage
+
     # `app` and `api_response` are imported from unified_api, suggesting this file defines routes on that app
-    from .unified_api import api_response  # `app` is the Flask app instance
-    from .unified_api import app
+    from .unified_api import (
+        api_response,  # `app` is the Flask app instance
+        app,
+    )
 
     logger.info("ΛTRACE: Successfully imported EnhancedOnboardingManager, OnboardingStage, "
                 "OnboardingPersonality, and unified_api components(app, api_response)."
@@ -782,9 +787,9 @@ if app:
             # Calculate total suggestions accurately
             total_sugg_count = 0
             if isinstance(generated_suggestions, dict):
-                for _cat_key, cat_val in generated_suggestions.items():
+                for cat_val in generated_suggestions.values():
                     if isinstance(cat_val, dict):
-                        for _sugg_type_key, sugg_list in cat_val.items():
+                        for sugg_list in cat_val.values():
                             if isinstance(sugg_list, list):
                                 total_sugg_count += len(sugg_list)
             logger.info(
