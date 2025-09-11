@@ -21,7 +21,11 @@ LAMBDA_CORE_PATH = LUKHAS_ROOT / "lambda_products_pack" / "lambda_core"
 # Avoid mutating sys.path at import-time; paths are resolved via filesystem
 
 
-class AuthenticationIntegration:
+from lukhas.interfaces.identity import \
+    AuthenticationIntegration as AuthenticationIntegrationInterface
+
+
+class AuthenticationIntegration(AuthenticationIntegrationInterface):
     """
     🎖️ LUKHAS Authentication Integration Bridge
 
