@@ -32,6 +32,24 @@ jobs:
           python -m pip install --upgrade pip
           pip install -c constraints.txt -r requirements.txt
 
+      - name: Security Scanning - Gitleaks (non-blocking)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+        continue-on-error: true
+        with:
+          config-path: .gitleaks.toml
+
+      - name: SBOM Generation (Guardian System)
+        run: |
+          # Generate Software Bill of Materials for compliance
+          pip install cyclonedx-bom
+          mkdir -p reports/sbom
+          cyclonedx-bom -o reports/sbom/cyclonedx.json --validate --output-format=json --output-reproducible
+          echo "SBOM generated: reports/sbom/cyclonedx.json"
+        continue-on-error: true
+
       - name: Install Ruff (pinned)
         run: |
           python -m pip install --upgrade pip
@@ -64,6 +82,8 @@ jobs:
           PYTHONPATH=. python3 tools/ci/runtime_lane_guard.py
           # Grep tripwire - catch new dynamic imports
           bash tools/ci/grep_lane_tripwire.sh
+          # Guardian System v1.0.0 Security Compliance Check
+          bash tools/ci/security_compliance_check.sh || echo "Security compliance check completed with warnings"
           # Force Ruff to read our config to ensure per-file ignores apply
           ruff check --config pyproject.toml serve tests/contract
           # Run architectural lint checks with proper PYTHONPATH
