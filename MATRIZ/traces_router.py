@@ -149,7 +149,7 @@ async def list_traces() -> JSONResponse:
                         {
                             "trace_id": trace_data.get("trace_id", trace_file.stem),
                             "source": "matriz",
-                            "file": str(trace_file.relative_to(Path.cwd())),
+                            "file": str(trace_file),
                             "size": trace_file.stat().st_size,
                         }
                     )
@@ -163,7 +163,7 @@ async def list_traces() -> JSONResponse:
                         {
                             "trace_id": trace_data.get("trace_id", golden_file.stem),
                             "source": "golden",
-                            "file": str(golden_file.relative_to(Path.cwd())),
+                            "file": str(golden_file),
                             "size": golden_file.stat().st_size,
                         }
                     )

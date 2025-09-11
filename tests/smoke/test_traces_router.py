@@ -16,7 +16,7 @@ if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
 # Import the router
-from matriz.traces_router import router
+from MATRIZ.traces_router import router
 
 
 @pytest.fixture
@@ -67,7 +67,7 @@ def test_traces_list_endpoint_exists(test_client):
     assert isinstance(data["count"], int)
 
 
-@patch("matriz.traces_router.GOLDEN_TRACES_PATH")
+@patch("MATRIZ.traces_router.GOLDEN_TRACES_PATH")
 def test_golden_trace_fallback(mock_golden_path, test_client):
     """Test that golden traces are used as fallback when MATRIZ traces unavailable."""
     # Mock golden traces directory with test data
@@ -77,7 +77,7 @@ def test_golden_trace_fallback(mock_golden_path, test_client):
     # Mock file loading
     test_trace_data = {"trace_id": "test_golden_trace", "module": "test_module", "status": "success"}
 
-    with patch("matriz.traces_router.load_trace_file") as mock_load:
+    with patch("MATRIZ.traces_router.load_trace_file") as mock_load:
         mock_load.return_value = test_trace_data
 
         response = test_client.get("/traces/latest")
