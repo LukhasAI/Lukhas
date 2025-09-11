@@ -75,11 +75,11 @@ Repository = "https://github.com/LukhasAI/Lukhas"
 Issues = "https://github.com/LukhasAI/Lukhas/issues"
 
 [tool.setuptools]
-packages = ["lukhas"]
+packages = ["lukhas", "matriz"]
 
 [tool.pytest.ini_options]
 minversion = "8.0"
-testpaths = ["tests_new"]
+testpaths = ["tests_new", "tests"]
 pythonpath = ["."]
 python_files = ["test_*.py", "*_test.py"]
 python_classes = ["Test*"]
@@ -96,6 +96,10 @@ markers = [
     "datetime: Datetime UTC compliance tests",
     "imports: Import structure validation",
     "consciousness: Consciousness system tests",
+    "tier1: fast, blocking MATRIZ smoke",
+    "matriz: MATRIZ subsystem tests",
+    "smoke: tiny health checks",
+    "golden: deterministic trace tests",
 ]
 filterwarnings = [
     "ignore::DeprecationWarning",
