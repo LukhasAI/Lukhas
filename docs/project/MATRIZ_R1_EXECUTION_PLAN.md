@@ -122,13 +122,14 @@ Env override: `MATRIZ_TRACES_DIR` for runtime; default GOLD=`tests/golden/tier1`
 - **Stream D**: D1 → Jules07, D2 → Jules08, D3 → Jules09
 
 ### AI Agent Tasks (Specialized):
-- **A-CC1** → Claude Code (Multi-file planning for lane integrity)
+- **A-CC1** → legacy-integration-specialist (Quarantine archaeology & API promotion)
 - **B-CX1** → Codex (FastAPI router implementation)  
-- **C-CC1** → Claude Code (Security documentation & dependency management)
+- **C-CC1** → guardian-compliance-officer (Security docs & compliance systems)
 
 ### Agent Specializations:
 - **Jules01-Jules10**: Focused implementation tasks, single-file changes, specific fixes
-- **Claude Code**: Multi-file planning, documentation updates, security configurations
+- **legacy-integration-specialist**: Obsolete file analysis, quarantine archaeology, API integration planning
+- **guardian-compliance-officer**: Security documentation, compliance frameworks, dependency management
 - **Codex**: API implementation, shell scripts, CI automation, code generation
 
 ## Stream A: Lane Integrity (Critical Path)
@@ -148,25 +149,25 @@ Env override: `MATRIZ_TRACES_DIR` for runtime; default GOLD=`tests/golden/tier1`
 - No `lukhas→candidate` imports
 - All tests green
 
-### A-CC1: Claude Code Planning Task
+### A-CC1: Legacy Integration Specialist Task
 **Assignable ID**: A-CC1  
-**Assignee**: Claude Code  
-**Branch**: `fix/stream-a-cc1-planning`
+**Assignee**: legacy-integration-specialist  
+**Branch**: `fix/stream-a-cc1-quarantine-archaeology`
 
 **Task Instructions**:
 ```
-/plan
-Goal: Remove quarantine/cross_lane by promoting stable APIs into lukhas/.
-Constraints: Keep lane_guard hard fail; no lukhas→candidate imports; small PRs (≤300 LOC).
-Steps:
-1) List import sites quarantined by cross_lane. Propose minimal API shims inside lukhas/.
-2) Generate diffs: delete quarantine module; replace imports with lukhas shims.
-3) Add importlinter rule preventing lukhas→candidate.
-4) Run: make lane-guard && ruff check --select E9,F63,F7,F82 .
-Deliverables: PR with shims, lane_guard + importlinter passing.
+Goal: Perform quarantine archaeology to remove cross_lane module and promote stable APIs.
+Expertise Applied: Obsolete file detection, legacy code evaluation, module connectivity optimization.
+Investigation Protocol:
+1) Discovery Phase: Scan quarantine/cross_lane for all import dependencies and call sites
+2) Analysis Phase: Categorize dependencies (DELETE/INTEGRATE/ARCHIVE) with value assessment  
+3) Integration Planning: Design minimal API shims for lukhas/ promotion with dependency mapping
+4) Implementation Roadmap: Generate step-by-step migration plan for Jules agents A1-A6
+Quality Gates: lane_guard passing, importlinter compliance, no lukhas→candidate leaks
+Deliverables: Comprehensive integration roadmap with categorized component analysis
 ```
 
-**Acceptance Criteria**: Multi-file execution plan ready for Stream A tasks A1-A6
+**Acceptance Criteria**: Complete archaeological analysis with integration roadmap for Jules implementation
 
 ---
 
@@ -220,21 +221,25 @@ codex: create FastAPI router traces_router with GET /traces/latest and GET /trac
 - Critical dependencies pinned to secure versions
 - Gitleaks job green (fail-on-findings only)
 
-### C-CC1: Claude Code Security Task
+### C-CC1: Guardian Compliance Officer Task
 **Assignable ID**: C-CC1  
-**Assignee**: Claude Code  
-**Branch**: `sec/stream-c-cc1-security`
+**Assignee**: guardian-compliance-officer  
+**Branch**: `sec/stream-c-cc1-compliance-framework`
 
 **Task Instructions**:
 ```
-/edit
-1) Open SECURITY_ARCHITECTURE.json; add a "sbom" section linking reports/sbom/cyclonedx.json and generation command.
-2) Create constraints file (constraints.txt) pinning {cryptography, transformers, aiohttp, pydantic} to secure versions.
-3) Update CI to install with -c constraints.txt; add non-blocking gitleaks job (fail on findings).
-4) Commit PR: "security: pin critical deps + reference SBOM"
+Goal: Establish comprehensive security documentation and dependency compliance framework.
+Expertise Applied: Regulatory compliance, audit systems, policy engines, safety protocols.
+Guardian Framework Implementation:
+1) SBOM Integration: Document cyclonedx.json in SECURITY_ARCHITECTURE.json with generation commands
+2) Dependency Governance: Create constraints.txt with security-validated versions (cryptography, transformers, aiohttp, pydantic)
+3) CI Compliance Pipeline: Integrate constraints.txt installation + non-blocking gitleaks scanning
+4) Audit Trail: Ensure all security changes maintain compliance documentation
+Compliance Standards: GDPR/CCPA aligned, Guardian System v1.0.0 protocols, Constitutional AI principles
+Deliverables: Complete security compliance framework with audit capabilities
 ```
 
-**Acceptance Criteria**: Security docs updated, dependencies pinned, gitleaks CI added
+**Acceptance Criteria**: Guardian-level security documentation with compliance audit trail established
 
 ---
 
