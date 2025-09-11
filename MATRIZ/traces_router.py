@@ -6,7 +6,7 @@ import os
 import re
 from collections.abc import Iterable
 from pathlib import Path
-from typing import Any, Literal, TypedDict
+from typing import Any, Literal, TypedDict, Union
 
 from fastapi import APIRouter, HTTPException, Query, Response, status
 
@@ -122,7 +122,7 @@ def _classify_root(p: Path) -> str:
     return "unknown"
 
 
-def load_trace_file(file_path: Path) -> dict[str, Any] | None:
+def load_trace_file(file_path: Path) -> Union[dict[str, Any], None]:
     """Load and validate a trace JSON file."""
     try:
         if not file_path.exists():
@@ -268,8 +268,8 @@ async def get_trace_by_id(trace_id: str) -> Response:
 async def list_traces(
     offset: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=200),
-    source: Literal["env", "live", "golden"] | None = None,
-    q: str | None = None,
+    source: Union[Literal["env", "live", "golden"], None] = None,
+    q: Union[str, None] = None,
 ) -> Response:
     """
     Return a paged, filtered list of traces with metadata.

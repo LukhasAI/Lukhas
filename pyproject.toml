@@ -207,6 +207,7 @@ max-returns = 3
 "serve/storage/trace_provider.py" = ["PLW0603"]
 "tests/core/test_matriz_consciousness_integration.py" = ["W291", "W292", "W293"]
 "serve/agi_enhanced_consciousness_api.py" = ["PLW0603", "W293"]
+"MATRIZ/**" = ["UP007"]  # Keep Python 3.9 compatible union syntax
 
 [tool.mypy]
 python_version = "3.10"
