@@ -50,7 +50,7 @@ def test_by_id_prefers_json_trace_id_over_filename(tmp_path, monkeypatch):
     d = tmp_path / "env_traces"
     d.mkdir()
     f = d / "foo-123.json"
-    f.write_text(json.dumps({"trace_id": "BAR-999", "ts": 0}), encoding="utf-8")
+    f.write_text(json.dumps({"trace_id": "BAR-999", "timestamp": 0}), encoding="utf-8")
     monkeypatch.setenv("MATRIZ_TRACES_DIR", str(d))
     r = _client().get("/traces/BAR-999")
     assert r.status_code == 200
@@ -62,9 +62,9 @@ def test_list_paging_and_filters(monkeypatch, tmp_path):
     d = tmp_path / "list_traces"
     d.mkdir()
     traces = [
-        {"trace_id": "A", "source": "consciousness", "ts": 100},
-        {"trace_id": "B", "source": "api", "ts": 200},
-        {"trace_id": "C", "source": "consciousness", "ts": 300},
+        {"trace_id": "A", "source": "consciousness", "timestamp": 100},
+        {"trace_id": "B", "source": "api", "timestamp": 200},
+        {"trace_id": "C", "source": "consciousness", "timestamp": 300},
     ]
     for i, trace in enumerate(traces):
         f = d / f"trace_{i}.json"
@@ -122,7 +122,7 @@ def test_trace_schema_validation():
         body = r.json()
         # Basic schema check
         assert "trace_id" in body
-        if "ts" in body:
-            assert isinstance(body["ts"], (int, float))
+        if "timestamp" in body:
+            assert isinstance(body["timestamp"], (int, float))
         if "source" in body:
             assert isinstance(body["source"], str)
