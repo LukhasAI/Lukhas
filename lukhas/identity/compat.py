@@ -44,22 +44,6 @@ def canonicalize_id_from_kwargs(kwargs: Mapping[str, Any]) -> Optional[str]:
     return None
 
 
-def ensure_both_id_keys(obj: dict[str, Any], lid: Optional[str]) -> None:
-    """Ensure the mapping `obj` contains both `lid` and `lambda_id` keys.
-
-    This is useful when returning data to callers that may expect the
-    historical JSON key `lambda_id` while internal logic uses `lid`.
-    """
-    if lid is None:
-        return
-
-    # Canonical short name
-    obj.setdefault("lid", lid)
-
-    # Backwards-compatible historical key
-    obj.setdefault("lambda_id", lid)
-
-
 def normalize_output_ids(obj: dict[str, Any]) -> None:
     """Normalize an output mapping so it contains the canonical `lid` key and
     the legacy `lambda_id` key.
