@@ -1,8 +1,4 @@
-
-
-⸻
-
-Step 3 — Neutral Baseline Deep Search (separate Pro chat)
+ Neutral Baseline Deep Search (separate Pro chat)
 
 ChatGPT Pro (paste as first message)
 
