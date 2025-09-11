@@ -1,4 +1,4 @@
-.PHONY: help test smoke api-spec clean install dev api audit-tail audit
+.PHONY: help test test-tier1-matriz smoke api-spec clean install dev api audit-tail audit
 .PHONY: lint format fix fix-imports setup-hooks ci-local monitor test-cov deep-clean quick bootstrap
 .PHONY: security security-scan security-update security-audit security-fix
 .PHONY: policy policy-review policy-brand policy-tone policy-registries
@@ -38,6 +38,8 @@ help:
 	@echo "  test         - Run test suite"
 	@echo "  test-cov     - Run tests with coverage"
 	@echo "  smoke        - Run smoke check"
+	@echo "  test-legacy  - Run legacy tests (tests/)"
+	@echo "  test-tier1-matriz - Run MATRIZ Tier-1 tests (tests_new/matriz)"
 	@echo ""
 	@echo "Advanced Testing (0.001% Methodology):"
 	@echo "  test-advanced    - Complete advanced testing suite"
@@ -54,6 +56,7 @@ help:
 	@echo "  monitor      - Generate code quality report"
 	@echo "  audit        - Run gold-standard audit suite"
 	@echo "  promote      - Promote a module candidate → lukhas"
+	@echo "  check-scoped - Minimal CI-friendly scoped lint+tests+mypy"
 	@echo ""
 	@echo "Maintenance:"
 	@echo "  clean        - Clean cache and temp files"
@@ -233,6 +236,10 @@ fix-imports:
 # Run tests
 test:
 	pytest tests/ -v --junitxml=test-results.xml
+
+# MATRIZ Tier-1 tests (fast, blocking smoke)
+test-tier1-matriz:
+	PYTHONPATH=. python3 -m pytest -q -m tier1 tests_new/matriz
 
 # Run tests with coverage
 test-cov:
@@ -738,25 +745,30 @@ audit-validate:
 sbom:
 	@cyclonedx-bom -o reports/sbom/cyclonedx.json || echo "cyclonedx-bom not installed; skipped"
 
-.PHONY: audit-nav
-audit-nav:
+
+# NOTE: informational variant; kept separate to avoid colliding with 'audit-nav'
+.PHONY: audit-nav-info
+audit-nav-info:
 	@echo "Commit: $(shell cat AUDIT/RUN_COMMIT.txt 2>/dev/null || git rev-parse HEAD)"
 	@echo "Started: $(shell cat AUDIT/RUN_STARTED_UTC.txt 2>/dev/null)"
 	@echo "Files: $(shell wc -l reports/deep_search/PY_INDEX.txt 2>/dev/null | awk '{print $$1}')"
 	@echo "Sample: AUDIT/CODE_SAMPLES.txt"
 
-.PHONY: audit-scan
-audit-scan:
+
+# NOTE: list-only variant; 'audit-scan' remains the comprehensive validator above
+.PHONY: audit-scan-list
+audit-scan-list:
 	@ls -1 reports/deep_search | sed 1,20p
 
+
 # Minimal CI-friendly check target (scoped to focused gates: ruff, contract tests, scoped mypy)
-.PHONY: check lint test type
-lint:
+.PHONY: check-scoped lint-scoped test-contract type-scoped
+lint-scoped:
 	ruff check serve tests/contract
-test:
+test-contract:
 	pytest -q tests/contract --maxfail=1 --disable-warnings
-type:
+type-scoped:
 	mypy --follow-imports=skip --ignore-missing-imports serve/main.py || true
-check: lint test type
-	@echo "✅ make check passed (lint + tests + scoped mypy)"
+check-scoped: lint-scoped test-contract type-scoped
+	@echo "✅ make check-scoped passed (lint + tests + scoped mypy)"
 

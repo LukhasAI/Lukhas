@@ -70,10 +70,13 @@ jobs:
           python-version: '3.11'
 
       - name: Install test dependencies
-        run: pip install -q pytest pyyaml
+        run: pip install -q pytest pyyaml fastapi starlette
 
       - name: Run Tier-1 smoke tests
         run: pytest -q -k "matriz or golden or smoke" --maxfail=1 -x
+
+      - name: Run MATRIZ Tier-1 blocking tests
+        run: PYTHONPATH=. pytest -q -m tier1 tests_new/matriz --maxfail=1 -x
 
       - name: Validate Tier-1 contracts exist
         run: |
