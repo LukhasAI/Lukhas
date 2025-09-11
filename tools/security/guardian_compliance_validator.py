@@ -16,7 +16,7 @@ import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 
 class GuardianComplianceValidator:
@@ -45,7 +45,7 @@ class GuardianComplianceValidator:
             "decision_explainability": 85.0,
         }
 
-    def validate_guardian_infrastructure(self) -> Dict[str, Any]:
+    def validate_guardian_infrastructure(self) -> dict[str, Any]:
         """Validate Guardian System v1.0.0 infrastructure."""
         print("🛡️  Validating Guardian System v1.0.0 infrastructure...")
 
@@ -92,7 +92,7 @@ class GuardianComplianceValidator:
 
         return results
 
-    def validate_sbom_compliance(self) -> Dict[str, Any]:
+    def validate_sbom_compliance(self) -> dict[str, Any]:
         """Validate SBOM compliance and integrity."""
         print("📋 Validating SBOM compliance...")
 
@@ -130,7 +130,7 @@ class GuardianComplianceValidator:
 
         return results
 
-    def validate_dependency_security(self) -> Dict[str, Any]:
+    def validate_dependency_security(self) -> dict[str, Any]:
         """Validate dependency security constraints."""
         print("🔒 Validating dependency security constraints...")
 
@@ -169,7 +169,7 @@ class GuardianComplianceValidator:
 
         return results
 
-    def validate_constitutional_ai_compliance(self) -> Dict[str, Any]:
+    def validate_constitutional_ai_compliance(self) -> dict[str, Any]:
         """Validate Constitutional AI safety protocols."""
         print("⚖️  Validating Constitutional AI compliance...")
 
@@ -218,7 +218,7 @@ class GuardianComplianceValidator:
 
         return results
 
-    def validate_ci_pipeline_security(self) -> Dict[str, Any]:
+    def validate_ci_pipeline_security(self) -> dict[str, Any]:
         """Validate CI/CD pipeline security integration."""
         print("🔄 Validating CI/CD pipeline security...")
 
@@ -337,7 +337,7 @@ class GuardianComplianceValidator:
             with open(path) as f:
                 data = json.load(f)
             return "constitutional_ai_framework" in data and "supply_chain_security" in data
-        except:
+        except Exception:
             return False
 
     def _validate_constraints(self, path: Path) -> bool:
@@ -346,7 +346,7 @@ class GuardianComplianceValidator:
             with open(path) as f:
                 content = f.read()
             return "Guardian System v1.0.0" in content and "cryptography==" in content
-        except:
+        except Exception:
             return False
 
     def _validate_gitleaks_config(self, path: Path) -> bool:
@@ -355,7 +355,7 @@ class GuardianComplianceValidator:
             with open(path) as f:
                 content = f.read()
             return "LUKHAS AI Guardian Security Scanner" in content and "[[rules]]" in content
-        except:
+        except Exception:
             return False
 
     def _is_guardian_compliant(self, results: Dict[str, Any]) -> bool:
@@ -413,7 +413,7 @@ class GuardianComplianceValidator:
 
         return "\n".join(recommendations)
 
-    def run_full_validation(self) -> Dict[str, Any]:
+    def run_full_validation(self) -> dict[str, Any]:
         """Run complete Guardian System compliance validation."""
         print("🚀 Starting Guardian System v1.0.0 Compliance Validation...")
         print(f"📁 LUKHAS Root: {self.lukhas_root}")
@@ -436,10 +436,7 @@ class GuardianComplianceValidator:
 
 def main():
     """Main execution function."""
-    if len(sys.argv) > 1:
-        lukhas_root = sys.argv[1]
-    else:
-        lukhas_root = os.getcwd()
+    lukhas_root = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()
 
     validator = GuardianComplianceValidator(lukhas_root)
     results = validator.run_full_validation()
