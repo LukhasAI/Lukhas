@@ -37,6 +37,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install "ruff==0.6.9"
 
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+
       - name: Verify config & version (debug)
         run: |
           git rev-parse HEAD || true
