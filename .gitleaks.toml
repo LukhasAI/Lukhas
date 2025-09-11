@@ -60,38 +60,21 @@ tags = ["encryption", "crypto", "key"]
 
 # Allow certain patterns that are safe
 [[allowlist]]
-description = "Test files and documentation"
+description = "Safe file patterns"
 paths = [
-    "tests/",
-    "docs/", 
-    "examples/",
-    "*.md",
-    "*.rst",
-    "*.txt"
+    '''tests/.*''',
+    '''docs/.*''',
+    '''examples/.*''',
+    '''.*\.md$''',
+    '''.*\.rst$''',
+    '''.*\.txt$'''
 ]
 
 [[allowlist]]
-description = "Configuration templates"
-regex = '''(?i)(YOUR_API_KEY_HERE|PLACEHOLDER|EXAMPLE_KEY|TEST_KEY|DEMO_KEY)'''
-
-[[allowlist]]
-description = "Safe Guardian System placeholders"
-regex = '''(?i)(guardian_placeholder|constitutional_placeholder|safety_template)'''
-
-# Guardian System specific allowlist for development
-[[allowlist]]
-description = "Guardian development patterns"
-paths = [
-    "candidate/governance/guardian/",
-    "governance/",
-    "audit/"
+description = "Safe placeholder patterns"
+regexes = [
+    '''(?i)(YOUR_API_KEY_HERE|PLACEHOLDER|EXAMPLE_KEY|TEST_KEY|DEMO_KEY)''',
+    '''(?i)(guardian_placeholder|constitutional_placeholder|safety_template)''',
+    '''(?i)(guardian_test_key|constitutional_test_pattern|safety_development_key)''',
+    '''(?i)(constitutional_ai_test|anthropic_test_pattern|claude_development_key)'''
 ]
-
-[[allowlist]]
-description = "Guardian test patterns"
-regex = '''(?i)(guardian_test_key|constitutional_test_pattern|safety_development_key)'''
-
-# Constitutional AI compliance patterns - these are safe configuration patterns
-[[allowlist]]
-description = "Constitutional AI development patterns"
-regex = '''(?i)(constitutional_ai_test|anthropic_test_pattern|claude_development_key)'''
