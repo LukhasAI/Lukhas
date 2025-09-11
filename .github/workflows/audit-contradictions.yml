@@ -7,7 +7,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: Ensure contradictions are empty (non-blocking)
         run: |
-          test -f reports/audit/merged/contradictions.json || exit 0
-          jq -e 'length == 0' reports/audit/merged/contradictions.json || {
-            echo "::warning ::Contradictions found in merged audit artifacts."
-          }
+          if [ ! -f reports/audit/merged/contradictions.json ]; then
+            echo "Contradictions file not found, skipping."
+            exit 0
+          fi
+          if ! jq -e 'length == 0' reports/audit/merged/contradictions.json; then
+            echo "::error::Contradictions found in reports/audit/merged/contradictions.json"
+            cat reports/audit/merged/contradictions.json
+            exit 1
+          fi
+          echo "No contradictions found."

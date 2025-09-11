@@ -42,6 +42,7 @@
 
 import asyncio
 import heapq
+import logging
 import random
 import threading
 from collections import namedtuple
@@ -51,6 +52,9 @@ from enum import Enum
 from typing import Any, Optional, Union
 
 import numpy as np
+
+logger = logging.getLogger(__name__)
+
 
 # Experience tuple for storing RL experiences
 Experience = namedtuple(
