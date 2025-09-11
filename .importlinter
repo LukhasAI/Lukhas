@@ -1,5 +1,7 @@
 [importlinter]
-root_package = lukhas
+root_packages =
+    lukhas
+    MATRIZ
 include_external_packages = true
 
 [importlinter:contract:prod_no_candidate]
