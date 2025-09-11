@@ -1,9 +1,15 @@
-.PHONY: help test smoke api-spec clean install dev api audit-tail audit
+.PHONY: help test test-tier1-matriz smoke api-spec clean install dev api audit-tail audit doctor doctor-json doctor-dup-targets
+.PHONY: doctor-phony doctor-tools doctor-py doctor-ci doctor-lanes doctor-tests doctor-audit doctor-summary
 .PHONY: lint format fix fix-imports setup-hooks ci-local monitor test-cov deep-clean quick bootstrap
 .PHONY: security security-scan security-update security-audit security-fix
 .PHONY: policy policy-review policy-brand policy-tone policy-registries
 .PHONY: verify phase1 status hook-install
 .PHONY: lane-guard audit-appendix
+
+# Modular includes (guarded)
+ifneq ($(wildcard mk/*.mk),)
+include mk/*.mk
+endif
 
 # Default target
 help:
@@ -38,6 +44,8 @@ help:
 	@echo "  test         - Run test suite"
 	@echo "  test-cov     - Run tests with coverage"
 	@echo "  smoke        - Run smoke check"
+	@echo "  test-legacy  - Run legacy tests (tests/)"
+	@echo "  test-tier1-matriz - Run MATRIZ Tier-1 tests (tests_new/matriz)"
 	@echo ""
 	@echo "Advanced Testing (0.001% Methodology):"
 	@echo "  test-advanced    - Complete advanced testing suite"
@@ -54,6 +62,10 @@ help:
 	@echo "  monitor      - Generate code quality report"
 	@echo "  audit        - Run gold-standard audit suite"
 	@echo "  promote      - Promote a module candidate → lukhas"
+	@echo "  check-scoped - Minimal CI-friendly scoped lint+tests+mypy"
+	@echo "  doctor       - Diagnose Makefile/repo health (T4 quick scan)"
+	@echo "  doctor-strict - Same as doctor, but fails on any warning/error"
+	@echo "  doctor-json   - Emit machine-readable JSON summary to reports/audit"
 	@echo ""
 	@echo "Maintenance:"
 	@echo "  clean        - Clean cache and temp files"
@@ -234,6 +246,10 @@ fix-imports:
 test:
 	pytest tests/ -v --junitxml=test-results.xml
 
+# MATRIZ Tier-1 tests (fast, blocking smoke)
+test-tier1-matriz:
+	PYTHONPATH=. python3 -m pytest -q -m tier1 tests_new/matriz
+
 # Run tests with coverage
 test-cov:
 	@echo "🧪 Running tests with coverage..."
@@ -372,7 +388,7 @@ deep-clean: clean
 	@echo "✅ Deep clean complete!"
 
 # Quick fix and test
-quick: fix test
+quick: fix test ## Fix issues and run tests
 	@echo "✅ Quick fix and test complete!"
 
 # CODEX Strike Teams Support
@@ -738,27 +754,21 @@ audit-validate:
 sbom:
 	@cyclonedx-bom -o reports/sbom/cyclonedx.json || echo "cyclonedx-bom not installed; skipped"
 
-.PHONY: audit-nav
-audit-nav:
+
+# NOTE: informational variant; kept separate to avoid colliding with 'audit-nav'
+.PHONY: audit-nav-info
+audit-nav-info:
 	@echo "Commit: $(shell cat AUDIT/RUN_COMMIT.txt 2>/dev/null || git rev-parse HEAD)"
 	@echo "Started: $(shell cat AUDIT/RUN_STARTED_UTC.txt 2>/dev/null)"
 	@echo "Files: $(shell wc -l reports/deep_search/PY_INDEX.txt 2>/dev/null | awk '{print $$1}')"
 	@echo "Sample: AUDIT/CODE_SAMPLES.txt"
 
-.PHONY: audit-scan
-audit-scan:
+
+# NOTE: list-only variant; 'audit-scan' remains the comprehensive validator above
+.PHONY: audit-scan-list
+audit-scan-list:
 	@ls -1 reports/deep_search | sed 1,20p
 
-# Minimal CI-friendly check target (scoped to focused gates: ruff, contract tests, scoped mypy)
-.PHONY: check lint test type
-lint:
-	ruff check serve tests/contract
-test:
-	pytest -q tests/contract --maxfail=1 --disable-warnings
-type:
-	mypy --follow-imports=skip --ignore-missing-imports serve/main.py || true
-check: lint test type
-	@echo "✅ make check passed (lint + tests + scoped mypy)"
 
 # Generate audit delta appendix between two tags
 audit-appendix:
@@ -790,3 +800,149 @@ audit-merge-check:
 	@echo "Merged scoreboard (if present):"
 	@[ -f $(OUT)/scoreboard.json ] && cat $(OUT)/scoreboard.json || echo "(not generated yet)"
 
+# Minimal CI-friendly check target (scoped to focused gates: ruff, contract tests, scoped mypy)
+.PHONY: check-scoped lint-scoped test-contract type-scoped
+lint-scoped:
+	ruff check serve tests/contract
+test-contract:
+	pytest -q tests/contract --maxfail=1 --disable-warnings
+type-scoped:
+	mypy --follow-imports=skip --ignore-missing-imports serve/main.py || true
+check-scoped: lint-scoped test-contract type-scoped
+	@echo "✅ make check-scoped passed (lint + tests + scoped mypy)"
+
+
+# ------------------------------------------------------------------------------
+# T4 Doctor: fast repo health diagnostics (non-destructive, noisy on failure)
+# ------------------------------------------------------------------------------
+
+# Aggregate
+doctor: doctor-tools doctor-py doctor-ci doctor-lanes doctor-tests doctor-audit doctor-dup-targets doctor-phony doctor-summary ## Quick repo health scan (T4-style diagnostics)
+
+# 1) Tooling presence
+doctor-tools:
+	@echo "🔎 [tools] Checking required CLI tools..."
+	@ok=1; \
+	for bin in python3 jq rg curl git; do \
+		if ! command -v $$bin >/dev/null 2>&1; then echo "❌ missing: $$bin"; ok=0; fi; \
+	done; \
+	for py in ruff pytest mypy bandit; do \
+		if ! python3 -m $$py --version >/dev/null 2>&1; then echo "⚠️ python -m $$py unavailable"; fi; \
+	done; \
+	[ $$ok -eq 1 ] && echo "✅ tools ok" || (echo "⚠️ some tools missing"; exit 0)
+
+# 2) Python/venv sanity
+doctor-py:
+	@echo "🔎 [python] venv & import sanity..."
+	@if [ -d ".venv" ]; then echo "✅ .venv present"; else echo "⚠️ .venv missing"; fi
+	@python3 -c "import sys; print('✅ python', sys.version.split()[0])" || echo "❌ python not runnable"
+	@PYTHONPATH=. python3 -c "import lukhas, matriz; print('✅ lukhas & matriz importable')" || echo "⚠️ import check failed"
+
+# 3) CI wiring sanity
+doctor-ci:
+	@echo "🔎 [ci] workflow presence & test matrix..."
+	@if [ -f ".github/workflows/ci.yml" ]; then \
+		echo "✅ ci.yml present"; \
+		grep -q 'pytest' .github/workflows/ci.yml && echo "✅ pytest referenced" || echo "⚠️ pytest not referenced"; \
+		grep -q 'tier1' .github/workflows/ci.yml && echo "✅ tier1 matrix present" || echo "⚠️ tier1 matrix missing"; \
+	else \
+		echo "⚠️ no .github/workflows/ci.yml"; \
+	fi
+
+# 4) Lane integrity (static + runtime)
+doctor-lanes:
+	@echo "🔎 [lanes] lane guards..."
+	@{ PYTHONPATH=. lint-imports -v 2>/dev/null || echo '⚠️ import-linter not configured'; } | sed -n '1,80p'
+	@{ bash ./tools/ci/lane_guard.sh 2>/dev/null || true; } | sed -n '1,80p'
+
+# 5) Tests quick slice
+doctor-tests:
+	@echo "🔎 [tests] collection & tier1 MATRIZ sanity..."
+	@PYTHONPATH=. python3 -m pytest -q --collect-only 2>/dev/null | sed -n '1,10p' || true
+	@PYTHONPATH=. python3 -m pytest -q -m tier1 tests_new/matriz 2>/dev/null || echo "⚠️ MATRIZ tier1 failed"
+
+# 6) Audit artifacts
+doctor-audit:
+	@echo "🔎 [audit] key artifacts..."
+	@[ -f "AUDIT/INDEX.md" ] && echo "✅ AUDIT/INDEX.md" || echo "❌ missing AUDIT/INDEX.md"
+	@[ -f "AUDIT/MATRIZ_READINESS.md" ] && echo "✅ AUDIT/MATRIZ_READINESS.md" || echo "❌ missing MATRIZ_READINESS"
+	@[ -f "AUDIT/IDENTITY_READINESS.md" ] && echo "✅ AUDIT/IDENTITY_READINESS.md" || echo "⚠️ missing IDENTITY_READINESS"
+	@[ -f "AUDIT/API/openapi.yaml" ] && echo "✅ AUDIT/API/openapi.yaml" || echo "⚠️ missing openapi.yaml"
+	@[ -f "reports/sbom/cyclonedx.json" ] && echo "✅ SBOM present" || echo "⚠️ SBOM missing"
+
+# 7) Duplicate targets in Makefile (footgun detector)
+doctor-dup-targets:
+	@echo "🔎 [make] duplicate target names..."
+	@awk -F: '/^[A-Za-z0-9_.-]+:/{print $$1}' Makefile \
+	 | grep -v '^.PHONY' | grep -v '^include' | grep -v '^\#' \
+	 | sort | uniq -d | sed -n '1,50p' | awk '{print "⚠️ duplicate target: " $$1}' || true
+
+# 8) PHONY targets without rules
+doctor-phony:
+	@echo "🔎 [make] .PHONY without recipe..."
+	@ph=$$(grep -Eo '^\.PHONY:[^#]+' Makefile | sed 's/^\.PHONY://; s/[\\ ]\+/ /g' | tr ' ' '\n' | sort -u); \
+	for t in $$ph; do \
+	  grep -qE "^$$t:" Makefile || echo "⚠️ .PHONY declared but no rule: $$t"; \
+	done; true
+
+# 9) Summary
+doctor-summary:
+	@echo "✅ Doctor finished. Review warnings above. Non-zero exit only for hard failures."
+
+# --- Strict & JSON outputs ---------------------------------------------------
+
+# Strict variant: fails build if any warnings or errors are present
+doctor-strict:
+	@mkdir -p reports/audit
+	@echo "🧪 Running doctor in strict mode..."
+	@($(MAKE) -s doctor) | tee reports/audit/doctor_last.txt
+	@if grep -E '❌|⚠️' reports/audit/doctor_last.txt >/dev/null; then \
+		echo "❌ doctor:strict detected warnings/errors. See reports/audit/doctor_last.txt"; \
+		exit 1; \
+	else \
+		echo "✅ doctor:strict clean (no warnings/errors)"; \
+	fi
+
+# Duplicate targets strict: exit 1 if any duplicates detected
+doctor-dup-targets-strict:
+	@dups=$$(awk -F: '/^[A-Za-z0-9_.-]+:/{print $$1}' Makefile \
+	 | grep -v '^.PHONY' | grep -v '^include' | grep -v '^\#' \
+	 | sort | uniq -d); \
+	if [ -n "$$dups" ]; then \
+		echo "$$dups" | awk '{print "❌ duplicate target (strict): " $$1}'; \
+		exit 1; \
+	else \
+		echo "✅ no duplicate Make targets (strict)"; \
+	fi
+
+# Machine-readable summary (requires jq)
+doctor-json:
+	@mkdir -p reports/audit
+	@echo "🧾 Emitting JSON summary to reports/audit/doctor_summary.json"
+	@tools_ok=1; \
+	for bin in python3 jq rg curl git; do command -v $$bin >/dev/null || tools_ok=0; done; \
+	py_ok=0; PYTHONPATH=. python3 -c "import lukhas, matriz" >/dev/null 2>&1 && py_ok=1 || true; \
+	ci_present=0; [ -f ".github/workflows/ci.yml" ] && ci_present=1 || true; \
+	sbom_present=0; [ -f "reports/sbom/cyclonedx.json" ] && sbom_present=1 || true; \
+	audit_index=0; [ -f "AUDIT/INDEX.md" ] && audit_index=1 || true; \
+	tier1_ok=0; PYTHONPATH=. python3 -m pytest -q -m tier1 tests_new/matriz >/dev/null 2>&1 && tier1_ok=1 || true; \
+	dups=$$(awk -F: '/^[A-Za-z0-9_.-]+:/{print $$1}' Makefile \
+	 | grep -v '^.PHONY' | grep -v '^include' | grep -v '^\#' \
+	 | sort | uniq -d | wc -l); \
+	jq -n --arg now "$$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+	      --arg git "$$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")" \
+	      --argjson tools $$tools_ok \
+	      --argjson python $$py_ok \
+	      --argjson ci $$ci_present \
+	      --argjson sbom $$sbom_present \
+	      --argjson audit $$audit_index \
+	      --argjson tier1 $$tier1_ok \
+	      --argjson dup_count $$dups \
+	      '{timestamp:$now, commit:$git, checks:{tools:$tools, python_imports:$python, ci_workflow:$ci, sbom:$sbom, audit_index:$audit, matriz_tier1:$tier1, make_dup_targets:$dup_count}}' \
+	  > reports/audit/doctor_summary.json
+	@echo "✅ Wrote reports/audit/doctor_summary.json"
+
+
+# Late include to override help with auto-generated help
+-include mk/help.mk
+>>>>>>> 961a57038

@@ -1,0 +1,13 @@
+# pytest.ini
+[pytest]
+testpaths =
+    tests_new
+    tests
+markers =
+    tier1: fast, blocking smoke for MATRIZ (selectable)
+    golden: reads static goldens (no network)
+    smoke: tiny health checks
+    no_mock: tests that require real implementations
+    audit_safe: tests safe for audit environments
+    performance: performance benchmark tests
+addopts = -q

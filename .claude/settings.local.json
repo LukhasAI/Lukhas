@@ -75,7 +75,10 @@
       "Bash(else echo \"✗ $dir MISSING\")",
       "Bash(do echo \"Processing $file...\")",
       "Bash(sed:*)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash([ -f pyproject.toml ])",
+      "Bash([ -f pytest.ini ])",
+      "Bash([ -f \"$d/__init__.py\" ])"
     ],
     "deny": [],
     "ask": []

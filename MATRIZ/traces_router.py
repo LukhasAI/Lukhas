@@ -1,3 +1,15 @@
+from __future__ import annotations
+
+import json
+import logging
+import os
+import re
+from collections.abc import Iterable
+from pathlib import Path
+from typing import Any, Literal, TypedDict
+
+from fastapi import APIRouter, HTTPException, Query, Response, status
+
 """
 MATRIZ Traces Router
 Provides API endpoints for retrieving golden traces and execution artifacts.
@@ -9,16 +21,6 @@ Environment:
   `reports/matriz/traces` first, then falls back to goldens under
   `tests/golden/tier1`.
 """
-
-import json
-import logging
-import os
-import re
-from collections.abc import Iterable
-from pathlib import Path
-from typing import Any, Literal, Optional, TypedDict
-
-from fastapi import APIRouter, HTTPException, Query, Response, status
 
 logger = logging.getLogger(__name__)
 
@@ -120,7 +122,7 @@ def _classify_root(p: Path) -> str:
     return "unknown"
 
 
-def load_trace_file(file_path: Path) -> Optional[dict[str, Any]]:
+def load_trace_file(file_path: Path) -> dict[str, Any] | None:
     """Load and validate a trace JSON file."""
     try:
         if not file_path.exists():
@@ -266,8 +268,8 @@ async def get_trace_by_id(trace_id: str) -> Response:
 async def list_traces(
     offset: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=200),
-    source: Optional[Literal["env", "live", "golden"]] = None,
-    q: Optional[str] = None,
+    source: Literal["env", "live", "golden"] | None = None,
+    q: str | None = None,
 ) -> Response:
     """
     Return a paged, filtered list of traces with metadata.
