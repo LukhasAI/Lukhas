@@ -1,37 +1,47 @@
-# Auto-generated help that discovers existing targets from Makefile + mk/*.mk
-# It overrides any earlier 'help' target when included at the *end* of the root Makefile.
-
+# Auto-discovered help with inline descriptions (targets can add "## Description")
 .PHONY: help
-
 help:
 	@echo "LUKHAS Build System — Auto Help"
 	@echo "================================"
 	@echo ""
-	@sh -c 'set -e; \
-	  have() { grep -R -h -E "^$$1:" Makefile mk/*.mk 2>/dev/null | grep -q .; }; \
-	  print_section() { \
-	    hdr="$$1"; shift; \
-	    any=0; buf=""; \
-	    for tgt in "$$@"; do \
-	      if have "$$tgt"; then any=1; buf="$$buf\n  $$(printf %-20s "$$tgt")"; fi; \
-	    done; \
-	    if [ $$any -eq 1 ]; then \
-	      echo "$$hdr"; \
-	      printf "$$buf\n"; \
-	      echo ""; \
-	    fi; \
+	@sh -c '\
+	  set -e; \
+	  # Return 0 if a target exists in Makefile or mk/*.mk
+	  have() { grep -R -h -E "^[[:alnum:]_.-]+:" Makefile mk/*.mk 2>/dev/null | cut -d: -f1 | grep -qx "$$1"; }; \
+	  # Extract first inline description after "##"
+	  desc() { \
+	    grep -R -h -E "^$$1:[^#]*##" Makefile mk/*.mk 2>/dev/null \
+	      | sed -n "1s/.*##[[:space:]]*//p"; \
 	  }; \
-	  echo "Detected sections (only showing targets that exist):"; echo ""; \
+	  # Print a section only if at least one target exists
+	  print_section() { \
+	    hdr="$$1"; shift; any=0; \
+	    for tgt in "$$@"; do if have "$$tgt"; then any=1; break; fi; done; \
+	    [ $$any -eq 1 ] || return 0; \
+	    echo "$$hdr"; \
+	    for tgt in "$$@"; do \
+	      if have "$$tgt"; then \
+	        d=$$(desc "$$tgt"); \
+	        if [ -n "$$d" ]; then \
+	          printf "  %-22s - %s\n" "$$tgt" "$$d"; \
+	        else \
+	          printf "  %-22s\n" "$$tgt"; \
+	        fi; \
+	      fi; \
+	    done; \
+	    echo ""; \
+	  }; \
+	  echo "Detected sections (only existing targets shown):"; echo ""; \
 	  print_section "Setup & Installation:" \
 	    install setup-hooks bootstrap organize organize-dry organize-suggest organize-watch; \
 	  print_section "Development:" \
 	    dev api openapi live colony-dna-smoke audit-tail lane-guard quick; \
 	  print_section "Testing:" \
-	    test test-cov smoke test-tier1-matriz; \
+	    test test-cov smoke test-legacy test-tier1-matriz; \
 	  print_section "Advanced Testing (0.001%):" \
 	    test-advanced test-property test-chaos test-metamorphic test-formal test-mutation test-performance test-oracles test-consciousness test-standalone; \
 	  print_section "CI/CD:" \
-	    ci-local monitor audit audit-status audit-nav audit-scan audit-nav-info audit-scan-list audit-validate api-serve api-spec check-scoped promote; \
+	    ci-local monitor audit audit-status audit-nav audit-scan audit-nav-info audit-scan-list audit-validate api-serve api-spec check-scoped promote pc-all; \
 	  print_section "Doctor & Diagnostics:" \
 	    doctor doctor-strict doctor-json doctor-dup-targets doctor-dup-targets-strict; \
 	  print_section "Policy & Brand:" \
@@ -45,5 +55,5 @@ help:
 	    sdk-py-install sdk-py-test sdk-ts-build sdk-ts-test; \
 	  print_section "Backup & DR:" \
 	    backup-local backup-s3 restore-local restore-s3 dr-drill dr-weekly dr-quarterly dr-monthly; \
-	  echo "Tip: run make doctor for a quick health scan, or make doctor-strict to fail on any warnings."; \
+	  echo "Tip: add inline descriptions with ## after target names"; \
 	'

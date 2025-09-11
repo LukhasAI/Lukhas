@@ -388,7 +388,7 @@ deep-clean: clean
 	@echo "✅ Deep clean complete!"
 
 # Quick fix and test
-quick: fix test
+quick: fix test ## Fix issues and run tests
 	@echo "✅ Quick fix and test complete!"
 
 # CODEX Strike Teams Support
@@ -787,7 +787,7 @@ check-scoped: lint-scoped test-contract type-scoped
 # ------------------------------------------------------------------------------
 
 # Aggregate
-doctor: doctor-tools doctor-py doctor-ci doctor-lanes doctor-tests doctor-audit doctor-dup-targets doctor-phony doctor-summary
+doctor: doctor-tools doctor-py doctor-ci doctor-lanes doctor-tests doctor-audit doctor-dup-targets doctor-phony doctor-summary ## Quick repo health scan (T4-style diagnostics)
 
 # 1) Tooling presence
 doctor-tools:

@@ -1,6 +1,6 @@
 # Test targets (core & advanced)
 .PHONY: test test-cov smoke test-tier1-matriz test-advanced test-property test-chaos test-metamorphic test-formal test-mutation test-performance test-oracles test-consciousness test-standalone
-test:
+test: ## Run full test suite
 	pytest tests/ -v --junitxml=test-results.xml
 
 test-cov:
@@ -10,7 +10,7 @@ test-cov:
 smoke:
 	python3 scripts/testing/smoke_check.py
 
-test-tier1-matriz:
+test-tier1-matriz: ## Run MATRIZ Tier-1 tests (fast, blocking smoke)
 	PYTHONPATH=. python3 -m pytest -q -m tier1 tests_new/matriz
 
 test-advanced:

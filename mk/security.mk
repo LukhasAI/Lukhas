@@ -1,6 +1,6 @@
 # Security operations & automation
 .PHONY: security security-scan security-update security-audit security-fix security-fix-vulnerabilities security-fix-issues security-fix-all security-ollama security-ollama-fix security-ollama-setup security-comprehensive-scan security-emergency-patch test-security security-autopilot security-monitor security-status security-schedule security-schedule-3h security-schedule-tonight security-schedule-list security-schedule-run
-security: security-audit security-scan
+security: security-audit security-scan ## Full security check suite
 	@echo "✅ Full security check complete!"
 
 security-scan:
