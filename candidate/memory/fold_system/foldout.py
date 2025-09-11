@@ -28,6 +28,7 @@
 
 import binascii
 import json
+import logging
 import struct
 from collections.abc import Iterable
 from datetime import datetime, timezone
@@ -36,6 +37,9 @@ from typing import Any, Optional
 
 import msgpack
 import zstandard as zstd
+
+logger = logging.getLogger(__name__)
+
 
 # LKF-Pack v1 magic bytes
 MAGIC = b"LKF\x01"
