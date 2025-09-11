@@ -17,6 +17,7 @@ Exit codes:
 Usage:
   python tools/ci/brand_scan.py [root_dir]
 """
+
 from __future__ import annotations
 
 import re

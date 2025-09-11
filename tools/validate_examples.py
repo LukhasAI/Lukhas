@@ -3,6 +3,7 @@
 
 Usage: python3 tools/validate_examples.py
 """
+
 import json
 import os
 import sys

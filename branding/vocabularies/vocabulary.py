@@ -24,18 +24,19 @@ Provides semantic meaning and symbolic representation for dream processing.
 # Dream Phase Symbols
 
 
-from core.utils.__init__ import symbolic_message
 import random
-import random
+
+from lukhas.core.utils.__init__ import symbolic_message
 
 
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
-    
+
     This is a placeholder for functionality that needs to be implemented.
     Replace this stub with the actual implementation.
     """
     raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+
 
 DREAM_PHASE_SYMBOLS = {
     "initiation": "🌅 Gentle Awakening",
@@ -279,14 +280,12 @@ def get_dream_symbol(category: str, item: str) -> str:
 def get_dream_narrative(phase: str) -> str:
     """Get random narrative text for dream phase."""
 
-
     narratives = DREAM_NARRATIVES.get(phase, ["The dream unfolds..."])
     return random.choice(narratives)
 
 
 def get_visual_hint(phase: str) -> str:
     """Get random visual hint for dream phase."""
-
 
     hints = VISUAL_HINTS.get(phase, ["A mysterious dreamscape"])
     return random.choice(hints)

@@ -3,11 +3,12 @@ Value Creation Synthesizer
 
 Synthesizes value creation strategies and optimization paths.
 """
+
 import logging
 from dataclasses import dataclass
 from typing import Any
 
-from core.interfaces import CoreInterface
+from lukhas.core.interfaces import CoreInterface
 
 logger = logging.getLogger(__name__)
 

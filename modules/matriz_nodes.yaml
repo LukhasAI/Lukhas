@@ -1,0 +1,131 @@
+identity:
+  name: matriz.nodes
+  layer: application
+  summary: matriz.nodes module with 3 classes and 3 functions
+  status: active
+  tier: 2
+discovery:
+  import_patterns:
+  - from matriz.nodes import extract_key_terms
+  - from matriz.nodes import MathNode
+  - from matriz.nodes import process
+  - from matriz.nodes import ValidatorNode
+  - from matriz.nodes import validate_output
+  import_aliases:
+  - nodes
+  file_patterns:
+  - matriz/nodes/**/*.py
+  - tests/matriz/nodes/**/*.py
+  entry_points:
+  - matriz/nodes/__init__.py
+ownership:
+  owner: '@ArchitectureTeam'
+  lifecycle: evolving
+  last_review: '2025-09-10T11:32:19.601183+00:00'
+  promotion_rules: {}
+contracts:
+  api:
+    surface:
+    - 'python: matriz.nodes.extract_key_terms'
+    - 'python: matriz.nodes.MathNode'
+    - 'python: matriz.nodes.process'
+    - 'python: matriz.nodes.ValidatorNode'
+    - 'python: matriz.nodes.validate_output'
+    - 'python: matriz.nodes.FactNode'
+    version: v1.0.0
+    compatibility:
+      backward: true
+      forward: minor
+  invariants:
+  - module loads without errors
+  - public API remains stable
+dependencies:
+  internal:
+    requires: []
+    provides:
+    - matriz.nodes
+  external:
+    libs:
+    - name: core
+      version: unknown
+      license: unknown
+      purpose: library dependency
+  coupling_metrics:
+    afferent: 0
+    efferent: 0
+    instability_index: 0.0
+runtime:
+  processes:
+    entrypoints:
+    - python -m matriz.nodes
+    concurrency_model: thread
+  config:
+    files: []
+    env_vars_required: []
+    feature_flags: []
+  resources:
+    cpu_limit: 0.5 vcpu
+    mem_limit: 256 MiB
+data_and_events:
+  data_classes:
+  - name: ValidatorNode
+    schema_ref: audit/SCHEMAS/validatornode.json
+    description: ValidatorNode data class
+  - name: FactNode
+    schema_ref: audit/SCHEMAS/factnode.json
+    description: FactNode data class
+  - name: MathNode
+    schema_ref: audit/SCHEMAS/mathnode.json
+    description: MathNode data class
+  pii:
+    contains: false
+    classification: internal
+security:
+  secrets:
+    sources:
+    - env
+    files: []
+  authz_model: internal_only
+  compliance:
+    data_classification: internal
+observability:
+  logs:
+    format: structured_json
+    level: info
+  metrics:
+    exporter: prometheus
+    key_metrics:
+    - name: matriz_nodes_calls_total
+      target: '>0'
+      type: counter
+  slos:
+    error_rate_pct: 1.0
+    availability_pct: 99.0
+test_posture:
+  coverage:
+    current: 0.0
+    target: 0.8
+  tests:
+    unit: 0
+    integration: 0
+risk_and_change:
+  risks:
+  - id: R-MATRIZ-NODES-GENERATED
+    title: Auto-generated schema may be incomplete
+    likelihood: medium
+    impact: low
+    mitigation: Manual review and enhancement required
+    status: open
+provenance:
+  schema_version: '1.0'
+  last_updated: '2025-09-10T11:32:19.601183+00:00'
+  source_paths:
+  - matriz/nodes
+  generated_by:
+    tool: lukhas-module-generator
+    version: 1.0.0
+    timestamp: '2025-09-10T11:32:19.601183+00:00'
+  validation:
+    schema_valid: true
+    last_validated: '2025-09-10T11:32:19.601183+00:00'
+    validator_version: 1.0.0

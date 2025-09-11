@@ -5,6 +5,7 @@ Trinity Framework: ⚛️🧠🛡️
 
 This module consolidates emotional memory functionality from various locations.
 """
+
 import logging
 import time
 from datetime import datetime, timezone
@@ -33,7 +34,7 @@ class EmotionalMemory:
             "content": content,
             "emotion_type": emotion_type,
             "intensity": intensity,
-            "timestamp": datetime.now(timezone.utc)
+            "timestamp": datetime.now(timezone.utc),
         }
         self.memories.append(memory)
         return memory_id
@@ -44,8 +45,7 @@ class EmotionalMemory:
 
     def trigger_replay(self, emotion_type: str, threshold: float = 0.5) -> list[dict]:
         """Trigger replay of emotional memories above threshold"""
-        return [m for m in self.memories
-                if m["emotion_type"] == emotion_type and m["intensity"] >= threshold]
+        return [m for m in self.memories if m["emotion_type"] == emotion_type and m["intensity"] >= threshold]
 
 
 class EmotionalMemoryManager:

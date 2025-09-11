@@ -1,0 +1,157 @@
+identity:
+  name: lukhas.core
+  layer: foundational
+  summary: lukhas.core module with 82 classes and 239 functions
+  status: active
+  tier: 1
+discovery:
+  import_patterns:
+  - from lukhas.core import trace_agent_collaboration
+  - from lukhas.core import register_handler
+  - from lukhas.core import GLYPHPriority
+  - from lukhas.core import format
+  - from lukhas.core import restart_core
+  import_aliases:
+  - core
+  file_patterns:
+  - lukhas/core/**/*.py
+  - tests/lukhas/core/**/*.py
+  entry_points:
+  - lukhas/core/__init__.py
+ownership:
+  owner: '@TechLead'
+  lifecycle: evolving
+  last_review: '2025-09-10T11:32:19.424771+00:00'
+  promotion_rules: {}
+contracts:
+  api:
+    surface:
+    - 'python: lukhas.core.trace_agent_collaboration'
+    - 'python: lukhas.core.register_handler'
+    - 'python: lukhas.core.GLYPHPriority'
+    - 'python: lukhas.core.format'
+    - 'python: lukhas.core.restart_core'
+    - 'python: lukhas.core.CoreWrapper'
+    - 'python: lukhas.core.log_execution'
+    - 'python: lukhas.core.calculate_decay_rate'
+    - 'python: lukhas.core.get'
+    - 'python: lukhas.core.synchronize_consciousness_dream_states'
+    version: v1.0
+    compatibility:
+      backward: true
+      forward: minor
+  invariants:
+  - module loads without errors
+  - public API remains stable
+dependencies:
+  internal:
+    requires: []
+    provides:
+    - lukhas.core
+  external:
+    libs:
+    - name: importlib
+      version: unknown
+      license: unknown
+      purpose: library dependency
+  coupling_metrics:
+    afferent: 2
+    efferent: 0
+    instability_index: 1.0
+runtime:
+  processes:
+    entrypoints:
+    - python -m lukhas.core
+    concurrency_model: async
+  config:
+    files:
+    - lukhas/core/MODULE_MANIFEST.json
+    - lukhas/core/policy/MODULE_MANIFEST.json
+    env_vars_required: []
+    feature_flags: []
+  resources:
+    cpu_limit: 0.5 vcpu
+    mem_limit: 256 MiB
+data_and_events:
+  data_classes:
+  - name: Tag
+    schema_ref: audit/SCHEMAS/tag.json
+    description: Tag data class
+  - name: ColonyStatus
+    schema_ref: audit/SCHEMAS/colonystatus.json
+    description: ColonyStatus data class
+  - name: SupervisorAgent
+    schema_ref: audit/SCHEMAS/supervisoragent.json
+    description: SupervisorAgent data class
+  - name: StateSnapshotter
+    schema_ref: audit/SCHEMAS/statesnapshotter.json
+    description: StateSnapshotter data class
+  - name: GLYPHPriority
+    schema_ref: audit/SCHEMAS/glyphpriority.json
+    description: GLYPHPriority data class
+  pii:
+    contains: false
+    classification: internal
+security:
+  secrets:
+    sources:
+    - env
+    files: []
+  authz_model: internal_only
+  compliance:
+    data_classification: internal
+observability:
+  logs:
+    format: structured_json
+    level: info
+  metrics:
+    exporter: prometheus
+    key_metrics:
+    - name: lukhas_core_calls_total
+      target: '>0'
+      type: counter
+  slos:
+    error_rate_pct: 1.0
+    availability_pct: 99.0
+test_posture:
+  coverage:
+    current: 0.030303030303030304
+    target: 0.8
+  tests:
+    unit: 1
+    integration: 0
+risk_and_change:
+  risks:
+  - id: R-LUKHAS-CORE-GENERATED
+    title: Auto-generated schema may be incomplete
+    likelihood: medium
+    impact: low
+    mitigation: Manual review and enhancement required
+    status: open
+provenance:
+  schema_version: '1.0'
+  last_updated: '2025-09-10T11:32:19.424771+00:00'
+  source_paths:
+  - lukhas/core
+  generated_by:
+    tool: lukhas-module-generator
+    version: 1.0.0
+    timestamp: '2025-09-10T11:32:19.424771+00:00'
+  validation:
+    schema_valid: true
+    last_validated: '2025-09-10T11:32:19.424771+00:00'
+    validator_version: 1.0.0
+
+# GENERATION FREEZE: Non-Tier-1 modules frozen pending validation
+# This module is frozen until Tier-1 validation path is proven
+# To unfreeze: Remove this section and update the freeze registry
+generation_freeze:
+  frozen: true
+  reason: "Tier-1 validation path implementation"
+  frozen_date: "2025-09-10T13:00:00Z"
+  unfreeze_criteria:
+    - "Tier-1 validation path proven stable"
+    - "All Tier-1 contracts validated"
+    - "Reality tests passing for Tier-1"
+    - "Architectural review approval"
+

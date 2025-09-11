@@ -3,6 +3,7 @@
 GPT-5 Healthcare Integration for LUKHAS Healthcare Guardian
 Advanced medical AI capabilities for Spanish elderly care
 """
+
 import logging
 import os
 from dataclasses import dataclass

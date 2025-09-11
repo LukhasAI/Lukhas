@@ -206,7 +206,8 @@ async def enhanced_consciousness_query(request: ConsciousnessQueryRequest):
                 dream_session = agi_dream_bridge.get_dream_session(dream_session_id)
                 if dream_session and dream_session.success:
                     dream_insights = [
-                        insight.get("content", "") for insight in dream_session.insights_generated[:3]  # Limit for API
+                        insight.get("content", "")
+                        for insight in dream_session.insights_generated[:3]  # Limit for API
                     ]
 
             except Exception as e:

@@ -11,6 +11,7 @@ This gate is designed for pre/post-MATRIZ workspace auditing:
 
 Exit code: 0 = pass, 2 = violations (ready for audit integration)
 """
+
 from __future__ import annotations
 
 import ast

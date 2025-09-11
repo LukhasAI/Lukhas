@@ -3,9 +3,14 @@ LUKHAS AI Memory Module
 Fold-based memory with cascade prevention and emotional valence tracking
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
+
 from typing import Any, Optional
 
-import streamlit as st
+try:
+    import streamlit as st
+except ImportError:  # pragma: no cover
+    st = None
+    # Optional UI dependency; core runtime must not require it.
 
 # Version info
 __version__ = "1.0.0"
@@ -95,7 +100,9 @@ def dump_state(output_path: str) -> dict[str, Any]:
         state = {
             "version": __version__,
             "folds": fold_count,
-            "checksum": hashlib.sha256(f"version:{__version__},folds:{fold_count},time:{time.time()}".encode()).hexdigest(),
+            "checksum": hashlib.sha256(
+                f"version:{__version__},folds:{fold_count},time:{time.time()}".encode()
+            ).hexdigest(),
             "timestamp": time.time(),
             "status": "memory_available",
         }

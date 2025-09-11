@@ -12,6 +12,7 @@ from typing import Any, Callable, Optional
 
 class SelectionStrategy(Enum):
     """Strategies for tool selection."""
+
     OPTIMAL = "optimal"
     FASTEST = "fastest"
     MOST_ACCURATE = "most_accurate"
@@ -22,6 +23,7 @@ class SelectionStrategy(Enum):
 
 class ToolCategory(Enum):
     """Categories of tools."""
+
     LEARNING = "learning"
     REASONING = "reasoning"
     MEMORY = "memory"
@@ -36,7 +38,7 @@ class ToolMetrics:
     """Performance metrics for a tool."""
 
     accuracy: float = 0.0  # 0.0 to 1.0
-    speed: float = 0.0     # Inverted execution time (higher = faster)
+    speed: float = 0.0  # Inverted execution time (higher = faster)
     reliability: float = 0.0  # Success rate 0.0 to 1.0
     resource_usage: float = 0.0  # 0.0 to 1.0 (lower = better)
     user_satisfaction: float = 0.0  # 0.0 to 1.0
@@ -107,7 +109,7 @@ class ToolSelector:
         category: ToolCategory,
         capabilities: Optional[list[str]] = None,
         tool_function: Optional[Callable] = None,
-        **kwargs
+        **kwargs,
     ) -> ToolInfo:
         """Register a tool with the selector."""
         tool_info = ToolInfo(
@@ -117,26 +119,25 @@ class ToolSelector:
             category=category,
             capabilities=capabilities or [],
             tool_function=tool_function,
-            **kwargs
+            **kwargs,
         )
 
         self.registered_tools[tool_id] = tool_info
 
         # Log registration
-        self.selection_history.append({
-            "event": "tool_registered",
-            "tool_id": tool_id,
-            "name": name,
-            "category": category.value,
-            "timestamp": datetime.now(timezone.utc)
-        })
+        self.selection_history.append(
+            {
+                "event": "tool_registered",
+                "tool_id": tool_id,
+                "name": name,
+                "category": category.value,
+                "timestamp": datetime.now(timezone.utc),
+            }
+        )
 
         return tool_info
 
-    async def select_tools(
-        self,
-        context: SelectionContext
-    ) -> list[ToolRecommendation]:
+    async def select_tools(self, context: SelectionContext) -> list[ToolRecommendation]:
         """Select the best tools for a given context."""
         candidates = []
 
@@ -146,18 +147,9 @@ class ToolSelector:
 
             if compatibility_score > 0.0:  # Only consider compatible tools
                 performance_score = self._calculate_performance_score(tool_info, context)
-                overall_score = self._calculate_overall_score(
-                    compatibility_score,
-                    performance_score,
-                    context
-                )
+                overall_score = self._calculate_overall_score(compatibility_score, performance_score, context)
 
-                reasoning = self._generate_reasoning(
-                    tool_info,
-                    compatibility_score,
-                    performance_score,
-                    context
-                )
+                reasoning = self._generate_reasoning(tool_info, compatibility_score, performance_score, context)
 
                 recommendation = ToolRecommendation(
                     tool_info=tool_info,
@@ -165,7 +157,7 @@ class ToolSelector:
                     performance_score=performance_score,
                     overall_score=overall_score,
                     reasoning=reasoning,
-                    confidence=min(compatibility_score, performance_score)
+                    confidence=min(compatibility_score, performance_score),
                 )
 
                 candidates.append(recommendation)
@@ -177,21 +169,19 @@ class ToolSelector:
         selected = self._apply_selection_strategy(candidates, context)
 
         # Log selection
-        self.selection_history.append({
-            "event": "tools_selected",
-            "context": context.task_description,
-            "strategy": context.selection_strategy.value,
-            "selected_tools": [r.tool_info.tool_id for r in selected],
-            "timestamp": datetime.now(timezone.utc)
-        })
+        self.selection_history.append(
+            {
+                "event": "tools_selected",
+                "context": context.task_description,
+                "strategy": context.selection_strategy.value,
+                "selected_tools": [r.tool_info.tool_id for r in selected],
+                "timestamp": datetime.now(timezone.utc),
+            }
+        )
 
-        return selected[:context.max_tools]
+        return selected[: context.max_tools]
 
-    def _calculate_compatibility(
-        self,
-        tool_info: ToolInfo,
-        context: SelectionContext
-    ) -> float:
+    def _calculate_compatibility(self, tool_info: ToolInfo, context: SelectionContext) -> float:
         """Calculate how compatible a tool is with the context."""
         score = 0.0
 
@@ -217,11 +207,7 @@ class ToolSelector:
 
         return min(score, 1.0)
 
-    def _calculate_performance_score(
-        self,
-        tool_info: ToolInfo,
-        context: SelectionContext
-    ) -> float:
+    def _calculate_performance_score(self, tool_info: ToolInfo, context: SelectionContext) -> float:
         """Calculate performance score based on metrics and priorities."""
         metrics = tool_info.metrics
         priorities = context.performance_priorities
@@ -232,27 +218,24 @@ class ToolSelector:
             "speed": 0.2,
             "reliability": 0.3,
             "resource_usage": 0.1,  # Inverted (lower is better)
-            "user_satisfaction": 0.1
+            "user_satisfaction": 0.1,
         }
 
         weights = {**default_weights, **priorities}
 
         # Calculate weighted score
         score = (
-            weights.get("accuracy", 0) * metrics.accuracy +
-            weights.get("speed", 0) * metrics.speed +
-            weights.get("reliability", 0) * metrics.reliability +
-            weights.get("resource_usage", 0) * (1.0 - metrics.resource_usage) +  # Inverted
-            weights.get("user_satisfaction", 0) * metrics.user_satisfaction
+            weights.get("accuracy", 0) * metrics.accuracy
+            + weights.get("speed", 0) * metrics.speed
+            + weights.get("reliability", 0) * metrics.reliability
+            + weights.get("resource_usage", 0) * (1.0 - metrics.resource_usage)  # Inverted
+            + weights.get("user_satisfaction", 0) * metrics.user_satisfaction
         )
 
         return min(score, 1.0)
 
     def _calculate_overall_score(
-        self,
-        compatibility_score: float,
-        performance_score: float,
-        context: SelectionContext
+        self, compatibility_score: float, performance_score: float, context: SelectionContext
     ) -> float:
         """Calculate overall score for tool selection."""
         # Weighted combination of compatibility and performance
@@ -260,24 +243,19 @@ class ToolSelector:
         performance_weight = 0.4
 
         # Adjust weights based on strategy
-        if context.selection_strategy == SelectionStrategy.FASTEST:
-            performance_weight = 0.7
-            compatibility_weight = 0.3
-        elif context.selection_strategy == SelectionStrategy.MOST_ACCURATE:
+        if (
+            context.selection_strategy == SelectionStrategy.FASTEST
+            or context.selection_strategy == SelectionStrategy.MOST_ACCURATE
+        ):
             performance_weight = 0.7
             compatibility_weight = 0.3
 
-        overall = (compatibility_score * compatibility_weight +
-                  performance_score * performance_weight)
+        overall = compatibility_score * compatibility_weight + performance_score * performance_weight
 
         return overall
 
     def _generate_reasoning(
-        self,
-        tool_info: ToolInfo,
-        compatibility_score: float,
-        performance_score: float,
-        context: SelectionContext
+        self, tool_info: ToolInfo, compatibility_score: float, performance_score: float, context: SelectionContext
     ) -> str:
         """Generate human-readable reasoning for the recommendation."""
         reasons = []
@@ -300,16 +278,13 @@ class ToolSelector:
         if context.selection_strategy == SelectionStrategy.FASTEST:
             if tool_info.metrics.speed > 0.7:
                 reasons.append("fast execution time")
-        elif context.selection_strategy == SelectionStrategy.MOST_ACCURATE:
-            if tool_info.metrics.accuracy > 0.7:
-                reasons.append("high accuracy")
+        elif context.selection_strategy == SelectionStrategy.MOST_ACCURATE and tool_info.metrics.accuracy > 0.7:
+            reasons.append("high accuracy")
 
         return f"{tool_info.name}: " + ", ".join(reasons)
 
     def _apply_selection_strategy(
-        self,
-        candidates: list[ToolRecommendation],
-        context: SelectionContext
+        self, candidates: list[ToolRecommendation], context: SelectionContext
     ) -> list[ToolRecommendation]:
         """Apply the selection strategy to filter candidates."""
         if context.selection_strategy == SelectionStrategy.FASTEST:
@@ -335,7 +310,7 @@ class ToolSelector:
         speed: Optional[float] = None,
         reliability: Optional[float] = None,
         resource_usage: Optional[float] = None,
-        user_satisfaction: Optional[float] = None
+        user_satisfaction: Optional[float] = None,
     ) -> bool:
         """Update metrics for a tool."""
         if tool_id not in self.registered_tools:
@@ -369,29 +344,27 @@ class ToolSelector:
 
     def get_tools_by_category(self, category: ToolCategory) -> list[ToolInfo]:
         """Get all tools in a specific category."""
-        return [tool for tool in self.registered_tools.values()
-                if tool.category == category]
+        return [tool for tool in self.registered_tools.values() if tool.category == category]
 
 
 # Convenience functions
 async def quick_tool_selection(
     task_description: str,
     required_capabilities: Optional[list[str]] = None,
-    strategy: SelectionStrategy = SelectionStrategy.ADAPTIVE
+    strategy: SelectionStrategy = SelectionStrategy.ADAPTIVE,
 ) -> list[ToolRecommendation]:
     """Quick tool selection for simple use cases."""
     selector = ToolSelector()
 
     # Register some basic tools (for demonstration)
     selector.register_tool(
-        "basic_analyzer", "Basic Analyzer", "Simple analysis tool",
-        ToolCategory.ANALYSIS, ["analysis", "processing"]
+        "basic_analyzer", "Basic Analyzer", "Simple analysis tool", ToolCategory.ANALYSIS, ["analysis", "processing"]
     )
 
     context = SelectionContext(
         task_description=task_description,
         required_capabilities=required_capabilities or [],
-        selection_strategy=strategy
+        selection_strategy=strategy,
     )
 
     return await selector.select_tools(context)
@@ -402,16 +375,10 @@ ToolSelection = ToolSelector
 
 
 def create_selection_context(
-    task_description: str,
-    strategy: SelectionStrategy = SelectionStrategy.ADAPTIVE,
-    **kwargs
+    task_description: str, strategy: SelectionStrategy = SelectionStrategy.ADAPTIVE, **kwargs
 ) -> SelectionContext:
     """Create a selection context with common settings."""
-    return SelectionContext(
-        task_description=task_description,
-        selection_strategy=strategy,
-        **kwargs
-    )
+    return SelectionContext(task_description=task_description, selection_strategy=strategy, **kwargs)
 
 
 # Export main classes and functions
@@ -426,5 +393,5 @@ __all__ = [
     "SelectionCriteria",  # Alias for SelectionContext
     "ToolRecommendation",
     "quick_tool_selection",
-    "create_selection_context"
+    "create_selection_context",
 ]

@@ -11,6 +11,7 @@ Provides consciousness-aware reinforcement learning environment with:
 - Memory fold interaction
 - Trinity Framework compliance
 """
+
 from typing import Any, Optional
 
 import numpy as np

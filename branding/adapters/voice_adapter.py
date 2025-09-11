@@ -2,11 +2,15 @@
 LUKHAS Brand Voice Adapter - Trinity Framework (⚛️🧠🛡️)
 Smart interface to bridge/voice/ systems for brand-aware voice operations
 """
+
 import asyncio
 import logging
 import sys
 from pathlib import Path
 from typing import Any, Optional
+
+# Module logger
+logger = logging.getLogger(__name__)
 
 # Add bridge module to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent / "bridge"))
@@ -24,14 +28,18 @@ except ImportError as e:
     logging.warning(f"LLM Bridge not available: {e}")
     LLM_BRIDGE_AVAILABLE = False
 
-# Import voice systems with fallback
+# Import voice systems with fallback (avoiding circular imports)
 try:
-    from products.experience.voice.core import (
-        LUKHASAudioProcessor,
-        LUKHASVoiceSystem,
-        VoiceEffectsProcessor,
-        VoiceModulator,
-    )
+    # Try importing voice systems, but catch circular import issues
+    from products.experience.voice.bridge.interface import VoiceNode
+    from products.experience.voice.bridge.modulator import VoiceModulator
+    from products.experience.voice.bridge.synthesis import VoiceSynthesis
+
+    VOICE_SYSTEMS_AVAILABLE = True
+    logger.info("✅ Using products.experience.voice.bridge systems (REAL)")
+except ImportError as e:
+    logger.debug(f"Voice bridge systems not available ({e}), using compatibility layer")
+    VOICE_SYSTEMS_AVAILABLE = False
 
     VOICE_SYSTEMS_AVAILABLE = True
     logging.info("Real LUKHAS voice systems loaded successfully")
@@ -56,9 +64,10 @@ try:
             # Use real voice modulation parameters
             return {
                 "pitch": 1.0 + (intensity * 0.3 if emotion in ["happy", "excited"] else -intensity * 0.2),
-                "rate": 1.0 + (intensity * 0.2 if emotion == "excited" else -intensity * 0.3 if emotion == "sad" else 0),
+                "rate": 1.0
+                + (intensity * 0.2 if emotion == "excited" else -intensity * 0.3 if emotion == "sad" else 0),
                 "volume": 1.0,
-                "emphasis": intensity
+                "emphasis": intensity,
             }
 
         def enhance_text_expression(self, text: str, emotion: str, **kwargs) -> str:
@@ -68,7 +77,7 @@ try:
                 "sad": "<prosody rate='-20%' pitch='-10%'>",
                 "excited": "<prosody rate='+20%' pitch='+15%'>",
                 "calm": "<prosody rate='-5%'>",
-                "angry": "<prosody pitch='+20%' volume='+5dB'>"
+                "angry": "<prosody pitch='+20%' volume='+5dB'>",
             }
 
             marker = emotion_markers.get(emotion, "")
@@ -151,7 +160,7 @@ class BrandVoiceAdapter:
                 "emotional_resonance": 0.85,
                 "pace": "contemplative",
                 "tone_descriptors": ["inspiring", "mystical", "conscious"],
-                "lambda_emphasis": True
+                "lambda_emphasis": True,
             },
             "user_friendly": {
                 "expressiveness": 0.7,

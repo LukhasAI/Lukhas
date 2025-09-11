@@ -88,7 +88,7 @@ def generate_glymph_backstory(emoji_seed: str) -> dict:
 # (Uses OpenAI API + adds public/private QR codes to image)
 RETRO_PROMPTS = {
     "prom_king": "90s yearbook photo, Lukhas wearing crown, vaporwave colors,"
-    grainy film effect",
+    grainy film effect","
     "cereal_box": "Retro breakfast cereal box featuring Lukhas mascot, neon typography",
 }
 

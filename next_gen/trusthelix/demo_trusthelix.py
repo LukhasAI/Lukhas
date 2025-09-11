@@ -2,12 +2,13 @@
 """
 TrustHelix Demo - Shows the complete ethical audit system in action
 """
+
 import asyncio
 import logging
 
-from core.consent_path import ConsentPathLogger
-from core.drift_tracker import DriftTracker
-from core.mutation_tree import SymbolicMutationTree
+from lukhas.core.consent_path import ConsentPathLogger
+from lukhas.core.drift_tracker import DriftTracker
+from lukhas.core.mutation_tree import SymbolicMutationTree
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s", datefmt="%H:%M:%S")
 

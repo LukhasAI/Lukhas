@@ -3,6 +3,7 @@
 ΛLens API Schemas
 Pydantic models for API request/response validation
 """
+
 from typing import Any, Optional
 
 from pydantic import BaseModel, Field

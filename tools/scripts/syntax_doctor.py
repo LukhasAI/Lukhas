@@ -2,6 +2,7 @@
 """
 Syntax Doctor - Automatically fixes common Python syntax errors
 """
+
 import ast
 import os
 import re
@@ -96,7 +97,9 @@ class SyntaxDoctor:
     def fix_file(self, filepath):
         """Attempt to fix syntax errors in a file"""
         # Create backup
-        backup_path = self.backup_dir / (Path(filepath).name + f".{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.backup")
+        backup_path = self.backup_dir / (
+            Path(filepath).name + f".{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.backup"
+        )
         shutil.copy2(filepath, backup_path)
 
         try:

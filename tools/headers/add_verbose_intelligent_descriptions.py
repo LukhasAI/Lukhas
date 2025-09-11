@@ -8,8 +8,6 @@ Creates rich, narrative module descriptions with:
 2. Full technical and academic explanations
 Perfect for content generation systems.
 """
-from consciousness.qi import qi
-import streamlit as st
 
 import os
 import re
@@ -465,7 +463,7 @@ def run_cost_analysis():
         cost_info = estimate_costs(candidates, model)
         print(f"\n{model.upper()}:")
         print(f"  Total estimated cost: ${cost_info['total_estimated_cost']:.3f}")
-        print(f"  Per file: ${cost_info['total_estimated_cost'] / len(candidates)}:.3f}")
+        print(f"  Per file: ${cost_info['total_estimated_cost'] / len(candidates):.3f}")
 
     print("\n📁 CANDIDATE FILES:")
     for i, candidate in enumerate(candidates, 1):

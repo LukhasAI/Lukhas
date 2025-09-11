@@ -48,7 +48,8 @@ try:
     from candidate.governance.guardian.monitoring_dashboard import (
         AlertSeverity,
         GuardianMonitoringDashboard,
-        MonitoringScope)
+        MonitoringScope,
+    )
 except ImportError:
     GuardianMonitoringDashboard = None
     MonitoringScope = None
@@ -167,10 +168,12 @@ class UnifiedAlert:
     # Classification
     priority: AlertPriority
     category: str
-    component: Optional[str] = None
 
     # Timing
     created_at: datetime
+
+    # Fields with defaults
+    component: Optional[str] = None
     updated_at: Optional[datetime] = None
     resolved_at: Optional[datetime] = None
 
@@ -573,7 +576,7 @@ class UnifiedMonitoringDashboard:
                 if "alerts" in guardian_data and "recent" in guardian_data["alerts"]:
                     for alert_data in guardian_data["alerts"]["recent"]:
                         unified_alert = UnifiedAlert(
-                            alert_id=f"guardian_{alert_data.get('id', uuid.uuid4(}.hex[:8])}",
+                            alert_id=f"guardian_{alert_data.get('id', uuid.uuid4()).hex[:8]}",
                             source_system="guardian",
                             alert_type=alert_data.get("type", "unknown"),
                             title=f"Guardian Alert: {alert_data.get('type', 'Unknown')}",

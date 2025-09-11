@@ -4,6 +4,7 @@
 Enhanced LUKHAS AI ΛBot with Bio-Rhythmic Multi-Brain Coordination
 Integrates workspace MultiBrainSymphony for agent synchronization
 """
+
 import asyncio
 import logging
 import sys
@@ -14,13 +15,15 @@ from typing import Any
 
 # Add workspace core to path
 
+
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
-    
+
     This is a placeholder for functionality that needs to be implemented.
     Replace this stub with the actual implementation.
     """
     raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+
 
 sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas/core")
 sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas/core/brain")
@@ -186,7 +189,7 @@ class MultiBrainΛBot:
             await self._start_bio_rhythmic_sync()
 
         analysis_results = {
-                "session_id": f"multi_brain_{int(time.time())}",
+            "session_id": f"multi_brain_{int(time.time())}",
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "brain_states": {},
             "coordination_results": {},
@@ -421,7 +424,7 @@ async def main():
     print(f"   Bio-Sync Harmony: {results['synthesis']['integrated_findings']['bio_sync_harmony']:.2f}")
 
     print("\n🎯 Recommended Actions:")
-    for i, action in enumerate(results["synthesis"]["next_actions"], 1):
+    for _i, _action in enumerate(results["synthesis"]["next_actions"], 1):
         print(fix_later)
 
     print("\n🧠 Multi-Brain Symphony LUKHAS AI ΛBot Analysis Complete! 🎼")

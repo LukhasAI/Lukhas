@@ -7,7 +7,7 @@ Shows how the tag system provides human interpretability
 import os
 import sys
 
-from core.tags import (
+from lukhas.core.tags import (
     explain_tag,
     get_decision_tags,
     get_hormone_tags,
@@ -30,7 +30,7 @@ def demonstrate_tag_registry():
 
     # 2. Show categories
     print("\n📁 Tag Categories:")
-    from core.tags import TagCategory
+    from lukhas.core.tags import TagCategory
 
     for category in TagCategory:
         tags = registry.get_tags_by_category(category)
@@ -84,9 +84,7 @@ def demonstrate_tag_registry():
     print("\n⚡ High Priority Tags (priority <= 3):")
     report = registry.generate_tag_report()
     for tag_info in report["high_priority_tags"]:
-        print(
-            f"  - {tag_info['name']} (priority {tag_info['priority']}): {tag_info['meaning']}"
-        )
+        print(f"  - {tag_info['name']} (priority {tag_info['priority']}): {tag_info['meaning']}")
 
     # 9. Simulate a decision with tags
     print("\n💭 Simulating Decision Process:")
@@ -114,10 +112,7 @@ def demonstrate_tag_registry():
             # Check if any triggers match
             triggered = False
             for trigger in tag.triggers:
-                if any(
-                    word in str(decision_context).lower()
-                    for word in trigger.lower().split()
-                ):
+                if any(word in str(decision_context).lower() for word in trigger.lower().split()):
                     print(f"    ✓ Triggered by: {trigger}")
                     triggered = True
                     break

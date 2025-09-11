@@ -54,5 +54,6 @@ async def test_dangerous_input():
     vigilance_glyphs = [g for g in glyphs if "vigilance" in g.key]
     print(f"Vigilance glyphs: {len(vigilance_glyphs)}")
 
+
 if __name__ == "__main__":
     asyncio.run(test_dangerous_input())

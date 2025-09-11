@@ -5,6 +5,7 @@ Universal plugin architecture for modular AI components integration
 This provides the foundation for integrating Lambda Products and other modules
 as plug-and-play components into LUKHAS  and other systems.
 """
+
 import asyncio
 import contextlib
 import logging

@@ -42,15 +42,19 @@
 
 import asyncio
 import heapq
+import logging
 import random
 import threading
 from collections import namedtuple
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional, Union
 
 import numpy as np
+
+logger = logging.getLogger(__name__)
+
 
 # Experience tuple for storing RL experiences
 Experience = namedtuple(
@@ -1180,7 +1184,7 @@ async def example_episodic_replay():
         print(f"\n{strategy.value}:")
         print(f"  Sampled {len(sampled_memories)} memories")
         if len(weights) > 0:
-            print(f"  Avg importance weight: {np.mean(weights)}:.3f}")
+            print(f"  Avg importance weight: {np.mean(weights):.3f}")
 
         for i, memory in enumerate(sampled_memories):
             print(f"    Memory {i + 1}: reward={memory.experience.reward}, priority={memory.learning_value:.3f}")

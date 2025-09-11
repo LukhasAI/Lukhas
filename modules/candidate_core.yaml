@@ -1,0 +1,533 @@
+identity:
+  name: candidate.core
+  layer: foundational
+  summary: candidate.core module with 1510 classes and 1720 functions
+  status: active
+  tier: 1
+discovery:
+  import_patterns:
+  - from candidate.core import add_decision_callback
+  - from candidate.core import Plugin
+  - from candidate.core import ComponentType
+  - from candidate.core import AdaptiveResponse
+  - from candidate.core import EnhancedAuthenticationSystem
+  import_aliases:
+  - core
+  file_patterns:
+  - candidate/core/**/*.py
+  - tests/candidate/core/**/*.py
+  entry_points:
+  - candidate/core/__init__.py
+ownership:
+  owner: '@TechLead'
+  lifecycle: evolving
+  last_review: '2025-09-10T11:32:19.300069+00:00'
+  promotion_rules:
+    from_lane: candidate
+    to_lane: lukhas
+    required_checks:
+    - tests/smoke
+    - coverage
+    - lint
+    min_coverage: 0.8
+contracts:
+  api:
+    surface:
+    - 'python: candidate.core.add_decision_callback'
+    - 'python: candidate.core.Plugin'
+    - 'python: candidate.core.ComponentType'
+    - 'python: candidate.core.AdaptiveResponse'
+    - 'python: candidate.core.EnhancedAuthenticationSystem'
+    - 'python: candidate.core.SolutionProcessor'
+    - 'python: candidate.core.is_stable'
+    - 'python: candidate.core.generate_python_sbom'
+    - 'python: candidate.core.GuardianMetrics'
+    - 'python: candidate.core.query_knowledge'
+    version: v1.0.0
+    compatibility:
+      backward: true
+      forward: minor
+  invariants:
+  - module loads without errors
+  - public API remains stable
+dependencies:
+  internal:
+    requires:
+    - lukhas.emotion
+    provides:
+    - candidate.core
+  external:
+    libs:
+    - name: engines
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: memory
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: jwt
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: event_bus
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: dream_engine
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: routing
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: concurrent
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: events
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: memory_brain
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: google
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: abas
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: sdk
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: opentelemetry
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: reasoning
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: data_manager
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: security
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: attention
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: plotly
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: config
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: governance
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: torch
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: emotion
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: cognition
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: sklearn
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: trace
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: metacognition
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: V1
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: ethics
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: dream
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: _cleanup_archive
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: importlib
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: qi
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: symbolic_ai
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: integrations
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: identity
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: consciousness
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: learning
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: traits
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: orchestration
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: clusters
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: VOICE
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: meta_cognitive
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: neuro_symbolic
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: data_legacy
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: src
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: symbolic
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: interfaces
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: emotional_brain
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: dashboards
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: baggage
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: analysis_tools
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: bio_awareness
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: nias
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: prediction
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: modules
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: AGENT
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: bio
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: oracle
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: cryptography
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: brain
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: colony
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: compliance
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: creativity
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: user_interface_manager
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: diagnostic_engine
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: communication
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: evolution
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: collections
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: dast
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: fastapi
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: meta_learning
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: swarm
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: guardian
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: utils
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: voice
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: glyph
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: dreams_brain
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: backend
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: container
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: aethios
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: core
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: frontend
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: learning_brain
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: matplotlib
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: bio_symbolic
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: id_portal
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: email
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: symbolic_core
+      version: unknown
+      license: unknown
+      purpose: library dependency
+  coupling_metrics:
+    afferent: 223
+    efferent: 0
+    instability_index: 1.0
+runtime:
+  processes:
+    entrypoints:
+    - python -m candidate.core
+    concurrency_model: async
+  config:
+    files:
+    - candidate/core/symbolic/symbolic_persona_profile.yaml
+    - candidate/core/config.json
+    - candidate/core/api_fixes.json
+    - candidate/core/MODULE_MANIFEST.json
+    - candidate/core/symbolic_legacy/MODULE_MANIFEST.json
+    - candidate/core/symbolic_legacy/foundry/foundational_knowledge.json
+    - candidate/core/symbolic_legacy/foundry/cognitive_mesh_ai.json
+    - candidate/core/identity/MODULE_MANIFEST.json
+    - candidate/core/spine/memory_fold_config.json
+    - candidate/core/security/MODULE_MANIFEST.json
+    - candidate/core/consciousness/oracle/MODULE_MANIFEST.json
+    - candidate/core/symbolic_core/MODULE_MANIFEST.json
+    - candidate/core/symbolic_core/foundry/foundational_knowledge.json
+    - candidate/core/symbolic_core/foundry/cognitive_mesh_ai.json
+    - candidate/core/orchestration/brain/mesh/MODULE_MANIFEST.json
+    - candidate/core/orchestration/brain/config/permissions.json
+    - candidate/core/orchestration/brain/config/settings.json
+    - candidate/core/orchestration/monitoring/meta_learning_manifest.json
+    - candidate/core/orchestration/monitoring/meta_learning_manifest_broken.json
+    - candidate/core/orchestration/monitoring/meta_learning_manifest_fixed.json
+    - candidate/core/symbolic/HYBRID_COMPONENT.json
+    - candidate/core/neural/HYBRID_COMPONENT.json
+    - candidate/core/interfaces/interface_registry.json
+    - candidate/core/interfaces/tools/security/access_matrix.json
+    - candidate/core/interfaces/tools/security/secure_context_policy.json
+    - candidate/core/interfaces/as_agent/core/nias_manifest.json
+    - candidate/core/interfaces/as_agent/auth/vision_prompts.json
+    - candidate/core/interfaces/as_agent/sample_payloads/sample_payload_dream.json
+    - candidate/core/interfaces/as_agent/sample_payloads/sample_payload.json
+    - candidate/core/interfaces/as_agent/sample_payloads/sample_payload_batch_dreams.json
+    - candidate/core/interfaces/as_agent/utils/ethics_manifest.json
+    - candidate/core/interfaces/as_agent/utils/user_config.json
+    - candidate/core/interfaces/as_agent/schemas/sample_payload.json
+    - candidate/core/interfaces/as_agent/schemas/message_schema.json
+    - candidate/core/interfaces/as_agent/sys/nias/sample_payload_dream.json
+    - candidate/core/interfaces/as_agent/widgets/widget_registry.json
+    env_vars_required: []
+    feature_flags: []
+  resources:
+    cpu_limit: 0.5 vcpu
+    mem_limit: 256 MiB
+data_and_events:
+  data_classes:
+  - name: Plugin
+    schema_ref: audit/SCHEMAS/plugin.json
+    description: Plugin data class
+  - name: ComponentType
+    schema_ref: audit/SCHEMAS/componenttype.json
+    description: ComponentType data class
+  - name: AdaptiveResponse
+    schema_ref: audit/SCHEMAS/adaptiveresponse.json
+    description: AdaptiveResponse data class
+  - name: EnhancedAuthenticationSystem
+    schema_ref: audit/SCHEMAS/enhancedauthenticationsystem.json
+    description: EnhancedAuthenticationSystem data class
+  - name: SolutionProcessor
+    schema_ref: audit/SCHEMAS/solutionprocessor.json
+    description: SolutionProcessor data class
+  pii:
+    contains: false
+    classification: internal
+security:
+  secrets:
+    sources:
+    - env
+    files: []
+  authz_model: internal_only
+  compliance:
+    data_classification: internal
+observability:
+  logs:
+    format: structured_json
+    level: info
+  metrics:
+    exporter: prometheus
+    key_metrics:
+    - name: candidate_core_calls_total
+      target: '>0'
+      type: counter
+  slos:
+    error_rate_pct: 1.0
+    availability_pct: 99.0
+test_posture:
+  coverage:
+    current: 0.003883495145631068
+    target: 0.8
+  tests:
+    unit: 4
+    integration: 2
+risk_and_change:
+  risks:
+  - id: R-CANDIDATE-CORE-GENERATED
+    title: Auto-generated schema may be incomplete
+    likelihood: medium
+    impact: low
+    mitigation: Manual review and enhancement required
+    status: open
+provenance:
+  schema_version: '1.0'
+  last_updated: '2025-09-10T11:32:19.300069+00:00'
+  source_paths:
+  - candidate/core
+  generated_by:
+    tool: lukhas-module-generator
+    version: 1.0.0
+    timestamp: '2025-09-10T11:32:19.300069+00:00'
+  validation:
+    schema_valid: true
+    last_validated: '2025-09-10T11:32:19.300069+00:00'
+    validator_version: 1.0.0

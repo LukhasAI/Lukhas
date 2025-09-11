@@ -23,12 +23,14 @@ def fix_f_string_hexdigest_pattern(content: str) -> tuple[str, int]:
     content = pattern.sub(".hexdigest()}[", content)
     return content, fixes
 
+
 def fix_float_nan_pattern(content: str) -> tuple[str, int]:
     """Fix the proven float pattern: float("nan"} → float("nan")"""
     pattern = re.compile(r'float\("(nan|inf)"\}')
     fixes = len(pattern.findall(content))
     content = pattern.sub(r'float("\1")', content)
     return content, fixes
+
 
 def fix_css_f_string_braces(content: str) -> tuple[str, int]:
     """Fix CSS f-string brace escaping: ; } → ; }}"""
@@ -40,6 +42,7 @@ def fix_css_f_string_braces(content: str) -> tuple[str, int]:
     fixes = len(pattern.findall(content))
     content = pattern.sub(r"\1}}", content)
     return content, fixes
+
 
 def fix_known_patterns_only(file_path: Path) -> tuple[int, bool]:
     """Apply ONLY proven patterns that we know work"""
@@ -65,9 +68,11 @@ def fix_known_patterns_only(file_path: Path) -> tuple[int, bool]:
                 f.write(content)
 
             # Test compilation
-            result = subprocess.run([
-                "python3", "-c", f'import py_compile; py_compile.compile("{file_path}", doraise=True)'
-            ], capture_output=True, text=True)
+            result = subprocess.run(
+                ["python3", "-c", f'import py_compile; py_compile.compile("{file_path}", doraise=True)'],
+                capture_output=True,
+                text=True,
+            )
 
             if result.returncode == 0:
                 print(f"✅ {file_path.name}: Applied {total_fixes} proven fixes - COMPILES")
@@ -82,6 +87,7 @@ def fix_known_patterns_only(file_path: Path) -> tuple[int, bool]:
         print(f"❌ Error processing {file_path}: {e}")
         return 0, False
 
+
 def get_target_files() -> list[Path]:
     """Get files that are likely to have our proven patterns"""
     target_files = []
@@ -92,7 +98,7 @@ def get_target_files() -> list[Path]:
         "candidate/api/audit.py",
         "candidate/aka_qualia/tests/test_memory_security.py",
         "candidate/aka_qualia/tests/conftest.py",
-        "candidate/aka_qualia/cli/gdpr_erase_user.py"
+        "candidate/aka_qualia/cli/gdpr_erase_user.py",
     ]
 
     for file_path in known_pattern_files:
@@ -101,6 +107,7 @@ def get_target_files() -> list[Path]:
             target_files.append(path)
 
     return target_files
+
 
 def main():
     print("🎯 Proven Pattern Syntax Fixer")
@@ -128,6 +135,7 @@ def main():
 
     if total_fixes > 0:
         print("\n🚀 Ready to test compilation and commit!")
+
 
 if __name__ == "__main__":
     main()

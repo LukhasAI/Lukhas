@@ -7,6 +7,7 @@ Enforces preferred phrasing in agent-visible outputs:
 
 Intended for lightweight post-processing. Keep replacements conservative.
 """
+
 from __future__ import annotations
 
 import re

@@ -586,7 +586,7 @@ class UniversalDecisionInterceptor:
     async def _create_rollback_plan(self, decision_id: str) -> str:
         """Create a rollback plan for the decision"""
         return f"Rollback plan for {decision_id}: restore from checkpoint,"
-    notify stakeholders"
+    notify stakeholders""
 
     # Storage methods for distributed audit trail
     async def _store_in_memory_colony(self, audit_entry: AuditTrailEntry):

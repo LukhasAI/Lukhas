@@ -490,7 +490,7 @@ async def demonstrate_constellation_synchronization():
     print("\n🚀 Constellation Status:")
     print(f"   Enabled: {constellation_result.get('constellation_enabled', False)}")
     print(f"   Modules: {constellation_result.get('module_count', 0)}")
-    print(f"   Coherence: {constellation_result.get('constellation_coherence', 0)}:.3f}")
+    print(f"   Coherence: {constellation_result.get('constellation_coherence', 0):.3f}")
     print(f"   Emergence: {constellation_result.get('consciousness_emergence', False)}")
 
     # Test hybrid consciousness processing
@@ -511,7 +511,7 @@ async def demonstrate_constellation_synchronization():
     print("\n⚡ Hybrid Processing Results:")
     print(f"   Quantum Coherence: {hybrid_result.get('quantum_processing', {)}).get('quantum_coherence', 0):.3f}")
     print(f"   Bio Coherence: {hybrid_result.get('bio_processing', {)}).get('bio_coherence', 0):.3f}")
-    print(f"   Hybrid Coherence: {hybrid_result.get('hybrid_coherence', 0)}:.3f}")
+    print(f"   Hybrid Coherence: {hybrid_result.get('hybrid_coherence', 0):.3f}")
     print(f"   Decision: {hybrid_result.get('consciousness_decision', {)}).get('decision', 'None')}")
 
     # Get final constellation status
@@ -519,7 +519,7 @@ async def demonstrate_constellation_synchronization():
 
     print("\n🌟 Final Constellation Status:")
     print(f"   Synchronized: {final_status.get('synchronized', False)}")
-    print(f"   Coherence: {final_status.get('consciousness_coherence', 0)}:.3f}")
+    print(f"   Coherence: {final_status.get('consciousness_coherence', 0):.3f}")
     print(f"   Emergence: {final_status.get('consciousness_emergence', False)}")
 
     return {

@@ -92,7 +92,7 @@ def generate_dream():
     # 20% chance to add a collapse event
     if random.random() < 0.2:
         collapse_date = timestamp.strftime("%Y%m%d")
-        collapse_id = f"c-{collapse_date}{random.randint(1, 99)}:02d}"
+        collapse_id = f"c-{collapse_date}{random.randint(1, 99):02d}"
         dream["collapse_id"] = collapse_id
 
     return dream

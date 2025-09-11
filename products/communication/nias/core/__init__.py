@@ -8,6 +8,7 @@ This module contains the core NIΛS functionality including:
 - Dream recording and symbolic message processing
 - Integration with Lambda Products ecosystem
 """
+
 import streamlit as st
 
 from .consent_filter import ConsentFilter, get_consent_filter

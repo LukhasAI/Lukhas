@@ -235,7 +235,7 @@ def get_module_info(filepath: Path) -> dict[str, str]:
 
     if not info:
         # Generate info for unlisted files
-        module_name = f"Quantum {filepath.stem.replace('_', ' ').title(}}"
+        module_name = f"Quantum {filepath.stem.replace('_', ' ').title(}"
         info = {
             "name": module_name,
             "description": DEFAULT_INFO["description"],

@@ -13,7 +13,7 @@ features with the intent recognition system.
 """
 
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np

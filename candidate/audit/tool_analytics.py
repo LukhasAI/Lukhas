@@ -1,8 +1,6 @@
 """Tool Usage Analytics & Incident Tracking ⚛️🛡️
 Tracks actual tool invocations and blocks disallowed attempts.
 """
-import streamlit as st
-
 import hashlib
 import json
 import threading

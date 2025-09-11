@@ -715,10 +715,12 @@ async def test_communication_enhancement():
         content="Your project deadline is approaching.",
         mode=CommunicationMode.EMPATHETIC,
         target_audience="stressed_developer",
-        context={"emotional_state": {"stress": 0.8, "openness": 0.6},
-                 "constraints": ["supportive", "non_judgmental"],
-                 "goals": ["stress_reduction", "encouragement"],
-                 "emotional_tone": "calm"},
+        context={
+            "emotional_state": {"stress": 0.8, "openness": 0.6},
+            "constraints": ["supportive", "non_judgmental"],
+            "goals": ["stress_reduction", "encouragement"],
+            "emotional_tone": "calm",
+        },
     )
 
     result = await enhancer.process_communication_query(empathy_query)

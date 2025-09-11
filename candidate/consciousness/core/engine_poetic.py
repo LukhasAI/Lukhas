@@ -76,15 +76,10 @@ import logging
 ║ Symbolic Tags: {ΛCONSCIOUSNESS}, {ΛMIRROR}, {ΛPHI}, {ΛQUALIA}, {ΛAWARENESS}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from consciousness.qi import qi
-import random
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 from collections import deque
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 

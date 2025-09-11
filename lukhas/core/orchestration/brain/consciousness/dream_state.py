@@ -5,13 +5,14 @@ Date: 2025-01-27
 Description: Dream state management for consciousness processing.
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 
 class DreamStateType(Enum):
     """Types of dream states."""
+
     REM = "rem"
     NREM = "nrem"
     LUCID = "lucid"

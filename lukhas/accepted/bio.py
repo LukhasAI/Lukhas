@@ -17,6 +17,7 @@ try:
 except ImportError as e:
     # Log the import issue but provide fallbacks
     import logging
+
     logger = logging.getLogger(__name__)
     logger.debug(f"Some bio components not available: {e}")
 
@@ -29,8 +30,6 @@ except ImportError as e:
         def __init__(self):
             self.level = 0.5
 
+
 # Export main components
-__all__ = [
-    "BioEngine",
-    "BioAwareness"
-]
+__all__ = ["BioEngine", "BioAwareness"]

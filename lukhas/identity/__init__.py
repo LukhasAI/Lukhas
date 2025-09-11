@@ -10,6 +10,7 @@ Integrated Components:
 - lambda_id: Lambda ID system
 - identity_core: Core identity management and access tiers
 """
+
 import time
 
 import streamlit as st

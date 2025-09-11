@@ -1,0 +1,127 @@
+{
+  "module": "lukhas.api",
+  "version": "1.0",
+  "generated": "2025-09-10T13:00:00Z",
+  "description": "External API gateway, request routing, and response management contracts",
+  
+  "emit": [
+    {
+      "signal": "api.request.received",
+      "payload": {
+        "request_id": "string",
+        "method": "enum[GET,POST,PUT,DELETE,PATCH]",
+        "endpoint": "string", 
+        "headers": "object",
+        "body_size_bytes": "number",
+        "client_ip": "string",
+        "user_agent": "string",
+        "timestamp": "number"
+      },
+      "frequency": "very_high",
+      "criticality": "medium"
+    },
+    {
+      "signal": "api.response.sent",
+      "payload": {
+        "request_id": "string",
+        "status_code": "number",
+        "response_size_bytes": "number",
+        "processing_duration_ms": "number",
+        "cache_hit": "boolean",
+        "timestamp": "number"
+      },
+      "frequency": "very_high", 
+      "criticality": "low"
+    },
+    {
+      "signal": "api.auth.required",
+      "payload": {
+        "request_id": "string",
+        "endpoint": "string",
+        "required_scopes": "array[string]",
+        "timestamp": "number"
+      },
+      "frequency": "high",
+      "criticality": "high"
+    },
+    {
+      "signal": "api.rate_limit.exceeded", 
+      "payload": {
+        "client_id": "string",
+        "endpoint": "string", 
+        "current_rate": "number",
+        "limit": "number",
+        "window_ms": "number",
+        "timestamp": "number"
+      },
+      "frequency": "medium",
+      "criticality": "medium"
+    }
+  ],
+  
+  "receive": [
+    {
+      "signal": "identity.auth.token_validated",
+      "handler": "proceed_with_authorized_request",
+      "required": true,
+      "timeout_ms": 100
+    },
+    {
+      "signal": "identity.auth.token_invalid",
+      "handler": "return_401_unauthorized", 
+      "required": true,
+      "timeout_ms": 50
+    },
+    {
+      "signal": "orchestration.execution.trace",
+      "handler": "correlate_with_api_request",
+      "required": false,
+      "timeout_ms": 10
+    }
+  ],
+  
+  "glyphs": {
+    "api_traffic_dashboard": {
+      "type": "real_time_chart",
+      "shows": "request volume, response times, error rates",
+      "updates_on": ["request.received", "response.sent"]
+    },
+    "endpoint_health_matrix": {
+      "type": "status_grid",
+      "shows": "health status of all API endpoints", 
+      "updates_on": ["response.sent", "rate_limit.exceeded"]
+    }
+  },
+  
+  "invariants": [
+    "all_requests_receive_response_within_timeout",
+    "authentication_required_endpoints_reject_unauthed",
+    "rate_limits_enforced_consistently", 
+    "request_response_correlation_maintained",
+    "api_versioning_backward_compatible",
+    "error_responses_include_correlation_ids"
+  ],
+  
+  "error_modes": [
+    {
+      "code": "API_GATEWAY_TIMEOUT",
+      "description": "Backend processing exceeded timeout",
+      "recovery": "return_504_gateway_timeout",
+      "emit_signal": "api.error.gateway_timeout"
+    },
+    {
+      "code": "API_INVALID_REQUEST_FORMAT",
+      "description": "Request body/headers malformed",
+      "recovery": "return_400_bad_request_with_details",
+      "emit_signal": "api.error.invalid_format"
+    }
+  ],
+  
+  "slos": {
+    "availability": "99.95%",
+    "response_time_p95": "500ms", 
+    "response_time_p99": "1000ms",
+    "error_rate": "0.1%",
+    "auth_latency_p95": "100ms"
+  }
+}

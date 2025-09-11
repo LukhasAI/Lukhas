@@ -6,6 +6,7 @@ LUKHAS Intelligent Module Description Generator
 Uses OpenAI GPT to generate rich, narrative module descriptions
 that explain quantum functionality in poetic yet technical terms.
 """
+
 import os
 import re
 from pathlib import Path

@@ -5,6 +5,7 @@ Multimodal Processing for Universal Language
 Handles multi-modal inputs including text, emoji, images, audio, and gestures.
 Based on /symbolic/multi_modal_language.py and Universal Language spec.
 """
+
 import hashlib
 import logging
 import time

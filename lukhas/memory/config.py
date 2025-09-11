@@ -3,6 +3,7 @@ LUKHAS AI Memory Configuration
 Configuration settings for the memory system
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
+
 import os
 from dataclasses import dataclass
 from typing import Any

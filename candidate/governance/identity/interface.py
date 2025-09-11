@@ -33,6 +33,10 @@ sys.path.insert(0, lukhas_id_path)
 
 # Stub classes for development/fallback
 class TierValidator:
+    def __init__(self, config_path=None):
+        """Initialize with optional config path for compatibility"""
+        self.config_path = config_path
+
     def validate_tier(self, user_id: str, required_tier: str) -> bool:
         try:
             from governance.identity.core.user_tier_mapping import check_tier_access
@@ -44,16 +48,29 @@ class TierValidator:
 
 
 class ActivityLogger:
+    def __init__(self, config=None, consent_manager=None):
+        """Initialize with optional config and consent manager for compatibility"""
+        self.config = config or {}
+        self.consent_manager = consent_manager
+
     def log_activity(self, activity_type: str, user_id: str, metadata: dict) -> None:
         print(f"ΛTRACE: {activity_type} by {user_id}: {metadata}")
 
 
 class ConsentManager:
+    def __init__(self, config=None, *args, **kwargs):
+        """Initialize with optional config for compatibility"""
+        self.config = config or {}
+
     def check_consent(self, user_id: str, action: str) -> bool:
         return True
 
 
 class LambdIDValidator:
+    def __init__(self, config_path=None):
+        """Initialize with optional config path for compatibility"""
+        self.config_path = config_path
+
     def validate_identity(self, user_id: str) -> bool:
         return True
 
@@ -132,7 +149,7 @@ class IdentityClient:
             LambdIDValidatorClass = get_lambda_id_validator()
 
             # Try to initialize real components with fallback configurations
-            self.tier_validator = TierValidatorClass(config={})
+            self.tier_validator = TierValidatorClass(config_path=None)
             try:
                 self.activity_logger = ActivityLoggerClass(config={}, consent_manager=None)
             except TypeError:

@@ -3,6 +3,7 @@ Feedback Card System for LUKHAS
 ================================
 Human-in-the-loop learning system with symbolic feedback and bounded adaptation.
 """
+
 import hashlib
 import json
 import logging

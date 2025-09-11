@@ -1,10 +1,10 @@
-
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: compliance_dashboard.py
 Advanced: compliance_dashboard.py
 Integration Date: 2025-05-31T07:55:27.745437
 """
+
 # ════════════════════════════════════════════════════════════════════════
 # 📁 FILE: compliance_dashboard.py
 # 🛡️ PURPOSE: Institutional compliance viewer for emergency logs and GDPR status
@@ -17,7 +17,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from core.interfaces.voice.core.sayit import (
+from lukhas.core.interfaces.voice.core.sayit import (
     trace_tools,  # assuming trace_tools.py is importable
 )
 

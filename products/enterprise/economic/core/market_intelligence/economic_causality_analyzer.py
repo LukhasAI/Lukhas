@@ -3,12 +3,13 @@ Economic Causality Analyzer
 
 Analyzes economic cause-and-effect relationships for strategic decision making.
 """
+
 import logging
 from collections import defaultdict
 from dataclasses import dataclass
 from typing import Any
 
-from core.interfaces import CoreInterface
+from lukhas.core.interfaces import CoreInterface
 
 logger = logging.getLogger(__name__)
 

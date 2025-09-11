@@ -3,6 +3,7 @@
 SAS (Servicio Andaluz de Salud) Healthcare Connector
 Integrates with Andalusian healthcare system for appointments, prescriptions, and records
 """
+
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
@@ -262,7 +263,9 @@ class SASHealthcareConnector:
         appointments = self.appointment_cache.get(self.current_nuhsa, [])
 
         # Find next future appointment
-        future_appointments = [apt for apt in appointments if apt.date > datetime.now(timezone.utc) and apt.status != "cancelled"]
+        future_appointments = [
+            apt for apt in appointments if apt.date > datetime.now(timezone.utc) and apt.status != "cancelled"
+        ]
 
         if not future_appointments:
             return None

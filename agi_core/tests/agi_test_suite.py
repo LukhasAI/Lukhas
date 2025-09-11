@@ -167,7 +167,6 @@ class AGITestSuite:
         tool_framework: DreamGuidedToolFramework,
         constitutional_ai: ConstitutionalAI,
     ):
-
         # System components
         self.reasoning_engine = reasoning_engine
         self.dream_bridge = dream_bridge

@@ -4,6 +4,7 @@
 Bio Module Consolidation Tool
 Merges 19+ bio variants into unified structure
 """
+
 import ast
 import shutil
 import sqlite3

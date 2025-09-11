@@ -27,12 +27,10 @@ class AutonomousNuclearFixer:
             (r'f"([^"]*)\{([^}]+\.strip)\(\}([^"]*)"', r'f"\1{\2()}\3"', "METHOD"),
             (r'f"([^"]*)\{([^}]+\.timestamp)\(\}([^"]*)"', r'f"\1{\2()}\3"', "METHOD"),
             (r'f"([^"]*)\{([^}]+\.isoformat)\(\}([^"]*)"', r'f"\1{\2()}\3"', "METHOD"),
-
             # Function calls missing closing parenthesis
             (r'f"([^"]*)\{(time\.time)\(\}([^"]*)"', r'f"\1{\2()}\3"', "FUNCTION"),
             (r'f"([^"]*)\{(uuid\.uuid4)\(\}([^"]*)"', r'f"\1{\2()}\3"', "FUNCTION"),
             (r'f"([^"]*)\{(datetime\.now[^}]*)\(\}([^"]*)"', r'f"\1{\2()}\3"', "FUNCTION"),
-
             # Built-in functions missing closing parenthesis
             (r'f"([^"]*)\{(len)\(([^}]+)\}([^"]*)"', r'f"\1{\2(\3)}\4"', "BUILTIN"),
             (r'f"([^"]*)\{(hash)\(([^}]+)\}([^"]*)"', r'f"\1{\2(\3)}\4"', "BUILTIN"),
@@ -41,15 +39,12 @@ class AutonomousNuclearFixer:
             (r'f"([^"]*)\{(float)\(([^}]+)\}([^"]*)"', r'f"\1{\2(\3)}\4"', "BUILTIN"),
             (r'f"([^"]*)\{(bool)\(([^}]+)\}([^"]*)"', r'f"\1{\2(\3)}\4"', "BUILTIN"),
             (r'f"([^"]*)\{(type)\(([^}]+)\}([^"]*)"', r'f"\1{\2(\3)}\4"', "BUILTIN"),
-
             # Complex nested calls
             (r'f"([^"]*)\{([^}]*)\(([^}]*)\}([^"]*)"', r'f"\1{\2(\3)}\4"', "NESTED"),
-
             # Single quotes versions
             (r"f'([^']*)\{([^}]+\.upper)\(\}([^']*)'", r"f'\1{\2()}\3'", "METHOD_SINGLE"),
             (r"f'([^']*)\{([^}]+\.lower)\(\}([^']*)'", r"f'\1{\2()}\3'", "METHOD_SINGLE"),
             (r"f'([^']*)\{(len)\(([^}]+)\}([^']*)'", r"f'\1{\2(\3)}\4'", "BUILTIN_SINGLE"),
-
             # Attribute access patterns
             (r'f"([^"]*)\{([^}]+)\.__name__\}([^"]*)"', r'f"\1{\2.__name__}\3"', "ATTRIBUTE"),
             (r'f"([^"]*)\{([^}]+)\.get\(([^}]+)\}([^"]*)"', r'f"\1{\2.get(\3)}\4"', "METHOD_CALL"),
@@ -108,16 +103,13 @@ class AutonomousNuclearFixer:
         patterns = [
             # Root level blocking files
             "*.py",
-
             # Lukhas core - highest priority
             "lukhas/**/*.py",
-
             # Candidate consciousness and memory
             "candidate/consciousness/*.py",
             "candidate/memory/*.py",
             "candidate/agents/*.py",
             "candidate/bio/*.py",
-
             # Infrastructure
             "governance/*.py",
             "orchestration/*.py",
@@ -198,8 +190,7 @@ def main():
     if success:
         print("\n🧪 Running functional test to verify improvements...")
         try:
-            subprocess.run(["python3", "functional_test_suite.py"],
-                                  capture_output=True, text=True, timeout=60)
+            subprocess.run(["python3", "functional_test_suite.py"], capture_output=True, text=True, timeout=60)
             print("Functional test completed. Check results above.")
         except subprocess.TimeoutExpired:
             print("Functional test taking longer than expected...")

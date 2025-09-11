@@ -2,6 +2,7 @@
 LUKHAS AI - QRG Integration Bridge
 Production integration for QRG advanced authentication components
 """
+
 import logging
 import time
 from typing import Any

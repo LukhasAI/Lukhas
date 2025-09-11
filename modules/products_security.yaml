@@ -1,0 +1,202 @@
+identity:
+  name: products.security
+  layer: application
+  summary: products.security module with 112 classes and 59 functions
+  status: active
+  tier: 1
+discovery:
+  import_patterns:
+  - from products.security import MockPrivacyGuardian
+  - from products.security import DashboardMetrics
+  - from products.security import main
+  - from products.security import EntanglementCoordinator
+  - from products.security import BaseComplianceManager
+  import_aliases:
+  - security
+  file_patterns:
+  - products/security/**/*.py
+  - tests/products/security/**/*.py
+  entry_points:
+  - products/security/__init__.py
+ownership:
+  owner: '@SecurityTeam'
+  lifecycle: evolving
+  last_review: '2025-09-10T11:32:19.466023+00:00'
+  promotion_rules: {}
+contracts:
+  api:
+    surface:
+    - 'python: products.security.MockPrivacyGuardian'
+    - 'python: products.security.DashboardMetrics'
+    - 'python: products.security.main'
+    - 'python: products.security.EntanglementCoordinator'
+    - 'python: products.security.BaseComplianceManager'
+    - 'python: products.security.EmergencyLevel'
+    - 'python: products.security.detect_drift'
+    - 'python: products.security.QIResonanceGlyph'
+    - 'python: products.security.generate_chronon'
+    - 'python: products.security.GKVInterface'
+    version: v1.0.0
+    compatibility:
+      backward: true
+      forward: minor
+  invariants:
+  - module loads without errors
+  - public API remains stable
+dependencies:
+  internal:
+    requires:
+    - lukhas.consciousness
+    - lukhas.identity
+    provides:
+    - products.security
+  external:
+    libs:
+    - name: providers
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: emergency_systems
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: medical_ai
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: healthcare_guardian_es
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: vision_systems
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: voice_andaluz
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: interfaces
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: identity
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: core
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: security
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: sas_integration
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: consciousness
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: cryptography
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: scipy
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: symbolic_language
+      version: unknown
+      license: unknown
+      purpose: library dependency
+  coupling_metrics:
+    afferent: 35
+    efferent: 0
+    instability_index: 1.0
+runtime:
+  processes:
+    entrypoints:
+    - python -m products.security
+    concurrency_model: async
+  config:
+    files:
+    - products/security/healthcare_guardian/healthcare_guardian_es/config/healthcare_config.yaml
+    - products/security/healthcare_guardian/providers/templates/regions/europe/spain/config/sas_settings.yaml
+    - products/security/healthcare_guardian/providers/templates/regions/europe/germany/config/gkv_settings.yaml
+    env_vars_required: []
+    feature_flags: []
+  resources:
+    cpu_limit: 0.5 vcpu
+    mem_limit: 256 MiB
+data_and_events:
+  data_classes:
+  - name: MockPrivacyGuardian
+    schema_ref: audit/SCHEMAS/mockprivacyguardian.json
+    description: MockPrivacyGuardian data class
+  - name: DashboardMetrics
+    schema_ref: audit/SCHEMAS/dashboardmetrics.json
+    description: DashboardMetrics data class
+  - name: EntanglementCoordinator
+    schema_ref: audit/SCHEMAS/entanglementcoordinator.json
+    description: EntanglementCoordinator data class
+  - name: BaseComplianceManager
+    schema_ref: audit/SCHEMAS/basecompliancemanager.json
+    description: BaseComplianceManager data class
+  - name: EmergencyLevel
+    schema_ref: audit/SCHEMAS/emergencylevel.json
+    description: EmergencyLevel data class
+  pii:
+    contains: false
+    classification: internal
+security:
+  secrets:
+    sources:
+    - env
+    files: []
+  authz_model: internal_only
+  compliance:
+    data_classification: internal
+observability:
+  logs:
+    format: structured_json
+    level: info
+  metrics:
+    exporter: prometheus
+    key_metrics:
+    - name: products_security_calls_total
+      target: '>0'
+      type: counter
+  slos:
+    error_rate_pct: 1.0
+    availability_pct: 99.0
+test_posture:
+  coverage:
+    current: 0.0
+    target: 0.8
+  tests:
+    unit: 0
+    integration: 0
+risk_and_change:
+  risks:
+  - id: R-PRODUCTS-SECURITY-GENERATED
+    title: Auto-generated schema may be incomplete
+    likelihood: medium
+    impact: low
+    mitigation: Manual review and enhancement required
+    status: open
+provenance:
+  schema_version: '1.0'
+  last_updated: '2025-09-10T11:32:19.466023+00:00'
+  source_paths:
+  - products/security
+  generated_by:
+    tool: lukhas-module-generator
+    version: 1.0.0
+    timestamp: '2025-09-10T11:32:19.466023+00:00'
+  validation:
+    schema_valid: true
+    last_validated: '2025-09-10T11:32:19.466023+00:00'
+    validator_version: 1.0.0

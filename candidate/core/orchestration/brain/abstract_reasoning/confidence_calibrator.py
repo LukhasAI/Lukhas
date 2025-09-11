@@ -87,7 +87,7 @@ class BayesianConfidenceEstimator:
 
         logger.debug(
             f"Bayesian confidence: {confidence: .3f}(prior: {prior: .3f},"
-                                                     likelihood: {likelihood: .3f})"
+                                                     likelihood: {likelihood: .3f})""
         )
 
         return confidence
@@ -580,8 +580,8 @@ class MetaLearningCalibrator:
         self._update_calibration_model(record)
 
         logger.info(
-            f"Updated calibration: prediction={prediction_confidence: .3f},
-            outcome={actual_outcome}"
+            f"Updated calibration: prediction={prediction_confidence: .3f},"
+            outcome={actual_outcome}""
         )
 
     def _update_calibration_model(self, record: CalibrationRecord):
@@ -737,8 +737,8 @@ class AdvancedConfidenceCalibrator:
         )
 
         logger.info(
-            f"✅ Confidence calibration complete: Overall={overall_confidence: .3f},
-            Meta={meta_confidence: .3f}"
+            f"✅ Confidence calibration complete: Overall={overall_confidence: .3f},"
+            Meta={meta_confidence: .3f}""
         )
 
         return confidence_metrics

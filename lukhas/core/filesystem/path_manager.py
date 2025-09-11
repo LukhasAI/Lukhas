@@ -23,19 +23,19 @@ def get_project_root() -> Path:
     """
     # Start from current file location
     current = Path(__file__).resolve()
-    
+
     # Look for project root indicators
-    for parent in [current] + list(current.parents):
-        if any((parent / indicator).exists() for indicator in [
-            'pyproject.toml', 'README.md', 'CLAUDE.md', '.git',
-            'lukhas', 'candidate', 'branding'
-        ]):
+    for parent in [current, *list(current.parents)]:
+        if any(
+            (parent / indicator).exists()
+            for indicator in ["pyproject.toml", "README.md", "CLAUDE.md", ".git", "lukhas", "candidate", "branding"]
+        ):
             return parent
-    
+
     # Fallback to environment variable or current working directory
-    if 'LUKHAS_ROOT' in os.environ:
-        return Path(os.environ['LUKHAS_ROOT'])
-    
+    if "LUKHAS_ROOT" in os.environ:
+        return Path(os.environ["LUKHAS_ROOT"])
+
     return Path.cwd()
 
 
@@ -298,11 +298,8 @@ class LukhasPathManager:
         base_path = self.get_module_path("", lane)
         if not base_path.exists():
             return []
-        
-        return [
-            item.name for item in base_path.iterdir() 
-            if item.is_dir() and not item.name.startswith('.')
-        ]
+
+        return [item.name for item in base_path.iterdir() if item.is_dir() and not item.name.startswith(".")]
 
 
 # Global instance for easy imports
@@ -350,14 +347,14 @@ def ensure_lukhas_structure() -> dict[str, bool]:
         paths.assets,
         paths.reports,
     ]
-    
+
     for directory in core_dirs:
         try:
             paths.ensure_dir(directory)
             results[str(directory.name)] = True
-        except Exception as e:
+        except Exception:
             results[str(directory.name)] = False
-    
+
     return results
 
 

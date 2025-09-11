@@ -4,6 +4,7 @@ Mock aioredis module
 Provides basic aioredis compatibility for LUKHAS modules when aioredis is not available.
 """
 
+
 class MockRedis:
     """Mock Redis client for development/testing"""
 
@@ -34,18 +35,22 @@ class MockRedis:
         """Mock wait_closed operation"""
         pass
 
+
 # Mock the main aioredis functions
 async def create_redis_pool(*args, **kwargs):
     """Mock create_redis_pool"""
     return MockRedis()
 
+
 async def create_connection(*args, **kwargs):
     """Mock create_connection"""
     return MockRedis()
 
+
 def from_url(url, **kwargs):
     """Mock from_url"""
     return MockRedis()
+
 
 # Mock Redis class
 Redis = MockRedis

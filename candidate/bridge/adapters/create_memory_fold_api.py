@@ -5,7 +5,7 @@ Adds causal chain preservation and temporal navigation to any AI system
 """
 
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 
 import numpy as np

@@ -8,26 +8,31 @@ Constitutional AI Framework for Trinity-Compliant Ethics
 import logging
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
+
 class EthicalSeverity(Enum):
     """Ethical violation severity levels"""
+
     MINIMAL = "minimal"
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
     CRITICAL = "critical"
 
+
 @dataclass
 class EthicalDecision:
     """Represents an ethical decision with rationale"""
+
     decision: str
     rationale: str
     severity: EthicalSeverity
     confidence: float
     trinity_compliance: dict[str, bool]  # ⚛️🧠🛡️
+
 
 class ConstitutionalFramework:
     """Constitutional AI framework for LUKHAS ethical governance"""
@@ -38,7 +43,7 @@ class ConstitutionalFramework:
             "consciousness": "🧠 Enhance awareness while respecting autonomy",
             "guardian": "🛡️ Protect safety and prevent harm",
             "transparency": "Maintain clear ethical reasoning",
-            "accountability": "Take responsibility for decisions"
+            "accountability": "Take responsibility for decisions",
         }
 
     def evaluate_action(self, action: str, context: dict[str, Any]) -> EthicalDecision:
@@ -47,19 +52,16 @@ class ConstitutionalFramework:
         severity = EthicalSeverity.LOW
         confidence = 0.8
 
-        trinity_compliance = {
-            "identity": True,
-            "consciousness": True,
-            "guardian": True
-        }
+        trinity_compliance = {"identity": True, "consciousness": True, "guardian": True}
 
         return EthicalDecision(
             decision="approved",
             rationale=f"Action '{action}' complies with Trinity Framework principles",
             severity=severity,
             confidence=confidence,
-            trinity_compliance=trinity_compliance
+            trinity_compliance=trinity_compliance,
         )
+
 
 class SafetyMonitor:
     """AI Safety monitoring system"""
@@ -78,6 +80,7 @@ class SafetyMonitor:
         """Log an ethical violation"""
         logger.warning(f"🛡️ Ethical violation ({severity.value}): {violation}")
 
+
 class EthicsEngine:
     """Main ethics engine coordinating constitutional AI"""
 
@@ -93,6 +96,7 @@ class EthicsEngine:
         """Check if an action is safe to execute"""
         return self.safety_monitor.monitor_action(action, context)
 
+
 class SafetyChecker:
     """Simplified safety checker for compatibility"""
 
@@ -107,6 +111,7 @@ class SafetyChecker:
         """Validate item safety"""
         return self.check_safety(item)
 
+
 # Export main components
 __all__ = [
     "ConstitutionalFramework",
@@ -114,5 +119,5 @@ __all__ = [
     "EthicsEngine",
     "SafetyChecker",
     "EthicalDecision",
-    "EthicalSeverity"
+    "EthicalSeverity",
 ]

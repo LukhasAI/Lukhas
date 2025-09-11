@@ -23,12 +23,15 @@ from candidate.core.common import get_logger
 from .meta_ethics_governor import (
     CulturalContext,
     EthicalDecision,
-    EthicalEvaluation as MEGEvaluation,
     EthicalVerdict,
     MetaEthicsGovernor,
     Severity,
 )
-from .policy_engines.base import Decision as EthicsDecision, EthicsEvaluation, RiskLevel
+from .meta_ethics_governor import (
+    EthicalEvaluation as MEGEvaluation,
+)
+from .policy_engines.base import Decision as EthicsDecision
+from .policy_engines.base import EthicsEvaluation, RiskLevel
 
 logger = get_logger(__name__)
 

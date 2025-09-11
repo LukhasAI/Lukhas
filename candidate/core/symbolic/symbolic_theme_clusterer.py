@@ -739,7 +739,7 @@ class SymbolicThemeClusterer:
             summary += f"Core symbols: {', '.join(core_symbols)}\n"
             if supporting_symbols:
                 summary += f"Supporting symbols: {', '.join(supporting_symbols)}\n"
-            summary += f"Emotional tone: {dominant_emotion} ({emotional_tone.get(dominant_emotion, 0.0)}:.2f})\n"
+            summary += f"Emotional tone: {dominant_emotion} ({emotional_tone.get(dominant_emotion, 0.0):.2f})\n"
             summary += f"Symbol count: {len(symbols)}\n"
 
             summaries.append(summary)

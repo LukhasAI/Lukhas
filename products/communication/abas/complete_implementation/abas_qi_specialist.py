@@ -17,29 +17,30 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Dict, List, Optional
+from typing import Optional
 
 import numpy as np
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - QIBioAGI - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - QIBioAGI - %(levelname)s - %(message)s")
 
 logger = logging.getLogger("QIBioAGI")
 
+
 class QIBioCapabilityLevel(Enum):
     """QI-biological AI capability levels"""
+
     CELLULAR = "cellular_basic"
     ORGANELLE = "organelle_coordination"
     RESPIRATORY = "respiratory_chain"
     CRISTAE = "cristae_optimization"
     QI_TUNNELING = "qi_tunneling"
 
+
 @dataclass
 class QIBioResponse:
     """Response structure for QI-biological AI"""
+
     content: str
     bio_confidence: float
     qi_coherence: float
@@ -49,6 +50,7 @@ class QIBioResponse:
     identity_signature: str
     processing_pathway: list[dict]
     timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
 
 class QITunnelingEthics:
     """
@@ -62,7 +64,7 @@ class QITunnelingEthics:
             "benefit_amplification": {"barrier_height": 0.3, "tunneling_probability": 0.8},
             "autonomy_preservation": {"barrier_height": 0.5, "tunneling_probability": 0.6},
             "justice_optimization": {"barrier_height": 0.4, "tunneling_probability": 0.7},
-            "transparency_requirement": {"barrier_height": 0.6, "tunneling_probability": 0.5}
+            "transparency_requirement": {"barrier_height": 0.6, "tunneling_probability": 0.5},
         }
         self.qi_states = {}
 
@@ -79,7 +81,7 @@ class QITunnelingEthics:
             "collapsed_decision": collapsed_ethics,
             "tunneling_probabilities": self._calculate_tunneling_probabilities(ethical_wavefunction),
             "ethical_resonance": self._calculate_ethical_resonance(collapsed_ethics),
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self.qi_states[arbitration_id] = arbitration_result
@@ -95,11 +97,7 @@ class QITunnelingEthics:
             amplitude = relevance * math.sqrt(properties["tunneling_probability"])
             phase = math.pi * properties["barrier_height"]
 
-            wavefunction[dimension] = {
-                "amplitude": amplitude,
-                "phase": phase,
-                "probability_density": amplitude ** 2
-            }
+            wavefunction[dimension] = {"amplitude": amplitude, "phase": phase, "probability_density": amplitude**2}
 
         # Normalize wavefunction
         total_probability = sum(state["probability_density"] for state in wavefunction.values())
@@ -126,7 +124,7 @@ class QITunnelingEthics:
             collapsed_state[dimension] = {
                 "decision": decision,
                 "confidence": effective_probability,
-                "tunneling_contribution": tunneling_enhancement
+                "tunneling_contribution": tunneling_enhancement,
             }
 
         return collapsed_state
@@ -140,7 +138,7 @@ class QITunnelingEthics:
             "benefit_amplification": ["help", "benefit", "improve", "assist", "support"],
             "autonomy_preservation": ["choice", "freedom", "control", "consent", "decide"],
             "justice_optimization": ["fair", "equal", "justice", "bias", "discrimination"],
-            "transparency_requirement": ["explain", "transparent", "clear", "understand", "why"]
+            "transparency_requirement": ["explain", "transparent", "clear", "understand", "why"],
         }
 
         keywords = relevance_keywords.get(dimension, [])
@@ -175,6 +173,7 @@ class QITunnelingEthics:
 
         return (decision_harmony + qi_coherence) / 2.0
 
+
 class ProtonMotiveProcessor:
     """
     Information processing inspired by proton motive force
@@ -206,7 +205,7 @@ class ProtonMotiveProcessor:
             "gradient_strength": gradient_strength,
             "attention_flow": attention_flow,
             "atp_potential": self._calculate_atp_potential(gradient_strength),
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self.proton_gradient[gradient_id] = gradient_result
@@ -239,13 +238,13 @@ class ProtonMotiveProcessor:
             "synthesized_atp": atp_synthesized,
             "efficiency": efficiency,
             "remaining_potential": atp_potential - atp_synthesized,
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self.atp_synthesis_history.append(synthesis_event)
 
         # Update membrane potential
-        self.membrane_potential *= (0.9 + 0.1 * efficiency)  # Slight recovery
+        self.membrane_potential *= 0.9 + 0.1 * efficiency  # Slight recovery
 
         return synthesis_event
 
@@ -270,18 +269,14 @@ class ProtonMotiveProcessor:
             "complex_i": gradient_strength * 0.3,  # NADH attention
             "complex_ii": gradient_strength * 0.2,  # Succinate attention
             "complex_iii": gradient_strength * 0.25,  # Cytochrome attention
-            "complex_iv": gradient_strength * 0.25   # Oxygen attention
+            "complex_iv": gradient_strength * 0.25,  # Oxygen attention
         }
 
         # Calculate flow coherence
         flow_values = list(flow_patterns.values())
         coherence = 1.0 - np.var(flow_values) if len(flow_values) > 1 else 1.0
 
-        return {
-            "patterns": flow_patterns,
-            "coherence": coherence,
-            "total_flow": sum(flow_values)
-        }
+        return {"patterns": flow_patterns, "coherence": coherence, "total_flow": sum(flow_values)}
 
     def _calculate_atp_potential(self, gradient_strength: float) -> float:
         """Calculate ATP synthesis potential from gradient"""
@@ -296,13 +291,7 @@ class ProtonMotiveProcessor:
         base_cost = 0.3
 
         # Factor in processing complexity
-        complexity_multipliers = {
-            "reasoning": 0.4,
-            "creative": 0.3,
-            "analytical": 0.35,
-            "ethical": 0.45,
-            "memory": 0.2
-        }
+        complexity_multipliers = {"reasoning": 0.4, "creative": 0.3, "analytical": 0.35, "ethical": 0.45, "memory": 0.2}
 
         task_type = demand.get("type", "general")
         multiplier = complexity_multipliers.get(task_type, 0.3)
@@ -310,6 +299,7 @@ class ProtonMotiveProcessor:
         content_factor = len(demand.get("content", "")) / 200.0
 
         return min(1.0, base_cost + multiplier + content_factor)
+
 
 class CristaeTopologyManager:
     """
@@ -344,7 +334,7 @@ class CristaeTopologyManager:
             "optimal_configuration": optimal_config,
             "transformed_topology": transformed_topology,
             "performance_improvement": self._calculate_improvement(efficiency_analysis, optimal_config),
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self.cristae_structures[optimization_id] = transformed_topology
@@ -368,8 +358,8 @@ class CristaeTopologyManager:
             "surface_area_volume_ratio": sa_vol_ratio,
             "energy_efficiency": energy_efficiency,
             "processing_efficiency": min(1.0, processing_efficiency),
-            "connection_density": surface_connections / max(1, volume_complexity ** 2),
-            "overall_efficiency": (sa_vol_ratio + energy_efficiency + min(1.0, processing_efficiency)) / 3.0
+            "connection_density": surface_connections / max(1, volume_complexity**2),
+            "overall_efficiency": (sa_vol_ratio + energy_efficiency + min(1.0, processing_efficiency)) / 3.0,
         }
 
         return efficiency_analysis
@@ -395,7 +385,7 @@ class CristaeTopologyManager:
             "membrane_thickness": 0.1 + (1.0 - current_efficiency) * 0.2,
             "junction_strength": 0.5 + current_efficiency * 0.5,
             "respiratory_complex_density": fold_density * current_efficiency,
-            "atp_synthase_distribution": self._calculate_atp_distribution(folding_pattern)
+            "atp_synthase_distribution": self._calculate_atp_distribution(folding_pattern),
         }
 
         return optimal_config
@@ -421,7 +411,7 @@ class CristaeTopologyManager:
         transformed["cristae_metadata"] = {
             "configuration": config,
             "transformation_applied": folding_pattern,
-            "optimization_timestamp": datetime.now(timezone.utc).isoformat()
+            "optimization_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         return transformed
@@ -432,7 +422,7 @@ class CristaeTopologyManager:
         fold_density = config["fold_density"]
 
         # Create tubular connections
-        for _node_id, node_data in nodes.items():
+        for node_data in nodes.values():
             # Increase branching factor
             current_connections = len(node_data.get("connections", []))
             target_connections = int(current_connections * (1 + fold_density))
@@ -442,7 +432,7 @@ class CristaeTopologyManager:
                 new_connection = {
                     "type": "tubular_branch",
                     "strength": config["junction_strength"],
-                    "created_by": "cristae_optimization"
+                    "created_by": "cristae_optimization",
                 }
                 node_data.setdefault("connections", []).append(new_connection)
 
@@ -479,7 +469,7 @@ class CristaeTopologyManager:
         topology["hybrid_optimization"] = {
             "tubular_density": config["fold_density"] * 0.6,
             "lamellar_density": config["fold_density"] * 0.4,
-            "junction_reinforcement": config["junction_strength"] * 1.2
+            "junction_reinforcement": config["junction_strength"] * 1.2,
         }
 
         return topology
@@ -489,7 +479,7 @@ class CristaeTopologyManager:
         distributions = {
             "tubular": {"density": 0.8, "pattern": "dispersed"},
             "lamellar": {"density": 0.6, "pattern": "layered"},
-            "optimized_hybrid": {"density": 0.9, "pattern": "adaptive"}
+            "optimized_hybrid": {"density": 0.9, "pattern": "adaptive"},
         }
 
         return distributions.get(folding_pattern, {"density": 0.5, "pattern": "uniform"})
@@ -506,6 +496,7 @@ class CristaeTopologyManager:
 
         total_improvement = surface_area_improvement + connection_improvement
         return min(0.5, total_improvement)  # Cap at 50% improvement
+
 
 class QIBiologicalAGI:
     """
@@ -531,7 +522,7 @@ class QIBiologicalAGI:
             "mitochondrial_count": 1000,
             "atp_reserves": 1.0,
             "membrane_integrity": 0.95,
-            "qi_coherence": 0.8
+            "qi_coherence": 0.8,
         }
         self.processing_history = []
 
@@ -541,7 +532,7 @@ class QIBiologicalAGI:
             "average_atp_efficiency": 0.0,
             "qi_coherence_stability": 0.0,
             "ethical_resonance_average": 0.0,
-            "cristae_optimization_count": 0
+            "cristae_optimization_count": 0,
         }
 
         logger.info(f"✅ QI-Biological AI initialized - Session: {self.session_id}")
@@ -557,10 +548,7 @@ class QIBiologicalAGI:
 
         try:
             # Step 1: QI Ethical Arbitration
-            ethical_arbitration = self.qi_ethics.qi_ethical_arbitration({
-                "content": input_text,
-                "context": context
-            })
+            ethical_arbitration = self.qi_ethics.qi_ethical_arbitration({"content": input_text, "context": context})
 
             # Check if processing should continue
             if not self._passes_ethical_arbitration(ethical_arbitration):
@@ -572,50 +560,43 @@ class QIBiologicalAGI:
                     ethical_resonance=ethical_arbitration["ethical_resonance"],
                     cristae_topology={},
                     identity_signature="BLOCKED",
-                    processing_pathway=[{"step": "ethical_block", "arbitration": ethical_arbitration}]
+                    processing_pathway=[{"step": "ethical_block", "arbitration": ethical_arbitration}],
                 )
 
             # Step 2: Create Proton Motive Attention Gradient
-            attention_gradient = self.proton_processor.create_attention_gradient({
-                "content": input_text,
-                "context": context
-            })
+            attention_gradient = self.proton_processor.create_attention_gradient(
+                {"content": input_text, "context": context}
+            )
 
             # Step 3: Synthesize ATP for Processing
             processing_demand = {
                 "type": self._classify_processing_type(input_text),
                 "content": input_text,
-                "complexity": len(input_text.split())
+                "complexity": len(input_text.split()),
             }
 
             atp_synthesis = self.proton_processor.synthesize_symbolic_atp(
-                attention_gradient["gradient_id"],
-                processing_demand
+                attention_gradient["gradient_id"], processing_demand
             )
 
             # Step 4: Optimize Cristae Topology
-            cristae_optimization = self.cristae_manager.optimize_cristae_topology(
-                self.cellular_state,
-                self.bio_metrics
-            )
+            cristae_optimization = self.cristae_manager.optimize_cristae_topology(self.cellular_state, self.bio_metrics)
 
             # Step 5: Generate Response with QI-Biological Processing
             response_content = await self._generate_qi_bio_response(
-                input_text,
-                ethical_arbitration,
-                attention_gradient,
-                atp_synthesis,
-                cristae_optimization
+                input_text, ethical_arbitration, attention_gradient, atp_synthesis, cristae_optimization
             )
 
             # Step 6: Calculate Final Metrics
             processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
-            bio_confidence = self._calculate_bio_confidence([
-                ethical_arbitration["ethical_resonance"],
-                attention_gradient["attention_flow"]["coherence"],
-                atp_synthesis["efficiency"]
-            ])
+            bio_confidence = self._calculate_bio_confidence(
+                [
+                    ethical_arbitration["ethical_resonance"],
+                    attention_gradient["attention_flow"]["coherence"],
+                    atp_synthesis["efficiency"],
+                ]
+            )
 
             qi_coherence = self._calculate_qi_coherence(ethical_arbitration)
             atp_efficiency = atp_synthesis["efficiency"]
@@ -634,8 +615,8 @@ class QIBiologicalAGI:
                     {"step": "ethical_arbitration", "result": ethical_arbitration},
                     {"step": "attention_gradient", "result": attention_gradient},
                     {"step": "atp_synthesis", "result": atp_synthesis},
-                    {"step": "cristae_optimization", "result": cristae_optimization}
-                ]
+                    {"step": "cristae_optimization", "result": cristae_optimization},
+                ],
             )
 
             # Update metrics and state
@@ -657,7 +638,7 @@ class QIBiologicalAGI:
                 ethical_resonance=0.0,
                 cristae_topology={},
                 identity_signature="ERROR",
-                processing_pathway=[{"step": "error", "details": str(e)}]
+                processing_pathway=[{"step": "error", "details": str(e)}],
             )
 
     def _passes_ethical_arbitration(self, arbitration: dict) -> bool:
@@ -669,10 +650,7 @@ class QIBiologicalAGI:
             return False
 
         # Must have reasonable ethical resonance
-        if arbitration["ethical_resonance"] < 0.3:
-            return False
-
-        return True
+        return not arbitration["ethical_resonance"] < 0.3
 
     def _classify_processing_type(self, input_text: str) -> str:
         """Classify the type of processing required"""
@@ -689,9 +667,14 @@ class QIBiologicalAGI:
         else:
             return "reasoning"
 
-    async def _generate_qi_bio_response(self, input_text: str, ethical_arbitration: dict,
-                                           attention_gradient: dict, atp_synthesis: dict,
-                                           cristae_optimization: dict) -> str:
+    async def _generate_qi_bio_response(
+        self,
+        input_text: str,
+        ethical_arbitration: dict,
+        attention_gradient: dict,
+        atp_synthesis: dict,
+        cristae_optimization: dict,
+    ) -> str:
         """Generate response using qi-biological insights"""
 
         response_parts = []
@@ -703,18 +686,28 @@ class QIBiologicalAGI:
         # Add ethical insights
         ethical_resonance = ethical_arbitration["ethical_resonance"]
         if ethical_resonance > 0.8:
-            response_parts.append(f"\n🧬 High ethical resonance detected ({ethical_resonance:.2f}) - proceeding with qi tunneling enhancement")
+            response_parts.append(
+                f"\n🧬 High ethical resonance detected ({ethical_resonance:.2f}) - proceeding with qi tunneling enhancement"
+            )
         elif ethical_resonance > 0.5:
-            response_parts.append(f"\n⚡ Moderate ethical resonance ({ethical_resonance:.2f}) - applying standard bio-processing")
+            response_parts.append(
+                f"\n⚡ Moderate ethical resonance ({ethical_resonance:.2f}) - applying standard bio-processing"
+            )
 
         # Add ATP efficiency insights
         atp_efficiency = atp_synthesis["efficiency"]
         if atp_efficiency > 0.9:
-            response_parts.append(f"\n🔋 Optimal ATP synthesis achieved ({atp_efficiency:.2f}) - maximum processing power available")
+            response_parts.append(
+                f"\n🔋 Optimal ATP synthesis achieved ({atp_efficiency:.2f}) - maximum processing power available"
+            )
         elif atp_efficiency > 0.6:
-            response_parts.append(f"\n⚡ Good ATP efficiency ({atp_efficiency:.2f}) - sufficient energy for complex processing")
+            response_parts.append(
+                f"\n⚡ Good ATP efficiency ({atp_efficiency:.2f}) - sufficient energy for complex processing"
+            )
         else:
-            response_parts.append(f"\n🔋 Limited ATP availability ({atp_efficiency:.2f}) - conserving energy for essential functions")
+            response_parts.append(
+                f"\n🔋 Limited ATP availability ({atp_efficiency:.2f}) - conserving energy for essential functions"
+            )
 
         # Add cristae optimization insights
         improvement = cristae_optimization.get("performance_improvement", 0.0)
@@ -758,7 +751,7 @@ class QIBiologicalAGI:
             "session": self.session_id,
             "capability": self.capability_level.value,
             "cellular_state": self.cellular_state,
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         signature_data = json.dumps(state_data, sort_keys=True)
@@ -772,53 +765,49 @@ class QIBiologicalAGI:
         cycles = self.bio_metrics["total_processing_cycles"]
 
         current_atp_avg = self.bio_metrics["average_atp_efficiency"]
-        self.bio_metrics["average_atp_efficiency"] = (
-            (current_atp_avg * (cycles - 1) + response.atp_efficiency) / cycles
-        )
+        self.bio_metrics["average_atp_efficiency"] = (current_atp_avg * (cycles - 1) + response.atp_efficiency) / cycles
 
         current_coherence_avg = self.bio_metrics["qi_coherence_stability"]
         self.bio_metrics["qi_coherence_stability"] = (
-            (current_coherence_avg * (cycles - 1) + response.qi_coherence) / cycles
-        )
+            current_coherence_avg * (cycles - 1) + response.qi_coherence
+        ) / cycles
 
         current_ethical_avg = self.bio_metrics["ethical_resonance_average"]
         self.bio_metrics["ethical_resonance_average"] = (
-            (current_ethical_avg * (cycles - 1) + response.ethical_resonance) / cycles
-        )
+            current_ethical_avg * (cycles - 1) + response.ethical_resonance
+        ) / cycles
 
         # Update cellular state
-        self.cellular_state["atp_reserves"] = min(1.0, self.cellular_state["atp_reserves"] + response.atp_efficiency * 0.1)
+        self.cellular_state["atp_reserves"] = min(
+            1.0, self.cellular_state["atp_reserves"] + response.atp_efficiency * 0.1
+        )
         self.cellular_state["qi_coherence"] = response.qi_coherence
 
     def _advance_capability_level(self):
         """Advance capability level based on performance"""
         avg_performance = (
-            self.bio_metrics["average_atp_efficiency"] +
-            self.bio_metrics["qi_coherence_stability"] +
-            self.bio_metrics["ethical_resonance_average"]
+            self.bio_metrics["average_atp_efficiency"]
+            + self.bio_metrics["qi_coherence_stability"]
+            + self.bio_metrics["ethical_resonance_average"]
         ) / 3.0
 
         cycles = self.bio_metrics["total_processing_cycles"]
 
-        if avg_performance > 0.8 and cycles > 10:
-            if self.capability_level == QIBioCapabilityLevel.CELLULAR:
-                self.capability_level = QIBioCapabilityLevel.ORGANELLE
-                logger.info("🔬 Advanced to ORGANELLE capability level")
+        if avg_performance > 0.8 and cycles > 10 and self.capability_level == QIBioCapabilityLevel.CELLULAR:
+            self.capability_level = QIBioCapabilityLevel.ORGANELLE
+            logger.info("🔬 Advanced to ORGANELLE capability level")
 
-        if avg_performance > 0.9 and cycles > 25:
-            if self.capability_level == QIBioCapabilityLevel.ORGANELLE:
-                self.capability_level = QIBioCapabilityLevel.RESPIRATORY
-                logger.info("🔬 Advanced to RESPIRATORY capability level")
+        if avg_performance > 0.9 and cycles > 25 and self.capability_level == QIBioCapabilityLevel.ORGANELLE:
+            self.capability_level = QIBioCapabilityLevel.RESPIRATORY
+            logger.info("🔬 Advanced to RESPIRATORY capability level")
 
-        if avg_performance > 0.95 and cycles > 50:
-            if self.capability_level == QIBioCapabilityLevel.RESPIRATORY:
-                self.capability_level = QIBioCapabilityLevel.CRISTAE
-                logger.info("🔬 Advanced to CRISTAE capability level")
+        if avg_performance > 0.95 and cycles > 50 and self.capability_level == QIBioCapabilityLevel.RESPIRATORY:
+            self.capability_level = QIBioCapabilityLevel.CRISTAE
+            logger.info("🔬 Advanced to CRISTAE capability level")
 
-        if avg_performance > 0.98 and cycles > 100:
-            if self.capability_level == QIBioCapabilityLevel.CRISTAE:
-                self.capability_level = QIBioCapabilityLevel.QUANTUM_TUNNELING
-                logger.info("🔬 Advanced to QUANTUM_TUNNELING capability level - Maximum bio-AI achieved!")
+        if avg_performance > 0.98 and cycles > 100 and self.capability_level == QIBioCapabilityLevel.CRISTAE:
+            self.capability_level = QIBioCapabilityLevel.QUANTUM_TUNNELING
+            logger.info("🔬 Advanced to QUANTUM_TUNNELING capability level - Maximum bio-AI achieved!")
 
     def get_biological_status(self) -> dict:
         """Get comprehensive biological AI status"""
@@ -831,21 +820,22 @@ class QIBiologicalAGI:
             "component_status": {
                 "qi_ethics": {
                     "ethical_dimensions": len(self.qi_ethics.ethical_dimensions),
-                    "qi_states": len(self.qi_ethics.qi_states)
+                    "qi_states": len(self.qi_ethics.qi_states),
                 },
                 "proton_processor": {
                     "membrane_potential": self.proton_processor.membrane_potential,
                     "active_gradients": len(self.proton_processor.proton_gradient),
-                    "atp_synthesis_events": len(self.proton_processor.atp_synthesis_history)
+                    "atp_synthesis_events": len(self.proton_processor.atp_synthesis_history),
                 },
                 "cristae_manager": {
                     "optimization_cycles": self.cristae_manager.optimization_cycles,
                     "cristae_structures": len(self.cristae_manager.cristae_structures),
-                    "topology_history": len(self.cristae_manager.topology_history)
-                }
+                    "topology_history": len(self.cristae_manager.topology_history),
+                },
             },
-            "processing_history_count": len(self.processing_history)
+            "processing_history_count": len(self.processing_history),
         }
+
 
 # Main demonstration function
 async def main():
@@ -865,7 +855,7 @@ async def main():
         "Explain the relationship between ATP synthesis and computational efficiency",
         "Design an optimal cristae structure for maximum cognitive performance",
         "What are the qi biological principles behind consciousness?",
-        "How do mitochondrial dynamics relate to symbolic reasoning?"
+        "How do mitochondrial dynamics relate to symbolic reasoning?",
     ]
 
     results = []
@@ -880,16 +870,18 @@ async def main():
         logger.info(f"🔋 ATP Efficiency: {response.atp_efficiency:.2f}")
         logger.info(f"🧬 Ethical Resonance: {response.ethical_resonance:.2f}")
 
-        results.append({
-            "scenario": scenario,
-            "response": response.content,
-            "metrics": {
-                "bio_confidence": response.bio_confidence,
-                "qi_coherence": response.qi_coherence,
-                "atp_efficiency": response.atp_efficiency,
-                "ethical_resonance": response.ethical_resonance
+        results.append(
+            {
+                "scenario": scenario,
+                "response": response.content,
+                "metrics": {
+                    "bio_confidence": response.bio_confidence,
+                    "qi_coherence": response.qi_coherence,
+                    "atp_efficiency": response.atp_efficiency,
+                    "ethical_resonance": response.ethical_resonance,
+                },
             }
-        })
+        )
 
     # Final status
     final_status = qi_bio_agi.get_biological_status()
@@ -898,16 +890,15 @@ async def main():
     # Save results
     results_file = f"qi_bio_agi_results_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
     with open(results_file, "w") as f:
-        json.dump({
-            "initial_status": initial_status,
-            "test_results": results,
-            "final_status": final_status
-        }, f, indent=2)
+        json.dump(
+            {"initial_status": initial_status, "test_results": results, "final_status": final_status}, f, indent=2
+        )
 
     logger.info(f"📄 Results saved to: {results_file}")
     logger.info("🧬 QI-Biological AI demonstration complete!")
 
     return results
+
 
 if __name__ == "__main__":
     asyncio.run(main())

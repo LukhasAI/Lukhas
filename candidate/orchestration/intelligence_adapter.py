@@ -16,6 +16,7 @@ from enum import Enum
 from typing import Any, Optional
 
 from candidate.orchestration.agent_orchestrator.intelligence_bridge import (
+from datetime import timezone
     AgentType,
     IntelligenceRequestType,
     LukhasAgentBridge,

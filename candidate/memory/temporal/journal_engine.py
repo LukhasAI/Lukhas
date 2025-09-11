@@ -418,7 +418,7 @@ class JournalEngine:
 
             for entry in entries_by_date[date_key]:
                 content.append(
-                    f"##"%H:%M')} - {entry.type.title()}\n"
+                    f"##"%H:%M')} - {entry.type.title()}\n"'
                 )
                 content.append(f"{entry.content}\n")
 

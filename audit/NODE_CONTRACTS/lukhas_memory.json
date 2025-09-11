@@ -1,0 +1,123 @@
+{
+  "module": "lukhas.memory",
+  "version": "1.0",
+  "generated": "2025-09-10T13:00:00Z",
+  "description": "Memory fold management and cascade prevention signal contracts",
+  
+  "emit": [
+    {
+      "signal": "memory.fold.created",
+      "payload": {
+        "fold_id": "string",
+        "fold_type": "enum[WORKING,EPISODIC,SEMANTIC,PROCEDURAL,EMOTIONAL,CREATIVE,META_COGNITIVE]",
+        "content_hash": "string",
+        "timestamp": "number",
+        "importance": "number[0-1]",
+        "cascade_risk": "number[0-1]"
+      },
+      "frequency": "high",
+      "criticality": "medium"
+    },
+    {
+      "signal": "memory.cascade.prevented",
+      "payload": {
+        "fold_id": "string",
+        "cascade_threat_level": "number[0-1]", 
+        "prevention_mechanism": "string",
+        "affected_folds": "array[string]",
+        "timestamp": "number"
+      },
+      "frequency": "low",
+      "criticality": "high"
+    },
+    {
+      "signal": "memory.fold.accessed",
+      "payload": {
+        "fold_id": "string",
+        "access_type": "enum[READ,write,update,delete]",
+        "requester_module": "string",
+        "access_latency_ms": "number",
+        "timestamp": "number"
+      },
+      "frequency": "very_high",
+      "criticality": "low"
+    },
+    {
+      "signal": "memory.consolidation.completed",
+      "payload": {
+        "session_id": "string",
+        "folds_consolidated": "number",
+        "compression_ratio": "number",
+        "duration_ms": "number",
+        "timestamp": "number"
+      },
+      "frequency": "low",
+      "criticality": "medium"
+    }
+  ],
+  
+  "receive": [
+    {
+      "signal": "consciousness.awareness.state_change",
+      "handler": "update_memory_context",
+      "required": true,
+      "timeout_ms": 100
+    },
+    {
+      "signal": "orchestration.shutdown.prepare",
+      "handler": "flush_pending_writes",
+      "required": true, 
+      "timeout_ms": 5000
+    },
+    {
+      "signal": "governance.policy.memory_retention",
+      "handler": "apply_retention_policy",
+      "required": true,
+      "timeout_ms": 1000
+    }
+  ],
+  
+  "glyphs": {
+    "memory_fold_visual": {
+      "type": "dynamic_svg",
+      "shows": "fold hierarchy and connections",
+      "updates_on": ["fold.created", "fold.accessed", "cascade.prevented"]
+    },
+    "cascade_risk_heatmap": {
+      "type": "color_grid",
+      "shows": "system-wide cascade risk levels",
+      "updates_on": ["cascade.prevented", "fold.created"]
+    }
+  },
+  
+  "invariants": [
+    "total_active_folds <= 1000",
+    "cascade_prevention_rate >= 0.997",
+    "fold_access_latency_p95 <= 200ms",
+    "memory_consolidation_occurs_nightly",
+    "no_fold_data_loss_on_system_restart",
+    "fold_dependencies_form_dag_no_cycles"
+  ],
+  
+  "error_modes": [
+    {
+      "code": "MEM_FOLD_LIMIT_EXCEEDED",
+      "description": "Attempted to create fold when at 1000 limit",
+      "recovery": "trigger_consolidation_and_retry",
+      "emit_signal": "memory.error.fold_limit_exceeded"
+    },
+    {
+      "code": "MEM_CASCADE_DETECTED", 
+      "description": "Potential cascade failure detected",
+      "recovery": "isolate_affected_folds_and_alert",
+      "emit_signal": "memory.cascade.detected"
+    }
+  ],
+  
+  "slos": {
+    "availability": "99.9%",
+    "latency_p95": "200ms",
+    "error_rate": "0.1%",
+    "cascade_prevention": "99.7%"
+  }
+}

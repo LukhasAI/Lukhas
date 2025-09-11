@@ -28,10 +28,7 @@ class ComprehensiveF821Eliminator:
         self.errors = []
 
         # Target directories for processing
-        self.target_dirs = [
-            "branding/", "candidate/", "tools/", "products/",
-            "matriz/", "next_gen/", "lukhas/"
-        ]
+        self.target_dirs = ["branding/", "candidate/", "tools/", "products/", "matriz/", "next_gen/", "lukhas/"]
 
         # High-frequency import fixes
         self.import_fixes = {
@@ -47,27 +44,16 @@ class ComprehensiveF821Eliminator:
             "Optional": "from typing import Optional",
             "lukhas_pb2": "import lukhas_pb2",
             "qi": "from consciousness.qi import qi",
-            "QuantumCreativeComponent": "from quantum.creative import QuantumCreativeComponent"
+            "QuantumCreativeComponent": "from quantum.creative import QuantumCreativeComponent",
         }
 
         # Logger pattern fixes
-        self.logger_patterns = [
-            "log",
-            "logger"
-        ]
+        self.logger_patterns = ["log", "logger"]
 
     def should_process_file(self, file_path: Path) -> bool:
         """Check if file should be processed"""
         # Skip certain directories and files
-        skip_patterns = [
-            "__pycache__",
-            ".git",
-            "node_modules",
-            "website_v1",
-            ".venv",
-            "venv",
-            ".pytest_cache"
-        ]
+        skip_patterns = ["__pycache__", ".git", "node_modules", "website_v1", ".venv", "venv", ".pytest_cache"]
 
         for pattern in skip_patterns:
             if pattern in str(file_path):
@@ -96,11 +82,7 @@ class ComprehensiveF821Eliminator:
                 if not self.has_logger_definition(content):
                     violations.append("log_declaration")
 
-        return {
-            "content": content,
-            "violations": violations,
-            "error": None
-        }
+        return {"content": content, "violations": violations, "error": None}
 
     def has_import_for(self, content: str, violation_name: str) -> bool:
         """Check if file already has appropriate import for violation"""
@@ -117,7 +99,7 @@ class ComprehensiveF821Eliminator:
             "Optional": [r"from typing import.*Optional"],
             "lukhas_pb2": [r"import lukhas_pb2"],
             "qi": [r"from.*qi.*import.*qi", r"from consciousness.qi import qi"],
-            "QuantumCreativeComponent": [r"from.*quantum.*creative.*import.*QuantumCreativeComponent"]
+            "QuantumCreativeComponent": [r"from.*quantum.*creative.*import.*QuantumCreativeComponent"],
         }
 
         patterns = import_patterns.get(violation_name, [])
@@ -129,7 +111,7 @@ class ComprehensiveF821Eliminator:
             r"log\s*=\s*logging\.getLogger",
             r"logger\s*=\s*logging\.getLogger",
             r"import logging.*log\s*=",
-            r"log\s*=.*getLogger"
+            r"log\s*=.*getLogger",
         ]
 
         return any(re.search(pattern, content) for pattern in logger_patterns)
@@ -275,9 +257,12 @@ class ComprehensiveF821Eliminator:
         # Get baseline count
         print("📊 Getting baseline F821 count...")
         try:
-            result = subprocess.run([
-                ".venv/bin/ruff", "check", ".", "--select=F821", "--statistics"
-            ], capture_output=True, text=True, cwd=Path.cwd())
+            result = subprocess.run(
+                [".venv/bin/ruff", "check", ".", "--select=F821", "--statistics"],
+                capture_output=True,
+                text=True,
+                cwd=Path.cwd(),
+            )
 
             baseline_count = 0
             for line in result.stdout.split("\n"):
@@ -312,9 +297,12 @@ class ComprehensiveF821Eliminator:
         # Get final count
         print("\n📊 Getting final F821 count...")
         try:
-            result = subprocess.run([
-                ".venv/bin/ruff", "check", ".", "--select=F821", "--statistics"
-            ], capture_output=True, text=True, cwd=Path.cwd())
+            result = subprocess.run(
+                [".venv/bin/ruff", "check", ".", "--select=F821", "--statistics"],
+                capture_output=True,
+                text=True,
+                cwd=Path.cwd(),
+            )
 
             final_count = 0
             for line in result.stdout.split("\n"):

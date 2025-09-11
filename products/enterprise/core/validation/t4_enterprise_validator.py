@@ -8,6 +8,7 @@ Validates the complete T4 stack implementing:
 - Dario Amodei (Safety) standards
 - Demis Hassabis (Rigor) standards
 """
+
 import asyncio
 import json
 import logging
@@ -886,7 +887,9 @@ class T4EnterpriseValidator:
         readiness_status = (
             "🟢 READY"
             if report.enterprise_readiness >= 90
-            else "🟡 NEEDS OPTIMIZATION" if report.enterprise_readiness >= 70 else "🔴 NOT READY"
+            else "🟡 NEEDS OPTIMIZATION"
+            if report.enterprise_readiness >= 70
+            else "🔴 NOT READY"
         )
         print(f"   Status: {readiness_status}")
 

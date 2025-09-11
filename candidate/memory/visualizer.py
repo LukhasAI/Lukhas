@@ -1,5 +1,6 @@
 import logging
 from datetime import timezone
+
 logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -149,7 +150,7 @@ class EnhancedMemoryVisualizer:
             st.sidebar.metric(
                 "Quantum Coherence (System)",  # Clarified title
                 f"{coherence:.2f}",
-                delta=f"{(coherence - self.config.coherence_threshold)}:.2f} vs Threshold",
+                delta=f"{(coherence - self.config.coherence_threshold):.2f} vs Threshold",
             )
             self.logger.debug("Quantum coherence sidebar metric displayed.", coherence=coherence)
         else:

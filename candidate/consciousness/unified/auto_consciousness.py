@@ -11,7 +11,7 @@ Version: 1.0.0
 """
 import logging
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 # Import LUKHAS components

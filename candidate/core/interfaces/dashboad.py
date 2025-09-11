@@ -32,15 +32,15 @@ if st.button("🌌 Generate Dream-Based Opinion"):
             st.success(symbolic_opinion)
 
             payload = {
-                "title": f"Symbolic Dream Reflection: {latest.get('theme',)}
-                                                                  'No Title')}",
+                "title": f"Symbolic Dream Reflection: {latest.get('theme',)}"
+                                                                  'No Title')}","
                 "summary": latest.get("summary", "No summary found."),
                 "prompt": latest.get(
                     "visual_prompt",
                     "https://lukhasagi.io/media/dream_placeholder.png",
                 ),
-                "html_url": f"https: // lukhasagi.io / posts / {latest.get('theme',)}
-                                                                           'dream')}.html",
+                "html_url": f"https: // lukhasagi.io / posts / {latest.get('theme',)}"
+                                                                           'dream')}.html","
             }
             show_social_post_preview(payload)
         else:

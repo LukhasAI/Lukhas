@@ -4,7 +4,6 @@ Original: symbolic_utils.py
 Advanced: symbolic_utils.py
 Integration Date: 2025-05-31T07:55:30.440601
 """
-import streamlit as st
 
 # ╭──────────────────────────────────────────────────────────────────────────────╮
 # │                        LUCΛS :: SYMBOLIC UTILITY FUNCTIONS                   │
@@ -40,10 +39,10 @@ def summarize_emotion_vector(ev):
         return "(no vector)"
     return " | ".join(
         [
-            f"joy: {ev.get('joy', 0)}:.2f}",
-            f"stress: {ev.get('stress', 0)}:.2f}",
-            f"calm: {ev.get('calm', 0)}:.2f}",
-            f"longing: {ev.get('longing', 0)}:.2f}",
+            f"joy: {ev.get('joy', 0):.2f}",
+            f"stress: {ev.get('stress', 0):.2f}",
+            f"calm: {ev.get('calm', 0):.2f}",
+            f"longing: {ev.get('longing', 0):.2f}",
         ]
     )
 

@@ -4,6 +4,7 @@
 Enhanced LUKHAS AI ΛBot with Bio-Symbolic Pattern Recognition Integration
 Integrates workspace bio-symbolic processing for intelligent modularization
 """
+
 # type: ignore
 import asyncio
 import logging
@@ -16,13 +17,15 @@ from typing import Any
 
 # Add workspace core to path
 
+
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
-    
+
     This is a placeholder for functionality that needs to be implemented.
     Replace this stub with the actual implementation.
     """
     raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+
 
 sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas/core", timezone)
 sys.path.append("/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot")
@@ -257,7 +260,9 @@ class BioSymbolicΛBot:
         """Start bio-symbolic analysis session"""
         session_id = f"bio_sym_{int(time.time())}"
 
-        session = SymbolicAnalysisSession(session_id=session_id, start_time=datetime.now(timezone.utc), target_path=target_path)
+        session = SymbolicAnalysisSession(
+            session_id=session_id, start_time=datetime.now(timezone.utc), target_path=target_path
+        )
 
         self.current_session = session
 

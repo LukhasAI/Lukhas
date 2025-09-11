@@ -36,6 +36,7 @@ def test_dream_component(module_path):
     except Exception as e:
         return False, f"Failed to import {module_path}: {e!s}"
 
+
 def main():
     """Test all dream components"""
     print("🌙 LUKHAS Dream Components Comprehensive Testing")
@@ -51,14 +52,11 @@ def main():
         "core/orchestration/brain/unified_integration/dream_memory_bridge.py",
         "core/orchestration/brain/unified_integration/dream_orchestration.py",
         "core/orchestration/integration/consciousness_dream.py",
-
         # CRITICAL: Dream emotion learning systems
         "candidate/consciousness/dream/core/dream_emotion_bridge.py",
-
         # CRITICAL: Parallel reality systems for ethics and self-learning
         "candidate/consciousness/dream/parallel_reality_simulator.py",
         "candidate/consciousness/dream/parallel_reality_safety.py",
-
         # Additional dream consciousness modules
         "candidate/consciousness/dream/core/dream_state_manager.py",
         "candidate/consciousness/dream/core/dream_sequence_coordinator.py",
@@ -71,7 +69,7 @@ def main():
         "candidate/consciousness/dream/integration/dream_orchestration_hub.py",
         "candidate/consciousness/dream/symbolic/dream_symbolism.py",
         "candidate/consciousness/dream/symbolic/dream_interpretation.py",
-        "candidate/consciousness/dream/symbolic/archetypal_patterns.py"
+        "candidate/consciousness/dream/symbolic/archetypal_patterns.py",
     ]
 
     results = []
@@ -134,6 +132,7 @@ def main():
                 else:
                     print(f"  - {module}: {message}")
 
+
 if __name__ == "__main__":
     main()
 
@@ -153,7 +152,6 @@ def test_dream_components():
         "agi_core/learning/dream_guided_learner.py",
         "agi_core/tools/dream_guided_tools.py",
         "agi_core/memory/dream_memory.py",
-
         # Products ecosystem
         "products/communication/nias/dream_orchestrator_enhanced.py",
         "products/communication/nias/dream_generator.py",
@@ -161,7 +159,6 @@ def test_dream_components():
         "products/communication/nias/core/dream_recorder.py",
         "products/communication/nias/dream_commerce_orchestrator.py",
         "products/experience/voice/bridge/dream_voice_pipeline.py",
-
         # Candidate systems
         "candidate/orchestration/dream_orchestrator.py",
         "candidate/governance/ethics/dream_generator.py",
@@ -171,10 +168,8 @@ def test_dream_components():
         "candidate/qi/engines/dream/dream_adapter.py",
         "candidate/qi/engines/dream/dream_seed.py",
         "candidate/consciousness/dream_bridge.py",
-
         # Deployment & Infrastructure
         "deployment/platforms/dream_commerce/dream_commerce/dream_api.py",
-
         # Branding & Vocabularies
         "branding/vocabularies/dream_vocabulary.py",
     ]
@@ -212,7 +207,9 @@ def test_dream_components():
             spec.loader.exec_module(module)
 
             # Check for main classes/functions
-            classes = [name for name in dir(module) if not name.startswith("_") and hasattr(getattr(module, name), "__class__")]
+            classes = [
+                name for name in dir(module) if not name.startswith("_") and hasattr(getattr(module, name), "__class__")
+            ]
             functions = [name for name in dir(module) if callable(getattr(module, name)) and not name.startswith("_")]
 
             print(f"     ✅ SUCCESS - Classes: {len(classes)}, Functions: {len(functions)}")
@@ -227,7 +224,9 @@ def test_dream_components():
     print("=" * 60)
     print("🏆 COMPREHENSIVE DREAM TESTING RESULTS")
     print("=" * 60)
-    print(f"✅ Successful: {len(successful)}/{len(existing_components)} ({len(successful)/len(existing_components)*100:.1f}%)")
+    print(
+        f"✅ Successful: {len(successful)}/{len(existing_components)} ({len(successful)/len(existing_components)*100:.1f}%)"
+    )
     print(f"❌ Failed: {len(failed)}/{len(existing_components)} ({len(failed)/len(existing_components)*100:.1f}%)")
     print()
 
@@ -244,6 +243,7 @@ def test_dream_components():
             print(f"{i:2d}. {file_path}")
 
     return len(successful), len(failed), failed
+
 
 if __name__ == "__main__":
     successful_count, failed_count, failed_details = test_dream_components()

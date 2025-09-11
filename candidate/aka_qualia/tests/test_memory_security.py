@@ -14,12 +14,9 @@ Security-focused tests covering:
 
 Target: Production-grade resilience validation
 """
-import logging
-import random
 import time
 
 import pytest
-import streamlit as st
 from sqlalchemy.exc import DatabaseError, IntegrityError, OperationalError
 
 from .conftest import create_test_glyph, create_test_scene
@@ -347,9 +344,43 @@ class TestSQLInjectionPrevention:
                 pass
 
 
-@pytest.mark.skip(reason="URGENT: SQLite threading causes segfaults - disabled until thread-safe implementation")
 class TestConcurrentAccessSafety:
     """Test thread safety and concurrent access patterns"""
+
+    @pytest.mark.security
+    @pytest.mark.slow
+    def test_sequential_user_isolation(self, sql_memory):
+        """Test user isolation using sequential operations (safer than concurrent)"""
+        # Use sequential operations instead of threading to avoid segfaults
+        # This still tests the isolation logic without the threading risks
+
+        users = ["user_a", "user_b", "user_c"]
+
+        # Each user saves their own data sequentially
+        for user in users:
+            for i in range(3):
+                scene_data = create_test_scene(subject=f"{user}_scene_{i}")
+                glyph_data = [create_test_glyph(f"{user}:glyph_{i}")]
+
+                scene_id = sql_memory.save(
+                    user_id=user,
+                    scene=scene_data,
+                    glyphs=glyph_data,
+                    policy={},
+                    metrics={},
+                    cfg_version="wave_c_v1.0.0",
+                )
+
+                assert len(scene_id) > 0, f"Scene save should succeed for {user}"
+
+        # Verify data isolation - each user should only see their own data
+        for user in users:
+            user_history = sql_memory.get_scene_history(user_id=user, limit=10)
+            assert len(user_history) == 3, f"User {user} should have exactly 3 scenes"
+
+            # Verify no cross-contamination
+            for scene in user_history:
+                assert user in str(scene.get("subject", "")), f"Scene should belong to {user}"
 
     @pytest.mark.security
     @pytest.mark.slow

@@ -3,6 +3,7 @@
 LUKHAS AI Social Media Orchestrator
 Automated content creation and publishing across multiple platforms with admin approval
 """
+
 import asyncio
 import json
 import logging
@@ -212,9 +213,7 @@ class SocialMediaOrchestrator:
         cta = selected_template["call_to_action"]
 
         # Build substantial post content
-        full_content = (
-            f"{hook}\n\n{body}\n\n{cta}\n\n{self.trinity_branding}"
-        )
+        full_content = f"{hook}\n\n{body}\n\n{cta}\n\n{self.trinity_branding}"
 
         # Enhance with vocabulary transformation
         enhanced_content = self.vocabulary.enhance_content_with_vocabulary(full_content, "philosophy")
@@ -281,9 +280,7 @@ class SocialMediaOrchestrator:
         reflection = selected_narrative["reflection"]
 
         # Build substantial Instagram post
-        full_content = (
-            f"{hook}\n\n{vision}\n\n{reflection}\n\n{self.trinity_branding}"
-        )
+        full_content = f"{hook}\n\n{vision}\n\n{reflection}\n\n{self.trinity_branding}"
 
         # Enhance with vocabulary transformation
         enhanced_content = self.vocabulary.enhance_content_with_vocabulary(full_content, "dreams")
@@ -432,7 +429,9 @@ class SocialMediaOrchestrator:
         selected = random.choice(philosophy_templates)
 
         # Build substantial LinkedIn post
-        full_content = f"{selected['hook']}\n\n{selected['body']}\n\n{selected['reflection']}\n\n{self.trinity_branding}"
+        full_content = (
+            f"{selected['hook']}\n\n{selected['body']}\n\n{selected['reflection']}\n\n{self.trinity_branding}"
+        )
 
         # Enhance with vocabulary transformation
         enhanced_content = self.vocabulary.enhance_content_with_vocabulary(full_content, "philosophy")
@@ -493,7 +492,9 @@ class SocialMediaOrchestrator:
         selected = random.choice(technical_templates)
 
         # Build substantial Reddit post
-        full_content = f"{selected['hook']}\n\n{selected['explanation']}\n\n{selected['discussion']}\n\n{self.trinity_branding}"
+        full_content = (
+            f"{selected['hook']}\n\n{selected['explanation']}\n\n{selected['discussion']}\n\n{self.trinity_branding}"
+        )
 
         if "technical_note" in selected:
             full_content += f"\n\n**Technical details:**\n{selected['technical_note']}"

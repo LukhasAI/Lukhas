@@ -6,8 +6,6 @@
 Simple pattern-based scanner that identifies specialized lukhas functions
 without importing modules (to avoid dependency issues).
 """
-from consciousness.qi import qi
-import streamlit as st
 
 import re
 from dataclasses import dataclass
@@ -285,7 +283,7 @@ class FunctionScanner:
         print("📊 Discovery Overview:")
         print(f"   Total Specialized Function Patterns: {total_functions}")
         print(f"   Components with Functions Found: {components_with_functions}/{total_components}")
-        print(f"   Component Coverage: {(components_with_functions / total_components * 100)}:.1f}%")
+        print(f"   Component Coverage: {(components_with_functions / total_components * 100):.1f}%")
 
         print("\n🎯 Specialized Component Findings:")
 
@@ -295,7 +293,7 @@ class FunctionScanner:
         for component_type, matches in sorted_components:
             if matches:
                 status = "✅"
-                print(f"   {status} {component_type:20} | {len(matches)}:3} functions found")
+                print(f"   {status} {component_type:20} | {len(matches):3} functions found")
 
                 # Show sample functions and files
                 unique_files = {match.file_path for match in matches}

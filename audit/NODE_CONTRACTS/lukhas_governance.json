@@ -1,0 +1,132 @@
+{
+  "module": "lukhas.governance", 
+  "version": "1.0",
+  "generated": "2025-09-10T13:00:00Z",
+  "description": "Policy enforcement, compliance monitoring, and ethical oversight contracts",
+  
+  "emit": [
+    {
+      "signal": "governance.policy.decision_made",
+      "payload": {
+        "policy_id": "string",
+        "decision_id": "string", 
+        "context": "object",
+        "decision": "enum[allow,deny,escalate,monitor]",
+        "confidence": "number[0-1]",
+        "reasoning": "string",
+        "applicable_rules": "array[string]",
+        "timestamp": "number"
+      },
+      "frequency": "high",
+      "criticality": "critical"
+    },
+    {
+      "signal": "governance.ethics.violation_detected",
+      "payload": {
+        "violation_id": "string",
+        "violation_type": "enum[bias,harm,privacy,consent,fairness]",
+        "severity": "enum[low,medium,high,critical]", 
+        "affected_module": "string",
+        "evidence": "object",
+        "recommended_action": "string",
+        "timestamp": "number"
+      },
+      "frequency": "low",
+      "criticality": "critical"
+    },
+    {
+      "signal": "governance.compliance.audit_event",
+      "payload": {
+        "audit_id": "string",
+        "event_type": "string",
+        "data_classification": "enum[public,internal,confidential,restricted]",
+        "retention_required": "boolean",
+        "retention_period_days": "number", 
+        "regulatory_context": "array[string]",
+        "timestamp": "number"
+      },
+      "frequency": "medium",
+      "criticality": "high"
+    },
+    {
+      "signal": "governance.drift.detected",
+      "payload": {
+        "drift_id": "string",
+        "baseline_version": "string",
+        "current_behavior": "object",
+        "drift_magnitude": "number[0-1]",
+        "affected_components": "array[string]",
+        "threshold_exceeded": "boolean",
+        "timestamp": "number"
+      },
+      "frequency": "low", 
+      "criticality": "high"
+    }
+  ],
+  
+  "receive": [
+    {
+      "signal": "consciousness.decision.made",
+      "handler": "evaluate_decision_against_policies",
+      "required": true,
+      "timeout_ms": 200
+    },
+    {
+      "signal": "memory.fold.created",
+      "handler": "check_data_retention_policies",
+      "required": true,
+      "timeout_ms": 100
+    },
+    {
+      "signal": "api.request.received", 
+      "handler": "validate_compliance_requirements",
+      "required": false,
+      "timeout_ms": 50
+    }
+  ],
+  
+  "glyphs": {
+    "governance_policy_tree": {
+      "type": "hierarchical_tree",
+      "shows": "active policies and their enforcement status",
+      "updates_on": ["policy.decision_made", "ethics.violation_detected"]
+    },
+    "compliance_dashboard": {
+      "type": "compliance_matrix",
+      "shows": "regulatory compliance status across all modules",
+      "updates_on": ["compliance.audit_event", "drift.detected"]
+    }
+  },
+  
+  "invariants": [
+    "all_decisions_have_audit_trail",
+    "ethics_violations_immediately_halt_affected_processes",
+    "policy_changes_require_impact_assessment",
+    "drift_detection_runs_continuously", 
+    "compliance_events_immutably_stored",
+    "governance_decisions_never_overridden_by_modules"
+  ],
+  
+  "error_modes": [
+    {
+      "code": "GOVERNANCE_POLICY_CONFLICT",
+      "description": "Multiple policies provide conflicting guidance",
+      "recovery": "escalate_to_human_oversight_immediately", 
+      "emit_signal": "governance.error.policy_conflict"
+    },
+    {
+      "code": "GOVERNANCE_ETHICS_ENGINE_FAILURE",
+      "description": "Ethics evaluation system unavailable",
+      "recovery": "fail_safe_deny_all_questionable_operations",
+      "emit_signal": "governance.error.ethics_engine_failure"
+    }
+  ],
+  
+  "slos": {
+    "availability": "99.999%",
+    "policy_evaluation_latency_p95": "200ms",
+    "ethics_violation_detection_latency": "100ms",
+    "audit_event_processing_latency_p95": "500ms", 
+    "false_positive_rate": "0.001%"
+  }
+}

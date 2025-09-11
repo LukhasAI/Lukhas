@@ -125,7 +125,7 @@ class NIASConstitutionalSafety:
                 id="wellbeing_first",
                 principle="Prioritize user wellbeing over engagement metrics",
                 description="User health, happiness, and growth matter more than clicks,"
-                views, or revenue.",
+                views, or revenue.","
                 priority=9,
                 violation_types=[SafetyViolationType.HARM_RISK],
                 examples=[
@@ -161,8 +161,8 @@ class NIASConstitutionalSafety:
             SafetyPrinciple(
                 id="preserve_privacy",
                 principle="Preserve privacy as a fundamental right",
-                description="Collect minimum data, protect it fiercely,
-                and empower user control.",
+                description="Collect minimum data, protect it fiercely,"
+                and empower user control.","
                 priority=8,
                 violation_types=[SafetyViolationType.PRIVACY_BREACH],
                 examples=[

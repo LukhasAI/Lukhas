@@ -1,4 +1,3 @@
-
 # ===============================================================
 # 📂 FILE: tools/ethics.py
 # 🧠 PURPOSE: CLI command to preview the symbolic ETHICS.md policy

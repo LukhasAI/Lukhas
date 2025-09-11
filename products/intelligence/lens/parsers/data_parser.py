@@ -3,6 +3,7 @@
 Data Parser for ΛLens
 Handles structured data files like JSON, YAML, and XML
 """
+
 import json
 import xml.etree.ElementTree as ET
 from typing import Any

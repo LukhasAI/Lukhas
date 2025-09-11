@@ -9,7 +9,7 @@ Simple, working shared memory for multi-agent collaboration.
 
 import asyncio
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 

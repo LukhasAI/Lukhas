@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import logging
-import streamlit as st
-from typing import Optional
+
 logger = logging.getLogger(__name__)
 """
 Real Data Collector
@@ -708,22 +707,22 @@ async def demonstrate_real_data_collection():
 
     print("\n🧠 Consciousness Data:")
     consciousness = data.get("consciousness", {})
-    print(f"   Awareness Level: {consciousness.get('awareness_level', 0)}:.3f}")
-    print(f"   Decision Confidence: {consciousness.get('decision_confidence', 0)}:.3f}")
+    print(f"   Awareness Level: {consciousness.get('awareness_level', 0):.3f}")
+    print(f"   Decision Confidence: {consciousness.get('decision_confidence', 0):.3f}")
     print(f"   Attention Targets: {consciousness.get('attention_targets', [])}")
 
     print("\n🧬 Biological Data:")
     biological = data.get("biological", {})
     hormones = biological.get("hormone_levels", {})
-    print(f"   Cortisol: {hormones.get('cortisol', 0)}:.3f}")
-    print(f"   Dopamine: {hormones.get('dopamine', 0)}:.3f}")
+    print(f"   Cortisol: {hormones.get('cortisol', 0):.3f}")
+    print(f"   Dopamine: {hormones.get('dopamine', 0):.3f}")
     print(f"   Homeostasis: {biological.get('homeostasis_state', 'unknown')}")
 
     print("\n📈 Derived Metrics:")
     derived = data.get("derived_metrics", {})
-    print(f"   Stress Indicator: {derived.get('stress_indicator', 0)}:.3f}")
-    print(f"   Performance Indicator: {derived.get('performance_indicator', 0)}:.3f}")
-    print(f"   Learning Readiness: {derived.get('learning_readiness', 0)}:.3f}")
+    print(f"   Stress Indicator: {derived.get('stress_indicator', 0):.3f}")
+    print(f"   Performance Indicator: {derived.get('performance_indicator', 0):.3f}")
+    print(f"   Learning Readiness: {derived.get('learning_readiness', 0):.3f}")
 
     print("\n🔗 Integration Format:")
     integration_data = await collector.get_monitoring_system_integration_data()

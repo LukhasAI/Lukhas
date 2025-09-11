@@ -1,9 +1,8 @@
+
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
 
 from lukhas.audit.store import audit_log_read, audit_log_write
-import streamlit as st
-import time
 
 router = APIRouter(prefix="/audit", tags=["audit"])
 

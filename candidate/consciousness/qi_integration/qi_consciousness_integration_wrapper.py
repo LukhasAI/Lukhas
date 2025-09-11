@@ -4,14 +4,13 @@ Integration wrapper for connecting quantum consciousness integration to the cons
 """
 import logging
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
 try:
-    from .qi_consciousness_integration import (MODULE_NAME, MODULE_VERSION,
-                                               QICreativeConsciousness)
+    from .qi_consciousness_integration import MODULE_NAME, MODULE_VERSION, QICreativeConsciousness
 
     QUANTUM_CONSCIOUSNESS_AVAILABLE = True
 except ImportError as e:

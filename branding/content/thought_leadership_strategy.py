@@ -8,6 +8,7 @@ Combines insights from:
 - Sahil Gandhi: Story-driven content that creates emotional connections
 - Bhavik Sarkhedi: Authority-building content for personal brand dominance
 """
+
 from dataclasses import dataclass
 from enum import Enum
 
@@ -476,15 +477,15 @@ if __name__ == "__main__":
     print("=" * 60)
 
     print("\n🌟 Strategy Foundation:")
-    for principle, description in thought_leadership.strategy_foundation.items():
+    for _principle, _description in thought_leadership.strategy_foundation.items():
         print("Thought leadership strategy processing")
 
     print(f"\n🎨 Content Frameworks ({len(thought_leadership.content_frameworks)}):")
-    for framework, details in thought_leadership.content_frameworks.items():
+    for _framework, _details in thought_leadership.content_frameworks.items():
         print("Thought leadership strategy processing")
 
     print(f"\n📢 Distribution Strategy ({len(thought_leadership.distribution_strategy)} platforms):")
-    for platform, details in thought_leadership.distribution_strategy.items():
+    for _platform, _details in thought_leadership.distribution_strategy.items():
         print("Thought leadership strategy processing")
 
     print(f"\n📅 Campaign Calendar ({len(thought_leadership.campaign_calendar)} months):")
@@ -492,7 +493,7 @@ if __name__ == "__main__":
         print(f"  {calendar.month}: {len(calendar.content_pieces)} pieces, {calendar.expected_reach:,} reach")
 
     print("\n🎯 Quarterly Objectives:")
-    for quarter, objectives in roadmap["quarterly_objectives"].items():
+    for _quarter, _objectives in roadmap["quarterly_objectives"].items():
         print("Thought leadership strategy processing")
 
     print("\n🏆 Thought Leadership Content Strategy: COMPLETE")

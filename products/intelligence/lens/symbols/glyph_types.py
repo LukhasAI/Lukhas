@@ -3,6 +3,7 @@
 GLYPH Types for ΛLens
 Symbol types and data structures
 """
+
 import time
 import uuid
 from dataclasses import dataclass

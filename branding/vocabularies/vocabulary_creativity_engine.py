@@ -11,21 +11,24 @@ This module defines the symbolic vocabulary for the Lukhas Vision Module,
 providing the symbolic language elements used for visual analysis,
 image interpretation, and visual communication.
 """
+
 from dataclasses import dataclass
 from typing import Any
 
-from core.symbolic import VisualSymbol
+from lukhas.core.symbolic import VisualSymbol
+from symbolic.vocabularies.vision_vocabulary import VisionSymbolicVocabulary
 
 from ..core import AnalysisType, VisionProvider
 
 
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
-    
+
     This is a placeholder for functionality that needs to be implemented.
     Replace this stub with the actual implementation.
     """
     raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+
 
 @dataclass
 class VocabularyCreativityEngine:

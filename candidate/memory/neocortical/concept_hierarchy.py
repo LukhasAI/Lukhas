@@ -588,9 +588,9 @@ if __name__ == "__main__":
 
     # Test semantic distance
     print("\n--- Semantic Distance ---")
-    print(f"Dog <-> Cat: {hierarchy.get_semantic_distance('Dog', 'Cat')}:.2f}")
-    print(f"Dog <-> Eagle: {hierarchy.get_semantic_distance('Dog', 'Eagle')}:.2f}")
-    print(f"Golden Retriever <-> Siamese Cat: {hierarchy.get_semantic_distance('Golden Retriever', 'Siamese Cat')}:.2f}")
+    print(f"Dog <-> Cat: {hierarchy.get_semantic_distance('Dog', 'Cat'):.2f}")
+    print(f"Dog <-> Eagle: {hierarchy.get_semantic_distance('Dog', 'Eagle'):.2f}")
+    print(f"Golden Retriever <-> Siamese Cat: {hierarchy.get_semantic_distance('Golden Retriever', 'Siamese Cat'):.2f}")
 
     # Extract ontology
     print("\n--- Ontology ---")

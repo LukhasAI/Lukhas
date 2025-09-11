@@ -15,6 +15,7 @@ Integration with lukhas-id:
 - Actions are logged for full audit trails
 - Consent is checked for sensitive evaluations
 """
+
 import os
 import sys
 from datetime import datetime, timezone

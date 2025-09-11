@@ -2,6 +2,7 @@
 Consent Filter for NIΛS System
 Handles user consent verification and privacy protection
 """
+
 import json
 import logging
 from datetime import datetime, timedelta, timezone

@@ -8,6 +8,7 @@ Combines insights from all brand strategists:
 - Sahil Gandhi: Story-driven emotional resonance
 - Bhavik Sarkhedi: Personal brand authority building
 """
+
 import asyncio
 from dataclasses import dataclass
 from enum import Enum

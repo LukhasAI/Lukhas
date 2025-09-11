@@ -2,6 +2,7 @@
 Database connection and initialization
 Using PostgreSQL with TimescaleDB for time-series metrics
 """
+
 import asyncio
 import logging
 from typing import Optional

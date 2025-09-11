@@ -2,6 +2,7 @@
 """
 Free LUKHAS AI ΛBot Direct Mode - Bypass router issues and let LUKHAS AI ΛBot work directly
 """
+
 import subprocess
 import sys
 import time
@@ -9,11 +10,12 @@ import time
 
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
-    
+
     This is a placeholder for functionality that needs to be implemented.
     Replace this stub with the actual implementation.
     """
     raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+
 
 sys.path.append("/Users/A_G_I/Λ")
 

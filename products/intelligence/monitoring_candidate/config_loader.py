@@ -4,6 +4,7 @@ LUKHAS  Monitoring Configuration Loader
 ==========================================
 Loads monitoring configuration with environment variable overrides
 """
+
 import os
 from pathlib import Path
 from typing import Any, Optional, Union

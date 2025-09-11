@@ -1,6 +1,5 @@
 import logging
-import streamlit as st
-import time
+
 logger = logging.getLogger(__name__)
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮
@@ -22,8 +21,8 @@ import json
 import logging
 from pathlib import Path
 
-from core.common import get_logger
-from core.utils.symbolic_utils import summarize_emotion_vector, tier_label
+from lukhas.core.common import get_logger
+from lukhas.core.utils.symbolic_utils import summarize_emotion_vector, tier_label
 
 # Configure logging
 logger = get_logger(__name__)
@@ -86,7 +85,7 @@ def narrate_dreams(limit=3):
         print(f"   🗣 '{summary or 'A quiet dream passed — undefined, but felt.'}'")
         print(f"   🎙️ Voice Profile: {voice}")
         print(
-            f"   💬 'Let this dream echo — it held a trace of {ev.get('joy', 0):.1f} joy and {ev.get('calm', 0)}:.1f} calm.'"
+            f"   💬 'Let this dream echo — it held a trace of {ev.get('joy', 0):.1f} joy and {ev.get('calm', 0):.1f} calm.'"
         )
         print("   💤 … (End of symbolic voice segment)")
 

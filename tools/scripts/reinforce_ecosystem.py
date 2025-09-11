@@ -53,16 +53,16 @@ class EcosystemReinforcer:
         # Import mappings from reorganization
         import_mappings = {
             "from api import": "from lukhas.bridge.api_legacy import",
-            "from architectures import": "from core.architectures import",
+            "from architectures import": "from lukhas.core.architectures import",
             "from bio import": "from lukhas.qi.bio_legacy import",
             "from creativity import": "from lukhas.consciousness.creativity import",
             "from dream import": "from lukhas.consciousness.dream import",
             "from ethics import": "from lukhas.governance.ethics_legacy import",
             "from identity import": "from lukhas.governance.identity import",
             "from learning import": "from lukhas.memory.learning import",
-            "from orchestration import": "from core.orchestration import",
+            "from orchestration import": "from lukhas.core.orchestration import",
             "from reasoning import": "from lukhas.consciousness.reasoning import",
-            "from symbolic import": "from core.symbolic_core import",
+            "from symbolic import": "from lukhas.core.symbolic_core import",
             "from voice import": "from lukhas.bridge.voice import",
             "import api": "import lukhas.bridge.api_legacy as api",
             "import architectures": "import core.architectures as architectures",
@@ -468,7 +468,7 @@ def colony_propagate(func: Callable) -> Callable:
         # Propagate through colony if enabled
         if kwargs.get('propagate', True):
             try:
-                from core.colonies.base_colony import propagate_signal
+                from lukhas.core.colonies.base_colony import propagate_signal
                 await propagate_signal({
                     'source': func.__module__,
                     'function': func.__name__,

@@ -6,6 +6,7 @@ Simplified LUKHAS OpenAI service for production use.
 This is a production-ready version that provides core functionality
 without complex signal modulation dependencies.
 """
+
 import logging
 import time
 import uuid

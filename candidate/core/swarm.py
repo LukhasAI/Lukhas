@@ -18,7 +18,11 @@ from candidate.core.minimal_actor import Actor
 try:
     from candidate.core.enhanced_swarm import (
         EnhancedColony as AgentColonyEnhanced,
+    )
+    from candidate.core.enhanced_swarm import (
         EnhancedSwarmAgent as SwarmAgentEnhanced,
+    )
+    from candidate.core.enhanced_swarm import (
         EnhancedSwarmHub as SwarmHubEnhanced,
     )
 

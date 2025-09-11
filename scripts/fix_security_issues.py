@@ -158,7 +158,7 @@ Focus on practical, secure solutions that maintain functionality.
 
     def create_backup(self, file_path: str) -> str:
         """Create backup of file before modification"""
-        backup_dir = Path(f".security_backup_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}}")
+        backup_dir = Path(f".security_backup_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}")
         backup_dir.mkdir(exist_ok=True)
 
         source_file = Path(file_path)
@@ -364,7 +364,7 @@ Focus on practical, secure solutions that maintain functionality.
                 click.echo(f"   • {fix['type']} in {fix['file']}:{fix['line']} ({fix['severity']})")
 
         # Save detailed report
-        report_file = f"security_issue_fix_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}}.json"
+        report_file = f"security_issue_fix_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.json"
         with open(report_file, "w") as f:
             json.dump(
                 {

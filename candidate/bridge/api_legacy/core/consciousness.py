@@ -12,17 +12,16 @@ Based on Tier 5 system integration with all modules connected and verified.
 Note: OpenAI-based synthesis temporarily disabled due to project configuration.
 """
 
-from datetime import datetime
+import logging
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, Field
 
 try:
-    from candidate.bridge.llm_wrappers.unified_openai_client import \
-        UnifiedOpenAIClient
-    from lukhas.consciousness.reflection.unified_memory_manager import \
-        MemoryFoldSystem
+    from candidate.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
+    from lukhas.consciousness.reflection.unified_memory_manager import MemoryFoldSystem
 except ImportError:
     MemoryFoldSystem = None
     UnifiedOpenAIClient = None

@@ -15,6 +15,7 @@ DESCRIPTION:
 """
 
 import json
+import logging
 from pathlib import Path
 
 from candidate.core.common import get_logger
@@ -24,9 +25,7 @@ from candidate.core.utils.symbolic_utils import summarize_emotion_vector, tier_l
 logger = get_logger(__name__)
 if not logger.handlers:
     handler = logging.StreamHandler()
-    formatter = logging.Formatter(
-        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-    )
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     logger.setLevel(logging.INFO)
@@ -49,9 +48,7 @@ def narrate_dreams(limit=3):
         with open(REPLAY_PATH) as f:
             entries = [json.loads(line.strip()) for line in f.readlines()][-limit:]
     elif SUMMARY_PATH.exists():
-        logger.info(
-            "🎙️ narration_queue and replay_queue not found. Using dream_summary_log.jsonl..."
-        )
+        logger.info("🎙️ narration_queue and replay_queue not found. Using dream_summary_log.jsonl...")
         with open(SUMMARY_PATH) as f:
             entries = [json.loads(line.strip()) for line in f.readlines()][-limit:]
     else:
@@ -78,11 +75,7 @@ def narrate_dreams(limit=3):
         # Keep as print statements since this is CLI narrative output
         print(f"\n🎙️ Narrating Entry ID: {entry.get('id', '—')}")
         print(f"   🔐 Tier: {tier_label(tier)} | Source: {source}")
-        print(
-            f"   🧠 Emotion Vector → {summarize_emotion_vector(ev)}"
-            if ev
-            else "   🧠 No emotion vector available"
-        )
+        print(f"   🧠 Emotion Vector → {summarize_emotion_vector(ev)}" if ev else "   🧠 No emotion vector available")
         print(f"   🖼️ Emoji: {emoji} | Tags: {', '.join(tags)}")
         print(f"   📝 Summary: {summary}")
         print("   🎧 [Lukhas says symbolically...]\n")
@@ -100,9 +93,7 @@ def narrate_dreams(limit=3):
             for entry in narrated:
                 f.write(json.dumps(entry) + "\n")
         # Keep as print since this is CLI user output
-        print(
-            f"\n📼 Narrated {len(narrated)} symbolic dreams. Logged to narration_log.jsonl."
-        )
+        print(f"\n📼 Narrated {len(narrated)} symbolic dreams. Logged to narration_log.jsonl.")
 
 
 """

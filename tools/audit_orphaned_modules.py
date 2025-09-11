@@ -246,7 +246,7 @@ class OrphanedModuleAuditor:
         print(f"\n📄 {path}")
         print(
             f"   Score: {score} | Lines: {file_analysis.get('line_count', 0)} | "
-            f"Size: {file_analysis.get('size_kb', 0)}:.1f}KB"
+            f"Size: {file_analysis.get('size_kb', 0):.1f}KB"
         )
 
         if indicators:

@@ -3,6 +3,7 @@
 Code Parser for ΛLens
 Handles source code files and extracts functions, classes, and structure
 """
+
 import re
 from typing import Any
 

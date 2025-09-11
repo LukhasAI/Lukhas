@@ -8,6 +8,7 @@ This module provides the integration points between:
 - QRG advanced authentication (lambda_products_pack/lambda_core/QRG)
 - Production nucleus (lukhas/lukhas/identity)
 """
+
 import logging
 from pathlib import Path
 from typing import Any

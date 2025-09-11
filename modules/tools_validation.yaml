@@ -1,0 +1,117 @@
+identity:
+  name: tools.validation
+  layer: application
+  summary: tools.validation module with 0 classes and 5 functions
+  status: active
+  tier: 2
+discovery:
+  import_patterns:
+  - from tools.validation import main
+  - from tools.validation import test_authentication_flows
+  - from tools.validation import test_security_compliance
+  - from tools.validation import test_api_key_validation
+  - from tools.validation import test_session_management
+  import_aliases:
+  - validation
+  file_patterns:
+  - tools/validation/**/*.py
+  - tests/tools/validation/**/*.py
+  entry_points:
+  - tools/validation/__init__.py
+ownership:
+  owner: '@DevOpsTeam'
+  lifecycle: evolving
+  last_review: '2025-09-10T11:32:19.472975+00:00'
+  promotion_rules: {}
+contracts:
+  api:
+    surface:
+    - 'python: tools.validation.main'
+    - 'python: tools.validation.test_authentication_flows'
+    - 'python: tools.validation.test_security_compliance'
+    - 'python: tools.validation.test_api_key_validation'
+    - 'python: tools.validation.test_session_management'
+    version: v1.0
+    compatibility:
+      backward: true
+      forward: minor
+  invariants:
+  - module loads without errors
+  - public API remains stable
+dependencies:
+  internal:
+    requires: []
+    provides:
+    - tools.validation
+  external:
+    libs: []
+  coupling_metrics:
+    afferent: 2
+    efferent: 0
+    instability_index: 1.0
+runtime:
+  processes:
+    entrypoints:
+    - python -m tools.validation
+    concurrency_model: thread
+  config:
+    files: []
+    env_vars_required: []
+    feature_flags: []
+  resources:
+    cpu_limit: 0.5 vcpu
+    mem_limit: 256 MiB
+data_and_events:
+  data_classes: []
+  pii:
+    contains: false
+    classification: internal
+security:
+  secrets:
+    sources:
+    - env
+    files: []
+  authz_model: internal_only
+  compliance:
+    data_classification: internal
+observability:
+  logs:
+    format: structured_json
+    level: info
+  metrics:
+    exporter: prometheus
+    key_metrics:
+    - name: tools_validation_calls_total
+      target: '>0'
+      type: counter
+  slos:
+    error_rate_pct: 1.0
+    availability_pct: 99.0
+test_posture:
+  coverage:
+    current: 0.0
+    target: 0.8
+  tests:
+    unit: 0
+    integration: 0
+risk_and_change:
+  risks:
+  - id: R-TOOLS-VALIDATION-GENERATED
+    title: Auto-generated schema may be incomplete
+    likelihood: medium
+    impact: low
+    mitigation: Manual review and enhancement required
+    status: open
+provenance:
+  schema_version: '1.0'
+  last_updated: '2025-09-10T11:32:19.472975+00:00'
+  source_paths:
+  - tools/validation
+  generated_by:
+    tool: lukhas-module-generator
+    version: 1.0.0
+    timestamp: '2025-09-10T11:32:19.472975+00:00'
+  validation:
+    schema_valid: true
+    last_validated: '2025-09-10T11:32:19.472975+00:00'
+    validator_version: 1.0.0

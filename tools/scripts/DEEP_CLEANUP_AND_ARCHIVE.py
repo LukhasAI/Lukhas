@@ -473,7 +473,7 @@ Setup.py:
             f.write(f"**Date:** {datetime.now(timezone.utc).isoformat()}\n\n")
             f.write("## Statistics\n\n")
             for key, value in self.stats.items():
-                f.write(f"- **{key.replace('_', ' ').title(}}:** {value}\n")
+                f.write(f"- **{key.replace('_', ' ').title(}:** {value}\n")
             f.write("\n## Archive Location\n\n")
             f.write(f"`{self.archive_dir}`\n")
 

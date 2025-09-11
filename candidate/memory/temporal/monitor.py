@@ -11,8 +11,6 @@
 ===============================
 Monitor the autonomous AGI system in real-time
 """
-import streamlit as st
-
 import json
 import os
 import time
@@ -41,7 +39,7 @@ def monitor_agi_system():
 
                     print(f"\n🕐 {datetime.now(timezone.utc).strftime('%H:%M:%S')} - Latest Status:")
                     print(f"📊 Tasks: {status.get('completed', 0)} completed, {status.get('failed', 0)} failed")
-                    print(f"💰 Budget Used: ${status.get('budget_used', 0)}:.4f}")
+                    print(f"💰 Budget Used: ${status.get('budget_used', 0):.4f}")
 
                     if "recent_prs" in status:
                         print(f"🔗 PRs Created: {len(status['recent_prs'])}")

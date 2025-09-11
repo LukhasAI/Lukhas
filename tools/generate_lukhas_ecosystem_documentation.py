@@ -514,7 +514,7 @@ class MyAwesomePlugin(LucasPlugin):
 
     async def execute(self, context):
         # Your plugin logic here
-        return {{"status": "success", "message": "Hello from core.common!"}
+        return {{"status": "success", "message": "Hello from lukhas.core.common!"}
 ```
 
 ### 4. **Test Your Plugin**
@@ -880,7 +880,7 @@ Generated on: {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")}
 """
 
         for section, status in metrics["documentation_coverage"].items():
-            metrics_md += f"- **{section.replace('_', ' ').title(}}**: {status}\n"
+            metrics_md += f"- **{section.replace('_', ' ').title(}**: {status}\n"
 
         metrics_md += f"""
 ## 🎯 Success Metrics

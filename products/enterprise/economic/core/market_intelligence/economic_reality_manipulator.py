@@ -6,14 +6,15 @@ economic analysis and strategic positioning.
 
 Integration with LUKHAS Trinity Framework (⚛️🧠🛡️)
 """
+
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any
 
-from core.container.service_container import ServiceContainer
-from core.interfaces import CoreInterface
-from core.symbolic_engine import SymbolicEffect, SymbolicEvent
+from lukhas.core.container.service_container import ServiceContainer
+from lukhas.core.interfaces import CoreInterface
+from lukhas.core.symbolic_engine import SymbolicEffect, SymbolicEvent
 
 logger = logging.getLogger(__name__)
 

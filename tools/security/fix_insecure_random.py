@@ -10,6 +10,7 @@ This file is intentionally conservative: it performs text-based checks
 and replacements and logs counts of files and fixes applied. Designed to
 be run from the repository root or via CI tooling.
 """
+
 import re
 import sys
 from pathlib import Path

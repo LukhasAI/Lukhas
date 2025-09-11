@@ -28,12 +28,39 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: Install dependencies
-        run: make bootstrap
+        run: |
+          python -m pip install --upgrade pip
+          pip install -c constraints.txt -r requirements.txt
+
+      - name: Security Scanning - Gitleaks (non-blocking)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+        continue-on-error: true
+        with:
+          config-path: .gitleaks.toml
+
+      - name: SBOM Generation (Guardian System)
+        run: |
+          # Generate Software Bill of Materials for compliance
+          pip install cyclonedx-bom
+          mkdir -p reports/sbom
+          cyclonedx-bom -o reports/sbom/cyclonedx.json --validate --output-format=json --output-reproducible
+          echo "SBOM generated: reports/sbom/cyclonedx.json"
+        continue-on-error: true
 
       - name: Install Ruff (pinned)
         run: |
           python -m pip install --upgrade pip
           pip install "ruff==0.6.9"
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
 
       - name: Verify config & version (debug)
         run: |
@@ -49,17 +76,104 @@ jobs:
       - name: Run checks (deterministic)
         run: |
           set -euo pipefail
+          # Install import-linter for architectural checks
+          pip install -c constraints.txt import-linter
+          # Runtime lane guard - fail fast on candidate leaks
+          PYTHONPATH=. python3 tools/ci/runtime_lane_guard.py
+          # Grep tripwire - catch new dynamic imports
+          bash tools/ci/grep_lane_tripwire.sh
+          # Guardian System v1.0.0 Security Compliance Check
+          bash tools/ci/security_compliance_check.sh || echo "Security compliance check completed with warnings"
           # Force Ruff to read our config to ensure per-file ignores apply
           ruff check --config pyproject.toml serve tests/contract
+          # Run architectural lint checks with proper PYTHONPATH
+          PYTHONPATH=. lint-imports
           # Run contract tests only for the CI check stage
           pytest -q tests/contract --maxfail=1 --disable-warnings
           # Run a scoped mypy check; allow mypy to fail without failing the CI job
           mypy --follow-imports=skip --ignore-missing-imports serve/main.py || true
 
+  contracts-smoke:
+    name: Tier-1 Contracts Smoke Test
+    runs-on: ubuntu-latest
+    needs: [check]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install test dependencies
+        run: pip install -q pytest pyyaml
+
+      - name: Run Tier-1 smoke tests
+        run: pytest -q -k "matriz or golden or smoke" --maxfail=1 -x
+
+      - name: Validate Tier-1 contracts exist
+        run: |
+          set -euo pipefail
+          echo "🔍 Validating Tier-1 module contracts..."
+          
+          # Check TIER1.txt exists
+          if [[ ! -f "audit/TIER1.txt" ]]; then
+            echo "❌ audit/TIER1.txt missing"
+            exit 1
+          fi
+          
+          # Extract module names and validate contracts
+          tier1_modules=$(grep -E "^lukhas\." audit/TIER1.txt || true)
+          if [[ -z "$tier1_modules" ]]; then
+            echo "❌ No Tier-1 modules found in audit/TIER1.txt"
+            exit 1
+          fi
+          
+          missing_contracts=0
+          while IFS= read -r module; do
+            if [[ -n "$module" ]]; then
+              # Convert lukhas.memory -> lukhas_memory for file names
+              contract_file="audit/NODE_CONTRACTS/$(echo $module | sed 's/\./_/g').json"
+              golden_pattern="tests/golden/tier1/$(echo $module | cut -d. -f2)_*.json"
+              
+              # Check contract exists
+              if [[ ! -f "$contract_file" ]]; then
+                echo "❌ Missing contract: $contract_file"
+                missing_contracts=$((missing_contracts + 1))
+              else
+                echo "✅ Contract exists: $contract_file"
+              fi
+              
+              # Check golden trace exists
+              module_short=$(echo $module | cut -d. -f2)
+              if ls tests/golden/tier1/${module_short}_*.json 1> /dev/null 2>&1; then
+                golden_file=$(ls tests/golden/tier1/${module_short}_*.json | head -1)
+                echo "✅ Golden trace exists for: $module ($golden_file)"
+              else
+                echo "❌ Missing golden trace for: $module"
+                missing_contracts=$((missing_contracts + 1))
+              fi
+            fi
+          done <<< "$tier1_modules"
+          
+          if [[ $missing_contracts -gt 0 ]]; then
+            echo "❌ $missing_contracts Tier-1 validation files missing"
+            exit 1
+          fi
+          
+          # Check reality tests exist
+          if [[ ! -f "tests_new/reality/tier1/test_tier1_reality.py" ]]; then
+            echo "❌ Missing Tier-1 reality tests"
+            exit 1
+          fi
+          
+          echo "✅ All Tier-1 contracts and validation files present"
+
   test:
     name: Test
     runs-on: ubuntu-latest
-    needs: [check]
+    needs: [check, contracts-smoke]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -78,7 +192,9 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: Install dependencies
-        run: make bootstrap
+        run: |
+          python -m pip install --upgrade pip
+          pip install -c constraints.txt -r requirements.txt
 
       - name: Run tests
         run: make test

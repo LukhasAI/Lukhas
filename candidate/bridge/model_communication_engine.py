@@ -49,7 +49,8 @@ import torch
 import torch.nn.functional as F
 from torch import Tensor, nn
 
-from .decoding import decode as decode_function, detect_language as detect_language_function
+from .decoding import decode as decode_function
+from .decoding import detect_language as detect_language_function
 from .transcribe import transcribe as transcribe_function
 
 try:

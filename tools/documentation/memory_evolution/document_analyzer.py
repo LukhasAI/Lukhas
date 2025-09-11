@@ -2,6 +2,7 @@
 Document Structure Analyzer for DocuTutor.
 Analyzes document structure and quality metrics.
 """
+
 import re
 from collections import Counter
 

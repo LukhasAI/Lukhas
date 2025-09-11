@@ -5,6 +5,7 @@ Quantum-Resistant Authentication Through Consciousness-Aware Visual Cryptography
 "Where digital consciousness meets quantum security - authentication becomes an art form
 that bridges human intuition with AI precision" ✨
 """
+
 import streamlit as st
 
 from consciousness.qi import qi

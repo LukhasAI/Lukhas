@@ -19,6 +19,7 @@ from candidate.orchestration.signals.signal_bus import Signal, SignalBus, Signal
 
 # Import core components
 from consciousness.reflection.openai_core_service import (
+from datetime import timezone
     ModelType,
     OpenAICapability,
     OpenAICoreService,

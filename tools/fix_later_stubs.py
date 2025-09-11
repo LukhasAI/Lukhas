@@ -3,6 +3,7 @@
 Fix fix_later stub issues across LUKHAS codebase
 Resolves F821 violations for fix_later placeholders
 """
+
 import json
 from pathlib import Path
 
@@ -26,7 +27,7 @@ def fix_later_stubs():
     print(f"Found {len(fix_later_files)} files with fix_later F821 violations")
 
     fixes_applied = 0
-    for file_path, line_numbers in fix_later_files.items():
+    for file_path in fix_later_files:
         abs_path = Path(f"/Users/agi_dev/LOCAL-REPOS/Lukhas/{file_path}")
 
         if not abs_path.exists():
@@ -64,10 +65,12 @@ def fix_later_stubs():
                         continue
 
                     # Skip imports and comments
-                    if (stripped.startswith("import ") or
-                        stripped.startswith("from ") or
-                        stripped.startswith("#") or
-                        not stripped):
+                    if (
+                        stripped.startswith("import ")
+                        or stripped.startswith("from ")
+                        or stripped.startswith("#")
+                        or not stripped
+                    ):
                         insertion_point = i + 1
                     else:
                         break
@@ -76,7 +79,7 @@ def fix_later_stubs():
                 stub_definition = '''
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
-    
+
     This is a placeholder for functionality that needs to be implemented.
     Replace this stub with the actual implementation.
     """
@@ -98,6 +101,7 @@ def fix_later(*args, **kwargs):
 
     print(f"\n🎯 Applied {fixes_applied} fix_later stub fixes")
     return fixes_applied
+
 
 if __name__ == "__main__":
     fix_later_stubs()

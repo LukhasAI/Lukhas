@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
 """
 Integrated Consciousness & Feedback API
 ======================================
@@ -17,7 +14,6 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from core.common import get_logger
 from dashboard.interpretability_dashboard import (
     UnifiedInterpretabilityDashboard,
 )
@@ -30,6 +26,7 @@ from lukhas.consciousness.interfaces.natural_language_interface import (
     ConversationManager,
     NaturalLanguageConsciousnessInterface,
 )
+from lukhas.core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -191,7 +188,7 @@ async def _setup_services():
     """Setup services and integrations"""
     from unittest.mock import AsyncMock, Mock
 
-    from core.interfaces.dependency_injection import register_service
+    from lukhas.core.interfaces.dependency_injection import register_service
 
     # Enhanced mock consciousness service
     mock_consciousness = Mock()

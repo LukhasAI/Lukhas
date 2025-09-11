@@ -10,7 +10,7 @@ Traces symbolic events and ΛTAG activity within the LUKHAS system.
 import json
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 

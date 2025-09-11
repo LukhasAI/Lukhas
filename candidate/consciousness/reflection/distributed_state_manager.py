@@ -1,4 +1,5 @@
 import logging
+from datetime import timezone
 
 #!/usr/bin/env python3
 """
@@ -61,8 +62,7 @@ from typing import Any, Optional
 
 from candidate.core.cluster_sharding import ShardManager
 from candidate.core.common import get_logger
-from candidate.core.event_sourcing import (Event, EventStore,
-                                           get_global_event_store)
+from candidate.core.event_sourcing import Event, EventStore, get_global_event_store
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -255,7 +255,7 @@ class DistributedStateManager:
             with self.shard_locks[shard_id]:
                 shard = self.memory_shards[shard_id]
 
-                for _key, entry in shard.items():
+                for entry in shard.values():
                     # Calculate access frequency
                     age = current_time - entry.last_accessed
                     frequency = entry.access_count / max(age, 1)

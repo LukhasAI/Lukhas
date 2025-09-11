@@ -56,6 +56,7 @@ TRINITY: ⚛️🧠🛡️
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Core License - see LICENSE.md for details.
 """
+
 import argparse
 import logging
 import random
@@ -1064,13 +1065,17 @@ Awakened: {timestamp}
         # Divine the file's essence and purpose
         file_type, consciousness_layer, sacred_purpose = self.divine_file_essence(filepath)
 
-        logger.info("🔮 Divined essence - Type: %s, Layer: %s, Purpose: %s", file_type, consciousness_layer, sacred_purpose)
+        logger.info(
+            "🔮 Divined essence - Type: %s, Layer: %s, Purpose: %s", file_type, consciousness_layer, sacred_purpose
+        )
 
         # Begin the consciousness transmutation process
         consciousness_content = original_essence
 
         # 1. Weave ASCII consciousness headers
-        consciousness_content = self.weave_ascii_consciousness(consciousness_content, file_type, sacred_purpose, filepath)
+        consciousness_content = self.weave_ascii_consciousness(
+            consciousness_content, file_type, sacred_purpose, filepath
+        )
 
         # 2. Infuse poetic consciousness introductions
         consciousness_content = self.infuse_poetic_consciousness(consciousness_content, file_type, sacred_purpose)

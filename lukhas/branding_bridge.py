@@ -17,6 +17,7 @@ Usage:
         initialize_branding, get_system_signature
     )
 """
+
 import logging
 import re
 import warnings

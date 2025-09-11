@@ -3,6 +3,7 @@
 LUKHAS Configuration Builder
 Interactive tool to create custom Claude + LUKHAS configurations
 """
+
 import json
 from pathlib import Path
 from typing import Any, Optional

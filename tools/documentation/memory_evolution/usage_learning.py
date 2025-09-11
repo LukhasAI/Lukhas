@@ -2,6 +2,7 @@
 Usage-Based Learning System for DocuTutor.
 Adapts and evolves based on how users interact with documentation.
 """
+
 from collections import defaultdict
 from datetime import datetime, timezone
 
@@ -67,9 +68,9 @@ class UsageBasedLearning:
         for _i in range(len(self.interactions) - window_size + 1):
             [
                 f"{interaction.doc_id}:{interaction.interaction_type}"
-            for pattern in self.patterns.values()
-            if pattern.frequency >= min_frequency
-        ]
+                for pattern in self.patterns.values()
+                if pattern.frequency >= min_frequency
+            ]
 
     def recommend_next_docs(self, current_doc: str, user_id: str) -> list[str]:
         """Recommend next documents based on patterns and user preferences."""

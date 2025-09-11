@@ -147,6 +147,10 @@ reports/*
 !reports/deep_search/
 # Exception: Track linting reports for code quality analysis
 !reports/lints/
+# Exception: Track SBOM files for security audits
+!reports/sbom/
+# Exception: Track audit reports for external auditor access
+!reports/audit/
 .pytest_cache/
 .venv/
 .venv_test/
@@ -290,3 +294,10 @@ lukhas_branding_consolidated.*
 consolidate_branding.py
 memory/protection/sanctum_vault/*.vault
 # test artifacts
+
+# Local development files that should never be committed
+.venv*/
+.venv311/
+.claude/
+reports/dashboard/*.json
+.lukhas_audit/*.jsonl

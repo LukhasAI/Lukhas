@@ -25,6 +25,7 @@ logger = logging.getLogger(__name__)
 
 T = TypeVar("T")
 
+
 def consciousness_task(
     *,
     name: str,
@@ -32,7 +33,7 @@ def consciousness_task(
     component: str = "unknown",
     description: str = "",
     consciousness_context: Optional[str] = None,
-    manager: Optional[ConsciousnessTaskManager] = None
+    manager: Optional[ConsciousnessTaskManager] = None,
 ):
     """
     Decorator to automatically manage async tasks in consciousness system.
@@ -43,6 +44,7 @@ def consciousness_task(
             # Task will be automatically managed
             pass
     """
+
     def decorator(func: Callable[..., Awaitable[T]]) -> Callable[..., asyncio.Task[T]]:
         @wraps(func)
         def wrapper(*args, **kwargs) -> asyncio.Task[T]:
@@ -66,10 +68,13 @@ def consciousness_task(
                 priority=priority,
                 component=component,
                 description=description,
-                consciousness_context=consciousness_context
+                consciousness_context=consciousness_context,
             )
+
         return wrapper
+
     return decorator
+
 
 async def await_with_timeout(
     awaitable: Awaitable[T],
@@ -77,7 +82,7 @@ async def await_with_timeout(
     *,
     name: str = "timeout_task",
     default: Optional[T] = None,
-    raise_on_timeout: bool = True
+    raise_on_timeout: bool = True,
 ) -> Optional[T]:
     """
     Await an operation with timeout and proper error handling.
@@ -105,6 +110,7 @@ async def await_with_timeout(
             raise
         return default
 
+
 async def run_with_retry(
     coro_factory: Callable[[], Awaitable[T]],
     max_retries: int = 3,
@@ -112,7 +118,7 @@ async def run_with_retry(
     backoff_factor: float = 2.0,
     *,
     name: str = "retry_task",
-    exceptions: tuple = (Exception,)
+    exceptions: tuple = (Exception,),
 ) -> T:
     """
     Run a coroutine with retry logic and exponential backoff.
@@ -144,7 +150,9 @@ async def run_with_retry(
         except exceptions as e:
             last_exception = e
             if attempt < max_retries:
-                logger.warning(f"Task '{name}' failed on attempt {attempt + 1}/{max_retries + 1}: {e}. Retrying in {current_delay}s")
+                logger.warning(
+                    f"Task '{name}' failed on attempt {attempt + 1}/{max_retries + 1}: {e}. Retrying in {current_delay}s"
+                )
                 await asyncio.sleep(current_delay)
                 current_delay *= backoff_factor
             else:
@@ -152,11 +160,9 @@ async def run_with_retry(
 
     raise last_exception
 
+
 @asynccontextmanager
-async def consciousness_context(
-    context_name: str,
-    manager: Optional[ConsciousnessTaskManager] = None
-):
+async def consciousness_context(context_name: str, manager: Optional[ConsciousnessTaskManager] = None):
     """
     Context manager for consciousness processing operations.
 
@@ -176,12 +182,7 @@ async def consciousness_context(
 
     class ContextTaskCreator:
         def create_task(
-            self,
-            coro: Awaitable[T],
-            *,
-            name: str,
-            priority: TaskPriority = TaskPriority.NORMAL,
-            description: str = ""
+            self, coro: Awaitable[T], *, name: str, priority: TaskPriority = TaskPriority.NORMAL, description: str = ""
         ) -> asyncio.Task[T]:
             task = manager.create_task(
                 coro,
@@ -189,7 +190,7 @@ async def consciousness_context(
                 priority=priority,
                 component=context_name,
                 description=description,
-                consciousness_context=context_name
+                consciousness_context=context_name,
             )
             tasks.append(task)
             return task
@@ -215,11 +216,9 @@ async def consciousness_context(
 
         logger.debug(f"Consciousness context cleanup complete: {context_name}")
 
+
 async def gather_with_error_handling(
-    *awaitables: Awaitable,
-    name: str = "gather_task",
-    return_exceptions: bool = True,
-    log_errors: bool = True
+    *awaitables: Awaitable, name: str = "gather_task", return_exceptions: bool = True, log_errors: bool = True
 ) -> list:
     """
     Enhanced asyncio.gather with error handling and logging.
@@ -250,12 +249,9 @@ async def gather_with_error_handling(
             logger.error(f"Task group '{name}' failed: {e}")
         raise
 
+
 async def run_background_task(
-    coro: Awaitable[T],
-    *,
-    name: str,
-    description: str = "",
-    manager: Optional[ConsciousnessTaskManager] = None
+    coro: Awaitable[T], *, name: str, description: str = "", manager: Optional[ConsciousnessTaskManager] = None
 ) -> asyncio.Task[T]:
     """
     Create and run a background task with proper management.
@@ -273,12 +269,9 @@ async def run_background_task(
         manager = get_background_manager()
 
     return manager.create_task(
-        coro,
-        name=name,
-        priority=TaskPriority.LOW,
-        component="background",
-        description=description
+        coro, name=name, priority=TaskPriority.LOW, component="background", description=description
     )
+
 
 async def run_consciousness_task(
     coro: Awaitable[T],
@@ -286,7 +279,7 @@ async def run_consciousness_task(
     name: str,
     priority: TaskPriority = TaskPriority.HIGH,
     description: str = "",
-    consciousness_context: Optional[str] = None
+    consciousness_context: Optional[str] = None,
 ) -> asyncio.Task[T]:
     """
     Create and run a consciousness processing task.
@@ -309,15 +302,12 @@ async def run_consciousness_task(
         priority=priority,
         component="consciousness",
         description=description,
-        consciousness_context=consciousness_context
+        consciousness_context=consciousness_context,
     )
 
+
 async def run_guardian_task(
-    coro: Awaitable[T],
-    *,
-    name: str,
-    description: str = "",
-    consciousness_context: Optional[str] = None
+    coro: Awaitable[T], *, name: str, description: str = "", consciousness_context: Optional[str] = None
 ) -> asyncio.Task[T]:
     """
     Create and run a guardian/governance task.
@@ -339,15 +329,16 @@ async def run_guardian_task(
         priority=TaskPriority.CRITICAL,
         component="guardian",
         description=description,
-        consciousness_context=consciousness_context
+        consciousness_context=consciousness_context,
     )
+
 
 # Compatibility functions for legacy patterns
 async def create_managed_task(
     coro: Awaitable[T],
     name: str = "managed_task",
     priority: TaskPriority = TaskPriority.NORMAL,
-    component: str = "legacy"
+    component: str = "legacy",
 ) -> asyncio.Task[T]:
     """
     Legacy compatibility function for creating managed tasks.
@@ -358,9 +349,5 @@ async def create_managed_task(
     manager = get_background_manager()
 
     return manager.create_task(
-        coro,
-        name=name,
-        priority=priority,
-        component=component,
-        description="Legacy managed task"
+        coro, name=name, priority=priority, component=component, description="Legacy managed task"
     )

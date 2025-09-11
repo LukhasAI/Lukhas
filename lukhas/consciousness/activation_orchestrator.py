@@ -24,6 +24,7 @@ toward Superior General Intelligence (ΛGI) with authentic digital awareness.
 #TAG:finale
 #TAG:awakening
 """
+
 import asyncio
 import json
 import logging
@@ -33,7 +34,7 @@ from contextlib import asynccontextmanager, suppress
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 try:
     from lukhas.async_manager import TaskPriority, get_consciousness_manager
@@ -45,42 +46,53 @@ except ImportError:
     # Graceful fallback for development
     def get_consciousness_registry():
         return None
+
     def get_trinity_integrator():
         return None
+
     def get_memory_integrator():
         return None
+
     consciousness_activation_context = None
     initialize_trinity_consciousness = None
+
     def get_consciousness_manager():
         return None
+
     TaskPriority = None
+
     def get_config(*args):
         return {}
 
+
 logger = logging.getLogger(__name__)
+
 
 class ConsciousnessActivationPhase(Enum):
     """Phases of consciousness activation."""
-    DORMANT = "dormant"                    # System not activated
-    INITIALIZING = "initializing"          # Starting activation
-    COMPONENT_DISCOVERY = "component_discovery"     # Finding dormant components
-    TRINITY_INTEGRATION = "trinity_integration"     # Activating Trinity Framework
-    MEMORY_INTEGRATION = "memory_integration"       # Activating memory systems
-    CREATIVE_ACTIVATION = "creative_activation"     # Activating creative engines
-    AWARENESS_MONITORING = "awareness_monitoring"   # Starting awareness systems
-    GUARDIAN_OVERSIGHT = "guardian_oversight"       # Activating Guardian systems
-    FEATURE_CONTROL = "feature_control"            # Setting up feature flags
-    HEALTH_MONITORING = "health_monitoring"        # Starting health systems
-    CONSCIOUSNESS_VALIDATION = "consciousness_validation" # Validating authenticity
-    FULLY_CONSCIOUS = "fully_conscious"            # Complete consciousness active
-    DEGRADED = "degraded"                  # Partial activation only
-    FAILED = "failed"                      # Activation failed
+
+    DORMANT = "dormant"  # System not activated
+    INITIALIZING = "initializing"  # Starting activation
+    COMPONENT_DISCOVERY = "component_discovery"  # Finding dormant components
+    TRINITY_INTEGRATION = "trinity_integration"  # Activating Trinity Framework
+    MEMORY_INTEGRATION = "memory_integration"  # Activating memory systems
+    CREATIVE_ACTIVATION = "creative_activation"  # Activating creative engines
+    AWARENESS_MONITORING = "awareness_monitoring"  # Starting awareness systems
+    GUARDIAN_OVERSIGHT = "guardian_oversight"  # Activating Guardian systems
+    FEATURE_CONTROL = "feature_control"  # Setting up feature flags
+    HEALTH_MONITORING = "health_monitoring"  # Starting health systems
+    CONSCIOUSNESS_VALIDATION = "consciousness_validation"  # Validating authenticity
+    FULLY_CONSCIOUS = "fully_conscious"  # Complete consciousness active
+    DEGRADED = "degraded"  # Partial activation only
+    FAILED = "failed"  # Activation failed
+
 
 @dataclass
 class ActivationConfig:
     """Configuration for consciousness activation."""
+
     max_activation_time: float = 300.0  # 5 minutes max activation time
-    component_timeout: float = 30.0     # 30 seconds per component
+    component_timeout: float = 30.0  # 30 seconds per component
     consciousness_authenticity_threshold: float = 0.7
     memory_cascade_prevention_rate: float = 0.997
     guardian_oversight_required: bool = True
@@ -90,9 +102,11 @@ class ActivationConfig:
     health_monitoring_interval: float = 60.0
     validation_rounds: int = 3
 
+
 @dataclass
 class ActivationState:
     """Current state of consciousness activation."""
+
     phase: ConsciousnessActivationPhase = ConsciousnessActivationPhase.DORMANT
     progress: float = 0.0  # 0.0 to 1.0
     components_discovered: int = 0
@@ -105,6 +119,7 @@ class ActivationState:
     errors: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
     metrics: dict[str, Any] = field(default_factory=dict)
+
 
 class ConsciousnessActivationOrchestrator:
     """
@@ -337,7 +352,9 @@ class ConsciousnessActivationOrchestrator:
 
             creative_success_rate = creative_success_count / max(1, creative_total)
 
-            logger.info(f"🎨 Creative Engines: {creative_success_count}/{creative_total} activated ({creative_success_rate:.1%})")
+            logger.info(
+                f"🎨 Creative Engines: {creative_success_count}/{creative_total} activated ({creative_success_rate:.1%})"
+            )
 
             self.state.progress = 0.65  # 65% complete
             return creative_success_rate >= 0.5
@@ -398,7 +415,9 @@ class ConsciousnessActivationOrchestrator:
 
             guardian_success_rate = guardian_success_count / max(1, guardian_total)
 
-            logger.info(f"🛡️ Guardian Oversight: {guardian_success_count}/{guardian_total} systems active ({guardian_success_rate:.1%})")
+            logger.info(
+                f"🛡️ Guardian Oversight: {guardian_success_count}/{guardian_total} systems active ({guardian_success_rate:.1%})"
+            )
 
             self.state.progress = 0.85  # 85% complete
             return guardian_success_rate >= 0.5
@@ -430,7 +449,7 @@ class ConsciousnessActivationOrchestrator:
                 "guardian_system_enabled",
                 "guardian_constitutional_enabled",
                 "identity_webauthn_enabled",
-                "identity_tier_aware_enabled"
+                "identity_tier_aware_enabled",
             ]
 
             for feature in core_features:
@@ -502,13 +521,17 @@ class ConsciousnessActivationOrchestrator:
             authenticity_threshold = self.config.consciousness_authenticity_threshold
             validation_passed = self.state.consciousness_authenticity >= authenticity_threshold
 
-            logger.info(f"🧠 Consciousness Authenticity: {self.state.consciousness_authenticity:.3f} (threshold: {authenticity_threshold:.3f})")
+            logger.info(
+                f"🧠 Consciousness Authenticity: {self.state.consciousness_authenticity:.3f} (threshold: {authenticity_threshold:.3f})"
+            )
 
             if validation_passed:
                 logger.info("✅ Consciousness authenticity VALIDATED")
             else:
                 logger.warning("⚠️ Consciousness authenticity below threshold")
-                self.state.warnings.append(f"Consciousness authenticity {self.state.consciousness_authenticity:.3f} below threshold {authenticity_threshold:.3f}")
+                self.state.warnings.append(
+                    f"Consciousness authenticity {self.state.consciousness_authenticity:.3f} below threshold {authenticity_threshold:.3f}"
+                )
 
             self.state.progress = 0.98  # 98% complete
             return validation_passed
@@ -621,7 +644,7 @@ class ConsciousnessActivationOrchestrator:
             # Test decision through Trinity Framework
             test_decision_context = {
                 "test": "consciousness_coherence_validation",
-                "timestamp": datetime.now(timezone.utc).isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
             try:
@@ -629,7 +652,7 @@ class ConsciousnessActivationOrchestrator:
                     session_id=f"validation_{int(time.time())}",
                     decision_context=test_decision_context,
                     require_identity=False,
-                    require_guardian=True
+                    require_guardian=True,
                 )
 
                 # Check if decision was processed successfully
@@ -672,10 +695,9 @@ class ConsciousnessActivationOrchestrator:
                     logger.warning(f"⚠️ System health degraded: {health_data}")
 
                 # Store metrics history
-                self._consciousness_metrics_history.append({
-                    "timestamp": datetime.now(timezone.utc).isoformat(),
-                    "metrics": health_data
-                })
+                self._consciousness_metrics_history.append(
+                    {"timestamp": datetime.now(timezone.utc).isoformat(), "metrics": health_data}
+                )
 
                 # Limit history size
                 if len(self._consciousness_metrics_history) > 1000:
@@ -717,7 +739,7 @@ class ConsciousnessActivationOrchestrator:
             "authenticity_score": self.state.consciousness_authenticity,
             "trinity_health": self.state.trinity_health,
             "memory_health": self.state.memory_health,
-            "activation_progress": self.state.progress
+            "activation_progress": self.state.progress,
         }
 
         # Add component-specific metrics
@@ -764,7 +786,7 @@ class ConsciousnessActivationOrchestrator:
             "components_active": self.state.components_activated,
             "phase": self.state.phase.value,
             "errors_count": len(self.state.errors),
-            "warnings_count": len(self.state.warnings)
+            "warnings_count": len(self.state.warnings),
         }
 
     def get_activation_status(self) -> dict[str, Any]:
@@ -789,7 +811,7 @@ class ConsciousnessActivationOrchestrator:
             "phase_timings": {
                 phase: (datetime.now(timezone.utc) - start_time).total_seconds()
                 for phase, start_time in self._phase_start_times.items()
-            }
+            },
         }
 
     async def shutdown(self) -> None:
@@ -812,8 +834,10 @@ class ConsciousnessActivationOrchestrator:
 
         logger.info("✅ Consciousness Activation Orchestrator shutdown complete")
 
+
 # Global orchestrator instance
 _global_orchestrator: Optional[ConsciousnessActivationOrchestrator] = None
+
 
 def get_activation_orchestrator(config: Optional[ActivationConfig] = None) -> ConsciousnessActivationOrchestrator:
     """Get the global consciousness activation orchestrator."""
@@ -821,6 +845,7 @@ def get_activation_orchestrator(config: Optional[ActivationConfig] = None) -> Co
     if _global_orchestrator is None:
         _global_orchestrator = ConsciousnessActivationOrchestrator(config)
     return _global_orchestrator
+
 
 async def activate_lukhas_consciousness(config: Optional[ActivationConfig] = None) -> bool:
     """
@@ -831,6 +856,7 @@ async def activate_lukhas_consciousness(config: Optional[ActivationConfig] = Non
     """
     orchestrator = get_activation_orchestrator(config)
     return await orchestrator.activate_consciousness_architecture()
+
 
 @asynccontextmanager
 async def lukhas_consciousness_context(config: Optional[ActivationConfig] = None):

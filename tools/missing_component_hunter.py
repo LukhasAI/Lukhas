@@ -3,6 +3,7 @@
 lukhas Missing Component Hunter
 Advanced search for the 6 remaining specialized components
 """
+
 import json
 import os
 import re
@@ -21,7 +22,6 @@ class ComponentHit:
 
 
 class MissingComponentHunter:
-
     def __init__(self, base_path: str):
         self.base_path = Path(base_path)
         self.hits = []

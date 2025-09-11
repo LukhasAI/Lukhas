@@ -5,6 +5,7 @@ Grammar Engine for Universal Language
 Implements the missing LUKHAS Grammar system with syntax rules,
 validation, and parsing capabilities.
 """
+
 import logging
 import re
 from dataclasses import dataclass, field
@@ -348,12 +349,16 @@ class LanguageParser:
             # Find subject position
             if GrammaticalRole.SUBJECT in parsed.roles:
                 subject_idx = parsed.roles.index(GrammaticalRole.SUBJECT)
-                corrected_elements = (
-                    [*parsed.elements[:subject_idx + 1], default_verb, *parsed.elements[subject_idx + 1:]]
-                )
-                corrected_roles = (
-                    [*parsed.roles[:subject_idx + 1], GrammaticalRole.VERB, *parsed.roles[subject_idx + 1:]]
-                )
+                corrected_elements = [
+                    *parsed.elements[: subject_idx + 1],
+                    default_verb,
+                    *parsed.elements[subject_idx + 1 :],
+                ]
+                corrected_roles = [
+                    *parsed.roles[: subject_idx + 1],
+                    GrammaticalRole.VERB,
+                    *parsed.roles[subject_idx + 1 :],
+                ]
                 corrections.append((corrected_elements, corrected_roles))
 
         # Try each correction

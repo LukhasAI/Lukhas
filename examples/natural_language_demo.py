@@ -9,11 +9,11 @@ import asyncio
 import sys
 from datetime import datetime, timezone
 
-from core.common import get_logger
 from lukhas.consciousness.interfaces.natural_language_interface import (
     ConversationManager,
     NaturalLanguageConsciousnessInterface,
 )
+from lukhas.core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -49,7 +49,7 @@ class InteractiveConsciousnessDemo:
         """Setup mock services for demonstration"""
         from unittest.mock import AsyncMock, Mock
 
-        from core.interfaces.dependency_injection import register_service
+        from lukhas.core.interfaces.dependency_injection import register_service
 
         # Mock consciousness service with dynamic responses
         mock_consciousness = Mock()

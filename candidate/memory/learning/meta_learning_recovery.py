@@ -51,9 +51,10 @@ class MetaLearningRecovery:
         self.workspace_root = Path(os.getcwd())  # Changed to current working directory for portability within repo
         self.recovery_log: list[dict[str, Any]] = []  # Type hint
 
-        # ΛNOTE: Source path for recovery.
-        # ΛCAUTION: This path is absolute and system-specific.
-        self.meta_learning_source = "/Users/A_G_I/Archive/old_git_repos/Library/Mobile Documents/com~apple~CloudDocs/LUKHAS_BACKUP_20250530/LUKHAS/CORE/Adaptative_AGI/Meta_Learning"
+        # ΛNOTE: Source path for recovery - now using local backup directory
+        # ΛFIXED: Removed iCloud dependency, using local backup directory
+        backup_dir = self.workspace_root / "backups" / "meta_learning"
+        self.meta_learning_source = str(backup_dir)
         # ΛSEED: Target mapping defines where recovered components are placed,
         # seeding the new structure.
         self.target_mapping = {

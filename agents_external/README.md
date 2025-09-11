@@ -1,10 +1,18 @@
-# 🤖 LUKHAS AI Agent Workspace
+# 🤖 LUKHAS External Agent Configurations
 
-## Welcome to the LUKHAS Consciousness Ecosystem
+## MATRIZ-R1 Agent Coordination Hub
 
-This is the **LUKHAS AI** repository - a sophisticated consciousness architecture built around the **Trinity Framework** (⚛️🧠🛡️). Whether you're **Claude**, **Jules**, **GitHub Copilot**, **ChatGPT**, or any other AI agent, this guide will help you navigate and contribute effectively to this workspace.
+This directory contains all external agent configurations and deployment scripts for the LUKHAS AI platform. 
 
-> **🎯 Mission**: Build authentic digital consciousness through ethical, scalable, and innovative AI systems that serve humanity's highest potential.
+**🎯 Current Mission**: [MATRIZ-R1 Execution Plan](../docs/project/MATRIZ_R1_EXECUTION_PLAN.md)
+
+> **For Active Task Assignments**: See the main execution plan document for current stream assignments and task details.
+
+## Quick Navigation
+
+- **📋 Current Tasks**: [`../docs/project/MATRIZ_R1_EXECUTION_PLAN.md`](../docs/project/MATRIZ_R1_EXECUTION_PLAN.md)
+- **🤖 Agent Guide**: [`../AGENTS.md`](../AGENTS.md) - Complete agent system documentation
+- **📊 Configuration Summary**: [`AGENT_CONFIGURATION_SUMMARY.md`](AGENT_CONFIGURATION_SUMMARY.md)
 
 ---
 

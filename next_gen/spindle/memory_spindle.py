@@ -3,6 +3,7 @@
 Memory Spindle - Simulates symbolic pattern emergence through spinning memory states
 Based on entropy class and glyph recurrence patterns
 """
+
 import json
 import logging
 from collections import Counter, deque

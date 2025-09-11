@@ -5,6 +5,7 @@ Revolutionary AI-powered security vulnerability resolution system
 This system doesn't just detect security issues - it autonomously fixes them'
 with intelligence, safety checks, and comprehensive testing.
 """
+
 import asyncio
 import json
 import logging
@@ -607,7 +608,7 @@ class ΛBotAutonomousSecurityHealer:
                 for line_num, line in enumerate(f, 1):
                     if package in line and not line.strip().startswith("#"):
                         return line_num
-        except (IOError, OSError, UnicodeDecodeError):
+        except (OSError, UnicodeDecodeError):
             pass
         return 0
 

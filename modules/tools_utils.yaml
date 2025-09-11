@@ -1,0 +1,123 @@
+identity:
+  name: tools.utils
+  layer: application
+  summary: tools.utils module with 1 classes and 28 functions
+  status: active
+  tier: 2
+discovery:
+  import_patterns:
+  - from tools.utils import assets_dreams
+  - from tools.utils import get_dream_image_path
+  - from tools.utils import get_config_path
+  - from tools.utils import assets_ui
+  - from tools.utils import deployment_docker
+  import_aliases:
+  - utils
+  file_patterns:
+  - tools/utils/**/*.py
+  - tests/tools/utils/**/*.py
+  entry_points: []
+ownership:
+  owner: '@DevOpsTeam'
+  lifecycle: evolving
+  last_review: '2025-09-10T11:32:19.471774+00:00'
+  promotion_rules: {}
+contracts:
+  api:
+    surface:
+    - 'python: tools.utils.assets_dreams'
+    - 'python: tools.utils.get_dream_image_path'
+    - 'python: tools.utils.get_config_path'
+    - 'python: tools.utils.assets_ui'
+    - 'python: tools.utils.deployment_docker'
+    - 'python: tools.utils.config_tools'
+    - 'python: tools.utils.tests_performance'
+    - 'python: tools.utils.tests_integration'
+    - 'python: tools.utils.reports_analysis'
+    - 'python: tools.utils.LukhasPathManager'
+    version: v1.0
+    compatibility:
+      backward: true
+      forward: minor
+  invariants:
+  - module loads without errors
+  - public API remains stable
+dependencies:
+  internal:
+    requires: []
+    provides:
+    - tools.utils
+  external:
+    libs: []
+  coupling_metrics:
+    afferent: 0
+    efferent: 0
+    instability_index: 0.0
+runtime:
+  processes:
+    entrypoints: []
+    concurrency_model: thread
+  config:
+    files: []
+    env_vars_required: []
+    feature_flags: []
+  resources:
+    cpu_limit: 0.5 vcpu
+    mem_limit: 256 MiB
+data_and_events:
+  data_classes:
+  - name: LukhasPathManager
+    schema_ref: audit/SCHEMAS/lukhaspathmanager.json
+    description: LukhasPathManager data class
+  pii:
+    contains: false
+    classification: internal
+security:
+  secrets:
+    sources:
+    - env
+    files: []
+  authz_model: internal_only
+  compliance:
+    data_classification: internal
+observability:
+  logs:
+    format: structured_json
+    level: info
+  metrics:
+    exporter: prometheus
+    key_metrics:
+    - name: tools_utils_calls_total
+      target: '>0'
+      type: counter
+  slos:
+    error_rate_pct: 1.0
+    availability_pct: 99.0
+test_posture:
+  coverage:
+    current: 0.0
+    target: 0.8
+  tests:
+    unit: 0
+    integration: 0
+risk_and_change:
+  risks:
+  - id: R-TOOLS-UTILS-GENERATED
+    title: Auto-generated schema may be incomplete
+    likelihood: medium
+    impact: low
+    mitigation: Manual review and enhancement required
+    status: open
+provenance:
+  schema_version: '1.0'
+  last_updated: '2025-09-10T11:32:19.471774+00:00'
+  source_paths:
+  - tools/utils
+  generated_by:
+    tool: lukhas-module-generator
+    version: 1.0.0
+    timestamp: '2025-09-10T11:32:19.471774+00:00'
+  validation:
+    schema_valid: true
+    last_validated: '2025-09-10T11:32:19.471774+00:00'
+    validator_version: 1.0.0

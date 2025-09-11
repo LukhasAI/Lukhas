@@ -14,10 +14,10 @@ from pathlib import Path
 def comprehensive_fstring_fix(content: str) -> tuple[str, int]:
     """
     Comprehensively fix f-string bracket mismatches.
-    
+
     Args:
         content: The file content as a string
-        
+
     Returns:
         tuple: (fixed_content, number_of_fixes_made)
     """
@@ -41,13 +41,14 @@ def comprehensive_fstring_fix(content: str) -> tuple[str, int]:
         original_line = line
 
         # Fix standalone } that should be )
-        if re.match(r"^\s*\}\s*$", line):
-            if i > 0:
-                prev_line = lines[i-1].strip()
-                # If previous line looks like a function call or f-string ending
-                if ("logger." in prev_line or 'f"' in prev_line or "print(" in prev_line) and (prev_line.endswith('."') or prev_line.endswith(".'") or prev_line.endswith(",")):
-                    line = line.replace("}", ")")
-                    total_fixes += 1
+        if re.match(r"^\s*\}\s*$", line) and i > 0:
+            prev_line = lines[i - 1].strip()
+            # If previous line looks like a function call or f-string ending
+            if ("logger." in prev_line or 'f"' in prev_line or "print(" in prev_line) and (
+                prev_line.endswith('."') or prev_line.endswith(".'") or prev_line.endswith(",")
+            ):
+                line = line.replace("}", ")")
+                total_fixes += 1
 
         # Fix dictionary/list access patterns
         line = re.sub(r"\.keys\(\}", ".keys()", line)
@@ -74,7 +75,6 @@ def comprehensive_fstring_fix(content: str) -> tuple[str, int]:
         # Fix cases where there's an extra ) inside f-string expressions
         (r'f"([^"]*\{[^}]*)\)"', r'f"\1}"'),
         (r"f'([^']*\{[^}]*)\)'", r"f'\1}'"),
-
         # Fix missing ) in function calls within f-strings
         (r"\{int\(time\.time\(\)\*1000\}", r"{int(time.time()*1000)}"),
         (r"\{([^{}]*)\.[^}]*\}", lambda m: "{" + m.group(1) + "}"),

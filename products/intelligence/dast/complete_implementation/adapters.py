@@ -4,6 +4,7 @@
 Integration adapters for seamless connectivity with external systems,
 legacy DAST implementations, and third-party task management tools.
 """
+
 import time
 from dataclasses import dataclass
 from datetime import datetime, timezone

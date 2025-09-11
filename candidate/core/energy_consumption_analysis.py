@@ -27,9 +27,6 @@
 ║ - Carbon footprint estimation
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import json
 import logging
@@ -38,7 +35,7 @@ import threading
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
 
@@ -490,7 +487,7 @@ class EnergyConsumptionAnalyzer:
                         "severity": "high",
                         "component": highest_component[0],
                         "message": f"{highest_component[0]} consuming {highest_component[1]:.2f}J "
-                        f"({(highest_component[1] / stats['total_energy_joules'] * 100)}:.1f}% of total)",
+                        f"({(highest_component[1] / stats['total_energy_joules'] * 100):.1f}% of total)",
                         "suggestion": f"Consider optimizing {highest_component[0]} operations or "
                         "switching to a lower power profile",
                     }

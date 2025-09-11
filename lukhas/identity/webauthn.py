@@ -13,6 +13,7 @@ Features:
 - Trinity Framework compliance (⚛️🧠🛡️)
 - <100ms p95 latency for credential validation
 """
+
 import base64
 import json
 import secrets

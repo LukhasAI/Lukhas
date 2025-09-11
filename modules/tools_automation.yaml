@@ -1,0 +1,123 @@
+identity:
+  name: tools.automation
+  layer: application
+  summary: tools.automation module with 1 classes and 11 functions
+  status: active
+  tier: 2
+discovery:
+  import_patterns:
+  - from tools.automation import get_target_files
+  - from tools.automation import main
+  - from tools.automation import fix_css_f_string_braces
+  - from tools.automation import get_stats
+  - from tools.automation import get_problematic_files
+  import_aliases:
+  - automation
+  file_patterns:
+  - tools/automation/**/*.py
+  - tests/tools/automation/**/*.py
+  entry_points: []
+ownership:
+  owner: '@DevOpsTeam'
+  lifecycle: evolving
+  last_review: '2025-09-10T11:32:19.472527+00:00'
+  promotion_rules: {}
+contracts:
+  api:
+    surface:
+    - 'python: tools.automation.get_target_files'
+    - 'python: tools.automation.main'
+    - 'python: tools.automation.fix_css_f_string_braces'
+    - 'python: tools.automation.get_stats'
+    - 'python: tools.automation.get_problematic_files'
+    - 'python: tools.automation.fix_float_nan_pattern'
+    - 'python: tools.automation.fix_file'
+    - 'python: tools.automation.fix_files'
+    - 'python: tools.automation.fix_content'
+    - 'python: tools.automation.fix_f_string_hexdigest_pattern'
+    version: v1.0
+    compatibility:
+      backward: true
+      forward: minor
+  invariants:
+  - module loads without errors
+  - public API remains stable
+dependencies:
+  internal:
+    requires: []
+    provides:
+    - tools.automation
+  external:
+    libs: []
+  coupling_metrics:
+    afferent: 0
+    efferent: 0
+    instability_index: 0.0
+runtime:
+  processes:
+    entrypoints: []
+    concurrency_model: thread
+  config:
+    files: []
+    env_vars_required: []
+    feature_flags: []
+  resources:
+    cpu_limit: 0.5 vcpu
+    mem_limit: 256 MiB
+data_and_events:
+  data_classes:
+  - name: EnhancedFStringFixer
+    schema_ref: audit/SCHEMAS/enhancedfstringfixer.json
+    description: EnhancedFStringFixer data class
+  pii:
+    contains: false
+    classification: internal
+security:
+  secrets:
+    sources:
+    - env
+    files: []
+  authz_model: internal_only
+  compliance:
+    data_classification: internal
+observability:
+  logs:
+    format: structured_json
+    level: info
+  metrics:
+    exporter: prometheus
+    key_metrics:
+    - name: tools_automation_calls_total
+      target: '>0'
+      type: counter
+  slos:
+    error_rate_pct: 1.0
+    availability_pct: 99.0
+test_posture:
+  coverage:
+    current: 0.0
+    target: 0.8
+  tests:
+    unit: 0
+    integration: 0
+risk_and_change:
+  risks:
+  - id: R-TOOLS-AUTOMATION-GENERATED
+    title: Auto-generated schema may be incomplete
+    likelihood: medium
+    impact: low
+    mitigation: Manual review and enhancement required
+    status: open
+provenance:
+  schema_version: '1.0'
+  last_updated: '2025-09-10T11:32:19.472527+00:00'
+  source_paths:
+  - tools/automation
+  generated_by:
+    tool: lukhas-module-generator
+    version: 1.0.0
+    timestamp: '2025-09-10T11:32:19.472527+00:00'
+  validation:
+    schema_valid: true
+    last_validated: '2025-09-10T11:32:19.472527+00:00'
+    validator_version: 1.0.0

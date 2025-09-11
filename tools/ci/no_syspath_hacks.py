@@ -14,6 +14,7 @@ Exit codes:
   1 = violations found
   2 = invalid invocation
 """
+
 from __future__ import annotations
 
 import re

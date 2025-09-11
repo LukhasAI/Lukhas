@@ -8,6 +8,7 @@ Inspired by Hiroki Asai's Apple design philosophy:
 - Premium aesthetic: elegance in every detail
 - Scalable design language: consistent across all touchpoints
 """
+
 from dataclasses import dataclass
 
 
@@ -499,11 +500,11 @@ if __name__ == "__main__":
     print("=" * 60)
 
     print("\n⚛️🧠🛡️ Trinity Color Palette:")
-    for name, color in trinity_design.color_palette.items():
+    for _name, _color in trinity_design.color_palette.items():
         print("Trinity visual system processing")
 
     print("\n🌟 Design Philosophy:")
-    for principle, description in trinity_design.design_philosophy.items():
+    for _principle, _description in trinity_design.design_philosophy.items():
         print("Trinity visual system processing")
 
     print(f"\n✨ Premium Interface Components: {len(premium_interfaces)} elite components created")

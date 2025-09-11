@@ -64,6 +64,7 @@
 ║ Symbolic Tags: {ΛWORDSMITH}, {ΛLANGUAGE}, {ΛTRANSFORMATION}, {ΛPOETRY}, {ΛBEAUTY}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import logging
 import random
 import re

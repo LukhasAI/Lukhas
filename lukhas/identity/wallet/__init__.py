@@ -2,6 +2,7 @@
 LUKHAS AI - WALLET Integration Bridge
 Production integration for WALLET identity management components
 """
+
 import logging
 import time
 from typing import Any

@@ -11,21 +11,24 @@ This module defines the symbolic vocabulary for the LUKHAS Vision Module,
 providing the symbolic language elements used for visual analysis,
 image interpretation, and visual communication.
 """
+
 from dataclasses import dataclass
 from typing import Any
 
-from core.symbolic import VisualSymbol
+from lukhas.core.symbolic import VisualSymbol
+from symbolic.vocabularies.vision_vocabulary import VisionSymbolicVocabulary
 
 from ..core import AnalysisType, VisionProvider
 
 
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
-    
+
     This is a placeholder for functionality that needs to be implemented.
     Replace this stub with the actual implementation.
     """
     raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+
 
 @dataclass
 class Visualsymbol:
@@ -1003,12 +1006,6 @@ class Visionsymbolicvocabulary:
             confidence_symbol = "⚠️"
 
         return f"{analysis_symbol} {provider_symbol} {confidence_symbol}"
-
-        for obj in detected_objects:
-            if obj.lower() in object_symbolism:
-                symbolic_elements.extend(object_symbolism[obj.lower()])
-
-        return list(set(symbolic_elements))  # Remove duplicates
 
     def get_quality_indicators(self, success: bool, confidence: float, processing_time: float) -> str:
         """Get quality indicator symbols based on analysis results."""

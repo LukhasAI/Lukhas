@@ -37,7 +37,8 @@ sys.path.append(str(Path(__file__).parent.parent.parent / "lukhas-id" / "backend
 
 
 try:
-    from crypto import generate_collapse_hash, generate_trace_index as crypto_trace_index
+    from crypto import generate_collapse_hash
+    from crypto import generate_trace_index as crypto_trace_index
 except ImportError:
     # Fallback hash generation
     import hashlib

@@ -1,0 +1,12 @@
+{
+  "api_readiness": "Green",
+  "governance_vs_code": "Yellow",
+  "identity_web": "Green",
+  "import_lane_hygiene": "Green",
+  "lane_integrity": "Red",
+  "matriz_readiness": "Yellow",
+  "module_coupling": "Yellow",
+  "security_supply_chain": "Yellow",
+  "syntax_health": "Yellow",
+  "testing_posture": "Green"
+}

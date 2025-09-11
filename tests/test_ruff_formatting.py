@@ -1,5 +1,3 @@
-
-
 def test_function(x, y):
     """Test function with poor formatting."""
     result = x + y

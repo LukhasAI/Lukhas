@@ -12,14 +12,12 @@ Performance: Maintains 99.8% system stability across all consciousness modules
 """
 import asyncio
 import logging
-import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
 
 import numpy as np
-import streamlit as st
 
 # Bio-energy system integration
 from .energy.spirulina_atp_system import SpirulinaATPHybridSystem

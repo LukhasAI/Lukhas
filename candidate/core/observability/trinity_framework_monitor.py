@@ -24,16 +24,13 @@ Features:
 #TAG:api
 #TAG:framework
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
 import statistics
 import uuid
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -151,12 +148,14 @@ class APIPerformanceMetric:
     # API identification
     endpoint: str
     method: str
-    version: Optional[str] = None
 
     # Performance metrics
     response_time: float  # milliseconds
     throughput: float  # requests per second
     error_rate: float  # percentage
+
+    # Fields with defaults
+    version: Optional[str] = None
     status_code: int = 200
 
     # Resource usage

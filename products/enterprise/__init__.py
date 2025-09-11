@@ -6,6 +6,7 @@
 - integration/ - Enterprise system integration tools
 - economic/    - Market intelligence and economic analysis
 """
+
 import streamlit as st
 
 __all__ = ["compliance", "core", "economic", "integration", "scale"]

@@ -274,34 +274,38 @@ __all__ = [
     "logger",
 ]
 
+
 # Add bridge submodules compatibility
 def _add_bridge_submodules():
     """Add bridge submodules for backward compatibility"""
     try:
         import sys
+
         current_module = sys.modules[__name__]
-        
+
         # Import bridge components
         from lukhas.governance.identity import IdentitySubmoduleBridge
-        
+
         # Add common submodules as bridge objects
-        if not hasattr(current_module, 'auth'):
+        if not hasattr(current_module, "auth"):
             current_module.auth = IdentitySubmoduleBridge("identity.auth")
-        if not hasattr(current_module, 'core'):
+        if not hasattr(current_module, "core"):
             current_module.core = IdentitySubmoduleBridge("identity.core")
-        if not hasattr(current_module, 'mobile'):
+        if not hasattr(current_module, "mobile"):
             current_module.mobile = IdentitySubmoduleBridge("identity.mobile")
-            
+
         logger.debug("Bridge submodules added to real identity module")
     except ImportError as e:
         logger.debug(f"Could not add bridge submodules: {e}")
+
 
 # System health check on import (disabled during complex import environments)
 if __name__ != "__main__":
     try:
         # Only run health check if not in a complex import environment
         import sys
-        if 'candidate.aka_qualia' not in sys.modules or 'candidate.bio' not in sys.modules:
+
+        if "candidate.aka_qualia" not in sys.modules or "candidate.bio" not in sys.modules:
             status = get_identity_status()
             if status.get("health_percentage", 0) > 70:
                 logger.info(f"✅ Enhanced identity module loaded: {status['health']} components ready")
@@ -309,9 +313,9 @@ if __name__ != "__main__":
                 logger.warning(f"⚠️  Enhanced identity module loaded with limited functionality: {status['health']}")
         else:
             logger.info("✅ Enhanced identity module loaded (health check deferred)")
-            
+
         # Add bridge submodules for compatibility
         _add_bridge_submodules()
-        
+
     except Exception as e:
         logger.error(f"❌ Error during enhanced identity module health check: {e}")

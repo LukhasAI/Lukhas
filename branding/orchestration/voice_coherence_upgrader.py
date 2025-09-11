@@ -4,6 +4,7 @@ LUKHAS AI Elite Voice Coherence Upgrader
 Systematically upgrades all content systems to achieve 85%+ voice coherence
 Implements brand terminology, Trinity Framework, and consciousness technology messaging
 """
+
 import asyncio
 import json
 import logging
@@ -16,13 +17,15 @@ from typing import Any
 
 # Add branding modules to path
 
+
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
-    
+
     This is a placeholder for functionality that needs to be implemented.
     Replace this stub with the actual implementation.
     """
     raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+
 
 sys.path.append(str(Path(__file__).parent.parent))
 

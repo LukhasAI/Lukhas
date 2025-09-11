@@ -1,0 +1,1501 @@
+identity:
+  name: candidate.consciousness
+  layer: application
+  summary: Quantum Bio-System Integration
+  status: active
+  tier: 2
+discovery:
+  import_patterns:
+  - from candidate.consciousness import TrinityComplianceReport
+  - from candidate.consciousness import is_stable
+  - from candidate.consciousness import test_memory_exhaustion_protection
+  - from candidate.consciousness import consolidate_memories
+  - from candidate.consciousness import load_symbolic_fragments
+  import_aliases:
+  - consciousness
+  file_patterns:
+  - candidate/consciousness/**/*.py
+  - tests/candidate/consciousness/**/*.py
+  entry_points:
+  - candidate/consciousness/__init__.py
+ownership:
+  owner: '@Agent03'
+  lifecycle: evolving
+  last_review: '2025-09-10T11:32:19.315372+00:00'
+  promotion_rules:
+    from_lane: candidate
+    to_lane: lukhas
+    required_checks:
+    - tests/smoke
+    - coverage
+    - lint
+    min_coverage: 0.8
+contracts:
+  api:
+    surface:
+    - 'python: candidate.consciousness.TrinityComplianceReport'
+    - 'python: candidate.consciousness.is_stable'
+    - 'python: candidate.consciousness.test_memory_exhaustion_protection'
+    - 'python: candidate.consciousness.consolidate_memories'
+    - 'python: candidate.consciousness.load_symbolic_fragments'
+    - 'python: candidate.consciousness.SafetyLevel'
+    - 'python: candidate.consciousness.initialize_consciousness_services'
+    - 'python: candidate.consciousness.subscribe_to_replicated_state'
+    - 'python: candidate.consciousness.DreamLogger'
+    - 'python: candidate.consciousness.EscalationTier'
+    version: v2.0.0
+    compatibility:
+      backward: true
+      forward: minor
+  invariants:
+  - module loads without errors
+  - public API remains stable
+dependencies:
+  internal:
+    requires: []
+    provides:
+    - candidate.consciousness
+  external:
+    libs:
+    - name: bio_symbolic_
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: api
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: engines
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: collections
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: memory
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: oneiric
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: dast
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: symbolic
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: emotional_brain
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: interfaces
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: sklearn
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: integration
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: trace
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: fastapi
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: dream_engine
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: concurrent
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: seedra
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: ethics
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: rich
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: qi_processing
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: db
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: dream
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: memory_brain
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: _cleanup_archive
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: bio_awareness
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: hub
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: voice
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: states
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: symbolic_tools
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: huggingface_hub
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: compression
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: personas
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: dashboard
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: utils
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: dreams_brain
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: qi
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: common
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: opentelemetry
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: bio
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: PIL
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: vivox
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: symbolic_ai
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: LUCAS_ID
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: oscillator
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: seedra_docs
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: engine
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: reasoning
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: integrations
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: cryptography
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: core
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: security
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: identity
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: brain
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: consciousness
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: learning
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: learning_brain
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: systems
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: matplotlib
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: redis
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: neural_architectures
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: safety
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: branding
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: bridges
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: plotly
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: bio_core
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: _transports
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: creativity
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: spine
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: awareness
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: governance
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: torch
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: emotion
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: VOICE
+      version: unknown
+      license: unknown
+      purpose: library dependency
+    - name: unittest
+      version: unknown
+      license: unknown
+      purpose: library dependency
+  coupling_metrics:
+    afferent: 131
+    efferent: 1
+    instability_index: 0.992
+runtime:
+  processes:
+    entrypoints:
+    - python -m candidate.consciousness
+    concurrency_model: async
+  config:
+    files:
+    - candidate/consciousness/systems/consciousness-api.yaml
+    - candidate/consciousness/dream/oneiric/docker-compose.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/reusify/.github/dependabot.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/reusify/.github/workflows/ci.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/define-data-property/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-bigint/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/which-boxed-primitive/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/functions-have-names/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-array-buffer/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/has-property-descriptors/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-typed-array/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/function.prototype.name/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/es-errors/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/sucrase/node_modules/brace-expansion/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/has-proto/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/possible-typed-array-names/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/call-bind/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/math-intrinsics/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/has-tostringtag/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/array.prototype.flat/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/text-table/.travis.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/side-channel-list/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/fast-json-stable-stringify/.eslintrc.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/fast-json-stable-stringify/.travis.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/fast-json-stable-stringify/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/balanced-match/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/resolve/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/data-view-byte-offset/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/call-bind-apply-helpers/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/glob-to-regexp/.travis.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-number-object/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/own-keys/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/async-function/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-negative-zero/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/jsx-ast-utils/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-symbol/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/function-bind/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-weakref/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-date-object/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/array-includes/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/es-define-property/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/get-intrinsic/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@typescript-eslint/typescript-estree/node_modules/brace-expansion/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/es-to-primitive/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@ungap/structured-clone/.github/workflows/node.js.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/call-bound/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typed-array-length/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/set-function-name/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/dunder-proto/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/hasown/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/side-channel-weakmap/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/data-view-buffer/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typed-array-byte-length/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/json-schema-traverse/.eslintrc.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/json-schema-traverse/.travis.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/json-schema-traverse/spec/.eslintrc.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/minimist/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/string.prototype.includes/.travis.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/string.prototype.includes/.github/workflows/require-allow-edits.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/string.prototype.includes/.github/workflows/rebase.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/string.prototype.includes/.github/workflows/node-pretest.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/string.prototype.includes/.github/workflows/node-tens.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/string.prototype.includes/.github/workflows/node-aught.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/string.prototype.includes/.github/workflows/publish-on-tag.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/iterator.prototype/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/unbox-primitive/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-shared-array-buffer/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/supports-preserve-symlinks-flag/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typed-array-byte-offset/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/array-buffer-byte-length/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/json-stable-stringify-without-jsonify/.travis.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/has-symbols/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/string.prototype.repeat/.travis.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/internal-slot/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/set-proto/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/json-buffer/.travis.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/safe-array-concat/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/array.prototype.tosorted/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-finalizationregistry/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/define-properties/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-weakset/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-map/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/stop-iteration-iterator/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/has-bigints/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/side-channel/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/concat-map/.travis.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/set-function-length/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/es-shim-unscopables/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/safe-regex-test/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/get-symbol-description/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/get-proto/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-data-view/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-boolean-object/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/which-collection/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/object-keys/.travis.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/gopd/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/safe-push-apply/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/for-each/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/which-typed-array/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/array.prototype.findlast/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-callable/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-weakmap/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/data-view-byte-length/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-set/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react/node_modules/resolve/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/array.prototype.findlastindex/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/fastq/.github/dependabot.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/fastq/.github/workflows/ci.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/available-typed-arrays/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/es-iterator-helpers/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/string.prototype.matchall/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/deep-is/.travis.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-string/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/array.prototype.flatmap/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/side-channel-map/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/ajv/scripts/.eslintrc.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/object-inspect/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typed-array-buffer/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/object.assign/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/es-object-atoms/.github/FUNDING.yml
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/object.groupby/.github/FUNDING.yml
+    - candidate/consciousness/MODULE_MANIFEST.json
+    - candidate/consciousness/states/HYBRID_COMPONENT.json
+    - candidate/consciousness/dream/config.json
+    - candidate/consciousness/dream/dream_fallback.json
+    - candidate/consciousness/dream/oneiric/frontend/package-lock.json
+    - candidate/consciousness/dream/oneiric/frontend/package.json
+    - candidate/consciousness/dream/oneiric/frontend/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/.package-lock.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/queue-microtask/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/tinyglobby/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/tinyglobby/node_modules/picomatch/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/tinyglobby/node_modules/fdir/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/callsites/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@alloc/quick-lru/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/styled-jsx/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/reusify/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/reusify/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/simple-swizzle/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@pkgjs/parseargs/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/define-data-property/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/define-data-property/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-bigint/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-bigint/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/which-boxed-primitive/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/which-boxed-primitive/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/pirates/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@types/react-dom/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@types/json5/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@types/json5/types-metadata.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@types/js-cookie/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@types/prop-types/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@types/node/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@types/react/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/globals/globals.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/globals/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/browserslist/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/shebang-regex/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/thenify/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/path-is-absolute/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/functions-have-names/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/esm/lib/known-edge-safe-packages.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/esm/lib/server-external-packages.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/esm/lib/default-transpiled-packages.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/server/capsize-font-metrics.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/is-docker/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/babel-packages/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/zod/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/constants-browserify/constants.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/constants-browserify/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/anser/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/browserslist/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/is-wsl/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/webpack-sources3/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/jest-worker/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/stacktrace-parser/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/cli-select/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/tty-browserify/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/strip-ansi/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/react-experimental/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/content-type/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/async-sema/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/react-is/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/content-disposition/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/web-vitals/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/vm-browserify/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/lru-cache/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/sass-loader/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/commander/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/punycode/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/ci-info/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/loader-utils3/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/text-table/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/react-server-dom-turbopack-experimental/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/bytes/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/util/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/@opentelemetry/api/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/watchpack/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/nanoid/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/loader-utils2/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/string-hash/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/acorn/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/regenerator-runtime/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/timers-browserify/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/browserify-zlib/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/react-server-dom-turbopack/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/ignore-loader/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/unistore/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/string_decoder/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/superstruct/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/icss-utils/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/picomatch/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/comment-json/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/stream-http/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/postcss-scss/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/@ampproject/toolbox-optimizer/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/ora/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/jsonwebtoken/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/fresh/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/path-browserify/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/setimmediate/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/querystring-es3/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/scheduler/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/os-browserify/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/postcss-preset-env/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/path-to-regexp/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/p-limit/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/server-only/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/react-refresh/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/find-up/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/assert/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/postcss-modules-local-by-default/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/react-server-dom-webpack-experimental/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/postcss-modules-values/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/@mswjs/interceptors/ClientRequest/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/crypto-browserify/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/lodash.curry/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/stream-browserify/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/gzip-size/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/react-dom/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/webpack/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/babel/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/webpack-sources1/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/@napi-rs/triples/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/raw-body/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/semver/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/postcss-value-parser/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/safe-stable-stringify/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/postcss-modules-scope/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/@edge-runtime/ponyfill/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/@edge-runtime/primitives/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/@edge-runtime/cookies/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/zod-validation-error/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/react-server-dom-webpack/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/client-only/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/@babel/runtime/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/@babel/runtime/helpers/esm/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/shell-quote/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/image-size/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/compression/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/json5/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/postcss-modules-extract-imports/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/cross-spawn/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/ua-parser-js/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/native-url/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/source-map08/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/glob/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/cookie/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/neo-async/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/mini-css-extract-plugin/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/source-map/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/schema-utils3/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/is-animated/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/@next/font/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/@next/font/dist/google/font-data.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/async-retry/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/busboy/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/@vercel/nft/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/@vercel/og/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/https-proxy-agent/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/events/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/terser/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/node-html-parser/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/postcss-flexbugs-fixes/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/https-browserify/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/http-proxy-agent/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/postcss-safe-parser/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/schema-utils2/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/send/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/data-uri-to-buffer/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/domain-browser/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/conf/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/css.escape/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/tar/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/http-proxy/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/@hapi/accept/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/react/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/p-queue/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/amphtml-validator/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/devalue/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/loader-runner/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/ws/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/react-dom-experimental/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/process/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/edge-runtime/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/debug/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/buffer/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/scheduler-experimental/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/compiled/web-vitals-attribution/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/lib/known-edge-safe-packages.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/lib/server-external-packages.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/dist/lib/default-transpiled-packages.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/next/node_modules/postcss/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-array-buffer/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-array-buffer/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/jiti/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/has-property-descriptors/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@emnapi/runtime/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/csstype/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/string.prototype.trimend/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/ts-api-utils/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/strip-ansi/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/tsconfig-paths/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/tsconfig-paths/src/__tests__/tsconfig-named.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/react-is/build-info.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/react-is/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-typed-array/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-typed-array/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/function.prototype.name/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/flatted/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/flatted/cjs/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/loose-envify/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/es-errors/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/es-errors/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/sucrase/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/sucrase/node_modules/brace-expansion/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/sucrase/node_modules/minimatch/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/sucrase/node_modules/minimatch/dist/esm/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/sucrase/node_modules/minimatch/dist/commonjs/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/sucrase/node_modules/glob/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/sucrase/node_modules/glob/dist/esm/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/sucrase/node_modules/glob/dist/commonjs/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/has-proto/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/has-proto/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@tanstack/react-query/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@tanstack/react-query/build/query-codemods/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@tanstack/react-query/build/query-codemods/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@tanstack/query-core/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/string.prototype.trimstart/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/ms/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/possible-typed-array-names/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/possible-typed-array-names/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/dot-case/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/call-bind/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/math-intrinsics/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/math-intrinsics/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/prelude-ls/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/node-releases/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/node-releases/data/processed/envs.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/node-releases/data/release-schedule/release-schedule.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/escape-string-regexp/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/std-env/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/has-tostringtag/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/has-tostringtag/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/mz/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/strip-json-comments/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/lru-cache/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/lru-cache/dist/esm/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/lru-cache/dist/commonjs/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/use-sync-external-store/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/imurmurhash/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/language-tags/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-scope/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/type-fest/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/commander/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/punycode/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/array.prototype.flat/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-config-next/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/string.prototype.trim/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/autoprefixer/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/text-table/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/rimraf/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/escalade/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/color-string/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/side-channel-list/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/side-channel-list/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/fast-json-stable-stringify/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/fast-json-stable-stringify/benchmark/test.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-import/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-import/node_modules/doctrine/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-import/node_modules/semver/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-import/node_modules/debug/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/object.values/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/detect-libc/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/balanced-match/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/path-exists/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/resolve/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/resolve/test/module_dir/zmodules/bbb/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/resolve/test/resolver/symlinked/package/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/resolve/test/resolver/dot_main/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/resolve/test/resolver/invalid_main/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/resolve/test/resolver/multirepo/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/resolve/test/resolver/multirepo/lerna.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/resolve/test/resolver/multirepo/packages/package-b/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/resolve/test/resolver/multirepo/packages/package-a/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/resolve/test/resolver/dot_slash_main/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/resolve/test/resolver/baz/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/resolve/test/resolver/browser_field/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/resolve/test/resolver/nested_symlinks/mylib/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/resolve/test/resolver/incorrect_main/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/resolve/test/resolver/false_main/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/resolve/lib/core.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@eslint/js/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@eslint/eslintrc/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/data-view-byte-offset/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/data-view-byte-offset/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/call-bind-apply-helpers/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/call-bind-apply-helpers/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/object-hash/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/glob-to-regexp/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-number-object/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-number-object/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/aria-query/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/nanoid/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/nanoid/async/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/nanoid/non-secure/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/nanoid/url-alphabet/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/acorn/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/file-entry-cache/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/ts-interface-checker/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@nodelib/fs.walk/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@nodelib/fs.stat/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@nodelib/fs.scandir/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/signal-exit/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/signal-exit/dist/mjs/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/signal-exit/dist/cjs/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/postcss-js/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/wrap-ansi/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/wrap-ansi/node_modules/strip-ansi/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/wrap-ansi/node_modules/ansi-regex/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/wrap-ansi/node_modules/ansi-styles/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/own-keys/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/own-keys/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/once/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/reflect.getprototypeof/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-generator-function/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-generator-function/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/async-function/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/async-function/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-negative-zero/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-negative-zero/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/ignore/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/esrecurse/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/tslib/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/tslib/modules/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/argparse/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/picomatch/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/jsx-ast-utils/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-symbol/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-symbol/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/function-bind/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-glob/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-async-function/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-async-function/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-weakref/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-weakref/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/axe-core/sri-history.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/axe-core/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/axe-core/locales/nl.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/axe-core/locales/no_NB.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/axe-core/locales/zh_CN.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/axe-core/locales/ja.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/axe-core/locales/de.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/axe-core/locales/pl.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/axe-core/locales/_template.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/axe-core/locales/it.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/axe-core/locales/fr.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/axe-core/locales/el.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/axe-core/locales/ko.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/axe-core/locales/eu.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/axe-core/locales/he.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/axe-core/locales/pt_BR.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/axe-core/locales/zh_TW.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/axe-core/locales/da.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/axe-core/locales/es.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-fullwidth-code-point/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/color/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typescript/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typescript/lib/typesMap.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typescript/lib/pl/diagnosticMessages.generated.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typescript/lib/ja/diagnosticMessages.generated.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typescript/lib/it/diagnosticMessages.generated.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typescript/lib/cs/diagnosticMessages.generated.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typescript/lib/ru/diagnosticMessages.generated.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typescript/lib/zh-cn/diagnosticMessages.generated.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typescript/lib/zh-tw/diagnosticMessages.generated.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typescript/lib/pt-br/diagnosticMessages.generated.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typescript/lib/de/diagnosticMessages.generated.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typescript/lib/ko/diagnosticMessages.generated.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typescript/lib/fr/diagnosticMessages.generated.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typescript/lib/es/diagnosticMessages.generated.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typescript/lib/tr/diagnosticMessages.generated.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/flat-cache/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/inherits/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-date-object/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-date-object/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/array-includes/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/anymatch/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/color-name/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/es-define-property/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/es-define-property/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/node_modules/tslib/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/node_modules/tslib/modules/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_using/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_call_check/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_ts_param/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_private_method_init/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_new_arrow_check/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_private_field_loose_base/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_initializer_define_property/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_construct/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_array_with_holes/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_set/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_object_without_properties/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_unsupported_iterable_to_array/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_write_only_error/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_ts_generator/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_apply_descriptor_destructure/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_static_private_field_destructure/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_read_only_error/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_create_class/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_check_private_static_field_descriptor/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_async_to_generator/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_async_iterator/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_instanceof/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_private_field_destructure/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_ts_values/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_private_method_get/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_iterable_to_array/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_static_private_field_spec_set/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_jsx/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_create_super/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_private_field_set/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_to_array/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_name_tdz_error/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_inherits/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_non_iterable_rest/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_possible_constructor_return/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_tagged_template_literal_loose/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_array_without_holes/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_apply_descriptor_get/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_apply_descriptor_update/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_identity/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_non_iterable_spread/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_check_private_redeclaration/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_dispose/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_interop_require_wildcard/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_using_ctx/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_export_star/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_call_super/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_set_prototype_of/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_iterable_to_array_limit_loose/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_wrap_async_generator/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_to_primitive/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_private_field_init/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_private_field_loose_key/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_ts_decorate/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_get_prototype_of/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_sliced_to_array/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_private_field_get/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_ts_metadata/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_apply_decs_2203_r/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_decorate/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_create_for_of_iterator_helper_loose/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_static_private_method_get/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_private_method_set/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_static_private_field_spec_get/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_iterable_to_array_limit/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_object_destructuring_empty/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_ts_dispose_resources/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_object_spread/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_interop_require_default/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_initializer_warning_helper/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_get/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_is_native_function/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/index/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_to_consumable_array/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_to_property_key/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_wrap_native_super/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_apply_decorated_descriptor/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_super_prop_base/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_async_generator/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_define_enumerable_properties/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_static_private_field_update/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_skip_first_generator_next/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_await_async_generator/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_ts_add_disposable_resource/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_tagged_template_literal/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_inherits_loose/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_check_private_static_access/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_object_spread_props/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_throw/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_defaults/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_object_without_properties_loose/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_define_property/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_extract_field_descriptor/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_sliced_to_array_loose/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_async_generator_delegate/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_extends/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_assert_this_initialized/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_private_field_update/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_class_apply_descriptor_set/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_await_value/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_type_of/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_is_native_reflect_construct/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_update/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@swc/helpers/_/_array_like_to_array/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/chokidar/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/chokidar/node_modules/glob-parent/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/postcss/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/p-locate/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/get-intrinsic/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-import-resolver-node/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-import-resolver-node/node_modules/debug/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/object.entries/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/keyv/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/arg/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@typescript-eslint/project-service/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@typescript-eslint/tsconfig-utils/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@typescript-eslint/types/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@typescript-eslint/typescript-estree/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@typescript-eslint/typescript-estree/node_modules/brace-expansion/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@typescript-eslint/typescript-estree/node_modules/minimatch/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@typescript-eslint/typescript-estree/node_modules/minimatch/dist/esm/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@typescript-eslint/typescript-estree/node_modules/minimatch/dist/commonjs/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@typescript-eslint/typescript-estree/node_modules/fast-glob/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@typescript-eslint/typescript-estree/node_modules/glob-parent/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@typescript-eslint/utils/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@typescript-eslint/parser/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@typescript-eslint/type-utils/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@typescript-eslint/scope-manager/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@typescript-eslint/eslint-plugin/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@typescript-eslint/eslint-plugin/node_modules/ignore/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@typescript-eslint/visitor-keys/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@typescript-eslint/visitor-keys/node_modules/eslint-visitor-keys/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/es-to-primitive/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/es-to-primitive/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/es-abstract/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/es-abstract/helpers/caseFolding.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@ungap/structured-clone/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@ungap/structured-clone/cjs/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/js-yaml/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-visitor-keys/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/jackspeak/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/jackspeak/dist/esm/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/jackspeak/dist/commonjs/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/call-bound/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/call-bound/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typed-array-length/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typed-array-length/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/scheduler/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react-hooks/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/strip-ansi-cjs/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/pify/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/napi-postinstall/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/set-function-name/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/set-function-name/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/parent-module/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@humanwhocodes/config-array/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@humanwhocodes/module-importer/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@humanwhocodes/object-schema/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-binary-path/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-module-utils/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-module-utils/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-module-utils/node_modules/debug/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/dunder-proto/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/dunder-proto/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/hasown/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/hasown/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/side-channel-weakmap/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/side-channel-weakmap/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-path-inside/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/run-parallel/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/p-limit/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/data-view-buffer/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/data-view-buffer/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typed-array-byte-length/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typed-array-byte-length/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/undici-types/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/strip-bom/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/json-schema-traverse/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@isaacs/cliui/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@isaacs/cliui/node_modules/strip-ansi/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@isaacs/cliui/node_modules/ansi-regex/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/natural-compare/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/minimist/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/server-only/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/fraction.js/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/regexp.prototype.flags/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/string.prototype.includes/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/iterator.prototype/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-jsx-a11y/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/esutils/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/find-up/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/chalk/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/ansi-regex/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/damerau-levenshtein/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/has-flag/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/supports-color/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/wrap-ansi-cjs/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/wrap-ansi-cjs/node_modules/string-width/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/wrap-ansi-cjs/node_modules/emoji-regex/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/unbox-primitive/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/unbox-primitive/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-shared-array-buffer/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-shared-array-buffer/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/supports-preserve-symlinks-flag/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typed-array-byte-offset/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typed-array-byte-offset/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/color-convert/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/path-key/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/readdirp/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-bun-module/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/stable-hash/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/array-buffer-byte-length/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/array-buffer-byte-length/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/brace-expansion/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/foreground-child/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/foreground-child/dist/esm/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/foreground-child/dist/commonjs/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/fill-range/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/crypto-js/bower.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/crypto-js/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/json-stable-stringify-without-jsonify/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/binary-extensions/binary-extensions.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/binary-extensions/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/react-dom/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/util-deprecate/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/word-wrap/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/path-parse/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/has-symbols/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/has-symbols/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/picocolors/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/string.prototype.repeat/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/arraybuffer.prototype.slice/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/snakecase-keys/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/snakecase-keys/node_modules/type-fest/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/internal-slot/.attw.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/internal-slot/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/internal-slot/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/set-proto/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/set-proto/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/json-buffer/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/which-builtin-type/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/which-builtin-type/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/safe-array-concat/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/safe-array-concat/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/doctrine/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eastasianwidth/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/lines-and-columns/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@nolyfill/is-core-module/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/array.prototype.tosorted/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/semver/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-finalizationregistry/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-finalizationregistry/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/define-properties/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/minimatch/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-weakset/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-weakset/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/postcss-value-parser/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/estraverse/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/ansi-styles/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-core-module/core.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-core-module/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/graphemer/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-map/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-map/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/no-case/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/js-tokens/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/dlv/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/acorn-jsx/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/client-only/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-number/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/ast-types-flow/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/fs.realpath/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/levn/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/stop-iteration-iterator/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/stop-iteration-iterator/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@img/sharp-libvips-darwin-arm64/versions.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@img/sharp-libvips-darwin-arm64/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@img/sharp-darwin-arm64/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/postcss-import/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/yocto-queue/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/lodash.merge/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/has-bigints/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/has-bigints/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@rtsao/scc/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/postcss-selector-parser/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/postcss-nested/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/side-channel/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/side-channel/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/concat-map/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/axobject-query/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/json5/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/update-browserslist-db/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/set-function-length/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/set-function-length/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/es-shim-unscopables/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/es-shim-unscopables/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/safe-regex-test/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/safe-regex-test/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/thenify-all/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/js-cookie/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/lilconfig/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/optionator/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/get-symbol-description/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/get-symbol-description/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/uri-js/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-arrayish/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/any-promise/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/camelcase-css/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/object-assign/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/get-proto/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/get-proto/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/package-json-from-dist/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/package-json-from-dist/dist/esm/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/package-json-from-dist/dist/commonjs/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/unrs-resolver/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/yaml/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/yaml/browser/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/cross-spawn/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-data-view/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-data-view/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/prop-types/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/espree/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-boolean-object/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-boolean-object/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/which-collection/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/which-collection/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-regex/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-regex/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint/lib/cli-engine/formatters/formatters-meta.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint/conf/replacements.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint/conf/rule-type-list.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/glob/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/map-obj/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/esquery/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/import-fresh/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/cookie/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/fast-levenshtein/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/to-regex-range/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/normalize-range/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/didyoumean/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@next/eslint-plugin-next/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@next/env/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@next/swc-darwin-arm64/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/object-keys/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/gopd/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/gopd/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/safe-push-apply/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/safe-push-apply/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/for-each/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/for-each/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/which-typed-array/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/which-typed-array/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/array.prototype.findlast/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/string-width/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/string-width/node_modules/strip-ansi/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/string-width/node_modules/ansi-regex/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/minipass/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/minipass/dist/esm/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/minipass/dist/commonjs/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-callable/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@jridgewell/sourcemap-codec/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@jridgewell/trace-mapping/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@jridgewell/gen-mapping/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@jridgewell/resolve-uri/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-weakmap/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-weakmap/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/cssesc/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/data-view-byte-length/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/data-view-byte-length/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/isarray/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-import-resolver-typescript/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/micromatch/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-set/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-set/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/wrappy/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react/node_modules/resolve/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react/node_modules/resolve/test/module_dir/zmodules/bbb/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react/node_modules/resolve/test/resolver/empty_main/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react/node_modules/resolve/test/resolver/symlinked/package/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react/node_modules/resolve/test/resolver/dot_main/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react/node_modules/resolve/test/resolver/invalid_main/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react/node_modules/resolve/test/resolver/multirepo/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react/node_modules/resolve/test/resolver/multirepo/lerna.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react/node_modules/resolve/test/resolver/multirepo/packages/package-b/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react/node_modules/resolve/test/resolver/multirepo/packages/package-a/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react/node_modules/resolve/test/resolver/null_main/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react/node_modules/resolve/test/resolver/missing_index/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react/node_modules/resolve/test/resolver/dot_slash_main/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react/node_modules/resolve/test/resolver/missing_main/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react/node_modules/resolve/test/resolver/baz/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react/node_modules/resolve/test/resolver/browser_field/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react/node_modules/resolve/test/resolver/nested_symlinks/mylib/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react/node_modules/resolve/test/resolver/incorrect_main/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react/node_modules/resolve/test/resolver/false_main/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react/node_modules/doctrine/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/eslint-plugin-react/node_modules/semver/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/fast-glob/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/fast-glob/node_modules/glob-parent/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/array.prototype.findlastindex/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/resolve-from/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/tailwindcss/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/tailwindcss/stubs/.prettierrc.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/tailwindcss/node_modules/postcss-load-config/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/tailwindcss/node_modules/fast-glob/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/tailwindcss/node_modules/fast-glob/node_modules/glob-parent/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-extglob/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/fastq/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/fastq/test/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/available-typed-arrays/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/available-typed-arrays/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/es-iterator-helpers/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/es-iterator-helpers/index.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/string.prototype.matchall/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/snake-case/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/caniuse-lite/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@rushstack/eslint-patch/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@rushstack/eslint-patch/CHANGELOG.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/read-cache/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/merge2/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/deep-is/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/es-set-tostringtag/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/es-set-tostringtag/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-string/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/is-string/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/globalthis/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/dequal/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/react/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@unrs/resolver-binding-darwin-arm64/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/braces/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/array.prototype.flatmap/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/which/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/side-channel-map/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/side-channel-map/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/string-width-cjs/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/string-width-cjs/node_modules/emoji-regex/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/ajv/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/ajv/lib/refs/json-schema-secure.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/ajv/lib/refs/json-schema-draft-04.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/ajv/lib/refs/data.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/ajv/lib/refs/json-schema-draft-07.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/ajv/lib/refs/json-schema-draft-06.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/emoji-regex/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/object-inspect/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/object-inspect/package-support.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/sharp/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/clerk-react/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/clerk-react/internal/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/clerk-react/errors/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/types/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/backend/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/backend/jwt/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/backend/internal/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/backend/errors/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/poller/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/versionSelector/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/logger/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/proxy/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/isomorphicBtoa/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/file/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/apiUrlFromPublishableKey/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/localStorageBroadcastChannel/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/constants/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/color/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/date/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/isomorphicAtob/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/handleValueOrFn/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/underscore/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/loadClerkJsScript/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/url/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/browser/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/webauthn/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/globs/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/pathToRegexp/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/keys/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/cookie/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/telemetry/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/callWithRetry/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/authorization/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/error/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/react/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/loadScript/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/deriveState/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/deprecated/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/shared/router/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/nextjs/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/nextjs/dist/esm/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/nextjs/dist/cjs/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/nextjs/server/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@clerk/nextjs/errors/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/lower-case/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@eslint-community/eslint-utils/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/@eslint-community/regexpp/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typed-array-buffer/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/typed-array-buffer/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/type-check/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/object.fromentries/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/resolve-pkg-maps/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/locate-path/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/object.assign/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/normalize-path/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/fsevents/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/fast-deep-equal/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/shebang-command/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/electron-to-chromium/full-versions.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/electron-to-chromium/versions.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/electron-to-chromium/full-chromium-versions.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/electron-to-chromium/chromium-versions.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/electron-to-chromium/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/debug/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/glob-parent/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/source-map-js/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/isexe/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/swr/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/swr/_internal/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/swr/immutable/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/swr/mutation/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/swr/subscription/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/swr/infinite/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/es-object-atoms/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/es-object-atoms/tsconfig.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/language-subtag-registry/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/language-subtag-registry/data/json/redundant.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/language-subtag-registry/data/json/registry.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/language-subtag-registry/data/json/script.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/language-subtag-registry/data/json/language.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/language-subtag-registry/data/json/extlang.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/language-subtag-registry/data/json/special.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/language-subtag-registry/data/json/macrolanguage.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/language-subtag-registry/data/json/private-use.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/language-subtag-registry/data/json/collection.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/language-subtag-registry/data/json/grandfathered.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/language-subtag-registry/data/json/index.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/language-subtag-registry/data/json/variant.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/language-subtag-registry/data/json/region.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/language-subtag-registry/data/json/meta.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/get-tsconfig/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/inflight/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/path-scurry/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/path-scurry/dist/esm/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/path-scurry/dist/commonjs/package.json
+    - candidate/consciousness/dream/oneiric/frontend/node_modules/object.groupby/package.json
+    - candidate/consciousness/reflection/HYBRID_COMPONENT.json
+    - candidate/consciousness/dream/oneiric/alembic.ini
+    env_vars_required: []
+    feature_flags: []
+  resources:
+    cpu_limit: 0.5 vcpu
+    mem_limit: 256 MiB
+data_and_events:
+  data_classes:
+  - name: AttentionMonitor
+    schema_ref: audit/SCHEMAS/attentionmonitor.json
+    description: AttentionMonitor data class
+  - name: RedirectForecaster
+    schema_ref: audit/SCHEMAS/redirectforecaster.json
+    description: RedirectForecaster data class
+  - name: StateAggregator
+    schema_ref: audit/SCHEMAS/stateaggregator.json
+    description: StateAggregator data class
+  - name: TrinityComplianceReport
+    schema_ref: audit/SCHEMAS/trinitycompliancereport.json
+    description: TrinityComplianceReport data class
+  - name: DriftAlert
+    schema_ref: audit/SCHEMAS/driftalert.json
+    description: DriftAlert data class
+  pii:
+    contains: false
+    classification: internal
+security:
+  secrets:
+    sources:
+    - env
+    files: []
+  authz_model: internal_only
+  compliance:
+    data_classification: internal
+observability:
+  logs:
+    format: structured_json
+    level: info
+  metrics:
+    exporter: prometheus
+    key_metrics:
+    - name: candidate_consciousness_calls_total
+      target: '>0'
+      type: counter
+  slos:
+    error_rate_pct: 1.0
+    availability_pct: 99.0
+test_posture:
+  coverage:
+    current: 0.0
+    target: 0.8
+  tests:
+    unit: 0
+    integration: 0
+risk_and_change:
+  risks:
+  - id: R-CANDIDATE-CONSCIOUSNESS-GENERATED
+    title: Auto-generated schema may be incomplete
+    likelihood: medium
+    impact: low
+    mitigation: Manual review and enhancement required
+    status: open
+provenance:
+  schema_version: '1.0'
+  last_updated: '2025-09-10T11:32:19.315372+00:00'
+  source_paths:
+  - candidate/consciousness
+  generated_by:
+    tool: lukhas-module-generator
+    version: 1.0.0
+    timestamp: '2025-09-10T11:32:19.315372+00:00'
+  validation:
+    schema_valid: true
+    last_validated: '2025-09-10T11:32:19.315372+00:00'
+    validator_version: 1.0.0

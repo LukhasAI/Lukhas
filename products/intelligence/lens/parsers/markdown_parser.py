@@ -3,6 +3,7 @@
 Markdown Parser for ΛLens
 Handles Markdown files and extracts structure
 """
+
 import re
 from typing import Any
 

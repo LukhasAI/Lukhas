@@ -1,0 +1,77 @@
+# Gitleaks Configuration for LUKHAS AI - Guardian System v1.0.0
+# Constitutional AI compliance and GDPR/CCPA aligned security scanning
+# Generated: 2025-09-11 (MATRIZ-R1 Stream C Task C-CC1)
+
+[general]
+title = "LUKHAS AI Guardian Security Scanner"
+description = "Constitutional AI security scanning with Guardian System v1.0.0 protocols"
+
+# Enable all default rules for comprehensive scanning
+[extend]
+useDefault = true
+
+[[rules]]
+id = "lukhas-api-key"
+description = "LUKHAS API key detection"
+regex = '''(?i)(lukhas[_-]?api[_-]?key|api[_-]?key)['":\s]*=?['":\s]*([a-z0-9_-]{20,})'''
+tags = ["api", "lukhas", "key"]
+
+[[rules]]
+id = "anthropic-api-key"
+description = "Anthropic API key detection"
+regex = '''(?i)(anthropic[_-]?api[_-]?key|claude[_-]?api[_-]?key)['":\s]*=?['":\s]*([a-z0-9_-]{20,})'''
+tags = ["api", "anthropic", "claude"]
+
+[[rules]]
+id = "openai-api-key"
+description = "OpenAI API key detection"
+regex = '''(?i)(openai[_-]?api[_-]?key)['":\s]*=?['":\s]*([a-z0-9_-]{20,})'''
+tags = ["api", "openai"]
+
+[[rules]]
+id = "huggingface-token"
+description = "HuggingFace token detection"
+regex = '''(?i)(hf[_-]?token|huggingface[_-]?token)['":\s]*=?['":\s]*([a-z0-9_-]{20,})'''
+tags = ["api", "huggingface", "token"]
+
+[[rules]]
+id = "guardian-system-keys"
+description = "Guardian System internal keys"
+regex = '''(?i)(guardian[_-]?key|safety[_-]?key|constitutional[_-]?key)['":\s]*=?['":\s]*([a-z0-9_-]{20,})'''
+tags = ["guardian", "safety", "constitutional"]
+
+[[rules]]
+id = "database-credentials"
+description = "Database connection strings and credentials"
+regex = '''(?i)(database[_-]?url|db[_-]?url|connection[_-]?string)['":\s]*=?['":\s]*([a-z0-9_:/.-]{20,})'''
+tags = ["database", "credentials"]
+
+[[rules]]
+id = "jwt-secrets"
+description = "JWT secret keys"
+regex = '''(?i)(jwt[_-]?secret|token[_-]?secret)['":\s]*=?['":\s]*([a-z0-9_-]{20,})'''
+tags = ["jwt", "token", "secret"]
+
+[[rules]]
+id = "encryption-keys"
+description = "Encryption keys and cryptographic material"
+regex = '''(?i)(encryption[_-]?key|crypto[_-]?key|private[_-]?key)['":\s]*=?['":\s]*([a-z0-9_/+=]{20,})'''
+tags = ["encryption", "crypto", "key"]
+
+# Allow certain patterns that are safe
+[allowlist]
+description = "Guardian System v1.0.0 Constitutional AI Allowlist"
+paths = [
+    '''tests/.*''',
+    '''docs/.*''',
+    '''examples/.*''',
+    '''.*\.md$''',
+    '''.*\.rst$''',
+    '''.*\.txt$'''
+]
+regexes = [
+    '''(?i)(YOUR_API_KEY_HERE|PLACEHOLDER|EXAMPLE_KEY|TEST_KEY|DEMO_KEY)''',
+    '''(?i)(guardian_placeholder|constitutional_placeholder|safety_template)''',
+    '''(?i)(guardian_test_key|constitutional_test_pattern|safety_development_key)''',
+    '''(?i)(constitutional_ai_test|anthropic_test_pattern|claude_development_key)'''
+]

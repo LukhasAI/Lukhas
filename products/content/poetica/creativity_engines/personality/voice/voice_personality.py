@@ -43,7 +43,7 @@ import random
 from datetime import datetime
 from typing import Any, Optional
 
-from core.common import get_logger
+from lukhas.core.common import get_logger
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -54,7 +54,7 @@ MODULE_NAME = "voice_personality"
 
 # Import personality components
 try:
-    from core.personality.creative_expressions import NeuroHaikuGenerator
+    from lukhas.core.personality.creative_expressions import NeuroHaikuGenerator
 
     HAIKU_AVAILABLE = True
 except ImportError:

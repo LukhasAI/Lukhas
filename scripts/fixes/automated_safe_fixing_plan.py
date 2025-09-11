@@ -24,11 +24,11 @@ import re
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
+
 
 class SafeFStringFixer:
     """Automated safe f-string fixer using proven mechanical approach"""
@@ -40,10 +40,10 @@ class SafeFStringFixer:
             "files_fixed": 0,
             "errors_fixed": 0,
             "files_skipped": 0,
-            "compilation_successes": 0
+            "compilation_successes": 0,
         }
 
-    def get_syntax_error_files(self) -> List[Tuple[str, int]]:
+    def get_syntax_error_files(self) -> list[tuple[str, int]]:
         """Get list of files with syntax errors and their counts"""
         try:
             cmd = [".venv/bin/ruff", "check", "candidate/", "--select=E999", "--output-format=json", "--quiet"]
@@ -232,7 +232,7 @@ class SafeFStringFixer:
             logger.error(f"Error fixing {file_path}: {e}")
             return False
 
-    def run_automated_fixing(self, max_files: int = 50) -> Dict:
+    def run_automated_fixing(self, max_files: int = 50) -> dict:
         """Run automated fixing on top error files"""
         logger.info("Starting automated safe f-string fixing...")
 
@@ -268,7 +268,7 @@ PROCESSING STATISTICS:
 
 MECHANICAL APPROACH EFFECTIVENESS:
 - Rule A.1 (Drop f-prefix): Applied to template strings without expressions
-- Rule A.2 (Escape braces): Fixed literal brace escaping issues  
+- Rule A.2 (Escape braces): Fixed literal brace escaping issues
 - Rule A.3 (Close strings): Balanced parentheses and quotes
 
 NEXT PHASE RECOMMENDATIONS:
@@ -285,6 +285,7 @@ SAFETY MEASURES:
 """
         return report
 
+
 def main():
     """Main execution function"""
     if len(sys.argv) > 1:
@@ -298,7 +299,7 @@ def main():
     print("=" * 60)
 
     # Run the automated fixing
-    stats = fixer.run_automated_fixing(max_files)
+    fixer.run_automated_fixing(max_files)
 
     # Generate and display report
     report = fixer.create_fixing_report()
@@ -310,6 +311,7 @@ def main():
 
     print("✅ Automated fixing complete!")
     print("📊 Report saved to: automated_fixing_report.txt")
+
 
 if __name__ == "__main__":
     main()

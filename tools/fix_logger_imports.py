@@ -3,6 +3,7 @@
 Fix logger/logging import issues across LUKHAS codebase
 Resolves F821 violations for logger and logging usage
 """
+
 import json
 from pathlib import Path
 
@@ -55,7 +56,12 @@ def fix_logger_imports():
                 stripped = line.strip()
                 if stripped.startswith("import ") or stripped.startswith("from "):
                     import_insertion_index = i + 1
-                elif stripped and not stripped.startswith("#") and not stripped.startswith('"""') and not stripped.startswith("'''"):
+                elif (
+                    stripped
+                    and not stripped.startswith("#")
+                    and not stripped.startswith('"""')
+                    and not stripped.startswith("'''")
+                ):
                     break
 
             # Add logging import if needed
@@ -86,6 +92,7 @@ def fix_logger_imports():
 
     print(f"\n🎯 Applied {fixes_applied} logger import fixes")
     return fixes_applied
+
 
 if __name__ == "__main__":
     fix_logger_imports()

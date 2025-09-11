@@ -3,6 +3,7 @@
 Execute the directory reorganization plan
 Moves directories into appropriate modules and archives others
 """
+
 import json
 import os
 import shutil

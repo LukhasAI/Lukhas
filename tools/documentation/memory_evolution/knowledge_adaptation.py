@@ -2,6 +2,7 @@
 Knowledge Adaptation System for DocuTutor.
 Handles the evolution and adaptation of knowledge over time.
 """
+
 from datetime import datetime, timezone
 from typing import Optional
 

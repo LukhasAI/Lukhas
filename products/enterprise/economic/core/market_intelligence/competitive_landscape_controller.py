@@ -3,12 +3,13 @@ Competitive Landscape Controller
 
 Controls and manages competitive positioning strategies.
 """
+
 import logging
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any
 
-from core.interfaces import CoreInterface
+from lukhas.core.interfaces import CoreInterface
 
 logger = logging.getLogger(__name__)
 

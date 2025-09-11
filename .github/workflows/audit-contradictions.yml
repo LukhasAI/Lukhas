@@ -1,0 +1,19 @@
+name: audit-contradictions
+on: [pull_request]
+jobs:
+  contradictions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ensure contradictions are empty (non-blocking)
+        run: |
+          if [ ! -f reports/audit/merged/contradictions.json ]; then
+            echo "Contradictions file not found, skipping."
+            exit 0
+          fi
+          if ! jq -e 'length == 0' reports/audit/merged/contradictions.json; then
+            echo "::error::Contradictions found in reports/audit/merged/contradictions.json"
+            cat reports/audit/merged/contradictions.json
+            exit 1
+          fi
+          echo "No contradictions found."

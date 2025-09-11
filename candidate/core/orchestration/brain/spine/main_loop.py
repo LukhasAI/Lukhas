@@ -182,7 +182,7 @@ def prompt_consent():
     print("Before proceeding, please confirm your consent to process this data.")
     consent = (
         input("Do you agree to share this data for feedback, dream narration,"
-              and voice synthesis? (yes / no): "
+              and voice synthesis? (yes / no): ""
               )
         .strip()
         .lower()
@@ -254,8 +254,8 @@ def prompt_emotion():
 
 
 def prompt_feedback(user_id, action, output_text, emotion):
-    print("\nHow would you rate the emotional intensity of the output? (1 - 5,
-                                                                        5=most intense)"
+    print("\nHow would you rate the emotional intensity of the output? (1 - 5,"
+                                                                        5=most intense)""
           )
     rating = input("> ").strip()
     try:

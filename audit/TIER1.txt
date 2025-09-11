@@ -1,0 +1,64 @@
+# LUKHAS Tier-1 Critical Modules
+# Generated: 2025-09-10T13:00:00Z
+# Scope: Production-critical modules requiring full contract validation
+
+## Tier-1 Module List (6 modules)
+
+lukhas.memory
+  - Layer: infrastructure
+  - Function: Memory fold management, cascade prevention, temporal indexing
+  - Criticality: Core data persistence and retrieval
+  - Contracts: Memory operations, fold lifecycle, cascade signals
+
+lukhas.consciousness
+  - Layer: infrastructure  
+  - Function: Awareness processing, decision making, consciousness states
+  - Criticality: Central intelligence coordination
+  - Contracts: Awareness transitions, decision signals, consciousness events
+
+lukhas.orchestration
+  - Layer: infrastructure
+  - Function: Multi-module coordination, workflow management, system integration
+  - Criticality: System-wide coordination hub
+  - Contracts: Workflow signals, coordination events, execution traces
+
+lukhas.api
+  - Layer: interface
+  - Function: External API gateway, request routing, response management
+  - Criticality: Primary external interface
+  - Contracts: HTTP events, request/response patterns, API lifecycle
+
+lukhas.identity
+  - Layer: infrastructure
+  - Function: Authentication, authorization, user management, security
+  - Criticality: Security foundation
+  - Contracts: Auth events, security signals, identity lifecycle
+
+lukhas.governance
+  - Layer: infrastructure
+  - Function: Policy enforcement, compliance monitoring, ethical oversight
+  - Criticality: Compliance and safety assurance
+  - Contracts: Policy decisions, compliance events, audit signals
+
+## Validation Requirements
+
+Each Tier-1 module MUST have:
+✅ NODE_CONTRACTS/{module}.json with full signal specification
+✅ Golden trace demonstrating critical flow
+✅ Reality test validating production behavior
+✅ Enhanced schema with git provenance
+✅ CI smoke test coverage
+
+## Dependencies
+
+Tier-1 modules should minimize external dependencies and cross-lane coupling.
+Any Tier-1 → non-Tier-1 dependencies require architectural review.
+
+## Promotion Criteria
+
+Non-Tier-1 modules can be promoted to Tier-1 only after:
+- 90-day stability record
+- Full contract documentation
+- Golden trace coverage
+- Reality test validation
+- Architectural review approval

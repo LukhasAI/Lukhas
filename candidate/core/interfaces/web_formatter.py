@@ -12,7 +12,7 @@ Integration Date: 2025-05-31T07:55:27.738271
 import argparse
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 
 EXPRESSION_LOG = "logs/expressions/lukhas_expression_log.jsonl"
 OUTPUT_DIR = "logs/publication_simulation"

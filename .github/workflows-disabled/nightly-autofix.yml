@@ -49,6 +49,8 @@ jobs:
         env:
           CREATE_NIGHTLY_PR: ${{ inputs.create_pr || 'false' }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SELF_HEALING_DISABLED: 1  # Enable CI safety mode
+          CI: true
         run: |
           chmod +x tools/ci/nightly_autofix.sh
           ./tools/ci/nightly_autofix.sh
@@ -75,6 +77,9 @@ jobs:
             data/nightly_autofix_*.log
             data/security_scan.json
             reports/todos/summary.md
+            reports/dashboard/would-change-report.json
+            reports/dashboard/change-budget.json
+            reports/dashboard/dashboard_state.json
           retention-days: 30
 
       - name: Comment on recent PRs if issues found

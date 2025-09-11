@@ -21,6 +21,8 @@ import logging
 from dataclasses import dataclass
 from typing import Any, Optional
 
+from scripts.brand_validator import BrandValidator
+
 logger = logging.getLogger(__name__)
 
 # Core branding constants and functions - integrated directly

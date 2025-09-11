@@ -53,7 +53,7 @@ Based on strategic documentation:
 import asyncio
 import logging
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 # Integration imports - Updated fallback chains following CODEX_ENHANCEMENT_PLAN Phase 4

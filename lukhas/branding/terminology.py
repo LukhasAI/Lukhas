@@ -14,7 +14,7 @@ TRINITY_TERMS = {
     "AWARENESS_STATE": "🌟",
     "DREAM_STATE": "💭",
     "QUANTUM_STATE": "⚛️",
-    "BIO_STATE": "🌱"
+    "BIO_STATE": "🌱",
 }
 
 # Consciousness System Vocabulary
@@ -27,7 +27,7 @@ CONSCIOUSNESS_VOCAB = {
     "fusion": "integration of multiple consciousness streams",
     "emergence": "spontaneous complex behavior from simple rules",
     "entanglement": "correlated consciousness states",
-    "collapse": "quantum state resolution to classical outcome"
+    "collapse": "quantum state resolution to classical outcome",
 }
 
 # System Component Mapping
@@ -38,7 +38,7 @@ COMPONENT_TERMS = {
     "quantum": "Quantum-Inspired Processing Engine",
     "bio": "Bio-Inspired Optimization Framework",
     "governance": "Ethical Governance and Compliance",
-    "orchestration": "Multi-Agent Consciousness Coordination"
+    "orchestration": "Multi-Agent Consciousness Coordination",
 }
 
 # Symbolic Glyphs for UI/UX
@@ -55,20 +55,24 @@ SYMBOLIC_GLYPHS = {
     "dream": "💭",
     "memory": "🧠",
     "fusion": "🔗",
-    "emergence": "✨"
+    "emergence": "✨",
 }
+
 
 def get_term_definition(term: str) -> str:
     """Get definition for a consciousness/system term."""
     return CONSCIOUSNESS_VOCAB.get(term.lower(), f"Term '{term}' not found in vocabulary")
 
+
 def get_glyph(concept: str) -> str:
     """Get symbolic glyph for a concept."""
     return SYMBOLIC_GLYPHS.get(concept.lower(), "❓")
 
+
 def get_trinity_symbol(aspect: str) -> str:
     """Get Trinity Framework symbol for specific aspect."""
     return TRINITY_TERMS.get(aspect.upper(), "❓")
+
 
 def normalize_output(text: str, add_glyphs: bool = True) -> str:
     """Normalize system output with symbolic branding."""
@@ -86,6 +90,7 @@ def normalize_output(text: str, add_glyphs: bool = True) -> str:
 
     return text
 
+
 # Export main terminology elements
 __all__ = [
     "TRINITY_TERMS",
@@ -95,5 +100,5 @@ __all__ = [
     "get_term_definition",
     "get_glyph",
     "get_trinity_symbol",
-    "normalize_output"
+    "normalize_output",
 ]

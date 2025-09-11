@@ -88,7 +88,10 @@ class CostOptimizer:
         self.cost_profiles: dict[str, CostProfile] = {}
         self.usage_history: list[dict[str, Any]] = []
         self.current_usage: dict[str, float] = {"hour": 0.0, "day": 0.0}
-        self.last_reset = {"hour": datetime.now(timezone.utc), "day": datetime.now(timezone.utc).replace(hour=0, minute=0)}
+        self.last_reset = {
+            "hour": datetime.now(timezone.utc),
+            "day": datetime.now(timezone.utc).replace(hour=0, minute=0),
+        }
         self._initialize_cost_profiles()
 
     def _initialize_cost_profiles(self):

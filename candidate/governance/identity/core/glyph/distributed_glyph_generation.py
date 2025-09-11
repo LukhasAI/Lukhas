@@ -11,7 +11,7 @@ import hashlib
 import io
 import logging
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -20,7 +20,8 @@ from PIL import Image
 
 # Import colony infrastructure
 from candidate.core.colonies.base_colony import BaseColony
-from candidate.core.enhanced_swarm import AgentState, EnhancedSwarmAgent as SwarmAgent
+from candidate.core.enhanced_swarm import AgentState
+from candidate.core.enhanced_swarm import EnhancedSwarmAgent as SwarmAgent
 
 # Import identity components
 from governance.identity.core.events import IdentityEventType, get_identity_event_publisher

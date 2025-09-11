@@ -8,11 +8,6 @@ import logging
 import uuid
 from datetime import datetime, timezone
 from typing import Any, Optional
-import streamlit as st
-import time
-from typing import Dict
-from typing import List
-from consciousness.qi import qi
 
 # TAG:qim
 # TAG:qi_states

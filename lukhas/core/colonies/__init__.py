@@ -5,16 +5,21 @@ Trinity Framework: ⚛️🧠🛡️
 
 This module intentionally avoids any cross-lane imports from `candidate`.
 """
+
 import importlib
 import importlib.util
 import logging
+import os
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Any, List, Optional
-
-import streamlit as st
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
+
+# Feature flag for candidate bridge (default OFF for production lane integrity)
+USE_CANDIDATE_BRIDGE = os.getenv("ALLOW_CANDIDATE_RUNTIME") == "1"
+if USE_CANDIDATE_BRIDGE:
+    logger.warning("ALLOW_CANDIDATE_RUNTIME=1: candidate bridge enabled for migration")
 
 
 # Import router for fallback imports
@@ -40,16 +45,6 @@ def import_with_fallback(primary_path: str, fallback_paths: list, item_name: str
 # Try to prefer real implementations from candidate lane first
 logger.debug("Attempting to import colony implementations from candidate lane")
 
-def _try_import(name: str, candidate_module: str, item_name: str):
-    try:
-        mod = importlib.import_module(candidate_module)
-        if hasattr(mod, item_name):
-            logger.info(f"Imported {item_name} from {candidate_module}")
-            return getattr(mod, item_name)
-    except Exception:
-        logger.debug(f"Could not import {item_name} from {candidate_module}")
-    return None
-
 
 @dataclass
 class ConsensusResult:
@@ -63,7 +58,16 @@ class ConsensusResult:
     dissent_reasons: list[str] = field(default_factory=list)
 
 
-BaseColony = _try_import("BaseColony", "candidate.core.colonies.base_colony", "BaseColony")
+BaseColony = None
+
+# Try to import from real lukhas.core implementation first
+try:
+    from lukhas.core.colonies.base_colony import BaseColony
+
+    logger.info("✅ Using lukhas.core.colonies.base_colony.BaseColony (REAL)")
+except ImportError:
+    # Fall back to stub implementation if lukhas.core not available
+    BaseColony = None
 
 if BaseColony is None:
     logger.warning("Using BaseColony stub (no cross-lane imports)")
@@ -131,7 +135,8 @@ try:
         MessagePriority,
         get_global_communication_fabric,
     )
-    from ..event_sourcing import EventSourcedAggregate as AIAgentAggregate, get_global_event_store
+    from ..event_sourcing import EventSourcedAggregate as AIAgentAggregate
+    from ..event_sourcing import get_global_event_store
     from ..supervisor_agent import SupervisorAgent, get_supervisor_agent
     from ..symbolism import TagScope
 

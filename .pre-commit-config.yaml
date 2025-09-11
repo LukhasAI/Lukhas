@@ -1,25 +1,48 @@
 repos:
+  # --- Ruff: Fast, reliable, stays on commit ---
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.6.7
     hooks:
       - id: ruff
         args: [--fix]
+        exclude: ^(candidate/|quarantine/|archive/)  # reduce noise
       - id: ruff-format
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.10.0
-    hooks:
-      - id: mypy
-        additional_dependencies: []
+        exclude: ^(candidate/|quarantine/|archive/)
+
+  # --- Security: Keep on commit - fast and important ---
   - repo: https://github.com/zricethezav/gitleaks
     rev: v8.17.0
     hooks:
       - id: gitleaks
         args: ["--redact", "--report-format", "sarif", "--report-path", "gitleaks.sarif"]
+
+  # --- Heavy/flaky tools: manual or push-only ---
   - repo: local
     hooks:
-      - id: syntax-guardian
-        name: Syntax Guardian - Mass Breakage Prevention
-        entry: python tools/ci/syntax_guardian.py --pre-commit
+      # LUKHAS AI analyzer: run manually, never block commits
+      - id: lukhas-ai-analyzer
+        name: LUKHAS AI analyzer (manual)
+        entry: echo "[LUKHAS-LLM] Skipping on commit; run pre-commit run lukhas-ai-analyzer --hook-stage manual -a"
         language: system
         pass_filenames: false
+        stages: [manual]   # KEY: manual-only
         always_run: true
+
+      # Syntax guardian: push-only or manual, not on commit
+      - id: syntax-guardian
+        name: syntax-guardian (push)
+        entry: python -m pyflakes
+        language: system
+        types: [python]
+        stages: [push]     # run on push, not per local commit
+        files: ^lukhas/|^MATRIZ/
+        exclude: ^(candidate/|quarantine/|archive/)
+
+  # --- MyPy: push-only due to venv conflicts ---
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.10.0
+    hooks:
+      - id: mypy
+        stages: [push]     # push-only due to .venv311 typing conflicts
+        additional_dependencies: []
+        exclude: ^(candidate/|quarantine/|archive/)

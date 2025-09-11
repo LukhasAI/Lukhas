@@ -2,6 +2,7 @@
 """
 Check linting progress and provide summary
 """
+
 import subprocess
 import sys
 from pathlib import Path

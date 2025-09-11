@@ -23,7 +23,7 @@ LAMBDA_SYMBOLS = {
     "HARMONY": "ΛHARMONY",
     "DISSONANCE": "ΛDISSONANCE",
     "DREAM": "ΛDREAM",
-    "MEMORY": "ΛMEMORY"
+    "MEMORY": "ΛMEMORY",
 }
 
 # Brand Colors (as names for terminal output)
@@ -33,17 +33,20 @@ COLORS = {
     "accent": "green",
     "warning": "yellow",
     "error": "red",
-    "consciousness": "purple"
+    "consciousness": "purple",
 }
+
 
 # Core Module Information
 def get_version():
     """Get LUKHAS version information."""
     return "1.0.0"
 
+
 def get_trinity_framework():
     """Get Trinity Framework description."""
     return f"{TRINITY_IDENTITY} Identity - {TRINITY_CONSCIOUSNESS} Consciousness - {TRINITY_GUARDIAN} Guardian"
+
 
 def get_branding_info():
     """Get complete branding information."""
@@ -53,8 +56,9 @@ def get_branding_info():
         "version": get_version(),
         "trinity": get_trinity_framework(),
         "symbols": LAMBDA_SYMBOLS,
-        "colors": COLORS
+        "colors": COLORS,
     }
+
 
 # Export key components
 __all__ = [
@@ -67,5 +71,5 @@ __all__ = [
     "COLORS",
     "get_version",
     "get_trinity_framework",
-    "get_branding_info"
+    "get_branding_info",
 ]

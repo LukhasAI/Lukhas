@@ -2,6 +2,7 @@
 LUKHAS Brand Voice Profiles - Trinity Framework (⚛️🧠🛡️)
 Comprehensive voice profile configurations for consistent LUKHAS brand expression
 """
+
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
@@ -9,11 +10,12 @@ from typing import Any, Optional
 
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
-    
+
     This is a placeholder for functionality that needs to be implemented.
     Replace this stub with the actual implementation.
     """
     raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+
 
 class VoiceContext(Enum):
     USER_ONBOARDING = "user_onboarding"
@@ -103,7 +105,7 @@ class LukhasBrandVoiceProfiles:
                 "trinity_emphasis": {
                     "identity": "authentic consciousness representation",
                     "consciousness": "deep awareness and understanding",
-                    "guardian": "ethical foundation and protection"
+                    "guardian": "ethical foundation and protection",
                 },
             },
             "helpful_companion": {
@@ -908,10 +910,7 @@ class LukhasBrandVoiceProfiles:
                 set(primary_profile.get("tone_descriptors", []) + secondary_profile.get("tone_descriptors", []))
             ),
             "use_cases": primary_profile.get("use_cases", []) + secondary_profile.get("use_cases", []),
-            "trinity_emphasis": {
-                component: fix_later
-                for component in ["identity", "consciousness", "guardian"]
-            },
+            "trinity_emphasis": {component: fix_later for component in ["identity", "consciousness", "guardian"]},
         }
 
         return blended_profile

@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 import time
 from typing import Any
 
-from core.common import get_logger
+from lukhas.core.common import get_logger
 
 from ..base import Decision, EthicsEvaluation, EthicsPolicy, RiskLevel
 

@@ -8,7 +8,7 @@ import logging
 import sys
 from datetime import datetime
 
-from core.common import get_logger
+from lukhas.core.common import get_logger
 
 # Configure logging
 logging.basicConfig(
@@ -39,7 +39,7 @@ try:
     from voice.speech_processor import SpeechProcessor
 
     # Utils and config
-    from core.orchestration.brain.config.settings import load_settings
+    from lukhas.core.orchestration.brain.config.settings import load_settings
 
 except ImportError as e:
     logger.critical(f"Failed to import required components: {e}")

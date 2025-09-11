@@ -3,7 +3,7 @@
 Simple, Safe F-String Pattern Fixer
 
 Targets the two most common patterns:
-1. uuid.uuid4()}.hex → uuid.uuid4().hex  
+1. uuid.uuid4()}.hex → uuid.uuid4().hex
 2. Double braces }} → }
 
 Uses sed for maximum safety and speed.
@@ -19,12 +19,28 @@ def find_and_fix_pattern(pattern_name: str, find_pattern: str, replace_pattern: 
 
     # Find files with the pattern
     find_cmd = [
-        "find", ".", "-name", "*.py",
-        "-not", "-path", "./.venv/*",
-        "-not", "-path", "./.cleanenv/*",
-        "-not", "-path", "./.venv-lock/*",
-        "-not", "-path", "./products/experience/dashboard/core/backend/.venv/*",
-        "-exec", "grep", "-l", find_pattern, "{}", "+"
+        "find",
+        ".",
+        "-name",
+        "*.py",
+        "-not",
+        "-path",
+        "./.venv/*",
+        "-not",
+        "-path",
+        "./.cleanenv/*",
+        "-not",
+        "-path",
+        "./.venv-lock/*",
+        "-not",
+        "-path",
+        "./products/experience/dashboard/core/backend/.venv/*",
+        "-exec",
+        "grep",
+        "-l",
+        find_pattern,
+        "{}",
+        "+",
     ]
 
     try:
@@ -80,7 +96,7 @@ def main():
         (
             "uuid.hex brace mismatch",
             r"uuid\.uuid4()\.hex}",  # Find pattern for grep
-            r"uuid.uuid4().hex",     # Replacement for sed
+            r"uuid.uuid4().hex",  # Replacement for sed
         ),
         (
             "time.time brace mismatch",
@@ -99,7 +115,11 @@ def main():
         count = find_and_fix_pattern(pattern_name, find_pattern, replace_pattern, dry_run=not args.live)
         total_files += count
 
-    print(f"\n📊 Summary: {total_files} files would be processed" if not args.live else f"📊 Summary: {total_files} files fixed")
+    print(
+        f"\n📊 Summary: {total_files} files would be processed"
+        if not args.live
+        else f"📊 Summary: {total_files} files fixed"
+    )
 
     if not args.live:
         print("\n💡 To apply fixes, run with --live flag")

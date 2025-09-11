@@ -1,43 +1,14 @@
-#!/usr/bin/env python3
 """
-MATADA AGI System
+MATRIZ - LUKHAS AI Trace and Analysis System
 
-A comprehensive cognitive architecture implementing the MATADA framework:
-Memory, Attention, Thought, Action, Decision, Awareness
-
-This system ensures complete interpretability and governance through
-the MATADA node format, providing full traceability of all cognitive processes.
-
-Key Features:
-- Complete cognitive traceability
-- Deterministic processing
-- Ethical governance integration
-- Causal chain reconstruction
-- Multi-modal processing support
+This module provides trace analysis and API endpoints for the LUKHAS AI system.
+Part of the MATRIZ-R1 Stream B implementation.
 """
-import streamlit as st
-
-from .core import (
-    CognitiveNode,
-    CognitiveOrchestrator,
-    ExecutionTrace,
-    NodeLink,
-    NodeProvenance,
-    NodeReflection,
-    NodeState,
-    NodeTrigger,
-)
 
 __version__ = "1.0.0"
-__author__ = "LUKHAS AI Team"
+__author__ = "LUKHAS AI Development Team"
 
-__all__ = [
-    "CognitiveNode",
-    "CognitiveOrchestrator",
-    "ExecutionTrace",
-    "NodeLink",
-    "NodeProvenance",
-    "NodeReflection",
-    "NodeState",
-    "NodeTrigger",
-]
+# Make traces_router available at package level
+from .traces_router import router
+
+__all__ = ["router"]

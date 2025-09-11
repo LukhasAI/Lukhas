@@ -5,6 +5,7 @@ This module defines the base interface that all healthcare provider
 implementations must extend. It provides common functionality and
 enforces consistent interface across different healthcare systems.
 """
+
 import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass

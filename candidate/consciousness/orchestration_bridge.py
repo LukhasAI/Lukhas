@@ -5,6 +5,7 @@ logger = logging.getLogger(__name__)
 Orchestration Bridge - Connects brain components to consciousness module
 """
 
+import contextlib
 from typing import Any, Optional
 
 from candidate.core.common import get_logger
@@ -51,13 +52,9 @@ except ImportError:
     pass
 
 # Import monitoring components
-try:
+with contextlib.suppress(ImportError):
     orchestration_bridge.register_brain_component("rate_modulator", RateModulator())
-except ImportError:
-    pass
 
 # Import personality components
-try:
+with contextlib.suppress(ImportError):
     orchestration_bridge.register_brain_component("personality", PersonalityEngine())
-except ImportError:
-    pass

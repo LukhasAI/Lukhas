@@ -391,7 +391,9 @@ class ConsciousnessFunctionSamples:
         impact_score = action.get("impact_score", 0.0)
 
         # Constitutional constraint: high impact actions need higher ethical alignment
-        return bool((impact_score >= 0.8 and alignment_score >= 0.98) or (impact_score < 0.8 and alignment_score >= 0.95))
+        return bool(
+            (impact_score >= 0.8 and alignment_score >= 0.98) or (impact_score < 0.8 and alignment_score >= 0.95)
+        )
 
     @staticmethod
     def prevent_memory_cascade(memory_folds: list[dict[str, Any]]) -> bool:

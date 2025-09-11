@@ -4,6 +4,7 @@ LUKHAS AI System Integrator
 Creates real interconnections between database, content platform, and document engine
 Ensures all systems work together as integrated consciousness technology platform
 """
+
 import asyncio
 import logging
 from dataclasses import dataclass
@@ -13,11 +14,12 @@ from pathlib import Path
 
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
-    
+
     This is a placeholder for functionality that needs to be implemented.
     Replace this stub with the actual implementation.
     """
     raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+
 
 @dataclass
 class SystemIntegration:

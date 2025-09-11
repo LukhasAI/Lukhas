@@ -3,6 +3,7 @@
 Aggressive File Consolidator
 Actually moves the 923 consolidation candidates to their proper modules
 """
+
 import builtins
 import contextlib
 import json

@@ -2,6 +2,7 @@
 """
 Update all Python imports to use the new poetry system location
 """
+
 import os
 import re
 from pathlib import Path

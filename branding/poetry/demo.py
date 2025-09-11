@@ -3,6 +3,7 @@
 The Poetry Revolution Demo
 "One module. Three methods. Everything changes."
 """
+
 from soul import EmotionalTone, dream, error_haiku, express
 
 

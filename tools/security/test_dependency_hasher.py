@@ -3,6 +3,7 @@
 """
 Test script for Guardian Security Dependency Hasher
 """
+
 import sys
 import tempfile
 from pathlib import Path

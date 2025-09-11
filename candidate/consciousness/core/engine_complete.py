@@ -1,4 +1,5 @@
 import logging
+from datetime import timezone
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: engine_complete.py
@@ -28,10 +29,6 @@ Features:
 Performance Target: <250ms context handoff times
 Compliance: Drift threshold 0.15, ethics enforcement enabled
 """
-import time
-import random
-import streamlit as st
-
 import asyncio
 import hashlib
 import json

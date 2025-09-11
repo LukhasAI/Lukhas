@@ -294,8 +294,8 @@ class SymbolicNetwork:
                 merged_count += 1
             else:
                 self.logger.warning(
-                    f"ΛTRACE: Skipping merge for pair({node1.node_id},
-                                                      {node2.node_id}) as one or both no longer exist."
+                    f"ΛTRACE: Skipping merge for pair({node1.node_id},"
+                                                      {node2.node_id}) as one or both no longer exist.""
                 )
         self.logger.info(f"ΛTRACE: Merged {merged_count} node pairs.")
 
@@ -322,8 +322,8 @@ class SymbolicNetwork:
             adjustment = entropy_diff * self.config.entropy_balance_weight
             node.entropy -= adjustment  # Adjust node's entropy
             self.logger.debug(
-                f"ΛTRACE: Node '{node.node_id}' entropy adjusted by {-adjustment: .4f},
-                new entropy: {node.entropy: .4f}."
+                f"ΛTRACE: Node '{node.node_id}' entropy adjusted by {-adjustment: .4f},"
+                new entropy: {node.entropy: .4f}.""
             )
         self.logger.info("ΛTRACE: Entropy balance pass completed.")
 

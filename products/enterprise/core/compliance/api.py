@@ -3,6 +3,7 @@ LUKHAS Data Protection API
 ========================
 FastAPI endpoints for data protection services.
 """
+
 from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, HTTPException

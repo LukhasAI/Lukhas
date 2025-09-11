@@ -130,9 +130,7 @@ class ImportFixer:
                 for module in self.COMMENT_OUT_IMPORTS:
                     if re.search(rf"\b{module}\b", line):
                         if not line.strip().startswith("#"):
-                            fixed_line = (
-                                f"# {line}  "
-                            )
+                            fixed_line = f"# {line}  "
                             self.imports_fixed += 1
                         break
 
@@ -207,12 +205,8 @@ class ImportFixer:
                         if not init_file.exists():
                             # Check if directory has Python files
                             py_files = list(subdir.glob("*.py"))
-                            if py_files and not any(
-                                f.name.startswith("test_") for f in py_files
-                            ):
-                                init_file.write_text(
-                                    '"""Auto-generated __init__.py"""\n'
-                                )
+                            if py_files and not any(f.name.startswith("test_") for f in py_files):
+                                init_file.write_text('"""Auto-generated __init__.py"""\n')
                                 created += 1
 
         return created
@@ -335,9 +329,7 @@ def main():
             print(f"   {package}")
 
         # Write suggestions to file
-        suggestions_file = (
-            PROJECT_ROOT / "docs" / "reports" / "SUGGESTED_REQUIREMENTS.txt"
-        )
+        suggestions_file = PROJECT_ROOT / "docs" / "reports" / "SUGGESTED_REQUIREMENTS.txt"
         suggestions_file.parent.mkdir(parents=True, exist_ok=True)
         with open(suggestions_file, "w") as f:
             f.write("#  Suggested package additions based on import analysis\n")

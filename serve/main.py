@@ -59,6 +59,7 @@ openai_router = _safe_import_router(".openai_routes", "router")
 orchestration_router = _safe_import_router(".orchestration_routes", "router")
 routes_router = _safe_import_router(".routes", "router")
 traces_router = _safe_import_router(".routes_traces", "router")
+matriz_traces_router = _safe_import_router("matriz.traces_router", "router")
 
 logging.basicConfig(level=logging.INFO)
 
@@ -108,6 +109,8 @@ if feedback_router is not None:
     app.include_router(feedback_router)
 if traces_router is not None:
     app.include_router(traces_router)
+if matriz_traces_router is not None:
+    app.include_router(matriz_traces_router)
 if orchestration_router is not None:
     app.include_router(orchestration_router)
 

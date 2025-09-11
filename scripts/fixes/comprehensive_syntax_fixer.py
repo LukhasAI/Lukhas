@@ -50,8 +50,8 @@ def fix_common_syntax_errors(content: str) -> Tuple[str, List[str]]:
     for match in matches:
         quote, prefix, expr, suffix = match
         if suffix and not suffix.endswith(quote):
-            old_line = f'f{quote}{prefix}{{{expr}}{suffix}'
-            new_line = f'f{quote}{prefix}{{{expr}}{suffix}{quote}'
+            old_line = f'f{quote}{prefix}{{{expr}{suffix}'
+            new_line = f'f{quote}{prefix}{{{expr}{suffix}{quote}'
             content = content.replace(old_line, new_line)
             fixes_applied.append('Fixed missing closing quote')
     

@@ -4,6 +4,7 @@ LUKHAS AGI Dashboard - Backend API
 Enterprise-grade dashboard for AGI safety, governance, and innovation monitoring
 Standards: OpenAI, Anthropic, DeepMind leadership-level quality
 """
+
 import asyncio
 import logging
 from contextlib import asynccontextmanager
@@ -144,7 +145,8 @@ async def websocket_endpoint(websocket: WebSocket):
 
 @app.exception_handler(500)
 async def internal_error_handler(request, exc):
-    logger.error(f"Internal error: {exc}",
+    logger.error(
+        f"Internal error: {exc}",
     )
 
 

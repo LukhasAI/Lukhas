@@ -1001,7 +1001,7 @@ async def demo_feedback_system():
     mock_audit = Mock()
     mock_audit.log_event = AsyncMock()
 
-    from core.interfaces.dependency_injection import register_service
+    from lukhas.core.interfaces.dependency_injection import register_service
 
     register_service("audit_service", mock_audit)
 

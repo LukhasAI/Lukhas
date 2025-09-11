@@ -9,16 +9,18 @@ Inspired by Bhavik Sarkhedi's "Ohh My Brand" approach:
 - Authority building through authentic storytelling
 - Personal brand as business asset and thought leadership platform
 """
+
 from dataclasses import dataclass
 
 
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
-    
+
     This is a placeholder for functionality that needs to be implemented.
     Replace this stub with the actual implementation.
     """
     raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+
 
 @dataclass
 class PersonalBrandMetrics:
@@ -531,7 +533,7 @@ if __name__ == "__main__":
         print(f"  {name}: +{strategy.expected_engagement_increase}% engagement")
 
     print(f"\n📚 Content Pillars ({len(authority_builder.content_pillars)}):")
-    for name, pillar in authority_builder.content_pillars.items():
+    for name in authority_builder.content_pillars:
         print(fix_later)
 
     print("\n🎯 Authority Building Roadmap:")
@@ -541,7 +543,7 @@ if __name__ == "__main__":
 
     print("\n📊 Target Metrics:")
     targets = authority_builder._create_engagement_targets()
-    for metric, target in targets.items():
+    for _metric, _target in targets.items():
         print(fix_later)
 
     print("\n🏆 Consciousness Technology Authority Builder: COMPLETE")
