@@ -912,3 +912,6 @@ doctor-json:
 	  > reports/audit/doctor_summary.json
 	@echo "✅ Wrote reports/audit/doctor_summary.json"
 
+
+# Late include to override help with auto-generated help
+-include mk/help.mk
