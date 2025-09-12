@@ -39,6 +39,12 @@ def _git(args: List[str]) -> str:
 
 def _prefix(path: str) -> str:
     p = path.replace("\\", "/")
+
+    # Handle both absolute and relative paths
+    if "/LOCAL-REPOS/Lukhas/" in p:
+        # Convert absolute to relative path
+        p = p.split("/LOCAL-REPOS/Lukhas/")[-1]
+
     if p.startswith("lukhas/") or p.startswith("MATRIZ/"):
         return "core"
     if p.startswith("candidate/"):
@@ -60,6 +66,10 @@ def main() -> int:
 
     totals = {"core": 0, "candidate": 0, "other": 0}
     for rec in data:
+        # Only count actual F401 errors, not syntax errors
+        if rec.get("code") != "F401":
+            continue
+
         path = str(rec.get("filename", ""))
         bucket = _prefix(path)
         if bucket in totals:
