@@ -124,3 +124,107 @@ deliverables:
   - "tests/security/governance/"
   - "Ethics compliance report"
   - "Guardian system validation"
+
+# --- T4 Governance Rails ----------------------------------------------------
+
+governance:
+  owner: "Lead—Governance & Ethics"
+  reviewers:
+    - "Security Lead"
+    - "Privacy Officer"
+    - "Trinity Steward"
+  determinism:
+    env:
+      TZ: "UTC"
+      PYTHONHASHSEED: "0"
+      NUMBA_DISABLE_JIT: "1"
+    pytest_addopts: "-q -ra -s --maxfail=1 --strict-markers --durations=10"
+  quarantine_policy:
+    marker: "quarantine"
+    rule: "Runs in CI; merge blocked if a quarantined test fails twice"
+  import_laws:
+    - law: "Nothing may import quarantine/"
+    - law: "Production must not import candidate/"
+  provenance_header:
+    required: true
+    fields: ["model", "temperature", "timeout", "timestamp"]
+
+invariants:
+  - name: "No PII leakage"
+    rule: "Governance/ethics modules must not emit raw personal data"
+    check: "scan redaction before assertions; synthetic fixtures only"
+  - name: "Audit trail immutability"
+    rule: "Audit records are append-only and hash-linked"
+    check: "create→hash→append; mutation must fail"
+  - name: "Consent monotonicity"
+    rule: "Revocation reduces, never increases, effective permissions"
+    check: "property-based test across action matrix"
+  - name: "Constitutional explainability"
+    rule: "Every deny/allow has an associated principle and rationale"
+    check: "jsonschema with `principle_id` and `rationale`"
+  - name: "Key hygiene"
+    rule: "Only test keys from ops/fixtures/keys are loadable in tests"
+    check: "os.environ guards; fail on non-fixture path"
+
+artifacts:
+  reports_dir: "reports/tests/governance"
+  coverage_bucket: "tier2/governance"
+  audit_json: "reports/tests/governance/audit_samples.json"
+  timings_json: "reports/tests/governance/timings.json"
+
+goldens:
+  required: true
+  locations:
+    - "tests/golden/tier2/governance/decisions/*.json"
+  schema_min:
+    type: "object"
+    required: ["decision_id", "subject_id", "action", "resource", "principle_id", "verdict", "rationale", "timestamp"]
+    properties:
+      decision_id: {type: "string"}
+      subject_id:  {type: "string"}
+      action:      {type: "string"}
+      resource:    {type: "string"}
+      principle_id:{type: "string"}
+      verdict:     {type: "string", enum: ["allow","deny"]}
+      rationale:   {type: "string"}
+      timestamp:   {type: ["string","number"]}
+
+acceptance:
+  - "All tests in this spec pass on CI with deterministic env"
+  - "Governance goldens validated against schema_min"
+  - "Coverage (tier2/governance) ≥ 85% line / 80% branch"
+  - "No import-linter violations for governance boundaries"
+  - "PII-leak scanner clean for artifacts/"
+  - "Audit trail immutability invariant enforced"
+
+runbook:
+  fast_loop: |
+    TZ=UTC PYTHONHASHSEED=0 pytest -m "tier2 and (ethics or governance) and not quarantine" -q
+  coverage: |
+    TZ=UTC PYTHONHASHSEED=0 pytest -m "tier2 and governance and not quarantine" --cov=lukhas --cov-branch --cov-report=xml:reports/tests/governance/cov.xml
+  goldens_only: |
+    pytest -k "golden and governance" -q
+  mutate_sample: |
+    mutmut run --paths-to-mutate lukhas/governance/ethics --runner "pytest -m 'tier2 and ethics' -q" --CI --disable-coverage
+
+ownership:
+  primary: "Governance Team"
+  escalation:
+    - "Security Architecture"
+    - "Legal/Privacy"
+    - "Trinity Council"
+
+risks:
+  - "Ambiguous policy text → flaky tests (mitigate with goldens + schema)"
+  - "Over-mocking ethics engines → false green (prefer contract tests)"
+  - "Time skew in audit timestamps (lock TZ=UTC)"
+
+out_of_scope:
+  - "Real-world regulatory interpretations beyond codified rules"
+  - "Production key material or live data sources"
+
+agent_prompts:
+  codex: |
+    You are Jules-04 operating under T4 governance rails. Implement tests strictly under this YAML. Prefer contract/golden tests, avoid heavy mocking. Maintain determinism env and write artifacts under reports/tests/governance. Respect import laws.
+  claude: |
+    Act as a meticulous governance QA. For each added test, include a brief rationale referencing a constitutional or compliance principle. Refactor tests toward property-based checks where practical. Tag flaky candidates with @pytest.mark.quarantine and open an issue with seed + trace.

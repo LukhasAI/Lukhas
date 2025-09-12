@@ -133,3 +133,117 @@ deliverables:
   - "Integration test report"
   - "E2E journey validation"
   - "System resilience analysis"
+
+# --- T4 Determinism & Policy (added) ---
+determinism:
+  env:
+    TZ: "UTC"
+    PYTHONHASHSEED: "0"
+    NUMBA_DISABLE_JIT: "1"
+    FAKER_SEED: "1337"
+  pytest:
+    addopts: ["-q", "-ra", "-s", "--maxfail=1", "--strict-markers", "--durations=10"]
+    markers_enforced: true  # tests without explicit tier/owner are rejected
+  flake_policy:
+    quarantine_marker: "quarantine"
+    fail_if_quarantine_fails_twice: true
+
+# --- T4 Integration/E2E Invariants (added) ---
+invariants:
+  idempotent_retries: true          # retried operations must be idempotent
+  eventual_consistency_window_s: 5  # reads allow this window before asserting
+  contract_first_apis: true         # OpenAPI-defined routes must match impl
+  stable_ids_across_hops: true      # correlation/session IDs preserved end-to-end
+  no_network_sleeps: true           # avoid time.sleep; use deterministic fakes
+  seed_fixed_data: true             # fixtures/data builders seeded for repeatability
+
+# --- T4 Golden Artifacts & Contracts (added) ---
+goldens:
+  contracts_dir: "tests/golden/tier1/integration/"
+  required_files:
+    - "contract_auth_flow.json"        # happy-path auth journey
+    - "contract_conscious_mem.json"    # consciousness↔memory persistence
+    - "contract_governance_orch.json"  # governance gate in orchestration
+  validators:
+    - name: "openapi_route_validator"
+      module: "tools/tests/validators/openapi_route_validator.py"
+      ensures:
+        - "implemented handlers align with AUDIT/API/openapi.yaml"
+    - name: "e2e_trace_validator"
+      module: "tools/tests/validators/e2e_trace_validator.py"
+      ensures:
+        - "trace_id/session_id stable across services"
+        - "critical spans present for each journey"
+
+# --- T4 Acceptance Gates (added) ---
+acceptance_gates:
+  - name: "lane_integrity"
+    check: "lint-imports"
+    must_pass: true
+  - name: "ruff_syntax"
+    check: "python3 -m ruff check --select E9,F63,F7,F82 lukhas candidate"
+    must_pass: true
+  - name: "integration_tier2_suite"
+    check: "TZ=UTC PYTHONHASHSEED=0 pytest -m 'tier2 and (integration or e2e) and not quarantine' -q"
+    must_pass: true
+  - name: "healthz_and_matriz"
+    check: "python3 tools/tests/check_endpoints.py --urls /healthz,/traces/latest"
+    must_pass: true
+  - name: "openapi_contracts"
+    check: "python3 tools/tests/validators/openapi_route_validator.py --spec AUDIT/API/openapi.yaml"
+    must_pass: false
+  - name: "perf_budget"
+    check: "python3 tools/tests/perf_budget.py --suite integration --max-seconds 300"
+    must_pass: false
+
+# --- T4 Runbook (added) ---
+runbook:
+  quick_checks:
+    - "make test-fast"
+    - "TZ=UTC PYTHONHASHSEED=0 pytest -m 'tier2 and (integration or e2e)' -q"
+  local_env:
+    - "docker compose -f ops/docker/docker-compose.test.yml up -d --build"
+    - "python ops/fixtures/seed.py --deterministic"
+  local_debug:
+    - "pytest tests -k 'authentication_flow or decision_making_pipeline' -vv --maxfail=1"
+    - "python -m tools.tests.print_routes | head -200"
+  contract_smoke:
+    - "python3 tools/tests/validators/e2e_trace_validator.py --one-shot"
+    - "python3 tools/tests/validators/openapi_route_validator.py --one-shot --spec AUDIT/API/openapi.yaml"
+
+# --- T4 Ownership & Escalation (added) ---
+ownership:
+  codeowners:
+    - path: "tests/integration/end_to_end/"
+      owners: ["@LukhasAI/e2e"]
+    - path: "tests/system/integration/"
+      owners: ["@LukhasAI/platform"]
+  escalation:
+    pager: "#matriz-oncall"
+    docs: "AUDIT/SYSTEM_MAP.md#integration"
+
+# --- T4 Risks & Out-of-Scope (added) ---
+risks:
+  - "Flaky timing due to real network/S3; prefer fakes with fixed latency"
+  - "Clock skew between containers; enforce TZ=UTC and sync"
+  - "State leakage between tests; ensure per-test isolation"
+  - "External API instability; record/replay where possible"
+out_of_scope:
+  - "True load testing of external vendors"
+  - "Long-haul chaos experiments (tracked separately)"
+
+# --- T4 Agent Prompts (added) ---
+agent_prompts:
+  jules09_system_prompt: |
+    You own integration & E2E tests. Enforce idempotent retries, stable IDs across hops,
+    and contract-first APIs. Prefer golden/contract tests over brittle UI journeys.
+    Avoid time-based sleeps; use deterministic fakes and fixed seeds.
+  jules09_task_prompt: |
+    Implement the flows under `tests:` with golden validators and keep acceptance gates green.
+    If behavior diverges from contracts, open an issue tagged `integration:contract-gap` with citations.
+
+# --- T4 Metadata (added) ---
+metadata:
+  schema_version: 1
+  last_updated_by: "T4-lens"
+  last_updated_at: "{{AUTO-UPDATE-ON-COMMIT}}"

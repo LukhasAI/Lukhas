@@ -112,3 +112,101 @@ deliverables:
   - "tests/performance/consciousness/"
   - "Consciousness behavior analysis"
   - "Dream processing validation"
+
+# --- T4 governance additions (do not remove) ---
+governance:
+  owner: "Jules-02"
+  reviewers:
+    - "Team-Consciousness"
+    - "T4-Testing-Cab"
+  lane: "tier1"
+  criticality: "CRITICAL"
+  policy:
+    determinism_env:
+      TZ: "UTC"
+      PYTHONHASHSEED: "0"
+      NUMBA_DISABLE_JIT: "1"
+    pytest:
+      addopts: "-q -ra -s --maxfail=1 --strict-markers --durations=10"
+      markers_required: true
+    quarantine_policy:
+      enabled: true
+      blocks_merge_on_double_fail: true
+
+invariants:
+  - "State machine transitions must be total over declared triggers (no undefined edges)."
+  - "Reasoning outputs must include a traceable rationale string or steps array."
+  - "Dream→Memory links preserve identity of subject and timestamp monotonicity."
+  - "Awareness level is bounded within [0.0, 1.0] and monotone in added evidence."
+
+artifacts:
+  evidence_dir: "reports/tests/evidence/consciousness/"
+  timings: "reports/tests/infra/timings.json"
+  coverage_xml: "reports/tests/cov.xml"
+  priority_row_id: "consciousness-tier1"
+
+golden:
+  traces_dir: "tests/golden/tier1/"
+  required:
+    - "consciousness_trace_min.json"
+    - "dream_link_min.json"
+  schema_min:
+    required_keys:
+      - "trace_id"
+      - "timestamp"
+    timestamp_type: ["str", "int", "float"]
+
+acceptance:
+  - "All tests in this spec are marked @pytest.mark.tier1 and @pytest.mark.consciousness."
+  - "≥ 85% line and ≥ 80% branch coverage for targeted modules."
+  - "Dream integration tests include at least 1 golden artifact validation."
+  - "Suite runtime ≤ 180s on CI m-medium; report saved to artifacts.timings."
+  - "No quarantined test failures (policy double-fail gate)."
+
+runbook:
+  setup:
+    - "python -m venv .venv && source .venv/bin/activate"
+    - "pip install -r requirements.txt"
+  fast_loop:
+    - "TZ=UTC PYTHONHASHSEED=0 pytest -m 'tier1 and consciousness and not quarantine' -q"
+  with_cov:
+    - "TZ=UTC PYTHONHASHSEED=0 pytest -m 'tier1 and consciousness' --cov=lukhas --cov=MATRIZ --cov-branch --cov-report=xml:reports/tests/cov.xml"
+  golden_only:
+    - "PYTHONPATH=. TZ=UTC PYTHONHASHSEED=0 pytest -k 'golden and consciousness' -q"
+  mutate_sample:
+    - "mutmut run --paths-to-mutate lukhas/core/orchestration/brain/consciousness --tests-dir tests --runner 'pytest -q -m tier1'"
+  outputs_check:
+    - "test -f reports/tests/cov.xml && echo 'coverage xml present' || (echo 'missing cov.xml' &amp;&amp; exit 1)"
+
+ownership:
+  codeowners:
+    - "docs/testing/jules-specs/JULES-02-CONSCIOUSNESS.yaml"
+    - "lukhas/core/orchestration/brain/consciousness/"
+    - "candidate/consciousness/"
+  escalation:
+    - "open GitHub issue with label: consciousness, tier1, tests"
+    - "notify T4-Testing-Cab on failure trend > 2 consecutive runs"
+
+risks:
+  - id: "R-CONS-001"
+    desc: "Hidden dynamic imports masking failures during collection."
+    mitigation: "Use --strict-markers, filterwarnings=error, and explicit import guards in conftest."
+  - id: "R-CONS-002"
+    desc: "Non-deterministic dream generators."
+    mitigation: "Seed RNG, freeze clocks, and validate against goldens with tolerated delta."
+
+out_of_scope:
+  - "GAN-based dream synthesis quality metrics"
+  - "Long-running neuroscientific simulations &gt; 5s per test"
+
+# Agent prompts (for Jules-02 & Copilot/Claude)
+agent_prompts:
+  codex_cli: |
+    Implement tests in this spec. Respect markers and determinism env.
+    Prioritize: state transitions → reasoning validation → dream integration.
+    Emit goldens to {{golden.traces_dir}}; validate minimal schema.
+  claude_code: |
+    Use property-based tests (Hypothesis) for state machine transitions.
+    For dream integration, generate a golden from a seeded run and assert invariants.
+
+# --- end T4 governance additions ---

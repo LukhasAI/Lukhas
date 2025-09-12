@@ -140,3 +140,104 @@ deliverables:
   - "tests/performance/api_gateway/"
   - "API gateway performance report"
   - "External service integration validation"
+
+# --- T4 Determinism & Policy (added) ---
+determinism:
+  env:
+    TZ: "UTC"
+    PYTHONHASHSEED: "0"
+    NUMBA_DISABLE_JIT: "1"
+  pytest:
+    addopts: ["-q", "-ra", "-s", "--maxfail=1", "--strict-markers", "--durations=10"]
+    markers_enforced: true  # tests without explicit tier/owner are rejected
+  flake_policy:
+    quarantine_marker: "quarantine"
+    fail_if_quarantine_fails_twice: true
+
+# --- T4 API Gateway Invariants (added) ---
+invariants:
+  deterministic_routing: true        # same inputs → same target service
+  idempotent_retries: true           # safe retries on network errors
+  schema_validation_required: true   # request/response validated against OpenAPI
+  pii_never_in_logs: true
+  authz_must_precede_routing: true   # authorization checked before forwarding
+  rate_limit_clock: "monotonic"      # rate limiting uses monotonic time source
+
+# --- T4 Golden Artifacts & Contracts (added) ---
+goldens:
+  openapi_spec: "AUDIT/API/openapi.yaml"
+  contracts_dir: "tests/golden/tier1/api_gateway/"
+  required_files:
+    - "contract_route_resolution.json"     # input route → expected target
+    - "contract_rate_limit_headers.json"   # shape for X-RateLimit-* headers
+    - "contract_oauth_tokens.json"         # token response minimal shape
+  validators:
+    - name: "api_contract_validator"
+      module: "tools/tests/validators/api_contract_validator.py"
+      ensures:
+        - "status in {200,201,202,204,400,401,403,404,429,500}"
+        - "no PII in logs or error payloads"
+
+# --- T4 Acceptance Gates (added) ---
+acceptance_gates:
+  - name: "lane_integrity"
+    check: "lint-imports"
+    must_pass: true
+  - name: "ruff_syntax"
+    check: "python3 -m ruff check --select E9,F63,F7,F82 lukhas candidate"
+    must_pass: true
+  - name: "gateway_tier3_suite"
+    check: "TZ=UTC PYTHONHASHSEED=0 pytest -m 'tier3 and api_gateway and not quarantine' -q"
+    must_pass: true
+  - name: "openapi_contracts"
+    check: "python3 tools/tests/validators/api_contract_validator.py --spec AUDIT/API/openapi.yaml --goldens tests/golden/tier1/api_gateway"
+    must_pass: true
+  - name: "perf_budget"
+    check: "python3 tools/tests/perf_budget.py --suite api-gateway --max-seconds 90"
+    must_pass: false
+
+# --- T4 Runbook (added) ---
+runbook:
+  quick_checks:
+    - "make test-fast"
+    - "PYTHONHASHSEED=0 TZ=UTC pytest -m 'api_gateway and tier3' -q"
+  local_debug:
+    - "pytest tests -k 'api_gateway or adapters' -vv --maxfail=1"
+    - "uvicorn serve.main:app --reload & sleep 2 && curl -sf http://localhost:8000/healthz"
+  contract_smoke:
+    - "python3 tools/tests/validators/api_contract_validator.py --spec AUDIT/API/openapi.yaml --one-shot"
+
+# --- T4 Ownership & Escalation (added) ---
+ownership:
+  codeowners:
+    - path: "candidate/bridge/api_gateway/"
+      owners: ["@LukhasAI/bridge"]
+    - path: "lukhas/core/observability/"
+      owners: ["@LukhasAI/observability"]
+  escalation:
+    pager: "#matriz-oncall"
+    docs: "AUDIT/SYSTEM_MAP.md#api-gateway"
+
+# --- T4 Risks & Out-of-Scope (added) ---
+risks:
+  - "Ambiguous routing rules causing non-determinism"
+  - "Third-party OAuth quirks introducing flaky flows"
+  - "Rate limiter time-source drift under load"
+out_of_scope:
+  - "Real provider load testing"
+  - "End-to-end browser UI flows (covered by E2E team)"
+
+# --- T4 Agent Prompts (added) ---
+agent_prompts:
+  jules06_system_prompt: |
+    You own API gateway & adapters tests. Enforce invariants: deterministic routing, schema validation, idempotent retries, no-PII logs.
+    Prefer contract/golden tests using the OpenAPI spec. Minimize mocks; simulate failures deterministically.
+  jules06_task_prompt: |
+    Implement tests listed under `tests:` ensuring golden validators pass and acceptance gates remain green.
+    If behavior diverges from the OpenAPI spec, open an issue tagged `api-gateway:contract-gap` with evidence.
+
+# --- T4 Metadata (added) ---
+metadata:
+  schema_version: 1
+  last_updated_by: "T4-lens"
+  last_updated_at: "{{AUTO-UPDATE-ON-COMMIT}}"

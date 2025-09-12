@@ -120,3 +120,118 @@ deliverables:
   - "tests/edge_cases/"
   - "Legacy compatibility report"
   - "Tool integration validation"
+
+# --- T4 Determinism & Policy (added) ---
+determinism:
+  env:
+    TZ: "UTC"
+    PYTHONHASHSEED: "0"
+    NUMBA_DISABLE_JIT: "1"
+    FAKER_SEED: "1337"
+  pytest:
+    addopts: ["-q", "-ra", "-s", "--maxfail=1", "--strict-markers", "--durations=10"]
+    markers_enforced: true
+  flake_policy:
+    quarantine_marker: "quarantine"
+    fail_if_quarantine_fails_twice: true
+
+# --- T4 Legacy/Tools Invariants (added) ---
+invariants:
+  api_backward_compat: true          # legacy routes must keep wire compat
+  cli_stable_flags: true             # tools' CLI flags must remain stable
+  reproducible_outputs: true         # identical input → identical output
+  no_network_sleep: true             # forbid time.sleep; use deterministic fakes
+  migration_idempotency: true        # data migrations safe to re-run
+  sanitized_io: true                 # logs/outputs redact secrets
+
+# --- T4 Golden Artifacts & Contracts (added) ---
+goldens:
+  contracts_dir: "tests/golden/tier4/legacy/"
+  required_files:
+    - "contract_legacy_api.json"
+    - "contract_migration_sample.json"
+    - "contract_tool_cli.json"
+  validators:
+    - name: "legacy_wire_validator"
+      module: "tools/tests/validators/legacy_wire_validator.py"
+      ensures:
+        - "legacy JSON shapes preserved (fields/order/types)"
+    - name: "migration_idempotence_validator"
+      module: "tools/tests/validators/migration_idempotence_validator.py"
+      ensures:
+        - "running migration twice yields same state"
+    - name: "cli_contract_validator"
+      module: "tools/tests/validators/cli_contract_validator.py"
+      ensures:
+        - "documented flags present and stable"
+
+# --- T4 Acceptance Gates (added) ---
+acceptance_gates:
+  - name: "ruff_syntax"
+    check: "python3 -m ruff check --select E9,F63,F7,F82 legacy tools candidate/tools"
+    must_pass: true
+  - name: "lane_integrity"
+    check: "lint-imports"
+    must_pass: true
+  - name: "legacy_contracts"
+    check: "python3 tools/tests/validators/legacy_wire_validator.py --one-shot"
+    must_pass: false
+  - name: "cli_smoke"
+    check: "python3 tools/tests/cli_smoke.py"
+    must_pass: false
+  - name: "perf_budget"
+    check: "python3 tools/tests/perf_budget.py --suite legacy --max-seconds 180"
+    must_pass: false
+
+# --- T4 Runbook (added) ---
+runbook:
+  quick_checks:
+    - "make test-fast"
+    - "TZ=UTC PYTHONHASHSEED=0 pytest -m 'tier4 and (legacy or tools) and not quarantine' -q"
+  local_env:
+    - "python ops/fixtures/seed.py --deterministic"
+    - "export LUKHAS_LEGACY_MODE=1"
+  local_debug:
+    - "pytest tests -k 'legacy or tools' -vv --maxfail=1"
+    - "python tools/tests/print_legacy_routes.py | head -200"
+  contract_smoke:
+    - "python3 tools/tests/validators/cli_contract_validator.py --one-shot"
+    - "python3 tools/tests/validators/migration_idempotence_validator.py --one-shot"
+
+# --- T4 Ownership & Escalation (added) ---
+ownership:
+  codeowners:
+    - path: "tests/legacy/"
+      owners: ["@LukhasAI/legacy"]
+    - path: "tests/tools/"
+      owners: ["@LukhasAI/devtools"]
+  escalation:
+    pager: "#platform-oncall"
+    docs: "AUDIT/SYSTEM_MAP.md#legacy-and-tools"
+
+# --- T4 Risks & Out-of-Scope (added) ---
+risks:
+  - "Hidden side-effects in legacy code paths"
+  - "Platform-specific behavior for shell/CLI on macOS vs Linux"
+  - "External tool versions drift; pin via constraints.txt"
+  - "Secret leakage in logs; enforce redaction"
+out_of_scope:
+  - "True vendor SLA validation"
+  - "Long-running data migrations on full datasets"
+
+# --- T4 Agent Prompts (added) ---
+agent_prompts:
+  jules10_system_prompt: |
+    You own Specialized & Legacy tests. Preserve wire compatibility and CLI flag
+    stability. Prefer golden/contract tests; avoid sleeps and non-deterministic
+    IO. Ensure migrations are idempotent and outputs reproducible.
+  jules10_task_prompt: |
+    Implement legacy & tools tests under `tests:` with validators and keep gates
+    green. If behavior conflicts with contracts, open an issue labeled
+    `legacy:contract-gap` with citations.
+
+# --- T4 Metadata (added) ---
+metadata:
+  schema_version: 1
+  last_updated_by: "T4-lens"
+  last_updated_at: "{{AUTO-UPDATE-ON-COMMIT}}"

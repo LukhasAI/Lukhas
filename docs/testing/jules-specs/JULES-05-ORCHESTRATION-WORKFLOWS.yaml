@@ -138,3 +138,102 @@ deliverables:
   - "tests/performance/orchestration/"
   - "Workflow performance benchmarks"
   - "Multi-AI coordination validation"
+
+# --- T4 Determinism & Policy (added) ---
+determinism:
+  env:
+    TZ: "UTC"
+    PYTHONHASHSEED: "0"
+    NUMBA_DISABLE_JIT: "1"
+  pytest:
+    addopts: ["-q", "-ra", "-s", "--maxfail=1", "--strict-markers", "--durations=10"]
+    markers_enforced: true  # tests without explicit tier/owner are rejected
+  flake_policy:
+    quarantine_marker: "quarantine"
+    fail_if_quarantine_fails_twice: true
+
+# --- T4 Orchestration Invariants (added) ---
+invariants:
+  idempotent_retries: true           # re-running a task with same inputs must not duplicate side-effects
+  deterministic_scheduling: true     # given the same inputs/seed, scheduler order is stable
+  audit_trace_required: true         # each workflow emits a trace id linking decisions
+  pii_never_in_logs: true
+  rollback_atomicity: true           # partial failures roll back to last safe checkpoint
+
+# --- T4 Golden Artifacts & Contracts (added) ---
+goldens:
+  workflows_contracts_dir: "tests/golden/tier1/workflows/"
+  required_files:
+    - "contract_multi_model_consensus.json"   # shape for consensus results
+    - "contract_scheduler_plan.json"          # shape for DAG plan output
+  validators:
+    - name: "workflow_contract_validator"
+      module: "tools/tests/validators/workflow_contract_validator.py"
+      ensures:
+        - "keys: [workflow_id,status,steps,started_at]"
+        - "status in {pending,running,success,failed,rolled_back}"
+
+# --- T4 Acceptance Gates (added) ---
+acceptance_gates:
+  - name: "lane_integrity"
+    check: "lint-imports"
+    must_pass: true
+  - name: "ruff_syntax"
+    check: "python3 -m ruff check --select E9,F63,F7,F82 lukhas candidate"
+    must_pass: true
+  - name: "orchestration_tier2_suite"
+    check: "TZ=UTC PYTHONHASHSEED=0 pytest -m 'tier2 and orchestration and not quarantine' -q"
+    must_pass: true
+  - name: "golden_contracts"
+    check: "python3 tools/tests/validators/workflow_contract_validator.py --dir tests/golden/tier1/workflows"
+    must_pass: true
+  - name: "perf_budget"
+    check: "python3 tools/tests/perf_budget.py --suite orchestration --max-seconds 120"
+    must_pass: false  # warn-only for first iteration
+
+# --- T4 Runbook (added) ---
+runbook:
+  quick_checks:
+    - "make test-fast"
+    - "make test-tier1"
+    - "PYTHONHASHSEED=0 TZ=UTC pytest -m 'orchestration and tier2' -q"
+  local_debug:
+    - "pytest tests -k 'workflow or scheduler' -vv --maxfail=1"
+    - "python -m lukhas.core.orchestration.debug --print-dag examples/workflows/sample.yaml"
+  api_smoke:
+    - "uvicorn serve.main:app --reload & sleep 2 && curl -sf http://localhost:8000/healthz"
+
+# --- T4 Ownership & Escalation (added) ---
+ownership:
+  codeowners:
+    - path: "lukhas/core/orchestration/"
+      owners: ["@LukhasAI/orchestration"]
+    - path: "candidate/bridge/workflow/"
+      owners: ["@LukhasAI/bridge"]
+  escalation:
+    pager: "#matriz-oncall"
+    docs: "AUDIT/SYSTEM_MAP.md#orchestration"
+
+# --- T4 Risks & Out-of-Scope (added) ---
+risks:
+  - "Hidden side-effects in legacy tasks causing non-idempotency"
+  - "Clock skew in distributed nodes breaking determinism"
+  - "Third-party adapters introducing non-retryable states"
+out_of_scope:
+  - "GPU execution benchmarking"
+  - "Production-grade autoscaling policies"
+
+# --- T4 Agent Prompts (added) ---
+agent_prompts:
+  jules05_system_prompt: |
+    You own orchestration tests. Enforce invariants: idempotent retries, deterministic scheduling, audit trace emission.
+    Prefer contract/golden tests over heavy mocks. Any non-determinism must be seeded and documented.
+  jules05_task_prompt: |
+    Implement tests listed under `tests:` ensuring golden validators pass and acceptance gates remain green.
+    If a test requires behavioral change, open an issue tagged `orchestration:contract-gap` with evidence.
+
+# --- T4 Metadata (added) ---
+metadata:
+  schema_version: 1
+  last_updated_by: "T4-lens"
+  last_updated_at: "{{AUTO-UPDATE-ON-COMMIT}}"
