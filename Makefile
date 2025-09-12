@@ -581,3 +581,17 @@ specs-sync:
 
 test-goldens:
 	@python3 tools/tests/validate_golden.py
+
+.PHONY: test-jules07
+test-jules07:
+	@echo "🧪 Jules-07 focused lane"
+	@export TZ=UTC PYTHONHASHSEED=0 PYTHONDONTWRITEBYTECODE=1; \
+	export PYTHONPATH=.; \
+	pytest -q \
+	  --maxfail=1 \
+	  -m "not quarantine" \
+	  tests/unit/bio tests/integration/bio \
+	  -k "bio_symbolic or spirulina_atp_system" \
+	  --cov=lukhas.bio.core.bio_symbolic \
+	  --cov=candidate.bio.energy.spirulina_atp_system \
+	  --cov-report=term-missing

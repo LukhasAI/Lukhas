@@ -178,6 +178,41 @@ jobs:
           
           echo "✅ All Tier-1 contracts and validation files present"
 
+  jules07-bio-lane:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Install deps (constraints if present)
+        run: |
+          python -m pip install -U pip wheel
+          if [ -f constraints.txt ]; then C="-c constraints.txt"; else C=""; fi
+          if [ -f requirements.txt ]; then python -m pip install $C -r requirements.txt; fi
+          if [ -f requirements-dev.txt ]; then python -m pip install $C -r requirements-dev.txt; fi
+      - name: Focused bio tests (no global dependency tax)
+        env:
+          TZ: UTC
+          PYTHONHASHSEED: "0"
+          PYTHONPATH: .
+        run: |
+          pytest -q \
+            --maxfail=1 \
+            -m "not quarantine" \
+            tests/unit/bio tests/integration/bio \
+            -k "bio_symbolic or spirulina_atp_system" \
+            --cov=lukhas.bio.core.bio_symbolic \
+            --cov=candidate.bio.energy.spirulina_atp_system \
+            --cov-branch \
+            --cov-report=xml:reports/tests/cov_bio.xml \
+            --cov-report=term-missing
+      - name: Upload coverage (artifact)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cov-bio
+          path: reports/tests/cov_bio.xml
+
   test:
     name: Test
     runs-on: ubuntu-latest

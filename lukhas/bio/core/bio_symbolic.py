@@ -113,13 +113,16 @@ class BioSymbolic:
         else:
             glyph = SymbolicGlyph.NEURAL
 
-        return {
+        result = {
             "type": "rhythm",
             "glyph": glyph.value,
             "frequency": frequency,
             "amplitude": amplitude,
             "coherence": self.calculate_coherence(data),
         }
+        if "timestamp" in data:
+            result["timestamp"] = data["timestamp"]
+        return result
 
     def process_energy(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process energy level data."""
@@ -135,12 +138,15 @@ class BioSymbolic:
         else:
             glyph = SymbolicGlyph.POWER_CRITICAL
 
-        return {
+        result = {
             "type": "energy",
             "glyph": glyph.value,
             "level": level,
             "coherence": self.calculate_coherence(data),
         }
+        if "timestamp" in data:
+            result["timestamp"] = data["timestamp"]
+        return result
 
     def process_dna(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process DNA-related symbolic data."""
@@ -156,12 +162,15 @@ class BioSymbolic:
 
         glyph = glyph_map.get(operation, SymbolicGlyph.DNA_EXPRESS)
 
-        return {
+        result = {
             "type": "dna",
             "glyph": glyph.value,
             "operation": operation,
             "coherence": self.calculate_coherence(data),
         }
+        if "timestamp" in data:
+            result["timestamp"] = data["timestamp"]
+        return result
 
     def process_stress(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process stress response data."""
@@ -177,13 +186,16 @@ class BioSymbolic:
 
         glyph = glyph_map.get(response_type, SymbolicGlyph.STRESS_ADAPT)
 
-        return {
+        result = {
             "type": "stress",
             "glyph": glyph.value,
             "stress_level": stress_level,
             "response": response_type,
             "coherence": self.calculate_coherence(data),
         }
+        if "timestamp" in data:
+            result["timestamp"] = data["timestamp"]
+        return result
 
     def process_homeostasis(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process homeostatic state data."""
@@ -199,12 +211,15 @@ class BioSymbolic:
         else:
             glyph = SymbolicGlyph.HOMEO_STRESSED
 
-        return {
+        result = {
             "type": "homeostasis",
             "glyph": glyph.value,
             "balance": balance,
             "coherence": self.calculate_coherence(data),
         }
+        if "timestamp" in data:
+            result["timestamp"] = data["timestamp"]
+        return result
 
     def process_dream(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process dream state data."""
@@ -218,20 +233,26 @@ class BioSymbolic:
 
         glyph = glyph_map.get(dream_phase, SymbolicGlyph.DREAM_PROCESS)
 
-        return {
+        result = {
             "type": "dream",
             "glyph": glyph.value,
             "phase": dream_phase,
             "coherence": self.calculate_coherence(data),
         }
+        if "timestamp" in data:
+            result["timestamp"] = data["timestamp"]
+        return result
 
     def process_generic(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process generic bio-symbolic data."""
-        return {
+        result = {
             "type": "generic",
             "data": data,
             "coherence": self.calculate_coherence(data),
         }
+        if "timestamp" in data:
+            result["timestamp"] = data["timestamp"]
+        return result
 
     def calculate_coherence(self, data: dict[str, Any]) -> float:
         """
