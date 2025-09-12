@@ -125,6 +125,9 @@ pip install -e .
 
 # Run smoke tests
 pytest tests/smoke/
+
+# Quick MATRIZ traces smoke (uses golden fixtures)
+make smoke-matriz
 ```
 
 ### Development
@@ -153,6 +156,7 @@ pytest
 make bootstrap          # Complete environment setup
 make help              # Live target discovery
 make doctor            # System health check
+make smoke-matriz      # MATRIZ /traces/latest smoke
 ```
 
 ## Project Structure
