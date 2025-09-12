@@ -1,0 +1,129 @@
+{
+  "modules": {
+    "identity": {
+      "description": "Handles user identity and authentication",
+      "tier": "tier1",
+      "features": [
+        {
+          "name": "authentication",
+          "description": "User authentication functionality",
+          "input_spec": {"username": "string", "password": "string"},
+          "expected_output": {"success": "bool", "token": "string"},
+          "tags": ["tier1", "critical"]
+        },
+        {
+          "name": "authorization",
+          "description": "User authorization and permissions",
+          "input_spec": {"user_id": "string", "resource": "string"},
+          "expected_output": {"authorized": "bool", "permissions": "array"},
+          "tags": ["tier1", "critical"]
+        }
+      ]
+    },
+    "consciousness": {
+      "description": "Core consciousness processing and awareness systems",
+      "tier": "tier1",
+      "features": [
+        {
+          "name": "awareness_processing",
+          "description": "Process consciousness awareness states",
+          "input_spec": {"state": "object", "context": "object"},
+          "expected_output": {"processed_state": "object", "actions": "array"},
+          "tags": ["tier1", "critical"]
+        },
+        {
+          "name": "decision_making",
+          "description": "Consciousness-driven decision making",
+          "input_spec": {"options": "array", "context": "object"},
+          "expected_output": {"decision": "object", "reasoning": "string"},
+          "tags": ["tier1", "critical"]
+        }
+      ]
+    },
+    "orchestration": {
+      "description": "Manages workflows and task orchestration",
+      "tier": "tier2",
+      "features": [
+        {
+          "name": "workflow_management",
+          "description": "Manage workflow execution",
+          "input_spec": {"workflow": "object", "parameters": "object"},
+          "expected_output": {"execution_id": "string", "status": "string"},
+          "tags": ["tier2", "integration"]
+        },
+        {
+          "name": "task_scheduling",
+          "description": "Schedule and coordinate tasks",
+          "input_spec": {"tasks": "array", "schedule": "object"},
+          "expected_output": {"scheduled": "bool", "next_execution": "string"},
+          "tags": ["tier2", "integration"]
+        }
+      ]
+    },
+    "memory": {
+      "description": "Memory management and storage systems",
+      "tier": "tier1",
+      "features": [
+        {
+          "name": "storage",
+          "description": "Store and retrieve memory data",
+          "input_spec": {"data": "object", "key": "string"},
+          "expected_output": {"stored": "bool", "id": "string"},
+          "tags": ["tier1", "critical"]
+        },
+        {
+          "name": "retrieval",
+          "description": "Retrieve memory data by key",
+          "input_spec": {"key": "string"},
+          "expected_output": {"data": "object", "found": "bool"},
+          "tags": ["tier1", "critical"]
+        }
+      ]
+    },
+    "governance": {
+      "description": "Ethics, compliance, and governance systems",
+      "tier": "tier2",
+      "features": [
+        {
+          "name": "ethics_validation",
+          "description": "Validate actions against ethical guidelines",
+          "input_spec": {"action": "object", "context": "object"},
+          "expected_output": {"valid": "bool", "violations": "array"},
+          "tags": ["tier2", "governance"]
+        },
+        {
+          "name": "compliance_check",
+          "description": "Check compliance with regulations",
+          "input_spec": {"data": "object", "regulations": "array"},
+          "expected_output": {"compliant": "bool", "issues": "array"},
+          "tags": ["tier2", "governance"]
+        }
+      ]
+    },
+    "api_gateway": {
+      "description": "API gateway and external interface management",
+      "tier": "tier3",
+      "features": [
+        {
+          "name": "request_routing",
+          "description": "Route API requests to appropriate services",
+          "input_spec": {"request": "object", "path": "string"},
+          "expected_output": {"routed": "bool", "service": "string"},
+          "tags": ["tier3", "integration"]
+        },
+        {
+          "name": "rate_limiting",
+          "description": "Apply rate limiting to API requests",
+          "input_spec": {"client_id": "string", "endpoint": "string"},
+          "expected_output": {"allowed": "bool", "remaining": "number"},
+          "tags": ["tier3", "performance"]
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "created": "2025-01-14T12:00:00Z",
+    "description": "LUKHAS Architecture Master - Core module definitions for test generation"
+  }
+}

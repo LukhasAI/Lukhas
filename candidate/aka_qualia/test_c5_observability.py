@@ -8,10 +8,10 @@ Demonstrates the observability system integrated with Aka Qualia components.
 import json
 import time
 
-from memory_noop import NoopMemory
-from monitoring_dashboard import MonitoringDashboard
+from candidate.aka_qualia.memory_noop import NoopMemory
+from candidate.aka_qualia.monitoring_dashboard import MonitoringDashboard
 
-from observability import (
+from candidate.aka_qualia.observability import (
     AkaqMetrics,
     get_observability,
     measure_scene_processing,
@@ -176,7 +176,7 @@ def test_prometheus_metrics():
         if line and not line.startswith("#"):
             print(f"    {line}")
 
-    return len(metrics_text) > 0
+    assert len(metrics_text) > 0, "Metrics should not be empty"
 
 
 def main():

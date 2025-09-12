@@ -2,11 +2,14 @@
 
 Production-ready consciousness-aware AI platform with Constellation Framework and multi-agent development system.
 
-## 🤖 Current Mission: MATRIZ-R1 Execution
+## 🤖 Current Mission: Test Suite Development via Jules Agents
 
-**📋 Active Development:** [MATRIZ-R1 Execution Plan](docs/project/MATRIZ_R1_EXECUTION_PLAN.md) - Multi-stream parallel development with agent task assignments
+**📋 Active Development:** [Jules Agent Test Allocation](docs/testing/JULES_AGENT_TEST_ALLOCATION.md) - Systematic test development across 10 specialized agents targeting ~150+ missing test modules
 
 **🎯 Agent System:** [AGENTS.md](AGENTS.md) - Complete guide to the multi-agent development platform
+
+**⚠️ IMPORTANT: Claude.me Configuration**
+Multiple `claude.me` files are distributed throughout the workspace providing context-specific instructions for different modules and domains. These files are essential for understanding project architecture and agent coordination.
 
 ## Overview
 

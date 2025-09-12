@@ -1,0 +1,38 @@
+module: memory
+description: Memory management and storage systems
+version: 1.0.0
+tier: tier1
+tests:
+- name: test_storage
+  description: Store and retrieve memory data
+  input:
+    data: object
+    key: string
+  expected:
+    stored: bool
+    id: string
+  tags:
+  - tier1
+  - critical
+- name: test_retrieval
+  description: Retrieve memory data by key
+  input:
+    key: string
+  expected:
+    data: object
+    found: bool
+  tags:
+  - tier1
+  - critical
+metadata:
+  author: ''
+  created: ''
+  updated: ''
+  contract_ref: ''
+golden:
+  enabled: false
+  files: []
+  schema_ref: ''
+coverage:
+  line_rate_min: 0.8
+  branch_rate_min: 0.7

@@ -266,3 +266,17 @@ files = ["lukhas", "MATRIZ"]
 [[tool.mypy.overrides]]
 module = ["candidate.*", "archive.*", "quarantine.*", "tests.*", "tools.*"]
 ignore_errors = true
+
+# T4 Mutation Testing Configuration
+[tool.mutmut]
+paths = ["lukhas/", "candidate/"]
+tests_dir = "tests"
+runner = "pytest"
+timeout = 10
+exclude = [
+    "tests/specs/",
+    "tests/fixtures/",
+    "__pycache__",
+    "*.pyc"
+]
+report_only = true

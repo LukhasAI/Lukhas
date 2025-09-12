@@ -1,0 +1,121 @@
+# Jules-03: Memory Systems Test Specification
+agent_id: "Jules-03"
+priority: "CRITICAL" 
+tier: "tier1"
+estimated_tests: 20
+
+# Module Assignment
+modules:
+  primary:
+    - "candidate/memory/core/unified_memory_orchestrator.py"
+    - "candidate/memory/systems/memory_manager.py"
+    - "candidate/memory/folds/fold_engine.py"
+    - "memory/" # core memory module
+  
+  supporting:
+    - "candidate/memory/systems/helix_dna.py"
+    - "candidate/memory/learning/"
+    - "candidate/aka_qualia/memory.py"
+
+# Test Requirements
+tests:
+  memory_storage:
+    - name: "test_hierarchical_storage"
+      description: "Test hierarchical data storage system"
+      input: {"data": "object", "tier": "string", "metadata": "object"}
+      expected: {"stored": "bool", "storage_id": "string", "tier_assigned": "string"}
+      tags: ["tier1", "critical", "memory"]
+    
+    - name: "test_memory_fold_operations"
+      description: "Test memory fold creation and operations"
+      input: {"fold_data": "object", "fold_type": "string", "parent_fold": "string"}
+      expected: {"fold_created": "bool", "fold_id": "string", "lineage": "array"}
+      tags: ["tier1", "memory", "critical"]
+    
+    - name: "test_data_persistence"
+      description: "Test data persistence across sessions"
+      input: {"data": "object", "persistence_level": "string"}
+      expected: {"persisted": "bool", "retrieval_key": "string", "expiry": "datetime"}
+      tags: ["tier1", "memory"]
+
+  memory_retrieval:
+    - name: "test_key_based_retrieval"
+      description: "Test retrieval by key/ID"
+      input: {"key": "string", "retrieval_options": "object"}
+      expected: {"data": "object", "found": "bool", "metadata": "object"}
+      tags: ["tier1", "critical"]
+    
+    - name: "test_semantic_search"
+      description: "Test semantic memory search capabilities"
+      input: {"query": "string", "semantic_filters": "object", "limit": "number"}
+      expected: {"results": "array", "relevance_scores": "array", "total_found": "number"}
+      tags: ["tier1", "memory"]
+    
+    - name: "test_memory_lineage_tracking"
+      description: "Test memory evolution and lineage tracking"
+      input: {"memory_id": "string", "lineage_depth": "number"}
+      expected: {"lineage_chain": "array", "evolution_points": "array", "lineage_valid": "bool"}
+      tags: ["tier1", "memory"]
+
+  performance:
+    - name: "test_memory_optimization"
+      description: "Test memory usage optimization"
+      input: {"optimization_target": "string", "constraints": "object"}
+      expected: {"optimization_result": "object", "memory_saved": "number", "performance_impact": "number"}
+      tags: ["tier1", "performance"]
+    
+    - name: "test_compression_algorithms"
+      description: "Test memory compression efficiency"
+      input: {"data": "object", "compression_type": "string"}
+      expected: {"compressed_size": "number", "compression_ratio": "number", "decompression_time": "number"}
+      tags: ["tier1", "performance"]
+
+# Performance Requirements
+performance:
+  storage_latency: "< 10ms p95"
+  retrieval_latency: "< 5ms p95" 
+  search_latency: "< 100ms p95"
+  fold_operations: "< 50ms p95"
+
+# Memory Requirements
+memory_constraints:
+  max_memory_usage: "1GB"
+  cache_efficiency: "> 80%"
+  memory_leak_tolerance: "< 1MB/hour"
+
+# Coverage Targets
+coverage:
+  line_coverage: 90%
+  branch_coverage: 85%
+  memory_operations: 95%
+
+# Dependencies
+dependencies:
+  - "pytest"
+  - "pytest-asyncio"
+  - "sqlalchemy"
+  - "redis"
+  - "numpy"
+  - "psutil"
+
+# Test Environment
+environment:
+  database: "sqlite_test"
+  cache_backend: "redis_mock"
+  memory_limit: "512MB"
+
+# Success Criteria
+success_criteria:
+  - "All memory operations tested"
+  - "Hierarchical storage functional"
+  - "Memory folds working correctly"
+  - "Performance targets achieved"
+  - "Data integrity maintained"
+
+# Deliverables
+deliverables:
+  - "tests/unit/memory/"
+  - "tests/integration/memory/"
+  - "tests/performance/memory/"
+  - "Memory performance benchmarks"
+  - "Data integrity validation"

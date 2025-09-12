@@ -1,0 +1,142 @@
+# Jules-06: API Gateway & External Services Test Specification
+agent_id: "Jules-06"
+priority: "MEDIUM"
+tier: "tier3"
+estimated_tests: 15
+
+# Module Assignment
+modules:
+  primary:
+    - "candidate/bridge/api_gateway/unified_api_gateway.py"
+    - "candidate/bridge/api/"
+    - "candidate/bridge/external_adapters/"
+    - "candidate/bridge/adapters/"
+  
+  supporting:
+    - "candidate/bridge/authentication/"
+    - "candidate/bridge/rate_limiting/"
+    - "candidate/bridge/service_discovery/"
+
+# Test Requirements
+tests:
+  api_gateway:
+    - name: "test_request_routing"
+      description: "Test API request routing and path matching"
+      input: {"request": "object", "routing_rules": "array", "service_map": "object"}
+      expected: {"route_matched": "bool", "target_service": "string", "routing_params": "object"}
+      tags: ["tier3", "api_gateway", "routing"]
+    
+    - name: "test_rate_limiting"
+      description: "Test API rate limiting and throttling"
+      input: {"client_id": "string", "request_rate": "number", "rate_limits": "object"}
+      expected: {"request_allowed": "bool", "remaining_quota": "number", "reset_time": "datetime"}
+      tags: ["tier3", "api_gateway", "rate_limiting"]
+    
+    - name: "test_api_versioning"
+      description: "Test API version management and compatibility"
+      input: {"api_version": "string", "endpoint": "string", "compatibility_matrix": "object"}
+      expected: {"version_supported": "bool", "compatibility_mode": "string", "deprecation_warning": "bool"}
+      tags: ["tier3", "api_gateway", "versioning"]
+
+  external_adapters:
+    - name: "test_gmail_adapter"
+      description: "Test Gmail API adapter functionality"
+      input: {"gmail_request": "object", "oauth_credentials": "object", "operation": "string"}
+      expected: {"operation_success": "bool", "response_data": "object", "rate_limit_remaining": "number"}
+      tags: ["tier3", "adapters", "gmail"]
+    
+    - name: "test_dropbox_adapter"
+      description: "Test Dropbox API adapter functionality"
+      input: {"dropbox_request": "object", "auth_token": "string", "file_operation": "string"}
+      expected: {"operation_success": "bool", "file_metadata": "object", "sync_status": "string"}
+      tags: ["tier3", "adapters", "dropbox"]
+    
+    - name: "test_oauth_integration"
+      description: "Test OAuth2/OIDC integration flows"
+      input: {"oauth_provider": "string", "auth_request": "object", "callback_url": "string"}
+      expected: {"auth_success": "bool", "access_token": "string", "token_expires": "datetime"}
+      tags: ["tier3", "oauth", "authentication"]
+
+  service_integration:
+    - name: "test_service_discovery"
+      description: "Test dynamic service discovery mechanisms"
+      input: {"service_name": "string", "discovery_config": "object", "health_check": "bool"}
+      expected: {"service_found": "bool", "service_endpoints": "array", "health_status": "string"}
+      tags: ["tier3", "service_discovery", "integration"]
+    
+    - name: "test_circuit_breaker_patterns"
+      description: "Test circuit breaker fault tolerance patterns"
+      input: {"service_health": "object", "failure_threshold": "number", "recovery_timeout": "number"}
+      expected: {"circuit_state": "string", "requests_blocked": "bool", "recovery_attempted": "bool"}
+      tags: ["tier3", "circuit_breaker", "resilience"]
+    
+    - name: "test_retry_mechanisms"
+      description: "Test intelligent retry strategies for external calls"
+      input: {"failed_request": "object", "retry_policy": "object", "backoff_strategy": "string"}
+      expected: {"retry_attempted": "bool", "backoff_delay": "number", "max_retries_reached": "bool"}
+      tags: ["tier3", "retry", "resilience"]
+
+  security_features:
+    - name: "test_api_authentication"
+      description: "Test API gateway authentication mechanisms"
+      input: {"auth_method": "string", "credentials": "object", "protected_resource": "string"}
+      expected: {"auth_successful": "bool", "user_identity": "object", "permissions": "array"}
+      tags: ["tier3", "security", "authentication"]
+    
+    - name: "test_request_validation"
+      description: "Test request validation and sanitization"
+      input: {"request_payload": "object", "validation_schema": "object", "sanitization_rules": "array"}
+      expected: {"validation_passed": "bool", "sanitized_payload": "object", "violations": "array"}
+      tags: ["tier3", "security", "validation"]
+
+# Performance Requirements
+performance:
+  request_routing: "< 10ms p95"
+  external_api_calls: "< 2s p95"
+  rate_limiting: "< 5ms p95"
+  service_discovery: "< 50ms p95"
+
+# Quality Requirements
+quality:
+  api_availability: "> 99.9%"
+  external_adapter_reliability: "> 95%"
+  security_validation: "> 99%"
+
+# Coverage Targets
+coverage:
+  line_coverage: 80%
+  branch_coverage: 75%
+  api_endpoints: 90%
+
+# Dependencies
+dependencies:
+  - "pytest"
+  - "pytest-asyncio"
+  - "aiohttp"
+  - "fastapi"
+  - "requests"
+  - "oauthlib"
+  - "responses"
+
+# Test Environment
+environment:
+  mock_services: "wiremock"
+  oauth_provider: "mock_oauth"
+  external_apis: "mocked"
+  rate_limiter: "redis_mock"
+
+# Success Criteria
+success_criteria:
+  - "All API gateway features tested"
+  - "External adapter integration verified"
+  - "Security mechanisms validated"
+  - "Performance targets achieved"
+  - "Fault tolerance proven"
+
+# Deliverables
+deliverables:
+  - "tests/unit/bridge/api_gateway/"
+  - "tests/integration/bridge/adapters/"
+  - "tests/performance/api_gateway/"
+  - "API gateway performance report"
+  - "External service integration validation"

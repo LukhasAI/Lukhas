@@ -6,6 +6,7 @@
 .PHONY: audit-appendix audit-normalize audit-merge audit-merge-auto audit-merge-check
 .PHONY: check-scoped lint-scoped test-contract type-scoped doctor doctor-tools doctor-py doctor-ci doctor-lanes doctor-tests doctor-audit doctor-dup-targets doctor-phony doctor-summary doctor-strict doctor-dup-targets-strict doctor-json
 .PHONY: todo-unused todo-unused-check todo-unused-core todo-unused-candidate t4-annotate t4-check audit-f821 fix-f821-core annotate-f821-candidate types-audit types-enforce types-core types-trend types-audit-trend types-enforce-trend f401-audit f401-trend
+.PHONY: test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -543,3 +544,40 @@ f401-trend:
 # Convenience combos
 types-audit-trend: types-audit types-trend
 types-enforce-trend: types-enforce types-trend
+
+# ==============================================================================
+# T4 TEST FRAMEWORK - Deterministic Policy & Golden Discipline
+# ==============================================================================
+
+.PHONY: test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens
+
+test-clean:
+	@find . -name '__pycache__' -type d -prune -exec rm -rf {} + || true
+
+test-tier1:
+	@TZ=UTC PYTHONHASHSEED=0 pytest -m "tier1 and not quarantine" --cov=lukhas --cov=MATRIZ --cov-branch --cov-report=xml:reports/tests/cov.xml
+
+test-all:
+	@TZ=UTC PYTHONHASHSEED=0 pytest -m "not quarantine" --cov=lukhas --cov=MATRIZ --cov-branch --cov-report=xml:reports/tests/cov.xml
+
+test-fast:
+	@TZ=UTC PYTHONHASHSEED=0 pytest -m "smoke or tier1" -q
+
+test-report:
+	@python3 -c "import xml.etree.ElementTree as ET; p='reports/tests/cov.xml'; \
+	try: \
+	 t=ET.parse(p).getroot(); print('Coverage line-rate:', t.attrib.get('line-rate','?')); \
+	except Exception as e: \
+	 print('No coverage report yet:', e)"
+
+spec-lint:
+	@python3 tools/tests/spec_lint.py tests/specs
+
+contract-check:
+	@python3 tools/tests/contract_check.py $${BASE_REF:-origin/main}
+
+specs-sync:
+	@python3 tools/tests/specs_sync.py
+
+test-goldens:
+	@python3 tools/tests/validate_golden.py

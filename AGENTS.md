@@ -4,18 +4,25 @@
 
 Welcome to the LUKHAS Agent System - a comprehensive multi-agent architecture designed to execute complex development tasks through specialized AI agents. This document serves as the central hub for all agent-related operations in the LUKHAS AI platform.
 
-## 🎯 Current Mission: MATRIZ-R1 Execution
+## 🎯 Current Mission: Test Suite Development via Jules Agents
 
-**📋 Task Coordination Hub:** [`docs/project/MATRIZ_R1_EXECUTION_PLAN.md`](docs/project/MATRIZ_R1_EXECUTION_PLAN.md)
+**📋 Test Development Hub:** [`docs/testing/JULES_AGENT_TEST_ALLOCATION.md`](docs/testing/JULES_AGENT_TEST_ALLOCATION.md)
 
-The MATRIZ-R1 execution plan defines 4 parallel streams (A-D) with specific task assignments for agents Jules01-Jules10, Codex, and Claude Code. **All task assignments and acceptance criteria are located in the execution plan document.**
+After T4 framework implementation and test consolidation (~450 working tests from 1,497 duplicates), we've identified **~150+ missing test modules** across 6 core architectural domains. The Jules agent allocation system provides systematic test development through 10 specialized agents.
 
-### Quick Agent Assignment Reference
-- **Stream A (Lane Integrity)**: Jules01, Jules02, Jules03 - Critical path
-- **Stream B (MATRIZ Traces)**: Jules04, Jules05 - Parallel with A
-- **Stream C (Security/SBOM)**: Jules06 - Independent 
-- **Stream D (Hygiene)**: Jules07, Jules08, Jules09 - Post A+B completion
-- **Specialists**: Codex (shell/CI), Claude Code (multi-file plans)
+### Jules Agent Test Assignment Reference
+- **Jules-01**: Identity & Authentication (25 tests, CRITICAL, tier1)
+- **Jules-02**: Consciousness & Awareness (30 tests, CRITICAL, tier1) 
+- **Jules-03**: Memory Systems (20 tests, CRITICAL, tier1)
+- **Jules-04**: Governance & Ethics (18 tests, HIGH, tier2)
+- **Jules-05**: Orchestration & Workflows (22 tests, HIGH, tier2)
+- **Jules-06**: API Gateway & External Services (15 tests, MEDIUM, tier3)
+- **Jules-07**: Bio-Quantum Systems (12 tests, MEDIUM, tier3)
+- **Jules-08**: Performance & Monitoring (10 tests, MEDIUM, tier3)
+- **Jules-09**: Integration & E2E Testing (16 tests, HIGH, tier2)
+- **Jules-10**: Specialized & Legacy Systems (8 tests, LOW-MEDIUM, tier4)
+
+**Target**: 176 new tests for 95%+ system coverage with T4 quality gates
 
 ## 🏗️ Agent System Architecture
 
@@ -37,6 +44,12 @@ LUKHAS employs a multi-layered agent system with different specializations and d
 ### 2. Claude Code UI Specialists (`.claude/agents/`)
 
 **Purpose:** Specialized agents accessible via `/agents` command in Claude Code UI
+
+**⚠️ IMPORTANT: Claude.me Configuration Distribution**
+Multiple `claude.me` files exist throughout the workspace providing context-specific instructions:
+- **Root**: [`.claude/claude.me`](.claude/claude.me) - Global project context
+- **Distributed**: Specialized context files in various modules and domains
+- **Integration**: These files provide essential project understanding for all agent interactions
 
 #### Available Specialists:
 - `adapter-integration-specialist` - External service integrations & OAuth

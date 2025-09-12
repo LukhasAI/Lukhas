@@ -1,0 +1,114 @@
+# Jules-02: Consciousness & Awareness Test Specification
+agent_id: "Jules-02"
+priority: "CRITICAL"
+tier: "tier1" 
+estimated_tests: 30
+
+# Module Assignment
+modules:
+  primary:
+    - "candidate/consciousness/awareness/system_awareness.py"
+    - "candidate/consciousness/states/"
+    - "lukhas/core/orchestration/brain/consciousness/"
+    - "candidate/consciousness/dream/"
+  
+  supporting:
+    - "candidate/consciousness/unified/auto_consciousness.py"
+    - "candidate/consciousness/meta_cognitive/"
+    - "candidate/consciousness/reasoning/"
+
+# Test Requirements
+tests:
+  awareness_processing:
+    - name: "test_consciousness_state_transitions"
+      description: "Test state machine transitions in consciousness"
+      input: {"current_state": "string", "trigger": "object", "context": "object"}
+      expected: {"new_state": "string", "transition_valid": "bool", "metadata": "object"}
+      tags: ["tier1", "critical", "consciousness"]
+    
+    - name: "test_awareness_level_detection"  
+      description: "Test awareness level calculation"
+      input: {"sensory_input": "array", "context": "object", "history": "array"}
+      expected: {"awareness_level": "number", "confidence": "number", "factors": "array"}
+      tags: ["tier1", "consciousness"]
+    
+    - name: "test_context_processing"
+      description: "Test contextual awareness processing"
+      input: {"context": "object", "previous_contexts": "array"}
+      expected: {"processed_context": "object", "relevance_score": "number"}
+      tags: ["tier1", "critical"]
+
+  decision_making:
+    - name: "test_decision_tree_execution"
+      description: "Test consciousness-driven decision trees"
+      input: {"options": "array", "criteria": "object", "weights": "object"}
+      expected: {"decision": "object", "confidence": "number", "reasoning": "string"}
+      tags: ["tier1", "critical"]
+    
+    - name: "test_reasoning_validation"
+      description: "Test logical reasoning processes"
+      input: {"premises": "array", "rules": "array", "goal": "object"}
+      expected: {"conclusion": "object", "valid": "bool", "reasoning_path": "array"}
+      tags: ["tier1", "consciousness"]
+
+  dream_states:
+    - name: "test_dream_engine_processing"
+      description: "Test dream state processing engine"
+      input: {"dream_data": "object", "memory_context": "object"}
+      expected: {"processed_dream": "object", "insights": "array", "integration_points": "array"}
+      tags: ["tier1", "dream", "consciousness"]
+    
+    - name: "test_oneiric_integration"
+      description: "Test oneiric (dream) integration with consciousness"
+      input: {"dream_sequence": "array", "consciousness_state": "object"}
+      expected: {"integration_result": "object", "memory_updates": "array"}
+      tags: ["tier1", "dream"]
+
+# Performance Requirements
+performance:
+  state_transition: "< 50ms p95"
+  awareness_calculation: "< 100ms p95"
+  decision_processing: "< 200ms p95"
+  dream_processing: "< 500ms p95"
+
+# Quality Requirements
+quality:
+  consciousness_accuracy: "> 90%"
+  state_consistency: "> 95%"
+  reasoning_validity: "> 88%"
+
+# Coverage Targets
+coverage:
+  line_coverage: 85%
+  branch_coverage: 80%
+  consciousness_paths: 90%
+
+# Dependencies
+dependencies:
+  - "pytest"
+  - "pytest-asyncio"
+  - "numpy"
+  - "scipy"
+  - "networkx"
+
+# Test Environment
+environment:
+  memory_backend: "mock_memory"
+  consciousness_state: "isolated"
+  dream_processing: "accelerated"
+
+# Success Criteria
+success_criteria:
+  - "All consciousness states tested"
+  - "Dream integration functional"
+  - "Awareness processing accurate"
+  - "Decision making validated"
+  - "Performance targets met"
+
+# Deliverables
+deliverables:
+  - "tests/unit/consciousness/"
+  - "tests/integration/consciousness/" 
+  - "tests/performance/consciousness/"
+  - "Consciousness behavior analysis"
+  - "Dream processing validation"
