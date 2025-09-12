@@ -37,3 +37,13 @@ def test_traces_latest_smoke():
     body = r.json()
     assert isinstance(body, dict)
     assert "trace_id" in body
+
+
+@pytest.mark.smoke
+@pytest.mark.matriz
+def test_traces_by_id_smoke():
+    client = TestClient(_make_app())
+    r = client.get("/traces/GOLD-0001")
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body.get("trace_id") == "GOLD-0001"

@@ -175,17 +175,17 @@ try:
             logging.warning(f"{module_name} module: Identity system not available")
             return True
 
-        if user_context and hasattr(user_context, 'is_tier_or_above'):
-            if not user_context.is_tier_or_above(MODULE_REQUIRED_TIER):
-                raise PermissionError(
-                    f"Access denied to {module_name} module. "
-                    f"Requires {MODULE_REQUIRED_TIER}, you have {user_context.tier}"  # noqa: F821  # TODO: MODULE_REQUIRED_TIER
-                )
-        return True
+                if user_context and hasattr(user_context, 'is_tier_or_above'):
+                    if not user_context.is_tier_or_above(MODULE_REQUIRED_TIER):
+                        raise PermissionError(
+                            f"Access denied to {module_name} module. "
+                            f"Requires {{MODULE_REQUIRED_TIER}}, you have {{user_context.tier}}"
+                        )
+                return True
 
 except ImportError as e:
     _IDENTITY_AVAILABLE = False
-    logging.warning(f"{module_name} module: Identity system not available - {e}")  # noqa: F821  # TODO: e
+    logging.warning(f"{module_name} module: Identity system not available - {{e}}")
 
     def _check_module_access(user_context=None):
         return True
