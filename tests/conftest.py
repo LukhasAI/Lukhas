@@ -1,45 +1,38 @@
 import os
 import sys
+from pathlib import Path
 
 import pytest
 
-# Ensure repo root is on sys.path for imports like `import matriz.*`
-REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-if REPO_ROOT not in sys.path:
-    sys.path.insert(0, REPO_ROOT)
-
-# Tier-1 freeze configuration
-TIER1_ONLY = os.getenv("T4_TIER1_ONLY", "1") == "1"
+# Add project root to Python path for imports
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root))
 
 
-def pytest_collection_modifyitems(config, items):  # noqa: ARG001
-    """Modify test collection to enforce Tier-1 freeze and quarantine policies."""
-    for item in list(items):
-        p = str(item.fspath)
-
-        # Skip quarantined areas during audit freeze
-        if "/quarantine/" in p or "/archive/" in p:
-            item.add_marker(pytest.mark.skip(reason="quarantined during audit freeze"))
-
-        # Skip legacy tree unless explicitly requested
-        if TIER1_ONLY and "/tests/legacy/" in p:
-            item.add_marker(pytest.mark.skip(reason="legacy excluded in Tier-1 mode"))
-
-        # Skip phase2 tests that depend on non-Tier-1 modules
-        if TIER1_ONLY and "/tests/phase2/" in p:
-            item.add_marker(pytest.mark.skip(reason="phase2 excluded in Tier-1 mode"))
+@pytest.fixture(scope="session")
+def settings():
+    """Test configuration settings."""
+    return {"env": "test", "debug": os.getenv("PYTEST_DEBUG", "false").lower() == "true"}
 
 
-def pytest_configure(config):
-    """Configure pytest with Tier-1 awareness."""
-    if TIER1_ONLY:
-        config.addinivalue_line("markers", "tier1_only: Running in Tier-1 only mode")
-        print("🧊 TIER-1 MODE: Legacy and non-Tier-1 tests excluded")
-    else:
-        print("🔄 FULL MODE: All tests included")
+@pytest.fixture
+def test_data_dir():
+    """Path to test data directory."""
+    return Path(__file__).parent / "data"
 
 
-def pytest_runtest_setup(item):
-    """Skip tests that import quarantined modules during audit freeze."""
-    if "bio" in str(item.fspath):
-        pytest.xfail("bio components quarantined during audit freeze")
+@pytest.fixture
+def fixtures_dir():
+    """Path to test fixtures directory."""
+    return Path(__file__).parent / "fixtures"
+
+
+@pytest.fixture(scope="session")
+def lukhas_test_config():
+    """LUKHAS-specific test configuration."""
+    return {
+        "consciousness_active": False,
+        "dream_simulation_enabled": False,
+        "quantum_processing_enabled": False,
+        "ethics_enforcement_level": "strict",
+    }

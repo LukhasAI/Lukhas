@@ -5,7 +5,7 @@
 .PHONY: audit-tail sdk-py-install sdk-py-test sdk-ts-build sdk-ts-test backup-local backup-s3 restore-local restore-s3 dr-drill dr-weekly dr-quarterly dr-monthly
 .PHONY: audit-appendix audit-normalize audit-merge audit-merge-auto audit-merge-check
 .PHONY: check-scoped lint-scoped test-contract type-scoped doctor doctor-tools doctor-py doctor-ci doctor-lanes doctor-tests doctor-audit doctor-dup-targets doctor-phony doctor-summary doctor-strict doctor-dup-targets-strict doctor-json
-.PHONY: todo-unused todo-unused-check todo-unused-core t4-annotate t4-check
+.PHONY: todo-unused todo-unused-check todo-unused-core todo-unused-candidate t4-annotate t4-check audit-f821 fix-f821-core annotate-f821-candidate types-audit types-enforce types-core types-trend types-audit-trend types-enforce-trend
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -488,6 +488,49 @@ todo-unused-check:
 	@echo "⚛️ Ensuring all unused imports are properly documented"
 	python3 tools/ci/check_unused_imports_todo.py
 
+# T4 candidate promotion helper  
+todo-unused-candidate:
+	@echo "🎯 T4 UNUSED IMPORTS ANNOTATOR - Candidate Directory"
+	@echo "⚛️ Preparing experimental code for production promotion"
+	python3 tools/ci/mark_unused_imports_todo.py --paths candidate
+
 # Legacy aliases for backwards compatibility
 t4-annotate: todo-unused
 t4-check: todo-unused-check
+
+.PHONY: audit-f821 fix-f821-core annotate-f821-candidate
+
+audit-f821:
+	@python3 tools/ci/f821_report.py --paths "lukhas MATRIZ candidate" && echo "See reports/audit/f821_summary.md"
+
+fix-f821-core:
+	@python3 tools/ci/f821_report.py --paths "lukhas MATRIZ" --enforce-core
+
+annotate-f821-candidate:
+	@python3 tools/ci/f821_report.py --paths "candidate" --annotate-candidate
+
+.PHONY: types-audit types-enforce types-core
+
+types-audit:
+	@mkdir -p reports/audit/types
+	@python3 -m mypy --hide-error-context --no-error-summary --no-color-output --pretty --error-format=json > reports/audit/types/mypy.json || true
+	@python3 tools/ci/mypy_to_md.py reports/audit/types/mypy.json reports/audit/types/mypy_summary.md && echo "See reports/audit/types/mypy_summary.md"
+
+types-enforce:
+	@mkdir -p reports/audit/types
+	@python3 -m mypy --hide-error-context --no-error-summary --no-color-output --pretty --error-format=json > reports/audit/types/mypy.json || true
+	@python3 -c "import json,sys; j=json.load(open('reports/audit/types/mypy.json')); core=sum(1 for e in j.get('errors',[]) if str(e.get('path','')).startswith(('lukhas/','MATRIZ/'))); print(f'Core mypy errors: {core}'); sys.exit(1 if core>0 else 0)"
+	@python3 tools/ci/mypy_to_md.py reports/audit/types/mypy.json reports/audit/types/mypy_summary.md
+
+# fast local check limited to core paths (honors pyproject files=)
+types-core:
+	@python3 -m mypy lukhas MATRIZ
+
+.PHONY: types-trend
+
+types-trend:
+	@python3 tools/ci/mypy_trend.py
+
+# Convenience combos
+types-audit-trend: types-audit types-trend
+types-enforce-trend: types-enforce types-trend

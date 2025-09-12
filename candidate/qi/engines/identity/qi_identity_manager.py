@@ -33,8 +33,8 @@
 ║ ΛTAG: ΛIDENTITY, ΛQUANTUM, ΛAGI, ΛSECURITY, ΛTIER
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from consciousness.qi import qi
-import streamlit as st
+from consciousness.qi import qi  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution
+import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
 
 import hashlib
 import logging

@@ -92,7 +92,7 @@ try:
     # from ....AID.dream_engine.dream_replay import replay_dream_by_id,
     # replay_recent_dreams  # TODO: Install or implement AID
     from ...bio_core.memory.qi_memory_manager import QIMemoryManager
-    from ...bio_symbolic_.glyph_id_hash import GlyphIDHasher
+    from ...bio_symbolic_.glyph_id_hash import GlyphIDHasher  # TODO[T4-UNUSED-IMPORT]: kept for bio-inspired/quantum systems development
 
     # Note: extra underscore in original path, assuming typo and it's bio_symbolic
     from ...integration.memory.enhanced_memory_manager import EnhancedMemoryManager

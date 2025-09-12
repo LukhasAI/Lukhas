@@ -84,7 +84,7 @@ def lukhas_tier_required(level: int):
 ANTHROPIC_AVAILABLE = False
 anthropic_client = None
 try:
-    import anthropic  # External dependency
+    import anthropic  # External dependency  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 
     ANTHROPIC_AVAILABLE = True
     # TODO: Initialize anthropic_client if needed, e.g.,

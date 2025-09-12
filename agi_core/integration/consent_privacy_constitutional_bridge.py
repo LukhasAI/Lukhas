@@ -37,7 +37,6 @@ try:
         PrincipleCategory,
         PrincipleScope,
         SafetyPrinciple,
-        ViolationSeverity,
     )
 
     CONSTITUTIONAL_AI_AVAILABLE = True
@@ -92,7 +91,7 @@ except ImportError:
 
 try:
     # AGI Components
-    from agi_core.integration import log_agi_operation, vocabulary_service
+    from agi_core.integration import log_agi_operation
     from agi_core.learning import DreamGuidedLearner
     from agi_core.memory import MemoryConsolidator, VectorMemory
     from agi_core.reasoning import ChainOfThought, TreeOfThoughts
