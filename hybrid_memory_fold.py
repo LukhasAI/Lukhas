@@ -29,7 +29,7 @@ except ImportError:
         print("✅ Using scripts/hybrid_memory_fold.py (REAL)")
     except ImportError:
         # Minimal compatibility stub only if real files unavailable
-        class HybridMemoryFold:
+        class StubHybridMemoryFold:
             def __init__(self, *args, **kwargs):
                 self.storage = {}
 
@@ -39,7 +39,7 @@ except ImportError:
             def retrieve(self, key):
                 return self.storage.get(key)
 
-        class VectorStorageLayer:
+        class StubVectorStorageLayer:
             def __init__(self, *args, **kwargs):
                 self.vectors = {}
 
@@ -49,8 +49,13 @@ except ImportError:
             def get_vector(self, key):
                 return self.vectors.get(key)
 
-        def create_hybrid_memory_fold(*args, **kwargs):
-            return HybridMemoryFold(*args, **kwargs)
+        def create_stub_hybrid_memory_fold(*args, **kwargs):
+            return StubHybridMemoryFold(*args, **kwargs)
+
+        # Create aliases for compatibility
+        HybridMemoryFold = StubHybridMemoryFold
+        VectorStorageLayer = StubVectorStorageLayer
+        create_hybrid_memory_fold = create_stub_hybrid_memory_fold
 
         print("⚠️  Using compatibility stub - real files not found")
 
