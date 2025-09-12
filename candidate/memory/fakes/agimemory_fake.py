@@ -1,11 +1,11 @@
-from typing import Any
+from typing import Any, Optional
 from candidate.memory.contracts import AGIMemoryProtocol
 from candidate.memory.folds.fold_engine import MemoryFold, MemoryType, MemoryPriority
 
 class AGIMemoryFake(AGIMemoryProtocol):
     def __init__(self) -> None:
         self.kv = {}
-        self.folds: dict[str, Any] = {}
+        self.folds: dict = {}
 
     def put(self, key: str, value: Any) -> None:
         self.kv[key] = value
@@ -13,7 +13,7 @@ class AGIMemoryFake(AGIMemoryProtocol):
     def get(self, key: str) -> Any:
         return self.kv.get(key)
 
-    def fold_open(self, *, parent_id: str | None = None) -> str:
+    def fold_open(self, *, parent_id: Optional[str] = None) -> str:
         fid = f"F{len(self.folds)+1:06d}"
         self.folds[fid] = []
         return fid
@@ -39,11 +39,11 @@ class AGIMemoryFake(AGIMemoryProtocol):
     def get_fold(self, key: str) -> MemoryFold:
         return self.folds.get(key)
 
-    async def search_folds(self, query: str, **kwargs) -> list[str]:
+    async def search_folds(self, query: str, **kwargs) -> list:
         # A simple mock implementation for search
         return [k for k, v in self.folds.items() if query in str(v.content)]
 
-    async def retrieve_by_emotion(self, emotion: str, **kwargs) -> list[str]:
+    async def retrieve_by_emotion(self, emotion: str, **kwargs) -> list:
         # A simple mock implementation for emotion retrieval
         return [k for k, v in self.folds.items() if hasattr(v, 'emotional_context') and emotion in str(v.emotional_context)]
 
