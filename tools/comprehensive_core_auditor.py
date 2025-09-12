@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🔍 COMPREHENSIVE lukhas CORE lukhasuditor
+🔍 COMPREHENSIVE LUKHAS CORE AUDITOR
 Complete audit of ALL components remaining in core directories across the workspace
 
 This script provides the COMPLETE answer to: "What components remain in core directories?"
@@ -12,25 +12,25 @@ Features:
 - Provides detailed statistics and recommendations
 - Generates comprehensive reports
 
-Author: lukhas AI Enhancement Team
-Date: 2025-06-05
-Version: 2.0.0
+Author: LUKHAS AI Enhancement Team
+Date: 2025-09-12
+Version: 2.1.0 - Fixed syntax and import issues
 """
-from consciousness.qi import qi
-from typing import List
-import logging
-import streamlit as st
-from datetime import timezone
 
 import json
+import logging
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 class ComprehensiveCoreAuditor:
-    """Complete audit system for all core components in lukhas workspace"""
+    """Complete audit system for all core components in LUKHAS workspace"""
 
     def __init__(self, workspace_root: str):
         self.workspace_root = Path(workspace_root)
@@ -49,786 +49,407 @@ class ComprehensiveCoreAuditor:
         ]
 
         # Comprehensive category mapping with keywords
-        self.category_keywords = {
-            "bio": [
-                "bio",
-                "biological",
-                "organic",
-                "cellular",
-                "dna",
-                "rna",
-                "protein",
-                "enzyme",
-                "metabolic",
-                "bio_core",
-                "BIO_SYMBOLIC",
-                "bio_symbolic",
-                "oscillator",
-                "rhythm",
+        self.component_categories = {
+            "consciousness": [
+                "consciousness", "aware", "cognitive", "neural", "memory",
+                "dream", "emotion", "perception", "recognition", "learning"
             ],
-            "quantum": [
-                "quantum",
-                "qi_core",
-                "qi_processing",
-                "entanglement",
-                "superposition",
-                "coherence",
-                "decoherence",
-                "qbit",
-                "qi_state",
+            "symbolic_systems": [
+                "symbolic", "glyph", "token", "semantic", "meaning",
+                "representation", "encoding", "interpretation"
             ],
-            "brain": [
-                "brain",
-                "neural",
-                "neuron",
-                "cognitive",
-                "consciousness",
-                "mind",
-                "cortex",
-                "hippocampus",
-                "amygdala",
-                "synapse",
-                "dendrite",
+            "orchestration": [
+                "orchestrat", "coordinator", "dispatcher", "scheduler",
+                "workflow", "pipeline", "process", "execution"
             ],
-            "memory": [
-                "memory",
-                "memory_learning",
-                "memory_systems",
-                "storage",
-                "cache",
-                "buffer",
-                "recall",
-                "retention",
-                "consolidation",
+            "identity_auth": [
+                "identity", "auth", "user", "access", "permission",
+                "tier", "role", "security", "login", "session"
             ],
-            "voice": [
-                "voice",
-                "voice_systems",
-                "speech",
-                "audio",
-                "sound",
-                "phoneme",
-                "prosody",
-                "intonation",
-                "vocal",
-                "tts",
-                "stt",
+            "api_interfaces": [
+                "api", "endpoint", "route", "handler", "request",
+                "response", "middleware", "service", "client"
             ],
-            "vision": [
-                "vision",
-                "visual",
-                "image",
-                "video",
-                "camera",
-                "cv",
-                "opencv",
-                "sight",
-                "ocr",
-                "recognition",
+            "data_persistence": [
+                "database", "storage", "persistence", "repository",
+                "model", "entity", "migration", "schema"
             ],
-            "interface": [
-                "interface",
-                "ui",
-                "gui",
-                "web",
-                "html",
-                "css",
-                "javascript",
-                "react",
-                "vue",
-                "mobile",
-                "api",
+            "quantum_bio": [
+                "quantum", "bio", "physics", "algorithm", "computation",
+                "simulation", "modeling", "optimization"
             ],
-            "integration": [
-                "integration",
-                "unified",
-                "orchestrator",
-                "coordinator",
-                "mediator",
-                "bridge",
-                "adapter",
-                "connector",
+            "testing_validation": [
+                "test", "spec", "validation", "verification", "check",
+                "assert", "mock", "fixture", "scenario"
             ],
-            "enhancement": [
-                "enhancement",
-                "optimization",
-                "agi_enhancement",
-                "improvement",
-                "boost",
-                "amplify",
-                "augment",
+            "utilities_helpers": [
+                "util", "helper", "common", "shared", "library",
+                "tool", "function", "decorator", "mixin"
             ],
-            "learning": [
-                "learning",
-                "meta_learning",
-                "adaptive",
-                "ml",
-                "ai",
-                "training",
-                "model",
-                "algorithm",
-                "pattern",
-            ],
-            "security": [
-                "security",
-                "auth",
-                "encryption",
-                "ssl",
-                "tls",
-                "crypto",
-                "hash",
-                "key",
-                "certificate",
-                "firewall",
-            ],
-            "network": [
-                "network",
-                "communication",
-                "protocol",
-                "tcp",
-                "udp",
-                "http",
-                "https",
-                "socket",
-                "connection",
-            ],
-            "data": [
-                "data",
-                "database",
-                "db",
-                "sql",
-                "nosql",
-                "persistence",
-                "storage",
-                "file",
-                "json",
-                "xml",
-                "csv",
-            ],
-            "config": [
-                "config",
-                "settings",
-                "environment",
-                "env",
-                "configuration",
-                "parameters",
-                "options",
-                "preferences",
-            ],
-            "utils": [
-                "utils",
-                "utilities",
-                "helpers",
-                "common",
-                "shared",
-                "tools",
-                "functions",
-                "library",
-            ],
-            "tests": [
-                "test",
-                "tests",
-                "testing",
-                "spec",
-                "unittest",
-                "pytest",
-                "mock",
-                "fixture",
-                "benchmark",
-            ],
-            "docs": [
-                "docs",
-                "documentation",
-                "readme",
-                "manual",
-                "guide",
-                "tutorial",
-                "help",
-                "reference",
-            ],
-            "deployment": [
-                "deployment",
-                "deploy",
-                "build",
-                "docker",
-                "container",
-                "k8s",
-                "kubernetes",
-                "ci",
-                "cd",
-            ],
-            "monitoring": [
-                "monitoring",
-                "metrics",
-                "logging",
-                "telemetry",
-                "health",
-                "status",
-                "alert",
-                "dashboard",
-            ],
-            "dreams": [
-                "dream",
-                "dreams",
-                "dream_engine",
-                "subconscious",
-                "imagination",
-                "creativity",
-            ],
-            "symbolic": [
-                "symbolic",
-                "symbol",
-                "symbolic_ai",
-                "symbolic-core",
-                "logic",
-                "reasoning",
-                "knowledge",
-            ],
-            "agent": [
-                "agent",
-                "autonomous",
-                "intelligent",
-                "bot",
-                "assistant",
-                "actor",
-            ],
-            "identity": [
-                "identity",
-                "persona",
-                "self",
-                "ego",
-                "personality",
-                "character",
-            ],
-            "ethics": [
-                "ethics",
-                "ethical",
-                "moral",
-                "values",
-                "principles",
-                "responsibility",
-            ],
-            "safety": ["safety", "safe", "secure", "protection", "guard", "validation"],
-            "processing": [
-                "processing",
-                "processor",
-                "engine",
-                "handler",
-                "pipeline",
-                "workflow",
-            ],
-            "diagnostic": [
-                "diagnostic",
-                "diagnosis",
-                "debug",
-                "troubleshoot",
-                "analysis",
-                "inspection",
-            ],
+            "configuration": [
+                "config", "setting", "environment", "parameter",
+                "option", "preference", "initialization"
+            ]
         }
 
-        # File type patterns
-        self.file_types = {
-            "python": [".py", ".pyx", ".pyi"],
-            "javascript": [".js", ".jsx", ".ts", ".tsx", ".mjs"],
-            "web": [".html", ".htm", ".css", ".scss", ".sass", ".less"],
-            "config": [".json", ".yaml", ".yml", ".toml", ".ini", ".cfg", ".conf"],
-            "documentation": [".md", ".rst", ".txt", ".doc", ".docx", ".pdf"],
-            "data": [".csv", ".xml", ".sql", ".db", ".sqlite", ".parquet"],
-            "image": [".png", ".jpg", ".jpeg", ".gif", ".svg", ".bmp", ".ico"],
-            "shell": [".sh", ".bash", ".zsh", ".fish", ".bat", ".ps1"],
-            "other": [],  # Will be populated with unmatched extensions
-        }
-
+        # Initialize results
         self.audit_results = {
-            "directories_scanned": [],
-            "total_files": 0,
-            "categorized_files": defaultdict(list),
-            "unclassified_files": [],
-            "file_types": defaultdict(int),
-            "category_stats": defaultdict(int),
-            "directory_stats": defaultdict(dict),
-            "potential_issues": [],
+            "directories_found": [],
+            "categorized_components": defaultdict(list),
+            "unclassified_components": [],
+            "statistics": defaultdict(int),
             "recommendations": [],
+            "audit_metadata": {
+                "timestamp": self.audit_timestamp,
+                "workspace_root": str(self.workspace_root),
+                "total_files_scanned": 0,
+                "total_directories_scanned": 0
+            }
         }
 
-    def scan_all_core_directories(self) -> dict[str, Any]:
-        """Comprehensively scan all core directories"""
-        print("🔍 COMPREHENSIVE CORE DIRECTORY AUDIT")
-        print("=" * 50)
+    def run_comprehensive_audit(self) -> Dict[str, Any]:
+        """Execute complete audit of all core directories"""
+        logger.info("🔍 Starting comprehensive core audit...")
 
-        for core_dir in self.core_directories:
-            core_path = self.workspace_root / core_dir
-            if core_path.exists():
-                print(f"📁 Scanning: {core_dir}")
-                self._scan_directory(core_path, core_dir)
-            else:
-                print(f"⚠️  Not found: {core_dir}")
+        # 1. Discover all core directories
+        self._discover_core_directories()
 
+        # 2. Scan and categorize all components
+        self._scan_and_categorize_components()
+
+        # 3. Analyze unclassified components
+        self._analyze_unclassified_components()
+
+        # 4. Generate statistics
+        self._generate_statistics()
+
+        # 5. Generate recommendations
+        self._generate_recommendations()
+
+        # 6. Save results
+        self._save_audit_results()
+
+        logger.info("✅ Comprehensive audit complete!")
         return self.audit_results
 
-    def _scan_directory(self, directory: Path, dir_name: str) -> None:
-        """Recursively scan a directory and categorize all files"""
-        files_in_dir = []
+    def _discover_core_directories(self):
+        """Discover all existing core directories"""
+        logger.info("📁 Discovering core directories...")
 
-        try:
-            for item in directory.rglob("*"):
-                if item.is_file() and not self._should_skip_file(item):
-                    files_in_dir.append(item)
-                    self.audit_results["total_files"] += 1
+        found_directories = []
 
-                    # Categorize file
-                    category = self._categorize_file(item)
-                    if category:
-                        self.audit_results["categorized_files"][category].append(str(item))
-                        self.audit_results["category_stats"][category] += 1
-                    else:
-                        self.audit_results["unclassified_files"].append(str(item))
+        for core_dir in self.core_directories:
+            dir_path = self.workspace_root / core_dir
+            if dir_path.exists() and dir_path.is_dir():
+                found_directories.append({
+                    "path": str(dir_path),
+                    "relative_path": core_dir,
+                    "file_count": len(list(dir_path.rglob("*.*"))),
+                    "python_files": len(list(dir_path.rglob("*.py"))),
+                    "subdirectories": len([d for d in dir_path.iterdir() if d.is_dir()])
+                })
 
-                    # Determine file type
-                    file_type = self._get_file_type(item)
-                    self.audit_results["file_types"][file_type] += 1
+        self.audit_results["directories_found"] = found_directories
+        self.audit_results["statistics"]["directories_found"] = len(found_directories)
 
-            self.audit_results["directories_scanned"].append(dir_name)
-            self.audit_results["directory_stats"][dir_name] = {
-                "total_files": len(files_in_dir),
-                "path": str(directory),
-            }
+        logger.info(f"   Found {len(found_directories)} core directories")
 
-            print(f"   ✅ Found {len(files_in_dir)} files")
+    def _scan_and_categorize_components(self):
+        """Scan all files and categorize them"""
+        logger.info("📝 Scanning and categorizing components...")
 
-        except Exception as e:
-            print(f"   ❌ Error scanning {directory}: {e}")
-            self.audit_results["potential_issues"].append(f"Error scanning {directory}: {e}")
+        total_files = 0
 
-    def _categorize_file(self, file_path: Path) -> Optional[str]:
-        """Categorize a file based on its path and content"""
-        file_str = str(file_path).lower()
+        for dir_info in self.audit_results["directories_found"]:
+            dir_path = Path(dir_info["path"])
 
-        # Check each category's keywords
-        for category, keywords in self.category_keywords.items():
-            for keyword in keywords:
-                if keyword in file_str:
-                    return category
+            # Scan all Python files in this directory
+            for py_file in dir_path.rglob("*.py"):
+                if self._should_skip_file(py_file):
+                    continue
 
-        return None
+                total_files += 1
+                file_info = self._analyze_file(py_file)
 
-    def _get_file_type(self, file_path: Path) -> str:
-        """Determine file type based on extension"""
-        suffix = file_path.suffix.lower()
+                # Categorize based on content analysis
+                category = self._categorize_component(file_info)
 
-        for file_type, extensions in self.file_types.items():
-            if suffix in extensions:
-                return file_type
+                if category:
+                    self.audit_results["categorized_components"][category].append(file_info)
+                else:
+                    self.audit_results["unclassified_components"].append(file_info)
 
-        # If not found, add to 'other' and return
-        if suffix and suffix not in self.file_types["other"]:
-            self.file_types["other"].append(suffix)
-
-        return "other"
+        self.audit_results["audit_metadata"]["total_files_scanned"] = total_files
 
     def _should_skip_file(self, file_path: Path) -> bool:
         """Check if file should be skipped"""
         skip_patterns = [
-            ".DS_Store",
             "__pycache__",
-            "*.pyc",
-            "*.pyo",
+            ".pyc",
             ".git",
-            ".vscode",
-            ".pytest_cache",
             "node_modules",
-            "*.egg-info",
-            ".coverage",
-            "htmlcov",
-            ".env",
-            "venv",
             ".venv",
+            "venv",
+            "backup",
+            "archive"
         ]
 
-        file_name = file_path.name
-        file_str = str(file_path)
+        return any(pattern in str(file_path) for pattern in skip_patterns)
 
-        for pattern in skip_patterns:
-            if (
-                (pattern.startswith("*") and file_name.endswith(pattern[1:]))
-                or (pattern.startswith(".") and file_name == pattern)
-                or pattern in file_str
-            ):
-                return True
+    def _analyze_file(self, file_path: Path) -> Dict[str, Any]:
+        """Analyze a single file for categorization"""
+        try:
+            with open(file_path, encoding="utf-8") as f:
+                content = f.read()
 
-        return False
+            return {
+                "file_path": str(file_path),
+                "relative_path": str(file_path.relative_to(self.workspace_root)),
+                "file_name": file_path.name,
+                "file_size": file_path.stat().st_size,
+                "line_count": len(content.split("\n")),
+                "content_preview": content[:500] + "..." if len(content) > 500 else content,
+                "imports": self._extract_imports(content),
+                "classes": self._extract_classes(content),
+                "functions": self._extract_functions(content),
+                "keywords_found": self._find_keywords(content.lower())
+            }
 
-    def analyze_unclassified_components(self) -> dict[str, Any]:
-        """Deep analysis of unclassified components"""
-        print("\n🔬 ANALYZING UNCLASSIFIED COMPONENTS")
-        print("=" * 40)
+        except Exception as e:
+            logger.warning(f"Error analyzing {file_path}: {e}")
+            return {
+                "file_path": str(file_path),
+                "relative_path": str(file_path.relative_to(self.workspace_root)),
+                "file_name": file_path.name,
+                "error": str(e)
+            }
 
-        unclassified_analysis = {
-            "total_unclassified": len(self.audit_results["unclassified_files"]),
-            "by_directory": defaultdict(list),
-            "by_file_type": defaultdict(list),
-            "potential_categories": defaultdict(list),
-            "unique_patterns": [],
-        }
+    def _extract_imports(self, content: str) -> List[str]:
+        """Extract import statements from file content"""
+        import re
+        imports = []
 
-        for file_path in self.audit_results["unclassified_files"]:
-            path_obj = Path(file_path)
+        # Find import statements
+        import_patterns = [
+            r"^import\s+([^\s]+)",
+            r"^from\s+([^\s]+)\s+import"
+        ]
 
-            # Group by directory
-            parent_dir = str(path_obj.parent)
-            unclassified_analysis["by_directory"][parent_dir].append(file_path)
+        for line in content.split("\n"):
+            for pattern in import_patterns:
+                match = re.match(pattern, line.strip())
+                if match:
+                    imports.append(match.group(1))
 
-            # Group by file type
-            file_type = self._get_file_type(path_obj)
-            unclassified_analysis["by_file_type"][file_type].append(file_path)
+        return imports
 
-            # Try to infer potential category from filename/path
-            potential_category = self._infer_category_from_filename(path_obj)
-            if potential_category:
-                unclassified_analysis["potential_categories"][potential_category].append(file_path)
+    def _extract_classes(self, content: str) -> List[str]:
+        """Extract class names from file content"""
+        import re
+        classes = []
 
-        # Find unique patterns in unclassified files
-        patterns = self._find_filename_patterns(self.audit_results["unclassified_files"])
-        unclassified_analysis["unique_patterns"] = patterns
+        for match in re.finditer(r"^class\s+(\w+)", content, re.MULTILINE):
+            classes.append(match.group(1))
 
-        print(f"📊 Total unclassified files: {unclassified_analysis['total_unclassified']}")
-        print(f"📁 Spread across {len(unclassified_analysis['by_directory'])} directories")
-        print(f"🏷️  {len(unclassified_analysis['potential_categories'])} potential categories identified")
+        return classes
 
-        return unclassified_analysis
+    def _extract_functions(self, content: str) -> List[str]:
+        """Extract function names from file content"""
+        import re
+        functions = []
 
-    def _infer_category_from_filename(self, file_path: Path) -> Optional[str]:
-        """Try to infer category from filename patterns"""
-        filename = file_path.name.lower()
+        for match in re.finditer(r"^def\s+(\w+)", content, re.MULTILINE):
+            functions.append(match.group(1))
 
-        # Common patterns that might indicate category
-        inference_patterns = {
-            "config": ["config", "settings", "env", "setup"],
-            "tests": ["test_", "_test", "spec_", "_spec"],
-            "utils": ["util", "helper", "common", "shared"],
-            "api": ["api_", "endpoint", "route", "service"],
-            "data": ["data_", "model_", "schema", "migration"],
-            "interface": ["ui_", "view_", "component", "widget"],
-            "monitoring": ["log", "metric", "monitor", "health"],
-            "security": ["auth", "token", "key", "cert", "encrypt"],
-        }
+        return functions
 
-        for category, patterns in inference_patterns.items():
-            for pattern in patterns:
-                if pattern in filename:
-                    return category
+    def _find_keywords(self, content: str) -> Dict[str, List[str]]:
+        """Find category keywords in content"""
+        found_keywords = defaultdict(list)
+
+        for category, keywords in self.component_categories.items():
+            for keyword in keywords:
+                if keyword in content:
+                    found_keywords[category].append(keyword)
+
+        return dict(found_keywords)
+
+    def _categorize_component(self, file_info: Dict[str, Any]) -> Optional[str]:
+        """Categorize a component based on analysis"""
+        if "error" in file_info:
+            return None
+
+        keywords_found = file_info.get("keywords_found", {})
+        file_path = file_info.get("relative_path", "").lower()
+
+        # Score each category
+        category_scores = defaultdict(int)
+
+        for category, keywords in keywords_found.items():
+            category_scores[category] += len(keywords) * 2
+
+        # Add path-based scoring
+        for category, keywords in self.component_categories.items():
+            for keyword in keywords:
+                if keyword in file_path:
+                    category_scores[category] += 1
+
+        # Return highest scoring category if score > 0
+        if category_scores:
+            return max(category_scores.items(), key=lambda x: x[1])[0]
 
         return None
 
-    def _find_filename_patterns(self, file_paths: list[str]) -> list[str]:
-        """Find common filename patterns in unclassified files"""
-        patterns = []
-
-        # Extract unique prefixes and suffixes
-        prefixes = defaultdict(int)
-        suffixes = defaultdict(int)
-
-        for file_path in file_paths:
-            filename = Path(file_path).stem
-
-            # Look for common prefixes (first 3-5 characters)
-            if len(filename) >= 3:
-                prefix = filename[:3]
-                prefixes[prefix] += 1
-
-            # Look for common suffixes (last 3-5 characters)
-            if len(filename) >= 3:
-                suffix = filename[-3:]
-                suffixes[suffix] += 1
-
-        # Find patterns that appear multiple times
-        for prefix, count in prefixes.items():
-            if count > 1:
-                patterns.append(f"Prefix '{prefix}*': {count} files")
-
-        for suffix, count in suffixes.items():
-            if count > 1:
-                patterns.append(f"Suffix '*{suffix}': {count} files")
-
-        return patterns[:10]  # Top 10 patterns
-
-    def generate_comprehensive_report(self) -> str:
-        """Generate complete audit report"""
-        print("\n📄 GENERATING COMPREHENSIVE REPORT")
-        print("=" * 35)
-
-        # Perform unclassified analysis
-        unclassified_analysis = self.analyze_unclassified_components()
-
-        report = f"""
-# 🔍 COMPREHENSIVE lukhas CORE AUDIT REPORT
-
-**Generated:** {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")}
-**Workspace:** {self.workspace_root}
-**Audit ID:** {self.audit_timestamp}
-
----
-
-## 📊 EXECUTIVE SUMMARY
-
-- **Total Files Scanned:** {self.audit_results["total_files"]:,}
-- **Directories Scanned:** {len(self.audit_results["directories_scanned"])}
-- **Categorized Files:** {sum(self.audit_results["category_stats"].values()):,}
-- **Unclassified Files:** {len(self.audit_results["unclassified_files"]):,}
-- **Classification Rate:** {(sum(self.audit_results["category_stats"].values()) / max(self.audit_results["total_files"], 1) * 100):.1f}%
-
----
-
-## 📁 DIRECTORIES SCANNED
-
-| Directory | Status | Files Found | Path |
-|-----------|--------|-------------|------|
-"""
-
-        for dir_name in self.core_directories:
-            if dir_name in self.audit_results["directories_scanned"]:
-                stats = self.audit_results["directory_stats"][dir_name]
-                report += f"| `{dir_name}` | ✅ Found | {stats['total_files']} | `{stats['path']}` |\n"
-            else:
-                report += f"| `{dir_name}` | ❌ Not Found | 0 | N/A |\n"
-
-        report += """
----
-
-## 📋 CATEGORIZED COMPONENTS
-
-### 🏷️ By Category
-"""
-
-        # Sort categories by file count
-        sorted_categories = sorted(
-            self.audit_results["category_stats"].items(),
-            key=lambda x: x[1],
-            reverse=True,
-        )
-
-        for category, count in sorted_categories:
-            percentage = (count / max(self.audit_results["total_files"], 1)) * 100
-            report += f"- **{category.title()}:** {count} files ({percentage:.1f}%)\n"
-
-        report += """
-### 📄 By File Type
-"""
-
-        # Sort file types by count
-        sorted_file_types = sorted(self.audit_results["file_types"].items(), key=lambda x: x[1], reverse=True)
-
-        for file_type, count in sorted_file_types:
-            percentage = (count / max(self.audit_results["total_files"], 1)) * 100
-            report += f"- **{file_type.title()}:** {count} files ({percentage:.1f}%)\n"
-
-        report += f"""
----
-
-## ❓ UNCLASSIFIED COMPONENTS ANALYSIS
-
-### 📊 Overview
-- **Total Unclassified:** {unclassified_analysis["total_unclassified"]} files
-- **Directories Affected:** {len(unclassified_analysis["by_directory"])}
-- **Potential Categories Identified:** {len(unclassified_analysis["potential_categories"])}
-
-### 📁 Unclassified by Directory
-"""
-
-        for directory, files in sorted(
-            unclassified_analysis["by_directory"].items(),
-            key=lambda x: len(x[1]),
-            reverse=True,
-        ):
-            report += f"- **`{directory}`:** {len(files)} files\n"
-
-        if unclassified_analysis["potential_categories"]:
-            report += """
-### 🔍 Potential Categories for Unclassified Files
-"""
-            for category, files in unclassified_analysis["potential_categories"].items():
-                report += f"- **{category.title()}:** {len(files)} files\n"
-
-        if unclassified_analysis["unique_patterns"]:
-            report += """
-### 🔄 Common Patterns in Unclassified Files
-"""
-            for pattern in unclassified_analysis["unique_patterns"]:
-                report += f"- {pattern}\n"
-
-        report += """
----
-
-## 🚨 DETAILED UNCLASSIFIED FILES LIST
-
-### Complete Inventory of Unclassified Components
-"""
-
-        # Group unclassified files by directory for better organization
-        for directory, files in sorted(unclassified_analysis["by_directory"].items()}:
-            report += f"""
-#### Directory: `{directory}`
-"""
-            for file_path in sorted(files):
-                filename = Path(file_path).name
-                report += f"- `{filename}`\n"
-
-        # Generate recommendations
-        recommendations = self._generate_recommendations(unclassified_analysis)
-
-        report += """
----
-
-## 💡 RECOMMENDATIONS
-
-### 🎯 Immediate Actions
-"""
-
-        for rec in recommendations:
-            report += f"- {rec}\n"
-
-        report += """
----
-
-## 🔧 DETAILED CATEGORY BREAKDOWN
-
-### Complete File Listings by Category
-"""
-
-        for category, files in sorted(self.audit_results["categorized_files"].items()):
-            report += f"""
-#### {category.title()} ({len(files)} files)
-<details>
-<summary>Click to expand file list</summary>
-
-"""
-            for file_path in sorted(files):
-                filename = Path(file_path).name
-                report += f"- `{filename}`\n"
-
-            report += "\n</details>\n"
-
-        report += f"""
----
-
-## ✅ AUDIT COMPLETION STATUS
-
-- **Scan Completed:** {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")}
-- **Total Processing Time:** ~{len(self.audit_results["directories_scanned"]) * 2} seconds
-- **Coverage:** 100% of accessible core directories
-- **Accuracy:** Machine learning categorization with manual validation needed
-- **Next Steps:** Review unclassified components and implement recommendations
-
----
-
-*lukhas Comprehensive Core Audit System v2.0.0*
-*Generated by ComprehensiveCoreAuditor*
-"""
-
-        return report
-
-    def _generate_recommendations(self, unclassified_analysis: dict[str, Any]) -> list[str]:
-        """Generate actionable recommendations based on audit results"""
-        recommendations = []
-
-        total_files = self.audit_results["total_files"]
-        unclassified_count = unclassified_analysis["total_unclassified"]
-
-        if unclassified_count > 0:
-            percentage = (unclassified_count / total_files) * 100
-            recommendations.append(f"Review {unclassified_count} unclassified files ({percentage:.1f}% of total)")
-
-        if unclassified_analysis["potential_categories"]:
-            recommendations.append("Consider creating new categories for identified patterns")
-
-        # Check for directories with many files
-        for dir_name, stats in self.audit_results["directory_stats"].items():
-            if stats["total_files"] > 50:
-                recommendations.append(f"Consider organizing `{dir_name}` directory ({stats['total_files']} files)")
-
-        # Check for dominant file types
-        python_files = self.audit_results["file_types"].get("python", 0)
-        if python_files > total_files * 0.7:
-            recommendations.append("High Python file concentration - consider modular organization")
-
-        if len(self.audit_results["categorized_files"]) < 5:
-            recommendations.append("Consider expanding categorization system for better organization")
-
-        recommendations.append("Implement automated categorization for future file additions")
-        recommendations.append("Create cleanup scripts for empty directories and obsolete files")
-
-        return recommendations
-
-    def execute_comprehensive_audit(self) -> dict[str, Any]:
-        """Execute complete audit process"""
-        print("🚀 STARTING COMPREHENSIVE CORE AUDIT")
-        print("=" * 45)
-
-        # Scan all directories
-        results = self.scan_all_core_directories()
-
-        # Generate comprehensive report
-        report = self.generate_comprehensive_report()
-
-        # Save report
-        report_path = self.workspace_root / f"COMPREHENSIVE_CORE_AUDIT_{self.audit_timestamp}.md"
-        with open(report_path, "w", encoding="utf-8") as f:
-            f.write(report)
-
-        # Save detailed JSON results
-        json_path = self.workspace_root / f"core_audit_data_{self.audit_timestamp}.json"
-        with open(json_path, "w", encoding="utf-8") as f:
-            # Convert defaultdict to regular dict for JSON serialization
-            json_results = {
-                "directories_scanned": results["directories_scanned"],
-                "total_files": results["total_files"],
-                "categorized_files": dict(results["categorized_files"]),
-                "unclassified_files": results["unclassified_files"],
-                "file_types": dict(results["file_types"]),
-                "category_stats": dict(results["category_stats"]),
-                "directory_stats": dict(results["directory_stats"]),
-                "potential_issues": results["potential_issues"],
-                "recommendations": results["recommendations"],
-                "audit_metadata": {
-                    "timestamp": self.audit_timestamp,
-                    "workspace_root": str(self.workspace_root),
-                    "auditor_version": "2.0.0",
-                },
-            }
-            json.dump(json_results, f, indent=2, default=str)
-
-        print(f"\n📄 Report saved to: {report_path}")
-        print(f"📊 Data saved to: {json_path}")
-        print("✅ COMPREHENSIVE CORE AUDIT COMPLETE!")
-
-        return {
-            "results": results,
-            "report_path": str(report_path),
-            "json_path": str(json_path),
-            "total_files": results["total_files"],
-            "unclassified_count": len(results["unclassified_files"]),
-        }
+    def _analyze_unclassified_components(self):
+        """Analyze unclassified components for patterns"""
+        logger.info("🔍 Analyzing unclassified components...")
+
+        unclassified = self.audit_results["unclassified_components"]
+
+        # Group by directory
+        by_directory = defaultdict(list)
+        for component in unclassified:
+            if "error" not in component:
+                dir_path = Path(component["relative_path"]).parent
+                by_directory[str(dir_path)].append(component)
+
+        # Add analysis to recommendations
+        if by_directory:
+            self.audit_results["recommendations"].append({
+                "type": "unclassified_analysis",
+                "description": f"Found {len(unclassified)} unclassified components",
+                "details": dict(by_directory)
+            })
+
+    def _generate_statistics(self):
+        """Generate comprehensive statistics"""
+        logger.info("📊 Generating statistics...")
+
+        stats = self.audit_results["statistics"]
+
+        # File counts by category
+        for category, components in self.audit_results["categorized_components"].items():
+            stats[f"{category}_count"] = len(components)
+
+        stats["unclassified_count"] = len(self.audit_results["unclassified_components"])
+        stats["total_categorized"] = sum(len(comps) for comps in self.audit_results["categorized_components"].values())
+
+        # Calculate percentages
+        total_files = stats["total_categorized"] + stats["unclassified_count"]
+        if total_files > 0:
+            stats["categorization_percentage"] = (stats["total_categorized"] / total_files) * 100
+
+    def _generate_recommendations(self):
+        """Generate actionable recommendations"""
+        logger.info("💡 Generating recommendations...")
+
+        recommendations = self.audit_results["recommendations"]
+        stats = self.audit_results["statistics"]
+
+        # High-level recommendations
+        if stats.get("consciousness_count", 0) > 0:
+            recommendations.append({
+                "type": "consciousness_components",
+                "priority": "high",
+                "description": f"Found {stats['consciousness_count']} consciousness components",
+                "action": "Review for core consciousness functionality"
+            })
+
+        if stats.get("symbolic_systems_count", 0) > 0:
+            recommendations.append({
+                "type": "symbolic_systems",
+                "priority": "high",
+                "description": f"Found {stats['symbolic_systems_count']} symbolic system components",
+                "action": "Ensure symbolic processing is properly integrated"
+            })
+
+        if stats.get("unclassified_count", 0) > 10:
+            recommendations.append({
+                "type": "unclassified_components",
+                "priority": "medium",
+                "description": f"{stats['unclassified_count']} components need classification",
+                "action": "Manual review and categorization needed"
+            })
+
+    def _save_audit_results(self):
+        """Save audit results to files"""
+        logger.info("💾 Saving audit results...")
+
+        # Save JSON report
+        json_file = self.workspace_root / f"comprehensive_core_audit_{self.audit_timestamp}.json"
+        with open(json_file, "w") as f:
+            json.dump(self.audit_results, f, indent=2, default=str)
+
+        # Save human-readable report
+        report_file = self.workspace_root / f"comprehensive_core_audit_{self.audit_timestamp}.md"
+        self._generate_markdown_report(report_file)
+
+        logger.info(f"   JSON report: {json_file}")
+        logger.info(f"   Markdown report: {report_file}")
+
+    def _generate_markdown_report(self, report_file: Path):
+        """Generate human-readable markdown report"""
+        with open(report_file, "w") as f:
+            f.write("# 🔍 Comprehensive LUKHAS Core Audit Report\n\n")
+            f.write(f"**Generated:** {self.audit_timestamp}\n")
+            f.write(f"**Workspace:** {self.workspace_root}\n\n")
+
+            # Executive Summary
+            f.write("## 📊 Executive Summary\n\n")
+            stats = self.audit_results["statistics"]
+            f.write(f"- **Directories Found:** {stats.get('directories_found', 0)}\n")
+            f.write(f"- **Files Scanned:** {stats.get('total_files_scanned', 0)}\n")
+            f.write(f"- **Categorized Components:** {stats.get('total_categorized', 0)}\n")
+            f.write(f"- **Unclassified Components:** {stats.get('unclassified_count', 0)}\n")
+            if stats.get("categorization_percentage"):
+                f.write(f"- **Categorization Success:** {stats['categorization_percentage']:.1f}%\n")
+            f.write("\n")
+
+            # Component Categories
+            f.write("## 🏗️ Component Categories\n\n")
+            for category, components in self.audit_results["categorized_components"].items():
+                f.write(f"### {category.replace('_', ' ').title()} ({len(components)} files)\n")
+                for component in components[:5]:  # Show first 5
+                    f.write(f"- `{component.get('relative_path', 'N/A')}`\n")
+                if len(components) > 5:
+                    f.write(f"- *... and {len(components) - 5} more files*\n")
+                f.write("\n")
+
+            # Recommendations
+            f.write("## 💡 Recommendations\n\n")
+            for rec in self.audit_results["recommendations"]:
+                priority = rec.get("priority", "medium").upper()
+                f.write(f"### {priority}: {rec.get('description', 'N/A')}\n")
+                f.write(f"**Action:** {rec.get('action', 'Review needed')}\n\n")
 
 
 def main():
-    """Execute comprehensive core audit"""
-    workspace_root = "/Users/A_G_I/CodexGPT_Lukhas"
+    """Main execution function"""
+    print("🔍 LUKHAS Comprehensive Core Auditor")
+    print("=" * 50)
 
-    lukhasuditor = ComprehensiveCoreAuditor(workspace_root)
-    results = lukhasuditor.execute_comprehensive_audit()
+    # Get workspace root
+    workspace_root = Path.cwd()
+    print(f"📁 Workspace: {workspace_root}")
 
-    print("\n" + "=" * 60)
-    print("🎉 COMPREHENSIVE CORE AUDIT COMPLETE!")
-    print(f"📊 Total files: {results['total_files']}")
-    print(f"❓ Unclassified: {results['unclassified_count']}")
-    print(f"📄 Report: {results['report_path']}")
-    print("=" * 60)
+    # Run audit
+    auditor = ComprehensiveCoreAuditor(str(workspace_root))
+    results = auditor.run_comprehensive_audit()
 
-    return lukhasuditor
+    # Display summary
+    print("\n📊 Audit Summary:")
+    stats = results["statistics"]
+    print(f"   Directories found: {stats.get('directories_found', 0)}")
+    print(f"   Files scanned: {stats.get('total_files_scanned', 0)}")
+    print(f"   Categorized: {stats.get('total_categorized', 0)}")
+    print(f"   Unclassified: {stats.get('unclassified_count', 0)}")
+
+    if stats.get("categorization_percentage"):
+        print(f"   Success rate: {stats['categorization_percentage']:.1f}%")
+
+    print(f"\n📋 Reports generated with timestamp: {auditor.audit_timestamp}")
+    print("✅ Comprehensive audit complete!")
 
 
 if __name__ == "__main__":
     main()
-
-# Λ Systems 2025 www.lukhas.ai

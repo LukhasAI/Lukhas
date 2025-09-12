@@ -16,6 +16,35 @@ repos:
       - id: gitleaks
         args: ["--redact", "--report-format", "sarif", "--report-path", "gitleaks.sarif"]
 
+  # --- T4 Unused Imports System: Production Lane Policy ---
+  - repo: local
+    hooks:
+      # T4 Unused Imports Annotator: add TODO tags to unused imports
+      - id: t4-unused-imports
+        name: T4 unused imports annotator (prod lanes)
+        entry: python3 tools/ci/unused_imports.py --paths lukhas MATRIZ
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+
+      # T4 Unused Imports Enforcer: fail if any unannotated F401 remain
+      - id: t4-unused-imports-check
+        name: T4 unused imports must be TODO-annotated (prod lanes)
+        entry: python3 tools/ci/unused_imports.py --paths lukhas MATRIZ --strict
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+
+      # Legacy T4 Unused Imports Validator (keeping for compatibility)
+      - id: t4-unused-imports-legacy
+        name: T4 Unused Imports Validator (legacy)
+        entry: python3 tools/ci/check_unused_imports_todo.py
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [manual]
+        files: ^(lukhas/|core/|api/|consciousness/|memory/|identity/|MATRIZ/)
+
   # --- Heavy/flaky tools: manual or push-only ---
   - repo: local
     hooks:
@@ -34,15 +63,24 @@ repos:
         entry: python -m pyflakes
         language: system
         types: [python]
-        stages: [push]     # run on push, not per local commit
+        stages: [pre-push]     # run on push, not per local commit
         files: ^lukhas/|^MATRIZ/
         exclude: ^(candidate/|quarantine/|archive/)
+
+      # T4 Unused Imports Annotator: manual trigger for new F401 annotation
+      - id: t4-unused-imports-annotate
+        name: T4 Unused Imports Annotator (manual)
+        entry: python3 tools/ci/mark_unused_imports_todo.py
+        language: system
+        pass_filenames: false
+        stages: [manual]
+        always_run: true
 
   # --- MyPy: push-only due to venv conflicts ---
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.10.0
     hooks:
       - id: mypy
-        stages: [push]     # push-only due to .venv311 typing conflicts
+        stages: [pre-push]     # push-only due to .venv311 typing conflicts
         additional_dependencies: []
         exclude: ^(candidate/|quarantine/|archive/)

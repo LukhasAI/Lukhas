@@ -2,7 +2,7 @@
 Unified Three-Way System Orchestration
 Coordinates NIΛS, ΛBAS, and DΛST for complete intelligent message delivery
 """
-import streamlit as st
+
 from datetime import timezone
 
 import logging
@@ -246,7 +246,7 @@ class UnifiedMessageProcessor:
             symbolic_context["dast_phase_success"] = True
 
             logger.debug(
-                f"DΛST provided {len(symbolic_context.get('symbolic_tags', [])} symbols for {context.user_id}"
+                f"DΛST provided {len(symbolic_context.get('symbolic_tags', []))} symbols for {context.user_id}"
             )
             return symbolic_context
 

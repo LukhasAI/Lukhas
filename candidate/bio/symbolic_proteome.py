@@ -65,17 +65,21 @@ except ImportError as e:
     LUKHAS_AVAILABLE = False
 
     # Minimal stubs
-    class TagScope(Enum):
+    class StubTagScope(Enum):
         GLOBAL = "global"
         LOCAL = "local"
         ETHICAL = "ethical"
         TEMPORAL = "temporal"
         GENETIC = "genetic"
 
-    class SymbolicTag:
+    class StubSymbolicTag:
         def __init__(self, name: str, value: Any):
             self.name = name
             self.value = value
+
+    # Create aliases for compatibility
+    TagScope = StubTagScope
+    SymbolicTag = StubSymbolicTag
 
 
 class ProteinType(Enum):

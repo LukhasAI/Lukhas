@@ -49,7 +49,7 @@ from .symbolic_feedback import IntentNodeHistory, SymbolicFeedbackSystem
 logger = get_logger(__name__)
 
 
-class Enhancementmode(Enum):
+class EnhancementMode(Enum):
     """Modes for Meta-Learning Enhancement System operation"""
 
     MONITORING_ONLY = "monitoring_only"  # Only monitor existing systems

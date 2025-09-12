@@ -17,7 +17,6 @@ import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict
 
 try:
     import tomllib
@@ -112,7 +111,7 @@ class T4MasterFixer:
             print(f"❌ Failed to create backup: {e}")
             sys.exit(1)
 
-    def count_errors(self) -> Dict[str, int]:
+    def count_errors(self) -> dict[str, int]:
         """Count current syntax errors and undefined names."""
         counts = {"syntax_errors": 0, "undefined_names": 0, "fstring_errors": 0, "unterminated_strings": 0}
 

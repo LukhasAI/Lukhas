@@ -31,7 +31,7 @@ def fix_later(*args, **kwargs):
 
 
 @dataclass
-class VocabularyCreativityEngine:
+class VocabularySymbolElement:
     """Represents a vision-related symbolic element."""
 
     symbol: str

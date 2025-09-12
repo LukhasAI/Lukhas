@@ -4,7 +4,7 @@ Foundational systems for symbolic processing, GLYPH engine, and Trinity Framewor
 Trinity Framework: Identity, Consciousness, Guardian
 """
 
-import streamlit as st
+import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 
 # Actor system imports
 from .actor_system import (
@@ -17,7 +17,14 @@ from .actor_system import (
 )
 
 # GLYPH system imports
-from .common import GLYPHSymbol, GLYPHToken, create_glyph, glyph, parse_glyph, validate_glyph
+from .common import (
+    GLYPHSymbol,
+    GLYPHToken,
+    create_glyph,
+    glyph,
+    parse_glyph,
+    validate_glyph,
+)  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 from .core_wrapper import (
     CoreStatus,
     CoreWrapper,

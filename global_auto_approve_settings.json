@@ -1,0 +1,105 @@
+{
+  "files.autoSave": "afterDelay",
+  "workbench.editor.tabSizingFixedMinWidth": 38,
+  "workbench.editor.highlightModifiedTabs": true,
+  "workbench.editor.scrollToSwitchTabs": true,
+  "workbench.editor.alwaysShowEditorActions": true,
+  "workbench.editor.enablePreviewFromCodeNavigation": true,
+  "workbench.editor.enablePreviewFromQuickOpen": true,
+  "workbench.editor.limit.value": 25,
+  "workbench.editor.pinnedTabsOnSeparateRow": true,
+  "workbench.editor.splitSizing": "distribute",
+  "workbench.editor.titleScrollbarSizing": "large",
+  "workbench.editor.untitled.labelFormat": "name",
+  
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": true,
+    "markdown": true,
+    "inline": true,
+    "chat": true,
+    "editor": true,
+    "scminput": false
+  },
+  "github.copilot.editor.enableAutoCompletions": true,
+  "github.copilot.chat.followUps": "on",
+  "github.copilot.chat.localeOverride": "auto",
+  "github.copilot.chat.useProjectTemplates": true,
+  "github.copilot.chat.welcomeMessage": "never",
+  "github.copilot.renameSuggestions.triggerAutomatically": true,
+  "github.copilot.advanced": {
+    "length": 1200,
+    "temperature": 0.05,
+    "top_p": 1,
+    "listCount": 10,
+    "inlineSuggestCount": 5
+  },
+  "github.copilot.conversation.enableParticipantInfo": true,
+  "github.copilot.conversation.enableSpaceActions": true,
+  "github.copilot.editor.iterativeMode": true,
+  "github.copilot.preferences.includeCodeBlockLanguageInSuggestions": true,
+  "github.copilot.preferences.includeCommitMessageInSuggestions": true,
+  "github.copilot.preferences.includeConsoleLog": true,
+  "github.copilot.inlineSuggest.enable": true,
+  "github.copilot.inlineSuggest.suppressMiddleClickPaste": true,
+  "github.copilot.chat.experimental.codeGeneration": true,
+  "github.copilot.chat.experimental.contextMenu": true,
+  "github.copilot.chat.experimental.generateCommitMessage": true,
+  "github.copilot.chat.experimental.generateDocstrings": true,
+  "github.copilot.chat.experimental.generateTests": true,
+  "github.copilot.chat.experimental.refactoring": true,
+  "github.copilot.chat.experimental.smartActions": true,
+  "github.copilot.chat.experimental.terminalIntegration": true,
+  "github.copilot.chat.experimental.workspaceContext": true,
+  
+  "chat.tools.terminal.autoApprove": "*",
+  "terminal.integrated.confirmOnExit": "never",
+  "terminal.integrated.confirmOnKill": "never",
+  "terminal.integrated.showExitAlert": false,
+  "github.copilot.terminal.autoApprove": "*",
+  
+  "git.autofetch": true,
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "git.autofetchPeriod": 180,
+  
+  "security.workspace.trust.untrustedFiles": "open",
+  "explorer.confirmDelete": false,
+  "makefile.configureOnOpen": true,
+  "git.openRepositoryInParentFolders": "never",
+  
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one",
+    "diffEditor.ignoreTrimWhitespace": true
+  },
+  
+  "redhat.telemetry.enabled": false,
+  
+  "editor.acceptSuggestionOnCommitCharacter": true,
+  "editor.acceptSuggestionOnEnter": "smart",
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": false
+  },
+  "editor.suggest.insertMode": "replace",
+  "editor.wordBasedSuggestions": "matchingDocuments",
+  "editor.suggest.showKeywords": true,
+  "editor.suggest.showSnippets": true,
+  "editor.suggest.showWords": true,
+  "editor.tabCompletion": "on",
+  "editor.snippetSuggestions": "top",
+  "editor.suggest.localityBonus": true,
+  "editor.suggest.shareSuggestSelections": true,
+  "editor.suggest.snippetsPreventQuickSuggestions": false
+}

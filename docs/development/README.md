@@ -10,6 +10,11 @@ This directory contains comprehensive development documentation, integration gui
 
 ### 🔧 **Development Tools & Processes**
 
+#### **Build System & Automation**
+- **[MAKEFILE_USER_GUIDE.md](./MAKEFILE_USER_GUIDE.md)** - Complete build system documentation (50+ targets)
+- **[QUICK_REFERENCE.md](./QUICK_REFERENCE.md)** - Essential commands cheat sheet
+- **[T4_UNUSED_IMPORTS_SYSTEM.md](./T4_UNUSED_IMPORTS_SYSTEM.md)** - Technical debt management system
+
 #### **Code Quality & Testing**
 - **[CODE_QUALITY_AUTOMATION.md](./CODE_QUALITY_AUTOMATION.md)** - Automated code quality processes
 - **[COMPLETE_SYSTEM_TEST_REPORT.md](./COMPLETE_SYSTEM_TEST_REPORT.md)** - System testing documentation
@@ -20,6 +25,7 @@ This directory contains comprehensive development documentation, integration gui
 
 #### **Integration Development**
 - **[CLAUDE_LUKHAS_INTEGRATION_GUIDE.md](./CLAUDE_LUKHAS_INTEGRATION_GUIDE.md)** - Claude-LUKHAS integration development
+- **[PARALLEL_AGENT_COORDINATION.md](./PARALLEL_AGENT_COORDINATION.md)** - Multi-agent parallel development workflows
 
 ### 🧬 **System Architecture Development**
 
@@ -52,6 +58,24 @@ All development follows the Trinity Framework (⚛️🧠🛡️):
 
 ## 🚀 **Getting Started with Development**
 
+### **Quick Start (New Developers)**
+1. **[Quick Reference](./QUICK_REFERENCE.md)** - Essential commands (5 minutes)
+2. **Setup**: Run `make bootstrap` (complete environment setup)
+3. **Validate**: Run `make doctor` (health check)
+4. **Develop**: Run `make dev` and start coding!
+
+### **Daily Workflow**
+```bash
+# Morning routine
+make doctor && make install
+
+# Development cycle  
+make lint-unused && make test && make security-scan
+
+# Before commit
+make pc-all && make lint-unused-strict
+```
+
 ### **Prerequisites**
 - Understanding of Trinity Framework principles
 - LUKHAS AI architecture familiarity
@@ -65,6 +89,9 @@ All development follows the Trinity Framework (⚛️🧠🛡️):
 
 ---
 
-**Directory Status**: ✅ **Organized**
-**Content Type**: **Development & Integration Documentation**
-**Last Updated**: August 25, 2025
+**Directory Status**: ✅ **Organized**  
+**Content Type**: **Development & Integration Documentation**  
+**Last Updated**: September 12, 2025  
+**New Additions**: Build System Documentation, T4 System, Quick Reference
+
+**Quick Links**: [Makefile Guide](./MAKEFILE_USER_GUIDE.md) | [T4 System](./T4_UNUSED_IMPORTS_SYSTEM.md) | [Quick Reference](./QUICK_REFERENCE.md)

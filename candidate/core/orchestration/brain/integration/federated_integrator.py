@@ -87,7 +87,7 @@ class FederatedNode:
 
     def _generate_quantum_signature(self) -> str:
         """Generate quantum-inspired signature for node identity"""
-        data = f"{self.node_id}_{self.node_type}_{time.time())"
+        data = f"{self.node_id}_{self.node_type}_{time.time()}"
         return hashlib.sha256(data.encode()).hexdigest()[:16]
 
 
@@ -485,7 +485,7 @@ class FederatedLearningIntegration:
 
     def _generate_update_signature(self, insight_type: str, content: Dict[str, Any]) -> str:
         """Generate quantum signature for federation update"""
-        data = f"{self.node_id}_{insight_type}_{json.dumps(content, sort_keys=True)}_{time.time())"
+        data = f"{self.node_id}_{insight_type}_{json.dumps(content, sort_keys=True)}_{time.time()}"
         return hashlib.sha256(data.encode()).hexdigest()[:16]
 
     def _process_federation_update(self, update: FederatedLearningUpdate) -> Dict[str, Any]:
@@ -748,7 +748,7 @@ class FederatedLearningIntegration:
 
     def _generate_coordination_signature(self, sync_results: Dict[str, Any]) -> str:
         """Generate signature for coordination event"""
-        data = f"{self.node_id}_coordination_{json.dumps(sync_results, sort_keys=True)}_{time.time())"
+        data = f"{self.node_id}_coordination_{json.dumps(sync_results, sort_keys=True)}_{time.time()}"
         return hashlib.sha256(data.encode()).hexdigest()[:16]
 
     def _anonymize_data(self, data: Any) -> Any:

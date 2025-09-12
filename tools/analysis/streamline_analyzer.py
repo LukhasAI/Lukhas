@@ -4,7 +4,6 @@
 ======================
 Focused redundancy analysis and streamlining recommendations for LUKHAS
 """
-import streamlit as st
 
 import ast
 import json
@@ -160,7 +159,7 @@ class StreamlineAnalyzer:
         for item in node.body:
             if isinstance(item, ast.FunctionDef) and not item.name.startswith("_"):
                 methods.append(item.name)
-        return f"{node.name}[{','.join(sorted(methods)}]"
+        return f"{node.name}[{','.join(sorted(methods))}]"
 
     def _find_cross_module_redundancies(self):
         """Find redundancies across modules"""

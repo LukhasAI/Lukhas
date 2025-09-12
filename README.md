@@ -57,6 +57,22 @@ mypy .
 pytest
 ```
 
+## 📚 Developer Documentation
+
+**New to LUKHAS AI?** Start here for comprehensive development guides:
+
+- **[Quick Reference](docs/development/QUICK_REFERENCE.md)** - Essential commands cheat sheet (5 min read)
+- **[Makefile User Guide](docs/development/MAKEFILE_USER_GUIDE.md)** - Complete build system with 50+ targets
+- **[T4 Unused Imports System](docs/development/T4_UNUSED_IMPORTS_SYSTEM.md)** - Technical debt management
+- **[Development Index](docs/development/README.md)** - Complete developer resource hub
+
+```bash
+# Quick developer setup
+make bootstrap          # Complete environment setup
+make help              # Live target discovery
+make doctor            # System health check
+```
+
 ## Project Structure
 
 ```
@@ -82,14 +98,35 @@ pytest
 - **Multi-Agent Development**: Specialized AI agents for complex task orchestration
 - **Lane-based Architecture**: Modular development with strict boundaries
 - **Import Validation**: Automated checking of cross-lane dependencies  
+- **T4 Unused Imports System**: Transforms technical debt into documented intent
 - **Consciousness Framework**: Advanced cognitive patterns and reasoning
 - **Comprehensive Testing**: Multi-tier testing strategy
 - **Audit Trail**: Complete logging and reporting
+
+## Code Quality & T4 System
+
+**🎯 T4 Unused Imports System** - Transforms F401 errors into documented intent:
+
+```bash
+# Check for violations in production lanes
+make todo-unused-check
+
+# Annotate unused imports with smart reasoning
+make todo-unused
+
+# Core modules only
+make todo-unused-core
+```
+
+**📋 T4 Policy**: Zero unannotated F401 errors in production lanes (`lukhas/`, `core/`, `api/`, `consciousness/`, `memory/`, `identity/`, `MATRIZ/`)
+
+**📖 Full Guide**: [`docs/T4_UNUSED_IMPORTS_GUIDE.md`](docs/T4_UNUSED_IMPORTS_GUIDE.md)
 
 ## Documentation
 
 - **🤖 Agent System**: [`AGENTS.md`](AGENTS.md) - Multi-agent development platform guide
 - **📋 Current Tasks**: [`docs/project/MATRIZ_R1_EXECUTION_PLAN.md`](docs/project/MATRIZ_R1_EXECUTION_PLAN.md) - Active execution plan
+- **🎯 T4 System**: [`docs/T4_UNUSED_IMPORTS_GUIDE.md`](docs/T4_UNUSED_IMPORTS_GUIDE.md) - Unused imports management
 - **🏗️ Architecture**: `docs/LUKHAS_ARCHITECTURE_MASTER.json`
 - **🛤️ Lane System**: `ops/matriz.yaml`
 - **📊 Audit Reports**: `reports/deep_search/README_FOR_AUDITOR.md` ✨

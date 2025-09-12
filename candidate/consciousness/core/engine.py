@@ -175,11 +175,6 @@ class ConsciousnessPattern:
         self.instance_logger.debug(f"ΛTRACE: Symbolic resonance map initialized with {len(s_map)} symbols.")
         return s_map
 
-
-# --- End of Chunk 1 ---
-
-
-class ConsciousnessPattern:  # Continuing class definition
     # Human-readable comment: Analyzes user interaction data for
     # consciousness-related patterns.
     @lukhas_tier_required(level=3)  # Pattern analysis is likely a Premium+ feature
@@ -378,7 +373,7 @@ class ConsciousnessPattern:  # Continuing class definition
         return signature_hash
 
 
-# --- End of Chunk 2 ---
+# --- End of Chunk 1 ---
 
 
 class AnthropicEthicsEngine:

@@ -16,7 +16,7 @@ Features:
 import asyncio
 import logging
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
 
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -191,10 +191,8 @@ class LUKHASConsciousnessStore:
         # Find lowest importance folds to archive
         low_importance_folds = (
             await self.collections["memory_folds"]
-            .find(
-                {"importance_score": {"$lt": 0.3},
-                sort=[("importance_score", 1), ("last_accessed", 1)],
-            )
+            .find({"importance_score": {"$lt": 0.3}})
+            .sort([("importance_score", 1), ("last_accessed", 1)])
             .limit(50)
             .to_list(length=50)
         )
@@ -206,7 +204,7 @@ class LUKHASConsciousnessStore:
 
             # Remove from active memory
             fold_ids = [fold["fold_id"] for fold in low_importance_folds]
-            await self.collections["memory_folds"].delete_many({"fold_id": {"$in": fold_ids})
+            await self.collections["memory_folds"].delete_many({"fold_id": {"$in": fold_ids}})
 
             logger.info(f"🛡️ Cascade prevention: Archived {len(fold_ids)} low-importance folds")
 
@@ -245,7 +243,7 @@ class LUKHASConsciousnessStore:
 
         conversations = (
             await self.collections["conversations"]
-            .find(search_filter, {"score": {"$meta": "textScore"})
+            .find(search_filter, {"score": {"$meta": "textScore"}})
             .sort([("score", {"$meta": "textScore"})])
             .limit(limit)
             .to_list(length=limit)
@@ -273,7 +271,7 @@ class LUKHASConsciousnessStore:
         for fold in memory_folds:
             await self.collections["memory_folds"].update_one(
                 {"fold_id": fold["fold_id"]},
-                {"$inc": {"access_count": 1}, "$set": {"last_accessed": datetime.now(timezone.utc)},
+                {"$inc": {"access_count": 1}, "$set": {"last_accessed": datetime.now(timezone.utc)}},
             )
 
         return memory_folds
@@ -288,7 +286,7 @@ class LUKHASConsciousnessStore:
             await self.collections["conversations"]
             .aggregate(
                 [
-                    {"$match": {"timestamp": {"$gte": start_date},
+                    {"$match": {"timestamp": {"$gte": start_date}}},
                     {
                         "$group": {
                             "_id": None,

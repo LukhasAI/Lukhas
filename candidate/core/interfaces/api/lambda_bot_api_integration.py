@@ -6,7 +6,7 @@ Integrates 4 Enhanced ΛBots with existing consciousness-api.yaml
 This creates new endpoints that leverage the existing API structure.
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import httpx

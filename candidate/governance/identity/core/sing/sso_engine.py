@@ -561,7 +561,7 @@ class LambdaSSOEngine:
                     raise ValueError(f"Missing required field: {field}")
 
             # Validate expiration
-            from datetime import datetime
+            from datetime import datetime, timezone
 
             expires_at = datetime.fromisoformat(glyph_payload["expires_at"])
             if datetime.now(timezone.utc) > expires_at:

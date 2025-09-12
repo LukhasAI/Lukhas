@@ -109,13 +109,13 @@ try:
         print(result)
     else:
         # Handle unexpected result types gracefully
-        print(f"Router Error: Unexpected result type from multiverse_route: {{{{type(result)}}}}. Content: {{{{str(result)[:200]}}}}")
+        print(f"Router Error: Unexpected result type from multiverse_route: {{{{type(result)}}. Content: {{{{str(result)[:200]}}}}}}")
 
 except ImportError as ie:
     print(f"Router Error: Failed to import 'multiverse_route'. Check LUKHAS_AI_ROUTER_PATH and module structure. Details: {{{{ie}}}}")
 except Exception as e:
     # Print a generic error message including the type of exception
-    print(f"Router Error: An exception occurred in the router script: {{{{type(e).__name__}}}} - {{{{e}}}}")
+    print(f"Router Error: An exception occurred in the router script: {{{{type(e).__name__}} - {{{{e}}}}}}")
 """
         logger.debug(f"ΛTRACE: Executing dynamic Python script for AI routing:\n---\n{python_script[:300]}...\n---")
 

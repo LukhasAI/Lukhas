@@ -3,11 +3,6 @@
 F821 undefined-name batch fixer for LUKHAS codebase.
 Fixes common undefined name patterns systematically.
 """
-from typing import Optional
-from typing import List
-from typing import Dict
-import time
-import streamlit as st
 
 import json
 import re
@@ -18,11 +13,12 @@ from collections import defaultdict
 def get_f821_violations():
     """Get F821 undefined-name violations from ruff."""
     try:
-        result = subprocess.run([
-            "python3", "-m", "ruff", "check", ".", 
-            "--select", "F821",
-            "--output-format=json"
-        ], capture_output=True, text=True, cwd="/Users/agi_dev/LOCAL-REPOS/Lukhas")
+        result = subprocess.run(
+            ["python3", "-m", "ruff", "check", ".", "--select", "F821", "--output-format=json"],
+            capture_output=True,
+            text=True,
+            cwd="/Users/agi_dev/LOCAL-REPOS/Lukhas",
+        )
 
         if result.stdout:
             violations = json.loads(result.stdout)
@@ -56,7 +52,7 @@ def analyze_undefined_patterns(violations):
 def fix_timezone_imports(file_path):
     """Fix missing timezone imports."""
     try:
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             content = f.read()
 
         original_content = content
@@ -70,7 +66,7 @@ def fix_timezone_imports(file_path):
                     r"from datetime import ([^)]+)",
                     lambda m: f"from datetime import {m.group(1).rstrip()}, timezone",
                     content,
-                    count=1
+                    count=1,
                 )
             elif "import datetime" in content and "from datetime import" not in content:
                 # For import datetime style, use datetime.timezone.utc
@@ -91,7 +87,7 @@ def fix_timezone_imports(file_path):
 def fix_logger_declarations(file_path):
     """Fix missing logger declarations."""
     try:
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             content = f.read()
 
         original_content = content
@@ -99,31 +95,29 @@ def fix_logger_declarations(file_path):
         # Check if logger is used but not declared
         if "logger." in content:
             # Check if logger is already imported/declared
-            if ("import logging" not in content and 
-                "logger = " not in content and 
-                "from" not in content or "logger" not in content):
-
+            if (
+                "import logging" not in content
+                and "logger = " not in content
+                and "from" not in content
+                or "logger" not in content
+            ):
                 # Add basic logger setup at the top after imports
                 lines = content.split("\n")
                 import_end = 0
 
                 for i, line in enumerate(lines):
-                    if (line.startswith("import ") or 
-                        line.startswith("from ") or
-                        line.strip() == "" or
-                        line.strip().startswith("#")):
+                    if (
+                        line.startswith("import ")
+                        or line.startswith("from ")
+                        or line.strip() == ""
+                        or line.strip().startswith("#")
+                    ):
                         import_end = i + 1
                     else:
                         break
 
                 # Insert logger setup
-                logger_setup = [
-                    "",
-                    "# Logger setup",
-                    "import logging",
-                    "logger = logging.getLogger(__name__)",
-                    ""
-                ]
+                logger_setup = ["", "# Logger setup", "import logging", "logger = logging.getLogger(__name__)", ""]
 
                 lines[import_end:import_end] = logger_setup
                 content = "\n".join(lines)
@@ -143,7 +137,7 @@ def fix_logger_declarations(file_path):
 def fix_typing_imports(file_path):
     """Fix missing typing imports."""
     try:
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             content = f.read()
 
         original_content = content
@@ -187,15 +181,12 @@ def fix_typing_imports(file_path):
                     # Add to existing import
                     all_imports = sorted(list(typing_imports) + missing)
                     content = re.sub(
-                        r"from typing import .+",
-                        f\'from typing import {", ".join(all_imports)}\',
-                        content,
-                        count=1
+                        r"from typing import .+", f'from typing import {", ".join(all_imports)}', content, count=1
                     )
                 else:
                     # Add new typing import
                     lines = content.split("\n")
-                    import_line = f\'from typing import {", ".join(missing)}\'
+                    import_line = f'from typing import {", ".join(missing)}'
 
                     # Find where to insert
                     insert_pos = 0
@@ -241,7 +232,7 @@ def main():
                 fixed_files.add(file_path)
                 total_fixed += 1
 
-    # Fix logger issues  
+    # Fix logger issues
     if "logger" in patterns:
         print(f"\n📝 Fixing logger issues in {len(patterns['logger'])} files...")
         for file_path in patterns["logger"][:30]:  # Smaller batch

@@ -3,7 +3,6 @@
 The Jobs Simplifier - Radical Simplification Tool
 "Simplicity is the ultimate sophistication" - Leonardo da Vinci (Steve's favorite quote)
 """
-import streamlit as st
 
 import ast
 import hashlib
@@ -157,7 +156,7 @@ class RadicalSimplifier:
                 {
                     "action": "DELETE_NON_CORE",
                     "description": f"Delete {len(analysis['non_core_modules'])} files from non-core modules",
-                    "impact": f"Remove ~{len(analysis['non_core_modules'])} * 100} lines",
+                    "impact": f"Remove ~{len(analysis['non_core_modules']) * 100} lines",
                     "steve_says": "Focus means saying no to the hundred other good ideas",
                 }
             )
@@ -299,7 +298,7 @@ If any answer is NO → DELETE IT.
             for _i, filepath in enumerate(files_to_delete[:10]):
                 print(f"  Would delete: {filepath}")
             if len(files_to_delete) > 10:
-                print(f"  ... and {len(files_to_delete)} - 10} more files")
+                print(f"  ... and {len(files_to_delete) - 10} more files")
 
         return len(files_to_delete)
 

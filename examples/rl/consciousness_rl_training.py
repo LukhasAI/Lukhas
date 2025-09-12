@@ -203,10 +203,10 @@ async def run_training_example():
             f"  Final Average Reward: {training_results['consciousness_metrics'].get('final_average_reward', 0.0):.3f}"
         )
         logger.info(
-            f"  Consciousness Coherence: {training_results['consciousness_metrics'].get('final_consciousness_coherence', 0.0:.3f}"
+            f"  Consciousness Coherence: {training_results['consciousness_metrics'].get('final_consciousness_coherence', 0.0):.3f}"
         )
         logger.info(
-            f"  Ethical Compliance: {training_results['consciousness_metrics'].get('final_ethical_compliance', 0.0:.3f}"
+            f"  Ethical Compliance: {training_results['consciousness_metrics'].get('final_ethical_compliance', 0.0):.3f}"
         )
 
         # Module performance summary
@@ -280,7 +280,7 @@ async def test_individual_components():
     experiences, weights, indices = buffer.sample(5)
     logger.info(f"  Sampled {len(experiences)} experiences")
     logger.info(f"  Importance weights shape: {weights.shape}")
-    logger.info(f"  Buffer statistics: {buffer.get_consciousness_statistics(}")
+    logger.info(f"  Buffer statistics: {buffer.get_consciousness_statistics()}")
 
     logger.info("✅ Individual component tests passed")
 
@@ -296,7 +296,7 @@ async def interactive_training_demo():
     print("\n" + "=" * 60)
     print("🧠 LUKHAS Consciousness RL Interactive Demo")
     print("=" * 60)
-    print(f"Modules: {len(environment.consciousness_modules}")
+    print(f"Modules: {len(environment.consciousness_modules)}")
     print(f"Device: {trainer.device}")
     print("=" * 60)
 

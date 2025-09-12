@@ -82,6 +82,11 @@ jobs:
           PYTHONPATH=. python3 tools/ci/runtime_lane_guard.py
           # Grep tripwire - catch new dynamic imports
           bash tools/ci/grep_lane_tripwire.sh
+          # T4 Unused Imports Policy - Zero unannotated F401 in production lanes
+          echo "🎯 T4 Production Lane Policy Check"
+          python3 tools/ci/unused_imports.py --paths lukhas MATRIZ --strict
+          # Legacy T4 check for compatibility
+          python3 tools/ci/check_unused_imports_todo.py
           # Guardian System v1.0.0 Security Compliance Check
           bash tools/ci/security_compliance_check.sh || echo "Security compliance check completed with warnings"
           # Force Ruff to read our config to ensure per-file ignores apply

@@ -7,7 +7,7 @@ Automatically consolidates files according to the plan
 import json
 import os
 import shutil
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 def load_consolidation_plan():
