@@ -13,7 +13,7 @@ import re
 import shutil
 import sys
 from collections import defaultdict
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Optional
 
@@ -190,11 +190,11 @@ class FileOrganizer:
             for file_path in self.root_path.rglob("*"):
                 if file_path.is_file() and re.match(pattern_regex, file_path.name):
                     # Check file age
-                    mtime = datetime.fromtimestamp(file_path.stat(, tz=timezone.utc).st_mtime)
+                    mtime = datetime.fromtimestamp(file_path.stat().st_mtime, tz=timezone.utc)
                     if mtime < cutoff_date:
                         archive_path = self.root_path / "archive" / "aged" / file_path.name
                         logger.info(
-                            f"📦 Archiving old file: {file_path.name} (age: {(datetime.now(timezone.utc} - mtime}.days} days)}"
+                            f"📦 Archiving old file: {file_path.name} (age: {(datetime.now(timezone.utc) - mtime).days} days)"
                         )
                         if not self.dry_run:
                             archive_path.parent.mkdir(parents=True, exist_ok=True)
@@ -230,7 +230,7 @@ class FileOrganizer:
             "# File Organization Report",
             f"\nGenerated: {datetime.now(timezone.utc).isoformat()}",
             "\n## Summary",
-            f"- Total files moved: {sum(self.stats.values()}",
+            f"- Total files moved: {sum(self.stats.values())}",
             f"- Dry run: {self.dry_run}",
             "\n## Moves by Destination\n",
         ]

@@ -39,7 +39,7 @@ def run_free_abot_direct():
 
         try:
             # Use OpenAI directly instead of router to avoid cost calculation bug
-            result = subprocess.run(
+            direct_result = subprocess.run(
                 [
                     "python3",
                     "-c",
@@ -59,12 +59,12 @@ result = controller.make_intelligent_request(
     urgency="LOW"
 )
 
-if result.get("response"):  # noqa: F821
+if direct_result.get("response"):
     print("🤖 LUKHAS AI ΛBot Response:")
-    print(result["response"])  # noqa: F821
-    print(f"💰 Cost: ${result.get('cost', 0):.6f}")  # noqa: F821
+    print(direct_result["response"])
+    print(f"💰 Cost: ${direct_result.get('cost', 0):.6f}")
 else:
-    print("❌ Task failed:", result.get("error", "Unknown error"))  # noqa: F821
+    print("❌ Task failed:", direct_result.get("error", "Unknown error"))
 """,
                 ],
                 capture_output=True,
@@ -73,10 +73,10 @@ else:
                 timeout=60,
             )
 
-            if result.stdout:
-                print(result.stdout)
-            if result.stderr:
-                print(f"⚠️ {result.stderr}")
+            if direct_result.stdout:
+                print(direct_result.stdout)
+            if direct_result.stderr:
+                print(f"⚠️ {direct_result.stderr}")
 
         except Exception as e:
             print(f"❌ Task failed: {e}")

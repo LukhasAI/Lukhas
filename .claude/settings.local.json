@@ -78,7 +78,11 @@
       "Bash(python3:*)",
       "Bash([ -f pyproject.toml ])",
       "Bash([ -f pytest.ini ])",
-      "Bash([ -f \"$d/__init__.py\" ])"
+      "Bash([ -f \"$d/__init__.py\" ])",
+      "Bash(ruff check:*)",
+      "Bash(python:*)",
+      "Bash(tee:*)",
+      "Bash(chmod:*)"
     ],
     "deny": [],
     "ask": []

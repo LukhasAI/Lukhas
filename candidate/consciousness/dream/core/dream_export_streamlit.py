@@ -6,7 +6,7 @@
 ╰──────────────────────────────────────────────────────────────────────────────╯
 """
 
-# import streamlit as st  # TODO: Install or implement streamlit
+import streamlit as st
 import json
 import os
 

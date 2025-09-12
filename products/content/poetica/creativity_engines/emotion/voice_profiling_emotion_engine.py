@@ -29,7 +29,7 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 
-class VoiceProfilingEmotionEngine:
+class VoiceProfile:
     """
     A voice profile that defines voice characteristics and evolves over time.
 

@@ -31,7 +31,7 @@ Status: OPERATIONAL
 """
 
 import logging
-import os
+import os  # TODO[T4-UNUSED-IMPORT]: kept pending implementation (document purpose or remove)
 from typing import Any, Optional
 
 # Configure logging
@@ -50,18 +50,35 @@ except ImportError as e:
     logger.warning(f"⚠️  Could not import core memory system: {e}")
 
     # Fallback placeholder functions
-    def create_fold(*args, **kwargs):
+    def fallback_create_fold(*args, **kwargs):
         return {"status": "memory_unavailable"}
 
-    def access_memory(*args, **kwargs):
+    def fallback_access_memory(*args, **kwargs):
         return {"status": "memory_unavailable"}
 
-    def dump_state(*args, **kwargs):
+    def fallback_dump_state(*args, **kwargs):
         return {"status": "memory_unavailable"}
 
-    MemoryWrapper = None
-    FoldManager = None
-    MemoryFold = None
+    # Fallback placeholder classes
+    class FallbackMemoryWrapper:
+        def __init__(self, *args, **kwargs):
+            self.status = "unavailable"
+
+    class FallbackFoldManager:
+        def __init__(self, *args, **kwargs):
+            self.status = "unavailable"
+
+    class FallbackMemoryFold:
+        def __init__(self, *args, **kwargs):
+            self.status = "unavailable"
+
+    # Create aliases for compatibility
+    create_fold = fallback_create_fold
+    access_memory = fallback_access_memory
+    dump_state = fallback_dump_state
+    MemoryWrapper = FallbackMemoryWrapper
+    FoldManager = FallbackFoldManager
+    MemoryFold = FallbackMemoryFold
 
 try:
     # Import enhanced memory components
@@ -75,19 +92,25 @@ except ImportError as e:
     logger.warning(f"⚠️  Could not import enhanced memory components: {e}")
 
     # Fallback placeholder classes
-    class HierarchicalDataStore:
+    class FallbackHierarchicalDataStore:
         def __init__(self, *args, **kwargs):
             self.status = "unavailable"
 
-    class MemoryTier:
+    class FallbackMemoryTier:
         pass
 
-    class FoldLineageTracker:
+    class FallbackFoldLineageTracker:
         def __init__(self, *args, **kwargs):
             self.status = "unavailable"
 
-    class LineageChain:
+    class FallbackLineageChain:
         pass
+
+    # Create aliases for compatibility
+    HierarchicalDataStore = FallbackHierarchicalDataStore
+    MemoryTier = FallbackMemoryTier
+    FoldLineageTracker = FallbackFoldLineageTracker
+    LineageChain = FallbackLineageChain
 
     MEMORY_ENHANCED_ACTIVE = False
 

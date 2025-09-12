@@ -125,7 +125,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
 
         # Create new cycle
         self.current_cycle = InnovationCycle(
-            cycle_id=f"cycle_{int(time.time())",
+            cycle_id=f"cycle_{int(time.time())}",
             start_time=datetime.now(timezone.utc),
             end_time=None,
             opportunities_identified=0,
@@ -144,7 +144,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
                     data={
                         "action": "innovation_cycle_started",
                         "cycle_id": self.current_cycle.cycle_id,
-                    )},
+                    },
                 )
             )
 

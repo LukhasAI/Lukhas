@@ -399,7 +399,7 @@ class UnifiedVeriFoldSystem:
         collapse_type: VeriFoldCollapseType,
     ) -> VeriFoldSnapshot:
         """Create a structured collapse snapshot."""
-        collapse_id = f"vf_{int(time.time(} * 1000000)}"
+        collapse_id = f"vf_{int(time.time()) * 1000000}"
 
         # Calculate entropy score
         entropy_score = self._calculate_entropy_score(collapse_data)
@@ -572,7 +572,7 @@ class UnifiedVeriFoldSystem:
 
     async def _create_system_checkpoint(self) -> str:
         """Create system state checkpoint."""
-        checkpoint_id = f"checkpoint_{int(time.time())"
+        checkpoint_id = f"checkpoint_{int(time.time())}"
         logger.info("System checkpoint created", checkpoint_id=checkpoint_id)
         return checkpoint_id
 

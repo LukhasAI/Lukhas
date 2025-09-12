@@ -96,13 +96,13 @@ class ModuleConsolidator:
                 continue
 
             # Replace custom exceptions
-            if re.search(:
+            if re.search(
                 r"class .+Error\(Exception\):|GuardianRejection|MemoryDrift", line
             ):
                 if "exceptions" not in imports_added:
-                    new_lines.append("from lukhas.core.common import LukhasError, GuardianRejectionError,"
-                                     MemoryDriftError""
-                                     )
+                    new_lines.append("from lukhas.core.common import LukhasError, GuardianRejectionError, "
+                                     "MemoryDriftError")
+                    imports_added.add("exceptions")
                     imports_added.add("exceptions")
                     self.imports_replaced += 1
 
@@ -172,7 +172,7 @@ class ModuleConsolidator:
     def _update_glyph_handling(self, content: str) -> str:
         """Update GLYPH token handling"""
         # Add import if GLYPH is used
-        if (:
+        if (
             "GLYPH" in content
             and "from lukhas.core.common import" in content
             and "GLYPHToken" not in content
@@ -219,7 +219,7 @@ def update_module_base_classes(root_path: Path) -> None:
         for file in base_class_updates[:10]:
             print(f"   • {file.relative_to(root_path)}")
         if len(base_class_updates) > 10:
-            print(f"   ... and {len(base_class_updates} - 10} more")
+            print(f"   ... and {len(base_class_updates) - 10} more")
 
 
 def main():

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import logging
 from datetime import timezone
-import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 Simplified Ethics Integration Module
@@ -65,7 +65,7 @@ class SimplifiedEthicsIntegration:
         Evaluate the ethical implications of an action.
         """
         try:
-            decision_id = f"eth_dec_{int(datetime.now(timezone.utc).timestamp()}"
+            decision_id = f"eth_dec_{int(datetime.now(timezone.utc).timestamp())}"
 
             result = {
                 "decision_id": decision_id,

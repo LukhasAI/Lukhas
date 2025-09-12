@@ -237,7 +237,7 @@ class DecisionAuditColony:
 
     async def _create_recovery_checkpoint(self, context: DecisionContext) -> str:
         """Create system state checkpoint for potential rollback"""
-        checkpoint_id = f"checkpoint_{context.decision_id}_{int(time.time())"
+        checkpoint_id = f"checkpoint_{context.decision_id}_{int(time.time())}"
         # Implementation would capture system state
         return checkpoint_id
 
@@ -279,7 +279,7 @@ class UniversalDecisionInterceptor:
         """
 
         self.decision_counter += 1
-        decision_id = f"decision_{self.decision_counter}_{int(time.time())"
+        decision_id = f"decision_{self.decision_counter}_{int(time.time())}"
 
         # Capture pre-decision context
         context = await self._capture_decision_context(
@@ -585,8 +585,7 @@ class UniversalDecisionInterceptor:
 
     async def _create_rollback_plan(self, decision_id: str) -> str:
         """Create a rollback plan for the decision"""
-        return f"Rollback plan for {decision_id}: restore from checkpoint,"
-    notify stakeholders""
+        return f"Rollback plan for {decision_id}: restore from checkpoint, notify stakeholders"
 
     # Storage methods for distributed audit trail
     async def _store_in_memory_colony(self, audit_entry: AuditTrailEntry):
@@ -740,7 +739,7 @@ async def example_usage():
         decision_maker="manual_caller",
         decision_function=existing_function,
         decision_args=(),
-        decision_kwargs={"data": {"test": "value"},
+        decision_kwargs={"data": {"test": "value"}},
         decision_type=DecisionType.TECHNICAL,
         audit_level=DecisionAuditLevel.STANDARD,
     )

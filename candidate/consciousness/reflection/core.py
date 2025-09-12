@@ -29,6 +29,18 @@ import aiohttp
 import numpy as np
 from aiohttp import web
 from lazy_loading_embeddings import LazyEmbeddingLoader, create_lazy_embedding_system
+
+try:
+    from .optimized_memory_item import QuantizationCodec
+except ImportError:
+    # Fallback if optimized_memory_item is not available
+    class ReflectionQuantizationCodec:
+        SUPPORTED_DIMENSIONS = [512, 1024]
+
+try:
+    from lukhas.memory.structural_conscience import create_structural_conscience
+except ImportError:
+    create_structural_conscience = None
 from memory_fold_system import MemoryFoldSystem, MemoryItem
 from optimized_hybrid_memory_fold import OptimizedHybridMemoryFold
 from optimized_memory_item import OptimizedMemoryItem, create_optimized_memory
@@ -62,10 +74,11 @@ def create_hybrid_memory_fold(
         Configured HybridMemoryFold instance
     """
     if enable_conscience:
-        from lukhas.memory.structural_conscience import create_structural_conscience
-
-        conscience = create_structural_conscience()
-        kwargs["structural_conscience"] = conscience
+        if create_structural_conscience is not None:
+            conscience = create_structural_conscience()
+            kwargs["structural_conscience"] = conscience
+        else:
+            logger.warning("Structural conscience not available, continuing without")
     return HybridMemoryFold(
         embedding_dim=embedding_dim,
         enable_attention=enable_attention,
@@ -114,8 +127,6 @@ def create_optimized_hybrid_memory_fold_with_lazy_loading(
         Lazy loading provides virtually unlimited memory capacity by storing
         embeddings on disk and loading them on-demand with intelligent caching.
     """
-    from .optimized_memory_item import QuantizationCodec
-
     if embedding_dim not in QuantizationCodec.SUPPORTED_DIMENSIONS:
         logger.warning(
             f"Embedding dimension {embedding_dim} not optimal. Supported dimensions: {QuantizationCodec.SUPPORTED_DIMENSIONS}. Using {embedding_dim} anyway."
@@ -170,8 +181,6 @@ def create_optimized_hybrid_memory_fold(
         - 512-dim embeddings: 50% more memory efficient, good for most use cases
         - 1024-dim embeddings: Full semantic richness, best for complex reasoning
     """
-    from .optimized_memory_item import QuantizationCodec
-
     if embedding_dim not in QuantizationCodec.SUPPORTED_DIMENSIONS:
         logger.warning(
             f"Embedding dimension {embedding_dim} not optimal. Supported dimensions: {QuantizationCodec.SUPPORTED_DIMENSIONS}. Using {embedding_dim} anyway."
@@ -246,7 +255,7 @@ class HybridMemoryItem(MemoryItem):
     causal_strength: dict[str, float] = field(default_factory=dict)
 
 
-class VectorStorageLayer:
+class ReflectionVectorStorageLayer:
     """High-performance vector storage with multiple index types"""
 
     def __init__(self, dimension: int = 1024):
@@ -302,7 +311,7 @@ class VectorStorageLayer:
         self.vector_matrix = np.array(vectors)
 
 
-class MemoryAttentionLayer:
+class ReflectionMemoryAttentionLayer:
     """Attention mechanisms for memory relevance scoring"""
 
     def __init__(self, hidden_dim: int = 1024, num_heads: int = 8):
@@ -341,7 +350,7 @@ class MemoryAttentionLayer:
         return scores
 
 
-class ContinuousLearningEngine:
+class ReflectionContinuousLearningEngine:
     """Adaptive learning for memory importance and tag weights"""
 
     def __init__(self, learning_rate: float = 0.001):
@@ -386,7 +395,7 @@ class ContinuousLearningEngine:
                 del self.tag_weights[tag]
 
 
-class HybridMemoryFold(MemoryFoldSystem):
+class ReflectionHybridMemoryFold(MemoryFoldSystem):
     """
     Enhanced memory fold system with neural-symbolic integration.
 
@@ -402,14 +411,14 @@ class HybridMemoryFold(MemoryFoldSystem):
         **kwargs,
     ):
         super().__init__(**kwargs)
-        self.vector_store = VectorStorageLayer(dimension=embedding_dim)
+        self.vector_store = ReflectionVectorStorageLayer(dimension=embedding_dim)
         self.embedding_dim = embedding_dim
         self.enable_attention = enable_attention
         if enable_attention:
-            self.attention_layer = MemoryAttentionLayer(hidden_dim=embedding_dim)
+            self.attention_layer = ReflectionMemoryAttentionLayer(hidden_dim=embedding_dim)
         self.enable_continuous_learning = enable_continuous_learning
         if enable_continuous_learning:
-            self.learning_engine = ContinuousLearningEngine()
+            self.learning_engine = ReflectionContinuousLearningEngine()
         self.embedding_cache = {}
         self.causal_graph = defaultdict(lambda: {"causes": [], "effects": []})
         logger.info(
@@ -680,7 +689,7 @@ class HybridMemoryFold(MemoryFoldSystem):
         return base_stats
 
 
-class OptimizedVectorStorageLayer(VectorStorageLayer):
+class OptimizedVectorStorageLayer(ReflectionVectorStorageLayer):
     """Optimized vector storage with quantized embeddings"""
 
     def __init__(self, dimension: int = 1024, enable_quantization: bool = True):
@@ -715,7 +724,7 @@ class OptimizedVectorStorageLayer(VectorStorageLayer):
         }
 
 
-class OptimizedHybridMemoryFold(HybridMemoryFold):
+class ReflectionOptimizedHybridMemoryFold(ReflectionHybridMemoryFold):
     """
     Ultra-optimized hybrid memory fold with 16x memory reduction.
 

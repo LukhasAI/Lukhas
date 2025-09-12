@@ -255,7 +255,7 @@ class EnhancedMatrizAdapter:
         )
 
         # Store pattern for future reference
-        pattern_key = f"{consciousness_id}_{signal_type.value}_{int(time.time())"
+        pattern_key = f"{consciousness_id}_{signal_type.value}_{int(time.time())}"
         self.bio_patterns[pattern_key] = pattern
 
         return {

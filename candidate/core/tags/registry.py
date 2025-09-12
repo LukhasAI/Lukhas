@@ -5,7 +5,7 @@ Comprehensive registry of all tags with meanings, relationships, and human inter
 
 import json
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 

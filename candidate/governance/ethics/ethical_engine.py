@@ -26,7 +26,7 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 try:
     from candidate.core.common import get_logger
@@ -66,13 +66,13 @@ class EthicalContext:
     action: str
     user_id: Optional[str] = None
     content: Optional[str] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=datetime.now)
 
     # Trinity Framework context
-    identity_context: Dict[str, Any] = field(default_factory=dict)  # ⚛️
-    consciousness_context: Dict[str, Any] = field(default_factory=dict)  # 🧠
-    guardian_context: Dict[str, Any] = field(default_factory=dict)  # 🛡️
+    identity_context: dict[str, Any] = field(default_factory=dict)  # ⚛️
+    consciousness_context: dict[str, Any] = field(default_factory=dict)  # 🧠
+    guardian_context: dict[str, Any] = field(default_factory=dict)  # 🛡️
 
 
 @dataclass
@@ -82,8 +82,8 @@ class EthicalEvaluation:
     decision: EthicalDecision
     confidence: float  # 0.0 to 1.0
     reasoning: str
-    violated_principles: List[EthicalPrinciple] = field(default_factory=list)
-    recommendations: List[str] = field(default_factory=list)
+    violated_principles: list[EthicalPrinciple] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
 
     # Trinity Framework assessment
     identity_impact: str = "none"  # ⚛️
@@ -205,7 +205,7 @@ class EthicalEngine:
                 evaluation_time=(datetime.now() - start_time).total_seconds()
             )
 
-    def _evaluate_principles(self, context: EthicalContext) -> Dict[EthicalPrinciple, float]:
+    def _evaluate_principles(self, context: EthicalContext) -> dict[EthicalPrinciple, float]:
         """Evaluate adherence to core ethical principles"""
 
         scores = {}
@@ -366,7 +366,7 @@ class EthicalEngine:
 
         return max(0.0, privacy_score)
 
-    def _assess_trinity_impact(self, context: EthicalContext) -> Dict[str, str]:
+    def _assess_trinity_impact(self, context: EthicalContext) -> dict[str, str]:
         """Assess impact on Trinity Framework components"""
 
         # ⚛️ Identity impact assessment
@@ -396,7 +396,7 @@ class EthicalEngine:
             "guardian_status": guardian_status
         }
 
-    def _analyze_risks(self, context: EthicalContext) -> Dict[str, float]:
+    def _analyze_risks(self, context: EthicalContext) -> dict[str, float]:
         """Analyze various risk factors"""
 
         return {
@@ -435,9 +435,9 @@ class EthicalEngine:
 
     def _calculate_overall_score(
         self,
-        principle_scores: Dict[EthicalPrinciple, float],
-        trinity_assessment: Dict[str, str],
-        risk_analysis: Dict[str, float]
+        principle_scores: dict[EthicalPrinciple, float],
+        trinity_assessment: dict[str, str],
+        risk_analysis: dict[str, float]
     ) -> float:
         """Calculate overall ethical score"""
 
@@ -466,7 +466,7 @@ class EthicalEngine:
     def _determine_decision(
         self,
         overall_score: float,
-        principle_scores: Dict[EthicalPrinciple, float]
+        principle_scores: dict[EthicalPrinciple, float]
     ) -> EthicalDecision:
         """Determine ethical decision based on scores"""
 
@@ -488,8 +488,8 @@ class EthicalEngine:
         self,
         decision: EthicalDecision,
         overall_score: float,
-        principle_scores: Dict[EthicalPrinciple, float],
-        trinity_assessment: Dict[str, str]
+        principle_scores: dict[EthicalPrinciple, float],
+        trinity_assessment: dict[str, str]
     ) -> str:
         """Generate human-readable reasoning for the decision"""
 
@@ -518,9 +518,9 @@ class EthicalEngine:
     def _generate_recommendations(
         self,
         decision: EthicalDecision,
-        violated_principles: List[EthicalPrinciple],
-        trinity_assessment: Dict[str, str]
-    ) -> List[str]:
+        violated_principles: list[EthicalPrinciple],
+        trinity_assessment: dict[str, str]
+    ) -> list[str]:
         """Generate actionable recommendations"""
 
         recommendations = []

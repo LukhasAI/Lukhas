@@ -287,6 +287,52 @@
         "cwd": "${workspaceFolder}"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "🤖 Copilot Auto-Approve: Phase 3 Surgical Repair",
+      "type": "shell",
+      "command": "echo 'Activating Copilot Auto-Approve for Phase 3 Surgical Repair...'",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      },
+      "options": {
+        "env": {
+          "COPILOT_AUTO_APPROVE": "true",
+          "SURGICAL_REPAIR_MODE": "active",
+          "TRINITY_FRAMEWORK": "⚛️🧠🛡️",
+          "ZERO_ERRORS_GUARANTEE": "enabled"
+        }
+      }
+    },
+    {
+      "label": "⚡ Copilot Enhanced Suggestions",
+      "type": "shell",
+      "command": "echo 'Enhanced Copilot suggestions active for consciousness development'",
+      "group": "build",
+      "options": {
+        "env": {
+          "COPILOT_SUGGESTIONS": "enhanced",
+          "CONSCIOUSNESS_MODE": "active",
+          "AUTO_COMPLETE_LEVEL": "maximum"
+        }
+      }
+    },
+    {
+      "label": "🎯 Copilot Trinity Framework Integration",
+      "type": "shell",
+      "command": "echo 'Copilot Trinity Framework integration activated'",
+      "group": "build",
+      "options": {
+        "env": {
+          "TRINITY_COPILOT": "active",
+          "CONSCIOUSNESS_KEYWORDS": "enabled",
+          "SYMBOLIC_COMPLETIONS": "enhanced"
+        }
+      }
     }
   ]
 }

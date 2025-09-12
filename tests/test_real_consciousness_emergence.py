@@ -469,11 +469,11 @@ async def main():
 
     if performance_passed:
         print("✅ Performance Benchmark Test: PASSED")
-        print(f"   - Average processing time: {performance_results.get('avg_processing_time_ms', 0)}:.2fms")
-        print(f"   - P95 processing time: {performance_results.get('p95_processing_time_ms', 0)}:.2fms")
+        print(f"   - Average processing time: {performance_results.get('avg_processing_time_ms', 0):.2f}ms")
+        print(f"   - P95 processing time: {performance_results.get('p95_processing_time_ms', 0):.2f}ms")
         print(f"   - Performance target met: {performance_results.get('performance_target_met', False)}")
         print(f"   - State consistency: {performance_results.get('state_consistency_maintained', False)}")
-        print(f"   - Concurrency efficiency: {performance_results.get('concurrency_efficiency', 0)}:.2fx")
+        print(f"   - Concurrency efficiency: {performance_results.get('concurrency_efficiency', 0):.2f}x")
     else:
         print("❌ Performance Benchmark Test: FAILED")
         print(f"   - Error: {performance_results.get('error', 'Unknown error')}")

@@ -16,7 +16,7 @@ Trinity Framework Integration: ⚛️🧠🛡️
 """
 
 import logging
-from typing import Optional
+from typing import Optional  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
 
 # Import core API applications
 try:

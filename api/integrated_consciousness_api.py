@@ -389,7 +389,7 @@ async def integrated_chat(request: IntegratedChatRequest):
 
     except Exception as e:
         logger.error(f"Error in integrated chat: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 @app.post("/feedback", tags=["Feedback"])
@@ -456,7 +456,7 @@ async def submit_conversation_feedback(feedback: ConversationFeedback):
 
     except Exception as e:
         logger.error(f"Error submitting feedback: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 @app.post("/dashboard", tags=["Dashboard"])
@@ -552,7 +552,7 @@ async def get_dashboard_data(request: DashboardRequest):
 
     except Exception as e:
         logger.error(f"Error getting dashboard data: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 @app.get("/sessions/{session_id}/export", tags=["Export"])
@@ -615,7 +615,7 @@ async def export_session_with_feedback(session_id: str):
 
     except Exception as e:
         logger.error(f"Error exporting session: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 @app.get("/feedback/influence/{user_id}", tags=["Analytics"])
@@ -676,7 +676,7 @@ async def get_feedback_influence(user_id: str):
 
     except Exception as e:
         logger.error(f"Error calculating feedback influence: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 # Helper functions

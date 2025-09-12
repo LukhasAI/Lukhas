@@ -3,9 +3,6 @@
  Hybrid Component Analyzer - Identifies quantum-hybrid subdirectories
 Runs scenarios to discover natural inter-module relationships
 """
-from consciousness.qi import qi
-import time
-import streamlit as st
 
 import ast
 import json
@@ -392,7 +389,7 @@ def main():
             print(f"\n{module.upper()}:")
             for subdir, info in data["hybrid_components"].items():
                 print(f"  {subdir}:")
-                print(f"    - Cross-refs: {', '.join(info['cross_refs'].keys()}")
+                print(f"    - Cross-refs: {', '.join(info['cross_refs'].keys())}")
                 print(f"    - Concepts: {', '.join(info['concepts'])}")
 
 
