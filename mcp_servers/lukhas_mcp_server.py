@@ -19,37 +19,20 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
-# MCP imports (install with: pip install mcp)
-# Note: Run `pip install mcp` to install the Model Context Protocol library
+from typing import Any, Callable, Optional
+from pathlib import Path
+
+# MCP imports are now done lazily to support sandbox testing
 try:
-    import mcp.server.stdio
     from mcp import types
-    from mcp.server import NotificationOptions, Server
-    from mcp.server.models import InitializationOptions
-
-    MCP_AVAILABLE = True
 except ImportError:
-    print("⚠️  MCP library not installed. Run: pip install mcp")
-    print("🔧 For now, this server will run in demo mode")
-    MCP_AVAILABLE = False
-
-    # Mock classes for development without MCP
-    class Server:
-        def __init__(self, name):
-            pass
-
-        def list_tools(self):
-            return lambda: lambda: []
-
-        def call_tool(self):
-            return lambda: lambda name, args: []
-
+    # Define a mock 'types' class for when mcp is not installed, allowing
+    # the module to be imported and inspected by pytest without errors.
     class types:
         class Tool:
-            pass
-
+            def __init__(self, *args, **kwargs): pass
         class TextContent:
-            pass
+            def __init__(self, *args, **kwargs): pass
 
 
 # LUKHAS symbolic constants
@@ -180,10 +163,24 @@ Methods:
 class LUKHASMCPServer:
     """🎭 The guardian of LUKHAS wisdom, serving knowledge to all AI minds"""
 
-    def __init__(self, workspace_root: str):
+    def __init__(self, workspace_root: str, client_factory: Optional[Callable[[], Any]] = None):
         self.knowledge_base = LUKHASKnowledgeBase(Path(workspace_root))
-        self.server = Server("lukhas-mcp")
-        self._register_tools()
+        self._client_factory = client_factory
+        self._server_instance = None
+
+    @property
+    def server(self):
+        """Lazy-loads the MCP server instance."""
+        if self._server_instance is None:
+            if self._client_factory:
+                self._server_instance = self._client_factory()
+            else:
+                try:
+                    from mcp.server import Server
+                    self._server_instance = Server("lukhas-mcp")
+                except ImportError as e:
+                    raise RuntimeError("MCP library missing and no client_factory provided. Please install 'mcp'.") from e
+        return self._server_instance
 
     def _register_tools(self):
         """Register MCP tools for LUKHAS knowledge access"""
@@ -475,14 +472,23 @@ class LUKHASMCPServer:
 
 async def main():
     """🎭 The awakening of LUKHAS consciousness in the AI realm"""
-
-    # Get workspace root from environment or default
+    # Late import for main execution
+    import mcp.server.stdio
+    from mcp.server import NotificationOptions
+    from mcp.server.models import InitializationOptions
+    from mcp import types as real_types
     import os
+
+    # Ensure the real types are used for main execution, overriding the mock
+    global types
+    types = real_types
 
     workspace_root = os.getenv("LUKHAS_ROOT", "/Users/agi_dev/LOCAL-REPOS/Lukhas")
 
     # Create and run the MCP server
     server_instance = LUKHASMCPServer(workspace_root)
+    # This will trigger the lazy-loading of the real server
+    server_instance._register_tools()
 
     # Run with stdio transport
     async with mcp.server.stdio.stdio_server() as (read_stream, write_stream):

@@ -301,3 +301,6 @@ memory/protection/sanctum_vault/*.vault
 .claude/
 reports/dashboard/*.json
 .lukhas_audit/*.jsonl
+
+# Local python packages installed for testing
+.localpy/
