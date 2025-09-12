@@ -1,5 +1,5 @@
 # Main Makefile PHONY declarations (only for targets defined in this file)
-.PHONY: install setup-hooks dev api openapi live colony-dna-smoke lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports
+.PHONY: install setup-hooks dev api openapi live colony-dna-smoke smoke-matriz lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports
 .PHONY: ai-analyze ai-setup ai-workflow clean deep-clean quick bootstrap organize organize-dry organize-suggest organize-watch
 .PHONY: codex-validate codex-fix validate-all perf migrate-dry migrate-run dna-health dna-compare admin lint-status lane-guard
 .PHONY: audit-tail sdk-py-install sdk-py-test sdk-ts-build sdk-ts-test backup-local backup-s3 restore-local restore-s3 dr-drill dr-weekly dr-quarterly dr-monthly
@@ -54,6 +54,12 @@ live:
 # Colony↔DNA demo
 colony-dna-smoke:
 	python3 scripts/colony_dna_smoke.py
+
+# MATRIZ traces smoke (deterministic, uses golden fixture)
+smoke-matriz:
+	@echo "🚬 Running MATRIZ traces smoke (GET /traces/latest)..."
+	PYTHONPATH=. python3 -m pytest -q tests/smoke/test_traces_router.py --maxfail=1 --disable-warnings
+	@echo "✅ MATRIZ traces smoke passed"
 
 # Linting (no fixes)
 lint:
