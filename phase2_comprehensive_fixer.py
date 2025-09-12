@@ -4,26 +4,28 @@
 
 Apply automated fixes while excluding the known problematic files.
 """
-import subprocess
+
 import os
+import subprocess
+
 
 class Phase2AutoFixer:
     def __init__(self):
         self.problematic_files = {
-            'quarantine/critical/override_logic.py',
-            'quarantine/encoding/lambda_products_gpt_adapter.py', 
-            'tools/scripts/enhance_all_modules.py',
-            'tools/module_dependency_visualizer.py',
-            'candidate/core/safety/predictive_harm_prevention.py',
-            'candidate/bridge/adapters/api_documentation_generator.py',
-            'products/communication/nias/vendor_portal_backup.py'
+            "quarantine/critical/override_logic.py",
+            "quarantine/encoding/lambda_products_gpt_adapter.py",
+            "tools/scripts/enhance_all_modules.py",
+            "tools/module_dependency_visualizer.py",
+            "candidate/core/safety/predictive_harm_prevention.py",
+            "candidate/bridge/adapters/api_documentation_generator.py",
+            "products/communication/nias/vendor_portal_backup.py",
         }
 
         self.safe_fixes = [
-            'W292',  # missing-newline-at-end-of-file
-            'W293',  # blank-line-with-whitespace
-            'F401',  # unused-import
-            'SIM102', # collapsible-if
+            "W292",  # missing-newline-at-end-of-file
+            "W293",  # blank-line-with-whitespace
+            "F401",  # unused-import
+            "SIM102",  # collapsible-if
         ]
 
         self.fixes_applied = 0
@@ -33,12 +35,12 @@ class Phase2AutoFixer:
     def get_clean_python_files(self):
         """Get all Python files excluding problematic ones"""
         all_files = []
-        for root, dirs, files in os.walk('.'):
+        for root, dirs, files in os.walk("."):
             # Skip hidden directories and common excludes
-            dirs[:] = [d for d in dirs if not d.startswith('.') and d not in ['__pycache__', 'node_modules']]
+            dirs[:] = [d for d in dirs if not d.startswith(".") and d not in ["__pycache__", "node_modules"]]
 
             for file in files:
-                if file.endswith('.py'):
+                if file.endswith(".py"):
                     filepath = os.path.relpath(os.path.join(root, file))
                     if filepath not in self.problematic_files:
                         all_files.append(filepath)
@@ -48,14 +50,14 @@ class Phase2AutoFixer:
     def get_baseline_stats(self):
         """Get current error statistics"""
         try:
-            result = subprocess.run([
-                '.venv/bin/python', '-m', 'ruff', 'check', '.', '--statistics'
-            ], capture_output=True, text=True)
+            result = subprocess.run(
+                [".venv/bin/python", "-m", "ruff", "check", ".", "--statistics"], capture_output=True, text=True
+            )
 
-            lines = result.stdout.strip().split('\n')
+            lines = result.stdout.strip().split("\n")
             total_errors = 0
             for line in lines:
-                if line.strip() and not line.startswith('warning:'):
+                if line.strip() and not line.startswith("warning:"):
                     parts = line.split()
                     if parts and parts[0].isdigit():
                         total_errors += int(parts[0])
@@ -76,15 +78,14 @@ class Phase2AutoFixer:
         for fix_type in self.safe_fixes:
             try:
                 # Apply fix to this batch of files
-                cmd = ['.venv/bin/python', '-m', 'ruff', 'check', 
-                       f'--select={fix_type}', '--fix'] + files_batch
+                cmd = [".venv/bin/python", "-m", "ruff", "check", f"--select={fix_type}", "--fix"] + files_batch
 
                 result = subprocess.run(cmd, capture_output=True, text=True)
 
                 # Count fixes from output
                 if fix_type in result.stdout:
-                    for line in result.stdout.split('\n'):
-                        if fix_type in line and 'fixed' in line.lower():
+                    for line in result.stdout.split("\n"):
+                        if fix_type in line and "fixed" in line.lower():
                             try:
                                 count = int(line.split()[0])
                                 fixes_applied += count
@@ -112,7 +113,7 @@ class Phase2AutoFixer:
         total_fixes = 0
 
         for i in range(0, len(clean_files), batch_size):
-            batch = clean_files[i:i+batch_size]
+            batch = clean_files[i : i + batch_size]
             print(f"\n🔧 Processing batch {i//batch_size + 1} ({len(batch)} files)")
 
             batch_fixes = self.apply_safe_fixes_to_files(batch)
@@ -130,14 +131,14 @@ class Phase2AutoFixer:
     def get_final_stats(self):
         """Get final error statistics"""
         try:
-            result = subprocess.run([
-                '.venv/bin/python', '-m', 'ruff', 'check', '.', '--statistics'
-            ], capture_output=True, text=True)
+            result = subprocess.run(
+                [".venv/bin/python", "-m", "ruff", "check", ".", "--statistics"], capture_output=True, text=True
+            )
 
-            lines = result.stdout.strip().split('\n')
+            lines = result.stdout.strip().split("\n")
             total_errors = 0
             for line in lines:
-                if line.strip() and not line.startswith('warning:'):
+                if line.strip() and not line.startswith("warning:"):
                     parts = line.split()
                     if parts and parts[0].isdigit():
                         total_errors += int(parts[0])
@@ -145,9 +146,9 @@ class Phase2AutoFixer:
             self.errors_after = total_errors
 
             improvement = self.errors_before - self.errors_after
-            print(f"\n📊 Final Results:")
+            print("\n📊 Final Results:")
             print(f"   Before: {self.errors_before} errors")
-            print(f"   After:  {self.errors_after} errors") 
+            print(f"   After:  {self.errors_after} errors")
             print(f"   Fixed:  {improvement} errors ({improvement/self.errors_before*100:.1f}% improvement)")
 
         except Exception as e:
@@ -183,10 +184,11 @@ class Phase2AutoFixer:
 *Phase 2 automated improvements completed successfully*
 """
 
-        with open('PHASE2_COMPLETION_REPORT.md', 'w') as f:
+        with open("PHASE2_COMPLETION_REPORT.md", "w") as f:
             f.write(report)
 
-        print(f"\n📄 Report saved: PHASE2_COMPLETION_REPORT.md")
+        print("\n📄 Report saved: PHASE2_COMPLETION_REPORT.md")
+
 
 if __name__ == "__main__":
     fixer = Phase2AutoFixer()
