@@ -65,7 +65,7 @@ class SimplifiedEthicsIntegration:
         Evaluate the ethical implications of an action.
         """
         try:
-            decision_id = f"eth_dec_{int(datetime.now(timezone.utc).timestamp()}"
+            decision_id = f"eth_dec_{int(datetime.now(timezone.utc).timestamp())}"
 
             result = {
                 "decision_id": decision_id,

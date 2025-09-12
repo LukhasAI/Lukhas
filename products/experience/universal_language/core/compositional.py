@@ -320,7 +320,7 @@ class SymbolComposer:
         children = symbols[1:]
 
         return Symbol(
-            id=f"HIER_{hashlib.sha256(parent.name.encode()).hexdigest()}[:8]}",
+            id=f"HIER_{hashlib.sha256(parent.name.encode()).hexdigest()[:8]}",
             domain=parent.domain,
             name=f"{parent.name}[{','.join(c.name for c in children)}]",
             value=parent.value,
@@ -343,7 +343,7 @@ class SymbolComposer:
         name = f"emergent({','.join(s.name[:3] for s in symbols)})"
 
         return Symbol(
-            id=f"EMERGENT_{hashlib.sha256(name.encode()).hexdigest()}[:8]}",
+            id=f"EMERGENT_{hashlib.sha256(name.encode()).hexdigest()[:8]}",
             domain=SymbolicDomain.CONTEXT,
             name=name,
             value=name,
@@ -484,7 +484,7 @@ class SymbolProgramSynthesizer:
         Returns output symbols.
         """
         # Create execution environment
-        env = {"symbols": input_symbols.copy(), "operations": self.operation_library, "results": {}
+        env = {"symbols": input_symbols.copy(), "operations": self.operation_library, "results": {}}
 
         # Parse and execute program
         try:
@@ -688,7 +688,7 @@ class SymbolProgramSynthesizer:
 
     def _generate_program_id(self) -> str:
         """Generate unique program ID"""
-        return f"PROG_{int(time.time(} * 1000)}"
+        return f"PROG_{int(time.time()) * 1000}"
 
 
 # Singleton instances
