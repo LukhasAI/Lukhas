@@ -11,7 +11,7 @@ authors = [
     {name = "LUKHAS AI", email = "contact@lukhas.ai"}
 ]
 readme = "README.md"
-license = {text = "MIT"}
+license = "MIT"
 keywords = ["ai", "consciousness", "cognitive-architecture", "constellation-framework"]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -75,7 +75,7 @@ Repository = "https://github.com/LukhasAI/Lukhas"
 Issues = "https://github.com/LukhasAI/Lukhas/issues"
 
 [tool.setuptools]
-packages = ["lukhas", "matriz"]
+packages = ["lukhas", "matriz", "candidate", "branding"]
 
 [tool.pytest.ini_options]
 minversion = "8.0"
