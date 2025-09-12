@@ -15,6 +15,7 @@ import time
 from unittest.mock import patch
 
 import pytest
+from lukhas.governance.identity.connector import SecurityError
 
 from lukhas.consciousness import (
     AwarenessLevel,

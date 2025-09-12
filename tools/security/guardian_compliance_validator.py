@@ -257,7 +257,7 @@ class GuardianComplianceValidator:
 
         return results
 
-    def generate_compliance_report(self, validation_results: Dict[str, Any]) -> str:  # noqa: F821  # TODO: Dict
+    def generate_compliance_report(self, validation_results: dict[str, Any]) -> str:
         """Generate comprehensive compliance report."""
         report_time = datetime.now(timezone.utc)
         validation_duration = (report_time - self.validation_start).total_seconds()
@@ -367,7 +367,7 @@ class GuardianComplianceValidator:
             and guardian["constraints_valid"]
         )
 
-    def _is_constitutional_compliant(self, results: Dict[str, Any]) -> bool:  # noqa: F821  # TODO: Dict
+    def _is_constitutional_compliant(self, results: dict[str, Any]) -> bool:
         """Check if Constitutional AI is compliant."""
         const = results["constitutional"]
         return (
@@ -376,18 +376,18 @@ class GuardianComplianceValidator:
             and const["human_oversight_enabled"]
         )
 
-    def _is_gdpr_ccpa_ready(self, results: Dict[str, Any]) -> bool:  # noqa: F821  # TODO: Dict
+    def _is_gdpr_ccpa_ready(self, results: dict[str, Any]) -> bool:
         """Check if GDPR/CCPA ready."""
         deps = results["dependencies"]
         return deps["constraints_exist"] and deps["guardian_validated"] and deps["compliance_markers"] > 0
 
-    def _is_supply_chain_secure(self, results: Dict[str, Any]) -> bool:  # noqa: F821  # TODO: Dict
+    def _is_supply_chain_secure(self, results: dict[str, Any]) -> bool:
         """Check if supply chain is secure."""
         sbom = results["sbom"]
         ci = results["ci"]
         return sbom["sbom_exists"] and sbom["sbom_valid"] and ci["sbom_generation"] and ci["gitleaks_enabled"]
 
-    def _generate_recommendations(self, results: Dict[str, Any]) -> str:  # noqa: F821  # TODO: Dict
+    def _generate_recommendations(self, results: dict[str, Any]) -> str:
         """Generate compliance recommendations."""
         recommendations = []
 
