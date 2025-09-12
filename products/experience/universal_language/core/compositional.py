@@ -5,7 +5,6 @@ Compositional Symbol Generation and Program Synthesis
 Advanced AGI-level capabilities for dynamic symbol creation and programming.
 Combines insights from all three leaders (Altman, Amodei, Hassabis).
 """
-import streamlit as st
 
 import hashlib
 import logging

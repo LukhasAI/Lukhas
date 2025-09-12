@@ -180,6 +180,13 @@ dna-compare:
 admin:
 	open http://127.0.0.1:8000/admin || true
 
+# Build system performance metrics dashboard
+metrics-dashboard:
+	@echo "🎯 Generating Build System Performance Dashboard..."
+	@mkdir -p reports
+	@python3 tools/ci/build_metrics_dashboard.py
+	@echo "✅ Dashboard complete! Check reports/build_performance_report.md"
+
 # Check linting status
 lint-status:
 	@python tools/scripts/check_progress.py

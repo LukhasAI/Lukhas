@@ -55,12 +55,12 @@ class IntegrationBridge:
             # Configure consent levels
             consent_config = nias_config.get("consent_levels", {})
             nias.consent_levels = consent_config
-            print(f"   ✅ Consent levels configured: {list(consent_config.keys()}")
+            print(f"   ✅ Consent levels configured: {list(consent_config.keys())}")
 
             # Set delivery methods
             delivery_config = nias_config.get("delivery_methods", {})
             nias.delivery_methods = delivery_config
-            print(f"   ✅ Delivery methods configured: {list(delivery_config.keys()}")
+            print(f"   ✅ Delivery methods configured: {list(delivery_config.keys())}")
 
             # Enable consciousness features
             if self.config["components"]["consciousness"]["enabled"]:

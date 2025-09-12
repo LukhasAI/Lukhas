@@ -14,7 +14,7 @@ on:
       - 'tools/ci/mark_unused_imports_todo.py'
       - 'tools/ci/check_unused_imports_todo.py'
       - 'tools/ci/unused_imports.py'
-      - 'AUDIT/waivers/unused_imports.yaml'
+      - 'audit/waivers/unused_imports.yaml'
       - '.github/workflows/t4-unused-imports.yml'
   pull_request:
     branches: [main, develop]
@@ -29,7 +29,7 @@ on:
       - 'tools/ci/mark_unused_imports_todo.py'
       - 'tools/ci/check_unused_imports_todo.py'
       - 'tools/ci/unused_imports.py'
-      - 'AUDIT/waivers/unused_imports.yaml'
+      - 'audit/waivers/unused_imports.yaml'
   workflow_dispatch:
     inputs:
       operation:
@@ -85,13 +85,13 @@ jobs:
           fi
           
           # Check waivers system
-          if [[ ! -f "AUDIT/waivers/unused_imports.yaml" ]]; then
-            echo "❌ T4 waivers config missing: AUDIT/waivers/unused_imports.yaml"
+          if [[ ! -f "audit/waivers/unused_imports.yaml" ]]; then
+            echo "❌ T4 waivers config missing: audit/waivers/unused_imports.yaml"
             exit 1
           fi
           
           # Test YAML validity
-          python3 -c "import yaml; yaml.safe_load(open('AUDIT/waivers/unused_imports.yaml'))"
+          python3 -c "import yaml; yaml.safe_load(open('audit/waivers/unused_imports.yaml'))"
           echo "✅ Waivers YAML valid"
           
           # Test T4 tools syntax

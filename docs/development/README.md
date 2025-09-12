@@ -25,6 +25,7 @@ This directory contains comprehensive development documentation, integration gui
 
 #### **Integration Development**
 - **[CLAUDE_LUKHAS_INTEGRATION_GUIDE.md](./CLAUDE_LUKHAS_INTEGRATION_GUIDE.md)** - Claude-LUKHAS integration development
+- **[PARALLEL_AGENT_COORDINATION.md](./PARALLEL_AGENT_COORDINATION.md)** - Multi-agent parallel development workflows
 
 ### 🧬 **System Architecture Development**
 
