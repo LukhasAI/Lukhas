@@ -199,7 +199,7 @@ class CleanupGenerator:
 
             for issue in moves:
                 old_path = issue["file"]
-                new_path = f"{target_dir}/{Path(old_path)}.name}"
+                new_path = f"{target_dir}/{Path(old_path).name}"
 
                 lines.append("")
                 lines.append(f"if [ -f '{old_path}' ]; then")

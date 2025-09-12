@@ -336,7 +336,7 @@ class AutoEscalatorEngine:
                 "quality_score": f"{policy.min_quality_score:.1f}",
                 "requirements": {
                     "conversions": policy.required_metrics.get("min_conversions", 0),
-                    "retention_rate": f"{policy.required_metrics.get('min_retention', 0.0)}  * 100:.1f}%",
+                    "retention_rate": f"{policy.required_metrics.get('min_retention', 0.0) * 100:.1f}%",
                     "merchant_rating": policy.required_metrics.get("min_merchant_rating", 0.0),
                     "active_days": policy.required_metrics.get("min_days_active", 0),
                 },

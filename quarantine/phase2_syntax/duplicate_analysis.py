@@ -92,7 +92,7 @@ class DuplicateAnalyzer:
         sig_parts = [
             f"class {node.name}",
             f"bases:{','.join(bases)}",
-            f"methods:{','.join(sorted(methods)}",
+            f"methods:{','.join(sorted(methods))}",
         ]
 
         return "|".join(sig_parts)
@@ -345,7 +345,7 @@ def main():
     print(f"   Duplicate functions: {len(duplicates['duplicate_functions'])}")
     print(f"   Similar classes: {len(duplicates['similar_classes'])}")
     print(f"   Common imports: {len(duplicates['common_imports'])}")
-    print(f"   Repeated patterns: {sum(len(v) for v in duplicates['repeated_patterns'].values()}")
+    print(f"   Repeated patterns: {sum(len(v) for v in duplicates['repeated_patterns'].values())}")
 
     # Show top duplicates
     if duplicates["duplicate_functions"]:

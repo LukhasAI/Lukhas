@@ -45,7 +45,7 @@ def get_module_info(module_path: str) -> dict[str, Any]:
         "path": str(path),
         "name": path.stem,
         "size": path.stat().st_size,
-        "modified": datetime.fromtimestamp(path.stat(, tz=timezone.utc).st_mtime).isoformat(),
+        "modified": datetime.fromtimestamp(path.stat().st_mtime, tz=timezone.utc).isoformat(),
         "lines": 0,
         "imports": [],
         "classes": [],

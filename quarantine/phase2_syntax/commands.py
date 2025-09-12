@@ -201,7 +201,7 @@ class StatusCommand(BaseCommand):
 
         # System info
         system_info = get_system_info()
-        print(f"Python: {system_info['python_version'].split()}[0]}")
+        print(f"Python: {system_info['python_version'].split()[0]}")
         print(f"Platform: {system_info['platform']}")
         print(f"Working Dir: {system_info['working_directory']}")
 

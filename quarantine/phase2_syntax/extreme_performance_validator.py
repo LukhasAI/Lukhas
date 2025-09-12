@@ -189,7 +189,7 @@ class ExtremePerformanceValidator:
         # Generate comprehensive report
         validation_report = self._generate_validation_report()
 
-        print(f"\n🏁 VALIDATION COMPLETED in {time.time()} - self.validation_start_time:.1f}s")
+        print(f"\n🏁 VALIDATION COMPLETED in {time.time() - self.validation_start_time:.1f}s")
         print("=" * 60)
 
         return validation_report
@@ -469,7 +469,7 @@ class ExtremePerformanceValidator:
         )
 
         print(f"   Throughput: {throughput_rps:.0f} RPS (target: 10,000 RPS)")
-        print(f"   Success rate: {(successful_requests / concurrent_requests)}  * 100:.1f}%")
+        print(f"   Success rate: {(successful_requests / concurrent_requests) * 100:.1f}%")
 
     async def _validate_statistical_performance(self):
         """Validate statistical performance characteristics"""
@@ -638,7 +638,7 @@ async def main():
     print(f"Tests run: {summary.get('total_tests', 0)}")
     print(f"Tests passed: {summary.get('passed_tests', 0)}")
     print(f"Pass rate: {summary.get('pass_rate_percent', 0):.1f}%")
-    print(f"OpenAI scale ready: {'✅ YES' if assessment.get('openai_scale_ready')} else '❌ NO'}")
+    print(f"OpenAI scale ready: {'✅ YES' if assessment.get('openai_scale_ready') else '❌ NO'}")
     print(f"Performance level: {assessment.get('performance_level', 'unknown')}")
 
     print("\n🎯 KEY ACHIEVEMENTS:")

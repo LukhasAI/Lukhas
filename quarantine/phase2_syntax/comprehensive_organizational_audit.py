@@ -448,7 +448,7 @@ Commercial Readiness: {report["commercial_readiness"]}
                 for issue in issue_list[:5]:  # Show first 5
                     summary += f"   - {issue}\n"
                 if len(issue_list) > 5:
-                    summary += f"   ... and {len(issue_list)} - 5} more\n"
+                    summary += f"   ... and {len(issue_list) - 5} more\n"
 
         summary += "\n💡 RECOMMENDATIONS:\n"
         for i, rec in enumerate(report["recommendations"], 1):

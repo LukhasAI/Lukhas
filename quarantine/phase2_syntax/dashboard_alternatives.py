@@ -282,9 +282,9 @@ class SimpleDashboard:
             font-weight: bold;
             margin-left: 10px;
         }
-        .status.active {{ background-color: #4CAF50; }
-        .status.warning {{ background-color: #FF9800; }
-        .status.error {{ background-color: #F44336; }
+        .status.active {{ background-color: #4CAF50; }}
+        .status.warning {{ background-color: #FF9800; }}
+        .status.error {{ background-color: #F44336; }}
         .grid {{
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -415,8 +415,8 @@ class SimpleDashboard:
                     let metricsHtml = '';
                     for (const [key, metric] of Object.entries(data.metrics)) {{
                         metricsHtml += `<div class="metric">
-                            <span>${{key}</span>
-                            <span class="metric-value">${{metric.value} ${{metric.unit}</span>
+                            <span>${{key}}</span>
+                            <span class="metric-value">${{metric.value}} ${{metric.unit}}</span>
                         </div>`;
                     }
                     document.getElementById('metrics').innerHTML = metricsHtml;
@@ -428,8 +428,8 @@ class SimpleDashboard:
                     } else {{
                         data.charts.forEach(chart => {{
                             chartsHtml += `<div class="chart-placeholder">
-                                📊 ${{chart.title}<br>
-                                <small>${{chart.type} chart with ${{chart.data.length} data points</small>
+                                📊 ${{chart.title}}<br>
+                                <small>${{chart.type}} chart with ${{chart.data.length}} data points</small>
                             </div>`;
                         });
                     }

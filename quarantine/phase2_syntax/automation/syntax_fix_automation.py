@@ -65,7 +65,7 @@ class AutomatedSyntaxFixer:
                 # Only fix if it's clearly a function call with extra closing brace
                 inner = match.group(1)
                 if "(" in inner and not inner.endswith("()"):
-                    content = content.replace(match.group(0), f"{{{inner}}")
+                    content = content.replace(match.group(0), f"{{{inner}}}")
                     fixes_applied += 1
 
             # Pattern 2: .hexdigest(}}[:N] → .hexdigest()}[:N]

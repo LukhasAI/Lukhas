@@ -63,7 +63,7 @@ class CollapseReplayTool:
             print(f"{session_id:<20} {start_time:<20} {branch:<15} {glyphs}")
 
         print("\n" + "=" * 60)
-        print(f"Total sessions: {len(self.journal_data.get('sessions', [])}")
+        print(f"Total sessions: {len(self.journal_data.get('sessions', []))}")
 
     def get_session(self, session_id: str) -> Optional[dict]:
         """Get a specific session by ID"""

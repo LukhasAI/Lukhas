@@ -1,3 +1,5 @@
+from lukhas_paths import paths
+
 #!/usr/bin/env python3
 """
 LUKHAS AI Path Manager
@@ -8,7 +10,7 @@ from pathlib import Path
 from typing import Optional, Union
 
 # Get project root directory
-PROJECT_ROOT = Path(__file__).parent.parent
+PROJECT_ROOT = Path(__file__).parent
 
 
 class LukhasPathManager:
