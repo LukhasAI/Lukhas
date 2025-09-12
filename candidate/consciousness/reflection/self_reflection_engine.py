@@ -79,6 +79,9 @@ class SelfReflectionEngine:
         """Core consciousness processing logic"""
         # Implement specific consciousness processing
         # This is a placeholder that should be enhanced based on requirements
+        
+        # Extract category from data or set default
+        category = getattr(data, 'category', None) if hasattr(data, 'category') else data.get('category', 'generic') if isinstance(data, dict) else 'generic'
 
         if category == "consciousness":
             return await self._process_consciousness(data)
