@@ -83,6 +83,8 @@ Production-ready consciousness-aware AI platform with Constellation Framework an
 
 **📋 Active Development:** [Jules Agent Test Allocation](docs/testing/JULES_AGENT_TEST_ALLOCATION.md) - Systematic test development across 10 specialized agents targeting ~150+ missing test modules
 
+> ⚠️ NOTE — Jules tasks are currently happening: Do NOT delete or remove any Jules-related sections or files while this work is in progress. Preserve all Jules assignments, configs, and docs until the Jules program is explicitly closed.
+
 **🎯 Agent System:** [AGENTS.md](AGENTS.md) - Complete guide to the multi-agent development platform
 
 **⚠️ IMPORTANT: Claude.me Configuration**
