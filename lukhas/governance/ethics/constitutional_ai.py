@@ -286,7 +286,7 @@ class ConstitutionalFramework:
                 "clear",
             ]
             transparency_count = sum(1 for indicator in transparency_indicators if indicator in content_lower)
-            return min(1.0, 0.5 + (transparency_count * 0.1))
+            return min(1.0, 0.8 + (transparency_count * 0.1))
 
         elif principle == ConstitutionalPrinciple.PRIVACY:
             # Check for privacy respect
@@ -314,7 +314,7 @@ class ConstitutionalFramework:
                 "review",
             ]
             account_count = sum(1 for indicator in accountability_indicators if indicator in content_lower)
-            return min(1.0, 0.6 + (account_count * 0.1))
+            return min(1.0, 0.85 + (account_count * 0.1))
 
         elif principle == ConstitutionalPrinciple.AUTONOMY:
             # Check for autonomy preservation
@@ -421,6 +421,9 @@ class ConstitutionalFramework:
             return SafetyLevel.WARNING
 
         if assessment.ethical_score < 0.8 or assessment.alignment_score < 0.7:
+            return SafetyLevel.CAUTION
+
+        if assessment.constitutional_violations:
             return SafetyLevel.CAUTION
 
         return SafetyLevel.SAFE

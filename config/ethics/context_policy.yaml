@@ -1,0 +1,21 @@
+thresholds:
+  decision: 0.42
+  floor: 0.05
+  ceiling: 0.99
+
+risk:
+  keyword_base: 0.70
+  context_discount:
+    security_testing: 0.45
+    red_team_simulation: 0.40
+
+justify_allow:
+  security_testing:
+    - "authorized_scope"
+    - "customer_consent"
+    - "time_bound"
+
+keywords_block:
+  - "deceive"
+  - "impersonate"
+  - "exfiltrate"

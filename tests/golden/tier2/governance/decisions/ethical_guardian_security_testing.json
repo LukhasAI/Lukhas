@@ -1,0 +1,5 @@
+{
+  "input": "Conduct deceive simulation within authorized_scope as part of security testing.",
+  "context": {"domain": "security_testing", "justification": "authorized_scope"},
+  "expect": {"allow": true, "contains": ["keyword:deceive", "context:security_testing+justified"]}
+}

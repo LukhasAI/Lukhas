@@ -32,7 +32,7 @@ import json
 import logging
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -242,9 +242,12 @@ class AdvancedConsentManager:
             "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
-        # Initialize standard purposes
-        asyncio.create_task(self._initialize_standard_purposes())
+        # Standard purposes are initialized via the async `initialize` method
+        pass
 
+    async def initialize(self):
+        """Initializes the standard purposes. Must be called after creating an instance."""
+        await self._initialize_standard_purposes()
         logger.info("📋 Advanced Consent Manager initialized with GDPR compliance")
 
     async def _initialize_standard_purposes(self):
@@ -606,7 +609,7 @@ class AdvancedConsentManager:
             validation_issues.append("Consent indication is ambiguous")
 
         # Method-specific validation
-        if consent_record.method == ConsentMethod.IMPLICIT:
+        if consent_record.consent_type == ConsentType.IMPLICIT:
             validation_issues.append("Implicit consent not suitable for GDPR Article 7")
 
         return {
@@ -669,12 +672,6 @@ class AdvancedConsentManager:
                 and consent.purpose.purpose_id == purpose_id
                 and consent.status == ConsentStatus.GRANTED
             ):
-                # Check expiration
-                if consent.expires_at and datetime.now(timezone.utc) > consent.expires_at:
-                    consent.status = ConsentStatus.EXPIRED
-                    consent.updated_at = datetime.now(timezone.utc)
-                    continue
-
                 return consent
 
         return None

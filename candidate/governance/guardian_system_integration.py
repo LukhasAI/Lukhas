@@ -165,6 +165,7 @@ class GuardianValidationRequest:
     # Performance requirements
     max_validation_time_ms: int = 250
     priority: str = "normal"
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -285,10 +286,12 @@ class GuardianSystemIntegration:
         # Alert system
         self.alert_handlers: dict[GuardianAlertLevel, list[Callable]] = {level: [] for level in GuardianAlertLevel}
 
-        # Initialize system
-        asyncio.create_task(self._initialize_guardian_system())
+        # System must be initialized with the async initialize() method
+        logger.info(f"🛡️ Guardian System Integration Hub created: {self.guardian_id}")
 
-        logger.info(f"🛡️ Guardian System Integration Hub initializing: {self.guardian_id}")
+    async def initialize(self):
+        """Initializes the Guardian System components. Must be called after creation."""
+        await self._initialize_guardian_system()
 
     async def _initialize_guardian_system(self):
         """Initialize all Guardian System components"""
@@ -632,14 +635,14 @@ class GuardianSystemIntegration:
         """Validate Constellation Framework requirements (✨🌟⭐🔥💎⚖️🛡️🌌)"""
 
         constellation_validation = {
-            "identity": False,  # ✨ Identity - Anchor star
-            "memory": False,  # 🌟 Memory - Tracing paths of past light
-            "vision": False,  # ⭐ Vision - Orientation toward horizon
-            "bio": False,  # 🔥 Bio - Resilience and adaptation
-            "dream": False,  # 💎 Dream - Symbolic drift
-            "ethics": False,  # ⚖️ Ethics - The North Star
-            "guardian": False,  # 🛡️ Guardian - The Watch Star
-            "quantum": False,  # 🌌 Quantum - Ambiguity and resolution
+            "identity": False,
+            "memory": False,
+            "vision": False,
+            "bio": False,
+            "dream": False,
+            "ethics": False,
+            "guardian": False,
+            "quantum": False,
         }
 
         try:

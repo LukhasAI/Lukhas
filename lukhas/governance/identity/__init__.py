@@ -376,6 +376,35 @@ class PasskeyModule:
 # Export passkey module
 passkey = PasskeyModule()
 
+class QRGModule:
+    """QRG module compatibility class"""
+    pass
+
+qrg = QRGModule()
+
+class WalletModule:
+    """Wallet module compatibility class"""
+    pass
+
+wallet = WalletModule()
+
+class AuthBackendModule:
+    pass
+auth_backend = AuthBackendModule()
+
+class ConnectorModule:
+    pass
+connector = ConnectorModule()
+
+class ExtremePerformanceConnectorModule:
+    pass
+extreme_performance_connector = ExtremePerformanceConnectorModule()
+
+class WebAuthnModule:
+    pass
+webauthn = WebAuthnModule()
+
+
 # Core module exports
 __all__ = [
     "IMPORT_MAPPINGS",
@@ -390,6 +419,12 @@ __all__ = [
     "register_passkey",
     "verify_passkey",
     "verify_tier_access",
+    "qrg",
+    "wallet",
+    "auth_backend",
+    "connector",
+    "extreme_performance_connector",
+    "webauthn",
 ]
 
 # Log successful initialization
