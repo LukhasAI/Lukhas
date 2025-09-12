@@ -538,7 +538,7 @@ f401-audit:
 	@echo "F401 audit saved to reports/audit/f401.json"
 
 f401-trend:
-	@python3 f401_trend.py
+	@python3 tools/ci/f401_trend.py
 
 # Convenience combos
 types-audit-trend: types-audit types-trend

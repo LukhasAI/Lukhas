@@ -18,7 +18,7 @@ jobs:
         run: |
           mkdir -p reports/audit
           python3 -m ruff check --select F401 --output-format json > reports/audit/f401.json || true
-          python3 f401_trend.py
+          python3 tools/ci/f401_trend.py
       - name: F401 summary
         run: |
           python - <<'PY'
