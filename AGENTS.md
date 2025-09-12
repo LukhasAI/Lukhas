@@ -42,6 +42,8 @@ To get started with Jules agents for test development, follow these steps:
 
 **Target**: 176 new tests for 95%+ system coverage with T4 quality gates
 
+> ⚠️ NOTE — Jules tasks are currently happening: Do NOT delete or remove any Jules-related sections or files while this work is in progress. Preserve all Jules assignments, configs, and docs until the Jules program is explicitly closed.
+
 ## 🏗️ Agent System Architecture
 
 LUKHAS employs a multi-layered agent system with different specializations and deployment methods:
