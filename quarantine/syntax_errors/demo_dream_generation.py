@@ -5,7 +5,7 @@ Demo: Generate a complete dream with narrative and image using OpenAI
 
 import asyncio
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 # Load environment

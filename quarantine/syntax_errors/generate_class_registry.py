@@ -7,7 +7,7 @@ Creates a comprehensive registry of all classes in the codebase
 import ast
 import json
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 

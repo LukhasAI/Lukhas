@@ -6,7 +6,7 @@ Comprehensive testing of the entire LUKHAS consciousness platform
 
 import os
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 def test_import(timezone, module_name, description=""):
@@ -26,7 +26,7 @@ def test_import(timezone, module_name, description=""):
     except AttributeError as e:
         return False, f"❌ AttributeError: {str(e)[:40]}..."
     except Exception as e:
-        return False, f"❌ {type(e).__name__}: {str(e}[:40]}..."
+        return False, f"❌ {type(e).__name__}: {str(e)[:40]}..."
 
 
 def main():
@@ -42,7 +42,7 @@ def main():
             lukhas_dirs.append(item)
 
     print(f"🔍 Discovered {len(lukhas_dirs)} top-level directories")
-    print(f\'🚀 Ecosystem scan started: {datetime.now(timezone.utc).strftime("%H:%M:%S")}\')
+    print(f"🚀 Ecosystem scan started: {datetime.now(timezone.utc).strftime('%H:%M:%S')}")
     print()
 
     # Comprehensive system testing
@@ -248,7 +248,7 @@ def main():
     print()
     print("🌍 COMPLETE ECOSYSTEM SCAN FINISHED! 🧠")
     print(f"True system scope: {total_systems} major components")
-    print(f'Directories discovered: {", ".join(sorted(lukhas_dirs)}')
+    print(f'Directories discovered: {", ".join(sorted(lukhas_dirs))}')
 
 
 if __name__ == "__main__":

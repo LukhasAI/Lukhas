@@ -7,7 +7,7 @@ Archives deprecated files, cleans cache, updates docs, and creates clean package
 import re
 import shutil
 import zipfile
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 

@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 """
 Receptivity Window Calculator for the Consciousness Oracle.

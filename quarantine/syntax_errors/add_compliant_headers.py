@@ -8,7 +8,7 @@ to all Python files in the quantum directory, following the
 established compliance report standards.
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 # Technical descriptions for quantum modules

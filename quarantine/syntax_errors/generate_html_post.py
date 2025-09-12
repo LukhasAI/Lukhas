@@ -12,7 +12,7 @@ import html
 import json
 import os
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 
 QUEUE_PATH = "core/logging/publish_queue.jsonl"
 EXPORT_DIR = "html_posts"

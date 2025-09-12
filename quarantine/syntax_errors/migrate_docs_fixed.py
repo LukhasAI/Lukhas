@@ -1,62 +1,48 @@
 #!/usr/bin/env python3
 """
-Complete Documentation Migration Script for LUKHAS Repository
-Migrates ALL 8,967+ markdown files to organized docs_new/ structure
+FIXED Complete Documentation Migration Script for LUKHAS Repository
+Migrates ALL 8,968+ markdown files to organized docs_new/ structure
 """
 
 import shutil
-from datetime import datetime
+import subprocess
+from datetime import datetime, timezone
 from pathlib import Path
 
-# Controlled vocabulary from lukhas_docs_tests_starter
-VOCABULARY = {
-    "status": ["draft", "review", "stable", "deprecated", "archived"],
-    "owner": [
-        "core-dev",
-        "consciousness-architect",
-        "memory-specialist",
-        "identity-specialist",
-        "bio-specialist",
-        "quantum-specialist",
-        "guardian-specialist",
-        "vision-specialist",
-        "dream-specialist",
-        "ethics-officer",
-        "integration-engineer",
-        "api-specialist",
-        "testing-specialist",
-        "principal-repo-surgeon",
-        "brand-manager",
-        "docs-maintainer",
-    ],
-    "tags": [
-        "architecture",
-        "consciousness",
-        "memory",
-        "identity",
-        "bio",
-        "quantum",
-        "dream",
-        "vision",
-        "ethics",
-        "guardian",
-        "api",
-        "integration",
-        "testing",
-        "deployment",
-        "security",
-        "performance",
-        "migration",
-        "tutorial",
-        "reference",
-        "troubleshooting",
-    ],
-    "facets": {
-        "layer": ["core", "candidate", "gateway", "orchestration", "consciousness"],
-        "domain": ["symbolic", "bio", "quantum", "memory", "identity", "vision", "ethics"],
-        "audience": ["dev", "ops", "researcher", "contributor", "user"],
-    },
-}
+
+def find_all_markdown_files():
+    """Use subprocess to get the exact same files as bash find command"""
+    cmd = [
+        "find",
+        ".",
+        "-name",
+        "*.md",
+        "-not",
+        "-path",
+        "./docs_new/*",
+        "-not",
+        "-path",
+        "./.venv/*",
+        "-not",
+        "-path",
+        "./node_modules/*",
+        "-not",
+        "-path",
+        "./.git/*",
+        "-not",
+        "-path",
+        "./site/*",
+        "-not",
+        "-path",
+        "./lukhas_website/*",
+        "-not",
+        "-path",
+        "./website_v1/*",
+    ]
+
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    files = [Path(f.strip()) for f in result.stdout.split("\n") if f.strip()]
+    return files
 
 
 def categorize_file(filepath):
@@ -252,9 +238,9 @@ def add_front_matter(filepath, metadata):
 
 
 def migrate_documentation():
-    """Main migration function"""
+    """Main migration function - FIXED VERSION"""
 
-    print("🚀 Starting Complete Documentation Migration")
+    print("🚀 Starting FIXED Complete Documentation Migration")
     print("=" * 60)
 
     # Create docs_new structure if it doesn't exist
@@ -264,15 +250,10 @@ def migrate_documentation():
     for category in categories:
         (base_dir / category).mkdir(parents=True, exist_ok=True)
 
-    # Find all markdown files
-    md_files = []
-    exclude_paths = [".venv", "node_modules", ".git", "docs_new", "site", "lukhas_website", "website_v1"]
+    # Use the FIXED file finding method
+    md_files = find_all_markdown_files()
 
-    for file_path in Path(".").rglob("*.md"):
-        if not any(exclude in str(file_path) for exclude in exclude_paths):
-            md_files.append(file_path)
-
-    print(f"📊 Found {len(md_files)} markdown files to migrate")
+    print(f"📊 Found {len(md_files)} markdown files to migrate (FIXED COUNT)")
 
     # Migration statistics
     stats = {category: 0 for category in categories}
@@ -281,7 +262,7 @@ def migrate_documentation():
 
     # Process each file
     for i, source_file in enumerate(md_files):
-        if i % 100 == 0:
+        if i % 500 == 0:
             print(f"Progress: {i}/{len(md_files)} ({i/len(md_files)*100:.1f}%)")
 
         try:
@@ -311,7 +292,7 @@ def migrate_documentation():
             print(f"❌ Error migrating {source_file}: {e}")
             errors += 1
 
-    print("\n✅ Migration Complete!")
+    print("\n✅ FIXED Migration Complete!")
     print(f"📊 Files migrated: {migrated}")
     print(f"❌ Errors: {errors}")
     print("\n📈 Category Distribution:")

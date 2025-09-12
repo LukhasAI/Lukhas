@@ -7,7 +7,7 @@ Implements optimizations for module communication pathways.
 
 import json
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -77,7 +77,7 @@ Centralized event system for loose module coupling.
 
 from typing import Dict, List, Callable, Any, Optional
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 import asyncio
 import logging
 from collections import defaultdict
@@ -496,7 +496,7 @@ Handles high-traffic communication with queuing and caching.
 
 from typing import Dict, List, Any, Optional, Callable
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 import asyncio
 import logging
 from collections import deque

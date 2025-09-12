@@ -6,7 +6,7 @@ Only migrates actual documentation markdown files, not code or build artifacts
 
 import shutil
 import subprocess
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 

@@ -20,7 +20,6 @@ try:
     from branding.integrations.simple_llm_bridge import (
         SimpleLLMBridge,
         VoiceGenerationRequest,
-        VoiceGenerationResponse,
     )
 
     LLM_BRIDGE_AVAILABLE = True
@@ -31,18 +30,15 @@ except ImportError as e:
 # Import voice systems with fallback (avoiding circular imports)
 try:
     # Try importing voice systems, but catch circular import issues
-    from products.experience.voice.bridge.interface import VoiceNode
     from products.experience.voice.bridge.modulator import VoiceModulator
-    from products.experience.voice.bridge.synthesis import VoiceSynthesis
+    from products.experience.voice.core import LUKHASVoiceSystem
+    from products.experience.voice.core.audio_processing import LUKHASAudioProcessor
+
+    # Import the specific classes we need
+    from products.experience.voice.core.voice_effects import VoiceEffectsProcessor
 
     VOICE_SYSTEMS_AVAILABLE = True
     logger.info("✅ Using products.experience.voice.bridge systems (REAL)")
-except ImportError as e:
-    logger.debug(f"Voice bridge systems not available ({e}), using compatibility layer")
-    VOICE_SYSTEMS_AVAILABLE = False
-
-    VOICE_SYSTEMS_AVAILABLE = True
-    logging.info("Real LUKHAS voice systems loaded successfully")
 
     # Real implementations using LUKHAS voice systems
     class EmotionalModulator:
@@ -280,9 +276,14 @@ class BrandVoiceAdapter:
             voice_output = voice_output.replace("lambda", "Λ")
 
         # Add Trinity symbols for appropriate contexts
-        if brand_profile.get("trinity_symbol_usage", False) and tone_layer == "poetic":
-            if "⚛️" not in voice_output and "🧠" not in voice_output and "🛡️" not in voice_output:
-                voice_output += " ⚛️🧠🛡️"
+        if (
+            brand_profile.get("trinity_symbol_usage", False)
+            and tone_layer == "poetic"
+            and "⚛️" not in voice_output
+            and "🧠" not in voice_output
+            and "🛡️" not in voice_output
+        ):
+            voice_output += " ⚛️🧠🛡️"
 
         return voice_output
 

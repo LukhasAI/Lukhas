@@ -17,7 +17,7 @@ DNA-inspired memory visualization with stunning visual representations
 
 import asyncio
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 
 import matplotlib.pyplot as plt
