@@ -4,8 +4,6 @@ Module Usage Analyzer for LUKHAS AI
 Detects unused modules, orphaned files, and import paths
 Trinity Framework: ⚛️🧠🛡️
 """
-from consciousness.qi import qi
-import streamlit as st
 
 import ast
 import json

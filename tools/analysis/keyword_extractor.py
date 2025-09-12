@@ -4,9 +4,6 @@
 📦 Purpose: Extract domain-specific keywords from system codebase and documentation
 🎯 Goal: Build comprehensive thematic classification for modularization
 """
-from consciousness.qi import qi
-import time
-import streamlit as st
 
 import json
 import os

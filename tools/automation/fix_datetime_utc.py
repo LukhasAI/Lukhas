@@ -3,8 +3,6 @@
 Quick datetime UTC fixer for ruff DTZ005/DTZ003 violations.
 Applies surgical fixes with minimal disruption.
 """
-import time
-import streamlit as st
 
 import json
 import re
@@ -14,7 +12,7 @@ import subprocess
 def fix_datetime_in_file(file_path):
     """Fix datetime issues in a single file."""
     try:
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             content = f.read()
 
         original_content = content
@@ -27,7 +25,7 @@ def fix_datetime_in_file(file_path):
                     r"from datetime import ([^)]+)",
                     lambda m: f"from datetime import {m.group(1).rstrip()}, timezone",
                     content,
-                    count=1
+                    count=1,
                 )
             elif "import datetime" in content and "timezone" not in content:
                 # For "import datetime" style, we'll use datetime.timezone.utc
@@ -58,11 +56,12 @@ def fix_datetime_in_file(file_path):
 def get_files_with_datetime_issues():
     """Get files that have DTZ005/DTZ003 violations."""
     try:
-        result = subprocess.run([
-            "python3", "-m", "ruff", "check", ".", 
-            "--select", "DTZ005,DTZ003", 
-            "--output-format=json"
-        ], capture_output=True, text=True, cwd="/Users/agi_dev/LOCAL-REPOS/Lukhas")
+        result = subprocess.run(
+            ["python3", "-m", "ruff", "check", ".", "--select", "DTZ005,DTZ003", "--output-format=json"],
+            capture_output=True,
+            text=True,
+            cwd="/Users/agi_dev/LOCAL-REPOS/Lukhas",
+        )
 
         if result.stdout:
             violations = json.loads(result.stdout)

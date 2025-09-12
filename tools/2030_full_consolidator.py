@@ -3,9 +3,6 @@
 LUKHAS 2030 Full Vision Consolidator
 Comprehensive consolidation preserving the complete SGI vision
 """
-from consciousness.qi import qi
-import time
-import streamlit as st
 
 import ast
 import json

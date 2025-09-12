@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from typing import List
 """
 🕒 LUKHAS Security Task Scheduler
 ================================
@@ -58,8 +57,10 @@ class SecurityTaskScheduler:
             if ":" in run_time:
                 # Time format like "14:30" (today) or "2025-08-22 14:30"
                 if "-" in run_time:
-                    scheduled_time = datetime.strptime(run_time, "%Y-%m-%d %H:%M").replace(tzinfo=timezone.utc).replace(
-                        tzinfo=timezone.utc
+                    scheduled_time = (
+                        datetime.strptime(run_time, "%Y-%m-%d %H:%M")
+                        .replace(tzinfo=timezone.utc)
+                        .replace(tzinfo=timezone.utc)
                     )  # ΛTAG: utc
                 else:
                     today = datetime.now(timezone.utc).date()  # ΛTAG: utc

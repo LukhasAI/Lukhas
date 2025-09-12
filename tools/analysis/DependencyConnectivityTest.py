@@ -4,8 +4,6 @@ lukhas SYSTEM DEPENDENCY & CONNECTIVITY TEST
 =======================================
 Analyzes the lukhas system for dependency issues and connectivity problems.
 """
-import time
-import streamlit as st
 
 import ast
 import json

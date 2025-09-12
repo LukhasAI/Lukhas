@@ -438,14 +438,13 @@ class LukhasIntelligenceBenchmarking:
         """Benchmark autonomous goal formation performance"""
         start_time = time.time()
 
-        request = await create_agent_request(
-            agent_id=f"goal_agent_{iteration}",
-            agent_type=AgentType.VELOCITY_LEAD,
-            request_type=IntelligenceRequestType.AUTONOMOUS_GOAL_FORMATION,
-            payload={
+        request = AgentRequest(
+            agent_id=f"autonomy_test_{iteration}",
+            task_type=AgentTaskType.AUTONOMOUS_GOAL_FORMATION,
+            data={
                 "request": f"Form autonomous goals for performance optimization iteration {iteration}",
                 "meta_analysis": {"complexity": "high", "priority": "optimization"},
-                "subsystem_responses": {"performance": {"current": 0.8, "target": 0.95},
+                "subsystem_responses": {"performance": {"current": 0.8, "target": 0.95}},
             },
             priority=6,
             timeout=config.timeout,
@@ -940,7 +939,7 @@ class LukhasIntelligenceBenchmarking:
     def set_baseline_metrics(self, metrics: dict[str, float]):
         """Set baseline metrics for comparison"""
         self.baseline_metrics = metrics
-        logger.info(f"✅ Baseline metrics set: {list(metrics.keys(}")
+        logger.info(f"✅ Baseline metrics set: {list(metrics.keys())}")
 
     async def export_benchmark_results(self, file_path: str):
         """Export benchmark results to file"""
@@ -1028,7 +1027,7 @@ if __name__ == "__main__":
         print("📊 Benchmark Results:")
         print(f"Duration: {result.total_duration:.2f}s")
         print(f"Success Rate: {result.successful_iterations}/{result.iterations_completed}")
-        print(f"Recommendations: {len(result.recommendations}")
+        print(f"Recommendations: {len(result.recommendations)}")
 
         for rec in result.recommendations:
             print(f"  • {rec}")

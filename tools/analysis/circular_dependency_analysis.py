@@ -4,7 +4,6 @@
 ==================================
 Identifies and analyzes circular dependencies in LUKHAS .
 """
-import streamlit as st
 
 import ast
 import json

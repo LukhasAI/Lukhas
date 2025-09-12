@@ -16,15 +16,10 @@ Author: lukhas AI Enhancement Team
 Date: 2025-06-05
 Version: 2.0.0
 """
-from consciousness.qi import qi
-from typing import List
-import logging
-import streamlit as st
-from datetime import timezone
 
 import json
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 

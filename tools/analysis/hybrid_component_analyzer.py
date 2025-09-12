@@ -3,9 +3,6 @@
  Hybrid Component Analyzer - Identifies quantum-hybrid subdirectories
 Runs scenarios to discover natural inter-module relationships
 """
-from consciousness.qi import qi
-import time
-import streamlit as st
 
 import ast
 import json

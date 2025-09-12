@@ -117,7 +117,7 @@ def main() -> None:
     if not args.dry_run and not args.apply:
         parser.error("Specify --dry-run or --apply")
 
-    print(f"Scanning {ROOT} (excludes: {', '.join(sorted(EXCLUDE_DIRS)})")
+    print(f"Scanning {ROOT} (excludes: {', '.join(sorted(EXCLUDE_DIRS))})")
     changes = dry_run(ROOT)
     print_summary(changes)
 
