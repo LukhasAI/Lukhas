@@ -5,7 +5,7 @@
 .PHONY: audit-tail sdk-py-install sdk-py-test sdk-ts-build sdk-ts-test backup-local backup-s3 restore-local restore-s3 dr-drill dr-weekly dr-quarterly dr-monthly
 .PHONY: audit-appendix audit-normalize audit-merge audit-merge-auto audit-merge-check
 .PHONY: check-scoped lint-scoped test-contract type-scoped doctor doctor-tools doctor-py doctor-ci doctor-lanes doctor-tests doctor-audit doctor-dup-targets doctor-phony doctor-summary doctor-strict doctor-dup-targets-strict doctor-json
-.PHONY: todo-unused todo-unused-check todo-unused-core todo-unused-candidate t4-annotate t4-check audit-f821 fix-f821-core annotate-f821-candidate types-audit types-enforce types-core types-trend types-audit-trend types-enforce-trend
+.PHONY: todo-unused todo-unused-check todo-unused-core todo-unused-candidate t4-annotate t4-check audit-f821 fix-f821-core annotate-f821-candidate types-audit types-enforce types-core types-trend types-audit-trend types-enforce-trend f401-audit f401-trend
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -530,6 +530,15 @@ types-core:
 
 types-trend:
 	@python3 tools/ci/mypy_trend.py
+
+# F401 unused import trend tracking
+f401-audit:
+	@mkdir -p reports/audit
+	@python3 -m ruff check --select F401 --output-format json > reports/audit/f401.json || true
+	@echo "F401 audit saved to reports/audit/f401.json"
+
+f401-trend:
+	@python3 f401_trend.py
 
 # Convenience combos
 types-audit-trend: types-audit types-trend
