@@ -90,7 +90,7 @@ class SecurityTaskScheduler:
 
         # Create task
         task = {
-            "id": f"security_{int(datetime.now(timezone.utc).timestamp()}",  # ΛTAG: utc
+            "id": f"security_{int(datetime.now(timezone.utc).timestamp())}",  # ΛTAG: utc
             "type": task_type,
             "scheduled_time": scheduled_time.isoformat(),
             "description": description or f"Scheduled {task_type}",

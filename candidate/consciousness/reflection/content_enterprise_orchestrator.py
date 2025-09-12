@@ -96,6 +96,8 @@ except ImportError:
     print("⚠️ Some enterprise modules not available")
     ENTERPRISE_MODULES_AVAILABLE = False
 
+# Configure logger
+logger = logging.getLogger(__name__)
 
 class ServiceStatus(Enum):
     """Service health status"""
