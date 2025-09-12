@@ -1,10 +1,10 @@
 import json
+import shutil
 import time
 from pathlib import Path
+
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-import os
-import shutil
 
 from matriz.traces_router import router
 
@@ -15,16 +15,19 @@ client = TestClient(app)
 
 LIVE_DIR = Path("reports/matriz/traces")
 
+
 def setup_function():
     """Create a clean live directory for tests."""
     if LIVE_DIR.exists():
         shutil.rmtree(LIVE_DIR)
     LIVE_DIR.mkdir(parents=True, exist_ok=True)
 
+
 def teardown_function():
     """Remove the live directory after tests."""
     if LIVE_DIR.exists():
         shutil.rmtree(LIVE_DIR)
+
 
 def test_get_latest_trace_fallback_to_golden():
     """
@@ -36,6 +39,7 @@ def test_get_latest_trace_fallback_to_golden():
     data = response.json()
     assert data["trace_id"] == "consciousness_20250910_001"
 
+
 def test_get_latest_trace_from_live_dir():
     """
     Tests the /traces/latest endpoint when there are files in the live directory.
@@ -45,13 +49,14 @@ def test_get_latest_trace_from_live_dir():
     trace2_data = {"trace_id": "live_trace_2"}
 
     (LIVE_DIR / "trace1.json").write_text(json.dumps(trace1_data))
-    time.sleep(0.1) # Ensure modification times are different
+    time.sleep(0.1)  # Ensure modification times are different
     (LIVE_DIR / "trace2.json").write_text(json.dumps(trace2_data))
 
     response = client.get("/traces/latest")
     assert response.status_code == 200
     data = response.json()
     assert data["trace_id"] == "live_trace_2"
+
 
 def test_get_trace_by_valid_id():
     """
@@ -63,11 +68,13 @@ def test_get_trace_by_valid_id():
     data = response.json()
 
     from pathlib import Path
+
     golden_file = Path(f"tests/golden/tier1/{trace_id}.json")
-    with open(golden_file, "r") as f:
+    with open(golden_file) as f:
         golden_data = json.load(f)
 
     assert data == golden_data
+
 
 def test_get_trace_by_invalid_id():
     """

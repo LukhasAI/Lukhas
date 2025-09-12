@@ -3,7 +3,7 @@
 LUKHAS Module Dependency Visualizer
 
 Creates visual dependency graphs and architecture diagrams for LUKHAS modules.
-Generates interactive HTML visualizations and static diagrams.
+    Generates interactive HTML visualizations and static diagrams.
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 """
@@ -16,7 +16,7 @@ import yaml
 
 
 class DependencyVisualizer:
-    """Creates visual dependency graphs"""
+        """Creates visual dependency graphs"""
 
     def __init__(self, schemas_dir: Path):
         self.schemas_dir = Path(schemas_dir)
@@ -95,7 +95,7 @@ class DependencyVisualizer:
                 lanes[lane].append(module_name)
 
         for lane, modules in lanes.items():
-            dot_content.append(f"  subgraph cluster_{lane} {{")
+            dot_content.append(f"  subgraph cluster_{lane} {{}}")
             dot_content.append(f'    label="{lane.upper()}";')
             dot_content.append("    style=dashed;")
             dot_content.append("    color=lightgray;")
@@ -294,13 +294,13 @@ class DependencyVisualizer:
     <title>LUKHAS Module Dependencies</title>
     <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
     <style>
-        body {{ font-family: Arial, sans-serif; margin: 0; padding: 20px; }}
-        #network {{ height: 800px; border: 1px solid #ccc; }}
-        .controls {{ margin: 20px 0; }}
-        .legend {{ margin: 20px 0; display: flex; gap: 20px; }}
-        .legend-item {{ display: flex; align-items: center; gap: 5px; }}
-        .color-box {{ width: 20px; height: 20px; border: 1px solid #333; }}
-        .stats {{ background: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0; }}
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        #network { height: 800px; border: 1px solid #ccc; }
+        .controls { margin: 20px 0; }
+        .legend { margin: 20px 0; display: flex; gap: 20px; }
+        .legend-item { display: flex; align-items: center; gap: 5px; }
+        .color-box { width: 20px; height: 20px; border: 1px solid #333; }
+        .stats { background: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0; }
     </style>
 </head>
 <body>
@@ -344,38 +344,38 @@ class DependencyVisualizer:
         const nodes = new vis.DataSet({json.dumps(nodes, indent=2)});
         const edges = new vis.DataSet({json.dumps(edges, indent=2)});
 
-        const data = {{ nodes: nodes, edges: edges }};
+        const data = { nodes: nodes, edges: edges };
 
         const options = {{
             physics: {{
                 enabled: true,
                 solver: 'forceAtlas2Based',
-                stabilization: {{ iterations: 100 }}
-            }},
+                stabilization: { iterations: 100 }
+            },
             nodes: {{
                 shape: 'box',
                 margin: 10,
-                widthConstraint: {{ minimum: 100, maximum: 200 }},
-                heightConstraint: {{ minimum: 50 }}
-            }},
+                widthConstraint: { minimum: 100, maximum: 200 },
+                heightConstraint: { minimum: 50 }
+            },
             edges: {{
-                smooth: {{ type: 'dynamic' }},
-                arrows: {{ to: {{ scaleFactor: 0.5 }} }}
-            }},
+                smooth: { type: 'dynamic' },
+                arrows: { to: { scaleFactor: 0.5 } }
+            },
             interaction: {{
                 hover: true,
                 selectConnectedEdges: true,
                 tooltipDelay: 200
-            }},
+            },
             layout: {{
                 improvedLayout: true,
                 hierarchical: {{
                     enabled: false,
                     sortMethod: 'directed',
                     direction: 'UD'
-                }}
-            }}
-        }};
+                }
+            }
+        };
 
         const container = document.getElementById('network');
         const network = new vis.Network(container, data, options);
@@ -384,12 +384,12 @@ class DependencyVisualizer:
 
         function fitNetwork() {{
             network.fit();
-        }}
+        }
 
         function togglePhysics() {{
             physicsEnabled = !physicsEnabled;
-            network.setOptions({{ physics: {{ enabled: physicsEnabled }} }});
-        }}
+            network.setOptions({ physics: { enabled: physicsEnabled } });
+        }
 
         function exportImage() {{
             const canvas = document.querySelector('#network canvas');
@@ -397,7 +397,7 @@ class DependencyVisualizer:
             link.download = 'lukhas-dependencies.png';
             link.href = canvas.toDataURL();
             link.click();
-        }}
+        }
 
         // Event handlers
         network.on('click', function(params) {{
@@ -405,16 +405,16 @@ class DependencyVisualizer:
                 const nodeId = params.nodes[0];
                 console.log('Selected module:', nodeId);
                 // Could highlight dependencies here
-            }}
-        }});
+            }
+        });
 
         network.on('stabilizationProgress', function(params) {{
             console.log('Stabilization progress:', Math.round(params.iterations/params.total * 100) + '%');
-        }});
+        });
 
         network.on('stabilizationIterationsDone', function() {{
             console.log('Network stabilized');
-        }});
+        });
     </script>
 </body>
 </html>"""
@@ -506,7 +506,7 @@ Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 ## Recommendations
 1. **Reduce Cross-Lane Dependencies**: Consider refactoring to minimize dependencies between lanes
 2. **Monitor Highly Coupled Modules**: Review modules with excessive dependencies
-3. **Layer Violations**: Ensure higher layers don't depend on lower layers inappropriately
+    3. **Layer Violations**: Ensure higher layers don't depend on lower layers inappropriately
 4. **Module Consolidation**: Consider merging small, tightly coupled modules
 """
 
@@ -517,7 +517,7 @@ Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 
 
 def main():
-    """CLI interface for dependency visualization"""
+        """CLI interface for dependency visualization"""
     import argparse
 
     parser = argparse.ArgumentParser(description="LUKHAS Module Dependency Visualizer")

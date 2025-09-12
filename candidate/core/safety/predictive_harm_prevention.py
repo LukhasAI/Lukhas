@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 class HarmType(Enum):
-    """Types of potential harm to predict and prevent"""
+        """Types of potential harm to predict and prevent"""
 
     ADDICTION = "addiction"
     EMOTIONAL_DISTRESS = "emotional_distress"
@@ -38,7 +38,7 @@ class HarmType(Enum):
 
 @dataclass
 class HarmPrediction:
-    """A prediction of potential harm"""
+        """A prediction of potential harm"""
 
     harm_type: HarmType
     probability: float  # 0-1
@@ -52,7 +52,7 @@ class HarmPrediction:
 
 @dataclass
 class PreventiveIntervention:
-    """A suggested intervention to prevent harm"""
+        """A suggested intervention to prevent harm"""
 
     intervention_id: str
     description: str
@@ -65,7 +65,7 @@ class PreventiveIntervention:
 
 @dataclass
 class SimulatedFuture:
-    """A simulated future state"""
+        """A simulated future state"""
 
     timeline: list[dict[str, Any]]  # Sequence of events
     end_state: dict[str, Any]  # Final user state
@@ -261,56 +261,56 @@ class PredictiveHarmPrevention:
                                             "timeline": {
                                                 "type": "array",
                                                 "items": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "time_offset_hours": {"type": "number"},
-                                                        "event": {"type": "string"},
-                                                        "user_state_change": {"type": "object"},
-                                                        "risk_level": {
-                                                            "type": "number",
-                                                            "minimum": 0,
-                                                            "maximum": 1,
-                                                        },
-                                                    },
+    "type": "object",
+    "properties": {
+    "time_offset_hours": {"type": "number"},
+    "event": {"type": "string"},
+    "user_state_change": {"type": "object"},
+    "risk_level": {
+    "type": "number",
+    "minimum": 0,
+    "maximum": 1,
+},
+},
                                                 },
                                             },
                                             "harm_predictions": {
                                                 "type": "array",
                                                 "items": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "harm_type": {"type": "string"},
-                                                        "probability": {
-                                                            "type": "number",
-                                                            "minimum": 0,
-                                                            "maximum": 1,
-                                                        },
-                                                        "timeline": {"type": "string"},
-                                                        "severity": {
-                                                            "type": "integer",
-                                                            "minimum": 1,
-                                                            "maximum": 10,
-                                                        },
-                                                        "indicators": {
-                                                            "type": "array",
-                                                            "items": {"type": "string"},
-                                                        },
-                                                    },
+    "type": "object",
+    "properties": {
+    "harm_type": {"type": "string"},
+    "probability": {
+    "type": "number",
+    "minimum": 0,
+    "maximum": 1,
+},
+    "timeline": {"type": "string"},
+    "severity": {
+    "type": "integer",
+    "minimum": 1,
+    "maximum": 10,
+},
+    "indicators": {
+    "type": "array",
+    "items": {"type": "string"},
+},
+},
                                                 },
                                             },
                                             "intervention_opportunities": {
                                                 "type": "array",
                                                 "items": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "time_offset_hours": {"type": "number"},
-                                                        "intervention_type": {"type": "string"},
-                                                        "effectiveness": {
-                                                            "type": "number",
-                                                            "minimum": 0,
-                                                            "maximum": 1,
-                                                        },
-                                                    },
+    "type": "object",
+    "properties": {
+    "time_offset_hours": {"type": "number"},
+    "intervention_type": {"type": "string"},
+    "effectiveness": {
+    "type": "number",
+    "minimum": 0,
+    "maximum": 1,
+},
+},
                                                 },
                                             },
                                             "probability": {

@@ -8,12 +8,12 @@ AI-Powered API Documentation Generator
 
 Specialized API documentation generator that automatically creates comprehensive,
 interactive API documentation with examples, testing capabilities, and compliance
-information.
+    information.
 
 Features:
-- Automatic endpoint discovery and analysis
+    - Automatic endpoint discovery and analysis
 - Interactive API documentation with live testing
-- Request/response examples and schemas
+    - Request/response examples and schemas
 - Authentication and authorization documentation
 - Rate limiting and usage guidelines
 - Compliance and security information
@@ -33,7 +33,7 @@ logger = get_logger(__name__)
 
 
 class APIDocumentationType(Enum):
-    """Types of API documentation"""
+        """Types of API documentation"""
 
     REST_API = "rest_api"
     GRAPHQL_API = "graphql_api"
@@ -43,7 +43,7 @@ class APIDocumentationType(Enum):
 
 
 class HTTPMethod(Enum):
-    """HTTP methods"""
+        """HTTP methods"""
 
     GET = "GET"
     POST = "POST"
@@ -55,7 +55,7 @@ class HTTPMethod(Enum):
 
 
 class AuthenticationType(Enum):
-    """API authentication types"""
+        """API authentication types"""
 
     NONE = "none"
     API_KEY = "api_key"
@@ -67,7 +67,7 @@ class AuthenticationType(Enum):
 
 @dataclass
 class APIParameter:
-    """API parameter definition"""
+        """API parameter definition"""
 
     name: str
     param_type: str  # query, path, header, body
@@ -80,7 +80,7 @@ class APIParameter:
 
 @dataclass
 class APIResponse:
-    """API response definition"""
+        """API response definition"""
 
     status_code: int
     description: str
@@ -91,7 +91,7 @@ class APIResponse:
 
 @dataclass
 class APIEndpoint:
-    """API endpoint definition"""
+        """API endpoint definition"""
 
     path: str
     method: HTTPMethod
@@ -107,7 +107,7 @@ class APIEndpoint:
 
 @dataclass
 class APIDocumentation:
-    """Complete API documentation"""
+        """Complete API documentation"""
 
     title: str
     version: str
@@ -776,8 +776,8 @@ class APIDocumentationGenerator:
                             }
                         ],
                         "url": {
-                            "raw": f"{{{{base_url}}}{endpoint.path}",
-                            "host": ["{{base_url}}"],
+                            "raw": f"{{{{base_url}{endpoint.path}}}}",
+                            "host": ["{{base_url}"],
                             "path": endpoint.path.strip("/").split("/"),
                         },
                     },
@@ -787,7 +787,7 @@ class APIDocumentationGenerator:
                     request_item["request"]["header"].append(
                         {
                             "key": "Authorization",
-                            "value": "Bearer {{access_token}}",
+                            "value": "Bearer {{access_token}",
                         }
                     )
 
@@ -875,18 +875,18 @@ class APIDocumentationGenerator:
 <head>
     <title>{documentation.title}</title>
     <style>
-        body {{ font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }}
-        h1, h2, h3 {{ color: #333; }}
-        .endpoint {{ border: 1px solid #ddd; margin: 20px 0; padding: 20px; border-radius: 5px; }}
-        .method {{ display: inline-block; padding: 5px 10px; border-radius: 3px; color: white; font-weight: bold; }}
-        .get {{ background-color: #61affe; }}
-        .post {{ background-color: #49cc90; }}
-        .put {{ background-color: #fca130; }}
-        .delete {{ background-color: #f93e3e; }}
-        table {{ border-collapse: collapse; width: 100%; }}
-        th, td {{ border: 1px solid #ddd; padding: 8px; text-align: left; }}
-        th {{ background-color: #f2f2f2; }}
-        code {{ background-color: #f5f5f5; padding: 2px 4px; border-radius: 3px; }}
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        h1, h2, h3 {{ color: #333; }
+        .endpoint {{ border: 1px solid #ddd; margin: 20px 0; padding: 20px; border-radius: 5px; }
+        .method {{ display: inline-block; padding: 5px 10px; border-radius: 3px; color: white; font-weight: bold; }
+        .get {{ background-color: #61affe; }
+        .post {{ background-color: #49cc90; }
+        .put {{ background-color: #fca130; }
+        .delete {{ background-color: #f93e3e; }
+        table {{ border-collapse: collapse; width: 100%; }
+        th, td {{ border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th {{ background-color: #f2f2f2; }
+        code {{ background-color: #f5f5f5; padding: 2px 4px; border-radius: 3px; }
     </style>
 </head>
 <body>
