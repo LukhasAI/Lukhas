@@ -75,7 +75,7 @@ Repository = "https://github.com/LukhasAI/Lukhas"
 Issues = "https://github.com/LukhasAI/Lukhas/issues"
 
 [tool.setuptools]
-packages = ["lukhas", "matriz", "candidate", "branding"]
+packages = ["lukhas", "MATRIZ", "candidate", "branding"]
 
 [tool.pytest.ini_options]
 minversion = "8.0"
