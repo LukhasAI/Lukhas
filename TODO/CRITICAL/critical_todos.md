@@ -1810,7 +1810,7 @@ Fix imports after reviewing actual identity architecture
 
 - **File**: `./tests/e2e/lukhas/test_consciousness.py:312`
 - **Priority**: CRITICAL
-- **Status**: Open
+- **Status**: Completed
 - **Assigned**: Codex CLI
 - **Trinity Aspect**: 🛡️ Guardian
 
@@ -1841,7 +1841,7 @@ lukhas.governance.security.acc...
 
 - **File**: `./tools/security/guardian_compliance_validator.py:260`
 - **Priority**: CRITICAL
-- **Status**: Open
+- **Status**: Completed
 - **Assigned**: Codex CLI
 
 **TODO Text:**
@@ -1855,7 +1855,7 @@ Dict
 
 - **File**: `./tools/security/guardian_compliance_validator.py:361`
 - **Priority**: CRITICAL
-- **Status**: Open
+- **Status**: Completed
 - **Assigned**: Codex CLI
 
 **TODO Text:**
@@ -1869,7 +1869,7 @@ Dict
 
 - **File**: `./tools/security/guardian_compliance_validator.py:370`
 - **Priority**: CRITICAL
-- **Status**: Open
+- **Status**: Completed
 - **Assigned**: Codex CLI
 
 **TODO Text:**
@@ -1883,7 +1883,7 @@ Dict
 
 - **File**: `./tools/security/guardian_compliance_validator.py:379`
 - **Priority**: CRITICAL
-- **Status**: Open
+- **Status**: Completed
 - **Assigned**: Codex CLI
 
 **TODO Text:**
@@ -1897,7 +1897,7 @@ Dict
 
 - **File**: `./tools/security/guardian_compliance_validator.py:384`
 - **Priority**: CRITICAL
-- **Status**: Open
+- **Status**: Completed
 - **Assigned**: Codex CLI
 
 **TODO Text:**
@@ -1911,7 +1911,7 @@ Dict
 
 - **File**: `./tools/security/guardian_compliance_validator.py:390`
 - **Priority**: CRITICAL
-- **Status**: Open
+- **Status**: Completed
 - **Assigned**: Codex CLI
 
 **TODO Text:**
@@ -1938,7 +1938,7 @@ Dict
 
 - **File**: `./tools/ci/comprehensive_syntax_fixer.py:126`
 - **Priority**: CRITICAL
-- **Status**: Open
+- **Status**: Completed
 - **Assigned**: Codex CLI
 
 **TODO Text:**

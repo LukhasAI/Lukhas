@@ -310,7 +310,7 @@ class TestConsciousnessSecurity:
         ]
 
         for malicious_input in malicious_inputs:
-            with pytest.raises((ValueError, SecurityError, SyntaxError)):  # noqa: F821  # TODO: SecurityError
+            with pytest.raises((ValueError, SecurityError, SyntaxError)):
                 consciousness.process_input(malicious_input)
 
     @pytest.mark.security
