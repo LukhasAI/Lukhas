@@ -87,8 +87,8 @@ def test_memory_save_retrieve_cycle():
         }
 
         glyphs = [
-            {"key": "test:glyph1", "priority": 1.0, "attrs": {"type": "test"},
-            {"key": "test:glyph2", "priority": 0.8, "attrs": {"type": "secondary"},
+            {"key": "test:glyph1", "priority": 1.0, "attrs": {"type": "test"}},
+            {"key": "test:glyph2", "priority": 0.8, "attrs": {"type": "secondary"}},
         ]
 
         metrics = {"drift_phi": 0.9, "congruence_index": 0.8, "neurosis_risk": 0.1}
@@ -150,7 +150,7 @@ def test_multi_user_isolation():
                 "risk": {"score": 0.1},
                 "context": {},
             },
-            glyphs=[{"key": "user1:glyph", "priority": 1.0, "attrs": {}],
+            glyphs=[{"key": "user1:glyph", "priority": 1.0, "attrs": {}}],
             metrics={"drift_phi": 0.8},
             policy={},
             cfg_version="v1.0",
@@ -167,7 +167,7 @@ def test_multi_user_isolation():
                 "risk": {"score": 0.2},
                 "context": {},
             },
-            glyphs=[{"key": "user2:glyph", "priority": 0.8, "attrs": {}],
+            glyphs=[{"key": "user2:glyph", "priority": 0.8, "attrs": {}}],
             metrics={"drift_phi": 0.6},
             policy={},
             cfg_version="v1.0",
@@ -211,7 +211,7 @@ def test_production_mode_privacy():
                 "risk": {"score": 0.0},
                 "context": {},
             },
-            glyphs=[{"key": "prod:glyph", "priority": 1.0, "attrs": {}],
+            glyphs=[{"key": "prod:glyph", "priority": 1.0, "attrs": {}}],
             metrics={"drift_phi": 0.5},
             policy={},
             cfg_version="v1.0",

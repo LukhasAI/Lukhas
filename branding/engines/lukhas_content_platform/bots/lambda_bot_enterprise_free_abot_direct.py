@@ -39,7 +39,7 @@ def run_free_abot_direct():
 
         try:
             # Use OpenAI directly instead of router to avoid cost calculation bug
-            result = subprocess.run(
+            direct_result = subprocess.run(
                 [
                     "python3",
                     "-c",

@@ -28,7 +28,7 @@ def force_abot_to_heal():
         print(f"📝 {task}")
 
         try:
-            result = subprocess.run(
+            healing_result = subprocess.run(
                 [
                     "python3",
                     "-c",
@@ -48,13 +48,13 @@ result = controller.make_intelligent_request(
     urgency="HIGH"         # High urgency
 )
 
-if result.get("response"):  # noqa: F821
+if result.get("response"):  # ruff: noqa: F821
     print("🤖 LUKHAS AI ΛBot Forced Response:")
-    print(result["response"])  # noqa: F821
-    print(f"💰 Cost: ${result.get('cost', 0):.6f}")  # noqa: F821
+    print(result["response"])  # ruff: noqa: F821
+    print(f"💰 Cost: ${result.get('cost', 0):.6f}")  # ruff: noqa: F821
     print("🔥 Force healing processing complete")
 else:
-    print("❌ Forced healing failed:", result.get("error", "Unknown error"))  # noqa: F821
+    print("❌ Forced healing failed:", result.get("error", "Unknown error"))  # ruff: noqa: F821
 """,
                 ],
                 capture_output=True,
@@ -63,10 +63,10 @@ else:
                 timeout=120,
             )
 
-            if result.stdout:
-                print(result.stdout)
-            if result.stderr:
-                print(f"⚠️ {result.stderr}")
+            if healing_result.stdout:
+                print(healing_result.stdout)
+            if healing_result.stderr:
+                print(f"⚠️ {healing_result.stderr}")
 
         except Exception as e:
             print(f"❌ Forced task failed: {e}")

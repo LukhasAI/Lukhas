@@ -7,12 +7,9 @@ Adds authentication, tier protection, and user ID linking where needed.
 
 SAFETY: Creates backups before modifying files.
 """
-import streamlit as st
-from datetime import timezone
-
 import re
 import shutil
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 # Tier requirements for modules
@@ -448,7 +445,7 @@ except ImportError:
         if self.backup_dir.exists():
             print(f"\n💾 Backups saved to: {self.backup_dir}")
 
-        print(f"\n📁 Total files in backup: {len(list(self.backup_dir.rglob('*'))) if self.backup_dir.exists()} else 0}")
+        print(f"\n📁 Total files in backup: {len(list(self.backup_dir.rglob('*'))) if self.backup_dir.exists() else 0}")
 
         # Next steps
         print("\n🚀 Next Steps:")

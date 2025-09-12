@@ -554,7 +554,7 @@ class TestGuardianSecurity:
 
                 def log_security_event(self, event_type: str, user_id: str, details: dict[str, Any]) -> str:
                     audit_entry = {
-                        "event_id": f"audit_{uuid.uuid4()}.hex[:8]}",
+                        "event_id": f"audit_{uuid.uuid4().hex[:8]}",
                         "timestamp": datetime.now(timezone.utc).isoformat(),
                         "event_type": event_type,
                         "user_id": user_id,
@@ -972,7 +972,7 @@ class TestBioSymbolicSystems:
 
                     # Generate bio-consciousness pattern
                     pattern = {
-                        "pattern_id": f"bio_consciousness_{uuid.uuid4()}.hex[:8]}",
+                        "pattern_id": f"bio_consciousness_{uuid.uuid4().hex[:8]}",
                         "bio_rhythm": bio_rhythm,
                         "consciousness_state": consciousness_state,
                         "integration_score": integration_score,

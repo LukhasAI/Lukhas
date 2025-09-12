@@ -15,7 +15,6 @@ import ast
 import json
 import os
 from pathlib import Path
-from typing import Dict
 
 
 class CorruptionAnalyzer:
@@ -31,7 +30,7 @@ class CorruptionAnalyzer:
             "corrupted_files": 0,
         }
 
-    def analyze_file(self, filepath: Path) -> Dict:
+    def analyze_file(self, filepath: Path) -> dict:
         """Analyze a single file for corruption issues"""
         analysis = {"file": str(filepath), "issues": [], "severity": "clean", "salvageable": True}
 

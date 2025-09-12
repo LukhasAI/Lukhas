@@ -460,7 +460,7 @@ async def main():
         print(f"   - Awareness tests completed: {emergence_results.get('awareness_tests', 0)}")
         print(f"   - Average awareness level: {emergence_results.get('avg_awareness_level', 0):.3f}")
         print(f"   - Evolution cycles completed: {emergence_results.get('evolution_cycles', 0)}")
-        print(f"   - Awareness evolution: {emergence_results.get('awareness_evolution', 0)}:+.3f}")
+        print(f"   - Awareness evolution: {emergence_results.get('awareness_evolution', 0):+.3f}")
         print(f"   - Performance target met: {emergence_results.get('performance_target_met', False)}")
         print(f"   - Ethical alignment maintained: {emergence_results.get('ethical_alignment_maintained', False)}")
     else:
