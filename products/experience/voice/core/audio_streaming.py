@@ -16,7 +16,7 @@ from typing import Any, Callable, Optional
 
 import numpy as np
 
-from candidate.core.common.glyph import GLYPHToken, GLYPHSymbol, create_glyph
+from candidate.core.common.glyph import GLYPHSymbol, create_glyph
 from candidate.core.common.logger import get_logger
 from candidate.governance.guardian import GuardianValidator
 from candidate.voice.audio_processing import AudioFormat
@@ -215,10 +215,15 @@ class LUKHASAudioStream:
             self.stats.start_time = time.time()
 
             # Create GLYPH event
-            glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
-                "audio.stream.started",
-                {"stream_id": self.stream_id, "config": self.config.to_dict()},
-            })
+            glyph_token = create_glyph(
+                GLYPHSymbol.CREATE,
+                "voice_pipeline",
+                "consciousness",
+                {
+                    "audio.stream.started",
+                    {"stream_id": self.stream_id, "config": self.config.to_dict()},
+                },
+            )
 
             self.logger.info(f"Audio stream {self.stream_id} started")
             return True
@@ -260,10 +265,15 @@ class LUKHASAudioStream:
             self._set_state(StreamState.IDLE)
 
             # Create GLYPH event
-            glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
-                "audio.stream.stopped",
-                {"stream_id": self.stream_id, "stats": self.get_stats()},
-            })
+            glyph_token = create_glyph(
+                GLYPHSymbol.CREATE,
+                "voice_pipeline",
+                "consciousness",
+                {
+                    "audio.stream.stopped",
+                    {"stream_id": self.stream_id, "stats": self.get_stats()},
+                },
+            )
 
             self.logger.info(f"Audio stream {self.stream_id} stopped")
             return True
