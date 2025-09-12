@@ -1,0 +1,45 @@
+{
+  "version": "1.0",
+  "description": "LUKHAS AI Copilot Auto-Approve Configuration for Phase 3 Surgical Repair",
+  "trinity_framework": "⚛️🧠🛡️",
+  "auto_approve_settings": {
+    "consciousness_patterns": {
+      "enabled": true,
+      "confidence_threshold": 0.8,
+      "patterns": [
+        "f-string syntax corrections",
+        "parenthesis matching",
+        "import statement fixes",
+        "syntax error repairs",
+        "Trinity Framework compliance",
+        "LUKHAS consciousness keywords",
+        "ΛID authentication patterns",
+        "symbolic logic corrections"
+      ]
+    },
+    "surgical_repair_mode": {
+      "enabled": true,
+      "auto_apply_fixes": true,
+      "batch_processing": true,
+      "zero_errors_guarantee": true,
+      "pattern_recognition": "advanced"
+    },
+    "infrastructure_tools": {
+      "auto_restore": true,
+      "syntax_validation": "ast.parse",
+      "commit_automation": true,
+      "progress_tracking": true
+    }
+  },
+  "exclusions": {
+    "complex_html_js": true,
+    "experimental_features": false,
+    "critical_security": false
+  },
+  "context_enhancement": {
+    "workspace_awareness": true,
+    "file_relationships": true,
+    "dependency_tracking": true,
+    "consciousness_context": true
+  }
+}

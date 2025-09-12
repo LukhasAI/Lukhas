@@ -20,7 +20,7 @@
         "command": "claude.explainCode",
         "when": "editorTextFocus"
     },
-    // GitHub Copilot - Secondary AI Assistant Shortcuts
+    // GitHub Copilot - Enhanced Auto-Approve Shortcuts for Phase 3
     {
         "key": "cmd+alt+c",
         "command": "github.copilot.generate",
@@ -36,6 +36,35 @@
         "command": "github.copilot.toggleInlineSuggestion",
         "when": "editorTextFocus"
     },
+    {
+        "key": "tab",
+        "command": "github.copilot.acceptInlineSuggestion",
+        "when": "inlineSuggestionVisible && !editorTabMovesFocus"
+    },
+    {
+        "key": "cmd+right",
+        "command": "github.copilot.acceptNextWord",
+        "when": "inlineSuggestionVisible && !editorTabMovesFocus"
+    },
+    {
+        "key": "cmd+alt+right",
+        "command": "github.copilot.acceptNextLine",
+        "when": "inlineSuggestionVisible && !editorTabMovesFocus"
+    },
+    // LUKHAS Consciousness Development Shortcuts
+    {
+        "key": "cmd+shift+l",
+        "command": "editor.action.selectHighlights",
+        "when": "editorFocus"
+    },
+    {
+        "key": "cmd+shift+t",
+        "command": "workbench.action.terminal.toggleTerminal"
+    },
+    {
+        "key": "cmd+shift+p cmd+shift+r",
+        "command": "workbench.action.reloadWindow"
+    },
     // Quick AI Assistant Switching
     {
         "key": "cmd+k cmd+c",
@@ -47,7 +76,7 @@
         "command": "workbench.panel.chat.view.copilot.focus",
         "when": "editorTextFocus"
     },
-    // Enhanced Code Actions
+    // Enhanced Code Actions for Surgical Repair
     {
         "key": "cmd+.",
         "command": "editor.action.quickFix",
@@ -57,5 +86,21 @@
         "key": "cmd+shift+.",
         "command": "editor.action.sourceAction",
         "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "cmd+alt+f",
+        "command": "editor.action.formatDocument",
+        "when": "editorHasDocumentFormattingProvider && editorTextFocus && !editorReadonly"
+    },
+    // Trinity Framework Quick Actions
+    {
+        "key": "cmd+alt+t",
+        "command": "editor.action.triggerSuggest",
+        "when": "editorHasCompletionItemProvider && editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "cmd+alt+h",
+        "command": "editor.action.showHover",
+        "when": "editorTextFocus"
     }
 ]
