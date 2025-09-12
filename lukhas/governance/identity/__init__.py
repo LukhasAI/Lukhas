@@ -376,32 +376,50 @@ class PasskeyModule:
 # Export passkey module
 passkey = PasskeyModule()
 
+
 class QRGModule:
     """QRG module compatibility class"""
+
     pass
+
 
 qrg = QRGModule()
 
+
 class WalletModule:
     """Wallet module compatibility class"""
+
     pass
+
 
 wallet = WalletModule()
 
+
 class AuthBackendModule:
     pass
+
+
 auth_backend = AuthBackendModule()
+
 
 class ConnectorModule:
     pass
+
+
 connector = ConnectorModule()
+
 
 class ExtremePerformanceConnectorModule:
     pass
+
+
 extreme_performance_connector = ExtremePerformanceConnectorModule()
+
 
 class WebAuthnModule:
     pass
+
+
 webauthn = WebAuthnModule()
 
 

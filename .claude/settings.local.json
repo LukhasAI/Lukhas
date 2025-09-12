@@ -139,7 +139,9 @@
       "Bash(.venv/bin/pytest tests/smoke/ candidate/aka_qualia/test_simple.py candidate/aka_qualia/test_c5_observability.py --cov=lukhas --cov=candidate --cov-report=xml:reports/tests/cov.xml --cov-report=term-missing --disable-warnings -q)",
       "Bash(.venv/bin/pytest --tb=no --disable-warnings --maxfail=100)",
       "Bash(.venv/bin/pytest --tb=no --disable-warnings --continue-on-collection-errors --maxfail=500 -q)",
-      "Bash(.venv/bin/pytest tests/ --tb=no --disable-warnings -v)"
+      "Bash(.venv/bin/pytest tests/ --tb=no --disable-warnings -v)",
+      "Bash(git rm:*)",
+      "Bash(git diff:*)"
     ],
     "deny": [],
     "ask": []
