@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import logging
-import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 Plasticity Trigger Manager
@@ -510,7 +510,7 @@ class PlasticityTriggerManager:
 
         try:
             # Record start of adaptation
-            adaptation_id = f"{plan.rule.trigger_type.value}_{int(time.time())"
+            adaptation_id = f"{plan.rule.trigger_type.value}_{int(time.time())}"
             self.active_adaptations[adaptation_id] = plan
 
             # Apply based on strategy

@@ -21,7 +21,11 @@ ConsciousnessAPI = None
 
 # Try lukhas lane first (production) - use what actually works
 try:
-    from lukhas.consciousness import ConsciousnessConfig, ConsciousnessKernel, ConsciousnessWrapper
+    from lukhas.consciousness import (
+        ConsciousnessConfig,
+        ConsciousnessKernel,
+        ConsciousnessWrapper,
+    )  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution
 
     CONSCIOUSNESS_AVAILABLE = True
     CONSCIOUSNESS_SOURCE = "lukhas"

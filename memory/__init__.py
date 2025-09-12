@@ -31,7 +31,7 @@ Status: OPERATIONAL
 """
 
 import logging
-import os
+import os  # TODO[T4-UNUSED-IMPORT]: kept pending implementation (document purpose or remove)
 from typing import Any, Optional
 
 # Configure logging

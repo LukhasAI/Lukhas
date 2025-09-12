@@ -143,7 +143,7 @@ class IdentityManager:
             # Take a snapshot if significant identity change
             significance = experience.get("identity_significance", 0.0)
             if significance > 0.7:
-                self._take_identity_snapshot(f"significant_experience_{int(time.time())")
+                self._take_identity_snapshot(f"significant_experience_{int(time.time())}")
 
         # Determine if this memory should be encrypted
         if security_level != "standard" or experience.get("sensitive", False):

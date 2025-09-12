@@ -219,7 +219,7 @@ class ConsciousnessSignal:
             "producer": f"lukhas.consciousness.{self.producer_module}",
             "capabilities": capabilities,
             "tenant": "consciousness_network",
-            "trace_id": f"CS-{self.consciousness_id}-{int(time.time())",
+            "trace_id": f"CS-{self.consciousness_id}-{int(time.time())}",
             "consent_scopes": ["consciousness:network", "system:core"],
             "consciousness_id": self.consciousness_id,
             "network_node_id": self.network_node_id,
