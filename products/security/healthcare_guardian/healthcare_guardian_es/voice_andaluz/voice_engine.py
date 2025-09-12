@@ -119,7 +119,7 @@ class AndaluzVoiceEngine:
             # Import voice libraries
             import pygame
             import speech_recognition as sr
-            from gtts import gTTS
+            from gtts import gTTS  # noqa: F401  # TODO: gtts.gTTS; consider using impo...
 
             # Initialize speech recognizer
             self.recognizer = sr.Recognizer()

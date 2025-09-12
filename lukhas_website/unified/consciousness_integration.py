@@ -16,8 +16,8 @@ try:
     from emotion.service import EmotionService
     from lukhas.consciousness.unified.auto_consciousness import AutoConsciousness
     from lukhas.core.glyph.glyph_engine import GlyphEngine
-    from lukhas.memory.folds.memory_fold import MemoryFold
-    from lukhas.qi.engines.consciousness.engine import ConsciousnessEngine
+    from lukhas.memory.folds.memory_fold import MemoryFold  # noqa: F401  # TODO: lukhas.memory.folds.memory_fol...
+    from lukhas.qi.engines.consciousness.engine import ConsciousnessEngine  # noqa: F401  # TODO: lukhas.qi.engines.consciousnes...
 except ImportError as e:
     print(f"Warning: Some LUKHAS modules not available: {e}")
 

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from typing import List
 """
 LUKHAS MCP Server - Simplified Version
 Provides basic consciousness module access without heavy dependencies
@@ -20,9 +19,9 @@ try:
     from mcp.server.models import InitializationOptions
     from mcp.server.stdio import stdio_server
     from mcp.types import (
-        CallToolRequest,
-        ListResourcesRequest,
-        ListToolsRequest,
+        CallToolRequest,  # noqa: F401  # TODO: mcp.types.CallToolRequest; con...
+        ListResourcesRequest,  # noqa: F401  # TODO: mcp.types.ListResourcesRequest...
+        ListToolsRequest,  # noqa: F401  # TODO: mcp.types.ListToolsRequest; co...
         Resource,
         TextContent,
         Tool,
@@ -205,7 +204,7 @@ async def main():
     options = InitializationOptions(
         server_name="lukhas-consciousness",
         server_version="1.0.0",
-        capabilities={"resources": {}, "tools": {},
+        capabilities={"resources": {}, "tools": {}},
     )
 
     # Run server

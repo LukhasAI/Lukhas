@@ -39,11 +39,7 @@ def scan_syntax_errors():
 
             except SyntaxError as e:
                 files_with_errors += 1
-                error_details.append({
-                    "file": str(filepath),
-                    "line": e.lineno,
-                    "error": str(e).split("(")[0].strip()
-                })
+                error_details.append({"file": str(filepath), "line": e.lineno, "error": str(e).split("(")[0].strip()})
 
             except Exception:
                 # Skip files that can't be read
@@ -62,11 +58,12 @@ def scan_syntax_errors():
             print(f"  {error['file']}:{error['line']} - {error['error']}")
 
         if len(error_details) > 20:
-            print(f"  ... and {len(error_details} - 20} more errors")
+            print(f"  ... and {len(error_details) - 20} more errors")
     else:
         print("\n🎉 ZERO SYNTAX ERRORS FOUND!")
 
     return files_with_errors == 0
+
 
 if __name__ == "__main__":
     success = scan_syntax_errors()

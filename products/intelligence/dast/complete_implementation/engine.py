@@ -7,7 +7,7 @@ Sam Altman AGI Vision: "AI should proactively assist in task management and deci
 This is the core engine for AI-powered task management with symbolic reasoning,
 intelligent prioritization, and seamless human-AI collaboration.
 """
-import streamlit as st
+
 from datetime import timezone
 
 import asyncio
@@ -208,7 +208,7 @@ class LucasDASTEngine:
         """AI-powered task creation with intelligent analysis"""
 
         # Generate unique task ID
-        task_id = hashlib.md5(f"{request}{time.time())".encode()).hexdigest()[:12]
+        task_id = hashlib.md5(f"{request}{time.time()}".encode()).hexdigest()[:12]
 
         # AI-powered task analysis
         ai_analysis = self._analyze_task_request(request, context)
@@ -600,7 +600,7 @@ class LucasDASTEngine:
             prioritized = self._ai_prioritize_tasks(tasks)
 
             collaboration_result["ai_suggestions"] = [
-                f"Focus on {len(list(prioritized[:5])} high-priority tasks first",
+                f"Focus on {len(list(prioritized[:5]))} high-priority tasks first",
                 "Consider batching similar tasks for efficiency",
                 "Schedule critical tasks during peak hours",
             ]

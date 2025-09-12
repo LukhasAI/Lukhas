@@ -3,7 +3,6 @@
 Lambda Products Quick Setup Script
 Automatically integrates Lambda Products with Lukhas
 """
-import streamlit as st
 
 import asyncio
 import os
@@ -150,7 +149,7 @@ async def main():
 
     print("\n✅ Lambda Products successfully installed!")
     print("\n📍 Installation Location:")
-    print(f"   {Path(__file__)}.parent}")
+    print(f"   {Path(__file__).parent}")
 
     print("\n🔧 Configuration:")
     print("   - Plugin System: ACTIVE")

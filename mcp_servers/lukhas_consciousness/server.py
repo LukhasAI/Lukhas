@@ -28,7 +28,7 @@ sys.path.insert(0, project_root)
 try:
     import mcp.server.stdio
     from mcp.server import Server
-    from mcp.types import EmbeddedResource, ImageContent, Resource, TextContent, Tool
+    from mcp.types import EmbeddedResource, ImageContent, Resource, TextContent, Tool  # noqa: F401  # TODO: mcp.types.EmbeddedResource; co...
 except ImportError:
     print("MCP SDK not installed. Install with: pip install mcp", file=sys.stderr)
     sys.exit(1)

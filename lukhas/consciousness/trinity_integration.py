@@ -34,7 +34,7 @@ try:
     from lukhas.async_manager import TaskPriority, get_consciousness_manager
     from lukhas.consciousness.registry import (
         ComponentType,
-        ConsciousnessComponentRegistry,
+        ConsciousnessComponentRegistry,  # noqa: F401  # TODO: lukhas.consciousness.registry....
         get_consciousness_registry,
     )  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution
     from lukhas.core.common.config import get_config

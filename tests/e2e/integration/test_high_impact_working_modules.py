@@ -14,7 +14,7 @@ def test_core_common_comprehensive():
     """Test comprehensive coverage for core common modules that import successfully."""
     # Test logger module
     try:
-        from lukhas.core.common.logger import configure_logging, get_logger, setup_logging
+        from lukhas.core.common.logger import configure_logging, get_logger, setup_logging  # noqa: F401  # TODO: lukhas.core.common.logger.conf...
 
         # Test logging setup scenarios
         logging_scenarios = [
@@ -42,7 +42,7 @@ def test_core_common_comprehensive():
 
     # Test GLYPH module
     try:
-        from lukhas.core.common.glyph import GLYPH, GlyphProcessor, SymbolicToken
+        from lukhas.core.common.glyph import GLYPH, GlyphProcessor, SymbolicToken  # noqa: F401  # TODO: lukhas.core.common.glyph.Symbo...
 
         # Test GLYPH processing scenarios
         glyph_scenarios = [
@@ -341,7 +341,7 @@ def test_core_wrapper_comprehensive():
 def test_efficient_communication_comprehensive():
     """Test comprehensive coverage for efficient communication."""
     try:
-        from lukhas.core.efficient_communication import CommunicationChannel, MessageBus, MessageRouter
+        from lukhas.core.efficient_communication import CommunicationChannel, MessageBus, MessageRouter  # noqa: F401  # TODO: lukhas.core.efficient_communic...
 
         # Test message bus functionality
         try:
@@ -409,7 +409,7 @@ def test_efficient_communication_comprehensive():
 def test_event_sourcing_comprehensive():
     """Test comprehensive coverage for event sourcing system."""
     try:
-        from lukhas.core.event_sourcing import Event, EventHandler, EventSourcedEntity, EventStore
+        from lukhas.core.event_sourcing import Event, EventHandler, EventSourcedEntity, EventStore  # noqa: F401  # TODO: lukhas.core.event_sourcing.Eve...
 
         # Test event creation and storage
         event_scenarios = [

@@ -37,25 +37,25 @@ try:
         ConsciousnessActivationOrchestrator,
         ConsciousnessActivationPhase,
         activate_lukhas_consciousness,
-        get_activation_orchestrator,
+        get_activation_orchestrator,  # noqa: F401  # TODO: lukhas.consciousness.activatio...
     )
     from lukhas.consciousness.registry import (
         ComponentStatus,
         ComponentType,
         ConsciousnessComponentRegistry,
-        get_consciousness_registry,
+        get_consciousness_registry,  # noqa: F401  # TODO: lukhas.consciousness.registry....
     )
     from lukhas.consciousness.trinity_integration import (
-        TrinityFramework,
+        TrinityFramework,  # noqa: F401  # TODO: lukhas.consciousness.trinity_i...
         TrinityFrameworkIntegrator,
-        get_trinity_integrator,
-        initialize_trinity_consciousness,
+        get_trinity_integrator,  # noqa: F401  # TODO: lukhas.consciousness.trinity_i...
+        initialize_trinity_consciousness,  # noqa: F401  # TODO: lukhas.consciousness.trinity_i...
     )
     from lukhas.memory.consciousness_memory_integration import (
         ConsciousnessMemoryIntegrator,
         EmotionalContext,
         MemoryFoldType,
-        get_memory_integrator,
+        get_memory_integrator,  # noqa: F401  # TODO: lukhas.memory.consciousness_me...
     )
 
     CONSCIOUSNESS_MODULES_AVAILABLE = True

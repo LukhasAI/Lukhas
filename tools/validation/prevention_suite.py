@@ -265,7 +265,7 @@ class TestExample:
 
         try:
             # Test auth_integration import
-            from lukhas.governance.identity import auth_integration
+            from lukhas.governance.identity import auth_integration  # noqa: F401  # TODO: lukhas.governance.identity.aut...
 
             results.append(
                 ValidationResult("Import Bridge: auth_integration", True, "auth_integration import bridge working")

@@ -36,13 +36,13 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 # Import extreme performance optimizations
 try:
     from enterprise.performance.extreme_auth_optimization import (
-        AuthPerformanceMetrics,
-        ExtremeAuthPerformanceOptimizer,
+        AuthPerformanceMetrics,  # noqa: F401  # TODO: enterprise.performance.extreme...
+        ExtremeAuthPerformanceOptimizer,  # noqa: F401  # TODO: enterprise.performance.extreme...
         get_extreme_optimizer,
     )
     from lukhas.governance.identity.auth_backend.extreme_performance_audit_logger import (
         get_extreme_audit_logger,
-        run_audit_benchmark_extreme,
+        run_audit_benchmark_extreme,  # noqa: F401  # TODO: lukhas.governance.identity.aut...
     )
     from lukhas.governance.identity.extreme_performance_connector import (
         get_extreme_identity_connector,
@@ -57,7 +57,7 @@ except ImportError as e:
 
 # Import standard components for comparison
 try:
-    from lukhas.governance.identity.connector import get_identity_connector
+    from lukhas.governance.identity.connector import get_identity_connector  # noqa: F401  # TODO: lukhas.governance.identity.con...
 
     STANDARD_COMPONENTS_AVAILABLE = True
 except ImportError:

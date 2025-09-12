@@ -35,9 +35,11 @@ class CascadeCrusher:
         import re
 
         # Pattern 1: Fix any {word} pattern missing closing parenthesis
-        content = re.sub(r'f"([^"]*)\{([^}]+)\(([^)]*)\}([^"]*)"',
-                        lambda m: f'f"{m.group(1)}{{{m.group(2)}({m.group(3)})}{m.group(4)}"',
-                        content)
+        content = re.sub(
+            r'f"([^"]*)\{([^}]+)\(([^)]*)\}([^"]*)"',
+            lambda m: f'f"{m.group(1)}{{{m.group(2)}({m.group(3)})}}{m.group(4)}"',
+            content,
+        )
 
         # Pattern 2: Fix method calls specifically
         content = re.sub(r"\.(\w+)\(\}", r".\1()}", content)
@@ -87,8 +89,7 @@ class CascadeCrusher:
     def test_functional_breakthrough(self) -> tuple[bool, str]:
         """Test if we achieved a functional breakthrough"""
         try:
-            result = subprocess.run(["python3", "functional_test_suite.py"],
-                                  capture_output=True, text=True, timeout=30)
+            result = subprocess.run(["python3", "functional_test_suite.py"], capture_output=True, text=True, timeout=30)
 
             output = result.stdout
 
@@ -97,13 +98,22 @@ class CascadeCrusher:
                 return True, "BREAKTHROUGH DETECTED!"
 
             # Check if cascade moved to different blocker
-            if "Memory System Functional" in output and "❌" not in output.split("Memory System Functional")[1].split("\n")[0]:
+            if (
+                "Memory System Functional" in output
+                and "❌" not in output.split("Memory System Functional")[1].split("\n")[0]
+            ):
                 return True, "Memory System Breakthrough!"
 
-            if "Agent System Functional" in output and "❌" not in output.split("Agent System Functional")[1].split("\n")[0]:
+            if (
+                "Agent System Functional" in output
+                and "❌" not in output.split("Agent System Functional")[1].split("\n")[0]
+            ):
                 return True, "Agent System Breakthrough!"
 
-            if "Governance Functional" in output and "❌" not in output.split("Governance Functional")[1].split("\n")[0]:
+            if (
+                "Governance Functional" in output
+                and "❌" not in output.split("Governance Functional")[1].split("\n")[0]
+            ):
                 return True, "Governance System Breakthrough!"
 
             # Check for error cascade changes

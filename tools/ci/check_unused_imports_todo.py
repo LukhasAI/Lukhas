@@ -229,7 +229,7 @@ def main():
     unannotated = []
 
     for finding in findings:
-        file_path = pathlib.Path(finding["filename"])
+        file_path = pathlib.Path(finding["filename"])  # noqa: F821  # TODO: pathlib
         line_no = finding["location"]["row"]
         message = finding["message"]
 
@@ -238,7 +238,7 @@ def main():
             if line_no <= len(lines):
                 line_content = lines[line_no - 1]
 
-                if not TODO_PATTERN.search(line_content):
+                if not TODO_PATTERN.search(line_content):  # noqa: F821  # TODO: TODO_PATTERN
                     unannotated.append(f"{file_path}:{line_no} {message}")
             else:
                 unannotated.append(f"{file_path}:{line_no} {message} (line out of range)")

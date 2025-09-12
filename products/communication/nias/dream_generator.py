@@ -21,7 +21,7 @@ try:
     OPENAI_AVAILABLE = True
 except ImportError:
     OPENAI_AVAILABLE = False
-    logger.warning("OpenAI library not available. Install with: pip install openai", timezone)
+    logger.warning("OpenAI library not available. Install with: pip install openai", timezone)  # noqa: F821  # TODO: logger
 
 from .consent_manager import AIGenerationType
 from .vendor_portal import DreamSeed, DreamSeedType

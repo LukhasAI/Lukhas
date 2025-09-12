@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import logging
-import streamlit as st
-import time
+
 logger = logging.getLogger(__name__)
 """
 Hormone-Driven Dashboard
@@ -940,7 +939,7 @@ class HormoneDrivenDashboard:
                 "adaptation_timeline": {"visible": True, "priority": 1},
                 "predictions": {"visible": True, "priority": 2},
             },
-            DashboardMode.ALERT_FOCUS: {"alerts": {"visible": True, "priority": 1},
+            DashboardMode.ALERT_FOCUS: {"alerts": {"visible": True, "priority": 1}},
         }
 
         config = mode_widget_config.get(mode, {})

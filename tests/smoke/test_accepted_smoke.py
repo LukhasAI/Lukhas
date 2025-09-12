@@ -4,7 +4,7 @@
 def test_accepted_lane_import():
     """Test that we can import something from the accepted lane."""
     try:
-        import lukhas
+        import lukhas  # noqa: F401  # TODO: lukhas; consider using importl...
 
         assert True, "Basic lukhas import successful"
     except ImportError:

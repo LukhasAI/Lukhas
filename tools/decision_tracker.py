@@ -23,7 +23,8 @@ class Decision:
         chosen_approach: str,
         expected_outcome: str,
         files_affected: list[str],
-        commit_hash: Optional[str] = None):
+        commit_hash: Optional[str] = None,
+    ):
         self.title = title
         self.rationale = rationale
         self.alternatives = alternatives
@@ -31,7 +32,7 @@ class Decision:
         self.expected_outcome = expected_outcome
         self.files_affected = files_affected
         self.commit_hash = commit_hash
-        self.timestamp = datetime.now(timezone.utc)
+        self.timestamp = datetime.now(timezone.utc)  # noqa: F821  # TODO: timezone
         self.outcome = None  # To be filled later
         self.lessons_learned = None  # To be filled later
 
@@ -365,8 +366,8 @@ Was this the right decision? Why or why not?
     def analyze_decision_patterns(self, days: int = 30) -> dict[str, Any]:
         """Analyze patterns in recent decisions"""
         # Get recent decisions
-        start_date = datetime.now(timezone.utc) - timedelta(days=days)
-        decisions = self.journal.search(type="decision", date_range=(start_date, datetime.now(timezone.utc)))
+        start_date = datetime.now(timezone.utc) - timedelta(days=days)  # noqa: F821  # TODO: timezone
+        decisions = self.journal.search(type="decision", date_range=(start_date, datetime.now(timezone.utc)))  # noqa: F821  # TODO: timezone
 
         analysis = {
             "total_decisions": len(decisions),

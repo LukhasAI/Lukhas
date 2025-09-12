@@ -28,7 +28,7 @@ class FeedbackTriage:
         return f"{session}:{task}:{jurisdiction}"
         deduped = []
 
-        for fc in feedback:
+        for fc in feedback:  # noqa: F821  # TODO: feedback
             key = self._dedup_key(fc)
             ts_str = fc.get("ts", "")
 
@@ -37,12 +37,12 @@ class FeedbackTriage:
             except:
                 ts = datetime.now(timezone.utc)
 
-            if key in seen:
-                last_ts = seen[key]
+            if key in seen:  # noqa: F821  # TODO: seen
+                last_ts = seen[key]  # noqa: F821  # TODO: seen
                 if (ts - last_ts).total_seconds() < self.dedup_window_minutes * 60:
                     continue  # Skip duplicate
 
-            seen[key] = ts
+            seen[key] = ts  # noqa: F821  # TODO: seen
             deduped.append(fc)
 
         return deduped

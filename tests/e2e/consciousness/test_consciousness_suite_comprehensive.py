@@ -50,8 +50,8 @@ class TestConsciousnessModuleIntegrity:
         """Test that consciousness reasoning modules can be imported"""
         try:
             # Test the modules we just fixed for syntax errors
-            from candidate.consciousness.reasoning import id_reasoning_engine
-            from candidate.consciousness.reflection import brain_integration, core_integrator
+            from candidate.consciousness.reasoning import id_reasoning_engine  # noqa: F401  # TODO: candidate.consciousness.reason...
+            from candidate.consciousness.reflection import brain_integration, core_integrator  # noqa: F401  # TODO: candidate.consciousness.reflec...
 
             logger.info("✅ All consciousness reasoning modules imported successfully")
             assert True

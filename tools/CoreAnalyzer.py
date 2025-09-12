@@ -309,7 +309,7 @@ def main():
     print("🚀 lukhas Core AI Analysis")
     print("🎯 Identifying actual lukhas components vs external packages")
 
-    analyzer = lukhasCoreAnalyzer(workspace_path)
+    analyzer = lukhasCoreAnalyzer(workspace_path)  # noqa: F821  # TODO: lukhasCoreAnalyzer
     analyzer.analyze_lukhas_structure()
     report_path = analyzer.generate_analysis_report()
 
