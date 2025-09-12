@@ -122,16 +122,33 @@ Routes to identity_core.py
 from typing import Dict, Any
 from .identity_core import identity_core, AccessTier
 
+
+def _is_valid_password(password: str) -> bool:
+    """Minimal validation stub (non-production)."""
+    if not isinstance(password, str):
+        return False
+    if len(password) < 8:
+        return False
+    weak = {"password", "12345678", "letmein", "qwerty"}
+    return password.lower() not in weak
+
+
 def login_user(email: str, password: str) -> Dict[str, Any]:
     """Legacy login function - routes to identity_core"""
-    # TODO: Implement proper password validation
-    # For now, create a token with default T2 tier
+    if not _is_valid_password(password):
+        return {
+            "success": False,
+            "error": "invalid_credentials",
+            "message": "Password does not meet minimal requirements",
+        }
+
+    # Create a token with default T2 tier for legacy flows
     user_id = email.split('@')[0].replace('.', '_').lower()
     metadata = {
         "email": email,
         "consent": True,
         "trinity_score": 0.5,
-        "drift_score": 0.0
+        "drift_score": 0.0,
     }
 
     token = identity_core.create_token(user_id, AccessTier.T2, metadata)
@@ -141,8 +158,9 @@ def login_user(email: str, password: str) -> Dict[str, Any]:
         "token": token,
         "user_id": user_id,
         "tier": "T2",
-        "glyphs": identity_core.generate_identity_glyph(email)
+        "glyphs": identity_core.generate_identity_glyph(email),
     }
+
 
 def logout_user(token: str) -> bool:
     """Legacy logout function - routes to identity_core"""
@@ -161,12 +179,27 @@ Routes to identity_core.py
 """
 
 from typing import Dict, Any, Optional
+from datetime import datetime, timezone
+import hashlib
+
 from .identity_core import identity_core, AccessTier
 
-def register_user(email: str, password: str, requested_tier: Optional[str] = \
-    None) -> Dict[str, Any]:
+
+def _hash_password(password: str) -> str:
+    """Minimal hashing stub (non-production)."""
+    if not isinstance(password, str):
+        password = str(password)
+    # Warning: for demo only — replace with bcrypt/argon2 in production
+    return hashlib.sha256(("lukhas-demo-salt::" + password).encode()).hexdigest()
+
+
+_USER_STORE: dict[str, dict] = {}
+
+
+def register_user(
+    email: str, password: str, requested_tier: Optional[str] = None
+) -> Dict[str, Any]:
     """Legacy registration function - routes to identity_core"""
-    # TODO: Implement proper user storage and password hashing
 
     # Determine tier (default to T2 for new users)
     tier_map = {
@@ -174,18 +207,27 @@ def register_user(email: str, password: str, requested_tier: Optional[str] = \
         "T2": AccessTier.T2,
         "T3": AccessTier.T3,
         "T4": AccessTier.T4,
-        "T5": AccessTier.T5
+        "T5": AccessTier.T5,
     }
     tier = tier_map.get(requested_tier, AccessTier.T2)
 
     user_id = email.split('@')[0].replace('.', '_').lower()
+    pw_hash = _hash_password(password)
+
+    # Minimal in-memory storage stub
+    _USER_STORE[user_id] = {
+        "email": email,
+        "password_hash": pw_hash,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+
     metadata = {
         "email": email,
         "consent": True,
         "trinity_score": 0.3,
         "drift_score": 0.0,
         "cultural_profile": "universal",
-        "created_at": datetime.now(timezone.utc).isoformat()
+        "created_at": datetime.now(timezone.utc).isoformat(),
     }
 
     token = identity_core.create_token(user_id, tier, metadata)
@@ -197,7 +239,7 @@ def register_user(email: str, password: str, requested_tier: Optional[str] = \
         "token": token,
         "tier": tier.value,
         "glyphs": glyphs,
-        "message": f"User registered with tier {tier.value}"
+        "message": f"User registered with tier {tier.value}",
     }
 '''
 

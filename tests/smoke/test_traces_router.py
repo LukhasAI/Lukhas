@@ -47,3 +47,20 @@ def test_traces_by_id_smoke():
     assert r.status_code == 200, r.text
     body = r.json()
     assert body.get("trace_id") == "GOLD-0001"
+
+
+@pytest.mark.smoke
+@pytest.mark.matriz
+def test_traces_list_smoke():
+    client = TestClient(_make_app())
+    r = client.get("/traces/?limit=5")
+    assert r.status_code == 200, r.text
+    data = r.json()
+    assert isinstance(data, dict)
+    assert "traces" in data
+    traces = data["traces"]
+    assert isinstance(traces, list)
+    assert len(traces) >= 1
+    first = traces[0]
+    for key in ("id", "source", "size_bytes", "mtime", "path"):
+        assert key in first
