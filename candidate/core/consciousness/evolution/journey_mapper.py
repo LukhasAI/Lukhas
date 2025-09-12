@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime
 
 """
 Consciousness Journey Mapper for the Consciousness Oracle.

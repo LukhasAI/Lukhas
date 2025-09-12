@@ -15,7 +15,7 @@ import argparse
 import os
 import platform
 import subprocess
-from datetime import datetime, timezone
+from datetime import datetime
 
 import pyfiglet
 

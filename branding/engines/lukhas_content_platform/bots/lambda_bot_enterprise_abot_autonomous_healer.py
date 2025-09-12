@@ -113,7 +113,7 @@ class ABotAutonomousHealer:
         """
 
         try:
-            result = subprocess.run(
+            subprocess_result = subprocess.run(
                 [
                     "python3",
                     "-c",
@@ -133,12 +133,12 @@ result = controller.make_intelligent_request(
     urgency="HIGH"
 )
 
-if result.get("response"):  # noqa: F821
+if result.get("response"):
     print("🤖 LUKHAS AI ΛBot SELF-ANALYSIS:")
-    print(result["response"])  # noqa: F821
-    print(f"\n💰 Analysis Cost: ${result.get('cost', 0):.6f}")  # noqa: F821
+    print(result["response"])
+    print(f"\\n💰 Analysis Cost: ${{result.get('cost', 0):.6f}}")
 else:
-    print("❌ Self-analysis failed:", result.get("error", "Unknown error"))  # noqa: F821
+    print("❌ Self-analysis failed:", result.get("error", "Unknown error"))
 ''',
                 ],
                 capture_output=True,
@@ -147,12 +147,12 @@ else:
                 timeout=120,
             )
 
-            if result.stdout:
-                print(result.stdout)
+            if subprocess_result.stdout:
+                print(subprocess_result.stdout)
                 self.log_healing_action("self_analysis", "success", 0.0004)
-                return result.stdout
+                return subprocess_result.stdout
             else:
-                print(f"❌ Self-analysis failed: {result.stderr}")
+                print(f"❌ Self-analysis failed: {subprocess_result.stderr}")
                 self.log_healing_action("self_analysis", "failed", 0)
                 return None
 
@@ -192,7 +192,7 @@ else:
                 Be technical and specific about the implementation.
                 """
 
-                result = subprocess.run(
+                healing_result = subprocess.run(
                     [
                         "python3",
                         "-c",
@@ -212,12 +212,12 @@ result = controller.make_intelligent_request(
     urgency="MEDIUM"
 )
 
-if result.get("response"):  # noqa: F821
+if result.get("response"):
     print("🔧 HEALING SOLUTION:")
-    print(result["response"])  # noqa: F821
-    print(f"\n💰 Cost: ${result.get('cost', 0):.6f}")  # noqa: F821
+    print(result["response"])
+    print(f"\\n💰 Cost: ${{result.get('cost', 0):.6f}}")
 else:
-    print("❌ Healing failed:", result.get("error", "Unknown error"))  # noqa: F821
+    print("❌ Healing failed:", result.get("error", "Unknown error"))
 ''',
                     ],
                     capture_output=True,
@@ -226,11 +226,11 @@ else:
                     timeout=90,
                 )
 
-                if result.stdout:
-                    print(result.stdout)
+                if healing_result.stdout:
+                    print(healing_result.stdout)
                     self.log_healing_action(task_desc, "analysis_complete", 0.0003)
                 else:
-                    print(f"❌ Healing task failed: {result.stderr}")
+                    print(f"❌ Healing task failed: {healing_result.stderr}")
                     self.log_healing_action(task_desc, "failed", 0)
 
             except Exception as e:

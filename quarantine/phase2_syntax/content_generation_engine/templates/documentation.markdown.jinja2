@@ -1,0 +1,40 @@
+# {{ sections[0].title }}
+
+{% if sections[0].content %}
+{{ sections[0].content }}
+{% endif %}
+
+{% for section in sections %}
+{% if section.section_type == 'class' %}
+## {{ section.title }}
+
+{% if section.content %}
+{{ section.content }}
+{% endif %}
+
+{% for method in section.subsections %}
+### {{ method.title }}
+
+{% if method.content %}
+{{ method.content }}
+{% endif %}
+
+{% if method.metadata.properties.arguments %}
+**Parameters:**
+{% for arg in method.metadata.properties.arguments.args %}
+- `{{ arg.name }}`: {{ arg.type }}
+{% endfor %}
+{% endif %}
+
+{% if method.metadata.properties.returns %}
+**Returns:** `{{ method.metadata.properties.returns }}`
+{% endif %}
+
+{% endfor %}
+{% endif %}
+{% endfor %}
+
+{% if config.cultural_context %}
+---
+*Documentation adapted for {{ config.cultural_context }} context.*
+{% endif %}
