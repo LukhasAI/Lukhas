@@ -14,12 +14,12 @@ from scripts.production_main import LUKHASProduction
 class TestProductionMain(unittest.TestCase):
     @patch("scripts.production_main.initialize_branding")
     @patch("scripts.production_main.get_system_signature")
-    @patch("scripts.production_main.get_trinity_context")
+    @patch("scripts.production_main.get_triad_context")
     @patch("scripts.production_main.uvicorn")
     def test_initialization(
         self,
         mock_uvicorn,
-        mock_get_trinity_context,
+        mock_get_triad_context,
         mock_get_system_signature,
         mock_initialize_branding,
     ):
@@ -28,7 +28,7 @@ class TestProductionMain(unittest.TestCase):
         mock_initialize_branding.return_value = asyncio.Future()
         mock_initialize_branding.return_value.set_result(True)
         mock_get_system_signature.return_value = "Test Signature"
-        mock_get_trinity_context.return_value = {"framework": "Test Framework"}
+        mock_get_triad_context.return_value = {"framework": "Test Framework"}
 
         # Act
         system = LUKHASProduction()

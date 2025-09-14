@@ -56,7 +56,7 @@ class CodeIndexer:
             "total_lines": 0,
             "has_tests": 0,
             "has_types": 0,
-            "trinity_modules": 0,
+            "triad_modules": 0,
             "import_errors": [],
         }
 
@@ -304,7 +304,7 @@ class CodeIndexer:
             if has_types:
                 self.module_stats["has_types"] += 1
             if has_trinity:
-                self.module_stats["trinity_modules"] += 1
+                self.module_stats["triad_modules"] += 1
 
         except Exception as e:
             print(f"Error analyzing {path}: {e}", file=sys.stderr)
@@ -465,7 +465,7 @@ Generated: {}
             self.module_stats["total_lines"],
             self.module_stats["has_tests"],
             self.module_stats["has_types"],
-            self.module_stats["trinity_modules"],
+            self.module_stats["triad_modules"],
         )
 
         # Add lane statistics
@@ -629,7 +629,7 @@ def main():
         print(f"   - Lines: {stats['total_lines']:,}")
         print(f"   - With Tests: {stats['has_tests']}")
         print(f"   - With Types: {stats['has_types']}")
-        print(f"   - Trinity Modules: {stats['trinity_modules']}")
+        print(f"   - Trinity Modules: {stats['triad_modules']}")
 
         if stats["import_errors"]:
             print(f"\n⚠️  Found {len(stats['import_errors']} files with syntax errors")

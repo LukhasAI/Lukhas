@@ -106,7 +106,7 @@ class ConsciousnessProperty(Enum):
     ETHICAL_ALIGNMENT_MINIMUM = "ethical_alignment >= 0.98"
     MEMORY_CASCADE_PREVENTION = "cascade_prevention_rate >= 0.997"
     CONSTITUTIONAL_COMPLIANCE = "constitutional_constraints_maintained"
-    TRINITY_FRAMEWORK_COMPLIANCE = "trinity_framework_aligned"
+    TRINITY_FRAMEWORK_COMPLIANCE = "triad_framework_aligned"
     GUARDIAN_SYSTEM_ACTIVE = "guardian_monitoring_active"
 
 

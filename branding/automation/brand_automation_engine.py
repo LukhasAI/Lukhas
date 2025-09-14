@@ -50,7 +50,7 @@ class BrandAutomationEngine:
         self.config_path = self.base_path / "automation" / "automation_config.json"
         self.logs_path = self.base_path / "logs"
 
-        self.trinity_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
         self.automation_tasks = []
 
         self.logger = self._setup_logging()
@@ -109,7 +109,7 @@ class BrandAutomationEngine:
                 task_type="brand_audit",
                 schedule="daily",
                 target_system="all_systems",
-                parameters={"check_trinity_usage": True, "check_terminology": True},
+                parameters={"check_triad_usage": True, "check_terminology": True},
             ),
             AutomationTask(
                 task_id="social_media_generation",
@@ -230,7 +230,7 @@ class BrandAutomationEngine:
         """Automated brand consistency scanning"""
         self.logger.info("🔍 Running brand consistency scan...")
 
-        check_trinity = parameters.get("check_trinity_usage", True)
+        check_trinity = parameters.get("check_triad_usage", True)
         check_terminology = parameters.get("check_terminology", True)
 
         all_content = db.get_all_content(1000)

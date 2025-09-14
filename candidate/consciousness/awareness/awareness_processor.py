@@ -335,7 +335,7 @@ class AwarenessProcessor:
         }
 
         # Trinity Framework monitoring
-        self.trinity_metrics = {
+        self.triad_metrics = {
             "identity_coherence": 0.0,  # ⚛️ Identity system health
             "consciousness_depth": 0.0,  # 🧠 Consciousness processing depth
             "guardian_protection": 0.0,  # 🛡️ Guardian system effectiveness
@@ -359,7 +359,7 @@ class AwarenessProcessor:
         self.monitoring_intervals = {
             "awareness_check": 1.0,
             "consciousness_check": 5.0,
-            "trinity_check": 10.0,
+            "triad_check": 10.0,
             "health_summary": 30.0,
         }
 
@@ -395,16 +395,16 @@ class AwarenessProcessor:
                 return False
 
             # Verify Trinity Framework metrics
-            if not hasattr(self, "trinity_metrics"):
+            if not hasattr(self, "triad_metrics"):
                 return False
 
             # Check required Trinity metrics
-            trinity_keys = [
+            triad_keys = [
                 "identity_coherence",
                 "consciousness_depth",
                 "guardian_protection",
             ]
-            if not all(key in self.trinity_metrics for key in trinity_keys):
+            if not all(key in self.triad_metrics for key in triad_keys):
                 return False
 
             self.instance_logger.debug("ΛTRACE: Consciousness metrics validation passed")
@@ -558,8 +558,8 @@ class AwarenessProcessor:
             status["consciousness_state"] = self.consciousness_state.copy()
 
         # Add Trinity Framework metrics if available
-        if hasattr(self, "trinity_metrics"):
-            status["trinity_framework"] = self.trinity_metrics.copy()
+        if hasattr(self, "triad_metrics"):
+            status["triad_framework"] = self.triad_metrics.copy()
 
         # Add alert summary
         if hasattr(self, "active_alerts"):

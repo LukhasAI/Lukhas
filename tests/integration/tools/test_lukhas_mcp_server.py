@@ -67,11 +67,11 @@ def mcp_server(tmp_path: Path, mock_mcp_types) -> LUKHASMCPServer:
     workspace_root.mkdir()
 
     server = LUKHASMCPServer(str(workspace_root))
-    
+
     # Replace the server with our fake one for testing
     fake_server = FakeMCPServer("lukhas-mcp-fake")
     server.server = fake_server
-    
+
     return server
 
 
@@ -129,10 +129,10 @@ class TestLUKHASMCPServerWithFakeClient:
         assert any("activate_awareness" in s for s in result_json["suggestions"])
 
     @pytest.mark.asyncio
-    async def test_generate_trinity_docs_tool(self, mcp_server: LUKHASMCPServer):
-        """Tests the 'generate_trinity_documentation' tool."""
+    async def test_generate_triad_docs_tool(self, mcp_server: LUKHASMCPServer):
+        """Tests the 'generate_triad_documentation' tool."""
         # Arrange
-        tool_name = "generate_trinity_documentation"
+        tool_name = "generate_triad_documentation"
         args = {"element_type": "class", "element_name": "ConsciousnessEngine", "context": "Manages core awareness"}
 
         # Act

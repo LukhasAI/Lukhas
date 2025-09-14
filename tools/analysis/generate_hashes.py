@@ -37,7 +37,7 @@ def extract_symbolic_glyphs(file_path: Path) -> dict[str, any]:
         "unique_glyphs": set(),
         "symbolic_patterns": [],
         "emergency_levels": [],
-        "trinity_references": 0,
+        "triad_references": 0,
     }
 
     try:
@@ -63,8 +63,8 @@ def extract_symbolic_glyphs(file_path: Path) -> dict[str, any]:
         glyph_summary["emergency_levels"] = list(set(level_matches))
 
         # Count Trinity Framework references
-        trinity_matches = re.findall(r"⚛️🧠🛡️|constellation", content, re.IGNORECASE)
-        glyph_summary["trinity_references"] = len(trinity_matches)
+        triad_matches = re.findall(r"⚛️🧠🛡️|constellation", content, re.IGNORECASE)
+        glyph_summary["triad_references"] = len(triad_matches)
 
     except Exception as e:
         print(f"Warning: Could not extract symbolic information: {e}")
@@ -282,7 +282,7 @@ def main():
             print(
                 f"   Symbolic Glyphs: {hash_manifest['symbolic_analysis']['total_glyphs']} total, {len(hash_manifest['symbolic_analysis']['unique_glyphs'])} unique"
             )
-            print(f"   Trinity References: {hash_manifest['symbolic_analysis']['trinity_references']}")
+            print(f"   Trinity References: {hash_manifest['symbolic_analysis']['triad_references']}")
 
             print("\n🔐 Manifest integrity locked with symbolic proof")
             print(f"   Verification: python3 {sys.argv[0]} {args.manifest_file} --verify")

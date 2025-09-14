@@ -182,7 +182,7 @@ class LUKHASNewRelicMonitoring:
         except Exception as e:
             self.logger.error(f"Failed to track dream generation: {e}")
 
-    def track_trinity_framework_health(
+    def track_triad_framework_health(
         self,
         identity_health: float,
         consciousness_health: float,
@@ -293,7 +293,7 @@ def monitor_dream_endpoint(func):
     return wrapper
 
 
-def monitor_trinity_component(component_name: str):
+def monitor_triad_component(component_name: str):
     """Decorator for Trinity Framework components"""
 
     def decorator(func):

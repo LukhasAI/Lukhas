@@ -580,8 +580,8 @@ class GuardianDashboard:
             print(f"{Console.YELLOW}Duration: {age:.0f}s{Console.RESET}", end="")
         else:
             # Trinity Framework status
-            trinity_color = Console.GREEN if self.current_metrics.consciousness_stability > 0.8 else Console.YELLOW
-            print(f"Trinity Framework: ⚛️🧠🛡️ {trinity_color}ACTIVE{Console.RESET}", end="")
+            triad_color = Console.GREEN if self.current_metrics.consciousness_stability > 0.8 else Console.YELLOW
+            print(f"Trinity Framework: ⚛️🧠🛡️ {triad_color}ACTIVE{Console.RESET}", end="")
 
             # Guardian load
             load_color = (

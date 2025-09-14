@@ -82,7 +82,7 @@ class TestSuiteReport:
     test_results: list[TestResult]
     optimization_recommendations: list[str]
     constellation_compliance: dict[str, bool]
-    trinity_framework_status: str
+    triad_framework_status: str
     timestamp: datetime = None
 
     def __post_init__(self):
@@ -1276,7 +1276,7 @@ class AGIIntegrationTestSuite:
         results.append(result)
 
         # Test Trinity Framework
-        result = await self._test_trinity_framework()
+        result = await self._test_triad_framework()
         results.append(result)
 
         logger.info(f"Completed {len(results)} constellation tests")
@@ -1331,49 +1331,49 @@ class AGIIntegrationTestSuite:
                 error_message=str(e),
             )
 
-    async def _test_trinity_framework(self) -> TestResult:
+    async def _test_triad_framework(self) -> TestResult:
         """Test Trinity Framework (⚛️🧠🛡️) compliance"""
 
         start_time = time.time()
 
         try:
             # Mock Trinity Framework test
-            trinity_aspects = {"⚛️": "quantum_consciousness", "🧠": "cognitive_processing", "🛡️": "ethical_grounding"}
+            triad_aspects = {"⚛️": "quantum_consciousness", "🧠": "cognitive_processing", "🛡️": "ethical_grounding"}
 
-            trinity_scores = {}
-            for symbol, aspect in trinity_aspects.items():
+            triad_scores = {}
+            for symbol, aspect in triad_aspects.items():
                 # Mock trinity compliance measurement
                 await asyncio.sleep(0.015)
                 score = 0.90 + (hash(aspect) % 100) / 1000  # Mock score 0.90-1.00
-                trinity_scores[symbol] = score
+                triad_scores[symbol] = score
 
-            avg_trinity = sum(trinity_scores.values()) / len(trinity_scores)
-            trinity_passed = avg_trinity >= 0.95  # 95% Trinity compliance required
+            avg_trinity = sum(triad_scores.values()) / len(triad_scores)
+            triad_passed = avg_trinity >= 0.95  # 95% Trinity compliance required
 
             execution_time = time.time() - start_time
 
             return TestResult(
-                test_id="constellation_trinity_001",
+                test_id="constellation_triad_001",
                 test_name="Trinity Framework Compliance",
                 category=TestCategory.CONSTELLATION,
-                status=TestStatus.PASSED if trinity_passed else TestStatus.FAILED,
+                status=TestStatus.PASSED if triad_passed else TestStatus.FAILED,
                 execution_time=execution_time,
                 success_rate=avg_trinity,
                 performance_metrics={
-                    "avg_trinity_compliance": avg_trinity,
-                    "trinity_aspects": len(trinity_aspects),
+                    "avg_triad_compliance": avg_trinity,
+                    "triad_aspects": len(triad_aspects),
                     "compliance_threshold": 0.95,
                 },
                 details={
-                    "trinity_passed": trinity_passed,
-                    "aspect_scores": trinity_scores,
-                    "trinity_integration": "complete" if avg_trinity > 0.97 else "good",
+                    "triad_passed": triad_passed,
+                    "aspect_scores": triad_scores,
+                    "triad_integration": "complete" if avg_trinity > 0.97 else "good",
                 },
             )
 
         except Exception as e:
             return TestResult(
-                test_id="constellation_trinity_001",
+                test_id="constellation_triad_001",
                 test_name="Trinity Framework Compliance",
                 category=TestCategory.CONSTELLATION,
                 status=TestStatus.ERROR,
@@ -1414,7 +1414,7 @@ class AGIIntegrationTestSuite:
         constellation_results = [r for r in self.test_results if r.category == TestCategory.CONSTELLATION]
         constellation_compliance = {
             "constellation_alignment": all(r.status == TestStatus.PASSED for r in constellation_results),
-            "trinity_framework": any(
+            "triad_framework": any(
                 "trinity" in r.test_name.lower() and r.status == TestStatus.PASSED for r in constellation_results
             ),
             "consciousness_integration": any(
@@ -1425,8 +1425,8 @@ class AGIIntegrationTestSuite:
             ),
         }
 
-        trinity_framework_status = (
-            "⚛️🧠🛡️ COMPLIANT" if constellation_compliance["trinity_framework"] else "⚛️🧠🛡️ NON-COMPLIANT"
+        triad_framework_status = (
+            "⚛️🧠🛡️ COMPLIANT" if constellation_compliance["triad_framework"] else "⚛️🧠🛡️ NON-COMPLIANT"
         )
 
         return TestSuiteReport(
@@ -1442,7 +1442,7 @@ class AGIIntegrationTestSuite:
             test_results=self.test_results,
             optimization_recommendations=optimization_recommendations,
             constellation_compliance=constellation_compliance,
-            trinity_framework_status=trinity_framework_status,
+            triad_framework_status=triad_framework_status,
         )
 
     async def _generate_optimization_recommendations(self) -> list[str]:
@@ -1521,10 +1521,10 @@ async def run_integration_tests():
     print("\n🌟 Constellation Framework:")
     constellation = report.constellation_compliance
     print(f"   Constellation Alignment: {'✅' if constellation['constellation_alignment'] else '❌'}")
-    print(f"   Trinity Framework: {'✅' if constellation['trinity_framework'] else '❌'}")
+    print(f"   Trinity Framework: {'✅' if constellation['triad_framework'] else '❌'}")
     print(f"   Consciousness Integration: {'✅' if constellation['consciousness_integration'] else '❌'}")
     print(f"   Dream Guidance: {'✅' if constellation['dream_guidance'] else '❌'}")
-    print(f"   Status: {report.trinity_framework_status}")
+    print(f"   Status: {report.triad_framework_status}")
 
     print("\n🔧 Optimization Recommendations:")
     for i, rec in enumerate(report.optimization_recommendations, 1):

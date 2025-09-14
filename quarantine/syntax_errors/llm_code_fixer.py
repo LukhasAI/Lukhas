@@ -64,7 +64,7 @@ class FixResult:
     applied_fix: Optional[str] = None
     error_message: Optional[str] = None
     validation_passed: bool = False
-    trinity_compliant: bool = False
+    triad_compliant: bool = False
 
 
 class LocalLLMClient:
@@ -159,7 +159,7 @@ RESPOND WITH JSON:
     "fix_code": "exact code to replace the problematic line(s)",
     "explanation": "detailed explanation of the fix and why it's appropriate",
     "confidence": 0.95,  // confidence score 0.0-1.0
-    "trinity_compliance": {{
+    "triad_compliance": {{
         "identity_authentic": true,  // code expresses authentic purpose
         "consciousness_aware": true,  // fix understands full context
         "guardian_safe": true       // change protects system integrity
@@ -258,7 +258,7 @@ Focus on these common LUKHAS patterns:
                 "fix_code": code_blocks[0].strip(),
                 "explanation": "Extracted from llm_text response",
                 "confidence": 0.7,
-                "trinity_compliance": {
+                "triad_compliance": {
                     "identity_authentic": True,
                     "consciousness_aware": True,
                     "guardian_safe": True,
@@ -598,7 +598,7 @@ class LLMCodeFixer:
             # Extract fix details
             fix_code = llm_result.get("fix_code")
             confidence = llm_result.get("confidence", 0.0)
-            trinity_compliance = llm_result.get("trinity_compliance", {})
+            triad_compliance = llm_result.get("triad_compliance", {})
 
             if not fix_code or confidence < 0.7:
                 return FixResult(
@@ -625,7 +625,7 @@ class LLMCodeFixer:
                 success=True,
                 applied_fix=fix_code,
                 validation_passed=confidence > 0.8,
-                trinity_compliant=(all(trinity_compliance.values()) if trinity_compliance else False),
+                triad_compliant=(all(triad_compliance.values()) if triad_compliance else False),
             )
 
         except Exception as e:

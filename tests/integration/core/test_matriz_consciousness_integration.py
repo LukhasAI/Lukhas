@@ -15,24 +15,21 @@ from unittest.mock import MagicMock
 
 import pytest
 
-# Add candidate/core to path for testing
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "candidate" / "core"))
-
 # Test imports with graceful fallback
 try:
-    from matriz_integrated_demonstration import run_matriz_demonstration
-    from symbolic_core.matriz_symbolic_consciousness import symbolic_consciousness_processor
+    from candidate.core.matriz_integrated_demonstration import run_matriz_demonstration
+    from candidate.core.symbolic_core.matriz_symbolic_consciousness import symbolic_consciousness_processor
 
-    from consciousness.matriz_consciousness_state import (
+    from candidate.core.consciousness.matriz_consciousness_state import (
         ConsciousnessState,
         ConsciousnessType,
         EvolutionaryStage,
         consciousness_state_manager,
         create_consciousness_state,
     )
-    from governance.matriz_consciousness_governance import consciousness_governance_system
-    from identity.matriz_consciousness_identity import consciousness_identity_manager
-    from orchestration.matriz_consciousness_coordinator import consciousness_coordinator
+    from candidate.core.governance.matriz_consciousness_governance import consciousness_governance_system
+    from candidate.core.identity.matriz_consciousness_identity import consciousness_identity_manager
+    from candidate.core.orchestration.matriz_consciousness_coordinator import consciousness_coordinator
 
     COMPONENTS_AVAILABLE = True
 except ImportError as e:
@@ -157,7 +154,7 @@ class TestMatrizConsciousnessIntegration:
 
     @pytest.mark.skipif(not COMPONENTS_AVAILABLE, reason="MΛTRIZ components not available")
     @pytest.mark.asyncio
-    async def test_trinity_framework_compliance(self):
+    async def test_triad_framework_compliance(self):
         """Test Trinity Framework (⚛️🧠🛡️) compliance"""
 
         # Create consciousness with Trinity compliance
@@ -269,10 +266,10 @@ class TestMatrizIntegratedDemo:
             assert "demo_session_id" in result
             assert "status" in result
             assert "summary_metrics" in result
-            assert "trinity_framework_validation" in result
+            assert "triad_framework_validation" in result
 
             # Verify Trinity Framework validation
-            trinity = result["trinity_framework_validation"]
+            trinity = result["triad_framework_validation"]
             assert "identity" in trinity
             assert "consciousness" in trinity
             assert "guardian" in trinity

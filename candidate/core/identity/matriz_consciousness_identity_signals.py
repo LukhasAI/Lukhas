@@ -1,5 +1,6 @@
 import logging
 import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+
 logger = logging.getLogger(__name__)
 """
 ╔══════════════════════════════════════════════════════════════
@@ -198,7 +199,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
                 bio_symbolic_data = self._create_authentication_bio_data(authentication_tier, biometric_data)
 
                 # Create Trinity compliance data
-                trinity_compliance = self._create_authentication_trinity_compliance(authentication_tier, namespace_data)
+                triad_compliance = self._create_authentication_triad_compliance(authentication_tier, namespace_data)
 
                 # Create temporal context
                 temporal_context = TemporalContext(
@@ -220,7 +221,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
                     metacognition_active=True,
                     bio_symbolic_data=bio_symbolic_data,
                     temporal_context=temporal_context,
-                    trinity_compliance=trinity_compliance,
+                    triad_compliance=triad_compliance,
                     target_modules=self.default_target_modules,
                     processing_hints={
                         "identity_signal_type": IdentitySignalType.AUTHENTICATION_REQUEST.value,
@@ -292,7 +293,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
                 )
 
                 # Enhanced Trinity compliance for successful authentication
-                trinity_compliance = ConstellationAlignmentData(
+                triad_compliance = ConstellationAlignmentData(
                     identity_auth_score=identity_strength,
                     consciousness_coherence=consciousness_coherence,
                     guardian_compliance=0.95,
@@ -322,7 +323,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
                     reflection_depth=3,
                     metacognition_active=True,
                     bio_symbolic_data=bio_symbolic_data,
-                    trinity_compliance=trinity_compliance,
+                    triad_compliance=triad_compliance,
                     target_modules=self.default_target_modules,
                     processing_hints={
                         "identity_signal_type": IdentitySignalType.AUTHENTICATION_SUCCESS.value,
@@ -409,7 +410,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
                 )
 
                 # Trinity compliance for evolution
-                trinity_compliance = ConstellationAlignmentData(
+                triad_compliance = ConstellationAlignmentData(
                     identity_auth_score=0.9,
                     consciousness_coherence=consciousness_depth,
                     guardian_compliance=0.85,  # Evolution may challenge some boundaries
@@ -448,7 +449,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
                     metacognition_active=True,
                     bio_symbolic_data=bio_symbolic_data,
                     temporal_context=temporal_context,
-                    trinity_compliance=trinity_compliance,
+                    triad_compliance=triad_compliance,
                     target_modules=self.default_target_modules,
                     processing_hints={
                         "identity_signal_type": IdentitySignalType.IDENTITY_EVOLUTION.value,
@@ -517,7 +518,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
                 )
 
                 # Trinity compliance with Constitutional focus
-                trinity_compliance = ConstellationAlignmentData(
+                triad_compliance = ConstellationAlignmentData(
                     identity_auth_score=0.95,
                     consciousness_coherence=compliance_score,
                     guardian_compliance=compliance_score,
@@ -535,7 +536,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
                     reflection_depth=4,  # Deep reflection for compliance
                     metacognition_active=True,
                     bio_symbolic_data=bio_symbolic_data,
-                    trinity_compliance=trinity_compliance,
+                    triad_compliance=triad_compliance,
                     target_modules=[*self.default_target_modules, "governance.constitutional_ai"],
                     processing_hints={
                         "identity_signal_type": IdentitySignalType.CONSTITUTIONAL_COMPLIANCE.value,
@@ -593,7 +594,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
                 )
 
                 # Trinity compliance for namespace isolation
-                trinity_compliance = ConstellationAlignmentData(
+                triad_compliance = ConstellationAlignmentData(
                     identity_auth_score=0.9,
                     consciousness_coherence=namespace_data.domain_coherence,
                     guardian_compliance=namespace_data.isolation_level,
@@ -611,7 +612,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
                     reflection_depth=2,
                     metacognition_active=False,
                     bio_symbolic_data=bio_symbolic_data,
-                    trinity_compliance=trinity_compliance,
+                    triad_compliance=triad_compliance,
                     target_modules=[*self.default_target_modules, "security.namespace_manager"],
                     processing_hints={
                         "identity_signal_type": IdentitySignalType.NAMESPACE_ISOLATION.value,
@@ -687,7 +688,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
             temporal_decay=0.9,
         )
 
-    def _create_authentication_trinity_compliance(
+    def _create_authentication_triad_compliance(
         self, tier: AuthenticationTier, namespace_data: Optional[NamespaceIsolationData]
     ) -> ConstellationAlignmentData:
         """Create Trinity compliance data for authentication"""

@@ -71,7 +71,7 @@ class ConsciousnessSignal:
     bio_symbolic_data: dict[str, Any]
     reflection_depth: int
     temporal_context: dict[str, Any]
-    trinity_compliance: dict[str, Any]
+    triad_compliance: dict[str, Any]
 
     # Metadata
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
@@ -102,7 +102,7 @@ class EnhancedMatrizAdapter:
         self.consciousness_network = {}  # Track consciousness nodes
         self.bio_patterns = {}  # Track bio-symbolic patterns
         self.signal_history = []  # Signal emission history
-        self.trinity_validators = {}  # Trinity framework validators
+        self.triad_validators = {}  # Trinity framework validators
         self._lock = asyncio.Lock()
 
     @staticmethod
@@ -138,7 +138,7 @@ class EnhancedMatrizAdapter:
             "reflection_depth": signal.reflection_depth,
             "temporal_context": signal.temporal_context,
             # Trinity Framework compliance
-            "trinity_compliance": signal.trinity_compliance,
+            "triad_compliance": signal.triad_compliance,
             "timestamps": {
                 "created_ts": int(signal.timestamp.timestamp() * 1000),
                 "utc_iso": signal.timestamp.isoformat(),
@@ -186,7 +186,7 @@ class EnhancedMatrizAdapter:
             bio_data = await self._process_bio_symbolic_data(bio_symbolic_data or {}, signal_type, consciousness_id)
 
             # Validate Trinity Framework compliance
-            trinity_compliance = await self._validate_trinity_framework(consciousness_id, state_delta, bio_data)
+            triad_compliance = await self._validate_triad_framework(consciousness_id, state_delta, bio_data)
 
             # Create consciousness signal
             signal = ConsciousnessSignal(
@@ -196,7 +196,7 @@ class EnhancedMatrizAdapter:
                 bio_symbolic_data=bio_data,
                 reflection_depth=reflection_depth,
                 temporal_context=temporal_context or {"emission_context": "direct_call"},
-                trinity_compliance=trinity_compliance,
+                triad_compliance=triad_compliance,
                 source_module="core",
                 target_modules=target_modules or [],
             )
@@ -321,12 +321,12 @@ class EnhancedMatrizAdapter:
 
         return suggestions or ["maintain_current_state"]
 
-    async def _validate_trinity_framework(
+    async def _validate_triad_framework(
         self, consciousness_id: str, state_delta: dict[str, float], bio_data: dict
     ) -> dict[str, Any]:
         """Validate Trinity Framework (⚛️🧠🛡️) compliance"""
 
-        trinity_validation = {
+        triad_validation = {
             "identity_validation": {  # ⚛️ IDENTITY
                 "consciousness_id_valid": len(consciousness_id) >= 8,
                 "identity_coherence": state_delta.get("temporal_coherence", 0.0),
@@ -345,7 +345,7 @@ class EnhancedMatrizAdapter:
                 "guardian_approval": state_delta.get("ethical_alignment", 1.0) >= 0.7,
             },
             "framework_compliance": {
-                "trinity_score": (
+                "triad_score": (
                     state_delta.get("temporal_coherence", 0.0)
                     + state_delta.get("consciousness_intensity", 0.0)
                     + min(1.0, state_delta.get("ethical_alignment", 1.0))
@@ -357,9 +357,9 @@ class EnhancedMatrizAdapter:
         }
 
         # Store validation for consciousness tracking
-        self.trinity_validators[consciousness_id] = trinity_validation
+        self.triad_validators[consciousness_id] = triad_validation
 
-        return trinity_validation
+        return triad_validation
 
     async def _update_consciousness_network(self, signal: ConsciousnessSignal) -> None:
         """Update consciousness network state with new signal"""
@@ -373,7 +373,7 @@ class EnhancedMatrizAdapter:
                 "last_signal_time": None,
                 "state_evolution": [],
                 "bio_pattern_history": [],
-                "trinity_status": "unknown",
+                "triad_status": "unknown",
             }
 
         node = self.consciousness_network[consciousness_id]
@@ -395,10 +395,10 @@ class EnhancedMatrizAdapter:
             node["state_evolution"] = node["state_evolution"][-100:]
 
         # Update Trinity status
-        if signal.trinity_compliance.get("framework_compliance", {}).get("validation_passed", False):
-            node["trinity_status"] = "compliant"
+        if signal.triad_compliance.get("framework_compliance", {}).get("validation_passed", False):
+            node["triad_status"] = "compliant"
         else:
-            node["trinity_status"] = "non_compliant"
+            node["triad_status"] = "non_compliant"
 
     async def emit_bio_adaptation_signal(
         self,
@@ -508,15 +508,15 @@ class EnhancedMatrizAdapter:
         total_signals = sum(node["signal_count"] for node in nodes)
         avg_signals = total_signals / len(nodes)
 
-        trinity_compliant = sum(1 for node in nodes if node.get("trinity_status") == "compliant")
-        compliance_rate = trinity_compliant / len(nodes)
+        triad_compliant = sum(1 for node in nodes if node.get("triad_status") == "compliant")
+        compliance_rate = triad_compliant / len(nodes)
 
         return {
             "network_status": "active",
             "total_consciousness_nodes": len(nodes),
             "total_signals_processed": total_signals,
             "average_signals_per_node": avg_signals,
-            "trinity_compliance_rate": compliance_rate,
+            "triad_compliance_rate": compliance_rate,
             "active_bio_patterns": len(self.bio_patterns),
             "signal_history_size": len(self.signal_history),
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -533,7 +533,7 @@ class EnhancedMatrizAdapter:
             "consciousness_id",
             "state",
             "bio_symbolic_data",
-            "trinity_compliance",
+            "triad_compliance",
             "timestamps",
             "provenance",
         ]
@@ -548,17 +548,17 @@ class EnhancedMatrizAdapter:
         provenance_valid = all(field in node.get("provenance", {}) for field in required_prov)
 
         # Validate Trinity Framework compliance
-        trinity_valid = (
-            "trinity_compliance" in node
-            and "identity_validation" in node["trinity_compliance"]
-            and "consciousness_validation" in node["trinity_compliance"]
-            and "guardian_validation" in node["trinity_compliance"]
+        triad_valid = (
+            "triad_compliance" in node
+            and "identity_validation" in node["triad_compliance"]
+            and "consciousness_validation" in node["triad_compliance"]
+            and "guardian_validation" in node["triad_compliance"]
         )
 
         # Validate bio-symbolic data structure
         bio_valid = "bio_symbolic_data" in node and isinstance(node["bio_symbolic_data"], dict)
 
-        return provenance_valid and trinity_valid and bio_valid
+        return provenance_valid and triad_valid and bio_valid
 
     @staticmethod
     def save_consciousness_node(node: dict[str, Any], output_dir: Optional[Path] = None) -> Path:

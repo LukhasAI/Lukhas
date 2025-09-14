@@ -81,7 +81,7 @@ class SocialMediaOrchestrator:
 
         self.vocabulary = VocabularyIntegration()
         self.quality_validator = ContentQualityValidator()
-        self.trinity_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
 
         # Platform configurations
         self.platforms = {
@@ -213,7 +213,7 @@ class SocialMediaOrchestrator:
         cta = selected_template["call_to_action"]
 
         # Build substantial post content
-        full_content = f"{hook}\n\n{body}\n\n{cta}\n\n{self.trinity_branding}"
+        full_content = f"{hook}\n\n{body}\n\n{cta}\n\n{self.triad_branding}"
 
         # Enhance with vocabulary transformation
         enhanced_content = self.vocabulary.enhance_content_with_vocabulary(full_content, "philosophy")
@@ -280,7 +280,7 @@ class SocialMediaOrchestrator:
         reflection = selected_narrative["reflection"]
 
         # Build substantial Instagram post
-        full_content = f"{hook}\n\n{vision}\n\n{reflection}\n\n{self.trinity_branding}"
+        full_content = f"{hook}\n\n{vision}\n\n{reflection}\n\n{self.triad_branding}"
 
         # Enhance with vocabulary transformation
         enhanced_content = self.vocabulary.enhance_content_with_vocabulary(full_content, "dreams")
@@ -366,7 +366,7 @@ class SocialMediaOrchestrator:
             framework = commentary_frameworks[news_item["implications"]]
 
             # Build substantial commentary
-            full_content = f"{framework['perspective']}\n\n{framework['question']}\n\n{self.trinity_branding}"
+            full_content = f"{framework['perspective']}\n\n{framework['question']}\n\n{self.triad_branding}"
 
             # Enhance with vocabulary transformation
             enhanced_content = self.vocabulary.enhance_content_with_vocabulary(full_content, "analysis")
@@ -429,9 +429,7 @@ class SocialMediaOrchestrator:
         selected = random.choice(philosophy_templates)
 
         # Build substantial LinkedIn post
-        full_content = (
-            f"{selected['hook']}\n\n{selected['body']}\n\n{selected['reflection']}\n\n{self.trinity_branding}"
-        )
+        full_content = f"{selected['hook']}\n\n{selected['body']}\n\n{selected['reflection']}\n\n{self.triad_branding}"
 
         # Enhance with vocabulary transformation
         enhanced_content = self.vocabulary.enhance_content_with_vocabulary(full_content, "philosophy")
@@ -472,7 +470,7 @@ class SocialMediaOrchestrator:
                 "discussion": "What questions do you have about memory architectures in AI? Always happy to dive deeper! 🧠",
             },
             {
-                "topic": "trinity_framework_deep_dive",
+                "topic": "triad_framework_deep_dive",
                 "title": "The Trinity Framework: Why Three Pillars Matter for AI Safety",
                 "intro": "Most AI safety discussions focus on alignment. But what if we need a more holistic approach?",
                 "explanation": "The Trinity Framework ⚛️🧠🛡️ emerged from a simple insight: consciousness isn't just intelligence—it's the dynamic balance of three essential elements.\n\n**⚛️ Identity (Authenticity)**\n• Who is this AI? What are its core principles?\n• Prevents drift through consistent self-model\n• Maintains coherent 'voice' across interactions\n• Technical implementation: Namespace isolation, identity persistence\n\n**🧠 Consciousness (Processing)**\n• How does it think? What patterns does it recognize?\n• Quantum-inspired: superposition → observation → collapse\n• Bio-inspired: emergence, adaptation, learning\n• Technical implementation: Multi-model orchestration, context preservation\n\n**🛡️ Guardian (Ethics)**\n• What prevents harmful behavior? How do we ensure beneficial outcomes?\n• Constitutional AI principles embedded at foundation level\n• Drift detection with 0.15 threshold\n• Technical implementation: Real-time ethics checking, rollback capabilities\n\n**Why this matters:**\nMost AI systems optimize for performance. Trinity Framework optimizes for *beneficial* performance. Each pillar checks and balances the others.",
@@ -493,7 +491,7 @@ class SocialMediaOrchestrator:
 
         # Build substantial Reddit post
         full_content = (
-            f"{selected['hook']}\n\n{selected['explanation']}\n\n{selected['discussion']}\n\n{self.trinity_branding}"
+            f"{selected['hook']}\n\n{selected['explanation']}\n\n{selected['discussion']}\n\n{self.triad_branding}"
         )
 
         if "technical_note" in selected:
@@ -805,7 +803,7 @@ class SocialMediaOrchestrator:
             "publish_rate": (published_posts / approved_posts * 100) if approved_posts > 0 else 0,
             "platform_distribution": platform_counts,
             "content_type_distribution": content_type_counts,
-            "trinity_integration": "⚛️🧠🛡️ Active",
+            "triad_integration": "⚛️🧠🛡️ Active",
             "live_posting_enabled": self.live_posting_enabled,
             "platforms_configured_for_live": live_platforms,
             "api_integration_status": "🚀 LIVE" if self.live_posting_enabled else "🎭 SIMULATION",

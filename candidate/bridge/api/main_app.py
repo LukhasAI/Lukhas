@@ -31,7 +31,9 @@ try:
     from fastapi.middleware.cors import CORSMiddleware
     from fastapi.middleware.gzip import GZipMiddleware
     from fastapi.responses import JSONResponse, RedirectResponse
-    from fastapi.staticfiles import StaticFiles  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    from fastapi.staticfiles import (
+        StaticFiles,
+    )  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
 
     FASTAPI_AVAILABLE = True
 except ImportError:
@@ -237,7 +239,7 @@ if FASTAPI_AVAILABLE:
                 "Comprehensive validation",
                 "User onboarding system",
             ],
-            "trinity_framework": {
+            "triad_framework": {
                 "identity": "⚛️ Secure authentication and user management",
                 "consciousness": "🧠 Intelligent orchestration and decision-making",
                 "guardian": "🛡️ Security, validation, and compliance protection",

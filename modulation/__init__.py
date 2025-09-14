@@ -34,4 +34,4 @@ __all__ = [
 
 # Version and metadata
 __version__ = "0.1.0"
-__trinity_compliance__ = True  # ⚛️🧠🛡️
+__triad_compliance__ = True  # ⚛️🧠🛡️

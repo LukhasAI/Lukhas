@@ -25,7 +25,7 @@ from typing import Any, Optional
 
 __version__ = "1.0.0"
 __author__ = "LUKHAS AI Guardian System"
-__trinity_compliance__ = True
+__triad_compliance__ = True
 
 logger = logging.getLogger(__name__)
 
@@ -203,7 +203,7 @@ class DriftHarmonizer:
             timestamp=datetime.now(timezone.utc),
         )
 
-    def get_trinity_balance(self) -> dict[str, float]:
+    def get_triad_balance(self) -> dict[str, float]:
         """
         Assess Trinity Framework component balance based on drift patterns.
 
@@ -337,7 +337,7 @@ class DriftHarmonizer:
             return {"status": "no_data", "drift_count": 0}
 
         analysis = self.analyze_drift()
-        trinity_balance = self.get_trinity_balance()
+        triad_balance = self.get_triad_balance()
 
         return {
             "current_drift": self.history[-1],
@@ -346,21 +346,21 @@ class DriftHarmonizer:
             "trend": analysis.trend,
             "recommended_action": analysis.recommended_strategy.value,
             "urgency": analysis.urgency_score,
-            "trinity_balance": trinity_balance,
+            "triad_balance": triad_balance,
             "data_points": len(self.history),
             "threshold": self.threshold,
-            "trinity_compliant": True,
+            "triad_compliant": True,
         }
 
 
 # Trinity Framework compliance validation
-def validate_trinity_compliance(harmonizer: DriftHarmonizer) -> bool:
+def validate_triad_compliance(harmonizer: DriftHarmonizer) -> bool:
     """Validate that DriftHarmonizer meets Trinity Framework requirements"""
     required_methods = [
         "record_drift",
         "suggest_realignment",
         "analyze_drift",
-        "get_trinity_balance",
+        "get_triad_balance",
     ]
 
     for method in required_methods:
@@ -389,5 +389,5 @@ if __name__ == "__main__":
     print(f"Drift Analysis: {analysis.severity.value} ({analysis.confidence:.1%} confidence)")
     print(f"Trend: {analysis.trend}")
     print(f"Recommendation: {analysis.recommended_strategy.value}")
-    print(f"Trinity Balance: {harmonizer.get_trinity_balance()}")
-    print(f"Trinity Compliance: {validate_trinity_compliance(harmonizer)}")
+    print(f"Trinity Balance: {harmonizer.get_triad_balance()}")
+    print(f"Trinity Compliance: {validate_triad_compliance(harmonizer)}")

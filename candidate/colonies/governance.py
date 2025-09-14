@@ -177,10 +177,10 @@ class GovernanceColony(BaseColony):
         }
 
         # Trinity Framework compliance
-        if policy_name == "trinity_framework":
-            trinity_elements = ["identity", "consciousness", "guardian"]
-            for element in trinity_elements:
-                if not operation.get(f"trinity_{element}", False):
+        if policy_name == "triad_framework":
+            triad_elements = ["identity", "consciousness", "guardian"]
+            for element in triad_elements:
+                if not operation.get(f"triad_{element}", False):
                     result["violations"].append(f"Missing Trinity {element} integration")
                     result["compliant"] = False
 

@@ -25,6 +25,7 @@ logger = logging.getLogger(__name__)
 
 class DreamState(Enum):
     """Dream state enumeration."""
+
     DORMANT = "dormant"
     FORMING = "forming"
     ACTIVE = "active"
@@ -46,8 +47,9 @@ class DreamStateManager:
         self.state_counter = 0
         logger.info("🌙 Dream State Manager initialized - Trinity Framework active")
 
-    def create_dream_state(self, user_context: Optional[dict] = None,
-                         initial_state: DreamState = DreamState.FORMING) -> str:
+    def create_dream_state(
+        self, user_context: Optional[dict] = None, initial_state: DreamState = DreamState.FORMING
+    ) -> str:
         """
         ⚛️ Identity-coherent dream state creation.
 
@@ -67,9 +69,9 @@ class DreamStateManager:
             "user_context": user_context or {},
             "created_at": datetime.now(timezone.utc).isoformat(),
             "last_transition": datetime.now(timezone.utc).isoformat(),
-            "trinity_compliance": True,
+            "triad_compliance": True,
             "state_integrity": "maintained",
-            "transition_history": [initial_state.value]
+            "transition_history": [initial_state.value],
         }
 
         self.active_states[state_id] = dream_state
@@ -110,8 +112,8 @@ class DreamStateManager:
             "previous_state": previous_state,
             "current_state": target_state.value,
             "transition_valid": True,
-            "trinity_validated": True,
-            "transitioned_at": current_dream["last_transition"]
+            "triad_validated": True,
+            "transitioned_at": current_dream["last_transition"],
         }
 
         logger.info(f"🧠 Dream state transitioned: {state_id} {previous_state} -> {target_state.value}")
@@ -156,11 +158,11 @@ class DreamStateManager:
             "state_id": state_id,
             "current_state": dream_state["current_state"],
             "state_integrity": dream_state.get("state_integrity", "unknown"),
-            "trinity_compliance": dream_state.get("trinity_compliance", False),
+            "triad_compliance": dream_state.get("triad_compliance", False),
             "transition_count": len(dream_state["transition_history"]),
             "uptime": self._calculate_state_age(dream_state["created_at"]),
             "health_status": "excellent",
-            "safety_validated": True
+            "safety_validated": True,
         }
 
         logger.info(f"🛡️ Dream state health monitored: {state_id}")
@@ -192,7 +194,7 @@ class DreamStateManager:
             "archive_status": "complete",
             "total_duration": self._calculate_state_age(dream_state["created_at"]),
             "transition_count": len(dream_state["transition_history"]),
-            "trinity_validated": True
+            "triad_validated": True,
         }
 
         logger.info(f"📚 Dream state archived: {state_id}")
@@ -208,7 +210,7 @@ class DreamStateManager:
             "lucid": ["active", "concluding"],
             "transitioning": ["active", "concluding"],
             "concluding": ["archived"],
-            "archived": []  # No transitions from archived state
+            "archived": [],  # No transitions from archived state
         }
 
         return target_state in valid_transitions.get(current_state, [])
@@ -226,7 +228,7 @@ class DreamStateManager:
             "archived_states": len(self.state_history),
             "total_states_managed": self.state_counter,
             "system_status": "operational",
-            "trinity_framework_active": True
+            "triad_framework_active": True,
         }
 
 

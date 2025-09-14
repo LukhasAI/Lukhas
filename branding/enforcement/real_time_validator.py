@@ -24,7 +24,7 @@ class ValidationSeverity(Enum):
 class ValidationType(Enum):
     TERMINOLOGY = "terminology"
     TONE_CONSISTENCY = "tone_consistency"
-    TRINITY_ALIGNMENT = "trinity_alignment"
+    TRINITY_ALIGNMENT = "triad_alignment"
     LAMBDA_USAGE = "lambda_usage"
     BRAND_VOICE = "brand_voice"
     CONTENT_APPROPRIATENESS = "content_appropriateness"
@@ -190,7 +190,7 @@ class RealTimeBrandValidator:
             ],
             ValidationType.TRINITY_ALIGNMENT: [
                 BrandRule(
-                    rule_id="trinity_framework_mention",
+                    rule_id="triad_framework_mention",
                     rule_type=ValidationType.TRINITY_ALIGNMENT,
                     pattern=re.compile(r"trinity\s+framework", re.IGNORECASE),
                     severity=ValidationSeverity.INFO,
@@ -199,7 +199,7 @@ class RealTimeBrandValidator:
                     correction_template=None,
                 ),
                 BrandRule(
-                    rule_id="trinity_symbols_usage",
+                    rule_id="triad_symbols_usage",
                     rule_type=ValidationType.TRINITY_ALIGNMENT,
                     pattern=re.compile(r"⚛️.*🧠.*🛡️|🧠.*⚛️.*🛡️|🛡️.*⚛️.*🧠"),
                     severity=ValidationSeverity.INFO,

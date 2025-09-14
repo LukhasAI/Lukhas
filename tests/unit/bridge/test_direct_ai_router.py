@@ -23,6 +23,37 @@ def _write_dummy_router(tmp_path: Path, returns_dict: bool = True):
     (pkg_dir / "llm_multiverse_router.py").write_text(code)
 
 
+def test_route_request_import_error_in_child(tmp_path, monkeypatch):
+    # No router package at the path -> ImportError in child; ensure stderr propagates
+    monkeypatch.setenv("LUKHAS_AI_ROUTER_PATH", str(tmp_path))
+    monkeypatch.setenv("LUKHAS_PYTHON_PATH", sys.executable)
+    router = DirectAIRouter()
+    res = router.route_request("hello", structured=True)
+    assert isinstance(res, dict)
+    assert res["success"] is False
+    assert "Router execution error" in res["error"]
+    # stderr contains our message
+    assert "Failed to import 'multiverse_route'" in res["error"] or res["stderr"]
+
+
+def test_route_request_runtime_exception_in_child(tmp_path, monkeypatch):
+    # Create a router that raises
+    pkg_dir = tmp_path / "router"
+    pkg_dir.mkdir(parents=True, exist_ok=True)
+    (pkg_dir / "__init__.py").write_text("")
+    (pkg_dir / "llm_multiverse_router.py").write_text(
+        "def multiverse_route(task, task_type, debug):\n" "    raise RuntimeError('boom')\n"
+    )
+    monkeypatch.setenv("LUKHAS_AI_ROUTER_PATH", str(tmp_path))
+    monkeypatch.setenv("LUKHAS_PYTHON_PATH", sys.executable)
+    router = DirectAIRouter()
+    res = router.route_request("hello", structured=True)
+    assert isinstance(res, dict)
+    assert res["success"] is False
+    assert "Router execution error" in res["error"]
+    assert "boom" in res["error"] or res["stderr"]
+
+
 def test_route_request_structured_success_with_temp_router(tmp_path, monkeypatch):
     _write_dummy_router(tmp_path, returns_dict=True)
     # Point router path and python to current interpreter

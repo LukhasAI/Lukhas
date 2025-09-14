@@ -54,7 +54,7 @@ class MasterOrchestrator:
         self.reports_path = self.base_path / "reports"
         self.logs_path = self.base_path / "logs"
 
-        self.trinity_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
 
         # Initialize subsystems
         self.brand_engine = BrandAutomationEngine()
@@ -258,7 +258,7 @@ class MasterOrchestrator:
                     "healing_actions_recent": healing_status["recent_actions"],
                     "rollback_options": healing_status["rollback_available"],
                 },
-                "trinity_framework": {
+                "triad_framework": {
                     "identity_integration": "⚛️ Active",
                     "consciousness_processing": "🧠 Active",
                     "guardian_protection": "🛡️ Active",
@@ -545,7 +545,7 @@ class MasterOrchestrator:
             "enabled_systems": len([s for s in self.schedules if s.enabled]),
             "brand_automation_status": self.brand_engine.get_automation_status()["engine_status"],
             "self_healing_status": self.healing_system.get_healing_status()["system_status"],
-            "trinity_framework": "⚛️🧠🛡️ Active",
+            "triad_framework": "⚛️🧠🛡️ Active",
         }
 
         return status

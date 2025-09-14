@@ -30,7 +30,13 @@ sys.path.insert(0, identity_module_path)
 try:
     import mcp.server.stdio
     from mcp.server import Server
-    from mcp.types import EmbeddedResource, ImageContent, Resource, TextContent, Tool  # noqa: F401  # TODO: mcp.types.EmbeddedResource; co...
+    from mcp.types import (
+        EmbeddedResource,
+        ImageContent,
+        Resource,
+        TextContent,
+        Tool,
+    )  # noqa: F401  # TODO: mcp.types.EmbeddedResource; co...
 except ImportError:
     print("MCP SDK not installed. Install with: pip install mcp", file=sys.stderr)
     sys.exit(1)
@@ -284,7 +290,7 @@ class LukhosIdentityServer:
                         "impact": "Seamless multi-device experience",
                     },
                 ],
-                "trinity_compliance": {
+                "triad_compliance": {
                     "⚛️_identity_integration": 0.95,
                     "🧠_consciousness_aware": 0.85,
                     "🛡️_guardian_validated": 0.98,
@@ -358,7 +364,7 @@ class LukhosIdentityServer:
                     "average_session_duration": "2.5 hours",
                 },
                 "integration_status": {
-                    "trinity_framework": "ACTIVE",
+                    "triad_framework": "ACTIVE",
                     "guardian_system": "MONITORED",
                     "consciousness_integration": "PARTIAL",
                 },
@@ -462,7 +468,7 @@ class LukhosIdentityServer:
                     "guardian_system": {"status": "ACTIVE", "validation": "REALTIME"},
                     "memory_system": {"status": "PARTIAL", "sync": "ASYNC"},
                 },
-                "trinity_integration": {
+                "triad_integration": {
                     "⚛️_identity_core": "COMPLETE",
                     "🧠_consciousness_aware": "PARTIAL",
                     "🛡️_guardian_protected": "ACTIVE",
@@ -560,7 +566,7 @@ class LukhosIdentityServer:
                 },
                 "security_features": {
                     "guardian_approved": True,
-                    "trinity_compliant": True,
+                    "triad_compliant": True,
                     "encryption_applied": True,
                     "replay_protection": True,
                 },
@@ -643,7 +649,7 @@ class LukhosIdentityServer:
                     "Optimize cross-device token sync protocol",
                     "Add edge caching for tier validation",
                 ],
-                "trinity_compliance": {
+                "triad_compliance": {
                     "⚛️_identity": "OPTIMAL",
                     "🧠_consciousness": "GOOD",
                     "🛡️_guardian": "EXCELLENT",
@@ -678,7 +684,7 @@ class LukhosIdentityServer:
                     "device_trust_verified": True,
                     "encryption_applied": True,
                     "guardian_approved": True,
-                    "trinity_compliant": True,
+                    "triad_compliant": True,
                 },
                 "performance_metrics": {
                     "total_sync_time_ms": 150,
@@ -732,7 +738,7 @@ class LukhosIdentityServer:
                     if check_integrations
                     else None
                 ),
-                "trinity_validation": (
+                "triad_validation": (
                     {
                         "⚛️_identity_compliance": {"score": 0.95, "status": "EXCELLENT"},
                         "🧠_consciousness_integration": {

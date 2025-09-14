@@ -116,21 +116,21 @@ class TestCoreSystems(unittest.TestCase):
         except Exception as e:
             self.fail(f"Orchestration test failed: {e}")
 
-    def test_trinity_framework_integration(self):
+    def test_triad_framework_integration(self):
         """Test Trinity Framework (⚛️🧠🛡️) integration"""
         try:
             # Look for Trinity Framework indicators
-            trinity_keywords = ["identity", "consciousness", "guardian"]
-            trinity_files = []
+            triad_keywords = ["identity", "consciousness", "guardian"]
+            triad_files = []
 
             core_path = Path("core")
             if core_path.exists():
-                for keyword in trinity_keywords:
+                for keyword in triad_keywords:
                     keyword_files = list(core_path.glob(f"**/*{keyword}*"))
-                    trinity_files.extend(keyword_files)
+                    triad_files.extend(keyword_files)
 
-            self.assertGreater(len(trinity_files), 0, "Should have Trinity Framework files")
-            print(f"✅ Trinity Framework files found: {len(trinity_files)}")
+            self.assertGreater(len(triad_files), 0, "Should have Trinity Framework files")
+            print(f"✅ Trinity Framework files found: {len(triad_files)}")
 
         except Exception as e:
             self.fail(f"Trinity Framework test failed: {e}")
@@ -455,23 +455,23 @@ class TestConsciousnessSystems(unittest.TestCase):
         except Exception as e:
             self.fail(f"Consciousness processing pipeline test failed: {e}")
 
-    def test_consciousness_trinity_integration(self):
+    def test_consciousness_triad_integration(self):
         """Test consciousness integration with Trinity Framework"""
         try:
             # Mock Trinity Framework consciousness integration
-            trinity_consciousness = {
+            triad_consciousness = {
                 "identity": {"authenticated": True, "tier": 1, "permissions": ["read", "write"]},
                 "consciousness": {"state": "active", "processing": True, "focus": 80},
                 "guardian": {"monitoring": True, "alerts": [], "compliance": True},
             }
 
             # Validate Trinity integration
-            trinity_components = ["identity", "consciousness", "guardian"]
-            for component in trinity_components:
-                self.assertIn(component, trinity_consciousness)
+            triad_components = ["identity", "consciousness", "guardian"]
+            for component in triad_components:
+                self.assertIn(component, triad_consciousness)
 
             # Validate consciousness component
-            consciousness_data = trinity_consciousness["consciousness"]
+            consciousness_data = triad_consciousness["consciousness"]
             self.assertIn("state", consciousness_data)
             self.assertIn("processing", consciousness_data)
             self.assertIn("focus", consciousness_data)

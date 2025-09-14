@@ -68,7 +68,7 @@ def test_authentication_comprehensive_flows():
             {"provider": "github", "code": "authorization_code"},
             # Consciousness-aware authentication
             {"consciousness_id": "c001", "awareness_level": "high"},
-            {"identity_type": "consciousness", "trinity_token": "trinity_123"},
+            {"identity_type": "consciousness", "triad_token": "triad_123"},
         ]
 
         for scenario in auth_scenarios:
@@ -124,7 +124,7 @@ def test_session_management_comprehensive():
                 "user_id": "consciousness_001",
                 "session_type": "consciousness",
                 "awareness_level": "full",
-                "trinity_context": True,
+                "triad_context": True,
             },
             {
                 "user_id": "admin_001",
@@ -204,7 +204,7 @@ def test_token_management_comprehensive():
             {
                 "token_type": "consciousness_token",
                 "consciousness_id": "c001",
-                "trinity_framework": True,
+                "triad_framework": True,
                 "awareness_level": "high",
             },
         ]
@@ -278,7 +278,7 @@ def test_authorization_and_permissions():
                 "consciousness_id": "c001",
                 "resource": "consciousness_data",
                 "action": "process",
-                "context": {"trinity_framework": True, "awareness": "high"},
+                "context": {"triad_framework": True, "awareness": "high"},
             },
         ]
 
@@ -315,7 +315,7 @@ def test_authorization_and_permissions():
         pytest.skip("AuthService not available")
 
 
-def test_auth_service_trinity_framework_integration():
+def test_auth_service_triad_framework_integration():
     """Test auth service integration with Trinity Framework and consciousness."""
     try:
         from lukhas.identity.auth_service import AuthService
@@ -323,7 +323,7 @@ def test_auth_service_trinity_framework_integration():
         service = AuthService()
 
         # Test Trinity Framework integration scenarios
-        trinity_scenarios = [
+        triad_scenarios = [
             {
                 "identity_anchor": "user_001",
                 "consciousness_level": "aware",
@@ -344,20 +344,20 @@ def test_auth_service_trinity_framework_integration():
             },
         ]
 
-        for scenario in trinity_scenarios:
+        for scenario in triad_scenarios:
             try:
                 # Test Trinity Framework authentication
                 if hasattr(service, "authenticate_trinity"):
-                    trinity_auth = service.authenticate_trinity(scenario)
-                    assert trinity_auth is not None or trinity_auth is None
+                    triad_auth = service.authenticate_trinity(scenario)
+                    assert triad_auth is not None or triad_auth is None
 
                 if hasattr(service, "consciousness_auth"):
                     consciousness = service.consciousness_auth(scenario.get("consciousness_id", "default"))
                     assert consciousness is not None or consciousness is None
 
                 # Test integration validation
-                if hasattr(service, "validate_trinity_integration"):
-                    valid = service.validate_trinity_integration(scenario)
+                if hasattr(service, "validate_triad_integration"):
+                    valid = service.validate_triad_integration(scenario)
                     assert isinstance(valid, (bool, dict, type(None)))
 
                 if hasattr(service, "check_consciousness_access"):

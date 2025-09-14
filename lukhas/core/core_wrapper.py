@@ -58,16 +58,24 @@ class SymbolicResult:
 class GlyphEngine(Protocol):
     """Protocol for GLYPH engine implementations"""
 
-    def encode_concept(self, concept: str, emotion: dict[str, float] | None = None) -> Any: ...
-    def decode_glyph(self, glyph_repr: Any) -> Any: ...
-    def create_trinity_glyph(self, emphasis: str) -> Any: ...
+    def encode_concept(self, concept: str, emotion: dict[str, float] | None = None) -> Any:
+        ...
+
+    def decode_glyph(self, glyph_repr: Any) -> Any:
+        ...
+
+    def create_triad_glyph(self, emphasis: str) -> Any:
+        ...
 
 
 class ActorSystem(Protocol):
     """Protocol for actor system implementations"""
 
-    def send(self, actor_id: str, message: Any) -> None: ...
-    def register(self, actor_id: str, actor: Any) -> None: ...
+    def send(self, actor_id: str, message: Any) -> None:
+        ...
+
+    def register(self, actor_id: str, actor: Any) -> None:
+        ...
 
 
 class SymbolicWorld(Protocol):
@@ -75,22 +83,30 @@ class SymbolicWorld(Protocol):
 
     symbols: dict[str, Any]
 
-    def create_symbol(self, name: str, properties: dict[str, Any]) -> None: ...
+    def create_symbol(self, name: str, properties: dict[str, Any]) -> None:
+        ...
+
     def link_symbols(
         self,
         symbol1: Any,
         symbol2: Any,
         relationship_type: str,
         properties: dict[str, Any],
-    ) -> None: ...
-    def get_related_symbols(self, symbol: Any) -> list[Any]: ...
+    ) -> None:
+        ...
+
+    def get_related_symbols(self, symbol: Any) -> list[Any]:
+        ...
 
 
 class SymbolicReasoner(Protocol):
     """Protocol for symbolic reasoner implementations"""
 
-    def reason(self, symbol: Any) -> dict[str, Any]: ...
-    def find_patterns(self, symbols: list[Any]) -> list[dict[str, Any]]: ...
+    def reason(self, symbol: Any) -> dict[str, Any]:
+        ...
+
+    def find_patterns(self, symbols: list[Any]) -> list[dict[str, Any]]:
+        ...
 
 
 # Registry for implementations (populated by candidate modules at runtime)
@@ -141,7 +157,7 @@ class CoreWrapper:
     def __init__(self) -> None:
         """Initialize the Core wrapper with Trinity Framework support"""
         self._status = CoreStatus.INACTIVE
-        self._trinity_context = {
+        self._triad_context = {
             "identity": "⚛️",
             "consciousness": "🧠",
             "guardian": "🛡️",
@@ -227,7 +243,7 @@ class CoreWrapper:
                 metadata={
                     "glyph_repr": glyph_repr,
                     "emotion": emotion,
-                    "trinity_context": self._trinity_context,
+                    "triad_context": self._triad_context,
                 },
             )
         except Exception as e:
@@ -240,7 +256,7 @@ class CoreWrapper:
                 metadata={"error": str(e)},
             )
 
-    def create_trinity_glyph(self, emphasis: str = "balanced", mode: str = "dry_run") -> GlyphResult:
+    def create_triad_glyph(self, emphasis: str = "balanced", mode: str = "dry_run") -> GlyphResult:
         """
         Create a Trinity Framework glyph for LUKHAS AI operations.
 
@@ -253,9 +269,9 @@ class CoreWrapper:
         """
         if mode == "dry_run" or LUKHAS_DRY_RUN_MODE or not self._glyph_engine:
             # Dry-run Trinity creation
-            symbol = self._trinity_context.get("framework", "⚛️🧠🛡️")
+            symbol = self._triad_context.get("framework", "⚛️🧠🛡️")
             return GlyphResult(
-                glyph_id=f"trinity_{emphasis}",
+                glyph_id=f"triad_{emphasis}",
                 symbol=symbol,
                 concept=f"Trinity Framework ({emphasis})",
                 success=True,
@@ -263,7 +279,7 @@ class CoreWrapper:
             )
 
         try:
-            glyph_obj = self._glyph_engine.create_trinity_glyph(emphasis)
+            glyph_obj = self._glyph_engine.create_triad_glyph(emphasis)
             return GlyphResult(
                 glyph_id=glyph_obj.id,
                 symbol=glyph_obj.symbol,
@@ -271,7 +287,7 @@ class CoreWrapper:
                 success=True,
                 metadata={
                     "emphasis": emphasis,
-                    "trinity_context": self._trinity_context,
+                    "triad_context": self._triad_context,
                 },
             )
         except Exception as e:
@@ -466,7 +482,7 @@ class CoreWrapper:
                 "actor_system": self._actor_system is not None,
                 "symbolic_processing": self._symbolic_world is not None,
             },
-            "constellation_framework": self._trinity_context,
+            "constellation_framework": self._triad_context,
             "feature_flags": {
                 "LUKHAS_DRY_RUN_MODE": LUKHAS_DRY_RUN_MODE,
                 "CORE_ACTIVE": CORE_ACTIVE,
@@ -513,9 +529,9 @@ def encode_concept(concept: str, emotion: dict[str, float] | None = None, mode: 
     return get_core().encode_concept(concept, emotion, mode)
 
 
-def create_trinity_glyph(emphasis: str = "balanced", mode: str = "dry_run") -> GlyphResult:
+def create_triad_glyph(emphasis: str = "balanced", mode: str = "dry_run") -> GlyphResult:
     """Create a Trinity Framework glyph using the global core instance"""
-    return get_core().create_trinity_glyph(emphasis, mode)
+    return get_core().create_triad_glyph(emphasis, mode)
 
 
 def get_core_status() -> dict[str, Any]:
@@ -527,7 +543,8 @@ def get_core_status() -> dict[str, Any]:
 class DecisionEngine(Protocol):
     """Protocol for decision engine implementations"""
 
-    def decide(self, policy_input: dict[str, Any]) -> dict[str, Any]: ...
+    def decide(self, policy_input: dict[str, Any]) -> dict[str, Any]:
+        ...
 
 
 _DECISION_REGISTRY: dict[str, DecisionEngine] = {}
@@ -563,7 +580,7 @@ __all__ = [
     "CoreWrapper",
     "GlyphResult",
     "SymbolicResult",
-    "create_trinity_glyph",
+    "create_triad_glyph",
     "decide",
     "encode_concept",
     "get_core",

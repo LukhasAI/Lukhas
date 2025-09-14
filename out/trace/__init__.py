@@ -20,7 +20,7 @@ from .drift_metrics import DriftTracker
 
 __version__ = "1.0.0"
 __author__ = "LUKHAS AI Guardian System"
-__trinity_compliance__ = True
+__triad_compliance__ = True
 
 # Export main classes
 __all__ = [

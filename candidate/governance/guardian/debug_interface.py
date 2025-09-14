@@ -196,7 +196,7 @@ class DebugInterface:
         self.profiling_sessions: dict[str, dict[str, Any]] = {}
 
         # Trinity Framework debugging
-        self.trinity_debug_state = {
+        self.triad_debug_state = {
             "identity": {"active_contexts": [], "debug_level": DebugLevel.INFO},  # ⚛️
             "consciousness": {
                 "awareness_state": {},
@@ -219,7 +219,7 @@ class DebugInterface:
         asyncio.create_task(self._component_monitoring_loop())
         asyncio.create_task(self._performance_analysis_loop())
         asyncio.create_task(self._session_management_loop())
-        asyncio.create_task(self._trinity_debug_loop())
+        asyncio.create_task(self._triad_debug_loop())
 
         logger.info("🔍 Debug interface started")
 
@@ -516,21 +516,21 @@ class DebugInterface:
                 }
 
         # Trinity Framework status
-        trinity_status = {
+        triad_status = {
             "identity": {
-                "health": self._get_trinity_component_health("identity"),
-                "active_contexts": len(self.trinity_debug_state["identity"]["active_contexts"]),
-                "debug_level": self.trinity_debug_state["identity"]["debug_level"].value,
+                "health": self._get_triad_component_health("identity"),
+                "active_contexts": len(self.triad_debug_state["identity"]["active_contexts"]),
+                "debug_level": self.triad_debug_state["identity"]["debug_level"].value,
             },
             "consciousness": {
-                "health": self._get_trinity_component_health("consciousness"),
-                "awareness_state": len(self.trinity_debug_state["consciousness"]["awareness_state"]),
-                "debug_level": self.trinity_debug_state["consciousness"]["debug_level"].value,
+                "health": self._get_triad_component_health("consciousness"),
+                "awareness_state": len(self.triad_debug_state["consciousness"]["awareness_state"]),
+                "debug_level": self.triad_debug_state["consciousness"]["debug_level"].value,
             },
             "guardian": {
-                "health": self._get_trinity_component_health("guardian"),
-                "protection_active": bool(self.trinity_debug_state["guardian"]["protection_status"]),
-                "debug_level": self.trinity_debug_state["guardian"]["debug_level"].value,
+                "health": self._get_triad_component_health("guardian"),
+                "protection_active": bool(self.triad_debug_state["guardian"]["protection_status"]),
+                "debug_level": self.triad_debug_state["guardian"]["debug_level"].value,
             },
         }
 
@@ -582,7 +582,7 @@ class DebugInterface:
                 ],
             },
             # Trinity Framework status
-            "constellation_framework": trinity_status,
+            "constellation_framework": triad_status,
             # Performance metrics
             "performance": performance_summary,
             # System information
@@ -705,13 +705,13 @@ class DebugInterface:
                 logger.error(f"Session management loop error: {e}")
                 await asyncio.sleep(300)
 
-    async def _trinity_debug_loop(self):
+    async def _triad_debug_loop(self):
         """Background loop for Trinity Framework debugging."""
 
         while True:
             try:
                 # Update Trinity Framework debug state
-                await self._update_trinity_debug_state()
+                await self._update_triad_debug_state()
 
                 await asyncio.sleep(15)  # Update every 15 seconds
 
@@ -779,7 +779,7 @@ class DebugInterface:
 
         return dependents
 
-    def _get_trinity_component_health(self, framework_component: str) -> float:
+    def _get_triad_component_health(self, framework_component: str) -> float:
         """Get Trinity Framework component health score."""
 
         # Simulate health calculation based on registered components
@@ -857,12 +857,12 @@ class DebugInterface:
             # psutil not available, skip performance collection
             pass
 
-    async def _update_trinity_debug_state(self):
+    async def _update_triad_debug_state(self):
         """Update Trinity Framework debug state."""
 
         # Update identity debug state (⚛️)
         identity_components = [name for name in self.registered_components if "identity" in name.lower()]
-        self.trinity_debug_state["identity"]["active_contexts"] = identity_components
+        self.triad_debug_state["identity"]["active_contexts"] = identity_components
 
         # Update consciousness debug state (🧠)
         consciousness_components = [
@@ -870,13 +870,13 @@ class DebugInterface:
             for name in self.registered_components
             if "consciousness" in name.lower() or "awareness" in name.lower()
         ]
-        self.trinity_debug_state["consciousness"]["awareness_state"] = {
+        self.triad_debug_state["consciousness"]["awareness_state"] = {
             comp: "active" for comp in consciousness_components
         }
 
         # Update guardian debug state (🛡️)
         guardian_components = [name for name in self.registered_components if "guardian" in name.lower()]
-        self.trinity_debug_state["guardian"]["protection_status"] = {comp: "protected" for comp in guardian_components}
+        self.triad_debug_state["guardian"]["protection_status"] = {comp: "protected" for comp in guardian_components}
 
 
 # Export main classes

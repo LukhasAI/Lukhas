@@ -469,7 +469,7 @@ class AdvancedRuleValidator:
         required_actions = await self._generate_required_actions(rule, failed_conditions)
 
         # Trinity Framework integration
-        trinity_factors = await self._analyze_trinity_factors(rule, target_data, context, overall_result)
+        triad_factors = await self._analyze_triad_factors(rule, target_data, context, overall_result)
 
         execution_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
@@ -489,9 +489,9 @@ class AdvancedRuleValidator:
             execution_time=execution_time,
             suggestions=suggestions,
             required_actions=required_actions,
-            identity_factors=trinity_factors["identity"],
-            consciousness_factors=trinity_factors["consciousness"],
-            guardian_factors=trinity_factors["guardian"],
+            identity_factors=triad_factors["identity"],
+            consciousness_factors=triad_factors["consciousness"],
+            guardian_factors=triad_factors["guardian"],
         )
 
     async def _evaluate_condition(
@@ -696,7 +696,7 @@ class AdvancedRuleValidator:
 
         return actions
 
-    async def _analyze_trinity_factors(
+    async def _analyze_triad_factors(
         self,
         rule: RuleDefinition,
         target_data: dict[str, Any],

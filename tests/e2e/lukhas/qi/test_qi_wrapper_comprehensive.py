@@ -16,7 +16,7 @@ def test_qi_wrapper_comprehensive_initialization():
             {"quantum_backend": "simulator"},
             {"quantum_backend": "cloud", "provider": "test"},
             {"coherence_time": 100, "decoherence_rate": 0.01},
-            {"consciousness_integration": True, "trinity_framework": True},
+            {"consciousness_integration": True, "triad_framework": True},
         ]
 
         for pattern in initialization_patterns:
@@ -74,7 +74,7 @@ def test_quantum_state_management():
                 "state_type": "consciousness_inspired",
                 "awareness_level": 0.9,
                 "consciousness_qubits": 3,
-                "trinity_entanglement": True,
+                "triad_entanglement": True,
             },
         ]
 
@@ -268,7 +268,7 @@ def test_consciousness_quantum_integration():
             {
                 "consciousness_state": "aware",
                 "quantum_coherence": 0.9,
-                "trinity_context": {
+                "triad_context": {
                     "identity": "active",
                     "memory": "accessible",
                     "guardian": "monitoring",
@@ -306,8 +306,8 @@ def test_consciousness_quantum_integration():
                     assert collapse is not None or collapse is None
 
                 # Test Trinity Framework quantum integration
-                if hasattr(qi, "trinity_quantum_integration"):
-                    trinity = qi.trinity_quantum_integration(scenario.get("trinity_context", {}))
+                if hasattr(qi, "triad_quantum_integration"):
+                    trinity = qi.triad_quantum_integration(scenario.get("triad_context", {}))
                     assert trinity is not None or trinity is None
 
                 if hasattr(qi, "quantum_consciousness_bridge"):
@@ -420,7 +420,7 @@ def test_quantum_communication_and_cryptography():
                 "protocol": "consciousness_quantum_channel",
                 "consciousness_id": "c001",
                 "secure_channel": True,
-                "trinity_encryption": True,
+                "triad_encryption": True,
             },
         ]
 

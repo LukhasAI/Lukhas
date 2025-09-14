@@ -46,13 +46,13 @@ class BrandCreativityAdapter:
             "approved_terminology": {
                 "lukhas_ai",
                 "consciousness",
-                "trinity_framework",
+                "triad_framework",
                 "qi_inspired",
                 "bio_inspired",
                 "guardian",
             },
             "lambda_symbol": "Λ",  # Always use Lambda symbol, never "lambda"
-            "trinity_symbols": ["⚛️", "🧠", "🛡️"],
+            "triad_symbols": ["⚛️", "🧠", "🛡️"],
             "deprecated_terms": {
                 "lukhas_pwm": "lukhas_ai",
                 "lukhas_agi": "lukhas_ai",
@@ -90,7 +90,7 @@ class BrandCreativityAdapter:
             "tone_layer": tone_layer,
             "creative_style": creative_style,
             "brand_validated": True,
-            "trinity_aligned": self._validate_trinity_alignment(brand_compliant_output),
+            "triad_aligned": self._validate_triad_alignment(brand_compliant_output),
         }
 
     def _enhance_prompt_with_brand_context(self, prompt: str, tone_layer: str, creative_style: str) -> str:
@@ -140,9 +140,9 @@ class BrandCreativityAdapter:
         # Ensure technical precision and formal language
         return content
 
-    def _validate_trinity_alignment(self, content: str) -> bool:
+    def _validate_triad_alignment(self, content: str) -> bool:
         """Validate content aligns with Trinity Framework"""
-        trinity_keywords = [
+        triad_keywords = [
             "identity",
             "consciousness",
             "guardian",
@@ -155,7 +155,7 @@ class BrandCreativityAdapter:
         ]
 
         content_lower = content.lower()
-        alignment_score = sum(1 for keyword in trinity_keywords if keyword in content_lower)
+        alignment_score = sum(1 for keyword in triad_keywords if keyword in content_lower)
 
         return alignment_score >= 2  # At least 2 trinity concepts present
 
@@ -203,5 +203,5 @@ if __name__ == "__main__":
     print("Brand Creative Output:")
     print(f"Content: {result['content']}")
     print(f"Tone Layer: {result['tone_layer']}")
-    print(f"Trinity Aligned: {result['trinity_aligned']}")
+    print(f"Trinity Aligned: {result['triad_aligned']}")
     print(f"Brand Validated: {result['brand_validated']}")

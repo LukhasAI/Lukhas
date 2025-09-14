@@ -51,7 +51,7 @@ class DreamAdapter:
             "status": "active",
             "initiated_at": datetime.now(timezone.utc).isoformat(),
             "context": user_context or {},
-            "trinity_compliance": True,
+            "triad_compliance": True,
         }
 
         logger.info(f"🌙 Dream state initiated: {dream_id}")
@@ -77,7 +77,7 @@ class DreamAdapter:
             "content": content,
             "processed_at": datetime.now(timezone.utc).isoformat(),
             "status": "processed",
-            "trinity_validated": True,
+            "triad_validated": True,
         }
 
         logger.info(f"🧠 Dream content processed for {dream_id}")

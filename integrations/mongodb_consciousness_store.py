@@ -33,7 +33,7 @@ class LUKHASConsciousnessStore:
     - conversations: User interaction history
     - memory_folds: Fold-based memory system
     - consciousness_states: System consciousness levels
-    - trinity_framework: Identity, Consciousness, Guardian data
+    - triad_framework: Identity, Consciousness, Guardian data
     """
 
     def __init__(self):
@@ -52,7 +52,7 @@ class LUKHASConsciousnessStore:
             "conversations",
             "memory_folds",
             "consciousness_states",
-            "trinity_framework",
+            "triad_framework",
             "dream_sessions",
             "identity_contexts",
         ]
@@ -112,7 +112,7 @@ class LUKHASConsciousnessStore:
             [
                 IndexModel([("timestamp", -1)]),
                 IndexModel([("system_state", 1)]),
-                IndexModel([("trinity_balance", 1)]),
+                IndexModel([("triad_balance", 1)]),
             ]
         )
 
@@ -139,7 +139,7 @@ class LUKHASConsciousnessStore:
             "model_used": model_used,
             "timestamp": datetime.now(timezone.utc),
             "metadata": metadata or {},
-            "trinity_context": {
+            "triad_context": {
                 "identity_strength": metadata.get("identity_strength", 0.5),
                 "consciousness_depth": consciousness_level,
                 "guardian_oversight": metadata.get("guardian_oversight", True),
@@ -211,7 +211,7 @@ class LUKHASConsciousnessStore:
     async def update_consciousness_state(
         self,
         system_state: str,
-        trinity_balance: dict[str, float],
+        triad_balance: dict[str, float],
         performance_metrics: dict[str, Any],
     ):
         """Update system consciousness state"""
@@ -219,13 +219,13 @@ class LUKHASConsciousnessStore:
         state_doc = {
             "timestamp": datetime.now(timezone.utc),
             "system_state": system_state,
-            "trinity_balance": {
-                "identity": trinity_balance.get("identity", 0.33),
-                "consciousness": trinity_balance.get("consciousness", 0.33),
-                "guardian": trinity_balance.get("guardian", 0.33),
+            "triad_balance": {
+                "identity": triad_balance.get("identity", 0.33),
+                "consciousness": triad_balance.get("consciousness", 0.33),
+                "guardian": triad_balance.get("guardian", 0.33),
             },
             "performance_metrics": performance_metrics,
-            "health_score": sum(trinity_balance.values()) / len(trinity_balance),
+            "health_score": sum(triad_balance.values()) / len(triad_balance),
         }
 
         await self.collections["consciousness_states"].insert_one(state_doc)
@@ -323,7 +323,7 @@ class LUKHASConsciousnessStore:
         analytics = {
             "conversation_analytics": conversation_stats[0] if conversation_stats else {},
             "memory_analytics": memory_stats,
-            "trinity_balance": latest_state.get("trinity_balance", {}) if latest_state else {},
+            "triad_balance": latest_state.get("triad_balance", {}) if latest_state else {},
             "system_health": latest_state.get("health_score", 0) if latest_state else 0,
             "analysis_period_days": days,
             "generated_at": datetime.now(timezone.utc),
@@ -396,7 +396,7 @@ async def main():
     # Update consciousness state
     await store.update_consciousness_state(
         system_state="highly_engaged",
-        trinity_balance={"identity": 0.9, "consciousness": 0.85, "guardian": 0.88},
+        triad_balance={"identity": 0.9, "consciousness": 0.85, "guardian": 0.88},
         performance_metrics={"response_time": 1.2, "accuracy": 0.92},
     )
 

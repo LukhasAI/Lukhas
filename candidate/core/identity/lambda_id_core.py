@@ -219,7 +219,7 @@ class OIDCProvider:
                 "lid": lid,  # Custom claim for LUKHAS ID
                 "namespace": namespace,
                 # Trinity Framework claims
-                "trinity_identity": True,  # ⚛️ Identity
+                "triad_identity": True,  # ⚛️ Identity
                 "consciousness_aware": True,  # 🧠 Consciousness
                 "guardian_validated": True,  # 🛡️ Guardian
             }
@@ -449,7 +449,7 @@ class WebAuthnPasskeyManager:
             "lid": lid,
             "event_type": event_type,
             "details": details,
-            "trinity_guardian": True,  # 🛡️ Guardian validation
+            "triad_guardian": True,  # 🛡️ Guardian validation
         }
 
         self._security_events.append(event)
@@ -516,7 +516,7 @@ class LukhasIdentityService:
         }
 
         # Trinity Framework status tracking
-        self._trinity_framework_active = {
+        self._triad_framework_active = {
             "identity": True,  # ⚛️ Core identity system
             "consciousness": True,  # 🧠 Performance awareness
             "guardian": True,  # 🛡️ Security monitoring
@@ -556,7 +556,7 @@ class LukhasIdentityService:
                 "latency_ms": elapsed_ms,
                 "meets_target": elapsed_ms < MAX_AUTH_LATENCY_MS,
             },
-            "trinity_status": self.trinity_status,
+            "triad_status": self.triad_status,
         }
 
     def authenticate(self, lid: str, method: str = "passkey", credential: Optional[dict] = None) -> dict[str, Any]:
@@ -594,18 +594,18 @@ class LukhasIdentityService:
                 "meets_target": elapsed_ms < MAX_AUTH_LATENCY_MS,
                 "p95_latency": self.metrics["p95_latency"],
             },
-            "trinity_status": self.trinity_status,
+            "triad_status": self.triad_status,
         }
 
     @property
-    def trinity_status(self) -> dict[str, bool]:
+    def triad_status(self) -> dict[str, bool]:
         """
         Trinity Framework integration status
         ⚛️ Identity: Core identity authentication system
         🧠 Consciousness: Performance monitoring and adaptive optimization
         🛡️ Guardian: Security validation and audit trail
         """
-        return self._trinity_framework_active.copy()
+        return self._triad_framework_active.copy()
 
     @property
     def performance_metrics(self) -> dict[str, Union[float, int, bool]]:
@@ -689,7 +689,7 @@ class LukhasIdentityService:
                 "hit_rate": getattr(self, "cache_hit_rate", 0),
                 "cache_size": len(getattr(self, "performance_cache", {})),
             },
-            "trinity_status": self.trinity_status,
+            "triad_status": self.triad_status,
             "performance_summary": self.performance_metrics,
         }
 
@@ -710,7 +710,7 @@ def integrate_with_consent_ledger(lid: str, action: str) -> str:
             "lid": lid,
             "action": action,
             "timestamp": time.time(),
-            "trinity_context": {
+            "triad_context": {
                 "identity": True,  # ⚛️ Identity system
                 "consciousness": False,  # 🧠 Not consciousness event
                 "guardian": True,  # 🛡️ Guardian audit
@@ -729,7 +729,7 @@ def integrate_with_consent_ledger(lid: str, action: str) -> str:
         return f"LT-ERROR-{secrets.token_hex(8)}"
 
 
-def validate_trinity_framework() -> dict[str, bool]:
+def validate_triad_framework() -> dict[str, bool]:
     """
     Validate Trinity Framework integration
     ⚛️ Identity 🧠 Consciousness 🛡️ Guardian
@@ -738,7 +738,26 @@ def validate_trinity_framework() -> dict[str, bool]:
         "identity": True,  # ⚛️ Core identity functions available
         "consciousness": True,  # 🧠 Adaptive performance enabled
         "guardian": True,  # 🛡️ Security validation active
+        "clarity": True,  # Constellation compatibility
+        "wisdom": True,  # Constellation compatibility
+        "courage": True,  # Constellation compatibility
     }
+
+
+def validate_trinity_framework() -> dict[str, bool]:
+    """
+    Legacy Trinity Framework alias.
+    Maps to Triad validation during migration.
+    """
+    return validate_triad_framework()
+
+
+def validate_constellation_framework() -> dict[str, bool]:
+    """
+    Back-compat shim during Trinity→Constellation migration.
+    Delegates to the existing Trinity validation (Triad subset).
+    """
+    return validate_triad_framework()
 
 
 if __name__ == "__main__":
@@ -752,15 +771,15 @@ if __name__ == "__main__":
         service = LukhasIdentityService()
 
         # Validate Trinity Framework
-        trinity_status = validate_trinity_framework()
-        print(f"⚛️ Identity: {trinity_status['identity']}")
-        print(f"🧠 Consciousness: {trinity_status['consciousness']}")
-        print(f"🛡️ Guardian: {trinity_status['guardian']}")
+        triad_status = validate_triad_framework()
+        print(f"⚛️ Identity: {triad_status['identity']}")
+        print(f"🧠 Consciousness: {triad_status['consciousness']}")
+        print(f"🛡️ Guardian: {triad_status['guardian']}")
         print()
 
         # Test Trinity Framework properties
         print("⚛️ Testing Trinity Framework attributes...")
-        print(f"Trinity Status: {service.trinity_status}")
+        print(f"Trinity Status: {service.triad_status}")
         print(f"Performance Metrics: {service.performance_metrics}")
         print()
 
@@ -770,7 +789,7 @@ if __name__ == "__main__":
         print(f"✅ ΛID: {result['lid']}")
         print(f"⚡ Latency: {result['performance']['latency_ms']:.2f}ms")
         print(f"🎯 Meets <{MAX_AUTH_LATENCY_MS}ms: {result['performance']['meets_target']}")
-        print(f"⚛️ Trinity Status: {result['trinity_status']}")
+        print(f"⚛️ Trinity Status: {result['triad_status']}")
 
         # Test authentication with enhanced features
         print("\n🔐 Testing authentication with Trinity Framework...")
@@ -778,11 +797,11 @@ if __name__ == "__main__":
         print(f"✅ Success: {auth['success']}")
         print(f"⚡ Latency: {auth['performance']['latency_ms']:.2f}ms")
         print(f"📊 P95 Latency: {auth['performance']['p95_latency']:.2f}ms")
-        print(f"⚛️ Trinity Status: {auth['trinity_status']}")
+        print(f"⚛️ Trinity Status: {auth['triad_status']}")
 
         # Test Trinity Framework properties after operations
         print("\n📊 Trinity Framework Metrics After Operations:")
-        print(f"🔑 Trinity Status: {service.trinity_status}")
+        print(f"🔑 Trinity Status: {service.triad_status}")
         perf_metrics = service.performance_metrics
         print(f"⚡ P95 Latency: {perf_metrics['p95_latency_ms']:.2f}ms")
         print(f"🎯 Target Met: {perf_metrics['target_met']}")
@@ -794,7 +813,7 @@ if __name__ == "__main__":
         legacy_metrics = service.get_performance_metrics()
         print(f"🏃 Operations: {legacy_metrics['performance']['operations_count']}")
         print(f"🎯 Average Latency: {legacy_metrics['performance'].get('average_latency', 0):.2f}ms")
-        print(f"⚛️ Trinity Integration: {legacy_metrics['trinity_status']}")
+        print(f"⚛️ Trinity Integration: {legacy_metrics['triad_status']}")
 
         # Test error handling
         print("\n🚨 Testing error handling...")
@@ -806,7 +825,7 @@ if __name__ == "__main__":
         try:
             service.authenticate("INVALID-ID", "passkey")
         except AuthenticationError as e:
-            print(f"✅ Caught expected auth error: {str(e)}[:50]}...")
+            print(f"✅ Caught expected auth error: {str(e)[:50]}...")
 
         print("\n✅ All tests completed successfully!")
         print("🛡️ LUKHAS ΛID Core Identity System validated")

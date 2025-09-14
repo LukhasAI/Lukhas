@@ -87,9 +87,14 @@ REASONING_ACTIVE = os.getenv("REASONING_ACTIVE", "false").lower() == "true"
 class ConsciousnessSystem(Protocol):
     """Protocol for consciousness system implementations"""
 
-    def process_awareness(self, stimulus: dict[str, Any]) -> dict[str, Any]: ...
-    def reflect(self, thought: str) -> dict[str, Any]: ...
-    def dream(self, seed: Any) -> dict[str, Any]: ...
+    def process_awareness(self, stimulus: dict[str, Any]) -> dict[str, Any]:
+        ...
+
+    def reflect(self, thought: str) -> dict[str, Any]:
+        ...
+
+    def dream(self, seed: Any) -> dict[str, Any]:
+        ...
 
 
 # Registry for consciousness implementations
@@ -128,7 +133,7 @@ class ConsciousnessConfig:
     performance_target_ms: int = 100
     enable_ethics_validation: bool = True
     enable_drift_detection: bool = True
-    enable_trinity_validation: bool = True
+    enable_triad_validation: bool = True
     memory_fold_limit: int = 1000
     cascade_prevention_rate: float = 0.997
 
@@ -207,7 +212,7 @@ class ConsciousnessWrapper:
                 result["safety_metadata"] = {
                     "mode": mode,
                     "performance_ms": (time.time() - start_time) * 1000,
-                    "trinity_compliance": True,
+                    "triad_compliance": True,
                     "drift_score": self.state.drift_score,
                 }
 
