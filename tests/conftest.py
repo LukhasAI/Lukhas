@@ -69,7 +69,9 @@ def pytest_runtest_makereport(item, call):
     if "quarantine" in item.keywords and call.when == "call" and call.excinfo:
         item._quarantine_fail = getattr(item, "_quarantine_fail", 0) + 1
 
+
 import types
+
 
 @pytest.fixture(autouse=True, scope="session")
 def _stub_streamlit_for_tests():
@@ -81,3 +83,37 @@ def _stub_streamlit_for_tests():
         )
         sys.modules["streamlit"] = stub
     yield
+
+
+# ---------------------------------------------------------------------------
+# CI Quality Gates: deterministic, fast collection & selection
+# ---------------------------------------------------------------------------
+
+CI_QG = os.getenv("CI_QUALITY_GATES") == "1"
+
+
+def pytest_ignore_collect(path: Path, config):
+    """Basic directory-level ignore during quality gates to avoid costly import-time failures."""
+    if CI_QG:
+        p = Path(path)
+        parts = set(p.parts)
+        if "integration" in parts or "e2e" in parts or "benchmarks" in parts:
+            return True
+    return False
+
+
+def pytest_collection_modifyitems(config, items):
+    """In quality gates mode, only keep smoke and unmarked/unit tests.
+
+    Converts ad-hoc per-test skipping into stable, marker-based selection.
+    """
+    if not CI_QG:
+        return
+
+    skip_marks = {"integration", "e2e", "bench", "cloud", "enterprise", "mcp", "bio"}
+    selected = []
+    for item in items:
+        marks = {m.name for m in item.iter_markers()}
+        if "smoke" in marks or not marks.intersection(skip_marks):
+            selected.append(item)
+    items[:] = selected

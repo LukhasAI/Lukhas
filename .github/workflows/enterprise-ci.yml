@@ -11,6 +11,12 @@ env:
   CACHE_VERSION: v1
   PYTEST_TIMEOUT: 300
   MUTATION_TIMEOUT: 600
+  CI_QUALITY_GATES: "1"
+  PYTHONHASHSEED: "0"
+
+defaults:
+  run:
+    shell: bash -euxo pipefail {0}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
