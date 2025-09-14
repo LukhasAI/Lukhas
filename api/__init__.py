@@ -55,6 +55,14 @@ except ImportError as e:
     feedback_app = None
     FEEDBACK_AVAILABLE = False
 
+try:
+    from .expansion_api import app as expansion_app
+    EXPANSION_AVAILABLE = True
+except ImportError as e:
+    logging.warning(f"API Expansion not available: {e}")
+    expansion_app = None
+    EXPANSION_AVAILABLE = False
+
 # API Registry
 API_REGISTRY = {
     "consciousness_chat": {
@@ -77,6 +85,11 @@ API_REGISTRY = {
         "available": FEEDBACK_AVAILABLE,
         "description": "User feedback collection and processing",
     },
+    "expansion": {
+        "app": expansion_app,
+        "available": EXPANSION_AVAILABLE,
+        "description": "API expansion strategy for Consciousness, Identity, and Guardian systems",
+    }
 }
 
 
