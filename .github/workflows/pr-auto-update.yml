@@ -1,0 +1,48 @@
+name: PR Auto-Update (label-gated)
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '*/30 * * * *'  # every 30 minutes
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: pr-auto-update-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  update:
+    name: Update PR branches labeled 'autoupdate' or 'queue'
+    runs-on: ubuntu-latest
+    steps:
+      - name: List target PRs
+        id: list
+        shell: bash
+        run: |
+          set -euo pipefail
+          PRS=$(gh pr list --state open --json id,number,labels,baseRefName,isCrossRepository,headRepositoryOwner,headRepository \
+            -q '.[]
+                | select(.baseRefName=="main")
+                | select((([.labels[].name] // []) | index("autoupdate")) != null or (([.labels[].name] // []) | index("queue")) != null)
+                | select(.isCrossRepository|not)
+                | [.id, .number]
+                | @tsv' || true)
+          echo "prs<<EOF" >> $GITHUB_OUTPUT
+          echo "$PRS" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Update branches via GraphQL
+        if: steps.list.outputs.prs != ''
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS=$'\t' read -r PRID NUM; do
+            [ -z "$PRID" ] && continue
+            echo "Updating PR #$NUM ($PRID) with base main..."
+            gh api graphql -f query='mutation($id:ID!){ updatePullRequestBranch(input:{pullRequestId:$id}) { pullRequest { number } }}' -f id="$PRID" || true
+          done <<< "${{ steps.list.outputs.prs }}"
