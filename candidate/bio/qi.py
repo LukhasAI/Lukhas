@@ -89,6 +89,7 @@ def __validate_module__():
         datetime,
         timezone,
     )
+    from candidate.utils.time import utc_now
 
     """
     Bio-QI Module Validation
@@ -96,9 +97,7 @@ def __validate_module__():
     """
 
     validation_results = {
-        "validation_timestamp": datetime.now(
-            timezone.utc
-        ).isoformat(),  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement
+        "validation_timestamp": utc_now().isoformat(),  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement
         "module_status": "operational",
         "components_tested": [],
         "test_results": {},
