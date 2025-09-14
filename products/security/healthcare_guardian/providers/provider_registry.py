@@ -8,7 +8,7 @@ Now includes complete templates structure with regional implementations.
 Templates are organized in:
 /templates/regions/{region}/{country}/{provider}/
 """
-import streamlit as st
+
 from datetime import timezone
 
 import logging
@@ -170,7 +170,7 @@ class NHSProvider(BaseHealthcareProvider):
 
     async def get_patient_record(self, patient_id: str) -> dict[str, Any]:
         """Get NHS patient summary care record"""
-        return {"nhs_number": patient_id, "summary_care_record": {}, "gp_practice": {}
+        return {"nhs_number": patient_id, "summary_care_record": {}, "gp_practice": {}}
 
     async def book_appointment(
         self, patient_id: str, specialty: str, preferred_time: Optional[datetime] = None
@@ -271,7 +271,7 @@ class SASProvider(BaseHealthcareProvider):
 
     async def get_patient_record(self, patient_id: str) -> dict[str, Any]:
         """Get Historia de Salud from Diraya"""
-        return {"nuhsa": patient_id, "historia_salud": {}, "centro_salud": {}
+        return {"nuhsa": patient_id, "historia_salud": {}, "centro_salud": {}}
 
     async def book_appointment(
         self, patient_id: str, specialty: str, preferred_time: Optional[datetime] = None

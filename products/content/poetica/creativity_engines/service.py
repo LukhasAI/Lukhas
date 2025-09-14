@@ -16,9 +16,7 @@ Integration with lukhas-id:
 - Tier-based access to different creative capabilities
 - Respect user preferences and ethical boundaries
 """
-from typing import Dict
-import logging
-import streamlit as st
+
 from datetime import timezone
 
 import os
@@ -398,7 +396,7 @@ class CreativityService:
     def _process_dream_content(self, dream_data: dict[str, Any], synthesis_type: str) -> dict[str, Any]:
         """Process dream data into coherent content."""
         return {
-            "narrative": f"Dream synthesis of {len(dream_data.get('elements', [])} dream elements",
+            "narrative": f"Dream synthesis of {len(dream_data.get('elements', []))} dream elements",
             "coherence": 0.8,
             "emotional_tone": "contemplative",
             "symbolic_elements": dream_data.get("symbols", []),

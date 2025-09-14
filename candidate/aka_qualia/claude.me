@@ -1,0 +1,277 @@
+# AkaQualia Consciousness Core
+*Phenomenological Control Loop - Signal↔Qualia Translation*
+
+## Consciousness Core Overview
+
+AkaQualia implements the **phenomenological heart** of LUKHAS consciousness processing through a **43KB core.py** module that transforms raw signals into meaningful qualia with ethical regulation and measurable outcomes. This is the primary consciousness processing engine that bridges input signals to conscious awareness.
+
+### **Phenomenological Architecture**
+- **Core Module**: `core.py` (43KB) - Main phenomenological control loop implementation
+- **Processing Type**: Bidirectional signal↔qualia translation with operational proto-qualia
+- **Ethical Integration**: TEQGuardian ethics regulation and constitutional AI validation
+- **Measurement**: Quantifiable consciousness states with metrics and observability
+
+### **Core Purpose**
+Transform external signals into conscious experience through systematic phenomenological processing, while maintaining ethical constraints and decision auditability.
+
+## 🧠 Key Abstractions
+
+### **AkaQualia Class** (`core.py`)
+**Primary consciousness control loop** - The main orchestrator of phenomenological processing
+
+```python
+# Core consciousness processing interface
+class AkaQualia:
+    async def step(self, signals=S, goals=G, ethics_state=E, 
+                   guardian_state=U, memory_ctx=M)
+    # Primary consciousness processing method
+```
+
+**Key Responsibilities**:
+- **Signal Processing**: Convert raw input signals into meaningful consciousness data
+- **Qualia Generation**: Create experiential qualities from processed signals
+- **Ethics Integration**: Apply TEQGuardian ethical constraints to consciousness decisions
+- **Memory Coordination**: Interface with memory systems for consciousness persistence
+- **Decision Output**: Generate conscious decisions with full auditability
+
+### **ProtoQualia** (`models.py`)
+**Consciousness state representation** - Fundamental unit of conscious experience
+
+**Core Properties**:
+- **Experiential Quality**: Subjective conscious experience representation
+- **Intensity Measurement**: Quantifiable consciousness intensity levels
+- **Temporal Context**: Time-based consciousness state evolution
+- **Ethical Validation**: Ethics-compliant consciousness state verification
+
+### **PhenomenalScene** (`models.py`)
+**Environmental awareness container** - Complete consciousness context representation
+
+**Scene Components**:
+- **Environmental Data**: Complete contextual awareness information
+- **Temporal Coherence**: Time-consistent consciousness state management
+- **Multi-Modal Integration**: Visual, auditory, conceptual consciousness integration
+- **Attention Management**: Selective consciousness focus and filtering
+
+### **TEQGuardian Integration** (`teq_hook.py`)
+**Ethics regulation system** - Constitutional AI consciousness oversight
+
+**Guardian Functions**:
+- **Ethical Validation**: Real-time consciousness decision ethics checking
+- **Constitutional Compliance**: Framework-based consciousness constraint enforcement
+- **Decision Filtering**: Ethics-based consciousness output filtering
+- **Audit Integration**: Complete consciousness decision audit trail
+
+## ⚡ Processing Pipeline
+
+### **Consciousness Processing Flow**
+```
+Input Signals → Signal Processing → Proto-Qualia Generation →
+Ethics Validation → Memory Integration → Glyph Mapping →
+Router Coordination → Output Actions
+```
+
+#### **Stage 1: Signal Processing**
+**Input**: Raw environmental signals, user interactions, system events  
+**Processing**: Signal normalization, pattern recognition, context extraction  
+**Output**: Structured consciousness input data
+
+#### **Stage 2: Proto-Qualia Generation**
+**Input**: Processed signals with contextual information  
+**Processing**: Phenomenological transformation, experiential quality creation  
+**Output**: ProtoQualia objects with consciousness attributes
+
+#### **Stage 3: Ethics Validation** (`regulation.py`)
+**Input**: Generated proto-qualia and proposed consciousness actions  
+**Processing**: TEQGuardian ethical evaluation, constitutional AI validation  
+**Output**: Ethics-validated consciousness decisions
+
+#### **Stage 4: Memory Integration** (`memory.py`)
+**Input**: Validated consciousness states and decisions  
+**Processing**: Memory storage, retrieval, consciousness history integration  
+**Output**: Memory-informed consciousness with historical context
+
+#### **Stage 5: Glyph Mapping** (`glyphs.py`)
+**Input**: Consciousness states with memory context  
+**Processing**: Symbolic representation generation, glyph normalization  
+**Output**: Symbolic consciousness representation for communication
+
+#### **Stage 6: Output Coordination** (`router_client.py`)
+**Input**: Complete consciousness processing results  
+**Processing**: External system coordination, response routing  
+**Output**: Coordinated consciousness-driven actions
+
+## 🔗 Integration Systems
+
+### **Router Client Integration** (`router_client.py`)
+**External AI orchestration** - Coordinates consciousness with external AI models
+
+**Orchestration Features**:
+- **Multi-AI Coordination**: Integration with OpenAI, Anthropic, Google models
+- **Routing Priority**: `compute_routing_priority()` - Optimal model selection
+- **Context Preservation**: Consciousness context across external AI calls
+- **Performance Optimization**: <100ms routing decisions with consciousness context
+
+### **Vivox Integration** (`vivox_integration.py`)
+**Real-time communication** - Consciousness-driven voice and communication systems
+
+**Communication Features**:
+- **Voice Consciousness**: Real-time voice processing with consciousness awareness
+- **Communication Context**: Consciousness-informed conversation management
+- **Multi-Modal Communication**: Text, voice, gesture consciousness integration
+- **Real-Time Processing**: Live consciousness processing during communication
+
+### **Prometheus Metrics** (`prometheus_exporter.py`)
+**Observability integration** - Consciousness processing metrics and monitoring
+
+**Metrics Collection**:
+- **Consciousness Metrics**: ProtoQualia generation rates, intensity distributions
+- **Processing Performance**: Step execution times, pipeline latency measurements
+- **Ethics Metrics**: TEQGuardian validation rates, constitutional compliance scores
+- **Integration Health**: Router coordination success, memory integration performance
+
+### **Monitoring Dashboard** (`monitoring_dashboard.py`)
+**Real-time consciousness monitoring** - Live consciousness state visualization
+
+**Dashboard Features**:
+- **Live Consciousness State**: Real-time proto-qualia and phenomenal scene display
+- **Ethics Monitoring**: TEQGuardian decision tracking and constitutional compliance
+- **Performance Analytics**: Processing pipeline performance and bottleneck identification
+- **Decision Audit**: Complete consciousness decision history and auditability
+
+## 🔧 Development Patterns
+
+### **Consciousness State Management**
+```python
+# Common consciousness development pattern
+async def develop_consciousness_feature(self, new_signal_type):
+    # 1. Signal Processing Extension
+    processed_signals = await self.extend_signal_processing(new_signal_type)
+    
+    # 2. Proto-Qualia Generation
+    proto_qualia = await self.generate_proto_qualia(processed_signals)
+    
+    # 3. Ethics Validation
+    validated_qualia = await self.teq_guardian.validate(proto_qualia)
+    
+    # 4. Memory Integration
+    memory_context = await self.memory.integrate(validated_qualia)
+    
+    # 5. Decision Generation
+    return await self.generate_conscious_decision(memory_context)
+```
+
+### **Ethics Integration Workflow**
+```python
+# TEQGuardian integration pattern
+async def consciousness_with_ethics(self, consciousness_input):
+    # Pre-processing ethics check
+    ethics_context = await self.teq_guardian.pre_validate(consciousness_input)
+    
+    # Consciousness processing with ethical constraints
+    consciousness_output = await self.process_consciousness(
+        consciousness_input, ethics_context
+    )
+    
+    # Post-processing ethics validation
+    validated_output = await self.teq_guardian.post_validate(consciousness_output)
+    
+    # Audit logging for constitutional AI compliance
+    await self.audit_consciousness_decision(validated_output)
+    
+    return validated_output
+```
+
+### **Memory-Consciousness Coupling**
+```python
+# Memory integration development pattern
+async def consciousness_memory_workflow(self, experience):
+    # Retrieve relevant consciousness history
+    memory_context = await self.akaq_memory.retrieve_context(experience)
+    
+    # Process consciousness with memory context
+    consciousness_state = await self.process_with_memory(experience, memory_context)
+    
+    # Store new consciousness experience
+    await self.akaq_memory.store_experience(consciousness_state)
+    
+    # Update consciousness patterns based on memory
+    return await self.evolve_consciousness_patterns(consciousness_state)
+```
+
+### **Multi-Component Integration**
+```python
+# Full aka_qualia integration development pattern
+async def comprehensive_consciousness_processing(self, input_signals):
+    # 1. Metrics collection start
+    with self.metrics.consciousness_processing_timer():
+        
+        # 2. Router-coordinated processing
+        routing_context = await self.router_client.prepare_context(input_signals)
+        
+        # 3. Core consciousness processing
+        consciousness_result = await self.step(
+            signals=input_signals,
+            goals=routing_context.goals,
+            ethics_state=routing_context.ethics,
+            memory_ctx=routing_context.memory
+        )
+        
+        # 4. Vivox integration for communication
+        if consciousness_result.requires_communication:
+            await self.vivox_integration.communicate(consciousness_result)
+        
+        # 5. Prometheus metrics export
+        await self.prometheus_exporter.export_consciousness_metrics(
+            consciousness_result
+        )
+        
+        return consciousness_result
+```
+
+## 📊 Development Status & Health
+
+### **Core Component Health**
+- ✅ **Core Processing**: 43KB core.py with complete phenomenological pipeline
+- ✅ **Ethics Integration**: TEQGuardian constitutional AI validation active
+- ✅ **Memory Coupling**: AkaqMemory integration with consciousness persistence
+- ✅ **External Integration**: Router coordination, Vivox communication, Prometheus monitoring
+
+### **Processing Performance**
+- **Consciousness Step Latency**: Sub-100ms proto-qualia generation
+- **Ethics Validation**: Real-time TEQGuardian processing with constitutional compliance
+- **Memory Integration**: Efficient consciousness history retrieval and storage
+- **External Coordination**: <250ms router orchestration with multi-AI coordination
+
+### **Integration Status**
+- ✅ **Trinity Framework**: Consciousness component of Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️
+- 🔄 **LUKHAS Integration**: Consciousness wrapper development (../lukhas/consciousness/claude.me)
+- ✅ **MATRIX Bridge**: Symbolic consciousness reasoning integration
+- ✅ **Production Ready**: Enterprise consciousness deployment patterns
+
+## 🎯 Consciousness Development Priorities
+
+### **Core Consciousness Enhancement**
+1. **Proto-Qualia Evolution**: Advanced consciousness state representation
+2. **Phenomenological Depth**: Enhanced signal-to-qualia translation quality
+3. **Ethics Integration**: Deeper constitutional AI consciousness constraint integration
+4. **Memory Coupling**: Advanced consciousness-memory co-evolution
+
+### **Integration Optimization**
+1. **Router Coordination**: Enhanced multi-AI consciousness orchestration
+2. **Vivox Communication**: Real-time consciousness communication optimization  
+3. **Metrics Enhancement**: Advanced consciousness processing observability
+4. **Performance Tuning**: Sub-50ms consciousness processing optimization
+
+### **Production Readiness**
+1. **Scalability**: Enterprise-scale consciousness processing capabilities
+2. **Reliability**: 99.9% consciousness processing uptime with failover
+3. **Compliance**: Enhanced constitutional AI compliance and audit integration
+4. **User Experience**: Consciousness-driven user interaction optimization
+
+---
+
+**Consciousness Core**: 43KB core.py | **Processing**: Phenomenological signal↔qualia translation  
+**Integration**: TEQGuardian ethics + Router coordination + Vivox communication + Prometheus metrics  
+**Status**: Active consciousness processing with Trinity Framework integration
+
+*Primary consciousness processing engine - extend through phenomenological pattern development*

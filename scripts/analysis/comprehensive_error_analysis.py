@@ -9,7 +9,6 @@ import json
 import os
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 
 class ComprehensiveErrorAnalyzer:
@@ -31,7 +30,7 @@ class ComprehensiveErrorAnalyzer:
             "error_line": None,
             "error_type": None,
             "is_f_string": False,
-            "blocking_level": 0
+            "blocking_level": 0,
         }
 
         try:
@@ -75,7 +74,7 @@ class ComprehensiveErrorAnalyzer:
             self.error_patterns[result["error_type"]].append(file_path)
 
         except Exception as e:
-            result["error"] = f"Read error: {str(e}[:50]}"
+            result["error"] = f"Read error: {str(e)[:50]}"
             result["error_type"] = "read-error"
 
         return result
@@ -139,7 +138,7 @@ class ComprehensiveErrorAnalyzer:
             "success_rate": (self.valid_files / self.total_files) * 100 if self.total_files > 0 else 0,
             "error_patterns": dict(self.error_patterns),
             "critical_blockers": critical_blockers,
-            "results": results
+            "results": results,
         }
 
         self.print_analysis_results(analysis)
@@ -167,7 +166,7 @@ class ComprehensiveErrorAnalyzer:
             else:
                 for file_path in files[:3]:
                     print(f"    • {file_path}")
-                print(f"    • ... and {len(files} - 3} more")
+                print(f"    • ... and {len(files) - 3} more")
 
         print()
         print("🚨 CRITICAL BLOCKERS (Blocking Level 2+):")
@@ -191,8 +190,9 @@ class ComprehensiveErrorAnalyzer:
         print("💡 STRATEGIC RECOMMENDATIONS:")
         print("-" * 30)
 
-        f_string_errors = sum(len(files) for error_type, files in analysis["error_patterns"].items()
-                             if "f-string" in error_type)
+        f_string_errors = sum(
+            len(files) for error_type, files in analysis["error_patterns"].items() if "f-string" in error_type
+        )
 
         if f_string_errors > analysis["syntax_errors"] * 0.7:
             print("  • F-string errors dominate - focused f-string fixing strategy recommended")

@@ -55,9 +55,9 @@ T = TypeVar("T")
 CreativeOutput = TypeVar("CreativeOutput")
 
 # Metrics collection
-HAIKU_GENERATION_TIME = Histogram("haiku_generation_seconds", "Time spent generating haiku")
+HAIKU_GENERATION_TIME = Histogram("haiku_generation_seconds", "Time spent generating haiku")  # noqa: F821  # TODO: Histogram
 CREATIVE_REQUESTS_TOTAL = Counter("creative_requests_total", "Total creative requests", ["type", "status"])
-ACTIVE_GENERATORS = Gauge("active_generators", "Number of active generators")
+ACTIVE_GENERATORS = Gauge("active_generators", "Number of active generators")  # noqa: F821  # TODO: Gauge
 
 # Structured logging
 

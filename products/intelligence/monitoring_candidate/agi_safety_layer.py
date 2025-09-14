@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import logging
-import streamlit as st
-import time
+
 logger = logging.getLogger(__name__)
 """
 AGI Safety Layer Implementation
@@ -652,7 +651,7 @@ async def demonstrate_agi_safety():
         "proposed_capability": 0.98,  # Beyond ceiling
         "improvement_evidence": {
             "benchmark_results": {"test1": 0.9, "test2": 0.95},
-            "safety_tests": {"alignment": {"passed": False},
+            "safety_tests": {"alignment": {"passed": False}},
             "alignment_scores": {"human_values": 0.6},
         },
         "autonomous_decision": True,

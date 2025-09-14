@@ -7,6 +7,8 @@
 # ΛCREATED_DATE: Unknown (original auto-generation)
 # ΛMODIFIED_DATE: 2024-07-30
 
+import logging
+
 log = logging.getLogger(__name__)
 """
 # ΛDOC: Auto-generated __init__.py for the `core.interfaces.as_agent.auth` package.
@@ -14,7 +16,6 @@ This file marks the `auth` directory (within `as_agent`) as a Python package.
 It is intended to house modules related to Lukhas's authentication, authorization,
 and identity management, such as `LucasRegistry.py`.
 """
-import logging
 
 import streamlit as st
 

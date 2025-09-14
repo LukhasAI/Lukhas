@@ -16,7 +16,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-from candidate.core.common.glyph import GLYPHToken, GLYPHSymbol, create_glyph
+from candidate.core.common.glyph import GLYPHSymbol, create_glyph
 from candidate.core.common.logger import get_logger
 from candidate.governance.guardian import GuardianValidator
 from candidate.voice.audio_processing import AudioFormat, LUKHASAudioProcessor
@@ -481,9 +481,10 @@ class WhisperLocalAdapter(SpeechRecognitionProviderAdapter):
     def is_available(self) -> bool:
         """Check if local Whisper is available"""
         try:
-            import whisper
+            import importlib.util
 
-            return True
+            spec = importlib.util.find_spec("whisper")
+            return spec is not None
         except ImportError:
             return False
 
@@ -621,9 +622,12 @@ class GoogleSpeechAdapter(SpeechRecognitionProviderAdapter):
     def is_available(self) -> bool:
         """Check if Google Speech is available"""
         try:
-            from google.cloud import speech
+            import importlib.util
 
-            return self.credentials_path is not None or "GOOGLE_APPLICATION_CREDENTIALS" in os.environ
+            spec = importlib.util.find_spec("google.cloud.speech")
+            return spec is not None and (
+                self.credentials_path is not None or "GOOGLE_APPLICATION_CREDENTIALS" in os.environ
+            )
         except ImportError:
             return False
 
@@ -824,26 +828,35 @@ class LUKHASSpeechRecognitionService:
                 ) / self.stats["recognitions_successful"]
 
                 # Emit GLYPH event
-                # Create GLYPH event
-                glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
-                    "speech.recognition.completed",
+                create_glyph(
+                    GLYPHSymbol.CREATE,
+                    "voice_pipeline",
+                    "consciousness",
                     {
-                        "provider": provider_type,
-                        "language": language,
-                        "processing_time_ms": total_time,
-                        "text_length": len(result.text),
-                        "confidence": result.confidence,
+                        "event": "speech.recognition.completed",
+                        "data": {
+                            "provider": provider_type,
+                            "language": language,
+                            "processing_time_ms": total_time,
+                            "text_length": len(result.text),
+                            "confidence": result.confidence,
+                        },
                     },
-                })
+                )
             else:
                 self.stats["recognitions_failed"] += 1
 
                 # Create GLYPH event
-        glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
-                    "speech.recognition.error",
+                create_glyph(
+                    GLYPHSymbol.CREATE,
+                    "voice_pipeline",
+                    "consciousness",
                     {
-                        "provider": provider.get_provider_type().value,
-                        "error": result.error_message,
+                        "event": "speech.recognition.error",
+                        "data": {
+                            "provider": provider.get_provider_type().value,
+                            "error": result.error_message,
+                        },
                     },
                 )
 

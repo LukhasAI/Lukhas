@@ -6,7 +6,7 @@ This module implements sophisticated MΛTRIZ signals for consciousness communica
 bio-symbolic adaptation, and inter-module coordination across the distributed
 consciousness architecture.
 """
-import streamlit as st
+import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 
 import logging
 import time
@@ -219,7 +219,7 @@ class ConsciousnessSignal:
             "producer": f"lukhas.consciousness.{self.producer_module}",
             "capabilities": capabilities,
             "tenant": "consciousness_network",
-            "trace_id": f"CS-{self.consciousness_id}-{int(time.time())",
+            "trace_id": f"CS-{self.consciousness_id}-{int(time.time())}",
             "consent_scopes": ["consciousness:network", "system:core"],
             "consciousness_id": self.consciousness_id,
             "network_node_id": self.network_node_id,

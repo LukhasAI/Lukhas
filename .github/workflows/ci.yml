@@ -30,7 +30,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -c constraints.txt -r requirements.txt
+          pip install -e .
+          pip install pytest pytest-asyncio pytest-cov
 
       - name: Security Scanning - Gitleaks (non-blocking)
         uses: gitleaks/gitleaks-action@v2
@@ -82,6 +83,11 @@ jobs:
           PYTHONPATH=. python3 tools/ci/runtime_lane_guard.py
           # Grep tripwire - catch new dynamic imports
           bash tools/ci/grep_lane_tripwire.sh
+          # T4 Unused Imports Policy - Zero unannotated F401 in production lanes
+          echo "🎯 T4 Production Lane Policy Check"
+          python3 tools/ci/unused_imports.py --paths lukhas MATRIZ --strict
+          # Legacy T4 check for compatibility
+          python3 tools/ci/check_unused_imports_todo.py
           # Guardian System v1.0.0 Security Compliance Check
           bash tools/ci/security_compliance_check.sh || echo "Security compliance check completed with warnings"
           # Force Ruff to read our config to ensure per-file ignores apply
@@ -107,10 +113,13 @@ jobs:
           python-version: '3.11'
 
       - name: Install test dependencies
-        run: pip install -q pytest pyyaml
+        run: pip install -q pytest pyyaml fastapi starlette
 
       - name: Run Tier-1 smoke tests
         run: pytest -q -k "matriz or golden or smoke" --maxfail=1 -x
+
+      - name: Run MATRIZ Tier-1 blocking tests
+        run: PYTHONPATH=. pytest -q -m tier1 tests_new/matriz --maxfail=1 -x
 
       - name: Validate Tier-1 contracts exist
         run: |
@@ -194,7 +203,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -c constraints.txt -r requirements.txt
+          pip install -e .
 
       - name: Run tests
         run: make test

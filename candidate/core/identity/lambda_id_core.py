@@ -801,7 +801,7 @@ if __name__ == "__main__":
         try:
             service.register_user("", "")
         except ΛIDError as e:
-            print(f"✅ Caught expected error: {str(e)}[:50]}...")
+            print(f"✅ Caught expected error: {str(e)[:50]}...")
 
         try:
             service.authenticate("INVALID-ID", "passkey")

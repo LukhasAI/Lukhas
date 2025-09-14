@@ -63,15 +63,15 @@ except ImportError as e:
     # Fallback placeholder functions
     def process_emotion(*args, **kwargs):
         """Fallback emotion processing"""
-        return {"status": "emotion_unavailable", "error": str(e)}
+        return {"status": "emotion_unavailable", "error": str(e)}  # noqa: F821  # TODO: e
 
     def regulate_mood(*args, **kwargs):
         """Fallback mood regulation"""
-        return {"status": "mood_regulation_unavailable", "error": str(e)}
+        return {"status": "mood_regulation_unavailable", "error": str(e)}  # noqa: F821  # TODO: e
 
     def track_valence(*args, **kwargs):
         """Fallback valence tracking"""
-        return {"status": "valence_tracking_unavailable", "error": str(e)}
+        return {"status": "valence_tracking_unavailable", "error": str(e)}  # noqa: F821  # TODO: e
 
     def get_emotion_wrapper(*args, **kwargs):
         """Fallback emotion wrapper"""

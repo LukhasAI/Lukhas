@@ -3,7 +3,7 @@
 NIAS Documentation Generator using LukhasDoc (LUKHΛS Symbolic Documentation Engine)
 Generates comprehensive interactive documentation for the enhanced NIAS plan
 """
-import streamlit as st
+
 from datetime import timezone
 
 import json
@@ -13,7 +13,9 @@ from pathlib import Path
 
 # Add the LukhasDoc plugin to path for import
 ladoc_path = Path(
-    "/Users/A_G_I/LUKHAS_REBIRTH_Workspace/Lucas_Private/Lukhas-Flagship-Prototype-Pre-Modularitation/prot2/plugins/ladoc", timezone)
+    "/Users/A_G_I/LUKHAS_REBIRTH_Workspace/Lucas_Private/Lukhas-Flagship-Prototype-Pre-Modularitation/prot2/plugins/ladoc",
+    timezone,
+)
 if ladoc_path.exists():
     sys.path.insert(0, str(ladoc_path))
 
@@ -216,8 +218,8 @@ if __name__ == "__main__":
         server_path = start_documentation_server()
         if server_path:
             print("\n📋 To start the web interface manually:")
-            print(f"   cd {Path(server_path)}.parent}")
-            print(f"   python {Path(server_path)}.name}")
+            print(f"   cd {Path(server_path).parent}")
+            print(f"   python {Path(server_path).name}")
             print("\n🎯 Next steps:")
             print("   1. Start the documentation server")
             print("   2. Open http://localhost:5001 in your browser")

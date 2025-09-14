@@ -174,11 +174,11 @@ class DreamMemoryManager:
 
         Args:
             memories_for_dreaming (Optional[List[Any]]): A list of memories (or memory identifiers)
-                                                         selected for processing in this dream cycle.
-                                                         If None, the manager might use internal criteria.
-                                                         #ΛRECALL: Input memories are recalled for processing.
-                                                         # AIDENTITY_BRIDGE (If memories
-                                                         # are user/agent specific)
+    selected for processing in this dream cycle.
+    If None, the manager might use internal criteria.
+    #ΛRECALL: Input memories are recalled for processing.
+    # AIDENTITY_BRIDGE (If memories
+    # are user/agent specific)
         Returns:
             Dict[str, Any]: A dictionary containing the status and outcomes of the dream cycle,
                             such as new insights, consolidated memories, or errors.

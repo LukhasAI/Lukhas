@@ -10,6 +10,7 @@ import hashlib
 import hmac
 import json
 import logging
+import os
 import secrets
 import time
 from dataclasses import dataclass
@@ -68,7 +69,6 @@ def _try_import_candidate_components():
 
 
 # Try to load candidate components
-import os
 USE_CANDIDATE_BRIDGE = os.getenv("ALLOW_CANDIDATE_RUNTIME") == "1"
 if USE_CANDIDATE_BRIDGE:
     _candidate_components = _try_import_candidate_components()

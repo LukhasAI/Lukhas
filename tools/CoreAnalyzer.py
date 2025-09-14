@@ -3,8 +3,6 @@
 lukhas Core Analyzer: Identify actual lukhas AI components vs external packages
 Recognizes legitimate lukhas functionality vs third-party libraries.
 """
-import time
-import streamlit as st
 
 import os
 import re
@@ -236,7 +234,7 @@ class CoreAnalyzer:
                     f.write("\n")
 
                 if len(self.analysis["core_agi_files"]) > 20:
-                    f.write(f"*... and {len(self.analysis['core_agi_files'])} - 20} more core AI files*\n\n")
+                    f.write(f"*... and {len(self.analysis['core_agi_files']) - 20} more core AI files*\n\n")
 
             # Legitimate Components
             if self.analysis["legitimate_components"]:
@@ -254,7 +252,7 @@ class CoreAnalyzer:
                     for file_info in files[:5]:
                         f.write(f"- `{file_info['file']}` ({file_info['size']} bytes)\n")
                     if len(files) > 5:
-                        f.write(f"  *... and {len(files)} - 5} more files*\n")
+                        f.write(f"  *... and {len(files) - 5} more files*\n")
                     f.write("\n")
 
             # External Packages (top offenders)
@@ -311,7 +309,7 @@ def main():
     print("🚀 lukhas Core AI Analysis")
     print("🎯 Identifying actual lukhas components vs external packages")
 
-    analyzer = lukhasCoreAnalyzer(workspace_path)
+    analyzer = lukhasCoreAnalyzer(workspace_path)  # noqa: F821  # TODO: lukhasCoreAnalyzer
     analyzer.analyze_lukhas_structure()
     report_path = analyzer.generate_analysis_report()
 

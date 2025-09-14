@@ -131,7 +131,7 @@ Beauty collapses"""
     print("  🛡️  Test 4: IP Protection")
 
     import hashlib
-    from datetime import datetime
+    from datetime import datetime, timezone
 
     # Mock creative work protection
     content_hash = hashlib.sha256(haiku_content.encode()).hexdigest()

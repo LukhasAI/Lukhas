@@ -23,7 +23,6 @@ def validate_consciousness_system():
 
     # Test core imports
     try:
-
         print("✅ LUKHAS core: Operational")
         results["lukhas_core"] = True
     except Exception as e:
@@ -31,7 +30,6 @@ def validate_consciousness_system():
         results["lukhas_core"] = False
 
     try:
-
         print("✅ Memory system: Operational")
         results["memory_system"] = True
     except Exception as e:
@@ -39,7 +37,6 @@ def validate_consciousness_system():
         results["memory_system"] = False
 
     try:
-
         print("✅ Core modules: Operational")
         results["core_modules"] = True
     except Exception as e:
@@ -51,7 +48,6 @@ def validate_consciousness_system():
 
     # Test MemoryWrapper - WORKING
     try:
-
         print("✅ Memory wrapper: Operational")
         print("   📍 Path: lukhas.memory.memory_wrapper.MemoryWrapper")
         results["memory_wrapper"] = True
@@ -65,7 +61,7 @@ def validate_consciousness_system():
 
         print("✅ Symbolic context: Operational (FIXED!)")
         print("   📍 Path: candidate.core.symbolic.context.SymbolicContext")
-        print(f"   🎯 Available contexts: {len(list(SymbolicContext)} types")
+        print(f"   🎯 Available contexts: {len(list(SymbolicContext))} types")
         results["symbolic_context"] = True
     except Exception as e:
         print(f"❌ Symbolic context: {e}")
@@ -90,7 +86,7 @@ def validate_consciousness_system():
             print(f"   📍 Path: {path}")
             results[name.lower().replace(" ", "_")] = True
         except Exception as e:
-            print(f"⚠️ {name}: Import issues - {str(e}[:50]}...")
+            print(f"⚠️ {name}: Import issues - {str(e)[:50]}...")
             results[name.lower().replace(" ", "_")] = False
 
     print("\n📊 System Health Summary:")

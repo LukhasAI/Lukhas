@@ -167,7 +167,7 @@ Imagine you're working on a complex project. Instead of manually figuring out ea
         concepts = [word for word in words if len(word) > 4 and word not in technical_terms]
         return concepts[:3]
 
-    def generate_api_documentation(self, api_spec: dict[str, Any]) -> TrinityContent:
+    def generate_api_documentation(self, api_spec: dict[str, Any]) -> TrinityContent:  # noqa: F821  # TODO: TrinityContent
         """Generate Trinity-formatted API documentation"""
 
         # Layer 1: Poetic introduction

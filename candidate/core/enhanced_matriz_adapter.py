@@ -8,8 +8,8 @@ Emits MATRIZ-compliant consciousness signals and bio-symbolic data for inter-mod
 - Real-time inter-module communication and monitoring
 - Trinity Framework (⚛️🧠🛡️) compliance validation
 """
-import random
-import streamlit as st
+import random  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 
 import asyncio
 import json
@@ -255,7 +255,7 @@ class EnhancedMatrizAdapter:
         )
 
         # Store pattern for future reference
-        pattern_key = f"{consciousness_id}_{signal_type.value}_{int(time.time())"
+        pattern_key = f"{consciousness_id}_{signal_type.value}_{int(time.time())}"
         self.bio_patterns[pattern_key] = pattern
 
         return {

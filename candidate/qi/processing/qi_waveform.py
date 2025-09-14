@@ -9,12 +9,12 @@ try:
     from dream.dream_engine.lukhas_oracle_dream import generate_dream
 except Exception:  # pragma: no cover - fallback for broken import
     import time
-    from datetime import datetime
+    from datetime import datetime, timezone
 
     def generate_dream(seed: str, context: dict[str, Any] | None = None) -> dict[str, Any]:
         """Fallback dream generator used when Oneiric Core is unavailable."""
         return {
-            "dream_id": f"DREAM_{seed[:4].upper()}_{int(time.time())",
+            "dream_id": f"DREAM_{seed[:4].upper()}_{int(time.time())}",
             "created_at": datetime.now(timezone.utc).isoformat() + "Z",
             "summary": f"Generated dream from seed: '{seed}'",
             "theme": random.choice(["Echo", "Fractal", "Origin"]),

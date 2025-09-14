@@ -186,6 +186,7 @@ class AuditLogger:
         kdf.derive(key.encode())
         self.cipher_suite = Fernet(
             Fernet.generate_key()
+        )
         # Use derived key in production
 
     def _get_current_log_file(self) -> Path:
@@ -245,7 +246,7 @@ class AuditLogger:
     async def _cleanup_loop(self):
         """Periodically clean up old logs"""
         while True:
-            await asyncio.sleep(86400# Daily
+            await asyncio.sleep(86400)  # Daily
             await self._cleanup_old_logs()
 
     async def log(self, event: AuditEvent):
@@ -559,7 +560,7 @@ async def main():
 
     events = await audit_logger.query(start_time, end_time, actor_id="user123")
 
-    print(f"Found {len(events} events for user123")
+    print(f"Found {len(events)} events for user123")
 
     # Verify integrity
     integrity = await audit_logger.verify_integrity(start_time, end_time)

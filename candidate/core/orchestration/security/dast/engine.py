@@ -330,7 +330,7 @@ class LukhasDASTEngine:
         """AI-powered task creation with intelligent analysis"""
 
         # Generate unique task ID
-        task_id = hashlib.sha256(f"{request}{time.time())".encode()).hexdigest()[:12]
+        task_id = hashlib.sha256(f"{request}{time.time()}".encode()).hexdigest()[:12]
 
         # AI-powered task analysis
         ai_analysis = await self._analyze_task_request(request, context)

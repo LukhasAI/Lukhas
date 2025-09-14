@@ -6,9 +6,9 @@ breakthrough generation without human intervention.
 
 Integration with LUKHAS Trinity Framework (⚛️🧠🛡️)
 """
-from consciousness.qi import qi
-from typing import List
-import streamlit as st
+from consciousness.qi import qi  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution
+from typing import List  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 
 import asyncio
 import logging
@@ -125,7 +125,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
 
         # Create new cycle
         self.current_cycle = InnovationCycle(
-            cycle_id=f"cycle_{int(time.time())",
+            cycle_id=f"cycle_{int(time.time())}",
             start_time=datetime.now(timezone.utc),
             end_time=None,
             opportunities_identified=0,
@@ -144,7 +144,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
                     data={
                         "action": "innovation_cycle_started",
                         "cycle_id": self.current_cycle.cycle_id,
-                    )},
+                    },
                 )
             )
 

@@ -1,0 +1,239 @@
+# Jules-05: Orchestration & Workflows Test Specification
+agent_id: "Jules-05"
+priority: "HIGH"
+tier: "tier2"
+estimated_tests: 22
+
+# Module Assignment
+modules:
+  primary:
+    - "candidate/orchestration/multi_model_orchestration.py"
+    - "candidate/bridge/orchestration/"
+    - "lukhas/core/orchestration/"
+    - "candidate/bridge/workflow/workflow_orchestrator.py"
+  
+  supporting:
+    - "candidate/orchestration/task_scheduler/"
+    - "candidate/bridge/ai_orchestration/"
+    - "lukhas/core/orchestration/brain/"
+
+# Test Requirements
+tests:
+  workflow_management:
+    - name: "test_workflow_execution_engine"
+      description: "Test workflow execution and state management"
+      input: {"workflow_definition": "object", "input_data": "object", "execution_context": "object"}
+      expected: {"workflow_id": "string", "status": "string", "execution_result": "object"}
+      tags: ["tier2", "workflow", "orchestration"]
+    
+    - name: "test_task_dependency_resolution"
+      description: "Test task dependency graph resolution"
+      input: {"tasks": "array", "dependencies": "object", "constraints": "object"}
+      expected: {"execution_order": "array", "dependency_valid": "bool", "cycles_detected": "bool"}
+      tags: ["tier2", "workflow", "dependencies"]
+    
+    - name: "test_workflow_state_management"
+      description: "Test workflow state persistence and recovery"
+      input: {"workflow_id": "string", "state_checkpoint": "object"}
+      expected: {"state_saved": "bool", "recovery_possible": "bool", "state_integrity": "bool"}
+      tags: ["tier2", "workflow", "state"]
+
+  task_scheduling:
+    - name: "test_scheduler_algorithms"
+      description: "Test task scheduling algorithms and strategies"
+      input: {"tasks": "array", "resources": "object", "scheduling_policy": "string"}
+      expected: {"schedule": "array", "resource_utilization": "number", "completion_time": "number"}
+      tags: ["tier2", "scheduling", "algorithms"]
+    
+    - name: "test_task_prioritization"
+      description: "Test dynamic task prioritization system"
+      input: {"tasks": "array", "priority_rules": "object", "system_state": "object"}
+      expected: {"prioritized_tasks": "array", "priority_scores": "array", "reordering_triggered": "bool"}
+      tags: ["tier2", "scheduling", "priority"]
+    
+    - name: "test_resource_allocation"
+      description: "Test dynamic resource allocation for tasks"
+      input: {"tasks": "array", "available_resources": "object", "allocation_policy": "string"}
+      expected: {"resource_assignments": "object", "allocation_efficiency": "number", "conflicts": "array"}
+      tags: ["tier2", "scheduling", "resources"]
+
+  multi_ai_orchestration:
+    - name: "test_ai_model_coordination"
+      description: "Test coordination between multiple AI models"
+      input: {"models": "array", "coordination_task": "object", "sync_requirements": "object"}
+      expected: {"coordination_successful": "bool", "model_responses": "array", "consensus_reached": "bool"}
+      tags: ["tier2", "orchestration", "ai_models"]
+    
+    - name: "test_consensus_mechanisms"
+      description: "Test consensus algorithms for multi-AI decisions"
+      input: {"ai_responses": "array", "consensus_algorithm": "string", "confidence_weights": "array"}
+      expected: {"consensus_result": "object", "confidence_score": "number", "agreement_level": "number"}
+      tags: ["tier2", "orchestration", "consensus"]
+    
+    - name: "test_model_fallback_strategies"
+      description: "Test AI model fallback and recovery strategies"
+      input: {"primary_model": "string", "fallback_models": "array", "failure_scenario": "object"}
+      expected: {"fallback_triggered": "bool", "selected_model": "string", "performance_impact": "number"}
+      tags: ["tier2", "orchestration", "fallback"]
+
+  performance_optimization:
+    - name: "test_parallel_execution"
+      description: "Test parallel task execution capabilities"
+      input: {"tasks": "array", "parallelization_strategy": "string", "resource_limits": "object"}
+      expected: {"execution_time": "number", "throughput": "number", "resource_efficiency": "number"}
+      tags: ["tier2", "performance", "parallel"]
+    
+    - name: "test_load_balancing"
+      description: "Test load balancing across execution nodes"
+      input: {"workload": "array", "nodes": "array", "balancing_algorithm": "string"}
+      expected: {"load_distribution": "object", "balance_score": "number", "node_utilization": "array"}
+      tags: ["tier2", "performance", "load_balancing"]
+
+# Performance Requirements
+performance:
+  workflow_start: "< 250ms p95"
+  task_scheduling: "< 100ms p95"
+  model_coordination: "< 500ms p95"
+  state_persistence: "< 50ms p95"
+
+# Quality Requirements
+quality:
+  workflow_reliability: "> 99%"
+  scheduling_efficiency: "> 85%"
+  consensus_accuracy: "> 90%"
+
+# Coverage Targets
+coverage:
+  line_coverage: 85%
+  branch_coverage: 80%
+  workflow_paths: 90%
+
+# Dependencies
+dependencies:
+  - "pytest"
+  - "pytest-asyncio"
+  - "celery"
+  - "redis"
+  - "networkx"
+  - "aiohttp"
+
+# Test Environment
+environment:
+  message_broker: "redis_test"
+  task_queue: "celery_test"
+  distributed_nodes: "mock_cluster"
+
+# Success Criteria
+success_criteria:
+  - "All workflow scenarios tested"
+  - "Multi-AI orchestration functional"
+  - "Task scheduling optimized"
+  - "Performance targets achieved"
+  - "Fault tolerance validated"
+
+# Deliverables
+deliverables:
+  - "tests/unit/orchestration/"
+  - "tests/integration/orchestration/"
+  - "tests/performance/orchestration/"
+  - "Workflow performance benchmarks"
+  - "Multi-AI coordination validation"
+
+# --- T4 Determinism & Policy (added) ---
+determinism:
+  env:
+    TZ: "UTC"
+    PYTHONHASHSEED: "0"
+    NUMBA_DISABLE_JIT: "1"
+  pytest:
+    addopts: ["-q", "-ra", "-s", "--maxfail=1", "--strict-markers", "--durations=10"]
+    markers_enforced: true  # tests without explicit tier/owner are rejected
+  flake_policy:
+    quarantine_marker: "quarantine"
+    fail_if_quarantine_fails_twice: true
+
+# --- T4 Orchestration Invariants (added) ---
+invariants:
+  idempotent_retries: true           # re-running a task with same inputs must not duplicate side-effects
+  deterministic_scheduling: true     # given the same inputs/seed, scheduler order is stable
+  audit_trace_required: true         # each workflow emits a trace id linking decisions
+  pii_never_in_logs: true
+  rollback_atomicity: true           # partial failures roll back to last safe checkpoint
+
+# --- T4 Golden Artifacts & Contracts (added) ---
+goldens:
+  workflows_contracts_dir: "tests/golden/tier1/workflows/"
+  required_files:
+    - "contract_multi_model_consensus.json"   # shape for consensus results
+    - "contract_scheduler_plan.json"          # shape for DAG plan output
+  validators:
+    - name: "workflow_contract_validator"
+      module: "tools/tests/validators/workflow_contract_validator.py"
+      ensures:
+        - "keys: [workflow_id,status,steps,started_at]"
+        - "status in {pending,running,success,failed,rolled_back}"
+
+# --- T4 Acceptance Gates (added) ---
+acceptance_gates:
+  - name: "lane_integrity"
+    check: "lint-imports"
+    must_pass: true
+  - name: "ruff_syntax"
+    check: "python3 -m ruff check --select E9,F63,F7,F82 lukhas candidate"
+    must_pass: true
+  - name: "orchestration_tier2_suite"
+    check: "TZ=UTC PYTHONHASHSEED=0 pytest -m 'tier2 and orchestration and not quarantine' -q"
+    must_pass: true
+  - name: "golden_contracts"
+    check: "python3 tools/tests/validators/workflow_contract_validator.py --dir tests/golden/tier1/workflows"
+    must_pass: true
+  - name: "perf_budget"
+    check: "python3 tools/tests/perf_budget.py --suite orchestration --max-seconds 120"
+    must_pass: false  # warn-only for first iteration
+
+# --- T4 Runbook (added) ---
+runbook:
+  quick_checks:
+    - "make test-fast"
+    - "make test-tier1"
+    - "PYTHONHASHSEED=0 TZ=UTC pytest -m 'orchestration and tier2' -q"
+  local_debug:
+    - "pytest tests -k 'workflow or scheduler' -vv --maxfail=1"
+    - "python -m lukhas.core.orchestration.debug --print-dag examples/workflows/sample.yaml"
+  api_smoke:
+    - "uvicorn serve.main:app --reload & sleep 2 && curl -sf http://localhost:8000/healthz"
+
+# --- T4 Ownership & Escalation (added) ---
+ownership:
+  codeowners:
+    - path: "lukhas/core/orchestration/"
+      owners: ["@LukhasAI/orchestration"]
+    - path: "candidate/bridge/workflow/"
+      owners: ["@LukhasAI/bridge"]
+  escalation:
+    pager: "#matriz-oncall"
+    docs: "AUDIT/SYSTEM_MAP.md#orchestration"
+
+# --- T4 Risks & Out-of-Scope (added) ---
+risks:
+  - "Hidden side-effects in legacy tasks causing non-idempotency"
+  - "Clock skew in distributed nodes breaking determinism"
+  - "Third-party adapters introducing non-retryable states"
+out_of_scope:
+  - "GPU execution benchmarking"
+  - "Production-grade autoscaling policies"
+
+# --- T4 Agent Prompts (added) ---
+agent_prompts:
+  jules05_system_prompt: |
+    You own orchestration tests. Enforce invariants: idempotent retries, deterministic scheduling, audit trace emission.
+    Prefer contract/golden tests over heavy mocks. Any non-determinism must be seeded and documented.
+  jules05_task_prompt: |
+    Implement tests listed under `tests:` ensuring golden validators pass and acceptance gates remain green.
+    If a test requires behavioral change, open an issue tagged `orchestration:contract-gap` with evidence.
+
+# --- T4 Metadata (added) ---
+metadata:
+  schema_version: 1
+  last_updated_by: "T4-lens"
+  last_updated_at: "{{AUTO-UPDATE-ON-COMMIT}}"

@@ -1,0 +1,212 @@
+# Jules-02: Consciousness & Awareness Test Specification
+agent_id: "Jules-02"
+priority: "CRITICAL"
+tier: "tier1" 
+estimated_tests: 30
+
+# Module Assignment
+modules:
+  primary:
+    - "candidate/consciousness/awareness/system_awareness.py"
+    - "candidate/consciousness/states/"
+    - "lukhas/core/orchestration/brain/consciousness/"
+    - "candidate/consciousness/dream/"
+  
+  supporting:
+    - "candidate/consciousness/unified/auto_consciousness.py"
+    - "candidate/consciousness/meta_cognitive/"
+    - "candidate/consciousness/reasoning/"
+
+# Test Requirements
+tests:
+  awareness_processing:
+    - name: "test_consciousness_state_transitions"
+      description: "Test state machine transitions in consciousness"
+      input: {"current_state": "string", "trigger": "object", "context": "object"}
+      expected: {"new_state": "string", "transition_valid": "bool", "metadata": "object"}
+      tags: ["tier1", "critical", "consciousness"]
+    
+    - name: "test_awareness_level_detection"  
+      description: "Test awareness level calculation"
+      input: {"sensory_input": "array", "context": "object", "history": "array"}
+      expected: {"awareness_level": "number", "confidence": "number", "factors": "array"}
+      tags: ["tier1", "consciousness"]
+    
+    - name: "test_context_processing"
+      description: "Test contextual awareness processing"
+      input: {"context": "object", "previous_contexts": "array"}
+      expected: {"processed_context": "object", "relevance_score": "number"}
+      tags: ["tier1", "critical"]
+
+  decision_making:
+    - name: "test_decision_tree_execution"
+      description: "Test consciousness-driven decision trees"
+      input: {"options": "array", "criteria": "object", "weights": "object"}
+      expected: {"decision": "object", "confidence": "number", "reasoning": "string"}
+      tags: ["tier1", "critical"]
+    
+    - name: "test_reasoning_validation"
+      description: "Test logical reasoning processes"
+      input: {"premises": "array", "rules": "array", "goal": "object"}
+      expected: {"conclusion": "object", "valid": "bool", "reasoning_path": "array"}
+      tags: ["tier1", "consciousness"]
+
+  dream_states:
+    - name: "test_dream_engine_processing"
+      description: "Test dream state processing engine"
+      input: {"dream_data": "object", "memory_context": "object"}
+      expected: {"processed_dream": "object", "insights": "array", "integration_points": "array"}
+      tags: ["tier1", "dream", "consciousness"]
+    
+    - name: "test_oneiric_integration"
+      description: "Test oneiric (dream) integration with consciousness"
+      input: {"dream_sequence": "array", "consciousness_state": "object"}
+      expected: {"integration_result": "object", "memory_updates": "array"}
+      tags: ["tier1", "dream"]
+
+# Performance Requirements
+performance:
+  state_transition: "< 50ms p95"
+  awareness_calculation: "< 100ms p95"
+  decision_processing: "< 200ms p95"
+  dream_processing: "< 500ms p95"
+
+# Quality Requirements
+quality:
+  consciousness_accuracy: "> 90%"
+  state_consistency: "> 95%"
+  reasoning_validity: "> 88%"
+
+# Coverage Targets
+coverage:
+  line_coverage: 85%
+  branch_coverage: 80%
+  consciousness_paths: 90%
+
+# Dependencies
+dependencies:
+  - "pytest"
+  - "pytest-asyncio"
+  - "numpy"
+  - "scipy"
+  - "networkx"
+
+# Test Environment
+environment:
+  memory_backend: "mock_memory"
+  consciousness_state: "isolated"
+  dream_processing: "accelerated"
+
+# Success Criteria
+success_criteria:
+  - "All consciousness states tested"
+  - "Dream integration functional"
+  - "Awareness processing accurate"
+  - "Decision making validated"
+  - "Performance targets met"
+
+# Deliverables
+deliverables:
+  - "tests/unit/consciousness/"
+  - "tests/integration/consciousness/" 
+  - "tests/performance/consciousness/"
+  - "Consciousness behavior analysis"
+  - "Dream processing validation"
+
+# --- T4 governance additions (do not remove) ---
+governance:
+  owner: "Jules-02"
+  reviewers:
+    - "Team-Consciousness"
+    - "T4-Testing-Cab"
+  lane: "tier1"
+  criticality: "CRITICAL"
+  policy:
+    determinism_env:
+      TZ: "UTC"
+      PYTHONHASHSEED: "0"
+      NUMBA_DISABLE_JIT: "1"
+    pytest:
+      addopts: "-q -ra -s --maxfail=1 --strict-markers --durations=10"
+      markers_required: true
+    quarantine_policy:
+      enabled: true
+      blocks_merge_on_double_fail: true
+
+invariants:
+  - "State machine transitions must be total over declared triggers (no undefined edges)."
+  - "Reasoning outputs must include a traceable rationale string or steps array."
+  - "Dream→Memory links preserve identity of subject and timestamp monotonicity."
+  - "Awareness level is bounded within [0.0, 1.0] and monotone in added evidence."
+
+artifacts:
+  evidence_dir: "reports/tests/evidence/consciousness/"
+  timings: "reports/tests/infra/timings.json"
+  coverage_xml: "reports/tests/cov.xml"
+  priority_row_id: "consciousness-tier1"
+
+golden:
+  traces_dir: "tests/golden/tier1/"
+  required:
+    - "consciousness_trace_min.json"
+    - "dream_link_min.json"
+  schema_min:
+    required_keys:
+      - "trace_id"
+      - "timestamp"
+    timestamp_type: ["str", "int", "float"]
+
+acceptance:
+  - "All tests in this spec are marked @pytest.mark.tier1 and @pytest.mark.consciousness."
+  - "≥ 85% line and ≥ 80% branch coverage for targeted modules."
+  - "Dream integration tests include at least 1 golden artifact validation."
+  - "Suite runtime ≤ 180s on CI m-medium; report saved to artifacts.timings."
+  - "No quarantined test failures (policy double-fail gate)."
+
+runbook:
+  setup:
+    - "python -m venv .venv && source .venv/bin/activate"
+    - "pip install -r requirements.txt"
+  fast_loop:
+    - "TZ=UTC PYTHONHASHSEED=0 pytest -m 'tier1 and consciousness and not quarantine' -q"
+  with_cov:
+    - "TZ=UTC PYTHONHASHSEED=0 pytest -m 'tier1 and consciousness' --cov=lukhas --cov=MATRIZ --cov-branch --cov-report=xml:reports/tests/cov.xml"
+  golden_only:
+    - "PYTHONPATH=. TZ=UTC PYTHONHASHSEED=0 pytest -k 'golden and consciousness' -q"
+  mutate_sample:
+    - "mutmut run --paths-to-mutate lukhas/core/orchestration/brain/consciousness --tests-dir tests --runner 'pytest -q -m tier1'"
+  outputs_check:
+    - "test -f reports/tests/cov.xml && echo 'coverage xml present' || (echo 'missing cov.xml' &amp;&amp; exit 1)"
+
+ownership:
+  codeowners:
+    - "docs/testing/jules-specs/JULES-02-CONSCIOUSNESS.yaml"
+    - "lukhas/core/orchestration/brain/consciousness/"
+    - "candidate/consciousness/"
+  escalation:
+    - "open GitHub issue with label: consciousness, tier1, tests"
+    - "notify T4-Testing-Cab on failure trend > 2 consecutive runs"
+
+risks:
+  - id: "R-CONS-001"
+    desc: "Hidden dynamic imports masking failures during collection."
+    mitigation: "Use --strict-markers, filterwarnings=error, and explicit import guards in conftest."
+  - id: "R-CONS-002"
+    desc: "Non-deterministic dream generators."
+    mitigation: "Seed RNG, freeze clocks, and validate against goldens with tolerated delta."
+
+out_of_scope:
+  - "GAN-based dream synthesis quality metrics"
+  - "Long-running neuroscientific simulations &gt; 5s per test"
+
+# Agent prompts (for Jules-02 & Copilot/Claude)
+agent_prompts:
+  codex_cli: |
+    Implement tests in this spec. Respect markers and determinism env.
+    Prioritize: state transitions → reasoning validation → dream integration.
+    Emit goldens to {{golden.traces_dir}}; validate minimal schema.
+  claude_code: |
+    Use property-based tests (Hypothesis) for state machine transitions.
+    For dream integration, generate a golden from a seeded run and assert invariants.
+
+# --- end T4 governance additions ---

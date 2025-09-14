@@ -52,7 +52,7 @@ def debug_governance():
     print(f"\nAudit entry exists: {audit_entry is not None}")
     if audit_entry:
         print(f"Audit type: {type(audit_entry)}")
-        print(f"Audit attrs: {[attr for attr in dir(audit_entry) if not attr.startswith('_')}]}")
+        print(f"Audit attrs: {[attr for attr in dir(audit_entry) if not attr.startswith('_')]}")
 
         required_fields = ["timestamp", "energy_before", "energy_after", "policy_decision"]
         print("Checking required fields:")
@@ -89,7 +89,7 @@ def debug_governance():
     if scene:
         print(f"Scene has context: {hasattr(scene, 'context')}")
         if hasattr(scene, "context") and isinstance(scene.context, dict):
-            print(f"Scene context keys: {list(scene.context.keys()} if scene.context else 'empty'}")
+            print(f"Scene context keys: {list(scene.context.keys()) if scene.context else 'empty'}")
             if "generation_params" in scene.context:
                 governance_score += 0.1
                 print(f"Constitutional AI transparency passed, score += 0.1 -> {governance_score}")

@@ -13,7 +13,7 @@ Creates both JSON and HTML visualizations
 
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 def generate_connectivity_json():

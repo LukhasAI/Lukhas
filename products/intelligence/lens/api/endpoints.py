@@ -3,7 +3,6 @@
 ΛLens API Endpoints
 FastAPI routes for ΛLens operations
 """
-import streamlit as st
 
 import os
 
@@ -175,7 +174,7 @@ def dashboard_to_photon(dashboard) -> dict[str, Any]:
         "description": f"Symbolic representation of {dashboard.source_file}",
         "nodes": [],
         "edges": [],
-        "layout": {"positions_2d": {},
+        "layout": {"positions_2d": {}},
     }
 
     # Convert symbols to nodes

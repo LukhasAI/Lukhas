@@ -14,7 +14,7 @@ This example shows:
 """
 
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 
 import numpy as np
 

@@ -6,7 +6,7 @@ Provides dream recording and logging functionality.
 import json
 import logging
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 

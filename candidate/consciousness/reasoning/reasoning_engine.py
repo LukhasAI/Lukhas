@@ -29,7 +29,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 try:
     from candidate.core.common import get_logger
@@ -79,7 +79,7 @@ class ReasoningPremise:
     content: str
     confidence: float = 1.0
     source: Optional[str] = None
-    evidence: List[Dict[str, Any]] = field(default_factory=list)
+    evidence: list[dict[str, Any]] = field(default_factory=list)
 
     # Metadata
     timestamp: datetime = field(default_factory=datetime.now)
@@ -97,14 +97,14 @@ class ReasoningConclusion:
     reasoning_type: ReasoningType
 
     # Supporting information
-    premises: List[str] = field(default_factory=list)  # premise IDs
-    reasoning_chain: List[str] = field(default_factory=list)
+    premises: list[str] = field(default_factory=list)  # premise IDs
+    reasoning_chain: list[str] = field(default_factory=list)
     evidence_strength: float = 0.0
 
     # Metadata
     timestamp: datetime = field(default_factory=datetime.now)
     processing_time: float = 0.0
-    alternatives: List[Dict[str, Any]] = field(default_factory=list)
+    alternatives: list[dict[str, Any]] = field(default_factory=list)
 
 
 @dataclass
@@ -113,12 +113,12 @@ class ReasoningTask:
 
     task_id: str
     query: str
-    reasoning_types: List[ReasoningType]
+    reasoning_types: list[ReasoningType]
 
     # Input data
-    premises: List[ReasoningPremise] = field(default_factory=list)
-    context: Dict[str, Any] = field(default_factory=dict)
-    constraints: Dict[str, Any] = field(default_factory=dict)
+    premises: list[ReasoningPremise] = field(default_factory=list)
+    context: dict[str, Any] = field(default_factory=dict)
+    constraints: dict[str, Any] = field(default_factory=dict)
 
     # Processing control
     max_depth: int = 5
@@ -131,8 +131,8 @@ class ReasoningTask:
     end_time: Optional[datetime] = None
 
     # Results
-    conclusions: List[ReasoningConclusion] = field(default_factory=list)
-    reasoning_trace: List[Dict[str, Any]] = field(default_factory=list)
+    conclusions: list[ReasoningConclusion] = field(default_factory=list)
+    reasoning_trace: list[dict[str, Any]] = field(default_factory=list)
     error_message: Optional[str] = None
 
 
@@ -151,12 +151,12 @@ class ReasoningEngine:
 
         # Task management
         self.task_queue: asyncio.Queue = asyncio.Queue()
-        self.active_tasks: Dict[str, ReasoningTask] = {}
-        self.completed_tasks: Dict[str, ReasoningTask] = {}
+        self.active_tasks: dict[str, ReasoningTask] = {}
+        self.completed_tasks: dict[str, ReasoningTask] = {}
 
         # Knowledge and context
-        self.knowledge_base: Dict[str, Any] = {}
-        self.reasoning_patterns: Dict[str, Dict[str, Any]] = {}
+        self.knowledge_base: dict[str, Any] = {}
+        self.reasoning_patterns: dict[str, dict[str, Any]] = {}
 
         # Configuration
         self.config = {
@@ -169,7 +169,7 @@ class ReasoningEngine:
         }
 
         # Processing control
-        self.processing_tasks: Set[asyncio.Task] = set()
+        self.processing_tasks: set[asyncio.Task] = set()
         self.shutdown_event = asyncio.Event()
         self.is_running = False
 
@@ -222,8 +222,8 @@ class ReasoningEngine:
     async def reason(
         self,
         query: str,
-        premises: Optional[List[str]] = None,
-        reasoning_types: Optional[List[ReasoningType]] = None,
+        premises: Optional[list[str]] = None,
+        reasoning_types: Optional[list[ReasoningType]] = None,
         **kwargs
     ) -> ReasoningTask:
         """Perform reasoning on a query"""

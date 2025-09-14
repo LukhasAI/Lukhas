@@ -31,7 +31,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set
+from typing import Any, Callable, Optional
 
 try:
     from candidate.core.common import get_logger
@@ -95,8 +95,8 @@ class ConsciousnessMetrics:
     coherence_score: float = 0.0  # 0.0 to 1.0
 
     # Module status
-    active_modules: Set[ConsciousnessModule] = field(default_factory=set)
-    module_health: Dict[ConsciousnessModule, float] = field(default_factory=dict)
+    active_modules: set[ConsciousnessModule] = field(default_factory=set)
+    module_health: dict[ConsciousnessModule, float] = field(default_factory=dict)
 
     # Temporal information
     state_duration: float = 0.0  # seconds in current state
@@ -118,20 +118,20 @@ class ConsciousnessEvent:
     source_module: ConsciousnessModule
 
     # Event data
-    data: Dict[str, Any] = field(default_factory=dict)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    data: dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     # Timing
     timestamp: datetime = field(default_factory=datetime.now)
     processing_time: Optional[float] = None
 
     # Routing and processing
-    target_modules: Set[ConsciousnessModule] = field(default_factory=set)
-    processed_by: Set[ConsciousnessModule] = field(default_factory=set)
+    target_modules: set[ConsciousnessModule] = field(default_factory=set)
+    processed_by: set[ConsciousnessModule] = field(default_factory=set)
 
     # Status
     status: str = "pending"  # pending, processing, completed, failed
-    result: Optional[Dict[str, Any]] = None
+    result: Optional[dict[str, Any]] = None
     error: Optional[str] = None
 
 
@@ -159,13 +159,13 @@ class UnifiedConsciousnessEngine:
         self.start_time = time.time()
 
         # Module registry and health
-        self.registered_modules: Dict[ConsciousnessModule, Dict[str, Any]] = {}
-        self.module_interfaces: Dict[ConsciousnessModule, Any] = {}
+        self.registered_modules: dict[ConsciousnessModule, dict[str, Any]] = {}
+        self.module_interfaces: dict[ConsciousnessModule, Any] = {}
 
         # Event processing
         self.event_queue: asyncio.Queue = asyncio.Queue()
-        self.event_history: List[ConsciousnessEvent] = []
-        self.event_processors: Dict[str, Callable] = {}
+        self.event_history: list[ConsciousnessEvent] = []
+        self.event_processors: dict[str, Callable] = {}
 
         # Configuration
         self.config = {
@@ -185,7 +185,7 @@ class UnifiedConsciousnessEngine:
         }
 
         # Async processing control
-        self.processing_tasks: Set[asyncio.Task] = set()
+        self.processing_tasks: set[asyncio.Task] = set()
         self.shutdown_event = asyncio.Event()
 
         # Initialize core systems
@@ -335,7 +335,7 @@ class UnifiedConsciousnessEngine:
         self,
         module: ConsciousnessModule,
         interface: Any,
-        config: Optional[Dict[str, Any]] = None
+        config: Optional[dict[str, Any]] = None
     ) -> bool:
         """
         Register a consciousness module with the engine
@@ -462,7 +462,7 @@ class UnifiedConsciousnessEngine:
 
         return self.metrics
 
-    def get_health_status(self) -> Dict[str, Any]:
+    def get_health_status(self) -> dict[str, Any]:
         """Get comprehensive health status"""
 
         metrics = self.get_metrics()
@@ -550,7 +550,7 @@ class UnifiedConsciousnessEngine:
             event.processing_time = time.time() - start_time
             logger.error(f"Failed to process event {event.event_id}: {e}")
 
-    async def _process_state_transition_event(self, event: ConsciousnessEvent) -> Dict[str, Any]:
+    async def _process_state_transition_event(self, event: ConsciousnessEvent) -> dict[str, Any]:
         """Process state transition event"""
 
         target_state_name = event.data.get("target_state")
@@ -566,7 +566,7 @@ class UnifiedConsciousnessEngine:
             "transition_time": time.time()
         }
 
-    async def _process_module_update_event(self, event: ConsciousnessEvent) -> Dict[str, Any]:
+    async def _process_module_update_event(self, event: ConsciousnessEvent) -> dict[str, Any]:
         """Process module update event"""
 
         module_name = event.data.get("module")
@@ -594,7 +594,7 @@ class UnifiedConsciousnessEngine:
 
         return {"status": "updated"}
 
-    async def _process_awareness_change_event(self, event: ConsciousnessEvent) -> Dict[str, Any]:
+    async def _process_awareness_change_event(self, event: ConsciousnessEvent) -> dict[str, Any]:
         """Process awareness level change event"""
 
         new_level_value = event.data.get("awareness_level")
@@ -610,7 +610,7 @@ class UnifiedConsciousnessEngine:
 
         return {"awareness_level": self.metrics.awareness_level.value}
 
-    async def _process_integration_request_event(self, event: ConsciousnessEvent) -> Dict[str, Any]:
+    async def _process_integration_request_event(self, event: ConsciousnessEvent) -> dict[str, Any]:
         """Process cross-module integration request"""
 
         # Calculate integration efficiency
@@ -621,7 +621,7 @@ class UnifiedConsciousnessEngine:
             "coherence_score": self.metrics.coherence_score
         }
 
-    async def _process_health_check_event(self, event: ConsciousnessEvent) -> Dict[str, Any]:
+    async def _process_health_check_event(self, event: ConsciousnessEvent) -> dict[str, Any]:
         """Process health check event"""
 
         # Perform comprehensive health check
@@ -633,7 +633,7 @@ class UnifiedConsciousnessEngine:
 
         return health_status
 
-    async def _process_trinity_sync_event(self, event: ConsciousnessEvent) -> Dict[str, Any]:
+    async def _process_trinity_sync_event(self, event: ConsciousnessEvent) -> dict[str, Any]:
         """Process Trinity Framework synchronization event"""
 
         # Update Trinity metrics
@@ -657,7 +657,7 @@ class UnifiedConsciousnessEngine:
             "guardian_protection": self.metrics.guardian_protection
         }
 
-    async def _process_error_recovery_event(self, event: ConsciousnessEvent) -> Dict[str, Any]:
+    async def _process_error_recovery_event(self, event: ConsciousnessEvent) -> dict[str, Any]:
         """Process error recovery event"""
 
         target_module_name = event.data.get("target_module")

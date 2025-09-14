@@ -39,8 +39,6 @@ CONFIDENCE_BONUS_PER_CIT = 0.25
 
 
 def load_text(p: Path | str) -> str:
-    from pathlib import Path
-
     if isinstance(p, str):
         p = Path(p)
     try:

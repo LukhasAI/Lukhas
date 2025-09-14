@@ -39,7 +39,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Optional
 
-from lukhas.identity.compat import ensure_both_id_keys
+from lukhas.interfaces.identity import ensure_both_id_keys
 
 # Trinity Framework and LUKHAS integrations
 try:

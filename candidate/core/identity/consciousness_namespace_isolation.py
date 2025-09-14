@@ -1,5 +1,5 @@
 import logging
-import streamlit as st
+import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 logger = logging.getLogger(__name__)
 """
 ╔══════════════════════════════════════════════════════════════
@@ -29,7 +29,7 @@ from typing import Any, Optional
 
 # Import MΛTRIZ consciousness components
 try:
-    from ..matriz_consciousness_signals import ConsciousnessSignal, ConstellationStar
+    from ..matriz_consciousness_signals import ConsciousnessSignal, ConstellationStar  # TODO[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
     from .matriz_consciousness_identity_signals import (
         IdentitySignalType,
         NamespaceIsolationData,
@@ -678,7 +678,7 @@ class ConsciousnessNamespaceManager:
     def _generate_consciousness_signature(self, domain: ConsciousnessDomain) -> str:
         """Generate unique consciousness signature for domain"""
 
-        domain_data = f"{domain.value}_{int(time.time(} * 1000)}"
+        domain_data = f"{domain.value}_{int(time.time()) * 1000}"
         signature_hash = hashlib.sha256(domain_data.encode()).hexdigest()
 
         return f"cs_{signature_hash[:16]}"
@@ -804,7 +804,7 @@ class ConsciousnessNamespaceManager:
     ) -> str:
         """Generate secure session token for cross-domain access"""
 
-        token_data = f"{identity_id}_{source_namespace_id}_{target_namespace_id}_{int(time.time())"
+        token_data = f"{identity_id}_{source_namespace_id}_{target_namespace_id}_{int(time.time())}"
         token_hash = hashlib.sha256(token_data.encode()).hexdigest()
 
         return f"cds_{token_hash[:32]}"

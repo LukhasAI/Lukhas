@@ -25,8 +25,8 @@ from ..voice_profiling import VoiceProfileManager
 
 # RESEARCH INTEGRATION: Speech Emotion Recognition components
 try:
-    import torch
-    import torchaudio
+    import torch  # noqa: F401  # TODO: torch; consider using importli...
+    import torchaudio  # noqa: F401  # TODO: torchaudio; consider using imp...
 
     TORCH_AVAILABLE = True
 except ImportError:

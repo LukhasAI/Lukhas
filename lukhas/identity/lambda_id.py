@@ -120,3 +120,27 @@ def revoke_credential(user_id: str, credential_id: str, *, mode: str = "dry_run"
         }
 
     return {"ok": True, "status": "revoked(dry_run)"}
+
+
+class LambdaIDService:
+    """Service wrapper for Lambda ID functionality"""
+
+    def authenticate(self, lid: str, credential: dict[str, Any] | None = None, **kwargs) -> dict[str, Any]:
+        """Authenticate using Lambda ID"""
+        return authenticate(lid, credential, **kwargs)
+
+    def register_passkey(self, user_id: str, user_name: str, display_name: str, **kwargs) -> dict[str, Any]:
+        """Register a WebAuthn passkey"""
+        return register_passkey(user_id, user_name, display_name, **kwargs)
+
+    def verify_passkey(self, registration_id: str, response: dict[str, Any], **kwargs) -> dict[str, Any]:
+        """Verify a WebAuthn passkey registration"""
+        return verify_passkey(registration_id, response, **kwargs)
+
+    def list_credentials(self, user_id: str, **kwargs) -> dict[str, Any]:
+        """List WebAuthn credentials for a user"""
+        return list_credentials(user_id, **kwargs)
+
+    def revoke_credential(self, user_id: str, credential_id: str, **kwargs) -> dict[str, Any]:
+        """Revoke a WebAuthn credential"""
+        return revoke_credential(user_id, credential_id, **kwargs)

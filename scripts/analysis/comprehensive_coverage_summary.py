@@ -242,7 +242,7 @@ class ComprehensiveCoverageSummary:
         print(f"  ✅ Comprehensive Coverage: {len(excellent_systems)} systems - {', '.join(excellent_systems)}")
         print(f"  🟡 Partial Coverage: {len(partial_systems)} systems - {', '.join(partial_systems)}")
         print(
-            f"  🔴 No/Minimal Coverage: {len(untested_systems)} systems - {', '.join(untested_systems[:5])}{'...' if len(untested_systems)} > 5 else ''}"
+            f"  🔴 No/Minimal Coverage: {len(untested_systems)} systems - {', '.join(untested_systems[:5])}{'...' if len(untested_systems) > 5 else ''}"
         )
 
         # Assessment and next steps

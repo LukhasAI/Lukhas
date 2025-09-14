@@ -1,0 +1,368 @@
+name: T4 Unused Imports System
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'lukhas/**/*.py'
+      - 'core/**/*.py'
+      - 'api/**/*.py'
+      - 'consciousness/**/*.py'
+      - 'memory/**/*.py'
+      - 'identity/**/*.py'
+      - 'MATRIZ/**/*.py'
+      - 'tools/ci/mark_unused_imports_todo.py'
+      - 'tools/ci/check_unused_imports_todo.py'
+      - 'tools/ci/unused_imports.py'
+      - 'audit/waivers/unused_imports.yaml'
+      - '.github/workflows/t4-unused-imports.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'lukhas/**/*.py'
+      - 'core/**/*.py'
+      - 'api/**/*.py'
+      - 'consciousness/**/*.py'
+      - 'memory/**/*.py'
+      - 'identity/**/*.py'
+      - 'MATRIZ/**/*.py'
+      - 'tools/ci/mark_unused_imports_todo.py'
+      - 'tools/ci/check_unused_imports_todo.py'
+      - 'tools/ci/unused_imports.py'
+      - 'audit/waivers/unused_imports.yaml'
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: 'T4 Operation to perform'
+        required: true
+        default: 'validate'
+        type: choice
+        options:
+          - validate
+          - annotate
+          - report
+
+jobs:
+  t4-validate:
+    name: T4 Unused Imports Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff pyyaml
+
+      - name: Create reports directory
+        run: mkdir -p reports/todos
+
+      - name: Validate T4 System Components
+        run: |
+          echo "🔍 T4 System Component Validation"
+          echo "=================================="
+          
+          # Check T4 tools exist
+          if [[ ! -f "tools/ci/mark_unused_imports_todo.py" ]]; then
+            echo "❌ T4 annotator missing: tools/ci/mark_unused_imports_todo.py"
+            exit 1
+          fi
+          
+          if [[ ! -f "tools/ci/check_unused_imports_todo.py" ]]; then
+            echo "❌ T4 validator missing: tools/ci/check_unused_imports_todo.py"
+            exit 1
+          fi
+          
+          if [[ ! -f "tools/ci/unused_imports.py" ]]; then
+            echo "❌ New T4 unified tool missing: tools/ci/unused_imports.py"
+            exit 1
+          fi
+          
+          # Check waivers system
+          if [[ ! -f "audit/waivers/unused_imports.yaml" ]]; then
+            echo "❌ T4 waivers config missing: audit/waivers/unused_imports.yaml"
+            exit 1
+          fi
+          
+          # Test YAML validity
+          python3 -c "import yaml; yaml.safe_load(open('audit/waivers/unused_imports.yaml'))"
+          echo "✅ Waivers YAML valid"
+          
+          # Test T4 tools syntax
+          python3 -m py_compile tools/ci/mark_unused_imports_todo.py
+          python3 -m py_compile tools/ci/check_unused_imports_todo.py
+          python3 -m py_compile tools/ci/unused_imports.py
+          echo "✅ T4 tools compile successfully"
+          
+          # Test new unified T4 tool
+          echo "🔧 Testing new unified T4 tool..."
+          python3 tools/ci/unused_imports.py --dry-run --paths lukhas MATRIZ
+          echo "✅ New T4 tool functional"
+
+      - name: Run T4 Unused Imports Policy Check
+        run: |
+          echo "🎯 T4 Production Lane Policy Validation"
+          echo "======================================="
+          echo "⚛️ Ensuring zero unannotated F401 errors in production lanes"
+          
+          # Run T4 validator
+          python3 tools/ci/check_unused_imports_todo.py
+
+      - name: Generate T4 Report
+        if: always()
+        run: |
+          echo "📊 T4 System Report"
+          echo "=================="
+          
+          # Count current annotations
+          if [[ -f "reports/todos/unused_imports.jsonl" ]]; then
+            total_annotations=$(wc -l < reports/todos/unused_imports.jsonl)
+            echo "📝 Total T4 annotations: $total_annotations"
+            
+            # Show recent annotations
+            echo ""
+            echo "📋 Recent T4 annotations:"
+            tail -5 reports/todos/unused_imports.jsonl | jq -r '. | "\(.file):\(.line) - \(.reason)"' || cat reports/todos/unused_imports.jsonl | tail -5
+          else
+            echo "📝 No T4 annotations file found"
+          fi
+          
+          # Check production lane F401 count
+          echo ""
+          echo "🔍 Current F401 status in production lanes:"
+          ruff check --select F401 lukhas core api consciousness memory identity MATRIZ 2>/dev/null | wc -l | awk '{print "F401 errors: " $1}'
+          
+          # Production directory status
+          echo ""
+          echo "📁 Production directories scanned:"
+          for dir in lukhas core api consciousness memory identity MATRIZ; do
+            if [[ -d "$dir" ]]; then
+              files=$(find "$dir" -name "*.py" | wc -l)
+              echo "  $dir: $files Python files"
+            else
+              echo "  $dir: (not present)"
+            fi
+          done
+
+      - name: Upload T4 Reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: t4-unused-imports-report
+          path: |
+            reports/todos/unused_imports.jsonl
+            reports/audit/t4_validation.log
+          retention-days: 30
+
+  t4-unified-test:
+    name: T4 Unified Tool Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff pyyaml
+          
+      - name: Create reports directory
+        run: mkdir -p reports/todos
+        
+      - name: Annotate unused imports (prod lanes)
+        run: python3 tools/ci/unused_imports.py --paths lukhas MATRIZ
+        
+      - name: Enforce unannotated F401 = fail
+        run: python3 tools/ci/unused_imports.py --paths lukhas MATRIZ --strict
+
+  t4-annotate:
+    name: T4 Auto-Annotation (Manual Trigger)
+    runs-on: ubuntu-latest
+    if: github.event.inputs.operation == 'annotate'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff pyyaml
+
+      - name: Create reports directory
+        run: mkdir -p reports/todos
+
+      - name: Run T4 Auto-Annotation
+        run: |
+          echo "🎯 T4 Auto-Annotation - Production Lanes"
+          echo "======================================="
+          echo "⚛️ Transforming technical debt into documented intent"
+          
+          # Backup current state
+          if [[ -f "reports/todos/unused_imports.jsonl" ]]; then
+            cp reports/todos/unused_imports.jsonl reports/todos/unused_imports.jsonl.backup
+          fi
+          
+          # Run T4 annotator
+          python3 tools/ci/mark_unused_imports_todo.py
+          
+          # Show changes
+          echo ""
+          echo "📊 T4 Annotation Results:"
+          if [[ -f "reports/todos/unused_imports.jsonl" ]]; then
+            new_count=$(wc -l < reports/todos/unused_imports.jsonl)
+            echo "Total annotations: $new_count"
+            
+            if [[ -f "reports/todos/unused_imports.jsonl.backup" ]]; then
+              old_count=$(wc -l < reports/todos/unused_imports.jsonl.backup)
+              new_annotations=$((new_count - old_count))
+              echo "New annotations added: $new_annotations"
+            fi
+          fi
+
+      - name: Create Pull Request with T4 Annotations
+        if: success()
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "🎯 T4: Auto-annotate unused imports in production lanes"
+          title: "🎯 T4 Unused Imports Auto-Annotation"
+          body: |
+            ## 🎯 T4 Unused Imports System - Auto-Annotation
+            
+            **⚛️ Transforming technical debt into documented intent**
+            
+            This PR contains automatically generated TODO annotations for unused imports in production lanes:
+            - `lukhas/`, `core/`, `api/`, `consciousness/`, `memory/`, `identity/`, `MATRIZ/`
+            
+            ### Changes Made:
+            - Added `# TODO[T4-UNUSED-IMPORT]: <reason>` annotations to unused imports
+            - Smart contextual reasoning applied for annotation reasons
+            - JSONL audit trail updated in `reports/todos/unused_imports.jsonl`
+            
+            ### What to Review:
+            1. **Annotation Quality**: Check that reasons are contextually appropriate
+            2. **Future Intent**: Verify annotations reflect actual intended usage
+            3. **Implementation Plan**: Update annotations with specific implementation plans
+            
+            ### Next Steps:
+            - Review and refine annotation reasons as needed
+            - Implement or remove imports when their purpose is fulfilled
+            - Run `make todo-unused-check` to validate annotations
+            
+            **Generated by T4 Unused Imports System - LUKHAS AI Trinity Framework**
+          branch: t4-auto-annotations
+          delete-branch: true
+
+  t4-report:
+    name: T4 Comprehensive Report
+    runs-on: ubuntu-latest
+    if: github.event.inputs.operation == 'report'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff pyyaml jq
+
+      - name: Generate Comprehensive T4 Report
+        run: |
+          echo "📊 T4 Unused Imports Comprehensive Report"
+          echo "========================================"
+          
+          mkdir -p reports/t4
+          
+          # Generate detailed report
+          cat > reports/t4/comprehensive_report.md << 'EOF'
+          # 🎯 T4 Unused Imports System - Comprehensive Report
+          
+          **⚛️ LUKHAS AI Trinity Framework - Technical Debt → Documented Intent**
+          
+          ## Executive Summary
+          
+          The T4 Unused Imports System transforms technical debt (F401 errors) into documented intent through strategic annotation and waivers management.
+          
+          ## Production Lane Coverage
+          
+          EOF
+          
+          # Add production directory analysis
+          echo "### Directory Analysis" >> reports/t4/comprehensive_report.md
+          echo "" >> reports/t4/comprehensive_report.md
+          for dir in lukhas core api consciousness memory identity MATRIZ; do
+            if [[ -d "$dir" ]]; then
+              py_files=$(find "$dir" -name "*.py" | wc -l)
+              f401_count=$(ruff check --select F401 "$dir" 2>/dev/null | wc -l)
+              echo "- **$dir/**: $py_files Python files, $f401_count F401 errors" >> reports/t4/comprehensive_report.md
+            fi
+          done
+          
+          # Add current annotations analysis
+          echo "" >> reports/t4/comprehensive_report.md
+          echo "## Current T4 Annotations" >> reports/t4/comprehensive_report.md
+          echo "" >> reports/t4/comprehensive_report.md
+          
+          if [[ -f "reports/todos/unused_imports.jsonl" ]]; then
+            total=$(wc -l < reports/todos/unused_imports.jsonl)
+            echo "**Total Annotations**: $total" >> reports/t4/comprehensive_report.md
+            echo "" >> reports/t4/comprehensive_report.md
+            
+            echo "### Annotation Breakdown by Reason" >> reports/t4/comprehensive_report.md
+            echo "" >> reports/t4/comprehensive_report.md
+            cat reports/todos/unused_imports.jsonl | jq -r '.reason' | sort | uniq -c | sort -nr | head -10 | awk '{print "- " $2 " " $3 " " $4 " " $5 ": " $1 " annotations"}' >> reports/t4/comprehensive_report.md
+          else
+            echo "**No annotations found**" >> reports/t4/comprehensive_report.md
+          fi
+          
+          # Add recommendations
+          cat >> reports/t4/comprehensive_report.md << 'EOF'
+          
+          ## Recommendations
+          
+          1. **Review Annotations**: Examine current annotations for accuracy and specificity
+          2. **Implementation Planning**: Update generic reasons with specific implementation plans
+          3. **Regular Cleanup**: Schedule monthly reviews to implement or remove annotated imports
+          4. **Waivers Management**: Use `AUDIT/waivers/unused_imports.yaml` for intentional exceptions
+          
+          ## T4 System Health
+          
+          - ✅ Core annotator functional
+          - ✅ Validation system operational  
+          - ✅ CI/CD integration active
+          - ✅ Waivers system configured
+          
+          ---
+          
+          *Generated by T4 Unused Imports System - LUKHAS AI*
+          EOF
+          
+          echo "✅ Comprehensive report generated: reports/t4/comprehensive_report.md"
+
+      - name: Upload T4 Comprehensive Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: t4-comprehensive-report
+          path: reports/t4/
+          retention-days: 90

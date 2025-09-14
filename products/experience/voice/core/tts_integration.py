@@ -19,7 +19,7 @@ from candidate.bridge.voice.systems.voice_synthesis import (
     ElevenLabsProvider,
     VoiceSynthesisProvider,
 )
-from candidate.core.common.glyph import GLYPHToken, GLYPHSymbol, create_glyph
+from candidate.core.common.glyph import GLYPHSymbol, create_glyph
 from candidate.core.common.logger import get_logger
 from candidate.governance.guardian import GuardianValidator
 from candidate.voice.audio_processing import LUKHASAudioProcessor, ProcessingQuality
@@ -569,16 +569,20 @@ class LUKHASTTSService:
                 self.response_cache[cache_key] = tts_response
 
             # Emit GLYPH event
-            # Create GLYPH event
-        glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
-                "tts.synthesis.completed",
+            glyph_token = create_glyph(
+                GLYPHSymbol.CREATE,
+                "voice_pipeline",
+                "consciousness",
                 {
-                    "provider": provider_type,
-                    "processing_time_ms": total_time,
-                    "text_length": len(request.text),
-                    "audio_duration": tts_response.duration_seconds,
-                    "modulation_applied": tts_response.modulation_applied,
-                    "audio_processing_applied": tts_response.audio_processing_applied,
+                    "event": "tts.synthesis.completed",
+                    "data": {
+                        "provider": provider_type,
+                        "processing_time_ms": total_time,
+                        "text_length": len(request.text),
+                        "audio_duration": tts_response.duration_seconds,
+                        "modulation_applied": tts_response.modulation_applied,
+                        "audio_processing_applied": tts_response.audio_processing_applied,
+                    },
                 },
             )
 
@@ -589,9 +593,14 @@ class LUKHASTTSService:
             self.stats["requests_failed"] += 1
 
             # Create GLYPH event
-        glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
-                "tts.synthesis.error",
-                {"error": str(e), "text_length": len(request.text)},
+            glyph_token = create_glyph(
+                GLYPHSymbol.CREATE,
+                "voice_pipeline",
+                "consciousness",
+                {
+                    "event": "tts.synthesis.error",
+                    "data": {"error": str(e), "text_length": len(request.text)},
+                },
             )
 
             return TTSResponse(

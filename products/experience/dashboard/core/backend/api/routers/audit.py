@@ -30,7 +30,7 @@ async def get_audit_status() -> dict[str, Any]:
 
         # Get the most recent audit
         latest_file = max(audit_files, key=lambda f: f.stat().st_mtime)
-        last_run = datetime.fromtimestamp(latest_file.stat(, tz=timezone.utc).st_mtime)
+        last_run = datetime.fromtimestamp(latest_file.stat().st_mtime, tz=timezone.utc)
 
         return {
             "status": "ready",
@@ -124,7 +124,7 @@ async def get_specific_report(report_name: str) -> dict[str, Any]:
             "report_name": report_name,
             "content": content,
             "size_bytes": report_path.stat().st_size,
-            "last_modified": datetime.fromtimestamp(report_path.stat(, tz=timezone.utc).st_mtime).isoformat(),
+            "last_modified": datetime.fromtimestamp(report_path.stat().st_mtime, tz=timezone.utc).isoformat(),
         }
     except FileNotFoundError:
         raise HTTPException(status_code=404, detail=f"Report {report_name} not found")

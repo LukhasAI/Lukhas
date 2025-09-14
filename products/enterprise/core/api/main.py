@@ -7,7 +7,6 @@ from pydantic import BaseModel
 
 from candidate.bridge.llm_wrappers.base import LLMProvider
 from candidate.bridge.orchestration.multi_ai_orchestrator import ModelOrchestrator
-import streamlit as st
 
 orchestrator: Optional[ModelOrchestrator] = None
 
@@ -17,7 +16,7 @@ async def lifespan(app: FastAPI):
     global orchestrator
     orchestrator = ModelOrchestrator()
     print("Enterprise API Gateway starting up...")
-    print(f"Available providers: {[p.value for p in orchestrator.get_available_providers()}]}")
+    print(f"Available providers: {[p.value for p in orchestrator.get_available_providers()]}")
     yield
     print("Enterprise API Gateway shutting down...")
 

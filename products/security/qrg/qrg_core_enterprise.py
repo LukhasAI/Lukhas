@@ -40,8 +40,7 @@ of OWNING HUMAN IDENTITY IN THE DIGITAL AGE.
 - Licensing revenue potential: $100B/year
 - Government contracts: $500B over 10 years
 """
-from consciousness.qi import qi
-import streamlit as st
+
 from datetime import timezone
 
 import hashlib
@@ -416,7 +415,7 @@ class QIResonanceGlyph:
 
         # Create the BILLION DOLLAR glyph
         glyph = QIGlyph(
-            glyph_id=f"QRG_{int(time.time(} * 1000000}_{security_tier)}",
+            glyph_id=f"QRG_{int(time.time()) * 1000000}_{security_tier}",
             visual_matrix=visual_matrix,
             animation_frames=animation_frames,
             qi_signature=qi_signature,
@@ -455,7 +454,7 @@ class QIResonanceGlyph:
         🚀 CEO: This signature is worth more than Fort Knox
         """
         # Combine identity with quantum entropy
-        signature_input = f"{identity}_{security_tier}_{time.time())"
+        signature_input = f"{identity}_{security_tier}_{time.time()}"
         signature_bytes = signature_input.encode()
 
         # Mix with quantum entropy (MAXIMUM RANDOMNESS)
@@ -659,13 +658,13 @@ class QIResonanceGlyph:
         base_patents = [
             f"QUANTUM_RESONANCE_METHOD_{identity[:8]}",
             f"CONSCIOUSNESS_AUTHENTICATION_{security_tier}",
-            f"CIRCULAR_QR_ENCODING_{int(time.time())",
+            f"CIRCULAR_QR_ENCODING_{int(time.time())}",
             f"TEMPORAL_VALIDATION_{identity[:8]}",
             f"STEGANOGRAPHIC_IDENTITY_{security_tier}",
-            f"HOLOGRAPHIC_AUTH_{int(time.time())",
+            f"HOLOGRAPHIC_AUTH_{int(time.time())}",
             f"EMOTION_ADAPTIVE_SECURITY_{identity[:8]}",
             f"POST_QUANTUM_IDENTITY_{security_tier}",
-            f"SOVEREIGN_DIGITAL_RIGHTS_{int(time.time())",
+            f"SOVEREIGN_DIGITAL_RIGHTS_{int(time.time())}",
             f"MARKET_DISRUPTION_SYSTEM_{security_tier}",
         ]
 
@@ -683,10 +682,10 @@ class QIResonanceGlyph:
         return {
             "total_value_generated": f"${self.total_value_generated:,.2f}",
             "glyphs_created": self.glyphs_created,
-            "average_value_per_glyph": f"${self.total_value_generated / max(self.glyphs_created, 1)}:,.2f}",
+            "average_value_per_glyph": f"${self.total_value_generated / max(self.glyphs_created, 1):,.2f}",
             "competitors_destroyed": self.competitors_destroyed,
             "patents_filed": len(self.patents_filed),
-            "patent_portfolio_value": f"${len(self.patents_filed)} * 5_000_000:,.2f}",
+            "patent_portfolio_value": f"${len(self.patents_filed) * 5_000_000:,.2f}",
             "market_cap_projection": f"${self.total_value_generated * 1000:,.2f}",
             "unicorn_status": self.total_value_generated >= 1_000_000_000,
             "decacorn_status": self.total_value_generated >= 10_000_000_000,
@@ -710,7 +709,7 @@ class PatentFactory:
     """Generates patents automatically"""
 
     def generate(self, innovation: str) -> str:
-        return f"PATENT_{innovation}_{int(time.time())"
+        return f"PATENT_{innovation}_{int(time.time())}"
 
 
 class MarketDominator:

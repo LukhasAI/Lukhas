@@ -175,7 +175,7 @@ class HealthCheckSystem:
     ):
         """Register a health check"""
         self.checks[name] = check_func
-        self.check_metadata[name] = {"type": component_type, "metadata": metadata or {}
+        self.check_metadata[name] = {"type": component_type, "metadata": metadata or {}}
 
     async def check_all(self) -> dict[str, Any]:
         """Run all registered health checks"""
@@ -343,7 +343,7 @@ class HealthCheckSystem:
                 "free": psutil.disk_usage("/").free,
                 "percent": psutil.disk_usage("/").percent,
             },
-            "boot_time": datetime.fromtimestamp(psutil.boot_time(, tz=timezone.utc)).isoformat(),
+            "boot_time": datetime.fromtimestamp(psutil.boot_time(), tz=timezone.utc).isoformat(),
         }
 
     # Default health checks
@@ -682,7 +682,7 @@ async def main():
 
     # Get metrics
     metrics = health_system.get_metrics()
-    print(f"\n📊 Prometheus Metrics Available: {len(metrics} bytes")
+    print(f"\n📊 Prometheus Metrics Available: {len(metrics)} bytes")
 
 
 if __name__ == "__main__":

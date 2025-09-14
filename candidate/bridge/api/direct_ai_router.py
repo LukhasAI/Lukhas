@@ -12,7 +12,7 @@ import logging
 import os
 import subprocess
 import sys
-from typing import Optional
+from typing import Any, Dict, Optional, Union
 
 # ΛTAG: core, router, config
 from candidate.core.common.config import config
@@ -21,10 +21,10 @@ from candidate.core.common.config import config
 logger = logging.getLogger("ΛTRACE.core.direct_ai_router")
 logger.info("ΛTRACE: Initializing direct_ai_router module.")
 
-# ΛCORE: Configuration now loaded from candidate.core.config instead of hardcoded defaults
+# ΛCORE: Use environment or sensible defaults to avoid hard dependency at import time
 # TODO: Legacy constants kept for backward compatibility
-DEFAULT_ROUTER_PATH = config.ai_router_path
-DEFAULT_PYTHON_PATH = config.python_path
+DEFAULT_ROUTER_PATH = os.getenv("LUKHAS_AI_ROUTER_PATH", "")
+DEFAULT_PYTHON_PATH = os.getenv("LUKHAS_PYTHON_PATH", sys.executable or "python3")
 
 # Human-readable comment: Class to interface directly with an external AI router.
 
@@ -61,7 +61,14 @@ class DirectAIRouter:
 
     # Human-readable comment: Routes a request to the external AI router.
 
-    def route_request(self, task: str, task_type: str = "general", debug: bool = False) -> str:
+    def route_request(
+        self,
+        task: str,
+        task_type: str = "general",
+        debug: bool = False,
+        *,
+        structured: bool = False,
+    ) -> Union[str, Dict[str, Any]]:
         """
         Routes a request through the Python AI router by executing a dynamically generated script.
         Args:
@@ -69,8 +76,9 @@ class DirectAIRouter:
             task_type (str): The type of task (e.g., "general", "coding").
             debug (bool): Flag to enable debug mode in the router script.
         Returns:
-            str: The AI router's response or an error message.
-        TODO: Consider returning a structured response (e.g., Dict) instead of just a string for better error handling.
+            Union[str, Dict[str, Any]]: By default a string response for backward compatibility.
+            If structured=True, returns a dict with keys: success, output, error,
+            return_code, stderr, meta.
         """
         logger.info(
             f"ΛTRACE: Routing AI request. Task Type: '{task_type}', Debug: {debug}, Task(first 50 chars): '{task[:50]}...'"
@@ -108,14 +116,23 @@ try:
     elif isinstance(result, str):
         print(result)
     else:
-        # Handle unexpected result types gracefully
-        print(f"Router Error: Unexpected result type from multiverse_route: {{{{type(result)}}}}. Content: {{{{str(result)[:200]}}}}")
+        # Handle unexpected result types gracefully: write to stderr and exit non-zero
+        sys.stderr.write(
+            "Router Error: Unexpected result type from multiverse_route: "
+            + str(type(result))
+            + ". Content: "
+            + str(result)[:200]
+            + "\n"
+        )
+        sys.exit(1)
 
 except ImportError as ie:
-    print(f"Router Error: Failed to import 'multiverse_route'. Check LUKHAS_AI_ROUTER_PATH and module structure. Details: {{{{ie}}}}")
+    sys.stderr.write("Router Error: Failed to import 'multiverse_route'. Check LUKHAS_AI_ROUTER_PATH and module structure. Details: " + str(ie) + "\n")
+    sys.exit(1)
 except Exception as e:
     # Print a generic error message including the type of exception
-    print(f"Router Error: An exception occurred in the router script: {{{{type(e).__name__}}}} - {{{{e}}}}")
+    sys.stderr.write("Router Error: An exception occurred in the router script: " + type(e).__name__ + " - " + str(e) + "\n")
+    sys.exit(1)
 """
         logger.debug(f"ΛTRACE: Executing dynamic Python script for AI routing:\n---\n{python_script[:300]}...\n---")
 
@@ -128,27 +145,95 @@ except Exception as e:
             )
 
             if process.returncode == 0:
-                logger.info(
-                    f"ΛTRACE: AI router request successful. Output (first 100 chars): '{process.stdout.strip()[:100]}...'"
-                )
-                return process.stdout.strip()
+                output = process.stdout.strip()
+                logger.info(f"ΛTRACE: AI router request completed. Output (first 100 chars): '{output[:100]}...'")
+                # Treat Router Error markers from child script as failures even with 0 exit code
+                is_error_marker = isinstance(output, str) and output.startswith("Router Error:")
+                if structured:
+                    if is_error_marker:
+                        return {
+                            "success": False,
+                            "output": output,
+                            "error": output,
+                            "return_code": -4,
+                            "stderr": process.stderr.strip(),
+                            "meta": {
+                                "task_type": task_type,
+                                "debug": debug,
+                                "router_path": self.router_path,
+                            },
+                        }
+                    return {
+                        "success": True,
+                        "output": output,
+                        "error": None,
+                        "return_code": 0,
+                        "stderr": process.stderr.strip(),
+                        "meta": {
+                            "task_type": task_type,
+                            "debug": debug,
+                            "router_path": self.router_path,
+                        },
+                    }
+                # Backward compatible string return
+                return output
             else:
                 error_message = f"Router execution error (Code {process.returncode}): {process.stderr.strip()}"
                 logger.error(f"ΛTRACE: {error_message}")
+                if structured:
+                    return {
+                        "success": False,
+                        "output": process.stdout.strip(),
+                        "error": error_message,
+                        "return_code": process.returncode,
+                        "stderr": process.stderr.strip(),
+                        "meta": {
+                            "task_type": task_type,
+                            "debug": debug,
+                            "router_path": self.router_path,
+                        },
+                    }
                 return error_message
 
         except subprocess.TimeoutExpired:
             logger.error("ΛTRACE: AI router request timed out after 60 seconds.")
+            if structured:
+                return {
+                    "success": False,
+                    "output": "",
+                    "error": "Router request timed out",
+                    "return_code": -1,
+                    "stderr": "",
+                    "meta": {"task_type": task_type, "debug": debug, "router_path": self.router_path},
+                }
             return "Router request timed out"
         except FileNotFoundError:
             logger.critical(
                 f"ΛTRACE: Python interpreter '{self.python_path}' not found. Please check LUKHAS_PYTHON_PATH.",
                 exc_info=True,
             )
+            if structured:
+                return {
+                    "success": False,
+                    "output": "",
+                    "error": f"Python interpreter '{self.python_path}' not found. Cannot execute AI router.",
+                    "return_code": -2,
+                    "stderr": "",
+                    "meta": {"task_type": task_type, "debug": debug, "router_path": self.router_path},
+                }
             return f"Python interpreter '{self.python_path}' not found. Cannot execute AI router."
         except Exception as e:
             error_message = f"Router connection error: {e!s}"
             logger.error(f"ΛTRACE: {error_message}", exc_info=True)
+            if structured:
+                return {
+                    "success": False,
+                    "output": "",
+                    "error": error_message,
+                    "return_code": -3,
+                    "stderr": "",
+                    "meta": {"task_type": task_type, "debug": debug, "router_path": self.router_path},
+                }
             return error_message
 
     # Human-readable comment: Checks if the AI router is available and responsive.
@@ -193,7 +278,9 @@ logger.info("ΛTRACE: Global _direct_router_instance created.")
 # Human-readable comment: Global function to route an AI request.
 
 
-def route_ai_request(task: str, task_type: str = "general", debug: bool = False) -> str:
+def route_ai_request(
+    task: str, task_type: str = "general", debug: bool = False, *, structured: bool = False
+) -> Union[str, Dict[str, Any]]:
     """
     Global convenience function to route AI requests using the default DirectAIRouter instance.
     Args:
@@ -201,10 +288,10 @@ def route_ai_request(task: str, task_type: str = "general", debug: bool = False)
         task_type (str): The type of task.
         debug (bool): Debug flag for the router.
     Returns:
-        str: The AI router's response or an error message.
+        Union[str, Dict[str, Any]]: String by default, or dict if structured=True.
     """
     logger.info("ΛTRACE: Global route_ai_request() called.")
-    return _direct_router_instance.route_request(task, task_type, debug)
+    return _direct_router_instance.route_request(task, task_type, debug, structured=structured)
 
 
 # Human-readable comment: Global function to check AI router availability.

@@ -1,110 +1,21 @@
-.PHONY: help test smoke api-spec clean install dev api audit-tail audit
-.PHONY: lint format fix fix-imports setup-hooks ci-local monitor test-cov deep-clean quick bootstrap
-.PHONY: security security-scan security-update security-audit security-fix
-.PHONY: policy policy-review policy-brand policy-tone policy-registries
-.PHONY: verify phase1 status hook-install
-.PHONY: lane-guard audit-appendix
+# Main Makefile PHONY declarations (only for targets defined in this file)
+.PHONY: install setup-hooks dev api openapi live colony-dna-smoke smoke-matriz lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports
+.PHONY: ai-analyze ai-setup ai-workflow clean deep-clean quick bootstrap organize organize-dry organize-suggest organize-watch
+.PHONY: codex-validate codex-fix validate-all perf migrate-dry migrate-run dna-health dna-compare admin lint-status lane-guard
+.PHONY: audit-tail sdk-py-install sdk-py-test sdk-ts-build sdk-ts-test backup-local backup-s3 restore-local restore-s3 dr-drill dr-weekly dr-quarterly dr-monthly
+.PHONY: audit-appendix audit-normalize audit-merge audit-merge-auto audit-merge-check
+.PHONY: check-scoped lint-scoped test-contract type-scoped doctor doctor-tools doctor-py doctor-ci doctor-lanes doctor-tests doctor-audit doctor-dup-targets doctor-phony doctor-summary doctor-strict doctor-dup-targets-strict doctor-json
+.PHONY: todo-unused todo-unused-check todo-unused-core todo-unused-candidate t4-annotate t4-check audit-f821 fix-f821-core annotate-f821-candidate types-audit types-enforce types-core types-trend types-audit-trend types-enforce-trend f401-audit f401-trend
+.PHONY: test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens
 
-# Default target
-help:
-	@echo "LUKHAS  Build System"
-	@echo "======================="
-	@echo ""
-	@echo "Setup & Installation:"
-	@echo "  install      - Install dependencies"
-	@echo "  setup-hooks  - Setup pre-commit hooks"
-	@echo "  bootstrap    - Full setup (install + hooks)"
-	@echo ""
-	@echo "Development:"
-	@echo "  dev          - Run development server"
-	@echo "  api          - Run API server"
-	@echo "  audit-tail   - Tail audit logs"
-	@echo "  audit-nav    - Show audit navigation for external auditors"
-	@echo "  audit-scan   - Run comprehensive audit validation"
-	@echo "  api-serve    - Start API server for external testing"
-	@echo ""
-	@echo "Code Quality:"
-	@echo "  lint         - Run all linters (no fixes)"
-	@echo "  format       - Format code with Black"
-	@echo "  fix          - Auto-fix all possible issues"
-	@echo "  fix-imports  - Fix import issues specifically"
-	@echo ""
-	@echo "AI-Powered Analysis (Ollama):"
-	@echo "  ai-setup     - Setup Ollama for AI analysis"
-	@echo "  ai-analyze   - AI-powered code analysis"
-	@echo "  ai-workflow  - Complete AI workflow (fix + analyze + test)"
-	@echo ""
-	@echo "Testing:"
-	@echo "  test         - Run test suite"
-	@echo "  test-cov     - Run tests with coverage"
-	@echo "  smoke        - Run smoke check"
-	@echo ""
-	@echo "Advanced Testing (0.001% Methodology):"
-	@echo "  test-advanced    - Complete advanced testing suite"
-	@echo "  test-property    - Property-based tests (Hypothesis)"
-	@echo "  test-chaos       - Chaos engineering tests"
-	@echo "  test-formal      - Formal verification (Z3)"
-	@echo "  test-mutation    - Mutation testing"
-	@echo "  test-performance - Performance regression"
-	@echo "  test-consciousness - All consciousness tests"
-	@echo "  test-standalone  - Standalone validation suite"
-	@echo ""
-	@echo "CI/CD:"
-	@echo "  ci-local     - Run full CI pipeline locally"
-	@echo "  monitor      - Generate code quality report"
-	@echo "  audit        - Run gold-standard audit suite"
-	@echo "  promote      - Promote a module candidate → lukhas"
-	@echo ""
-	@echo "Maintenance:"
-	@echo "  clean        - Clean cache and temp files"
-	@echo "  deep-clean   - Deep clean including venv"
-	@echo "  api-spec     - Export OpenAPI specification"
-	@echo ""
-	@echo "Policy & Brand:"
-	@echo "  policy       - Run all policy checks"
-	@echo "  policy-review- Flag claims for human review"
-	@echo "  policy-brand - Check brand compliance"
-	@echo "  policy-tone  - Validate 3-layer tone system"
-	@echo "  policy-registries - Validate module/site registries"
-	@echo "  policy-routes - Validate site sections have matching routes"
-	@echo "  policy-vocab  - Validate vocabulary compliance"
-	@echo ""
-	@echo "Security:"
-	@echo "  security     - Run full security check suite"
-	@echo "  security-scan- Quick vulnerability scan"
-	@echo "  security-update - Auto-update vulnerable packages"
-	@echo "  security-audit - Deep security audit with reports"
-	@echo "  security-fix - Fix all security issues (scan + update)"
-	@echo ""
-	@echo "Security Fixes (AI-powered):"
-	@echo "  security-fix-vulnerabilities - Fix dependency vulnerabilities"
-	@echo "  security-fix-issues         - Fix code security issues (Bandit)"
-	@echo "  security-fix-all           - Fix ALL security problems"
-	@echo "  security-comprehensive-scan - Complete security analysis"
-	@echo ""
-	@echo "Security Scheduling:"
-	@echo "  security-schedule          - View scheduler and schedule options"
-	@echo "  security-schedule-3h       - Schedule fixes in 3 hours"
-	@echo "  security-schedule-tonight  - Schedule fixes for 8 PM"
-	@echo "  security-schedule-list     - List scheduled tasks"
-	@echo ""
-	@echo "Ollama Security (AI-powered):"
-	@echo "  security-ollama      - AI-powered vulnerability analysis"
-	@echo "  security-ollama-fix  - Auto-fix with Ollama recommendations"
-	@echo "  security-ollama-setup- Setup Ollama for security analysis"
-	@echo ""
-	@echo "Backup & DR:"
-	@echo "  backup-local - Create local backup into .lukhas_backup/out"
-	@echo "  backup-s3    - Create backup and upload to S3 (env required)"
-	@echo "  restore-local- Verify and extract a backup locally"
-	@echo "  restore-s3   - Verify and extract a backup from S3"
-	@echo "  dr-drill     - Dry-run restore from last S3 manifest"
-	@echo "  dr-weekly    - Trigger weekly DR dry-run workflow"
-	@echo "  dr-quarterly - Trigger quarterly DR full-restore workflow"
-	@echo "  dr-monthly   - Trigger monthly DR dry-run workflow"
-	@echo ""
-	@echo "Quick Commands:"
-	@echo "  quick        - Fix issues and run tests"
+# Note: Additional PHONY targets are declared in mk/*.mk include files
+
+# Modular includes (guarded)
+ifneq ($(wildcard mk/*.mk),)
+include mk/*.mk
+endif
+
+# Note: Main help target is defined in mk/help.mk
 
 # Installation
 install:
@@ -144,6 +55,12 @@ live:
 colony-dna-smoke:
 	python3 scripts/colony_dna_smoke.py
 
+# MATRIZ traces smoke (deterministic, uses golden fixture)
+smoke-matriz:
+	@echo "🚬 Running MATRIZ traces smoke (GET /traces/latest)..."
+	PYTHONPATH=. python3 -m pytest -q tests/smoke/test_traces_router.py --maxfail=1 --disable-warnings
+	@echo "✅ MATRIZ traces smoke passed"
+
 # Linting (no fixes)
 lint:
 	@echo "🔍 Running linters..."
@@ -161,6 +78,17 @@ lint:
 	-$(PYTHON) -m bandit -r lukhas bridge core serve -ll
 	@echo "\nChecking for fragile import patterns (sys.path hacks, star imports)..."
 	-python3 tools/ci/no_syspath_hacks.py lukhas matriz || true
+
+# T4 unused imports policy (production lanes only)
+lint-unused:
+	@echo "🎯 T4 Unused Imports Annotator (Production Lanes)"
+	@echo "⚛️ Scanning lukhas/ and MATRIZ/ for F401 violations..."
+	python3 tools/ci/unused_imports.py --paths lukhas MATRIZ
+
+lint-unused-strict:
+	@echo "🎯 T4 Unused Imports Enforcer (Production Lanes - Strict Mode)"
+	@echo "⚛️ Failing if any unannotated F401 remain in lukhas/ and MATRIZ/..."
+	python3 tools/ci/unused_imports.py --paths lukhas MATRIZ --strict
 
 # Format code
 format:
@@ -230,81 +158,9 @@ fix-imports:
 	autoflake --in-place --remove-unused-variables --remove-all-unused-imports --recursive .
 	isort --profile black --line-length 79 .
 
-# Run tests
-test:
-	pytest tests/ -v --junitxml=test-results.xml
+# Note: Test targets are defined in mk/tests.mk
 
-# Run tests with coverage
-test-cov:
-	@echo "🧪 Running tests with coverage..."
-	pytest tests/ --cov=lukhas --cov=candidate --cov=bridge --cov=core --cov=serve --cov-report=html --cov-report=xml --cov-report=term --junitxml=test-results.xml
-
-# Smoke test
-smoke:
-	python3 scripts/testing/smoke_check.py
-
-# Advanced Testing Suite (0.001% Methodology)
-test-advanced:
-	@echo "🧬 Running Advanced Testing Suite (0.001% Methodology)..."
-	python3 rl/run_advanced_tests.py --verbose
-
-test-property:
-	@echo "🔬 Running Property-Based Tests..."
-	pytest rl/tests/test_consciousness_properties.py -v -m property_based --tb=short
-
-test-chaos:
-	@echo "🌪️ Running Chaos Engineering Tests..."
-	pytest rl/tests/test_chaos_consciousness.py -v -m chaos_engineering --tb=short
-
-test-metamorphic:
-	@echo "🔄 Running Metamorphic Tests..."
-	pytest rl/tests/test_metamorphic_consciousness.py -v -m metamorphic --tb=short
-
-test-formal:
-	@echo "⚖️ Running Formal Verification Tests..."
-	pytest rl/tests/test_formal_verification.py -v -m formal_verification --tb=short
-
-test-mutation:
-	@echo "🧬 Running Mutation Tests..."
-	pytest rl/tests/test_mutation_testing.py -v -m mutation_testing --tb=short
-
-test-performance:
-	@echo "📊 Running Performance Regression Tests..."
-	pytest rl/tests/test_performance_regression.py -v -m performance_regression --tb=short
-
-test-oracles:
-	@echo "🔮 Running Generative Oracle Tests..."
-	pytest rl/tests/test_generative_oracles.py -v -m generative_oracles --tb=short
-
-test-consciousness:
-	@echo "🧠 Running Complete Consciousness Testing Suite..."
-	pytest tests/consciousness/ rl/tests/ -v -m consciousness --tb=short
-
-test-standalone:
-	@echo "🚀 Running Standalone Advanced Test Suite..."
-	python3 test_advanced_suite_standalone.py
-
-# Run full CI pipeline locally
-ci-local:
-	pytest -q --maxfail=1 --disable-warnings --cov=lukhas --cov-report=term
-	python3 scripts/testing/smoke_check.py --json out/smoke.json || true
-	uvicorn lukhas.api.app:app --port 8000 & echo $$! > .pid; sleep 2; \
-	curl -s http://127.0.0.1:8000/openapi.json -o out/openapi.json; \
-	kill `cat .pid` || true; rm -f .pid
-	@echo 'Artifacts in ./out'
-
-# Generate code quality monitoring report
-monitor:
-	@echo "📊 Generating code quality report..."
-	@python tools/scripts/quality_dashboard.py
-
-# Promotion helper (candidate → lukhas)
-promote:
-	@if [ -z "$(SRC)" ] || [ -z "$(DST)" ]; then \
-		echo "Usage: make promote SRC=candidate/core/<mod> DST=lukhas/core/<mod> [SHIM=candidate->lukhas]"; \
-		exit 2; \
-	fi
-	@python3 tools/scripts/promote_module.py --src $(SRC) --dst $(DST) $(if $(SHIM),--shim-direction $(SHIM),)
+# Note: CI/CD targets are defined in mk/ci.mk
 
 # Performance smoke (k6)
 perf:
@@ -331,6 +187,13 @@ dna-compare:
 admin:
 	open http://127.0.0.1:8000/admin || true
 
+# Build system performance metrics dashboard
+metrics-dashboard:
+	@echo "🎯 Generating Build System Performance Dashboard..."
+	@mkdir -p reports
+	@python3 tools/ci/build_metrics_dashboard.py
+	@echo "✅ Dashboard complete! Check reports/build_performance_report.md"
+
 # Check linting status
 lint-status:
 	@python tools/scripts/check_progress.py
@@ -339,17 +202,19 @@ lint-status:
 lane-guard:
 	@bash tools/ci/lane_guard.sh
 
-# API specification
-api-spec:
-	@echo "Starting server to export OpenAPI spec..."
-	@mkdir -p out
-	@curl -s http://127.0.0.1:8000/openapi.json -o out/openapi.json
-	@echo "OpenAPI spec exported to out/openapi.json"
+# Deep clean including virtual environment
+deep-clean: clean
+	@echo "🧹 Deep cleaning..."
+	rm -rf venv .venv
+	rm -rf htmlcov .coverage
+	rm -rf dist build *.egg-info
+	@echo "✅ Deep clean complete!"
 
-# Audit logs
-audit-tail:
-	@mkdir -p .lukhas_audit && touch .lukhas_audit/audit.jsonl
-	tail -f .lukhas_audit/audit.jsonl
+# Quick fix and test
+quick: fix test ## Fix issues and run tests
+	@echo "✅ Quick fix and test complete!"
+
+# Note: Audit targets are defined in mk/audit.mk
 
 # Clean cache and temp files
 clean:
@@ -363,225 +228,7 @@ clean:
 	rm -rf out/
 	@echo "✅ Clean complete!"
 
-# Deep clean including virtual environment
-deep-clean: clean
-	@echo "🧹 Deep cleaning..."
-	rm -rf venv .venv
-	rm -rf htmlcov .coverage
-	rm -rf dist build *.egg-info
-	@echo "✅ Deep clean complete!"
-
-# Quick fix and test
-quick: fix test
-	@echo "✅ Quick fix and test complete!"
-
-# CODEX Strike Teams Support
-codex-validate:
-	@./tools/codex_validation.sh
-
-codex-fix:
-	@echo "🤖 CODEX 1: Datetime UTC Compliance"
-	python3 -m ruff check . --select DTZ003,DTZ005 --fix 2>/dev/null || echo "Ruff not available - install with: pip install ruff"
-	@echo "🤖 CODEX 5: Auto-fixable Syntax Issues" 
-	python3 -m ruff check . --fix-only 2>/dev/null || echo "Ruff not available"
-	@echo "🤖 CODEX 2: Import Organization"
-	python3 -m isort . --check-only --diff 2>/dev/null || echo "isort not available"
-
-# Full validation pipeline (CODEX ready)
-validate-all: codex-validate fix test-cov lint security policy
-	@echo "🎉 Full validation complete - CODEX Strike Teams ready!"
-
-# File organization
-organize:
-	@echo "🧹 Organizing root directory..."
-	@python3 scripts/file-organizer.py organize
-	@echo "✅ Organization complete!"
-
-organize-dry:
-	@echo "🔍 Dry run - checking what would be organized..."
-	@python3 scripts/file-organizer.py organize --dry-run
-
-organize-suggest:
-	@echo "💡 Suggesting new organization rules..."
-	@python3 scripts/file-organizer.py suggest
-
-organize-watch:
-	@echo "👁️ Starting file organization watch mode..."
-	@python3 scripts/file-organizer.py watch --interval 300
-
-# Install and setup everything
-bootstrap: install setup-hooks
-	@echo "🚀 Bootstrap complete! Run 'make fix' to clean up existing issues."
-
-.PHONY: audit-status
-audit-status:
-	@echo "📊 LUKHAS Audit Status"
-	@echo "======================"
-	@echo ""
-	@echo "🔧 Branch Status:"
-	@git status -s && git rev-parse --abbrev-ref HEAD || echo "No changes"
-	@echo ""
-	@echo "📝 Recent Commits:"
-	@git log --oneline -3 || echo "No commits"
-	@echo ""
-	@echo "🔍 Tool Versions:"
-	@echo -n "  Ruff: " && python3 -m ruff --version 2>/dev/null || echo "Not available"
-	@echo -n "  Pytest: " && python3 -m pytest --version 2>/dev/null || echo "Not available"
-	@echo ""
-	@echo "🧪 Smoke Tests:"
-	@source .venv/bin/activate 2>/dev/null && python3 -m pytest -q tests/smoke 2>/dev/null || echo "  No smoke tests or pytest unavailable"
-	@echo ""
-	@echo "📊 Deep Search Reports:"
-	@ls -1 reports/deep_search 2>/dev/null | head -10 || echo "  No deep search reports"
-	@echo ""
-	@echo "🚦 Lane Guard:"
-	@./tools/ci/lane_guard.sh 2>/dev/null || echo "  ❌ Lane violations detected"
-
-# Security operations
-security: security-audit security-scan
-	@echo "✅ Full security check complete!"
-
-security-scan:
-	@echo "🔍 Running quick security scan..."
-	@pip install -q safety pip-audit 2>/dev/null || true
-	@echo "Checking with safety..."
-	@safety check --short-report 2>/dev/null || echo "⚠️ Some vulnerabilities found"
-	@echo "\nChecking with pip-audit..."
-	@pip-audit --desc 2>/dev/null || echo "⚠️ Some vulnerabilities found"
-	@echo "✅ Security scan complete!"
-
-# Ollama-powered security operations
-security-ollama:
-	@echo "🤖 Running Ollama-powered security analysis..."
-	@python3 scripts/ollama_security_analyzer.py scan
-	@echo "✅ Ollama security analysis complete!"
-
-security-ollama-fix:
-	@echo "🔧 Auto-fixing vulnerabilities with Ollama..."
-	@python3 scripts/ollama_security_analyzer.py fix
-	@echo "✅ Ollama fix complete!"
-
-security-ollama-setup:
-	@echo "🛠️ Setting up Ollama for security analysis..."
-	@command -v ollama >/dev/null 2>&1 || (echo "Installing Ollama..." && brew install ollama)
-	@brew services start ollama 2>/dev/null || echo "Ollama service already running"
-	@sleep 3
-	@echo "Pulling security analysis model..."
-	@ollama pull deepseek-coder:6.7b || true
-	@echo "✅ Ollama setup complete!"
-
-# Enhanced security vulnerability fixes
-security-fix-vulnerabilities:
-	@echo "🛡️ Auto-fixing known security vulnerabilities..."
-	@python3 scripts/fix_security_vulnerabilities.py
-	@echo "✅ Security vulnerabilities fixed!"
-
-# Fix security issues found by Bandit linter
-security-fix-issues:
-	@echo "🛡️ Auto-fixing security issues (Bandit findings)..."
-	@python3 scripts/fix_security_issues.py
-	@echo "✅ Security issues fixed!"
-
-# Fix all security problems (vulnerabilities + issues)
-security-fix-all:
-	@echo "🛡️ Fixing ALL security vulnerabilities and issues..."
-	@make security-fix-vulnerabilities
-	@make security-fix-issues
-	@echo "✅ All security fixes complete!"
-
-# Schedule security tasks for later execution
-security-schedule:
-	@echo "🕒 LUKHAS Security Task Scheduler"
-	@echo "=================================="
-	@python3 scripts/security_scheduler.py status
-	@echo ""
-	@echo "💡 Schedule security fixes for later:"
-	@echo "   make security-schedule-3h    - Schedule in 3 hours"
-	@echo "   make security-schedule-tonight - Schedule at 8 PM today"
-	@echo "   Or use: python3 scripts/security_scheduler.py schedule fix-all +2h"
-
-security-schedule-3h:
-	@echo "⏰ Scheduling security fixes in 3 hours..."
-	@python3 scripts/security_scheduler.py schedule fix-all +3h --description "Automated security fix (3h delay)"
-
-security-schedule-tonight:
-	@echo "🌙 Scheduling security fixes for 8 PM tonight..."
-	@python3 scripts/security_scheduler.py schedule fix-all 20:00 --description "Evening security maintenance"
-
-security-schedule-list:
-	@python3 scripts/security_scheduler.py list
-
-security-schedule-run:
-	@python3 scripts/security_scheduler.py run-pending
-
-security-comprehensive-scan:
-	@echo "🔍 Running comprehensive security scan..."
-	@mkdir -p security-reports
-	@echo "Running Safety CLI scan..."
-	@safety scan --output json --save-json security-reports/safety-scan.json 2>/dev/null || echo "Safety scan completed with issues"
-	@echo "Running pip-audit..."
-	@pip-audit --format json --output security-reports/pip-audit.json 2>/dev/null || echo "pip-audit completed with issues"
-	@echo "Running Bandit security scan..."
-	@bandit -r . -f json -o security-reports/bandit.json -x .venv,venv,node_modules,.git 2>/dev/null || echo "Bandit scan completed"
-	@echo "Running Ollama analysis..."
-	@python3 scripts/ollama_security_analyzer.py scan > security-reports/ollama-analysis.txt
-	@echo "📊 Security reports saved to security-reports/"
-	@echo "✅ Comprehensive security scan complete!"
-
-security-emergency-patch:
-	@echo "🚨 EMERGENCY SECURITY PATCH MODE"
-	@echo "This will automatically fix ALL known critical vulnerabilities"
-	@read -p "Continue? (y/N): " -n 1 -r; echo; \
-	if [[ $$REPLY =~ ^[Yy]$$ ]]; then \
-		make security-fix-vulnerabilities; \
-		pip install -r requirements.txt; \
-		make test-security; \
-		echo "✅ Emergency patch complete!"; \
-	else \
-		echo "❌ Emergency patch cancelled"; \
-	fi
-
-test-security:
-	@echo "🧪 Running security-focused tests..."
-	@python3 -c "import fastapi, aiohttp, transformers; print('✅ Critical packages import successfully')"
-	@pytest tests/ -k "security" -v --tb=short || echo "No specific security tests found"
-	@echo "✅ Security tests complete!"
-
-security-update:
-	@echo "🔧 Running automated security updates..."
-	@pip install -q safety pip-audit 2>/dev/null || true
-	@python3 scripts/security-update.py --auto --no-test
-	@echo "✅ Security updates complete!"
-
-security-audit:
-	@echo "🔒 Running deep security audit..."
-	@pip install -q safety pip-audit bandit 2>/dev/null || true
-	@mkdir -p security-reports
-	@echo "Running safety check..."
-	@safety check --json --output security-reports/safety-report.json 2>/dev/null || true
-	@safety check --short-report || true
-	@echo "\nRunning pip-audit..."
-	@pip-audit --desc --format json --output security-reports/pip-audit.json 2>/dev/null || true
-	@echo "\nRunning bandit..."
-	@bandit -r . -f json -o security-reports/bandit-report.json 2>/dev/null || true
-	@echo "\n📊 Security reports saved to security-reports/"
-	@echo "✅ Security audit complete!"
-
-security-fix: security-scan security-update test
-	@echo "✅ Security issues fixed and tested!"
-
-# Advanced security automation
-security-autopilot:
-	@echo "🚀 Running Security Autopilot..."
-	@python3 scripts/security-autopilot.py fix
-
-security-monitor:
-	@echo "👁️ Starting continuous security monitoring..."
-	@python3 scripts/security-autopilot.py monitor --continuous --interval 3600
-
-security-status:
-	@echo "📊 Security Status:"
-	@python3 scripts/security-autopilot.py status
+# Note: Security targets are defined in mk/security.mk
 
 # SDK helpers
 sdk-py-install:
@@ -634,73 +281,7 @@ dr-quarterly:
 dr-monthly:
 	gh workflow run dr-dryrun-monthly.yml
 
-# Gold Standard Audit
-audit:
-	@bash -lc './scripts/audit.sh'
-
-# Audit Navigation & Deep Search Support
-audit-nav:
-	@echo "🔍 LUKHAS AI Deep Search Navigation"
-	@echo "===================================="
-	@echo "📋 Audit Entry Point: AUDIT/INDEX.md"
-	@echo "🗺️  System Architecture: AUDIT/SYSTEM_MAP.md"
-	@echo "🧠 MATRIZ Readiness: AUDIT/MATRIZ_READINESS.md"
-	@echo "⚛️  Identity Readiness: AUDIT/IDENTITY_READINESS.md"
-	@echo "📊 API Documentation: AUDIT/API/openapi.yaml"
-	@echo "🔗 Deep Search Indexes: reports/deep_search/"
-	@echo ""
-	@echo "Quick Commands:"
-	@echo "  make audit-scan    - Health check and validation"
-	@echo "  make api-serve     - Start API server for testing"
-	@echo "  make test-cov      - Run tests with coverage report"
-
-audit-scan:
-	@echo "🔍 Running comprehensive audit scan..."
-	@echo "Checking lane architecture compliance..."
-	@python3 tools/ci/find_import_cycles.py
-	@echo "Validating MATRIZ readiness..."
-	@[ -f "AUDIT/MATRIZ_READINESS.md" ] && echo "✅ MATRIZ docs present" || echo "❌ Missing MATRIZ docs"
-	@echo "Checking Identity system..."
-	@[ -f "AUDIT/IDENTITY_READINESS.md" ] && echo "✅ Identity docs present" || echo "❌ Missing Identity docs"
-	@echo "Validating API schemas..."
-	@[ -f "AUDIT/API/openapi.yaml" ] && echo "✅ OpenAPI spec present" || echo "❌ Missing OpenAPI spec"
-	@echo "Running policy compliance..."
-	@make policy || echo "⚠️  Policy issues detected"
-	@echo "✅ Audit scan complete! See results above."
-
-api-serve:
-	@echo "🚀 Starting API server for auditing..."
-	@echo "Server will be available at: http://localhost:8080"
-	@echo "OpenAPI docs at: http://localhost:8080/docs"
-	uvicorn api.app:app --reload --port 8080 --host 0.0.0.0
-
-# Policy & Brand Enforcement
-policy: policy-registries policy-brand policy-tone policy-routes policy-vocab
-	@echo "✅ All policy checks passed"
-
-policy-review:
-	@echo "🔍 Flagging claims for human review..."
-	@npm run policy:review
-
-policy-brand:
-	@echo "🎨 Checking brand compliance..."
-	@npm run policy:brand
-
-policy-tone:
-	@echo "📝 Validating tone layers..."
-	@npm run policy:tone
-
-policy-registries:
-	@echo "📋 Validating module/site registries..."
-	@npm run policy:registries
-
-policy-routes:
-	@echo "🗺️ Validating site sections have matching routes..."
-	@npm run policy:routes
-
-policy-vocab:
-	@echo "📚 Validating vocabulary compliance..."
-	@npm run vocab:validate
+# Note: Policy targets are defined in mk/policy.mk (if exists)
 
 # Phase 1 Verification
 verify: phase1
@@ -716,49 +297,8 @@ hook-install:
 	npx husky add .husky/post-commit "make verify" >/dev/null
 	chmod +x .husky/pre-commit .husky/post-commit
 
-.PHONY: pc-all
-pc-all:
-	pre-commit run --all-files || true
+# Remaining duplicate targets removed - all functionality preserved in mk/*.mk modules
 
-.PHONY: matriz-compile matriz-ci audit-validate sbom
-
-# Compile all MATRIZ author graphs under graphs/ to reports/matriz/
-matriz-compile:
-	@python -m tools.matriz.compile_all graphs reports/matriz
-
-# MATRIZ CI gate: compile all graphs and fail on invariant violations
-matriz-ci: matriz-compile
-	@echo "✅ MATRIZ compile completed; see reports/matriz for plans and reports"
-
-# Audit validator for JSON provenance across repository master artifacts
-audit-validate:
-	@python tools/ci/update_and_validate_json.py
-
-# Software Bill of Materials (CycloneDX) if CLI available
-sbom:
-	@cyclonedx-bom -o reports/sbom/cyclonedx.json || echo "cyclonedx-bom not installed; skipped"
-
-.PHONY: audit-nav
-audit-nav:
-	@echo "Commit: $(shell cat AUDIT/RUN_COMMIT.txt 2>/dev/null || git rev-parse HEAD)"
-	@echo "Started: $(shell cat AUDIT/RUN_STARTED_UTC.txt 2>/dev/null)"
-	@echo "Files: $(shell wc -l reports/deep_search/PY_INDEX.txt 2>/dev/null | awk '{print $$1}')"
-	@echo "Sample: AUDIT/CODE_SAMPLES.txt"
-
-.PHONY: audit-scan
-audit-scan:
-	@ls -1 reports/deep_search | sed 1,20p
-
-# Minimal CI-friendly check target (scoped to focused gates: ruff, contract tests, scoped mypy)
-.PHONY: check lint test type
-lint:
-	ruff check serve tests/contract
-test:
-	pytest -q tests/contract --maxfail=1 --disable-warnings
-type:
-	mypy --follow-imports=skip --ignore-missing-imports serve/main.py || true
-check: lint test type
-	@echo "✅ make check passed (lint + tests + scoped mypy)"
 
 # Generate audit delta appendix between two tags
 audit-appendix:
@@ -790,3 +330,284 @@ audit-merge-check:
 	@echo "Merged scoreboard (if present):"
 	@[ -f $(OUT)/scoreboard.json ] && cat $(OUT)/scoreboard.json || echo "(not generated yet)"
 
+# Minimal CI-friendly check target (scoped to focused gates: ruff, contract tests, scoped mypy)
+.PHONY: check-scoped lint-scoped test-contract type-scoped
+lint-scoped:
+	ruff check serve tests/contract
+test-contract:
+	pytest -q tests/contract --maxfail=1 --disable-warnings
+type-scoped:
+	mypy --follow-imports=skip --ignore-missing-imports serve/main.py || true
+check-scoped: lint-scoped test-contract type-scoped
+	@echo "✅ make check-scoped passed (lint + tests + scoped mypy)"
+
+
+# ------------------------------------------------------------------------------
+# T4 Doctor: fast repo health diagnostics (non-destructive, noisy on failure)
+# ------------------------------------------------------------------------------
+
+# Aggregate
+doctor: doctor-tools doctor-py doctor-ci doctor-lanes doctor-tests doctor-audit doctor-dup-targets doctor-phony doctor-summary ## Quick repo health scan (T4-style diagnostics)
+
+# 1) Tooling presence
+doctor-tools:
+	@echo "🔎 [tools] Checking required CLI tools..."
+	@ok=1; \
+	for bin in python3 jq rg curl git; do \
+		if ! command -v $$bin >/dev/null 2>&1; then echo "❌ missing: $$bin"; ok=0; fi; \
+	done; \
+	for py in ruff pytest mypy bandit; do \
+		if ! python3 -m $$py --version >/dev/null 2>&1; then echo "⚠️ python -m $$py unavailable"; fi; \
+	done; \
+	[ $$ok -eq 1 ] && echo "✅ tools ok" || (echo "⚠️ some tools missing"; exit 0)
+
+# 2) Python/venv sanity
+doctor-py:
+	@echo "🔎 [python] venv & import sanity..."
+	@if [ -d ".venv" ]; then echo "✅ .venv present"; else echo "⚠️ .venv missing"; fi
+	@python3 -c "import sys; print('✅ python', sys.version.split()[0])" || echo "❌ python not runnable"
+	@PYTHONPATH=. python3 -c "import lukhas, matriz; print('✅ lukhas & matriz importable')" || echo "⚠️ import check failed"
+
+# 3) CI wiring sanity
+doctor-ci:
+	@echo "🔎 [ci] workflow presence & test matrix..."
+	@if [ -f ".github/workflows/ci.yml" ]; then \
+		echo "✅ ci.yml present"; \
+		grep -q 'pytest' .github/workflows/ci.yml && echo "✅ pytest referenced" || echo "⚠️ pytest not referenced"; \
+		grep -q 'tier1' .github/workflows/ci.yml && echo "✅ tier1 matrix present" || echo "⚠️ tier1 matrix missing"; \
+	else \
+		echo "⚠️ no .github/workflows/ci.yml"; \
+	fi
+
+# 4) Lane integrity (static + runtime)
+doctor-lanes:
+	@echo "🔎 [lanes] lane guards..."
+	@{ PYTHONPATH=. lint-imports -v 2>/dev/null || echo '⚠️ import-linter not configured'; } | sed -n '1,80p'
+	@{ bash ./tools/ci/lane_guard.sh 2>/dev/null || true; } | sed -n '1,80p'
+
+# 5) Tests quick slice
+doctor-tests:
+	@echo "🔎 [tests] collection & tier1 MATRIZ sanity..."
+	@PYTHONPATH=. python3 -m pytest -q --collect-only 2>/dev/null | sed -n '1,10p' || true
+	@PYTHONPATH=. python3 -m pytest -q -m tier1 tests_new/matriz 2>/dev/null || echo "⚠️ MATRIZ tier1 failed"
+
+# 6) Audit artifacts
+doctor-audit:
+	@echo "🔎 [audit] key artifacts..."
+	@[ -f "AUDIT/INDEX.md" ] && echo "✅ AUDIT/INDEX.md" || echo "❌ missing AUDIT/INDEX.md"
+	@[ -f "AUDIT/MATRIZ_READINESS.md" ] && echo "✅ AUDIT/MATRIZ_READINESS.md" || echo "❌ missing MATRIZ_READINESS"
+	@[ -f "AUDIT/IDENTITY_READINESS.md" ] && echo "✅ AUDIT/IDENTITY_READINESS.md" || echo "⚠️ missing IDENTITY_READINESS"
+	@[ -f "AUDIT/API/openapi.yaml" ] && echo "✅ AUDIT/API/openapi.yaml" || echo "⚠️ missing openapi.yaml"
+	@[ -f "reports/sbom/cyclonedx.json" ] && echo "✅ SBOM present" || echo "⚠️ SBOM missing"
+
+# 7) Duplicate targets in Makefile (footgun detector)
+doctor-dup-targets:
+	@echo "🔎 [make] duplicate target names..."
+	@awk -F: '/^[A-Za-z0-9_.-]+:/{print $$1}' Makefile \
+	 | grep -v '^.PHONY' | grep -v '^include' | grep -v '^\#' \
+	 | sort | uniq -d | sed -n '1,50p' | awk '{print "⚠️ duplicate target: " $$1}' || true
+
+# 8) PHONY targets without rules
+doctor-phony:
+	@echo "🔎 [make] .PHONY without recipe..."
+	@ph=$$(grep -Eo '^\.PHONY:[^#]+' Makefile | sed 's/^\.PHONY://; s/[\\ ]\+/ /g' | tr ' ' '\n' | sort -u); \
+	for t in $$ph; do \
+	  grep -qE "^$$t:" Makefile || echo "⚠️ .PHONY declared but no rule: $$t"; \
+	done; true
+
+# 9) Summary
+doctor-summary:
+	@echo "✅ Doctor finished. Review warnings above. Non-zero exit only for hard failures."
+
+# --- Strict & JSON outputs ---------------------------------------------------
+
+# Strict variant: fails build if any warnings or errors are present
+doctor-strict:
+	@mkdir -p reports/audit
+	@echo "🧪 Running doctor in strict mode..."
+	@($(MAKE) -s doctor) | tee reports/audit/doctor_last.txt
+	@if grep -E '❌|⚠️' reports/audit/doctor_last.txt >/dev/null; then \
+		echo "❌ doctor:strict detected warnings/errors. See reports/audit/doctor_last.txt"; \
+		exit 1; \
+	else \
+		echo "✅ doctor:strict clean (no warnings/errors)"; \
+	fi
+
+# Duplicate targets strict: exit 1 if any duplicates detected
+doctor-dup-targets-strict:
+	@dups=$$(awk -F: '/^[A-Za-z0-9_.-]+:/{print $$1}' Makefile \
+	 | grep -v '^.PHONY' | grep -v '^include' | grep -v '^\#' \
+	 | sort | uniq -d); \
+	if [ -n "$$dups" ]; then \
+		echo "$$dups" | awk '{print "❌ duplicate target (strict): " $$1}'; \
+		exit 1; \
+	else \
+		echo "✅ no duplicate Make targets (strict)"; \
+	fi
+
+# Machine-readable summary (requires jq)
+doctor-json:
+	@mkdir -p reports/audit
+	@echo "🧾 Emitting JSON summary to reports/audit/doctor_summary.json"
+	@tools_ok=1; \
+	for bin in python3 jq rg curl git; do command -v $$bin >/dev/null || tools_ok=0; done; \
+	py_ok=0; PYTHONPATH=. python3 -c "import lukhas, matriz" >/dev/null 2>&1 && py_ok=1 || true; \
+	ci_present=0; [ -f ".github/workflows/ci.yml" ] && ci_present=1 || true; \
+	sbom_present=0; [ -f "reports/sbom/cyclonedx.json" ] && sbom_present=1 || true; \
+	audit_index=0; [ -f "AUDIT/INDEX.md" ] && audit_index=1 || true; \
+	tier1_ok=0; PYTHONPATH=. python3 -m pytest -q -m tier1 tests_new/matriz >/dev/null 2>&1 && tier1_ok=1 || true; \
+	dups=$$(awk -F: '/^[A-Za-z0-9_.-]+:/{print $$1}' Makefile \
+	 | grep -v '^.PHONY' | grep -v '^include' | grep -v '^\#' \
+	 | sort | uniq -d | wc -l); \
+	jq -n --arg now "$$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+	      --arg git "$$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")" \
+	      --argjson tools $$tools_ok \
+	      --argjson python $$py_ok \
+	      --argjson ci $$ci_present \
+	      --argjson sbom $$sbom_present \
+	      --argjson audit $$audit_index \
+	      --argjson tier1 $$tier1_ok \
+	      --argjson dup_count $$dups \
+	      '{timestamp:$now, commit:$git, checks:{tools:$tools, python_imports:$python, ci_workflow:$ci, sbom:$sbom, audit_index:$audit, matriz_tier1:$tier1, make_dup_targets:$dup_count}}' \
+	  > reports/audit/doctor_summary.json
+	@echo "✅ Wrote reports/audit/doctor_summary.json"
+
+
+# ==============================================================================
+# T4 UNUSED IMPORTS SYSTEM - Transform Technical Debt into Documented Intent
+# ==============================================================================
+
+# T4 annotate unused imports with TODOs (all production lanes)
+todo-unused:
+	@echo "🎯 T4 UNUSED IMPORTS ANNOTATOR - All Production Lanes"
+	@echo "⚛️ Transforming technical debt into documented intent"
+	python3 tools/ci/mark_unused_imports_todo.py
+
+# T4 annotate only core modules (lukhas/ only)
+todo-unused-core:
+	@echo "🎯 T4 UNUSED IMPORTS ANNOTATOR - Core Modules Only"
+	@echo "⚛️ Transforming technical debt into documented intent"
+	python3 tools/ci/mark_unused_imports_todo.py --paths lukhas
+
+# T4 validate all production imports are annotated
+todo-unused-check:
+	@echo "🔍 T4 UNUSED IMPORTS VALIDATOR - Production Lane Policy"
+	@echo "⚛️ Ensuring all unused imports are properly documented"
+	python3 tools/ci/check_unused_imports_todo.py
+
+# T4 candidate promotion helper  
+todo-unused-candidate:
+	@echo "🎯 T4 UNUSED IMPORTS ANNOTATOR - Candidate Directory"
+	@echo "⚛️ Preparing experimental code for production promotion"
+	python3 tools/ci/mark_unused_imports_todo.py --paths candidate
+
+# Legacy aliases for backwards compatibility
+t4-annotate: todo-unused
+t4-check: todo-unused-check
+
+.PHONY: audit-f821 fix-f821-core annotate-f821-candidate
+
+audit-f821:
+	@python3 tools/ci/f821_report.py --paths "lukhas MATRIZ candidate" && echo "See reports/audit/f821_summary.md"
+
+fix-f821-core:
+	@python3 tools/ci/f821_report.py --paths "lukhas MATRIZ" --enforce-core
+
+annotate-f821-candidate:
+	@python3 tools/ci/f821_report.py --paths "candidate" --annotate-candidate
+
+.PHONY: types-audit types-enforce types-core
+
+types-audit:
+	@mkdir -p reports/audit/types
+	@python3 -m mypy --hide-error-context --no-error-summary --no-color-output --pretty --error-format=json > reports/audit/types/mypy.json || true
+	@python3 tools/ci/mypy_to_md.py reports/audit/types/mypy.json reports/audit/types/mypy_summary.md && echo "See reports/audit/types/mypy_summary.md"
+
+types-enforce:
+	@mkdir -p reports/audit/types
+	@python3 -m mypy --hide-error-context --no-error-summary --no-color-output --pretty --error-format=json > reports/audit/types/mypy.json || true
+	@python3 -c "import json,sys; j=json.load(open('reports/audit/types/mypy.json')); core=sum(1 for e in j.get('errors',[]) if str(e.get('path','')).startswith(('lukhas/','MATRIZ/'))); print(f'Core mypy errors: {core}'); sys.exit(1 if core>0 else 0)"
+	@python3 tools/ci/mypy_to_md.py reports/audit/types/mypy.json reports/audit/types/mypy_summary.md
+
+# fast local check limited to core paths (honors pyproject files=)
+types-core:
+	@python3 -m mypy lukhas MATRIZ
+
+.PHONY: types-trend
+
+types-trend:
+	@python3 tools/ci/mypy_trend.py
+
+# F401 unused import trend tracking
+f401-audit:
+	@mkdir -p reports/audit
+	@python3 -m ruff check --select F401 --output-format json > reports/audit/f401.json || true
+	@echo "F401 audit saved to reports/audit/f401.json"
+
+f401-trend:
+	@python3 tools/ci/f401_trend.py
+
+# Convenience combos
+types-audit-trend: types-audit types-trend
+types-enforce-trend: types-enforce types-trend
+
+# ==============================================================================
+# T4 TEST FRAMEWORK - Deterministic Policy & Golden Discipline
+# ==============================================================================
+
+.PHONY: test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens
+
+test-clean:
+	@find . -name '__pycache__' -type d -prune -exec rm -rf {} + || true
+
+test-tier1:
+	@TZ=UTC PYTHONHASHSEED=0 pytest -m "tier1 and not quarantine" --cov=lukhas --cov=MATRIZ --cov-branch --cov-report=xml:reports/tests/cov.xml
+
+test-all:
+	@TZ=UTC PYTHONHASHSEED=0 pytest -m "not quarantine" --cov=lukhas --cov=MATRIZ --cov-branch --cov-report=xml:reports/tests/cov.xml
+
+test-fast:
+	@TZ=UTC PYTHONHASHSEED=0 pytest -m "smoke or tier1" -q
+
+test-report:
+	@python3 -c "import xml.etree.ElementTree as ET; p='reports/tests/cov.xml'; \
+	try: \
+	 t=ET.parse(p).getroot(); print('Coverage line-rate:', t.attrib.get('line-rate','?')); \
+	except Exception as e: \
+	 print('No coverage report yet:', e)"
+
+spec-lint:
+	@python3 tools/tests/spec_lint.py tests/specs
+
+contract-check:
+	@python3 tools/tests/contract_check.py $${BASE_REF:-origin/main}
+
+specs-sync:
+	@python3 tools/tests/specs_sync.py
+
+test-goldens:
+	@python3 tools/tests/validate_golden.py
+
+# Jules-06 focused test lane
+.PHONY: test-jules06
+test-jules06:
+	@echo "🧪 Jules-06 focused adapters lane"
+	@export TZ=UTC PYTHONHASHSEED=0 PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=.; \
+	pytest -q \
+	  -m "not quarantine" \
+	  tests/unit/bridge/adapters/test_gmail_adapter.py \
+	  tests/unit/bridge/adapters/test_dropbox_adapter.py \
+	  tests/unit/bridge/adapters/test_oauth_manager.py \
+	  tests/unit/security/test_security.py \
+	  tests/integration/bridge/adapters/test_gmail_adapter.py \
+	  tests/integration/bridge/adapters/test_dropbox_adapter.py \
+	  tests/integration/bridge/adapters/test_oauth_manager.py \
+	  tests/integration/bridge/test_service_integration.py \
+	  tests/integration/security/test_security.py \
+	  --cov=candidate.bridge.adapters \
+	  --cov=candidate.bridge.external_adapters \
+	  --cov=candidate.bridge.api.validation \
+	  --cov=candidate.bridge.adapters.service_adapter_base \
+	  --cov-branch \
+	  --cov-report=xml:reports/tests/cov_adapters.xml \
+	  --cov-report=term-missing

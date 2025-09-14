@@ -5,7 +5,7 @@ Provides integration wrapper for connecting the quantum security system to the q
 
 import json
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 from .ΛBot_quantum_security import (
