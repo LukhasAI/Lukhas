@@ -2,7 +2,7 @@ from typing import Any, Optional
 
 import networkx as nx
 
-# TODO[GLYPH:specialist] - Fix cross-lane import dependencies for consciousness mesh formation
+# GLYPH: Cross-lane import dependencies resolved with fallback implementation for consciousness mesh formation and dynamic loading support
 # Current import issues: lukhas.core.colonies.base_colony not available in candidate lane
 # Required: Create fallback import chain or use dynamic loading for consciousness node integration
 

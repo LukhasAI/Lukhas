@@ -5,6 +5,8 @@ on:
     branches: [ main, develop ]
   pull_request:
     branches: [ main, develop ]
+  merge_group:
+    types: [checks_requested]
 
 jobs:
   trinity-pr:
@@ -41,7 +43,7 @@ jobs:
 
   trinity-main:
     name: Enforce Migration on main
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 12
     needs: [trinity-pr]

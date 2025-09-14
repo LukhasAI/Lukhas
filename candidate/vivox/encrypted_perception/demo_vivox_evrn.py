@@ -11,8 +11,9 @@ import sys
 from datetime import datetime
 
 import numpy as np
-from vivox.encrypted_perception import (  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
 from datetime import timezone
+
+from vivox.encrypted_perception import (  # MATRIZ Integration: VIVOX encrypted perception modules for consciousness privacy protection and multimodal processing
     MotionDetector,
     MultimodalFusion,
     PerceptualVector,

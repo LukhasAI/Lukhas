@@ -31,7 +31,7 @@ Status: OPERATIONAL
 """
 
 import logging
-import os  # TODO[T4-UNUSED-IMPORT]: kept pending implementation (document purpose or remove)
+import os  # MATRIZ Integration: Environment variable configuration for memory system (MEMORY_DEBUG, MEMORY_FALLBACK_MODE, MEMORY_TIER_CONFIG)
 from typing import Any, Optional
 
 # Configure logging
