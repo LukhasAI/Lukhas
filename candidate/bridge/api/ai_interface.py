@@ -28,6 +28,7 @@ logger.info("ΛTRACE: Initializing lukhas_ai_interface module.")
 
 # --- Governance/Audit logging ---
 _AI_AUDIT_LOG_PATH = os.getenv("LUKHAS_AI_AUDIT_LOG_PATH", "logs/ai_interface_events.log")
+_AI_AUDIT_REPORT_PATH = os.getenv("LUKHAS_AI_AUDIT_REPORT_PATH", "reports/audit/merged/ai_interface_events.jsonl")
 
 
 def _write_audit_event(record: Dict[str, Any]) -> None:
@@ -39,9 +40,30 @@ def _write_audit_event(record: Dict[str, Any]) -> None:
         _makedirs(_dirname(_AI_AUDIT_LOG_PATH), exist_ok=True)
         with open(_AI_AUDIT_LOG_PATH, "a", encoding="utf-8") as f:
             f.write(_dumps(record) + "\n")
+        # Also stream into the reports pipeline (best-effort)
+        _makedirs(_dirname(_AI_AUDIT_REPORT_PATH), exist_ok=True)
+        with open(_AI_AUDIT_REPORT_PATH, "a", encoding="utf-8") as rf:
+            rf.write(_dumps(record) + "\n")
     except Exception:
         # Best-effort audit logging; do not raise
         pass
+
+
+def _prompt_meta(prompt: str) -> Dict[str, Any]:
+    """Compute privacy-preserving metadata for the prompt.
+
+    - request_size: number of characters
+    - prompt_hash: sha256 over normalized whitespace, truncated
+    """
+    try:
+        import hashlib
+
+        # Normalize whitespace
+        normalized = " ".join(str(prompt).split())
+        digest = hashlib.sha256(normalized.encode("utf-8")).hexdigest()[:16]
+        return {"request_size": len(str(prompt)), "prompt_hash": digest}
+    except Exception:
+        return {"request_size": len(str(prompt)), "prompt_hash": "unknown"}
 
 
 # --- External Router Path Configuration ---
@@ -218,6 +240,7 @@ class LukhusAI:
                             "component": self.component_name,
                             "latency_ms": (time.perf_counter() - start_ts) * 1000.0,
                             "trace_id": trace_id,
+                            **_prompt_meta(prompt),
                         },
                     }
                     _write_audit_event(
@@ -228,6 +251,7 @@ class LukhusAI:
                             "output_len": len(str(response_content)),
                             "latency_ms": (time.perf_counter() - start_ts) * 1000.0,
                             "trace_id": trace_id,
+                            **_prompt_meta(prompt),
                         }
                     )
                     return payload
@@ -245,6 +269,7 @@ class LukhusAI:
                             "component": self.component_name,
                             "latency_ms": (time.perf_counter() - start_ts) * 1000.0,
                             "trace_id": trace_id,
+                            **_prompt_meta(prompt),
                         },
                     }
                     _write_audit_event(
@@ -255,6 +280,7 @@ class LukhusAI:
                             "output_len": len(result),
                             "latency_ms": (time.perf_counter() - start_ts) * 1000.0,
                             "trace_id": trace_id,
+                            **_prompt_meta(prompt),
                         }
                     )
                     return payload
@@ -271,6 +297,7 @@ class LukhusAI:
                             "error": unexpected_type_msg,
                             "latency_ms": (time.perf_counter() - start_ts) * 1000.0,
                             "trace_id": trace_id,
+                            **_prompt_meta(prompt),
                         }
                     )
                     return {
@@ -282,6 +309,7 @@ class LukhusAI:
                             "component": self.component_name,
                             "latency_ms": (time.perf_counter() - start_ts) * 1000.0,
                             "trace_id": trace_id,
+                            **_prompt_meta(prompt),
                         },
                     }
                 return unexpected_type_msg
@@ -298,6 +326,7 @@ class LukhusAI:
                         "error": error_msg,
                         "latency_ms": (time.perf_counter() - start_ts) * 1000.0,
                         "trace_id": trace_id,
+                        **_prompt_meta(prompt),
                     }
                 )
                 return {
@@ -309,6 +338,7 @@ class LukhusAI:
                         "component": self.component_name,
                         "latency_ms": (time.perf_counter() - start_ts) * 1000.0,
                         "trace_id": trace_id,
+                        **_prompt_meta(prompt),
                     },
                 }
             return error_msg

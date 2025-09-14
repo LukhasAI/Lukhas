@@ -76,7 +76,7 @@ class LUKHASKnowledgeBase:
     def __init__(self, workspace_root: Path):
         self.workspace_root = workspace_root
         self.patterns = self._load_patterns()
-        self.trinity_templates = self._load_trinity_templates()
+        self.triad_templates = self._load_triad_templates()
         self.symbolic_vocabulary = self._load_symbolic_vocabulary()
 
     def _load_patterns(self) -> list[LUKHASPattern]:
@@ -119,7 +119,7 @@ class LUKHASKnowledgeBase:
             ),
         ]
 
-    def _load_trinity_templates(self) -> dict[str, str]:
+    def _load_triad_templates(self) -> dict[str, str]:
         """Load Trinity Framework documentation templates"""
         return {
             "function": '''"""
@@ -168,7 +168,7 @@ Methods:
             "dream_resonance": "Subconscious pattern matching and learning",
             "qi_consciousness": "Multi-dimensional awareness processing",
             "guardian_protocol": "Protective oversight and safety systems",
-            "trinity_framework": "Three-layer communication and processing",
+            "triad_framework": "Three-layer communication and processing",
             "consciousness_engine": "Core awareness and decision processing",
             "neural_symphony": "Harmonized multi-agent cognitive processing",
             "qi_potential": "Unexpressed possibilities in the system",
@@ -212,7 +212,7 @@ class LUKHASMCPServer:
                     },
                 ),
                 types.Tool(
-                    name="generate_trinity_documentation",
+                    name="generate_triad_documentation",
                     description="Generate Trinity Framework documentation for code elements",
                     inputSchema={
                         "type": "object",
@@ -313,8 +313,8 @@ class LUKHASMCPServer:
                 )
                 return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
 
-            elif name == "generate_trinity_documentation":
-                result = await self._generate_trinity_docs(
+            elif name == "generate_triad_documentation":
+                result = await self._generate_triad_docs(
                     arguments.get("element_type"),
                     arguments.get("element_name"),
                     arguments.get("signature", ""),
@@ -373,15 +373,15 @@ class LUKHASMCPServer:
             "compliance_score": score,
             "issues": issues,
             "suggestions": suggestions,
-            "trinity_framework_present": "🎭" in code and "🌈" in code and "🎓" in code,
+            "triad_framework_present": "🎭" in code and "🌈" in code and "🎓" in code,
             "symbolic_integration": has_symbols,
             "lukhas_naming_present": has_lukhas_naming,
         }
 
-    async def _generate_trinity_docs(self, element_type: str, element_name: str, signature: str, context: str) -> str:
+    async def _generate_triad_docs(self, element_type: str, element_name: str, signature: str, context: str) -> str:
         """Generate Trinity Framework documentation"""
-        template = self.knowledge_base.trinity_templates.get(
-            element_type, self.knowledge_base.trinity_templates["function"]
+        template = self.knowledge_base.triad_templates.get(
+            element_type, self.knowledge_base.triad_templates["function"]
         )
 
         # Generate context-appropriate content

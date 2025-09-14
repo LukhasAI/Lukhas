@@ -5,6 +5,8 @@ LUKHAS AI Branding Module
 Official branding, terminology, and symbolic vocabulary for LUKHAS consciousness systems.
 """
 
+from __future__ import annotations
+
 # Trinity Framework Symbols
 TRINITY_IDENTITY = "⚛️"
 TRINITY_CONSCIOUSNESS = "🧠"
@@ -43,7 +45,7 @@ def get_version():
     return "1.0.0"
 
 
-def get_trinity_framework():
+def get_triad_framework():
     """Get Trinity Framework description."""
     return f"{TRINITY_IDENTITY} Identity - {TRINITY_CONSCIOUSNESS} Consciousness - {TRINITY_GUARDIAN} Guardian"
 
@@ -54,7 +56,7 @@ def get_branding_info():
         "name": LUKHAS_NAME,
         "full_name": LUKHAS_FULL_NAME,
         "version": get_version(),
-        "trinity": get_trinity_framework(),
+        "trinity": get_triad_framework(),
         "symbols": LAMBDA_SYMBOLS,
         "colors": COLORS,
     }
@@ -70,6 +72,6 @@ __all__ = [
     "LAMBDA_SYMBOLS",
     "COLORS",
     "get_version",
-    "get_trinity_framework",
+    "get_triad_framework",
     "get_branding_info",
 ]

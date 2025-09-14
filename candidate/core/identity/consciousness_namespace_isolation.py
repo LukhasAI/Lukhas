@@ -1,5 +1,6 @@
 import logging
 import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+
 logger = logging.getLogger(__name__)
 """
 ╔══════════════════════════════════════════════════════════════
@@ -29,7 +30,10 @@ from typing import Any, Optional
 
 # Import MΛTRIZ consciousness components
 try:
-    from ..matriz_consciousness_signals import ConsciousnessSignal, ConstellationStar  # TODO[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
+    from ..matriz_consciousness_signals import (
+        ConsciousnessSignal,
+        ConstellationStar,
+    )  # TODO[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
     from .matriz_consciousness_identity_signals import (
         IdentitySignalType,
         NamespaceIsolationData,
@@ -98,7 +102,7 @@ class NamespacePolicy:
 
     # Security and compliance
     audit_requirements: list[str] = field(default_factory=lambda: ["access_log", "identity_verification"])
-    compliance_frameworks: list[str] = field(default_factory=lambda: ["constitutional_ai", "trinity_framework"])
+    compliance_frameworks: list[str] = field(default_factory=lambda: ["constitutional_ai", "triad_framework"])
 
     # Temporal policies
     access_time_limits: dict[str, int] = field(default_factory=dict)  # Minutes
@@ -141,7 +145,7 @@ class NamespaceInstance:
     # Audit trail
     audit_events: list[dict[str, Any]] = field(default_factory=list)
     compliance_status: dict[str, bool] = field(
-        default_factory=lambda: {"constitutional_ai": True, "trinity_framework": True}
+        default_factory=lambda: {"constitutional_ai": True, "triad_framework": True}
     )
 
 

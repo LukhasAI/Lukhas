@@ -396,7 +396,7 @@ class AdvancedHaikuGenerator:
         if BRANDING_BRIDGE_AVAILABLE:
             brand_context = BrandContext(
                 voice_profile="consciousness",
-                trinity_emphasis="consciousness",
+                triad_emphasis="consciousness",
                 creative_mode=True,
                 compliance_level="standard",
             )

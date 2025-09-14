@@ -495,7 +495,7 @@ todo-unused-check:
 	@echo "⚛️ Ensuring all unused imports are properly documented"
 	python3 tools/ci/check_unused_imports_todo.py
 
-# T4 candidate promotion helper  
+# T4 candidate promotion helper
 todo-unused-candidate:
 	@echo "🎯 T4 UNUSED IMPORTS ANNOTATOR - Candidate Directory"
 	@echo "⚛️ Preparing experimental code for production promotion"
@@ -611,3 +611,16 @@ test-jules06:
 	  --cov-branch \
 	  --cov-report=xml:reports/tests/cov_adapters.xml \
 	  --cov-report=term-missing
+# AI interface audit rollup (JSONL -> CSV evidence ledger)
+.PHONY: audit-rollup audit-dashboard
+
+audit-rollup:
+	@echo "📥 Rolling up AI audit JSONL into evidence ledger CSV..."
+	@python3 tools/reports/ai_audit_rollup.py
+	@echo "✅ Evidence ledger updated: reports/audit/merged/evidence_ledger.csv"
+
+# Generate a simple dashboard from evidence ledger CSV
+audit-dashboard: audit-rollup
+	@echo "📊 Generating AI audit dashboard..."
+	@python3 tools/reports/ai_audit_dashboard.py
+	@echo "✅ Dashboard: reports/dashboard/ai_audit_summary.md"

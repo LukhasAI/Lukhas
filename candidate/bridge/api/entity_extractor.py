@@ -442,7 +442,7 @@ class EntityExtractor:
             "actions": [],
             "tiers": [],
             "concepts": [],
-            "trinity_components": set(),
+            "triad_components": set(),
         }
 
         # Categorize entities
@@ -457,7 +457,7 @@ class EntityExtractor:
                 )
                 # Check for Trinity components
                 if entity.value in ["⚛️", "🧠", "🛡️"]:
-                    context["trinity_components"].add(entity.metadata.get("name", ""))
+                    context["triad_components"].add(entity.metadata.get("name", ""))
 
             elif entity.type == EntityType.MODULE:
                 context["modules"].append(
@@ -508,11 +508,11 @@ class EntityExtractor:
                 context["tiers"].append(entity.value)
 
         # Convert constellation components set to list
-        context["trinity_components"] = list(context["trinity_components"])
+        context["triad_components"] = list(context["triad_components"])
 
         # Add summary
         context["summary"] = {
-            "has_trinity_reference": len(context["trinity_components"]) > 0,
+            "has_triad_reference": len(context["triad_components"]) > 0,
             "glyph_count": len(context["glyphs"]),
             "module_count": len(context["modules"]),
             "has_time_reference": len(context["times"]) > 0,

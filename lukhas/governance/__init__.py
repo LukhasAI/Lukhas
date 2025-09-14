@@ -173,12 +173,12 @@ except ImportError as e:
 # Version and capability information
 __version__ = "1.0.0"
 __phase__ = "Phase 7 - Registry Updates and Policy Integration"
-__trinity_framework__ = "Identity-Consciousness-Guardian"
+__triad_framework__ = "Identity-Consciousness-Guardian"
 
 GOVERNANCE_INFO = {
     "version": __version__,
     "phase": __phase__,
-    "trinity_framework": __trinity_framework__,
+    "triad_framework": __triad_framework__,
     "guardian_system_version": "1.0.0",
     "drift_threshold": 0.15,
     "constitutional_ai": True,
@@ -234,7 +234,7 @@ def get_governance_status():
     status = {
         "version": __version__,
         "phase": __phase__,
-        "trinity_framework": __trinity_framework__,
+        "triad_framework": __triad_framework__,
         "components": {
             "guardian_system": GuardianSystem is not None,
             "constitutional_ai": ConstitutionalAI is not None,
@@ -275,7 +275,7 @@ def initialize_governance_system(config=None):
         if integration_system:
             # This would be async in practice, but providing sync interface
             print(f"LUKHAS Governance System initialized: {__phase__}")
-            print(f"Trinity Framework: {__trinity_framework__}")
+            print(f"Trinity Framework: {__triad_framework__}")
             print("Guardian System v1.0.0 with drift threshold: 0.15")
             print(f"Phase 7 ID integration: {' Available' if PHASE_7_AVAILABLE else 'L Not Available'}")
 
@@ -312,7 +312,7 @@ __all__ = [
     "GuardianSystem",
     "SafetyResult",
     "__phase__",
-    "__trinity_framework__",
+    "__triad_framework__",
     # Version and info
     "__version__",
     "check_safety",
@@ -368,7 +368,7 @@ if PHASE_7_AVAILABLE:
 try:
     if PHASE_7_AVAILABLE and lukhas_auth_integration_system:
         print(f" LUKHAS AI Governance Module loaded: {__phase__}")
-        print(f"< Trinity Framework: {__trinity_framework__}")
+        print(f"< Trinity Framework: {__triad_framework__}")
         print(" Phase 7 ID Integration: Available")
     else:
         print(" LUKHAS AI Governance Module loaded: Basic functionality")

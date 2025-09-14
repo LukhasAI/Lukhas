@@ -17,14 +17,16 @@ logger = logging.getLogger(__name__)
 
 class OrchestrationMode(Enum):
     """Modes for dream orchestration."""
+
     PASSIVE_MONITORING = "passive_monitoring"
     ACTIVE_COORDINATION = "active_coordination"
     DEEP_INTEGRATION = "deep_integration"
-    TRINITY_SYNCHRONIZATION = "trinity_synchronization"
+    TRINITY_SYNCHRONIZATION = "triad_synchronization"
 
 
 class OrchestrationStatus(Enum):
     """Status of orchestration operations."""
+
     IDLE = "idle"
     INITIALIZING = "initializing"
     COORDINATING = "coordinating"
@@ -53,7 +55,7 @@ class DreamOrchestrationHub:
             "instance": component_instance,
             "registered_at": datetime.now(timezone.utc).isoformat(),
             "status": "active",
-            "trinity_validated": True
+            "triad_validated": True,
         }
 
         logger.info(f"⚛️ Component registered: {component_name}")
@@ -74,7 +76,7 @@ class DreamOrchestrationHub:
             "components_involved": [],
             "coordination_events": [],
             "status": OrchestrationStatus.INITIALIZING.value,
-            "trinity_validated": False
+            "triad_validated": False,
         }
 
         self.active_sessions[session_id] = session
@@ -123,11 +125,9 @@ class DreamOrchestrationHub:
             coordination_results.append(phase_result)
 
             # Log coordination event
-            session["coordination_events"].append({
-                "phase": i,
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-                "result": phase_result
-            })
+            session["coordination_events"].append(
+                {"phase": i, "timestamp": datetime.now(timezone.utc).isoformat(), "result": phase_result}
+            )
 
         # Calculate overall coordination quality
         coordination_quality = self._calculate_coordination_quality(coordination_results)
@@ -136,12 +136,12 @@ class DreamOrchestrationHub:
             "session_id": session_id,
             "phases_coordinated": len(dream_sequence),
             "coordination_quality": coordination_quality,
-            "trinity_synchronization": coordination_quality > 0.8,
-            "completed_at": datetime.now(timezone.utc).isoformat()
+            "triad_synchronization": coordination_quality > 0.8,
+            "completed_at": datetime.now(timezone.utc).isoformat(),
         }
 
         # Update session
-        session["trinity_validated"] = coordination_quality > 0.8
+        session["triad_validated"] = coordination_quality > 0.8
         if coordination_quality > 0.8:
             session["status"] = OrchestrationStatus.COMPLETE.value
 
@@ -159,11 +159,11 @@ class DreamOrchestrationHub:
             "phase_index": phase_index,
             "coordination_score": min(coordination_score, 1.0),
             "components_engaged": len(session["components_involved"]),
-            "trinity_aspects": {
+            "triad_aspects": {
                 "identity_preservation": 0.88,
                 "consciousness_integration": 0.92,
-                "guardian_validation": 0.85
-            }
+                "guardian_validation": 0.85,
+            },
         }
 
         # Simulate async processing delay
@@ -179,7 +179,7 @@ class DreamOrchestrationHub:
         total_score = sum(result["coordination_score"] for result in coordination_results)
         return total_score / len(coordination_results)
 
-    def synchronize_trinity_framework(self, session_id: str) -> dict[str, Any]:
+    def synchronize_triad_framework(self, session_id: str) -> dict[str, Any]:
         """🛡️ Synchronize Trinity Framework across orchestration components."""
         if session_id not in self.active_sessions:
             return {"error": "Session not found"}
@@ -188,29 +188,31 @@ class DreamOrchestrationHub:
         self.orchestration_status = OrchestrationStatus.SYNCHRONIZING
 
         # Perform Trinity synchronization
-        trinity_sync = {
+        triad_sync = {
             "session_id": session_id,
             "identity_coherence": 0.91,
             "consciousness_alignment": 0.89,
             "guardian_validation": 0.93,
-            "overall_trinity_score": 0.91,
-            "synchronized_at": datetime.now(timezone.utc).isoformat()
+            "overall_triad_score": 0.91,
+            "synchronized_at": datetime.now(timezone.utc).isoformat(),
         }
 
         # Update session with Trinity validation
-        session["trinity_validated"] = trinity_sync["overall_trinity_score"] > 0.85
+        session["triad_validated"] = triad_sync["overall_triad_score"] > 0.85
 
         # Log synchronization
-        self.coordination_log.append({
-            "type": "trinity_synchronization",
-            "session_id": session_id,
-            "result": trinity_sync,
-            "timestamp": datetime.now(timezone.utc).isoformat()
-        })
+        self.coordination_log.append(
+            {
+                "type": "triad_synchronization",
+                "session_id": session_id,
+                "result": triad_sync,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+        )
 
         self.orchestration_status = OrchestrationStatus.COORDINATING
-        logger.info(f"🛡️ Trinity Framework synchronized: {session_id} - Score: {trinity_sync['overall_trinity_score']:.2f}")
-        return trinity_sync
+        logger.info(f"🛡️ Trinity Framework synchronized: {session_id} - Score: {triad_sync['overall_triad_score']:.2f}")
+        return triad_sync
 
     def get_orchestration_status(self, session_id: Optional[str] = None) -> dict[str, Any]:
         """Get orchestration status information."""
@@ -225,7 +227,7 @@ class DreamOrchestrationHub:
                 "mode": session["mode"],
                 "components_involved": len(session["components_involved"]),
                 "coordination_events": len(session["coordination_events"]),
-                "trinity_validated": session["trinity_validated"]
+                "triad_validated": session["triad_validated"],
             }
         else:
             return {
@@ -233,7 +235,7 @@ class DreamOrchestrationHub:
                 "active_sessions": len(self.active_sessions),
                 "registered_components": len(self.registered_components),
                 "total_coordination_events": len(self.coordination_log),
-                "system_health": "optimal"
+                "system_health": "optimal",
             }
 
     def end_orchestration_session(self, session_id: str) -> dict[str, Any]:
@@ -249,9 +251,9 @@ class DreamOrchestrationHub:
             "mode": session["mode"],
             "components_involved": session["components_involved"],
             "total_coordination_events": len(session["coordination_events"]),
-            "trinity_validated": session["trinity_validated"],
+            "triad_validated": session["triad_validated"],
             "final_status": session["status"],
-            "ended_at": datetime.now(timezone.utc).isoformat()
+            "ended_at": datetime.now(timezone.utc).isoformat(),
         }
 
         # Update hub status if no active sessions
@@ -269,16 +271,16 @@ class DreamOrchestrationHub:
         if not self.coordination_log:
             return {"analytics": "No coordination events recorded"}
 
-        trinity_sync_events = [event for event in self.coordination_log if event["type"] == "trinity_synchronization"]
+        triad_sync_events = [event for event in self.coordination_log if event["type"] == "triad_synchronization"]
 
         analytics = {
             "total_sessions_created": total_sessions,
             "currently_active_sessions": active_sessions,
             "total_coordination_events": len(self.coordination_log),
-            "trinity_synchronization_events": len(trinity_sync_events),
+            "triad_synchronization_events": len(triad_sync_events),
             "registered_components": list(self.registered_components.keys()),
             "hub_operational_time": "calculated",
-            "system_performance": "optimal"
+            "system_performance": "optimal",
         }
 
         return analytics

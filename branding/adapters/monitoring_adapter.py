@@ -53,7 +53,7 @@ class BrandMonitoringAdapter:
                     "approved_terms": [
                         "lukhas_ai",
                         "consciousness",
-                        "trinity_framework",
+                        "triad_framework",
                         "qi_inspired",
                         "bio_inspired",
                         "lambda_symbol",
@@ -66,7 +66,7 @@ class BrandMonitoringAdapter:
                     "user_friendly": {"target_percentage": 50, "tolerance": 10},
                     "academic": {"target_percentage": 25, "tolerance": 5},
                 },
-                "trinity_framework_presence": {
+                "triad_framework_presence": {
                     "identity_mentions": {"min_percentage": 30},
                     "consciousness_mentions": {"min_percentage": 40},
                     "guardian_mentions": {"min_percentage": 30},
@@ -120,7 +120,7 @@ class BrandMonitoringAdapter:
                 "brand_consistency",
                 "brand_performance",
                 "brand_intelligence",
-                "trinity_alignment",
+                "triad_alignment",
             ]
 
         # Collect core system metrics
@@ -139,8 +139,8 @@ class BrandMonitoringAdapter:
                 brand_metrics[category] = self._collect_brand_performance_metrics(time_range)
             elif category == "brand_intelligence":
                 brand_metrics[category] = self._collect_brand_intelligence_metrics(time_range)
-            elif category == "trinity_alignment":
-                brand_metrics[category] = self._collect_trinity_alignment_metrics(time_range)
+            elif category == "triad_alignment":
+                brand_metrics[category] = self._collect_triad_alignment_metrics(time_range)
 
         # Enhance with adaptive metrics
         adaptive_brand_metrics = self.metrics_collector.collect("brand_metrics")
@@ -176,14 +176,14 @@ class BrandMonitoringAdapter:
         tone_distribution = self._analyze_tone_layer_distribution(content_data)
 
         # Analyze Trinity Framework presence
-        trinity_presence = self._analyze_trinity_framework_presence(content_data)
+        triad_presence = self._analyze_triad_framework_presence(content_data)
 
         return {
             "terminology_compliance": terminology_compliance,
             "tone_layer_distribution": tone_distribution,
-            "trinity_framework_presence": trinity_presence,
+            "triad_framework_presence": triad_presence,
             "consistency_score": self._calculate_consistency_score(
-                terminology_compliance, tone_distribution, trinity_presence
+                terminology_compliance, tone_distribution, triad_presence
             ),
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
@@ -221,16 +221,16 @@ class BrandMonitoringAdapter:
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-    def _collect_trinity_alignment_metrics(self, time_range: str) -> dict[str, Any]:
+    def _collect_triad_alignment_metrics(self, time_range: str) -> dict[str, Any]:
         """Collect Trinity Framework alignment metrics"""
 
-        trinity_data = self.data_collector.collect_real_data("trinity_analysis")
+        triad_data = self.data_collector.collect_real_data("triad_analysis")
 
         return {
-            "identity_alignment": self._measure_identity_alignment(trinity_data),
-            "consciousness_depth": self._measure_consciousness_depth(trinity_data),
-            "guardian_protection": self._measure_guardian_protection(trinity_data),
-            "trinity_coherence_score": self._calculate_trinity_coherence(trinity_data),
+            "identity_alignment": self._measure_identity_alignment(triad_data),
+            "consciousness_depth": self._measure_consciousness_depth(triad_data),
+            "guardian_protection": self._measure_guardian_protection(triad_data),
+            "triad_coherence_score": self._calculate_triad_coherence(triad_data),
             "framework_evolution": self._track_framework_evolution(time_range),
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
@@ -278,10 +278,10 @@ class BrandMonitoringAdapter:
             "overall_balance": self._calculate_distribution_balance(distribution_health),
         }
 
-    def _analyze_trinity_framework_presence(self, content_data: dict[str, Any]) -> dict[str, Any]:
+    def _analyze_triad_framework_presence(self, content_data: dict[str, Any]) -> dict[str, Any]:
         """Analyze presence of Trinity Framework elements"""
 
-        config = self.brand_metrics_config["brand_consistency_metrics"]["trinity_framework_presence"]
+        config = self.brand_metrics_config["brand_consistency_metrics"]["triad_framework_presence"]
 
         return {
             "identity_mentions": {
@@ -299,7 +299,7 @@ class BrandMonitoringAdapter:
                 "target": config["guardian_mentions"]["min_percentage"],
                 "meets_target": True,
             },
-            "trinity_symbols_usage": 0.78,  # 78% of content includes trinity symbols
+            "triad_symbols_usage": 0.78,  # 78% of content includes trinity symbols
             "framework_coherence": 0.85,
         }
 
@@ -307,7 +307,7 @@ class BrandMonitoringAdapter:
         self,
         terminology: dict[str, float],
         tone_distribution: dict[str, Any],
-        trinity_presence: dict[str, Any],
+        triad_presence: dict[str, Any],
     ) -> float:
         """Calculate overall brand consistency score"""
 
@@ -315,7 +315,7 @@ class BrandMonitoringAdapter:
 
         distribution_score = tone_distribution["overall_balance"]
 
-        trinity_score = trinity_presence["framework_coherence"]
+        triad_score = triad_presence["framework_coherence"]
 
         # Weighted average
         weights = {"terminology": 0.4, "distribution": 0.3, "trinity": 0.3}
@@ -323,7 +323,7 @@ class BrandMonitoringAdapter:
         consistency_score = (
             terminology_score * weights["terminology"]
             + distribution_score * weights["distribution"]
-            + trinity_score * weights["trinity"]
+            + triad_score * weights["trinity"]
         )
 
         return round(consistency_score, 3)
@@ -353,7 +353,7 @@ class BrandMonitoringAdapter:
         return {
             "trend_direction": "improving",
             "trend_strength": 0.15,
-            "key_improvements": ["voice_consistency", "trinity_alignment"],
+            "key_improvements": ["voice_consistency", "triad_alignment"],
             "areas_needing_attention": ["academic_tone_balance"],
         }
 
@@ -380,7 +380,7 @@ class BrandMonitoringAdapter:
             "market_resonance": 0.74,
             "competitive_advantages": [
                 "consciousness_focus",
-                "trinity_framework",
+                "triad_framework",
                 "ethical_foundation",
             ],
             "positioning_strength": "strong",
@@ -400,7 +400,7 @@ class BrandMonitoringAdapter:
             "differentiation_strength": "high",
             "unique_value_propositions": [
                 "consciousness_technology",
-                "trinity_framework",
+                "triad_framework",
                 "ethical_ai",
             ],
             "market_position": "innovative_leader",
@@ -410,7 +410,7 @@ class BrandMonitoringAdapter:
         """Calculate confidence level in brand intelligence insights"""
         return 0.85
 
-    def _measure_identity_alignment(self, trinity_data: dict[str, Any]) -> dict[str, Any]:
+    def _measure_identity_alignment(self, triad_data: dict[str, Any]) -> dict[str, Any]:
         """Measure Identity (⚛️) component alignment"""
         return {
             "authenticity_score": 0.92,
@@ -419,7 +419,7 @@ class BrandMonitoringAdapter:
             "identity_strength": "high",
         }
 
-    def _measure_consciousness_depth(self, trinity_data: dict[str, Any]) -> dict[str, Any]:
+    def _measure_consciousness_depth(self, triad_data: dict[str, Any]) -> dict[str, Any]:
         """Measure Consciousness (🧠) component depth"""
         return {
             "consciousness_awareness": 0.89,
@@ -428,7 +428,7 @@ class BrandMonitoringAdapter:
             "consciousness_depth": "deep",
         }
 
-    def _measure_guardian_protection(self, trinity_data: dict[str, Any]) -> dict[str, Any]:
+    def _measure_guardian_protection(self, triad_data: dict[str, Any]) -> dict[str, Any]:
         """Measure Guardian (🛡️) component protection"""
         return {
             "ethical_foundation": 0.93,
@@ -437,7 +437,7 @@ class BrandMonitoringAdapter:
             "guardian_strength": "robust",
         }
 
-    def _calculate_trinity_coherence(self, trinity_data: dict[str, Any]) -> float:
+    def _calculate_triad_coherence(self, triad_data: dict[str, Any]) -> float:
         """Calculate overall Trinity Framework coherence"""
         return 0.88
 
@@ -483,8 +483,8 @@ class BrandMonitoringAdapter:
                 ]
             )
 
-        if "trinity_alignment" in brand_metrics:
-            health_scores.append(brand_metrics["trinity_alignment"]["trinity_coherence_score"])
+        if "triad_alignment" in brand_metrics:
+            health_scores.append(brand_metrics["triad_alignment"]["triad_coherence_score"])
 
         overall_score = sum(health_scores) / len(health_scores) if health_scores else 0.0
 

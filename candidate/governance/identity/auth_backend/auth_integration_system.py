@@ -185,7 +185,7 @@ class LUKHASAuthIntegrationSystem:
             },
             "cross_module": {
                 "propagate_context": True,
-                "trinity_integration": True,
+                "triad_integration": True,
                 "real_time_sync": True,
             },
             "monitoring": {
@@ -389,7 +389,7 @@ class LUKHASAuthIntegrationSystem:
 
                 result["glyph_data"] = {
                     "composite_glyph": symbolic_identity.composite_glyph,
-                    "trinity_glyph": symbolic_identity.trinity_glyph,
+                    "triad_glyph": symbolic_identity.triad_glyph,
                     "jwt_glyph_identity": glyph_claims.get("glyph_identity"),
                 }
 
@@ -712,7 +712,7 @@ class LUKHASAuthIntegrationSystem:
             "configuration": self.config,
             "version": "1.0.0",
             "phase": "Phase 7 - Registry Updates and Policy Integration",
-            "trinity_framework": "⚛️🧠🛡️",
+            "triad_framework": "⚛️🧠🛡️",
             "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 

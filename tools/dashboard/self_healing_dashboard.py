@@ -69,7 +69,7 @@ class SystemHealthMetrics:
     predicted_issues: int
     active_monitors: int
     lane_compliance: dict[str, float]
-    trinity_status: dict[str, str]  # ⚛️🧠🛡️
+    triad_status: dict[str, str]  # ⚛️🧠🛡️
 
 
 @dataclass
@@ -139,7 +139,7 @@ class SelfHealingDashboard:
         self.performance_cache = {}
 
         # Initialize Trinity Framework symbols
-        self.trinity_symbols = {"quantum": "⚛️", "consciousness": "🧠", "guardian": "🛡️"}
+        self.triad_symbols = {"quantum": "⚛️", "consciousness": "🧠", "guardian": "🛡️"}
 
         self._initialize_components()
 
@@ -205,7 +205,7 @@ class SelfHealingDashboard:
                 lane_compliance = {lane: 85.0 for lane in self.state.active_lanes}
 
         # Trinity Framework status
-        trinity_status = await self._check_trinity_status()
+        triad_status = await self._check_triad_status()
 
         # ML predictions
         if self.components.get("error_learner"):
@@ -250,7 +250,7 @@ class SelfHealingDashboard:
             predicted_issues=predicted_issues,
             active_monitors=active_monitors,
             lane_compliance=lane_compliance,
-            trinity_status=trinity_status,
+            triad_status=triad_status,
         )
 
     async def _check_lane_compliance(self, lane: str) -> float:
@@ -285,7 +285,7 @@ class SelfHealingDashboard:
             logger.warning(f"Lane compliance check failed for {lane}: {e}")
             return 85.0
 
-    async def _check_trinity_status(self) -> dict[str, str]:
+    async def _check_triad_status(self) -> dict[str, str]:
         """Check Trinity Framework component status"""
         return {
             "quantum": "operational",  # ⚛️
@@ -364,10 +364,10 @@ class SelfHealingDashboard:
                 lane_status[lane] = {"status": "non-compliant", "icon": "❌"}
 
         # Trinity Framework status
-        trinity_display = {}
-        for component, symbol in self.trinity_symbols.items():
-            component_status = metrics.trinity_status.get(component, "unknown")
-            trinity_display[component] = {
+        triad_display = {}
+        for component, symbol in self.triad_symbols.items():
+            component_status = metrics.triad_status.get(component, "unknown")
+            triad_display[component] = {
                 "symbol": symbol,
                 "status": component_status,
                 "icon": "🟢" if component_status == "operational" else "🔴",
@@ -384,7 +384,7 @@ class SelfHealingDashboard:
                 "active_monitors": metrics.active_monitors,
             },
             "lane_compliance": lane_status,
-            "trinity_framework": trinity_display,
+            "triad_framework": triad_display,
             "alerts": self.alerts[-5:],  # Last 5 alerts
             "recommendations": self._generate_recommendations(metrics),
         }
@@ -420,7 +420,7 @@ class SelfHealingDashboard:
         print("\n" + "=" * 80)
         print("🤖 LUKHAS SELF-HEALING AUTOMATION DASHBOARD")
         print("=" * 80)
-        print(f"⚛️🧠🛡️ Trinity Framework Status: {' '.join([d['icon'] for d in report['trinity_framework'].values()])}")
+        print(f"⚛️🧠🛡️ Trinity Framework Status: {' '.join([d['icon'] for d in report['triad_framework'].values()])}")
         print(f"🕐 Last Update: {datetime.fromisoformat(report['timestamp']).strftime('%Y-%m-%d %H:%M:%S UTC')}")
         print()
 
@@ -448,7 +448,7 @@ class SelfHealingDashboard:
         # Trinity Framework
         print("⚛️🧠🛡️ TRINITY FRAMEWORK")
         print("-" * 20)
-        for component, info in report["trinity_framework"].items():
+        for component, info in report["triad_framework"].items():
             print(f"{info['icon']} {info['symbol']} {component.title()}: {info['status']}")
         print()
 

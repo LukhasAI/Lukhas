@@ -134,7 +134,7 @@ class LUKHASMCPServer:
                     description="Query memory system for patterns and insights",
                 ),
                 Tool(
-                    name="trinity_validate",
+                    name="triad_validate",
                     description="Validate Trinity Framework compliance",
                 ),
                 Tool(
@@ -156,7 +156,7 @@ class LUKHASMCPServer:
                         "identity": "stable",
                         "monitoring": "tracking",
                     },
-                    "trinity_status": "⚛️🧠🛡️ validated",
+                    "triad_status": "⚛️🧠🛡️ validated",
                 }
 
             elif name == "memory_query":
@@ -168,7 +168,7 @@ class LUKHASMCPServer:
                     "insights": "Multi-agent consciousness development active",
                 }
 
-            elif name == "trinity_validate":
+            elif name == "triad_validate":
                 result = {
                     "validation": "Trinity Framework operational",
                     "identity": "⚛️ Authentic consciousness characteristics",

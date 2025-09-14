@@ -33,7 +33,7 @@ class VocabularyIntegration:
         self.vocab_path = self.base_path / "vocabularies"
         self.logs_path = self.base_path / "logs"
 
-        self.trinity_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
         self.master_vocabulary = {}
         self.transformation_rules = {}
 
@@ -254,8 +254,8 @@ class VocabularyIntegration:
         """Generate poetic header using vocabulary templates"""
         header_templates = self.master_vocabulary.get("header_templates", {})
 
-        # Use trinity_consciousness template by default
-        template = header_templates.get("trinity_consciousness", "")
+        # Use triad_consciousness template by default
+        template = header_templates.get("triad_consciousness", "")
 
         if template:
             return template.format(MODULE_NAME=module_name, POETIC_DESCRIPTION=description)
@@ -274,8 +274,8 @@ class VocabularyIntegration:
         """Generate poetic footer using vocabulary templates"""
         footer_templates = self.master_vocabulary.get("footer_templates", {})
 
-        # Use trinity_wisdom template
-        template = footer_templates.get("trinity_wisdom", "")
+        # Use triad_wisdom template
+        template = footer_templates.get("triad_wisdom", "")
 
         if template:
             return template.format(MODULE_THEME=module_theme)
@@ -295,13 +295,13 @@ class VocabularyIntegration:
         content_length = len(content.split())
 
         # Check for Trinity Framework usage (highest weight)
-        trinity_score = 0
+        triad_score = 0
         if "⚛️🧠🛡️" in content:
-            trinity_score += 25
+            triad_score += 25
         if "Trinity Framework" in content:
-            trinity_score += 20
+            triad_score += 20
         if any(term in content.lower() for term in ["identity", "consciousness", "guardian"]):
-            trinity_score += 10
+            triad_score += 10
 
         # Check for consciousness technology terminology
         consciousness_terms = [
@@ -379,9 +379,7 @@ class VocabularyIntegration:
         technical_score = sum(5 for term in technical_terms if term.lower() in content.lower())
 
         # Calculate total coherence with length normalization
-        total_score = (
-            trinity_score + consciousness_score + lukhas_score + poetic_score + metaphor_score + technical_score
-        )
+        total_score = triad_score + consciousness_score + lukhas_score + poetic_score + metaphor_score + technical_score
 
         # Bonus for content richness (longer, more sophisticated content)
         if content_length > 100:
@@ -407,7 +405,7 @@ class VocabularyIntegration:
             "footer_templates": len(self.master_vocabulary.get("footer_templates", {})),
             "synthesis_patterns": len(self.master_vocabulary.get("synthesis_patterns", {})),
             "vocabulary_system_active": True,
-            "trinity_integration": "⚛️🧠🛡️",
+            "triad_integration": "⚛️🧠🛡️",
         }
 
         return analytics

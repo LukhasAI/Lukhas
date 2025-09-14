@@ -34,7 +34,7 @@ class MemorySession:
     glyphs: list[str]
     entropy: float
     drift_score: float
-    trinity_coherence: float
+    triad_coherence: float
     persona: str
     intervention_applied: bool
     healing_delta: Optional[float] = None
@@ -130,7 +130,7 @@ class SymbolicMemoryManager:
             glyphs=assessment.get("glyph_trace", []),
             entropy=assessment.get("entropy_level", 0),
             drift_score=assessment.get("symbolic_drift_score", 0),
-            trinity_coherence=assessment.get("trinity_coherence", 0),
+            triad_coherence=assessment.get("triad_coherence", 0),
             persona=assessment.get("persona_alignment", "Unknown"),
             intervention_applied=assessment.get("intervention_required", False),
             healing_delta=healing_delta,
@@ -201,13 +201,13 @@ class SymbolicMemoryManager:
         # Extract metrics
         drift_scores = [s["drift_score"] for s in recent]
         entropy_levels = [s["entropy"] for s in recent]
-        trinity_scores = [s["trinity_coherence"] for s in recent]
+        triad_scores = [s["triad_coherence"] for s in recent]
         personas = [s["persona"] for s in recent]
 
         # Calculate trends
         avg_drift = sum(drift_scores) / len(drift_scores)
         avg_entropy = sum(entropy_levels) / len(entropy_levels)
-        avg_trinity = sum(trinity_scores) / len(trinity_scores)
+        avg_trinity = sum(triad_scores) / len(triad_scores)
 
         # Detect drift direction
         if len(drift_scores) >= 3:
@@ -413,7 +413,7 @@ if __name__ == "__main__":
         "glyph_trace": ["🔥", "💀", "🌪️"],
         "guardian_flagged": True,
         "entropy_level": 0.8,
-        "trinity_coherence": 0.2,
+        "triad_coherence": 0.2,
         "persona_alignment": "The Chaos Walker",
         "intervention_required": True,
         "risk_level": "high",

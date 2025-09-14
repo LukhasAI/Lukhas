@@ -91,7 +91,7 @@ def generate_guardian_events() -> list[dict[str, Any]]:
             "description": "Guardian intervening - applying symbolic healing",
             "glyphs": ["🛡️", "✨", "🔮"],
             "intervention": {
-                "action": "trinity_harmonization",
+                "action": "triad_harmonization",
                 "sequence": ["⚛️", "→", "🧠", "→", "🛡️"],
                 "effect": "Restoring balance",
             },
@@ -103,7 +103,7 @@ def generate_guardian_events() -> list[dict[str, Any]]:
             "severity": "low",
             "description": "Drift corrected - system stabilized",
             "glyphs": ["✅", "🛡️", "🟢"],
-            "intervention": {"result": "success", "trinity_score": 0.92},
+            "intervention": {"result": "success", "triad_score": 0.92},
         },
         {
             "timestamp": "2024-01-15T14:20:00Z",
@@ -145,7 +145,7 @@ def generate_guardian_events() -> list[dict[str, Any]]:
             "glyphs": ["✅", "🛡️", "🌟"],
             "intervention": {
                 "result": "success",
-                "trinity_score": 0.95,
+                "triad_score": 0.95,
                 "lesson_learned": "Quantum module requires enhanced monitoring",
             },
         },
@@ -240,10 +240,10 @@ def print_event(event: dict[str, Any], index: int):
             result_color = Colors.GREEN if intervention["result"] == "success" else Colors.RED
             print(f"  Result: {result_color}{intervention['result'].upper()}{Colors.RESET}")
 
-        if "trinity_score" in intervention:
-            trinity = intervention["trinity_score"]
-            trinity_bar = "●" * int(trinity * 10) + "○" * (10 - int(trinity * 10))
-            print(f"  Trinity: {Colors.PURPLE}{trinity_bar}{Colors.RESET} {trinity:.2f}")
+        if "triad_score" in intervention:
+            trinity = intervention["triad_score"]
+            triad_bar = "●" * int(trinity * 10) + "○" * (10 - int(trinity * 10))
+            print(f"  Trinity: {Colors.PURPLE}{triad_bar}{Colors.RESET} {trinity:.2f}")
 
 
 def animate_transition():

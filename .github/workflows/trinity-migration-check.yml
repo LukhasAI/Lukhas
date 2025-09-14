@@ -1,0 +1,38 @@
+name: Trinity to Constellation Migration Check
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  migration-check:
+    runs-on: ubuntu-latest
+    name: Check Trinity→Constellation Migration Status
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: 🔍 Check Trinity Migration Status
+      run: .github/scripts/check-trinity-migration.sh
+
+    - name: 📊 Generate Migration Report
+      if: always()
+      run: |
+        echo "# Trinity→Constellation Migration Report" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "## Migration Framework Status" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ Constellation framework adopted" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ Trinity preserved as Triad subset (⚛️🧠🛡️)" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ Compatibility shims in place" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "## Current Phase" >> $GITHUB_STEP_SUMMARY
+        echo "**Phase 2**: Internal symbol conversion and deprecation warnings" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "## Next Steps" >> $GITHUB_STEP_SUMMARY
+        echo "1. Convert remaining trinity_ internal symbols to triad_" >> $GITHUB_STEP_SUMMARY
+        echo "2. Update documentation references" >> $GITHUB_STEP_SUMMARY
+        echo "3. Plan shim removal (2 releases after full conversion)" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "See \`PUBLIC_API.md\` for full migration details." >> $GITHUB_STEP_SUMMARY

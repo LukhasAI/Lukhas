@@ -22,7 +22,7 @@ class LukhasDatabaseIntegration:
         else:
             self.db_path = Path(db_path)
 
-        self.trinity_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
 
     def get_connection(self):
         """Get database connection"""
@@ -43,8 +43,8 @@ class LukhasDatabaseIntegration:
         cursor.execute(
             """
             INSERT INTO lukhas_content
-            (source_system, content_type, title, content, trinity_identity,
-             trinity_consciousness, trinity_guardian, voice_coherence, created_at)
+            (source_system, content_type, title, content, triad_identity,
+             triad_consciousness, triad_guardian, voice_coherence, created_at)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
             (
@@ -74,7 +74,7 @@ class LukhasDatabaseIntegration:
         cursor.execute(
             """
             SELECT id, source_system, content_type, title, content,
-                   trinity_identity, trinity_consciousness, trinity_guardian,
+                   triad_identity, triad_consciousness, triad_guardian,
                    voice_coherence, created_at
             FROM lukhas_content
             WHERE content_type = ?
@@ -96,9 +96,9 @@ class LukhasDatabaseIntegration:
                     "content_type": row[2],
                     "title": row[3],
                     "content": row[4],
-                    "trinity_identity": row[5],
-                    "trinity_consciousness": row[6],
-                    "trinity_guardian": row[7],
+                    "triad_identity": row[5],
+                    "triad_consciousness": row[6],
+                    "triad_guardian": row[7],
                     "voice_coherence": row[8],
                     "created_at": row[9],
                 }
@@ -163,7 +163,7 @@ class LukhasDatabaseIntegration:
         cursor.execute(
             """
             INSERT INTO lukhas_analytics
-            (source_system, metric_type, metric_value, trinity_component, recorded_at)
+            (source_system, metric_type, metric_value, triad_component, recorded_at)
             VALUES (?, ?, ?, ?, ?)
         """,
             (

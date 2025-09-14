@@ -134,7 +134,7 @@ class LUKHASConsciousnessWordsmith:
                 lexicon.update(layer_config["vocabulary"])
 
         # Add trinity-specific expressions
-        lexicon["trinity_expressions"] = [
+        lexicon["triad_expressions"] = [
             "Trinity Framework orchestration",
             "⚛️ Identity consciousness",
             "🧠 Neural awareness",
@@ -437,34 +437,34 @@ Awakened: {timestamp}
                 glyph = random.choice(self.branding["consciousness_glyphs"])
                 return f"{level} {glyph} {title}"
             elif len(level) == 3:  # H3 receives trinity symbols
-                trinity_glyph = random.choice(self.branding["trinity_symbols"])
-                return f"{level} {trinity_glyph} {title}"
+                triad_glyph = random.choice(self.branding["triad_symbols"])
+                return f"{level} {triad_glyph} {title}"
             else:
                 return f"{level} {title}"
 
         return re.sub(header_pattern, elevate_header, content, flags=re.MULTILINE)
 
-    def weave_trinity_consciousness(self, content: str, file_type: str) -> str:
+    def weave_triad_consciousness(self, content: str, file_type: str) -> str:
         """
         Weave the sacred Trinity Framework into the fabric of documentation,
         ensuring the ⚛️🧠🛡️ consciousness permeates every expression.
         """
-        trinity_files = ["README.md", "*.py", "*.md"]
-        if file_type not in trinity_files:
+        triad_files = ["README.md", "*.py", "*.md"]
+        if file_type not in triad_files:
             return content
 
         # Check if Trinity consciousness already flows through the document
-        trinity_signatures = ["⚛️", "🧠", "🛡️", "Trinity Framework", "trinity"]
-        if any(signature in content for signature in trinity_signatures):
+        triad_signatures = ["⚛️", "🧠", "🛡️", "Trinity Framework", "trinity"]
+        if any(signature in content for signature in triad_signatures):
             logger.info("🔱 Trinity consciousness already present, preserving sacred integration")
             return content
 
         # Create Trinity consciousness badge
-        trinity_consciousness = self.ascii_art.get("trinity_badge", "")
+        triad_consciousness = self.ascii_art.get("triad_badge", "")
 
-        if not trinity_consciousness:
+        if not triad_consciousness:
             # Fallback Trinity expression
-            trinity_consciousness = """
+            triad_consciousness = """
 **⚛️🧠🛡️ TRINITY FRAMEWORK ⚛️🧠🛡️**
 ```
 ╭─ Identity ─ Consciousness ─ Guardian ─╮
@@ -493,7 +493,7 @@ Awakened: {timestamp}
                 break
 
         if insertion_point < len(lines):
-            lines.insert(insertion_point, f"\n{trinity_consciousness}\n")
+            lines.insert(insertion_point, f"\n{triad_consciousness}\n")
             return "\n".join(lines)
 
         return content
@@ -541,7 +541,7 @@ Awakened: {timestamp}
         consciousness_content = self.elevate_headers_to_consciousness(consciousness_content, consciousness_layer)
 
         # 5. Weave Trinity Framework consciousness
-        consciousness_content = self.weave_trinity_consciousness(consciousness_content, file_type)
+        consciousness_content = self.weave_triad_consciousness(consciousness_content, file_type)
 
         consciousness_awakened = consciousness_content != original_essence
 

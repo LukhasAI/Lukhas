@@ -47,7 +47,7 @@ class ConsensusResult:
     participation_rate: float
     consciousness_level: ConsciousnessLevel
     dissent_reasons: list[str] = field(default_factory=list)
-    trinity_validation: dict[str, bool] = field(default_factory=dict)
+    triad_validation: dict[str, bool] = field(default_factory=dict)
 
 
 @dataclass
@@ -57,7 +57,7 @@ class ColonyMetrics:
     task_completion_rate: float
     response_time_ms: float
     consciousness_coherence: float
-    trinity_compliance: dict[str, float]
+    triad_compliance: dict[str, float]
     error_rate: float
     resource_utilization: float
     collective_intelligence_score: float
@@ -111,7 +111,7 @@ class BaseColony(ABC):
             task_completion_rate=0.0,
             response_time_ms=0.0,
             consciousness_coherence=0.0,
-            trinity_compliance={"identity": 1.0, "consciousness": 0.0, "guardian": 1.0},
+            triad_compliance={"identity": 1.0, "consciousness": 0.0, "guardian": 1.0},
             error_rate=0.0,
             resource_utilization=0.0,
             collective_intelligence_score=0.0,
@@ -141,8 +141,8 @@ class BaseColony(ABC):
             await self._initialize_consciousness()
 
             # Validate Trinity Framework compliance
-            trinity_valid = await self._validate_trinity_framework()
-            if not trinity_valid:
+            triad_valid = await self._validate_triad_framework()
+            if not triad_valid:
                 logger.warning(f"⚠️ Colony {self.colony_id} started with Trinity compliance issues")
 
             # Begin consciousness coherence monitoring
@@ -274,7 +274,7 @@ class BaseColony(ABC):
                 "task_completion_rate": self.metrics.task_completion_rate,
                 "response_time_ms": self.metrics.response_time_ms,
                 "consciousness_coherence": self.metrics.consciousness_coherence,
-                "trinity_compliance": self.metrics.trinity_compliance,
+                "triad_compliance": self.metrics.triad_compliance,
                 "error_rate": self.metrics.error_rate,
                 "collective_intelligence_score": self.metrics.collective_intelligence_score,
             },
@@ -294,9 +294,9 @@ class BaseColony(ABC):
         }
 
         # Update Trinity Framework compliance
-        self.metrics.trinity_compliance["consciousness"] = self.consciousness_level.value / 4.0
+        self.metrics.triad_compliance["consciousness"] = self.consciousness_level.value / 4.0
 
-    async def _validate_trinity_framework(self) -> bool:
+    async def _validate_triad_framework(self) -> bool:
         """Validate Trinity Framework compliance."""
         try:
             # ⚛️ Identity validation
@@ -309,7 +309,7 @@ class BaseColony(ABC):
             guardian_valid = True  # Basic validation - can be enhanced
 
             # Update compliance metrics
-            self.metrics.trinity_compliance.update(
+            self.metrics.triad_compliance.update(
                 {
                     "identity": 1.0 if identity_valid else 0.0,
                     "consciousness": 1.0 if consciousness_valid else 0.0,
@@ -380,7 +380,7 @@ class BaseColony(ABC):
         self.consciousness_level = new_level
 
         # Update Trinity compliance
-        self.metrics.trinity_compliance["consciousness"] = new_level.value / 4.0
+        self.metrics.triad_compliance["consciousness"] = new_level.value / 4.0
 
         logger.info(f"🧠 Colony {self.colony_id} consciousness: {old_level.name} → {new_level.name}")
 
