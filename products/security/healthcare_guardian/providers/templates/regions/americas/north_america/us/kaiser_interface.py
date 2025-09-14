@@ -7,43 +7,13 @@ comprehensive healthcare system, including both insurance and healthcare deliver
 
 from typing import Any, Optional
 
-# Fixed: Converted complex relative imports to robust absolute imports with fallback chains
-try:
-    # Try absolute import first
-    # TODO: Fix import paths - lambda directory doesn't exist
-    # from products.lambda.lambda_products_pack.lambda_core.HealthcareGuardian.providers.templates.interfaces.ehr_interface import (
-    #     EHRInterface,
-    # )
-    # from products.lambda.lambda_products_pack.lambda_core.HealthcareGuardian.providers.templates.security.security_utils import (
-    #     AuditLogger,
-    #     EncryptionHandler,
-    # )
-    EHRInterface = object  # Placeholder
-    AuditLogger = object  # Placeholder
-    EncryptionHandler = object  # Placeholder
-except ImportError:
-    try:
-        # Fallback to relative imports for existing installations
-        from ....interfaces.ehr_interface import EHRInterface
-        from ....security.security_utils import AuditLogger, EncryptionHandler
-    except ImportError:
-        # Mock fallback for development/testing
-        class EHRInterface:
-            pass
-
-        class AuditLogger:
-            def __init__(self, config):
-                pass
-
-            def log_access(self, **kwargs):
-                pass
-
-            def log_security_event(self, **kwargs):
-                pass
-
-        class EncryptionHandler:
-            def __init__(self, config):
-                pass
+from products.security.healthcare_guardian.providers.templates.interfaces.ehr_interface import (
+    EHRInterface,
+)
+from products.security.healthcare_guardian.providers.templates.security.security_utils import (
+    AuditLogger,
+    EncryptionHandler,
+)
 
 
 class KaiserPermanenteInterface(EHRInterface):

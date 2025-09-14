@@ -28,7 +28,7 @@ safety>=2.3.0
 cyclonedx-bom>=4.0.0
 
 # Chaos engineering
-chaos-toolkit>=1.16.0
+# chaos-toolkit>=1.16.0
 
 # Streamlit compatibility (if needed)
 streamlit>=1.28.0; python_version >= "3.9"

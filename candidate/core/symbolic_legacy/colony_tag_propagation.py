@@ -45,14 +45,17 @@ except ImportError:
 
 
 # TODO[GLYPH:specialist] - Create proper Tag class for consciousness communication
-class Tag:
-    """Temporary Tag implementation for GLYPH consciousness communication"""
+try:
+    from lukhas.core.tags import Tag
+except ImportError:
+    class Tag:
+        """Temporary Tag implementation for GLYPH consciousness communication"""
 
-    def __init__(self, key: str, value: Any, scope: str, confidence: float = 1.0):
-        self.key = key
-        self.value = value
-        self.scope = scope
-        self.confidence = confidence
+        def __init__(self, key: str, value: Any, scope: str, confidence: float = 1.0):
+            self.key = key
+            self.value = value
+            self.scope = scope
+            self.confidence = confidence
 
 
 class SymbolicReasoningColony(BaseColony):
