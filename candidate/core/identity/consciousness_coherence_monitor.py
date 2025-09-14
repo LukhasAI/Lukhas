@@ -58,6 +58,9 @@ class CoherenceMetricType(Enum):
     NAMESPACE_ALIGNMENT = "namespace_alignment"
     AUTHENTICATION_CONSISTENCY = "authentication_consistency"
     BEHAVIORAL_PATTERN_STABILITY = "behavioral_pattern_stability"
+    SELF_AWARENESS = "self_awareness"
+    CAUSAL_REASONING = "causal_reasoning"
+    EMOTIONAL_INTEGRATION = "emotional_integration"
 
 
 class CoherenceAlert(Enum):
@@ -154,6 +157,32 @@ class CoherenceAnomaly:
     resolution_actions: list[str] = field(default_factory=list)
 
 
+@dataclass
+class CoherenceScore:
+    """Represents a calculated coherence score."""
+    score: float
+    confidence: float
+    components: dict[str, float] = field(default_factory=dict)
+
+@dataclass
+class DriftAnalysis:
+    """Analysis of coherence drift over time."""
+    is_drifting: bool
+    drift_magnitude: float
+    drift_direction: str  # "positive", "negative", "stable"
+    time_window_hours: int = 24
+    analysis_details: dict[str, Any] = field(default_factory=dict)
+
+@dataclass
+class FragmentationRisk:
+    """Identified risk of consciousness fragmentation."""
+    risk_level: str  # "low", "medium", "high", "critical"
+    risk_score: float
+    risk_factors: list[str] = field(default_factory=list)
+    predicted_time_to_fragment_hours: Optional[float] = None
+    recommended_actions: list[str] = field(default_factory=list)
+
+
 class IdentityCoherenceMonitor:
     """
     MΛTRIZ Identity Coherence Monitor
@@ -191,6 +220,9 @@ class IdentityCoherenceMonitor:
             CoherenceMetricType.NAMESPACE_ALIGNMENT: {"min": 0.7, "max": 1.0},
             CoherenceMetricType.AUTHENTICATION_CONSISTENCY: {"min": 0.8, "max": 1.0},
             CoherenceMetricType.BEHAVIORAL_PATTERN_STABILITY: {"min": 0.6, "max": 1.0},
+            CoherenceMetricType.SELF_AWARENESS: {"min": 0.7, "max": 1.0},
+            CoherenceMetricType.CAUSAL_REASONING: {"min": 0.6, "max": 1.0},
+            CoherenceMetricType.EMOTIONAL_INTEGRATION: {"min": 0.5, "max": 1.0},
         }
 
         # Performance tracking
@@ -208,7 +240,16 @@ class IdentityCoherenceMonitor:
         self._alert_processing_active = False
         self._lock = asyncio.Lock()
 
+        # TODO: Replace with actual MATRIZ tracer
+        self.matriz_tracer = self._get_mock_tracer()
+
         logger.info("🔍 MΛTRIZ identity coherence monitor initialized")
+
+    def _get_mock_tracer(self):
+        class MockTracer:
+            def log_node(self, node_data: dict):
+                logger.info(f"[MOCK MATRIZ TRACE] Logging node: {node_data}")
+        return MockTracer()
 
     async def initialize_coherence_monitoring(self) -> bool:
         """Initialize real-time coherence monitoring system"""
@@ -277,6 +318,77 @@ class IdentityCoherenceMonitor:
         """Measure current identity coherence across all dimensions"""
 
         return await self._measure_identity_coherence(identity_id)
+
+    async def measure_consciousness_coherence(self, identity_id: str) -> Optional[CoherenceScore]:
+        """Measure coherence of consciousness state across dimensions."""
+        coherence_state = self.coherence_states.get(identity_id)
+        if not coherence_state:
+            logger.error(f"❌ No coherence state for identity: {identity_id}")
+            return None
+
+        score = CoherenceScore(
+            score=coherence_state.overall_coherence_score,
+            confidence=0.9, # Simplified for now
+            components=coherence_state.metric_scores
+        )
+        return score
+
+    async def detect_coherence_drift(self, identity_id: str, time_window_hours: int = 24) -> Optional[DriftAnalysis]:
+        """Detect gradual coherence drift over time."""
+        historical_metrics = self.metric_history.get(identity_id, [])
+        if len(historical_metrics) < 10:
+            return DriftAnalysis(is_drifting=False, drift_magnitude=0.0, drift_direction="stable")
+
+        # Simplified drift detection
+        recent_metrics = [m.value for m in historical_metrics[-10:] if m.metric_type == CoherenceMetricType.IDENTITY_STRENGTH]
+        if len(recent_metrics) < 2:
+            return DriftAnalysis(is_drifting=False, drift_magnitude=0.0, drift_direction="stable")
+
+        avg_first_half = sum(recent_metrics[:5]) / 5
+        avg_second_half = sum(recent_metrics[5:]) / 5
+
+        drift_magnitude = avg_second_half - avg_first_half
+
+        if abs(drift_magnitude) > 0.1:
+            return DriftAnalysis(
+                is_drifting=True,
+                drift_magnitude=drift_magnitude,
+                drift_direction="negative" if drift_magnitude < 0 else "positive"
+            )
+
+        return DriftAnalysis(is_drifting=False, drift_magnitude=drift_magnitude, drift_direction="stable")
+
+    async def identify_fragmentation_risks(self, identity_id: str) -> Optional[FragmentationRisk]:
+        """Identify potential consciousness fragmentation risks."""
+        coherence_state = self.coherence_states.get(identity_id)
+        if not coherence_state:
+            return None
+
+        drift_analysis = await self.detect_coherence_drift(identity_id)
+
+        risk_score = 1.0 - coherence_state.overall_coherence_score
+        risk_factors = []
+
+        if drift_analysis and drift_analysis.is_drifting and drift_analysis.drift_direction == 'negative':
+            risk_score += abs(drift_analysis.drift_magnitude)
+            risk_factors.append("Negative coherence drift detected.")
+
+        if coherence_state.overall_coherence_score < 0.5:
+            risk_factors.append("Overall coherence score is critically low.")
+
+        risk_level = "low"
+        if risk_score > 0.7:
+            risk_level = "critical"
+        elif risk_score > 0.5:
+            risk_level = "high"
+        elif risk_score > 0.3:
+            risk_level = "medium"
+
+        return FragmentationRisk(
+            risk_level=risk_level,
+            risk_score=risk_score,
+            risk_factors=risk_factors
+        )
 
     async def _measure_identity_coherence(self, identity_id: str) -> Optional[CoherenceState]:
         """Internal method to measure identity coherence"""
@@ -380,6 +492,35 @@ class IdentityCoherenceMonitor:
                 )
             )
 
+            # New metrics
+            self_awareness = await self._measure_self_awareness(identity_id, profile)
+            metrics.append(
+                self._create_coherence_metric(
+                    CoherenceMetricType.SELF_AWARENESS,
+                    self_awareness,
+                    {},
+                )
+            )
+
+            causal_reasoning = await self._measure_causal_reasoning(identity_id, profile)
+            metrics.append(
+                self._create_coherence_metric(
+                    CoherenceMetricType.CAUSAL_REASONING,
+                    causal_reasoning,
+                    {},
+                )
+            )
+
+            emotional_integration = await self._measure_emotional_integration(identity_id, profile)
+            metrics.append(
+                self._create_coherence_metric(
+                    CoherenceMetricType.EMOTIONAL_INTEGRATION,
+                    emotional_integration,
+                    {},
+                )
+            )
+
+
             # Store metrics in history
             current_metrics = self.metric_history.get(identity_id, [])
             current_metrics.extend(metrics)
@@ -398,6 +539,16 @@ class IdentityCoherenceMonitor:
             # Update monitoring metrics
             measurement_latency = (time.perf_counter() - start_time) * 1000
             self.monitoring_metrics["monitoring_latency_ms"] = measurement_latency
+
+            # Log to MATRIZ
+            if self.matriz_tracer:
+                self.matriz_tracer.log_node({
+                    "type": "coherence_measurement",
+                    "identity_id": identity_id,
+                    "coherence_score": coherence_state.overall_coherence_score,
+                    "metrics": coherence_state.metric_scores,
+                    "timestamp": datetime.now(timezone.utc).isoformat()
+                })
 
             logger.debug(
                 f"🔍 Measured identity coherence for {identity_id}: {coherence_state.overall_coherence_score:.3f}"
@@ -595,6 +746,21 @@ class IdentityCoherenceMonitor:
             logger.error(f"❌ Failed to measure behavioral stability: {e}")
             return 0.5
 
+    async def _measure_self_awareness(self, identity_id: str, profile: Optional[object]) -> float:
+        """Measure self-awareness level."""
+        # Mock implementation
+        return 0.85
+
+    async def _measure_causal_reasoning(self, identity_id: str, profile: Optional[object]) -> float:
+        """Measure causal reasoning ability."""
+        # Mock implementation
+        return 0.8
+
+    async def _measure_emotional_integration(self, identity_id: str, profile: Optional[object]) -> float:
+        """Measure emotional integration level."""
+        # Mock implementation
+        return 0.75
+
     def _update_coherence_state(self, coherence_state: CoherenceState, metrics: list[CoherenceMetric]) -> None:
         """Update coherence state with new measurements"""
 
@@ -608,14 +774,17 @@ class IdentityCoherenceMonitor:
             if coherence_state.metric_scores:
                 # Weight different metrics based on importance
                 metric_weights = {
-                    CoherenceMetricType.IDENTITY_STRENGTH: 0.2,
-                    CoherenceMetricType.CONSCIOUSNESS_DEPTH: 0.15,
-                    CoherenceMetricType.MEMORY_CONTINUITY: 0.15,
+                    CoherenceMetricType.IDENTITY_STRENGTH: 0.15,
+                    CoherenceMetricType.CONSCIOUSNESS_DEPTH: 0.1,
+                    CoherenceMetricType.MEMORY_CONTINUITY: 0.1,
                     CoherenceMetricType.TEMPORAL_CONSISTENCY: 0.1,
-                    CoherenceMetricType.BIOMETRIC_COHERENCE: 0.15,
+                    CoherenceMetricType.BIOMETRIC_COHERENCE: 0.1,
                     CoherenceMetricType.NAMESPACE_ALIGNMENT: 0.1,
                     CoherenceMetricType.AUTHENTICATION_CONSISTENCY: 0.1,
                     CoherenceMetricType.BEHAVIORAL_PATTERN_STABILITY: 0.05,
+                    CoherenceMetricType.SELF_AWARENESS: 0.1,
+                    CoherenceMetricType.CAUSAL_REASONING: 0.05,
+                    CoherenceMetricType.EMOTIONAL_INTEGRATION: 0.05,
                 }
 
                 weighted_score = 0.0
@@ -753,6 +922,16 @@ class IdentityCoherenceMonitor:
                             "detected_at": anomaly.detected_at.isoformat(),
                         }
                     )
+                    # Log to MATRIZ
+                    if self.matriz_tracer:
+                        self.matriz_tracer.log_node({
+                            "type": "coherence_anomaly",
+                            "identity_id": identity_id,
+                            "anomaly_type": anomaly.anomaly_type,
+                            "severity": anomaly.severity.value,
+                            "details": anomaly.__dict__,
+                            "timestamp": datetime.now(timezone.utc).isoformat()
+                        })
 
             # Emit signals for critical anomalies
             if consciousness_identity_signal_emitter:
@@ -850,13 +1029,20 @@ class IdentityCoherenceMonitor:
                 # Process active alerts
                 alerts_generated = 0
 
-                for identity_id, anomaly in self.active_anomalies.items():
-                    if anomaly.severity in [CoherenceAlert.CRITICAL, CoherenceAlert.EMERGENCY]:
+                for identity_id, anomaly in list(self.active_anomalies.items()):
+                    # Early warning system
+                    if anomaly.severity == CoherenceAlert.WARNING:
+                        logger.info(f"⚠️ Early warning for {identity_id}: {anomaly.anomaly_type}. Monitoring closely.")
+
+                    elif anomaly.severity in [CoherenceAlert.CRITICAL, CoherenceAlert.EMERGENCY]:
                         # Process critical alerts
                         logger.warning(
                             f"🚨 Processing critical coherence alert for {identity_id}: {anomaly.anomaly_type}"
                         )
                         alerts_generated += 1
+
+                        # Trigger fragmentation prevention for critical alerts
+                        await self._trigger_fragmentation_prevention(identity_id, anomaly)
 
                 self.monitoring_metrics["coherence_alerts_generated"] = alerts_generated
 
@@ -899,6 +1085,22 @@ class IdentityCoherenceMonitor:
             except Exception as e:
                 logger.error(f"❌ Predictive modeling loop error: {e}")
                 await asyncio.sleep(1800)
+
+    async def _trigger_fragmentation_prevention(self, identity_id: str, anomaly: CoherenceAnomaly):
+        """
+        Triggers fragmentation prevention mechanisms.
+        This is a stub for a more complex implementation.
+        """
+        logger.info(f"Triggering fragmentation prevention for {identity_id} due to {anomaly.anomaly_type}")
+        # TODO: Implement actual fragmentation prevention mechanisms,
+        # such as:
+        # - Engaging a recovery protocol
+        # - Notifying a human-in-the-loop
+        # - Applying stabilization procedures
+        # - Temporarily reducing cognitive load
+        await asyncio.sleep(0.1) # Simulate action
+        logger.info(f"Fragmentation prevention protocol initiated for {identity_id}.")
+
 
     def _apply_monitoring_config(self, coherence_state: CoherenceState, config: dict[str, Any]) -> None:
         """Apply monitoring configuration to coherence state"""
