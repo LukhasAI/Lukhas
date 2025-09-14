@@ -9,13 +9,34 @@ from datetime import datetime, timedelta, timezone
 from typing import Any
 
 
-def fix_later(*args, **kwargs):
-    """TODO(symbol-resolver): implement missing functionality
+def create_brand_alert_display(alert_type: str, alert_level: str, data: dict) -> str:
+    """Create symbolic display for brand alerts and notifications.
 
-    This is a placeholder for functionality that needs to be implemented.
-    Replace this stub with the actual implementation.
+    Args:
+        alert_type: Type of alert ('consistency_violation', 'trend_alert', etc.)
+        alert_level: Alert severity ('critical', 'warning', 'normal', 'excellent')
+        data: Alert data dictionary
+
+    Returns:
+        A symbolic string representing the brand alert with appropriate urgency indicators
     """
-    raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+    alert_symbols = {"critical": "🚨", "warning": "⚠️", "normal": "ℹ️", "excellent": "🌟"}
+
+    type_symbols = {
+        "consistency_violation": "📊",
+        "trend_alert": "📈",
+        "terminology_issue": "📝",
+        "trinity_framework": "⚛️🧠🛡️",
+    }
+
+    alert_symbol = alert_symbols.get(alert_level, "❓")
+    type_symbol = type_symbols.get(alert_type, "🔔")
+
+    message = f"{alert_symbol} {type_symbol} Brand Alert: {alert_type.replace('_', ' ').title()}"
+    if "consistency_score" in data:
+        message += f" (Score: {data['consistency_score']:.3f})"
+
+    return message
 
 
 class BrandIntelligenceMonitor:
@@ -666,7 +687,10 @@ class BrandIntelligenceMonitor:
 
     async def _trigger_brand_alert(self, alert_type: str, alert_data: dict[str, Any], context: dict[str, Any]) -> None:
         """Trigger brand consistency alert"""
-        print(fix_later)
+        alert_display = create_brand_alert_display(alert_type, alert_data.get("alert_level", "warning"), alert_data)
+        print(f"🔔 BRAND ALERT TRIGGERED: {alert_display}")
+        print(f"   Context: {context}")
+        print(f"   Timestamp: {datetime.now(timezone.utc).isoformat()}")
 
     def _cache_consistency_result(self, result: dict[str, Any]) -> None:
         """Cache consistency result for trend analysis"""
