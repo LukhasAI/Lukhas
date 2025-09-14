@@ -30,7 +30,7 @@ from typing import Any, Optional
 
 # Import extreme performance optimizations
 try:
-    from enterprise.performance.extreme_auth_optimization import (
+    from products.enterprise.performance.extreme_auth_optimization import (
         AsyncAuditBuffer,
         AsyncHashCalculator,
         get_extreme_optimizer,
@@ -94,7 +94,7 @@ class ExtremePerformanceAuditEvent:
     event_id: str
     event_type: AuditEventType
     severity: AuditSeverity
-    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    timestamp: datetime
 
     # Core event data (optimized for speed)
     user_id: Optional[str] = None
@@ -269,6 +269,7 @@ class ExtremePerformanceAuditLogger:
             event_id=event_id,
             event_type=event_type,
             severity=severity,
+            timestamp=self._get_datetime_now(),
             user_id=user_id,
             session_id=session_id,
             agent_id=agent_id,
@@ -598,6 +599,18 @@ class ExtremePerformanceAuditLogger:
         print(f"   Average event time: {self.avg_event_time_ms:.2f}ms")
         print(f"   Target achieved: {final_stats['extreme_performance_metrics']['latency_target_met']}")
         print("✅ Extreme performance audit logger shutdown complete")
+
+    # ----------------------------------------------------------------
+    # TEST SEAM
+    # ----------------------------------------------------------------
+    def _get_datetime_now(self):
+        """TEST SEAM: Returns the current datetime."""
+        return datetime.now(timezone.utc)
+
+    def _get_open_fn(self):
+        """TEST SEAM: Returns the open function."""
+        return open
+    # ----------------------------------------------------------------
 
 
 # Global extreme performance audit logger instance
