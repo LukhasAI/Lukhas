@@ -27,7 +27,7 @@ class Orchestrator:
         self.doc_engine = DocEngine()
 
         # Trinity Framework branding
-        self.trinity_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
 
         # Log orchestrator initialization
         db.log_system_activity("orchestrator", "system_init", "System orchestrator initialized", 1.0)
@@ -85,7 +85,7 @@ Generated through our integrated platform with real database integration.
             "document_analytics": doc_analytics,
             "system_activity": len(system_analytics),
             "voice_coherence": doc_result["voice_coherence"],
-            "trinity_integration": True,
+            "triad_integration": True,
             "systems_interconnected": True,
             "workflow_completed": datetime.now(timezone.utc).isoformat(),
         }
@@ -116,7 +116,7 @@ Generated through our integrated platform with real database integration.
             "platform_status": "ACTIVE",
             "systems_integrated": 3,
             "database_connected": True,
-            "trinity_framework_active": True,
+            "triad_framework_active": True,
             "metrics": {
                 "total_content_items": total_content,
                 "total_documents": total_docs,
@@ -150,7 +150,7 @@ Generated through our integrated platform with real database integration.
         print("\n🎯 System Dashboard:")
         print(f"   Platform Status: {dashboard['platform_status']}")
         print(f"   Database Connected: {dashboard['database_connected']}")
-        print(f"   Trinity Framework: {dashboard['trinity_framework_active']}")
+        print(f"   Trinity Framework: {dashboard['triad_framework_active']}")
         print(f"   Total Content: {dashboard['metrics']['total_content_items']}")
         print(f"   Recent Activity: {dashboard['metrics']['recent_activity']}")
 

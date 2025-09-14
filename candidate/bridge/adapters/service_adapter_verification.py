@@ -81,7 +81,7 @@ def test_health_status():
         print("✅ Health status retrieved successfully")
         print(f"   Service: {status['service']}")
         print(f"   Circuit State: {status['circuit_state']}")
-        print(f"   Trinity Framework Status: {status['trinity_framework']}")
+        print(f"   Trinity Framework Status: {status['triad_framework']}")
         return True
     except Exception as e:
         print(f"❌ Health status test failed: {e}")

@@ -99,7 +99,7 @@ class LukhasDatabaseIntegration:
         else:
             self.db_path = Path(db_path)
 
-        self.trinity_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
 
     def get_connection(self):
         """Get database connection"""
@@ -113,8 +113,8 @@ class LukhasDatabaseIntegration:
 
         cursor.execute("""
             INSERT INTO lukhas_content
-            (source_system, content_type, title, content, trinity_identity,
-             trinity_consciousness, trinity_guardian, voice_coherence, created_at)
+            (source_system, content_type, title, content, triad_identity,
+             triad_consciousness, triad_guardian, voice_coherence, created_at)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             system_name,
@@ -141,7 +141,7 @@ class LukhasDatabaseIntegration:
 
         cursor.execute("""
             SELECT id, source_system, content_type, title, content,
-                   trinity_identity, trinity_consciousness, trinity_guardian,
+                   triad_identity, triad_consciousness, triad_guardian,
                    voice_coherence, created_at
             FROM lukhas_content
             WHERE content_type = ?
@@ -160,9 +160,9 @@ class LukhasDatabaseIntegration:
                 'content_type': row[2],
                 'title': row[3],
                 'content': row[4],
-                'trinity_identity': row[5],
-                'trinity_consciousness': row[6],
-                'trinity_guardian': row[7],
+                'triad_identity': row[5],
+                'triad_consciousness': row[6],
+                'triad_guardian': row[7],
                 'voice_coherence': row[8],
                 'created_at': row[9]
             })
@@ -211,7 +211,7 @@ class LukhasDatabaseIntegration:
 
         cursor.execute("""
             INSERT INTO lukhas_analytics
-            (source_system, metric_type, metric_value, trinity_component, recorded_at)
+            (source_system, metric_type, metric_value, triad_component, recorded_at)
             VALUES (?, ?, ?, ?, ?)
         """, (
             system_name,
@@ -300,7 +300,7 @@ class LukhasUnifiedContentPlatform:
         self.commercial_path = self.base_path / "commercial"
 
         # Trinity Framework integration
-        self.trinity_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
 
         # Log platform initialization
         db.log_system_activity("content_platform", "platform_init", "Content platform initialized", 1.0)
@@ -310,7 +310,7 @@ class LukhasUnifiedContentPlatform:
         """Generate content and save to unified database"""
         # Add Trinity Framework branding
         enhanced_content = f"""
-{self.trinity_branding}
+{self.triad_branding}
 
 {content}
 
@@ -373,7 +373,7 @@ class LukhasUnifiedContentPlatform:
             'total_content_items': total_content,
             'recent_generations': recent_activity,
             'analytics_entries': len(analytics),
-            'trinity_integration': True,
+            'triad_integration': True,
             'database_connected': True}
         }
 
@@ -452,9 +452,9 @@ class LukhasUnifiedDocEngine:
         self.knowledge_base_path = self.base_path / "knowledge_base"
 
         # Trinity Framework integration
-        self.trinity_identity = "⚛️ Authentic consciousness technology identity"
-        self.trinity_consciousness = "🧠 Elite consciousness technology platform"
-        self.trinity_guardian = "🛡️ Ethical consciousness technology protection"
+        self.triad_identity = "⚛️ Authentic consciousness technology identity"
+        self.triad_consciousness = "🧠 Elite consciousness technology platform"
+        self.triad_guardian = "🛡️ Ethical consciousness technology protection"
 
         # Log engine initialization
         db.log_system_activity("doc_engine", "engine_init", "Document engine initialized", 1.0)
@@ -471,19 +471,19 @@ class LukhasUnifiedDocEngine:
             for item in related_content:
                 knowledge_context += f"- {item['title']}\\n"
 
-        trinity_header = f"""
-# {self.trinity_identity}
+        triad_header = f"""
+# {self.triad_identity}
 
-{self.trinity_consciousness}
+{self.triad_consciousness}
 
-{self.trinity_guardian}
+{self.triad_guardian}
 
 ---
 
 """
 
         # Add consciousness technology branding and knowledge context
-        enhanced_content = trinity_header + content.replace(
+        enhanced_content = triad_header + content.replace(
             "AI", "consciousness technology"
         ).replace(
             "artificial intelligence", "consciousness technology"
@@ -512,22 +512,22 @@ class LukhasUnifiedDocEngine:
             'doc_type': doc_type,
             'voice_coherence': voice_coherence,
             'knowledge_items_used': len(related_content),
-            'trinity_integrated': True}
+            'triad_integrated': True}
         }
 
     def _calculate_voice_coherence(self, content: str) -> float:
         """Calculate voice coherence score for generated content"""
-        trinity_terms = ['⚛️', '🧠', '🛡️', 'consciousness technology', 'Trinity Framework']
+        triad_terms = ['⚛️', '🧠', '🛡️', 'consciousness technology', 'Trinity Framework']
         lukhas_terms = ['LUKHAS AI', 'consciousness', 'quantum-inspired', 'bio-inspired']
 
         total_words = len(content.split())
         if total_words == 0:
             return 0.0
 
-        trinity_count = sum(content.count(term) for term in trinity_terms)
+        triad_count = sum(content.count(term) for term in triad_terms)
         lukhas_count = sum(content.count(term) for term in lukhas_terms)
 
-        coherence = ((trinity_count * 10) + (lukhas_count * 5)) / total_words * 100
+        coherence = ((triad_count * 10) + (lukhas_count * 5)) / total_words * 100
         return min(coherence, 100.0)
 
     def get_knowledge_base(self, topic: str = None, limit: int = 20) -> list:
@@ -573,7 +573,7 @@ class LukhasUnifiedDocEngine:
             'average_voice_coherence': round(avg_coherence, 1),
             'available_formats': len(self.get_available_formats()),
             'knowledge_base_items': len(db.get_all_content(1000)),
-            'trinity_integration': True,
+            'triad_integration': True,
             'database_connected': True}
         }
 
@@ -634,7 +634,7 @@ class LukhasUnifiedOrchestrator:
         self.doc_engine = LukhasUnifiedDocEngine()
 
         # Trinity Framework branding
-        self.trinity_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
 
         # Log orchestrator initialization
         db.log_system_activity("orchestrator", "system_init", "Unified orchestrator initialized", 1.0)
@@ -695,7 +695,7 @@ Generated through our unified platform with real database integration.
             'document_analytics': doc_analytics,
             'system_activity': len(system_analytics),
             'voice_coherence': doc_result['voice_coherence'],
-            'trinity_integration': True,
+            'triad_integration': True,
             'systems_interconnected': True,
             'workflow_completed': datetime.now(timezone.utc).isoformat()
         }
@@ -722,7 +722,7 @@ Generated through our unified platform with real database integration.
             'platform_status': 'ACTIVE',
             'systems_integrated': 3,
             'database_connected': True,
-            'trinity_framework_active': True,
+            'triad_framework_active': True,
             'metrics': {
                 'total_content_items': total_content,
                 'total_documents': total_docs,
@@ -759,7 +759,7 @@ Generated through our unified platform with real database integration.
         print(f"\\n🎯 Unified Dashboard:")
         print(f"   Platform Status: {dashboard['platform_status']}")
         print(f"   Database Connected: {dashboard['database_connected']}")
-        print(f"   Trinity Framework: {dashboard['trinity_framework_active']}")
+        print(f"   Trinity Framework: {dashboard['triad_framework_active']}")
         print(f"   Total Content: {dashboard['metrics']['total_content_items']}")
         print(f"   Recent Activity: {dashboard['metrics']['recent_activity']}")
 

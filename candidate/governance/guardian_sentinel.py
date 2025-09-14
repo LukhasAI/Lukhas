@@ -128,7 +128,7 @@ class GuardianSentinel:
                 [
                     "consciousness_stabilization",
                     "identity_anchor",
-                    "trinity_realignment",
+                    "triad_realignment",
                 ]
             )
             intervention["symbolic_injection"] = ["⚛️", "🧠", "🛡️"]
@@ -154,7 +154,7 @@ class GuardianSentinel:
             "total_interventions": len(self.interventions),
             "active_threats": len(self.active_threats),
             "last_intervention": self.interventions[-1] if self.interventions else None,
-            "trinity_status": "aligned",
+            "triad_status": "aligned",
             "protection_layers": [
                 "ethical_guardian",
                 "philosophical_reflector",
@@ -173,11 +173,11 @@ class GuardianSentinel:
         Returns:
             Coherence analysis results
         """
-        trinity_glyphs = ["⚛️", "🧠", "🛡️"]
-        trinity_present = all(g in glyphs for g in trinity_glyphs)
+        triad_glyphs = ["⚛️", "🧠", "🛡️"]
+        triad_present = all(g in glyphs for g in triad_glyphs)
 
         # Calculate coherence score
-        coherence_score = 1.0 if trinity_present else 0.3
+        coherence_score = 1.0 if triad_present else 0.3
 
         # Check for chaos glyphs
         chaos_glyphs = ["🌪️", "💥", "💀", "👹", "🔥"]
@@ -188,7 +188,7 @@ class GuardianSentinel:
 
         return {
             "coherence_score": max(0, coherence_score),
-            "trinity_aligned": trinity_present,
+            "triad_aligned": triad_present,
             "chaos_detected": chaos_count > 0,
             "symbolic_health": "healthy" if coherence_score > 0.7 else "unstable",
         }

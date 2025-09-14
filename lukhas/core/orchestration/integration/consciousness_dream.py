@@ -54,7 +54,7 @@ class ConsciousnessDreamIntegrator:
             "dream_context": dream_context or {},
             "status": "bridging",
             "initiated_at": datetime.now(timezone.utc).isoformat(),
-            "trinity_compliance": True,
+            "triad_compliance": True,
             "integration_depth": "deep",
             "coherence_level": "high",
         }
@@ -88,7 +88,7 @@ class ConsciousnessDreamIntegrator:
             "dream_state": "coherent",
             "synchronization_quality": "excellent",
             "coherence_score": 0.95,
-            "trinity_validated": True,
+            "triad_validated": True,
             "synchronized_at": datetime.now(timezone.utc).isoformat(),
         }
 
@@ -122,7 +122,7 @@ class ConsciousnessDreamIntegrator:
                 "content": insight.get("content", ""),
                 "significance": insight.get("significance", "medium"),
                 "consciousness_ready": True,
-                "trinity_validated": True,
+                "triad_validated": True,
                 "processed_at": datetime.now(timezone.utc).isoformat(),
             }
             processed_insights.append(processed)
@@ -162,7 +162,7 @@ class ConsciousnessDreamIntegrator:
             "consciousness_integrity": "maintained",
             "dream_authenticity": "verified",
             "integration_safety": "confirmed",
-            "trinity_compliance": True,
+            "triad_compliance": True,
             "overall_coherence": "optimal",
             "validated_at": datetime.now(timezone.utc).isoformat(),
         }
@@ -201,7 +201,7 @@ class ConsciousnessDreamIntegrator:
             "dissolution_status": "complete",
             "consciousness_restored": True,
             "dream_integration_preserved": True,
-            "trinity_validated": True,
+            "triad_validated": True,
         }
 
         logger.info(f"🌉 Consciousness-dream bridge gracefully dissolved: {bridge_id}")
@@ -218,7 +218,7 @@ class ConsciousnessDreamIntegrator:
             "total_integrations": len(self.integration_sessions),
             "consciousness_states": len(self.consciousness_states),
             "system_status": "operational",
-            "trinity_framework_active": True,
+            "triad_framework_active": True,
         }
 
 

@@ -187,7 +187,7 @@ class LUKHASAuthIntegrationSystem:
             },
             "cross_module": {
                 "propagate_context": True,
-                "trinity_integration": True,
+                "triad_integration": True,
                 "real_time_sync": True,
             },
             "monitoring": {
@@ -525,7 +525,7 @@ class LUKHASAuthIntegrationSystem:
             "configuration": self.config,
             "version": "1.0.0",
             "phase": "Phase 7 - Registry Updates and Policy Integration",
-            "trinity_framework": "⚛️🧠🛡️",
+            "triad_framework": "⚛️🧠🛡️",
             "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 

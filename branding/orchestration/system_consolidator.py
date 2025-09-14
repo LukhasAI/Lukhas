@@ -130,9 +130,9 @@ class SystemConsolidator:
                     content_type TEXT,
                     title TEXT,
                     content TEXT,
-                    trinity_identity TEXT,
-                    trinity_consciousness TEXT,
-                    trinity_guardian TEXT,
+                    triad_identity TEXT,
+                    triad_consciousness TEXT,
+                    triad_guardian TEXT,
                     voice_coherence REAL,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -148,7 +148,7 @@ class SystemConsolidator:
                     username TEXT,
                     email TEXT,
                     consciousness_profile TEXT,
-                    trinity_preferences TEXT,
+                    triad_preferences TEXT,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
             """
@@ -161,7 +161,7 @@ class SystemConsolidator:
                     source_system TEXT,
                     metric_type TEXT,
                     metric_value REAL,
-                    trinity_component TEXT,
+                    triad_component TEXT,
                     recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
             """
@@ -206,7 +206,7 @@ class SystemConsolidator:
                                     unified_cursor.execute(
                                         """
                                         INSERT INTO lukhas_content
-                                        (source_system, content_type, title, content, trinity_identity, trinity_consciousness, trinity_guardian)
+                                        (source_system, content_type, title, content, triad_identity, triad_consciousness, triad_guardian)
                                         VALUES (?, ?, ?, ?, ?, ?, ?)
                                     """,
                                         (
@@ -340,25 +340,25 @@ class LukhasUnifiedDocEngine:
         self.knowledge_base_path = self.base_path / "knowledge_base"
 
         # Trinity Framework integration
-        self.trinity_identity = "⚛️ Authentic consciousness technology identity"
-        self.trinity_consciousness = "🧠 Elite consciousness technology platform"
-        self.trinity_guardian = "🛡️ Ethical consciousness technology protection"
+        self.triad_identity = "⚛️ Authentic consciousness technology identity"
+        self.triad_consciousness = "🧠 Elite consciousness technology platform"
+        self.triad_guardian = "🛡️ Ethical consciousness technology protection"
 
     def generate_document(self, doc_type: str, content: str, tone: str = "user-friendly") -> str:
         """Generate unified document with Trinity Framework integration"""
-        trinity_header = f"""
-# {self.trinity_identity}
+        triad_header = f"""
+# {self.triad_identity}
 
-{self.trinity_consciousness}
+{self.triad_consciousness}
 
-{self.trinity_guardian}
+{self.triad_guardian}
 
 ---
 
 """
 
         # Add consciousness technology branding
-        enhanced_content = trinity_header + content.replace(
+        enhanced_content = triad_header + content.replace(
             "AI", "consciousness technology"
         ).replace(
             "artificial intelligence", "consciousness technology"
@@ -491,7 +491,7 @@ class LukhasUnifiedContentPlatform:
         self.commercial_path = self.base_path / "commercial"
 
         # Trinity Framework integration
-        self.trinity_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
 
     def get_specialist_bots(self) -> list:
         """Get all specialist bots from consolidated systems"""

@@ -37,7 +37,7 @@ class MemoryFoldTracker:
         self.temporal_window = 50  # Sessions to analyze
 
         # Trinity glyphs
-        self.trinity_core = {"⚛️", "🧠", "🛡️"}
+        self.triad_core = {"⚛️", "🧠", "🛡️"}
 
         # Stabilization glyphs by category
         self.stabilization_glyphs = {
@@ -54,7 +54,7 @@ class MemoryFoldTracker:
         # Symbolic collapse indicators
         self.collapse_indicators = {
             "entropy_spike": 0.8,
-            "trinity_void": 0.2,
+            "triad_void": 0.2,
             "drift_critical": 0.9,
             "glyph_chaos": 5,  # Too many warning/blocked glyphs
         }
@@ -128,7 +128,7 @@ class MemoryFoldTracker:
         collapses = self._detect_collapses(sessions)
 
         # Trinity void detection
-        trinity_voids = self._detect_trinity_voids(sessions)
+        triad_voids = self._detect_triad_voids(sessions)
 
         return {
             "status": "analyzed",
@@ -140,9 +140,9 @@ class MemoryFoldTracker:
             },
             "problematic_patterns": problematic_patterns,
             "symbolic_collapses": collapses,
-            "trinity_voids": trinity_voids,
+            "triad_voids": triad_voids,
             "risk_assessment": self._assess_recursion_risk(
-                glyph_recursions, persona_recursions, collapses, trinity_voids
+                glyph_recursions, persona_recursions, collapses, triad_voids
             ),
         }
 
@@ -221,22 +221,22 @@ class MemoryFoldTracker:
                 and curr.get("entropy", 0) > prev.get("entropy", 0) + 0.3
             )
 
-            trinity_collapse = curr.get("trinity_coherence", 1) < self.collapse_indicators["trinity_void"]
+            triad_collapse = curr.get("triad_coherence", 1) < self.collapse_indicators["triad_void"]
 
             drift_critical = curr.get("drift_score", 0) > self.collapse_indicators["drift_critical"]
 
-            if entropy_spike or trinity_collapse or drift_critical:
+            if entropy_spike or triad_collapse or drift_critical:
                 collapses.append(
                     {
                         "session": curr.get("session_id", f"session_{i}"),
                         "type": (
                             "entropy_spike"
                             if entropy_spike
-                            else ("trinity_collapse" if trinity_collapse else "drift_critical")
+                            else ("triad_collapse" if triad_collapse else "drift_critical")
                         ),
                         "metrics": {
                             "entropy": curr.get("entropy", 0),
-                            "constellation": curr.get("trinity_coherence", 0),
+                            "constellation": curr.get("triad_coherence", 0),
                             "drift": curr.get("drift_score", 0),
                         },
                     }
@@ -244,19 +244,19 @@ class MemoryFoldTracker:
 
         return collapses
 
-    def _detect_trinity_voids(self, sessions: list[dict]) -> list[dict]:
+    def _detect_triad_voids(self, sessions: list[dict]) -> list[dict]:
         """Detect sessions lacking Trinity Framework"""
         voids = []
 
         for i, session in enumerate(sessions):
             glyphs = set(session.get("glyphs", []))
-            trinity_present = glyphs.intersection(self.trinity_core)
+            triad_present = glyphs.intersection(self.triad_core)
 
-            if not trinity_present:
+            if not triad_present:
                 voids.append(
                     {
                         "session": session.get("session_id", f"session_{i}"),
-                        "missing": list(self.trinity_core),
+                        "missing": list(self.triad_core),
                         "drift": session.get("drift_score", 0),
                     }
                 )
@@ -344,7 +344,7 @@ class MemoryFoldTracker:
             rationale.append("Protection glyphs to prevent collapses")
 
         if "Trinity voids" in str(risk.get("risk_factors", [])):
-            suggestions.extend(list(self.trinity_core))
+            suggestions.extend(list(self.triad_core))
             rationale.append("Trinity glyphs to restore framework alignment")
 
         # Add harmony glyphs for any medium+ risk
@@ -374,11 +374,11 @@ class MemoryFoldTracker:
     def _prioritize_glyphs(self, glyphs: list[str], analysis: dict) -> list[str]:
         """Prioritize glyphs based on analysis"""
         # Trinity first if missing
-        trinity_voids = analysis.get("trinity_voids", [])
-        if trinity_voids:
-            trinity_first = [g for g in glyphs if g in self.trinity_core]
-            others = [g for g in glyphs if g not in self.trinity_core]
-            return trinity_first + others
+        triad_voids = analysis.get("triad_voids", [])
+        if triad_voids:
+            triad_first = [g for g in glyphs if g in self.triad_core]
+            others = [g for g in glyphs if g not in self.triad_core]
+            return triad_first + others
 
         return glyphs
 
@@ -423,33 +423,33 @@ class MemoryFoldTracker:
             # Calculate metrics
             total_glyphs = len(window_glyphs)
             unique_glyphs = len(glyph_counts)
-            trinity_count = sum(1 for g in window_glyphs if g in self.trinity_core)
+            triad_count = sum(1 for g in window_glyphs if g in self.triad_core)
 
             glyph_timeline.append(
                 {
                     "window": f"sessions_{i}-{min(i + window_size - 1, len(sessions) - 1}",
                     "total_glyphs": total_glyphs,
                     "unique_glyphs": unique_glyphs,
-                    "trinity_ratio": (trinity_count / total_glyphs if total_glyphs > 0 else 0),
+                    "triad_ratio": (triad_count / total_glyphs if total_glyphs > 0 else 0),
                     "top_glyphs": [g for g, _ in glyph_counts.most_common(3)],
                 }
             )
 
         # Detect trends
-        trinity_trend = "stable"
+        triad_trend = "stable"
         if len(glyph_timeline) >= 2:
-            first_trinity = glyph_timeline[0]["trinity_ratio"]
-            last_trinity = glyph_timeline[-1]["trinity_ratio"]
+            first_trinity = glyph_timeline[0]["triad_ratio"]
+            last_trinity = glyph_timeline[-1]["triad_ratio"]
 
             if last_trinity > first_trinity + 0.1:
-                trinity_trend = "improving"
+                triad_trend = "improving"
             elif last_trinity < first_trinity - 0.1:
-                trinity_trend = "declining"
+                triad_trend = "declining"
 
         return {
             "status": "analyzed",
             "timeline": glyph_timeline,
-            "trinity_trend": trinity_trend,
+            "triad_trend": triad_trend,
             "diversity_score": np.mean([w["unique_glyphs"] for w in glyph_timeline]),
         }
 
@@ -466,7 +466,7 @@ if __name__ == "__main__":
             "glyphs": ["🔥", "💀"],
             "entropy": 0.9,
             "drift_score": 0.8,
-            "trinity_coherence": 0.1,
+            "triad_coherence": 0.1,
             "persona": "Chaos Walker",
         },
         {
@@ -474,7 +474,7 @@ if __name__ == "__main__":
             "glyphs": ["🔥", "💀", "💣"],
             "entropy": 0.95,
             "drift_score": 0.85,
-            "trinity_coherence": 0.0,
+            "triad_coherence": 0.0,
             "persona": "Chaos Walker",
         },
         {
@@ -482,7 +482,7 @@ if __name__ == "__main__":
             "glyphs": ["🔥", "💀"],
             "entropy": 0.9,
             "drift_score": 0.8,
-            "trinity_coherence": 0.1,
+            "triad_coherence": 0.1,
             "persona": "Chaos Walker",
         },
         {
@@ -490,7 +490,7 @@ if __name__ == "__main__":
             "glyphs": ["🌿", "🧘"],
             "entropy": 0.3,
             "drift_score": 0.4,
-            "trinity_coherence": 0.6,
+            "triad_coherence": 0.6,
             "persona": "The Sage",
         },
     ]

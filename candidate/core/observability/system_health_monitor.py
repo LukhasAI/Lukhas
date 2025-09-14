@@ -1043,7 +1043,7 @@ class SystemHealthMonitor:
                 "uptime": self.current_health.uptime,
             },
             # Trinity Framework health
-            "trinity_health": {
+            "triad_health": {
                 "identity": self.current_health.identity_system_health,
                 "consciousness": self.current_health.consciousness_system_health,
                 "guardian": self.current_health.guardian_system_health,

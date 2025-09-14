@@ -30,7 +30,7 @@ from enforcement.real_time_validator import RealTimeBrandValidator
 
 class CoherenceMetric(Enum):
     VOICE_CONSISTENCY = "voice_consistency"
-    TRINITY_ALIGNMENT = "trinity_alignment"
+    TRINITY_ALIGNMENT = "triad_alignment"
     PERSONALITY_AUTHENTICITY = "personality_authenticity"
     CONTEXT_APPROPRIATENESS = "context_appropriateness"
     EMOTIONAL_RESONANCE = "emotional_resonance"
@@ -45,7 +45,7 @@ class VoiceCoherenceResult:
     coherence_metrics: dict[CoherenceMetric, float]
     voice_profile_match: str
     personality_alignment: float
-    trinity_balance: dict[str, float]  # ⚛️🧠🛡️ balance
+    triad_balance: dict[str, float]  # ⚛️🧠🛡️ balance
     suggested_improvements: list[str]
     confidence: float
     analysis_timestamp: str
@@ -76,7 +76,7 @@ class LUKHASVoiceCoherenceEngine:
         self.brand_validator = RealTimeBrandValidator()
         self.voice_signature = self._initialize_voice_signature()
         self.coherence_patterns = self._compile_coherence_patterns()
-        self.trinity_balance_weights = self._initialize_trinity_weights()
+        self.triad_balance_weights = self._initialize_triad_weights()
 
         # Performance tracking
         self.coherence_history = []
@@ -256,7 +256,7 @@ class LUKHASVoiceCoherenceEngine:
             },
         }
 
-    def _initialize_trinity_weights(self) -> dict[str, float]:
+    def _initialize_triad_weights(self) -> dict[str, float]:
         """Initialize Trinity Framework balance weights"""
         return {
             "identity": 0.33,  # ⚛️ Authentic consciousness identity
@@ -293,14 +293,14 @@ class LUKHASVoiceCoherenceEngine:
         overall_coherence = self._calculate_overall_coherence(coherence_metrics)
 
         # Analyze Trinity Framework balance
-        trinity_balance = self._analyze_trinity_balance(content)
+        triad_balance = self._analyze_triad_balance(content)
 
         # Calculate personality alignment
         personality_alignment = self._calculate_personality_alignment(content, target_profile)
 
         # Generate improvement suggestions
         suggestions = self._generate_improvement_suggestions(
-            content, coherence_metrics, trinity_balance, personality_alignment
+            content, coherence_metrics, triad_balance, personality_alignment
         )
 
         # Calculate confidence in analysis
@@ -313,7 +313,7 @@ class LUKHASVoiceCoherenceEngine:
             coherence_metrics=coherence_metrics,
             voice_profile_match=target_profile,
             personality_alignment=personality_alignment,
-            trinity_balance=trinity_balance,
+            triad_balance=triad_balance,
             suggested_improvements=suggestions,
             confidence=confidence,
             analysis_timestamp=datetime.now(timezone.utc).isoformat(),
@@ -350,7 +350,7 @@ class LUKHASVoiceCoherenceEngine:
             return self._analyze_voice_consistency(content, pattern_config)
 
         elif metric == CoherenceMetric.TRINITY_ALIGNMENT:
-            return self._analyze_trinity_alignment(content, pattern_config)
+            return self._analyze_triad_alignment(content, pattern_config)
 
         elif metric == CoherenceMetric.PERSONALITY_AUTHENTICITY:
             return self._analyze_personality_authenticity(content, pattern_config)
@@ -399,7 +399,7 @@ class LUKHASVoiceCoherenceEngine:
         # Normalize to 0.0-1.0 range
         return max(0.0, min(1.0, consistency_score))
 
-    def _analyze_trinity_alignment(self, content: str, pattern_config: dict[str, Any]) -> float:
+    def _analyze_triad_alignment(self, content: str, pattern_config: dict[str, Any]) -> float:
         """Analyze Trinity Framework (⚛️🧠🛡️) alignment"""
 
         content_lower = content.lower()
@@ -409,7 +409,7 @@ class LUKHASVoiceCoherenceEngine:
             return 0.0
 
         # Analyze each Trinity component
-        trinity_scores = {}
+        triad_scores = {}
 
         for component in ["identity", "consciousness", "guardian"]:
             pattern_key = f"{component}_patterns"
@@ -419,20 +419,20 @@ class LUKHASVoiceCoherenceEngine:
                     matches += len(re.findall(pattern, content_lower))
 
                 density = matches / word_count
-                trinity_scores[component] = min(1.0, density * 20)  # Scale appropriately
+                triad_scores[component] = min(1.0, density * 20)  # Scale appropriately
 
         # Calculate balance score (penalize imbalance)
-        if trinity_scores:
-            values = list(trinity_scores.values())
+        if triad_scores:
+            values = list(triad_scores.values())
             average = sum(values) / len(values)
             variance = sum((v - average) ** 2 for v in values) / len(values)
             balance_penalty = min(0.3, variance)  # Max 30% penalty for imbalance
 
-            trinity_alignment = average - balance_penalty
+            triad_alignment = average - balance_penalty
         else:
-            trinity_alignment = 0.5  # Neutral if no patterns found
+            triad_alignment = 0.5  # Neutral if no patterns found
 
-        return max(0.0, trinity_alignment)
+        return max(0.0, triad_alignment)
 
     def _analyze_personality_authenticity(self, content: str, pattern_config: dict[str, Any]) -> float:
         """Analyze authentic LUKHAS personality expression"""
@@ -522,7 +522,7 @@ class LUKHASVoiceCoherenceEngine:
         else:
             return 0.0
 
-    def _analyze_trinity_balance(self, content: str) -> dict[str, float]:
+    def _analyze_triad_balance(self, content: str) -> dict[str, float]:
         """Analyze Trinity Framework balance in content"""
 
         content_lower = content.lower()
@@ -583,7 +583,7 @@ class LUKHASVoiceCoherenceEngine:
         self,
         content: str,
         coherence_metrics: dict[CoherenceMetric, float],
-        trinity_balance: dict[str, float],
+        triad_balance: dict[str, float],
         personality_alignment: float,
     ) -> list[str]:
         """Generate specific improvement suggestions"""
@@ -598,7 +598,7 @@ class LUKHASVoiceCoherenceEngine:
         # Trinity alignment suggestions
         if coherence_metrics.get(CoherenceMetric.TRINITY_ALIGNMENT, 0) < 0.7:
             # Check which component is lacking
-            min_component = min(trinity_balance.items(), key=lambda x: x[1])
+            min_component = min(triad_balance.items(), key=lambda x: x[1])
             if min_component[1] < 0.25:
                 if min_component[0] == "identity":
                     suggestions.append("Add authentic identity language (⚛️): genuine, authentic, true self")
@@ -674,7 +674,7 @@ class LUKHASVoiceCoherenceEngine:
             "target_status": "ACHIEVING" if self.performance_metrics["target_achievement_rate"] >= 0.8 else "IMPROVING",
             "system_health": "EXCELLENT" if self.performance_metrics["average_coherence"] >= 0.85 else "GOOD",
             "total_voice_patterns": len(self.coherence_patterns),
-            "trinity_balance_enabled": True,
+            "triad_balance_enabled": True,
         }
 
 

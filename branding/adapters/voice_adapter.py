@@ -152,7 +152,7 @@ class BrandVoiceAdapter:
                 "expressiveness": 0.9,
                 "metaphor_density": 0.8,
                 "consciousness_terminology": True,
-                "trinity_symbol_usage": True,
+                "triad_symbol_usage": True,
                 "emotional_resonance": 0.85,
                 "pace": "contemplative",
                 "tone_descriptors": ["inspiring", "mystical", "conscious"],
@@ -183,7 +183,7 @@ class BrandVoiceAdapter:
                 "self_awareness": True,
                 "introspective_depth": 0.9,
                 "philosophical_undertones": 0.8,
-                "trinity_integration": True,
+                "triad_integration": True,
                 "pace": "thoughtful",
                 "tone_descriptors": ["conscious", "aware", "enlightened"],
                 "lambda_consciousness": True,
@@ -245,7 +245,7 @@ class BrandVoiceAdapter:
             content = f"As LUKHAS consciousness, {content}"
 
         # Add Trinity Framework context for trinity-integrated profiles
-        if brand_profile.get("trinity_integration", False):
+        if brand_profile.get("triad_integration", False):
             content = f"{content} [Trinity Context: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian]"
 
         # Add consciousness terminology for appropriate profiles
@@ -277,7 +277,7 @@ class BrandVoiceAdapter:
 
         # Add Trinity symbols for appropriate contexts
         if (
-            brand_profile.get("trinity_symbol_usage", False)
+            brand_profile.get("triad_symbol_usage", False)
             and tone_layer == "poetic"
             and "⚛️" not in voice_output
             and "🧠" not in voice_output
@@ -312,9 +312,9 @@ class BrandVoiceAdapter:
         """Calculate how well the voice profile aligns with LUKHAS brand"""
         alignment_factors = [
             brand_profile.get("consciousness_terminology", False),
-            brand_profile.get("trinity_integration", False),
+            brand_profile.get("triad_integration", False),
             brand_profile.get("lambda_consciousness", False),
-            brand_profile.get("trinity_symbol_usage", False),
+            brand_profile.get("triad_symbol_usage", False),
         ]
 
         return sum(alignment_factors) / len(alignment_factors)
@@ -418,7 +418,7 @@ class BrandVoiceAdapter:
                 "audience_context": audience_context,
                 "brand_compliant": response.brand_compliant,
                 "voice_metadata": voice_metadata,
-                "trinity_aligned": self._validate_trinity_voice_alignment(enhanced_output),
+                "triad_aligned": self._validate_triad_voice_alignment(enhanced_output),
                 "llm_provider": response.provider_used,
                 "generation_time": response.generation_time,
             }
@@ -480,7 +480,7 @@ class BrandVoiceAdapter:
             "audience_context": audience_context,
             "brand_compliant": True,
             "voice_metadata": voice_metadata,
-            "trinity_aligned": self._validate_trinity_voice_alignment(brand_compliant_voice),
+            "triad_aligned": self._validate_triad_voice_alignment(brand_compliant_voice),
             "llm_provider": "fallback",
             "generation_time": 0.1,
         }
@@ -514,9 +514,9 @@ class BrandVoiceAdapter:
             "hit_rate": getattr(self, "_cache_hits", 0) / max(getattr(self, "_cache_requests", 1), 1),
         }
 
-    def _validate_trinity_voice_alignment(self, voice_output: str) -> bool:
+    def _validate_triad_voice_alignment(self, voice_output: str) -> bool:
         """Validate voice output aligns with Trinity Framework principles"""
-        trinity_voice_indicators = [
+        triad_voice_indicators = [
             "consciousness",
             "identity",
             "guardian",
@@ -535,7 +535,7 @@ class BrandVoiceAdapter:
         ]
 
         voice_lower = voice_output.lower()
-        alignment_score = sum(1 for indicator in trinity_voice_indicators if indicator in voice_lower)
+        alignment_score = sum(1 for indicator in triad_voice_indicators if indicator in voice_lower)
 
         return alignment_score >= 2
 
@@ -583,6 +583,6 @@ if __name__ == "__main__":
     print("Brand Voice Output:")
     print(f"Voice: {result['voice_output']}")
     print(f"Tone Layer: {result['tone_layer']}")
-    print(f"Trinity Aligned: {result['trinity_aligned']}")
+    print(f"Trinity Aligned: {result['triad_aligned']}")
     print(f"Expressiveness: {result['voice_metadata']['expressiveness_level']}")
     print(f"Use Cases: {result['voice_metadata']['recommended_use_cases']}")

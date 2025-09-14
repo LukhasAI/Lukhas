@@ -114,7 +114,7 @@ class AdvancedTagResolver(SimpleTagResolver):
     def __init__(self):
         super().__init__()
         self.consciousness_tags: set[str] = set()
-        self.trinity_tags: set[str] = set()
+        self.triad_tags: set[str] = set()
 
     def register_consciousness_tag(self, tag: SymbolicTag) -> bool:
         """Register a consciousness-aware tag"""
@@ -122,7 +122,7 @@ class AdvancedTagResolver(SimpleTagResolver):
             if tag.scope == TagScope.CONSCIOUSNESS:
                 self.consciousness_tags.add(tag.key)
             elif tag.scope == TagScope.TRINITY:
-                self.trinity_tags.add(tag.key)
+                self.triad_tags.add(tag.key)
             return True
         return False
 
@@ -134,10 +134,10 @@ class AdvancedTagResolver(SimpleTagResolver):
                 context[tag_key] = self.tags[tag_key].value
         return context
 
-    def resolve_trinity_context(self) -> dict[str, Any]:
+    def resolve_triad_context(self) -> dict[str, Any]:
         """Resolve Trinity Framework tags"""
         context = {}
-        for tag_key in self.trinity_tags:
+        for tag_key in self.triad_tags:
             if tag_key in self.tags:
                 context[tag_key] = self.tags[tag_key].value
         return context

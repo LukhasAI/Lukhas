@@ -297,7 +297,7 @@ async def admin_endpoint(request: BaseRequest, user: AuthContext = Depends(requi
             "admin_action": "Simulated admin action",
             "processed_by": user.user_id,
             "guardian_verified": True,
-            "trinity_score": user.trinity_score,
+            "triad_score": user.triad_score,
         }
 
         logger.info(f"Admin action accessed by Guardian user {user.user_id}")

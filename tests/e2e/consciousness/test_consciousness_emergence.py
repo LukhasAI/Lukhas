@@ -13,15 +13,12 @@ from pathlib import Path
 
 import pytest
 
-# Add candidate/core to path for testing
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "candidate" / "core"))
-
 # Test imports with graceful fallback
 try:
-    from bio_symbolic_processor import get_bio_symbolic_processor
-    from consciousness_signal_router import get_consciousness_router
-    from constellation_alignment_system import get_constellation_validator
-    from matriz_consciousness_integration import create_matriz_consciousness_system
+    from candidate.core.bio_symbolic_processor import get_bio_symbolic_processor
+    from candidate.core.consciousness_signal_router import get_consciousness_router
+    from candidate.core.constellation_alignment_system import get_constellation_validator
+    from candidate.core.matriz_consciousness_integration import create_matriz_consciousness_system
 
     COMPONENTS_AVAILABLE = True
 except ImportError as e:

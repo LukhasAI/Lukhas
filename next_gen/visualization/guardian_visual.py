@@ -371,9 +371,9 @@ class GuardianVisualizer:
         # Trinity Framework status
         print(Console.move_cursor(20, 20), end="")
         print(Console.CLEAR_LINE, end="")
-        trinity_color = Console.GREEN if self.current_status in ["monitoring", "alert"] else Console.RED
+        triad_color = Console.GREEN if self.current_status in ["monitoring", "alert"] else Console.RED
         print(
-            f"{Console.CYAN}Trinity:{Console.RESET} ⚛️🧠🛡️ {trinity_color}ACTIVE{Console.RESET}",
+            f"{Console.CYAN}Trinity:{Console.RESET} ⚛️🧠🛡️ {triad_color}ACTIVE{Console.RESET}",
             end="",
         )
 

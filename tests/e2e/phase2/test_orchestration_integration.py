@@ -233,7 +233,7 @@ class TestTrinityFrameworkIntegration:
     """Test Trinity Framework (⚛️🧠🛡️) integration"""
 
     @pytest.fixture
-    def trinity_orchestrator(self, mock_bridges):
+    def triad_orchestrator(self, mock_bridges):
         """Create orchestrator with Trinity Framework components"""
         guardian = Mock(spec=GuardianSystem)
         guardian.validate_ethical_compliance = AsyncMock(
@@ -250,9 +250,9 @@ class TestTrinityFrameworkIntegration:
         return orchestrator, guardian
 
     @pytest.mark.asyncio
-    async def test_guardian_validation_integration(self, trinity_orchestrator):
+    async def test_guardian_validation_integration(self, triad_orchestrator):
         """Test Guardian System ethical validation integration"""
-        orchestrator, guardian = trinity_orchestrator
+        orchestrator, guardian = triad_orchestrator
 
         # Execute with Guardian validation
         result = await orchestrator.execute_with_validation(prompt="Generate creative content", validate_ethics=True)
@@ -266,9 +266,9 @@ class TestTrinityFrameworkIntegration:
         assert result["ethics_validation"]["drift_score"] < 0.15  # Drift threshold
 
     @pytest.mark.asyncio
-    async def test_identity_consciousness_coherence(self, trinity_orchestrator):
+    async def test_identity_consciousness_coherence(self, triad_orchestrator):
         """Test Identity (⚛️) and Consciousness (🧠) coherence"""
-        orchestrator, guardian = trinity_orchestrator
+        orchestrator, guardian = triad_orchestrator
 
         # Mock identity and consciousness systems
         orchestrator.identity_system.get_identity_state = AsyncMock(
@@ -279,7 +279,7 @@ class TestTrinityFrameworkIntegration:
             return_value={"awareness_level": 0.85, "memory_coherence": 0.92}
         )
 
-        result = await orchestrator.execute_with_trinity_validation(
+        result = await orchestrator.execute_with_triad_validation(
             prompt="Complex reasoning with identity awareness", require_coherence=True
         )
 

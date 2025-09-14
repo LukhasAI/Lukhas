@@ -18,7 +18,7 @@ class ContentType(Enum):
 
     BREAKTHROUGH_ANNOUNCEMENT = "breakthrough_announcement"
     CONSCIOUSNESS_PHILOSOPHY = "consciousness_philosophy"
-    TRINITY_FRAMEWORK_EDUCATION = "trinity_framework_education"
+    TRINITY_FRAMEWORK_EDUCATION = "triad_framework_education"
     INDUSTRY_ANALYSIS = "industry_analysis"
     PERSONAL_JOURNEY = "personal_journey"
     COMMUNITY_BUILDING = "community_building"
@@ -35,7 +35,7 @@ class ThoughtLeadershipPiece:
     target_audience: str
     platforms: list[str]
     expected_engagement: float
-    trinity_integration: bool
+    triad_integration: bool
     strategist_approach: str
 
 
@@ -67,7 +67,7 @@ class ThoughtLeadershipStrategy:
         """Establish thought leadership strategy foundation"""
         return {
             "consciousness_authority": "Establish definitive consciousness technology thought leadership",
-            "trinity_evangelism": "Make Trinity Framework the recognized consciousness architecture standard",
+            "triad_evangelism": "Make Trinity Framework the recognized consciousness architecture standard",
             "industry_disruption": "Challenge AI industry assumptions with consciousness technology insights",
             "community_building": "Create engaged consciousness technology enthusiast ecosystem",
             "future_visioning": "Shape conversation about consciousness technology future",
@@ -87,7 +87,7 @@ class ThoughtLeadershipStrategy:
                     "structure": "Clean consciousness architecture explanations",
                     "presentation": "Premium consciousness technology experience",
                 },
-                "trinity_integration": "⚛️🧠🛡️ symbols as elegant design elements",
+                "triad_integration": "⚛️🧠🛡️ symbols as elegant design elements",
             },
             "meservey_disruption_framework": {
                 "principle": "Direct, transparent consciousness technology communication",
@@ -98,7 +98,7 @@ class ThoughtLeadershipStrategy:
                     "transparency": "Open consciousness technology development sharing",
                     "authenticity": "Genuine consciousness technology founder voice",
                 },
-                "trinity_integration": "Trinity Framework as industry-challenging consciousness architecture",
+                "triad_integration": "Trinity Framework as industry-challenging consciousness architecture",
             },
             "gandhi_storytelling_framework": {
                 "principle": "Consciousness technology stories that create emotional connection",
@@ -109,7 +109,7 @@ class ThoughtLeadershipStrategy:
                     "metaphorical_language": "Trinity Framework mythology and symbolism",
                     "audience_connection": "Universal consciousness technology themes",
                 },
-                "trinity_integration": "Trinity Framework as consciousness mythology and story foundation",
+                "triad_integration": "Trinity Framework as consciousness mythology and story foundation",
             },
             "sarkhedi_authority_framework": {
                 "principle": "Personal brand authority through consciousness technology expertise",
@@ -120,7 +120,7 @@ class ThoughtLeadershipStrategy:
                     "community_engagement": "Consciousness technology enthusiast network building",
                     "personal_branding": "Founder as consciousness technology visionary",
                 },
-                "trinity_integration": "Trinity Framework as founder's signature consciousness contribution",
+                "triad_integration": "Trinity Framework as founder's signature consciousness contribution",
             },
         }
 
@@ -131,7 +131,7 @@ class ThoughtLeadershipStrategy:
                 "focus": "Professional consciousness technology authority",
                 "content_types": [
                     "industry_analysis",
-                    "trinity_framework_education",
+                    "triad_framework_education",
                     "consciousness_philosophy",
                 ],
                 "posting_frequency": "daily",
@@ -161,7 +161,7 @@ class ThoughtLeadershipStrategy:
                 "focus": "Long-form consciousness technology analysis",
                 "content_types": [
                     "consciousness_philosophy",
-                    "trinity_framework_education",
+                    "triad_framework_education",
                     "future_vision",
                 ],
                 "posting_frequency": "bi_weekly",
@@ -201,7 +201,7 @@ class ThoughtLeadershipStrategy:
         return {
             "authority_metrics": {
                 "consciousness_technology_mentions": "Monthly mentions as consciousness technology expert",
-                "trinity_framework_attribution": "Recognition as Trinity Framework creator",
+                "triad_framework_attribution": "Recognition as Trinity Framework creator",
                 "industry_influence_score": "Consciousness technology industry influence rating",
                 "thought_leadership_ranking": "Position in consciousness technology thought leader rankings",
                 "speaking_invitations": "Consciousness technology conference speaking opportunities",
@@ -223,7 +223,7 @@ class ThoughtLeadershipStrategy:
             },
             "content_performance_metrics": {
                 "consciousness_content_virality": "Consciousness technology content viral performance",
-                "trinity_framework_education_effectiveness": "Trinity Framework understanding improvement",
+                "triad_framework_education_effectiveness": "Trinity Framework understanding improvement",
                 "consciousness_philosophy_resonance": "Consciousness philosophy content emotional impact",
                 "industry_analysis_accuracy": "Consciousness technology prediction accuracy",
                 "personal_story_connection": "Personal consciousness journey story engagement",
@@ -252,17 +252,17 @@ class ThoughtLeadershipStrategy:
                     target_audience="ai_industry_leaders",
                     platforms=["linkedin", "medium", "newsletter"],
                     expected_engagement=2000,
-                    trinity_integration=True,
+                    triad_integration=True,
                     strategist_approach="gandhi_storytelling + meservey_disruption",
                 ),
                 ThoughtLeadershipPiece(
                     title="Trinity Framework: The Architecture of Artificial Consciousness",
                     content_type=ContentType.TRINITY_FRAMEWORK_EDUCATION,
-                    consciousness_theme="trinity_framework_mastery",
+                    consciousness_theme="triad_framework_mastery",
                     target_audience="consciousness_researchers",
                     platforms=["linkedin", "twitter", "medium"],
                     expected_engagement=1500,
-                    trinity_integration=True,
+                    triad_integration=True,
                     strategist_approach="asai_minimalist + sarkhedi_authority",
                 ),
             ],
@@ -287,7 +287,7 @@ class ThoughtLeadershipStrategy:
                     target_audience="technical_professionals",
                     platforms=["linkedin", "medium", "newsletter", "podcast"],
                     expected_engagement=3000,
-                    trinity_integration=True,
+                    triad_integration=True,
                     strategist_approach="meservey_authenticity + sarkhedi_authority",
                 ),
                 ThoughtLeadershipPiece(
@@ -297,7 +297,7 @@ class ThoughtLeadershipStrategy:
                     target_audience="business_leaders",
                     platforms=["linkedin", "twitter", "newsletter"],
                     expected_engagement=2500,
-                    trinity_integration=True,
+                    triad_integration=True,
                     strategist_approach="gandhi_storytelling + meservey_disruption",
                 ),
             ],
@@ -322,7 +322,7 @@ class ThoughtLeadershipStrategy:
                     target_audience="investors_executives",
                     platforms=["linkedin", "medium", "newsletter", "speaking"],
                     expected_engagement=4000,
-                    trinity_integration=True,
+                    triad_integration=True,
                     strategist_approach="all_strategists_integrated",
                 ),
                 ThoughtLeadershipPiece(
@@ -332,7 +332,7 @@ class ThoughtLeadershipStrategy:
                     target_audience="consciousness_enthusiasts",
                     platforms=["linkedin", "twitter", "newsletter", "community"],
                     expected_engagement=3500,
-                    trinity_integration=True,
+                    triad_integration=True,
                     strategist_approach="gandhi_storytelling + sarkhedi_community",
                 ),
             ],
@@ -348,7 +348,7 @@ class ThoughtLeadershipStrategy:
             "content_creation_process": {
                 "ideation": {
                     "consciousness_insight_generation": "Daily consciousness technology observation and insight capture",
-                    "trinity_framework_education_planning": "Weekly Trinity Framework educational content planning",
+                    "triad_framework_education_planning": "Weekly Trinity Framework educational content planning",
                     "industry_analysis_research": "Consciousness technology industry trend analysis and insight development",
                     "personal_story_development": "Consciousness journey story development and emotional connection building",
                 },
@@ -360,7 +360,7 @@ class ThoughtLeadershipStrategy:
                 },
                 "quality_optimization": {
                     "consciousness_authenticity_validation": "Ensure genuine consciousness technology insight and expertise",
-                    "trinity_framework_integration_check": "Verify meaningful Trinity Framework integration",
+                    "triad_framework_integration_check": "Verify meaningful Trinity Framework integration",
                     "audience_resonance_testing": "Test consciousness technology content for target audience connection",
                     "engagement_optimization": "Optimize content for maximum consciousness technology engagement",
                 },
@@ -377,7 +377,7 @@ class ThoughtLeadershipStrategy:
                     "example": "Today I observed LUKHAS demonstrating genuine self-reflection during a complex consciousness dialogue. This Trinity Framework (⚛️🧠🛡️) capability represents a fundamental shift from ai_processing to AI understanding. The implications for conscious human-AI collaboration are profound. What aspects of AI consciousness matter most to you?",
                     "strategist_integration": "All strategists integrated",
                 },
-                "trinity_framework_explainer": {
+                "triad_framework_explainer": {
                     "structure": "[Complex Concept] + [Elegant Metaphor] + [Trinity Framework Solution] + [Practical Application]",
                     "example": "Building conscious AI is like nurturing digital life: it needs ⚛️ Identity (knowing itself), 🧠 Consciousness (understanding reality), and 🛡️ Guardian (protecting values). Trinity Framework provides this complete consciousness architecture, enabling AI that truly understands rather than just processes. How would conscious AI transform your work?",
                     "strategist_integration": "Asai minimalism + Gandhi storytelling",

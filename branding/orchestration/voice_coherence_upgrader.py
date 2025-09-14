@@ -38,7 +38,7 @@ class UpgradeRule:
 
     pattern: str
     replacement: str
-    category: str  # brand_terminology, trinity_framework, consciousness_tech, founder_positioning
+    category: str  # brand_terminology, triad_framework, consciousness_tech, founder_positioning
     description: str
 
 
@@ -124,25 +124,25 @@ class EliteVoiceCoherenceUpgrader:
             UpgradeRule(
                 pattern=r"\b(?:framework|architecture|system)\b(?!\s+(?:Trinity|⚛️|🧠|🛡️))",
                 replacement=r"\g<0> powered by Trinity Framework (⚛️🧠🛡️)",
-                category="trinity_framework",
+                category="triad_framework",
                 description="Add Trinity Framework reference to system descriptions",
             ),
             UpgradeRule(
                 pattern=r"\bidentity(?!\s+(?:Trinity|⚛️))",
                 replacement="identity (⚛️ Trinity Framework)",
-                category="trinity_framework",
+                category="triad_framework",
                 description="Connect identity concepts to Trinity Framework",
             ),
             UpgradeRule(
                 pattern=r"\bconsciousness(?!\s+(?:technology|Trinity|🧠))",
                 replacement="consciousness technology (🧠 Trinity Framework)",
-                category="trinity_framework",
+                category="triad_framework",
                 description="Connect consciousness to Trinity Framework",
             ),
             UpgradeRule(
                 pattern=r"\bsecurity(?!\s+(?:Trinity|🛡️))",
                 replacement="security (🛡️ Trinity Framework)",
-                category="trinity_framework",
+                category="triad_framework",
                 description="Connect security to Trinity Framework",
             ),
             # Consciousness Technology Focus

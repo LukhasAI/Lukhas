@@ -10,7 +10,7 @@ safe-for-review:
 - Prints a summary of changed files
 
 Usage (recommended):
-    python scripts/codemods/trinity_to_constellation_apply.py --paths lukhas core candidate trace tools scripts
+    python scripts/codemods/triad_to_constellation_apply.py --paths lukhas core candidate trace tools scripts
 
 Run this on a feature branch and review changes before pushing.
 """
@@ -27,9 +27,9 @@ ROOT = Path(__file__).resolve().parents[2]
 # Conservative replacements (identifier-aware)
 REPLACEMENTS: list[tuple[re.Pattern, str]] = [
     (re.compile(r"\bTRINITY_FRAMEWORK\b"), "CONSTELLATION_FRAMEWORK"),
-    (re.compile(r"\bget_trinity_context\b"), "get_constellation_context"),
-    (re.compile(r"\btrinity_framework\b"), "constellation_framework"),
-    (re.compile(r"\btrinity_descriptions\b"), "constellation_descriptions"),
+    (re.compile(r"\bget_triad_context\b"), "get_constellation_context"),
+    (re.compile(r"\btriad_framework\b"), "constellation_framework"),
+    (re.compile(r"\btriad_descriptions\b"), "constellation_descriptions"),
     # case variations for identifiers
     (re.compile(r"\bTrinityFramework\b"), "ConstellationFramework"),
     (re.compile(r"\btrinity\b"), "constellation"),

@@ -57,7 +57,7 @@ class DreamMemoryBridge:
             "content": memory_content,
             "type": memory_type,
             "stored_at": datetime.now(timezone.utc).isoformat(),
-            "trinity_validated": True,
+            "triad_validated": True,
             "persistence_level": "permanent",
         }
 

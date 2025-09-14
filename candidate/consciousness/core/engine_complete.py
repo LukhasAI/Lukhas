@@ -1222,7 +1222,7 @@ class AGIConsciousnessEngine:
     def get_system_status(self) -> dict[str, Any]:
         """Get comprehensive Trinity Framework system status."""
         return {
-            "trinity_framework": {
+            "triad_framework": {
                 "identity": "⚛️ Active - Symbolic consciousness and GLYPH processing",
                 "consciousness": "🧠 Active - Bio-inspired adaptation and awareness",
                 "guardian": "🛡️ Active - Ethical governance and compliance",
@@ -1377,8 +1377,8 @@ async def test_consciousness_engine():
 
     # Test 8: Trinity Framework Integration
     print("\nTest 8: Trinity Framework Status")
-    trinity_status = status["trinity_framework"]
-    for component, status_msg in trinity_status.items():
+    triad_status = status["triad_framework"]
+    for component, status_msg in triad_status.items():
         print(f"{component.capitalize()}: {status_msg}")
 
     bio_processing = status["bio_inspired_processing"]

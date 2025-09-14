@@ -709,7 +709,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 __version__ = "3.0.0"
-__trinity__ = "⚛️🧠🛡️"
+__triad__ = "⚛️🧠🛡️"
 
 # Core memory systems
 from . import fold
@@ -795,7 +795,7 @@ def get_unified_memory() -> UnifiedMemory:
     return _unified_memory
 
 # Trinity integration
-def trinity_sync():
+def triad_sync():
     """Synchronize with Trinity Framework"""
     return {
         'identity': '⚛️',
@@ -827,7 +827,7 @@ def test_memory_imports():
     """Test that memory modules can be imported"""
     from lukhas.accepted import lukhas.memory
     assert memory is not None
-    assert hasattr(memory, '__trinity__')
+    assert hasattr(memory, '__triad__')
 
 def test_memory_systems():
     """Test core memory systems are available"""
@@ -897,11 +897,11 @@ def test_unified_memory():
     assert "constellation" in status
     assert status["constellation"] == "synchronized"
 
-def test_trinity_integration():
+def test_triad_integration():
     """Test Trinity Framework integration"""
-    from lukhas.accepted.memory import trinity_sync
+    from lukhas.accepted.memory import triad_sync
 
-    sync_status = trinity_sync()
+    sync_status = triad_sync()
     assert sync_status['identity'] == '⚛️'
     assert sync_status['consciousness'] == '🧠'
     assert sync_status['guardian'] == '🛡️'

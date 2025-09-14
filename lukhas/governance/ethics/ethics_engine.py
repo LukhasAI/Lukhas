@@ -31,7 +31,7 @@ class EthicalDecision:
     rationale: str
     severity: EthicalSeverity
     confidence: float
-    trinity_compliance: dict[str, bool]  # ⚛️🧠🛡️
+    triad_compliance: dict[str, bool]  # ⚛️🧠🛡️
 
 
 class ConstitutionalFramework:
@@ -52,14 +52,14 @@ class ConstitutionalFramework:
         severity = EthicalSeverity.LOW
         confidence = 0.8
 
-        trinity_compliance = {"identity": True, "consciousness": True, "guardian": True}
+        triad_compliance = {"identity": True, "consciousness": True, "guardian": True}
 
         return EthicalDecision(
             decision="approved",
             rationale=f"Action '{action}' complies with Trinity Framework principles",
             severity=severity,
             confidence=confidence,
-            trinity_compliance=trinity_compliance,
+            triad_compliance=triad_compliance,
         )
 
 

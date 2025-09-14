@@ -213,14 +213,14 @@ class GPTSymbolicBridge:
         return style, style_info
 
     @staticmethod
-    def create_gpt_prompt_context(collapsed_glyphs: list[str], entropy_level: float, trinity_coherence: float) -> str:
+    def create_gpt_prompt_context(collapsed_glyphs: list[str], entropy_level: float, triad_coherence: float) -> str:
         """
         Create context for GPT based on collapsed states.
 
         Args:
             collapsed_glyphs: List of collapsed symbolic glyphs
             entropy_level: Current entropy level (0.0-1.0)
-            trinity_coherence: Trinity Framework coherence (0.0-1.0)
+            triad_coherence: Trinity Framework coherence (0.0-1.0)
 
         Returns:
             Context string for GPT prompting
@@ -236,7 +236,7 @@ class GPTSymbolicBridge:
         context_parts = [
             f"Symbolic State: {' → '.join(collapsed_glyphs)}",
             f"Current Entropy: {entropy_level:.2f}",
-            f"Trinity Coherence: {trinity_coherence:.2f}",
+            f"Trinity Coherence: {triad_coherence:.2f}",
             "",
             f"Primary State Reflection: {GPTSymbolicBridge.reflect_on_glyph(primary_glyph)}",
             "",

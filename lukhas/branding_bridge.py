@@ -94,7 +94,7 @@ def _get_system_signature() -> str:
     return f"{SYSTEM_NAME} {CONSTELLATION_FRAMEWORK} v{SYSTEM_VERSION}"
 
 
-def get_trinity_description() -> dict[str, Any]:
+def get_triad_description() -> dict[str, Any]:
     """Get comprehensive Constellation (formerly Trinity) Framework description.
 
     The function name is preserved for backwards compatibility. The returned
@@ -185,7 +185,7 @@ class BrandContext:
     """Brand context for LUKHAS operations"""
 
     voice_profile: str = "consciousness"
-    trinity_emphasis: str = "balanced"  # consciousness, identity, guardian, balanced
+    triad_emphasis: str = "balanced"  # consciousness, identity, guardian, balanced
     compliance_level: str = "standard"  # strict, standard, lenient
     creative_mode: bool = False
     terminology_enforcement: bool = True
@@ -293,7 +293,7 @@ class LUKHASBrandingBridge:
         }
 
         if BRANDING_AVAILABLE:
-            context.update(get_trinity_description())
+            context.update(get_triad_description())
 
         return context
 
@@ -384,7 +384,7 @@ class LUKHASBrandingBridge:
             except Exception as e:
                 logger.warning(f"Wordsmith generation error: {e}")
 
-        constellation = self.get_constellation_context(context.trinity_emphasis)
+        constellation = self.get_constellation_context(context.triad_emphasis)
         return (
             f"{prompt}\n\nIntegrating {constellation['framework']} principles: "
             f"{constellation['identity']['description']}, "
@@ -462,13 +462,13 @@ def get_constellation_context(emphasis: str = "balanced") -> dict[str, Any]:
     return get_bridge().get_constellation_context(emphasis)
 
 
-def get_trinity_context(emphasis: str = "balanced") -> dict[str, Any]:
-    """Backward-compatible wrapper for older name `get_trinity_context`.
+def get_triad_context(emphasis: str = "balanced") -> dict[str, Any]:
+    """Backward-compatible wrapper for older name `get_triad_context`.
 
     Emits a DeprecationWarning and delegates to the new `get_constellation_context` API.
     """
     warnings.warn(
-        "get_trinity_context is deprecated and will be removed in a future release; use get_constellation_context()",
+        "get_triad_context is deprecated and will be removed in a future release; use get_constellation_context()",
         DeprecationWarning,
         stacklevel=2,
     )
@@ -521,7 +521,7 @@ __all__ = [
     "get_bridge",
     "get_constellation_context",
     "get_system_signature",
-    "get_trinity_context",
+    "get_triad_context",
     "initialize_branding",
     "monitor_brand_drift",
     "normalize_output_text",

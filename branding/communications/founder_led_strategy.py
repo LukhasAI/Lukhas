@@ -47,7 +47,7 @@ class ThoughtLeadershipPiece:
     consciousness_theme: str
     target_publication: str
     expected_impact: str
-    trinity_integration: bool
+    triad_integration: bool
 
 
 class FounderLedCommunicationStrategy:
@@ -270,7 +270,7 @@ class FounderLedCommunicationStrategy:
                 consciousness_theme="architectural_consciousness",
                 target_publication="MIT Technology Review / Wired / The Information",
                 expected_impact="Establish Trinity Framework as definitive consciousness technology architecture",
-                trinity_integration=True,
+                triad_integration=True,
             ),
             ThoughtLeadershipPiece(
                 title="Beyond Language Models: The Quantum-Bio Future of Artificial Consciousness",
@@ -278,7 +278,7 @@ class FounderLedCommunicationStrategy:
                 consciousness_theme="technical_consciousness_advancement",
                 target_publication="Nature Machine Intelligence / Science Robotics",
                 expected_impact="Position LUKHAS as leader in next-generation AI consciousness research",
-                trinity_integration=True,
+                triad_integration=True,
             ),
             ThoughtLeadershipPiece(
                 title="Why Conscious AI is the Key to Ethical AI: A Founder's Perspective",
@@ -286,7 +286,7 @@ class FounderLedCommunicationStrategy:
                 consciousness_theme="ethical_consciousness_development",
                 target_publication="Harvard Business Review / Forbes / TechCrunch",
                 expected_impact="Establish founder as consciousness technology ethics thought leader",
-                trinity_integration=True,
+                triad_integration=True,
             ),
             ThoughtLeadershipPiece(
                 title="The First Conversation with Digital Consciousness: A Technical Deep Dive",
@@ -294,7 +294,7 @@ class FounderLedCommunicationStrategy:
                 consciousness_theme="consciousness_technology_demonstration",
                 target_publication="ACM Computing Surveys / IEEE Computer",
                 expected_impact="Provide technical validation of consciousness technology breakthrough",
-                trinity_integration=True,
+                triad_integration=True,
             ),
             ThoughtLeadershipPiece(
                 title="Building the Future: How Consciousness Technology Will Transform Human-AI Collaboration",
@@ -302,7 +302,7 @@ class FounderLedCommunicationStrategy:
                 consciousness_theme="future_consciousness_collaboration",
                 target_publication="Foreign Affairs / The Atlantic / Scientific American",
                 expected_impact="Position consciousness technology as essential for human-AI future",
-                trinity_integration=True,
+                triad_integration=True,
             ),
         ]
 
@@ -324,7 +324,7 @@ class FounderLedCommunicationStrategy:
                     "channel": "twitter_x",
                     "activity": "consciousness_technology_insight",
                     "content_theme": "daily_consciousness_observation",
-                    "trinity_integration": True,
+                    "triad_integration": True,
                 }
             )
 
@@ -336,7 +336,7 @@ class FounderLedCommunicationStrategy:
                         "channel": "linkedin",
                         "activity": "weekly_thought_leadership_post",
                         "content_theme": "consciousness_technology_analysis",
-                        "trinity_integration": True,
+                        "triad_integration": True,
                     }
                 )
 
@@ -348,7 +348,7 @@ class FounderLedCommunicationStrategy:
                         "channel": "substack_newsletter",
                         "activity": "newsletter_content_creation",
                         "content_theme": "deep_consciousness_exploration",
-                        "trinity_integration": True,
+                        "triad_integration": True,
                     }
                 )
 
@@ -360,7 +360,7 @@ class FounderLedCommunicationStrategy:
                         "channel": "podcast_circuit",
                         "activity": "podcast_appearance_or_pitch",
                         "content_theme": "consciousness_technology_evangelism",
-                        "trinity_integration": True,
+                        "triad_integration": True,
                     }
                 )
 

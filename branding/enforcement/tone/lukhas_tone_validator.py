@@ -16,7 +16,7 @@ class LukhasToneValidator:
         self.approved_terminology = {
             "lukhas_ai",
             "lukhas",
-            "trinity_framework",
+            "triad_framework",
             "consciousness",
             "qi_inspired",
             "bio_inspired",
@@ -35,7 +35,7 @@ class LukhasToneValidator:
             "lukhas_agi": "lukhas_ai",
         }
 
-        self.trinity_symbols = ["⚛️", "🧠", "🛡️"]
+        self.triad_symbols = ["⚛️", "🧠", "🛡️"]
 
     def validate_content(self, content: str, filepath: str = "") -> tuple[bool, list[str]]:
         """Validate content against LUKHAS tone requirements"""
@@ -47,7 +47,7 @@ class LukhasToneValidator:
                 issues.append(f"Deprecated term '{deprecated}' found. Consider '{replacement}'")
 
         # Basic Trinity Framework check
-        has_trinity = any(symbol in content for symbol in self.trinity_symbols)
+        has_trinity = any(symbol in content for symbol in self.triad_symbols)
         if filepath.endswith(".md") and len(content) > 1000 and not has_trinity:
             issues.append("Large documentation file missing Trinity Framework symbols (⚛️🧠🛡️)")
 

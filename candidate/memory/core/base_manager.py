@@ -86,7 +86,9 @@ except ImportError:
 
 # GLYPH system integration for LUKHAS agent workflows
 try:
-    from candidate.core.glyph.glyph_engine import GlyphEngine  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+    from candidate.core.glyph.glyph_engine import (
+        GlyphEngine,
+    )  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 
     GLYPH_AVAILABLE = True
 except ImportError:
@@ -133,7 +135,7 @@ class BaseMemoryManager(ABC):
             self.logger.info(
                 "🧠 Trinity Memory Manager initializing",
                 manager_type=self.__class__.__name__,
-                trinity_mode="⚛️🧠🛡️",
+                triad_mode="⚛️🧠🛡️",
             )
         except Exception as e:
             # Fallback logging if get_logger fails
@@ -268,7 +270,7 @@ class BaseMemoryManager(ABC):
                 "🆔 Generated Λ-trace memory ID",
                 memory_id=memory_id,
                 prefix=prefix,
-                trinity_component="⚛️",
+                triad_component="⚛️",
             )
             return memory_id
         except Exception as e:
@@ -336,7 +338,7 @@ class BaseMemoryManager(ABC):
                 **metadata,
                 "last_modified": datetime.now(timezone.utc).isoformat(),
                 "manager_type": self.__class__.__name__,
-                "trinity_identity": self._extract_identity_context(metadata),
+                "triad_identity": self._extract_identity_context(metadata),
                 "consciousness_pattern": self._analyze_consciousness_pattern(metadata),
                 "guardian_validation": self._validate_guardian_compliance(metadata),
             }
@@ -357,7 +359,7 @@ class BaseMemoryManager(ABC):
             self.logger.debug(
                 "🧠 Memory index updated",
                 memory_id=memory_id,
-                trinity_compliance="✅",
+                triad_compliance="✅",
                 consciousness_detected=memory_id in self._consciousness_patterns,
             )
         except Exception as e:
@@ -403,12 +405,14 @@ class BaseMemoryManager(ABC):
             deleted_memories = sum(1 for meta in self._memory_index.values() if meta.get("deleted", False))
 
             # Trinity Framework specific metrics
-            identity_contexts = {meta.get("trinity_identity", "⚛️anonymous") for meta in self._memory_index.values()}
+            identity_contexts = {meta.get("triad_identity", "⚛️anonymous") for meta in self._memory_index.values()}
 
             consciousness_patterns = len(self._consciousness_patterns)
 
             guardian_compliant = sum(
-                1 for meta in self._memory_index.values() if meta.get("guardian_validation", "").startswith("🛡️verified")
+                1
+                for meta in self._memory_index.values()
+                if meta.get("guardian_validation", "").startswith("🛡️verified")
             )
 
             stats = {
@@ -495,5 +499,5 @@ class BaseMemoryManager(ABC):
             f"{self.__class__.__name__}(path={self.base_path}, "
             f"memories={len(self._memory_index)}, "
             f"consciousness_patterns={len(self._consciousness_patterns)}, "
-            f"trinity_mode=⚛️🧠🛡️)"
+            f"triad_mode=⚛️🧠🛡️)"
         )

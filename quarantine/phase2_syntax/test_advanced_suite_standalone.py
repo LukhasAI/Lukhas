@@ -217,7 +217,7 @@ class ChaosEngineer:
         self.failure_scenarios = [
             "memory_fold_cascade",
             "ethical_module_disconnect",
-            "trinity_framework_partition",
+            "triad_framework_partition",
             "temporal_coherence_drift",
         ]
 

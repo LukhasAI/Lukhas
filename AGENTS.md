@@ -10,6 +10,51 @@ Welcome to the LUKHAS Agent System - a comprehensive multi-agent architecture de
 
 After T4 framework implementation and test consolidation (~450 working tests from 1,497 duplicates), we've identified **~150+ missing test modules** across 6 core architectural domains. The Jules agent allocation system provides systematic test development through 10 specialized agents.
 
+### 🗺️ Jules 0x Navigation Guide - ESSENTIAL CONTEXT FILES
+
+**📍 claude.me Files - Domain-Specific Context (40+ files throughout codebase)**
+
+The `claude.me` files provide critical domain-specific context for Jules agents. These files contain architecture overviews, component relationships, and domain-specific instructions that help agents understand the codebase structure.
+
+**Core Navigation Contexts:**
+- **Root Overview**: [`claude.me`](claude.me) - Master architecture (7,000+ files, Trinity Framework)
+- **MATRIZ Engine**: [`matriz/claude.me`](matriz/claude.me) - Cognitive DNA processing
+- **Candidate Workspace**: [`candidate/claude.me`](candidate/claude.me) - Primary development domain
+
+**Trinity Framework Contexts (⚛️🧠🛡️):**
+- **⚛️ Identity Systems**:
+  - [`identity/claude.me`](identity/claude.me) - Lambda ID foundation
+  - [`candidate/core/identity/claude.me`](candidate/core/identity/claude.me) - Identity development
+  - [`lukhas/identity/claude.me`](lukhas/identity/claude.me) - Identity integration
+- **🧠 Consciousness Systems**:
+  - [`consciousness/claude.me`](consciousness/claude.me) - Research foundations
+  - [`candidate/consciousness/claude.me`](candidate/consciousness/claude.me) - 52+ components workspace
+  - [`lukhas/consciousness/claude.me`](lukhas/consciousness/claude.me) - Trinity activation
+- **🛡️ Guardian/Ethics Systems**:
+  - [`ethics/claude.me`](ethics/claude.me) - Ethical frameworks
+  - [`governance/claude.me`](governance/claude.me) - Governance systems
+  - [`candidate/governance/claude.me`](candidate/governance/claude.me) - Guardian development
+
+**Specialized Domain Contexts:**
+- **Memory Systems**: [`memory/claude.me`](memory/claude.me), [`candidate/memory/claude.me`](candidate/memory/claude.me)
+- **Bio/Quantum**: [`bio/claude.me`](bio/claude.me), [`quantum/claude.me`](quantum/claude.me)
+- **Bridge/API**: [`candidate/bridge/claude.me`](candidate/bridge/claude.me), [`lukhas/api/claude.me`](lukhas/api/claude.me)
+- **Products**: [`products/claude.me`](products/claude.me), [`products/enterprise/claude.me`](products/enterprise/claude.me)
+- **Tools**: [`tools/claude.me`](tools/claude.me) - Development utilities
+
+### 📌 TODO/JULES Markers - Priority Fixes
+
+**Active TODO[JULES-X] markers requiring immediate attention:**
+- `candidate/orchestration/openai_modulated_service.py` - TODO[JULES-1]: Service integration patterns
+- `candidate/governance/compliance_dashboard_visual.py` - TODO[JULES-2]: Dashboard visualization fixes
+- `candidate/governance/drift_dashboard_visual.py` - TODO[JULES-2]: Drift dashboard visualization
+- `candidate/qi/qi_entanglement.py` - TODO[JULES-3]: QI/quantum entanglement fixes
+- `candidate/core/framework_integration.py` - TODO[JULES-1]: Framework integration fixes
+
+**TODO Resources:**
+- [`TODO/raw_todos_20250912_201633.txt`](TODO/raw_todos_20250912_201633.txt) - Comprehensive TODO list
+- [`agents_external/AGENT_QUICK_REFERENCE.md`](agents_external/AGENT_QUICK_REFERENCE.md) - Jules TODO batches
+
 ## 🚀 Quickstart for Jules Agents
 
 To get started with Jules agents for test development, follow these steps:
@@ -30,7 +75,7 @@ To get started with Jules agents for test development, follow these steps:
 
 ### Jules Agent Test Assignment Reference
 - **Jules-01**: Identity & Authentication (25 tests, CRITICAL, tier1)
-- **Jules-02**: Consciousness & Awareness (30 tests, CRITICAL, tier1) 
+- **Jules-02**: Consciousness & Awareness (30 tests, CRITICAL, tier1)
 - **Jules-03**: Memory Systems (20 tests, CRITICAL, tier1)
 - **Jules-04**: Governance & Ethics (18 tests, HIGH, tier2)
 - **Jules-05**: Orchestration & Workflows (22 tests, HIGH, tier2)
@@ -65,15 +110,16 @@ LUKHAS employs a multi-layered agent system with different specializations and d
 
 **Purpose:** Specialized agents accessible via `/agents` command in Claude Code UI
 
-**⚠️ IMPORTANT: Claude.me Configuration Distribution**
-Multiple `claude.me` files exist throughout the workspace providing context-specific instructions:
-- **Root**: [`.claude/claude.me`](.claude/claude.me) - Global project context
-- **Distributed**: Specialized context files in various modules and domains
+**⚠️ IMPORTANT: claude.me Configuration Distribution**
+40+ `claude.me` files exist throughout the workspace providing context-specific instructions that help both Claude Code and Jules agents understand domain architecture:
+- **Root**: [`claude.me`](claude.me) - Master architecture overview (7,000+ files, Trinity Framework)
+- **Distributed**: Domain-specific context files in candidate/, lukhas/, products/, ethics/, governance/, etc.
 - **Integration**: These files provide essential project understanding for all agent interactions
+- **Navigation Aid**: Each `claude.me` file contains domain-specific architecture, component relationships, and integration patterns
 
 #### Available Specialists:
 - `adapter-integration-specialist` - External service integrations & OAuth
-- `api-bridge-specialist` - API design and multi-AI orchestration  
+- `api-bridge-specialist` - API design and multi-AI orchestration
 - `consciousness-content-strategist` - Content strategy for consciousness tech
 - `consent-compliance-specialist` - Privacy, GDPR/CCPA compliance
 - `context-orchestrator-specialist` - Multi-model workflow orchestration
@@ -115,7 +161,7 @@ Multiple `claude.me` files exist throughout the workspace providing context-spec
    Stream A (Lane Integrity) ─┐
                               ├─ Stream D waits for A+B
    Stream B (MATRIZ Traces) ──┘
-   
+
    Stream C (Security/SBOM) ── Independent
    ```
 
@@ -177,7 +223,7 @@ Each MATRIZ-R1 stream has specific acceptance criteria defined in the execution 
 
 - **Lane Integrity**: `make lane-guard` passes; `.importlinter` clean
 - **Trace API**: `/traces/latest` returns 200 + trace_id; golden test passes
-- **Security/SBOM**: SBOM referenced in docs; critical deps pinned; gitleaks green  
+- **Security/SBOM**: SBOM referenced in docs; critical deps pinned; gitleaks green
 - **Hygiene**: No E9/F63/F7/F82 in changed files; logger defined
 
 ### Global Constraints:
@@ -205,37 +251,86 @@ Each MATRIZ-R1 stream has specific acceptance criteria defined in the execution 
 
 Each Jules agent MUST follow this standardized workflow for every assigned module:
 
-1. **Read Assignment**  
-   - Open your allocation in [`docs/testing/JULES_AGENT_TEST_ALLOCATION.md`](docs/testing/JULES_AGENT_TEST_ALLOCATION.md).  
+1. **Read Assignment**
+   - Open your allocation in [`docs/testing/JULES_AGENT_TEST_ALLOCATION.md`](docs/testing/JULES_AGENT_TEST_ALLOCATION.md).
    - Check your `.yaml` spec file in `tests/specs/`.
 
-2. **Setup Environment**  
+2. **Setup Environment**
    ```bash
    git fetch origin
    git checkout -b feat/tests/Jules-0X-<module>
    make bootstrap
    ```
 
-3. **Create Tests**  
+3. **Create Tests**
    - Place tests under `tests/unit/` or `tests/integration/` following spec.
    - Use T4 markers (`tier1`, `tier2`, etc).
    - Annotate edge cases and goldens.
 
-4. **Local Validation**  
+4. **Local Validation**
    ```bash
    pytest -m tier1 --tb=short
    pytest --cov=lukhas --cov-report=term-missing
    ```
 
-5. **Commit with Branding**  
-   - Follow [`commit_standard_format.yaml`](commit_standard_format.yaml).  
-   - Example:  
+5. **Commit with Branding**
+   - Follow [`commit_standard_format.yaml`](commit_standard_format.yaml).
+   - Example:
      ```
      test(identity): add MFA login + token expiry tests (tier1)
      ```
 
-6. **PR Creation**  
-   - Title: `test(Jules-0X): <module summary>`  
-   - Body: include acceptance checklist + coverage diff.  
+6. **PR Creation**
+   - Title: `test(Jules-0X): <module summary>`
+   - Body: include acceptance checklist + coverage diff.
    - Add label: `tests-only`.
+
+## 📚 Jules 0x Complete Navigation Reference
+
+### claude.me Context Files Directory
+Jules agents should refer to these `claude.me` files for domain-specific understanding:
+
+**Core System Contexts:**
+| Domain | Path | Purpose |
+|--------|------|---------|
+| Root Architecture | `claude.me` | Master system overview (7,000+ files, Trinity Framework) |
+| MATRIZ Engine | `matriz/claude.me`, `matriz/core/claude.me` | Cognitive DNA processing |
+| Candidate Development | `candidate/claude.me` | Primary development workspace (2,877 files) |
+| LUKHAS Integration | `lukhas/claude.me` | Integration layer (148 files) |
+| Products Deployment | `products/claude.me` | Production systems (4,093 files) |
+
+**Trinity Framework Domains:**
+| Component | Development | Integration | Foundation |
+|-----------|------------|-------------|------------|
+| ⚛️ Identity | `candidate/core/identity/claude.me` | `lukhas/identity/claude.me` | `identity/claude.me` |
+| 🧠 Consciousness | `candidate/consciousness/claude.me` | `lukhas/consciousness/claude.me` | `consciousness/claude.me` |
+| 🛡️ Guardian | `candidate/governance/claude.me` | `lukhas/governance/claude.me` | `governance/claude.me`, `ethics/claude.me` |
+
+**Specialized Systems:**
+| System | Paths | Focus Area |
+|--------|-------|------------|
+| Memory | `memory/claude.me`, `candidate/memory/claude.me`, `lukhas/memory/claude.me` | Fold-based memory architecture |
+| Bio/Quantum | `bio/claude.me`, `quantum/claude.me` | Bio-inspired & quantum algorithms |
+| Bridge/API | `candidate/bridge/claude.me`, `lukhas/api/claude.me`, `lukhas/orchestration/claude.me` | External integrations |
+| Dream | `candidate/dream/claude.me` | Dream state processing |
+| Ethics | `ethics/compliance/claude.me`, `ethics/drift_detection/claude.me`, `ethics/guardian/claude.me` | Ethical frameworks |
+| Enterprise | `products/enterprise/claude.me`, `products/enterprise/compliance/claude.me` | Enterprise features |
+| Experience | `products/experience/claude.me`, `products/experience/dashboard/claude.me` | User experience |
+| Intelligence | `products/intelligence/claude.me`, `products/intelligence/dast/claude.me`, `products/intelligence/lens/claude.me` | AI intelligence |
+| Tools | `tools/claude.me` | Development utilities |
+| Visualization | `matriz/visualization/claude.me` | System visualization |
+
+### Active TODO/JULES Tracking
+- **Priority Files**: Check TODO[JULES-X] markers in candidate/ directory
+- **TODO Archive**: `TODO/raw_todos_20250912_201633.txt`
+- **Quick Reference**: `agents_external/AGENT_QUICK_REFERENCE.md`
+- **Test Allocations**: `docs/testing/JULES_AGENT_TEST_ALLOCATION.md`
+
+### Navigation Tips for Jules Agents
+1. **Start with root `claude.me`** for system overview
+2. **Check domain-specific `claude.me`** before working in any directory
+3. **Refer to Trinity Framework contexts** for architectural alignment
+4. **Use TODO[JULES-X] markers** to identify priority work
+5. **Follow test allocation assignments** in docs/testing/
+
 ---

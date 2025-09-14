@@ -87,7 +87,7 @@ class AuthModuleMessage:
     session_id: Optional[str]
     glyph_encoding: str
     payload: dict[str, Any]
-    trinity_context: dict[str, str]
+    triad_context: dict[str, str]
     timestamp: datetime
     priority: str = "normal"  # low, normal, high, critical
     requires_response: bool = False
@@ -123,13 +123,13 @@ class TrinityFrameworkIntegration:
 
     def __init__(self) -> None:
         """Initialize Trinity Framework integration"""
-        self.trinity_aspects = {
+        self.triad_aspects = {
             "identity": "⚛️",  # Identity aspect
             "consciousness": "🧠",  # Consciousness aspect
             "guardian": "🛡️",  # Guardian aspect
         }
 
-        self.module_trinity_mapping = {
+        self.module_triad_mapping = {
             ModuleType.CONSCIOUSNESS: "consciousness",
             ModuleType.MEMORY: "consciousness",
             ModuleType.REASONING: "consciousness",
@@ -143,9 +143,9 @@ class TrinityFrameworkIntegration:
             ModuleType.CORE: "guardian",
         }
 
-    def get_trinity_context_for_module(self, module_type: ModuleType, auth_context: dict[str, Any]) -> dict[str, str]:
+    def get_triad_context_for_module(self, module_type: ModuleType, auth_context: dict[str, Any]) -> dict[str, str]:
         """Get Trinity Framework context for specific module"""
-        primary_aspect = self.module_trinity_mapping.get(module_type, "identity")
+        primary_aspect = self.module_triad_mapping.get(module_type, "identity")
 
         # Determine emphasis based on authentication context
         if auth_context.get("guardian_alert", False):
@@ -158,7 +158,7 @@ class TrinityFrameworkIntegration:
         return {
             "primary_aspect": primary_aspect,
             "emphasis": emphasis,
-            "symbol": self.trinity_aspects[emphasis],
+            "symbol": self.triad_aspects[emphasis],
             "framework": "⚛️🧠🛡️",
             "integration_level": self._calculate_integration_level(auth_context),
         }
@@ -201,7 +201,7 @@ class AuthCrossModuleIntegrator:
         """Initialize cross-module integration system"""
         self.glyph_engine = GlyphEngine() if GlyphEngine else None
         self.kernel_bus = SymbolicKernelBus() if SymbolicKernelBus else None
-        self.trinity_integration = TrinityFrameworkIntegration()
+        self.triad_integration = TrinityFrameworkIntegration()
 
         # Module registrations and contexts
         self.registered_modules: dict[ModuleType, dict[str, Any]] = {}
@@ -370,7 +370,7 @@ class AuthCrossModuleIntegrator:
                 return False
 
             # Get Trinity context for module
-            trinity_context = self.trinity_integration.get_trinity_context_for_module(module_type, auth_context)
+            triad_context = self.triad_integration.get_triad_context_for_module(module_type, auth_context)
 
             # Create GLYPH message
             glyph_message = "GLYPH[DEFAULT]"
@@ -391,7 +391,7 @@ class AuthCrossModuleIntegrator:
                 session_id=auth_context.get("session_id"),
                 glyph_encoding=glyph_message,
                 payload=await adapter["prepare_payload"](auth_context),
-                trinity_context=trinity_context,
+                triad_context=triad_context,
                 timestamp=datetime.now(timezone.utc),
                 priority=self._determine_message_priority(auth_event),
             )
@@ -467,7 +467,7 @@ class AuthCrossModuleIntegrator:
                 "session_id": message.session_id,
                 "glyph": message.glyph_encoding,
                 "payload": message.payload,
-                "trinity": message.trinity_context,
+                "trinity": message.triad_context,
                 "timestamp": message.timestamp.isoformat(),
                 "priority": message.priority,
             }
@@ -494,7 +494,7 @@ class AuthCrossModuleIntegrator:
                 session_id=None,
                 glyph_encoding="GLYPH[SYSTEM]",
                 payload=payload,
-                trinity_context={"aspect": "system", "symbol": "⚙️"},
+                triad_context={"aspect": "system", "symbol": "⚙️"},
                 timestamp=datetime.now(timezone.utc),
                 priority="normal",
             )
@@ -516,7 +516,7 @@ class AuthCrossModuleIntegrator:
                 "awareness_level": auth_context.get("tier_level", "T1"),
                 "cognitive_permissions": auth_context.get("scopes", []),
                 "consciousness_state": "authenticated",
-                "trinity_aspect": "consciousness",
+                "triad_aspect": "consciousness",
                 "symbolic_identity": auth_context.get("symbolic_identity"),
                 "memory_access": "consciousness:access" in auth_context.get("scopes", []),
             }
@@ -524,7 +524,7 @@ class AuthCrossModuleIntegrator:
         return {
             "prepare_payload": prepare_payload,
             "module_type": ModuleType.CONSCIOUSNESS,
-            "trinity_aspect": "consciousness",
+            "triad_aspect": "consciousness",
         }
 
     def _create_memory_adapter(self) -> dict[str, Callable]:
@@ -544,7 +544,7 @@ class AuthCrossModuleIntegrator:
         return {
             "prepare_payload": prepare_payload,
             "module_type": ModuleType.MEMORY,
-            "trinity_aspect": "consciousness",
+            "triad_aspect": "consciousness",
         }
 
     def _create_reasoning_adapter(self) -> dict[str, Callable]:
@@ -564,7 +564,7 @@ class AuthCrossModuleIntegrator:
         return {
             "prepare_payload": prepare_payload,
             "module_type": ModuleType.REASONING,
-            "trinity_aspect": "consciousness",
+            "triad_aspect": "consciousness",
         }
 
     def _create_emotion_adapter(self) -> dict[str, Callable]:
@@ -584,7 +584,7 @@ class AuthCrossModuleIntegrator:
         return {
             "prepare_payload": prepare_payload,
             "module_type": ModuleType.EMOTION,
-            "trinity_aspect": "consciousness",
+            "triad_aspect": "consciousness",
         }
 
     def _create_creativity_adapter(self) -> dict[str, Callable]:
@@ -604,7 +604,7 @@ class AuthCrossModuleIntegrator:
         return {
             "prepare_payload": prepare_payload,
             "module_type": ModuleType.CREATIVITY,
-            "trinity_aspect": "consciousness",
+            "triad_aspect": "consciousness",
         }
 
     def _create_quantum_adapter(self) -> dict[str, Callable]:
@@ -624,7 +624,7 @@ class AuthCrossModuleIntegrator:
         return {
             "prepare_payload": prepare_payload,
             "module_type": ModuleType.QUANTUM,
-            "trinity_aspect": "identity",
+            "triad_aspect": "identity",
         }
 
     def _create_bio_adapter(self) -> dict[str, Callable]:
@@ -644,7 +644,7 @@ class AuthCrossModuleIntegrator:
         return {
             "prepare_payload": prepare_payload,
             "module_type": ModuleType.BIO,
-            "trinity_aspect": "identity",
+            "triad_aspect": "identity",
         }
 
     def _create_identity_adapter(self) -> dict[str, Callable]:
@@ -664,7 +664,7 @@ class AuthCrossModuleIntegrator:
         return {
             "prepare_payload": prepare_payload,
             "module_type": ModuleType.IDENTITY,
-            "trinity_aspect": "identity",
+            "triad_aspect": "identity",
         }
 
     def _create_guardian_adapter(self) -> dict[str, Callable]:
@@ -686,7 +686,7 @@ class AuthCrossModuleIntegrator:
         return {
             "prepare_payload": prepare_payload,
             "module_type": ModuleType.GUARDIAN,
-            "trinity_aspect": "guardian",
+            "triad_aspect": "guardian",
         }
 
     def _create_bridge_adapter(self) -> dict[str, Callable]:
@@ -706,7 +706,7 @@ class AuthCrossModuleIntegrator:
         return {
             "prepare_payload": prepare_payload,
             "module_type": ModuleType.BRIDGE,
-            "trinity_aspect": "guardian",
+            "triad_aspect": "guardian",
         }
 
     def _create_core_adapter(self) -> dict[str, Callable]:
@@ -721,13 +721,13 @@ class AuthCrossModuleIntegrator:
                 "core_identity": auth_context.get("symbolic_identity"),
                 "system_access": True,
                 "glyph_enabled": True,
-                "trinity_integrated": True,
+                "triad_integrated": True,
             }
 
         return {
             "prepare_payload": prepare_payload,
             "module_type": ModuleType.CORE,
-            "trinity_aspect": "guardian",
+            "triad_aspect": "guardian",
         }
 
     async def get_user_module_contexts(self, user_id: str) -> dict[str, Any]:
@@ -746,7 +746,7 @@ class AuthCrossModuleIntegrator:
                 "user_id": user_id,
                 "base_context": asdict(context),
                 "module_contexts": module_contexts,
-                "trinity_integration": self.trinity_integration.get_trinity_context_for_module(
+                "triad_integration": self.triad_integration.get_triad_context_for_module(
                     ModuleType.CORE, context.metadata
                 ),
                 "last_updated": datetime.now(timezone.utc).isoformat(),
@@ -782,7 +782,7 @@ class AuthCrossModuleIntegrator:
             "active_contexts": len(self.active_contexts),
             "pending_messages": len(self.pending_messages),
             "module_types": [m.value for m in self.registered_modules],
-            "trinity_integration": True,
+            "triad_integration": True,
             "glyph_communication": auth_glyph_registry is not None,
             "kernel_bus_available": self.kernel_bus is not None,
             "statistics": self.integration_stats,

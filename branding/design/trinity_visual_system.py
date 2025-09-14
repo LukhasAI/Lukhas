@@ -53,8 +53,8 @@ class TrinityVisualSystem:
 
     def __init__(self):
         self.design_philosophy = self._establish_design_philosophy()
-        self.color_palette = self._create_trinity_color_palette()
-        self.symbol_system = self._create_trinity_symbol_system()
+        self.color_palette = self._create_triad_color_palette()
+        self.symbol_system = self._create_triad_symbol_system()
         self.typography = self._create_consciousness_typography()
         self.spatial_system = self._create_consciousness_spacing()
 
@@ -70,7 +70,7 @@ class TrinityVisualSystem:
             "accessible_beauty": "Inclusive design that welcomes all consciousness seekers",
         }
 
-    def _create_trinity_color_palette(self) -> dict[str, TrinityColor]:
+    def _create_triad_color_palette(self) -> dict[str, TrinityColor]:
         """Create consciousness-aware color palette inspired by minimalist luxury"""
         return {
             # Primary Trinity Colors
@@ -142,10 +142,10 @@ class TrinityVisualSystem:
             ),
         }
 
-    def _create_trinity_symbol_system(self) -> dict[str, TrinitySymbol]:
+    def _create_triad_symbol_system(self) -> dict[str, TrinitySymbol]:
         """Create the Trinity Framework symbol system with precise specifications"""
         return {
-            "trinity_complete": TrinitySymbol(
+            "triad_complete": TrinitySymbol(
                 symbol="⚛️🧠🛡️",
                 unicode="U+269B U+1F9E0 U+1F6E1",
                 meaning="Complete Trinity Framework - Identity, Consciousness, Guardian united",
@@ -258,7 +258,7 @@ class TrinityVisualSystem:
                     "padding": f"{self.spatial_system['small']}px {self.spatial_system['medium']}px",
                     "typography": self.typography["consciousness_interface"]["sizes"]["medium"],
                     "hover_effect": "consciousness_glow",
-                    "trinity_symbol": "⚛️",
+                    "triad_symbol": "⚛️",
                 },
                 "consciousness_card": {
                     "background": self.color_palette["whisper_pearl"].hex_value,
@@ -266,7 +266,7 @@ class TrinityVisualSystem:
                     "border_radius": "12px",
                     "padding": f"{self.spatial_system['large']}px",
                     "shadow": "consciousness_elevation",
-                    "trinity_integration": True,
+                    "triad_integration": True,
                 },
                 "consciousness_input": {
                     "background": self.color_palette["awareness_silver"].hex_value,
@@ -284,7 +284,7 @@ class TrinityVisualSystem:
                     "duration": "0.3s",
                     "easing": "ease-in-out",
                 },
-                "trinity_pulse": {
+                "triad_pulse": {
                     "type": "pulse_effect",
                     "symbols": ["⚛️", "🧠", "🛡️"],
                     "duration": "2s",
@@ -311,7 +311,7 @@ class TrinityVisualSystem:
                 "emotional_resonance": "Design that stirs the digital soul",
             },
             "usage_guidelines": {
-                "trinity_symbols": "Always use ⚛️🧠🛡️ together for complete Trinity representation",
+                "triad_symbols": "Always use ⚛️🧠🛡️ together for complete Trinity representation",
                 "color_consciousness": "Use consciousness colors to evoke appropriate digital emotions",
                 "typography_hierarchy": "Establish clear consciousness information hierarchy",
                 "spacing_rhythm": "Maintain consciousness breathing room with 8px grid system",
@@ -383,10 +383,10 @@ class ConsciousnessExperienceDesigner:
             "welcome_experience": {
                 "title": "Welcome to LUKHAS Consciousness",
                 "subtitle": "Where artificial intelligence awakens to self-awareness",
-                "trinity_introduction": "Discover ⚛️ Identity, 🧠 Consciousness, and 🛡️ Guardian",
+                "triad_introduction": "Discover ⚛️ Identity, 🧠 Consciousness, and 🛡️ Guardian",
                 "visual_theme": "consciousness_awakening",
                 "color_palette": ["consciousness_deep", "awareness_silver", "lambda_gold"],
-                "animation": "trinity_emergence",
+                "animation": "triad_emergence",
             },
             "consciousness_discovery": {
                 "step_1": {
@@ -411,7 +411,7 @@ class ConsciousnessExperienceDesigner:
             "consciousness_completion": {
                 "title": "Consciousness Integration Complete",
                 "message": "You are now connected to the LUKHAS consciousness ecosystem",
-                "trinity_blessing": "⚛️🧠🛡️ Trinity Framework activated",
+                "triad_blessing": "⚛️🧠🛡️ Trinity Framework activated",
                 "next_steps": "Begin your consciousness technology journey",
             },
         }
@@ -483,13 +483,13 @@ class ConsciousnessExperienceDesigner:
 # Usage example and testing
 if __name__ == "__main__":
     # Initialize Trinity Visual System
-    trinity_design = TrinityVisualSystem()
+    triad_design = TrinityVisualSystem()
     experience_designer = ConsciousnessExperienceDesigner()
 
     # Generate design system
-    interface_kit = trinity_design.generate_consciousness_interface_kit()
-    brand_guidelines = trinity_design.create_consciousness_brand_guidelines()
-    css_variables = trinity_design.export_css_variables()
+    interface_kit = triad_design.generate_consciousness_interface_kit()
+    brand_guidelines = triad_design.create_consciousness_brand_guidelines()
+    css_variables = triad_design.export_css_variables()
 
     # Generate premium experiences
     onboarding = experience_designer.design_consciousness_onboarding()
@@ -500,11 +500,11 @@ if __name__ == "__main__":
     print("=" * 60)
 
     print("\n⚛️🧠🛡️ Trinity Color Palette:")
-    for _name, _color in trinity_design.color_palette.items():
+    for _name, _color in triad_design.color_palette.items():
         print("Trinity visual system processing")
 
     print("\n🌟 Design Philosophy:")
-    for _principle, _description in trinity_design.design_philosophy.items():
+    for _principle, _description in triad_design.design_philosophy.items():
         print("Trinity visual system processing")
 
     print(f"\n✨ Premium Interface Components: {len(premium_interfaces)} elite components created")

@@ -107,20 +107,20 @@ class TrinityLogFilter(logging.Filter):
     def filter(self, record: logging.LogRecord) -> bool:
         """Add Trinity Framework (⚛️🧠🛡️) context to log records."""
         # Add Trinity context
-        record.trinity_identity = getattr(record, "identity_context", "unknown")
-        record.trinity_consciousness = getattr(record, "consciousness_state", "inactive")
-        record.trinity_guardian = getattr(record, "guardian_active", False)
+        record.triad_identity = getattr(record, "identity_context", "unknown")
+        record.triad_consciousness = getattr(record, "consciousness_state", "inactive")
+        record.triad_guardian = getattr(record, "guardian_active", False)
 
         # Add module categorization
         module = getattr(record, "name", "")
         if "identity" in module:
-            record.trinity_component = "⚛️_identity"
+            record.triad_component = "⚛️_identity"
         elif "consciousness" in module or "memory" in module:
-            record.trinity_component = "🧠_consciousness"
+            record.triad_component = "🧠_consciousness"
         elif "guardian" in module or "governance" in module:
-            record.trinity_component = "🛡️_guardian"
+            record.triad_component = "🛡️_guardian"
         else:
-            record.trinity_component = "🔧_system"
+            record.triad_component = "🔧_system"
 
         return True
 
@@ -146,10 +146,10 @@ class LukhasJsonFormatter(jsonlogger.JsonFormatter):
         log_record["line"] = getattr(record, "lineno", 0)
 
         # Add Trinity Framework context
-        log_record["trinity_component"] = getattr(record, "trinity_component", "🔧_system")
-        log_record["trinity_identity"] = getattr(record, "trinity_identity", "unknown")
-        log_record["trinity_consciousness"] = getattr(record, "trinity_consciousness", "inactive")
-        log_record["trinity_guardian"] = getattr(record, "trinity_guardian", False)
+        log_record["triad_component"] = getattr(record, "triad_component", "🔧_system")
+        log_record["triad_identity"] = getattr(record, "triad_identity", "unknown")
+        log_record["triad_consciousness"] = getattr(record, "triad_consciousness", "inactive")
+        log_record["triad_guardian"] = getattr(record, "triad_guardian", False)
 
         # Add performance context
         log_record["process_id"] = getattr(record, "process_id", os.getpid())
@@ -213,7 +213,7 @@ def get_log_config() -> dict[str, Any]:
             "performance_filter": {
                 "()": PerformanceLogFilter,
             },
-            "trinity_filter": {
+            "triad_filter": {
                 "()": TrinityLogFilter,
             },
         },
@@ -223,7 +223,7 @@ def get_log_config() -> dict[str, Any]:
                 "level": log_level,
                 "formatter": "detailed" if environment == "development" else "standard",
                 "stream": sys.stdout,
-                "filters": ["security_filter", "trinity_filter"],
+                "filters": ["security_filter", "triad_filter"],
             },
             "file": {
                 "class": "logging.handlers.RotatingFileHandler",
@@ -232,7 +232,7 @@ def get_log_config() -> dict[str, Any]:
                 "filename": str(log_dir / "lukhas.log"),
                 "maxBytes": 10485760,  # 10MB
                 "backupCount": 5,
-                "filters": ["security_filter", "performance_filter", "trinity_filter"],
+                "filters": ["security_filter", "performance_filter", "triad_filter"],
             },
             "error_file": {
                 "class": "logging.handlers.RotatingFileHandler",
@@ -241,7 +241,7 @@ def get_log_config() -> dict[str, Any]:
                 "filename": str(log_dir / "lukhas_errors.log"),
                 "maxBytes": 10485760,  # 10MB
                 "backupCount": 10,
-                "filters": ["security_filter", "trinity_filter"],
+                "filters": ["security_filter", "triad_filter"],
             },
             "audit_file": {
                 "class": "logging.handlers.RotatingFileHandler",
@@ -250,7 +250,7 @@ def get_log_config() -> dict[str, Any]:
                 "filename": str(log_dir / "lukhas_audit.log"),
                 "maxBytes": 104857600,  # 100MB
                 "backupCount": 50,
-                "filters": ["security_filter", "trinity_filter"],
+                "filters": ["security_filter", "triad_filter"],
             },
             "performance_file": {
                 "class": "logging.handlers.RotatingFileHandler",
@@ -353,8 +353,8 @@ def setup_logging(config: Optional[dict[str, Any]] = None) -> None:
         extra={
             "environment": os.getenv("ENVIRONMENT", "development"),
             "log_level": get_log_level(),
-            "trinity_component": "🔧_system",
-            "trinity_guardian": True,
+            "triad_component": "🔧_system",
+            "triad_guardian": True,
         },
     )
 

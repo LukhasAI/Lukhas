@@ -276,12 +276,12 @@ class ConsciousnessSignal:
 
             # Trinity compliance validation
             if self.constellation_alignment:
-                trinity_scores = [
+                triad_scores = [
                     self.constellation_alignment.identity_auth_score,
                     self.constellation_alignment.consciousness_coherence,
                     self.constellation_alignment.guardian_compliance,
                 ]
-                if any(score < 0.0 or score > 1.0 for score in trinity_scores):
+                if any(score < 0.0 or score > 1.0 for score in triad_scores):
                     logger.warning(f"Signal {self.signal_id}: Trinity compliance scores out of bounds")
                     return False
 
