@@ -1,0 +1,44 @@
+# Context-aware policy configuration for enhanced ethical guardian
+# This policy defines allowed contexts and exceptions for various operations
+
+allowed_contexts:
+  security_testing:
+    - "security research"
+    - "vulnerability assessment"
+    - "penetration testing"
+    - "security audit"
+    - "ethical hacking"
+    
+  educational:
+    - "educational purposes"
+    - "teaching"
+    - "learning"
+    - "academic research"
+    
+  development:
+    - "software development"
+    - "debugging"
+    - "testing"
+    - "quality assurance"
+
+domain_restrictions:
+  security:
+    allowed_operations:
+      - "scan"
+      - "analyze"
+      - "audit"
+      - "test"
+    requires_justification: true
+    
+  sensitive_data:
+    allowed_operations:
+      - "anonymize"
+      - "pseudonymize"
+      - "encrypt"
+    requires_consent: true
+
+risk_thresholds:
+  low: 0.3
+  medium: 0.6
+  high: 0.8
+  critical: 0.95

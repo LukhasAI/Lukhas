@@ -62,16 +62,16 @@ def mock_mcp_types(monkeypatch):
 
 @pytest.fixture
 def mcp_server(tmp_path: Path, mock_mcp_types) -> LUKHASMCPServer:
-    """Provides an instance of LUKHASMCPServer with a fake client factory."""
+    """Provides an instance of LUKHASMCPServer with mocked dependencies."""
     workspace_root = tmp_path / "LUKHAS_WORKSPACE"
     workspace_root.mkdir()
 
-    def fake_client_factory():
-        return FakeMCPServer("lukhas-mcp-fake")
-
-    server = LUKHASMCPServer(str(workspace_root), client_factory=fake_client_factory)
-    # Manually register the tools, as this would happen on server start
-    server._register_tools()
+    server = LUKHASMCPServer(str(workspace_root))
+    
+    # Replace the server with our fake one for testing
+    fake_server = FakeMCPServer("lukhas-mcp-fake")
+    server.server = fake_server
+    
     return server
 
 
