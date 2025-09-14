@@ -4,9 +4,6 @@ LUKHAS Cryptographic Security
 
 Post-quantum cryptographic signatures and verification.
 """
-import streamlit as st
+from .pqc_signer import sign_message, sign_dilithium, verify_signature
 
-from consciousness.qi import qi
-from qi.crypto.pqc_signer import PQCSigner, sign_dilithium, verify_signature
-
-__all__ = ["PQCSigner", "sign_dilithium", "verify_signature"]
+__all__ = ["sign_message", "sign_dilithium", "verify_signature"]
