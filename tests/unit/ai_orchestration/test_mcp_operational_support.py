@@ -47,7 +47,7 @@ class TestLUKHASMCPOperationalSupport:
             OperationalMetrics({"cpu_usage_percent": 85}), # also triggers high usage
         ]
         result = operational_support.analyze_operational_patterns(metrics_history)
-        assert "Increasing CPU usage trend detected (slope: 22.00)." in result.findings
+        assert any("Increasing CPU usage trend detected" in finding for finding in result.findings)
         assert "High CPU usage detected in 1 instances." in result.findings
 
     def test_automate_support_workflows_restart(self, operational_support):

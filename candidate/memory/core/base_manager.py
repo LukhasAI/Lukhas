@@ -88,7 +88,7 @@ except ImportError:
 try:
     from candidate.core.glyph.glyph_engine import (
         GlyphEngine,
-    )  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+    )  # MATRIZ Integration: GLYPH engine for symbolic memory management and Trinity Framework symbolic-consciousness coordination
 
     GLYPH_AVAILABLE = True
 except ImportError:

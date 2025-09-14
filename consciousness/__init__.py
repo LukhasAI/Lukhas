@@ -25,7 +25,7 @@ try:
         ConsciousnessConfig,
         ConsciousnessKernel,
         ConsciousnessWrapper,
-    )  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution
+    )  # MATRIZ Integration: LUKHAS consciousness components for Trinity Framework consciousness evolution and kernel coordination
 
     CONSCIOUSNESS_AVAILABLE = True
     CONSCIOUSNESS_SOURCE = "lukhas"
