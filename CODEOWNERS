@@ -28,9 +28,13 @@
 
 # CI/CD & Tools
 /.github/                     @testing-devops-specialist @security-ops
+/.github/workflows/*          @ci-owners
 /tools/                       @testing-devops-specialist
 /.importlinter                @testing-devops-specialist
 
 # Security & Compliance
 /security/                    @consent-compliance-specialist @security-ops
 *.env*                        @security-ops
+
+# Tests (quarantine has dedicated owners)
+/tests/quarantine/*           @qa-owners

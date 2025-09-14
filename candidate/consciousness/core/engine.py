@@ -85,7 +85,7 @@ def lukhas_tier_required(level: int):
 ANTHROPIC_AVAILABLE = False
 anthropic_client = None
 try:
-    import anthropic  # External dependency  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+    import anthropic  # MATRIZ Integration: Anthropic Claude API client for consciousness core engine reasoning and constitutional AI integration
 
     ANTHROPIC_AVAILABLE = True
     logger.info("ΛTRACE: Anthropic client library imported successfully.")

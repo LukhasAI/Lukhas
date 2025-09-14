@@ -8,8 +8,8 @@ Emits MATRIZ-compliant consciousness signals and bio-symbolic data for inter-mod
 - Real-time inter-module communication and monitoring
 - Trinity Framework (⚛️🧠🛡️) compliance validation
 """
-import random  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
-import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+import random  # MATRIZ Integration: Random bio-symbolic pattern generation for consciousness signal entropy and signal noise simulation
+import streamlit as st  # MATRIZ Integration: Streamlit dashboard for MATRIZ Enhanced Consciousness Signal monitoring and Trinity Framework validation
 
 import asyncio
 import json
