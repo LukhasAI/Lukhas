@@ -149,6 +149,13 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
         self.learned_contexts: dict[str, dict] = {}
         self.ethical_evolution_log: list[dict] = []
 
+        # Audit configuration (config-gated)
+        self._audit_enabled: bool = bool(self.config.get("enable_ethics_audit", True))
+        self._audit_log_path: str = self.config.get("ethics_audit_log_path", "logs/ethics_events.log")
+        self._audit_report_path: str = self.config.get(
+            "ethics_audit_report_path", "reports/audit/merged/ethics_events.jsonl"
+        )
+
         logger.info("🛡️ Enhanced Ethical Guardian initialized with governance integration")
 
     async def enhanced_ethical_check(
@@ -219,10 +226,26 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             # Perform ethical reflection if needed
             if not is_ethical or overall_score < 0.8:
                 await self._perform_ethical_reflection(user_input, detailed_analysis, analysis_context)
+                await self._emit_ethics_event(
+                    event="ethics_reflection",
+                    payload={
+                        "session_id": analysis_context.get("session_id"),
+                        "score": overall_score,
+                        "context_type": analysis_context.get("context_type"),
+                        "keyword_count": detailed_analysis["keyword_analysis"].get("keyword_count", 0),
+                    },
+                )
 
             # Check for governance escalation
             if detailed_analysis.get("governance_escalation_required"):
                 await self._escalate_to_governance(user_input, detailed_analysis, analysis_context)
+                await self._emit_ethics_event(
+                    event="ethics_governance_escalation",
+                    payload={
+                        "session_id": analysis_context.get("session_id"),
+                        "issues": detailed_analysis["governance_analysis"].get("governance_issues", []),
+                    },
+                )
 
             # Update learning patterns
             if self.learning_enabled:
@@ -242,6 +265,29 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
                     "timestamp": datetime.now(timezone.utc).isoformat(),
                 },
             )
+
+    async def _emit_ethics_event(self, event: str, payload: dict[str, Any]) -> None:
+        """Emit structured ethics events to logs and reports (best-effort)."""
+        if not self._audit_enabled:
+            return
+        try:
+            from json import dumps as _dumps
+            from os import makedirs as _makedirs
+            from os.path import dirname as _dirname
+
+            record = {
+                "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+                "event": event,
+                **payload,
+            }
+            _makedirs(_dirname(self._audit_log_path), exist_ok=True)
+            with open(self._audit_log_path, "a", encoding="utf-8") as f:
+                f.write(_dumps(record) + "\n")
+            _makedirs(_dirname(self._audit_report_path), exist_ok=True)
+            with open(self._audit_report_path, "a", encoding="utf-8") as rf:
+                rf.write(_dumps(record) + "\n")
+        except Exception:
+            pass
 
     async def _analyze_keywords(self, user_input: str, current_context: dict[str, Any]) -> dict[str, Any]:
         """Analyze input for ethical keywords with context sensitivity"""
