@@ -3,9 +3,12 @@
 Update all Python imports to use the new poetry system location
 """
 
+import logging
 import os
 import re
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
 
 
 def update_imports(root_dir):
@@ -43,8 +46,14 @@ def update_imports(root_dir):
                             f.write(content)
                         updated_files.append(str(filepath))
 
-                except Exception:
-                    pass  # TODO: Implement poetry imports
+                except FileNotFoundError:
+                    logger.warning(f"File not found: {filepath}")
+                except PermissionError:
+                    logger.warning(f"Permission denied accessing: {filepath}")
+                except UnicodeDecodeError:
+                    logger.warning(f"Unable to decode file as UTF-8: {filepath}")
+                except Exception as e:
+                    logger.error(f"Unexpected error processing {filepath}: {e}")
 
     return updated_files
 

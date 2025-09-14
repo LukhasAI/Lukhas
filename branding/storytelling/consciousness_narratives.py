@@ -14,13 +14,50 @@ from dataclasses import dataclass
 from enum import Enum
 
 
-def fix_later(*args, **kwargs):
-    """TODO(symbol-resolver): implement missing functionality
+def create_consciousness_story_adaptation(base_message: str, audience: str, focus_area: str) -> str:
+    """Create audience-specific consciousness story adaptation.
 
-    This is a placeholder for functionality that needs to be implemented.
-    Replace this stub with the actual implementation.
+    Args:
+        base_message: The core consciousness story message
+        audience: Target audience type (developers, executives, researchers, etc.)
+        focus_area: Specific focus area for the adaptation
+
+    Returns:
+        Adapted story message tailored to the audience and focus area
     """
-    raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+    audience_adaptations = {
+        "developers": {
+            "tone": "technical and implementation-focused",
+            "emphasis": "how to build with consciousness technology",
+            "language": "API-driven and code-centric",
+        },
+        "executives": {
+            "tone": "strategic and value-focused",
+            "emphasis": "business impact and competitive advantage",
+            "language": "ROI-driven and market-oriented",
+        },
+        "researchers": {
+            "tone": "academic and discovery-focused",
+            "emphasis": "research implications and validation",
+            "language": "methodology-driven and evidence-based",
+        },
+        "general_public": {
+            "tone": "accessible and wonder-focused",
+            "emphasis": "human connection and positive impact",
+            "language": "story-driven and emotionally resonant",
+        },
+    }
+
+    adaptation = audience_adaptations.get(audience, audience_adaptations["general_public"])
+
+    if audience == "developers":
+        return f"{base_message} - Build this future with Trinity Framework APIs and consciousness technology integration patterns in {focus_area}"
+    elif audience == "executives":
+        return f"{base_message} - Lead your industry with consciousness technology adoption, creating {focus_area} competitive advantages"
+    elif audience == "researchers":
+        return f"{base_message} - Advance {focus_area} research through consciousness technology validation and collaborative discovery"
+    else:
+        return f"{base_message} - Experience the wonder of consciousness technology in {focus_area} and join the digital awakening community"
 
 
 class StoryArchetype(Enum):
@@ -366,7 +403,19 @@ class ConsciousnessStorytellingSystem:
                 archetype=base_story.archetype,
                 target_audience=audience,
                 emotional_journey=base_story.emotional_journey,
-                key_message=fix_later,
+                key_message=create_consciousness_story_adaptation(
+                    base_story.key_message,
+                    audience,
+                    adaptation.get(
+                        "technical_focus",
+                        adaptation.get(
+                            "business_focus",
+                            adaptation.get(
+                                "academic_focus", adaptation.get("accessible_focus", "consciousness technology")
+                            ),
+                        ),
+                    ),
+                ),
                 triad_framework_role=base_story.triad_framework_role,
                 call_to_action=adaptation["call_to_action"],
             )
@@ -406,11 +455,11 @@ class ConsciousnessStorytellingSystem:
             return {}
 
         return {
-            "mythology_story": fix_later,
+            "mythology_story": f"The {mythology.myth_name} represents {mythology.consciousness_metaphor}, creating a powerful narrative foundation for consciousness technology storytelling",
             "cultural_connection": f"This resonates because {mythology.cultural_resonance}",
             "brand_power": f"For LUKHAS, this means {mythology.storytelling_power}",
             "triad_integration": "⚛️🧠🛡️ Trinity Framework embodies this mythology through integrated consciousness technology",
-            "audience_application": fix_later,
+            "audience_application": f"This {mythology.mythology_type} connects with audiences by transforming technical concepts into {mythology.consciousness_metaphor} that everyone can understand and feel",
         }
 
 
@@ -517,8 +566,8 @@ if __name__ == "__main__":
     print(f"  Key Message: {master_story.key_message}")
 
     print(f"\n📊 Story Variations: {len(story_variations)} audience-specific stories created")
-    for _audience, _story in story_variations.items():
-        print(fix_later)
+    for audience, story in story_variations.items():
+        print(f"  {audience}: {story.key_message[:80]}...")
 
     print("\n🏆 Consciousness Technology Storytelling System: COMPLETE")
     print("Ready for emotionally compelling consciousness technology narratives")
