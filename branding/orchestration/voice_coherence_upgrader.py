@@ -18,13 +18,20 @@ from typing import Any
 # Add branding modules to path
 
 
-def fix_later(*args, **kwargs):
-    """TODO(symbol-resolver): implement missing functionality
+def create_error_summary(error: Exception, context: str) -> str:
+    """Create a descriptive error summary for logging.
 
-    This is a placeholder for functionality that needs to be implemented.
-    Replace this stub with the actual implementation.
+    Args:
+        error: The exception that occurred
+        context: Context description where the error occurred
+
+    Returns:
+        A formatted error summary string
     """
-    raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+    error_type = type(error).__name__
+    error_message = str(error)
+
+    return f"❌ {error_type} in {context}: {error_message}"
 
 
 sys.path.append(str(Path(__file__).parent.parent))
@@ -247,8 +254,9 @@ class EliteVoiceCoherenceUpgrader:
                 result = await self._upgrade_file_voice_coherence(file_path)
                 if result:
                     results.append(result)
-            except Exception:
-                self.logger.error(fix_later)
+            except Exception as e:
+                error_summary = create_error_summary(e, f"upgrading file {file_path}")
+                self.logger.error(error_summary)
 
         return results
 
@@ -332,8 +340,9 @@ class EliteVoiceCoherenceUpgrader:
                 success=True,
             )
 
-        except Exception:
-            self.logger.error(fix_later)
+        except Exception as e:
+            error_summary = create_error_summary(e, f"upgrading file voice coherence for {file_path}")
+            self.logger.error(error_summary)
             return UpgradeResult(
                 file_path=str(file_path),
                 original_coherence=0.0,
