@@ -14,12 +14,14 @@ jobs:
   critical:
     name: 🧪 Critical Path Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 12
     permissions:
       contents: read
       pull-requests: read
     env:
       CI_QUALITY_GATES: "1"
       PYTHONHASHSEED: "0"
+      PYTEST_ADDOPTS: "-W error::DeprecationWarning -W error::FutureWarning"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -34,6 +36,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -e '.[dev]'
+          pip install pytest-xdist
       - name: Lint & Gates (fast)
         run: |
           set -euo pipefail
@@ -43,18 +46,35 @@ jobs:
           PYTHONPATH=. lint-imports || true
       - name: Run smoke/unit selection
         run: |
-          pytest -q -m "smoke or not integration and not e2e and not bench and not cloud and not enterprise" --maxfail=1 --disable-warnings
+          pytest -q -n auto -m "smoke or not integration and not e2e and not bench and not cloud and not enterprise" --maxfail=1 --disable-warnings
       - name: Coverage (enforced on Critical Path)
         run: |
           pip install coverage
           coverage run --branch -m pytest -q -m "smoke" --disable-warnings
           coverage report --fail-under=60
           coverage xml -o coverage.xml || true
+      - name: Generate JUnit + Coverage (always)
+        if: always()
+        run: |
+          pip install coverage pytest-junitxml
+          coverage run -m pytest -q -m "smoke" --junitxml=junit.xml || true
+          coverage xml -o coverage.xml || true
       - uses: codecov/codecov-action@v4
         if: always()
         with:
           files: coverage.xml
           fail_ci_if_error: false
+      - name: Upload artifacts (failures only)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-debug-${{ github.run_id }}
+          path: |
+            junit.xml
+            coverage.xml
+            .pytest_cache/**
+            logs/**
+          retention-days: 7
       - name: Flake guard (no new flaky tests)
         run: |
           if rg -n "pytest\.mark\.flaky" tests | rg -v "tests/quarantine/"; then
@@ -63,6 +83,7 @@ jobs:
   optional-matrix:
     name: 🔌 Optional Deps (PR light)
     runs-on: ubuntu-latest
+    timeout-minutes: 12
     needs: [critical]
     if: github.event_name == 'pull_request'
     strategy:
@@ -92,10 +113,28 @@ jobs:
       - name: Run optional shard
         run: |
           pytest -q -m "smoke or ${{ matrix.marker }}" --maxfail=1 --disable-warnings
+      - name: Generate JUnit + Coverage (always)
+        if: always()
+        run: |
+          pip install coverage pytest-junitxml
+          coverage run -m pytest -q -m "smoke or ${{ matrix.marker }}" --junitxml=junit.xml || true
+          coverage xml -o coverage.xml || true
+      - name: Upload artifacts (failures only)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-debug-${{ github.run_id }}-${{ matrix.name }}
+          path: |
+            junit.xml
+            coverage.xml
+            .pytest_cache/**
+            logs/**
+          retention-days: 7
 
   extended:
     name: 🧪 Extended (integration/e2e)
     runs-on: ubuntu-latest
+    timeout-minutes: 12
     needs: [critical]
     if: github.ref == 'refs/heads/main'
     steps:
@@ -118,10 +157,21 @@ jobs:
           pytest -q -m "integration or e2e" --maxfail=1 --disable-warnings || exit 1
           coverage run --branch -m pytest -q -m "integration or e2e" --disable-warnings || true
           coverage xml -o coverage-extended.xml || true
+      - name: Upload artifacts (failures only)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-debug-${{ github.run_id }}-extended
+          path: |
+            coverage-extended.xml
+            .pytest_cache/**
+            logs/**
+          retention-days: 7
 
   optional-full:
     name: 🔌 Optional Deps (main full)
     runs-on: ubuntu-latest
+    timeout-minutes: 12
     needs: [critical]
     if: github.ref == 'refs/heads/main'
     strategy:
@@ -155,3 +205,20 @@ jobs:
       - name: Run optional shard (full)
         run: |
           pytest -q -m "integration or e2e or ${{ matrix.marker }}" --maxfail=1 --disable-warnings
+      - name: Generate JUnit + Coverage (always)
+        if: always()
+        run: |
+          pip install coverage pytest-junitxml
+          coverage run -m pytest -q -m "integration or e2e or ${{ matrix.marker }}" --junitxml=junit.xml || true
+          coverage xml -o coverage.xml || true
+      - name: Upload artifacts (failures only)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-debug-${{ github.run_id }}-optfull-${{ matrix.name }}
+          path: |
+            junit.xml
+            coverage.xml
+            .pytest_cache/**
+            logs/**
+          retention-days: 7

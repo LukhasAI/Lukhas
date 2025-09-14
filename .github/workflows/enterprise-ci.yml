@@ -13,6 +13,7 @@ env:
   MUTATION_TIMEOUT: 600
   CI_QUALITY_GATES: "1"
   PYTHONHASHSEED: "0"
+  PYTEST_ADDOPTS: "-W error::DeprecationWarning -W error::FutureWarning"
 
 defaults:
   run:
@@ -30,7 +31,7 @@ jobs:
   quality-gates:
     name: 🛡️ Quality Gates (Fast Feedback)
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
     outputs:
       should-deploy: ${{ steps.gates.outputs.deploy }}
       test-tier: ${{ steps.gates.outputs.tier }}
@@ -73,6 +74,23 @@ jobs:
         # Ultra-fast smoke tests (< 30 seconds)
         TZ=UTC PYTHONHASHSEED=0 pytest -m "smoke and tier1" \
           --maxfail=5 -x --tb=short --disable-warnings
+    - name: Generate JUnit + Coverage (always)
+      if: always()
+      run: |
+        pip install coverage pytest-junitxml
+        coverage run -m pytest -q -m "smoke and tier1" --junitxml=junit.xml || true
+        coverage xml -o coverage.xml || true
+    - name: Upload artifacts (failures only)
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: enterprise-ci-debug-${{ github.run_id }}
+        path: |
+          junit.xml
+          coverage.xml
+          .pytest_cache/**
+          reports/**
+        retention-days: 7
 
     - name: 📊 Quality Gate Decision
       id: gates
