@@ -4,9 +4,10 @@
 # criticality: P1
 
 import pytest
-from unittest.mock import AsyncMock, patch, MagicMock
+from unittest.mock import AsyncMock, patch
 
 from candidate.bridge.adapters.gmail_adapter import GmailAdapter
+
 
 @pytest.mark.tier3
 @pytest.mark.adapters
@@ -25,23 +26,20 @@ class TestGmailAdapterIntegration:
         adapter.oauth_tokens["user123"] = {"access_token": "fake_token"}
         return adapter
 
-    @patch('aiohttp.ClientSession.post')
+    @patch("aiohttp.ClientSession.post")
     @pytest.mark.asyncio
     async def test_authenticate_refresh_token(self, mock_post, adapter: GmailAdapter):
         """Tests the OAuth refresh token flow."""
         # Arrange
         mock_response = AsyncMock()
-        mock_response.json.return_value = {
-            "access_token": "new_access_token",
-            "expires_in": 3600
-        }
+        mock_response.json.return_value = {"access_token": "new_access_token", "expires_in": 3600}
         mock_post.return_value.__aenter__.return_value = mock_response
 
         credentials = {
             "client_id": "test_client",
             "client_secret": "test_secret",
             "refresh_token": "test_refresh",
-            "lid": "user123"
+            "lid": "user123",
         }
 
         # Act
@@ -52,29 +50,21 @@ class TestGmailAdapterIntegration:
         assert "user123" in adapter.oauth_tokens
         assert adapter.oauth_tokens["user123"]["access_token"] == "new_access_token"
 
-    @patch('aiohttp.ClientSession.get')
+    @patch("aiohttp.ClientSession.get")
     @pytest.mark.asyncio
     async def test_fetch_emails_success(self, mock_get, adapter: GmailAdapter):
         """Tests successfully fetching emails."""
         # Mock the response for listing messages
         mock_list_response = AsyncMock()
         mock_list_response.status = 200
-        mock_list_response.json.return_value = {
-            "messages": [{"id": "msg1"}, {"id": "msg2"}]
-        }
+        mock_list_response.json.return_value = {"messages": [{"id": "msg1"}, {"id": "msg2"}]}
 
         # Mock the response for fetching email details
         mock_detail_response = AsyncMock()
         mock_detail_response.status = 200
         mock_detail_response.json.side_effect = [
-            {
-                "id": "msg1", "snippet": "Snippet 1",
-                "payload": {"headers": [{"name": "Subject", "value": "Subject 1"}]}
-            },
-            {
-                "id": "msg2", "snippet": "Snippet 2",
-                "payload": {"headers": [{"name": "Subject", "value": "Subject 2"}]}
-            }
+            {"id": "msg1", "snippet": "Snippet 1", "payload": {"headers": [{"name": "Subject", "value": "Subject 1"}]}},
+            {"id": "msg2", "snippet": "Snippet 2", "payload": {"headers": [{"name": "Subject", "value": "Subject 2"}]}},
         ]
 
         mock_get.return_value.__aenter__.side_effect = [
@@ -91,7 +81,7 @@ class TestGmailAdapterIntegration:
         assert len(result["emails"]) == 2
         assert result["emails"][0]["id"] == "msg1"
 
-    @patch('aiohttp.ClientSession.get')
+    @patch("aiohttp.ClientSession.get")
     @pytest.mark.asyncio
     async def test_list_labels_success(self, mock_get, adapter: GmailAdapter):
         """Tests successfully listing labels."""
@@ -105,7 +95,7 @@ class TestGmailAdapterIntegration:
         assert len(result["labels"]) == 1
         assert result["labels"][0]["name"] == "INBOX"
 
-    @patch('aiohttp.ClientSession.get')
+    @patch("aiohttp.ClientSession.get")
     @pytest.mark.asyncio
     async def test_list_labels_api_error(self, mock_get, adapter: GmailAdapter):
         """Tests API error when listing labels."""
@@ -116,7 +106,7 @@ class TestGmailAdapterIntegration:
         result = await adapter.list_labels(lid="user123")
         assert result["error"] == "api_error_500"
 
-    @patch('aiohttp.ClientSession.get')
+    @patch("aiohttp.ClientSession.get")
     @pytest.mark.asyncio
     async def test_search_emails(self, mock_get, adapter: GmailAdapter):
         """Tests the search_emails method."""
@@ -133,7 +123,7 @@ class TestGmailAdapterIntegration:
         assert "emails" in result
         assert len(result["emails"]) == 1
 
-    @patch('aiohttp.ClientSession.get')
+    @patch("aiohttp.ClientSession.get")
     @pytest.mark.asyncio
     async def test_fetch_emails_api_error(self, mock_get, adapter: GmailAdapter):
         """Tests API error during fetch_emails."""
@@ -144,7 +134,7 @@ class TestGmailAdapterIntegration:
         result = await adapter.fetch_emails(lid="user123")
         assert result["error"] == "api_error_401"
 
-    @patch('aiohttp.ClientSession.get')
+    @patch("aiohttp.ClientSession.get")
     @pytest.mark.asyncio
     async def test_list_labels_maps_fields(self, mock_get, adapter: GmailAdapter):
         """Tests that list_labels correctly maps fields."""
@@ -157,7 +147,7 @@ class TestGmailAdapterIntegration:
         assert "labels" in labels
         assert {"id", "name", "type"}.issubset(labels["labels"][0].keys())
 
-    @patch('aiohttp.ClientSession.get')
+    @patch("aiohttp.ClientSession.get")
     @pytest.mark.asyncio
     async def test_search_emails_handles_429_retry_after(self, mock_get, adapter: GmailAdapter):
         """Tests that search_emails handles a 429 error with a Retry-After header."""
@@ -177,11 +167,11 @@ class TestGmailAdapterIntegration:
 
         mock_get.return_value.__aenter__.side_effect = [mock_response_429, mock_response_200, mock_detail_response]
 
-        with patch('asyncio.sleep', new_callable=AsyncMock) as mock_sleep:
+        with patch("asyncio.sleep", new_callable=AsyncMock) as mock_sleep:
             result = await adapter.search_emails(lid="user123", search_query="test")
             assert "emails" in result
 
-    @patch('aiohttp.ClientSession.get')
+    @patch("aiohttp.ClientSession.get")
     @pytest.mark.asyncio
     async def test_fetch_email_details_error(self, mock_get, adapter: GmailAdapter):
         """Tests an error when fetching email details."""
@@ -190,7 +180,7 @@ class TestGmailAdapterIntegration:
         mock_list_response.json.return_value = {"messages": [{"id": "msg1"}]}
 
         mock_detail_response = AsyncMock()
-        mock_detail_response.status = 500 # Simulate error
+        mock_detail_response.status = 500  # Simulate error
 
         mock_get.return_value.__aenter__.side_effect = [mock_list_response, mock_detail_response]
 
@@ -198,7 +188,7 @@ class TestGmailAdapterIntegration:
         assert len(result["emails"]) == 1
         assert result["emails"][0]["error"] == "fetch_failed"
 
-    @patch('aiohttp.ClientSession.post')
+    @patch("aiohttp.ClientSession.post")
     @pytest.mark.asyncio
     async def test_authenticate_refresh_token_error(self, mock_post, adapter: GmailAdapter):
         """Tests an error during the OAuth refresh token flow."""
@@ -211,7 +201,7 @@ class TestGmailAdapterIntegration:
             "client_id": "test_client",
             "client_secret": "test_secret",
             "refresh_token": "bad_refresh_token",
-            "lid": "user123"
+            "lid": "user123",
         }
 
         token_data = await adapter.authenticate(credentials)

@@ -5,10 +5,10 @@
 
 import pytest
 from unittest.mock import AsyncMock, patch, MagicMock
-from datetime import datetime, timedelta, timezone
 
 from candidate.bridge.adapters.gmail_adapter import GmailAdapter, GmailContextIntegration
 from candidate.bridge.adapters.service_adapter_base import CapabilityToken
+
 
 @pytest.mark.tier3
 @pytest.mark.adapters
@@ -55,17 +55,19 @@ class TestGmailAdapterUnit:
         assert quota["lid"] == "user123"
         assert quota["daily_requests"] == 100
 
-    @patch.object(GmailAdapter, 'search_emails', new_callable=AsyncMock)
+    @patch.object(GmailAdapter, "search_emails", new_callable=AsyncMock)
     @pytest.mark.asyncio
     async def test_context_integration_workflow(self, mock_search_emails, adapter: GmailAdapter):
         """Tests the GmailContextIntegration workflow."""
         mock_search_emails.return_value = {
-            "emails": [{
-                "subject": "Your flight details",
-                "from": "airline@example.com",
-                "date": "2025-01-01",
-                "snippet": "Your flight itinerary is attached."
-            }]
+            "emails": [
+                {
+                    "subject": "Your flight details",
+                    "from": "airline@example.com",
+                    "date": "2025-01-01",
+                    "snippet": "Your flight itinerary is attached.",
+                }
+            ]
         }
         integration = GmailContextIntegration(adapter)
         result = await integration.workflow_fetch_travel_emails(lid="user123", context={})
@@ -82,13 +84,16 @@ class TestGmailAdapterUnit:
         result = await adapter.fetch_emails(lid="user123")
         assert result["error"] == "authentication_required"
 
-    @pytest.mark.parametrize("subject, expected_type", [
-        ("Your flight to Japan", "flight"),
-        ("Hotel confirmation", "accommodation"),
-        ("Travel insurance details", "insurance"),
-        ("Your trip itinerary", "itinerary"),
-        ("A random email", "travel"),
-    ])
+    @pytest.mark.parametrize(
+        "subject, expected_type",
+        [
+            ("Your flight to Japan", "flight"),
+            ("Hotel confirmation", "accommodation"),
+            ("Travel insurance details", "insurance"),
+            ("Your trip itinerary", "itinerary"),
+            ("A random email", "travel"),
+        ],
+    )
     def test_classify_travel_email(self, subject, expected_type, adapter: GmailAdapter):
         """Tests the _classify_travel_email method."""
         integration = GmailContextIntegration(adapter)
@@ -99,9 +104,14 @@ class TestGmailAdapterUnit:
         """Tests searching emails with an invalid capability token."""
         adapter.validate_capability_token = MagicMock(return_value=False)
         invalid_token = CapabilityToken(
-            token_id="invalid-token", lid="user123", scope=["read"],
-            resource_ids=[], ttl=3600, audience="gmail",
-            issued_at="2025-01-01T00:00:00Z", signature="invalid-sig"
+            token_id="invalid-token",
+            lid="user123",
+            scope=["read"],
+            resource_ids=[],
+            ttl=3600,
+            audience="gmail",
+            issued_at="2025-01-01T00:00:00Z",
+            signature="invalid-sig",
         )
         result = await adapter.search_emails(lid="user123", search_query="test", capability_token=invalid_token)
         assert result["error"] == "invalid_capability_token"
@@ -111,9 +121,14 @@ class TestGmailAdapterUnit:
         """Tests listing labels with an invalid capability token."""
         adapter.validate_capability_token = MagicMock(return_value=False)
         invalid_token = CapabilityToken(
-            token_id="invalid-token", lid="user123", scope=["list"],
-            resource_ids=[], ttl=3600, audience="gmail",
-            issued_at="2025-01-01T00:00:00Z", signature="invalid-sig"
+            token_id="invalid-token",
+            lid="user123",
+            scope=["list"],
+            resource_ids=[],
+            ttl=3600,
+            audience="gmail",
+            issued_at="2025-01-01T00:00:00Z",
+            signature="invalid-sig",
         )
         result = await adapter.list_labels(lid="user123", capability_token=invalid_token)
         assert result["error"] == "invalid_capability_token"
@@ -123,9 +138,14 @@ class TestGmailAdapterUnit:
         """Tests that an invalid capability token is rejected."""
         adapter.validate_capability_token = MagicMock(return_value=False)
         invalid_token = CapabilityToken(
-            token_id="invalid-token", lid="user123", scope=["read"],
-            resource_ids=[], ttl=3600, audience="gmail",
-            issued_at="2025-01-01T00:00:00Z", signature="invalid-sig"
+            token_id="invalid-token",
+            lid="user123",
+            scope=["read"],
+            resource_ids=[],
+            ttl=3600,
+            audience="gmail",
+            issued_at="2025-01-01T00:00:00Z",
+            signature="invalid-sig",
         )
         result = await adapter.fetch_emails(lid="user123", capability_token=invalid_token)
         assert result["error"] == "invalid_capability_token"
@@ -133,10 +153,6 @@ class TestGmailAdapterUnit:
     @pytest.mark.asyncio
     async def test_authenticate_no_refresh_token(self, adapter: GmailAdapter):
         """Tests the authentication flow when no refresh token is provided."""
-        credentials = {
-            "client_id": "test_client",
-            "client_secret": "test_secret",
-            "lid": "user123"
-        }
+        credentials = {"client_id": "test_client", "client_secret": "test_secret", "lid": "user123"}
         token_data = await adapter.authenticate(credentials)
         assert token_data["error"] == "authentication_required"

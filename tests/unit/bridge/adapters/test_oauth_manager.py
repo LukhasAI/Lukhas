@@ -4,11 +4,9 @@
 # criticality: P1
 
 import pytest
-from unittest.mock import AsyncMock, patch, MagicMock
-import secrets
-import json
 
 from candidate.bridge.external_adapters.oauth_manager import OAuthManager, OAuthProvider
+
 
 @pytest.mark.tier3
 @pytest.mark.oauth
@@ -59,8 +57,10 @@ class TestOAuthManagerUnit:
 
     def test_encrypt_token_data_error(self, manager: OAuthManager, monkeypatch):
         """Tests an error when encrypting token data."""
+
         def mock_json_dumps_error(*args, **kwargs):
             raise TypeError("Test error")
+
         monkeypatch.setattr("json.dumps", mock_json_dumps_error)
 
         with pytest.raises(TypeError):
@@ -69,15 +69,17 @@ class TestOAuthManagerUnit:
     def test_decrypt_token_data_invalid_signature(self, manager: OAuthManager):
         """Tests an error when decrypting token data with an invalid signature."""
         encrypted = manager._encrypt_token_data({"test": "data"})
-        parts = encrypted.split('.')
+        parts = encrypted.split(".")
         invalid_encrypted = f"{parts[0]}.invalidsignature"
         with pytest.raises(ValueError):
             manager._decrypt_token_data(invalid_encrypted)
 
     def test_generate_auth_state_error(self, manager: OAuthManager, monkeypatch):
         """Tests an error when generating auth state."""
+
         def mock_token_urlsafe_error(*args, **kwargs):
             raise ValueError("Test error")
+
         monkeypatch.setattr("secrets.token_urlsafe", mock_token_urlsafe_error)
 
         with pytest.raises(ValueError):
@@ -91,7 +93,7 @@ class TestOAuthManagerUnit:
     async def test_get_credentials_invalid_signature(self, manager: OAuthManager):
         """Tests getting credentials with an invalid signature."""
         encrypted = manager._encrypt_token_data({"test": "data"})
-        parts = encrypted.split('.')
+        parts = encrypted.split(".")
         invalid_encrypted = f"{parts[0]}.invalidsignature"
         manager.token_store["user1:google"] = {"encrypted_data": invalid_encrypted}
 
@@ -107,8 +109,10 @@ class TestOAuthManagerUnit:
     @pytest.mark.asyncio
     async def test_store_credentials_encryption_error(self, manager: OAuthManager, monkeypatch):
         """Tests an error when encrypting credentials."""
+
         def mock_encrypt_error(*args, **kwargs):
             raise ValueError("Test error")
+
         monkeypatch.setattr(manager, "_encrypt_token_data", mock_encrypt_error)
 
         assert await manager.store_credentials("user-encrypt-error", OAuthProvider.GOOGLE, {}) is False

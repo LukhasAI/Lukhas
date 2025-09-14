@@ -46,9 +46,11 @@ import json
 import logging
 import secrets
 import time
+from contextlib import asynccontextmanager
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Optional, Protocol
+import random
 
 
 def _now_epoch() -> float:
@@ -80,16 +82,101 @@ class TokenStatus(Enum):
     INVALID = "invalid"
 
 
+class CircuitBreakerState(Enum):
+    """Circuit breaker states for external API resilience"""
+
+    CLOSED = "closed"      # Normal operation
+    OPEN = "open"          # Failing, blocking calls
+    HALF_OPEN = "half_open"  # Testing if service recovered
+
+
+class MetricsCollector(Protocol):
+    """Protocol for metrics collection"""
+    
+    def increment(self, metric: str, tags: Optional[dict] = None) -> None: ...
+    def timing(self, metric: str, value: float, tags: Optional[dict] = None) -> None: ...
+    def gauge(self, metric: str, value: float, tags: Optional[dict] = None) -> None: ...
+
+
+class CircuitBreaker:
+    """Circuit breaker for OAuth API calls with failure detection and recovery"""
+
+    def __init__(
+        self,
+        failure_threshold: int = 5,
+        recovery_timeout: int = 60,
+        expected_exception: type = Exception,
+    ):
+        self.failure_threshold = failure_threshold
+        self.recovery_timeout = recovery_timeout
+        self.expected_exception = expected_exception
+        
+        self.failure_count = 0
+        self.last_failure_time: Optional[float] = None
+        self.state = CircuitBreakerState.CLOSED
+        
+    def _can_attempt_reset(self) -> bool:
+        """Check if circuit can attempt to reset from OPEN to HALF_OPEN"""
+        return (
+            self.state == CircuitBreakerState.OPEN
+            and self.last_failure_time is not None
+            and time.time() - self.last_failure_time >= self.recovery_timeout
+        )
+    
+    async def call(self, func, *args, **kwargs):
+        """Execute function through circuit breaker"""
+        if self.state == CircuitBreakerState.OPEN:
+            if self._can_attempt_reset():
+                self.state = CircuitBreakerState.HALF_OPEN
+            else:
+                raise Exception("Circuit breaker is OPEN")
+        
+        try:
+            result = await func(*args, **kwargs)
+            
+            # Success - reset circuit breaker
+            if self.state == CircuitBreakerState.HALF_OPEN:
+                self.state = CircuitBreakerState.CLOSED
+                self.failure_count = 0
+                
+            return result
+            
+        except self.expected_exception as e:
+            self._record_failure()
+            raise e
+    
+    def _record_failure(self):
+        """Record a failure and potentially open circuit"""
+        self.failure_count += 1
+        self.last_failure_time = time.time()
+        
+        if self.failure_count >= self.failure_threshold:
+            self.state = CircuitBreakerState.OPEN
+
+
 class OAuthManager:
     """
     Secure OAuth2 manager for external service authentication
     with enterprise-grade security and token lifecycle management.
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None, clock: Callable[[], float] = _now_epoch):
-        """Initialize OAuth manager"""
+    def __init__(
+        self, 
+        config: Optional[dict[str, Any]] = None, 
+        clock: Callable[[], float] = _now_epoch,
+        metrics_collector: Optional[MetricsCollector] = None
+    ):
+        """
+        Initialize OAuth manager with enhanced resilience patterns
+        
+        Args:
+            config: Configuration dictionary
+            clock: Clock function for testing
+            metrics_collector: Optional metrics collector for observability
+        """
         self.config = config or {}
         self.clock = clock
+        self.metrics = metrics_collector
 
         # Security configuration
         self.encryption_key = self._get_encryption_key()
@@ -107,7 +194,127 @@ class OAuthManager:
         self.auth_attempts: dict[str, list] = {}
         self.max_attempts_per_hour = self.config.get("max_auth_attempts", 10)
 
+        # Circuit breakers for each provider
+        self.circuit_breakers: dict[str, CircuitBreaker] = {}
+        for provider in OAuthProvider:
+            self.circuit_breakers[provider.value] = CircuitBreaker(
+                failure_threshold=self.config.get("circuit_breaker_failure_threshold", 5),
+                recovery_timeout=self.config.get("circuit_breaker_recovery_timeout", 60),
+            )
+
+        # Cleanup task for expired tokens and states
+        self._cleanup_task: Optional[asyncio.Task] = None
+        self._cleanup_started = False
+
         logger.info("OAuth Manager initialized with %d providers", len(self.provider_configs))
+
+    def _start_cleanup_task(self) -> None:
+        """Start background cleanup task for expired tokens and states (only if event loop exists)"""
+        if not self._cleanup_started and (self._cleanup_task is None or self._cleanup_task.done()):
+            try:
+                # Only start if there's a running event loop
+                asyncio.get_running_loop()
+                self._cleanup_task = asyncio.create_task(self._cleanup_loop())
+                self._cleanup_started = True
+            except RuntimeError:
+                # No event loop running - cleanup will be started on first async method call
+                pass
+
+    async def _cleanup_loop(self) -> None:
+        """Background task to clean up expired tokens and states"""
+        while True:
+            try:
+                await asyncio.sleep(300)  # Run every 5 minutes
+                await self._cleanup_expired_data()
+            except asyncio.CancelledError:
+                break
+            except Exception as e:
+                logger.error("Error in cleanup loop: %s", str(e))
+
+    async def _cleanup_expired_data(self) -> None:
+        """Clean up expired tokens and OAuth states"""
+        now = datetime.fromtimestamp(self.clock(), tz=timezone.utc)
+        
+        # Clean up expired OAuth states
+        expired_states = [
+            state for state, data in self.state_store.items()
+            if data.get("expires_at") and data["expires_at"] < now
+        ]
+        
+        for state in expired_states:
+            del self.state_store[state]
+            
+        # Clean up expired tokens
+        expired_tokens = []
+        for key, token_data in self.token_store.items():
+            try:
+                decrypted_data = self._decrypt_token_data(token_data["encrypted_data"])
+                if decrypted_data.get("expires_at") and datetime.fromisoformat(decrypted_data["expires_at"]) < now:
+                    expired_tokens.append(key)
+            except Exception:
+                # If we can't decrypt, consider it expired
+                expired_tokens.append(key)
+        
+        for key in expired_tokens:
+            del self.token_store[key]
+            
+        if expired_states or expired_tokens:
+            logger.info("Cleaned up %d expired states and %d expired tokens", 
+                       len(expired_states), len(expired_tokens))
+            
+        if self.metrics:
+            self.metrics.gauge("oauth.active_tokens", len(self.token_store))
+            self.metrics.gauge("oauth.active_states", len(self.state_store))
+
+    @asynccontextmanager
+    async def _with_retry_and_circuit_breaker(self, provider: OAuthProvider, operation: str):
+        """Context manager for operations with retry and circuit breaker"""
+        circuit_breaker = self.circuit_breakers[provider.value]
+        
+        max_retries = self.config.get("max_retries", 3)
+        base_delay = self.config.get("retry_base_delay", 1.0)
+        
+        for attempt in range(max_retries + 1):
+            try:
+                if self.metrics:
+                    self.metrics.increment(f"oauth.{operation}.attempt", 
+                                         {"provider": provider.value, "attempt": attempt + 1})
+                
+                yield circuit_breaker
+                
+                # Success - log and return
+                if self.metrics:
+                    self.metrics.increment(f"oauth.{operation}.success", 
+                                         {"provider": provider.value})
+                return
+                
+            except Exception as e:
+                if attempt == max_retries:
+                    # Final attempt failed
+                    if self.metrics:
+                        self.metrics.increment(f"oauth.{operation}.failure", 
+                                             {"provider": provider.value, "error": str(type(e).__name__)})
+                    raise
+                
+                # Calculate exponential backoff with jitter
+                delay = base_delay * (2 ** attempt) + random.uniform(0, 1)
+                logger.warning(
+                    "OAuth %s failed for provider %s (attempt %d/%d), retrying in %.2fs: %s",
+                    operation, provider.value, attempt + 1, max_retries + 1, delay, str(e)
+                )
+                
+                await asyncio.sleep(delay)
+
+    async def close(self) -> None:
+        """Clean shutdown of OAuth manager"""
+        if self._cleanup_task and not self._cleanup_task.done():
+            self._cleanup_task.cancel()
+            try:
+                await self._cleanup_task
+            except asyncio.CancelledError:
+                pass
+        
+        logger.info("OAuth Manager shutdown complete")
 
     def _get_encryption_key(self) -> bytes:
         """Get or generate encryption key for token storage"""
@@ -232,6 +439,9 @@ class OAuthManager:
         Returns:
             True if successful
         """
+        # Ensure cleanup task is started
+        self._start_cleanup_task()
+        
         try:
             # Rate limiting check
             if not self._check_auth_rate_limit(user_id):
@@ -323,7 +533,7 @@ class OAuthManager:
         self, user_id: str, provider: OAuthProvider, refresh_token: str
     ) -> Optional[dict[str, Any]]:
         """
-        Refresh OAuth credentials using refresh token
+        Refresh OAuth credentials using refresh token with resilience patterns
 
         Args:
             user_id: User identifier
@@ -333,34 +543,52 @@ class OAuthManager:
         Returns:
             New credential data or None if refresh failed
         """
-        try:
-            # This would make actual refresh API call in production
-            logger.info(
-                "Refreshing credentials for user %s, provider %s",
-                user_id,
-                provider.value,
-            )
+        start_time = self.clock()
+        
+        async with self._with_retry_and_circuit_breaker(provider, "refresh") as circuit_breaker:
+            try:
+                # This would make actual refresh API call in production
+                logger.info(
+                    "Refreshing credentials for user %s, provider %s",
+                    user_id,
+                    provider.value,
+                )
 
-            # Simulate refresh token exchange
-            await asyncio.sleep(0.1)  # Simulate API call
+                async def _refresh_api_call():
+                    # Simulate API call with potential failure
+                    await asyncio.sleep(0.1)
+                    
+                    # Simulate occasional failures for testing
+                    if random.random() < 0.1:  # 10% failure rate
+                        raise Exception("Simulated OAuth API failure")
+                    
+                    return {
+                        "access_token": f"refreshed_token_{secrets.token_urlsafe(16)}",
+                        "refresh_token": refresh_token,  # May or may not change
+                        "expires_in": 3600,
+                        "token_type": "Bearer",
+                    }
 
-            # Generate new tokens (simulation)
-            new_credentials = {
-                "access_token": f"refreshed_token_{secrets.token_urlsafe(16)}",
-                "refresh_token": refresh_token,  # May or may not change
-                "expires_in": 3600,
-                "token_type": "Bearer",
-            }
+                # Use circuit breaker for external API call
+                new_credentials = await circuit_breaker.call(_refresh_api_call)
 
-            # Store refreshed credentials
-            await self.store_credentials(user_id, provider, new_credentials)
+                # Store refreshed credentials
+                success = await self.store_credentials(user_id, provider, new_credentials)
+                if not success:
+                    raise Exception("Failed to store refreshed credentials")
 
-            logger.info("Credentials refreshed successfully for user %s", user_id)
-            return new_credentials
+                # Record timing metrics
+                if self.metrics:
+                    duration = self.clock() - start_time
+                    self.metrics.timing("oauth.refresh.duration", duration, 
+                                      {"provider": provider.value})
 
-        except Exception as e:
-            logger.error("Failed to refresh credentials: %s", str(e))
-            return None
+                logger.info("Credentials refreshed successfully for user %s", user_id)
+                return new_credentials
+
+            except Exception as e:
+                logger.error("Failed to refresh credentials: %s", str(e))
+                return None
 
     async def revoke_credentials(self, user_id: str, provider: OAuthProvider) -> bool:
         """
@@ -475,7 +703,7 @@ class OAuthManager:
             return []
 
     async def health_check(self) -> dict[str, Any]:
-        """Health check for OAuth manager"""
+        """Enhanced health check for OAuth manager with circuit breaker status"""
         try:
             current_time = datetime.fromtimestamp(self.clock(), tz=timezone.utc)
 
@@ -495,7 +723,21 @@ class OAuthManager:
                 except Exception:
                     expired_tokens += 1
 
-            return {
+            # Circuit breaker status
+            circuit_breaker_status = {}
+            for provider, cb in self.circuit_breakers.items():
+                circuit_breaker_status[provider] = {
+                    "state": cb.state.value,
+                    "failure_count": cb.failure_count,
+                    "last_failure_time": cb.last_failure_time,
+                }
+
+            # Cleanup task status
+            cleanup_task_status = "running" if (
+                self._cleanup_task and not self._cleanup_task.done()
+            ) else "stopped"
+
+            health_status = {
                 "status": "healthy",
                 "version": MODULE_VERSION,
                 "active_tokens": active_tokens,
@@ -503,7 +745,27 @@ class OAuthManager:
                 "active_auth_states": len(self.state_store),
                 "supported_providers": [p.value for p in OAuthProvider],
                 "rate_limit_config": {"max_attempts_per_hour": self.max_attempts_per_hour},
+                "circuit_breakers": circuit_breaker_status,
+                "cleanup_task": cleanup_task_status,
+                "config": {
+                    "token_ttl_hours": self.token_ttl_hours,
+                    "refresh_threshold_minutes": self.refresh_threshold_minutes,
+                    "circuit_breaker_failure_threshold": self.config.get("circuit_breaker_failure_threshold", 5),
+                    "max_retries": self.config.get("max_retries", 3),
+                },
             }
+
+            # Check if any circuit breakers are open (degraded state)
+            open_breakers = [
+                provider for provider, cb in self.circuit_breakers.items()
+                if cb.state == CircuitBreakerState.OPEN
+            ]
+            
+            if open_breakers:
+                health_status["status"] = "degraded"
+                health_status["open_circuit_breakers"] = open_breakers
+
+            return health_status
 
         except Exception as e:
             return {"status": "error", "error": str(e), "version": MODULE_VERSION}

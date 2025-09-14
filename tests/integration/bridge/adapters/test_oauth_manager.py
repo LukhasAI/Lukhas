@@ -4,9 +4,9 @@
 # criticality: P1
 
 import pytest
-from unittest.mock import AsyncMock
 
 from candidate.bridge.external_adapters.oauth_manager import OAuthManager, OAuthProvider
+
 
 @pytest.mark.tier3
 @pytest.mark.oauth
@@ -79,8 +79,10 @@ class TestOAuthManagerIntegration:
     @pytest.mark.asyncio
     async def test_get_user_providers_error(self, manager: OAuthManager, monkeypatch):
         """Tests an error when getting user providers."""
+
         async def mock_get_creds_error(*args, **kwargs):
             raise ValueError("Test error")
+
         monkeypatch.setattr(manager, "get_credentials", mock_get_creds_error)
 
         providers = await manager.get_user_providers("user1")
@@ -90,8 +92,10 @@ class TestOAuthManagerIntegration:
     async def test_health_check_error(self, manager: OAuthManager, monkeypatch):
         """Tests an error during health check."""
         await manager.store_credentials("user-health-check", OAuthProvider.GOOGLE, {})
+
         def mock_decrypt_error(*args, **kwargs):
             raise ValueError("Test error")
+
         monkeypatch.setattr(manager, "_decrypt_token_data", mock_decrypt_error)
 
         health = await manager.health_check()
@@ -101,8 +105,10 @@ class TestOAuthManagerIntegration:
     @pytest.mark.asyncio
     async def test_refresh_credentials_error(self, manager: OAuthManager, monkeypatch):
         """Tests an error when refreshing credentials."""
+
         async def mock_store_creds_error(*args, **kwargs):
             raise ValueError("Test error")
+
         monkeypatch.setattr(manager, "store_credentials", mock_store_creds_error)
 
         creds = await manager.refresh_credentials("user1", OAuthProvider.GOOGLE, "refresh-token")
