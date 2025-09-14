@@ -30,7 +30,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -c constraints.txt -r requirements.txt
+          pip install -e .
+          pip install pytest pytest-asyncio pytest-cov
 
       - name: Security Scanning - Gitleaks (non-blocking)
         uses: gitleaks/gitleaks-action@v2
@@ -202,7 +203,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -c constraints.txt -r requirements.txt
+          pip install -e .
 
       - name: Run tests
         run: make test

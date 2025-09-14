@@ -438,7 +438,7 @@ def create_spirulina_atp_system(
     if optimize_for_consciousness:
         print("🧠 Consciousness-optimized bio-hybrid energy system created")
         print("   - Optimized for: Memory fold processing, reasoning cycles, awareness loops")
-        print(f"   - Expected efficiency: {system.target_efficiency} TFLOPS/W")
+        print(f"   - Expected efficiency: {system.target_tflops_per_watt} TFLOPS/W")
         print("   - AGI alignment target: 94% (Virtuoso AGI level)")
 
     return system

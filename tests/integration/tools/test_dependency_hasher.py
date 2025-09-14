@@ -62,14 +62,14 @@ pytest>=7.4.0
 
         print("\n" + "=" * 60)
         print("🎯 Guardian Security Dependency Hasher: FUNCTIONAL")
-        return True
+        # Test passes if we reach here without exceptions
 
     except Exception as e:
         print(f"❌ Test failed: {e}")
         import traceback
 
         traceback.print_exc()
-        return False
+        assert False, f"Test failed: {e}"
 
     finally:
         hasher.cleanup()

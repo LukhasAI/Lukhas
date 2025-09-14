@@ -1,5 +1,5 @@
 # Main Makefile PHONY declarations (only for targets defined in this file)
-.PHONY: install setup-hooks dev api openapi live colony-dna-smoke lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports
+.PHONY: install setup-hooks dev api openapi live colony-dna-smoke smoke-matriz lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports
 .PHONY: ai-analyze ai-setup ai-workflow clean deep-clean quick bootstrap organize organize-dry organize-suggest organize-watch
 .PHONY: codex-validate codex-fix validate-all perf migrate-dry migrate-run dna-health dna-compare admin lint-status lane-guard
 .PHONY: audit-tail sdk-py-install sdk-py-test sdk-ts-build sdk-ts-test backup-local backup-s3 restore-local restore-s3 dr-drill dr-weekly dr-quarterly dr-monthly
@@ -54,6 +54,12 @@ live:
 # Colony↔DNA demo
 colony-dna-smoke:
 	python3 scripts/colony_dna_smoke.py
+
+# MATRIZ traces smoke (deterministic, uses golden fixture)
+smoke-matriz:
+	@echo "🚬 Running MATRIZ traces smoke (GET /traces/latest)..."
+	PYTHONPATH=. python3 -m pytest -q tests/smoke/test_traces_router.py --maxfail=1 --disable-warnings
+	@echo "✅ MATRIZ traces smoke passed"
 
 # Linting (no fixes)
 lint:
@@ -581,3 +587,27 @@ specs-sync:
 
 test-goldens:
 	@python3 tools/tests/validate_golden.py
+
+# Jules-06 focused test lane
+.PHONY: test-jules06
+test-jules06:
+	@echo "🧪 Jules-06 focused adapters lane"
+	@export TZ=UTC PYTHONHASHSEED=0 PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=.; \
+	pytest -q \
+	  -m "not quarantine" \
+	  tests/unit/bridge/adapters/test_gmail_adapter.py \
+	  tests/unit/bridge/adapters/test_dropbox_adapter.py \
+	  tests/unit/bridge/adapters/test_oauth_manager.py \
+	  tests/unit/security/test_security.py \
+	  tests/integration/bridge/adapters/test_gmail_adapter.py \
+	  tests/integration/bridge/adapters/test_dropbox_adapter.py \
+	  tests/integration/bridge/adapters/test_oauth_manager.py \
+	  tests/integration/bridge/test_service_integration.py \
+	  tests/integration/security/test_security.py \
+	  --cov=candidate.bridge.adapters \
+	  --cov=candidate.bridge.external_adapters \
+	  --cov=candidate.bridge.api.validation \
+	  --cov=candidate.bridge.adapters.service_adapter_base \
+	  --cov-branch \
+	  --cov-report=xml:reports/tests/cov_adapters.xml \
+	  --cov-report=term-missing

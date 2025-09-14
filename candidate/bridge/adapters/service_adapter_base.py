@@ -502,10 +502,9 @@ class BaseServiceAdapter(ABC):
         """Authenticate with external service"""
         pass
 
-    @abstractmethod
     async def fetch_resource(self, lid: str, resource_id: str, capability_token: CapabilityToken) -> dict:
         """Fetch resource from external service"""
-        pass
+        raise NotImplementedError("fetch_resource is not implemented in this adapter")
 
     def get_health_status(self) -> dict:
         """⚛️🧠🛡️ Get adapter health status with Trinity Framework integration"""

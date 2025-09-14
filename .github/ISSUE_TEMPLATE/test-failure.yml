@@ -1,0 +1,133 @@
+name: Test Failure Report
+description: Report a failing test or test suite issue
+title: "[TEST] "
+labels: ["test-failure", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Test Failure Report
+        Please provide details about the failing test to help us resolve it quickly.
+
+  - type: input
+    id: test-path
+    attributes:
+      label: Test File Path
+      description: Full path to the failing test file
+      placeholder: "tests/unit/governance/compliance/test_consent_manager.py"
+    validations:
+      required: true
+
+  - type: input
+    id: test-name
+    attributes:
+      label: Test Name
+      description: Specific test function or class name
+      placeholder: "TestAdvancedConsentManager::test_consent_expiration_and_cleanup"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: Severity of the test failure
+      options:
+        - P0 - Critical (blocks deployment)
+        - P1 - High (core functionality)
+        - P2 - Medium (important feature)
+        - P3 - Low (edge case)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: test-type
+    attributes:
+      label: Test Type
+      options:
+        - Unit Test
+        - Integration Test
+        - E2E Test
+        - Performance Test
+        - Security Test
+    validations:
+      required: true
+
+  - type: textarea
+    id: error-message
+    attributes:
+      label: Error Message
+      description: The actual error or assertion failure
+      render: python
+      placeholder: |
+        AssertionError: assert 'No active consent found' == 'Consent has expired'
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: What should happen when the test passes
+      placeholder: "The test should validate that expired consent returns 'Consent has expired' message"
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+      description: What actually happens when the test runs
+      placeholder: "The test returns 'No active consent found' instead"
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Steps to Reproduce
+      description: How to run the failing test
+      value: |
+        1. Install dependencies: `pip install -r requirements.txt`
+        2. Run test: `pytest <test_path>::<test_name> -v`
+        3. Observe failure
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Test environment details
+      value: |
+        - Python version:
+        - Pytest version:
+        - OS:
+        - Branch/Commit:
+    validations:
+      required: false
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed Solution
+      description: If you have ideas on how to fix this
+      placeholder: "Update validation logic to check expiration before existence..."
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      options:
+        - label: I have searched existing issues
+          required: true
+        - label: I have checked KNOWN_ISSUES.md
+          required: true
+        - label: This is reproducible on main branch
+          required: false
+        - label: I can work on fixing this issue
+          required: false
