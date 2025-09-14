@@ -8,7 +8,7 @@ This adapter enables Lambda Products to leverage GPT-OSS for enhanced:
 - Lambda Business Analysis System (ΛBAS)
 - Data Analytics & Strategic Thinking (DΛST)
 """
-import streamlit as st
+
 from datetime import timezone
 
 import asyncio
@@ -100,7 +100,8 @@ class QRGAdapter:
         """Generate high-quality reasoning using GPT-OSS"""
 
         start_time = time.time()
-        request_id = f"qrg_{hashlib.md5(f\'{request.content)}_{time.time()}\'.encode()).hexdigest()[:12]}"
+        hash_input = f"{request.content}_{time.time()}"
+        request_id = f"qrg_{hashlib.md5(hash_input.encode()).hexdigest()[:12]}"
 
         # Create QRG-specific prompt
         enhanced_data = {
@@ -308,7 +309,8 @@ class NIASAdapter:
         """Perform neural intelligence analysis using GPT-OSS"""
 
         start_time = time.time()
-        request_id = f"nias_{hashlib.md5(f\'{request.content)}_{time.time()}\'.encode()).hexdigest()[:12]}"
+        hash_input = f"{request.content}_{time.time()}"
+        request_id = f"nias_{hashlib.md5(hash_input.encode()).hexdigest()[:12]}"
 
         # Create NIAS-specific prompt
         enhanced_data = {
@@ -524,7 +526,8 @@ class ABASAdapter:
         """Perform business analysis using GPT-OSS"""
 
         start_time = time.time()
-        request_id = f"abas_{hashlib.md5(f\'{request.content)}_{time.time()}\'.encode()).hexdigest()[:12]}"
+        hash_input = f"{request.content}_{time.time()}"
+        request_id = f"abas_{hashlib.md5(hash_input.encode()).hexdigest()[:12]}"
 
         # Create business analysis prompt
         enhanced_data = {
@@ -768,7 +771,8 @@ class DASTAdapter:
         """Perform data analytics and strategic thinking"""
 
         start_time = time.time()
-        request_id = f"dast_{hashlib.md5(f\'{request.content)}_{time.time()}\'.encode()).hexdigest()[:12]}"
+        hash_input = f"{request.content}_{time.time()}"
+        request_id = f"dast_{hashlib.md5(hash_input.encode()).hexdigest()[:12]}"
 
         # Create data analytics prompt
         enhanced_data = {

@@ -7,6 +7,7 @@
 # ═══════════════════════════════════════════════════════════════════════════
 
 import random  # For request ID generation
+import logging
 
 # from flask_cors import CORS # CORS might be handled by unified_api's app instance
 import time

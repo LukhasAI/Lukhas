@@ -3,7 +3,6 @@
 Lambda Products Installation Verification Script
 Checks that all components are properly installed and functional
 """
-import streamlit as st
 
 import sys
 from pathlib import Path
@@ -88,7 +87,7 @@ def main():
     print(f"\nTotal Checks: {total}")
     print(f"✅ Passed: {passed}")
     print(f"❌ Failed: {failed}")
-    print(f"Success Rate: {(passed / total)}  * 100:.1f}%")
+    print(f"Success Rate: {(passed / total) * 100:.1f}%")
 
     if passed == total:
         print("\n🎉 ALL CHECKS PASSED!")

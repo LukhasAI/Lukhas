@@ -52,7 +52,7 @@ try:
 except ImportError:
     try:
         # Try alternative emotion system
-        from lukhas.emotion import EmotionWrapper as EmotionEngine
+        from lukhas.emotion import EmotionWrapper as EmotionEngine  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
 
         EMOTION_ENGINE_AVAILABLE = True
     except ImportError as e:
@@ -60,7 +60,7 @@ except ImportError:
         EMOTION_ENGINE_AVAILABLE = False
 
 try:
-    from candidate.consciousness.dream.core.dream_engine import DreamEngine
+    from candidate.consciousness.dream.core.dream_engine import DreamEngine  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution
 
     DREAM_ENGINE_AVAILABLE = True
 except ImportError:
@@ -68,7 +68,7 @@ except ImportError:
     DREAM_ENGINE_AVAILABLE = False
 
 try:
-    from candidate.core.coordination import ContractNetInitiator as CoordinationManager
+    from candidate.core.coordination import ContractNetInitiator as CoordinationManager  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
 
     COORDINATION_MANAGER_AVAILABLE = True
 except ImportError:

@@ -1,0 +1,56 @@
+# T4 Test Specification Template
+# This is the canonical template for all test specifications in LUKHAS
+
+module: ""           # Module name (e.g., "identity", "orchestration")
+description: ""      # Brief module description
+version: "1.0.0"     # Spec version
+tier: "tier3"        # Default tier (tier1-4)
+
+# Test specifications
+tests:
+  - name: "test_basic_functionality"
+    description: "Basic functionality test"
+    tier: "tier3"
+    tags: []
+    
+    # Test inputs
+    input:
+      type: "object"
+      properties: {}
+      required: []
+    
+    # Expected outputs
+    expected:
+      type: "object"
+      properties: {}
+      required: []
+    
+    # Test setup
+    setup: []
+    teardown: []
+    
+    # Performance constraints
+    timeout: 30
+    max_duration: 10.0
+    
+    # Dependencies
+    requires: []
+    conflicts: []
+
+# Module metadata
+metadata:
+  author: ""
+  created: ""
+  updated: ""
+  contract_ref: ""      # Reference to CONTRACT.md
+  
+# Golden artifacts
+golden:
+  enabled: false
+  files: []
+  schema_ref: ""
+
+# Coverage targets
+coverage:
+  line_rate_min: 0.8
+  branch_rate_min: 0.7

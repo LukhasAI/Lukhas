@@ -7,7 +7,7 @@ closing parentheses immediately after closing braces in f-string expressions.
 
 Patterns fixed:
 1. {variable)} → {variable}
-2. {variable:.2f)} → {variable:.2f}  
+2. {variable:.2f)} → {variable:.2f}
 3. {expression)} → {expression}
 
 Usage:
@@ -22,10 +22,10 @@ from pathlib import Path
 def fix_fstring_brackets(content: str) -> tuple[str, int]:
     """
     Fix f-string bracket mismatches in the given content.
-    
+
     Args:
         content: The file content as a string
-        
+
     Returns:
         tuple: (fixed_content, number_of_fixes_made)
     """
@@ -41,7 +41,7 @@ def fix_fstring_brackets(content: str) -> tuple[str, int]:
         if re.match(r"^[\s]*}[\s]*$", line):
             # Check if previous line looks like a function call or f-string
             if i > 0:
-                prev_line = lines[i-1].strip()
+                prev_line = lines[i - 1].strip()
                 if (prev_line.endswith('."') or prev_line.endswith(".'")) and 'f"' in prev_line:
                     line = line.replace("}", ")")
                     total_fixes += 1
@@ -109,7 +109,7 @@ def main():
             pattern = r"\{([^{}]*)\}\)"
             sample_matches = re.findall(pattern, original_content)[:5]  # Show first 5
             for i, match in enumerate(sample_matches, 1):
-                print(f"  {i}. {{{match}} → {{{match}}")
+                print(f"  {i}. {{{match}}} → {{{match}}}")
                 if i >= 5:
                     break
             if len(sample_matches) > 5:

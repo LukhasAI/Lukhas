@@ -53,7 +53,7 @@ def fix_unclosed_f_strings(content: str) -> tuple[str, list[str]]:
         if ('f"' in line or "f'" in line) and not in_f_string:
             in_f_string = True
             f_string_start_line = i
-            brace_count = line.count("{"} - line.count("}")
+            brace_count = line.count("{") - line.count("}")
 
             # Check if it's a complete f-string on one line
             if brace_count == 0:

@@ -106,20 +106,33 @@ logs/
 *_backup*
 .git-agent-backups/
 
-# Virtual environments
+# Virtual environments (comprehensive exclusion)
 .venv
 .venv/
+.venv*/
 venv/
+venv*/
 env/
+env*/
 .env/
+.env*/
 lambda_venv/
 *_venv/
+*venv/
 .venv_ruff/
 .venv_mypy/
 .venv_count/
 .venv_count
 .venv_ruff
 .venv_metrics
+.venv_test/
+.venv_runtime_test/
+.venv311/
+.virtualenv/
+virtualenv/
+.conda/
+conda-env/
+python-env/
 
 # Environment variables file
 .env

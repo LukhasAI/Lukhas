@@ -1,48 +1,48 @@
 repos:
-  # --- Ruff: Fast, reliable, stays on commit ---
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.7
-    hooks:
-      - id: ruff
-        args: [--fix]
-        exclude: ^(candidate/|quarantine/|archive/)  # reduce noise
-      - id: ruff-format
-        exclude: ^(candidate/|quarantine/|archive/)
-
-  # --- Security: Keep on commit - fast and important ---
-  - repo: https://github.com/zricethezav/gitleaks
-    rev: v8.17.0
-    hooks:
-      - id: gitleaks
-        args: ["--redact", "--report-format", "sarif", "--report-path", "gitleaks.sarif"]
-
-  # --- Heavy/flaky tools: manual or push-only ---
-  - repo: local
-    hooks:
-      # LUKHAS AI analyzer: run manually, never block commits
-      - id: lukhas-ai-analyzer
-        name: LUKHAS AI analyzer (manual)
-        entry: echo "[LUKHAS-LLM] Skipping on commit; run pre-commit run lukhas-ai-analyzer --hook-stage manual -a"
-        language: system
-        pass_filenames: false
-        stages: [manual]   # KEY: manual-only
-        always_run: true
-
-      # Syntax guardian: push-only or manual, not on commit
-      - id: syntax-guardian
-        name: syntax-guardian (push)
-        entry: python -m pyflakes
-        language: system
-        types: [python]
-        stages: [push]     # run on push, not per local commit
-        files: ^lukhas/|^MATRIZ/
-        exclude: ^(candidate/|quarantine/|archive/)
-
-  # --- MyPy: push-only due to venv conflicts ---
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.10.0
-    hooks:
-      - id: mypy
-        stages: [push]     # push-only due to .venv311 typing conflicts
-        additional_dependencies: []
-        exclude: ^(candidate/|quarantine/|archive/)
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.4.0
+  hooks:
+  - id: trailing-whitespace
+  - id: end-of-file-fixer
+  - id: check-yaml
+  - id: check-added-large-files
+  - id: check-json
+  - id: check-merge-conflict
+- repo: https://github.com/charliermarsh/ruff-pre-commit
+  rev: v0.1.6
+  hooks:
+  - id: ruff
+    args:
+    - --fix
+    - --exit-non-zero-on-fix
+- repo: https://github.com/psf/black
+  rev: 23.11.0
+  hooks:
+  - id: black
+    language_version: python3.11
+# Temporarily disabled bandit due to dependency issues
+# - repo: https://github.com/PyCQA/bandit
+#   rev: 1.7.5
+#   hooks:
+#   - id: bandit
+#     args:
+#     - -c
+#     - pyproject.toml
+#     additional_dependencies:
+#     - bandit[toml]
+#     exclude: ^tests/
+- repo: local
+  hooks:
+  - id: lukhas-lane-guard
+    name: LUKHAS Lane Guard
+    entry: python3 tools/ci/runtime_lane_guard.py
+    language: system
+    pass_filenames: false
+    always_run: true
+  - id: lukhas-advanced-tests
+    name: LUKHAS Advanced Tests (Fast)
+    entry: python3 tools/ci/test_orchestrator.py --tier smoke
+    language: system
+    pass_filenames: false
+    stages:
+    - pre-push

@@ -4,8 +4,8 @@
 Shared utilities and helpers for all LUKHAS modules.
 """
 
-import logging
-import time
+import logging  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+import time  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 
 from .config import ConfigLoader, get_config
 from .decorators import lukhas_tier_required, retry, with_timeout

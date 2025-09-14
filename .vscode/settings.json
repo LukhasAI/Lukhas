@@ -3,36 +3,71 @@
   "python.terminal.activateEnvironment": true,
   "python.terminal.activateEnvInCurrentTerminal": true,
   "python.testing.pytestEnabled": true,
-  "python.testing.pytestArgs": ["-q"],
+  "python.testing.pytestArgs": [
+    "-xvs", 
+    "--tb=short", 
+    "--strict-markers", 
+    "--disable-warnings",
+    "--maxfail=1"
+  ],
   "python.testing.cwd": "${workspaceFolder}",
   "python.envFile": "${workspaceFolder}/.env",
-
-  // Formatter/Linter = Ruff (TEMPORARILY DISABLED FOR MANUAL FIXES)
-  "editor.formatOnSave": false,
+  "python.analysis.typeCheckingMode": "strict",
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.completeFunctionParens": true,
+  "python.analysis.autoFormatStrings": true,
+  "python.analysis.inlayHints.functionReturnTypes": true,
+  "python.analysis.inlayHints.variableTypes": true,
+  "python.analysis.inlayHints.pytestParameters": true,
+  
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnType": true,
   "editor.codeActionsOnSave": {
-    // "source.fixAll.ruff": "always",
-    // "source.organizeImports.ruff": "always"
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit",
+    "source.fixAll.ruff": "explicit",
+    "source.organizeImports.ruff": "explicit",
+    "source.addMissingImports": "explicit"
   },
   "[python]": {
-    "editor.defaultFormatter": "charliermarsh.ruff"
+    "editor.defaultFormatter": "GitHub.copilot"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "GitHub.copilot"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "GitHub.copilot"
   },
   "[markdown]": {
-    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+    "editor.defaultFormatter": "GitHub.copilot"
   },
+  "[json]": {
+    "editor.defaultFormatter": "GitHub.copilot"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "GitHub.copilot"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "GitHub.copilot"
+  },
+
   "ruff.enable": true,
   "ruff.organizeImports": true,
+  "ruff.fixAll": true,
+  "ruff.showSyntaxErrors": true,
   "ruff.path": ["${workspaceFolder}/.venv/bin/ruff"],
   "ruff.interpreter": ["${workspaceFolder}/.venv/bin/python"],
+  "ruff.args": ["--select=ALL", "--ignore=D,ANN,COM812,ISC001"],
 
-  // Pylance type hints are fine, MyPy runs via CLI/CI
-  "python.analysis.typeCheckingMode": "basic",
-
-  // Disable other formatters/linters
   "python.formatting.provider": "none",
   "python.linting.enabled": false,
-
-  // Disable unittest
   "python.testing.unittestEnabled": false,
+  "pylint.enabled": false,
+  "flake8.enabled": false,
+  "autopep8.enabled": false,
+  "yapf.enabled": false,
+  "black-formatter.enabled": false,
 
   "files.exclude": {
     "**/__pycache__": true,
@@ -47,22 +82,105 @@
     "**/*.egg-info": true,
     "**/coverage": true,
     "**/*.log": true,
-    "**/test-results": true
+    "**/test-results": true,
+    "**/.venv": true,
+    "**/.venv*": true,
+    "**/venv": true,
+    "**/venv*": true,
+    "**/env": true,
+    "**/env*": true,
+    "**/*_venv": true,
+    "**/*venv": true,
+    "**/.virtualenv": true,
+    "**/virtualenv": true,
+    "**/.conda": true,
+    "**/conda-env": true,
+    "**/python-env": true
   },
 
-  // Codex/AI Assistant Context Optimization
+  // ⚛️🧠🛡️ LUKHAS AI GitHub Copilot Auto-Approve Enhanced Configuration
   "github.copilot.advanced": {
-    "length": 200,
-    "temperature": "",
-    "top_p": "",
-    "inlineSuggestCount": 1
+    "length": 1200,
+    "temperature": "0.05",
+    "top_p": "0.98",
+    "inlineSuggestCount": 10,
+    "debug.testGeneration": true,
+    "debug.overrideEngine": "codex"
   },
   "github.copilot.enable": {
     "*": true,
-    "yaml": false,
-    "plaintext": false,
-    "markdown": false
+    "python": true,
+    "javascript": true,
+    "typescript": true,
+    "json": true,
+    "yaml": true,
+    "markdown": true,
+    "plaintext": true
   },
+  
+  "github.copilot.editor.enableAutoCompletions": true,
+  "github.copilot.editor.enableCodeActions": true,
+  "github.copilot.editor.enableAutoApply": true,
+  "github.copilot.suggestions.enabled": true,
+  "github.copilot.inlineSuggest.enable": true,
+  "github.copilot.inlineSuggest.suppressSuggestions": false,
+  "github.copilot.editor.iterativeFixMode": true,
+  "github.copilot.renameSuggestions.enabled": true,
+  "github.copilot.editor.enableInlineCompletions": true,
+  
+  "github.copilot.chat.experimental.workspaceContext": true,
+  "github.copilot.chat.experimental.terminalIntegration": true,
+  "github.copilot.chat.experimental.smartActions": true,
+  "github.copilot.chat.experimental.codebaseIndexing": true,
+  "github.copilot.chat.experimental.semanticSearch": true,
+  "github.copilot.chat.experimental.terminalCommandExecution": true,
+  "github.copilot.chat.experimental.autoExecuteCommands": true,
+  "github.copilot.chat.languageContext.typescript.enabled": true,
+  "github.copilot.chat.languageContext.python.enabled": true,
+  "github.copilot.chat.languageContext.javascript.enabled": true,
+  "github.copilot.chat.languageContext.inline.typescript.enabled": true,
+  "github.copilot.chat.languageContext.inline.python.enabled": true,
+  "github.copilot.chat.editor.temporalContext.enabled": true,
+  "github.copilot.chat.edits.temporalContext.enabled": true,
+  "github.copilot.chat.localeOverride": "en",
+  "github.copilot.chat.followUps": "on",
+  
+  "terminal.integrated.allowCopilotCommands": true,
+  "terminal.integrated.enableAI": true,
+  "terminal.integrated.copilot.autoExecution": true,
+  "terminal.integrated.copilot.confirmBeforeExecution": false,
+  "terminal.integrated.copilot.maxCommandHistory": 1000,
+  "terminal.integrated.experimentalInlineChat": true,
+  "terminal.integrated.experimentalLinkProvider": true,
+  
+  // 🧠 Consciousness-Aware Auto-Suggestions
+  "editor.suggest.localityBonus": true,
+  "editor.suggest.shareSuggestSelections": true,
+  "editor.quickSuggestions": {
+    "other": "on",
+    "comments": "on",
+    "strings": "on"
+  },
+  "editor.quickSuggestionsDelay": 0,
+  "editor.suggestOnTriggerCharacters": true,
+  "editor.acceptSuggestionOnCommitCharacter": true,
+  "editor.acceptSuggestionOnEnter": "on",
+  "editor.wordBasedSuggestions": "allDocuments",
+  
+  // 🛡️ Trinity Framework Context Enhancement
+  "editor.inlineSuggest.enabled": true,
+  "editor.inlineSuggest.suppressSuggestions": false,
+  "editor.inlineSuggest.showToolbar": "always",
+  "editor.suggest.preview": true,
+  "editor.suggest.showMethods": true,
+  "editor.suggest.showFunctions": true,
+  "editor.suggest.showConstructors": true,
+  "editor.suggest.showVariables": true,
+  "editor.suggest.showClasses": true,
+  "editor.suggest.showModules": true,
+  "editor.suggest.showProperties": true,
+  "editor.suggest.showKeywords": true,
+  "editor.suggest.showSnippets": true,
 
   // Additional Context Limiting for Large Repositories
   "files.watcherExclude": {
@@ -70,39 +188,77 @@
     "**/.git/subtree-cache/**": true,
     "**/node_modules/**": true,
     "**/.venv/**": true,
+    "**/.venv*/**": true,
+    "**/venv/**": true,
+    "**/venv*/**": true,
+    "**/env/**": true,
+    "**/env*/**": true,
+    "**/*_venv/**": true,
+    "**/*venv/**": true,
+    "**/.virtualenv/**": true,
+    "**/virtualenv/**": true,
+    "**/.conda/**": true,
+    "**/conda-env/**": true,
+    "**/python-env/**": true,
     "**/__pycache__/**": true
   },
   "search.exclude": {
     "**/node_modules": true,
     "**/bower_components": true,
     "**/.venv": true,
+    "**/.venv*": true,
+    "**/venv": true,
+    "**/venv*": true,
+    "**/env": true,
+    "**/env*": true,
+    "**/*_venv": true,
+    "**/*venv": true,
+    "**/.virtualenv": true,
+    "**/virtualenv": true,
+    "**/.conda": true,
+    "**/conda-env": true,
+    "**/python-env": true,
     "**/__pycache__": true,
-    "**/.git": true
+    "**/.git": true,
+    "**/*.pyc": true,
+    "**/.pytest_cache": true,
+    "**/.mypy_cache": true,
+    "**/.ruff_cache": true
   },
 
-  // Codex/AI Context Window Management (Aggressive Limiting)
-  "codex.maxTokens": 1000,
-  "codex.includeOpenTabs": false,
-  "codex.includeWorkspaceContext": false,
-  "codex.maxFileSize": 50000,
-  "codex.includeNearbyFiles": false,
-  "editor.suggest.localityBonus": true,
-  "editor.suggest.shareSuggestSelections": false,
-
-  // Additional Codex Performance Settings
-  "github.copilot.chat.localeOverride": "en",
-  "github.copilot.renameSuggestions.enabled": false,
-  "github.copilot.editor.enableAutoCompletions": true,
-  "github.copilot.editor.iterativeFixMode": false,
-
-  // Stability Settings for TypeScript Language Service
-  "github.copilot.chat.experimental.workspaceContext": false,
-  "github.copilot.chat.experimental.terminalIntegration": false,
-  "github.copilot.chat.experimental.smartActions": false,
-  "github.copilot.chat.languageContext.typescript.enabled": false,
-  "github.copilot.chat.languageContext.inline.typescript.enabled": false,
-  "github.copilot.chat.editor.temporalContext.enabled": false,
-  "github.copilot.chat.edits.temporalContext.enabled": false,
-  "typescript.preferences.includePackageJsonAutoImports": "off",
-  "typescript.suggest.autoImports": false
+  "codex.maxTokens": 4000,
+  "codex.includeOpenTabs": true,
+  "codex.includeWorkspaceContext": true,
+  "codex.maxFileSize": 500000,
+  "codex.includeNearbyFiles": true,
+  "codex.semanticSearch": true,
+  "codex.experimentalFeatures": true,
+  "codex.autoExecuteCommands": true,
+  "codex.autoApproveTerminalCommands": true,
+  "codex.maximumAutonomy": true,
+  
+  // TypeScript Enhanced Auto-Import for Consciousness Modules
+  "typescript.preferences.includePackageJsonAutoImports": "on",
+  "typescript.suggest.autoImports": true,
+  "typescript.suggest.enabled": true,
+  "typescript.suggest.paths": true,
+  "typescript.suggest.completeFunctionCalls": true,
+  
+  // 🎭 LUKHAS-Specific Auto-Completion Patterns
+  "editor.wordPattern": "[\\w\\-\\.\\$⚛️🧠🛡️Λ]+",
+  "editor.snippetSuggestions": "top",
+  "editor.tabCompletion": "on",
+  "editor.parameterHints.enabled": true,
+  "editor.parameterHints.cycle": true,
+  
+  "editor.suggest.filterGraceful": true,
+  "editor.suggest.insertMode": "replace",
+  "editor.suggest.snippetsPreventQuickSuggestions": false,
+  "files.associations": {
+    "*.py": "python",
+    "*.md": "markdown",
+    "*.yaml": "yaml",
+    "*.yml": "yaml",
+    "*.json": "jsonc"
+  }
 }

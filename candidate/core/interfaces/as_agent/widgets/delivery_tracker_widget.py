@@ -20,7 +20,7 @@ Integration Date: 2025-05-31T07:55:30.487994
 """
 
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 def create_delivery_widget(timezone, vendor, delivery_id, user_tier, estimated_eta, delivery_status="in_transit"):

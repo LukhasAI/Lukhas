@@ -29,7 +29,7 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 try:
-    import anthropic
+    import anthropic  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
     from anthropic import AsyncAnthropic
 
     ANTHROPIC_AVAILABLE = True

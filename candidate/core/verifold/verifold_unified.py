@@ -1,6 +1,6 @@
 import logging
-import streamlit as st
-from typing import Dict
+import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+from typing import Dict  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 logger = logging.getLogger(__name__)
 """
 VeriFold Unified System
@@ -399,7 +399,7 @@ class UnifiedVeriFoldSystem:
         collapse_type: VeriFoldCollapseType,
     ) -> VeriFoldSnapshot:
         """Create a structured collapse snapshot."""
-        collapse_id = f"vf_{int(time.time(} * 1000000)}"
+        collapse_id = f"vf_{int(time.time()) * 1000000}"
 
         # Calculate entropy score
         entropy_score = self._calculate_entropy_score(collapse_data)
@@ -572,7 +572,7 @@ class UnifiedVeriFoldSystem:
 
     async def _create_system_checkpoint(self) -> str:
         """Create system state checkpoint."""
-        checkpoint_id = f"checkpoint_{int(time.time())"
+        checkpoint_id = f"checkpoint_{int(time.time())}"
         logger.info("System checkpoint created", checkpoint_id=checkpoint_id)
         return checkpoint_id
 

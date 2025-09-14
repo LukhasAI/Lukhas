@@ -4,10 +4,6 @@
 ==========================
 Identifies and analyzes import errors across the LUKHAS  codebase.
 """
-import logging
-import time
-import random
-import streamlit as st
 
 import ast
 import importlib.util
@@ -288,7 +284,7 @@ def main():
             for file in files[:3]:
                 print(f"      - {file}")
             if len(files) > 3:
-                print(f"      ... and {len(files)} - 3} more")
+                print(f"      ... and {len(files) - 3} more")
 
     if report["circular_imports"]:
         print(f"\n🔄 Circular Imports ({len(report['circular_imports'])}):")

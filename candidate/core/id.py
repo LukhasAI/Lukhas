@@ -24,8 +24,8 @@ from typing import Any, Optional
 
 # Quantum Security Imports (placeholder for actual quantum crypto)
 try:
-    from cryptography.hazmat.primitives import hashes, serialization
-    from cryptography.hazmat.primitives.asymmetric import padding, rsa
+    from cryptography.hazmat.primitives import hashes, serialization  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+    from cryptography.hazmat.primitives.asymmetric import padding, rsa  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
     from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
     CRYPTO_AVAILABLE = True

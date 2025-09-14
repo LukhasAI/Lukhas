@@ -2,7 +2,7 @@
 Usage Analytics Loop for ABAS
 Continuous learning from user behavior to identify and fix pain points
 """
-import streamlit as st
+
 from datetime import timezone
 
 import statistics
@@ -686,7 +686,7 @@ class UsageAnalyticsLoop:
                         {
                             "metric": metric_name,
                             "trend": "increasing",
-                            "change": f"+{(recent_avg - older_avg)} / older_avg  * 100:.1f}%",
+                            "change": f"+{(recent_avg - older_avg) / older_avg * 100:.1f}%",
                             "severity": "high",
                         }
                     )
@@ -715,7 +715,7 @@ class UsageAnalyticsLoop:
                         {
                             "metric": metric_name,
                             "trend": "decreasing",
-                            "change": f"-{(older_avg - recent_avg)} / older_avg  * 100:.1f}%",
+                            "change": f"-{(older_avg - recent_avg) / older_avg * 100:.1f}%",
                             "impact": "positive",
                         }
                     )

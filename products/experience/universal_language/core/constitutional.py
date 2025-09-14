@@ -5,7 +5,6 @@ Constitutional Constraints Layer for Universal Language
 Implements Constitutional AI principles for safe symbol generation and usage.
 Based on what Dario Amodei/Anthropic would implement.
 """
-import streamlit as st
 
 import hashlib
 import logging
@@ -306,7 +305,7 @@ class ConstitutionalValidator:
 
     def _generate_violation_id(self) -> str:
         """Generate unique violation ID"""
-        return f"VIOLATION_{int(time.time(} * 1000)}"
+        return f"VIOLATION_{int(time.time()) * 1000}"
 
 
 class ConstitutionalGuardrails:
@@ -525,7 +524,7 @@ class ConstitutionalAPI:
 
         # Create symbol
         symbol = Symbol(
-            id=f"SAFE_{hashlib.sha256(name.encode()).hexdigest()}[:8]}",
+            id=f"SAFE_{hashlib.sha256(name.encode()).hexdigest()[:8]}",
             domain=domain,
             name=name,
             value=value,

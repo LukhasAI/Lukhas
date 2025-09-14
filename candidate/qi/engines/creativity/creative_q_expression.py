@@ -22,7 +22,7 @@ import asyncio
 import hashlib
 from collections.abc import AsyncGenerator
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional, Protocol
 
 import numpy as np

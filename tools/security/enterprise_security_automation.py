@@ -32,7 +32,6 @@ try:
     )
     from lukhas.governance.security.access_control import (
         AccessControlEngine,
-        AccessTier,
     )
 
     PRODUCTION_MODULES_AVAILABLE = True

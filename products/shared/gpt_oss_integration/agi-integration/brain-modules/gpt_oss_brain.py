@@ -5,8 +5,7 @@ Integrates OpenAI's GPT-OSS models as a specialized brain in the symphony
 This module creates a GPT-OSS-powered brain that can work alongside
 Dreams, Memory, and Learning brains in the MultiBrainSymphony orchestrator.
 """
-from consciousness.qi import qi
-import streamlit as st
+
 from datetime import timezone
 
 import asyncio
@@ -586,7 +585,7 @@ async def test_gpt_oss_brain():
         result = await brain.process_with_reasoning(test_data)
 
         print("✅ Processing complete")
-        print(f"Confidence: {result.get('confidence', 0)}:.2%}")
+        print(f"Confidence: {result.get('confidence', 0):.2%}")
         print(f"Latency: {result.get('latency_ms', 0)}ms")
 
         if "reasoning" in result and "key_insights" in result["reasoning"]:

@@ -1,0 +1,45 @@
+# T4 Unused Imports Waivers Configuration
+# 
+# This file allows you to exempt specific imports from T4 annotation
+# when they are intentionally kept for future use or special purposes.
+#
+# Format:
+#   - file: relative/path/to/file.py
+#     line: N  (line number, or 0 for entire file)
+#     reason: "explanation for waiver"
+
+# Production waivers for LUKHAS AI consciousness architecture
+waivers:
+  # MATRIZ-R2 Integration Points
+  # These imports will be activated during MATRIZ-R2 phase
+  # - file: lukhas/matriz/router.py
+  #   line: 23
+  #   reason: "MATRIZ-R2 trace routing activation point"
+  
+  # Trinity Framework Reserved Imports
+  # These are architectural expansion points for consciousness evolution
+  # - file: consciousness/trinity/expansion.py
+  #   line: 15
+  #   reason: "Trinity Framework consciousness evolution reserved"
+  
+  # Agent System Integration Points
+  # Reserved for multi-AI agent coordination features
+  # - file: agent/coordination/bridge.py
+  #   line: 8
+  #   reason: "Multi-agent coordination system expansion"
+  
+  # Development and Testing Exemptions
+  # Entire experimental files can be exempted during active development
+  # - file: candidate/experimental_features.py
+  #   line: 0
+  #   reason: "Experimental module under active development"
+
+# Instructions:
+# 1. Uncomment and modify entries above as needed
+# 2. Add new waivers following the same format
+# 3. Use line: 0 to exempt entire files
+# 4. Always provide a clear reason for each waiver
+# 5. Review waivers quarterly to remove obsolete exemptions
+
+# No active waivers currently - all unused imports will be annotated
+waivers: []

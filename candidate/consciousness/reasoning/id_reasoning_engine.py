@@ -27,8 +27,8 @@ from candidate.core.common import get_logger
 
 # Quantum Security Imports (placeholder for actual quantum crypto)
 try:
-    from cryptography.hazmat.primitives import hashes, serialization
-    from cryptography.hazmat.primitives.asymmetric import padding, rsa
+    from cryptography.hazmat.primitives import hashes, serialization  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    from cryptography.hazmat.primitives.asymmetric import padding, rsa  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
     from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
     CRYPTO_AVAILABLE = True
 except ImportError:
@@ -38,7 +38,15 @@ except ImportError:
 logger = get_logger(__name__)
 
 
-class LukhasIdEnhancedReasoningEngine(Enum):
+@dataclass
+class QISignature:
+    """Quantum-inspired signature for audit entries"""
+    hash: str
+    nonce: str
+    timestamp: datetime
+
+
+class AccessTier(Enum):
     """Lukhas_ID Access Tiers - Each tier builds upon previous capabilities"""
     TIER_1_BASIC = 1        # Emoji + Seed Phrase Grid
     TIER_2_ENHANCED = 2     # + Biometrics (Face/Voice ID)
@@ -47,7 +55,7 @@ class LukhasIdEnhancedReasoningEngine(Enum):
     TIER_5_ADMIN = 5        # Full System Access
 
 
-class LukhasIdEnhancedReasoningEngine(Enum):
+class ComplianceRegion(Enum):
     """Regulatory compliance regions"""
     GLOBAL = "global"
     EU = "eu"           # GDPR, EU AI Act
@@ -57,7 +65,7 @@ class LukhasIdEnhancedReasoningEngine(Enum):
 
 
 @dataclass
-class LukhasIdEnhancedReasoningEngine:
+class EmotionalMemoryVector:
     """Represents a user's emotional state for memory protection"""
     valence: float      # Positive/negative (-1.0 to 1.0)
     arousal: float      # Calm/excited (0.0 to 1.0)
@@ -78,7 +86,7 @@ class LukhasIdEnhancedReasoningEngine:
 
 
 @dataclass
-class LukhasIdEnhancedReasoningEngine:
+class QuantumSignature:
     """Quantum-resistant digital signature for audit trails"""
     signature_data: str
     algorithm: str = "Dilithium-3"  # Post-quantum signature scheme
@@ -91,7 +99,7 @@ class LukhasIdEnhancedReasoningEngine:
 
 
 @dataclass
-class LukhasIdEnhancedReasoningEngine:
+class AuditLogEntry:
     """Comprehensive audit log entry with quantum verification"""
     timestamp: datetime
     user_id: str
@@ -122,7 +130,7 @@ class LukhasIdEnhancedReasoningEngine:
             "privacy_impact": self.privacy_impact}
 
 
-class LukhasIdEnhancedReasoningEngine:
+class TraumaLockedMemory:
     """
     Advanced memory protection using emotional state as encryption key.
     Based on the revolutionary trauma-locked memory vector encryption.
@@ -312,7 +320,7 @@ class LukhasIdEnhancedReasoningEngine:
         return max(0, similarity)
 
 
-class LukhasIdEnhancedReasoningEngine:
+class ComplianceMonitor:
     """
     Real-time compliance monitoring for EU AI Act, GDPR, US NIST Framework
     """

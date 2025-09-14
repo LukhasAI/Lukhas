@@ -3,7 +3,6 @@
 Module Migration Helper for LUKHAS AI
 Automates the migration of modules to lukhas/ (accepted)
 """
-import streamlit as st
 
 import json
 import re
@@ -228,8 +227,8 @@ def main():
         print(f"\n=== Migration Report for {module_name} ===")
         print(f"Files: {report.get('files', 0)}")
         print(f"Tests: {report.get('test_count', 0)}")
-        print(f"MATRIZ Compliant: {'Yes' if report.get('matriz_compliant')} else 'No'}")
-        print(f"Ready for Migration: {'Yes' if report.get('ready')} else 'No'}")
+        print(f"MATRIZ Compliant: {'Yes' if report.get('matriz_compliant') else 'No'}")
+        print(f"Ready for Migration: {'Yes' if report.get('ready') else 'No'}")
 
         if report.get("illegal_imports"):
             print(f"\nIllegal Imports ({len(report['illegal_imports'])}):")

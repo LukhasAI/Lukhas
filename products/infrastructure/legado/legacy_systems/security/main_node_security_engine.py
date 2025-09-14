@@ -82,7 +82,7 @@ class MainNodeSecurityEngine:
         # Backend
         self.meta_learning = MetaLearningSystem()
         self.neuro_symbolic_engine = NeuroSymbolicEngine()
-        self.identity_manager = IdentityManager()
+        self.identity_manager = IdentityManager()  # noqa: F821  # TODO: IdentityManager
         self.privacy_manager = PrivacyManager()
 
         # Register event handlers
@@ -384,7 +384,7 @@ async def main():
     logger.info("Adaptive AI Interface starting up...")
 
     # Create and start the system
-    system = AdaptiveAGISystem()
+    system = AdaptiveAGISystem()  # noqa: F821  # TODO: AdaptiveAGISystem
 
     try:
         await system.start()

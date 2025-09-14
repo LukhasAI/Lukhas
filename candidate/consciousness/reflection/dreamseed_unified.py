@@ -44,6 +44,7 @@ LUKHAS_TAG: dreamseed_emotion_unified, lambda_tier_integration, identity_aware
 """
 
 import hashlib
+import logging
 import os
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -58,6 +59,9 @@ from candidate.core.tier_unification_adapter import EmotionalTierAdapter, get_un
 # LUKHAS Core Imports
 from lukhas.memory.emotional import EmotionalMemory
 from lukhas.memory.governance.ethical_drift_governor import EthicalDriftGovernor, create_ethical_governor
+
+# Configure logger
+logger = logging.getLogger(__name__)
 
 
 # Backward compatibility enum (will be deprecated)

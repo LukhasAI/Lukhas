@@ -572,7 +572,7 @@ class PerformanceOrchestrator:
         if latency > 100:  # Critical threshold
             alerts.append(
                 PerformanceAlert(
-                    alert_id=f"alert_{int(time.time())",
+                    alert_id=f"alert_{int(time.time())}",
                     severity="critical",
                     module="system",
                     metric="latency_ms",
@@ -590,7 +590,7 @@ class PerformanceOrchestrator:
         if abs(bio_freq - self.bio_oscillator_target_frequency) > 3.0:
             alerts.append(
                 PerformanceAlert(
-                    alert_id=f"alert_{int(time.time())_bio",
+                    alert_id=f"alert_{int(time.time())}_bio",
                     severity="warning",
                     module="bio_systems",
                     metric="oscillator_frequency",
@@ -608,7 +608,7 @@ class PerformanceOrchestrator:
         if cascade_rate < self.cascade_prevention_target:
             alerts.append(
                 PerformanceAlert(
-                    alert_id=f"alert_{int(time.time())_cascade",
+                    alert_id=f"alert_{int(time.time())}_cascade",
                     severity="critical",
                     module="memory",
                     metric="cascade_prevention_rate",

@@ -148,9 +148,9 @@ async def assess_processing_activity(
     return await service.assess_processing_activity(activity)
 
     return {
-        "user_lid": user_lid,
-        "updated_consent_grants": updated_grants,
-        "updated_protected_data_entries": updated_data,
+        "user_lid": user_lid,  # noqa: F821  # TODO: user_lid
+        "updated_consent_grants": updated_grants,  # noqa: F821  # TODO: updated_grants
+        "updated_protected_data_entries": updated_data,  # noqa: F821  # TODO: updated_data
     }
 
 

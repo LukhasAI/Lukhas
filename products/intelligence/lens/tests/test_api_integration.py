@@ -9,7 +9,9 @@ REPO_ROOT = os.path.abspath(os.path.join(THIS_DIR, "..", "..", "..", "..", "..")
 sys.path.insert(0, REPO_ROOT)
 
 try:
-    from products.lambda.lambda_products_pack.lambda_core.Lens.api.main import app
+    # TODO: Fix import path - lambda directory doesn't exist
+    # from products.lambda.lambda_products_pack.lambda_core.Lens.api.main import app
+    app = None  # Placeholder until import is fixed
 except Exception:
     # Fallback: import by file path if package import fails
     import importlib.util

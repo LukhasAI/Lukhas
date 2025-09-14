@@ -152,7 +152,7 @@ def create_symbolic_widget(widget_type, user_tier, context_data=None):
     }
 
     # Paired App Trace (for connected experiences)
-    from candidate.core.dashboard_settings import get_paired_apps
+    from candidate.core.dashboard_settings import get_paired_apps  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 
     widget["paired_apps"] = get_paired_apps(context_data.get("user_id", "default_user"))
 

@@ -4,7 +4,6 @@
 ==================================
 Identifies and analyzes circular dependencies in LUKHAS .
 """
-import streamlit as st
 
 import ast
 import json
@@ -347,7 +346,7 @@ class {interface_name.replace("_interface", "").title()}Interface(ABC):
         pass
 
 # Module registry for dependency injection
-_module_registry: Dict[str, {interface_name.replace("_interface", "").title()}Interface] = {{}
+_module_registry: Dict[str, {interface_name.replace("_interface", "").title()}Interface] = {{}}
 
 def register_module(name: str, module: {interface_name.replace("_interface", "").title()}Interface) -> None:
     """Register module implementation"""
@@ -419,7 +418,7 @@ def main():
 
     print("\n💡 Fix Suggestions:")
     for i, suggestion in enumerate(suggestions[:5], 1):
-        print(f"\n   Cycle {i}: {' → '.join(suggestion['cycle'][:3])}{'...' if len(suggestion['cycle'])} > 3 else ''}")
+        print(f"\n   Cycle {i}: {' → '.join(suggestion['cycle'][:3])}{'...' if len(suggestion['cycle']) > 3 else ''}")
         print(f"   Type: {suggestion['type']}, Severity: {suggestion['severity']}")
         for fix in suggestion["fixes"]:
             print(f"   Fix: {fix['action']} - {fix['description']}")

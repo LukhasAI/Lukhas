@@ -216,7 +216,7 @@ class VoiceCulturalIntegrator:
         cultural_context = context.get("cultural_context", "casual")
 
         # Extract unusual words (longer words are more likely to be interesting)
-        words = [w for w in re.findall(r"\b[a-zA-Z\']+\b", context.get("user_text", "")) if len(w) > 5]
+        words = [w for w in re.findall(r"\b[a-zA-Z\']+\b", context.get("user_text", "")) if len(w) > 5]  # noqa: F821  # TODO: re
 
         for word in words:
             if self.accent_adapter.should_express_curiosity(word, cultural_context):

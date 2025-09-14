@@ -1,0 +1,77 @@
+4618	       	[ ] syntax-error
+3876	E402   	[ ] module-import-not-at-top-of-file
+1216	F821   	[ ] undefined-name
+ 820	F401   	[ ] unused-import
+ 453	W292   	[ ] missing-newline-at-end-of-file
+ 321	W293   	[ ] blank-line-with-whitespace
+ 316	SIM102 	[ ] collapsible-if
+ 270	PLR0912	[ ] too-many-branches
+ 270	PLW0603	[ ] global-statement
+ 228	B904   	[ ] raise-without-from-inside-except
+ 184	PLW1510	[ ] subprocess-run-without-check
+ 170	PLR0915	[ ] too-many-statements
+ 135	B008   	[ ] function-call-in-default-argument
+  86	UP006  	[*] non-pep585-annotation
+  81	PLW2901	[ ] redefined-loop-name
+  80	F811   	[ ] redefined-while-unused
+  75	F405   	[ ] undefined-local-with-import-star-usage
+  75	PLC2401	[ ] non-ascii-name
+  62	E722   	[ ] bare-except
+  59	PLR5501	[ ] collapsible-else-if
+  52	F403   	[ ] undefined-local-with-import-star
+  46	B007   	[ ] unused-loop-control-variable
+  40	W291   	[ ] trailing-whitespace
+  38	SIM108 	[ ] if-else-block-instead-of-if-exp
+  37	PLC2403	[ ] non-ascii-import-name
+  35	PLR1722	[ ] sys-exit-alias
+  33	W191   	[ ] tab-indentation
+  31	SIM105 	[ ] suppressible-exception
+  30	E701   	[ ] multiple-statements-on-one-line-colon
+  29	F706   	[ ] return-outside-function
+  28	PLR0402	[ ] manual-from-import
+  26	PLR1714	[ ] repeated-equality-comparison
+  25	UP035  	[ ] deprecated-import
+  22	B018   	[ ] useless-expression
+  20	E702   	[ ] multiple-statements-on-one-line-semicolon
+  17	SIM103 	[ ] needless-bool
+  17	SIM115 	[ ] open-file-with-context-handler
+  17	PLW0602	[ ] global-variable-not-assigned
+  15	PLE1205	[ ] logging-too-many-args
+  14	B027   	[ ] empty-method-without-abstract-decorator
+  13	PLE0605	[ ] invalid-all-format
+  12	I001   	[*] unsorted-imports
+  12	E741   	[ ] ambiguous-variable-name
+  12	PLR1730	[ ] if-stmt-min-max
+   9	SIM116 	[ ] if-else-block-instead-of-dict-lookup
+   9	F402   	[ ] import-shadowed-by-loop-var
+   8	SIM117 	[ ] multiple-with-statements
+   8	PLR1711	[ ] useless-return
+   7	F601   	[ ] multi-value-repeated-key-literal
+   5	B015   	[ ] useless-comparison
+   5	B023   	[ ] function-uses-loop-variable
+   5	F404   	[ ] late-future-import
+   4	SIM113 	[ ] enumerate-for-loop
+   4	PLE1142	[ ] await-outside-async
+   4	PLR1704	[ ] redefined-argument-from-local
+   3	E721   	[ ] type-comparison
+   3	F822   	[ ] undefined-export
+   3	PLW0127	[ ] self-assigning-variable
+   3	UP007  	[*] non-pep604-annotation
+   2	B019   	[ ] cached-instance-method
+   2	B024   	[ ] abstract-base-class-without-abstract-method
+   2	F704   	[ ] yield-outside-function
+   2	F841   	[*] unused-variable
+   2	PLE2510	[ ] invalid-character-backspace
+   1	B012   	[ ] jump-statement-in-finally
+   1	B025   	[ ] duplicate-try-block-exception
+   1	B026   	[ ] star-arg-unpacking-after-keyword-arg
+   1	SIM110 	[ ] reimplemented-builtin
+   1	ARG001 	[ ] unused-function-argument
+   1	PERF401	[ ] manual-list-comprehension
+   1	E401   	[*] multiple-imports-on-one-line
+   1	E501   	[ ] line-too-long
+   1	E902   	[ ] io-error
+   1	PLE0101	[ ] return-in-init
+   1	PLE0604	[ ] invalid-all-object
+   1	PLW3301	[ ] nested-min-max
+   1	UP015  	[*] redundant-open-modes

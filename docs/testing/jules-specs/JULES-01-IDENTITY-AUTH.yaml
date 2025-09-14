@@ -1,0 +1,165 @@
+# Jules-01: Identity & Authentication Test Specification
+agent_id: "Jules-01"
+priority: "CRITICAL"
+tier: "tier1"
+estimated_tests: 25
+
+# Module Assignment
+modules:
+  primary:
+    - "lukhas/governance/identity/core/auth/"
+    - "candidate/governance/identity/auth_backend/"
+    - "lukhas/governance/security/access_control.py"
+    - "candidate/governance/identity/core/qrg/qrg_manager.py"
+  
+  supporting:
+    - "lukhas/governance/identity/__init__.py"
+    - "candidate/governance/security/consent_manager.py"
+
+# Test Requirements
+tests:
+  authentication:
+    - name: "test_user_login_success"
+      description: "Test successful user authentication"
+      input: {"username": "test_user", "password": "valid_password"}
+      expected: {"success": true, "token": "string", "expires_at": "datetime"}
+      tags: ["tier1", "critical", "security"]
+    
+    - name: "test_password_validation"
+      description: "Test password strength validation"
+      input: {"password": "string"}
+      expected: {"valid": "bool", "strength_score": "number", "requirements": "array"}
+      tags: ["tier1", "security"]
+    
+    - name: "test_session_management"
+      description: "Test user session lifecycle"
+      input: {"token": "string", "action": "string"}
+      expected: {"session_valid": "bool", "remaining_time": "number"}
+      tags: ["tier1", "critical"]
+  
+  authorization:
+    - name: "test_permission_checking"
+      description: "Test user permission validation"
+      input: {"user_id": "string", "resource": "string", "action": "string"}
+      expected: {"authorized": "bool", "permissions": "array"}
+      tags: ["tier1", "critical"]
+    
+    - name: "test_role_based_access"
+      description: "Test role-based access control"
+      input: {"user_role": "string", "resource": "string"}
+      expected: {"access_granted": "bool", "role_permissions": "array"}
+      tags: ["tier1", "security"]
+
+# Performance Requirements
+performance:
+  authentication_latency: "< 100ms p95"
+  token_generation: "< 50ms p95"
+  session_validation: "< 10ms p95"
+
+# Security Requirements  
+security:
+  password_hashing: "bcrypt or stronger"
+  token_encryption: "AES-256 minimum"
+  session_security: "HttpOnly, Secure, SameSite"
+
+# Coverage Targets
+coverage:
+  line_coverage: 85%
+  branch_coverage: 80%
+  critical_paths: 95%
+
+# Dependencies
+dependencies:
+  - "pytest"
+  - "pytest-asyncio"
+  - "cryptography"
+  - "bcrypt"
+  - "jwt"
+
+# T4 Governance Header
+t4:
+  owner: "Jules-01"
+  module_uid_prefix: "LUK-ID"
+  lane_policy:
+    production_must_not_import_candidate: true
+    tests_touching_candidate_are_tier4_only: true
+  determinism_env:
+    - "TZ=UTC"
+    - "PYTHONHASHSEED=0"
+    - "NUMBA_DISABLE_JIT=1"
+  mock_policy:
+    allow_external_io_mocks: true
+    forbid_core_domain_mocks: true  # identity core logic must be tested via contracts, not mocks
+
+# Invariants (must hold true across all tests in this spec)
+invariants:
+  - "Tokens must be signed with allowed algs only (e.g., RS256/ES256); 'none' alg is forbidden."
+  - "Session TTL must be monotonically non-increasing once issued; renewal must rotate identifiers."
+  - "Permission matrix must be monotonic: granting a role cannot reduce existing permissions."
+  - "Password hashes are one-way (no plaintext in logs, configs, or fixtures)."
+  - "Audit trail entries are immutable (append-only) and time-ordered."
+
+# Golden Artifacts (contract-first)
+golden_artifacts:
+  location: "tests/golden/tier1/identity/"
+  files:
+    - "auth_login_success.json"
+    - "auth_permission_matrix.json"
+  schema_minimum:
+    required_keys:
+      - "trace_id"
+      - "timestamp"
+    types:
+      trace_id: "str"
+      timestamp: "str|int|float"
+
+# Evidence Artifacts (CI will collect)
+evidence_artifacts:
+  - "reports/tests/identity/coverage.xml"
+  - "reports/tests/identity/timings.json"
+  - "reports/tests/identity/contract_checks.json"
+  - "reports/tests/identity/golden_diff.json"
+
+# Definition of Done (DoD)
+definition_of_done:
+  - "≥ 85% line and ≥ 80% branch coverage for identity/auth modules in this scope."
+  - "All invariants verified via explicit tests."
+  - "All golden artifacts present and validated."
+  - "Ruff E9/F7/F63/F82 = 0 on added/changed files."
+  - "Import-linter contracts kept (no production→candidate imports)."
+  - "No quarantined tests introduced; or, if introduced, linked to a tracking issue."
+
+# Runbook (how to execute locally)
+runbook:
+  setup:
+    - "python -m venv .venv && source .venv/bin/activate"
+    - "pip install -r requirements.txt"
+  quick_checks:
+    - "TZ=UTC PYTHONHASHSEED=0 pytest -m 'tier1 and security' -q"
+    - "pytest --cov=lukhas --cov=MATRIZ --cov-branch --cov-report=xml:reports/tests/identity/coverage.xml"
+    - "python3 -m ruff check --select E9,F63,F7,F82 lukhas/governance/identity candidate/governance/identity"
+    - "lint-imports -v"
+  golden_verify:
+    - "python tools/tests/golden_validate.py tests/golden/tier1/identity/*.json"
+
+# Test Environment
+environment:
+  database: "sqlite_memory"
+  redis: "mock_redis"
+  external_apis: "mocked"
+
+# Success Criteria
+success_criteria:
+  - "All authentication flows tested"
+  - "Security vulnerabilities prevented" 
+  - "Performance targets met"
+  - "Error handling comprehensive"
+  - "Integration with governance systems"
+
+# Deliverables
+deliverables:
+  - "tests/unit/governance/identity/"
+  - "tests/integration/governance/identity/"
+  - "tests/security/authentication/"
+  - "Performance benchmarks"
+  - "Security test report"

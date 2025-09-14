@@ -86,9 +86,9 @@ def test_mcp_imports():
     """Test MCP SDK imports"""
     print("\n📦 Testing MCP SDK...")
     try:
-        import mcp.server.stdio
-        from mcp import types
-        from mcp.server import Server
+        import mcp.server.stdio  # noqa: F401  # TODO: mcp.server.stdio; consider usi...
+        from mcp import types  # noqa: F401  # TODO: mcp.types; consider using impo...
+        from mcp.server import Server  # noqa: F401  # TODO: mcp.server.Server; consider us...
 
         print("   ✅ All MCP imports successful")
         return True

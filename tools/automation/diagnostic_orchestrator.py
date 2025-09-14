@@ -266,7 +266,7 @@ class DiagnosticOrchestrator:
         # Import fixes are typically one-time manual additions
         # For now, return success if auth_integration is available
         try:
-            from lukhas.governance.identity import auth_integration
+            from lukhas.governance.identity import auth_integration  # noqa: F401  # TODO: lukhas.governance.identity.aut...
 
             return {"status": "success", "bridges_verified": 1}
         except ImportError as e:

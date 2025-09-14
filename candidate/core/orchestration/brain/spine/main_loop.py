@@ -13,7 +13,7 @@ Integration Date: 2025-05-31T07:55:28.099700
 import json
 import os
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class Goal:

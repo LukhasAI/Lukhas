@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 import logging
-import streamlit as st
-import random
-import time
-from consciousness.qi import qi
 from quantum.creative import QuantumCreativeComponent
+
 logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -135,7 +132,7 @@ class CognitiveState:
 class EnhancedCreativeState:
     """Enhanced creative state with bio-cognitive enhancements."""
 
-    base_state: "CreativeQuantumLikeState"
+    base_state: Any  # "CreativeQuantumLikeState" - TODO: Define this type
     cognitive_enhancement: CognitiveState
     synaptic_plasticity: float
     creative_flow_intensity: float
@@ -436,7 +433,7 @@ class Quantum3DSculptor(QuantumCreativeComponent):
         ]
 
     async def process(self, concept: str) -> dict[str, Any]:
-        return {"vertices": [], "faces": [], "quantum_properties": {}
+        return {"vertices": [], "faces": [], "quantum_properties": {}}
 
 
 # Advanced systems
@@ -738,7 +735,7 @@ class EmotionalPreferenceLearner(QuantumCreativeComponent):
         self.preference_model = {}
 
     async def process(self, interactions: list[CreativeInteraction]) -> dict[str, float]:
-        return {"emotional_weights": {}
+        return {"emotional_weights": {}}
 
 
 class CreativityStyleEvolver(QuantumCreativeComponent):
@@ -748,7 +745,7 @@ class CreativityStyleEvolver(QuantumCreativeComponent):
         self.evolution_parameters = {}
 
     async def process(self, style_history: list[Any]) -> dict[str, Any]:
-        return {"evolved_style": {}
+        return {"evolved_style": {}}
 
 
 # Monitoring components
@@ -787,9 +784,10 @@ class NeuroHaikuGenerator(QuantumCreativeComponent):
         """Generate a haiku with specified expansion depth."""
         return "Old pond\nFrog jumps in\nSound of water"
 
-    async def process(self, context: str) -> QuantumHaiku:
+    async def process(self, context: str) -> dict[str, Any]:  # TODO: Return QuantumHaiku when defined
         haiku_text = self.generate_haiku()
-        return QuantumHaiku(content=haiku_text, modality="haiku", lines=haiku_text.split("\n"))
+        # return QuantumHaiku(content=haiku_text, modality="haiku", lines=haiku_text.split("\n"))
+        return {"content": haiku_text, "modality": "haiku", "lines": haiku_text.split("\n")}
 
 
 # Module validation and health

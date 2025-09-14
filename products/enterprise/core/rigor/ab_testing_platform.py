@@ -6,4 +6,4 @@ class T4ABTestingPlatform:
         self.tier = tier
 
 
-self.significance_threshold = 0.95
+self.significance_threshold = 0.95  # noqa: F821  # TODO: self

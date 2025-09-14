@@ -1,0 +1,25 @@
+name: f821-undefined-names
+on:
+  pull_request:
+    types: [opened, synchronize, edited]
+jobs:
+  f821:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install ruff
+        run: python -m pip install ruff
+      - name: F821 audit
+        run: |
+          python tools/ci/f821_report.py --paths "lukhas MATRIZ candidate" --enforce-core
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: f821-report
+          path: |
+            reports/audit/f821.json
+            reports/audit/f821_summary.md

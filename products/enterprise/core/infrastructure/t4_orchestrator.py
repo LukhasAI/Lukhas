@@ -4,7 +4,7 @@ Coordinates all T4 enterprise systems with full GitHub Student Pack integration
 
 Brings together Sam Altman (Scale), Dario Amodei (Safety), and Demis Hassabis (Rigor) standards
 """
-import streamlit as st
+
 from datetime import timezone
 
 import asyncio
@@ -32,7 +32,6 @@ try:
         T4ConstitutionalAI,
     )
     from enterprise.safety.security_compliance import (
-        ComplianceStandard,
         T4SecurityComplianceFramework,
     )
     from enterprise.scale.auto_scaling_config import (
@@ -40,7 +39,6 @@ try:
         T4ScalingConfig,
     )
     from enterprise.scale.load_testing import (
-        ExperimentType,
         LoadTestConfig,
         T4EnterpriseLoadTester,
     )
@@ -204,7 +202,7 @@ class T4EnterpriseOrchestrator:
             logger.info("✅ T4 Enterprise Stack initialized successfully")
             logger.info(f"   System Status: {self.system_status.value}")
             logger.info(
-                f"   Services Online: {len([s for s in self.services.values(} if s.health == T4ServiceHealth.HEALTHY])}"
+                f"   Services Online: {len([s for s in self.services.values() if s.health == T4ServiceHealth.HEALTHY])}"
             )
 
             return True
@@ -392,7 +390,9 @@ class T4EnterpriseOrchestrator:
                 health_icon = (
                     "✅"
                     if service.health == T4ServiceHealth.HEALTHY
-                    else "⚠️" if service.health == T4ServiceHealth.WARNING else "❌"
+                    else "⚠️"
+                    if service.health == T4ServiceHealth.WARNING
+                    else "❌"
                 )
                 logger.info(f"   {health_icon} {service.service_name}: {service.health.value} ({response_time:.1f}ms)")
 
@@ -446,10 +446,10 @@ class T4EnterpriseOrchestrator:
                 }
 
             else:
-                return {"health": T4ServiceHealth.UNKNOWN, "details": {"status": "not_checked"}
+                return {"health": T4ServiceHealth.UNKNOWN, "details": {"status": "not_checked"}}
 
         except Exception as e:
-            return {"health": T4ServiceHealth.CRITICAL, "details": {"error": str(e)}
+            return {"health": T4ServiceHealth.CRITICAL, "details": {"error": str(e)}}
 
     async def get_enterprise_metrics(self) -> T4EnterpriseMetrics:
         """Get comprehensive T4 enterprise metrics"""

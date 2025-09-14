@@ -25,7 +25,7 @@ import hashlib
 import logging
 import random
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 from cryptography.fernet import Fernet

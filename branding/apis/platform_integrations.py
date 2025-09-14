@@ -31,14 +31,14 @@ except ImportError:
     REDDIT_AVAILABLE = False
 
 try:
-    from linkedin_api import Linkedin  # LinkedIn API
+    from linkedin_api import Linkedin  # LinkedIn API  # noqa: F401  # TODO: linkedin_api.Linkedin; conside...
 
     LINKEDIN_AVAILABLE = True
 except ImportError:
     LINKEDIN_AVAILABLE = False
 
 try:
-    import requests_oauthlib  # OAuth for various platforms
+    import requests_oauthlib  # OAuth for various platforms  # noqa: F401  # TODO: requests_oauthlib; consider us...
 
     OAUTH_AVAILABLE = True
 except ImportError:

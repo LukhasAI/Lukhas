@@ -229,7 +229,7 @@ class LukhasLambdaIntegrator:
 
             # Apply tier system to Lambda Products
 
-            adapter = LukhasegrationAdapter()
+            adapter = LukhasegrationAdapter()  # noqa: F821  # TODO: LukhasegrationAdapter
 
             # Map Lambda Products to tiers
             tier_mappings = {

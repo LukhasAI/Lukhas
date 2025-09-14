@@ -13,6 +13,8 @@ import logging
 from pathlib import Path
 from typing import Any
 
+from lukhas.interfaces.identity import AuthenticationIntegration as AuthenticationIntegrationInterface
+
 # Add paths for dynamic imports
 LUKHAS_ROOT = Path(__file__).parent.parent.parent
 CANDIDATE_AUTH_PATH = LUKHAS_ROOT / "candidate" / "governance" / "identity"
@@ -21,7 +23,7 @@ LAMBDA_CORE_PATH = LUKHAS_ROOT / "lambda_products_pack" / "lambda_core"
 # Avoid mutating sys.path at import-time; paths are resolved via filesystem
 
 
-class AuthenticationIntegration:
+class AuthenticationIntegration(AuthenticationIntegrationInterface):
     """
     🎖️ LUKHAS Authentication Integration Bridge
 

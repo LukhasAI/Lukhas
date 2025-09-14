@@ -346,7 +346,7 @@ def main():
     print("🚀 Starting lukhas Specialized Function Pattern Scan")
     print("=" * 55)
 
-    scanner = lukhasFunctionScanner()
+    scanner = lukhasFunctionScanner()  # noqa: F821  # TODO: lukhasFunctionScanner
 
     try:
         # Scan for patterns

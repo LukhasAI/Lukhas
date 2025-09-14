@@ -4,8 +4,8 @@ Original: identity_manager.py
 Advanced: identity_manager.py
 Integration Date: 2025-05-31T07:55:27.769812
 """
-from typing import Dict
-import streamlit as st
+from typing import Dict  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 
 import json
 import logging
@@ -143,7 +143,7 @@ class IdentityManager:
             # Take a snapshot if significant identity change
             significance = experience.get("identity_significance", 0.0)
             if significance > 0.7:
-                self._take_identity_snapshot(f"significant_experience_{int(time.time())")
+                self._take_identity_snapshot(f"significant_experience_{int(time.time())}")
 
         # Determine if this memory should be encrypted
         if security_level != "standard" or experience.get("sensitive", False):

@@ -203,7 +203,7 @@ def create_agent_tasks(file_groups: dict[str, FileErrors], max_per_task: int = 1
         if current_task_errors + file_errors.total_errors > max_per_task and current_task:
             tasks[f"task_{task_id}"] = {
                 "task_id": task_id,
-                "agent": f"agent_{(task_id % 6)} + 1}",  # Distribute across 6 agents
+                "agent": f"agent_{(task_id % 6) + 1}",  # Distribute across 6 agents
                 "total_errors": current_task_errors,
                 "files": current_task.copy(),
                 "priority_breakdown": calculate_task_priority(current_task, file_groups),
@@ -220,7 +220,7 @@ def create_agent_tasks(file_groups: dict[str, FileErrors], max_per_task: int = 1
     if current_task:
         tasks[f"task_{task_id}"] = {
             "task_id": task_id,
-            "agent": f"agent_{(task_id % 6)} + 1}",
+            "agent": f"agent_{(task_id % 6) + 1}",
             "total_errors": current_task_errors,
             "files": current_task,
             "priority_breakdown": calculate_task_priority(current_task, file_groups),
@@ -272,7 +272,7 @@ def main():
             print("✅ No mypy errors found!")
             return
 
-        print(f"📊 Parsing {len(mypy_output.splitlines()} lines of mypy output...")
+        print(f"📊 Parsing {len(mypy_output.splitlines())} lines of mypy output...")
 
         # Parse errors
         errors = parse_mypy_output(mypy_output)
@@ -308,9 +308,7 @@ def main():
                     ],
                     key=lambda x: (x["critical"], x["errors"]),
                     reverse=True,
-                )[
-                    :10
-                ],  # Top 10
+                )[:10],  # Top 10
             },
             "files": {
                 file_path: {

@@ -65,8 +65,8 @@ try:
     from candidate.core.utils.orchestration_energy_aware_execution_planner import (
         EnergyAwareExecutionPlanner,
     )
-    from lukhas.memory.governance.ethical_drift_governor import EthicalDriftGovernor
-    from reasoning.symbolic_reasoning import SymbolicEngine
+    from lukhas.memory.governance.ethical_drift_governor import EthicalDriftGovernor  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    from reasoning.symbolic_reasoning import SymbolicEngine  # TODO[T4-UNUSED-IMPORT]: kept for bio-inspired/quantum systems development
 except ImportError:
     pass
 

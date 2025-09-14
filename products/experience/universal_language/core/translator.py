@@ -5,8 +5,6 @@ Universal Translator for Cross-Modal and Cross-Domain Translation
 Enables translation between different representations, modalities,
 and domains within the Universal Language system.
 """
-from typing import List
-import streamlit as st
 
 import hashlib
 import logging
@@ -103,7 +101,7 @@ class ConceptMapper:
 
         # Create composite concept
         concept = Concept(
-            concept_id=f"{primary_domain.value.upper()}.COMPOSITE_{hashlib.sha256(composite_meaning.encode()).hexdigest()}[:8]}",
+            concept_id=f"{primary_domain.value.upper()}.COMPOSITE_{hashlib.sha256(composite_meaning.encode()).hexdigest()[:8]}",
             concept_type=ConceptType.COMPOSITE,
             meaning=composite_meaning,
             symbols=symbols,
@@ -475,7 +473,7 @@ class UniversalTranslator:
                     concept_ids.append(f"SYMBOL.{symbol.id}")
             else:
                 # Unknown token - create placeholder
-                concept_ids.append(f"UNKNOWN.{hashlib.sha256(str(token).encode()).hexdigest()}[:8]}")
+                concept_ids.append(f"UNKNOWN.{hashlib.sha256(str(token).encode()).hexdigest()[:8]}")
 
         return concept_ids
 

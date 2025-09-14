@@ -31,6 +31,7 @@ from datetime import timezone
 from datetime import datetime
 
 from data_legacy.consent_manager import ConsentTierManager
+
 from utils.trace_logger import log_symbolic_trace
 
 

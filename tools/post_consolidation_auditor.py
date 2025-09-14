@@ -14,16 +14,11 @@ Author: lukhas AI Enhancement Team
 Date: 2025-06-05
 Version: 1.0.0
 """
-from consciousness.qi import qi
-from typing import List
-import logging
-import streamlit as st
-from datetime import timezone
 
 import json
 import os
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -676,7 +671,7 @@ class PostConsolidationAuditor:
                     report += f"- `{file_info['source_dir']}/{file_info['path']}` ({file_info['size']} bytes)\n"
 
                 if len(files) > 10:
-                    report += f"- ... and {len(files)} - 10} more files\n"
+                    report += f"- ... and {len(files) - 10} more files\n"
 
         # Conclusion
         total_remaining = stats.get("total_files_remaining", 0)
@@ -763,7 +758,7 @@ def main():
     stats = audit_results["summary_statistics"]
     print(f"📁 Total Files Remaining: {stats.get('total_files_remaining', 0)}")
     print(f"📊 Total Size: {stats.get('total_size_remaining_mb', 0):.2f} MB")
-    print(f"🏷️  Categorized Files: {sum(stats.get('files_by_category', {)}).values())}")
+    print(f"🏷️  Categorized Files: {sum(stats.get('files_by_category', {}).values())}")
     print(f"❓ Unclassified Files: {len(audit_results['unclassified_components']['unclassified_files'])}")
     print(f"🔄 Recommendations: {len(audit_results['consolidation_recommendations'])}")
 

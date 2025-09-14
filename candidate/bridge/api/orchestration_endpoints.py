@@ -28,7 +28,7 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 try:
-    import jwt
+    import jwt  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
     from fastapi import (
         Depends,
         FastAPI,
@@ -42,7 +42,7 @@ try:
     from fastapi.middleware.cors import CORSMiddleware
     from fastapi.responses import StreamingResponse
     from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-    from pydantic import BaseModel, Field, ValidationError
+    from pydantic import BaseModel, Field, ValidationError  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
 
     # LUKHAS imports
     from candidate.bridge.api.orchestration_api_bridge import (

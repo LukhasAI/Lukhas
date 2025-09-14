@@ -1,0 +1,124 @@
+# .searchignore - Global exclusion patterns for all search operations
+# Use this file for grep, find, rg (ripgrep), and agent searches
+
+# Virtual environments (all variations)
+.venv*
+venv*
+env*
+.env*
+*_venv*
+*venv*
+lambda_venv*
+.virtualenv*
+virtualenv*
+.conda*
+conda-env*
+python-env*
+
+# Python cache and build artifacts
+__pycache__*
+.pytest_cache*
+.mypy_cache*
+.ruff_cache*
+*.pyc
+*.pyo
+*.pyd
+*.egg-info*
+build*
+dist*
+
+# Git and version control
+.git*
+.svn*
+.hg*
+
+# IDE and editor files
+.vscode*
+.idea*
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Node.js
+node_modules*
+.npm*
+.yarn*
+
+# Logs and temporary files
+*.log
+logs*
+temp*
+tmp*
+*.tmp
+*.bak
+*.backup
+*~
+
+# Large binary and media files
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.mp4
+*.avi
+*.mov
+*.webm
+*.zip
+*.tar.gz
+*.tar
+*.7z
+*.rar
+*.bin
+*.pkl
+*.pth
+*.pt
+*.h5
+*.ckpt
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# Coverage and testing artifacts
+.coverage
+coverage.xml
+*.cover
+.hypothesis*
+htmlcov*
+test-results.xml
+
+# Package manager locks
+package-lock.json
+yarn.lock
+Pipfile.lock
+
+# Archive directories
+archive*
+backup*
+quarantine*
+deprecated*
+legacy*
+old*
+
+# Agent temporary files
+agent_outputs/temp*
+agent_temp_*
+jules_temp_*
+codex_temp_*
+claude_temp_*
+*_temp_*
+
+# Security and secrets
+*.key
+*.pem
+*.p12
+*.pfx
+*_secret*
+*_token*
+*_credential*
+secrets*

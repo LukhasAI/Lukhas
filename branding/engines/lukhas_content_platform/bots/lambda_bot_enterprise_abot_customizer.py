@@ -8,7 +8,7 @@ Apply changes instantly to see the results.
 
 import json
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 
@@ -327,7 +327,7 @@ class BotCustomizer:
         import time
 
         # Stop current widget
-        subprocess.run(["pkill", "-f", "BotStatusBar.py"], capture_output=True)
+        subprocess.run(["pkill", "-f", "BotStatusBar.py"], capture_output=True, check=False)
 
         time.sleep(1)
 

@@ -18,14 +18,19 @@ except ImportError:
         from lukhas.core.bootstrap import get_bootstrap, initialize_lukhas, shutdown_lukhas
     except ImportError:
         # Create fallback bootstrap functions
-        def get_bootstrap():
+        def fallback_get_bootstrap():
             return {"status": "fallback"}
 
-        def initialize_lukhas():
+        def fallback_initialize_lukhas():
             return True
 
-        def shutdown_lukhas():
+        def fallback_shutdown_lukhas():
             return True
+
+        # Create aliases for compatibility
+        get_bootstrap = fallback_get_bootstrap
+        initialize_lukhas = fallback_initialize_lukhas
+        shutdown_lukhas = fallback_shutdown_lukhas
 
 
 # Add project root to Python path
@@ -45,11 +50,15 @@ except ImportError:
     except ImportError:
         BRANDING_AVAILABLE = False
 
-        def initialize_branding():
+        def fallback_initialize_branding():
             return True
 
-        def get_system_signature():
+        def fallback_get_system_signature():
             return "LUKHAS AI System"
+
+        # Create aliases for compatibility
+        initialize_branding = fallback_initialize_branding
+        get_system_signature = fallback_get_system_signature
 
 
 # Import bootstrap

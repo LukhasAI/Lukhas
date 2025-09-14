@@ -1,0 +1,373 @@
+# LUKHAS Commit Standard — T4 Minimal, Ruthlessly Consistent
+# One-shot setup script (copy/paste in repo root). Opinionated. Boringly excellent.
+
+# 0) Tooling (Python-only)
+python3 -m pip install --upgrade gitlint commitizen pre-commit
+
+# 1) Commit template (tiny, surgical; forces Problem/Solution/Impact)
+cat > .gitmessage <<'MSG'
+# <type>(<scope>): <imperative subject ≤72>
+#
+# Problem:
+# - …
+# Solution:
+# - …
+# Impact:
+# - …
+#
+# Footers (trailers):
+# Closes: #123
+# Related: #456
+# Reviewed-by: Name <email>
+# Co-authored-by: Name <email>
+# Security-Impact: none|low|moderate|high
+# Rollback: safe|manual|not-applicable
+# LLM: {model=…, temp=…, ts=…}  # if AI-assisted
+MSG
+
+git config commit.template .gitmessage
+
+# 2) gitlint: strict, minimalist, imperative mood, curated scopes, optional single emoji
+cat > .gitlint <<'LINT'
+[general]
+ignore=merge,fixup,squash,revert
+contrib=CT1
+extra-path=tools/ci/gitlint_rules.py
+
+[title-max-length]
+line-length=72
+
+[title-must-not-contain-word]
+words=WIP,work in progress,temporary,tmp,hotfix!,URGENT,ASAP
+
+[body-max-line-length]
+line-length=72
+
+[body-min-length]
+min-length=0
+LINT
+
+# 2a) Custom rules (imperative mood, curated scopes, optional one emoji; forbid hype & punctuation spam)
+mkdir -p tools/ci
+cat > tools/ci/gitlint_rules.py <<'PY'
+import re
+from gitlint.rules import CommitRule, RuleViolation
+
+ALLOWED_TYPES = "feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert|security"
+ALLOWED_SCOPES = ("core|matriz|identity|memory|glyph|api|orchestration|governance|"
+                  "consciousness|interfaces|monitoring|tools|ops|serve|lanes|hygiene|docs")
+
+HEADER = re.compile(
+    rf'^(?P<prefix>(?:[\U0001F300-\U0001FAFF]\s*)?)'
+    rf'(?P<type>{ALLOWED_TYPES})'
+    rf'(?:\((?P<scope>{ALLOWED_SCOPES})\))?:\s(?P<subject>[^].{{1,72}})$'
+)
+
+HYPE = re.compile(r'\b(BREAKTHROUGH|REVOLUTIONARY|CRITICAL|URGENT|ASAP)\b', re.I)
+PUNCT = re.compile(r'[!?]{2,}')
+# Basic imperative check: no trailing period; starts with a verb-ish word (heuristic)
+NO_TRAILING_DOT = re.compile(r'.*[^.\s]$')
+LIKELY_VERB = re.compile(r'^(add|fix|update|remove|refactor|rename|document|improve|optimize|revert|bump|guard|enforce|wire|harden|reduce|simplify|split|merge)\b', re.I)
+
+class ConventionalHeader(CommitRule):
+    name = "lukhas-conventional-header"
+    id = "LUKHAS1"
+    def validate(self, commit):
+        title = commit.message.title.strip()
+        m = HEADER.match(title)
+        if not m:
+            return [RuleViolation(self.id, "Title must be: [emoji ]type(scope): imperative subject (<=72)", 1)]
+        subj = m.group("subject")
+        errs = []
+        if not NO_TRAILING_DOT.match(subj):
+            errs.append("Subject must not end with a period.")
+        if not LIKELY_VERB.search(subj):
+            errs.append("Subject should start with an imperative verb (add/fix/update/...).")
+        if HYPE.search(title) or PUNCT.search(title):
+            errs.append("No hype words or punctuation spam.")
+        return [RuleViolation(self.id, e, 1) for e in errs]
+
+# Trailer checks (gentle; warn if security/perf types miss trailers)
+TYPE_NEED_TRAILER = {
+    "security": ["Security-Impact"],
+    "perf": ["Benchmark", "Impact"]
+}
+class RequiredTrailers(CommitRule):
+    name = "lukhas-required-trailers"
+    id = "LUKHAS2"
+    def validate(self, commit):
+        title = commit.message.title.strip()
+        body = commit.message.body
+        m = HEADER.match(title)
+        if not m:
+            return []
+        t = m.group("type")
+        needed = TYPE_NEED_TRAILER.get(t)
+        if not needed:
+            return []
+        missing = [k for k in needed if k+":" not in body]
+        if missing:
+            return [RuleViolation(self.id, f"Missing trailer(s) for {t}: {', '.join(missing)}", line_nr=2)]
+        return []
+PY
+
+# 3) Commitizen: interactive generator with curated scopes
+cat > .cz.toml <<'CZ'
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.0.0"
+tag_format = "v$version"
+update_changelog_on_bump = false
+
+[tool.commitizen.customize]
+schema = "<type>(<scope>): <subject>"
+schema_pattern = "^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert|security)(\\((core|matriz|identity|memory|glyph|api|orchestration|governance|consciousness|interfaces|monitoring|tools|ops|serve|lanes|hygiene|docs)\\))?: .+$"
+message_template = """{{type}}({{scope}}): {{subject}}"""
+questions = [
+  { type = "list", name = "type", message = "Select the type:", choices = ["feat","fix","docs","style","refactor","perf","test","build","ci","chore","revert","security"] },
+  { type = "list", name = "scope", message = "Select the scope:", choices = ["core","matriz","identity","memory","glyph","api","orchestration","governance","consciousness","interfaces","monitoring","tools","ops","serve","lanes","hygiene","docs"] },
+  { type = "input", name = "subject", message = "Write an imperative subject (<=72 chars, no period):" },
+  { type = "input", name = "trailers", message = "Optional trailers (e.g., 'Closes: #123; Security-Impact: low; LLM: model=…'):" }
+]
+CZ
+
+# 4) Prepare-commit-msg helper: suggest subject from staged diff (keeps it minimal)
+cat > tools/ci/prepare_commit_msg.py <<'PY'
+#!/usr/bin/env python3
+import subprocess, sys, re, os
+TYPES = ["fix","feat","docs","refactor","perf","test","build","ci","chore","security","style","revert"]
+SCOPES = ["core","matriz","identity","memory","glyph","api","orchestration","governance","consciousness","interfaces","monitoring","tools","ops","serve","lanes","hygiene","docs"]
+def guess():
+    diff = subprocess.run(["git","diff","--cached","--name-only"], capture_output=True, text=True).stdout.splitlines()
+    scope = "hygiene"
+    for s in SCOPES:
+        if any(p.startswith(f"{s}/") or f"/{s}/" in p for p in diff):
+            scope = s; break
+    typ = "chore"
+    if any(p.endswith((".py",)) for p in diff): typ = "fix"
+    if any(p.startswith("docs/") or p.endswith((".md",".rst")) for p in diff): typ = "docs"
+    if any("/security" in p or "constraints.txt" in p for p in diff): typ = "security"
+    # Verb
+    verb = "update"
+    if any("fix" in p.lower() for p in diff): verb="fix"
+    if any("add" in p.lower() or "feat" in p.lower() for p in diff): verb="add"
+    return typ, scope, f"{verb} {scope} components"
+if __name__ == "__main__":
+    path = sys.argv[1] if len(sys.argv) > 1 else ".git/COMMIT_EDITMSG"
+    with open(path, "r+", encoding="utf-8") as f:
+        msg = f.read()
+        if msg.strip() == "":
+            typ, scope, subj = guess()
+            hdr = f"{typ}({scope}): {subj[:72]}"
+            f.seek(0); f.write(hdr + "\n\n" + "# Edit above, keep minimal.\n"); f.truncate()
+PY
+chmod +x tools/ci/prepare_commit_msg.py
+
+# 4a) pre-commit: commit-msg lint + prepare-commit-msg helper
+cat > .pre-commit-config.yaml <<'PRE'
+repos:
+  - repo: https://github.com/jorisroovers/gitlint
+    rev: v0.19.1
+    hooks:
+      - id: gitlint
+        name: gitlint (commit-msg)
+        stages: [commit-msg]
+        args: ["--config=.gitlint"]
+  - repo: local
+    hooks:
+      - id: prepare-commit-msg-suggest
+        name: suggest header from diff
+        entry: tools/ci/prepare_commit_msg.py .git/COMMIT_EDITMSG
+        language: python
+        stages: [prepare-commit-msg]
+PRE
+
+pre-commit install --install-hooks
+pre-commit install --hook-type commit-msg
+pre-commit install --hook-type prepare-commit-msg
+
+# 5) CI: enforce head commit + PR title; require trailers on security/perf
+mkdir -p .github/workflows
+cat > .github/workflows/commit-style.yml <<'YML'
+name: commit-style
+on:
+  pull_request:
+    types: [opened, synchronize, edited]
+jobs:
+  commit-style:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install gitlint
+      - name: Check head commit message
+        run: |
+          git log -1 --pretty=%B > /tmp/MSG
+          python -m gitlint --config .gitlint --commits HEAD~1..HEAD
+      - name: Check PR title matches style
+        env: { GH_TOKEN: ${{ github.token }} }
+        run: |
+          TITLE="$(jq -r .pull_request.title "$GITHUB_EVENT_PATH")"
+          python - <<'PY'
+import re, os, sys
+title = os.environ.get("TITLE") or ""
+ok = re.match(r'^(?:[\U0001F300-\U0001FAFF]\s*)?(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert|security)(\((core|matriz|identity|memory|glyph|api|orchestration|governance|consciousness|interfaces|monitoring|tools|ops|serve|lanes|hygiene|docs)\))?: .{1,72}$', title)
+print("PR Title:", title); sys.exit(0 if ok else 1)
+PY
+      - name: Security/perf trailer sanity
+        run: |
+          T="$(git log -1 --pretty=%s)"
+          B="$(git log -1 --pretty=%b)"
+          if echo "$T" | grep -E '^security\(' >/dev/null; then echo "$B" | grep -q "Security-Impact:" || exit 1; fi
+          if echo "$T" | grep -E '^perf\(' >/dev/null; then echo "$B" | grep -q "Impact:" || exit 1; fi
+YML
+
+# 5b) CI: Auto-sync PR title to head commit subject (Jobs-grade polish)
+cat > .github/workflows/pr-title-sync.yml <<'YML'
+name: pr-title-sync
+on:
+  pull_request:
+    types: [opened, synchronize, edited]
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sync PR title to head commit subject
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          PR_NUMBER="$(jq -r '.pull_request.number' "$GITHUB_EVENT_PATH")"
+          SUBJECT="$(git log -1 --pretty=%s)"
+          REPO="${{ github.repository }}"
+          # Trim to 72 chars hard
+          SUBJECT="$(python - <<'PY'
+import os; s=os.environ["SUBJECT"]; print(s[:72])
+PY
+)"
+          curl -s -X PATCH \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/$REPO/pulls/$PR_NUMBER" \
+            -d "$(jq -nc --arg t "$SUBJECT" '{title:$t}')"
+YML
+
+# 6) Make targets
+cat >> Makefile <<'MK'
+
+.PHONY: commit help-commit notes-next notes-range
+commit:
+	@cz commit || (echo "Tip: use 'cz commit' for guided messages."; exit 1)
+
+help-commit:
+	@echo "Format: <type>(<scope>): <imperative subject ≤72>"
+	@echo "Types: feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert|security"
+	@echo "Scopes: core|matriz|identity|memory|glyph|api|orchestration|governance|consciousness|interfaces|monitoring|tools|ops|serve|lanes|hygiene|docs"
+
+# Release notes from Impact: bullets between refs (default: origin/main..HEAD)
+notes-next:
+	@python3 tools/ci/extract_release_notes.py --range "origin/main..HEAD" --out reports/release_notes/next.md && echo "Wrote reports/release_notes/next.md"
+
+# Usage: make notes-range RANGE=v1.2.0..v1.3.0
+notes-range:
+	@python3 tools/ci/extract_release_notes.py --range "$(RANGE)" --out "reports/release_notes/$(shell echo $(RANGE) | tr '/\\' '_').md"
+MK
+
+# 7) CLAUDE.md agent contract (append)
+awk '1; END{print ""}' CLAUDE.md 2>/dev/null | sed '$a\
+\
+## Commit Messages — T4 Minimal Standard\
+- Write: `<type>(<scope>): <imperative subject ≤72>`; optional **one** emoji prefix only.\
+- Body uses **Problem/Solution/Impact** bullets when non-trivial.\
+- Include trailers when relevant: `Closes: #…`, `Security-Impact: …`, `LLM: model=…, temp=…, ts=…`.\
+- Avoid hype or punctuation spam. **Never** end subject with a period.\
+- Use `make commit` (Commitizen) for guidance; messages failing gitlint will be blocked.\
+' > CLAUDE.md
+
+# 8) Release-notes extractor (turn Impact: into changelog-ready MD)
+mkdir -p reports/release_notes
+cat > tools/ci/extract_release_notes.py <<'PY'
+#!/usr/bin/env python3
+import argparse, subprocess, re, sys, os
+parser = argparse.ArgumentParser()
+parser.add_argument("--range", default="origin/main..HEAD")
+parser.add_argument("--out", default="reports/release_notes/next.md")
+args = parser.parse_args()
+
+def gitlog(r):
+    return subprocess.run(["git","log","--no-merges","--pretty=%H%x00%s%x00%b", r],
+                          capture_output=True, text=True, check=True).stdout.splitlines()
+
+HEADER_RE = re.compile(r'^(?:[\U0001F300-\U0001FAFF]\s*)?(?P<type>feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert|security)(?:\((?P<scope>[^)]+)\))?: (?P<subject>.+)$')
+impact_re = re.compile(r'^\s*Impact:\s*(.*)$', re.I)
+
+items = []
+for line in gitlog(args.range):
+    parts = line.split("\x00")
+    if len(parts) != 3: continue
+    sha, subject, body = parts
+    m = HEADER_RE.match(subject)
+    if not m: continue
+    imp = None
+    for bline in body.splitlines():
+        mi = impact_re.match(bline)
+        if mi and mi.group(1).strip():
+            imp = mi.group(1).strip()
+            break
+    items.append({
+        "sha": sha[:7],
+        "type": m.group("type"),
+        "scope": (m.group("scope") or "").strip(),
+        "subject": m.group("subject").strip(),
+        "impact": imp or ""
+    })
+
+os.makedirs(os.path.dirname(args.out), exist_ok=True)
+with open(args.out, "w", encoding="utf-8") as f:
+    f.write("# Release Notes (draft)\n\n")
+    for it in items:
+        scope = f"[{it['scope']}]" if it['scope'] else ""
+        impact = f" — {it['impact']}" if it['impact'] else ""
+        f.write(f"- {it['type']}{scope}: {it['subject']} ({it['sha']}){impact}\n")
+print(f"Wrote {args.out}")
+PY
+chmod +x tools/ci/extract_release_notes.py
+
+# 9) Optional CI: generate draft notes on demand
+cat > .github/workflows/release-notes.yml <<'YML'
+name: release-notes
+on:
+  workflow_dispatch:
+    inputs:
+      range:
+        description: "Git range (e.g., v1.2.0..HEAD)"
+        required: false
+        default: "origin/main..HEAD"
+jobs:
+  notes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build draft notes
+        run: |
+          python - <<'PY'
+import os, subprocess, json
+rng = "${{ github.event.inputs.range }}"
+subprocess.run(["python3","tools/ci/extract_release_notes.py","--range",rng,"--out","reports/release_notes/next.md"], check=True)
+PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-notes
+          path: reports/release_notes/next.md
+YML
+
+git add .gitmessage .gitlint tools/ci/gitlint_rules.py tools/ci/prepare_commit_msg.py .cz.toml .pre-commit-config.yaml .github/workflows/commit-style.yml .github/workflows/pr-title-sync.yml .github/workflows/release-notes.yml tools/ci/extract_release_notes.py Makefile CLAUDE.md
+git commit -m "ci(commit-style): add PR title auto-sync + release-notes extractor"

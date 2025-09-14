@@ -3,7 +3,6 @@
 Symbol Generator for ΛLens
 Converts parsed content into GLYPH symbols
 """
-import streamlit as st
 
 import math
 from typing import Any
@@ -105,7 +104,7 @@ class SymbolGenerator:
             for key, value in data.items():
                 symbol = GlyphSymbol.create(
                     symbol_type=SymbolType.DATA,
-                    content=f"{key}: {str(value)}[:100]}",
+                    content=f"{key}: {str(value)[:100]}",
                     metadata={"key": key, "type": type(value).__name__, "value_preview": str(value)[:50]},
                     confidence=0.7,
                 )

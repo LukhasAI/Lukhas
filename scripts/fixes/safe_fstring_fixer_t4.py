@@ -5,10 +5,8 @@ Surgical fixes with pre/post validation to prevent cascading errors
 """
 
 import ast
-import os
 import re
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 
 class SafeFStringFixer:
@@ -140,7 +138,7 @@ class SafeFStringFixer:
         print()
 
         priority_files = self.get_priority_files()
-        print(f"🎯 Processing {min(len(priority_files), max_files} priority files")
+        print(f"🎯 Processing {min(len(priority_files), max_files)} priority files")
         print()
 
         success_count = 0
@@ -156,7 +154,7 @@ class SafeFStringFixer:
         print(f"Files successfully fixed: {success_count}")
         print(f"Total fixes applied: {self.fixes_applied}")
         print(f"Validation failures: {self.validation_failures}")
-        print(f"Success rate: {(success_count/self.files_processed*100:.1f}%")
+        print(f"Success rate: {(success_count/self.files_processed*100):.1f}%")
 
         return success_count > 0
 

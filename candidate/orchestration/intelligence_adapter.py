@@ -15,7 +15,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-from candidate.orchestration.agent_orchestrator.intelligence_bridge import (
+from candidate.orchestration.agent_orchestrator.intelligence_bridge import (  # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination
 from datetime import timezone
     AgentType,
     IntelligenceRequestType,

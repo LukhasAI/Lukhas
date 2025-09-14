@@ -6,7 +6,6 @@ Pattern: f"text{var}" → f"text{var()}" when there's a ( without )
 """
 
 import ast
-import os
 import re
 from pathlib import Path
 
@@ -27,7 +26,7 @@ def fix_fstring_parentheses(content: str) -> tuple[str, int]:
         # Only fix if params_part is clearly incomplete (no closing paren expected)
         if not params_part.strip() or params_part.count("(") > params_part.count(")"):
             fixes_count += 1
-            return f"{{{var_part}({params_part})}"
+            return f"{{{var_part}({params_part})}}"
         return match.group(0)
 
     content = pattern1.sub(fix_pattern1, content)
@@ -37,18 +36,14 @@ def fix_fstring_parentheses(content: str) -> tuple[str, int]:
         # timestamp() patterns
         (r'f"([^"]*)\{([^}]+)\.timestamp\(\}([^"]*)"', r'f"\1{\2.timestamp()}\3"'),
         (r"f'([^']*)\\{([^}]+)\\.timestamp\\(\\}([^']*)'", r"f'\1{\2.timestamp()}\3'"),
-
         # len() patterns
         (r'f"([^"]*)\{len\(([^}]+)\}([^"]*)"', r'f"\1{len(\2)}\3"'),
         (r"f'([^']*)\\{len\\(([^}]+)\\}([^']*)'", r"f'\1{len(\2)}\3'"),
-
         # hash() patterns
         (r'f"([^"]*)\{hash\(([^}]+)\}([^"]*)"', r'f"\1{hash(\2)}\3"'),
         (r"f'([^']*)\\{hash\\(([^}]+)\\}([^']*)'", r"f'\1{hash(\2)}\3'"),
-
         # time() patterns
         (r'f"([^"]*)\{time\.time\(\}([^"]*)}"', r'f"\1{time.time()}\2"'),
-
         # int() patterns
         (r'f"([^"]*)\{int\(([^}]+)\}([^"]*)"', r'f"\1{int(\2)}\3"'),
     ]
@@ -139,12 +134,12 @@ def main():
     print("📊 F-STRING PARENTHESIS FIX RESULTS:")
     print("=" * 40)
     print(f"Files with errors: {len(error_files)}")
-    print(f"Files processed: {min(20, len(error_files)}")
+    print(f"Files processed: {min(20, len(error_files))}")
     print(f"Files successfully fixed: {successful_fixes}")
     print(f"Total fixes applied: {total_fixes}")
 
     if len(error_files) > 20:
-        print(f"⚠️  {len(error_files} - 20} more files need fixing")
+        print(f"⚠️  {len(error_files) - 20} more files need fixing")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,249 @@
+# Jules-09: Integration & E2E Testing Specification
+agent_id: "Jules-09"
+priority: "HIGH"
+tier: "tier2"
+estimated_tests: 16
+
+# Module Assignment
+modules:
+  integration_targets:
+    - "Cross-module integration patterns"
+    - "End-to-end user journeys"
+    - "System-wide functionality validation"
+    - "Multi-component workflows"
+  
+  key_integration_points:
+    - "Identity ↔ Memory integration"
+    - "Consciousness ↔ Governance integration" 
+    - "Memory ↔ Dream state integration"
+    - "API Gateway ↔ All services"
+
+# Test Requirements
+tests:
+  integration_tests:
+    - name: "test_full_authentication_flow"
+      description: "Test complete user authentication journey"
+      flow: ["login → identity_check → session_create → permission_verify → resource_access"]
+      input: {"credentials": "object", "target_resource": "string"}
+      expected: {"authenticated": "bool", "session_active": "bool", "resource_accessible": "bool"}
+      tags: ["tier2", "integration", "e2e"]
+    
+    - name: "test_consciousness_memory_integration"  
+      description: "Test consciousness state persistence in memory"
+      flow: ["consciousness_state → memory_storage → state_retrieval → consciousness_restoration"]
+      input: {"consciousness_data": "object", "memory_context": "object"}
+      expected: {"state_preserved": "bool", "retrieval_accurate": "bool", "consistency_maintained": "bool"}
+      tags: ["tier2", "integration", "critical"]
+    
+    - name: "test_governance_orchestration_flow"
+      description: "Test governance validation in orchestration"
+      flow: ["task_request → ethics_validation → orchestration_approval → execution_monitoring"]
+      input: {"task": "object", "governance_rules": "array"}
+      expected: {"task_approved": "bool", "ethics_compliant": "bool", "execution_safe": "bool"}
+      tags: ["tier2", "governance", "integration"]
+
+  e2e_tests:
+    - name: "test_user_onboarding_journey"
+      description: "Complete user onboarding end-to-end test"
+      flow: ["registration → verification → profile_setup → initial_consciousness_calibration → first_task"]
+      duration: "< 30 seconds"
+      expected: {"user_created": "bool", "consciousness_initialized": "bool", "system_ready": "bool"}
+      tags: ["tier2", "e2e", "user_journey"]
+    
+    - name: "test_ai_decision_making_pipeline"
+      description: "AI decision-making from input to action"
+      flow: ["input_processing → consciousness_evaluation → memory_consultation → decision_generation → action_execution"]
+      input: {"decision_context": "object", "available_actions": "array"}
+      expected: {"decision_made": "bool", "reasoning_valid": "bool", "action_executed": "bool"}
+      tags: ["tier2", "e2e", "ai_pipeline"]
+    
+    - name: "test_multi_component_workflows"
+      description: "Complex workflows involving multiple components"
+      flow: ["workflow_initiation → component_coordination → state_synchronization → result_aggregation"]
+      input: {"workflow_definition": "object", "components": "array"}
+      expected: {"workflow_completed": "bool", "components_synchronized": "bool", "results_consistent": "bool"}
+      tags: ["tier2", "integration", "workflow"]
+
+  system_tests:
+    - name: "test_system_startup_shutdown"
+      description: "System lifecycle management testing"
+      flow: ["cold_start → component_initialization → health_checks → graceful_shutdown"]
+      expected: {"startup_successful": "bool", "all_components_healthy": "bool", "shutdown_clean": "bool"}
+      tags: ["tier2", "system", "lifecycle"]
+    
+    - name: "test_failover_scenarios"
+      description: "System resilience and failover testing"  
+      scenarios: ["component_failure", "network_partition", "resource_exhaustion", "data_corruption"]
+      expected: {"system_resilient": "bool", "failover_successful": "bool", "recovery_complete": "bool"}
+      tags: ["tier2", "resilience", "failover"]
+
+# Performance Requirements
+performance:
+  e2e_journey_time: "< 30s"
+  integration_latency: "< 500ms p95"
+  system_startup: "< 60s"
+  failover_time: "< 10s"
+
+# Quality Requirements
+quality:
+  integration_success_rate: "> 95%"
+  e2e_reliability: "> 99%"
+  data_consistency: "> 99.9%"
+
+# Coverage Targets
+coverage:
+  integration_paths: 90%
+  e2e_scenarios: 85%
+  failure_modes: 80%
+
+# Dependencies
+dependencies:
+  - "pytest"
+  - "pytest-asyncio"
+  - "pytest-xdist"
+  - "docker"
+  - "requests"
+  - "selenium" # for UI e2e tests
+
+# Test Environment
+environment:
+  deployment: "docker-compose"
+  database: "postgresql_test"
+  external_services: "mocked"
+  monitoring: "enabled"
+
+# Test Data
+test_data:
+  user_profiles: "fixtures/users.json"
+  consciousness_states: "fixtures/consciousness.json"
+  workflow_definitions: "fixtures/workflows.json"
+
+# Success Criteria
+success_criteria:
+  - "All integration points validated"
+  - "E2E user journeys functional"
+  - "System resilience proven"
+  - "Performance targets achieved"
+  - "Data consistency maintained"
+
+# Deliverables
+deliverables:
+  - "tests/integration/end_to_end/"
+  - "tests/system/integration/"
+  - "Integration test report"
+  - "E2E journey validation"
+  - "System resilience analysis"
+
+# --- T4 Determinism & Policy (added) ---
+determinism:
+  env:
+    TZ: "UTC"
+    PYTHONHASHSEED: "0"
+    NUMBA_DISABLE_JIT: "1"
+    FAKER_SEED: "1337"
+  pytest:
+    addopts: ["-q", "-ra", "-s", "--maxfail=1", "--strict-markers", "--durations=10"]
+    markers_enforced: true  # tests without explicit tier/owner are rejected
+  flake_policy:
+    quarantine_marker: "quarantine"
+    fail_if_quarantine_fails_twice: true
+
+# --- T4 Integration/E2E Invariants (added) ---
+invariants:
+  idempotent_retries: true          # retried operations must be idempotent
+  eventual_consistency_window_s: 5  # reads allow this window before asserting
+  contract_first_apis: true         # OpenAPI-defined routes must match impl
+  stable_ids_across_hops: true      # correlation/session IDs preserved end-to-end
+  no_network_sleeps: true           # avoid time.sleep; use deterministic fakes
+  seed_fixed_data: true             # fixtures/data builders seeded for repeatability
+
+# --- T4 Golden Artifacts & Contracts (added) ---
+goldens:
+  contracts_dir: "tests/golden/tier1/integration/"
+  required_files:
+    - "contract_auth_flow.json"        # happy-path auth journey
+    - "contract_conscious_mem.json"    # consciousness↔memory persistence
+    - "contract_governance_orch.json"  # governance gate in orchestration
+  validators:
+    - name: "openapi_route_validator"
+      module: "tools/tests/validators/openapi_route_validator.py"
+      ensures:
+        - "implemented handlers align with AUDIT/API/openapi.yaml"
+    - name: "e2e_trace_validator"
+      module: "tools/tests/validators/e2e_trace_validator.py"
+      ensures:
+        - "trace_id/session_id stable across services"
+        - "critical spans present for each journey"
+
+# --- T4 Acceptance Gates (added) ---
+acceptance_gates:
+  - name: "lane_integrity"
+    check: "lint-imports"
+    must_pass: true
+  - name: "ruff_syntax"
+    check: "python3 -m ruff check --select E9,F63,F7,F82 lukhas candidate"
+    must_pass: true
+  - name: "integration_tier2_suite"
+    check: "TZ=UTC PYTHONHASHSEED=0 pytest -m 'tier2 and (integration or e2e) and not quarantine' -q"
+    must_pass: true
+  - name: "healthz_and_matriz"
+    check: "python3 tools/tests/check_endpoints.py --urls /healthz,/traces/latest"
+    must_pass: true
+  - name: "openapi_contracts"
+    check: "python3 tools/tests/validators/openapi_route_validator.py --spec AUDIT/API/openapi.yaml"
+    must_pass: false
+  - name: "perf_budget"
+    check: "python3 tools/tests/perf_budget.py --suite integration --max-seconds 300"
+    must_pass: false
+
+# --- T4 Runbook (added) ---
+runbook:
+  quick_checks:
+    - "make test-fast"
+    - "TZ=UTC PYTHONHASHSEED=0 pytest -m 'tier2 and (integration or e2e)' -q"
+  local_env:
+    - "docker compose -f ops/docker/docker-compose.test.yml up -d --build"
+    - "python ops/fixtures/seed.py --deterministic"
+  local_debug:
+    - "pytest tests -k 'authentication_flow or decision_making_pipeline' -vv --maxfail=1"
+    - "python -m tools.tests.print_routes | head -200"
+  contract_smoke:
+    - "python3 tools/tests/validators/e2e_trace_validator.py --one-shot"
+    - "python3 tools/tests/validators/openapi_route_validator.py --one-shot --spec AUDIT/API/openapi.yaml"
+
+# --- T4 Ownership & Escalation (added) ---
+ownership:
+  codeowners:
+    - path: "tests/integration/end_to_end/"
+      owners: ["@LukhasAI/e2e"]
+    - path: "tests/system/integration/"
+      owners: ["@LukhasAI/platform"]
+  escalation:
+    pager: "#matriz-oncall"
+    docs: "AUDIT/SYSTEM_MAP.md#integration"
+
+# --- T4 Risks & Out-of-Scope (added) ---
+risks:
+  - "Flaky timing due to real network/S3; prefer fakes with fixed latency"
+  - "Clock skew between containers; enforce TZ=UTC and sync"
+  - "State leakage between tests; ensure per-test isolation"
+  - "External API instability; record/replay where possible"
+out_of_scope:
+  - "True load testing of external vendors"
+  - "Long-haul chaos experiments (tracked separately)"
+
+# --- T4 Agent Prompts (added) ---
+agent_prompts:
+  jules09_system_prompt: |
+    You own integration & E2E tests. Enforce idempotent retries, stable IDs across hops,
+    and contract-first APIs. Prefer golden/contract tests over brittle UI journeys.
+    Avoid time-based sleeps; use deterministic fakes and fixed seeds.
+  jules09_task_prompt: |
+    Implement the flows under `tests:` with golden validators and keep acceptance gates green.
+    If behavior diverges from contracts, open an issue tagged `integration:contract-gap` with citations.
+
+# --- T4 Metadata (added) ---
+metadata:
+  schema_version: 1
+  last_updated_by: "T4-lens"
+  last_updated_at: "{{AUTO-UPDATE-ON-COMMIT}}"

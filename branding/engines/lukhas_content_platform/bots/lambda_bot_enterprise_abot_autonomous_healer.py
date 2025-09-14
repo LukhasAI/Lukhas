@@ -49,14 +49,14 @@ class ABotAutonomousHealer:
 
         diagnostics = {}
 
-        # Check CLI functionality
+                # Check CLI functionality
         try:
             result = subprocess.run(
                 ["python3", "LUKHAS AI ΛBot/abot_cli.py", "status"],
                 capture_output=True,
                 text=True,
-                cwd="/Users/A_G_I/Λ",
                 timeout=30,
+                check=False,
             )
             diagnostics["cli_status"] = result.stdout
             print("✅ CLI Status Check Complete")
@@ -70,8 +70,8 @@ class ABotAutonomousHealer:
                 ["python3", "LUKHAS AI ΛBot/abot_cli.py", "openai", "budget"],
                 capture_output=True,
                 text=True,
-                cwd="/Users/A_G_I/Λ",
                 timeout=30,
+                check=False,
             )
             diagnostics["financial_status"] = result.stdout
             print("✅ Financial System Check Complete")
@@ -85,8 +85,8 @@ class ABotAutonomousHealer:
                 ["python3", "LUKHAS AI ΛBot/abot_cli.py", "ai", "status"],
                 capture_output=True,
                 text=True,
-                cwd="/Users/A_G_I/Λ",
                 timeout=30,
+                check=False,
             )
             diagnostics["ai_router_status"] = result.stdout
             print("✅ AI Router Check Complete")
@@ -113,7 +113,7 @@ class ABotAutonomousHealer:
         """
 
         try:
-            result = subprocess.run(
+            subprocess_result = subprocess.run(
                 [
                     "python3",
                     "-c",
@@ -133,26 +133,27 @@ result = controller.make_intelligent_request(
     urgency="HIGH"
 )
 
-if result.get("response"):  # noqa: F821
+if result.get("response"):
     print("🤖 LUKHAS AI ΛBot SELF-ANALYSIS:")
-    print(result["response"])  # noqa: F821
-    print(f"\n💰 Analysis Cost: ${result.get('cost', 0):.6f}")  # noqa: F821
+    print(result["response"])
+    print(f"\\n💰 Analysis Cost: ${{result.get('cost', 0):.6f}}")
 else:
-    print("❌ Self-analysis failed:", result.get("error", "Unknown error"))  # noqa: F821
+    print("❌ Self-analysis failed:", result.get("error", "Unknown error"))
 ''',
                 ],
                 capture_output=True,
                 text=True,
                 cwd="/Users/A_G_I/Λ",
                 timeout=120,
+                check=False,
             )
 
-            if result.stdout:
-                print(result.stdout)
+            if subprocess_result.stdout:
+                print(subprocess_result.stdout)
                 self.log_healing_action("self_analysis", "success", 0.0004)
-                return result.stdout
+                return subprocess_result.stdout
             else:
-                print(f"❌ Self-analysis failed: {result.stderr}")
+                print(f"❌ Self-analysis failed: {subprocess_result.stderr}")
                 self.log_healing_action("self_analysis", "failed", 0)
                 return None
 
@@ -192,7 +193,7 @@ else:
                 Be technical and specific about the implementation.
                 """
 
-                result = subprocess.run(
+                healing_result = subprocess.run(
                     [
                         "python3",
                         "-c",
@@ -212,25 +213,26 @@ result = controller.make_intelligent_request(
     urgency="MEDIUM"
 )
 
-if result.get("response"):  # noqa: F821
+if result.get("response"):
     print("🔧 HEALING SOLUTION:")
-    print(result["response"])  # noqa: F821
-    print(f"\n💰 Cost: ${result.get('cost', 0):.6f}")  # noqa: F821
+    print(result["response"])
+    print(f"\\n💰 Cost: ${{result.get('cost', 0):.6f}}")
 else:
-    print("❌ Healing failed:", result.get("error", "Unknown error"))  # noqa: F821
+    print("❌ Healing failed:", result.get("error", "Unknown error"))
 ''',
                     ],
                     capture_output=True,
                     text=True,
                     cwd="/Users/A_G_I/Λ",
                     timeout=90,
+                    check=False,
                 )
 
-                if result.stdout:
-                    print(result.stdout)
+                if healing_result.stdout:
+                    print(healing_result.stdout)
                     self.log_healing_action(task_desc, "analysis_complete", 0.0003)
                 else:
-                    print(f"❌ Healing task failed: {result.stderr}")
+                    print(f"❌ Healing task failed: {healing_result.stderr}")
                     self.log_healing_action(task_desc, "failed", 0)
 
             except Exception as e:
@@ -261,7 +263,7 @@ else:
             """
 
             try:
-                result = subprocess.run(
+                improvement_result = subprocess.run(
                     [
                         "python3",
                         "-c",
@@ -281,22 +283,23 @@ result = controller.make_intelligent_request(
     urgency="LOW"
 )
 
-if result.get("response"):  # noqa: F821
+if result.get("response"):
     print("🌟 SELF-IMPROVEMENT IDEAS:")
-    print(result["response"])  # noqa: F821
-    print(f"\\n💰 Cost: ${result.get('cost', 0):.6f}")  # noqa: F821
+    print(result["response"])
+    print(f"\\n💰 Cost: ${{result.get('cost', 0):.6f}}")
 else:
-    print("❌ Self-improvement failed:", result.get("error", "Unknown error"))  # noqa: F821
+    print("❌ Self-improvement failed:", result.get("error", "Unknown error"))
 ''',
                     ],
                     capture_output=True,
                     text=True,
                     cwd="/Users/A_G_I/Λ",
                     timeout=90,
+                    check=False,
                 )
 
-                if result.stdout:
-                    print(result.stdout)
+                if improvement_result.stdout:
+                    print(improvement_result.stdout)
                     self.log_healing_action(f"improvement_cycle_{cycle}", "success", 0.0003)
                 else:
                     self.log_healing_action(f"improvement_cycle_{cycle}", "failed", 0)
@@ -360,6 +363,7 @@ else:
                     capture_output=True,
                     text=True,
                     cwd="/Users/A_G_I/Λ",
+                    check=False,
                 )
 
                 if "Balance:" in result.stdout:

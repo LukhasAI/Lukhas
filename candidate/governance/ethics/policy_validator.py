@@ -27,7 +27,7 @@ import re
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 try:
     from candidate.core.common import get_logger
@@ -112,8 +112,8 @@ class ValidationIssue:
     fix_function: Optional[str] = None
 
     # Context
-    affected_rules: List[str] = field(default_factory=list)
-    related_issues: List[str] = field(default_factory=list)
+    affected_rules: list[str] = field(default_factory=list)
+    related_issues: list[str] = field(default_factory=list)
 
     # Metadata
     detected_at: datetime = field(default_factory=datetime.now)
@@ -126,7 +126,7 @@ class ValidationResult:
 
     validation_id: str
     policy_count: int
-    issues: List[ValidationIssue] = field(default_factory=list)
+    issues: list[ValidationIssue] = field(default_factory=list)
 
     # Summary statistics
     error_count: int = 0
@@ -204,7 +204,7 @@ class PolicyValidator:
             PolicyType.PRIVACY: ["identity", "guardian"]
         }
 
-    def validate_policies(self, policies: List[PolicyRule]) -> ValidationResult:
+    def validate_policies(self, policies: list[PolicyRule]) -> ValidationResult:
         """
         Validate a collection of policy rules
         
@@ -293,7 +293,7 @@ class PolicyValidator:
                 compliance_score=0.0
             )
 
-    def _validate_single_policy(self, policy: PolicyRule) -> List[ValidationIssue]:
+    def _validate_single_policy(self, policy: PolicyRule) -> list[ValidationIssue]:
         """Validate a single policy rule"""
 
         issues = []
@@ -315,7 +315,7 @@ class PolicyValidator:
 
         return issues
 
-    def _validate_structure(self, policy: PolicyRule) -> List[ValidationIssue]:
+    def _validate_structure(self, policy: PolicyRule) -> list[ValidationIssue]:
         """Validate basic policy structure"""
 
         issues = []
@@ -344,7 +344,7 @@ class PolicyValidator:
 
         return issues
 
-    def _validate_fields(self, policy: PolicyRule) -> List[ValidationIssue]:
+    def _validate_fields(self, policy: PolicyRule) -> list[ValidationIssue]:
         """Validate individual policy fields"""
 
         issues = []
@@ -388,7 +388,7 @@ class PolicyValidator:
 
         return issues
 
-    def _validate_conditions(self, policy: PolicyRule) -> List[ValidationIssue]:
+    def _validate_conditions(self, policy: PolicyRule) -> list[ValidationIssue]:
         """Validate policy conditions"""
 
         issues = []
@@ -414,7 +414,7 @@ class PolicyValidator:
 
         return issues
 
-    def _validate_single_condition(self, condition: PolicyCondition, rule_id: str, index: int) -> List[ValidationIssue]:
+    def _validate_single_condition(self, condition: PolicyCondition, rule_id: str, index: int) -> list[ValidationIssue]:
         """Validate a single condition"""
 
         issues = []
@@ -482,7 +482,7 @@ class PolicyValidator:
 
         return issues
 
-    def _validate_actions(self, policy: PolicyRule) -> List[ValidationIssue]:
+    def _validate_actions(self, policy: PolicyRule) -> list[ValidationIssue]:
         """Validate policy actions"""
 
         issues = []
@@ -509,7 +509,7 @@ class PolicyValidator:
 
         return issues
 
-    def _validate_action_parameters(self, action: PolicyAction, parameters: Dict[str, Any], rule_id: str) -> List[ValidationIssue]:
+    def _validate_action_parameters(self, action: PolicyAction, parameters: dict[str, Any], rule_id: str) -> list[ValidationIssue]:
         """Validate action-specific parameters"""
 
         issues = []
@@ -545,7 +545,7 @@ class PolicyValidator:
 
         return issues
 
-    def _validate_metadata(self, policy: PolicyRule) -> List[ValidationIssue]:
+    def _validate_metadata(self, policy: PolicyRule) -> list[ValidationIssue]:
         """Validate policy metadata"""
 
         issues = []
@@ -583,7 +583,7 @@ class PolicyValidator:
 
         return issues
 
-    def _validate_policy_interactions(self, policies: List[PolicyRule]) -> List[ValidationIssue]:
+    def _validate_policy_interactions(self, policies: list[PolicyRule]) -> list[ValidationIssue]:
         """Validate interactions between policies"""
 
         issues = []
@@ -615,7 +615,7 @@ class PolicyValidator:
 
         return issues
 
-    def _detect_action_conflicts(self, policies: List[PolicyRule]) -> List[ValidationIssue]:
+    def _detect_action_conflicts(self, policies: list[PolicyRule]) -> list[ValidationIssue]:
         """Detect conflicting actions between policies"""
 
         issues = []
@@ -670,7 +670,7 @@ class PolicyValidator:
 
         return False
 
-    def _validate_dependencies(self, policies: List[PolicyRule]) -> List[ValidationIssue]:
+    def _validate_dependencies(self, policies: list[PolicyRule]) -> list[ValidationIssue]:
         """Validate policy dependencies"""
 
         issues = []
@@ -694,7 +694,7 @@ class PolicyValidator:
 
         return issues
 
-    def _validate_performance_impact(self, policies: List[PolicyRule]) -> List[ValidationIssue]:
+    def _validate_performance_impact(self, policies: list[PolicyRule]) -> list[ValidationIssue]:
         """Validate performance impact of policies"""
 
         issues = []
@@ -741,7 +741,7 @@ class PolicyValidator:
 
         return False
 
-    def _validate_trinity_compliance(self, policies: List[PolicyRule]) -> List[ValidationIssue]:
+    def _validate_trinity_compliance(self, policies: list[PolicyRule]) -> list[ValidationIssue]:
         """Validate Trinity Framework compliance"""
 
         issues = []
@@ -773,7 +773,7 @@ class PolicyValidator:
 
         return issues
 
-    def _calculate_compliance_score(self, issues: List[ValidationIssue], policy_count: int) -> float:
+    def _calculate_compliance_score(self, issues: list[ValidationIssue], policy_count: int) -> float:
         """Calculate overall compliance score"""
 
         if policy_count == 0:

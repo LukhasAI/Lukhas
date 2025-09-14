@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from typing import List
 """
 🧬 LUKHAS Quantum → QI Module Migration Report
 Summary of quantum module structure update to QI (Quantum Intelligence)
@@ -69,7 +68,7 @@ def generate_qi_migration_report():
     if lukhas_qi_path.exists():
         print(f"✅ LUKHAS QI integration: {lukhas_qi_path}")
         init_file = lukhas_qi_path / "__init__.py"
-        print(f"   {'✅' if init_file.exists()} else '❌'} __init__.py present")
+        print(f"   {'✅' if init_file.exists() else '❌'} __init__.py present")
     else:
         print("❌ LUKHAS QI integration not found")
 

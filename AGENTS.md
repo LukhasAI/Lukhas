@@ -4,18 +4,45 @@
 
 Welcome to the LUKHAS Agent System - a comprehensive multi-agent architecture designed to execute complex development tasks through specialized AI agents. This document serves as the central hub for all agent-related operations in the LUKHAS AI platform.
 
-## 🎯 Current Mission: MATRIZ-R1 Execution
+## 🎯 Current Mission: Test Suite Development via Jules Agents
 
-**📋 Task Coordination Hub:** [`docs/project/MATRIZ_R1_EXECUTION_PLAN.md`](docs/project/MATRIZ_R1_EXECUTION_PLAN.md)
+**📋 Test Development Hub:** [`docs/testing/JULES_AGENT_TEST_ALLOCATION.md`](docs/testing/JULES_AGENT_TEST_ALLOCATION.md)
 
-The MATRIZ-R1 execution plan defines 4 parallel streams (A-D) with specific task assignments for agents Jules01-Jules10, Codex, and Claude Code. **All task assignments and acceptance criteria are located in the execution plan document.**
+After T4 framework implementation and test consolidation (~450 working tests from 1,497 duplicates), we've identified **~150+ missing test modules** across 6 core architectural domains. The Jules agent allocation system provides systematic test development through 10 specialized agents.
 
-### Quick Agent Assignment Reference
-- **Stream A (Lane Integrity)**: Jules01, Jules02, Jules03 - Critical path
-- **Stream B (MATRIZ Traces)**: Jules04, Jules05 - Parallel with A
-- **Stream C (Security/SBOM)**: Jules06 - Independent 
-- **Stream D (Hygiene)**: Jules07, Jules08, Jules09 - Post A+B completion
-- **Specialists**: Codex (shell/CI), Claude Code (multi-file plans)
+## 🚀 Quickstart for Jules Agents
+
+To get started with Jules agents for test development, follow these steps:
+
+- Review the test assignments and details at [`docs/testing/JULES_AGENT_TEST_ALLOCATION.md`](docs/testing/JULES_AGENT_TEST_ALLOCATION.md)
+- Clone the repository and set up your environment:
+  ```bash
+  git clone <repo-url>
+  cd <repo-directory>
+  python3 -m venv venv
+  source venv/bin/activate
+  pip install -r requirements.txt
+  ```
+- Run tests locally with:
+  ```bash
+  pytest tests/
+  ```
+
+### Jules Agent Test Assignment Reference
+- **Jules-01**: Identity & Authentication (25 tests, CRITICAL, tier1)
+- **Jules-02**: Consciousness & Awareness (30 tests, CRITICAL, tier1) 
+- **Jules-03**: Memory Systems (20 tests, CRITICAL, tier1)
+- **Jules-04**: Governance & Ethics (18 tests, HIGH, tier2)
+- **Jules-05**: Orchestration & Workflows (22 tests, HIGH, tier2)
+- **Jules-06**: API Gateway & External Services (15 tests, MEDIUM, tier3)
+- **Jules-07**: Bio-Quantum Systems (12 tests, MEDIUM, tier3)
+- **Jules-08**: Performance & Monitoring (10 tests, MEDIUM, tier3)
+- **Jules-09**: Integration & E2E Testing (16 tests, HIGH, tier2)
+- **Jules-10**: Specialized & Legacy Systems (8 tests, LOW-MEDIUM, tier4)
+
+**Target**: 176 new tests for 95%+ system coverage with T4 quality gates
+
+> ⚠️ NOTE — Jules tasks are currently happening: Do NOT delete or remove any Jules-related sections or files while this work is in progress. Preserve all Jules assignments, configs, and docs until the Jules program is explicitly closed.
 
 ## 🏗️ Agent System Architecture
 
@@ -37,6 +64,12 @@ LUKHAS employs a multi-layered agent system with different specializations and d
 ### 2. Claude Code UI Specialists (`.claude/agents/`)
 
 **Purpose:** Specialized agents accessible via `/agents` command in Claude Code UI
+
+**⚠️ IMPORTANT: Claude.me Configuration Distribution**
+Multiple `claude.me` files exist throughout the workspace providing context-specific instructions:
+- **Root**: [`.claude/claude.me`](.claude/claude.me) - Global project context
+- **Distributed**: Specialized context files in various modules and domains
+- **Integration**: These files provide essential project understanding for all agent interactions
 
 #### Available Specialists:
 - `adapter-integration-specialist` - External service integrations & OAuth
@@ -168,23 +201,41 @@ Each MATRIZ-R1 stream has specific acceptance criteria defined in the execution 
 - **Lane System**: [`ops/matriz.yaml`](ops/matriz.yaml)
 - **Audit Reports**: [`reports/deep_search/README_FOR_AUDITOR.md`](reports/deep_search/README_FOR_AUDITOR.md)
 
-## 🆘 Emergency Procedures
+## 🧪 Jules Agent Execution Protocol
 
-### Stream Blocking:
-- **Stream A blocked**: Pause Stream D, focus on unblocking lane integrity
-- **Stream B blocked**: Deprioritize #189, focus on core router
-- **Stream C blocked**: Defer to post-MATRIZ-R1 if needed
-- **Multiple blocks**: Escalate to architecture review
+Each Jules agent MUST follow this standardized workflow for every assigned module:
 
-### WIP Overflow:
-1. Merge smallest ready PR first
-2. Hold new PRs until WIP drops to ≤3
-3. Focus on unblocking vs. new development
+1. **Read Assignment**  
+   - Open your allocation in [`docs/testing/JULES_AGENT_TEST_ALLOCATION.md`](docs/testing/JULES_AGENT_TEST_ALLOCATION.md).  
+   - Check your `.yaml` spec file in `tests/specs/`.
 
+2. **Setup Environment**  
+   ```bash
+   git fetch origin
+   git checkout -b feat/tests/Jules-0X-<module>
+   make bootstrap
+   ```
+
+3. **Create Tests**  
+   - Place tests under `tests/unit/` or `tests/integration/` following spec.
+   - Use T4 markers (`tier1`, `tier2`, etc).
+   - Annotate edge cases and goldens.
+
+4. **Local Validation**  
+   ```bash
+   pytest -m tier1 --tb=short
+   pytest --cov=lukhas --cov-report=term-missing
+   ```
+
+5. **Commit with Branding**  
+   - Follow [`commit_standard_format.yaml`](commit_standard_format.yaml).  
+   - Example:  
+     ```
+     test(identity): add MFA login + token expiry tests (tier1)
+     ```
+
+6. **PR Creation**  
+   - Title: `test(Jules-0X): <module summary>`  
+   - Body: include acceptance checklist + coverage diff.  
+   - Add label: `tests-only`.
 ---
-
-**🎯 Ready for MATRIZ-R1 Execution**
-
-All agents are configured and ready. Task assignments and detailed instructions are in [`docs/project/MATRIZ_R1_EXECUTION_PLAN.md`](docs/project/MATRIZ_R1_EXECUTION_PLAN.md).
-
-**Next Step:** Review your assigned stream and claim your first task!

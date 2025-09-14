@@ -19,8 +19,6 @@ Features:
 - Performance regression prevention system
 - Load testing infrastructure for 10K+ concurrent users
 """
-import random
-import streamlit as st
 
 import asyncio
 import logging
@@ -450,7 +448,9 @@ class EnterprisePerformanceMonitor:
                             "p95_10": (
                                 np.percentile(recent_values, 95)
                                 if len(recent_values) > 1
-                                else recent_values[0] if recent_values else 0
+                                else recent_values[0]
+                                if recent_values
+                                else 0
                             ),
                         }
 
@@ -895,7 +895,7 @@ class EnterprisePerformanceMonitor:
         """Trigger a performance alert"""
         try:
             alert = PerformanceAlert(
-                id=f"alert_{int(time.time(} * 1000)}",
+                id=f"alert_{int(time.time()) * 1000}",
                 severity=severity,
                 title=title,
                 description=description,
@@ -1211,7 +1211,7 @@ class EnterprisePerformanceMonitor:
     def clear_metrics_history(self, older_than_hours: int = 24):
         """Clear metrics older than specified hours"""
         try:
-            cutoff_time = datetime.now(timezone.utc) - timezone.timedelta(hours=older_than_hours)
+            cutoff_time = datetime.now(timezone.utc) - datetime.timedelta(hours=older_than_hours)
 
             for metric_type in self.metrics:
                 original_count = len(self.metrics[metric_type])

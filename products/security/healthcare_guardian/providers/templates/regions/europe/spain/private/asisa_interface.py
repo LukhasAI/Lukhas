@@ -11,11 +11,15 @@ from typing import Any, Optional
 # Fixed: Converted complex relative imports to robust absolute imports with fallback chains
 try:
     # Try absolute import first
-    from products.lambda.lambda_products_pack.lambda_core.HealthcareGuardian.providers.templates.base_provider import (
-        BaseHealthcareProvider,
-        ProviderConfig,
-        SecurityConfig,
-    )
+    # TODO: Fix import paths - lambda directory doesn't exist
+    # from products.lambda.lambda_products_pack.lambda_core.HealthcareGuardian.providers.templates.base_provider import (
+    #     BaseHealthcareProvider,
+    #     ProviderConfig,
+    #     SecurityConfig,
+    # )
+    BaseHealthcareProvider = object  # Placeholder
+    ProviderConfig = object  # Placeholder
+    SecurityConfig = object  # Placeholder
 except ImportError:
     try:
         # Fallback to relative imports for existing installations

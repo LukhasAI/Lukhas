@@ -20,11 +20,11 @@ Features:
 """
 import json
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 try:
-    from fastapi import FastAPI
+    from fastapi import FastAPI  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
     from fastapi.openapi.utils import get_openapi
 
     FASTAPI_AVAILABLE = True

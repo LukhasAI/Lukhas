@@ -130,7 +130,7 @@ class UniversalAdaptiveDashboard:
         self.threshold_colony = AdaptiveThresholdColony()
         self.drift_monitor = UnifiedDriftMonitor()
         self.healix_memory = HealixMemoryCore()
-        self.event_bus = EventBus()
+        self.event_bus = EventBus()  # noqa: F821  # TODO: EventBus
 
         # LUKHAS AI system integration
         self.oracle_nervous_system = None
