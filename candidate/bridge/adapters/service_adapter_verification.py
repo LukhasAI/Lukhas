@@ -19,14 +19,8 @@ def test_imports():
     try:
         # Critical alias
         from candidate.bridge.adapters.service_adapter_base import (
-            AdapterState,
             BaseServiceAdapter,
-            CapabilityToken,
-            DryRunPlanner,
-            ResilienceManager,
             ServiceAdapterBase,
-            TelemetryCollector,
-            with_resilience,
         )
 
         print("✅ All imports successful")

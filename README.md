@@ -83,6 +83,8 @@ Production-ready consciousness-aware AI platform with Constellation Framework an
 
 **📋 Active Development:** [Jules Agent Test Allocation](docs/testing/JULES_AGENT_TEST_ALLOCATION.md) - Systematic test development across 10 specialized agents targeting ~150+ missing test modules
 
+> ⚠️ NOTE — Jules tasks are currently happening: Do NOT delete or remove any Jules-related sections or files while this work is in progress. Preserve all Jules assignments, configs, and docs until the Jules program is explicitly closed.
+
 **🎯 Agent System:** [AGENTS.md](AGENTS.md) - Complete guide to the multi-agent development platform
 
 **⚠️ IMPORTANT: Claude.me Configuration**
@@ -123,6 +125,9 @@ pip install -e .
 
 # Run smoke tests
 pytest tests/smoke/
+
+# Quick MATRIZ traces smoke (uses golden fixtures)
+make smoke-matriz
 ```
 
 ### Development
@@ -151,6 +156,7 @@ pytest
 make bootstrap          # Complete environment setup
 make help              # Live target discovery
 make doctor            # System health check
+make smoke-matriz      # MATRIZ /traces/latest smoke
 ```
 
 ## Project Structure

@@ -11,7 +11,7 @@ authors = [
     {name = "LUKHAS AI", email = "contact@lukhas.ai"}
 ]
 readme = "README.md"
-license = {text = "MIT"}
+license = "MIT"
 keywords = ["ai", "consciousness", "cognitive-architecture", "constellation-framework"]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -56,6 +56,7 @@ dev = [
     "coverage>=7.3.0",
     "bandit>=1.7.5",
     "pre-commit>=3.4.0",
+    "PyJWT>=2.8.0",
 ]
 lambda = [
     "msgpack>=1.0.5",
@@ -82,7 +83,7 @@ Repository = "https://github.com/LukhasAI/Lukhas"
 Issues = "https://github.com/LukhasAI/Lukhas/issues"
 
 [tool.setuptools]
-packages = ["lukhas", "matriz"]
+packages = ["lukhas", "MATRIZ", "candidate", "branding"]
 
 [tool.pytest.ini_options]
 minversion = "8.0"
@@ -122,6 +123,8 @@ markers = [
     "no_external_calls: tests that make no external API calls",
     "fault: fault injection tests",
     "perf: performance tests",
+    "adapters: external service adapter tests",
+    "oauth: OAuth integration tests",
 ]
 filterwarnings = [
     "ignore::DeprecationWarning",

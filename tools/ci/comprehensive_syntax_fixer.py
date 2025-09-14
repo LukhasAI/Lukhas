@@ -123,7 +123,9 @@ class ComprehensiveSyntaxFixer:
 
                     # Add except block
                     fixed_lines.append(" " * try_indent + "except Exception:")
-                    fixed_lines.append(" " * (try_indent + 4) + "pass  # TODO: Handle exception properly")
+                    # Intentionally minimal handler to avoid altering program flow while ensuring valid syntax.
+                    # Note: Added by T4 syntax fixer; consider manual review.
+                    fixed_lines.append(" " * (try_indent + 4) + "pass  # auto-inserted by syntax fixer")
                     continue
 
             fixed_lines.append(line)

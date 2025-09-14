@@ -25,7 +25,7 @@ import numpy as np
 import structlog  # ΛTRACE: Standardized logging.
 
 from candidate.core.common import get_logger
-from candidate.orchestration.brain.spine.fold_engine import AGIMemory
+# from candidate.orchestration.brain.spine.fold_engine import AGIMemory
 
 22  # ═══════════════════════════════════════════════════
 # FILENAME: fold_engine.py
@@ -250,7 +250,7 @@ class MemoryFold:
 
     # ΛEXPOSE: Updates the content and optionally the priority of the memory fold.
     # LUKHAS_TAG: memory_mutation_core
-    def update(:
+    def update(
         self, new_content: Any, new_priority: Optional[MemoryPriority] = None
     ) -> None:
         """
@@ -370,11 +370,7 @@ class MemoryFold:
         """Serializes the MemoryFold to a dictionary for inspection or storage."""
         return {
             "key": self.key,
-            "content_preview": (
-                str(self.content)[:100] + "..."
-                if len(str(self.content)) > 100:
-                else str(self.content):
-            ),  # ΛNOTE: Content preview
+            "content_preview": str(self.content)[:100] + "..." if len(str(self.content)) > 100 else str(self.content),
             "memory_type": self.memory_type.value,
             "priority": self.priority.value,
             "owner_id": self.owner_id,  # AIDENTITY_BRIDGE (Owner of the memory)
@@ -728,11 +724,7 @@ class MemoryFold:
                 "entropy_delta": self.entropyDelta,
                 "collapse_hash": self.collapseHash,
                 "current_importance": self.importance_score,
-                "reflection_reason": (
-                    "high_drift"
-                    if self.driftScore > reflection_threshold:
-                    else "entropy_divergence":
-                ),
+                "reflection_reason": "high_drift" if self.driftScore > reflection_threshold else "entropy_divergence",
                 "timestamp_utc": datetime.now(timezone.utc).isoformat(),
                 "suggested_action": (
                     "dream_reentry" if self.driftScore > 0.6 else "symbolic_refolding"
@@ -744,7 +736,7 @@ class MemoryFold:
 
 
 # LUKHAS_TAG: dreamseed_folding_logic
-def fold_dream_experience(:
+def fold_dream_experience(
     dream_id: str,
     dream_content: str,
     dream_metadata: Dict[str, Any],
@@ -834,7 +826,7 @@ def fold_dream_experience(:
 
         # Create primary dream fold
         dream_fold = MemoryFold(
-            key=f"DREAM_{dream_id}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
+            key=f"DREAM_{dream_id}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             content={
                 "dream_content": dream_content,
                 "dream_metadata": dream_metadata,
@@ -842,9 +834,9 @@ def fold_dream_experience(:
                 "trace_data": {
                     "trace_id": dream_trace.trace_id,
                     "symbolic_origin_id": dream_trace.symbolic_origin_id,
-                    "entanglement_level": dream_trace.entanglement_level
-                }
-            )},
+                    "entanglement_level": dream_trace.entanglement_level,
+                },
+            },
             memory_type=memory_type,
             priority=MemoryPriority.HIGH if dream_trace.entanglement_level > 8 else MemoryPriority.MEDIUM,
             owner_id="DREAMSEED_SYSTEM",
@@ -976,24 +968,21 @@ def fold_dream_experience(:
     return folding_results
 
 
-def _determine_dream_memory_type(:
+def _determine_dream_memory_type(
     dream_content: str, dream_metadata: Dict[str, Any], dream_trace: Any
 ) -> MemoryType:
     """Determine appropriate memory type for a dream experience."""
 
     # Check for identity-related content
-    if any(sig.identity_marker in ["core_self", "personality", "values"]:
-           for sig in dream_trace.identity_signatures):
+    if any(sig.identity_marker in ["core_self", "personality", "values"] for sig in dream_trace.identity_signatures):
         return MemoryType.IDENTITY
 
     # Check for strong emotional content
-    if (dream_trace.emotional_echoes and:
-        any(echo.propagation_strength > 0.7 for echo in dream_trace.emotional_echoes)):
+    if dream_trace.emotional_echoes and any(echo.propagation_strength > 0.7 for echo in dream_trace.emotional_echoes):
         return MemoryType.EMOTIONAL
 
     # Check for procedural/skill-related content
-    if any(keyword in dream_content.lower():
-           for keyword in ["learn", "practice", "skill", "how to", "method"]):
+    if any(keyword in dream_content.lower() for keyword in ["learn", "practice", "skill", "how to", "method"]):
         return MemoryType.PROCEDURAL
 
     # Check dream type in metadata
@@ -1042,12 +1031,10 @@ def _calculate_folding_stability(dream_trace: Any, compression_result: Dict[str,
 class MemoryIntegrityLedger:
     """
     Tracks and logs fold state transitions, drift events, and collapse events
-    for audit compliance and memory integrity monitoring.:
+    for audit compliance and memory integrity monitoring.
     """
 
-    LEDGER_PATH = (
-        "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/fold_integrity_log.jsonl"
-    )
+    LEDGER_PATH = "var/logs/fold_integrity_log.jsonl"
     _last_hash: Optional[str] = None
 
     @classmethod
@@ -1065,7 +1052,7 @@ class MemoryIntegrityLedger:
                 cls._last_hash = None
 
     @classmethod
-    def log_fold_transition(:
+    def log_fold_transition(
         cls,
         fold_key: str,
         transition_type: str,
@@ -1085,7 +1072,7 @@ class MemoryIntegrityLedger:
         cls._write_ledger_entry(entry)
 
     @classmethod
-    def log_drift_event(:
+    def log_drift_event(
         cls,
         fold_key: str,
         old_importance: float,
@@ -1103,16 +1090,12 @@ class MemoryIntegrityLedger:
             "drift_score": drift_score,
             "collapse_hash": collapse_hash,
             "timestamp_utc": datetime.now(timezone.utc).isoformat(),
-            "severity": (
-                "high"
-                if drift_score > 0.5:
-                else "medium" if drift_score > 0.3 else "low":
-            ),
+            "severity": "high" if drift_score > 0.5 else "medium" if drift_score > 0.3 else "low",
         }
         cls._write_ledger_entry(entry)
 
     @classmethod
-    def log_collapse_event(:
+    def log_collapse_event(
         cls,
         fold_key: str,
         collapse_hash: str,
@@ -1128,11 +1111,7 @@ class MemoryIntegrityLedger:
             "entropy_delta": entropy_delta,
             "causative_factors": causative_factors,
             "timestamp_utc": datetime.now(timezone.utc).isoformat(),
-            "recovery_suggestion": (
-                "symbolic_refolding"
-                if abs(entropy_delta) > 0.7:
-                else "drift_stabilization":
-            ),
+            "recovery_suggestion": "symbolic_refolding" if abs(entropy_delta) > 0.7 else "drift_stabilization",
         }
         cls._write_ledger_entry(entry)
 

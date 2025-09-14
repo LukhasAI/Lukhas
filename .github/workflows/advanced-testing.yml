@@ -43,8 +43,8 @@ jobs:
     - name: 📦 Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install -r requirements-test.txt
+        pip install -e .
+        pip install pytest hypothesis mutmut
         
     - name: 🔍 Validate Test Suite Structure
       run: |
@@ -151,8 +151,8 @@ jobs:
     - name: 📦 Install All Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install -r requirements-test.txt
+        pip install -e .
+        pip install pytest hypothesis mutmut
         
     - name: 🧬 Run Complete Advanced Testing Suite
       run: |
