@@ -1,13 +1,17 @@
 import logging
 
 
-def fix_later(*args, **kwargs):
-    """TODO(symbol-resolver): implement missing functionality
+def create_status_display_line(key: str, value: str) -> str:
+    """Create a formatted status line for system display.
 
-    This is a placeholder for functionality that needs to be implemented.
-    Replace this stub with the actual implementation.
+    Args:
+        key: The status category name
+        value: The symbolic status value with emoji
+
+    Returns:
+        A formatted status line for display
     """
-    raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+    return f"{key}: {value}"
 
 
 logger = logging.getLogger(__name__)
@@ -105,7 +109,7 @@ def get_system_status():
         "Memory": f"{get_symbol('memory', 'consolidation', '🗂️')} Storing",
     }
 
-    return "\n".join([fix_later for k, v in status.items()])
+    return "\n".join([create_status_display_line(k, v) for k, v in status.items()])
 
 
 # Example 6: Integration with LUKHAS logging
