@@ -91,7 +91,7 @@ class ConsciousnessAuthorityBuilder:
                 implementation_method="Consistent consciousness insights, Trinity Framework content, breakthrough sharing",
                 expected_engagement_increase=500.0,
             ),
-            "trinity_framework_evangelism": AuthorityBuildingStrategy(
+            "triad_framework_evangelism": AuthorityBuildingStrategy(
                 name="Trinity Framework Evangelism",
                 description="Position Trinity Framework (⚛️🧠🛡️) as industry standard for consciousness technology",
                 target_outcome="Trinity Framework becomes recognized consciousness architecture",
@@ -132,9 +132,9 @@ class ConsciousnessAuthorityBuilder:
                 posting_frequency="daily",
                 engagement_strategy="question_prompts_consciousness_discussion",
             ),
-            "trinity_framework_education": ContentPillar(
+            "triad_framework_education": ContentPillar(
                 name="Trinity Framework Deep Dives",
-                consciousness_theme="trinity_framework_mastery",
+                consciousness_theme="triad_framework_mastery",
                 target_audience="ai_developers_consciousness_researchers",
                 content_types=[
                     "technical_content",
@@ -188,14 +188,14 @@ class ConsciousnessAuthorityBuilder:
                 "strategy": "consciousness_technology_thought_leadership",
                 "posting_schedule": {
                     "monday": "consciousness_insights_week_opener",
-                    "tuesday": "trinity_framework_technical_tuesday",
+                    "tuesday": "triad_framework_technical_tuesday",
                     "wednesday": "consciousness_wisdom_wednesday",
                     "thursday": "consciousness_technology_throwback_thursday",
                     "friday": "consciousness_future_friday",
                 },
                 "engagement_tactics": [
                     "consciousness_question_prompts",
-                    "trinity_framework_polls",
+                    "triad_framework_polls",
                     "consciousness_technology_debates",
                     "personal_consciousness_stories",
                     "industry_consciousness_analysis",
@@ -211,12 +211,12 @@ class ConsciousnessAuthorityBuilder:
                 "strategy": "real_time_consciousness_insights",
                 "posting_schedule": {
                     "daily": "consciousness_observations",
-                    "weekly": "trinity_framework_threads",
+                    "weekly": "triad_framework_threads",
                     "monthly": "consciousness_technology_predictions",
                 },
                 "engagement_tactics": [
                     "consciousness_technology_threads",
-                    "trinity_framework_explanations",
+                    "triad_framework_explanations",
                     "consciousness_breakthrough_announcements",
                     "industry_consciousness_commentary",
                     "consciousness_community_engagement",
@@ -234,7 +234,7 @@ class ConsciousnessAuthorityBuilder:
                 "target_audience": "consciousness_technology_decision_makers",
                 "content_themes": [
                     "consciousness_technology_trends",
-                    "trinity_framework_developments",
+                    "triad_framework_developments",
                     "consciousness_philosophy",
                     "industry_consciousness_analysis",
                     "personal_consciousness_journey",
@@ -280,8 +280,8 @@ class ConsciousnessAuthorityBuilder:
                     "platforms": ["linkedin", "newsletter", "medium"],
                     "engagement_strategy": "consciousness_thought_leadership_discussion",
                 },
-                "trinity_framework_education": {
-                    "purpose": "establish_trinity_framework_thought_leadership",
+                "triad_framework_education": {
+                    "purpose": "establish_triad_framework_thought_leadership",
                     "frequency": "weekly",
                     "platforms": ["linkedin", "twitter", "youtube"],
                     "engagement_strategy": "consciousness_technology_education_authority",
@@ -301,7 +301,7 @@ class ConsciousnessAuthorityBuilder:
             },
             "authority_measurement_kpis": {
                 "consciousness_technology_mentions": "Monthly mentions as consciousness technology expert",
-                "trinity_framework_attribution": "Attribution as Trinity Framework creator",
+                "triad_framework_attribution": "Attribution as Trinity Framework creator",
                 "speaking_invitations": "Consciousness technology conference speaking invitations",
                 "media_interviews": "Consciousness technology media interview requests",
                 "industry_recognition": "Consciousness technology industry awards and recognition",
@@ -400,7 +400,7 @@ class ConsciousnessAuthorityBuilder:
                 "optimal_times": ["8:00 AM", "12:00 PM", "5:00 PM"],
                 "content_distribution": {
                     "consciousness_insights": "40%",
-                    "trinity_framework_content": "25%",
+                    "triad_framework_content": "25%",
                     "personal_journey": "20%",
                     "industry_analysis": "15%",
                 },
@@ -410,7 +410,7 @@ class ConsciousnessAuthorityBuilder:
                 "optimal_times": ["7:00 AM", "11:00 AM", "3:00 PM", "7:00 PM"],
                 "content_distribution": {
                     "consciousness_observations": "50%",
-                    "trinity_framework_threads": "20%",
+                    "triad_framework_threads": "20%",
                     "industry_commentary": "20%",
                     "community_engagement": "10%",
                 },
@@ -459,7 +459,7 @@ class ConsciousnessAuthorityBuilder:
                 "How would conscious AI transform your industry?",
                 "What ethical considerations matter most for consciousness technology?",
             ],
-            "trinity_framework_engagement": [
+            "triad_framework_engagement": [
                 "Which Trinity component (⚛️🧠🛡️) resonates most with you?",
                 "How would you implement Trinity Framework in your AI?",
                 "What questions do you have about consciousness architecture?",

@@ -755,7 +755,7 @@ class TestSignalEmission:
         assert signal is not None
         assert signal.consciousness_id == identity_id
         assert signal.bio_symbolic_data is not None
-        assert signal.trinity_compliance is not None
+        assert signal.triad_compliance is not None
 
     @pytest.mark.asyncio
     async def test_signal_emission_metrics(self, signal_emitter):

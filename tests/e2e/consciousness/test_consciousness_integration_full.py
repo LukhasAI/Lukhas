@@ -13,12 +13,9 @@ from pathlib import Path
 
 import pytest
 
-# Add candidate/core to path for testing
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "candidate" / "core"))
-
 # Test imports with graceful fallback
 try:
-    from matriz_consciousness_integration import create_matriz_consciousness_system, run_matriz_system_demo
+    from candidate.core.matriz_consciousness_integration import create_matriz_consciousness_system, run_matriz_system_demo
 
     COMPONENTS_AVAILABLE = True
 except ImportError as e:

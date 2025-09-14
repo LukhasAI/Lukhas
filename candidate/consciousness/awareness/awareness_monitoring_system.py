@@ -992,7 +992,7 @@ class AwarenessMonitoringSystem:
             "is_healthy": self.current_awareness.is_healthy,
             "stress_indicators": self.current_awareness.stress_indicators,
             "performance_metrics": self.current_awareness.performance_metrics,
-            "trinity_analysis": {
+            "triad_analysis": {
                 "identity_coherence": self.current_awareness.identity_coherence,
                 "consciousness_depth": self.current_awareness.consciousness_depth,
                 "guardian_oversight": self.current_awareness.guardian_oversight,

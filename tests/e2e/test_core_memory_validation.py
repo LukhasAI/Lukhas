@@ -219,10 +219,10 @@ class TestCoreMemoryValidation:
         # Don't return - pytest functions should return None
 
     @pytest.mark.asyncio
-    async def test_memory_system_trinity_integration(self):
+    async def test_memory_system_triad_integration(self):
         """Test Trinity Framework integration markers"""
-        trinity_markers = ["⚛️", "🧠", "🛡️"]
-        trinity_keywords = ["identity", "consciousness", "guardian", "trinity"]
+        triad_markers = ["⚛️", "🧠", "🛡️"]
+        triad_keywords = ["identity", "consciousness", "guardian", "trinity"]
 
         integration_found = False
 
@@ -238,12 +238,12 @@ class TestCoreMemoryValidation:
 
             source = inspect.getsource(ConsolidatedUnifiedmemorycore)
 
-            for marker in trinity_markers:
+            for marker in triad_markers:
                 if marker in source:
                     integration_found = True
                     print(f"🔍 Found Trinity marker: {marker}")
 
-            for keyword in trinity_keywords:
+            for keyword in triad_keywords:
                 if keyword.lower() in source.lower():
                     integration_found = True
                     print(f"🔍 Found Trinity keyword: {keyword}")
@@ -254,15 +254,15 @@ class TestCoreMemoryValidation:
                 print("⚠️ Trinity Framework integration not clearly visible")
 
             # Test with Trinity-aware memory data
-            trinity_memory = {
-                "experience": "trinity_integration_test",
+            triad_memory = {
+                "experience": "triad_integration_test",
                 "identity_context": "⚛️ Identity preservation test",
                 "consciousness_level": 0.85,
                 "guardian_approved": True,
-                "trinity_framework": True,
+                "triad_framework": True,
             }
 
-            result = await core.process_memory(trinity_memory)
+            result = await core.process_memory(triad_memory)
 
             if result:
                 print("✅ Trinity-aware memory processing successful")

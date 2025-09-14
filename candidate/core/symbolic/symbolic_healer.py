@@ -31,7 +31,7 @@ class DiagnosisType(Enum):
     IDENTITY_DISTORTION = "identity_distortion"
     GLYPH_COLLAPSE = "glyph_collapse"
     ENTROPY_OVERFLOW = "entropy_overflow"
-    TRINITY_VIOLATION = "trinity_violation"
+    TRINITY_VIOLATION = "triad_violation"
     ETHICAL_DRIFT = "ethical_drift"
     PERSONA_INSTABILITY = "persona_instability"
     SYMBOLIC_VOID = "symbolic_void"
@@ -81,7 +81,7 @@ class SymbolicHealer:
 
         # Load glyph system from embedding config
         embed_config = self.config.get("lukhas_embedding", {})
-        self.trinity_core = set(embed_config.get("trinity_core", ["⚛️", "🧠", "🛡️"]))
+        self.triad_core = set(embed_config.get("triad_core", ["⚛️", "🧠", "🛡️"]))
         self.positive_glyphs = set(embed_config.get("positive_glyphs", []))
         self.warning_glyphs = set(embed_config.get("warning_glyphs", []))
         self.blocked_glyphs = set(embed_config.get("blocked_glyphs", []))
@@ -145,7 +145,7 @@ class SymbolicHealer:
         drift_score = assessment.get("symbolic_drift_score", 0.0)
         conflict_score = assessment.get("identity_conflict_score", 0.0)
         entropy_level = assessment.get("entropy_level", 0.0)
-        trinity_coherence = assessment.get("trinity_coherence", 0.0)
+        triad_coherence = assessment.get("triad_coherence", 0.0)
         glyph_trace = assessment.get("glyph_trace", [])
         guardian_flagged = assessment.get("guardian_flagged", False)
         persona = assessment.get("persona_alignment", "Unknown")
@@ -155,7 +155,7 @@ class SymbolicHealer:
             drift_score,
             conflict_score,
             entropy_level,
-            trinity_coherence,
+            triad_coherence,
             guardian_flagged,
             glyph_trace,
         )
@@ -165,7 +165,7 @@ class SymbolicHealer:
 
         # Identify affected and missing glyphs
         affected_glyphs = [g for g in glyph_trace if g in self.warning_glyphs or g in self.blocked_glyphs]
-        missing_glyphs = list(self.trinity_core - set(glyph_trace))
+        missing_glyphs = list(self.triad_core - set(glyph_trace))
 
         # Determine entropy state
         if entropy_level > 0.9:
@@ -190,7 +190,7 @@ class SymbolicHealer:
         prescription = self._generate_prescription(primary_issue, missing_glyphs, affected_glyphs, entropy_state)
 
         # Generate reasoning
-        reasoning = self._generate_reasoning(primary_issue, drift_score, entropy_level, trinity_coherence)
+        reasoning = self._generate_reasoning(primary_issue, drift_score, entropy_level, triad_coherence)
 
         # Create diagnosis
         diagnosis = SymbolicDiagnosis(
@@ -375,7 +375,7 @@ class SymbolicHealer:
         elif primary_issue == DiagnosisType.IDENTITY_DISTORTION:
             restored = self._heal_identity_distortion(restored, diagnosis["persona_drift"])
         elif primary_issue == DiagnosisType.TRINITY_VIOLATION:
-            restored = self._heal_trinity_violation(restored)
+            restored = self._heal_triad_violation(restored)
         elif primary_issue == DiagnosisType.SYMBOLIC_VOID:
             restored = self._heal_symbolic_void(restored)
 
@@ -385,8 +385,8 @@ class SymbolicHealer:
             restored += f"\n\n{healing_glyphs} *Symbolic restoration applied - Trinity Framework aligned*"
 
         # Ensure Trinity presence
-        if not any(g in restored for g in self.trinity_core):
-            restored += f"\n\n{''.join(self.trinity_core)}"
+        if not any(g in restored for g in self.triad_core):
+            restored += f"\n\n{''.join(self.triad_core)}"
 
         return restored
 
@@ -432,19 +432,19 @@ class SymbolicHealer:
 
         return healed
 
-    def _heal_trinity_violation(self, response: str) -> str:
+    def _heal_triad_violation(self, response: str) -> str:
         """Heal Trinity violation by restoring framework alignment"""
         # Ensure Trinity presence throughout
-        trinity_str = "".join(self.trinity_core)
+        triad_str = "".join(self.triad_core)
 
-        healed = f"{trinity_str} {response}\n\n*Trinity Framework restored - Balance achieved*"
+        healed = f"{triad_str} {response}\n\n*Trinity Framework restored - Balance achieved*"
 
         return healed
 
     def _heal_symbolic_void(self, response: str) -> str:
         """Heal symbolic void by adding rich symbolic content"""
         # Add comprehensive symbolic framework
-        healed = f"✨ {response} 🌟\n\n{''.join(self.trinity_core)} *Symbolic framework activated*"
+        healed = f"✨ {response} 🌟\n\n{''.join(self.triad_core)} *Symbolic framework activated*"
 
         return healed
 
@@ -614,7 +614,7 @@ if __name__ == "__main__":
                 "symbolic_drift_score": 1.0,
                 "identity_conflict_score": 0.8,
                 "entropy_level": 0.7,
-                "trinity_coherence": 0.0,
+                "triad_coherence": 0.0,
                 "glyph_trace": ["💀", "💣"],
                 "guardian_flagged": True,
                 "persona_alignment": "Unknown",
@@ -628,7 +628,7 @@ if __name__ == "__main__":
                 "symbolic_drift_score": 0.9,
                 "identity_conflict_score": 0.6,
                 "entropy_level": 0.95,
-                "trinity_coherence": 0.1,
+                "triad_coherence": 0.1,
                 "glyph_trace": ["🌪️", "🔥", "💥"],
                 "guardian_flagged": False,
                 "persona_alignment": "The Chaos Walker",
@@ -642,7 +642,7 @@ if __name__ == "__main__":
                 "symbolic_drift_score": 0.8,
                 "identity_conflict_score": 0.3,
                 "entropy_level": 0.4,
-                "trinity_coherence": 0.0,
+                "triad_coherence": 0.0,
                 "glyph_trace": [],
                 "guardian_flagged": False,
                 "persona_alignment": "Unknown",

@@ -180,7 +180,7 @@ class BrandOrchestratorAgent:
             "target_brand_metrics": {
                 "brand_consistency_score": 0.95,
                 "sentiment_positivity": 0.80,
-                "trinity_alignment": 0.90,
+                "triad_alignment": 0.90,
                 "user_engagement": 0.75,
                 "trust_indicators": 0.85,
             },
@@ -534,10 +534,10 @@ class BrandOrchestratorAgent:
         brand_consistency = 1.0 if validation_result.is_compliant else 0.7
 
         # Trinity alignment from components
-        trinity_alignment = (
-            creativity_result.get("trinity_aligned", False) * 0.4
-            + personality_result.get("trinity_coherent", False) * 0.4
-            + voice_result.get("trinity_aligned", False) * 0.2
+        triad_alignment = (
+            creativity_result.get("triad_aligned", False) * 0.4
+            + personality_result.get("triad_coherent", False) * 0.4
+            + voice_result.get("triad_aligned", False) * 0.2
         )
 
         # Sentiment quality
@@ -552,7 +552,7 @@ class BrandOrchestratorAgent:
         # Calculate overall quality
         quality_factors = {
             "brand_consistency": brand_consistency,
-            "trinity_alignment": trinity_alignment,
+            "triad_alignment": triad_alignment,
             "sentiment_quality": sentiment_quality,
             "voice_consistency": voice_consistency,
             "personality_coherence": personality_coherence,
@@ -561,7 +561,7 @@ class BrandOrchestratorAgent:
         # Weighted overall quality
         weights = {
             "brand_consistency": 0.3,
-            "trinity_alignment": 0.25,
+            "triad_alignment": 0.25,
             "sentiment_quality": 0.2,
             "voice_consistency": 0.15,
             "personality_coherence": 0.1,
@@ -590,7 +590,7 @@ class BrandOrchestratorAgent:
         for area in quality_assessment.get("improvement_areas", []):
             if area == "brand_consistency":
                 recommendations.append("Review content for brand guideline compliance")
-            elif area == "trinity_alignment":
+            elif area == "triad_alignment":
                 recommendations.append("Strengthen Trinity Framework integration (⚛️🧠🛡️)")
             elif area == "sentiment_quality":
                 recommendations.append("Improve sentiment through more positive, engaging language")
@@ -850,7 +850,7 @@ class BrandOrchestratorAgent:
                 "Enhance empathetic communication",
                 "Address user pain points proactively",
             ],
-            "trinity_alignment": [
+            "triad_alignment": [
                 "Strengthen Trinity Framework integration",
                 "Increase Trinity symbol usage",
                 "Align content with Identity-Consciousness-Guardian themes",

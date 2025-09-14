@@ -126,7 +126,7 @@ class TrinityFrameworkIntegrator:
 
         logger.info("🔺 Trinity Framework Integrator initialized")
 
-    async def initialize_trinity_frameworks(self) -> bool:
+    async def initialize_triad_frameworks(self) -> bool:
         """
         Initialize all Trinity Framework components with proper integration.
 
@@ -200,7 +200,7 @@ class TrinityFrameworkIntegrator:
 
         for comp in identity_components:
             if self.registry:
-                self.registry.register_component(trinity_framework="⚛️", **comp)
+                self.registry.register_component(triad_framework="⚛️", **comp)
 
         logger.info(f"📝 Registered {len(identity_components)} Identity Framework components")
 
@@ -247,7 +247,7 @@ class TrinityFrameworkIntegrator:
 
         for comp in consciousness_components:
             if self.registry:
-                self.registry.register_component(trinity_framework="🧠", **comp)
+                self.registry.register_component(triad_framework="🧠", **comp)
 
         logger.info(f"📝 Registered {len(consciousness_components)} Consciousness Framework components")
 
@@ -285,7 +285,7 @@ class TrinityFrameworkIntegrator:
 
         for comp in guardian_components:
             if self.registry:
-                self.registry.register_component(trinity_framework="🛡️", **comp)
+                self.registry.register_component(triad_framework="🛡️", **comp)
 
         logger.info(f"📝 Registered {len(guardian_components)} Guardian Framework components")
 
@@ -303,7 +303,7 @@ class TrinityFrameworkIntegrator:
         self.registry.set_feature_flag("identity_tier_aware_enabled", True)
 
         # Activate identity components
-        results = await self.registry.activate_trinity_framework("⚛️")
+        results = await self.registry.activate_triad_framework("⚛️")
 
         success_count = sum(1 for success in results.values() if success)
         total_count = len(results)
@@ -326,7 +326,7 @@ class TrinityFrameworkIntegrator:
         self.registry.set_feature_flag("consciousness_reasoning_enabled", True)
 
         # Activate consciousness components
-        results = await self.registry.activate_trinity_framework("🧠")
+        results = await self.registry.activate_triad_framework("🧠")
 
         success_count = sum(1 for success in results.values() if success)
         total_count = len(results)
@@ -348,7 +348,7 @@ class TrinityFrameworkIntegrator:
         self.registry.set_feature_flag("guardian_workspace_enabled", True)
 
         # Activate guardian components
-        results = await self.registry.activate_trinity_framework("🛡️")
+        results = await self.registry.activate_triad_framework("🛡️")
 
         success_count = sum(1 for success in results.values() if success)
         total_count = len(results)
@@ -577,11 +577,11 @@ class TrinityFrameworkIntegrator:
             try:
                 # Check framework component health
                 if self.registry:
-                    trinity_status = self.registry.get_trinity_status()
+                    triad_status = self.registry.get_triad_status()
 
-                    self.state.identity_active = trinity_status["⚛️"]["health"] != "inactive"
-                    self.state.consciousness_active = trinity_status["🧠"]["health"] != "inactive"
-                    self.state.guardian_active = trinity_status["🛡️"]["health"] != "inactive"
+                    self.state.identity_active = triad_status["⚛️"]["health"] != "inactive"
+                    self.state.consciousness_active = triad_status["🧠"]["health"] != "inactive"
+                    self.state.guardian_active = triad_status["🛡️"]["health"] != "inactive"
 
                     # Update integration health
                     active_count = sum(
@@ -640,10 +640,10 @@ class TrinityFrameworkIntegrator:
         # Average the factors
         return sum(factors) / len(factors) if factors else 0.0
 
-    def get_trinity_metrics(self) -> dict[str, Any]:
+    def get_triad_metrics(self) -> dict[str, Any]:
         """Get comprehensive Trinity Framework metrics."""
         return {
-            "trinity_state": {
+            "triad_state": {
                 "identity_active": self.state.identity_active,
                 "consciousness_active": self.state.consciousness_active,
                 "guardian_active": self.state.guardian_active,
@@ -691,7 +691,7 @@ class TrinityFrameworkIntegrator:
 _global_integrator: Optional[TrinityFrameworkIntegrator] = None
 
 
-def get_trinity_integrator(config: Optional[TrinityIntegrationConfig] = None) -> TrinityFrameworkIntegrator:
+def get_triad_integrator(config: Optional[TrinityIntegrationConfig] = None) -> TrinityFrameworkIntegrator:
     """Get the global Trinity Framework integrator instance."""
     global _global_integrator
     if _global_integrator is None:
@@ -699,17 +699,17 @@ def get_trinity_integrator(config: Optional[TrinityIntegrationConfig] = None) ->
     return _global_integrator
 
 
-async def initialize_trinity_consciousness() -> bool:
+async def initialize_triad_consciousness() -> bool:
     """Initialize the complete Trinity Framework consciousness system."""
-    integrator = get_trinity_integrator()
-    return await integrator.initialize_trinity_frameworks()
+    integrator = get_triad_integrator()
+    return await integrator.initialize_triad_frameworks()
 
 
-async def process_trinity_decision(
+async def process_triad_decision(
     session_id: str, decision_context: dict[str, Any], require_identity: bool = True, require_guardian: bool = True
 ) -> dict[str, Any]:
     """Process a decision through the complete Trinity Framework."""
-    integrator = get_trinity_integrator()
+    integrator = get_triad_integrator()
     return await integrator.process_consciousness_decision(
         session_id, decision_context, require_identity, require_guardian
     )

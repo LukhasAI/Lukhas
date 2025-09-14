@@ -12,15 +12,13 @@ import time
 from datetime import datetime, timezone
 
 # Constellation Framework imports
-from lambda_id_core import (
+from .lambda_id_core import (
     LukhasIdentityService,
     WebAuthnPasskeyManager,
     validate_constellation_framework,
 )
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "bridges"))
-
-from identity_core_bridge import get_identity_core_bridge
+from ..bridges.identity_core_bridge import get_identity_core_bridge
 
 
 async def validate_constellation_framework_integration():

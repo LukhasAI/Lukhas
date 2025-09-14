@@ -192,7 +192,7 @@ class SystemDiagnostic:
         self.results["modules"] = results
         return results
 
-    def check_trinity_integration(self) -> dict[str, bool]:
+    def check_triad_integration(self) -> dict[str, bool]:
         """Check Trinity Framework integration."""
         checks = {
             "Identity System": self.results["imports"].get("Identity System", False),
@@ -262,8 +262,8 @@ Passed: {self.passed_checks}
 🔺 Trinity Framework Status
 ═══════════════════════════════════════════════════════════════
 """
-        trinity_ok = all(self.results.get("constellation", {}).values())
-        report += f"  Trinity Integration: {'✅ COMPLETE' if trinity_ok else '⚠️ INCOMPLETE'}\n"
+        triad_ok = all(self.results.get("constellation", {}).values())
+        report += f"  Trinity Integration: {'✅ COMPLETE' if triad_ok else '⚠️ INCOMPLETE'}\n"
         # Individual constellation components
         identity_ok = self.results.get("constellation", {}).get("Identity System", False)
         consciousness_ok = self.results.get("constellation", {}).get("Consciousness System", False)
@@ -341,7 +341,7 @@ Functionality: {functionality_percentage:.1f}%
         self.check_module_health()
 
         print("Checking Trinity integration...")
-        self.check_trinity_integration()
+        self.check_triad_integration()
 
         # Generate and display report
         report = self.generate_report()

@@ -54,7 +54,7 @@ class DreamOrchestrator:
             "user_context": user_context or {},
             "status": "orchestrating",
             "started_at": datetime.now(timezone.utc).isoformat(),
-            "trinity_compliance": True,
+            "triad_compliance": True,
             "components": {"adapter_active": False, "memory_bridge_active": False, "consciousness_link_active": False},
         }
 
@@ -90,7 +90,7 @@ class DreamOrchestrator:
             "session_id": session_id,
             "coordination_status": "complete",
             "active_components": sum(session["components"].values()),
-            "trinity_validated": True,
+            "triad_validated": True,
         }
 
         logger.info(f"🧠 Consciousness integration coordinated for {session_id}")
@@ -115,7 +115,7 @@ class DreamOrchestrator:
             "session_id": session_id,
             "uptime": self._calculate_uptime(session["started_at"]),
             "component_health": session["components"],
-            "trinity_compliance": session.get("trinity_compliance", False),
+            "triad_compliance": session.get("triad_compliance", False),
             "ethical_status": "validated",
             "overall_health": "excellent",
         }
@@ -149,7 +149,7 @@ class DreamOrchestrator:
             "conclusion_status": "successful",
             "total_duration": self._calculate_uptime(session["started_at"]),
             "archived": True,
-            "trinity_validated": True,
+            "triad_validated": True,
         }
 
         logger.info(f"🎭 Dream orchestration concluded: {session_id}")
@@ -167,7 +167,7 @@ class DreamOrchestrator:
             "active_sessions": len(self.active_sessions),
             "total_sessions_processed": len(self.orchestration_history),
             "system_status": "operational",
-            "trinity_framework_active": True,
+            "triad_framework_active": True,
         }
 
 

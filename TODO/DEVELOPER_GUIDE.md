@@ -91,7 +91,7 @@ TODO/
 ### Agent Specialization Mapping
 ```
 consciousness/     → consciousness-architect, memory-consciousness-specialist
-identity/         → identity-auth-specialist, consent-compliance-specialist  
+identity/         → identity-auth-specialist, consent-compliance-specialist
 api/              → api-bridge-specialist, testing-devops-specialist
 quantum/bio/      → quantum-bio-specialist
 docs/branding/    → docs-specialist, consciousness-content-strategist
@@ -108,7 +108,7 @@ cat TODO/CRITICAL/critical_todos.md | head -20
 
 # During development: Add new TODOs with clear priority keywords
 # TODO CRITICAL: Fix authentication security vulnerability
-# TODO HIGH: Implement consciousness state persistence API  
+# TODO HIGH: Implement consciousness state persistence API
 # TODO MED: Refactor memory fold validation logic
 # TODO LOW: Update documentation for bio-quantum integration
 
@@ -183,34 +183,46 @@ git commit -m "feat(consciousness): Add state validation TODO"
 ```bash
 # Agent handoff: Critical to High priority
 # 1. consciousness-architect completes CRITICAL authentication fix
-# 2. identity-auth-specialist picks up HIGH priority session management
+# 2. identity-auth-specialist picks up HIGH priority session management (Atlas/Core)
 # 3. api-bridge-specialist handles HIGH priority endpoint integration
 
 # Parallel development
 # Multiple agents can work on different priority levels simultaneously
 # CRITICAL: Senior agent fixes security issue
-# HIGH: Team implements core features  
+# HIGH: Team implements core features
 # MED: Junior agents handle refactoring
 ```
 
-## 🛡️ Trinity Framework Integration
+## ✨ Constellation Framework Integration (Triad subset)
 
-The TODO system is designed around LUKHAS Trinity Framework principles:
+The TODO system now aligns to **Constellation** as the umbrella architecture. The former **Trinity** model (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian) is preserved as the **Triad subset** within Constellation.
 
-### ⚛️ Identity (Authenticity)
-- Authentic priority classification based on actual impact
-- Clear ownership and responsibility for each TODO level
-- Transparent progress tracking and agent coordination
+### Triad subset (backwards-compat tags)
+- **⚛️ Identity** → authentication, ΛID, consent, audit
+- **🧠 Consciousness** → memory, awareness, reasoning
+- **🛡️ Guardian** → safety, ethics, protection
 
-### 🧠 Consciousness (Awareness)
-- Smart categorization algorithm understands context and keywords
-- System learns from TODO patterns and module distributions
-- Consciousness-aware task assignment to appropriate agents
+### Constellation layers (new)
+- **Atlas** (naming/config): global registries, routing, policy
+- **Mesh** (runtime): colonies, glyph traffic, actor lanes
+- **Orbit** (services): APIs, tools, integrations
+- **Core** (primitives): seeds, glyphs, collapse/repair
 
-### 🛡️ Guardian (Protection)
-- CRITICAL priority ensures production safety and security
-- Backup system protects against data loss during updates
-- Standardized exclusions prevent contamination from dependencies
+### Migration plan: Trinity → Constellation (non-breaking)
+1. **Introduce aliases**: compatibility imports so old `trinity.*` resolve to `constellation.triad.*`.
+2. **Dual-tag TODOs**: keep ⚛️/🧠/🛡️; add `[CONSTELLATION:<layer>]` tags for routing.
+3. **Codemod pass (safe)**: rename comments/internal symbols first; keep public imports via shims.
+4. **Module moves**: relocate any `branding/trinity/` assets to `branding/constellation/triad/` with import shims.
+5. **Remove shims** when CI shows 0 deprecated imports for two consecutive releases.
+
+### Agent mapping
+- **consciousness-architect** → Core/Mesh
+- **identity-auth-specialist** → Core/Atlas
+- **governance-ethics-specialist** → Atlas/Orbit
+- **testing-devops-specialist** → Orbit (CI/CD, shims)
+
+### Practical tagging
+Example TODO tag: `# TODO HIGH [CONSTELLATION:MESH] ⚛️`.
 
 ## 📚 References
 

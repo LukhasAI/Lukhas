@@ -65,7 +65,7 @@ def load_consent_logs(limit: int = 50) -> list[dict[str, Any]]:
                                 "action": "memory_fold",
                                 "email": "system",
                                 "glyphs": ["🧠", "💭"],
-                                "trinity_framework": ["⚛️", "🧠", "🛡️"],
+                                "triad_framework": ["⚛️", "🧠", "🛡️"],
                                 "data": entry,
                             }
                         )
@@ -104,9 +104,9 @@ def enrich_log_entry(entry: dict[str, Any]) -> dict[str, Any]:
     }
 
     # Calculate Trinity alignment
-    trinity_glyphs = entry.get("trinity_framework", [])
-    trinity_score = len(set(trinity_glyphs) & {"⚛️", "🧠", "🛡️"}) / 3.0
-    enriched["trinity_alignment"] = trinity_score
+    triad_glyphs = entry.get("triad_framework", [])
+    triad_score = len(set(triad_glyphs) & {"⚛️", "🧠", "🛡️"}) / 3.0
+    enriched["triad_alignment"] = triad_score
 
     # Add risk indicators
     action = entry.get("action", "")
@@ -143,7 +143,7 @@ async def get_meta_logs(limit: int = 50, user: AuthContext = Depends(require_t3_
 
         # Calculate summary statistics
         total_entries = len(enriched_logs)
-        trinity_aligned = sum(1 for log in enriched_logs if log.get("trinity_alignment", 0) >= 0.7)
+        triad_aligned = sum(1 for log in enriched_logs if log.get("triad_alignment", 0) >= 0.7)
         risk_distribution = {
             "low": sum(1 for log in enriched_logs if log.get("risk_level") == "low"),
             "medium": sum(1 for log in enriched_logs if log.get("risk_level") == "medium"),
@@ -161,8 +161,8 @@ async def get_meta_logs(limit: int = 50, user: AuthContext = Depends(require_t3_
             "logs": enriched_logs,
             "summary": {
                 "total_entries": total_entries,
-                "trinity_aligned": trinity_aligned,
-                "trinity_percentage": ((trinity_aligned / total_entries * 100) if total_entries > 0 else 0),
+                "triad_aligned": triad_aligned,
+                "triad_percentage": ((triad_aligned / total_entries * 100) if total_entries > 0 else 0),
                 "risk_distribution": risk_distribution,
                 "unique_glyphs": list(all_glyphs),
                 "time_range": {
@@ -173,7 +173,7 @@ async def get_meta_logs(limit: int = 50, user: AuthContext = Depends(require_t3_
             "viewer_context": {
                 "tier": user.tier,
                 "glyphs": user.glyphs,
-                "trinity_score": user.trinity_score,
+                "triad_score": user.triad_score,
                 "can_see_guardian_logs": user.tier == "T5",
             },
         }
@@ -213,7 +213,7 @@ async def get_guardian_logs(limit: int = 20, user: AuthContext = Depends(get_cur
                                 "drift_score": log_data.get("drift_score", 0),
                                 "intervention": log_data.get("intervention", {}),
                                 "glyphs": ["🛡️", "⚡", "🔍"],
-                                "trinity_framework": ["⚛️", "🧠", "🛡️"],
+                                "triad_framework": ["⚛️", "🧠", "🛡️"],
                                 "severity": log_data.get("severity", "medium"),
                             }
                         )
@@ -273,12 +273,12 @@ async def export_logs(format: str = "json", user: AuthContext = Depends(require_
 
         elif format == "csv":
             # Convert to CSV format
-            csv_lines = ["timestamp,email,action,glyphs,trinity_score,risk_level"]
+            csv_lines = ["timestamp,email,action,glyphs,triad_score,risk_level"]
             for log in enriched_logs:
                 glyphs_str = " ".join(log.get("glyphs", []))
                 csv_lines.append(
                     f"{log.get('timestamp', '')},{log.get('email', '')},{log.get('action', '')},"
-                    f"{glyphs_str},{log.get('trinity_alignment', 0)},{log.get('risk_level', '')}"
+                    f"{glyphs_str},{log.get('triad_alignment', 0)},{log.get('risk_level', '')}"
                 )
 
             return {"format": "csv", "data": "\n".join(csv_lines)}
@@ -290,7 +290,7 @@ async def export_logs(format: str = "json", user: AuthContext = Depends(require_
                 symbolic_logs.append(
                     {
                         "glyphs": " ".join(log.get("glyphs", [])),
-                        "trinity": " ".join(log.get("trinity_framework", [])),
+                        "trinity": " ".join(log.get("triad_framework", [])),
                         "risk": log.get("risk_indicator", "⚪"),
                         "action": log.get("action", ""),
                         "time": (

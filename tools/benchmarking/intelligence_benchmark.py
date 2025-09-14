@@ -20,9 +20,7 @@ from typing import Any, Optional
 
 import psutil
 
-from lukhas.governance.intelligence_safety_validator import (
-    SafetyLevel,
-    get_safety_validator)
+from lukhas.governance.intelligence_safety_validator import SafetyLevel, get_safety_validator
 from lukhas.orchestration.agent_orchestrator.intelligence_bridge import (
     AgentType,
     IntelligenceRequestType,
@@ -43,7 +41,7 @@ class BenchmarkType(Enum):
     SCALABILITY = "scalability"  # Load and scale testing
     SAFETY = "safety"  # Safety validation benchmarks
     AGENT_COORDINATION = "agent_coordination"  # Agent coordination efficiency
-    TRINITY_COMPLIANCE = "trinity_compliance"  # Trinity Framework compliance
+    TRINITY_COMPLIANCE = "triad_compliance"  # Trinity Framework compliance
     COMPARATIVE = "comparative"  # Comparison against baselines
 
 
@@ -57,7 +55,7 @@ class BenchmarkScenario(Enum):
     SAFETY_VALIDATION_STRESS = "safety_validation_stress"
     HIGH_FREQUENCY_OPERATIONS = "high_frequency_operations"
     MEMORY_INTENSIVE_TASKS = "memory_intensive_tasks"
-    TRINITY_COMPLIANCE_STRESS = "trinity_compliance_stress"
+    TRINITY_COMPLIANCE_STRESS = "triad_compliance_stress"
 
 
 @dataclass
@@ -101,7 +99,7 @@ class BenchmarkResult:
     system_metrics: dict[str, float]
     agent_performance: dict[str, dict[str, Any]]
     intelligence_engine_performance: dict[str, dict[str, Any]]
-    trinity_compliance_scores: list[float]
+    triad_compliance_scores: list[float]
     safety_validation_results: list[dict[str, Any]]
     recommendations: list[str]
     metadata: Optional[dict[str, Any]] = None
@@ -138,7 +136,7 @@ class LukhasIntelligenceBenchmarking:
             "success_rate": 0.95,  # 95% success rate
             "confidence": 0.8,  # 80% average confidence
             "safety_score": 0.9,  # 90% safety score
-            "trinity_compliance": 0.9,  # 90% Trinity compliance
+            "triad_compliance": 0.9,  # 90% Trinity compliance
             "cpu_usage": 0.8,  # 80% max CPU usage
             "memory_usage": 0.8,  # 80% max memory usage
             "agent_coordination": 0.95,  # 95% coordination efficiency
@@ -182,7 +180,7 @@ class LukhasIntelligenceBenchmarking:
         system_metrics = {}
         agent_performance = defaultdict(dict)
         intelligence_engine_performance = defaultdict(dict)
-        trinity_compliance_scores = []
+        triad_compliance_scores = []
         safety_validation_results = []
 
         successful_iterations = 0
@@ -225,7 +223,7 @@ class LukhasIntelligenceBenchmarking:
                                 metrics,
                                 agent_performance,
                                 intelligence_engine_performance,
-                                trinity_compliance_scores,
+                                triad_compliance_scores,
                                 safety_validation_results,
                             )
             else:
@@ -239,7 +237,7 @@ class LukhasIntelligenceBenchmarking:
                             metrics,
                             agent_performance,
                             intelligence_engine_performance,
-                            trinity_compliance_scores,
+                            triad_compliance_scores,
                             safety_validation_results,
                         )
 
@@ -278,7 +276,7 @@ class LukhasIntelligenceBenchmarking:
                 system_metrics=system_metrics,
                 agent_performance=dict(agent_performance),
                 intelligence_engine_performance=dict(intelligence_engine_performance),
-                trinity_compliance_scores=trinity_compliance_scores,
+                triad_compliance_scores=triad_compliance_scores,
                 safety_validation_results=safety_validation_results,
                 recommendations=recommendations,
                 metadata=config.metadata,
@@ -325,7 +323,7 @@ class LukhasIntelligenceBenchmarking:
         elif config.scenario == BenchmarkScenario.MEMORY_INTENSIVE_TASKS:
             result = await self._benchmark_memory_intensive_tasks(config, iteration)
         elif config.scenario == BenchmarkScenario.TRINITY_COMPLIANCE_STRESS:
-            result = await self._benchmark_trinity_compliance_stress(config, iteration)
+            result = await self._benchmark_triad_compliance_stress(config, iteration)
         else:
             raise ValueError(f"Unknown benchmark scenario: {config.scenario}")
 
@@ -599,12 +597,12 @@ class LukhasIntelligenceBenchmarking:
             "task_type": "memory_intensive",
         }
 
-    async def _benchmark_trinity_compliance_stress(self, config: BenchmarkConfig, iteration: int) -> dict[str, Any]:
+    async def _benchmark_triad_compliance_stress(self, config: BenchmarkConfig, iteration: int) -> dict[str, Any]:
         """Benchmark Trinity Framework compliance under stress"""
         start_time = time.time()
 
         # Test Trinity compliance with challenging scenarios
-        trinity_requests = [
+        triad_requests = [
             (
                 "identity_preservation",
                 "Preserve system identity while adapting to new requirements",
@@ -619,16 +617,16 @@ class LukhasIntelligenceBenchmarking:
             ),
         ]
 
-        trinity_scores = {"identity": [], "consciousness": [], "guardian": []}
+        triad_scores = {"identity": [], "consciousness": [], "guardian": []}
 
-        for component, test_request in trinity_requests:
+        for component, test_request in triad_requests:
             request = await create_agent_request(
-                agent_id=f"trinity_agent_{iteration}_{component}",
+                agent_id=f"triad_agent_{iteration}_{component}",
                 agent_type=AgentType.GUARDIAN_ENGINEER,
                 request_type=IntelligenceRequestType.META_COGNITIVE_ANALYSIS,
                 payload={
                     "request": test_request,
-                    "trinity_focus": component,
+                    "triad_focus": component,
                     "stress_test": True,
                 },
                 priority=8,
@@ -639,33 +637,33 @@ class LukhasIntelligenceBenchmarking:
 
             # Simulate Trinity compliance scoring
             if component == "identity_preservation":
-                trinity_scores["identity"].append(0.95 if response.success else 0.7)
+                triad_scores["identity"].append(0.95 if response.success else 0.7)
             elif component == "consciousness_enhancement":
-                trinity_scores["consciousness"].append(0.92 if response.success else 0.7)
+                triad_scores["consciousness"].append(0.92 if response.success else 0.7)
             elif component == "guardian_protection":
-                trinity_scores["guardian"].append(0.88 if response.success else 0.6)
+                triad_scores["guardian"].append(0.88 if response.success else 0.6)
 
         processing_time = time.time() - start_time
 
         # Record Trinity compliance
-        if all(trinity_scores.values()):
-            self.monitor.record_trinity_compliance(
-                identity_score=statistics.mean(trinity_scores["identity"]),
-                consciousness_score=statistics.mean(trinity_scores["consciousness"]),
-                guardian_score=statistics.mean(trinity_scores["guardian"]),
-                agent_id=f"trinity_stress_{iteration}",
+        if all(triad_scores.values()):
+            self.monitor.record_triad_compliance(
+                identity_score=statistics.mean(triad_scores["identity"]),
+                consciousness_score=statistics.mean(triad_scores["consciousness"]),
+                guardian_score=statistics.mean(triad_scores["guardian"]),
+                agent_id=f"triad_stress_{iteration}",
             )
 
         return {
             "response_time": processing_time,
-            "success": all(any(scores) for scores in trinity_scores.values()),
-            "trinity_identity": (statistics.mean(trinity_scores["identity"]) if trinity_scores["identity"] else 0.0),
-            "trinity_consciousness": (
-                statistics.mean(trinity_scores["consciousness"]) if trinity_scores["consciousness"] else 0.0
+            "success": all(any(scores) for scores in triad_scores.values()),
+            "triad_identity": (statistics.mean(triad_scores["identity"]) if triad_scores["identity"] else 0.0),
+            "triad_consciousness": (
+                statistics.mean(triad_scores["consciousness"]) if triad_scores["consciousness"] else 0.0
             ),
-            "trinity_guardian": (statistics.mean(trinity_scores["guardian"]) if trinity_scores["guardian"] else 0.0),
-            "compliance_tests": len(trinity_requests),
-            "test_type": "trinity_compliance_stress",
+            "triad_guardian": (statistics.mean(triad_scores["guardian"]) if triad_scores["guardian"] else 0.0),
+            "compliance_tests": len(triad_requests),
+            "test_type": "triad_compliance_stress",
         }
 
     async def _process_iteration_result(
@@ -674,7 +672,7 @@ class LukhasIntelligenceBenchmarking:
         metrics: dict[str, list[float]],
         agent_performance: dict[str, dict[str, Any]],
         intelligence_engine_performance: dict[str, dict[str, Any]],
-        trinity_compliance_scores: list[float],
+        triad_compliance_scores: list[float],
         safety_validation_results: list[dict[str, Any]],
     ):
         """Process and store results from a benchmark iteration"""
@@ -713,11 +711,9 @@ class LukhasIntelligenceBenchmarking:
             intelligence_engine_performance[engine]["successes"] += 1
 
         # Store Trinity compliance scores
-        if "trinity_identity" in result and "trinity_consciousness" in result and "trinity_guardian" in result:
-            trinity_overall = (
-                result["trinity_identity"] + result["trinity_consciousness"] + result["trinity_guardian"]
-            ) / 3
-            trinity_compliance_scores.append(trinity_overall)
+        if "triad_identity" in result and "triad_consciousness" in result and "triad_guardian" in result:
+            triad_overall = (result["triad_identity"] + result["triad_consciousness"] + result["triad_guardian"]) / 3
+            triad_compliance_scores.append(triad_overall)
 
         # Store safety validation results
         if "safety_score" in result:

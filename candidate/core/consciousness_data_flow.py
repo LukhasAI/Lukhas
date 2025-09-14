@@ -83,7 +83,7 @@ class FlowMetrics:
     cascade_prevention_rate: float = 0.997  # 99.7% target
     network_coherence: float = 0.0
     bio_adaptation_efficiency: float = 0.0
-    trinity_compliance_rate: float = 0.0
+    triad_compliance_rate: float = 0.0
 
 
 class ConsciousnessDataFlowManager:
@@ -325,7 +325,6 @@ class ConsciousnessDataFlowManager:
         # Apply bio-adaptation to target module if supported
         connection = self.active_connections[target_module]
         if "bio:adapt" in connection["capabilities"]:
-
             # Create adaptation message
             {
                 "type": "bio_adaptation",
@@ -365,7 +364,6 @@ class ConsciousnessDataFlowManager:
 
         # Identify nodes that need synchronization
         for consciousness_id, node_data in consciousness_nodes.items():
-
             # Check if synchronization is needed
             last_sync = node_data.get("last_sync", datetime.min.replace(tzinfo=timezone.utc))
             sync_threshold = datetime.now(timezone.utc).timestamp() - last_sync.timestamp()
@@ -386,7 +384,7 @@ class ConsciousnessDataFlowManager:
                 "sync_type": "state_synchronization",
                 "node_data": {
                     "signal_count": node_data.get("signal_count", 0),
-                    "trinity_status": node_data.get("trinity_status", "unknown"),
+                    "triad_status": node_data.get("triad_status", "unknown"),
                 },
             },
             reflection_depth=1,
@@ -394,7 +392,7 @@ class ConsciousnessDataFlowManager:
                 "sync_operation": "network_synchronization",
                 "sync_timestamp": datetime.now(timezone.utc).isoformat(),
             },
-            trinity_compliance={"framework_compliance": {"validation_passed": True}},
+            triad_compliance={"framework_compliance": {"validation_passed": True}},
         )
 
         # Route to all connected modules that support synchronization
@@ -460,7 +458,7 @@ class ConsciousnessDataFlowManager:
             "node_count": len(nodes),
             "connection_count": len(connections),
             "total_consciousness_nodes": adapter_metrics.get("total_consciousness_nodes", 0),
-            "trinity_compliance_rate": adapter_metrics.get("trinity_compliance_rate", 0.0),
+            "triad_compliance_rate": adapter_metrics.get("triad_compliance_rate", 0.0),
             "signal_queue_size": self.signal_queue.qsize(),
             "active_bio_patterns": adapter_metrics.get("active_bio_patterns", 0),
         }
@@ -488,10 +486,10 @@ class ConsciousnessDataFlowManager:
             recommendations.append("increase_processing_capacity")
 
         # Check Trinity compliance
-        trinity_rate = topology.metrics.get("trinity_compliance_rate", 0.0)
-        if trinity_rate < 0.8:
+        triad_rate = topology.metrics.get("triad_compliance_rate", 0.0)
+        if triad_rate < 0.8:
             health_score *= 0.8
-            issues.append("low_trinity_compliance")
+            issues.append("low_triad_compliance")
             recommendations.append("review_ethical_alignment")
 
         # Check cascade prevention effectiveness
@@ -583,7 +581,7 @@ class ConsciousnessDataFlowManager:
             risk_factors.append(density_risk)
 
         # Check Trinity compliance issues
-        compliance_rate = adapter_metrics.get("trinity_compliance_rate", 1.0)
+        compliance_rate = adapter_metrics.get("triad_compliance_rate", 1.0)
         compliance_risk = 1.0 - compliance_rate
         risk_factors.append(compliance_risk)
 
@@ -656,7 +654,7 @@ class ConsciousnessDataFlowManager:
 
                 # Update network metrics from adapter
                 adapter_metrics = self.adapter.get_consciousness_network_metrics()
-                self.metrics.trinity_compliance_rate = adapter_metrics.get("trinity_compliance_rate", 0.0)
+                self.metrics.triad_compliance_rate = adapter_metrics.get("triad_compliance_rate", 0.0)
 
                 # Calculate bio-adaptation efficiency
                 bio_patterns = adapter_metrics.get("active_bio_patterns", 0)
@@ -696,7 +694,7 @@ class ConsciousnessDataFlowManager:
                 "cascade_prevention_rate": self.metrics.cascade_prevention_rate,
                 "network_coherence": self.metrics.network_coherence,
                 "bio_adaptation_efficiency": self.metrics.bio_adaptation_efficiency,
-                "trinity_compliance_rate": self.metrics.trinity_compliance_rate,
+                "triad_compliance_rate": self.metrics.triad_compliance_rate,
             },
             "connected_modules": len(self.active_connections),
             "signal_queue_size": self.signal_queue.qsize(),
@@ -770,10 +768,9 @@ class ConsciousnessDataFlowManager:
             return False
 
         # Trinity Framework validation
-        trinity_compliance = signal.trinity_compliance
+        triad_compliance = signal.triad_compliance
         return not (
-            not trinity_compliance
-            or not trinity_compliance.get("framework_compliance", {}).get("validation_passed", False)
+            not triad_compliance or not triad_compliance.get("framework_compliance", {}).get("validation_passed", False)
         )
 
     async def _determine_routing_targets(

@@ -38,7 +38,7 @@ class MutationType(Enum):
     CONDITIONAL_BOUNDARY = "conditional_boundary"  # if x > 0 → if x >= 0
     RETURN_VALUE = "return_value"  # return True → return False
     FUNCTION_CALL = "function_call"  # len(x) → len(x) + 1
-    TRINITY_FRAMEWORK = "trinity_framework"  # ⚛️🧠🛡️ component mutations
+    TRINITY_FRAMEWORK = "triad_framework"  # ⚛️🧠🛡️ component mutations
 
 
 @dataclass
@@ -364,7 +364,7 @@ class MutationTester:
             "test_ethical_alignment_threshold",
             "test_cascade_prevention_rate",
             "test_constitutional_constraints",
-            "test_trinity_framework_integration",
+            "test_triad_framework_integration",
         ]
 
         # Randomly simulate some tests failing (in reality, this would be actual test execution)
@@ -408,7 +408,7 @@ class ConsciousnessFunctionSamples:
         return cascade_prevention_rate >= 0.997
 
     @staticmethod
-    def integrate_trinity_framework(identity_score: float, consciousness_score: float, guardian_score: float) -> bool:
+    def integrate_triad_framework(identity_score: float, consciousness_score: float, guardian_score: float) -> bool:
         """Integrate ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian components"""
         # All Trinity components must be above baseline
         return bool(identity_score >= 0.9 and consciousness_score >= 0.95 and guardian_score >= 0.98)
@@ -457,7 +457,7 @@ class TestMutationTestingFramework:
             consciousness_samples.check_temporal_coherence,
             consciousness_samples.validate_ethical_alignment,
             consciousness_samples.prevent_memory_cascade,
-            consciousness_samples.integrate_trinity_framework,
+            consciousness_samples.integrate_triad_framework,
         ]
 
         all_mutation_types = set()
@@ -517,9 +517,9 @@ class TestMutationTestingFramework:
         if results["total_mutations"] > 0:
             assert results["mutation_score"] >= 0, "Should have non-negative mutation score"
 
-    def test_trinity_framework_mutation_testing(self, mutation_tester, consciousness_samples):
+    def test_triad_framework_mutation_testing(self, mutation_tester, consciousness_samples):
         """Test mutation testing on Trinity Framework integration"""
-        results = mutation_tester.run_mutation_testing(consciousness_samples.integrate_trinity_framework)
+        results = mutation_tester.run_mutation_testing(consciousness_samples.integrate_triad_framework)
 
         assert "error" not in results, f"Mutation testing failed: {results.get('error')}"
 
@@ -565,7 +565,7 @@ class TestMutationTestingFramework:
             consciousness_samples.check_temporal_coherence,
             consciousness_samples.validate_ethical_alignment,
             consciousness_samples.prevent_memory_cascade,
-            consciousness_samples.integrate_trinity_framework,
+            consciousness_samples.integrate_triad_framework,
         ]
 
         total_mutations = 0

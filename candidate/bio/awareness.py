@@ -9,7 +9,7 @@ from datetime import datetime, timezone
 from typing import Any
 
 __module__ = "bio.awareness"
-__trinity__ = "⚛️🧠🛡️"
+__triad__ = "⚛️🧠🛡️"
 
 
 @dataclass

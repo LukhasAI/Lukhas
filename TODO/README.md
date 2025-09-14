@@ -7,7 +7,7 @@
 ```
 TODO/
 ├── CRITICAL/     # Security, consciousness safety, blocking issues
-├── HIGH/         # Core functionality, Trinity Framework, agent coordination  
+├── HIGH/         # Core functionality, Trinity Framework, agent coordination
 ├── MED/          # Feature enhancements, optimization, documentation
 ├── LOW/          # Cleanup, refactoring, nice-to-have features
 └── README.md     # This file
@@ -75,9 +75,9 @@ This TODO system is maintained through:
 - Identify bottlenecks in consciousness development
 - Coordinate agent assignments based on priorities
 
-## 🧠 Trinity Framework Integration
+## ✨ Constellation Integration (Triad subset)
 
-This TODO system supports the Trinity Framework principles:
+This TODO system supports Constellation with the Trinity Triad principles:
 
 - **⚛️ Identity**: TODOs related to consciousness identity and authentication
 - **🧠 Consciousness**: TODOs for awareness, memory, and cognitive processing
@@ -122,6 +122,6 @@ clean_grep "TODO" --include="*.py" -n -A2 -B2
 
 ---
 
-**Last Generated**: September 12, 2025  
-**System**: LUKHAS AI Consciousness Development Platform  
-**Framework**: Trinity Framework (⚛️🧠🛡️)
+**Last Generated**: September 12, 2025
+**System**: LUKHAS AI Consciousness Development Platform
+**Framework**: Constellation (Triad subset: ⚛️🧠🛡️)

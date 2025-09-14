@@ -97,10 +97,10 @@ class ConsciousnessState:
         if not self.identity_signature:
             self.identity_signature = f"{self.TYPE.value}-{self.consciousness_id[:8]}"
 
-        self._validate_trinity_compliance()
+        self._validate_triad_compliance()
         self._initialize_reflections()
 
-    def _validate_trinity_compliance(self) -> None:
+    def _validate_triad_compliance(self) -> None:
         """Validate Trinity Framework (⚛️🧠🛡️) compliance"""
         # Identity validation
         if not self.identity_signature or len(self.identity_signature) < 8:
@@ -247,7 +247,7 @@ class MatrizConsciousnessStateManager:
 
         # Update evolution metadata
         consciousness.last_evolution = datetime.now(timezone.utc)
-        consciousness._validate_trinity_compliance()
+        consciousness._validate_triad_compliance()
 
         # Perform self-reflection
         await self._perform_reflection(consciousness, trigger, context)

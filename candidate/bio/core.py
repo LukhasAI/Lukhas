@@ -10,7 +10,7 @@ from .oscillator import get_orchestrator
 from .symbolic import get_symbolic_processor
 
 __module__ = "bio.core"
-__trinity__ = "⚛️🧠🛡️"
+__triad__ = "⚛️🧠🛡️"
 
 
 class BioEngine:

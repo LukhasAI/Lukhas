@@ -81,7 +81,7 @@ class PerformanceAlert:
     current_value: float
     threshold: float
     recommendation: str
-    trinity_component: Optional[str] = None
+    triad_component: Optional[str] = None
     consciousness_impact: Optional[str] = None
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -118,7 +118,7 @@ class EnterprisePerformanceMonitor:
         monitoring_interval: float = 1.0,
         metrics_retention_hours: int = 168,  # 7 days
         enable_predictive_scaling: bool = True,
-        enable_trinity_monitoring: bool = True,
+        enable_triad_monitoring: bool = True,
         enable_consciousness_monitoring: bool = True,
     ):
         """Initialize enterprise performance monitor"""
@@ -129,7 +129,7 @@ class EnterprisePerformanceMonitor:
         self.monitoring_interval = monitoring_interval
         self.metrics_retention_hours = metrics_retention_hours
         self.enable_predictive_scaling = enable_predictive_scaling
-        self.enable_trinity_monitoring = enable_trinity_monitoring
+        self.enable_triad_monitoring = enable_triad_monitoring
         self.enable_consciousness_monitoring = enable_consciousness_monitoring
 
         # Metrics storage (in production, use time-series DB)
@@ -217,8 +217,8 @@ class EnterprisePerformanceMonitor:
             ]
 
             # Add Trinity Framework monitoring if enabled
-            if self.enable_trinity_monitoring:
-                tasks.append(self._trinity_performance_monitor())
+            if self.enable_triad_monitoring:
+                tasks.append(self._triad_performance_monitor())
 
             # Add consciousness monitoring if enabled
             if self.enable_consciousness_monitoring:
@@ -239,7 +239,7 @@ class EnterprisePerformanceMonitor:
                 "monitoring_tasks": len(self.monitoring_tasks),
                 "thresholds": self.performance_thresholds,
                 "features": {
-                    "trinity_monitoring": self.enable_trinity_monitoring,
+                    "triad_monitoring": self.enable_triad_monitoring,
                     "consciousness_monitoring": self.enable_consciousness_monitoring,
                     "predictive_scaling": self.enable_predictive_scaling,
                     "regression_detection": self.regression_detection_enabled,
@@ -557,7 +557,7 @@ class EnterprisePerformanceMonitor:
                 self.logger.error(f"❌ API performance monitoring error: {e}")
                 await asyncio.sleep(self.monitoring_interval)
 
-    async def _trinity_performance_monitor(self):
+    async def _triad_performance_monitor(self):
         """Trinity Framework performance monitoring"""
         while self.monitoring_active:
             try:
@@ -600,7 +600,7 @@ class EnterprisePerformanceMonitor:
                 )
 
                 # Check Trinity thresholds
-                await self._check_trinity_thresholds(
+                await self._check_triad_thresholds(
                     identity_performance, consciousness_performance, guardian_performance
                 )
 
@@ -795,7 +795,7 @@ class EnterprisePerformanceMonitor:
         except Exception as e:
             self.logger.error(f"❌ API threshold check error: {e}")
 
-    async def _check_trinity_thresholds(self, identity_perf: float, consciousness_perf: float, guardian_perf: float):
+    async def _check_triad_thresholds(self, identity_perf: float, consciousness_perf: float, guardian_perf: float):
         """Check Trinity Framework performance thresholds"""
         try:
             thresholds = self.performance_thresholds[MetricType.TRINITY]
@@ -809,7 +809,7 @@ class EnterprisePerformanceMonitor:
                     identity_perf,
                     thresholds["identity_min"],
                     "Check identity processing systems, symbolic computations, and persona adaptation mechanisms",
-                    trinity_component="⚛️ Identity",
+                    triad_component="⚛️ Identity",
                 )
 
             if consciousness_perf < thresholds["consciousness_min"]:
@@ -821,7 +821,7 @@ class EnterprisePerformanceMonitor:
                     consciousness_perf,
                     thresholds["consciousness_min"],
                     "Investigate memory fold processing, awareness algorithms, and neural pathway efficiency",
-                    trinity_component="🧠 Consciousness",
+                    triad_component="🧠 Consciousness",
                 )
 
             if guardian_perf < thresholds["guardian_min"]:
@@ -833,7 +833,7 @@ class EnterprisePerformanceMonitor:
                     guardian_perf,
                     thresholds["guardian_min"],
                     "Critical - Guardian system performance affects safety. Check ethical oversight and safety mechanisms",
-                    trinity_component="🛡️ Guardian",
+                    triad_component="🛡️ Guardian",
                 )
 
         except Exception as e:
@@ -889,7 +889,7 @@ class EnterprisePerformanceMonitor:
         current_value: float,
         threshold: float,
         recommendation: str,
-        trinity_component: Optional[str] = None,
+        triad_component: Optional[str] = None,
         consciousness_impact: Optional[str] = None,
     ):
         """Trigger a performance alert"""
@@ -903,7 +903,7 @@ class EnterprisePerformanceMonitor:
                 current_value=current_value,
                 threshold=threshold,
                 recommendation=recommendation,
-                trinity_component=trinity_component,
+                triad_component=triad_component,
                 consciousness_impact=consciousness_impact,
             )
 
@@ -1076,15 +1076,15 @@ class EnterprisePerformanceMonitor:
 
             # Trinity Framework Score (5%)
             if self.metrics[MetricType.TRINITY]:
-                trinity_metrics = list(self.metrics[MetricType.TRINITY])[-6:]  # Last 6 values (2 per component)
-                if trinity_metrics:
-                    trinity_scores = [m.value for m in trinity_metrics]
-                    trinity_score = np.mean(trinity_scores)
-                    score_components["trinity_framework"] = trinity_score
+                triad_metrics = list(self.metrics[MetricType.TRINITY])[-6:]  # Last 6 values (2 per component)
+                if triad_metrics:
+                    triad_scores = [m.value for m in triad_metrics]
+                    triad_score = np.mean(triad_scores)
+                    score_components["triad_framework"] = triad_score
                 else:
-                    score_components["trinity_framework"] = 0.85  # Assume good baseline
+                    score_components["triad_framework"] = 0.85  # Assume good baseline
             else:
-                score_components["trinity_framework"] = 0.85
+                score_components["triad_framework"] = 0.85
 
             # Calculate weighted overall score
             weights = {
@@ -1092,7 +1092,7 @@ class EnterprisePerformanceMonitor:
                 "throughput": 0.25,
                 "reliability": 0.20,
                 "resource_efficiency": 0.10,
-                "trinity_framework": 0.05,
+                "triad_framework": 0.05,
             }
 
             overall_score = sum(score_components[component] * weights[component] for component in score_components)

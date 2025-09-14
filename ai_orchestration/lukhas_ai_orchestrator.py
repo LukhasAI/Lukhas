@@ -52,7 +52,7 @@ class LUKHASAIOrchestrator:
                     "architecture",
                     "documentation",
                     "reasoning",
-                    "trinity_framework",
+                    "triad_framework",
                 ],
                 api_key=os.getenv("ANTHROPIC_API_KEY"),
                 model="claude-3-5-sonnet-20241022",
@@ -92,7 +92,7 @@ class LUKHASAIOrchestrator:
     async def route_request(self, task_type: str, content: str, context: Optional[dict[str, Any]] = None) -> str:
         """🧠 Route requests to optimal AI provider based on task type"""
         routing_map = {
-            "trinity_documentation": "claude",
+            "triad_documentation": "claude",
             "architecture_design": "claude",
             "code_review": "claude",
             "security_analysis": "claude",
@@ -194,7 +194,7 @@ class LUKHASAIOrchestrator:
                 else:
                     raise Exception(f"Ollama request failed: {resp.status}")
 
-    async def trinity_documentation_generation(
+    async def triad_documentation_generation(
         self, element_signature: str, element_type: str = "function"
     ) -> dict[str, str]:
         """🎭 Generate Trinity Framework documentation using best available AI"""
@@ -212,10 +212,10 @@ class LUKHASAIOrchestrator:
         Include symbolic markers where appropriate: ⚛️ 🧠 🛡️
         """
 
-        response = await self.route_request("trinity_documentation", prompt)
-        return self._parse_trinity_response(response)
+        response = await self.route_request("triad_documentation", prompt)
+        return self._parse_triad_response(response)
 
-    def _parse_trinity_response(self, response: str) -> dict[str, str]:
+    def _parse_triad_response(self, response: str) -> dict[str, str]:
         """Parse Trinity Framework response into structured format"""
         layers = {"poetic": "", "human": "", "technical": ""}
 
@@ -270,7 +270,7 @@ class LUKHASAIOrchestrator:
 
         Use LUKHAS conceptual vocabulary:
         - memory_fold, dream_resonance, qi_consciousness
-        - guardian_protocol, trinity_framework, consciousness_engine
+        - guardian_protocol, triad_framework, consciousness_engine
         - neural_symphony, qi_potential, memory_palace
 
         Provide 5 creative but appropriate suggestions that follow LUKHAS naming patterns.
@@ -312,7 +312,7 @@ async def main():
     try:
         if command == "trinity" and len(sys.argv) > 2:
             signature = sys.argv[2]
-            result = await orchestrator.trinity_documentation_generation(signature)
+            result = await orchestrator.triad_documentation_generation(signature)
             print(json.dumps(result, indent=2))
 
         elif command == "review" and len(sys.argv) > 2:

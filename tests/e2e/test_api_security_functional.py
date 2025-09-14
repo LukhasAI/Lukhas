@@ -107,25 +107,25 @@ class TestAPIBackendSystems(unittest.TestCase):
         except Exception as e:
             self.fail(f"API endpoint test failed: {e}")
 
-    def test_api_trinity_integration(self):
+    def test_api_triad_integration(self):
         """Test API integration with Trinity Framework"""
         try:
             # Mock Trinity Framework API integration
-            trinity_api_structure = {
+            triad_api_structure = {
                 "identity_endpoints": ["/auth", "/identity/validate", "/tier/check"],
                 "consciousness_endpoints": ["/consciousness/state", "/processing/status"],
                 "guardian_endpoints": ["/security/audit", "/compliance/check", "/drift/detect"],
             }
 
             # Validate Trinity API structure
-            trinity_components = ["identity_endpoints", "consciousness_endpoints", "guardian_endpoints"]
-            for component in trinity_components:
-                self.assertIn(component, trinity_api_structure)
-                endpoints = trinity_api_structure[component]
+            triad_components = ["identity_endpoints", "consciousness_endpoints", "guardian_endpoints"]
+            for component in triad_components:
+                self.assertIn(component, triad_api_structure)
+                endpoints = triad_api_structure[component]
                 self.assertIsInstance(endpoints, list)
                 self.assertGreater(len(endpoints), 0)
 
-            total_endpoints = sum(len(endpoints) for endpoints in trinity_api_structure.values())
+            total_endpoints = sum(len(endpoints) for endpoints in triad_api_structure.values())
             print(f"✅ Trinity API integration validated: {total_endpoints} Trinity endpoints")
 
         except Exception as e:
@@ -276,11 +276,11 @@ class TestSecurityGuardianSystems(unittest.TestCase):
         except Exception as e:
             self.fail(f"Security audit test failed: {e}")
 
-    def test_guardian_trinity_protection(self):
+    def test_guardian_triad_protection(self):
         """Test Guardian protection of Trinity Framework"""
         try:
             # Mock Trinity protection system
-            trinity_protection = {
+            triad_protection = {
                 "identity_protection": {"lambda_id_encryption": True, "tier_validation": True, "access_logging": True},
                 "consciousness_protection": {
                     "state_monitoring": True,
@@ -295,10 +295,10 @@ class TestSecurityGuardianSystems(unittest.TestCase):
             }
 
             # Validate Trinity protection
-            trinity_components = ["identity_protection", "consciousness_protection", "guardian_self_protection"]
-            for component in trinity_components:
-                self.assertIn(component, trinity_protection)
-                protection_config = trinity_protection[component]
+            triad_components = ["identity_protection", "consciousness_protection", "guardian_self_protection"]
+            for component in triad_components:
+                self.assertIn(component, triad_protection)
+                protection_config = triad_protection[component]
 
                 # Each component should have multiple protection mechanisms
                 self.assertGreater(len(protection_config), 2)
@@ -410,11 +410,11 @@ class TestInfrastructureIntegration(unittest.TestCase):
         except Exception as e:
             self.fail(f"API-Security integration test failed: {e}")
 
-    def test_trinity_infrastructure_alignment(self):
+    def test_triad_infrastructure_alignment(self):
         """Test Trinity Framework alignment with infrastructure"""
         try:
             # Mock Trinity-Infrastructure alignment
-            trinity_infrastructure = {
+            triad_infrastructure = {
                 "identity_api_integration": {
                     "lambda_id_endpoints": ["/auth", "/identity/validate"],
                     "tier_management_api": ["/tier/check", "/tier/upgrade"],
@@ -433,14 +433,14 @@ class TestInfrastructureIntegration(unittest.TestCase):
             }
 
             # Validate Trinity-Infrastructure alignment
-            trinity_components = [
+            triad_components = [
                 "identity_api_integration",
                 "consciousness_api_integration",
                 "guardian_infrastructure",
             ]
-            for component in trinity_components:
-                self.assertIn(component, trinity_infrastructure)
-                component_config = trinity_infrastructure[component]
+            for component in triad_components:
+                self.assertIn(component, triad_infrastructure)
+                component_config = triad_infrastructure[component]
 
                 # Each component should have API endpoints
                 endpoint_keys = [key for key in component_config if "endpoint" in key or "api" in key]

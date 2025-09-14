@@ -54,7 +54,7 @@ class SelfHealingSystem:
         self.config_path = self.base_path / "automation" / "healing_config.json"
         self.logs_path = self.base_path / "logs"
 
-        self.trinity_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
         self.healing_history = []
 
         self.logger = self._setup_logging()
@@ -270,7 +270,7 @@ class SelfHealingSystem:
             # Check Trinity Framework usage
             if len(content_text) > 200:  # Only check substantial content
                 if "⚛️🧠🛡️" not in content_text and "Trinity Framework" not in content_text:
-                    issues.append("missing_trinity_framework")
+                    issues.append("missing_triad_framework")
 
                 # Check for outdated terminology
                 if "artificial intelligence" in content_text.lower():
@@ -369,7 +369,7 @@ class SelfHealingSystem:
                 readme_file = dir_path / "README.md"
                 readme_content = f"""# {dir_path.name.replace("_", " ").title()}
 
-{self.trinity_branding}
+{self.triad_branding}
 
 ## Overview
 
@@ -403,7 +403,7 @@ Coming soon...
                 test_content = f'''#!/usr/bin/env python3
 """
 Tests for {dir_path.name} module
-{self.trinity_branding}
+{self.triad_branding}
 """
 
 import unittest
