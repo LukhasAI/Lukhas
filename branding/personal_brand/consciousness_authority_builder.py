@@ -13,13 +13,28 @@ Inspired by Bhavik Sarkhedi's "Ohh My Brand" approach:
 from dataclasses import dataclass, field
 
 
-def fix_later(*args, **kwargs):
-    """TODO(symbol-resolver): implement missing functionality
+def create_authority_content_summary(pillar_name: str, theme: str, frequency: str) -> str:
+    """Create summary for authority building content pillars.
 
-    This is a placeholder for functionality that needs to be implemented.
-    Replace this stub with the actual implementation.
+    Args:
+        pillar_name: Name of the content pillar
+        theme: Consciousness theme of the pillar
+        frequency: Posting frequency
+
+    Returns:
+        Summary description of the content pillar for authority building
     """
-    raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+    frequency_map = {
+        "daily": "Daily posts",
+        "twice_weekly": "Twice per week",
+        "weekly": "Weekly posts",
+        "bi_weekly": "Bi-weekly posts",
+        "monthly": "Monthly posts",
+    }
+
+    frequency_desc = frequency_map.get(frequency, frequency.replace("_", " "))
+
+    return f"{pillar_name}: {frequency_desc} focusing on {theme.replace('_', ' ')}"
 
 
 @dataclass
@@ -700,8 +715,9 @@ if __name__ == "__main__":
         print(f"  {name}: +{strategy.expected_engagement_increase}% engagement")
 
     print(f"\n📚 Content Pillars ({len(authority_builder.content_pillars)}):")
-    for name in authority_builder.content_pillars:
-        print(fix_later)
+    for name, pillar in authority_builder.content_pillars.items():
+        summary = create_authority_content_summary(pillar.name, pillar.consciousness_theme, pillar.posting_frequency)
+        print(f"  {summary}")
 
     print("\n🎯 Authority Building Roadmap:")
     roadmap = brand_strategy["authority_building_roadmap"]
@@ -710,8 +726,14 @@ if __name__ == "__main__":
 
     print("\n📊 Target Metrics:")
     targets = authority_builder._create_engagement_targets()
-    for _metric, _target in targets.items():
-        print(fix_later)
+    for metric, target in targets.items():
+        if isinstance(target, float):
+            if target < 1.0:
+                print(f"  {metric.replace('_', ' ').title()}: {target*100:.1f}%")
+            else:
+                print(f"  {metric.replace('_', ' ').title()}: {target}")
+        else:
+            print(f"  {metric.replace('_', ' ').title()}: {target}")
 
     print("\n🏆 Consciousness Technology Authority Builder: COMPLETE")
     print("Ready for 500%+ engagement growth and thought leadership dominance")
