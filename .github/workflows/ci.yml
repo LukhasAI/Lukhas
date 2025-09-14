@@ -5,6 +5,8 @@ on:
     types: [opened, synchronize, reopened]
   push:
     branches: [main]
+  schedule:
+    - cron: "17 2 * * *"  # nightly 02:17 UTC
 
 concurrency:
   group: ci-${{ github.ref }}-${{ github.workflow }}
@@ -222,3 +224,24 @@ jobs:
             .pytest_cache/**
             logs/**
           retention-days: 7
+
+  pip-audit:
+    name: 🔒 pip-audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    # Non-blocking on PRs; block on pushes and scheduled (main)
+    continue-on-error: ${{ github.event_name == 'pull_request' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Install deps for audit
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.lock ]; then pip install -r requirements.lock || true; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; else pip install -e '.[dev]'; fi
+          pip install pip-audit
+      - name: Run pip-audit
+        run: pip-audit

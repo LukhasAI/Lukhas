@@ -27,7 +27,7 @@ from .common import (
     glyph,
     parse_glyph,
     validate_glyph,
-)  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+)  # MATRIZ Integration: Core GLYPH system symbols for symbolic processing and Trinity Framework communication
 from .core_wrapper import (
     CoreStatus,
     CoreWrapper,

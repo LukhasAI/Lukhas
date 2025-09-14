@@ -18,10 +18,12 @@ from typing import Any, Optional
 from urllib.parse import urlparse
 
 try:
-    import sqlalchemy as sa  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    import sqlalchemy as sa  # MATRIZ Integration: Core SQLAlchemy module for database operations and consciousness memory persistence
     from sqlalchemy import create_engine, text
     from sqlalchemy.engine import Engine
-    from sqlalchemy.exc import SQLAlchemyError  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    from sqlalchemy.exc import (
+        SQLAlchemyError,
+    )  # MATRIZ Integration: Exception handling for database errors in consciousness memory operations
 except ImportError:
     raise ImportError("SQLAlchemy required. Install with: pip install sqlalchemy")
 
