@@ -118,3 +118,40 @@ jobs:
           pytest -q -m "integration or e2e" --maxfail=1 --disable-warnings || exit 1
           coverage run --branch -m pytest -q -m "integration or e2e" --disable-warnings || true
           coverage xml -o coverage-extended.xml || true
+
+  optional-full:
+    name: 🔌 Optional Deps (main full)
+    runs-on: ubuntu-latest
+    needs: [critical]
+    if: github.ref == 'refs/heads/main'
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: mcp
+            extras: mcp
+            marker: mcp
+          - name: s3
+            extras: s3
+            marker: cloud
+          - name: dropbox
+            extras: dropbox
+            marker: cloud
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-${{ hashFiles('requirements*.txt', 'pyproject.toml') }}-opt-full-${{ matrix.name }}-v1
+          restore-keys: |
+            pip-${{ runner.os }}-
+      - name: Install with extras
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.lock ]; then pip install -r requirements.lock || true; fi
+          pip install -e '.[dev,${{ matrix.extras }}]'
+      - name: Run optional shard (full)
+        run: |
+          pytest -q -m "integration or e2e or ${{ matrix.marker }}" --maxfail=1 --disable-warnings
