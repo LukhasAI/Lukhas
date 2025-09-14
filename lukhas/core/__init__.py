@@ -4,7 +4,10 @@ Foundational systems for symbolic processing, GLYPH engine, and Trinity Framewor
 Trinity Framework: Identity, Consciousness, Guardian
 """
 
-import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+try:
+    import streamlit as st
+except ImportError:
+    st = None  # Streamlit is an optional dependency for visualization.
 
 # Actor system imports
 from .actor_system import (

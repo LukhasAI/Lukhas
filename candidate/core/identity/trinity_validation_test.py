@@ -12,7 +12,7 @@ import time
 from datetime import datetime, timezone
 
 # Constellation Framework imports
-from lambda_id_core import (
+from .lambda_id_core import (
     LukhasIdentityService,
     WebAuthnPasskeyManager,
     validate_constellation_framework,
