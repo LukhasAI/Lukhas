@@ -63,6 +63,8 @@ jobs:
         PYTHONPATH=. lint-imports
 
     - name: 🎯 Critical Path Tests
+      env:
+        CI_QUALITY_GATES: "1"
       run: |
         # Ultra-fast smoke tests (< 30 seconds)
         TZ=UTC PYTHONHASHSEED=0 pytest -m "smoke and tier1" \
