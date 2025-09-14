@@ -1,5 +1,13 @@
 import logging
-import streamlit as st  # MATRIZ Integration: Consciousness namespace isolation dashboard for Trinity Framework domain separation monitoring and control
+import asyncio
+import hashlib
+import logging as std_logging
+import time
+import uuid
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta, timezone
+from enum import Enum
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 """
@@ -18,22 +26,8 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════
 """
 
-import asyncio
-import hashlib
-import logging as std_logging
-import time
-import uuid
-from dataclasses import dataclass, field
-from datetime import datetime, timedelta, timezone
-from enum import Enum
-from typing import Any, Optional
-
 # Import MΛTRIZ consciousness components
 try:
-    from ..matriz_consciousness_signals import (
-        ConsciousnessSignal,
-        ConstellationStar,
-    )  # MATRIZ Integration: Consciousness signals for namespace isolation events and constellation-based domain management
     from .matriz_consciousness_identity_signals import (
         IdentitySignalType,
         NamespaceIsolationData,
@@ -45,6 +39,36 @@ except ImportError as e:
     NamespaceIsolationData = None
 
 logger = std_logging.getLogger(__name__)
+
+
+@dataclass
+class NamespaceConfig:
+    """Configuration for a new namespace."""
+
+    domain: "ConsciousnessDomain"
+    isolation_level: "IsolationLevel"
+    policy_overrides: Optional[dict[str, Any]] = None
+
+
+@dataclass
+class CrossNSRequest:
+    """Request for cross-namespace communication."""
+
+    identity_id: str
+    source_namespace_id: str
+    target_namespace_id: str
+    operation: str
+    payload: Optional[dict[str, Any]] = None
+
+
+@dataclass
+class ValidationResult:
+    """Result of a cross-namespace communication validation."""
+
+    allowed: bool
+    reason: Optional[str] = None
+    session_token: Optional[str] = None
+    audit_level: Optional[str] = None
 
 
 class ConsciousnessDomain(Enum):
@@ -94,6 +118,7 @@ class NamespacePolicy:
     permission_matrix: dict[str, list[AccessPermissionType]] = field(default_factory=dict)
     cross_domain_permissions: list[str] = field(default_factory=list)
     restricted_operations: list[str] = field(default_factory=list)
+    sensitive_operations: list[str] = field(default_factory=list)
 
     # Consciousness-specific policies
     consciousness_bridge_enabled: bool = False
@@ -185,6 +210,60 @@ class CrossDomainBridge:
     failed_translations: int = 0
 
 
+class ConsciousnessNamespaceIsolator:
+    """
+    Provides a simplified and secure interface for namespace isolation,
+    acting as a facade over the ConsciousnessNamespaceManager.
+    """
+
+    def __init__(self, manager: "ConsciousnessNamespaceManager"):
+        self._manager = manager
+
+    async def create_isolated_namespace(self, config: NamespaceConfig) -> Optional[NamespaceInstance]:
+        """Create an isolated consciousness namespace."""
+        new_namespace_id = await self._manager.create_consciousness_namespace(
+            domain=config.domain,
+            isolation_level=config.isolation_level,
+            policy_overrides=config.policy_overrides,
+        )
+        if new_namespace_id:
+            return self._manager.namespace_instances.get(new_namespace_id)
+        return None
+
+    async def enforce_boundary_isolation(self, source_ns: str, target_ns: str, operation: str) -> bool:
+        """Enforce isolation boundaries between namespaces based on policies, without a specific identity context."""
+        source = self._manager.namespace_instances.get(source_ns)
+        target = self._manager.namespace_instances.get(target_ns)
+        if not source or not target:
+            return False
+
+        source_policy = source.policy
+        if not source_policy:
+            return False
+
+        if target.domain not in source_policy.allowed_interactions:
+            return False
+
+        # This is a simplified check. A more detailed check would consider the operation.
+        # For now, we assume if interaction is allowed, the boundary is passable in principle.
+        return True
+
+    async def validate_cross_namespace_communication(self, request: CrossNSRequest) -> ValidationResult:
+        """Validate and authorize cross-namespace communication for a specific identity."""
+        validation_dict = await self._manager.validate_cross_domain_access(
+            identity_id=request.identity_id,
+            source_namespace_id=request.source_namespace_id,
+            target_namespace_id=request.target_namespace_id,
+            operation=request.operation,
+        )
+        return ValidationResult(
+            allowed=validation_dict.get("allowed", False),
+            reason=validation_dict.get("error"),
+            session_token=validation_dict.get("session_token"),
+            audit_level=validation_dict.get("audit_level"),
+        )
+
+
 class ConsciousnessNamespaceManager:
     """
     MΛTRIZ Consciousness Namespace Manager
@@ -213,6 +292,7 @@ class ConsciousnessNamespaceManager:
             "total_access_events": 0,
             "security_violations": 0,
             "average_coherence": 0.0,
+            "average_validation_latency_ms": 0.0,
         }
 
         # Background tasks
@@ -301,6 +381,42 @@ class ConsciousnessNamespaceManager:
             except Exception as e:
                 logger.error(f"❌ Failed to create consciousness namespace: {e}")
                 return None
+
+    async def destroy_consciousness_namespace(self, namespace_id: str) -> bool:
+        """Destroys a consciousness namespace."""
+        async with self._lock:
+            if namespace_id not in self.namespace_instances:
+                logger.error(f"❌ Namespace not found for destruction: {namespace_id}")
+                return False
+
+            namespace = self.namespace_instances[namespace_id]
+
+            # Emit destruction signal before deleting
+            if consciousness_identity_signal_emitter and NamespaceIsolationData:
+                namespace_data = NamespaceIsolationData(
+                    namespace_id=namespace.namespace_id,
+                    domain_type=namespace.domain.value,
+                    isolation_level=self._isolation_level_to_float(namespace.policy.isolation_level),
+                    consciousness_domain=namespace.domain.value,
+                    domain_coherence=namespace.domain_coherence,
+                )
+                await consciousness_identity_signal_emitter.emit_namespace_isolation_signal(
+                    namespace_id, namespace_data, "namespace_destruction"
+                )
+
+            # Remove from identity mapping
+            identities_to_remove = [
+                identity_id for identity_id, ns_id in self.identity_namespace_mapping.items() if ns_id == namespace_id
+            ]
+            for identity_id in identities_to_remove:
+                del self.identity_namespace_mapping[identity_id]
+
+            # Remove from namespace instances
+            del self.namespace_instances[namespace_id]
+            self.namespace_metrics["total_namespaces"] -= 1
+
+            logger.info(f"🗑️ Destroyed consciousness namespace: {namespace_id}")
+            return True
 
     async def assign_identity_to_namespace(
         self, identity_id: str, namespace_id: str, access_permissions: Optional[list[AccessPermissionType]] = None
@@ -403,9 +519,9 @@ class ConsciousnessNamespaceManager:
         self, identity_id: str, source_namespace_id: str, target_namespace_id: str, operation: str
     ) -> dict[str, Any]:
         """Validate cross-domain access request with consciousness awareness"""
-
-        async with self._lock:
-            try:
+        start_time = time.perf_counter()
+        try:
+            async with self._lock:
                 # Get namespaces
                 source_namespace = self.namespace_instances.get(source_namespace_id)
                 target_namespace = self.namespace_instances.get(target_namespace_id)
@@ -415,21 +531,33 @@ class ConsciousnessNamespaceManager:
 
                 # Check identity assignment
                 if identity_id not in source_namespace.active_identities:
-                    return {"allowed": False, "error": "Identity not assigned to source namespace"}
+                    error_reason = "Identity not assigned to source namespace"
+                    await self._emit_boundary_violation_signal(
+                        identity_id, source_namespace, target_namespace, operation, error_reason
+                    )
+                    return {"allowed": False, "error": error_reason}
 
                 # Get identity session
                 session = source_namespace.active_sessions.get(identity_id)
                 if not session:
-                    return {"allowed": False, "error": "No active session for identity"}
+                    error_reason = "No active session for identity"
+                    await self._emit_boundary_violation_signal(
+                        identity_id, source_namespace, target_namespace, operation, error_reason
+                    )
+                    return {"allowed": False, "error": error_reason}
 
                 # Check domain interaction policies
                 source_policy = source_namespace.policy
                 target_domain = target_namespace.domain
 
                 if target_domain not in source_policy.allowed_interactions:
+                    error_reason = f"Interaction not allowed: {source_namespace.domain.value} -> {target_domain.value}"
+                    await self._emit_boundary_violation_signal(
+                        identity_id, source_namespace, target_namespace, operation, error_reason
+                    )
                     return {
                         "allowed": False,
-                        "error": f"Interaction not allowed: {source_namespace.domain.value} -> {target_domain.value}",
+                        "error": error_reason,
                     }
 
                 # Check operation permissions
@@ -437,7 +565,21 @@ class ConsciousnessNamespaceManager:
                 required_permission = self._get_required_permission(operation)
 
                 if required_permission not in identity_permissions:
-                    return {"allowed": False, "error": f"Insufficient permissions for operation: {operation}"}
+                    error_reason = f"Insufficient permissions for operation: {operation}"
+                    await self._emit_boundary_violation_signal(
+                        identity_id, source_namespace, target_namespace, operation, error_reason
+                    )
+                    return {"allowed": False, "error": error_reason}
+
+                # Check for sensitive operations
+                if operation in target_namespace.policy.sensitive_operations:
+                    # Require higher level of authentication or logging
+                    if source_namespace.policy.isolation_level.value < IsolationLevel.HIGH.value:
+                        error_reason = "High isolation level required for sensitive operations"
+                        await self._emit_boundary_violation_signal(
+                            identity_id, source_namespace, target_namespace, operation, error_reason
+                        )
+                        return {"allowed": False, "error": error_reason}
 
                 # Check consciousness coherence compatibility
                 consciousness_compatible = await self._check_consciousness_compatibility(
@@ -445,9 +587,13 @@ class ConsciousnessNamespaceManager:
                 )
 
                 if not consciousness_compatible["compatible"]:
+                    error_reason = f"Consciousness incompatibility: {consciousness_compatible['reason']}"
+                    await self._emit_boundary_violation_signal(
+                        identity_id, source_namespace, target_namespace, operation, error_reason
+                    )
                     return {
                         "allowed": False,
-                        "error": f"Consciousness incompatibility: {consciousness_compatible['reason']}",
+                        "error": error_reason,
                     }
 
                 # Check security constraints
@@ -456,7 +602,11 @@ class ConsciousnessNamespaceManager:
                 )
 
                 if not security_validation["valid"]:
-                    return {"allowed": False, "error": f"Security validation failed: {security_validation['reason']}"}
+                    error_reason = f"Security validation failed: {security_validation['reason']}"
+                    await self._emit_boundary_violation_signal(
+                        identity_id, source_namespace, target_namespace, operation, error_reason
+                    )
+                    return {"allowed": False, "error": error_reason}
 
                 # Log successful access validation
                 self._log_namespace_audit_event(
@@ -464,6 +614,22 @@ class ConsciousnessNamespaceManager:
                     "cross_domain_access_validated",
                     {"target_namespace": target_namespace_id, "operation": operation, "identity_id": identity_id},
                 )
+
+                # Emit signal for successful access
+                if consciousness_identity_signal_emitter and NamespaceIsolationData:
+                    namespace_data = NamespaceIsolationData(
+                        namespace_id=source_namespace.namespace_id,
+                        domain_type=source_namespace.domain.value,
+                        isolation_level=self._isolation_level_to_float(source_namespace.policy.isolation_level),
+                        consciousness_domain=source_namespace.domain.value,
+                        domain_coherence=source_namespace.domain_coherence,
+                        security_perimeter={"target_namespace": target_namespace.namespace_id, "operation": operation},
+                    )
+                    await consciousness_identity_signal_emitter.emit_namespace_isolation_signal(
+                        identity_id, namespace_data, "cross_domain_access"
+                    )
+
+                self.namespace_metrics["total_access_events"] += 1
 
                 return {
                     "allowed": True,
@@ -475,9 +641,16 @@ class ConsciousnessNamespaceManager:
                     "audit_level": "full" if target_namespace.policy.audit_requirements else "basic",
                 }
 
-            except Exception as e:
-                logger.error(f"❌ Cross-domain access validation failed: {e}")
-                return {"allowed": False, "error": str(e)}
+        except Exception as e:
+            logger.error(f"❌ Cross-domain access validation failed: {e}")
+            return {"allowed": False, "error": str(e)}
+        finally:
+            elapsed_ms = (time.perf_counter() - start_time) * 1000
+            current_avg = self.namespace_metrics["average_validation_latency_ms"]
+            total_events = self.namespace_metrics["total_access_events"] + self.namespace_metrics["security_violations"]
+            if total_events > 0:
+                new_avg = ((current_avg * (total_events - 1)) + elapsed_ms) / total_events
+                self.namespace_metrics["average_validation_latency_ms"] = new_avg
 
     async def monitor_namespace_coherence(self, namespace_id: str) -> dict[str, Any]:
         """Monitor consciousness coherence within a namespace"""
@@ -571,6 +744,7 @@ class ConsciousnessNamespaceManager:
             emergency_override_allowed=True,
             guardian_override_conditions=["security_threat", "system_integrity"],
             cross_domain_permissions=["audit_access", "guardian_enforcement"],
+            sensitive_operations=["read", "write", "execute"],
         )
         self.domain_policies[ConsciousnessDomain.SYSTEM_CONSCIOUSNESS] = system_policy
 
@@ -813,6 +987,39 @@ class ConsciousnessNamespaceManager:
 
         return f"cds_{token_hash[:32]}"
 
+    async def _emit_boundary_violation_signal(
+        self,
+        identity_id: str,
+        source_namespace: NamespaceInstance,
+        target_namespace: NamespaceInstance,
+        operation: str,
+        reason: str,
+    ):
+        if consciousness_identity_signal_emitter and NamespaceIsolationData:
+            namespace_data = NamespaceIsolationData(
+                namespace_id=source_namespace.namespace_id,
+                domain_type=source_namespace.domain.value,
+                isolation_level=self._isolation_level_to_float(source_namespace.policy.isolation_level),
+                consciousness_domain=source_namespace.domain.value,
+                domain_coherence=source_namespace.domain_coherence,
+                security_perimeter={"target_namespace": target_namespace.namespace_id, "operation": operation},
+            )
+            await consciousness_identity_signal_emitter.emit_namespace_isolation_signal(
+                identity_id, namespace_data, "boundary_violation"
+            )
+            self.namespace_metrics["security_violations"] += 1
+            # also log it
+            self._log_namespace_audit_event(
+                source_namespace,
+                "boundary_violation",
+                {
+                    "target_namespace": target_namespace.namespace_id,
+                    "operation": operation,
+                    "identity_id": identity_id,
+                    "reason": reason,
+                },
+            )
+
     async def _namespace_maintenance_loop(self) -> None:
         """Background maintenance for namespace instances"""
 
@@ -924,6 +1131,7 @@ class ConsciousnessNamespaceManager:
 
 # Global consciousness namespace manager instance
 consciousness_namespace_manager = ConsciousnessNamespaceManager()
+consciousness_namespace_isolator = ConsciousnessNamespaceIsolator(consciousness_namespace_manager)
 
 
 # Export key classes
@@ -931,9 +1139,14 @@ __all__ = [
     "AccessPermissionType",
     "ConsciousnessDomain",
     "ConsciousnessNamespaceManager",
+    "ConsciousnessNamespaceIsolator",
     "CrossDomainBridge",
     "IsolationLevel",
     "NamespaceInstance",
     "NamespacePolicy",
     "consciousness_namespace_manager",
+    "consciousness_namespace_isolator",
+    "NamespaceConfig",
+    "CrossNSRequest",
+    "ValidationResult",
 ]
