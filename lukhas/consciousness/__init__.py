@@ -16,8 +16,11 @@ Author: LUKHAS AI Consciousness Systems Architect
 Version: 1.0.0
 """
 
-import streamlit as st
-
+from .bio_integration import (
+    BIO_CONSCIOUSNESS_MAP,
+    BioAwareConsciousnessState,
+    bio_feedback_loop,
+)
 from .consciousness_wrapper import (
     AwarenessLevel,
     ConsciousnessConfig,
@@ -32,12 +35,15 @@ ConsciousnessModule = ConsciousnessWrapper  # Alias for RL integration
 
 __all__ = [
     "AwarenessLevel",
+    "BIO_CONSCIOUSNESS_MAP",
+    "BioAwareConsciousnessState",
     "ConsciousnessConfig",
     "ConsciousnessKernel",  # Alias
     "ConsciousnessModule",  # Alias for RL
     "ConsciousnessState",
     "ConsciousnessWrapper",
     "SafetyMode",
+    "bio_feedback_loop",
 ]
 
 __version__ = "1.0.0"
