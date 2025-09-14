@@ -27,7 +27,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          PRS=$(gh pr list --state open --json id,number,labels,baseRefName,isCrossRepository,headRepositoryOwner,headRepository \
+          PRS=$(gh pr list --repo "$GITHUB_REPOSITORY" --state open --json id,number,labels,baseRefName,isCrossRepository,headRepositoryOwner,headRepository \
             -q '.[]
                 | select(.baseRefName=="main")
                 | select((([.labels[].name] // []) | index("autoupdate")) != null or (([.labels[].name] // []) | index("queue")) != null)
@@ -46,5 +46,5 @@ jobs:
           while IFS=$'\t' read -r PRID NUM; do
             [ -z "$PRID" ] && continue
             echo "Updating PR #$NUM ($PRID) with base main..."
-            gh api graphql -f query='mutation($id:ID!){ updatePullRequestBranch(input:{pullRequestId:$id}) { pullRequest { number } }}' -f id="$PRID" || true
+            gh api --repo "$GITHUB_REPOSITORY" graphql -f query='mutation($id:ID!){ updatePullRequestBranch(input:{pullRequestId:$id}) { pullRequest { number } }}' -f id="$PRID" || true
           done <<< "${{ steps.list.outputs.prs }}"
