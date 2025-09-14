@@ -42,11 +42,15 @@ class TemporalColony(BaseColony):
 
     def _apply_operations(self, state: dict[str, Any], operations: list[dict[str, Any]]) -> None:
         for op in operations:
-            if op.get("type") == "add_glyph":
+            op_type = op.get("type")
+            if op_type == "add_glyph":
                 state.setdefault("glyphs", []).append(op.get("value"))
-            elif op.get("type") == "remove_glyph" and op.get("value") in state.get("glyphs", []):
+            elif op_type == "remove_glyph" and op.get("value") in state.get("glyphs", []):
                 state["glyphs"].remove(op.get("value"))
-            # ✅ TODO: implement more operation types
+            elif op_type == "append_many":
+                state.setdefault("glyphs", []).extend(op.get("values", []))
+            elif op_type == "replace":
+                state["glyphs"] = op.get("values", [])
 
     def simulate_future_state(
         self,
@@ -77,3 +81,59 @@ class TemporalColony(BaseColony):
             "status": "completed",
             "state": copy.deepcopy(self.current_state),
         }
+
+
+if __name__ == "__main__":
+    # Basic tests for TemporalColony
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+    logger.info("Running tests for TemporalColony...")
+    colony = TemporalColony("test_temporal")
+    assert colony.get_state() == {"glyphs": []}
+    logger.info(f"Initial state: {colony.get_state()}")
+
+    # Test append_many
+    colony.snapshot_state()
+    operations = [{"type": "append_many", "values": ["g1", "g2", "g3"]}]
+    colony._apply_operations(colony.current_state, operations)
+    assert colony.get_state()["glyphs"] == ["g1", "g2", "g3"]
+    logger.info(f"After append_many: {colony.get_state()}")
+
+    # Test add_glyph
+    colony.snapshot_state()
+    operations = [{"type": "add_glyph", "value": "g4"}]
+    colony._apply_operations(colony.current_state, operations)
+    assert colony.get_state()["glyphs"] == ["g1", "g2", "g3", "g4"]
+    logger.info(f"After add_glyph: {colony.get_state()}")
+
+    # Test replace
+    colony.snapshot_state()
+    operations = [{"type": "replace", "values": ["g5", "g6"]}]
+    colony._apply_operations(colony.current_state, operations)
+    assert colony.get_state()["glyphs"] == ["g5", "g6"]
+    logger.info(f"After replace: {colony.get_state()}")
+
+    # Test revert
+    assert colony.revert_last() is True
+    assert colony.get_state()["glyphs"] == ["g1", "g2", "g3", "g4"]
+    logger.info(f"After first revert: {colony.get_state()}")
+
+    assert colony.revert_last() is True
+    assert colony.get_state()["glyphs"] == ["g1", "g2", "g3"]
+    logger.info(f"After second revert: {colony.get_state()}")
+
+    # Test simulation
+    future_ops = [{"type": "remove_glyph", "value": "g1"}]
+    future_state = colony.simulate_future_state(future_ops)
+    assert future_state["glyphs"] == ["g2", "g3"]
+    assert colony.get_state()["glyphs"] == ["g1", "g2", "g3"]  # Current state unchanged
+    logger.info(f"Simulated future state: {future_state}")
+    logger.info(f"Current state after simulation: {colony.get_state()}")
+
+    # Test empty revert
+    colony.revert_last()
+    assert colony.get_state() == {'glyphs': []}
+    assert colony.revert_last() is False
+    logger.info(f"State after all reverts: {colony.get_state()}")
+
+    logger.info("TemporalColony tests passed!")
+    print("\nTemporalColony tests passed!")

@@ -16,7 +16,10 @@ Logged Events:
 """
 
 import json
+import os
+import sqlite3
 import time
+import hashlib
 from datetime import datetime, timezone
 from typing import Any
 
@@ -42,6 +45,10 @@ class LambdaTraceLogger:
             "security_event": "🛡️",
         }
         self.enterprise_mode = config.get("enterprise_forensic_enabled", False)
+        self.sink_type = os.environ.get("ACTIVITY_SINK", "file")
+        self.db_path = "activity_log.db"
+        self.file_path = "activity_log.jsonl"
+        self._init_storage()
 
     def log_activity(self, user_id: str, activity_type: str, symbolic_data: dict[str, Any]) -> str:
         """Log a symbolic activity event with enterprise forensic capabilities"""
@@ -71,6 +78,20 @@ class LambdaTraceLogger:
         # Add enterprise forensic data if enabled
         if self.enterprise_mode:
             trace_record["forensic_data"] = self._build_forensic_context(trace_record)
+
+        # Audit chain linking
+        if self.enterprise_mode:
+            chain_id, previous_hash = self._link_to_audit_chain()
+            if "forensic_data" not in trace_record:
+                trace_record["forensic_data"] = {}
+
+            trace_record["forensic_data"]["chain_id"] = chain_id
+            trace_record["forensic_data"]["previous_chain_hash"] = previous_hash
+
+            # Calculate the hash of the final record
+            event_json = json.dumps(trace_record, sort_keys=True)
+            chain_hash = hashlib.sha256((previous_hash + event_json).encode()).hexdigest()
+            trace_record["forensic_data"]["chain_hash"] = chain_hash
 
         # Store in buffer and persistent storage
         self.trace_buffer.append(trace_record)
@@ -215,19 +236,54 @@ class LambdaTraceLogger:
         """Build enterprise forensic context"""
         return {
             "forensic_timestamp": time.time(),
-            "trace_integrity_hash": self._calculate_integrity_hash(trace_record),
-            "audit_chain_link": self._link_to_audit_chain(trace_record),
             "compliance_tags": self._generate_compliance_tags(trace_record),
         }
 
+    def _init_storage(self):
+        """Initialize the storage sink."""
+        if self.sink_type == "sqlite":
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute(
+                """
+                CREATE TABLE IF NOT EXISTS activity_log (
+                    chain_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    event_json TEXT
+                )
+                """
+            )
+            conn.commit()
+            conn.close()
+        elif self.sink_type == "file":
+            if not os.path.exists(self.file_path):
+                with open(self.file_path, "w") as f:
+                    pass  # Create the file if it doesn't exist
+
     def _persist_trace_record(self, trace_record: dict):
-        """Persist trace record to storage"""
-        # TODO: Implement persistent storage logic
+        """Persist trace record to storage."""
+        if self.sink_type == "sqlite":
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute(
+                """
+                INSERT INTO activity_log (event_json)
+                VALUES (?)
+                """,
+                (json.dumps(trace_record),),
+            )
+            conn.commit()
+            conn.close()
+        elif self.sink_type == "file":
+            with open(self.file_path, "a") as f:
+                f.write(json.dumps(trace_record) + "\n")
 
     def _get_user_tier(self, user_id: str) -> int:
         """Get current user tier"""
-        # TODO: Integration with ΛTIER system
-        return 1  # Placeholder
+        try:
+            from lukhas.tiers import get_tier
+            return get_tier(user_id)
+        except ImportError:
+            return 1  # Placeholder
 
     def _analyze_activity_breakdown(self, traces: list[dict]) -> dict:
         """Analyze breakdown of activity types"""
@@ -282,17 +338,30 @@ class LambdaTraceLogger:
 
         return hashlib.sha256(pattern.encode()).hexdigest()[:8]
 
-    def _calculate_integrity_hash(self, trace_record: dict) -> str:
-        """Calculate integrity hash for forensic verification"""
-        import hashlib
-
-        record_string = json.dumps(trace_record, sort_keys=True)
-        return hashlib.sha256(record_string.encode()).hexdigest()
-
-    def _link_to_audit_chain(self, trace_record: dict) -> str:
+    def _link_to_audit_chain(self) -> tuple[int, str]:
         """Link trace to audit chain for enterprise compliance"""
-        # TODO: Implement audit chain linking
-        return f"AUDIT_{trace_record['trace_id']}"
+        if self.sink_type == "sqlite":
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute("SELECT event_json FROM activity_log ORDER BY chain_id DESC LIMIT 1")
+            result = cursor.fetchone()
+            conn.close()
+            if result:
+                last_event = json.loads(result[0])
+                forensic_data = last_event.get("forensic_data", {})
+                return forensic_data.get("chain_id", 0) + 1, forensic_data.get("chain_hash", "0" * 64)
+            return 1, "0" * 64
+        elif self.sink_type == "file":
+            if not os.path.exists(self.file_path) or os.path.getsize(self.file_path) == 0:
+                return 1, "0" * 64
+            with open(self.file_path, "r") as f:
+                lines = f.readlines()
+            if not lines:
+                return 1, "0" * 64
+            last_line = lines[-1]
+            last_event = json.loads(last_line)
+            forensic_data = last_event.get("forensic_data", {})
+            return forensic_data.get("chain_id", 0) + 1, forensic_data.get("chain_hash", "0" * 64)
 
     def _generate_compliance_tags(self, trace_record: dict) -> list[str]:
         """Generate compliance tags for regulatory requirements"""
@@ -305,3 +374,32 @@ class LambdaTraceLogger:
             tags.append("geo_data_processed")
 
         return tags
+
+    def read_chain(self, count: int) -> list[dict]:
+        """Read the last `count` events from the activity log."""
+        if self.sink_type == "sqlite":
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute("SELECT event_json FROM activity_log ORDER BY chain_id DESC LIMIT ?", (count,))
+            rows = cursor.fetchall()
+            conn.close()
+            return [json.loads(row[0]) for row in reversed(rows)]
+        elif self.sink_type == "file":
+            if not os.path.exists(self.file_path):
+                return []
+            with open(self.file_path, "r") as f:
+                lines = f.readlines()
+
+            return [json.loads(line) for line in lines[-count:]]
+        return []
+
+# For command-line testing
+_logger_instance = LambdaTraceLogger(config={"enterprise_forensic_enabled": True})
+
+def read_chain(count: int) -> list[dict]:
+    """Read the last `count` events from the activity log."""
+    return _logger_instance.read_chain(count)
+
+def append_event(event: dict):
+    """Append a new event to the activity log."""
+    _logger_instance.log_activity("test_user", event.get("msg", "default_event"), event)
