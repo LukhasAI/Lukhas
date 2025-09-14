@@ -30,7 +30,7 @@ Key Components:
 - IdentityConsciousnessType: Identity evolution stages
 - Lambda ID Core: Legacy identity integration (existing)
 """
-import streamlit as st
+# import streamlit as st
 
 # Import MΛTRIZ consciousness identity components
 from .matriz_consciousness_identity import (
