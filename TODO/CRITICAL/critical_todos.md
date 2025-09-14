@@ -352,12 +352,22 @@ kept pending MATRIZ wiring (document or remove)
 
 - **File**: `./candidate/qi/bio/bio_optimizer.py:631`
 - **Priority**: CRITICAL
-- **Status**: Open
+- **Status**: ✅ COMPLETED (2025-09-14)
+- **Completed By**: Claude Code via PR #225
+- **Trinity Aspect**: 🧠 Consciousness
 
 **TODO Text:**
 ```
 Implement specific corrective actions based on which targets failed.
 ```
+
+**✅ IMPLEMENTATION COMPLETED:**
+- Added `CORRECTIVE_STRATEGIES` dictionary mapping failure types to action functions
+- Implemented `handle_failed_target` dispatcher function
+- Created specific corrective action functions: `reset_metabolic_baseline`, `adjust_sensitivity`, `switch_backup_sensor`, `interpolate_missing_data`, `apply_smoothing_filter`, `reduce_gain`
+- Modified `_apply_corrective_actions` method to use new strategy pattern
+- Added comprehensive unit tests (5 test cases, all passing)
+- **PR**: #225 (auto-merge enabled)
 
 ---
 

@@ -35,12 +35,16 @@ python -c "from candidate.governance.identity.core.trace.activity_logger import 
 python -c "from candidate.governance.identity.core.trace.activity_logger import read_chain; print(read_chain(2))"
 ```
 
-## Acceptance Criteria
-- [ ] Two appended events produce new chain hash
-- [ ] Chain IDs increment properly
-- [ ] Simple readback test passes
-- [ ] File/DB write operations work
-- [ ] ΛTIER metadata stored with events
+## ✅ STATUS: COMPLETED (2025-09-14)
+**Completed By**: Jules + System Integration
+**Commit**: `43575b856 feat(governance): implement persistent audit chain for activity logger`
+
+## Acceptance Criteria ✅ COMPLETED:
+- [x] Two appended events produce new chain hash
+- [x] Chain IDs increment properly
+- [x] Simple readback test passes
+- [x] File/DB write operations work
+- [x] ΛTIER metadata stored with events
 
 ## Implementation Notes
 - Keep lightweight, use stdlib (sqlite3 + hashlib)

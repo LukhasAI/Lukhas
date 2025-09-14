@@ -33,12 +33,16 @@ pytest -q tests/ -k awareness_protocol
 python -c "from candidate.consciousness.awareness.awareness_protocol import map_local_tier_to_global; print(map_local_tier_to_global('critical'))"
 ```
 
-## Acceptance Criteria
-- [ ] File imports `lukhas.tiers` as single source of truth
-- [ ] At least 3 tier mappings tested
-- [ ] Unknown tier names raise typed error
-- [ ] Local tier literals replaced with global constants
-- [ ] Unit tests cover positive and negative cases
+## ✅ STATUS: COMPLETED (2025-09-14)
+**Completed By**: Jules + System Integration
+**Commit**: `927987c92 feat(tiers): map local ethics tiers to global LUKHAS tier system`
+
+## Acceptance Criteria ✅ COMPLETED:
+- [x] File imports `lukhas.tiers` as single source of truth
+- [x] At least 3 tier mappings tested
+- [x] Unknown tier names raise typed error
+- [x] Local tier literals replaced with global constants
+- [x] Unit tests cover positive and negative cases
 
 ## Implementation Notes
 - Keep mapping explicit and documented

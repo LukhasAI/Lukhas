@@ -45,12 +45,16 @@ ENABLE_MATRIZ_PQC_SIGNER=true python -c "from candidate.qi.crypto.pqc_signer imp
 pytest -q tests/ -k pqc_signer
 ```
 
-## Acceptance Criteria
-- [ ] No dead/unreferenced imports remain
-- [ ] Clear NotImplementedError when MATRIZ disabled
-- [ ] Feature flag controls integration attempt
-- [ ] Unit test covers disabled state
-- [ ] Module docstring documents expected APIs
+## ✅ STATUS: COMPLETED (2025-09-14)
+**Completed By**: Jules + System Integration
+**Commit**: `d5d2b2ab8 feat(pqc): triage pqc_signer with feature flag`
+
+## Acceptance Criteria ✅ COMPLETED:
+- [x] No dead/unreferenced imports remain
+- [x] Clear NotImplementedError when MATRIZ disabled
+- [x] Feature flag controls integration attempt
+- [x] Unit test covers disabled state
+- [x] Module docstring documents expected APIs
 
 ## Implementation Notes
 - Keep cryptographic usage secure
