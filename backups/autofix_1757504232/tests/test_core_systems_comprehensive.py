@@ -849,8 +849,8 @@ class TestBioSymbolicSystems:
                     pattern_strength = total_weight / len(symbols) if symbols else 0
 
                     # Detect Trinity Framework pattern
-                    trinity_symbols = {"⚛️", "🧠", "🛡️"}
-                    has_trinity_pattern = trinity_symbols.issubset(set(symbols))
+                    triad_symbols = {"⚛️", "🧠", "🛡️"}
+                    has_triad_pattern = triad_symbols.issubset(set(symbols))
 
                     return {
                         "valid": True,
@@ -858,7 +858,7 @@ class TestBioSymbolicSystems:
                         "analyzed_symbols": symbol_analysis,
                         "pattern_strength": pattern_strength,
                         "categories": list(categories),
-                        "has_trinity_pattern": has_trinity_pattern,
+                        "has_triad_pattern": has_triad_pattern,
                         "dominant_category": (
                             max(categories, key=lambda cat: sum(1 for s in symbol_analysis if s["category"] == cat))
                             if categories
@@ -894,16 +894,16 @@ class TestBioSymbolicSystems:
             recognizer = SymbolicPatternRecognizer()
 
             # Test Trinity Framework pattern recognition
-            trinity_symbols = ["⚛️", "🧠", "🛡️"]
-            trinity_result = recognizer.analyze_symbolic_pattern(trinity_symbols)
+            triad_symbols = ["⚛️", "🧠", "🛡️"]
+            triad_result = recognizer.analyze_symbolic_pattern(triad_symbols)
 
-            if not trinity_result["valid"]:
+            if not triad_result["valid"]:
                 raise Exception("Trinity pattern analysis failed")
 
-            if not trinity_result["has_trinity_pattern"]:
+            if not triad_result["has_triad_pattern"]:
                 raise Exception("Trinity pattern not detected")
 
-            if trinity_result["dominant_category"] != "trinity":
+            if triad_result["dominant_category"] != "trinity":
                 raise Exception("Trinity category not detected as dominant")
 
             # Test mixed symbolic pattern

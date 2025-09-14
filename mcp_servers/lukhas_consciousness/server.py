@@ -28,7 +28,13 @@ sys.path.insert(0, project_root)
 try:
     import mcp.server.stdio
     from mcp.server import Server
-    from mcp.types import EmbeddedResource, ImageContent, Resource, TextContent, Tool  # noqa: F401  # TODO: mcp.types.EmbeddedResource; co...
+    from mcp.types import (
+        EmbeddedResource,
+        ImageContent,
+        Resource,
+        TextContent,
+        Tool,
+    )  # noqa: F401  # TODO: mcp.types.EmbeddedResource; co...
 except ImportError:
     print("MCP SDK not installed. Install with: pip install mcp", file=sys.stderr)
     sys.exit(1)
@@ -41,7 +47,7 @@ class LukhosConsciousnessServer:
         self.project_root = Path(project_root)
         self.server = Server("lukhas-consciousness")
         self.consciousness_modules = {}
-        self.trinity_status = {
+        self.triad_status = {
             "identity": True,
             "consciousness": True,
             "guardian": True,
@@ -95,7 +101,7 @@ class LukhosConsciousnessServer:
             if uri == "lukhas://consciousness/modules":
                 return await self._get_consciousness_modules()
             elif uri == "lukhas://trinity/framework":
-                return await self._get_trinity_framework_status()
+                return await self._get_triad_framework_status()
             elif uri == "lukhas://consciousness/metrics":
                 return await self._get_consciousness_metrics()
             elif uri == "lukhas://identity/status":
@@ -113,7 +119,7 @@ class LukhosConsciousnessServer:
             """List available LUKHAS consciousness tools"""
             return [
                 Tool(
-                    name="validate_trinity_framework",
+                    name="validate_triad_framework",
                     description="⚛️🧠🛡️ Validate code/design against Trinity Framework principles",
                     inputSchema={
                         "type": "object",
@@ -181,7 +187,7 @@ class LukhosConsciousnessServer:
                                 ],
                                 "default": "medium",
                             },
-                            "trinity_focus": {
+                            "triad_focus": {
                                 "type": "string",
                                 "enum": [
                                     "identity",
@@ -219,8 +225,8 @@ class LukhosConsciousnessServer:
         async def call_tool(name: str, arguments: dict[str, Any]) -> list[TextContent]:
             """Execute LUKHAS consciousness tool"""
 
-            if name == "validate_trinity_framework":
-                result = await self._validate_trinity_framework(arguments)
+            if name == "validate_triad_framework":
+                result = await self._validate_triad_framework(arguments)
             elif name == "analyze_consciousness_impact":
                 result = await self._analyze_consciousness_impact(arguments)
             elif name == "consciousness_health_check":
@@ -251,15 +257,15 @@ class LukhosConsciousnessServer:
             },
             "total_modules": 25,
             "integration_health": "95%",
-            "trinity_compliance": "⚛️🧠🛡️ ACTIVE",
+            "triad_compliance": "⚛️🧠🛡️ ACTIVE",
             "last_updated": "2025-01-08T12:00:00Z",
         }
         return json.dumps(modules, indent=2)
 
-    async def _get_trinity_framework_status(self) -> str:
+    async def _get_triad_framework_status(self) -> str:
         """Get Trinity Framework status"""
         status = {
-            "trinity_framework": {
+            "triad_framework": {
                 "⚛️_identity": {
                     "status": "ACTIVE",
                     "compliance_score": 0.95,
@@ -306,7 +312,7 @@ class LukhosConsciousnessServer:
                     "guardian": {"latency": "5ms", "success_rate": 1.0},
                 },
                 "integration_status": {
-                    "trinity_framework": "OPTIMAL",
+                    "triad_framework": "OPTIMAL",
                     "cross_module_communication": "HEALTHY",
                     "event_processing": "NORMAL",
                 },
@@ -344,7 +350,7 @@ class LukhosConsciousnessServer:
                     "Completed tier validation system (100%)",
                     "Added cross-device sync capabilities (100%)",
                 ],
-                "trinity_compliance": {
+                "triad_compliance": {
                     "⚛️_identity_integration": 0.95,
                     "🧠_consciousness_aware": 0.85,
                     "🛡️_guardian_validated": 0.98,
@@ -362,7 +368,7 @@ class LukhosConsciousnessServer:
                     "title": "Complete Identity Module Implementation",
                     "priority": "HIGH",
                     "progress": 0.75,
-                    "trinity_focus": "⚛️ Identity",
+                    "triad_focus": "⚛️ Identity",
                     "subtasks": [
                         {"name": "QR entropy generation", "status": "completed"},
                         {"name": "Tier validation logic", "status": "completed"},
@@ -376,14 +382,14 @@ class LukhosConsciousnessServer:
                     "title": "Consciousness System Performance Optimization",
                     "priority": "MEDIUM",
                     "progress": 0.60,
-                    "trinity_focus": "🧠 Consciousness",
+                    "triad_focus": "🧠 Consciousness",
                 },
                 {
                     "id": "guardian_enhancements",
                     "title": "Guardian System Security Enhancements",
                     "priority": "MEDIUM",
                     "progress": 0.80,
-                    "trinity_focus": "🛡️ Guardian",
+                    "triad_focus": "🛡️ Guardian",
                 },
             ],
             "task_summary": {
@@ -397,14 +403,14 @@ class LukhosConsciousnessServer:
         return json.dumps(tasks, indent=2)
 
     # Tool implementations
-    async def _validate_trinity_framework(self, args: dict[str, Any]) -> dict[str, Any]:
+    async def _validate_triad_framework(self, args: dict[str, Any]) -> dict[str, Any]:
         """Validate code/design against Trinity Framework"""
         args.get("code_or_design", "")
         validation_level = args.get("validation_level", "standard")
 
         # Trinity Framework validation logic
         validation_results = {
-            "trinity_validation": {
+            "triad_validation": {
                 "⚛️_identity_compliance": {
                     "score": 0.90,
                     "checks": [
@@ -472,7 +478,7 @@ class LukhosConsciousnessServer:
                     "integration_points": ["memory", "identity", "guardian"],
                     "downstream_effects": ["authentication_flows", "memory_processing"],
                 },
-                "trinity_framework_impact": {
+                "triad_framework_impact": {
                     "⚛️_identity": {"impact": 0.6, "risk": "LOW"},
                     "🧠_consciousness": {"impact": 0.8, "risk": "MEDIUM"},
                     "🛡️_guardian": {"impact": 0.3, "risk": "LOW"},
@@ -519,7 +525,7 @@ class LukhosConsciousnessServer:
                 ),
                 "integration_health": (
                     {
-                        "trinity_framework": "OPTIMAL",
+                        "triad_framework": "OPTIMAL",
                         "cross_module_sync": "GOOD",
                         "api_endpoints": "HEALTHY",
                     }
@@ -550,19 +556,19 @@ class LukhosConsciousnessServer:
         """Optimize agent assignment for tasks"""
         args.get("task_description", "")
         complexity_level = args.get("complexity_level", "medium")
-        trinity_focus = args.get("trinity_focus", "balanced")
+        triad_focus = args.get("triad_focus", "balanced")
 
         # Agent optimization logic based on Trinity Framework
         agent_recommendations = {
             "agent_assignment_optimization": {
                 "recommended_agent": "Supreme Consciousness Architect",
                 "confidence": 0.85,
-                "reasoning": f"Task complexity ({complexity_level}) and Trinity focus ({trinity_focus}) align best with architectural expertise",
+                "reasoning": f"Task complexity ({complexity_level}) and Trinity focus ({triad_focus}) align best with architectural expertise",
                 "agent_options": [
                     {
                         "agent": "Supreme Consciousness Architect",
                         "suitability": 0.95,
-                        "trinity_alignment": "⚛️🧠🛡️",
+                        "triad_alignment": "⚛️🧠🛡️",
                         "best_for": [
                             "system design",
                             "architecture",
@@ -572,13 +578,13 @@ class LukhosConsciousnessServer:
                     {
                         "agent": "Guardian System Commander",
                         "suitability": 0.80,
-                        "trinity_alignment": "🛡️",
+                        "triad_alignment": "🛡️",
                         "best_for": ["security", "compliance", "safety validation"],
                     },
                     {
                         "agent": "Memory Systems Colonel",
                         "suitability": 0.75,
-                        "trinity_alignment": "🧠",
+                        "triad_alignment": "🧠",
                         "best_for": [
                             "memory optimization",
                             "consciousness patterns",
@@ -588,7 +594,7 @@ class LukhosConsciousnessServer:
                 ],
                 "task_requirements": {
                     "complexity_level": complexity_level,
-                    "trinity_focus": trinity_focus,
+                    "triad_focus": triad_focus,
                     "estimated_duration": "2-4 hours",
                     "prerequisites": [
                         "Trinity Framework knowledge",
@@ -630,7 +636,7 @@ class LukhosConsciousnessServer:
                 ),
                 "integration_points": [
                     {
-                        "module": "trinity_framework",
+                        "module": "triad_framework",
                         "type": "validation",
                         "critical": True,
                     },

@@ -47,7 +47,7 @@ try:
     from lukhas.branding_bridge import (
         BrandContext,
         get_brand_voice,
-        get_trinity_context,
+        get_triad_context,
     )
 
     CONSCIOUSNESS_BRANDING_AVAILABLE = True
@@ -65,5 +65,5 @@ __all__ = [
     "QIConsciousnessBridge",
     # Branding integration
     "get_brand_voice",
-    "get_trinity_context",
+    "get_triad_context",
 ]

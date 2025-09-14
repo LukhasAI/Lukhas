@@ -78,7 +78,7 @@ def get_system_signature():
     return f"{SYSTEM_NAME} {TRINITY_FRAMEWORK} v{SYSTEM_VERSION}"
 
 
-def get_trinity_description():
+def get_triad_description():
     """Get Trinity Framework description."""
     return {
         "identity": f"{IDENTITY_SYMBOL} Identity (authenticity, consciousness, symbolic self)",
@@ -136,7 +136,7 @@ __all__ = [
     "SYSTEM_VERSION",
     "TRINITY_FRAMEWORK",
     "get_system_signature",
-    "get_trinity_description",
+    "get_triad_description",
     "normalize_chunk",
     "normalize_output",
     "validate_branding_compliance",

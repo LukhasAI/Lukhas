@@ -29,7 +29,7 @@ try:
     from lukhas.branding_bridge import (
         BrandContext,
         get_brand_voice,
-        get_trinity_context,
+        get_triad_context,
         normalize_output_text,
         validate_output,
     )
@@ -460,7 +460,7 @@ class AnthropicEthicsEngine:
             principle_score = await self._evaluate_principle(principle, action_type, context)  # Logs internally
             total_weighted_score += principle_score * weight
 
-            # TODO: Make violation_threshold configurable.
+            # Ethics violation threshold is configurable via config.ethics_violation_threshold
             violation_threshold = self.config.get("ethics_violation_threshold", 0.7) if hasattr(self, "config") else 0.7
             if principle_score < violation_threshold:
                 violation_detail = f"Principle '{principle}' scored low: {principle_score:.2f} (Weight: {weight:.2f})"
@@ -470,7 +470,7 @@ class AnthropicEthicsEngine:
 
         evaluation_report["overall_ethical_score"] = total_weighted_score / total_weights
 
-        # TODO: Make approval_threshold configurable.
+        # Approval threshold is configurable via config.ethics_approval_threshold
         approval_threshold = self.config.get("ethics_approval_threshold", 0.8) if hasattr(self, "config") else 0.8
         evaluation_report["action_approved"] = evaluation_report["overall_ethical_score"] >= approval_threshold
 
@@ -671,7 +671,6 @@ class SelfAwareAdaptationModule:
         }
 
         # Example analysis: Identify areas where state values are below a threshold
-        # TODO: Thresholds should be configurable or dynamically determined.
         improvement_thresholds = self.config.get(
             "reflection_improvement_thresholds",
             {
@@ -735,7 +734,6 @@ class SelfAwareAdaptationModule:
         ethical_score_feedback = float(feedback.get("ethical_score", 0.5))  # Renamed
 
         # Define adaptation factors (how much each feedback point influences state)
-        # TODO: These factors could be learned or configurable.
         satisfaction_impact_on_empathy = self.config.get("satisfaction_empathy_impact", 0.1)
         auth_success_impact_on_awareness = self.config.get("auth_awareness_impact", 0.1)
         ethics_feedback_impact_on_alignment = self.config.get("ethics_alignment_impact", 0.05)

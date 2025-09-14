@@ -164,7 +164,7 @@ class APIPerformanceMetric:
     database_query_time: float = 0.0
 
     # Trinity Framework context
-    trinity_component: Optional[TrinityComponent] = None
+    triad_component: Optional[TrinityComponent] = None
     requires_authentication: bool = False
     requires_authorization: bool = False
 
@@ -288,7 +288,7 @@ class TrinityFrameworkMonitor:
         }
 
         # Data storage
-        self.trinity_interactions: deque = deque(maxlen=25000)
+        self.triad_interactions: deque = deque(maxlen=25000)
         self.authentication_events: deque = deque(maxlen=10000)
         self.api_metrics: deque = deque(maxlen=50000)
         self.health_snapshots: deque = deque(maxlen=5000)
@@ -313,11 +313,11 @@ class TrinityFrameworkMonitor:
         }
 
         # Initialize monitoring
-        asyncio.create_task(self._initialize_trinity_monitoring())
+        asyncio.create_task(self._initialize_triad_monitoring())
 
         logger.info("🔺 Trinity Framework Monitor initialized")
 
-    async def _initialize_trinity_monitoring(self):
+    async def _initialize_triad_monitoring(self):
         """Initialize Trinity Framework monitoring"""
 
         try:
@@ -325,7 +325,7 @@ class TrinityFrameworkMonitor:
             await self._initialize_component_states()
 
             # Start monitoring loops
-            asyncio.create_task(self._trinity_health_loop())
+            asyncio.create_task(self._triad_health_loop())
             asyncio.create_task(self._interaction_monitoring_loop())
             asyncio.create_task(self._authentication_monitoring_loop())
             asyncio.create_task(self._api_performance_loop())
@@ -351,12 +351,12 @@ class TrinityFrameworkMonitor:
                 "recent_interactions": 0,
             }
 
-    async def _trinity_health_loop(self):
+    async def _triad_health_loop(self):
         """Main Trinity health monitoring loop"""
 
         while self.monitoring_active:
             try:
-                await self._capture_trinity_health_snapshot()
+                await self._capture_triad_health_snapshot()
                 await asyncio.sleep(self.monitoring_interval)
 
             except Exception as e:
@@ -423,7 +423,7 @@ class TrinityFrameworkMonitor:
                 logger.error(f"❌ Cleanup error: {e}")
                 await asyncio.sleep(1800)
 
-    async def record_trinity_interaction(
+    async def record_triad_interaction(
         self,
         source_component: TrinityComponent,
         target_component: TrinityComponent,
@@ -455,7 +455,7 @@ class TrinityFrameworkMonitor:
         )
 
         # Store interaction
-        self.trinity_interactions.append(interaction)
+        self.triad_interactions.append(interaction)
 
         # Update component states
         await self._update_component_state(source_component, interaction)
@@ -526,7 +526,7 @@ class TrinityFrameworkMonitor:
         response_time: float,
         status_code: int = 200,
         throughput: float = 0.0,
-        trinity_component: Optional[TrinityComponent] = None,
+        triad_component: Optional[TrinityComponent] = None,
         request_size: int = 0,
         response_size: int = 0,
         requires_authentication: bool = False,
@@ -550,7 +550,7 @@ class TrinityFrameworkMonitor:
             throughput=throughput,
             error_rate=error_rate,
             status_code=status_code,
-            trinity_component=trinity_component,
+            triad_component=triad_component,
             requires_authentication=requires_authentication,
             request_size=request_size,
             response_size=response_size,
@@ -568,7 +568,7 @@ class TrinityFrameworkMonitor:
 
         return api_metric
 
-    async def _capture_trinity_health_snapshot(self):
+    async def _capture_triad_health_snapshot(self):
         """Capture comprehensive Trinity health snapshot"""
 
         try:
@@ -675,12 +675,14 @@ class TrinityFrameworkMonitor:
     async def _calculate_framework_coherence(self) -> float:
         """Calculate how well Trinity components work together"""
 
-        if len(self.trinity_interactions) < 10:
+        if len(self.triad_interactions) < 10:
             return 1.0
 
         # Analyze recent interactions
         recent_interactions = [
-            i for i in self.trinity_interactions if (datetime.now(timezone.utc) - i.timestamp).total_seconds() < 3600  # Last hour
+            i
+            for i in self.triad_interactions
+            if (datetime.now(timezone.utc) - i.timestamp).total_seconds() < 3600  # Last hour
         ]
 
         if not recent_interactions:
@@ -712,7 +714,7 @@ class TrinityFrameworkMonitor:
         # Find interactions between these components
         recent_interactions = [
             i
-            for i in self.trinity_interactions
+            for i in self.triad_interactions
             if (datetime.now(timezone.utc) - i.timestamp).total_seconds() < 1800  # Last 30 minutes
             and (
                 (i.source_component == component1 and i.target_component == component2)
@@ -744,7 +746,9 @@ class TrinityFrameworkMonitor:
 
         # Analyze recent authentication events
         recent_events = [
-            e for e in self.authentication_events if (datetime.now(timezone.utc) - e.timestamp).total_seconds() < 3600  # Last hour
+            e
+            for e in self.authentication_events
+            if (datetime.now(timezone.utc) - e.timestamp).total_seconds() < 3600  # Last hour
         ]
 
         if not recent_events:
@@ -772,7 +776,9 @@ class TrinityFrameworkMonitor:
 
         # Analyze recent API metrics
         recent_metrics = [
-            m for m in self.api_metrics if (datetime.now(timezone.utc) - m.timestamp).total_seconds() < 3600  # Last hour
+            m
+            for m in self.api_metrics
+            if (datetime.now(timezone.utc) - m.timestamp).total_seconds() < 3600  # Last hour
         ]
 
         if not recent_metrics:
@@ -883,7 +889,7 @@ class TrinityFrameworkMonitor:
         # Analyze recent interaction patterns
         recent_interactions = [
             i
-            for i in self.trinity_interactions
+            for i in self.triad_interactions
             if (datetime.now(timezone.utc) - i.timestamp).total_seconds() < 1800  # Last 30 minutes
         ]
 
@@ -984,8 +990,8 @@ class TrinityFrameworkMonitor:
         cutoff_time = datetime.now(timezone.utc) - timedelta(hours=self.interaction_retention_hours)
 
         # Clean interactions
-        while self.trinity_interactions and self.trinity_interactions[0].timestamp < cutoff_time:
-            self.trinity_interactions.popleft()
+        while self.triad_interactions and self.triad_interactions[0].timestamp < cutoff_time:
+            self.triad_interactions.popleft()
 
         # Clean authentication events
         auth_cutoff = datetime.now(timezone.utc) - timedelta(hours=self.performance_retention_hours)
@@ -996,7 +1002,7 @@ class TrinityFrameworkMonitor:
         while self.api_metrics and self.api_metrics[0].timestamp < cutoff_time:
             self.api_metrics.popleft()
 
-    async def get_trinity_health_status(self) -> dict[str, Any]:
+    async def get_triad_health_status(self) -> dict[str, Any]:
         """Get current Trinity Framework health status"""
 
         if not self.current_health:
@@ -1009,13 +1015,15 @@ class TrinityFrameworkMonitor:
             "overall_health": health.overall_health,
             "framework_coherence": health.framework_coherence,
             # Component health (Trinity Framework)
-            "trinity_components": {
+            "triad_components": {
                 "identity": {  # ⚛️
                     "health": health.identity_health,
                     "status": (
                         "excellent"
                         if health.identity_health > 0.9
-                        else "good" if health.identity_health > 0.7 else "degraded"
+                        else "good"
+                        if health.identity_health > 0.7
+                        else "degraded"
                     ),
                 },
                 "consciousness": {  # 🧠
@@ -1023,7 +1031,9 @@ class TrinityFrameworkMonitor:
                     "status": (
                         "excellent"
                         if health.consciousness_health > 0.9
-                        else "good" if health.consciousness_health > 0.7 else "degraded"
+                        else "good"
+                        if health.consciousness_health > 0.7
+                        else "degraded"
                     ),
                 },
                 "guardian": {  # 🛡️
@@ -1031,7 +1041,9 @@ class TrinityFrameworkMonitor:
                     "status": (
                         "excellent"
                         if health.guardian_health > 0.9
-                        else "good" if health.guardian_health > 0.7 else "degraded"
+                        else "good"
+                        if health.guardian_health > 0.7
+                        else "degraded"
                     ),
                 },
             },
@@ -1072,7 +1084,7 @@ class TrinityFrameworkMonitor:
             },
         }
 
-    async def get_trinity_report(self, time_period: Optional[tuple[datetime, datetime]] = None) -> TrinityReport:
+    async def get_triad_report(self, time_period: Optional[tuple[datetime, datetime]] = None) -> TrinityReport:
         """Generate comprehensive Trinity Framework report"""
 
         if not time_period:
@@ -1081,7 +1093,7 @@ class TrinityFrameworkMonitor:
             time_period = (start_time, end_time)
 
         # Filter data for time period
-        period_interactions = [i for i in self.trinity_interactions if time_period[0] <= i.timestamp <= time_period[1]]
+        period_interactions = [i for i in self.triad_interactions if time_period[0] <= i.timestamp <= time_period[1]]
 
         period_auth_events = [e for e in self.authentication_events if time_period[0] <= e.timestamp <= time_period[1]]
 
@@ -1112,7 +1124,7 @@ class TrinityFrameworkMonitor:
 
         # Generate report
         report = TrinityReport(
-            report_id=f"trinity_report_{uuid.uuid4().hex[:12]}",
+            report_id=f"triad_report_{uuid.uuid4().hex[:12]}",
             generated_at=datetime.now(timezone.utc),
             time_period=time_period,
             overall_framework_health=overall_framework_health,

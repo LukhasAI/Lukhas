@@ -17,7 +17,9 @@ try:
     from lukhas.consciousness.unified.auto_consciousness import AutoConsciousness
     from lukhas.core.glyph.glyph_engine import GlyphEngine
     from lukhas.memory.folds.memory_fold import MemoryFold  # noqa: F401  # TODO: lukhas.memory.folds.memory_fol...
-    from lukhas.qi.engines.consciousness.engine import ConsciousnessEngine  # noqa: F401  # TODO: lukhas.qi.engines.consciousnes...
+    from lukhas.qi.engines.consciousness.engine import (
+        ConsciousnessEngine,
+    )  # noqa: F401  # TODO: lukhas.qi.engines.consciousnes...
 except ImportError as e:
     print(f"Warning: Some LUKHAS modules not available: {e}")
 
@@ -242,7 +244,7 @@ class ConsciousnessVisualizationBridge:
 
         # Simulate quantum and trinity states if not available
         self._simulate_quantum_state()
-        self._calculate_trinity_balance()
+        self._calculate_triad_balance()
 
     def _simulate_quantum_state(self):
         """Simulate quantum consciousness state"""
@@ -250,7 +252,7 @@ class ConsciousnessVisualizationBridge:
         self.state.qi_coherence = (self.state.awareness + self.state.coherence) / 2
         self.state.entanglement = abs(self.state.awareness - self.state.coherence)
 
-    def _calculate_trinity_balance(self):
+    def _calculate_triad_balance(self):
         """Calculate Trinity framework balance"""
         total = self.state.awareness + self.state.coherence + (1 - self.state.entropy)
         if total > 0:
@@ -432,12 +434,12 @@ class ConsciousnessVisualizationBridge:
             summary.append("Chaotic")
 
         # Trinity balance
-        trinity_balance = (
+        triad_balance = (
             abs(self.state.identity_strength - 0.33)
             + abs(self.state.consciousness_strength - 0.33)
             + abs(self.state.guardian_strength - 0.33)
         )
-        if trinity_balance < 0.1:
+        if triad_balance < 0.1:
             summary.append("Trinity in balance")
 
         return " | ".join(summary) if summary else "Neutral state"

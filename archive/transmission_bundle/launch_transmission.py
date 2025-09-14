@@ -352,7 +352,7 @@ class LUKHASTransmission:
                 "health_score": len([s for s in self.component_status.values() if s == "running"])
                 / len(self.components),
             },
-            "trinity_framework": {
+            "triad_framework": {
                 "identity": "qi_safe_authentication",
                 "consciousness": "symbolic_streaming_active",
                 "guardian": "autonomous_protection_enabled",

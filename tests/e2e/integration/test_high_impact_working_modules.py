@@ -14,7 +14,11 @@ def test_core_common_comprehensive():
     """Test comprehensive coverage for core common modules that import successfully."""
     # Test logger module
     try:
-        from lukhas.core.common.logger import configure_logging, get_logger, setup_logging  # noqa: F401  # TODO: lukhas.core.common.logger.conf...
+        from lukhas.core.common.logger import (
+            configure_logging,
+            get_logger,
+            setup_logging,
+        )  # noqa: F401  # TODO: lukhas.core.common.logger.conf...
 
         # Test logging setup scenarios
         logging_scenarios = [
@@ -42,12 +46,16 @@ def test_core_common_comprehensive():
 
     # Test GLYPH module
     try:
-        from lukhas.core.common.glyph import GLYPH, GlyphProcessor, SymbolicToken  # noqa: F401  # TODO: lukhas.core.common.glyph.Symbo...
+        from lukhas.core.common.glyph import (
+            GLYPH,
+            GlyphProcessor,
+            SymbolicToken,
+        )  # noqa: F401  # TODO: lukhas.core.common.glyph.Symbo...
 
         # Test GLYPH processing scenarios
         glyph_scenarios = [
             {"symbol": "🤖", "meaning": "AI_PROCESSING", "context": "consciousness"},
-            {"symbol": "🧠", "meaning": "MEMORY_ACCESS", "context": "trinity_framework"},
+            {"symbol": "🧠", "meaning": "MEMORY_ACCESS", "context": "triad_framework"},
             {"symbol": "⚛️", "meaning": "QUANTUM_STATE", "context": "qi_processing"},
             {"symbol": "🛡️", "meaning": "GUARDIAN_ACTIVE", "context": "security"},
         ]
@@ -181,7 +189,7 @@ def test_qi_module_init_comprehensive():
             {"backend": "simulator", "qubits": 4},
             {"backend": "cloud", "provider": "test"},
             {"consciousness_integration": True},
-            {"trinity_framework": True},
+            {"triad_framework": True},
         ]
 
         for config in qi_configs:
@@ -306,7 +314,7 @@ def test_core_wrapper_comprehensive():
         # Test core wrapper initialization
         wrapper_configs = [
             {"consciousness_enabled": True, "memory_enabled": True},
-            {"guardian_enabled": True, "trinity_framework": True},
+            {"guardian_enabled": True, "triad_framework": True},
             {"qi_enabled": True, "quantum_backend": "simulator"},
             {"debug": True, "logging_level": "DEBUG"},
         ]
@@ -341,7 +349,11 @@ def test_core_wrapper_comprehensive():
 def test_efficient_communication_comprehensive():
     """Test comprehensive coverage for efficient communication."""
     try:
-        from lukhas.core.efficient_communication import CommunicationChannel, MessageBus, MessageRouter  # noqa: F401  # TODO: lukhas.core.efficient_communic...
+        from lukhas.core.efficient_communication import (
+            CommunicationChannel,
+            MessageBus,
+            MessageRouter,
+        )  # noqa: F401  # TODO: lukhas.core.efficient_communic...
 
         # Test message bus functionality
         try:
@@ -409,7 +421,12 @@ def test_efficient_communication_comprehensive():
 def test_event_sourcing_comprehensive():
     """Test comprehensive coverage for event sourcing system."""
     try:
-        from lukhas.core.event_sourcing import Event, EventHandler, EventSourcedEntity, EventStore  # noqa: F401  # TODO: lukhas.core.event_sourcing.Eve...
+        from lukhas.core.event_sourcing import (
+            Event,
+            EventHandler,
+            EventSourcedEntity,
+            EventStore,
+        )  # noqa: F401  # TODO: lukhas.core.event_sourcing.Eve...
 
         # Test event creation and storage
         event_scenarios = [

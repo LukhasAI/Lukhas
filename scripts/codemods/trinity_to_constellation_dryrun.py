@@ -5,7 +5,7 @@ terminology and prints suggested replacements without modifying files. It's
 conservative: it only reports matches and shows a suggested replacement.
 
 Usage (dry-run):
-    python scripts/codemods/trinity_to_constellation_dryrun.py --dry-run
+    python scripts/codemods/triad_to_constellation_dryrun.py --dry-run
 
 Options:
     --apply    # Not implemented for safety; this script currently only reports
@@ -53,10 +53,10 @@ REPLACEMENTS: list[tuple[Pattern, str]] = [
     (re.compile(r"\bTrinity\b"), "Constellation"),
     (re.compile(r"\btrinity\b"), "constellation"),
     # identifiers
-    (re.compile(r"\bget_trinity_context\b"), "get_constellation_context"),
+    (re.compile(r"\bget_triad_context\b"), "get_constellation_context"),
     (re.compile(r"\bTRINITY_FRAMEWORK\b"), "CONSTELLATION_FRAMEWORK"),
-    (re.compile(r"\btrinity_framework\b"), "constellation_framework"),
-    (re.compile(r"\btrinity_descriptions\b"), "constellation_descriptions"),
+    (re.compile(r"\btriad_framework\b"), "constellation_framework"),
+    (re.compile(r"\btriad_descriptions\b"), "constellation_descriptions"),
     (re.compile(r"\bTrinity Framework\b"), "Constellation Framework"),
 ]
 

@@ -147,7 +147,7 @@ def login_user(email: str, password: str) -> Dict[str, Any]:
     metadata = {
         "email": email,
         "consent": True,
-        "trinity_score": 0.5,
+        "triad_score": 0.5,
         "drift_score": 0.0,
     }
 
@@ -224,7 +224,7 @@ def register_user(
     metadata = {
         "email": email,
         "consent": True,
-        "trinity_score": 0.3,
+        "triad_score": 0.3,
         "drift_score": 0.0,
         "cultural_profile": "universal",
         "created_at": datetime.now(timezone.utc).isoformat(),

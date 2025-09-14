@@ -648,12 +648,12 @@ class ComprehensiveAccessTierManager:
                     return AccessDecision.DENY
 
         # Additional Trinity Framework checks
-        if not await self._check_trinity_framework_access(profile, resource):
+        if not await self._check_triad_framework_access(profile, resource):
             return AccessDecision.CONDITIONAL
 
         return AccessDecision.ALLOW
 
-    async def _check_trinity_framework_access(self, profile: UserAccessProfile, resource: str) -> bool:
+    async def _check_triad_framework_access(self, profile: UserAccessProfile, resource: str) -> bool:
         """Check Trinity Framework access requirements"""
 
         # ⚛️ Identity coherence check
@@ -726,7 +726,7 @@ class ComprehensiveAccessTierManager:
             "eligibility": {tier.value: is_eligible for tier, is_eligible in eligibility.items()},
             "next_tier_requirements": next_tier_requirements,
             "tier_history_count": len(profile.tier_history),
-            "trinity_framework": {
+            "triad_framework": {
                 "identity_coherence": profile.identity_coherence,
                 "consciousness_level": profile.consciousness_level,
                 "guardian_status": profile.guardian_status,

@@ -13,7 +13,7 @@ try:
         GUARDIAN_SYMBOL,
         IDENTITY_SYMBOL,
         TRINITY_FRAMEWORK,
-        get_trinity_context,
+        get_triad_context,
     )
 
     CORE_BRANDING_AVAILABLE = True
@@ -37,5 +37,5 @@ __all__ = [
     # Business modules
     "business",
     # Trinity Framework integration
-    "get_trinity_context",
+    "get_triad_context",
 ]

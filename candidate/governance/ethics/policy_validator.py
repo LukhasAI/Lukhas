@@ -41,54 +41,65 @@ try:
         PolicyType,
     )
 except ImportError:
+
     def get_logger(name):
         import logging
+
         return logging.getLogger(name)
 
     # Fallback minimal classes if imports fail
     class PolicyRule:
         pass
+
     class PolicyCondition:
         pass
+
     class PolicyType(Enum):
         SECURITY = "security"
         PRIVACY = "privacy"
         ETHICAL = "ethical"
+
     class PolicyScope(Enum):
         GLOBAL = "global"
         MODULE = "module"
+
     class PolicyPriority(Enum):
         CRITICAL = "critical"
         HIGH = "high"
         MEDIUM = "medium"
+
     class PolicyAction(Enum):
         ALLOW = "allow"
         DENY = "deny"
+
     class ConditionOperator(Enum):
         EQUALS = "eq"
         CONTAINS = "contains"
+
 
 logger = get_logger(__name__)
 
 
 class ValidationSeverity(Enum):
     """Severity levels for validation issues"""
-    ERROR = "error"      # Must be fixed
+
+    ERROR = "error"  # Must be fixed
     WARNING = "warning"  # Should be reviewed
-    INFO = "info"        # Informational
+    INFO = "info"  # Informational
     SUGGESTION = "suggestion"  # Optional improvement
 
 
 class ValidationCategory(Enum):
     """Categories of validation checks"""
-    SYNTAX = "syntax"           # Syntax errors
-    SEMANTIC = "semantic"       # Semantic issues
-    PERFORMANCE = "performance" # Performance concerns
-    SECURITY = "security"       # Security implications
-    COMPLIANCE = "compliance"   # Compliance with standards
-    CONFLICT = "conflict"       # Conflicts with other policies
-    DEPENDENCY = "dependency"   # Dependency issues
-    TRINITY = "trinity"         # Trinity Framework compliance
+
+    SYNTAX = "syntax"  # Syntax errors
+    SEMANTIC = "semantic"  # Semantic issues
+    PERFORMANCE = "performance"  # Performance concerns
+    SECURITY = "security"  # Security implications
+    COMPLIANCE = "compliance"  # Compliance with standards
+    CONFLICT = "conflict"  # Conflicts with other policies
+    DEPENDENCY = "dependency"  # Dependency issues
+    TRINITY = "trinity"  # Trinity Framework compliance
 
 
 @dataclass
@@ -148,7 +159,7 @@ class ValidationResult:
 class PolicyValidator:
     """
     Comprehensive policy validation engine for LUKHAS AI
-    
+
     Provides validation capabilities for policy rules, ensuring they meet
     Trinity Framework standards and organizational requirements.
     """
@@ -163,11 +174,7 @@ class PolicyValidator:
         self.performance_threshold_ms = 50
 
         # Trinity Framework validation weights
-        self.trinity_weights = {
-            "identity": 0.3,      # ⚛️
-            "consciousness": 0.4,  # 🧠
-            "guardian": 0.3       # 🛡️
-        }
+        self.triad_weights = {"identity": 0.3, "consciousness": 0.4, "guardian": 0.3}  # ⚛️  # 🧠  # 🛡️
 
         # Validation rules
         self._init_validation_rules()
@@ -178,17 +185,10 @@ class PolicyValidator:
         """Initialize validation rules"""
 
         # Required fields for policy rules
-        self.required_fields = {
-            "rule_id", "name", "description", "policy_type",
-            "scope", "priority", "action"
-        }
+        self.required_fields = {"rule_id", "name", "description", "policy_type", "scope", "priority", "action"}
 
         # Valid field patterns
-        self.field_patterns = {
-            "rule_id": r"^[a-zA-Z0-9_-]+$",
-            "name": r"^.{1,100}$",
-            "version": r"^\d+\.\d+\.\d+$"
-        }
+        self.field_patterns = {"rule_id": r"^[a-zA-Z0-9_-]+$", "name": r"^.{1,100}$", "version": r"^\d+\.\d+\.\d+$"}
 
         # Conflict detection rules
         self.conflict_patterns = [
@@ -198,19 +198,19 @@ class PolicyValidator:
         ]
 
         # Trinity Framework required tags
-        self.trinity_required_tags = {
+        self.triad_required_tags = {
             PolicyType.ETHICAL: ["identity", "consciousness", "guardian"],
             PolicyType.SECURITY: ["guardian"],
-            PolicyType.PRIVACY: ["identity", "guardian"]
+            PolicyType.PRIVACY: ["identity", "guardian"],
         }
 
     def validate_policies(self, policies: list[PolicyRule]) -> ValidationResult:
         """
         Validate a collection of policy rules
-        
+
         Args:
             policies: List of policy rules to validate
-            
+
         Returns:
             Comprehensive validation result
         """
@@ -234,8 +234,8 @@ class PolicyValidator:
             issues.extend(perf_issues)
 
             # Trinity Framework compliance
-            trinity_issues = self._validate_trinity_compliance(policies)
-            issues.extend(trinity_issues)
+            triad_issues = self._validate_triad_compliance(policies)
+            issues.extend(triad_issues)
 
             # Calculate summary statistics
             error_count = sum(1 for issue in issues if issue.severity == ValidationSeverity.ERROR)
@@ -262,11 +262,13 @@ class PolicyValidator:
                 validator_version=self.version,
                 is_valid=is_valid,
                 can_deploy=can_deploy,
-                compliance_score=compliance_score
+                compliance_score=compliance_score,
             )
 
-            logger.info(f"Policy validation completed: {len(policies)} policies, "
-                       f"{error_count} errors, {warning_count} warnings")
+            logger.info(
+                f"Policy validation completed: {len(policies)} policies, "
+                f"{error_count} errors, {warning_count} warnings"
+            )
 
             return result
 
@@ -283,14 +285,14 @@ class PolicyValidator:
                         category=ValidationCategory.SYNTAX,
                         severity=ValidationSeverity.ERROR,
                         title="Validation Failed",
-                        description=f"Validation process failed: {str(e)}"
+                        description=f"Validation process failed: {str(e)}",
                     )
                 ],
                 error_count=1,
                 validation_time=(datetime.now() - start_time).total_seconds(),
                 is_valid=False,
                 can_deploy=False,
-                compliance_score=0.0
+                compliance_score=0.0,
             )
 
     def _validate_single_policy(self, policy: PolicyRule) -> list[ValidationIssue]:
@@ -338,7 +340,7 @@ class PolicyValidator:
                         rule_id=getattr(policy, "rule_id", "unknown"),
                         field_path=field,
                         suggestion=f"Add required field '{field}' to policy definition",
-                        auto_fixable=False
+                        auto_fixable=False,
                     )
                 )
 
@@ -367,7 +369,7 @@ class PolicyValidator:
                                 rule_id=getattr(policy, "rule_id", "unknown"),
                                 field_path=field,
                                 suggestion=f"Ensure '{field}' matches pattern: {pattern}",
-                                auto_fixable=False
+                                auto_fixable=False,
                             )
                         )
 
@@ -382,7 +384,7 @@ class PolicyValidator:
                         title="Invalid Policy Type",
                         description="Policy type must be a valid PolicyType enum value",
                         rule_id=getattr(policy, "rule_id", "unknown"),
-                        field_path="policy_type"
+                        field_path="policy_type",
                     )
                 )
 
@@ -408,7 +410,7 @@ class PolicyValidator:
                     title="Too Many Conditions",
                     description=f"Policy has {len(policy.conditions)} conditions, exceeds recommended maximum of {self.max_condition_depth}",
                     rule_id=getattr(policy, "rule_id", "unknown"),
-                    suggestion="Consider breaking into multiple simpler policies"
+                    suggestion="Consider breaking into multiple simpler policies",
                 )
             )
 
@@ -429,7 +431,7 @@ class PolicyValidator:
                     title="Missing Condition Field",
                     description=f"Condition {index} is missing required 'field' attribute",
                     rule_id=rule_id,
-                    field_path=f"conditions[{index}].field"
+                    field_path=f"conditions[{index}].field",
                 )
             )
 
@@ -442,7 +444,7 @@ class PolicyValidator:
                     title="Missing Condition Operator",
                     description=f"Condition {index} is missing required 'operator' attribute",
                     rule_id=rule_id,
-                    field_path=f"conditions[{index}].operator"
+                    field_path=f"conditions[{index}].operator",
                 )
             )
 
@@ -457,14 +459,16 @@ class PolicyValidator:
                         title="Invalid Condition Operator",
                         description=f"Condition {index} operator must be a valid ConditionOperator enum value",
                         rule_id=rule_id,
-                        field_path=f"conditions[{index}].operator"
+                        field_path=f"conditions[{index}].operator",
                     )
                 )
 
         # Validate regex patterns
-        if (hasattr(condition, "operator") and
-            condition.operator == ConditionOperator.REGEX and
-            hasattr(condition, "value")):
+        if (
+            hasattr(condition, "operator")
+            and condition.operator == ConditionOperator.REGEX
+            and hasattr(condition, "value")
+        ):
             try:
                 re.compile(condition.value)
             except re.error as e:
@@ -476,7 +480,7 @@ class PolicyValidator:
                         title="Invalid Regular Expression",
                         description=f"Condition {index} has invalid regex pattern: {str(e)}",
                         rule_id=rule_id,
-                        field_path=f"conditions[{index}].value"
+                        field_path=f"conditions[{index}].value",
                     )
                 )
 
@@ -498,7 +502,7 @@ class PolicyValidator:
                         title="Invalid Action Type",
                         description="Policy action must be a valid PolicyAction enum value",
                         rule_id=getattr(policy, "rule_id", "unknown"),
-                        field_path="action"
+                        field_path="action",
                     )
                 )
 
@@ -509,7 +513,9 @@ class PolicyValidator:
 
         return issues
 
-    def _validate_action_parameters(self, action: PolicyAction, parameters: dict[str, Any], rule_id: str) -> list[ValidationIssue]:
+    def _validate_action_parameters(
+        self, action: PolicyAction, parameters: dict[str, Any], rule_id: str
+    ) -> list[ValidationIssue]:
         """Validate action-specific parameters"""
 
         issues = []
@@ -525,7 +531,7 @@ class PolicyValidator:
                         title="Missing Redirect Target",
                         description="REDIRECT action requires 'target_url' parameter",
                         rule_id=rule_id,
-                        field_path="action_parameters.target_url"
+                        field_path="action_parameters.target_url",
                     )
                 )
 
@@ -539,7 +545,7 @@ class PolicyValidator:
                         title="Missing Modification Rules",
                         description="MODIFY action should specify 'modification_rules'",
                         rule_id=rule_id,
-                        field_path="action_parameters.modification_rules"
+                        field_path="action_parameters.modification_rules",
                     )
                 )
 
@@ -562,7 +568,7 @@ class PolicyValidator:
                         description=f"Version '{policy.version}' should follow semantic versioning (x.y.z)",
                         rule_id=getattr(policy, "rule_id", "unknown"),
                         field_path="version",
-                        suggestion="Use semantic versioning format (e.g., 1.0.0)"
+                        suggestion="Use semantic versioning format (e.g., 1.0.0)",
                     )
                 )
 
@@ -577,7 +583,7 @@ class PolicyValidator:
                         title="Invalid Timestamps",
                         description="Updated timestamp cannot be before created timestamp",
                         rule_id=getattr(policy, "rule_id", "unknown"),
-                        field_path="updated_at"
+                        field_path="updated_at",
                     )
                 )
 
@@ -601,7 +607,7 @@ class PolicyValidator:
                     title="Duplicate Rule ID",
                     description=f"Multiple policies have the same rule_id: {duplicate_id}",
                     rule_id=duplicate_id,
-                    suggestion="Ensure each policy has a unique rule_id"
+                    suggestion="Ensure each policy has a unique rule_id",
                 )
             )
 
@@ -638,7 +644,7 @@ class PolicyValidator:
                 continue
 
             for i, policy1 in enumerate(group_policies):
-                for policy2 in group_policies[i+1:]:
+                for policy2 in group_policies[i + 1 :]:
                     if self._policies_conflict(policy1, policy2):
                         issues.append(
                             ValidationIssue(
@@ -648,7 +654,7 @@ class PolicyValidator:
                                 title="Conflicting Policy Actions",
                                 description=f"Policies {policy1.rule_id} and {policy2.rule_id} have conflicting actions",
                                 affected_rules=[policy1.rule_id, policy2.rule_id],
-                                suggestion="Review policies for overlapping conditions with conflicting actions"
+                                suggestion="Review policies for overlapping conditions with conflicting actions",
                             )
                         )
 
@@ -665,7 +671,10 @@ class PolicyValidator:
 
         # Check known conflict patterns
         for conflict_pair in self.conflict_patterns:
-            if (action1.upper(), action2.upper()) == conflict_pair or (action2.upper(), action1.upper()) == conflict_pair:
+            if (action1.upper(), action2.upper()) == conflict_pair or (
+                action2.upper(),
+                action1.upper(),
+            ) == conflict_pair:
                 return True
 
         return False
@@ -688,7 +697,7 @@ class PolicyValidator:
                                 title="Missing Dependency",
                                 description=f"Policy {policy.rule_id} depends on {dependency} which is not found",
                                 rule_id=policy.rule_id,
-                                suggestion="Either add the dependency policy or remove the dependency reference"
+                                suggestion="Either add the dependency policy or remove the dependency reference",
                             )
                         )
 
@@ -703,10 +712,11 @@ class PolicyValidator:
         for policy in policies:
             if hasattr(policy, "conditions") and policy.conditions:
                 for i, condition in enumerate(policy.conditions):
-                    if (hasattr(condition, "operator") and
-                        condition.operator == ConditionOperator.REGEX and
-                        hasattr(condition, "value")):
-
+                    if (
+                        hasattr(condition, "operator")
+                        and condition.operator == ConditionOperator.REGEX
+                        and hasattr(condition, "value")
+                    ):
                         # Check for potentially slow regex patterns
                         pattern = condition.value
                         if self._is_slow_regex(pattern):
@@ -719,7 +729,7 @@ class PolicyValidator:
                                     description=f"Regex pattern in condition {i} may have poor performance",
                                     rule_id=policy.rule_id,
                                     field_path=f"conditions[{i}].value",
-                                    suggestion="Consider optimizing regex pattern or using simpler operators"
+                                    suggestion="Consider optimizing regex pattern or using simpler operators",
                                 )
                             )
 
@@ -741,7 +751,7 @@ class PolicyValidator:
 
         return False
 
-    def _validate_trinity_compliance(self, policies: list[PolicyRule]) -> list[ValidationIssue]:
+    def _validate_triad_compliance(self, policies: list[PolicyRule]) -> list[ValidationIssue]:
         """Validate Trinity Framework compliance"""
 
         issues = []
@@ -753,21 +763,21 @@ class PolicyValidator:
             policy_type = policy.policy_type
 
             # Check for required Trinity tags
-            if policy_type in self.trinity_required_tags:
-                required_tags = self.trinity_required_tags[policy_type]
+            if policy_type in self.triad_required_tags:
+                required_tags = self.triad_required_tags[policy_type]
                 policy_tags = getattr(policy, "context_tags", set())
 
                 missing_tags = set(required_tags) - policy_tags
                 if missing_tags:
                     issues.append(
                         ValidationIssue(
-                            issue_id=f"missing_trinity_tags_{policy.rule_id}",
+                            issue_id=f"missing_triad_tags_{policy.rule_id}",
                             category=ValidationCategory.TRINITY,
                             severity=ValidationSeverity.WARNING,
                             title="Missing Trinity Framework Tags",
                             description=f"Policy type {policy_type.value} requires Trinity tags: {', '.join(missing_tags)}",
                             rule_id=getattr(policy, "rule_id", "unknown"),
-                            suggestion=f"Add Trinity Framework tags: {', '.join(missing_tags)}"
+                            suggestion=f"Add Trinity Framework tags: {', '.join(missing_tags)}",
                         )
                     )
 
@@ -820,36 +830,24 @@ class PolicyValidator:
             f"  Info: {result.info_count}",
             f"  Suggestions: {result.suggestion_count}",
             "",
-            f"Validation Time: {result.validation_time:.2f}s"
+            f"Validation Time: {result.validation_time:.2f}s",
         ]
 
         if result.issues:
-            summary_parts.extend([
-                "",
-                "Top Issues:"
-            ])
+            summary_parts.extend(["", "Top Issues:"])
 
             # Show top 5 most severe issues
-            sorted_issues = sorted(result.issues,
-                                 key=lambda x: (x.severity.value, x.category.value))
+            sorted_issues = sorted(result.issues, key=lambda x: (x.severity.value, x.category.value))
 
             for issue in sorted_issues[:5]:
-                summary_parts.append(
-                    f"  [{issue.severity.value.upper()}] {issue.title}: {issue.description[:100]}..."
-                )
+                summary_parts.append(f"  [{issue.severity.value.upper()}] {issue.title}: {issue.description[:100]}...")
 
         return "\n".join(summary_parts)
 
 
 # Export main classes
-__all__ = [
-    "ValidationSeverity",
-    "ValidationCategory",
-    "ValidationIssue",
-    "ValidationResult",
-    "PolicyValidator"
-]
+__all__ = ["ValidationSeverity", "ValidationCategory", "ValidationIssue", "ValidationResult", "PolicyValidator"]
 
-#TAG:ethics
-#TAG:neuroplastic
-#TAG:colony
+# TAG:ethics
+# TAG:neuroplastic
+# TAG:colony

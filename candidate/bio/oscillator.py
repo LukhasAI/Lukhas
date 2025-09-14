@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 
 __module__ = "bio.oscillator"
-__trinity__ = "⚛️🧠🛡️"
+__triad__ = "⚛️🧠🛡️"
 
 
 @dataclass

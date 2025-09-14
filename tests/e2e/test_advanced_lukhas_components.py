@@ -558,8 +558,8 @@ class TestDreamSystem:
                 raise Exception("Symbolic tag detection failed")
 
             # Test Trinity Framework symbol detection
-            trinity_dreams = [d for d in dreams if "trinity" in d.get("tags", [])]
-            if len(trinity_dreams) == 0:
+            triad_dreams = [d for d in dreams if "trinity" in d.get("tags", [])]
+            if len(triad_dreams) == 0:
                 raise Exception("Trinity Framework symbol detection failed")
 
             # Test content symbolic analysis

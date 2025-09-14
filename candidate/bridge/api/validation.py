@@ -31,7 +31,12 @@ from typing import Any, Optional
 
 try:
     import jwt
-    from pydantic import BaseModel, Field, ValidationError, validator  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    from pydantic import (
+        BaseModel,
+        Field,
+        ValidationError,
+        validator,
+    )  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
 
     JWT_AVAILABLE = True
 except ImportError:
@@ -105,6 +110,26 @@ class ValidationResult(BaseModel):
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         )
+
+    def summary(self) -> dict[str, Any]:
+        """Return a governance-friendly summary for reporting pipelines."""
+        error_counts: dict[str, int] = {}
+        for e in self.errors:
+            t = e.get("type", "unknown")
+            error_counts[t] = error_counts.get(t, 0) + 1
+        severity_counts: dict[str, int] = {}
+        for e in self.errors:
+            s = e.get("severity", "error")
+            severity_counts[s] = severity_counts.get(s, 0) + 1
+        return {
+            "is_valid": self.is_valid,
+            "errors": len(self.errors),
+            "warnings": len(self.warnings),
+            "error_counts": error_counts,
+            "severity_counts": severity_counts,
+            "execution_time_ms": self.execution_time_ms,
+            "version": self.validator_version,
+        }
 
 
 class SecurityValidator:

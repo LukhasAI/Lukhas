@@ -190,7 +190,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
         # Add module metadata
         content += f"__module__ = 'bio.{category_name}'\n"
-        content += "__trinity__ = '⚛️🧠🛡️'\n\n"
+        content += "__triad__ = '⚛️🧠🛡️'\n\n"
 
         # Add placeholder implementations for classes
         for cls in all_classes:
@@ -240,7 +240,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 __version__ = "3.0.0"
-__trinity__ = "⚛️🧠🛡️"
+__triad__ = "⚛️🧠🛡️"
 
 # Core components
 from . import oscillator
@@ -281,7 +281,7 @@ def get_bio_engine():
     return _engine
 
 # Trinity integration
-def trinity_sync():
+def triad_sync():
     """Synchronize with Trinity Framework"""
     return {
         'identity': '⚛️',
@@ -313,7 +313,7 @@ def test_bio_imports():
     """Test that bio modules can be imported"""
     from lukhas.accepted import bio
     assert bio is not None
-    assert hasattr(bio, '__trinity__')
+    assert hasattr(bio, '__triad__')
 
 def test_bio_core_components():
     """Test core bio components are available"""
@@ -331,11 +331,11 @@ def test_bio_engine():
     engine = get_bio_engine()
     assert engine is not None
 
-def test_trinity_integration():
+def test_triad_integration():
     """Test Trinity Framework integration"""
-    from lukhas.accepted.bio import trinity_sync
+    from lukhas.accepted.bio import triad_sync
 
-    sync_status = trinity_sync()
+    sync_status = triad_sync()
     assert sync_status['identity'] == '⚛️'
     assert sync_status['consciousness'] == '🧠'
     assert sync_status['guardian'] == '🛡️'

@@ -18,7 +18,7 @@ from lukhas import branding_bridge as bb
 
 with warnings.catch_warnings(record=True) as w:
     warnings.simplefilter("always")
-    tr = bb.get_trinity_description()
+    tr = bb.get_triad_description()
     cs = bb.get_constellation_context()
 
     print("constellation framework:", tr.get("framework"))

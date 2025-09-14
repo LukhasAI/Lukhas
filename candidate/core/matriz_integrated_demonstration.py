@@ -590,7 +590,7 @@ class MatrizIntegratedConsciousnessDemo:
             "final_consciousness_state": final_consciousness_state,
             "final_system_status": final_status,
             "phase_results": self.demo_results,
-            "trinity_framework_validation": {
+            "triad_framework_validation": {
                 "identity": "✅ Consciousness identity persistence demonstrated",
                 "consciousness": "✅ Distributed consciousness network operational",
                 "guardian": "✅ Ethical governance and oversight active",

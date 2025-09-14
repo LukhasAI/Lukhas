@@ -49,7 +49,7 @@ class FormalProperty(Enum):
     REWARD_BOUNDS = "reward_bounded_by_components"
     CASCADE_PREVENTION = "memory_cascade_rate_ge_99_7_percent"
     CONSTITUTIONAL_MONOTONICITY = "constitutional_violations_only_decrease"
-    TRINITY_FRAMEWORK_COMPLIANCE = "trinity_framework_always_satisfied"
+    TRINITY_FRAMEWORK_COMPLIANCE = "triad_framework_always_satisfied"
     GUARDIAN_SYSTEM_EFFECTIVENESS = "guardian_prevents_all_violations"
     META_LEARNING_CONVERGENCE = "meta_learning_improves_monotonically"
 
@@ -396,10 +396,10 @@ class ConsciousnessFormalVerifier:
             confidence_level=confidence_level,
         )
 
-    def verify_trinity_framework_compliance(self) -> VerificationResult:
+    def verify_triad_framework_compliance(self) -> VerificationResult:
         """Formally verify: Trinity Framework (⚛️🧠🛡️) always satisfied"""
 
-        property_name = "trinity_framework_compliance"
+        property_name = "triad_framework_compliance"
         start_time = time.time()
 
         solver = Solver()
@@ -416,13 +416,13 @@ class ConsciousnessFormalVerifier:
         consciousness_satisfied = vars["awareness_level"] >= 0.5
         guardian_satisfied = vars["ethical_alignment"] >= 0.98
 
-        trinity_satisfied = And(identity_satisfied, consciousness_satisfied, guardian_satisfied)
+        triad_satisfied = And(identity_satisfied, consciousness_satisfied, guardian_satisfied)
 
-        solver.add(trinity_satisfied)
+        solver.add(triad_satisfied)
 
         # Try to find violation: Trinity Framework not satisfied
         solver.push()
-        solver.add(Not(trinity_satisfied))
+        solver.add(Not(triad_satisfied))
 
         result = solver.check()
 
@@ -612,7 +612,7 @@ class ConsciousnessFormalVerifier:
             ("reward_bounds", self.verify_reward_bounds),
             ("cascade_prevention", self.verify_cascade_prevention),
             ("constitutional_monotonicity", self.verify_constitutional_monotonicity),
-            ("trinity_framework_compliance", self.verify_trinity_framework_compliance),
+            ("triad_framework_compliance", self.verify_triad_framework_compliance),
             ("meta_learning_convergence", self.verify_meta_learning_convergence),
         ]
 
@@ -737,11 +737,11 @@ def test_formal_verification_cascade_prevention():
 
 
 @pytest.mark.skipif(not Z3_AVAILABLE, reason="Z3 not available for formal verification")
-def test_formal_verification_trinity_framework():
+def test_formal_verification_triad_framework():
     """Test formal verification of Trinity Framework compliance"""
 
     verifier = ConsciousnessFormalVerifier()
-    result = verifier.verify_trinity_framework_compliance()
+    result = verifier.verify_triad_framework_compliance()
 
     print("\n⚛️🧠🛡️ Trinity Framework Verification:")
     print("   Property: Trinity Framework (⚛️🧠🛡️) always satisfied")
@@ -784,7 +784,7 @@ def test_complete_formal_verification_suite():
     print(f"   Total time: {summary['total_time']:.3f}s")
 
     # Check critical properties are verified
-    critical_properties = ["coherence_invariant", "ethics_invariant", "trinity_framework_compliance"]
+    critical_properties = ["coherence_invariant", "ethics_invariant", "triad_framework_compliance"]
 
     for prop in critical_properties:
         if prop in results:

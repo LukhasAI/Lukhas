@@ -8,7 +8,7 @@ TODO[T4-AUDIT]:triage - Colony system implementation status unclear. Need integr
 import streamlit as st
 
 __version__ = "1.0.0"
-__trinity__ = "⚛️🧠🛡️"
+__triad__ = "⚛️🧠🛡️"
 
 # Core colony interfaces
 from . import (
@@ -39,16 +39,16 @@ __all__ = [
 ]
 
 
-def trinity_sync():
+def triad_sync():
     """Synchronize all colonies with Trinity Framework"""
     registry = get_colony_registry()
 
     sync_results = {}
     for colony_name, colony in registry.get_all_colonies().items():
-        if hasattr(colony, "trinity_sync"):
-            sync_results[colony_name] = colony.trinity_sync()
+        if hasattr(colony, "triad_sync"):
+            sync_results[colony_name] = colony.triad_sync()
         else:
-            sync_results[colony_name] = {"status": "no_trinity_support"}
+            sync_results[colony_name] = {"status": "no_triad_support"}
 
     return {
         "identity": "⚛️",

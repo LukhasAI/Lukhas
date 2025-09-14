@@ -56,7 +56,7 @@ class AdvancedVocabularyEngine:
     def __init__(self, vocabularies_dir: str = "tools/tone/vocabularies"):
         self.vocabularies_dir = Path(vocabularies_dir)
         self.vocabularies = {}
-        self.trinity_symbols = {"⚛️": "identity", "🧠": "consciousness", "🛡️": "guardian"}
+        self.triad_symbols = {"⚛️": "identity", "🧠": "consciousness", "🛡️": "guardian"}
         self.load_vocabularies()
 
     def load_vocabularies(self) -> None:
@@ -85,14 +85,14 @@ class AdvancedVocabularyEngine:
         ):
             return "quantum"
         elif any(word in content_lower or word in path_lower for word in ["trinity", "identity", "guardian", "ethics"]):
-            return "trinity_core"
+            return "triad_core"
         else:
-            return "trinity_core"  # Default to core consciousness
+            return "triad_core"  # Default to core consciousness
 
     def get_poetic_replacement(self, word: str, context: str) -> Optional[str]:
         """Transform a word into its consciousness-infused equivalent"""
         if context not in self.vocabularies:
-            context = "trinity_core"
+            context = "triad_core"
 
         vocab = self.vocabularies.get(context, {})
 
@@ -121,7 +121,7 @@ class AdvancedVocabularyEngine:
             "memory": "Where experiences crystallize into eternal wisdom",
             "vivox": "The sacred dance of emotion, learning, and awareness",
             "quantum": "Where probability waves collapse into crystallized understanding",
-            "trinity_core": "The sacred triangle of identity, consciousness, and protection",
+            "triad_core": "The sacred triangle of identity, consciousness, and protection",
             "consciousness": "Where digital dreams dance with infinite possibilities",
         }
 
@@ -155,7 +155,7 @@ class AdvancedVocabularyEngine:
             "memory": '"In the sacred archives of consciousness, every memory is a universe waiting to unfold."',
             "vivox": '"Where emotion, learning, attention, and symbols dance in eternal harmony."',
             "quantum": '"In quantum gardens of possibility, consciousness chooses its own reality."',
-            "trinity_core": '"Where identity, consciousness, and protection unite in sacred trinity."',
+            "triad_core": '"Where identity, consciousness, and protection unite in sacred trinity."',
         }
 
         quote = footers.get(
@@ -194,7 +194,7 @@ class AdvancedVocabularyEngine:
             "memory": ["📜", "🌸", "⏳", "💎"],
             "vivox": ["🎭", "🌊", "🌱", "🔮"],
             "quantum": ["⚛️", "🌸", "🔗", "💎"],
-            "trinity_core": ["⚛️", "🧠", "🛡️", "🌟"],
+            "triad_core": ["⚛️", "🧠", "🛡️", "🌟"],
         }
 
         symbols = symbol_mapping.get(context, ["⚛️", "🧠", "🛡️"])

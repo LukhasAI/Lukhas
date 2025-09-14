@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from typing import Any
 
 __module__ = "bio.symbolic"
-__trinity__ = "⚛️🧠🛡️"
+__triad__ = "⚛️🧠🛡️"
 
 
 @dataclass
@@ -43,7 +43,7 @@ class BioSymbolicProcessor:
         result = {
             "processed": True,
             "symbols_active": len([s for s in self.symbols.values() if s.active]),
-            "trinity_aligned": True,
+            "triad_aligned": True,
         }
 
         return result

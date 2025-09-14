@@ -27,7 +27,9 @@ except ImportError:
 try:
     from opentelemetry import metrics, trace  # noqa: F401  # TODO: opentelemetry.metrics; conside...
     from opentelemetry.sdk.trace import TracerProvider
-    from opentelemetry.sdk.trace.export import BatchSpanProcessor  # noqa: F401  # TODO: opentelemetry.sdk.trace.export...
+    from opentelemetry.sdk.trace.export import (
+        BatchSpanProcessor,
+    )  # noqa: F401  # TODO: opentelemetry.sdk.trace.export...
 
     OPENTELEMETRY_AVAILABLE = True
 except ImportError:
@@ -298,8 +300,8 @@ class T4ObservabilityStack:
     #
     # Example:
     #
-    # async def collect_trinity_metrics(self, trinity_app: TrinityFramework):
-    #     metrics = await trinity_app.get_performance_metrics()
+    # async def collect_triad_metrics(self, triad_app: TrinityFramework):
+    #     metrics = await triad_app.get_performance_metrics()
     #     self.submit_metric('gauge', 'lukhas.trinity.coherence', metrics.coherence_score)
     #     self.submit_metric('gauge', 'lukhas.trinity.active_sessions', metrics.active_sessions)
     #
