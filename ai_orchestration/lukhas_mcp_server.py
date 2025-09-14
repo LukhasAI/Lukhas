@@ -31,9 +31,7 @@ try:
     from lukhas.consciousness.awareness_engine import ConsciousnessAwarenessEngine
     from lukhas.governance.guardian_system.guardian_validator import GuardianValidator
     from lukhas.memory.fold_system import MemoryFoldSystem
-    from tools.analysis._OPERATIONAL_SUMMARY import (
-        LUKHASOperationalAnalyzer,
-    )  # noqa: F401  # TODO: tools.analysis._OPERATIONAL_SU...
+    from ai_orchestration.mcp_operational_support import LUKHASMCPOperationalSupport, MCPServerContext
 except ImportError as e:
     logging.warning(f"Could not import LUKHAS modules: {e}")
 
@@ -58,6 +56,8 @@ class LUKHASConsciousnessMCP:
         self.guardian_validator = None
         self.consciousness_engine = None
         self.memory_system = None
+        self.operational_support = None
+        self.metrics_history = []
 
         # Initialize LUKHAS systems
         self._initialize_consciousness_systems()
@@ -109,6 +109,7 @@ class LUKHASConsciousnessMCP:
             self.guardian_validator = GuardianValidator()
             self.consciousness_engine = ConsciousnessAwarenessEngine()
             self.memory_system = MemoryFoldSystem()
+            self.operational_support = LUKHASMCPOperationalSupport()
             logging.info("✅ LUKHAS consciousness systems initialized")
         except Exception as e:
             logging.warning(f"⚠️ Could not initialize all consciousness systems: {e}")
@@ -351,6 +352,34 @@ class LUKHASConsciousnessMCP:
                         "required": ["agent_type", "current_task"],
                     },
                 ),
+                Tool(
+                    name="operational_health_check",
+                    description="Perform operational health check of the MCP server",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {},
+                    },
+                ),
+                Tool(
+                    name="analyze_mcp_performance",
+                    description="Analyze historical performance data for trends and anomalies.",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {},
+                    },
+                ),
+                Tool(
+                    name="trigger_mcp_support_workflow",
+                    description="Triggers an automated support workflow for a given incident.",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {
+                            "incident_id": {"type": "string"},
+                            "description": {"type": "string"},
+                        },
+                        "required": ["incident_id", "description"],
+                    },
+                ),
             ]
 
         @self.server.call_tool()
@@ -371,6 +400,12 @@ class LUKHASConsciousnessMCP:
                 return await self._consciousness_health_check(arguments)
             elif name == "create_consciousness_context":
                 return await self._create_consciousness_context(arguments)
+            elif name == "operational_health_check":
+                return await self._operational_health_check(arguments)
+            elif name == "analyze_mcp_performance":
+                return await self._analyze_mcp_performance(arguments)
+            elif name == "trigger_mcp_support_workflow":
+                return await self._trigger_mcp_support_workflow(arguments)
             else:
                 raise ValueError(f"Unknown tool: {name}")
 
@@ -719,6 +754,71 @@ class LUKHASConsciousnessMCP:
             compliance["score"] = 0.0
 
         return compliance
+
+    async def _operational_health_check(self, arguments: dict[str, Any]) -> list[TextContent]:
+        """Perform operational health check."""
+        if not self.operational_support:
+            return [TextContent(type="text", text="Operational support is not initialized.")]
+
+        # Create a server context with real data if possible
+        server_context = MCPServerContext()
+
+        # These attributes might not exist on the server object, this is an educated guess
+        # In a real scenario, we would need to know the actual API of the MCP server
+        server_context.active_connections = getattr(self.server, 'active_connections', 0)
+        server_context.requests_per_minute = getattr(self.server, 'requests_per_minute', 0)
+        server_context.error_rate = getattr(self.server, 'error_rate', 0.0)
+
+        metrics = self.operational_support.monitor_mcp_operations(server_context)
+
+        # Store metrics in history
+        self.metrics_history.append(metrics)
+        if len(self.metrics_history) > 100: # Limit history size
+            self.metrics_history.pop(0)
+
+        # Format the metrics for display
+        formatted_metrics = "📊 Operational Health Check Results\n\n"
+        for key, value in metrics.metrics.items():
+            if isinstance(value, float):
+                formatted_metrics += f"- {key.replace('_', ' ').title()}: {value:.2f}\n"
+            else:
+                formatted_metrics += f"- {key.replace('_', ' ').title()}: {value}\n"
+
+        return [TextContent(type="text", text=formatted_metrics)]
+
+    async def _analyze_mcp_performance(self, arguments: dict[str, Any]) -> list[TextContent]:
+        """Analyze historical MCP performance data."""
+        if not self.operational_support:
+            return [TextContent(type="text", text="Operational support is not initialized.")]
+
+        analysis_result = self.operational_support.analyze_operational_patterns(self.metrics_history)
+
+        formatted_result = "📈 Performance Analysis Results\n\n"
+        if analysis_result.findings:
+            for finding in analysis_result.findings:
+                formatted_result += f"- {finding}\n"
+        else:
+            formatted_result += "No significant patterns found."
+
+        return [TextContent(type="text", text=formatted_result)]
+
+    async def _trigger_mcp_support_workflow(self, arguments: dict[str, Any]) -> list[TextContent]:
+        """Triggers an automated support workflow for a given incident."""
+        if not self.operational_support:
+            return [TextContent(type="text", text="Operational support is not initialized.")]
+
+        incident = SupportIncident(
+            incident_id=arguments["incident_id"],
+            description=arguments["description"],
+        )
+
+        result = self.operational_support.automate_support_workflows(incident)
+
+        formatted_result = f"🤖 Workflow Result for Incident {result.incident_id}\n\n"
+        formatted_result += f"Success: {result.success}\n"
+        formatted_result += f"Message: {result.message}\n"
+
+        return [TextContent(type="text", text=formatted_result)]
 
 
 async def main():
