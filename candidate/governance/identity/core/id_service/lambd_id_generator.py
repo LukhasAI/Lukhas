@@ -1,18 +1,12 @@
-"""Compatibility shim: re-export canonical generator implementation.
+"""LUKHAS ΛiD Generator implementation (legacy module name).
 
-This shim keeps the legacy module path importable while the real
-implementation lives in `lambda_id_generator.py` (canonical name).
+This module contains the full implementation. Canonical wrapper
+`lambda_id_generator.py` re-exports `LambdaIDGenerator` from here.
 """
 
 from datetime import timezone
-
-from .lambda_id_generator import LambdaIDGenerator
-
-# Backwards-compatible alias
-LambdIDGenerator = LambdaIDGenerator
-
-__all__ = ["LambdIDGenerator", "LambdaIDGenerator"]
 import hashlib
+import os
 import json
 import secrets
 import time
@@ -81,6 +75,11 @@ class LambdaIDGenerator:
         self.symbolic_chars = self._load_symbolic_chars()
         self.reserved_combinations = self._load_reserved_combinations()
         self.generated_ids = set()  # Collision prevention
+        # Basic in-memory stats
+        self._stats_total_generated: int = 0
+        self._stats_collisions: int = 0
+        self._stats_per_tier: dict[int, int] = {}
+        self._stats_symbolic_usage: dict[str, int] = {}
 
     def generate_lambda_id(
         self,
@@ -113,6 +112,8 @@ class LambdaIDGenerator:
 
         # Validate uniqueness
         if lambda_id in self.generated_ids:
+            # Track collision and retry
+            self._stats_collisions += 1
             return self._handle_collision(tier, user_context, symbolic_preference)
 
         self.generated_ids.add(lambda_id)
@@ -176,13 +177,28 @@ class LambdaIDGenerator:
 
     def _load_config(self, config_path: Optional[str] = None) -> dict:
         """Load ΛiD generation configuration"""
-        # TODO: Load from actual config file
-        return {
+        # Load from provided path or environment variable; default to sane values
+        path = config_path or os.getenv("LUKHAS_LAMBDA_ID_CONFIG")
+        default_cfg = {
             "id_length": 4,
             "max_retries": 5,
             "symbolic_enabled": True,
             "tier_restrictions": True,
+            "log_path": "logs/lambda_id_generation.log",
         }
+        if not path:
+            return default_cfg
+        try:
+            import json as _json
+
+            with open(path, "r", encoding="utf-8") as f:
+                data = _json.load(f)
+            if isinstance(data, dict):
+                # Merge with defaults
+                return {**default_cfg, **data}
+        except Exception:
+            pass
+        return default_cfg
 
     def _load_symbolic_chars(self) -> dict[str, list[str]]:
         """Load tier-appropriate symbolic characters"""
@@ -205,24 +221,47 @@ class LambdaIDGenerator:
 
     def _log_generation(self, lambda_id: str, tier: TierLevel, user_context: Optional[dict] = None) -> None:
         """Log ΛiD generation event for audit trail"""
-        {
+        record = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "lambda_id": lambda_id,
             "tier": tier.value,
             "context": user_context or {},
             "generator_version": "1.0.0",
         }
+        # Update in-memory stats
+        self._stats_total_generated += 1
+        self._stats_per_tier[tier.value] = self._stats_per_tier.get(tier.value, 0) + 1
+        try:
+            _symbol = lambda_id.split("-")[2]
+            self._stats_symbolic_usage[_symbol] = self._stats_symbolic_usage.get(_symbol, 0) + 1
+        except Exception:
+            pass
 
-        # TODO: Implement actual logging to file/database
-        print(f"ΛiD Generated: {lambda_id} (Tier {tier.value})")
+        # Append to log file if configured
+        log_path = self.config.get("log_path")
+        if log_path:
+            import os as _os
+
+            _os.makedirs(_os.path.dirname(log_path), exist_ok=True)
+            try:
+                with open(log_path, "a", encoding="utf-8") as f:
+                    f.write(json.dumps(record) + "\n")
+            except Exception:
+                # Fallback to console if file logging fails
+                print(f"ΛiD Generated: {lambda_id} (Tier {tier.value})")
+        else:
+            # Fallback to console logging
+            print(f"ΛiD Generated: {lambda_id} (Tier {tier.value})")
 
     def get_generation_stats(self) -> dict:
         """Get statistics about generated ΛiDs"""
+        total_attempts = self._stats_total_generated + self._stats_collisions
+        collision_rate = (self._stats_collisions / total_attempts) if total_attempts > 0 else 0.0
         return {
-            "total_generated": len(self.generated_ids),
-            "collision_rate": 0.0,  # TODO: Calculate actual collision rate
-            "tier_distribution": {},  # TODO: Calculate tier distribution
-            "symbolic_usage": {},  # TODO: Calculate symbolic character usage
+            "total_generated": self._stats_total_generated,
+            "collision_rate": round(collision_rate, 4),
+            "tier_distribution": dict(sorted(self._stats_per_tier.items())),
+            "symbolic_usage": dict(sorted(self._stats_symbolic_usage.items(), key=lambda kv: (-kv[1], kv[0]))),
         }
 
 

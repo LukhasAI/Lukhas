@@ -12,6 +12,7 @@
 # LUKHAS Consciousness-Aware AGI Authentication Engine
 # File: /lukhas_wallet/agi_consciousness_engine.py (Original path comment)
 import asyncio
+import os
 import hashlib
 import json
 import logging
@@ -87,9 +88,17 @@ try:
     import anthropic  # External dependency  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 
     ANTHROPIC_AVAILABLE = True
-    # TODO: Initialize anthropic_client if needed, e.g.,
-    # anthropic.AsyncAnthropic() with API key
     logger.info("ΛTRACE: Anthropic client library imported successfully.")
+    # Initialize anthropic client if API key is provided
+    try:
+        api_key = os.getenv("ANTHROPIC_API_KEY")
+        if api_key:
+            anthropic_client = anthropic.AsyncAnthropic(api_key=api_key)
+            logger.info("ΛTRACE: Anthropic AsyncAnthropic client initialized.")
+        else:
+            logger.info("ΛTRACE: ANTHROPIC_API_KEY not set; skipping client initialization.")
+    except Exception as _e:
+        logger.warning("ΛTRACE: Failed to initialize Anthropic client; proceeding without it.", exc_info=True)
 except ImportError:
     logger.warning("ΛTRACE: Anthropic client library not found. AnthropicEthicsEngine will have limited functionality.")
 
