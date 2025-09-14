@@ -49,6 +49,7 @@ dev = [
     "coverage>=7.3.0",
     "bandit>=1.7.5",
     "pre-commit>=3.4.0",
+    "PyJWT>=2.8.0",
 ]
 lambda = [
     "msgpack>=1.0.5",
@@ -114,6 +115,8 @@ markers = [
     "no_external_calls: tests that make no external API calls",
     "fault: fault injection tests",
     "perf: performance tests",
+    "adapters: external service adapter tests",
+    "oauth: OAuth integration tests",
 ]
 filterwarnings = [
     "ignore::DeprecationWarning",

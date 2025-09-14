@@ -8,9 +8,8 @@ and OAuth authentication flows with enterprise-grade security.
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 """
 
-from .dropbox_adapter import DropboxAdapter
-from .external_service_router import ExternalServiceRouter
 from .gmail_adapter import GmailAdapter
 from .oauth_manager import OAuthManager
+from .dropbox_adapter import DropboxAdapter
 
-__all__ = ["DropboxAdapter", "ExternalServiceRouter", "GmailAdapter", "OAuthManager"]
+__all__ = ["GmailAdapter", "OAuthManager", "DropboxAdapter"]

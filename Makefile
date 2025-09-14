@@ -581,3 +581,27 @@ specs-sync:
 
 test-goldens:
 	@python3 tools/tests/validate_golden.py
+
+# Jules-06 focused test lane
+.PHONY: test-jules06
+test-jules06:
+	@echo "🧪 Jules-06 focused adapters lane"
+	@export TZ=UTC PYTHONHASHSEED=0 PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=.; \
+	pytest -q \
+	  -m "not quarantine" \
+	  tests/unit/bridge/adapters/test_gmail_adapter.py \
+	  tests/unit/bridge/adapters/test_dropbox_adapter.py \
+	  tests/unit/bridge/adapters/test_oauth_manager.py \
+	  tests/unit/security/test_security.py \
+	  tests/integration/bridge/adapters/test_gmail_adapter.py \
+	  tests/integration/bridge/adapters/test_dropbox_adapter.py \
+	  tests/integration/bridge/adapters/test_oauth_manager.py \
+	  tests/integration/bridge/test_service_integration.py \
+	  tests/integration/security/test_security.py \
+	  --cov=candidate.bridge.adapters \
+	  --cov=candidate.bridge.external_adapters \
+	  --cov=candidate.bridge.api.validation \
+	  --cov=candidate.bridge.adapters.service_adapter_base \
+	  --cov-branch \
+	  --cov-report=xml:reports/tests/cov_adapters.xml \
+	  --cov-report=term-missing
