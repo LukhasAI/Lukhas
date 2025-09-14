@@ -247,7 +247,7 @@ class LambdaHealthcareGuardian:
 
         # Initialize LUKHAS Trinity Framework
         if LUKHAS_AVAILABLE:
-            self._init_trinity_framework()
+            self._init_triad_framework()
 
         # Initialize Healthcare Components
         self._init_healthcare_components()
@@ -260,7 +260,7 @@ class LambdaHealthcareGuardian:
 
         logger.info("✅ Lambda Healthcare Guardian initialized")
 
-    def _init_trinity_framework(self):
+    def _init_triad_framework(self):
         """Initialize LUKHAS Trinity Framework components with full integration"""
         try:
             # ⚛️ Identity - Core authentication and identity management

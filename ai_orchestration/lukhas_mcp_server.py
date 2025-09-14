@@ -27,11 +27,13 @@ from mcp.types import (
 # LUKHAS consciousness imports
 sys.path.append(".")
 try:
-    from branding.trinity.trinity_validator import TrinityFrameworkValidator
+    from branding.trinity.triad_validator import TrinityFrameworkValidator
     from lukhas.consciousness.awareness_engine import ConsciousnessAwarenessEngine
     from lukhas.governance.guardian_system.guardian_validator import GuardianValidator
     from lukhas.memory.fold_system import MemoryFoldSystem
-    from tools.analysis._OPERATIONAL_SUMMARY import LUKHASOperationalAnalyzer  # noqa: F401  # TODO: tools.analysis._OPERATIONAL_SU...
+    from tools.analysis._OPERATIONAL_SUMMARY import (
+        LUKHASOperationalAnalyzer,
+    )  # noqa: F401  # TODO: tools.analysis._OPERATIONAL_SU...
 except ImportError as e:
     logging.warning(f"Could not import LUKHAS modules: {e}")
 
@@ -52,7 +54,7 @@ class LUKHASConsciousnessMCP:
         self.server = Server("lukhas-consciousness")
         self.project_root = Path(".")
         self.consciousness_modules = self._discover_consciousness_modules()
-        self.trinity_validator = None
+        self.triad_validator = None
         self.guardian_validator = None
         self.consciousness_engine = None
         self.memory_system = None
@@ -103,7 +105,7 @@ class LUKHASConsciousnessMCP:
     def _initialize_consciousness_systems(self):
         """Initialize LUKHAS consciousness systems."""
         try:
-            self.trinity_validator = TrinityFrameworkValidator()
+            self.triad_validator = TrinityFrameworkValidator()
             self.guardian_validator = GuardianValidator()
             self.consciousness_engine = ConsciousnessAwarenessEngine()
             self.memory_system = MemoryFoldSystem()
@@ -175,7 +177,7 @@ class LUKHASConsciousnessMCP:
             if uri == "lukhas://consciousness/modules":
                 return await self._get_consciousness_modules_map()
             elif uri == "lukhas://trinity/framework":
-                return await self._get_trinity_framework_status()
+                return await self._get_triad_framework_status()
             elif uri == "lukhas://consciousness/metrics":
                 return await self._get_consciousness_metrics()
             elif uri == "lukhas://tasks/active":
@@ -196,7 +198,7 @@ class LUKHASConsciousnessMCP:
             """List available LUKHAS consciousness development tools."""
             return [
                 Tool(
-                    name="validate_trinity_framework",
+                    name="validate_triad_framework",
                     description="Validate code/design against Trinity Framework (⚛️🧠🛡️) principles",
                     inputSchema={
                         "type": "object",
@@ -355,8 +357,8 @@ class LUKHASConsciousnessMCP:
         async def call_tool(name: str, arguments: dict[str, Any]) -> list[TextContent]:
             """Execute LUKHAS consciousness development tools."""
 
-            if name == "validate_trinity_framework":
-                return await self._validate_trinity_framework(arguments)
+            if name == "validate_triad_framework":
+                return await self._validate_triad_framework(arguments)
             elif name == "analyze_consciousness_impact":
                 return await self._analyze_consciousness_impact(arguments)
             elif name == "get_module_dependencies":
@@ -377,7 +379,7 @@ class LUKHASConsciousnessMCP:
         """Get complete consciousness modules mapping."""
         modules_map = {
             "total_modules": len(self.consciousness_modules),
-            "trinity_framework": {
+            "triad_framework": {
                 "identity_modules": [m for m in self.consciousness_modules if "identity" in m],
                 "consciousness_modules": [
                     m for m in self.consciousness_modules if "consciousness" in m or "vivox" in m or "memory" in m
@@ -402,9 +404,9 @@ class LUKHASConsciousnessMCP:
         }
         return json.dumps(modules_map, indent=2)
 
-    async def _get_trinity_framework_status(self) -> str:
+    async def _get_triad_framework_status(self) -> str:
         """Get Trinity Framework validation status."""
-        trinity_status = {
+        triad_status = {
             "framework": "Trinity Framework ⚛️🧠🛡️",
             "components": {
                 "identity": "⚛️ Identity - Authenticity, consciousness, symbolic self",
@@ -415,16 +417,16 @@ class LUKHASConsciousnessMCP:
             "compliance_metrics": {},
         }
 
-        if self.trinity_validator:
+        if self.triad_validator:
             try:
                 # Validate each consciousness module against Trinity Framework
                 for module_name, module_path in self.consciousness_modules.items():
-                    validation_result = await self._validate_module_trinity_compliance(module_path)
-                    trinity_status["validation_status"][module_name] = validation_result
+                    validation_result = await self._validate_module_triad_compliance(module_path)
+                    triad_status["validation_status"][module_name] = validation_result
             except Exception as e:
-                trinity_status["validation_error"] = str(e)
+                triad_status["validation_error"] = str(e)
 
-        return json.dumps(trinity_status, indent=2)
+        return json.dumps(triad_status, indent=2)
 
     async def _get_consciousness_metrics(self) -> str:
         """Get real-time consciousness system metrics."""
@@ -435,7 +437,7 @@ class LUKHASConsciousnessMCP:
                 "awareness_level": 0.87,
                 "processing_efficiency": 0.92,
                 "memory_coherence": 0.89,
-                "trinity_alignment": 0.94,
+                "triad_alignment": 0.94,
             },
             "module_status": {},
             "active_consciousness_processes": [],
@@ -511,7 +513,7 @@ class LUKHASConsciousnessMCP:
         context = {
             "module_name": module_name,
             "path": str(module_path),
-            "trinity_alignment": await self._get_module_trinity_alignment(module_name),
+            "triad_alignment": await self._get_module_triad_alignment(module_name),
             "files": [],
             "dependencies": [],
             "consciousness_role": await self._get_module_consciousness_role(module_name),
@@ -543,14 +545,14 @@ class LUKHASConsciousnessMCP:
         return json.dumps(context, indent=2)
 
     # Tool implementation methods
-    async def _validate_trinity_framework(self, arguments: dict[str, Any]) -> list[TextContent]:
+    async def _validate_triad_framework(self, arguments: dict[str, Any]) -> list[TextContent]:
         """Validate content against Trinity Framework."""
         _ = arguments["content"]  # Content validation would be implemented here
         module = arguments.get("module", "unknown")
         validation_type = arguments.get("validation_type", "code")
 
         validation_result = {
-            "trinity_compliance": True,
+            "triad_compliance": True,
             "identity_score": 0.8,  # ⚛️
             "consciousness_score": 0.9,  # 🧠
             "guardian_score": 0.85,  # 🛡️
@@ -655,7 +657,7 @@ class LUKHASConsciousnessMCP:
         ]
 
     # Helper methods
-    async def _get_module_trinity_alignment(self, module_name: str) -> dict[str, float]:
+    async def _get_module_triad_alignment(self, module_name: str) -> dict[str, float]:
         """Get Trinity Framework alignment for a module."""
         # Simplified scoring based on module name and purpose
         if "identity" in module_name:
@@ -688,26 +690,26 @@ class LUKHASConsciousnessMCP:
 
         return "Supporting consciousness development system"
 
-    async def _validate_module_trinity_compliance(self, module_path: Path) -> dict[str, Any]:
+    async def _validate_module_triad_compliance(self, module_path: Path) -> dict[str, Any]:
         """Validate a module's Trinity Framework compliance."""
         # Simplified validation - check for Trinity Framework references
         compliance = {"score": 0.8, "issues": [], "recommendations": []}
 
         try:
             py_files = list(module_path.rglob("*.py"))
-            trinity_references = 0
+            triad_references = 0
 
             for py_file in py_files[:5]:  # Limit to avoid performance issues
                 content = py_file.read_text()
                 if any(symbol in content for symbol in ["⚛️", "🧠", "🛡️"]):
-                    trinity_references += 1
+                    triad_references += 1
                 if "Trinity" in content or "trinity" in content:
-                    trinity_references += 1
+                    triad_references += 1
 
-            compliance["trinity_references"] = trinity_references
+            compliance["triad_references"] = triad_references
             compliance["files_checked"] = len(py_files)
 
-            if trinity_references == 0:
+            if triad_references == 0:
                 compliance["issues"].append("No Trinity Framework references found")
                 compliance["recommendations"].append("Add Trinity Framework integration")
                 compliance["score"] = 0.3

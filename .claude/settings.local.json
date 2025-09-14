@@ -186,7 +186,11 @@
       "Bash(gh pr diff:*)",
       "Bash(gh api:*)",
       "Bash(gh pr merge:*)",
-      "Bash(git pull:*)"
+      "Bash(git pull:*)",
+      "Bash(.venv/bin/pytest candidate/core/identity/constellation_validation_test.py --collect-only -q)",
+      "Bash(.venv/bin/python:*)",
+      "Bash(/tmp/count_dirs.sh:*)",
+      "Bash(.venv/bin/pytest --collect-only -q --disable-warnings --continue-on-collection-errors tests/e2e/consciousness/ tests/integration/core/)"
     ],
     "deny": [],
     "ask": []

@@ -17,7 +17,7 @@ def test_real_consent_ledger_initialization():
             db_path = Path(temp_dir) / "test_consent.db"
 
             # Test initialization with real parameters
-            ledger = ConsentLedgerV1(db_path=str(db_path), enable_trinity_validation=True)
+            ledger = ConsentLedgerV1(db_path=str(db_path), enable_triad_validation=True)
 
             assert ledger is not None
             assert hasattr(ledger, "db_path")
@@ -203,25 +203,25 @@ def test_real_gdpr_compliance():
         pytest.skip("ConsentLedgerV1 not available")
 
 
-def test_real_trinity_framework_integration():
+def test_real_triad_framework_integration():
     """Test real Trinity Framework integration with consent ledger."""
     try:
         from lukhas.governance.consent_ledger_impl import ConsentLedgerV1, ConsentScope
 
         with tempfile.TemporaryDirectory() as temp_dir:
             db_path = Path(temp_dir) / "test_consent.db"
-            ledger = ConsentLedgerV1(database_path=str(db_path), trinity_framework=True)
+            ledger = ConsentLedgerV1(database_path=str(db_path), triad_framework=True)
 
             # Test Trinity Framework specific consent types
-            trinity_consent_types = [
+            triad_consent_types = [
                 ("consciousness_data", "Consciousness awareness processing"),
                 ("memory_fold_data", "Memory fold cascade prevention"),
                 ("guardian_data", "Guardian System drift monitoring"),
             ]
 
-            user_id = "trinity_user"
+            user_id = "triad_user"
 
-            for data_type, purpose in trinity_consent_types:
+            for data_type, purpose in triad_consent_types:
                 consent_id = ledger.grant_consent(
                     user_id=user_id, data_type=data_type, purpose=purpose, scope=ConsentScope.TRINITY_FRAMEWORK
                 )
@@ -229,10 +229,10 @@ def test_real_trinity_framework_integration():
                 assert consent_id is not None
 
                 # Verify Trinity-specific validation
-                is_valid = ledger.validate_trinity_consent(
+                is_valid = ledger.validate_triad_consent(
                     user_id=user_id,
                     data_type=data_type,
-                    trinity_context={"framework": "active", "consciousness_level": "aware"},
+                    triad_context={"framework": "active", "consciousness_level": "aware"},
                 )
 
                 assert is_valid is True

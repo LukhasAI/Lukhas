@@ -40,7 +40,7 @@ class CoherenceMetrics:
     """Voice coherence measurement metrics"""
 
     brand_terminology_score: float = 0.0  # Use of approved LUKHAS terms
-    trinity_framework_score: float = 0.0  # ⚛️🧠🛡️ integration
+    triad_framework_score: float = 0.0  # ⚛️🧠🛡️ integration
     consciousness_tech_score: float = 0.0  # Consciousness technology focus
     tone_consistency_score: float = 0.0  # 3-Layer tone system adherence
     founder_authority_score: float = 0.0  # Founder-led positioning
@@ -51,7 +51,7 @@ class CoherenceMetrics:
         """Calculate overall voice coherence percentage"""
         scores = [
             self.brand_terminology_score,
-            self.trinity_framework_score,
+            self.triad_framework_score,
             self.consciousness_tech_score,
             self.tone_consistency_score,
             self.founder_authority_score,
@@ -83,7 +83,7 @@ class VoiceCoherenceAnalyzer:
 
     def __init__(self):
         self.brand_keywords = self._load_brand_keywords()
-        self.trinity_symbols = [
+        self.triad_symbols = [
             "⚛️",
             "🧠",
             "🛡️",
@@ -189,7 +189,7 @@ class VoiceCoherenceAnalyzer:
         brand_score = self._calculate_brand_terminology_score(content_lower)
 
         # Trinity Framework integration
-        trinity_score = self._calculate_trinity_score(content)
+        triad_score = self._calculate_triad_score(content)
 
         # Consciousness technology focus
         consciousness_score = self._calculate_consciousness_score(content_lower)
@@ -205,7 +205,7 @@ class VoiceCoherenceAnalyzer:
 
         return CoherenceMetrics(
             brand_terminology_score=brand_score,
-            trinity_framework_score=trinity_score,
+            triad_framework_score=triad_score,
             consciousness_tech_score=consciousness_score,
             tone_consistency_score=tone_score,
             founder_authority_score=founder_score,
@@ -224,19 +224,19 @@ class VoiceCoherenceAnalyzer:
 
         return min(found_keywords / total_keywords, 1.0)
 
-    def _calculate_trinity_score(self, content: str) -> float:
+    def _calculate_triad_score(self, content: str) -> float:
         """Calculate Trinity Framework (⚛️🧠🛡️) integration score"""
-        trinity_mentions = 0
+        triad_mentions = 0
 
-        for symbol in self.trinity_symbols:
+        for symbol in self.triad_symbols:
             if symbol in content:
-                trinity_mentions += 1
+                triad_mentions += 1
 
         # Perfect score if mentions Trinity Framework concept
         if "trinity framework" in content.lower():
-            trinity_mentions += 2
+            triad_mentions += 2
 
-        return min(trinity_mentions / 5.0, 1.0)  # Max 5 possible mentions
+        return min(triad_mentions / 5.0, 1.0)  # Max 5 possible mentions
 
     def _calculate_consciousness_score(self, content: str) -> float:
         """Calculate consciousness technology focus score"""
@@ -357,7 +357,7 @@ class VoiceCoherenceAnalyzer:
         if metrics.brand_terminology_score < 0.7:
             suggestions.append("Increase use of approved LUKHAS AI brand terminology")
 
-        if metrics.trinity_framework_score < 0.5:
+        if metrics.triad_framework_score < 0.5:
             suggestions.append("Integrate Trinity Framework (⚛️🧠🛡️) concepts and symbols")
 
         if metrics.consciousness_tech_score < 0.6:
@@ -379,7 +379,7 @@ class VoiceCoherenceAnalyzer:
         # Weight different metrics for elite readiness
         weights = {
             "brand_terminology": 0.2,
-            "trinity_framework": 0.15,
+            "triad_framework": 0.15,
             "consciousness_tech": 0.2,
             "tone_consistency": 0.15,
             "founder_authority": 0.15,
@@ -388,7 +388,7 @@ class VoiceCoherenceAnalyzer:
 
         readiness = (
             metrics.brand_terminology_score * weights["brand_terminology"]
-            + metrics.trinity_framework_score * weights["trinity_framework"]
+            + metrics.triad_framework_score * weights["triad_framework"]
             + metrics.consciousness_tech_score * weights["consciousness_tech"]
             + metrics.tone_consistency_score * weights["tone_consistency"]
             + metrics.founder_authority_score * weights["founder_authority"]

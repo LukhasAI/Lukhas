@@ -66,7 +66,7 @@ try:
         BrandContext,
         generate_branded_content,  # noqa: F401  # TODO: lukhas.branding_bridge.generat...
         get_brand_voice,
-        get_trinity_context,  # noqa: F401  # TODO: lukhas.branding_bridge.get_tri...
+        get_triad_context,  # noqa: F401  # TODO: lukhas.branding_bridge.get_tri...
         normalize_output_text,
         validate_output,
     )
@@ -395,7 +395,7 @@ class AdvancedHaikuGenerator:
         if BRANDING_BRIDGE_AVAILABLE:
             brand_context = BrandContext(
                 voice_profile="consciousness",
-                trinity_emphasis="consciousness",
+                triad_emphasis="consciousness",
                 creative_mode=True,
                 compliance_level="standard",
             )

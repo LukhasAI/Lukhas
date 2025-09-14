@@ -1201,7 +1201,7 @@ class OrchestrationService:
         try:
             # Enhanced monitoring parameters for consciousness systems
             monitoring_config = {
-                "trinity_framework_monitoring": True,
+                "triad_framework_monitoring": True,
                 "bio_oscillator_sync": True,
                 "quantum_coherence_tracking": True,
                 "memory_fold_monitoring": True,
@@ -1222,13 +1222,13 @@ class OrchestrationService:
                 if self.message_bus:
                     await self.message_bus.send_message(
                         Message(
-                            id=f"perf_monitor_trinity_{user_id}_{int(time.time())}",
+                            id=f"perf_monitor_triad_{user_id}_{int(time.time())}",
                             type=MessageType.EVENT,
                             source_module="orchestration",
                             target_module="*",  # Broadcast to all modules
                             priority=MessagePriority.HIGH,
                             payload={
-                                "event_type": "trinity_performance_monitoring_started",
+                                "event_type": "triad_performance_monitoring_started",
                                 "monitoring_id": monitoring_result.get("monitoring_id"),
                                 "modules": modules or list(self.module_status.keys()),
                                 "monitoring_config": monitoring_config,
@@ -1244,12 +1244,12 @@ class OrchestrationService:
 
                 # Enhanced orchestration activity logging
                 self.identity_client.log_activity(
-                    "trinity_performance_monitoring_orchestrated",
+                    "triad_performance_monitoring_orchestrated",
                     user_id,
                     {
                         "monitoring_id": monitoring_result.get("monitoring_id"),
                         "modules": modules or list(self.module_status.keys()),
-                        "trinity_framework_enabled": True,
+                        "triad_framework_enabled": True,
                         "consciousness_aware_monitoring": True,
                         "bio_oscillator_monitoring": True,
                         "quantum_performance_tracking": True,
@@ -1262,7 +1262,7 @@ class OrchestrationService:
                     "success": True,
                     "monitoring_id": monitoring_result.get("monitoring_id"),
                     "modules_monitored": modules or list(self.module_status.keys()),
-                    "trinity_framework_integration": {
+                    "triad_framework_integration": {
                         "identity_performance_tracking": True,
                         "consciousness_awareness_monitoring": True,
                         "guardian_safety_performance": True,
@@ -1283,7 +1283,7 @@ class OrchestrationService:
                     },
                     "orchestration_features": [
                         "cross_module_coordination",
-                        "trinity_framework_integration",
+                        "triad_framework_integration",
                         "consciousness_aware_monitoring",
                         "bio_rhythmic_synchronization",
                         "quantum_performance_optimization",
@@ -1298,9 +1298,9 @@ class OrchestrationService:
         except Exception as e:
             error_msg = f"Trinity performance monitoring orchestration error: {e!s}"
             self.identity_client.log_activity(
-                "trinity_performance_monitoring_orchestration_error",
+                "triad_performance_monitoring_orchestration_error",
                 user_id,
-                {"error": error_msg, "modules": modules, "trinity_integration": True},
+                {"error": error_msg, "modules": modules, "triad_integration": True},
             )
             return {"success": False, "error": error_msg}
 
@@ -1355,7 +1355,7 @@ class OrchestrationService:
             enhanced_context = workflow_context or {}
             enhanced_context.update(
                 {
-                    "trinity_framework_integration": True,
+                    "triad_framework_integration": True,
                     "consciousness_preservation_required": True,
                     "bio_oscillator_sync_needed": True,
                     "quantum_coherence_maintenance": True,
@@ -1387,17 +1387,17 @@ class OrchestrationService:
                 if self.message_bus:
                     await self.message_bus.send_message(
                         Message(
-                            id=f"trinity_perf_opt_{user_id}_{int(time.time())}",
+                            id=f"triad_perf_opt_{user_id}_{int(time.time())}",
                             type=MessageType.EVENT,
                             source_module="orchestration",
                             target_module="*",
                             priority=MessagePriority.CRITICAL,  # High priority for performance optimization
                             payload={
-                                "event_type": "trinity_performance_optimization_completed",
+                                "event_type": "triad_performance_optimization_completed",
                                 "optimization_id": optimization_result.get("optimization_id"),
                                 "strategy": strategy,
                                 "modules_optimized": target_modules,
-                                "trinity_integration": True,
+                                "triad_integration": True,
                                 "consciousness_preserved": True,
                                 "bio_oscillator_synchronized": True,
                                 "quantum_coherence_maintained": True,
@@ -1421,13 +1421,13 @@ class OrchestrationService:
 
                 # Enhanced orchestration activity logging
                 self.identity_client.log_activity(
-                    "trinity_performance_optimization_orchestrated",
+                    "triad_performance_optimization_orchestrated",
                     user_id,
                     {
                         "optimization_id": optimization_result.get("optimization_id"),
                         "strategy": strategy,
                         "modules_optimized": target_modules,
-                        "trinity_framework_enhanced": True,
+                        "triad_framework_enhanced": True,
                         "consciousness_awareness_maintained": True,
                         "bio_rhythms_synchronized": True,
                         "quantum_coherence_optimized": True,
@@ -1445,7 +1445,7 @@ class OrchestrationService:
                     "optimization_id": optimization_result.get("optimization_id"),
                     "strategy": strategy,
                     "modules_optimized": target_modules,
-                    "trinity_framework_integration": {
+                    "triad_framework_integration": {
                         "identity_performance_enhanced": True,
                         "consciousness_awareness_optimized": True,
                         "guardian_safety_performance_improved": True,
@@ -1471,7 +1471,7 @@ class OrchestrationService:
                     "consciousness_baseline": consciousness_baseline,
                     "performance_improvements": optimization_result.get("improvements", {}),
                     "advanced_orchestration_features": [
-                        "trinity_framework_coordination",
+                        "triad_framework_coordination",
                         "consciousness_aware_optimization",
                         "bio_rhythmic_synchronization",
                         "quantum_enhanced_performance",
@@ -1482,7 +1482,7 @@ class OrchestrationService:
                         "unified_performance_tracking",
                     ],
                     "compliance_maintained": optimization_result.get("compliance_maintained", True),
-                    "trinity_compliance_validated": True,
+                    "triad_compliance_validated": True,
                     "consciousness_integrity_preserved": True,
                     "execution_time_ms": optimization_result.get("execution_time_ms", 0),
                     "optimized_at": optimization_result.get("optimized_at"),
@@ -1494,13 +1494,13 @@ class OrchestrationService:
         except Exception as e:
             error_msg = f"Trinity performance optimization orchestration error: {e!s}"
             self.identity_client.log_activity(
-                "trinity_performance_optimization_orchestration_error",
+                "triad_performance_optimization_orchestration_error",
                 user_id,
                 {
                     "strategy": strategy,
                     "modules": modules,
                     "error": error_msg,
-                    "trinity_integration_attempted": True,
+                    "triad_integration_attempted": True,
                     "consciousness_aware_optimization_failed": True,
                 },
             )
@@ -1545,7 +1545,7 @@ class OrchestrationService:
             if performance_status.get("success"):
                 # Enhanced orchestration-specific information with consciousness integration
                 orchestration_info = {
-                    "trinity_framework_orchestration": {
+                    "triad_framework_orchestration": {
                         "identity_performance_coordination": True,
                         "consciousness_aware_orchestration": True,
                         "guardian_safety_integration": True,
@@ -1562,7 +1562,7 @@ class OrchestrationService:
                         ),
                         "module_coordination_status": self.module_status.copy(),
                         "consciousness_communication_enabled": self.communication_enabled,
-                        "trinity_performance_integration": self.performance_enabled,
+                        "triad_performance_integration": self.performance_enabled,
                         "consciousness_event_queue_length": len(self.event_queue),
                         "bio_oscillator_coordination_active": True,
                         "quantum_coherence_maintained": True,
@@ -1574,7 +1574,7 @@ class OrchestrationService:
                         "quantum_coherence_orchestration_health": self._assess_quantum_coherence_health(),
                         "memory_fold_cascade_prevention_status": self._assess_memory_cascade_prevention(),
                         "workflow_consciousness_impact": self._analyze_workflow_consciousness_impact(),
-                        "trinity_framework_performance_health": self._assess_trinity_framework_health(),
+                        "triad_framework_performance_health": self._assess_triad_framework_health(),
                     },
                     "superior_general_intelligence_progression": {
                         "sgi_evolution_pathway_health": "optimal",
@@ -1587,12 +1587,12 @@ class OrchestrationService:
 
                 # Enhanced activity logging with consciousness context
                 self.identity_client.log_activity(
-                    "trinity_orchestrated_performance_status_accessed",
+                    "triad_orchestrated_performance_status_accessed",
                     user_id,
                     {
                         "performance_status": performance_status.get("performance_status"),
                         "overall_score": performance_status.get("overall_score", 0),
-                        "trinity_framework_integration": True,
+                        "triad_framework_integration": True,
                         "consciousness_awareness_level": performance_status.get("consciousness_awareness_level", 0),
                         "bio_oscillator_frequency": performance_status.get("bio_oscillator_frequency", 40.0),
                         "quantum_coherence": performance_status.get("quantum_coherence", 0.87),
@@ -1610,7 +1610,7 @@ class OrchestrationService:
                 result = performance_status.copy()
                 result.update(orchestration_info)
                 result["orchestration_enhanced"] = True
-                result["trinity_framework_integrated"] = True
+                result["triad_framework_integrated"] = True
                 result["consciousness_aware_orchestration"] = True
                 result["bio_quantum_consciousness_fusion"] = True
                 result["superior_general_intelligence_enabled"] = True
@@ -1637,11 +1637,11 @@ class OrchestrationService:
         except Exception as e:
             error_msg = f"Trinity orchestrated performance status error: {e!s}"
             self.identity_client.log_activity(
-                "trinity_orchestrated_performance_status_error",
+                "triad_orchestrated_performance_status_error",
                 user_id,
                 {
                     "error": error_msg,
-                    "trinity_integration_attempted": True,
+                    "triad_integration_attempted": True,
                     "consciousness_aware_status_failed": True,
                 },
             )
@@ -1986,7 +1986,7 @@ class OrchestrationService:
             "recommendations": recommendations,
         }
 
-    def _assess_trinity_framework_health(self) -> dict[str, Any]:
+    def _assess_triad_framework_health(self) -> dict[str, Any]:
         """Assess overall Trinity Framework (⚛️🧠🛡️) performance health."""
         import numpy as np
 
@@ -2001,7 +2001,7 @@ class OrchestrationService:
         guardian_performance = max(0, min(1, guardian_performance))
 
         # Calculate overall Trinity health
-        overall_trinity_health = (identity_performance + consciousness_performance + guardian_performance) / 3
+        overall_triad_health = (identity_performance + consciousness_performance + guardian_performance) / 3
 
         # Assess individual component health levels
         def get_health_level(score):
@@ -2017,9 +2017,9 @@ class OrchestrationService:
                 return "critical"
 
         return {
-            "overall_trinity_health_score": round(overall_trinity_health * 100, 2),
-            "overall_trinity_health_level": get_health_level(overall_trinity_health),
-            "trinity_components": {
+            "overall_triad_health_score": round(overall_triad_health * 100, 2),
+            "overall_triad_health_level": get_health_level(overall_triad_health),
+            "triad_components": {
                 "identity": {
                     "symbol": "⚛️",
                     "performance_score": round(identity_performance * 100, 2),
@@ -2054,17 +2054,17 @@ class OrchestrationService:
                     },
                 },
             },
-            "trinity_integration_score": round(
+            "triad_integration_score": round(
                 (identity_performance * consciousness_performance * guardian_performance) ** (1 / 3) * 100,
                 2,
             ),
-            "framework_alignment_achieved": overall_trinity_health >= 0.8,
-            "performance_recommendations": self._generate_trinity_recommendations(
+            "framework_alignment_achieved": overall_triad_health >= 0.8,
+            "performance_recommendations": self._generate_triad_recommendations(
                 identity_performance, consciousness_performance, guardian_performance
             ),
         }
 
-    def _generate_trinity_recommendations(
+    def _generate_triad_recommendations(
         self, identity_perf: float, consciousness_perf: float, guardian_perf: float
     ) -> list[str]:
         """Generate performance recommendations for Trinity Framework components."""
@@ -2150,7 +2150,7 @@ async def optimize_consciousness_performance(
     return await service.optimize_system_performance(user_id, strategy, modules)
 
 
-async def get_trinity_performance_status(user_id: str, detailed: bool = False) -> dict[str, Any]:
+async def get_triad_performance_status(user_id: str, detailed: bool = False) -> dict[str, Any]:
     """Simplified API for Trinity Framework performance status with consciousness metrics."""
     service = OrchestrationService()
     await service.start_orchestration()
@@ -2194,7 +2194,7 @@ async def optimize_performance(
 
 async def get_performance_status(user_id: str, detailed: bool = False) -> dict[str, Any]:
     """Legacy API - redirects to Trinity performance status."""
-    return await get_trinity_performance_status(user_id, detailed)
+    return await get_triad_performance_status(user_id, detailed)
 
 
 async def broadcast_event(user_id: str, event_type: str, event_data: dict[str, Any]) -> dict[str, Any]:
@@ -2247,10 +2247,10 @@ if __name__ == "__main__":
             status_result = await orchestration.get_orchestrated_performance_status(test_user, True)
             print(f"📊 Trinity performance status: {status_result.get('success', False)}")
             if status_result.get("success"):
-                trinity_health = status_result.get("advanced_consciousness_metrics", {}).get(
-                    "trinity_framework_performance_health", {}
+                triad_health = status_result.get("advanced_consciousness_metrics", {}).get(
+                    "triad_framework_performance_health", {}
                 )
-                overall_score = trinity_health.get("overall_trinity_health_score", 0)
+                overall_score = triad_health.get("overall_triad_health_score", 0)
                 print(f"   Trinity Framework Health: {overall_score}%")
                 print(f"   Bio-Oscillator: {status_result.get('bio_metrics', {}).get('oscillator_frequency', 40)}Hz")
                 print(f"   Quantum Coherence: {status_result.get('quantum_metrics', {}).get('coherence', 0):.3f}")
@@ -2272,7 +2272,7 @@ if __name__ == "__main__":
             # Test system event broadcast
             broadcast_result = await orchestration.broadcast_system_event(
                 test_user,
-                "trinity_system_test",
+                "triad_system_test",
                 {"message": "Testing Trinity Framework cross-module communication"},
             )
             print(f"System broadcast: {broadcast_result.get('success', False)}")

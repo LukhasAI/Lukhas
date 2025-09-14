@@ -46,7 +46,7 @@ class EnhancedQualityResult:
     engagement: float
     brand_consistency: float
     voice_authenticity: float
-    trinity_alignment: float
+    triad_alignment: float
 
     # Status and recommendations
     approved: bool
@@ -160,7 +160,7 @@ class EnhancedContentQualitySystem:
             engagement=base_quality.engagement_score / 100.0,
             brand_consistency=base_quality.brand_consistency / 100.0,
             voice_authenticity=voice_result.personality_alignment,
-            trinity_alignment=sum(voice_result.trinity_balance.values()) / 3,
+            triad_alignment=sum(voice_result.triad_balance.values()) / 3,
             approved=approved,
             quality_grade=quality_grade,
             improvement_suggestions=suggestions,
@@ -190,8 +190,8 @@ class EnhancedContentQualitySystem:
             bonus += 0.2
 
         # Bonus for rich Trinity Framework integration
-        trinity_balance = voice_result.trinity_balance
-        balance_score = 1.0 - max(abs(v - 0.33) for v in trinity_balance.values()) * 3
+        triad_balance = voice_result.triad_balance
+        balance_score = 1.0 - max(abs(v - 0.33) for v in triad_balance.values()) * 3
         if balance_score >= 0.8:
             bonus += 0.3
 
@@ -242,13 +242,13 @@ class EnhancedContentQualitySystem:
             if voice_result.overall_coherence < 0.85:
                 suggestions.append("🗣️ Enhance voice coherence: Add more authentic LUKHAS personality markers")
 
-            if voice_result.trinity_balance["guardian"] < 0.25:
+            if voice_result.triad_balance["guardian"] < 0.25:
                 suggestions.append("🛡️ Strengthen Guardian elements: Include ethical/safety language")
 
-            if voice_result.trinity_balance["consciousness"] < 0.25:
+            if voice_result.triad_balance["consciousness"] < 0.25:
                 suggestions.append("🧠 Amplify consciousness focus: Add awareness/mindfulness language")
 
-            if voice_result.trinity_balance["identity"] < 0.25:
+            if voice_result.triad_balance["identity"] < 0.25:
                 suggestions.append("⚛️ Reinforce identity: Include authentic/genuine language")
 
         # Remove duplicates while preserving order
@@ -433,7 +433,7 @@ async def main():
         print(f"  Voice Coherence: {result.voice_coherence_score  * 100:.1f}%")
         print(f"  Brand Compliance: {result.brand_compliance_score  * 100:.1f}%")
         print(f"  Base Quality: {result.base_quality_score  * 100:.1f}%")
-        print(f"  Trinity Alignment: {result.trinity_alignment  * 100:.1f}%")
+        print(f"  Trinity Alignment: {result.triad_alignment  * 100:.1f}%")
         print()
 
         if result.improvement_suggestions:

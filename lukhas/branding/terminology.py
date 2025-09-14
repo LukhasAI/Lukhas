@@ -69,7 +69,7 @@ def get_glyph(concept: str) -> str:
     return SYMBOLIC_GLYPHS.get(concept.lower(), "❓")
 
 
-def get_trinity_symbol(aspect: str) -> str:
+def get_triad_symbol(aspect: str) -> str:
     """Get Trinity Framework symbol for specific aspect."""
     return TRINITY_TERMS.get(aspect.upper(), "❓")
 
@@ -99,6 +99,6 @@ __all__ = [
     "SYMBOLIC_GLYPHS",
     "get_term_definition",
     "get_glyph",
-    "get_trinity_symbol",
+    "get_triad_symbol",
     "normalize_output",
 ]

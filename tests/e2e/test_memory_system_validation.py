@@ -200,7 +200,7 @@ class TestMemorySystemValidation:
             pytest.skip(f"Memory cleaner not available: {e}")
 
     @pytest.mark.asyncio
-    async def test_trinity_framework_integration(self):
+    async def test_triad_framework_integration(self):
         """Test Trinity Framework integration across memory systems"""
         try:
             from candidate.memory.consolidation.memory_visualization import (
@@ -210,7 +210,7 @@ class TestMemorySystemValidation:
             visualizer = ConsolidatedMemoryvisualization()
 
             test_memory = {
-                "content": "trinity_test_memory",
+                "content": "triad_test_memory",
                 "identity_marker": "⚛️",
                 "consciousness_level": 0.8,
                 "guardian_approved": True,
@@ -220,11 +220,11 @@ class TestMemorySystemValidation:
 
             # Validate Trinity Framework integration
             if result:
-                trinity_markers = ["⚛️", "🧠", "🛡️"]
-                trinity_integration = any(marker in str(result) for marker in trinity_markers)
+                triad_markers = ["⚛️", "🧠", "🛡️"]
+                triad_integration = any(marker in str(result) for marker in triad_markers)
 
                 assert (
-                    trinity_integration or "trinity" in str(result).lower()
+                    triad_integration or "trinity" in str(result).lower()
                 ), "Trinity Framework integration not detected"
 
                 print("Trinity Framework integration validated")

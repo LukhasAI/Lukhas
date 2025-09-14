@@ -57,20 +57,20 @@ def generate_final_coverage_summary():
         "functional_test_coverage": 0.3,  # 30% weight for functional test existence
         "success_rate_weight": 0.4,  # 40% weight for test success rates
         "integration_weight": 0.2,  # 20% weight for cross-system integration
-        "trinity_compliance": 0.1,  # 10% weight for Trinity Framework integration
+        "triad_compliance": 0.1,  # 10% weight for Trinity Framework integration
     }
 
     # Quality metrics
     functional_coverage_score = (10 / 17) * 100  # 10 systems with meaningful coverage out of 17
     average_success_rate = (93.8 + 90.0) / 2  # Average of Priority 1-2 and Priority 3 success rates
     integration_score = 85.0  # Good cross-system integration found
-    trinity_compliance_score = 95.0  # Strong Trinity Framework integration
+    triad_compliance_score = 95.0  # Strong Trinity Framework integration
 
     final_quality_score = (
         (functional_coverage_score * quality_components["functional_test_coverage"])
         + (average_success_rate * quality_components["success_rate_weight"])
         + (integration_score * quality_components["integration_weight"])
-        + (trinity_compliance_score * quality_components["trinity_compliance"])
+        + (triad_compliance_score * quality_components["triad_compliance"])
     )
 
     # Generate comprehensive summary
@@ -128,7 +128,7 @@ def generate_final_coverage_summary():
                 "comprehensive_coverage_summary.py",
             ],
             "total_functional_tests": 42,  # 16 + 13 + 10 + analysis tests
-            "trinity_framework_validation": "Implemented across all tested systems",
+            "triad_framework_validation": "Implemented across all tested systems",
             "cross_system_integration": "Validated for major system interactions",
         },
         "key_achievements": [

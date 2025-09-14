@@ -51,7 +51,7 @@ class BrandIntelligenceMonitor:
                     "lambda processing",
                     "AI system",
                 ],
-                "trinity_symbols": ["⚛️", "🧠", "🛡️"],
+                "triad_symbols": ["⚛️", "🧠", "🛡️"],
                 "tone_indicators": {
                     "poetic": ["metaphor", "symbolic", "consciousness awakening", "mystical"],
                     "user_friendly": ["approachable", "helpful", "easy", "friendly"],
@@ -89,7 +89,7 @@ class BrandIntelligenceMonitor:
         patterns = {}
 
         # Trinity Framework patterns
-        patterns["trinity_framework"] = re.compile(
+        patterns["triad_framework"] = re.compile(
             r"trinity\s+framework|⚛️.*🧠.*🛡️|identity.*consciousness.*guardian", re.IGNORECASE
         )
 
@@ -129,7 +129,7 @@ class BrandIntelligenceMonitor:
                 "warning": 0.9,  # Below 90% compliance is warning
                 "excellent": 0.98,  # Above 98% compliance is excellent
             },
-            "trinity_alignment": {
+            "triad_alignment": {
                 "critical": 0.6,  # Below 60% alignment is critical
                 "warning": 0.8,  # Below 80% alignment is warning
                 "excellent": 0.9,  # Above 90% alignment is excellent
@@ -276,7 +276,7 @@ class BrandIntelligenceMonitor:
         terminology_analysis = self._analyze_terminology_compliance(content_text)
 
         # Trinity Framework presence analysis
-        trinity_analysis = self._analyze_trinity_presence(content_text)
+        triad_analysis = self._analyze_triad_presence(content_text)
 
         # Tone layer analysis
         tone_analysis = self._analyze_tone_layer_consistency(content_text, content_type)
@@ -286,7 +286,7 @@ class BrandIntelligenceMonitor:
 
         # Calculate overall consistency score
         consistency_score = self._calculate_consistency_score(
-            terminology_analysis, trinity_analysis, tone_analysis, lambda_analysis
+            terminology_analysis, triad_analysis, tone_analysis, lambda_analysis
         )
 
         # Determine if immediate attention is needed
@@ -298,13 +298,13 @@ class BrandIntelligenceMonitor:
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "consistency_score": consistency_score,
             "terminology_analysis": terminology_analysis,
-            "trinity_analysis": trinity_analysis,
+            "triad_analysis": triad_analysis,
             "tone_analysis": tone_analysis,
             "lambda_analysis": lambda_analysis,
             "needs_immediate_attention": needs_attention,
             "alert_level": self._determine_alert_level(consistency_score),
             "improvement_suggestions": self._generate_improvement_suggestions(
-                terminology_analysis, trinity_analysis, tone_analysis, lambda_analysis
+                terminology_analysis, triad_analysis, tone_analysis, lambda_analysis
             ),
         }
 
@@ -335,15 +335,15 @@ class BrandIntelligenceMonitor:
             "terminology_health": "good" if compliance_score > 0.8 else "needs_improvement",
         }
 
-    def _analyze_trinity_presence(self, content_text: str) -> dict[str, Any]:
+    def _analyze_triad_presence(self, content_text: str) -> dict[str, Any]:
         """Analyze Trinity Framework presence and coherence"""
 
         # Check for Trinity symbols
-        trinity_symbols = self.monitoring_config["brand_identity_elements"]["trinity_symbols"]
-        symbols_found = sum(1 for symbol in trinity_symbols if symbol in content_text)
+        triad_symbols = self.monitoring_config["brand_identity_elements"]["triad_symbols"]
+        symbols_found = sum(1 for symbol in triad_symbols if symbol in content_text)
 
         # Check for Trinity Framework mention
-        framework_mentioned = bool(self.brand_patterns["trinity_framework"].search(content_text))
+        framework_mentioned = bool(self.brand_patterns["triad_framework"].search(content_text))
 
         # Check for individual components (Identity, Consciousness, Guardian)
         identity_indicators = ["identity", "authenticity", "self", "⚛️"]
@@ -356,17 +356,17 @@ class BrandIntelligenceMonitor:
 
         # Calculate Trinity alignment score
         alignment_factors = [
-            symbols_found / len(trinity_symbols),  # Symbol presence
+            symbols_found / len(triad_symbols),  # Symbol presence
             1.0 if framework_mentioned else 0.0,  # Framework mention
             1.0 if identity_present else 0.0,  # Identity component
             1.0 if consciousness_present else 0.0,  # Consciousness component
             1.0 if guardian_present else 0.0,  # Guardian component
         ]
 
-        trinity_score = sum(alignment_factors) / len(alignment_factors)
+        triad_score = sum(alignment_factors) / len(alignment_factors)
 
         return {
-            "trinity_score": trinity_score,
+            "triad_score": triad_score,
             "symbols_found": symbols_found,
             "framework_mentioned": framework_mentioned,
             "components_present": {
@@ -374,7 +374,7 @@ class BrandIntelligenceMonitor:
                 "consciousness": consciousness_present,
                 "guardian": guardian_present,
             },
-            "trinity_coherence": "strong" if trinity_score > 0.7 else "weak",
+            "triad_coherence": "strong" if triad_score > 0.7 else "weak",
         }
 
     def _analyze_tone_layer_consistency(self, content_text: str, content_type: str) -> dict[str, Any]:
@@ -453,7 +453,7 @@ class BrandIntelligenceMonitor:
 
         consistency_score = (
             terminology["compliance_score"] * weights["terminology"]
-            + trinity["trinity_score"] * weights["trinity"]
+            + trinity["triad_score"] * weights["trinity"]
             + tone["tone_clarity"] * weights["tone"]
             + lambda_usage["lambda_score"] * weights["lambda"]
         )
@@ -506,7 +506,7 @@ class BrandIntelligenceMonitor:
                 suggestions.append("Increase usage of approved LUKHAS terminology")
 
         # Trinity suggestions
-        if trinity["trinity_score"] < 0.6:
+        if trinity["triad_score"] < 0.6:
             missing_components = [comp for comp, present in trinity["components_present"].items() if not present]
             if missing_components:
                 suggestions.append(f"Include Trinity Framework components: {', '.join(missing_components)}")
@@ -565,13 +565,13 @@ class BrandIntelligenceMonitor:
             "brand_evolution_analysis": {
                 "maturity_score": 0.84,
                 "evolution_direction": "positive",
-                "key_strengths": ["consciousness_focus", "trinity_coherence", "tone_clarity"],
+                "key_strengths": ["consciousness_focus", "triad_coherence", "tone_clarity"],
                 "growth_areas": ["academic_tone_balance", "user_engagement"],
             },
             "competitive_intelligence": {
                 "differentiation_strength": 0.82,
                 "market_position": "innovative_leader",
-                "unique_advantages": ["trinity_framework", "consciousness_technology"],
+                "unique_advantages": ["triad_framework", "consciousness_technology"],
             },
             "user_perception_intelligence": {
                 "overall_sentiment": 0.78,
@@ -596,7 +596,7 @@ class BrandIntelligenceMonitor:
                 "current_score": 0.84,
                 "predicted_score": 0.89,
                 "confidence": 0.82,
-                "key_drivers": ["trinity_framework_strengthening", "user_engagement_improvement"],
+                "key_drivers": ["triad_framework_strengthening", "user_engagement_improvement"],
             },
             "market_position_prediction": {
                 "current_position": "innovative_leader",
@@ -728,14 +728,12 @@ class BrandIntelligenceMonitor:
         avg_terminology = sum(a["terminology_analysis"]["compliance_score"] for a in individual_analyses) / len(
             individual_analyses
         )
-        avg_trinity = sum(a["trinity_analysis"]["trinity_score"] for a in individual_analyses) / len(
-            individual_analyses
-        )
+        avg_trinity = sum(a["triad_analysis"]["triad_score"] for a in individual_analyses) / len(individual_analyses)
 
         return {
             "average_consistency_score": round(avg_consistency, 3),
             "average_terminology_compliance": round(avg_terminology, 3),
-            "average_trinity_alignment": round(avg_trinity, 3),
+            "average_triad_alignment": round(avg_trinity, 3),
             "total_content_analyzed": len(individual_analyses),
             "distribution_by_alert_level": self._calculate_alert_distribution(individual_analyses),
         }
@@ -755,7 +753,7 @@ class BrandIntelligenceMonitor:
         return {
             "consistency_trend": "improving",
             "terminology_trend": "stable",
-            "trinity_integration_trend": "strengthening",
+            "triad_integration_trend": "strengthening",
         }
 
     def _calculate_brand_health_metrics(self, aggregated_results: dict[str, Any]) -> dict[str, Any]:
@@ -763,7 +761,7 @@ class BrandIntelligenceMonitor:
         return {
             "overall_health_score": aggregated_results.get("average_consistency_score", 0),
             "health_status": "good",
-            "key_strength": "trinity_framework_integration",
+            "key_strength": "triad_framework_integration",
             "primary_improvement_area": "terminology_consistency",
         }
 
@@ -815,7 +813,7 @@ if __name__ == "__main__":
     print(f"Consistency Score: {result['consistency_score']}")
     print(f"Alert Level: {result['alert_level']}")
     print(f"Terminology Compliance: {result['terminology_analysis']['compliance_score']:.3f}")
-    print(f"Trinity Score: {result['trinity_analysis']['trinity_score']:.3f}")
+    print(f"Trinity Score: {result['triad_analysis']['triad_score']:.3f}")
     print(f"Needs Attention: {result['needs_immediate_attention']}")
 
     if result["improvement_suggestions"]:

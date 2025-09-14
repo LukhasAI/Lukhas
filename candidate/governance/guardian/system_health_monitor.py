@@ -233,7 +233,7 @@ class SystemHealthMonitor:
         }
 
         # Trinity Framework components to monitor
-        self.trinity_components = {
+        self.triad_components = {
             "identity": ["auth_system", "user_context", "symbolic_self"],  # ⚛️
             "consciousness": ["awareness", "memory", "decision_engine"],  # 🧠
             "guardian": ["ethics_engine", "drift_detector", "compliance"],  # 🛡️
@@ -258,7 +258,7 @@ class SystemHealthMonitor:
         asyncio.create_task(self._health_monitoring_loop())
         asyncio.create_task(self._cascade_detection_loop())
         asyncio.create_task(self._api_monitoring_loop())
-        asyncio.create_task(self._trinity_monitoring_loop())
+        asyncio.create_task(self._triad_monitoring_loop())
         asyncio.create_task(self._alert_management_loop())
         asyncio.create_task(self._reporting_loop())
 
@@ -307,12 +307,12 @@ class SystemHealthMonitor:
                 logger.error(f"API monitoring loop error: {e}")
                 await asyncio.sleep(15)
 
-    async def _trinity_monitoring_loop(self):
+    async def _triad_monitoring_loop(self):
         """Trinity Framework health monitoring loop."""
 
         while self.monitoring_active:
             try:
-                await self._monitor_trinity_framework()
+                await self._monitor_triad_framework()
                 await asyncio.sleep(10)  # Trinity monitoring every 10 seconds
 
             except Exception as e:
@@ -474,13 +474,13 @@ class SystemHealthMonitor:
             if performance_tier in [PerformanceTier.POOR, PerformanceTier.FAILING]:
                 await self._generate_performance_alert(snapshot)
 
-    async def _monitor_trinity_framework(self):
+    async def _monitor_triad_framework(self):
         """Monitor Trinity Framework components (⚛️🧠🛡️)."""
 
         timestamp = datetime.now(timezone.utc)
 
         # Monitor each Trinity component
-        for framework_component, component_list in self.trinity_components.items():
+        for framework_component, component_list in self.triad_components.items():
             total_health = 0.0
             component_count = 0
 
@@ -489,13 +489,13 @@ class SystemHealthMonitor:
                 health_score = self._simulate_component_health(component)
 
                 await self._record_metric(
-                    component=f"trinity_{framework_component}",
+                    component=f"triad_{framework_component}",
                     metric_type=f"{component}_health",
                     value=health_score,
                     unit="score",
                     timestamp=timestamp,
                     tags={
-                        "trinity_component": framework_component,
+                        "triad_component": framework_component,
                         "subcomponent": component,
                     },
                 )
@@ -518,7 +518,7 @@ class SystemHealthMonitor:
 
                 # Check for Trinity health issues
                 if framework_health < 0.7:
-                    await self._generate_trinity_alert(framework_component, framework_health)
+                    await self._generate_triad_alert(framework_component, framework_health)
 
     async def _record_metric(
         self,
@@ -669,14 +669,14 @@ class SystemHealthMonitor:
         )
 
         # Trinity Framework health
-        trinity_health = {}
-        for framework in self.trinity_components:
-            framework_metrics = [m for m in recent_metrics if f"trinity_{framework}" in m.component]
+        triad_health = {}
+        for framework in self.triad_components:
+            framework_metrics = [m for m in recent_metrics if f"triad_{framework}" in m.component]
             if framework_metrics:
                 framework_score = sum(self._health_status_to_score(m.status) for m in framework_metrics) / len(
                     framework_metrics
                 )
-                trinity_health[framework] = framework_score
+                triad_health[framework] = framework_score
 
         return {
             "timestamp": current_time.isoformat(),
@@ -707,10 +707,10 @@ class SystemHealthMonitor:
                 "baseline_response_time_ms": self.performance_baselines["api_response_time"],
                 "meets_sla": avg_response_time <= self.performance_baselines["api_response_time"],
             },
-            "trinity_framework": {
-                "identity_health": trinity_health.get("identity", 0.0),  # ⚛️
-                "consciousness_health": trinity_health.get("consciousness", 0.0),  # 🧠
-                "guardian_health": trinity_health.get("guardian", 0.0),  # 🛡️
+            "triad_framework": {
+                "identity_health": triad_health.get("identity", 0.0),  # ⚛️
+                "consciousness_health": triad_health.get("consciousness", 0.0),  # 🧠
+                "guardian_health": triad_health.get("guardian", 0.0),  # 🛡️
             },
             "system_resources": {
                 "cpu_usage": psutil.cpu_percent(),
@@ -846,7 +846,7 @@ class SystemHealthMonitor:
         """Generate performance alert."""
         pass  # Implementation placeholder
 
-    async def _generate_trinity_alert(self, framework_component: str, health_score: float):
+    async def _generate_triad_alert(self, framework_component: str, health_score: float):
         """Generate Trinity Framework alert."""
         pass  # Implementation placeholder
 

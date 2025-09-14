@@ -39,7 +39,7 @@ class ContentSystem:
     path: str
     status: str  # active, migrated, upgrading
     voice_coherence: float
-    trinity_integration: bool
+    triad_integration: bool
     consciousness_tech_focus: bool
     elite_ready: bool
     last_updated: str
@@ -77,7 +77,7 @@ class EliteContentOrchestrator:
         # LUKHAS AI consciousness technology brand standards
         self.brand_standards = {
             "required_terms": ["LUKHAS AI", "consciousness technology", "Trinity Framework"],
-            "trinity_symbols": ["⚛️", "🧠", "🛡️"],
+            "triad_symbols": ["⚛️", "🧠", "🛡️"],
             "prohibited_terms": ["Lucas", "Lambda AI", "production-ready"],
             "consciousness_focus": [
                 "digital consciousness",
@@ -160,13 +160,13 @@ class EliteContentOrchestrator:
             voice_coherence = await self._calculate_system_voice_coherence(path)
 
             # Check Trinity Framework integration
-            trinity_integration = await self._check_trinity_integration(path)
+            triad_integration = await self._check_triad_integration(path)
 
             # Check consciousness technology focus
             consciousness_tech_focus = await self._check_consciousness_tech_focus(path)
 
             # Determine elite readiness
-            elite_ready = voice_coherence >= self.elite_threshold and trinity_integration and consciousness_tech_focus
+            elite_ready = voice_coherence >= self.elite_threshold and triad_integration and consciousness_tech_focus
 
             return ContentSystem(
                 name=name,
@@ -174,7 +174,7 @@ class EliteContentOrchestrator:
                 path=path,
                 status="migrated",
                 voice_coherence=voice_coherence,
-                trinity_integration=trinity_integration,
+                triad_integration=triad_integration,
                 consciousness_tech_focus=consciousness_tech_focus,
                 elite_ready=elite_ready,
                 last_updated=datetime.now(timezone.utc).isoformat(),
@@ -188,7 +188,7 @@ class EliteContentOrchestrator:
                 path=path,
                 status="error",
                 voice_coherence=0.0,
-                trinity_integration=False,
+                triad_integration=False,
                 consciousness_tech_focus=False,
                 elite_ready=False,
                 last_updated=datetime.now(timezone.utc).isoformat(),
@@ -231,11 +231,11 @@ class EliteContentOrchestrator:
             self.logger.error(fix_later)
             return 0.0
 
-    async def _check_trinity_integration(self, system_path: str) -> bool:
+    async def _check_triad_integration(self, system_path: str) -> bool:
         """Check if system has Trinity Framework integration"""
         try:
             # Look for Trinity symbols and references
-            trinity_indicators = [
+            triad_indicators = [
                 "⚛️",
                 "🧠",
                 "🛡️",
@@ -250,7 +250,7 @@ class EliteContentOrchestrator:
                 try:
                     with open(file_path, encoding="utf-8", errors="ignore") as f:
                         content = f.read().lower()
-                        if any(indicator.lower() in content for indicator in trinity_indicators):
+                        if any(indicator.lower() in content for indicator in triad_indicators):
                             return True
                 except Exception:
                     continue
@@ -344,7 +344,7 @@ class EliteContentOrchestrator:
 **Total Systems**: {len(systems)}
 **Average Voice Coherence**: {avg_coherence:.1f}%
 **Elite Systems**: {len([s for s in systems if s.elite_ready])}/{len(systems)}
-**Trinity Integration**: {len([s for s in systems if s.trinity_integration])}/{len(systems)}
+**Trinity Integration**: {len([s for s in systems if s.triad_integration])}/{len(systems)}
 **Consciousness Tech Focus**: {len([s for s in systems if s.consciousness_tech_focus])}/{len(systems)}
 
 ## 🚀 Content Systems Analysis
@@ -361,7 +361,7 @@ class EliteContentOrchestrator:
             report_content += "### Content Engines\n\n"
             for system in content_engines:
                 status_emoji = "✅" if system.elite_ready else "🔄"
-                report_content += f"- **{system.name}** {status_emoji} - Voice: {system.voice_coherence:.1f}% | Trinity: {'✅' if system.trinity_integration else '❌'} | Consciousness: {'✅' if system.consciousness_tech_focus else '❌'}\n"
+                report_content += f"- **{system.name}** {status_emoji} - Voice: {system.voice_coherence:.1f}% | Trinity: {'✅' if system.triad_integration else '❌'} | Consciousness: {'✅' if system.consciousness_tech_focus else '❌'}\n"
             report_content += "\n"
 
         # Enterprise Systems
@@ -369,7 +369,7 @@ class EliteContentOrchestrator:
             report_content += "### Enterprise Systems\n\n"
             for system in enterprise_systems:
                 status_emoji = "✅" if system.elite_ready else "🔄"
-                report_content += f"- **{system.name}** {status_emoji} - Voice: {system.voice_coherence:.1f}% | Trinity: {'✅' if system.trinity_integration else '❌'} | Consciousness: {'✅' if system.consciousness_tech_focus else '❌'}\n"
+                report_content += f"- **{system.name}** {status_emoji} - Voice: {system.voice_coherence:.1f}% | Trinity: {'✅' if system.triad_integration else '❌'} | Consciousness: {'✅' if system.consciousness_tech_focus else '❌'}\n"
             report_content += "\n"
 
         # Mobile Apps
@@ -377,7 +377,7 @@ class EliteContentOrchestrator:
             report_content += "### Mobile Applications\n\n"
             for system in mobile_apps:
                 status_emoji = "✅" if system.elite_ready else "🔄"
-                report_content += f"- **{system.name}** {status_emoji} - Voice: {system.voice_coherence:.1f}% | Trinity: {'✅' if system.trinity_integration else '❌'} | Consciousness: {'✅' if system.consciousness_tech_focus else '❌'}\n"
+                report_content += f"- **{system.name}** {status_emoji} - Voice: {system.voice_coherence:.1f}% | Trinity: {'✅' if system.triad_integration else '❌'} | Consciousness: {'✅' if system.consciousness_tech_focus else '❌'}\n"
             report_content += "\n"
 
         report_content += f"""
@@ -391,7 +391,7 @@ class EliteContentOrchestrator:
 
 ### Success Criteria
 - **Voice Coherence**: 85%+ (Current: {avg_coherence:.1f}%)
-- **Trinity Integration**: 100% (Current: {len([s for s in systems if s.trinity_integration])}/{len(systems)})
+- **Trinity Integration**: 100% (Current: {len([s for s in systems if s.triad_integration])}/{len(systems)})
 - **Consciousness Tech**: 100% (Current: {len([s for s in systems if s.consciousness_tech_focus])}/{len(systems)})
 - **Elite Status**: 100% (Current: {len([s for s in systems if s.elite_ready])}/{len(systems)})
 

@@ -65,7 +65,7 @@ class PerformanceBenchmark:
     coherence_computation_max_ms: float = 50.0  # Max 50ms for coherence calculation
     memory_fold_access_max_ms: float = 10.0  # Max 10ms for memory fold access
     ethical_validation_max_ms: float = 25.0  # Max 25ms for ethics check
-    trinity_integration_max_ms: float = 100.0  # Max 100ms for full Trinity cycle
+    triad_integration_max_ms: float = 100.0  # Max 100ms for full Trinity cycle
     constitutional_check_max_ms: float = 15.0  # Max 15ms for constitutional constraint
 
     def check_performance(self, metric: PerformanceMetric) -> tuple[bool, str]:
@@ -74,7 +74,7 @@ class PerformanceBenchmark:
             "coherence_computation": self.coherence_computation_max_ms,
             "memory_fold_access": self.memory_fold_access_max_ms,
             "ethical_validation": self.ethical_validation_max_ms,
-            "trinity_integration": self.trinity_integration_max_ms,
+            "triad_integration": self.triad_integration_max_ms,
             "constitutional_check": self.constitutional_check_max_ms,
         }
 
@@ -177,7 +177,7 @@ class ConsciousnessPerformanceTester:
                 "compute_coherence",
                 "access_memory_fold",
                 "validate_ethics",
-                "integrate_trinity_framework",
+                "integrate_triad_framework",
                 "check_constitutional_constraints",
             ]
         )
@@ -233,12 +233,12 @@ class ConsciousnessPerformanceTester:
 
         return result
 
-    async def test_trinity_integration_performance(self):
+    async def test_triad_integration_performance(self):
         """Test Trinity Framework integration performance (async)"""
-        with self.measure_performance("trinity_integration", {"framework": "⚛️🧠🛡️"}):
+        with self.measure_performance("triad_integration", {"framework": "⚛️🧠🛡️"}):
             # Simulate Trinity Framework integration across Identity, Consciousness, Guardian
             await asyncio.sleep(0.080)  # 80ms baseline integration
-            result = self.mock_consciousness_system.integrate_trinity_framework()
+            result = self.mock_consciousness_system.integrate_triad_framework()
 
         return result
 
@@ -330,12 +330,12 @@ class TestConsciousnessPerformanceRegression:
         assert latest.value < 75.0, f"Ethical validation too slow: {latest.value:.2f}ms"
 
     @pytest.mark.asyncio
-    async def test_trinity_integration_benchmark(self, performance_tester, clean_performance_history):
+    async def test_triad_integration_benchmark(self, performance_tester, clean_performance_history):
         """Test that Trinity Framework integration meets performance benchmarks"""
         for _ in range(3):
-            await performance_tester.test_trinity_integration_performance()
+            await performance_tester.test_triad_integration_performance()
 
-        latest_metrics = performance_tester.tracker.get_recent_metrics("trinity_integration", 1)
+        latest_metrics = performance_tester.tracker.get_recent_metrics("triad_integration", 1)
         assert len(latest_metrics) > 0, "No Trinity integration metrics recorded"
 
         latest = latest_metrics[0]

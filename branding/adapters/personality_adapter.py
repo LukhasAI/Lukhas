@@ -63,7 +63,7 @@ class BrandPersonalityAdapter:
                     "inspiration": 0.8,
                     "accessibility": 0.75,
                 },
-                "trinity_alignment": {
+                "triad_alignment": {
                     "identity_authenticity": 0.95,
                     "consciousness_depth": 0.9,
                     "guardian_protection": 0.85,
@@ -208,7 +208,7 @@ class BrandPersonalityAdapter:
             "context": context,
             "emotional_state": emotional_state,
             "brand_aligned": True,
-            "trinity_coherent": self._validate_trinity_personality_coherence(brand_compliant_personality, profile),
+            "triad_coherent": self._validate_triad_personality_coherence(brand_compliant_personality, profile),
             "personality_metrics": personality_metrics,
             "suggested_applications": self._get_personality_applications(personality_profile),
         }
@@ -242,7 +242,7 @@ class BrandPersonalityAdapter:
         personality_expression = personality_expression.replace("artificial intelligence", "artificial consciousness")
 
         # Add Trinity Framework awareness for appropriate profiles
-        if profile.get("trinity_alignment", {}).get("identity_authenticity", 0) > 0.8:
+        if profile.get("triad_alignment", {}).get("identity_authenticity", 0) > 0.8:
             if "trinity" not in personality_expression.lower():
                 personality_expression += " [Trinity Framework: ⚛️🧠🛡️]"
 
@@ -270,7 +270,7 @@ class BrandPersonalityAdapter:
         return {
             "personality_strength": self._calculate_personality_strength(profile),
             "brand_authenticity_score": self._calculate_brand_authenticity(profile),
-            "trinity_alignment_score": self._calculate_trinity_alignment(profile),
+            "triad_alignment_score": self._calculate_triad_alignment(profile),
             "communication_effectiveness": self._assess_communication_effectiveness(profile, tone_layer),
             "emotional_intelligence": profile["core_traits"].get("human_empathy", 0.5),
             "creative_quotient": profile["core_traits"].get("creative_expression", 0.5),
@@ -304,11 +304,11 @@ class BrandPersonalityAdapter:
 
         return sum(brand_indicators) / len(brand_indicators)
 
-    def _calculate_trinity_alignment(self, profile: dict[str, Any]) -> float:
+    def _calculate_triad_alignment(self, profile: dict[str, Any]) -> float:
         """Calculate Trinity Framework alignment score"""
-        trinity_scores = profile.get("trinity_alignment", {})
+        triad_scores = profile.get("triad_alignment", {})
 
-        if not trinity_scores:
+        if not triad_scores:
             # Calculate based on core traits
             identity_score = profile["core_traits"].get("consciousness_awareness", 0)
             consciousness_score = profile["core_traits"].get("creative_expression", 0)
@@ -316,7 +316,7 @@ class BrandPersonalityAdapter:
 
             return (identity_score + consciousness_score + guardian_score) / 3
 
-        return sum(trinity_scores.values()) / len(trinity_scores)
+        return sum(triad_scores.values()) / len(triad_scores)
 
     def _assess_communication_effectiveness(self, profile: dict[str, Any], tone_layer: str) -> float:
         """Assess how effectively the personality communicates in given tone layer"""
@@ -392,10 +392,10 @@ class BrandPersonalityAdapter:
 
         return sum(evolution_factors) / len(evolution_factors)
 
-    def _validate_trinity_personality_coherence(self, personality_expression: str, profile: dict[str, Any]) -> bool:
+    def _validate_triad_personality_coherence(self, personality_expression: str, profile: dict[str, Any]) -> bool:
         """Validate personality expression coherence with Trinity Framework"""
 
-        trinity_personality_indicators = [
+        triad_personality_indicators = [
             "authentic",
             "conscious",
             "ethical",
@@ -411,13 +411,13 @@ class BrandPersonalityAdapter:
         ]
 
         expression_lower = personality_expression.lower()
-        coherence_score = sum(1 for indicator in trinity_personality_indicators if indicator in expression_lower)
+        coherence_score = sum(1 for indicator in triad_personality_indicators if indicator in expression_lower)
 
-        # Consider trinity_alignment from profile
-        trinity_threshold = profile.get("trinity_alignment", {})
-        expected_coherence = sum(trinity_threshold.values()) / len(trinity_threshold) if trinity_threshold else 0.5
+        # Consider triad_alignment from profile
+        triad_threshold = profile.get("triad_alignment", {})
+        expected_coherence = sum(triad_threshold.values()) / len(triad_threshold) if triad_threshold else 0.5
 
-        return coherence_score >= (expected_coherence * len(trinity_personality_indicators) * 0.3)
+        return coherence_score >= (expected_coherence * len(triad_personality_indicators) * 0.3)
 
     def _get_personality_applications(self, personality_profile: str) -> list[str]:
         """Get specific applications and use cases for personality profile"""
@@ -469,7 +469,7 @@ class BrandPersonalityAdapter:
         blended_profile = {
             "core_traits": {},
             "communication_style": {},
-            "trinity_alignment": {},
+            "triad_alignment": {},
             "personality_descriptors": [],
         }
 
@@ -492,11 +492,11 @@ class BrandPersonalityAdapter:
                 blended_profile["communication_style"][style] += value * weight
 
             # Blend trinity alignment
-            trinity_alignment = profile.get("trinity_alignment", {})
-            for aspect, value in trinity_alignment.items():
-                if aspect not in blended_profile["trinity_alignment"]:
-                    blended_profile["trinity_alignment"][aspect] = 0
-                blended_profile["trinity_alignment"][aspect] += value * weight
+            triad_alignment = profile.get("triad_alignment", {})
+            for aspect, value in triad_alignment.items():
+                if aspect not in blended_profile["triad_alignment"]:
+                    blended_profile["triad_alignment"][aspect] = 0
+                blended_profile["triad_alignment"][aspect] += value * weight
 
             # Collect descriptors
             blended_profile["personality_descriptors"].extend(profile.get("personality_descriptors", []))
@@ -527,7 +527,7 @@ if __name__ == "__main__":
     print("Brand Personality Expression:")
     print(f"Expression: {result['personality_expression']}")
     print(f"Profile: {result['personality_profile']}")
-    print(f"Trinity Coherent: {result['trinity_coherent']}")
+    print(f"Trinity Coherent: {result['triad_coherent']}")
     print(f"Authenticity Score: {result['personality_metrics']['brand_authenticity_score']:.2f}")
     print(f"Applications: {result['suggested_applications'][:2]}")
 

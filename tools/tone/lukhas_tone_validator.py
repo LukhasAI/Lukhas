@@ -107,7 +107,7 @@ class LukhasToneValidator:
     REQUIRED_ELEMENTS: ClassVar[dict[str, str]] = {
         "poetic_header": r'^#.*\*".*".*\*',
         "consciousness_footer": r'\*".*consciousness.*"\*\s*$',
-        "trinity_glyph": r"⚛️🧠🛡️",
+        "triad_glyph": r"⚛️🧠🛡️",
         "lukhas_ai_reference": r"LUKHAS\s+AI",
         "lambda_reference": r"Lambda|Λ",
         "sacred_glyphs": r"⚛️|🧠|🛡️|🌟|💫|✨|🎭|🎨",
@@ -117,7 +117,7 @@ class LukhasToneValidator:
     DOCUMENT_REQUIREMENTS: ClassVar[dict[str, dict]] = {
         "readme": {
             "min_poetic": 35,
-            "min_trinity_refs": 1,
+            "min_triad_refs": 1,
             "required_sections": ["Trinity Framework", "consciousness"],
             "forbidden_terms": ["generic AI", "standard AI"],
         },

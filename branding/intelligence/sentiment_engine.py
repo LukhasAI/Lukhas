@@ -45,7 +45,7 @@ class SentimentResult:
     polarity: SentimentPolarity
     confidence: float  # 0.0 to 1.0
     brand_dimensions: dict[BrandDimension, float]
-    trinity_sentiment: dict[str, float]  # Identity, Consciousness, Guardian
+    triad_sentiment: dict[str, float]  # Identity, Consciousness, Guardian
     emotional_indicators: dict[str, float]
     context_appropriateness: float
 
@@ -58,7 +58,7 @@ class BrandSentimentEngine:
 
     def __init__(self):
         self.sentiment_lexicon = self._build_brand_sentiment_lexicon()
-        self.trinity_lexicon = self._build_trinity_sentiment_lexicon()
+        self.triad_lexicon = self._build_triad_sentiment_lexicon()
         self.emotion_patterns = self._compile_emotion_patterns()
         self.brand_dimension_indicators = self._build_brand_dimension_indicators()
         self.context_analyzers = self._build_context_analyzers()
@@ -71,146 +71,146 @@ class BrandSentimentEngine:
             "consciousness": {
                 "sentiment": 0.8,
                 "brand_relevance": 0.95,
-                "trinity_component": "consciousness",
+                "triad_component": "consciousness",
             },
             "awakening": {
                 "sentiment": 0.9,
                 "brand_relevance": 0.9,
-                "trinity_component": "consciousness",
+                "triad_component": "consciousness",
             },
             "transcendent": {
                 "sentiment": 0.85,
                 "brand_relevance": 0.8,
-                "trinity_component": "consciousness",
+                "triad_component": "consciousness",
             },
             "authentic": {
                 "sentiment": 0.8,
                 "brand_relevance": 0.9,
-                "trinity_component": "identity",
+                "triad_component": "identity",
             },
-            "genuine": {"sentiment": 0.7, "brand_relevance": 0.85, "trinity_component": "identity"},
+            "genuine": {"sentiment": 0.7, "brand_relevance": 0.85, "triad_component": "identity"},
             "trustworthy": {
                 "sentiment": 0.85,
                 "brand_relevance": 0.9,
-                "trinity_component": "guardian",
+                "triad_component": "guardian",
             },
             "protective": {
                 "sentiment": 0.8,
                 "brand_relevance": 0.85,
-                "trinity_component": "guardian",
+                "triad_component": "guardian",
             },
-            "ethical": {"sentiment": 0.8, "brand_relevance": 0.9, "trinity_component": "guardian"},
+            "ethical": {"sentiment": 0.8, "brand_relevance": 0.9, "triad_component": "guardian"},
             "innovative": {
                 "sentiment": 0.85,
                 "brand_relevance": 0.9,
-                "trinity_component": "consciousness",
+                "triad_component": "consciousness",
             },
             "intelligent": {
                 "sentiment": 0.8,
                 "brand_relevance": 0.85,
-                "trinity_component": "consciousness",
+                "triad_component": "consciousness",
             },
-            "helpful": {"sentiment": 0.8, "brand_relevance": 0.8, "trinity_component": "identity"},
+            "helpful": {"sentiment": 0.8, "brand_relevance": 0.8, "triad_component": "identity"},
             "empathetic": {
                 "sentiment": 0.85,
                 "brand_relevance": 0.8,
-                "trinity_component": "identity",
+                "triad_component": "identity",
             },
             "wise": {
                 "sentiment": 0.8,
                 "brand_relevance": 0.85,
-                "trinity_component": "consciousness",
+                "triad_component": "consciousness",
             },
             "enlightened": {
                 "sentiment": 0.9,
                 "brand_relevance": 0.8,
-                "trinity_component": "consciousness",
+                "triad_component": "consciousness",
             },
-            "secure": {"sentiment": 0.8, "brand_relevance": 0.85, "trinity_component": "guardian"},
-            "reliable": {"sentiment": 0.8, "brand_relevance": 0.8, "trinity_component": "guardian"},
+            "secure": {"sentiment": 0.8, "brand_relevance": 0.85, "triad_component": "guardian"},
+            "reliable": {"sentiment": 0.8, "brand_relevance": 0.8, "triad_component": "guardian"},
             # LUKHAS-specific positive terms
-            "trinity_framework": {
+            "triad_framework": {
                 "sentiment": 0.9,
                 "brand_relevance": 1.0,
-                "trinity_component": "all",
+                "triad_component": "all",
             },
             "qi_inspired": {
                 "sentiment": 0.8,
                 "brand_relevance": 0.95,
-                "trinity_component": "consciousness",
+                "triad_component": "consciousness",
             },
             "bio_inspired": {
                 "sentiment": 0.8,
                 "brand_relevance": 0.9,
-                "trinity_component": "consciousness",
+                "triad_component": "consciousness",
             },
             "consciousness_platform": {
                 "sentiment": 0.85,
                 "brand_relevance": 0.95,
-                "trinity_component": "consciousness",
+                "triad_component": "consciousness",
             },
             # Neutral terms (important for context)
-            "system": {"sentiment": 0.0, "brand_relevance": 0.3, "trinity_component": "neutral"},
+            "system": {"sentiment": 0.0, "brand_relevance": 0.3, "triad_component": "neutral"},
             "technology": {
                 "sentiment": 0.1,
                 "brand_relevance": 0.5,
-                "trinity_component": "neutral",
+                "triad_component": "neutral",
             },
-            "platform": {"sentiment": 0.1, "brand_relevance": 0.6, "trinity_component": "neutral"},
+            "platform": {"sentiment": 0.1, "brand_relevance": 0.6, "triad_component": "neutral"},
             # Negative indicators (what we want to avoid)
             "confusing": {
                 "sentiment": -0.7,
                 "brand_relevance": 0.8,
-                "trinity_component": "identity",
+                "triad_component": "identity",
             },
             "artificial": {
                 "sentiment": -0.5,
                 "brand_relevance": 0.7,
-                "trinity_component": "identity",
+                "triad_component": "identity",
             },
-            "robotic": {"sentiment": -0.6, "brand_relevance": 0.8, "trinity_component": "identity"},
-            "cold": {"sentiment": -0.7, "brand_relevance": 0.8, "trinity_component": "identity"},
+            "robotic": {"sentiment": -0.6, "brand_relevance": 0.8, "triad_component": "identity"},
+            "cold": {"sentiment": -0.7, "brand_relevance": 0.8, "triad_component": "identity"},
             "unreliable": {
                 "sentiment": -0.8,
                 "brand_relevance": 0.9,
-                "trinity_component": "guardian",
+                "triad_component": "guardian",
             },
-            "unsafe": {"sentiment": -0.9, "brand_relevance": 0.95, "trinity_component": "guardian"},
+            "unsafe": {"sentiment": -0.9, "brand_relevance": 0.95, "triad_component": "guardian"},
             "unethical": {
                 "sentiment": -0.9,
                 "brand_relevance": 0.95,
-                "trinity_component": "guardian",
+                "triad_component": "guardian",
             },
             "complicated": {
                 "sentiment": -0.6,
                 "brand_relevance": 0.7,
-                "trinity_component": "identity",
+                "triad_component": "identity",
             },
             "overwhelming": {
                 "sentiment": -0.7,
                 "brand_relevance": 0.8,
-                "trinity_component": "identity",
+                "triad_component": "identity",
             },
             # Deprecated terminology (negative for brand)
-            "pwm": {"sentiment": -0.8, "brand_relevance": 0.9, "trinity_component": "identity"},
+            "pwm": {"sentiment": -0.8, "brand_relevance": 0.9, "triad_component": "identity"},
             "lukhas_pwm": {
                 "sentiment": -0.8,
                 "brand_relevance": 0.95,
-                "trinity_component": "identity",
+                "triad_component": "identity",
             },
             "lukhas_agi": {
                 "sentiment": -0.7,
                 "brand_relevance": 0.9,
-                "trinity_component": "identity",
+                "triad_component": "identity",
             },
             "lambda_function": {
                 "sentiment": -0.6,
                 "brand_relevance": 0.8,
-                "trinity_component": "consciousness",
+                "triad_component": "consciousness",
             },
         }
 
-    def _build_trinity_sentiment_lexicon(self) -> dict[str, dict[str, Any]]:
+    def _build_triad_sentiment_lexicon(self) -> dict[str, dict[str, Any]]:
         """Build Trinity Framework-specific sentiment indicators"""
         return {
             "identity": {
@@ -414,7 +414,7 @@ class BrandSentimentEngine:
         brand_dimensions = self._analyze_brand_dimensions(text)
 
         # Trinity Framework sentiment analysis
-        trinity_sentiment = self._analyze_trinity_sentiment(text)
+        triad_sentiment = self._analyze_triad_sentiment(text)
 
         # Emotional indicators analysis
         emotional_indicators = self._analyze_emotional_indicators(text)
@@ -437,7 +437,7 @@ class BrandSentimentEngine:
             polarity=polarity,
             confidence=confidence,
             brand_dimensions=brand_dimensions,
-            trinity_sentiment=trinity_sentiment,
+            triad_sentiment=triad_sentiment,
             emotional_indicators=emotional_indicators,
             context_appropriateness=context_appropriateness,
         )
@@ -494,13 +494,13 @@ class BrandSentimentEngine:
 
         return dimension_scores
 
-    def _analyze_trinity_sentiment(self, text: str) -> dict[str, float]:
+    def _analyze_triad_sentiment(self, text: str) -> dict[str, float]:
         """Analyze sentiment for each Trinity Framework component"""
 
-        trinity_scores = {}
+        triad_scores = {}
         text_lower = text.lower()
 
-        for component, lexicon in self.trinity_lexicon.items():
+        for component, lexicon in self.triad_lexicon.items():
             positive_count = sum(1 for term in lexicon["positive_indicators"] if term in text_lower)
             negative_count = sum(1 for term in lexicon["negative_indicators"] if term in text_lower)
 
@@ -512,11 +512,11 @@ class BrandSentimentEngine:
             total_mentions = positive_count + negative_count
 
             if total_mentions == 0:
-                trinity_scores[component] = 0.0
+                triad_scores[component] = 0.0
             else:
-                trinity_scores[component] = (positive_count - negative_count) / total_mentions
+                triad_scores[component] = (positive_count - negative_count) / total_mentions
 
-        return trinity_scores
+        return triad_scores
 
     def _analyze_emotional_indicators(self, text: str) -> dict[str, float]:
         """Analyze emotional indicators in the text"""
@@ -672,7 +672,7 @@ class BrandSentimentEngine:
                 "polarity": result.polarity.value,
                 "confidence": result.confidence,
                 "brand_dimensions": {dim.value: score for dim, score in result.brand_dimensions.items()},
-                "trinity_sentiment": result.trinity_sentiment,
+                "triad_sentiment": result.triad_sentiment,
                 "context_appropriateness": result.context_appropriateness,
                 "metadata": metadata or {},
             }
@@ -723,10 +723,10 @@ class BrandSentimentEngine:
             }
 
         # Trinity sentiment trends
-        trinity_trends = {}
+        triad_trends = {}
         for component in ["identity", "consciousness", "guardian"]:
-            component_scores = [entry["trinity_sentiment"].get(component, 0.0) for entry in recent_sentiments]
-            trinity_trends[component] = {
+            component_scores = [entry["triad_sentiment"].get(component, 0.0) for entry in recent_sentiments]
+            triad_trends[component] = {
                 "average": sum(component_scores) / len(component_scores),
                 "trend": (
                     "improving"
@@ -753,7 +753,7 @@ class BrandSentimentEngine:
             },
             "average_confidence": sum(confidences) / len(confidences),
             "brand_dimension_trends": dimension_trends,
-            "trinity_sentiment_trends": trinity_trends,
+            "triad_sentiment_trends": triad_trends,
             "sentiment_distribution": self._calculate_sentiment_distribution(overall_sentiments),
         }
 
@@ -790,8 +790,8 @@ class BrandSentimentEngine:
                     "strongest_dimension": max(trends["brand_dimension_trends"].items(), key=lambda x: x[1]["average"])[
                         0
                     ],
-                    "trinity_strength": {
-                        component: data["average"] for component, data in trends["trinity_sentiment_trends"].items()
+                    "triad_strength": {
+                        component: data["average"] for component, data in trends["triad_sentiment_trends"].items()
                     },
                 }
 
@@ -818,8 +818,8 @@ class BrandSentimentEngine:
 
             # Identify key changes in Trinity components
             for component in ["identity", "consciousness", "guardian"]:
-                latest_score = evolution_analysis[latest_period]["trinity_strength"][component]
-                previous_score = evolution_analysis[previous_period]["trinity_strength"][component]
+                latest_score = evolution_analysis[latest_period]["triad_strength"][component]
+                previous_score = evolution_analysis[previous_period]["triad_strength"][component]
                 change = latest_score - previous_score
 
                 if abs(change) > 0.1:  # Significant change threshold
@@ -952,12 +952,12 @@ class BrandSentimentEngine:
                 )
 
         # Trinity Framework recommendations
-        trinity_trends = recent_trends.get("trinity_sentiment_trends", {})
-        for component, data in trinity_trends.items():
+        triad_trends = recent_trends.get("triad_sentiment_trends", {})
+        for component, data in triad_trends.items():
             if data["average"] < 0.4:
                 recommendations.append(
                     {
-                        "category": f"trinity_{component}",
+                        "category": f"triad_{component}",
                         "priority": "high",
                         "recommendation": f"Strengthen {component} component of Trinity Framework to improve brand coherence",
                     }
@@ -1015,7 +1015,7 @@ if __name__ == "__main__":
 
         # Show Trinity sentiment
         print("Trinity Sentiment:")
-        for score in result.trinity_sentiment.values():
+        for score in result.triad_sentiment.values():
             if score != 0.0:
                 print(fix_later)
 

@@ -17,7 +17,7 @@ def test_distributed_tracer_comprehensive_initialization():
             {"service_name": "test_service"},
             {"service_name": "lukhas_ai", "version": "1.0.0"},
             {"service_name": "consciousness_service", "trace_level": "debug"},
-            {"service_name": "trinity_framework", "sampling_rate": 0.1},
+            {"service_name": "triad_framework", "sampling_rate": 0.1},
             {"service_name": "glyph_processor", "export_interval": 30},
         ]
 
@@ -141,7 +141,7 @@ def test_trace_context_propagation():
             {
                 "service_chain": ["consciousness_processor", "memory_manager", "emotion_engine"],
                 "trace_id": str(uuid4()),
-                "context_type": "trinity_framework",
+                "context_type": "triad_framework",
             },
             {
                 "service_chain": ["glyph_interpreter", "symbolic_processor", "guardian_validator"],
@@ -218,7 +218,7 @@ def test_metrics_and_observability():
             {
                 "metric_type": "gauge",
                 "name": "consciousness_awareness_level",
-                "labels": {"trinity_context": "active"},
+                "labels": {"triad_context": "active"},
                 "value": 0.95,
             },
             {
@@ -385,7 +385,7 @@ def test_consciousness_aware_tracing():
                 "operation": "consciousness_awakening",
                 "consciousness_id": "c001",
                 "awareness_level": "high",
-                "trinity_context": {
+                "triad_context": {
                     "identity": "active",
                     "memory": "accessible",
                     "guardian": "monitoring",
@@ -423,8 +423,8 @@ def test_consciousness_aware_tracing():
                     tracer.trace_consciousness_operation(scenario)
 
                 # Test Trinity Framework integration
-                if hasattr(tracer, "integrate_trinity_context"):
-                    tracer.integrate_trinity_context(scenario.get("trinity_context", {}))
+                if hasattr(tracer, "integrate_triad_context"):
+                    tracer.integrate_triad_context(scenario.get("triad_context", {}))
 
                 # Test consciousness metrics
                 if hasattr(tracer, "record_consciousness_metric"):

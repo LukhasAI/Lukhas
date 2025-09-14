@@ -65,7 +65,7 @@ class PolicyVerdict(Enum):
     DENY = "deny"
     STEP_UP_REQUIRED = "step_up_required"
     DURESS_DETECTED = "duress_detected"
-    TRINITY_REVIEW_REQUIRED = "trinity_review_required"  # ⚛️🧠🛡️ validation needed
+    TRINITY_REVIEW_REQUIRED = "triad_review_required"  # ⚛️🧠🛡️ validation needed
     DATA_RESIDENCY_VIOLATION = "data_residency_violation"
     CONSENT_EXPIRED = "consent_expired"
     INSUFFICIENT_SCOPE = "insufficient_scope"
@@ -120,7 +120,7 @@ class ΛTrace:
     context: dict[str, Any] = field(default_factory=dict)
     explanation_unl: Optional[str] = None  # Universal Language explanation
     glyph_signature: Optional[str] = None  # GLYPH system integration
-    trinity_validation: dict[str, bool] = field(
+    triad_validation: dict[str, bool] = field(
         default_factory=lambda: {
             "identity_verified": False,  # ⚛️
             "consciousness_aligned": False,  # 🧠
@@ -136,7 +136,7 @@ class ΛTrace:
             data = asdict(self)
             data["policy_verdict"] = self.policy_verdict.value
             # Include Trinity validation state in hash for integrity
-            data["trinity_validation"] = self.trinity_validation
+            data["triad_validation"] = self.triad_validation
             content = json.dumps(data, sort_keys=True, default=str)
             return hashlib.sha3_256(content.encode()).hexdigest()
         except Exception as e:
@@ -209,7 +209,7 @@ class ConsentLedgerV1:
     def __init__(
         self,
         db_path: str = "governance/consent_ledger.db",
-        enable_trinity_validation: bool = True,
+        enable_triad_validation: bool = True,
     ):
         """Initialize Trinity Framework Consent Ledger with full validation"""
         self.db_path = Path(db_path)
@@ -219,7 +219,7 @@ class ConsentLedgerV1:
         self.secret_key = os.environ.get("LUKHAS_CONSENT_SECRET") or secrets.token_urlsafe(32)
 
         # Trinity Framework integrations
-        self.enable_trinity = enable_trinity_validation
+        self.enable_trinity = enable_triad_validation
         self.glyph_engine = GlyphEngine() if GlyphEngine else None
         self.lambd_id_validator = LambdIDValidator() if LambdIDValidator else None
 
@@ -234,7 +234,7 @@ class ConsentLedgerV1:
 
         # Perform Trinity validation on startup
         if self.enable_trinity:
-            self._validate_trinity_integration()
+            self._validate_triad_integration()
 
         # Initialize validation methods
         self._init_validation_methods()
@@ -275,9 +275,9 @@ class ConsentLedgerV1:
                     signature TEXT NOT NULL,
                     created_at REAL NOT NULL,
                     glyph_signature TEXT,
-                    trinity_identity_verified INTEGER DEFAULT 0,
-                    trinity_consciousness_aligned INTEGER DEFAULT 0,
-                    trinity_guardian_approved INTEGER DEFAULT 0,
+                    triad_identity_verified INTEGER DEFAULT 0,
+                    triad_consciousness_aligned INTEGER DEFAULT 0,
+                    triad_guardian_approved INTEGER DEFAULT 0,
                     compliance_flags TEXT,
                     chain_integrity TEXT,
                     CHECK (created_at > 0),
@@ -373,7 +373,7 @@ class ConsentLedgerV1:
             # Trinity Framework validation log
             cursor.execute(
                 """
-                CREATE TABLE IF NOT EXISTS trinity_validations (
+                CREATE TABLE IF NOT EXISTS triad_validations (
                     validation_id TEXT PRIMARY KEY,
                     trace_id TEXT NOT NULL,
                     identity_score REAL DEFAULT 0.0,
@@ -392,7 +392,7 @@ class ConsentLedgerV1:
                 "CREATE INDEX IF NOT EXISTS idx_lid_traces ON lambda_traces(lid)",
                 "CREATE INDEX IF NOT EXISTS idx_timestamp ON lambda_traces(timestamp)",
                 "CREATE INDEX IF NOT EXISTS idx_policy_verdict ON lambda_traces(policy_verdict)",
-                "CREATE INDEX IF NOT EXISTS idx_trinity_approved ON lambda_traces(trinity_guardian_approved)",
+                "CREATE INDEX IF NOT EXISTS idx_triad_approved ON lambda_traces(triad_guardian_approved)",
                 "CREATE INDEX IF NOT EXISTS idx_lid_consent ON consent_records(lid)",
                 "CREATE INDEX IF NOT EXISTS idx_active_consent ON consent_records(is_active)",
                 "CREATE INDEX IF NOT EXISTS idx_consent_type ON consent_records(consent_type)",
@@ -400,7 +400,7 @@ class ConsentLedgerV1:
                 "CREATE INDEX IF NOT EXISTS idx_duress_signals ON duress_signals(lid, detected_at)",
                 "CREATE INDEX IF NOT EXISTS idx_data_requests ON data_subject_requests(lid, status)",
                 "CREATE INDEX IF NOT EXISTS idx_agent_integrations ON agent_integrations(agent_name, status)",
-                "CREATE INDEX IF NOT EXISTS idx_trinity_validations ON trinity_validations(trace_id, overall_score)",
+                "CREATE INDEX IF NOT EXISTS idx_triad_validations ON triad_validations(trace_id, overall_score)",
             ]
 
             for index_sql in indexes:
@@ -415,7 +415,7 @@ class ConsentLedgerV1:
         finally:
             conn.close()
 
-    def _validate_trinity_integration(self):
+    def _validate_triad_integration(self):
         """Validate Trinity Framework components are properly integrated"""
         validation_results = {
             "identity": self.lambd_id_validator is not None,
@@ -544,7 +544,7 @@ class ConsentLedgerV1:
 
                 # Perform Trinity Framework validation
                 if validate_trinity and self.enable_trinity:
-                    trace.trinity_validation = self._perform_trinity_validation(trace)
+                    trace.triad_validation = self._perform_triad_validation(trace)
 
                 # Set chain integrity (link to previous trace)
                 if parent_trace_id:
@@ -576,7 +576,7 @@ class ConsentLedgerV1:
                 self._append_trace(fallback_trace)
                 raise
 
-    def _perform_trinity_validation(self, trace: ΛTrace) -> dict[str, bool]:
+    def _perform_triad_validation(self, trace: ΛTrace) -> dict[str, bool]:
         """Perform Trinity Framework validation ⚛️🧠🛡️"""
         validation = {
             "identity_verified": False,
@@ -641,8 +641,8 @@ class ConsentLedgerV1:
                     trace_id, lid, parent_trace_id, action, resource,
                     purpose, timestamp, policy_verdict, capability_token_id,
                     context, explanation_unl, hash, signature, created_at,
-                    glyph_signature, trinity_identity_verified,
-                    trinity_consciousness_aligned, trinity_guardian_approved,
+                    glyph_signature, triad_identity_verified,
+                    triad_consciousness_aligned, triad_guardian_approved,
                     compliance_flags, chain_integrity
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
@@ -662,9 +662,9 @@ class ConsentLedgerV1:
                     trace.sign(self.secret_key),
                     time.time(),
                     trace.glyph_signature,
-                    (1 if trace.trinity_validation.get("identity_verified", False) else 0),
-                    (1 if trace.trinity_validation.get("consciousness_aligned", False) else 0),
-                    (1 if trace.trinity_validation.get("guardian_approved", False) else 0),
+                    (1 if trace.triad_validation.get("identity_verified", False) else 0),
+                    (1 if trace.triad_validation.get("consciousness_aligned", False) else 0),
+                    (1 if trace.triad_validation.get("guardian_approved", False) else 0),
                     json.dumps(trace.compliance_flags),
                     trace.chain_integrity,
                 ),
@@ -672,7 +672,7 @@ class ConsentLedgerV1:
 
             # Also insert Trinity validation record
             if self.enable_trinity:
-                self._insert_trinity_validation(trace)
+                self._insert_triad_validation(trace)
 
             conn.commit()
 
@@ -682,13 +682,13 @@ class ConsentLedgerV1:
         finally:
             conn.close()
 
-    def _insert_trinity_validation(self, trace: ΛTrace):
+    def _insert_triad_validation(self, trace: ΛTrace):
         """Insert Trinity validation scores"""
         conn = sqlite3.connect(str(self.db_path))
         cursor = conn.cursor()
 
         try:
-            validation = trace.trinity_validation
+            validation = trace.triad_validation
             scores = {
                 "identity": 1.0 if validation.get("identity_verified") else 0.0,
                 "consciousness": (1.0 if validation.get("consciousness_aligned") else 0.0),
@@ -698,7 +698,7 @@ class ConsentLedgerV1:
 
             cursor.execute(
                 """
-                INSERT INTO trinity_validations (
+                INSERT INTO triad_validations (
                     validation_id, trace_id, identity_score, consciousness_score,
                     guardian_score, overall_score, validated_at, validator_version
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)

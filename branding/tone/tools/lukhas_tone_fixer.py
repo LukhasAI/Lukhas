@@ -110,7 +110,7 @@ This module embodies the LUKHAS Trinity Framework:
 
         # Add Trinity Framework section if appropriate
         if self._should_add_trinity(enhanced, doc_type):
-            enhanced = self._add_trinity_section(enhanced)
+            enhanced = self._add_triad_section(enhanced)
             changes.append("⚛️ Added Trinity Framework integration section")
 
         # Enhance with sacred glyphs
@@ -177,7 +177,7 @@ This module embodies the LUKHAS Trinity Framework:
 
         return not has_trinity and is_appropriate_type and is_substantial
 
-    def _add_trinity_section(self, content: str) -> str:
+    def _add_triad_section(self, content: str) -> str:
         """⚛️ Add Trinity Framework integration section"""
         # Find a good place to insert (before footer, after main content)
         footer_pattern = r'(\n\n---\n\n\*".*)\s*$'
