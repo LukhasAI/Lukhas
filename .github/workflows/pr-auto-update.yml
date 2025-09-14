@@ -19,6 +19,8 @@ jobs:
   update:
     name: Update PR branches labeled 'autoupdate' or 'queue'
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - name: List target PRs
         id: list
