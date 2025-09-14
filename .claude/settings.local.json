@@ -182,7 +182,11 @@
       "Bash(.venv/bin/pytest tests/unit/bridge/adapters/test_oauth_manager_advanced.py::TestOAuthManagerMetamorphic::test_circuit_breaker_monotonicity_relation -v --tb=short)",
       "Bash(.venv/bin/pytest tests/unit/bridge/adapters/test_oauth_manager.py tests/unit/bridge/adapters/test_oauth_manager_advanced.py::TestOAuthManagerAdvancedSuiteSummary -v)",
       "Bash(pre-commit:*)",
-      "Bash(/Users/agi_dev/Library/Python/3.9/bin/pre-commit --version)"
+      "Bash(/Users/agi_dev/Library/Python/3.9/bin/pre-commit --version)",
+      "Bash(gh pr diff:*)",
+      "Bash(gh api:*)",
+      "Bash(gh pr merge:*)",
+      "Bash(git pull:*)"
     ],
     "deny": [],
     "ask": []
