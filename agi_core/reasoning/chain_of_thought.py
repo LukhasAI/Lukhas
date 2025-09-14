@@ -22,7 +22,7 @@ except ImportError:
 
 # Try to import consciousness wrapper for integration
 try:
-    from lukhas.consciousness.consciousness_wrapper import ConsciousnessWrapper
+    from lukhas.consciousness.consciousness_wrapper import ConsciousnessWrapper  # noqa: F401  # TODO: lukhas.consciousness.conscious...
 
     CONSCIOUSNESS_AVAILABLE = True
 except ImportError:

@@ -9,9 +9,8 @@ import json
 import os
 import re
 import shutil
-import tempfile
 from pathlib import Path
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Optional
 
 
 class NuclearFStringFixer:
@@ -43,7 +42,6 @@ class NuclearFStringFixer:
             (r'f"([^"]*)\{([^}]*\.upper)\(\}([^"]*)"', r'f"\1{\2()}\3"', "SAFE"),
             (r'f"([^"]*)\{([^}]*\.lower)\(\}([^"]*)"', r'f"\1{\2()}\3"', "SAFE"),
             (r'f"([^"]*)\{([^}]*\.strip)\(\}([^"]*)"', r'f"\1{\2()}\3"', "SAFE"),
-
             # MEDIUM RISK - Common function patterns
             (r'f"([^"]*)\{len\(([^}]+)\}([^"]*)"', r'f"\1{len(\2)}\3"', "MEDIUM"),
             (r'f"([^"]*)\{hash\(([^}]+)\}([^"]*)"', r'f"\1{hash(\2)}\3"', "MEDIUM"),
@@ -51,12 +49,10 @@ class NuclearFStringFixer:
             (r'f"([^"]*)\{str\(([^}]+)\}([^"]*)"', r'f"\1{str(\2)}\3"', "MEDIUM"),
             (r'f"([^"]*)\{float\(([^}]+)\}([^"]*)"', r'f"\1{float(\2)}\3"', "MEDIUM"),
             (r'f"([^"]*)\{bool\(([^}]+)\}([^"]*)"', r'f"\1{bool(\2)}\3"', "MEDIUM"),
-
             # HIGH RISK - Type and attribute patterns
             (r'f"([^"]*)\{type\(([^}]+)\}([^"]*)"', r'f"\1{type(\2)}\3"', "HIGH"),
             (r'f"([^"]*)\{([^}]+)\.get\(([^}]+)\}([^"]*)"', r'f"\1{\2.get(\3)}\4"', "HIGH"),
             (r'f"([^"]*)\{([^}]+)\.__name__\}([^"]*)"', r'f"\1{\2.__name__}\3"', "MEDIUM"),
-
             # NUCLEAR - Most aggressive patterns for complex cases
             (r'f"([^"]*)\{([^{}]+)\(([^}]*)\}([^"]*)"', r'f"\1{\2(\3)}\4"', "NUCLEAR"),
         ]
@@ -83,11 +79,16 @@ class NuclearFStringFixer:
                     if module_name not in ["tests", "test", ".pytest_cache"]:
                         # Basic import test in subprocess for safety
                         import subprocess
+
                         result = subprocess.run(
-                            ["python3", "-c", f'import sys; sys.path.insert(0, "{os.path.dirname(isolated_file)}"); import {module_name}'],
+                            [
+                                "python3",
+                                "-c",
+                                f'import sys; sys.path.insert(0, "{os.path.dirname(isolated_file)}"); import {module_name}',
+                            ],
                             capture_output=True,
                             timeout=5,
-                            cwd=self.isolation_dir
+                            cwd=self.isolation_dir,
                         )
                         if result.returncode != 0 and "SyntaxError" in result.stderr.decode():
                             return False
@@ -110,7 +111,6 @@ class NuclearFStringFixer:
         fixes_count = 0
         applied_patterns = []
         patterns = self.get_nuclear_patterns()
-
 
         for pattern, replacement, risk_level in patterns:
             try:
@@ -188,7 +188,7 @@ class NuclearFStringFixer:
             "fixes_applied": 0,
             "patterns_used": [],
             "risk_level": "SAFE",
-            "validation_passed": False
+            "validation_passed": False,
         }
 
         try:
@@ -204,9 +204,7 @@ class NuclearFStringFixer:
                 result["originally_valid"] = False
 
             # Apply nuclear fixes
-            fixed_content, fixes_count, patterns_used = self.nuclear_fix_fstring(
-                original_content, file_path
-            )
+            fixed_content, fixes_count, patterns_used = self.nuclear_fix_fstring(original_content, file_path)
 
             if fixes_count == 0:
                 result["success"] = True
@@ -293,7 +291,7 @@ class NuclearFStringFixer:
         print(f"Files processed: {total_files}")
         print(f"Files successfully processed: {successful}")
         print(f"Total fixes applied: {total_fixes}")
-        print(f"Validation success rate: {(validation_passed/total_files*100:.1f}%")
+        print(f"Validation success rate: {(validation_passed/total_files*100):.1f}%")
 
         # Risk breakdown
         risk_counts = {}

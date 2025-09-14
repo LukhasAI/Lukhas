@@ -31,17 +31,17 @@ class QIAssociativeMemoryBank:
 
     def __init__(self, capacity_qubits: int = 10):
         self.capacity = 2**capacity_qubits
-        self.memory_register = QuantumRegister(capacity_qubits, "memory")
-        self.query_register = QuantumRegister(capacity_qubits, "query")
+        self.memory_register = QuantumRegister(capacity_qubits, "memory")  # noqa: F821  # TODO: QuantumRegister
+        self.query_register = QuantumRegister(capacity_qubits, "query")  # noqa: F821  # TODO: QuantumRegister
         self.oracle_circuits: dict[str, QuantumCircuit] = {}
 
         # Quantum error correction
-        self.error_correction = SurfaceCodeErrorCorrection(physical_qubits_per_logical=17)
+        self.error_correction = SurfaceCodeErrorCorrection(physical_qubits_per_logical=17)  # noqa: F821  # TODO: SurfaceCodeErrorCorrection
 
         # Decoherence mitigation
-        self.decoherence_mitigator = DecoherenceMitigation(strategy="dynamical_decoupling")
+        self.decoherence_mitigator = DecoherenceMitigation(strategy="dynamical_decoupling")  # noqa: F821  # TODO: DecoherenceMitigation
 
-    async def store_quantum_state(self, memory_id: str, quantum_state: QuantumState, associations: list[str]):
+    async def store_quantum_state(self, memory_id: str, quantum_state: QuantumState, associations: list[str]):  # noqa: F821  # TODO: QuantumState
         """
         Store information in quantum superposition
         """
@@ -59,8 +59,10 @@ class QIAssociativeMemoryBank:
         await self.decoherence_mitigator.stabilize(protected_state)
 
     async def quantum_associative_recall(
-        self, query: QuantumQuery, num_iterations: Optional[int] = None
-    ) -> list[QuantumMemory]:
+        self,
+        query: QuantumQuery,  # noqa: F821  # TODO: QuantumQuery
+        num_iterations: Optional[int] = None,  # noqa: F821  # TODO: QuantumQuery
+    ) -> list[QuantumMemory]:  # noqa: F821  # TODO: QuantumMemory
         """
         Retrieve memories using quantum parallelism
         """

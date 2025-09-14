@@ -246,6 +246,16 @@ def get_enhanced_memory_metrics() -> dict[str, Any]:
 
 
 # Export main functions and classes
+def create_memory_client(driver: str):
+    """Factory function to create memory clients by driver name"""
+    if driver == "noop":
+        from candidate.aka_qualia.memory_noop import NoopMemory
+
+        return NoopMemory()
+    else:
+        raise ValueError(f"Unknown memory driver: {driver}")
+
+
 __all__ = [
     "get_memory_status",
     "create_hierarchical_memory",
@@ -256,6 +266,7 @@ __all__ = [
     "dump_state",
     "MemoryWrapper",
     "FoldManager",
+    "create_memory_client",
     "MemoryFold",
     "HierarchicalDataStore",
     "MemoryTier",

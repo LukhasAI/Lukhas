@@ -1,11 +1,12 @@
 # Main Makefile PHONY declarations (only for targets defined in this file)
-.PHONY: install setup-hooks dev api openapi live colony-dna-smoke lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports
+.PHONY: install setup-hooks dev api openapi live colony-dna-smoke smoke-matriz lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports
 .PHONY: ai-analyze ai-setup ai-workflow clean deep-clean quick bootstrap organize organize-dry organize-suggest organize-watch
 .PHONY: codex-validate codex-fix validate-all perf migrate-dry migrate-run dna-health dna-compare admin lint-status lane-guard
 .PHONY: audit-tail sdk-py-install sdk-py-test sdk-ts-build sdk-ts-test backup-local backup-s3 restore-local restore-s3 dr-drill dr-weekly dr-quarterly dr-monthly
 .PHONY: audit-appendix audit-normalize audit-merge audit-merge-auto audit-merge-check
 .PHONY: check-scoped lint-scoped test-contract type-scoped doctor doctor-tools doctor-py doctor-ci doctor-lanes doctor-tests doctor-audit doctor-dup-targets doctor-phony doctor-summary doctor-strict doctor-dup-targets-strict doctor-json
-.PHONY: todo-unused todo-unused-check todo-unused-core t4-annotate t4-check
+.PHONY: todo-unused todo-unused-check todo-unused-core todo-unused-candidate t4-annotate t4-check audit-f821 fix-f821-core annotate-f821-candidate types-audit types-enforce types-core types-trend types-audit-trend types-enforce-trend f401-audit f401-trend
+.PHONY: test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -53,6 +54,12 @@ live:
 # Colony↔DNA demo
 colony-dna-smoke:
 	python3 scripts/colony_dna_smoke.py
+
+# MATRIZ traces smoke (deterministic, uses golden fixture)
+smoke-matriz:
+	@echo "🚬 Running MATRIZ traces smoke (GET /traces/latest)..."
+	PYTHONPATH=. python3 -m pytest -q tests/smoke/test_traces_router.py --maxfail=1 --disable-warnings
+	@echo "✅ MATRIZ traces smoke passed"
 
 # Linting (no fixes)
 lint:
@@ -488,6 +495,119 @@ todo-unused-check:
 	@echo "⚛️ Ensuring all unused imports are properly documented"
 	python3 tools/ci/check_unused_imports_todo.py
 
+# T4 candidate promotion helper  
+todo-unused-candidate:
+	@echo "🎯 T4 UNUSED IMPORTS ANNOTATOR - Candidate Directory"
+	@echo "⚛️ Preparing experimental code for production promotion"
+	python3 tools/ci/mark_unused_imports_todo.py --paths candidate
+
 # Legacy aliases for backwards compatibility
 t4-annotate: todo-unused
 t4-check: todo-unused-check
+
+.PHONY: audit-f821 fix-f821-core annotate-f821-candidate
+
+audit-f821:
+	@python3 tools/ci/f821_report.py --paths "lukhas MATRIZ candidate" && echo "See reports/audit/f821_summary.md"
+
+fix-f821-core:
+	@python3 tools/ci/f821_report.py --paths "lukhas MATRIZ" --enforce-core
+
+annotate-f821-candidate:
+	@python3 tools/ci/f821_report.py --paths "candidate" --annotate-candidate
+
+.PHONY: types-audit types-enforce types-core
+
+types-audit:
+	@mkdir -p reports/audit/types
+	@python3 -m mypy --hide-error-context --no-error-summary --no-color-output --pretty --error-format=json > reports/audit/types/mypy.json || true
+	@python3 tools/ci/mypy_to_md.py reports/audit/types/mypy.json reports/audit/types/mypy_summary.md && echo "See reports/audit/types/mypy_summary.md"
+
+types-enforce:
+	@mkdir -p reports/audit/types
+	@python3 -m mypy --hide-error-context --no-error-summary --no-color-output --pretty --error-format=json > reports/audit/types/mypy.json || true
+	@python3 -c "import json,sys; j=json.load(open('reports/audit/types/mypy.json')); core=sum(1 for e in j.get('errors',[]) if str(e.get('path','')).startswith(('lukhas/','MATRIZ/'))); print(f'Core mypy errors: {core}'); sys.exit(1 if core>0 else 0)"
+	@python3 tools/ci/mypy_to_md.py reports/audit/types/mypy.json reports/audit/types/mypy_summary.md
+
+# fast local check limited to core paths (honors pyproject files=)
+types-core:
+	@python3 -m mypy lukhas MATRIZ
+
+.PHONY: types-trend
+
+types-trend:
+	@python3 tools/ci/mypy_trend.py
+
+# F401 unused import trend tracking
+f401-audit:
+	@mkdir -p reports/audit
+	@python3 -m ruff check --select F401 --output-format json > reports/audit/f401.json || true
+	@echo "F401 audit saved to reports/audit/f401.json"
+
+f401-trend:
+	@python3 tools/ci/f401_trend.py
+
+# Convenience combos
+types-audit-trend: types-audit types-trend
+types-enforce-trend: types-enforce types-trend
+
+# ==============================================================================
+# T4 TEST FRAMEWORK - Deterministic Policy & Golden Discipline
+# ==============================================================================
+
+.PHONY: test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens
+
+test-clean:
+	@find . -name '__pycache__' -type d -prune -exec rm -rf {} + || true
+
+test-tier1:
+	@TZ=UTC PYTHONHASHSEED=0 pytest -m "tier1 and not quarantine" --cov=lukhas --cov=MATRIZ --cov-branch --cov-report=xml:reports/tests/cov.xml
+
+test-all:
+	@TZ=UTC PYTHONHASHSEED=0 pytest -m "not quarantine" --cov=lukhas --cov=MATRIZ --cov-branch --cov-report=xml:reports/tests/cov.xml
+
+test-fast:
+	@TZ=UTC PYTHONHASHSEED=0 pytest -m "smoke or tier1" -q
+
+test-report:
+	@python3 -c "import xml.etree.ElementTree as ET; p='reports/tests/cov.xml'; \
+	try: \
+	 t=ET.parse(p).getroot(); print('Coverage line-rate:', t.attrib.get('line-rate','?')); \
+	except Exception as e: \
+	 print('No coverage report yet:', e)"
+
+spec-lint:
+	@python3 tools/tests/spec_lint.py tests/specs
+
+contract-check:
+	@python3 tools/tests/contract_check.py $${BASE_REF:-origin/main}
+
+specs-sync:
+	@python3 tools/tests/specs_sync.py
+
+test-goldens:
+	@python3 tools/tests/validate_golden.py
+
+# Jules-06 focused test lane
+.PHONY: test-jules06
+test-jules06:
+	@echo "🧪 Jules-06 focused adapters lane"
+	@export TZ=UTC PYTHONHASHSEED=0 PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=.; \
+	pytest -q \
+	  -m "not quarantine" \
+	  tests/unit/bridge/adapters/test_gmail_adapter.py \
+	  tests/unit/bridge/adapters/test_dropbox_adapter.py \
+	  tests/unit/bridge/adapters/test_oauth_manager.py \
+	  tests/unit/security/test_security.py \
+	  tests/integration/bridge/adapters/test_gmail_adapter.py \
+	  tests/integration/bridge/adapters/test_dropbox_adapter.py \
+	  tests/integration/bridge/adapters/test_oauth_manager.py \
+	  tests/integration/bridge/test_service_integration.py \
+	  tests/integration/security/test_security.py \
+	  --cov=candidate.bridge.adapters \
+	  --cov=candidate.bridge.external_adapters \
+	  --cov=candidate.bridge.api.validation \
+	  --cov=candidate.bridge.adapters.service_adapter_base \
+	  --cov-branch \
+	  --cov-report=xml:reports/tests/cov_adapters.xml \
+	  --cov-report=term-missing

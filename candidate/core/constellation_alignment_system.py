@@ -13,7 +13,7 @@ all consciousness signals maintain proper alignment across eight fundamental sta
 🛡️ GUARDIAN - The Watch Star: safety compliance and cascade prevention
 ⚛️ QUANTUM - The Ambiguity Star: quantum-inspired uncertainty as fertile ground
 """
-import streamlit as st
+import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 
 import logging
 import threading

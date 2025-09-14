@@ -17,10 +17,7 @@ Quantum Resonance Glyphs as interactive three-dimensional holographic
 objects with spatial tracking, gesture recognition, and consciousness-aware
 adaptation in augmented and virtual reality environments.
 """
-from consciousness.qi import qi
-from typing import Dict
-import random
-import streamlit as st
+
 from datetime import timezone
 
 import logging
@@ -371,9 +368,9 @@ class WebXRIntegration:
         # In production, would integrate with actual QRG core
         return {
             "identity": identity,
-            "qi_signature": f"QS-{hash(identity)} % 1000000:06d}",
+            "qi_signature": f"QS-{hash(identity) % 1000000:06d}",
             "visual_matrix": np.random.randint(0, 256, (64, 64, 3), dtype=np.uint8),
-            "consciousness_fingerprint": f"CF-{hash(identity + str(time.time()) % 1000000:06d}",
+            "consciousness_fingerprint": f"CF-{hash(identity + str(time.time())) % 1000000:06d}",
         }
 
     def _generate_holographic_layers(

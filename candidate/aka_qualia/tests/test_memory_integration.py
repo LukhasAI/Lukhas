@@ -19,7 +19,7 @@ import pytest
 import sqlalchemy
 from sqlalchemy import text
 
-from .conftest import create_test_glyph, create_test_scene, create_varying_scene
+from candidate.aka_qualia.tests.conftest import create_test_glyph, create_test_scene, create_varying_scene
 
 
 class TestSQLQueryCorrectness:

@@ -3,7 +3,6 @@
 Widget Factory for ΛLens
 Maps GLYPH symbols to UI widgets
 """
-import streamlit as st
 
 from typing import Any
 
@@ -48,80 +47,83 @@ class WidgetFactory:
                         "title": "Data Points",
                         "items": {
                             "type": "object",
-                            "properties": {"name": {"type": "string"}, "value": {"type": "number"},
-                        },
-                    },
-                    "orientation": {"type": "string", "enum": ["horizontal", "vertical"], "default": "vertical"},
-                },
-                "required": ["title", "data"],
-            },
-        },
-        "ForceGraph": {
-            "label": "Force Graph",
-            "description": "Display relationships between entities",
-            "icon": "🔗",
-            "properties_schema": {
-                "type": "object",
-                "properties": {
-                    "title": {"type": "string", "title": "Graph Title"},
-                    "nodes": {
-                        "type": "array",
-                        "title": "Nodes",
-                        "items": {
-                            "type": "object",
                             "properties": {
-                                "id": {"type": "string"},
-                                "label": {"type": "string"},
-                                "group": {"type": "string"},
+                                "name": {"type": "string"},
+                                "value": {"type": "number"},
+                            },
+                        },
+                        "orientation": {"type": "string", "enum": ["horizontal", "vertical"], "default": "vertical"},
+                    },
+                    "required": ["title", "data"],
+                },
+            },
+            "ForceGraph": {
+                "label": "Force Graph",
+                "description": "Display relationships between entities",
+                "icon": "🔗",
+                "properties_schema": {
+                    "type": "object",
+                    "properties": {
+                        "title": {"type": "string", "title": "Graph Title"},
+                        "nodes": {
+                            "type": "array",
+                            "title": "Nodes",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {"type": "string"},
+                                    "label": {"type": "string"},
+                                    "group": {"type": "string"},
+                                },
+                            },
+                        },
+                        "links": {
+                            "type": "array",
+                            "title": "Links",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "source": {"type": "string"},
+                                    "target": {"type": "string"},
+                                    "value": {"type": "number", "default": 1},
+                                },
                             },
                         },
                     },
-                    "links": {
-                        "type": "array",
-                        "title": "Links",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "source": {"type": "string"},
-                                "target": {"type": "string"},
-                                "value": {"type": "number", "default": 1},
-                            },
-                        },
+                    "required": ["nodes", "links"],
+                },
+            },
+            "TextBlock": {
+                "label": "Text Block",
+                "description": "Display formatted text content",
+                "icon": "📄",
+                "properties_schema": {
+                    "type": "object",
+                    "properties": {
+                        "title": {"type": "string", "title": "Title"},
+                        "content": {"type": "string", "title": "Content"},
+                        "format": {"type": "string", "enum": ["plain", "markdown", "html"], "default": "plain"},
                     },
+                    "required": ["content"],
                 },
-                "required": ["nodes", "links"],
             },
-        },
-        "TextBlock": {
-            "label": "Text Block",
-            "description": "Display formatted text content",
-            "icon": "📄",
-            "properties_schema": {
-                "type": "object",
-                "properties": {
-                    "title": {"type": "string", "title": "Title"},
-                    "content": {"type": "string", "title": "Content"},
-                    "format": {"type": "string", "enum": ["plain", "markdown", "html"], "default": "plain"},
+            "CodeSnippet": {
+                "label": "Code Snippet",
+                "description": "Display code with syntax highlighting",
+                "icon": "💻",
+                "properties_schema": {
+                    "type": "object",
+                    "properties": {
+                        "title": {"type": "string", "title": "Title"},
+                        "code": {"type": "string", "title": "Code"},
+                        "language": {"type": "string", "title": "Language"},
+                        "showLineNumbers": {"type": "boolean", "default": True},
+                    },
+                    "required": ["code"],
                 },
-                "required": ["content"],
             },
-        },
-        "CodeSnippet": {
-            "label": "Code Snippet",
-            "description": "Display code with syntax highlighting",
-            "icon": "💻",
-            "properties_schema": {
-                "type": "object",
-                "properties": {
-                    "title": {"type": "string", "title": "Title"},
-                    "code": {"type": "string", "title": "Code"},
-                    "language": {"type": "string", "title": "Language"},
-                    "showLineNumbers": {"type": "boolean", "default": True},
-                },
-                "required": ["code"],
-            },
-        },
-    }
+        },  # Close CodeSnippet
+    }  # Close WIDGET_PRESETS dictionary
 
     def __init__(self):
         self.widget_mappings = self._create_symbol_mappings()

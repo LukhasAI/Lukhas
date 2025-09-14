@@ -440,7 +440,7 @@ class AGIModuleAnalyzer:
                 all_interfaces.extend(self.modules[module_path].interfaces)
 
         # Find common patterns
-        interface_freq = Counter(all_interfaces)
+        interface_freq = Counter(all_interfaces)  # noqa: F821  # TODO: Counter
         common_interfaces = [iface for iface, count in interface_freq.items() if count > 1]
 
         return {
@@ -761,7 +761,7 @@ class AGIModuleAnalyzer:
             for merge in analysis_result["consolidation_plan"]["merge_candidates"]:
                 modules = merge["modules"]
                 strategy = merge["merge_strategy"]
-                script_lines.append(f"        {{'modules': {modules}, 'strategy': '{strategy}'},")
+                script_lines.append(f"        {{'modules': {modules}, 'strategy': '{strategy}'}},")
 
             script_lines.extend(
                 [

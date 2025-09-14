@@ -401,7 +401,7 @@ class CodebaseAnalyzer:
                     elif "files" in issue:
                         print(f"    • Group: {len(issue['files'])} files")
                 if len(issues) > 3:
-                    print(f"    ... and {len(issues)} - 3} more")
+                    print(f"    ... and {len(issues) - 3} more")
 
         # Recommendations
         print("\n💡 RECOMMENDATIONS:")

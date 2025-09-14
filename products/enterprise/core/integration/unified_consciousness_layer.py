@@ -62,7 +62,7 @@ except ImportError as e:
 
 # Multi-AI Orchestration
 try:
-    from candidate.bridge.orchestration.consensus_engine import ConsensusEngine
+    from candidate.bridge.orchestration.consensus_engine import ConsensusEngine  # noqa: F401  # TODO: candidate.bridge.orchestration...
     from candidate.bridge.orchestration.multi_ai_orchestrator import MultiAIOrchestrator
 
     ORCHESTRATION_AVAILABLE = True
@@ -71,8 +71,8 @@ except ImportError:
 
 # Jules Enterprise components
 try:
-    from enterprise.compliance.data_protection_service import DataProtectionService
-    from enterprise.monitoring.datadog_integration import DatadogIntegration
+    from enterprise.compliance.data_protection_service import DataProtectionService  # noqa: F401  # TODO: enterprise.compliance.data_pro...
+    from enterprise.monitoring.datadog_integration import DatadogIntegration  # noqa: F401  # TODO: enterprise.monitoring.datadog_...
 
     JULES_COMPONENTS_AVAILABLE = True
 except ImportError:

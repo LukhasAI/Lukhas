@@ -18,10 +18,10 @@ from typing import Any, Optional
 from urllib.parse import urlparse
 
 try:
-    import sqlalchemy as sa
+    import sqlalchemy as sa  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
     from sqlalchemy import create_engine, text
     from sqlalchemy.engine import Engine
-    from sqlalchemy.exc import SQLAlchemyError
+    from sqlalchemy.exc import SQLAlchemyError  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
 except ImportError:
     raise ImportError("SQLAlchemy required. Install with: pip install sqlalchemy")
 

@@ -14,7 +14,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-from candidate.core.common.glyph import GLYPHToken, GLYPHSymbol, create_glyph
+from candidate.core.common.glyph import GLYPHSymbol, create_glyph
 from candidate.core.common.logger import get_logger
 from candidate.governance.guardian import GuardianValidator
 from candidate.voice.audio_processing import AudioBuffer, AudioFormat
@@ -622,10 +622,12 @@ class LUKHASVoiceAnalytics:
             ) / self.stats["analyses_performed"]
 
             # Emit GLYPH event
-            # Create GLYPH event
-        glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
-                "voice.quality.analyzed",
+            glyph_token = create_glyph(
+                GLYPHSymbol.CREATE,
+                "voice_pipeline",
+                "consciousness",
                 {
+                    "event_type": "voice.quality.analyzed",
                     "overall_score": overall_score,
                     "overall_grade": overall_grade.value,
                     "metrics_analyzed": len(scores),

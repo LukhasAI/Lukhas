@@ -1,8 +1,6 @@
 # Placeholder for T4SentryMonitoring
 from dataclasses import dataclass
 from datetime import datetime
-import streamlit as st
-import time
 
 
 @dataclass
@@ -21,7 +19,7 @@ class T4SentryMonitoring:
         self.enabled = False
 
     def get_enterprise_dashboard_data(self):
-        return {"sentry_integration": {"status": "ACTIVE"}
+        return {"sentry_integration": {"status": "ACTIVE"}}
 
     def track_t4_performance(self, metrics: T4PerformanceMetrics) -> bool:
         return True

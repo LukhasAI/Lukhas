@@ -18,23 +18,23 @@ from typing import Optional
 # Observability integrations
 try:
     from datadog import DogStatsd, initialize
-    from datadog.api.metrics import Metric
+    from datadog.api.metrics import Metric  # noqa: F401  # TODO: datadog.api.metrics.Metric; co...
 
     DATADOG_AVAILABLE = True
 except ImportError:
     DATADOG_AVAILABLE = False
 
 try:
-    from opentelemetry import metrics, trace
+    from opentelemetry import metrics, trace  # noqa: F401  # TODO: opentelemetry.metrics; conside...
     from opentelemetry.sdk.trace import TracerProvider
-    from opentelemetry.sdk.trace.export import BatchSpanProcessor
+    from opentelemetry.sdk.trace.export import BatchSpanProcessor  # noqa: F401  # TODO: opentelemetry.sdk.trace.export...
 
     OPENTELEMETRY_AVAILABLE = True
 except ImportError:
     OPENTELEMETRY_AVAILABLE = False
 
 try:
-    import prometheus_client
+    import prometheus_client  # noqa: F401  # TODO: prometheus_client; consider us...
 
     PROMETHEUS_AVAILABLE = True
 except ImportError:
@@ -43,15 +43,15 @@ except ImportError:
 # LUKHAS integrations
 try:
     from lukhas.consciousness import ConsciousnessCore
-    from lukhas.guardian import GuardianSystem
+    from lukhas.guardian import GuardianSystem  # noqa: F401  # TODO: lukhas.guardian.GuardianSystem...
     from lukhas.memory import MemoryFoldSystem
-    from lukhas.trinity import TrinityFramework
+    from lukhas.trinity import TrinityFramework  # noqa: F401  # TODO: lukhas.trinity.TrinityFramewor...
 
     LUKHAS_AVAILABLE = True
 except ImportError:
     try:
-        from candidate.consciousness import ConsciousnessCore
-        from candidate.memory import MemoryFoldSystem
+        from candidate.consciousness import ConsciousnessCore  # noqa: F401  # TODO: candidate.consciousness.Consci...
+        from candidate.memory import MemoryFoldSystem  # noqa: F401  # TODO: candidate.memory.MemoryFoldSys...
 
         LUKHAS_AVAILABLE = True
     except ImportError:

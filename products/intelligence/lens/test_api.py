@@ -15,7 +15,7 @@ sys.path.insert(0, api_dir)
 try:
     from api.endpoints import router
     from api.main import app
-    from api.schemas import JobRequest, JobResponse, PhotonDocument
+    from api.schemas import JobRequest, JobResponse, PhotonDocument  # noqa: F401  # TODO: api.schemas.JobResponse; consi...
 
     print("✅ API imports successful!")
     print(f"📡 FastAPI app: {app.title}")

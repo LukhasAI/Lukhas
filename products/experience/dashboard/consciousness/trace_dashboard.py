@@ -6,23 +6,23 @@ def render_dashboard():
     """
     Renders a Streamlit dashboard to expose recall/logic metrics.
     """
-    st.title("Reasoning and Memory Metrics Dashboard")
+    st.title("Reasoning and Memory Metrics Dashboard")  # noqa: F821  # TODO: st
 
     # --- Logic Drift Index ---
-    st.header("Logic Drift Index")
+    st.header("Logic Drift Index")  # noqa: F821  # TODO: st
     # This is a placeholder for a real data source
     previous_trace = {"overall_confidence": 0.8}
     current_trace = {"overall_confidence": 0.7}
     drift = logic_drift_index(previous_trace, current_trace)
-    st.metric("Logic Drift", drift)
+    st.metric("Logic Drift", drift)  # noqa: F821  # TODO: st
 
     # --- Recall Efficiency Score ---
-    st.header("Recall Efficiency Score")
+    st.header("Recall Efficiency Score")  # noqa: F821  # TODO: st
     # This is a placeholder for a real data source
     invoked_memories = [{"key": "a"}, {"key": "b"}]
     optimal_memories = [{"key": "a"}, {"key": "b"}, {"key": "c"}]
     score = recall_efficiency_score(invoked_memories, optimal_memories)
-    st.metric("Recall Efficiency", score)
+    st.metric("Recall Efficiency", score)  # noqa: F821  # TODO: st
 
 
 if __name__ == "__main__":

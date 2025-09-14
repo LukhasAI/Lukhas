@@ -12,6 +12,7 @@ make help           # Auto-generated help (see all available targets)
 make install        # Install all dependencies
 make dev            # Start development server
 make test           # Run test suite
+make smoke-matriz   # MATRIZ /traces/latest smoke (golden fixture)
 make lint           # Run all linters
 make audit          # Run comprehensive audit
 ```
@@ -90,6 +91,7 @@ make audit-tail &  # Run in background
 | `test` | Run standard test suite | `make test` |
 | `test-cov` | Run tests with coverage reporting | `make test-cov` |
 | `smoke` | Run smoke tests for critical paths | `make smoke` |
+| `smoke-matriz` | Run MATRIZ traces smoke using golden fixtures | `make smoke-matriz` |
 | `test-legacy` | Run legacy compatibility tests | `make test-legacy` |
 | `test-tier1-matriz` | Run MATRIZ tier-1 validation tests | `make test-tier1-matriz` |
 

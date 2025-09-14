@@ -31,16 +31,16 @@ except ImportError:
 # LUKHAS integrations with fallback
 try:
     from lukhas.consciousness import ConsciousnessCore
-    from lukhas.constellation import ConstellationFramework
+    from lukhas.constellation import ConstellationFramework  # noqa: F401  # TODO: lukhas.constellation.Constella...
     from lukhas.guardian import GuardianSystem
     from lukhas.memory import MemoryFoldSystem
 
     LUKHAS_AVAILABLE = True
 except ImportError:
     try:
-        from candidate.consciousness import ConsciousnessCore
-        from candidate.governance import GuardianSystem
-        from candidate.memory import MemoryFoldSystem
+        from candidate.consciousness import ConsciousnessCore  # noqa: F401  # TODO: candidate.consciousness.Consci...
+        from candidate.governance import GuardianSystem  # noqa: F401  # TODO: candidate.governance.GuardianS...
+        from candidate.memory import MemoryFoldSystem  # noqa: F401  # TODO: candidate.memory.MemoryFoldSys...
 
         LUKHAS_AVAILABLE = True
     except ImportError:

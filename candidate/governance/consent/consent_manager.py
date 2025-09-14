@@ -32,7 +32,7 @@ import json
 import logging
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -159,7 +159,7 @@ class ConsentRecord:
     withdrawal_reason: Optional[str] = None
 
     # Compliance context
-    applicable_regimes: list[ComplianceRegime] = field(default_factory=l: [ComplianceRegime.GDPR])
+    applicable_regimes: list[ComplianceRegime] = field(default_factory=lambda: [ComplianceRegime.GDPR])
     consent_evidence: dict[str, Any] = field(default_factory=dict)
 
     # Technical details
@@ -242,10 +242,16 @@ class AdvancedConsentManager:
             "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
-        # Initialize standard purposes
-        asyncio.create_task(self._initialize_standard_purposes())
+        # Initialize standard purposes - deferred to avoid event loop issues
+        self._purposes_initialized = False
 
         logger.info("📋 Advanced Consent Manager initialized with GDPR compliance")
+
+    async def initialize(self):
+        """Initialize the consent manager with standard purposes"""
+        if not self._purposes_initialized:
+            await self._initialize_standard_purposes()
+            self._purposes_initialized = True
 
     async def _initialize_standard_purposes(self):
         """Initialize standard data processing purposes"""
@@ -316,6 +322,11 @@ class AdvancedConsentManager:
         Returns:
             Dictionary of consent records keyed by purpose_id
         """
+        # Ensure purposes are initialized
+        if not self._purposes_initialized:
+            await self._initialize_standard_purposes()
+            self._purposes_initialized = True
+            
         context = context or {}
         consent_records = {}
 
@@ -520,7 +531,7 @@ class AdvancedConsentManager:
     ) -> ConsentRecord:
         """Create a new consent record"""
 
-        consent_id = f"consent_{uuid.uuid4(}.hex[:12])}"
+        consent_id = f"consent_{uuid.uuid4().hex[:12]}"
         current_time = datetime.now(timezone.utc)
 
         # Calculate expiration date
@@ -606,7 +617,8 @@ class AdvancedConsentManager:
             validation_issues.append("Consent indication is ambiguous")
 
         # Method-specific validation
-        if consent_record.method == ConsentMethod.IMPLICIT:
+        # Note: IMPLICIT is a ConsentType, not ConsentMethod
+        if hasattr(consent_record, 'consent_type') and consent_record.consent_type == ConsentType.IMPLICIT:
             validation_issues.append("Implicit consent not suitable for GDPR Article 7")
 
         return {
@@ -618,7 +630,7 @@ class AdvancedConsentManager:
     async def _generate_consent_receipt(self, user_id: str, purpose_ids: list[str]) -> ConsentReceipt:
         """Generate GDPR-compliant consent receipt"""
 
-        receipt_id = f"receipt_{uuid.uuid4(}.hex[:12])}"
+        receipt_id = f"receipt_{uuid.uuid4().hex[:12]}"
         current_time = datetime.now(timezone.utc)
 
         receipt_data = {

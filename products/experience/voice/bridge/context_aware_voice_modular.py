@@ -38,7 +38,6 @@ VERSION: v1.0.0 • CREATED: 2025-01-21 • AUTHOR: LUKHAS AGI TEAM
 SYMBOLIC TAGS: ΛVOICE, ΛCONTEXT, ΛMODULAR, ΛCOMPLIANCE, ΛSAFETY
 """
 
-import datetime
 import time
 from dataclasses import dataclass, field
 from enum import Enum
@@ -250,7 +249,7 @@ class ContextAnalyzer:
 
     def _analyze_time_context(self, timestamp: float, timezone: str) -> dict[str, Any]:
         """Analyze temporal context"""
-        dt = datetime.fromtimestamp(timestamp, tz=timezone.utc, tz=timezone.utc)
+        dt = datetime.fromtimestamp(timestamp, tz=timezone.utc)
         hour = dt.hour
 
         return {

@@ -5,10 +5,8 @@ Focus on the 23 HIGH priority lukhas/ blockers for maximum functional impact
 """
 
 import ast
-import json
 import os
 import re
-from typing import Dict, List, Tuple
 
 
 class StrategicLukhasFixer:
@@ -57,13 +55,11 @@ class StrategicLukhasFixer:
             # Most common pattern: missing closing parenthesis
             (r'f"([^"]*)\{([^}]+)\}([^"]*)"', self.fix_fstring_parentheses, "PARENTHESIS_FIX"),
             (r"f'([^']*)\{([^}]+)\}([^']*)'", self.fix_fstring_parentheses_single, "PARENTHESIS_FIX_SINGLE"),
-
             # Specific method patterns
             (r'f"([^"]*)\{([^}]+\.upper)\(\}([^"]*)"', r'f"\1{\2()}\3"', "METHOD_UPPER"),
             (r'f"([^"]*)\{([^}]+\.lower)\(\}([^"]*)"', r'f"\1{\2()}\3"', "METHOD_LOWER"),
             (r'f"([^"]*)\{([^}]+\.timestamp)\(\}([^"]*)"', r'f"\1{\2()}\3"', "METHOD_TIMESTAMP"),
             (r'f"([^"]*)\{([^}]+\.isoformat)\(\}([^"]*)"', r'f"\1{\2()}\3"', "METHOD_ISOFORMAT"),
-
             # Function patterns
             (r'f"([^"]*)\{(time\.time)\(\}([^"]*)"', r'f"\1{\2()}\3"', "FUNC_TIME"),
             (r'f"([^"]*)\{(uuid\.uuid4)\(\}([^"]*)"', r'f"\1{\2()}\3"', "FUNC_UUID"),
@@ -88,7 +84,7 @@ class StrategicLukhasFixer:
             return f'f"{prefix}{{{expr}{missing_parens}{suffix}"'
         elif close_parens > open_parens:
             # Remove extra closing parentheses (less common, but possible)
-            return f'f"{prefix}{{{expr.rstrip("}")}}{suffix}"'
+            return f'f"{prefix}{{{expr.rstrip(")")}}}{suffix}"'
         else:
             # Already balanced
             return match.group(0)
@@ -235,9 +231,9 @@ def main():
     if success:
         print("\n🧪 Running functional test to verify strategic improvements...")
         import subprocess
+
         try:
-            subprocess.run(["python3", "functional_test_suite.py"],
-                                  capture_output=True, text=True, timeout=60)
+            subprocess.run(["python3", "functional_test_suite.py"], capture_output=True, text=True, timeout=60)
             print("Strategic functional test completed.")
         except Exception as e:
             print(f"Could not run functional test: {e}")

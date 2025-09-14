@@ -1,0 +1,240 @@
+# Jules-07: Bio-Quantum Systems Test Specification
+agent_id: "Jules-07"
+priority: "MEDIUM"
+tier: "tier3"
+estimated_tests: 12
+
+# Module Assignment
+modules:
+  primary:
+    - "candidate/bio/" # all bio modules
+    - "candidate/qi/" # quantum inspired modules
+    - "lukhas/bio/core/bio_symbolic.py"
+    - "candidate/bio/quantum_inspired_layer/"
+  
+  supporting:
+    - "candidate/bio/memory/symbolic_proteome.py"
+    - "candidate/bio/endocrine/"
+    - "candidate/bio/mitochondrial/"
+    - "MATRIZ/" # bio-symbolic integration
+
+# Test Requirements
+tests:
+  bio_systems:
+    - name: "test_bio_symbolic_processing"
+      description: "Test bio-symbolic data processing and adaptation"
+      input: {"bio_data": "object", "symbolic_rules": "array", "adaptation_context": "object"}
+      expected: {"processed_data": "object", "adaptation_result": "object", "symbolic_mappings": "array"}
+      tags: ["tier3", "bio", "symbolic"]
+    
+    - name: "test_mitochondrial_models"
+      description: "Test mitochondrial energy processing models"
+      input: {"energy_input": "object", "cellular_state": "object", "metabolic_constraints": "object"}
+      expected: {"energy_output": "number", "efficiency_score": "number", "cellular_health": "object"}
+      tags: ["tier3", "bio", "mitochondrial"]
+    
+    - name: "test_endocrine_integration"
+      description: "Test endocrine system integration and feedback loops"
+      input: {"hormone_levels": "object", "feedback_signals": "array", "system_state": "object"}
+      expected: {"hormone_regulation": "object", "feedback_response": "object", "system_stability": "bool"}
+      tags: ["tier3", "bio", "endocrine"]
+
+  quantum_inspired:
+    - name: "test_qi_processing_core"
+      description: "Test quantum-inspired processing algorithms"
+      input: {"quantum_state": "object", "superposition_data": "array", "entanglement_map": "object"}
+      expected: {"processed_state": "object", "coherence_maintained": "bool", "quantum_advantage": "number"}
+      tags: ["tier3", "quantum", "processing"]
+    
+    - name: "test_quantum_state_simulation"
+      description: "Test quantum state simulation and evolution"
+      input: {"initial_state": "object", "evolution_operators": "array", "measurement_basis": "object"}
+      expected: {"final_state": "object", "evolution_valid": "bool", "measurement_outcomes": "array"}
+      tags: ["tier3", "quantum", "simulation"]
+    
+    - name: "test_bio_quantum_bridges"
+      description: "Test bridges between biological and quantum systems"
+      input: {"bio_system": "object", "quantum_system": "object", "bridge_parameters": "object"}
+      expected: {"bridge_established": "bool", "information_transfer": "object", "system_coherence": "number"}
+      tags: ["tier3", "bio_quantum", "integration"]
+
+  symbolic_integration:
+    - name: "test_symbolic_reasoning"
+      description: "Test symbolic reasoning in bio-quantum contexts"
+      input: {"symbolic_knowledge": "object", "reasoning_rules": "array", "context": "object"}
+      expected: {"reasoning_result": "object", "logical_validity": "bool", "confidence_score": "number"}
+      tags: ["tier3", "symbolic", "reasoning"]
+    
+    - name: "test_bio_symbolic_adaptation"
+      description: "Test adaptive bio-symbolic pattern evolution"
+      input: {"current_patterns": "array", "environmental_pressure": "object", "adaptation_rate": "number"}
+      expected: {"evolved_patterns": "array", "adaptation_success": "bool", "fitness_improvement": "number"}
+      tags: ["tier3", "bio_symbolic", "adaptation"]
+    
+    - name: "test_proteome_processing"
+      description: "Test symbolic proteome data processing"
+      input: {"protein_sequences": "array", "structural_data": "object", "functional_annotations": "array"}
+      expected: {"processed_proteome": "object", "functional_predictions": "array", "structural_insights": "object"}
+      tags: ["tier3", "proteome", "processing"]
+
+  matrix_integration:
+    - name: "test_matriz_bio_integration"
+      description: "Test MATRIZ system integration with bio modules"
+      input: {"matriz_data": "object", "bio_context": "object", "integration_parameters": "object"}
+      expected: {"integration_successful": "bool", "data_consistency": "bool", "performance_metrics": "object"}
+      tags: ["tier3", "matriz", "bio_integration"]
+    
+    - name: "test_consciousness_bio_link"
+      description: "Test consciousness-biology integration pathways"
+      input: {"consciousness_state": "object", "biological_markers": "array", "link_strength": "number"}
+      expected: {"link_established": "bool", "bidirectional_flow": "bool", "emergence_indicators": "array"}
+      tags: ["tier3", "consciousness", "bio_link"]
+
+# Performance Requirements
+performance:
+  bio_processing: "< 500ms p95"
+  quantum_simulation: "< 1s p95"
+  symbolic_reasoning: "< 200ms p95"
+  matriz_integration: "< 100ms p95"
+
+# Quality Requirements
+quality:
+  bio_model_accuracy: "> 85%"
+  quantum_coherence: "> 90%"
+  symbolic_consistency: "> 95%"
+
+# Coverage Targets
+coverage:
+  line_coverage: 75%
+  branch_coverage: 70%
+  bio_quantum_scenarios: 80%
+
+# Dependencies
+dependencies:
+  - "pytest"
+  - "pytest-asyncio"
+  - "numpy"
+  - "scipy"
+  - "sympy"
+  - "networkx"
+  - "biopython"
+
+# Test Environment
+environment:
+  quantum_simulator: "mock_quantum"
+  bio_databases: "test_databases"
+  symbolic_engine: "sympy_backend"
+
+# Success Criteria
+success_criteria:
+  - "All bio-system models tested"
+  - "Quantum-inspired algorithms validated"
+  - "Bio-quantum integration functional"
+  - "Symbolic reasoning accurate"
+  - "MATRIZ integration verified"
+
+# Deliverables
+deliverables:
+  - "tests/unit/bio/"
+  - "tests/unit/qi/"
+  - "tests/integration/bio_quantum/"
+  - "Bio-quantum performance analysis"
+  - "Symbolic processing validation"
+
+# --- T4 Determinism & Policy (added) ---
+determinism:
+  env:
+    TZ: "UTC"
+    PYTHONHASHSEED: "0"
+    NUMBA_DISABLE_JIT: "1"
+  pytest:
+    addopts: ["-q", "-ra", "-s", "--maxfail=1", "--strict-markers", "--durations=10"]
+    markers_enforced: true  # tests without explicit tier/owner are rejected
+  flake_policy:
+    quarantine_marker: "quarantine"
+    fail_if_quarantine_fails_twice: true
+
+# --- T4 Bio/Quantum Invariants (added) ---
+invariants:
+  deterministic_seeds: true            # stochastic sims run with fixed seeds
+  energy_conservation_check: true      # simulated energy never negative; bounded
+  unit_consistency_required: true      # SI units across models
+  pii_never_in_logs: true
+  symbolic_trace_required: true        # each run emits symbolic trace for audit
+
+# --- T4 Golden Artifacts & Contracts (added) ---
+goldens:
+  contracts_dir: "tests/golden/tier1/bio_qi/"
+  required_files:
+    - "contract_bio_symbolic_shape.json"     # minimal keys for bio→symbolic IO
+    - "contract_qi_state_evolution.json"     # allowed fields for state evolutions
+  validators:
+    - name: "bio_qi_contract_validator"
+      module: "tools/tests/validators/bio_qi_contract_validator.py"
+      ensures:
+        - "keys: [trace_id,timestamp,module,inputs,outputs,metrics]"
+        - "metrics.energy >= 0"
+
+# --- T4 Acceptance Gates (added) ---
+acceptance_gates:
+  - name: "lane_integrity"
+    check: "lint-imports"
+    must_pass: true
+  - name: "ruff_syntax"
+    check: "python3 -m ruff check --select E9,F63,F7,F82 lukhas candidate"
+    must_pass: true
+  - name: "bio_qi_tier3_suite"
+    check: "TZ=UTC PYTHONHASHSEED=0 pytest -m 'tier3 and (bio or quantum) and not quarantine' -q"
+    must_pass: true
+  - name: "golden_contracts"
+    check: "python3 tools/tests/validators/bio_qi_contract_validator.py --dir tests/golden/tier1/bio_qi"
+    must_pass: true
+  - name: "perf_budget"
+    check: "python3 tools/tests/perf_budget.py --suite bio-qi --max-seconds 120"
+    must_pass: false
+
+# --- T4 Runbook (added) ---
+runbook:
+  quick_checks:
+    - "make test-fast"
+    - "PYTHONHASHSEED=0 TZ=UTC pytest -m 'bio or quantum' -q"
+  local_debug:
+    - "pytest tests -k 'bio or quantum or proteome' -vv --maxfail=1"
+    - "python -m candidate.bio.debug --print-model graph"
+  contract_smoke:
+    - "python3 tools/tests/validators/bio_qi_contract_validator.py --one-shot"
+
+# --- T4 Ownership & Escalation (added) ---
+ownership:
+  codeowners:
+    - path: "lukhas/bio/"
+      owners: ["@LukhasAI/bio"]
+    - path: "candidate/qi/"
+      owners: ["@LukhasAI/quantum"]
+  escalation:
+    pager: "#matriz-oncall"
+    docs: "AUDIT/SYSTEM_MAP.md#bio-quantum"
+
+# --- T4 Risks & Out-of-Scope (added) ---
+risks:
+  - "Non-deterministic stochastic simulations causing flaky tests"
+  - "Unit drift between submodules (e.g., ms vs s)"
+  - "Heavy numerical deps making tests slow on CI"
+out_of_scope:
+  - "Real wet-lab data validation"
+  - "GPU-accelerated quantum backends"
+
+# --- T4 Agent Prompts (added) ---
+agent_prompts:
+  jules07_system_prompt: |
+    You own bio & quantum-inspired tests. Enforce invariants: deterministic seeds, unit consistency, energy non-negativity, symbolic trace emission.
+    Prefer golden/contract tests over heavy stochastic assertions; pin seeds where randomness is unavoidable.
+  jules07_task_prompt: |
+    Implement tests listed under `tests:` ensuring golden validators pass and acceptance gates remain green.
+    If behavior requires changes to meet invariants, open an issue tagged `bio-qi:contract-gap` with evidence.
+
+# --- T4 Metadata (added) ---
+metadata:
+  schema_version: 1
+  last_updated_by: "T4-lens"
+  last_updated_at: "{{AUTO-UPDATE-ON-COMMIT}}"

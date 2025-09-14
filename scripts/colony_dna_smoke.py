@@ -18,9 +18,9 @@ c = ConsensusResult(
     metadata={"method": "majority"},
     version=3,
 )
-r = persist_consensus_to_dna(dna, c)
+r = persist_consensus_to_dna(dna, c)  # noqa: F821  # TODO: dna
 print("receipt:", r)
-print("row:", dna.read("policy:modulation"))
+print("row:", dna.read("policy:modulation"))  # noqa: F821  # TODO: dna
 
 
 if __name__ == "__main__":

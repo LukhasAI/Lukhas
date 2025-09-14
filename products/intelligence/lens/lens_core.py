@@ -3,7 +3,6 @@
 ΛLens Core - Symbolic File Dashboard Engine
 Transforms files into interactive AR/VR-ready symbolic representations
 """
-import streamlit as st
 
 import asyncio
 import hashlib
@@ -17,7 +16,7 @@ from typing import Any, Optional
 # Import modular components
 from .parsers import CodeParser, CSVParser, DataParser, MarkdownParser, PDFParser, TextParser
 from .renderers import Web2DRenderer, XRRenderer
-from .symbols import GlyphSymbol, SymbolGenerator, SymbolType
+from .symbols import GlyphSymbol, SymbolGenerator
 
 
 @dataclass
@@ -184,124 +183,6 @@ class ΛLens:
                 results.append(symbol)
 
         return results
-
-
-class SymbolGenerator:
-    """Generates GLYPH symbols from parsed content"""
-
-    async def generate(self, content: dict, symbol_style: str = "modern", max_symbols: int = 1000) -> list[GlyphSymbol]:
-        """Generate symbols from parsed content"""
-        symbols = []
-
-        # Extract key concepts and entities
-        if "text" in content:
-            symbols.extend(await self._extract_text_symbols(content["text"]))
-        if "code" in content:
-            symbols.extend(await self._extract_code_symbols(content["code"]))
-        if "data" in content:
-            symbols.extend(await self._extract_data_symbols(content["data"]))
-
-        # Limit number of symbols
-        if len(symbols) > max_symbols:
-            # Prioritize by confidence
-            symbols.sort(key=lambda s: s.confidence, reverse=True)
-            symbols = symbols[:max_symbols]
-
-        # Assign 3D positions for AR/VR
-        self._assign_positions(symbols)
-
-        return symbols
-
-    async def _extract_text_symbols(self, text: str) -> list[GlyphSymbol]:
-        """Extract symbols from text content"""
-        symbols = []
-
-        # Simple extraction (in production, use NLP)
-        # Extract paragraphs as document symbols
-        paragraphs = text.split("\n\n")
-        for i, para in enumerate(paragraphs[:10]):  # Limit to first 10
-            if para.strip():
-                symbol = GlyphSymbol(
-                    id=str(uuid.uuid4()),
-                    type=SymbolType.DOCUMENT,
-                    content=para[:200],  # Truncate long paragraphs
-                    metadata={"index": i, "length": len(para)},
-                    position=None,
-                    connections=[],
-                    timestamp=time.time(),
-                    confidence=0.8,
-                )
-                symbols.append(symbol)
-
-        return symbols
-
-    async def _extract_code_symbols(self, code: str) -> list[GlyphSymbol]:
-        """Extract symbols from code content"""
-        symbols = []
-
-        # Extract functions/classes (simplified)
-        lines = code.split("\n")
-        for i, line in enumerate(lines):
-            if line.strip().startswith("def ") or line.strip().startswith("class "):
-                symbol = GlyphSymbol(
-                    id=str(uuid.uuid4()),
-                    type=SymbolType.CODE,
-                    content=line.strip(),
-                    metadata={"line_number": i + 1},
-                    position=None,
-                    connections=[],
-                    timestamp=time.time(),
-                    confidence=0.9,
-                )
-                symbols.append(symbol)
-
-        return symbols
-
-    async def _extract_data_symbols(self, data: Any) -> list[GlyphSymbol]:
-        """Extract symbols from data content"""
-        symbols = []
-
-        # Extract data points (simplified)
-        if isinstance(data, dict):
-            for key, value in data.items():
-                symbol = GlyphSymbol(
-                    id=str(uuid.uuid4()),
-                    type=SymbolType.DATA,
-                    content=f"{key}: {str(value)}[:100]}",
-                    metadata={"key": key, "type": type(value).__name__},
-                    position=None,
-                    connections=[],
-                    timestamp=time.time(),
-                    confidence=0.7,
-                )
-                symbols.append(symbol)
-
-        return symbols
-
-    def _assign_positions(self, symbols: list[GlyphSymbol]):
-        """Assign 3D positions for AR/VR rendering"""
-        import math
-
-        # Arrange symbols in a sphere
-        num_symbols = len(symbols)
-        if num_symbols == 0:
-            return
-
-        # Golden ratio for even distribution
-        golden_ratio = (1 + math.sqrt(5)) / 2
-
-        for i, symbol in enumerate(symbols):
-            # Calculate spherical coordinates
-            theta = 2 * math.pi * i / golden_ratio
-            phi = math.acos(1 - 2 * (i + 0.5) / num_symbols)
-
-            # Convert to Cartesian coordinates
-            radius = 5.0  # Base radius
-            x = radius * math.sin(phi) * math.cos(theta)
-            y = radius * math.sin(phi) * math.sin(theta)
-            z = radius * math.cos(phi)
-
-            symbol.position = (x, y, z)
 
 
 class RelationshipAnalyzer:

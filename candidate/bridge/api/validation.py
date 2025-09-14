@@ -31,7 +31,7 @@ from typing import Any, Optional
 
 try:
     import jwt
-    from pydantic import BaseModel, Field, ValidationError, validator
+    from pydantic import BaseModel, Field, ValidationError, validator  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
 
     JWT_AVAILABLE = True
 except ImportError:
@@ -746,12 +746,12 @@ class AuthenticationValidator:
 
             # Simulate key validation (replace with actual key lookup)
             valid_keys = {
-                hashlib.sha256(b"lukhas-dev-key").hexdigest(): {
+                hashlib.sha256(b"lukhas-dev-key-long-enough").hexdigest(): {
                     "tier": "LAMBDA_TIER_4",
                     "user_id": "dev-user",
                     "permissions": self.tier_permissions["LAMBDA_TIER_4"],
                 },
-                hashlib.sha256(b"lukhas-test-key").hexdigest(): {
+                hashlib.sha256(b"lukhas-test-key-long-enough").hexdigest(): {
                     "tier": "LAMBDA_TIER_2",
                     "user_id": "test-user",
                     "permissions": self.tier_permissions["LAMBDA_TIER_2"],

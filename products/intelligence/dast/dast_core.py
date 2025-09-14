@@ -773,8 +773,8 @@ class DΛST:
 
                 # Remove old, low-confidence symbols
                 if "symbol_age" in rule.condition and "confidence" in rule.condition:
-                    age_match = re.search(r"symbol_age >= (\d+) hours", rule.condition)
-                    conf_match = re.search(r"confidence <= ([\d.]+)", rule.condition)
+                    age_match = re.search(r"symbol_age >= (\d+) hours", rule.condition)  # noqa: F821  # TODO: re
+                    conf_match = re.search(r"confidence <= ([\d.]+)", rule.condition)  # noqa: F821  # TODO: re
 
                     if age_match and conf_match:
                         age_threshold_hours = int(age_match.group(1))

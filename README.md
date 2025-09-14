@@ -1,12 +1,94 @@
+## 🧪 Jules Agent Execution Protocol
+
+Each Jules agent MUST follow this standardized workflow for every assigned module:
+
+1. **Read Assignment**  
+   - Open your allocation in [`docs/testing/JULES_AGENT_TEST_ALLOCATION.md`](docs/testing/JULES_AGENT_TEST_ALLOCATION.md).  
+   - Check your `.yaml` spec file in `tests/specs/`.
+
+2. **Setup Environment**  
+   ```bash
+   git fetch origin
+   git checkout -b feat/tests/Jules-0X-<module>
+   make bootstrap
+   ```
+
+3. **Create Tests**  
+   - Place tests under `tests/unit/` or `tests/integration/` following spec.
+   - Use T4 markers (`tier1`, `tier2`, etc).
+   - Annotate edge cases and goldens.
+
+4. **Local Validation**  
+   ```bash
+   pytest -m tier1 --tb=short
+   pytest --cov=lukhas --cov-report=term-missing
+   ```
+
+5. **Commit with Branding**  
+   - Follow [`commit_standard_format.yaml`](commit_standard_format.yaml).  
+   - Example:  
+     ```
+     test(identity): add MFA login + token expiry tests (tier1)
+     ```
+
+6. **PR Creation**  
+   - Title: `test(Jules-0X): <module summary>`  
+   - Body: include acceptance checklist + coverage diff.  
+   - Add label: `tests-only`.
+
+7. **Cross-Validation**
+   - Before requesting a merge, run integration tests that exercise at least one other Jules agent's module, validating compatibility and identifying cross-agent issues.
+   - Attach cross-validation notes and results to the PR body.
+
+---
+
+## 📋 Jules Agent Prompt Template
+
+Use this when directing an AI agent (Claude/GPT/Codex) for Jules work:
+
+```
+Hello, you are Jules-0X, responsible for creating tests in the LUKHAS AI platform.
+
+📂 Your module allocation is documented in docs/testing/JULES_AGENT_TEST_ALLOCATION.md and detailed in tests/specs/JULES-0X-<MODULE>.yaml.
+
+📂 Assigned Modules:
+Find your allocation in `docs/testing/JULES_AGENT_TEST_ALLOCATION.md`.
+
+📑 Specification:
+Check your `.yaml` spec in `tests/specs/JULES-0X-<MODULE>.yaml`.
+
+🎯 Task:
+- Write new pytest tests according to the spec.
+- Place files under tests/unit/ or tests/integration/.
+- Use @pytest.mark.<tier> markers from pytest.ini.
+- Ensure ≥80% coverage, deterministic runs, and T4 compliance.
+- Add edge cases, negative cases, and golden files where applicable.
+
+✅ Acceptance Criteria:
+- Tests pass locally and in CI
+- Coverage ≥80% per module
+- No fake tests (assert True/False, empty tests, blanket excepts)
+- PR uses commit_standard_format.yaml conventions
+ - Cross-validation completed with another Jules agent (attach notes in PR body)
+ - Contract invariants validated against CONTRACT.md
+ - Golden files produced and validated where required
+- No new linting/type errors
+- Follow LUKHAS coding standards
+```
 # LUKHAS AI Platform
 
 Production-ready consciousness-aware AI platform with Constellation Framework and multi-agent development system.
 
-## 🤖 Current Mission: MATRIZ-R1 Execution
+## 🤖 Current Mission: Test Suite Development via Jules Agents
 
-**📋 Active Development:** [MATRIZ-R1 Execution Plan](docs/project/MATRIZ_R1_EXECUTION_PLAN.md) - Multi-stream parallel development with agent task assignments
+**📋 Active Development:** [Jules Agent Test Allocation](docs/testing/JULES_AGENT_TEST_ALLOCATION.md) - Systematic test development across 10 specialized agents targeting ~150+ missing test modules
+
+> ⚠️ NOTE — Jules tasks are currently happening: Do NOT delete or remove any Jules-related sections or files while this work is in progress. Preserve all Jules assignments, configs, and docs until the Jules program is explicitly closed.
 
 **🎯 Agent System:** [AGENTS.md](AGENTS.md) - Complete guide to the multi-agent development platform
+
+**⚠️ IMPORTANT: Claude.me Configuration**
+Multiple `claude.me` files are distributed throughout the workspace providing context-specific instructions for different modules and domains. These files are essential for understanding project architecture and agent coordination.
 
 ## Overview
 
@@ -43,6 +125,9 @@ pip install -e .
 
 # Run smoke tests
 pytest tests/smoke/
+
+# Quick MATRIZ traces smoke (uses golden fixtures)
+make smoke-matriz
 ```
 
 ### Development
@@ -71,6 +156,7 @@ pytest
 make bootstrap          # Complete environment setup
 make help              # Live target discovery
 make doctor            # System health check
+make smoke-matriz      # MATRIZ /traces/latest smoke
 ```
 
 ## Project Structure

@@ -63,7 +63,7 @@ except ImportError:
 
 try:
     # AGI Components
-    from agi_core.integration import log_agi_operation, vocabulary_service
+    from agi_core.integration import log_agi_operation
     from agi_core.learning import DreamGuidedLearner
     from agi_core.memory import MemoryConsolidator, VectorMemory
     from agi_core.orchestration import ConsensusEngine, ModelRouter

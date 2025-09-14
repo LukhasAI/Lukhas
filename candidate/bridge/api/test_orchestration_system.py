@@ -27,8 +27,8 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 try:
-    import pytest
-    import websockets
+    import pytest  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    import websockets  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
     from httpx import AsyncClient
 
     from candidate.bridge.api.orchestration_api_bridge import (

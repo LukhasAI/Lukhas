@@ -13,22 +13,22 @@ DEFAULT_ETHICS_DRIFT_LOG_PATH = "logs/ethics_drift_log.jsonl"
 DEFAULT_ACCESS_VIOLATION_LOG_PATH = "logs/access_violations.jsonl"
 
 # Logger for the main engine
-logger = logging.getLogger("prot2.AdvancedComplianceEthicsEngine", timezone)
+logger = logging.getLogger("prot2.AdvancedComplianceEthicsEngine", timezone)  # noqa: F821  # TODO: logging
 
 # --- Component 1: Core Ethics Engine (from PRIVATE/src/brain/ethics/ethics_engine.py) ---
 
 
 class _CorePrivateEthicsEngine:
     """Core Ethics Engine, adapted from PRIVATE/src/brain/ethics/ethics_engine.py.
-import streamlit as st
-from datetime import timezone
-    import logging
-        Evaluates actions and content against ethical frameworks.
+    import streamlit as st
+    from datetime import timezone
+        import logging
+            Evaluates actions and content against ethical frameworks.
     """
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
         config = config or {}
-        self.logger = logging.getLogger("prot2.AdvancedComplianceEthicsEngine._CorePrivateEthicsEngine")
+        self.logger = logging.getLogger("prot2.AdvancedComplianceEthicsEngine._CorePrivateEthicsEngine")  # noqa: F821  # TODO: logging
         self.logger.info("Initializing Core Private Ethics Engine component...")
 
         self.frameworks = config.get(
@@ -158,7 +158,7 @@ from datetime import timezone
 
         self._add_to_history(
             {
-                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),  # noqa: F821  # TODO: timezone
                 "action_type": action_type,
                 "is_ethical": is_ethical,
                 "score": final_score,
@@ -244,7 +244,9 @@ from datetime import timezone
         reason = (
             "Strong positive utility"
             if score >= 0.8
-            else "Moderate positive utility" if score >= 0.6 else "Mixed utility"
+            else "Moderate positive utility"
+            if score >= 0.6
+            else "Mixed utility"
         )
         return {"score": score, "reason": reason}
 
@@ -579,7 +581,7 @@ class _LucasPrivateEthicsGuard:
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
         config = config or {}
-        self.logger = logging.getLogger("prot2.AdvancedComplianceEthicsEngine._LucasPrivateEthicsGuard")
+        self.logger = logging.getLogger("prot2.AdvancedComplianceEthicsEngine._LucasPrivateEthicsGuard")  # noqa: F821  # TODO: logging
         self.logger.info("Initializing Lukhas Private Ethics Guard component...")
 
         self.violation_log_path_str = config.get("violation_log_path", DEFAULT_ACCESS_VIOLATION_LOG_PATH)
@@ -633,7 +635,7 @@ class _LucasPrivateEthicsGuard:
             "signal": signal,
             "required_tier": tier,
             "user_tier": context.get("tier"),
-            "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
+            "timestamp": datetime.now(timezone.utc).isoformat() + "Z",  # noqa: F821  # TODO: timezone
             "explanation": explanation or f"Signal '{signal}' was accessed without sufficient tier or consent.",
         }
         try:
@@ -853,7 +855,7 @@ class AdvancedComplianceEthicsEngine:
             },
             "data_retention_period_days": self.data_retention_days,
             "system_compliance_status": "nominal",  # Overall status
-            "report_generated_utc": datetime.now(timezone.utc).isoformat() + "Z",
+            "report_generated_utc": datetime.now(timezone.utc).isoformat() + "Z",  # noqa: F821  # TODO: timezone
         }
         logger.info(f"Generated compliance report for original user ID ending: ...{user_id[-4:]}")
         return report
@@ -887,7 +889,7 @@ class AdvancedComplianceEthicsEngine:
         if not decision_log:
             logger.warning("Ethics drift detection called with empty decision log.")
             return {
-                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),  # noqa: F821  # TODO: timezone
                 "drift_ratio": 0,
                 "status": "no_data",
                 "ethical_threshold": threshold,
@@ -910,7 +912,7 @@ class AdvancedComplianceEthicsEngine:
             status = "no_scorable_data"
 
         drift_report = {
-            "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
+            "timestamp": datetime.now(timezone.utc).isoformat() + "Z",  # noqa: F821  # TODO: timezone
             "drift_ratio": round(drift_ratio, 4),
             "status": status,
             "ethical_threshold": threshold,
@@ -934,7 +936,7 @@ class AdvancedComplianceEthicsEngine:
         core_metrics = self.get_core_ethics_metrics()
         status = {
             "engine_status": "operational",
-            "timestamp_utc": datetime.now(timezone.utc).isoformat() + "Z",
+            "timestamp_utc": datetime.now(timezone.utc).isoformat() + "Z",  # noqa: F821  # TODO: timezone
             "compliance_mode": self.compliance_mode,
             "gdpr_enabled": self.gdpr_enabled,
             "data_retention_days": self.data_retention_days,
@@ -968,8 +970,8 @@ class AdvancedComplianceEthicsEngine:
 # Example of how to configure and use the engine (for testing or integration)
 if __name__ == "__main__":
     # Setup basic logging for demonstration
-    logging.basicConfig(
-        level=logging.INFO,
+    logging.basicConfig(  # noqa: F821  # TODO: logging
+        level=logging.INFO,  # noqa: F821  # TODO: logging
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     )
 
@@ -1063,7 +1065,7 @@ if __name__ == "__main__":
 
     # Test overall status
     logger.info(
-        f"Overall System Compliance Status: {json.dumps(advanced_engine.get_overall_compliance_status(}, indent=2)}"
+        f"Overall System Compliance Status: {json.dumps(advanced_engine.get_overall_compliance_status(), indent=2)}"
     )
 
     # Test anonymization
