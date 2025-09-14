@@ -49,7 +49,7 @@ class ContentQualityValidator:
         self.logs_path = self.base_path / "logs"
 
         self.vocabulary = VocabularyIntegration()
-        self.trinity_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
 
         # Platform requirements
         self.platform_limits = {
@@ -317,12 +317,12 @@ class ContentQualityValidator:
         score = 85.0  # Start with generous base score
 
         # Trinity Framework usage - any form is good
-        has_trinity_symbols = any(symbol in content for symbol in ["⚛️", "🧠", "🛡️"])
-        has_trinity_text = any(
+        has_triad_symbols = any(symbol in content for symbol in ["⚛️", "🧠", "🛡️"])
+        has_triad_text = any(
             term in content.lower() for term in ["trinity", "framework", "identity", "consciousness", "guardian"]
         )
 
-        if has_trinity_symbols or has_trinity_text:
+        if has_triad_symbols or has_triad_text:
             score += 10  # Bonus for Trinity presence
         else:
             score -= 10  # Reduced penalty

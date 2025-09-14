@@ -265,9 +265,9 @@ class BehavioralAnalyzer:
         anomaly_details.extend(technical_details)
 
         # Trinity Framework behavioral analysis
-        trinity_score, trinity_details = await self._analyze_trinity_behavior(profile, activity_data)
-        anomaly_score += trinity_score
-        anomaly_details.extend(trinity_details)
+        triad_score, triad_details = await self._analyze_triad_behavior(profile, activity_data)
+        anomaly_score += triad_score
+        anomaly_details.extend(triad_details)
 
         # Update profile with new data
         await self._update_user_profile(profile, activity_data)
@@ -360,7 +360,7 @@ class BehavioralAnalyzer:
 
         return score, details
 
-    async def _analyze_trinity_behavior(
+    async def _analyze_triad_behavior(
         self, profile: UserBehaviorProfile, activity_data: dict[str, Any]
     ) -> tuple[float, list[str]]:
         """Analyze Trinity Framework behavioral patterns"""
@@ -868,7 +868,7 @@ class ThreatResponseEngine:
                 ],
                 "cooldown": 0,  # No cooldown for constitutional violations
             },
-            "trinity_threat_response": {
+            "triad_threat_response": {
                 "triggers": [
                     ThreatType.IDENTITY_SPOOFING,
                     ThreatType.CONSCIOUSNESS_MANIPULATION,
@@ -1126,13 +1126,13 @@ class ComprehensiveThreatDetection:
             pattern_threats = await self.pattern_recognizer.analyze_events(events)
 
             # Trinity Framework threat assessment
-            trinity_assessment = await self._assess_trinity_threats(user_id, activity_data, context)
+            triad_assessment = await self._assess_triad_threats(user_id, activity_data, context)
 
             # Combine threat indicators
             overall_threat_score = max(
                 behavioral_score,
                 max([t.confidence for t in pattern_threats], default=0.0),
-                trinity_assessment.get("threat_score", 0.0),
+                triad_assessment.get("threat_score", 0.0),
             )
 
             # Create comprehensive result
@@ -1150,7 +1150,7 @@ class ComprehensiveThreatDetection:
                     "threats_detected": len(pattern_threats),
                     "threat_types": [t.threat_type.value for t in pattern_threats],
                 },
-                "trinity_assessment": trinity_assessment,
+                "triad_assessment": triad_assessment,
                 "recommendations": await self._generate_recommendations(
                     overall_threat_score, behavioral_anomalies, pattern_threats
                 ),
@@ -1176,7 +1176,7 @@ class ComprehensiveThreatDetection:
                 "threat_level": ThreatLevel.MEDIUM.value,
             }
 
-    async def _assess_trinity_threats(
+    async def _assess_triad_threats(
         self, user_id: str, activity_data: dict[str, Any], context: dict[str, Any]
     ) -> dict[str, Any]:
         """Assess threats specific to Trinity Framework"""

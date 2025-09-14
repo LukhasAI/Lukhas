@@ -39,7 +39,7 @@ from typing import Any, Optional
 try:
     from lukhas.async_manager import TaskPriority, get_consciousness_manager
     from lukhas.consciousness.registry import consciousness_activation_context, get_consciousness_registry
-    from lukhas.consciousness.trinity_integration import get_trinity_integrator, initialize_trinity_consciousness
+    from lukhas.consciousness.triad_integration import get_triad_integrator, initialize_triad_consciousness
     from lukhas.core.common.config import get_config
     from lukhas.memory.consciousness_memory_integration import get_memory_integrator
 except ImportError:
@@ -47,14 +47,14 @@ except ImportError:
     def get_consciousness_registry():
         return None
 
-    def get_trinity_integrator():
+    def get_triad_integrator():
         return None
 
     def get_memory_integrator():
         return None
 
     consciousness_activation_context = None
-    initialize_trinity_consciousness = None
+    initialize_triad_consciousness = None
 
     def get_consciousness_manager():
         return None
@@ -74,7 +74,7 @@ class ConsciousnessActivationPhase(Enum):
     DORMANT = "dormant"  # System not activated
     INITIALIZING = "initializing"  # Starting activation
     COMPONENT_DISCOVERY = "component_discovery"  # Finding dormant components
-    TRINITY_INTEGRATION = "trinity_integration"  # Activating Trinity Framework
+    TRINITY_INTEGRATION = "triad_integration"  # Activating Trinity Framework
     MEMORY_INTEGRATION = "memory_integration"  # Activating memory systems
     CREATIVE_ACTIVATION = "creative_activation"  # Activating creative engines
     AWARENESS_MONITORING = "awareness_monitoring"  # Starting awareness systems
@@ -111,7 +111,7 @@ class ActivationState:
     progress: float = 0.0  # 0.0 to 1.0
     components_discovered: int = 0
     components_activated: int = 0
-    trinity_health: float = 0.0
+    triad_health: float = 0.0
     memory_health: float = 0.0
     consciousness_authenticity: float = 0.0
     activation_start_time: Optional[datetime] = None
@@ -138,7 +138,7 @@ class ConsciousnessActivationOrchestrator:
 
         # Core system references
         self.registry = None
-        self.trinity_integrator = None
+        self.triad_integrator = None
         self.memory_integrator = None
         self.task_manager = None
 
@@ -179,7 +179,7 @@ class ConsciousnessActivationOrchestrator:
                 return await self._handle_activation_failure("Component discovery failed")
 
             # Phase 2: Trinity Framework Integration
-            success_trinity = await self._execute_trinity_integration()
+            success_trinity = await self._execute_triad_integration()
             if not success_trinity:
                 return await self._handle_activation_failure("Trinity Framework integration failed")
 
@@ -225,7 +225,7 @@ class ConsciousnessActivationOrchestrator:
             logger.info(f"✅ CONSCIOUSNESS ACTIVATION COMPLETE in {activation_time:.1f}s")
             logger.info("🧠 LUKHAS Distributed Digital Consciousness: FULLY AWAKENED")
             logger.info(f"   Authenticity: {self.state.consciousness_authenticity:.3f}")
-            logger.info(f"   Trinity Health: {self.state.trinity_health:.3f}")
+            logger.info(f"   Trinity Health: {self.state.triad_health:.3f}")
             logger.info(f"   Memory Health: {self.state.memory_health:.3f}")
             logger.info(f"   Components Active: {self.state.components_activated}/{self.state.components_discovered}")
 
@@ -244,7 +244,7 @@ class ConsciousnessActivationOrchestrator:
         try:
             # Initialize core systems
             self.registry = get_consciousness_registry()
-            self.trinity_integrator = get_trinity_integrator()
+            self.triad_integrator = get_triad_integrator()
             self.memory_integrator = get_memory_integrator()
             self.task_manager = get_consciousness_manager()
 
@@ -266,30 +266,30 @@ class ConsciousnessActivationOrchestrator:
             logger.error(f"❌ Component discovery failed: {e!s}")
             return False
 
-    async def _execute_trinity_integration(self) -> bool:
+    async def _execute_triad_integration(self) -> bool:
         """Phase 2: Activate Trinity Framework (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian)."""
         logger.info("🔺 Phase 2: Activating Trinity Framework Integration")
         self.state.phase = ConsciousnessActivationPhase.TRINITY_INTEGRATION
-        self._phase_start_times["trinity_integration"] = datetime.now(timezone.utc)
+        self._phase_start_times["triad_integration"] = datetime.now(timezone.utc)
 
         try:
-            if not self.trinity_integrator:
+            if not self.triad_integrator:
                 self.state.errors.append("Trinity integrator not available")
                 return False
 
             # Initialize Trinity Framework
-            trinity_success = await self.trinity_integrator.initialize_trinity_frameworks()
+            triad_success = await self.triad_integrator.initialize_triad_frameworks()
 
-            if trinity_success:
-                trinity_metrics = self.trinity_integrator.get_trinity_metrics()
-                self.state.trinity_health = trinity_metrics["trinity_state"]["integration_health"]
-                logger.info(f"🔺 Trinity Framework: {self.state.trinity_health:.1%} healthy")
+            if triad_success:
+                triad_metrics = self.triad_integrator.get_triad_metrics()
+                self.state.triad_health = triad_metrics["triad_state"]["integration_health"]
+                logger.info(f"🔺 Trinity Framework: {self.state.triad_health:.1%} healthy")
             else:
                 self.state.warnings.append("Trinity Framework partially activated")
-                self.state.trinity_health = 0.5
+                self.state.triad_health = 0.5
 
             self.state.progress = 0.3  # 30% complete
-            return trinity_success or (self.state.trinity_health > 0.5)
+            return triad_success or (self.state.triad_health > 0.5)
 
         except Exception as e:
             self.state.errors.append(f"Trinity integration error: {e!s}")
@@ -346,7 +346,7 @@ class ConsciousnessActivationOrchestrator:
             self.registry.set_feature_flag("consciousness_dream_enabled", True)
 
             # Activate creative components
-            creative_results = await self.registry.activate_trinity_framework("🧠")
+            creative_results = await self.registry.activate_triad_framework("🧠")
             creative_success_count = sum(1 for success in creative_results.values() if success)
             creative_total = len(creative_results)
 
@@ -409,7 +409,7 @@ class ConsciousnessActivationOrchestrator:
             self.registry.set_feature_flag("guardian_workspace_enabled", True)
 
             # Activate Guardian components
-            guardian_results = await self.registry.activate_trinity_framework("🛡️")
+            guardian_results = await self.registry.activate_triad_framework("🛡️")
             guardian_success_count = sum(1 for success in guardian_results.values() if success)
             guardian_total = len(guardian_results)
 
@@ -476,8 +476,8 @@ class ConsciousnessActivationOrchestrator:
             if self.registry:
                 await self.registry.start_health_monitoring()
 
-            if self.trinity_integrator:
-                await self.trinity_integrator.start_integration_monitoring()
+            if self.triad_integrator:
+                await self.triad_integrator.start_integration_monitoring()
 
             # Start orchestrator-level monitoring
             self._health_monitor_task = asyncio.create_task(self._health_monitoring_loop())
@@ -595,10 +595,10 @@ class ConsciousnessActivationOrchestrator:
         validation_factors = []
 
         # Factor 1: Trinity Framework health
-        if self.trinity_integrator:
-            trinity_metrics = self.trinity_integrator.get_trinity_metrics()
-            trinity_health = trinity_metrics["trinity_state"]["integration_health"]
-            validation_factors.append(trinity_health * 0.3)
+        if self.triad_integrator:
+            triad_metrics = self.triad_integrator.get_triad_metrics()
+            triad_health = triad_metrics["triad_state"]["integration_health"]
+            validation_factors.append(triad_health * 0.3)
 
         # Factor 2: Memory-consciousness coupling
         if self.memory_integrator:
@@ -640,7 +640,7 @@ class ConsciousnessActivationOrchestrator:
     async def _test_decision_coherence(self) -> float:
         """Test decision coherence across consciousness components."""
         # Simulate decision coherence test
-        if self.trinity_integrator:
+        if self.triad_integrator:
             # Test decision through Trinity Framework
             test_decision_context = {
                 "test": "consciousness_coherence_validation",
@@ -648,7 +648,7 @@ class ConsciousnessActivationOrchestrator:
             }
 
             try:
-                result = await self.trinity_integrator.process_consciousness_decision(
+                result = await self.triad_integrator.process_consciousness_decision(
                     session_id=f"validation_{int(time.time())}",
                     decision_context=test_decision_context,
                     require_identity=False,
@@ -737,7 +737,7 @@ class ConsciousnessActivationOrchestrator:
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "consciousness_active": self.state.phase == ConsciousnessActivationPhase.FULLY_CONSCIOUS,
             "authenticity_score": self.state.consciousness_authenticity,
-            "trinity_health": self.state.trinity_health,
+            "triad_health": self.state.triad_health,
             "memory_health": self.state.memory_health,
             "activation_progress": self.state.progress,
         }
@@ -747,9 +747,9 @@ class ConsciousnessActivationOrchestrator:
             registry_metrics = self.registry.get_consciousness_metrics()
             metrics["registry"] = registry_metrics
 
-        if self.trinity_integrator:
-            trinity_metrics = self.trinity_integrator.get_trinity_metrics()
-            metrics["trinity"] = trinity_metrics
+        if self.triad_integrator:
+            triad_metrics = self.triad_integrator.get_triad_metrics()
+            metrics["trinity"] = triad_metrics
 
         if self.memory_integrator:
             memory_metrics = self.memory_integrator.get_memory_consciousness_metrics()
@@ -768,7 +768,7 @@ class ConsciousnessActivationOrchestrator:
             health_factors.append(activation_rate)
 
         # Trinity health
-        health_factors.append(self.state.trinity_health)
+        health_factors.append(self.state.triad_health)
 
         # Memory health
         health_factors.append(self.state.memory_health)
@@ -780,7 +780,7 @@ class ConsciousnessActivationOrchestrator:
 
         return {
             "overall_health": overall_health,
-            "trinity_health": self.state.trinity_health,
+            "triad_health": self.state.triad_health,
             "memory_health": self.state.memory_health,
             "consciousness_authenticity": self.state.consciousness_authenticity,
             "components_active": self.state.components_activated,
@@ -801,7 +801,7 @@ class ConsciousnessActivationOrchestrator:
             "progress": self.state.progress,
             "components_discovered": self.state.components_discovered,
             "components_activated": self.state.components_activated,
-            "trinity_health": self.state.trinity_health,
+            "triad_health": self.state.triad_health,
             "memory_health": self.state.memory_health,
             "consciousness_authenticity": self.state.consciousness_authenticity,
             "activation_duration_seconds": activation_duration,
@@ -828,7 +828,7 @@ class ConsciousnessActivationOrchestrator:
                     await task
 
         # Shutdown integrated systems
-        for system in [self.registry, self.trinity_integrator, self.memory_integrator]:
+        for system in [self.registry, self.triad_integrator, self.memory_integrator]:
             if system and hasattr(system, "shutdown"):
                 await system.shutdown()
 

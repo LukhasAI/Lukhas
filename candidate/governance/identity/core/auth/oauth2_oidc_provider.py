@@ -214,7 +214,7 @@ class OAuth2OIDCProvider:
             # LUKHAS specific extensions
             "lukhas_tier_system_supported": True,
             "lukhas_lambda_id_supported": True,
-            "lukhas_trinity_framework": "⚛️🧠🛡️",
+            "lukhas_triad_framework": "⚛️🧠🛡️",
             "lukhas_consciousness_integration": True,
         }
 
@@ -476,7 +476,7 @@ class OAuth2OIDCProvider:
                     {
                         "lambda_id": token_data.get("lambda_id", ""),
                         "identity_features": self._get_tier_features(user_tier),
-                        "trinity_compliance": "⚛️🧠🛡️",
+                        "triad_compliance": "⚛️🧠🛡️",
                     }
                 )
 

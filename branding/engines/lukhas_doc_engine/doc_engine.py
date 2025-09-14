@@ -31,9 +31,9 @@ class DocEngine:
         self.knowledge_base_path = self.base_path / "knowledge_base"
 
         # Trinity Framework integration
-        self.trinity_identity = "⚛️ Authentic consciousness technology identity"
-        self.trinity_consciousness = "🧠 LUKHAS AI consciousness technology platform"
-        self.trinity_guardian = "🛡️ Ethical consciousness technology protection"
+        self.triad_identity = "⚛️ Authentic consciousness technology identity"
+        self.triad_consciousness = "🧠 LUKHAS AI consciousness technology platform"
+        self.triad_guardian = "🛡️ Ethical consciousness technology protection"
 
         # Log engine initialization
         db.log_system_activity("doc_engine", "engine_init", "Document engine initialized", 1.0)
@@ -55,12 +55,12 @@ class DocEngine:
             for item in related_content:
                 knowledge_context += f"- {item['title']}\n"
 
-        trinity_header = f"""
-# {self.trinity_identity}
+        triad_header = f"""
+# {self.triad_identity}
 
-{self.trinity_consciousness}
+{self.triad_consciousness}
 
-{self.trinity_guardian}
+{self.triad_guardian}
 
 ---
 
@@ -68,7 +68,7 @@ class DocEngine:
 
         # Add consciousness technology branding and knowledge context
         enhanced_content = (
-            trinity_header
+            triad_header
             + content.replace("AI", "consciousness technology").replace(
                 "artificial intelligence", "consciousness technology"
             )
@@ -97,22 +97,22 @@ class DocEngine:
             "doc_type": doc_type,
             "voice_coherence": voice_coherence,
             "knowledge_items_used": len(related_content),
-            "trinity_integrated": True,
+            "triad_integrated": True,
         }
 
     def _calculate_voice_coherence(self, content: str) -> float:
         """Calculate voice coherence score for generated content"""
-        trinity_terms = ["⚛️", "🧠", "🛡️", "consciousness technology", "Trinity Framework"]
+        triad_terms = ["⚛️", "🧠", "🛡️", "consciousness technology", "Trinity Framework"]
         lukhas_terms = ["LUKHAS AI", "consciousness", "quantum-inspired", "bio-inspired"]
 
         total_words = len(content.split())
         if total_words == 0:
             return 0.0
 
-        trinity_count = sum(content.count(term) for term in trinity_terms)
+        triad_count = sum(content.count(term) for term in triad_terms)
         lukhas_count = sum(content.count(term) for term in lukhas_terms)
 
-        coherence = ((trinity_count * 10) + (lukhas_count * 5)) / total_words * 100
+        coherence = ((triad_count * 10) + (lukhas_count * 5)) / total_words * 100
         return min(coherence, 100.0)
 
     def get_knowledge_base(self, topic: Optional[str] = None, limit: int = 20) -> list:
@@ -171,7 +171,7 @@ class DocEngine:
             "average_voice_coherence": round(avg_coherence, 1),
             "available_formats": len(self.get_available_formats()),
             "knowledge_base_items": len(db.get_all_content(1000)),
-            "trinity_integration": True,
+            "triad_integration": True,
             "database_connected": True,
         }
 

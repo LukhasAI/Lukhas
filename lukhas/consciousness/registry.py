@@ -99,7 +99,7 @@ class ComponentMetadata:
     name: str
     description: str
     module_path: str
-    trinity_framework: str  # "⚛️", "🧠", "🛡️", or "cross"
+    triad_framework: str  # "⚛️", "🧠", "🛡️", or "cross"
     feature_flags: list[str] = field(default_factory=list)
     dependencies: list[str] = field(default_factory=list)
     health_check_fn: Optional[Callable] = None
@@ -136,7 +136,7 @@ class ConsciousnessComponentRegistry:
         self._components: dict[str, ComponentInstance] = {}
         self._metadata_registry: dict[str, ComponentMetadata] = {}
         self._type_index: dict[ComponentType, set[str]] = {}
-        self._trinity_index: dict[str, set[str]] = {"⚛️": set(), "🧠": set(), "🛡️": set(), "cross": set()}
+        self._triad_index: dict[str, set[str]] = {"⚛️": set(), "🧠": set(), "🛡️": set(), "cross": set()}
         self._activation_order: list[str] = []
         self._feature_flags: dict[str, bool] = {}
         self._health_check_interval = 30.0  # seconds
@@ -152,7 +152,7 @@ class ConsciousnessComponentRegistry:
         name: str,
         description: str,
         module_path: str,
-        trinity_framework: str,
+        triad_framework: str,
         feature_flags: Optional[list[str]] = None,
         dependencies: Optional[list[str]] = None,
         health_check_fn: Optional[Callable] = None,
@@ -168,7 +168,7 @@ class ConsciousnessComponentRegistry:
             name: Human-readable component name
             description: Component description
             module_path: Python module path for importing
-            trinity_framework: "⚛️" (Identity), "🧠" (Consciousness), "🛡️" (Guardian), or "cross"
+            triad_framework: "⚛️" (Identity), "🧠" (Consciousness), "🛡️" (Guardian), or "cross"
             feature_flags: List of feature flags that control activation
             dependencies: List of component IDs this component depends on
             health_check_fn: Optional async function for health checking
@@ -181,7 +181,7 @@ class ConsciousnessComponentRegistry:
             name=name,
             description=description,
             module_path=module_path,
-            trinity_framework=trinity_framework,
+            triad_framework=triad_framework,
             feature_flags=feature_flags or [],
             dependencies=dependencies or [],
             health_check_fn=health_check_fn,
@@ -196,13 +196,13 @@ class ConsciousnessComponentRegistry:
             self._type_index[component_type] = set()
         self._type_index[component_type].add(component_id)
 
-        if trinity_framework in self._trinity_index:
-            self._trinity_index[trinity_framework].add(component_id)
+        if triad_framework in self._triad_index:
+            self._triad_index[triad_framework].add(component_id)
 
         # Update activation order
         self._update_activation_order()
 
-        logger.info(f"📝 Registered consciousness component: {name} ({component_id}) - {trinity_framework}")
+        logger.info(f"📝 Registered consciousness component: {name} ({component_id}) - {triad_framework}")
 
     def _update_activation_order(self) -> None:
         """Update component activation order based on priorities and dependencies."""
@@ -290,7 +290,7 @@ class ConsciousnessComponentRegistry:
                     priority=TaskPriority.HIGH,
                     component="consciousness_registry",
                     description=f"Lifecycle monitoring for {metadata.name}",
-                    consciousness_context=f"trinity_{metadata.trinity_framework}",
+                    consciousness_context=f"triad_{metadata.triad_framework}",
                 )
 
             # Consciousness authenticity validation
@@ -299,7 +299,7 @@ class ConsciousnessComponentRegistry:
                     logger.warning(f"⚠️ Component {metadata.name} failed consciousness authenticity check")
                     instance.status = ComponentStatus.DEGRADED
 
-            logger.info(f"✅ Successfully activated: {metadata.name} ({metadata.trinity_framework})")
+            logger.info(f"✅ Successfully activated: {metadata.name} ({metadata.triad_framework})")
             return True
 
         except Exception as e:
@@ -310,7 +310,7 @@ class ConsciousnessComponentRegistry:
                 self._components[component_id].last_error = str(e)
             return False
 
-    async def activate_trinity_framework(self, framework: str) -> dict[str, bool]:
+    async def activate_triad_framework(self, framework: str) -> dict[str, bool]:
         """
         Activate all components for a specific Trinity Framework.
 
@@ -320,11 +320,11 @@ class ConsciousnessComponentRegistry:
         Returns:
             Dict mapping component_id to activation success
         """
-        if framework not in self._trinity_index:
+        if framework not in self._triad_index:
             logger.error(f"❌ Unknown Trinity Framework: {framework}")
             return {}
 
-        component_ids = self._trinity_index[framework]
+        component_ids = self._triad_index[framework]
         results = {}
 
         logger.info(f"🔄 Activating Trinity Framework {framework} ({len(component_ids)} components)")
@@ -454,12 +454,12 @@ class ConsciousnessComponentRegistry:
             return self._components[component_id].status
         return None
 
-    def get_trinity_status(self) -> dict[str, dict[str, Any]]:
+    def get_triad_status(self) -> dict[str, dict[str, Any]]:
         """Get status summary for all Trinity Framework components."""
         status = {}
 
         for framework in ["⚛️", "🧠", "🛡️", "cross"]:
-            component_ids = self._trinity_index[framework]
+            component_ids = self._triad_index[framework]
             active = sum(1 for cid in component_ids if self.get_component_status(cid) == ComponentStatus.ACTIVE)
             total = len(component_ids)
 
@@ -480,7 +480,7 @@ class ConsciousnessComponentRegistry:
             "total_registered": total_components,
             "total_active": active_components,
             "activation_rate": active_components / total_components if total_components > 0 else 0,
-            "trinity_status": self.get_trinity_status(),
+            "triad_status": self.get_triad_status(),
             "feature_flags": dict(self._feature_flags),
             "last_updated": datetime.now(timezone.utc).isoformat(),
         }

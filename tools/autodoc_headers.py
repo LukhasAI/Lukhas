@@ -70,7 +70,7 @@ class DocHeaderGenerator:
             "functions": [],
             "imports": [],
             "purpose": "Module implementation",  # Default
-            "trinity_component": self._get_trinity_component(file_path),
+            "triad_component": self._get_triad_component(file_path),
         }
 
         try:
@@ -110,7 +110,7 @@ class DocHeaderGenerator:
 
         return info
 
-    def _get_trinity_component(self, file_path: Path) -> str:
+    def _get_triad_component(self, file_path: Path) -> str:
         """Map file path to Trinity component"""
         path_str = str(file_path).lower()
 
@@ -188,7 +188,7 @@ class DocHeaderGenerator:
         line2 = f"Provides: {', '.join(exports)}"
 
         # Line 3: Trinity component
-        line3 = f"Trinity: {info['trinity_component']} Component"
+        line3 = f"Trinity: {info['triad_component']} Component"
 
         # Format as docstring
         header = f'"""\n{line1}\n{line2}\n{line3}\n"""\n\n'

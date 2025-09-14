@@ -176,16 +176,16 @@ kept for core infrastructure (review and implement)
 
 ---
 
-### 11. Consider returning a more structured object (e.g., a dataclass with success, dat...
+### 11. Consider returning a more structured object (e.g., a dataclass with success, dat...) — Completed
 
 - **File**: `./candidate/bridge/api/ai_interface.py:147`
 - **Priority**: CRITICAL
-- **Status**: Open
+- **Status**: Completed (structured dict with success/output/error/meta implemented)
 - **Trinity Aspect**: ⚛️ Identity
 
 **TODO Text:**
 ```
-Consider returning a more structured object (e.g., a dataclass with success, data, error_code).
+Consider returning a more structured object (e.g., a dataclass with success, data, error_code). → Implemented structured dict
 ```
 
 ---
@@ -203,16 +203,16 @@ kept for API expansion (document or implement)
 
 ---
 
-### 13. Consider returning a structured response (e.g., Dict) instead of just a string f...
+### 13. Consider returning a structured response (e.g., Dict) instead of just a string f... — Completed
 
 - **File**: `./candidate/bridge/api/direct_ai_router.py:73`
 - **Priority**: CRITICAL
-- **Status**: Open
+- **Status**: Completed (structured responses + error propagation implemented)
 - **Trinity Aspect**: ⚛️ Identity
 
 **TODO Text:**
 ```
-Consider returning a structured response (e.g., Dict) instead of just a string for better error handling.
+Consider returning a structured response (e.g., Dict) instead of just a string for better error handling. → Implemented
 ```
 
 ---
@@ -243,37 +243,37 @@ kept for core infrastructure (review and implement)
 
 ---
 
-### 16. Initialize anthropic_client if needed, e.g.,
+### 16. Initialize anthropic_client if needed, e.g., — Completed
 
 - **File**: `./candidate/consciousness/core/engine.py:90`
 - **Priority**: CRITICAL
-- **Status**: Open
+- **Status**: Completed (AsyncAnthropic client initialized when ANTHROPIC_API_KEY is set)
 
 **TODO Text:**
 ```
-Initialize anthropic_client if needed, e.g.,
+Initialize anthropic_client if needed, e.g., → Implemented guarded init
 ```
 
 ---
 
-### 17. Ensure interaction_data contains expected keys like 'timestamps', 'symbols', 'ac...
+### 17. Ensure interaction_data contains expected keys like 'timestamps', 'symbols', 'ac... — Completed
 
 - **File**: `./candidate/consciousness/core/engine.py:196`
 - **Priority**: CRITICAL
-- **Status**: Open
+- **Status**: Completed (defaults merged for required keys)
 
 **TODO Text:**
 ```
-Ensure interaction_data contains expected keys like 'timestamps', 'symbols', 'actions', 'pressure_patterns', 'velocity_patterns'.
+Ensure interaction_data contains expected keys like 'timestamps', 'symbols', 'actions', 'pressure_patterns', 'velocity_patterns'. → Implemented
 ```
 
 ---
 
-### 18. Make violation_threshold configurable.
+### 18. Make violation_threshold configurable. — Completed
 
 - **File**: `./candidate/consciousness/core/engine.py:454`
 - **Priority**: CRITICAL
-- **Status**: Open
+- **Status**: Completed (config.ethics_violation_threshold)
 
 **TODO Text:**
 ```
@@ -282,11 +282,11 @@ Make violation_threshold configurable.
 
 ---
 
-### 19. Make approval_threshold configurable.
+### 19. Make approval_threshold configurable. — Completed
 
 - **File**: `./candidate/consciousness/core/engine.py:464`
 - **Priority**: CRITICAL
-- **Status**: Open
+- **Status**: Completed (config.ethics_approval_threshold)
 
 **TODO Text:**
 ```
@@ -295,11 +295,11 @@ Make approval_threshold configurable.
 
 ---
 
-### 20. Thresholds should be configurable or dynamically determined.
+### 20. Thresholds should be configurable or dynamically determined. — Completed
 
 - **File**: `./candidate/consciousness/core/engine.py:665`
 - **Priority**: CRITICAL
-- **Status**: Open
+- **Status**: Completed (config.reflection_improvement_thresholds)
 
 **TODO Text:**
 ```
@@ -308,11 +308,11 @@ Thresholds should be configurable or dynamically determined.
 
 ---
 
-### 21. These factors could be learned or configurable.
+### 21. These factors could be learned or configurable. — Completed
 
 - **File**: `./candidate/consciousness/core/engine.py:729`
 - **Priority**: CRITICAL
-- **Status**: Open
+- **Status**: Completed (config.* impact factors)
 
 **TODO Text:**
 ```
@@ -441,25 +441,25 @@ Fix 19 F821 undefined name errors - Drift dashboard visualization, chart/graph u
 
 ---
 
-### 31. Implement actual consolidation logic
+### 31. Implement actual consolidation logic — Completed
 
 - **File**: `./candidate/governance/oversight/consolidate_guardian_governance.py:34`
 - **Priority**: CRITICAL
-- **Status**: Open
+- **Status**: Completed (registry.json + consolidation report implemented)
 - **Trinity Aspect**: ⚛️ Identity
 
 **TODO Text:**
 ```
-Implement actual consolidation logic
+Implement actual consolidation logic → Implemented metadata registry + report
 ```
 
 ---
 
-### 32. Load from actual config file
+### 32. Load from actual config file — Completed
 
 - **File**: `./candidate/governance/identity/core/id_service/lambd_id_generator.py:179`
 - **Priority**: CRITICAL
-- **Status**: Open
+- **Status**: Completed (JSON config loader with env override)
 
 **TODO Text:**
 ```
@@ -468,11 +468,11 @@ Load from actual config file
 
 ---
 
-### 33. Implement actual logging to file/database
+### 33. Implement actual logging to file/database — Completed
 
 - **File**: `./candidate/governance/identity/core/id_service/lambd_id_generator.py:216`
 - **Priority**: CRITICAL
-- **Status**: Open
+- **Status**: Completed (file logging to configured path)
 
 **TODO Text:**
 ```
@@ -481,11 +481,11 @@ Implement actual logging to file/database
 
 ---
 
-### 34. Calculate actual collision rate
+### 34. Calculate actual collision rate — Completed
 
 - **File**: `./candidate/governance/identity/core/id_service/lambd_id_generator.py:223`
 - **Priority**: CRITICAL
-- **Status**: Open
+- **Status**: Completed (collision count + rate on attempts)
 
 **TODO Text:**
 ```
@@ -494,11 +494,11 @@ Calculate actual collision rate
 
 ---
 
-### 35. Calculate tier distribution
+### 35. Calculate tier distribution — Completed
 
 - **File**: `./candidate/governance/identity/core/id_service/lambd_id_generator.py:224`
 - **Priority**: CRITICAL
-- **Status**: Open
+- **Status**: Completed (in-memory stats per tier)
 
 **TODO Text:**
 ```
@@ -507,11 +507,11 @@ Calculate tier distribution
 
 ---
 
-### 36. Calculate symbolic character usage
+### 36. Calculate symbolic character usage — Completed
 
 - **File**: `./candidate/governance/identity/core/id_service/lambd_id_generator.py:225`
 - **Priority**: CRITICAL
-- **Status**: Open
+- **Status**: Completed (symbol counts aggregated)
 
 **TODO Text:**
 ```

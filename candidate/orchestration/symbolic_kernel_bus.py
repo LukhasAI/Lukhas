@@ -174,7 +174,7 @@ class SymbolicKernelBus:
         if BRANDING_AVAILABLE:
             self._brand_context = BrandContext(
                 voice_profile="identity",  # Orchestration uses identity profile
-                trinity_emphasis="balanced",  # All Trinity components
+                triad_emphasis="balanced",  # All Trinity components
                 compliance_level="standard",
                 creative_mode=False,
                 terminology_enforcement=True,
@@ -462,8 +462,8 @@ class SymbolicKernelBus:
                 ]
                 for effect in event.effects
             ):
-                trinity_context = get_constellation_context("balanced")
-                event.payload["constellation_framework"] = trinity_context["framework"]
+                triad_context = get_constellation_context("balanced")
+                event.payload["constellation_framework"] = triad_context["framework"]
 
             # Add system signature for external events
             if event.source.startswith("external.") or "api" in event.source:

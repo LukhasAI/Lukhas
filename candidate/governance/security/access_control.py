@@ -194,7 +194,7 @@ class AccessSession:
     risk_score: float = 0.0
 
     # Trinity Framework context
-    trinity_context: dict[str, Any] = field(default_factory=dict)
+    triad_context: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -228,7 +228,7 @@ class AccessAuditEntry:
     risk_factors: list[str] = field(default_factory=list)
 
     # Trinity Framework audit
-    trinity_validation: dict[str, Any] = field(default_factory=dict)
+    triad_validation: dict[str, Any] = field(default_factory=dict)
 
     timestamp: datetime = field(default_factory=datetime.now)
 
@@ -532,7 +532,7 @@ class SessionManager:
         session.risk_score = await self._calculate_session_risk(user, source_ip, user_agent)
 
         # Add Trinity Framework context
-        session.trinity_context = {
+        session.triad_context = {
             "identity_verified": user.identity_verified,
             "consciousness_level": user.consciousness_level,
             "guardian_cleared": user.guardian_cleared,
@@ -795,7 +795,7 @@ class AccessControlEngine:
                 mfa_verified = True
 
             # Trinity Framework validation
-            if not await self._validate_trinity_authentication(user):
+            if not await self._validate_triad_authentication(user):
                 await self._audit_event(
                     "authentication_failed",
                     user.user_id,
@@ -839,7 +839,7 @@ class AccessControlEngine:
             )
             return False, None, "Authentication system error"
 
-    async def _validate_trinity_authentication(self, user: User) -> bool:
+    async def _validate_triad_authentication(self, user: User) -> bool:
         """Validate authentication against Trinity Framework"""
 
         # ⚛️ Identity validation
@@ -935,7 +935,7 @@ class AccessControlEngine:
 
             # Trinity Framework validation
             if decision == AccessDecision.ALLOW:
-                decision, reason = await self._validate_trinity_access(
+                decision, reason = await self._validate_triad_access(
                     user, session, resource, access_type, context, decision, reason
                 )
 
@@ -1075,7 +1075,7 @@ class AccessControlEngine:
 
         return current_decision, current_reason
 
-    async def _validate_trinity_access(
+    async def _validate_triad_access(
         self,
         user: User,
         session: AccessSession,
@@ -1087,31 +1087,31 @@ class AccessControlEngine:
     ) -> tuple[AccessDecision, str]:
         """Validate access against Trinity Framework"""
 
-        trinity_issues = []
+        triad_issues = []
 
         # ⚛️ Identity validation
         if "identity" in resource and not user.identity_verified:
-            trinity_issues.append("Identity verification required")
+            triad_issues.append("Identity verification required")
 
         # 🧠 Consciousness validation
         if "consciousness" in resource or "ai" in resource:
             required_level = context.get("consciousness_level", 1)
             if user.consciousness_level < required_level:
-                trinity_issues.append(f"Consciousness level {required_level} required")
+                triad_issues.append(f"Consciousness level {required_level} required")
 
         # 🛡️ Guardian validation
         if not user.guardian_cleared:
-            trinity_issues.append("Guardian clearance required")
+            triad_issues.append("Guardian clearance required")
 
         # Check drift score from context
         drift_score = context.get("drift_score", 0.0)
         if drift_score > 0.15:
-            trinity_issues.append(f"High drift score detected: {drift_score:.3f}")
+            triad_issues.append(f"High drift score detected: {drift_score:.3f}")
 
-        if trinity_issues:
+        if triad_issues:
             return (
                 AccessDecision.ESCALATE,
-                f"Trinity validation failed: {'; '.join(trinity_issues)}",
+                f"Trinity validation failed: {'; '.join(triad_issues)}",
             )
 
         return current_decision, current_reason

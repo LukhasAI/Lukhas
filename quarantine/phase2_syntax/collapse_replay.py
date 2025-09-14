@@ -82,7 +82,7 @@ class CollapseReplayTool:
         print(f"Start Time: {session['start_time']}")
         print(f"End Time: {session['end_time']}")
         print(f"Dream Branch: {session['dream_branch']}")
-        print(f"Trinity Coherence: {session['trinity_coherence']:.3f}")
+        print(f"Trinity Coherence: {session['triad_coherence']:.3f}")
         print(f"Observer: {session['observer']}")
         print(f"Notes: {session['notes']}")
         print("\n📊 Entropy Drift:")
@@ -130,13 +130,13 @@ class CollapseReplayTool:
 
         # Determine initial template based on dream branch
         template_map = {
-            "grounded": "trinity_coherence",
+            "grounded": "triad_coherence",
             "lucid": "reflective_dreaming",
             "chaotic": "entropy_chaos",
             "transcendent": "transcendent_awareness",
             "recursive": "reflective_dreaming",
         }
-        template = template_map.get(session["dream_branch"], "trinity_coherence")
+        template = template_map.get(session["dream_branch"], "triad_coherence")
 
         # Create initial wavefunction
         print(f"Creating wavefunction with template: {template}")
@@ -145,7 +145,7 @@ class CollapseReplayTool:
 
         print(f"Initial state: {' + '.join(wf.glyph_superposition)}")
         print(f"Initial entropy: {wf.entropy_score:.3f}")
-        print(f"Trinity coherence: {wf.trinity_coherence:.3f}")
+        print(f"Trinity coherence: {wf.triad_coherence:.3f}")
         print("\n" + "-" * 40 + "\n")
 
         # Replay entropy drift
@@ -193,7 +193,7 @@ class CollapseReplayTool:
         print(f"  Collapse sequence: {' → '.join(session['collapsed_glyphs'])}")
         print(f"  Guardian involvement: {'Yes' if session['guardian_flags'] else 'No'}")
         print(f"  Final glyph: {session['collapsed_glyphs'][-1] if session['collapsed_glyphs'] else 'None'}")
-        print(f"  Trinity coherence: {session['trinity_coherence']:.3f}")
+        print(f"  Trinity coherence: {session['triad_coherence']:.3f}")
 
         # Symbolic interpretation
         print("\n🔮 Symbolic Interpretation:")

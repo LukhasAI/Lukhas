@@ -36,5 +36,5 @@ RL_METADATA = {
     "ethical_constraints": True,
     "temporal_coherence": True,
     "reflection_enabled": True,
-    "trinity_compliant": True,
+    "triad_compliant": True,
 }

@@ -392,10 +392,10 @@ class BioSymbolicCoherenceValidator:
             report.metabolic_efficiency_score = await self._assess_metabolic_efficiency()
 
             # Trinity Framework validation
-            trinity_scores = await self._validate_trinity_framework_coherence()
-            report.identity_coherence_score = trinity_scores["identity"]
-            report.consciousness_depth_score = trinity_scores["consciousness"]
-            report.guardian_safety_score = trinity_scores["guardian"]
+            triad_scores = await self._validate_triad_framework_coherence()
+            report.identity_coherence_score = triad_scores["identity"]
+            report.consciousness_depth_score = triad_scores["consciousness"]
+            report.guardian_safety_score = triad_scores["guardian"]
 
             # Calculate overall coherence
             report.overall_coherence = self._calculate_overall_coherence(report)
@@ -595,7 +595,7 @@ class BioSymbolicCoherenceValidator:
 
         return normalized_efficiency
 
-    async def _validate_trinity_framework_coherence(self) -> dict[str, float]:
+    async def _validate_triad_framework_coherence(self) -> dict[str, float]:
         """Validate Trinity Framework component coherence"""
         # Identity coherence (⚛️)
         identity_score = 0.0
@@ -992,7 +992,7 @@ class BioSymbolicCoherenceValidator:
                     "biological_coherence": current_report.biological_rhythm_coherence,
                     "symbolic_coherence": current_report.symbolic_pattern_coherence,
                     "metabolic_efficiency": current_report.metabolic_efficiency_score,
-                    "trinity_scores": {
+                    "triad_scores": {
                         "identity": current_report.identity_coherence_score,
                         "consciousness": current_report.consciousness_depth_score,
                         "guardian": current_report.guardian_safety_score,

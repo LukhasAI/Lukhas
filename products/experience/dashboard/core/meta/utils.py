@@ -32,7 +32,7 @@ def load_meta_metrics(path: Optional[Path] = None) -> dict[str, Any]:
             # Return default metrics if file doesn't exist
             return {
                 "average_drift": 0.0,
-                "trinity_coherence": 1.0,
+                "triad_coherence": 1.0,
                 "entropy_level": 0.0,
                 "persona_distribution": {},
                 "total_evaluations": 0,
@@ -243,7 +243,7 @@ def calculate_system_health(metrics: dict[str, Any]) -> dict[str, Any]:
         issues.append("Elevated drift levels")
 
     # Check Trinity coherence
-    coherence = metrics.get("trinity_coherence", 1.0)
+    coherence = metrics.get("triad_coherence", 1.0)
     if coherence < 0.3:
         health_score -= 25
         issues.append("Low Trinity coherence")
@@ -282,7 +282,7 @@ def calculate_system_health(metrics: dict[str, Any]) -> dict[str, Any]:
         "status": status,
         "color": color,
         "issues": issues,
-        "trinity_aligned": coherence > 0.7,
+        "triad_aligned": coherence > 0.7,
         "recommendation": get_health_recommendation(health_score, issues),
     }
 

@@ -846,13 +846,13 @@ class TestBrandingSystems:
             len(found_components) > 0
         ), f"Branding system should contain branding components. Found: {set(found_components)}"
 
-    def test_trinity_framework_compliance(self):
+    def test_triad_framework_compliance(self):
         """Test Trinity Framework (⚛️🧠🛡️) compliance and validation"""
         try:
             # Check for Trinity Framework references
-            trinity_keywords = ["identity", "consciousness", "guardian", "trinity"]
+            triad_keywords = ["identity", "consciousness", "guardian", "trinity"]
 
-            trinity_found = False
+            triad_found = False
 
             # Check branding directory for Trinity Framework
             branding_path = LUKHAS_ROOT / "branding"
@@ -861,19 +861,19 @@ class TestBrandingSystems:
                     if file.is_file():
                         try:
                             content = file.read_text(encoding="utf-8", errors="ignore").lower()
-                            for keyword in trinity_keywords:
+                            for keyword in triad_keywords:
                                 if keyword in content:
-                                    trinity_found = True
+                                    triad_found = True
                                     break
-                            if trinity_found:
+                            if triad_found:
                                 break
                         except Exception:
                             continue
 
             # Also check for Trinity validation tools
-            trinity_tools = list(branding_path.rglob("*trinity*")) if branding_path.exists() else []
+            triad_tools = list(branding_path.rglob("*trinity*")) if branding_path.exists() else []
 
-            assert trinity_found or len(trinity_tools) > 0, "Trinity Framework compliance validation should exist"
+            assert triad_found or len(triad_tools) > 0, "Trinity Framework compliance validation should exist"
 
         except Exception as e:
             pytest.skip(f"Trinity Framework compliance testing not available: {e}")

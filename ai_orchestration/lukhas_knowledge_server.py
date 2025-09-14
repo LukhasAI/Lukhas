@@ -42,7 +42,7 @@ class LUKHASKnowledgeServer:
     def __init__(self, workspace_root: str):
         self.workspace_root = Path(workspace_root)
         self.patterns = self._load_patterns()
-        self.trinity_templates = self._load_trinity_templates()
+        self.triad_templates = self._load_triad_templates()
         self.symbolic_vocabulary = self._load_symbolic_vocabulary()
 
     def _load_patterns(self) -> list[LUKHASPattern]:
@@ -85,7 +85,7 @@ class LUKHASKnowledgeServer:
             ),
         ]
 
-    def _load_trinity_templates(self) -> dict[str, Any]:
+    def _load_triad_templates(self) -> dict[str, Any]:
         """Load Trinity Framework documentation templates"""
         return {
             "function": '''"""
@@ -134,7 +134,7 @@ Methods:
             "dream_resonance": "Subconscious pattern matching and learning",
             "qi_consciousness": "Multi-dimensional awareness processing",
             "guardian_protocol": "Protective oversight and safety systems",
-            "trinity_framework": "Three-layer communication and processing",
+            "triad_framework": "Three-layer communication and processing",
             "consciousness_engine": "Core awareness and decision processing",
             "neural_symphony": "Harmonized multi-agent cognitive processing",
             "qi_potential": "Unexpressed possibilities in the system",
@@ -174,12 +174,12 @@ Methods:
             "compliance_score": score,
             "issues": issues,
             "suggestions": suggestions,
-            "trinity_framework_present": "🎭" in code and "🌈" in code and "🎓" in code,
+            "triad_framework_present": "🎭" in code and "🌈" in code and "🎓" in code,
             "symbolic_integration": has_symbols,
             "lukhas_naming_present": has_lukhas_naming,
         }
 
-    async def generate_trinity_documentation(
+    async def generate_triad_documentation(
         self,
         element_type: str,
         element_name: str,
@@ -187,7 +187,7 @@ Methods:
         context: str = "",
     ) -> str:
         """Generate Trinity Framework documentation"""
-        template = self.trinity_templates.get(element_type, self.trinity_templates["function"])
+        template = self.triad_templates.get(element_type, self.triad_templates["function"])
 
         # Generate context-appropriate content
         if element_type == "function":
@@ -339,7 +339,7 @@ async def main():
         elif command == "trinity" and len(sys.argv) > 3:
             element_type = sys.argv[2]
             element_name = sys.argv[3]
-            result = await server.generate_trinity_documentation(element_type, element_name)
+            result = await server.generate_triad_documentation(element_type, element_name)
             print(result)
 
         elif command == "export":

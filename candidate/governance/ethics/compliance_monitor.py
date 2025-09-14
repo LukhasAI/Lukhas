@@ -519,7 +519,7 @@ class ComplianceMonitor:
             overall_status = await self._determine_overall_status(framework_statuses, overall_score)
 
             # Trinity Framework integration
-            trinity_results = await self._assess_trinity_compliance()
+            triad_results = await self._assess_triad_compliance()
 
             # Create assessment
             assessment = ComplianceAssessment(
@@ -531,9 +531,9 @@ class ComplianceMonitor:
                 violations=all_violations,
                 recommendations=list(set(recommendations)),  # Remove duplicates
                 risk_factors=list(set(risk_factors)),
-                identity_compliance=trinity_results["identity"],
-                consciousness_compliance=trinity_results["consciousness"],
-                guardian_validations=trinity_results["guardian"],
+                identity_compliance=triad_results["identity"],
+                consciousness_compliance=triad_results["consciousness"],
+                guardian_validations=triad_results["guardian"],
             )
 
             # Store assessment
@@ -903,7 +903,7 @@ class ComplianceMonitor:
         else:
             return ComplianceStatus.NON_COMPLIANT
 
-    async def _assess_trinity_compliance(self) -> dict[str, Any]:
+    async def _assess_triad_compliance(self) -> dict[str, Any]:
         """Assess Trinity Framework compliance"""
 
         # ⚛️ Identity compliance

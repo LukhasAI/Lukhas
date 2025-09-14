@@ -72,7 +72,7 @@ class BaseColony(ABC):
         self.task_queue: list[ColonyTask] = []
         self.completed_tasks: dict[str, ColonyTask] = {}
         self.status = ColonyStatus.INITIALIZING
-        self.trinity_aligned = True
+        self.triad_aligned = True
         self.created_at = datetime.now(timezone.utc)
         self._initialize_colony()
 
@@ -211,11 +211,11 @@ class BaseColony(ABC):
             "active_agents": len([a for a in self.agents.values() if a.status == ColonyStatus.ACTIVE]),
             "queue_size": len(self.task_queue),
             "completed_tasks": len(self.completed_tasks),
-            "trinity_aligned": self.trinity_aligned,
+            "triad_aligned": self.triad_aligned,
             "uptime": (datetime.now(timezone.utc) - self.created_at).total_seconds(),
         }
 
-    def trinity_sync(self) -> dict[str, Any]:
+    def triad_sync(self) -> dict[str, Any]:
         """Synchronize with Trinity Framework"""
         return {
             "identity": "⚛️",
@@ -327,7 +327,7 @@ class ColonyRegistry:
             "total_agents": total_agents,
             "pending_tasks": total_tasks,
             "task_routes": len(self.task_routes),
-            "trinity_aligned": True,
+            "triad_aligned": True,
         }
 
 

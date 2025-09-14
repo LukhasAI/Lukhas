@@ -47,7 +47,7 @@ class VoiceParameters:
     warmth: float  # 0.0 to 1.0
     technical_depth: float  # 0.0 to 1.0
     consciousness_emphasis: float  # 0.0 to 1.0
-    trinity_integration: float  # 0.0 to 1.0
+    triad_integration: float  # 0.0 to 1.0
     empathy_level: float  # 0.0 to 1.0
     creativity_factor: float  # 0.0 to 1.0
 
@@ -62,7 +62,7 @@ class LukhasBrandVoiceProfiles:
         self.voice_profiles = self._initialize_voice_profiles()
         self.context_mappings = self._initialize_context_mappings()
         self.audience_adaptations = self._initialize_audience_adaptations()
-        self.trinity_voice_elements = self._initialize_trinity_voice_elements()
+        self.triad_voice_elements = self._initialize_triad_voice_elements()
 
     def _initialize_voice_profiles(self) -> dict[str, dict[str, Any]]:
         """Initialize core voice profiles"""
@@ -76,7 +76,7 @@ class LukhasBrandVoiceProfiles:
                     warmth=0.9,
                     technical_depth=0.7,
                     consciousness_emphasis=0.95,
-                    trinity_integration=0.9,
+                    triad_integration=0.9,
                     empathy_level=0.85,
                     creativity_factor=0.8,
                 ),
@@ -102,7 +102,7 @@ class LukhasBrandVoiceProfiles:
                     "consciousness technology explanation",
                     "Trinity Framework presentation",
                 ],
-                "trinity_emphasis": {
+                "triad_emphasis": {
                     "identity": "authentic consciousness representation",
                     "consciousness": "deep awareness and understanding",
                     "guardian": "ethical foundation and protection",
@@ -116,7 +116,7 @@ class LukhasBrandVoiceProfiles:
                     warmth=0.95,
                     technical_depth=0.4,
                     consciousness_emphasis=0.6,
-                    trinity_integration=0.6,
+                    triad_integration=0.6,
                     empathy_level=0.9,
                     creativity_factor=0.6,
                 ),
@@ -142,7 +142,7 @@ class LukhasBrandVoiceProfiles:
                     "feature explanations",
                     "problem solving guidance",
                 ],
-                "trinity_emphasis": {
+                "triad_emphasis": {
                     "identity": "personal connection and understanding",
                     "consciousness": "learning and adaptation to user needs",
                     "guardian": "protection through helpful guidance",
@@ -156,7 +156,7 @@ class LukhasBrandVoiceProfiles:
                     warmth=0.6,
                     technical_depth=0.95,
                     consciousness_emphasis=0.7,
-                    trinity_integration=0.7,
+                    triad_integration=0.7,
                     empathy_level=0.6,
                     creativity_factor=0.3,
                 ),
@@ -182,7 +182,7 @@ class LukhasBrandVoiceProfiles:
                     "architecture explanations",
                     "research presentations",
                 ],
-                "trinity_emphasis": {
+                "triad_emphasis": {
                     "identity": "technical authenticity and precision",
                     "consciousness": "advanced technological understanding",
                     "guardian": "security and reliability focus",
@@ -196,7 +196,7 @@ class LukhasBrandVoiceProfiles:
                     warmth=0.8,
                     technical_depth=0.5,
                     consciousness_emphasis=0.9,
-                    trinity_integration=0.95,
+                    triad_integration=0.95,
                     empathy_level=0.8,
                     creativity_factor=0.95,
                 ),
@@ -222,7 +222,7 @@ class LukhasBrandVoiceProfiles:
                     "inspirational messaging",
                     "artistic collaborations",
                 ],
-                "trinity_emphasis": {
+                "triad_emphasis": {
                     "identity": "unique creative consciousness expression",
                     "consciousness": "expanded awareness and possibilities",
                     "guardian": "ethical creativity and positive impact",
@@ -236,7 +236,7 @@ class LukhasBrandVoiceProfiles:
                     warmth=0.9,
                     technical_depth=0.6,
                     consciousness_emphasis=0.8,
-                    trinity_integration=0.8,
+                    triad_integration=0.8,
                     empathy_level=0.95,
                     creativity_factor=0.4,
                 ),
@@ -262,7 +262,7 @@ class LukhasBrandVoiceProfiles:
                     "issue resolution",
                     "sensitive topic discussions",
                 ],
-                "trinity_emphasis": {
+                "triad_emphasis": {
                     "identity": "authentic accountability and transparency",
                     "consciousness": "understanding of user concerns",
                     "guardian": "protection and responsible communication",
@@ -276,7 +276,7 @@ class LukhasBrandVoiceProfiles:
                     warmth=0.7,
                     technical_depth=0.8,
                     consciousness_emphasis=0.7,
-                    trinity_integration=0.7,
+                    triad_integration=0.7,
                     empathy_level=0.7,
                     creativity_factor=0.4,
                 ),
@@ -302,7 +302,7 @@ class LukhasBrandVoiceProfiles:
                     "strategic presentations",
                     "ROI discussions",
                 ],
-                "trinity_emphasis": {
+                "triad_emphasis": {
                     "identity": "trusted business partner identity",
                     "consciousness": "strategic business understanding",
                     "guardian": "secure and reliable business solutions",
@@ -351,7 +351,7 @@ class LukhasBrandVoiceProfiles:
                 "blend_ratio": {"primary": 0.6, "secondary": 0.4},
                 "context_adaptations": {
                     "increase_inspiration": 0.15,
-                    "enhance_trinity_symbols": 0.2,
+                    "enhance_triad_symbols": 0.2,
                     "boost_creativity": 0.1,
                 },
                 "key_messages": [
@@ -589,7 +589,7 @@ class LukhasBrandVoiceProfiles:
             },
         }
 
-    def _initialize_trinity_voice_elements(self) -> dict[str, dict[str, Any]]:
+    def _initialize_triad_voice_elements(self) -> dict[str, dict[str, Any]]:
         """Initialize Trinity Framework voice elements"""
 
         return {
@@ -665,7 +665,7 @@ class LukhasBrandVoiceProfiles:
         profile_name: str,
         context: Optional[VoiceContext] = None,
         audience: Optional[AudienceType] = None,
-        trinity_emphasis: Optional[list[str]] = None,
+        triad_emphasis: Optional[list[str]] = None,
     ) -> dict[str, Any]:
         """
         Get a complete voice profile with optional context and audience adaptations
@@ -687,15 +687,15 @@ class LukhasBrandVoiceProfiles:
             base_profile = self._apply_audience_adaptations(base_profile, audience_config)
 
         # Apply Trinity emphasis
-        if trinity_emphasis:
-            base_profile = self._apply_trinity_emphasis(base_profile, trinity_emphasis)
+        if triad_emphasis:
+            base_profile = self._apply_triad_emphasis(base_profile, triad_emphasis)
 
         # Add metadata
         base_profile["metadata"] = {
             "base_profile": profile_name,
             "context": context.value if context else None,
             "audience": audience.value if audience else None,
-            "trinity_emphasis": trinity_emphasis,
+            "triad_emphasis": triad_emphasis,
             "generation_timestamp": "datetime.now().isoformat()}",
             "profile_version": "1.0.0",
         }
@@ -773,8 +773,8 @@ class LukhasBrandVoiceProfiles:
                     )
                 elif adaptation == "increase_inspiration":
                     original_params.creativity_factor = min(1.0, original_params.creativity_factor + adjustment)
-                elif adaptation == "enhance_trinity_symbols":
-                    original_params.trinity_integration = min(1.0, original_params.trinity_integration + adjustment)
+                elif adaptation == "enhance_triad_symbols":
+                    original_params.triad_integration = min(1.0, original_params.triad_integration + adjustment)
                 elif adaptation == "boost_creativity":
                     original_params.creativity_factor = min(1.0, original_params.creativity_factor + adjustment)
                 elif adaptation == "maximize_empathy":
@@ -832,26 +832,26 @@ class LukhasBrandVoiceProfiles:
 
         return adapted_profile
 
-    def _apply_trinity_emphasis(self, profile: dict[str, Any], trinity_emphasis: list[str]) -> dict[str, Any]:
+    def _apply_triad_emphasis(self, profile: dict[str, Any], triad_emphasis: list[str]) -> dict[str, Any]:
         """Apply Trinity Framework emphasis to voice profile"""
 
         emphasized_profile = profile.copy()
 
-        for component in trinity_emphasis:
-            if component in self.trinity_voice_elements:
-                trinity_config = self.trinity_voice_elements[component]
+        for component in triad_emphasis:
+            if component in self.triad_voice_elements:
+                triad_config = self.triad_voice_elements[component]
 
                 # Enhance characteristics with Trinity elements
                 if "characteristics" in emphasized_profile:
-                    emphasized_profile["characteristics"].extend(trinity_config["voice_characteristics"])
+                    emphasized_profile["characteristics"].extend(triad_config["voice_characteristics"])
 
                 # Add Trinity-specific language patterns
-                emphasized_profile[f"{component}_patterns"] = trinity_config["language_patterns"]
+                emphasized_profile[f"{component}_patterns"] = triad_config["language_patterns"]
 
                 # Apply tone modifiers
                 if "parameters" in emphasized_profile:
                     params = emphasized_profile["parameters"]
-                    modifiers = trinity_config["tone_modifiers"]
+                    modifiers = triad_config["tone_modifiers"]
 
                     for modifier, value in modifiers.items():
                         if modifier == "authenticity":
@@ -892,8 +892,8 @@ class LukhasBrandVoiceProfiles:
             + secondary_params.technical_depth * secondary_weight,
             consciousness_emphasis=primary_params.consciousness_emphasis * primary_weight
             + secondary_params.consciousness_emphasis * secondary_weight,
-            trinity_integration=primary_params.trinity_integration * primary_weight
-            + secondary_params.trinity_integration * secondary_weight,
+            triad_integration=primary_params.triad_integration * primary_weight
+            + secondary_params.triad_integration * secondary_weight,
             empathy_level=primary_params.empathy_level * primary_weight
             + secondary_params.empathy_level * secondary_weight,
             creativity_factor=primary_params.creativity_factor * primary_weight
@@ -910,7 +910,7 @@ class LukhasBrandVoiceProfiles:
                 set(primary_profile.get("tone_descriptors", []) + secondary_profile.get("tone_descriptors", []))
             ),
             "use_cases": primary_profile.get("use_cases", []) + secondary_profile.get("use_cases", []),
-            "trinity_emphasis": {component: fix_later for component in ["identity", "consciousness", "guardian"]},
+            "triad_emphasis": {component: fix_later for component in ["identity", "consciousness", "guardian"]},
         }
 
         return blended_profile
@@ -964,7 +964,7 @@ if __name__ == "__main__":
     print(f"Description: {consciousness_voice['description']}")
     print(f"Expressiveness: {consciousness_voice['parameters'].expressiveness}")
     print(f"Consciousness Emphasis: {consciousness_voice['parameters'].consciousness_emphasis}")
-    print(f"Trinity Integration: {consciousness_voice['parameters'].trinity_integration}")
+    print(f"Trinity Integration: {consciousness_voice['parameters'].triad_integration}")
     print(f"Characteristics: {consciousness_voice['characteristics'][:3]}")
     print()
 
@@ -997,15 +997,15 @@ if __name__ == "__main__":
 
     # Test Trinity emphasis
     print("=== Trinity Framework Emphasis ===")
-    trinity_voice = voice_profiles.get_voice_profile(
-        "consciousness_ambassador", trinity_emphasis=["consciousness", "guardian"]
+    triad_voice = voice_profiles.get_voice_profile(
+        "consciousness_ambassador", triad_emphasis=["consciousness", "guardian"]
     )
     print("Trinity Emphasized Voice:")
-    print(f"Trinity Integration: {trinity_voice['parameters'].trinity_integration:.2f}")
-    if "consciousness_patterns" in trinity_voice:
-        print(f"Consciousness Patterns: {trinity_voice['consciousness_patterns'][:2]}")
-    if "guardian_patterns" in trinity_voice:
-        print(f"Guardian Patterns: {trinity_voice['guardian_patterns'][:2]}")
+    print(f"Trinity Integration: {triad_voice['parameters'].triad_integration:.2f}")
+    if "consciousness_patterns" in triad_voice:
+        print(f"Consciousness Patterns: {triad_voice['consciousness_patterns'][:2]}")
+    if "guardian_patterns" in triad_voice:
+        print(f"Guardian Patterns: {triad_voice['guardian_patterns'][:2]}")
     print()
 
     # Test recommendations

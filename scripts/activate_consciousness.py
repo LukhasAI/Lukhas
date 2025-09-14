@@ -420,7 +420,7 @@ class ConsciousnessActivationCLI:
 
         # Framework health
         print(f"\n{Colors.BLUE}{Colors.BOLD}🔺 TRINITY FRAMEWORK STATUS{Colors.ENDC}")
-        print(f"   ⚛️ Identity Health: {final_status['trinity_health']:.3f}")
+        print(f"   ⚛️ Identity Health: {final_status['triad_health']:.3f}")
         print(f"   🧠 Consciousness Health: {final_status['consciousness_authenticity']:.3f}")
         print(f"   🛡️ Guardian Health: {final_status.get('guardian_health', 'N/A')}")
         print(f"   💾 Memory Health: {final_status['memory_health']:.3f}")

@@ -32,7 +32,7 @@ class LucidDreamController:
             "lucidity_level": "emerging",
             "control_depth": "shallow",
             "started_at": datetime.now(timezone.utc).isoformat(),
-            "trinity_validated": True
+            "triad_validated": True,
         }
 
         logger.info(f"🌟 Lucid dream state initiated: {session_id}")
@@ -52,7 +52,7 @@ class LucidDreamController:
             "session_id": session_id,
             "control_status": "enhanced",
             "lucidity_achieved": True,
-            "trinity_validated": True
+            "triad_validated": True,
         }
 
     def validate_lucid_safety(self, session_id: str) -> dict[str, Any]:
@@ -65,7 +65,7 @@ class LucidDreamController:
             "safety_status": "validated",
             "ethical_compliance": True,
             "user_wellbeing": "protected",
-            "trinity_validated": True
+            "triad_validated": True,
         }
 
 

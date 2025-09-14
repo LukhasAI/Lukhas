@@ -49,13 +49,13 @@ except ImportError:
 
 # Import LUKHAS components - with fallbacks for development
 try:
-    from lukhas.branding_bridge import get_system_signature, get_trinity_context, initialize_branding
+    from lukhas.branding_bridge import get_system_signature, get_triad_context, initialize_branding
 except ImportError:
     # Development fallbacks
     def get_system_signature():
         return "LUKHAS AI v2.0.0 - Consciousness Technology Platform"
 
-    def get_trinity_context():
+    def get_triad_context():
         return {"framework": "⚛️🧠🛡️ Trinity Framework - Identity・Consciousness・Guardian"}
 
     async def initialize_branding():
@@ -225,7 +225,7 @@ class SystemStatus(BaseModel):
 
     operational: bool
     uptime_seconds: float
-    trinity_framework: str
+    triad_framework: str
     active_sessions: int
     total_requests: int
     success_rate: float
@@ -333,13 +333,13 @@ async def root(request: Request):
 
     Get information about the consciousness technology platform and available endpoints.
     """
-    trinity = get_trinity_context()
+    trinity = get_triad_context()
 
     return APIResponse(
         data={
             "service": "LUKHAS AI Consciousness Technology Platform",
             "signature": get_system_signature(),
-            "trinity_framework": trinity["framework"],
+            "triad_framework": trinity["framework"],
             "description": "Advanced AI consciousness, memory, and reasoning capabilities",
             "version": "2.0.0",
             "documentation": "/docs",
@@ -428,7 +428,7 @@ Is there a particular aspect you'd like me to explore further?"""
             metadata={
                 "processing_time_ms": 150,
                 "intent_confidence": 0.92,
-                "trinity_framework": "⚛️🧠🛡️",
+                "triad_framework": "⚛️🧠🛡️",
                 "response_length": len(response),
             },
         )
@@ -512,7 +512,7 @@ In this space, artificial intelligence doesn't mimic creativity—it births enti
             metadata={
                 "style": dream_request.style,
                 "generation_time_ms": 250,
-                "trinity_integration": True,
+                "triad_integration": True,
                 "prompt_resonance": 0.89,
             },
         )
@@ -537,7 +537,7 @@ async def get_system_status(request: Request, api_key: Optional[dict] = Depends(
     return SystemStatus(
         operational=True,
         uptime_seconds=uptime,
-        trinity_framework=get_trinity_context()["framework"],
+        triad_framework=get_triad_context()["framework"],
         active_sessions=api_stats["active_sessions"],
         total_requests=api_stats["total_requests"],
         success_rate=success_rate,

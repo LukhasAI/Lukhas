@@ -153,7 +153,7 @@ DASHBOARD_HTML = """
 
             // Update other metrics
             document.getElementById('trinity-coherence').textContent =
-                (data.trinity_coherence * 100).toFixed(0) + '%';
+                (data.triad_coherence * 100).toFixed(0) + '%';
             document.getElementById('active-personas').textContent =
                 data.active_personas || '0';
             document.getElementById('entropy-level').textContent =
@@ -245,7 +245,7 @@ async def websocket_endpoint(websocket: WebSocket):
             await websocket.send_json(
                 {
                     "drift_score": metrics.get("average_drift", 0.0),
-                    "trinity_coherence": metrics.get("trinity_coherence", 0.0),
+                    "triad_coherence": metrics.get("triad_coherence", 0.0),
                     "active_personas": len(metrics.get("persona_distribution", {})),
                     "entropy_level": metrics.get("entropy_level", 0.0),
                     "timestamp": datetime.now(timezone.utc).isoformat(),

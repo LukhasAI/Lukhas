@@ -160,7 +160,7 @@ class CommunicationProductsEnhancer:
                 "session_id": self.session_id,
                 "agi_enhanced": True,
                 "constellation_aligned": True,
-                "trinity_framework": "⚛️🧠🛡️",
+                "triad_framework": "⚛️🧠🛡️",
                 "processing_steps": [
                     "mode_specific",
                     "agi_reasoning",
@@ -757,7 +757,7 @@ async def test_communication_enhancement():
     print(f"   Suggested Actions: {len(abas_result['suggested_actions'])} alternatives")
 
     print(f"\n✅ Communication enhancement testing completed in {result.processing_time:.3f}s")
-    print(f"🔗 Trinity Framework: {result.metadata['trinity_framework']} compliance verified")
+    print(f"🔗 Trinity Framework: {result.metadata['triad_framework']} compliance verified")
 
 
 if __name__ == "__main__":

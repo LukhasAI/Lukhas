@@ -44,9 +44,15 @@ def test_ai_interface_audit_log_written(monkeypatch, tmp_path):
         raising=False,
     )
     ai = ai_interface.LukhusAI("AuditComponent")
-    res = ai.generate_response("ping", ai_interface.LukhusAITaskType.GENERAL, structured=True)
+    res = ai.generate_response("ping payload", ai_interface.LukhusAITaskType.GENERAL, structured=True)
     assert res["success"] is True
     # Verify a line is written
     assert log_path.exists()
     lines = log_path.read_text().strip().splitlines()
     assert any("AuditComponent" in line for line in lines)
+    # Parse last event JSON and verify prompt metadata exists
+    import json
+
+    last = json.loads(lines[-1])
+    assert "request_size" in last and last["request_size"] >= len("ping payload")
+    assert "prompt_hash" in last and isinstance(last["prompt_hash"], str)

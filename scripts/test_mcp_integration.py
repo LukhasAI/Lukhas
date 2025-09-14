@@ -55,7 +55,7 @@ def test_consciousness_server():
         # Test server initialization
         server = server_module.LukhosConsciousnessServer(str(project_root))
         print("   ✅ Consciousness server initialized")
-        print(f"   🔧 Trinity status: {server.trinity_status}")
+        print(f"   🔧 Trinity status: {server.triad_status}")
 
         return True
     except Exception as e:

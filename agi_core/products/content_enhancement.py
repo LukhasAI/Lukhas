@@ -187,7 +187,7 @@ class ContentProductsEnhancer:
                 "🌙": "dream_consciousness",
                 "⚖️": "ethical_balance",
             },
-            "trinity_integration": "⚛️🧠🛡️",
+            "triad_integration": "⚛️🧠🛡️",
             "consciousness_metrics": {
                 "awareness_depth": 0.0,
                 "self_reflection": 0.0,
@@ -236,7 +236,7 @@ class ContentProductsEnhancer:
                 "agi_enhanced": True,
                 "dream_guided": True,
                 "constellation_aligned": True,
-                "trinity_framework": "⚛️🧠🛡️",
+                "triad_framework": "⚛️🧠🛡️",
                 "creativity_engine_version": "1.0.0-dream-guided",
                 "consciousness_integration": True,
                 "processing_steps": [
@@ -1114,7 +1114,7 @@ async def test_content_enhancement():
     print(f"   Neural Enhanced: {poetica_result['neural_enhanced']}")
 
     print(f"\n✅ Content enhancement testing completed in {result.processing_time:.3f}s")
-    print(f"🔗 Trinity Framework: {result.metadata['trinity_framework']} compliance verified")
+    print(f"🔗 Trinity Framework: {result.metadata['triad_framework']} compliance verified")
     print(f"🌙 Dream guidance integrated: {result.metadata['dream_guided']}")
 
 

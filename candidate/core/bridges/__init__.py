@@ -8,7 +8,10 @@ from .core_safety_bridge import CoreSafetyBridge
 from .identity_core_bridge import IdentityCoreBridge
 from .memory_consciousness_bridge import get_memory_consciousness_bridge
 from .memory_learning_bridge import MemoryLearningBridge, get_memory_learning_bridge
-from .nias_dream_bridge import get_nias_dream_bridge
+try:
+    from .nias_dream_bridge import get_nias_dream_bridge  # optional
+except Exception:  # broad on purpose for optional deps
+    get_nias_dream_bridge = None
 from .qi_memory_bridge import get_quantum_memory_bridge
 
 # from .orchestration_core_bridge import OrchestrationCoreBridge
@@ -23,10 +26,12 @@ class BridgeRegistry:
             "consciousness_quantum": ConsciousnessQIBridge,
             "core_safety": CoreSafetyBridge,
             "memory_consciousness": get_memory_consciousness_bridge,
-            "nias_dream": get_nias_dream_bridge,
             "qi_memory": get_quantum_memory_bridge,
             "memory_learning": get_memory_learning_bridge,
         }
+        # Add optional bridges if available
+        if get_nias_dream_bridge is not None:
+            self.bridges["nias_dream"] = get_nias_dream_bridge
 
     def get_bridge(self, bridge_name: str):
         """Get a bridge by name"""
