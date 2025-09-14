@@ -10,13 +10,30 @@ from enum import Enum
 from typing import Any, Optional
 
 
-def fix_later(*args, **kwargs):
-    """TODO(symbol-resolver): implement missing functionality
+def create_sentiment_symbolic_display(polarity: str, score: float, component: str = "") -> str:
+    """Create symbolic representation for sentiment analysis results.
 
-    This is a placeholder for functionality that needs to be implemented.
-    Replace this stub with the actual implementation.
+    Args:
+        polarity: Sentiment polarity ('very_positive', 'positive', 'neutral', 'negative', 'very_negative')
+        score: Sentiment score from -1.0 to 1.0
+        component: Optional component name for Trinity Framework display
+
+    Returns:
+        A symbolic string representing the sentiment with appropriate emoji and formatting
     """
-    raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+    sentiment_symbols = {"very_positive": "🌟", "positive": "✅", "neutral": "⚖️", "negative": "⚠️", "very_negative": "🚨"}
+
+    trinity_symbols = {"identity": "⚛️", "consciousness": "🧠", "guardian": "🛡️"}
+
+    sentiment_symbol = sentiment_symbols.get(polarity, "❓")
+
+    if component and component in trinity_symbols:
+        component_symbol = trinity_symbols[component]
+        return f"{sentiment_symbol} {component_symbol} {component.title()}: {score:.3f}"
+    elif component:
+        return f"{sentiment_symbol} {component.replace('_', ' ').title()}: {score:.3f}"
+    else:
+        return f"{sentiment_symbol} Sentiment: {score:.3f}"
 
 
 class SentimentPolarity(Enum):
@@ -1009,15 +1026,21 @@ if __name__ == "__main__":
         top_dimensions = sorted(result.brand_dimensions.items(), key=lambda x: abs(x[1]), reverse=True)[:3]
 
         print("Top Brand Dimensions:")
-        for _dimension, score in top_dimensions:
+        for dimension, score in top_dimensions:
             if score != 0.0:
-                print(fix_later)
+                display = create_sentiment_symbolic_display(
+                    "positive" if score > 0 else "negative" if score < 0 else "neutral", score, dimension.value
+                )
+                print(f"  {display}")
 
         # Show Trinity sentiment
         print("Trinity Sentiment:")
-        for score in result.triad_sentiment.values():
+        for component, score in result.triad_sentiment.items():
             if score != 0.0:
-                print(fix_later)
+                display = create_sentiment_symbolic_display(
+                    "positive" if score > 0 else "negative" if score < 0 else "neutral", score, component
+                )
+                print(f"  {display}")
 
     # Test sentiment trends
     print("\n--- Sentiment Trends ---")

@@ -31,9 +31,13 @@ ruff check --select F821 candidate/governance/drift_dashboard_visual.py
 pytest -q tests/ -k "framework_integration or qi_entanglement or openai_modulated_service or drift_dashboard"
 ```
 
-Acceptance
-- ruff (or flake8) reports no F821 for the four files.
-- A smoke test or relevant unit test runs without NameError exceptions.
+## ✅ STATUS: COMPLETED (2025-09-14)
+**Completed By**: Jules + System Integration
+**Commit**: `aca9db9dd fix(syntax): investigate F821 undefined name errors in candidate files`
+
+Acceptance Criteria ✅ COMPLETED:
+- [x] ruff (or flake8) reports no F821 for the four files
+- [x] A smoke test or relevant unit test runs without NameError exceptions
 
 Notes
 - Keep changes minimal and use feature flags for optional integrations.

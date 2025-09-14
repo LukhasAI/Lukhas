@@ -25,12 +25,16 @@ Steps (high-level)
 6. Add `replace` and `append_many` methods to `temporal_colony.py` and tests that validate state mutations.
 7. Replace randoms in quantum financial engine with seeded deterministic placeholders and dataclass-based responses.
 
-Acceptance
-- utc_now() used across files and tests compare tz-aware datetimes.
-- Dynamic import fallbacks prevent import errors and Tag class exists.
-- `python -m candidate.core.integrator` runs without ImportError.
-- Temporal colony operations tested.
-- Quantum financial functions return typed dataclasses and deterministic outputs.
+## ✅ STATUS: COMPLETED (2025-09-14)
+**Completed By**: Jules + System Integration
+**Commit**: `f203cbd2b feat(core): UTC enforcement and legacy glue (Jules-07)`
+
+Acceptance Criteria ✅ COMPLETED:
+- [x] utc_now() used across files and tests compare tz-aware datetimes
+- [x] Dynamic import fallbacks prevent import errors and Tag class exists
+- [x] `python -m candidate.core.integrator` runs without ImportError
+- [x] Temporal colony operations tested
+- [x] Quantum financial functions return typed dataclasses and deterministic outputs
 
 Notes
 - This is a larger batch of small fixes; split into smaller PRs if needed.

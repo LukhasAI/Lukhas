@@ -42,13 +42,45 @@
 # Bio status symbols
 
 
-def fix_later(*args, **kwargs):
-    """TODO(symbol-resolver): implement missing functionality
+def create_bio_metric_summary(heart_rate: int, stress_level: float, activity: str) -> str:
+    """Create a comprehensive bio metric summary with symbolic representation.
 
-    This is a placeholder for functionality that needs to be implemented.
-    Replace this stub with the actual implementation.
+    Args:
+        heart_rate: Current heart rate in BPM
+        stress_level: Stress level from 0.0 to 1.0
+        activity: Current activity type
+
+    Returns:
+        A symbolic string representing current bio state
     """
-    raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+    # Heart rate analysis
+    if heart_rate > 100:
+        hr_symbol = "💓"  # Elevated heart rate
+    elif heart_rate < 60:
+        hr_symbol = "🫀"  # Low heart rate
+    else:
+        hr_symbol = "💗"  # Normal heart rate
+
+    # Stress level analysis
+    if stress_level > 0.7:
+        stress_symbol = "🚨"  # High stress
+    elif stress_level > 0.4:
+        stress_symbol = "😰"  # Moderate stress
+    else:
+        stress_symbol = "😌"  # Calm state
+
+    # Activity analysis
+    activity_symbols = {
+        "sleeping": "😴",
+        "walking": "🚶",
+        "running": "🏃",
+        "working": "💻",
+        "resting": "🧘",
+        "exercising": "💪",
+    }
+    activity_symbol = activity_symbols.get(activity.lower(), "📊")
+
+    return f"{hr_symbol} HR: {heart_rate} • {stress_symbol} Stress: {stress_level:.1f} • {activity_symbol} {activity.title()}"
 
 
 BIO_SYMBOLS = {
