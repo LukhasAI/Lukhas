@@ -8,6 +8,8 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any
 
+from candidate.utils.time import utc_now
+
 __module__ = "bio.awareness"
 __triad__ = "⚛️🧠🛡️"
 
@@ -27,7 +29,7 @@ class BioAwareness:
     def __init__(self):
         self.state = AwarenessState()
         self.history = []
-        self.timestamp = datetime.now(timezone.utc)  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement
+        self.timestamp = utc_now()  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement
 
     def sense(self, input_data: Any) -> dict[str, Any]:
         """Process sensory input"""
@@ -71,9 +73,7 @@ class EnhancedSystemAwareness(BioAwareness):
                 # Log state change
                 self.history.append(
                     {
-                        "timestamp": datetime.now(
-                            timezone.utc
-                        ),  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement
+                        "timestamp": utc_now(),  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement
                         "event": "state_update",
                         "stimulus": str(stimulus),
                         "level": self.state.level,
@@ -99,7 +99,7 @@ class EnhancedSystemAwareness(BioAwareness):
             # Check for stagnation (no recent updates)
             if self.history:
                 time_since_update = (
-                    datetime.now(timezone.utc) - self.history[-1]["timestamp"]
+                    utc_now() - self.history[-1]["timestamp"]
                 ).seconds  # TODO[QUANTUM-BIO:specialist] - UTC timezone consistency
                 if time_since_update > 300:  # 5 minutes
                     health_status["status"] = "stagnant"
@@ -140,7 +140,7 @@ class EnhancedSystemAwareness(BioAwareness):
         """Handle monitoring errors gracefully"""
         try:
             error_entry = {
-                "timestamp": datetime.now(timezone.utc),
+                "timestamp": utc_now(),
                 "event": "error",
                 "function": function_name,
                 "error": str(error),
