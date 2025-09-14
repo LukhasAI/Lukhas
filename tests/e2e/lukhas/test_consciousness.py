@@ -15,6 +15,7 @@ import time
 from unittest.mock import patch
 
 import pytest
+from lukhas.governance.identity.connector import SecurityError
 
 from lukhas.consciousness import (
     AwarenessLevel,
@@ -309,7 +310,7 @@ class TestConsciousnessSecurity:
         ]
 
         for malicious_input in malicious_inputs:
-            with pytest.raises((ValueError, SecurityError, SyntaxError)):  # noqa: F821  # TODO: SecurityError
+            with pytest.raises((ValueError, SecurityError, SyntaxError)):
                 consciousness.process_input(malicious_input)
 
     @pytest.mark.security

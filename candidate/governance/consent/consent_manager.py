@@ -32,7 +32,7 @@ import json
 import logging
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -242,10 +242,16 @@ class AdvancedConsentManager:
             "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
-        # Initialize standard purposes
-        asyncio.create_task(self._initialize_standard_purposes())
+        # Initialize standard purposes - deferred to avoid event loop issues
+        self._purposes_initialized = False
 
         logger.info("📋 Advanced Consent Manager initialized with GDPR compliance")
+
+    async def initialize(self):
+        """Initialize the consent manager with standard purposes"""
+        if not self._purposes_initialized:
+            await self._initialize_standard_purposes()
+            self._purposes_initialized = True
 
     async def _initialize_standard_purposes(self):
         """Initialize standard data processing purposes"""
@@ -316,6 +322,11 @@ class AdvancedConsentManager:
         Returns:
             Dictionary of consent records keyed by purpose_id
         """
+        # Ensure purposes are initialized
+        if not self._purposes_initialized:
+            await self._initialize_standard_purposes()
+            self._purposes_initialized = True
+            
         context = context or {}
         consent_records = {}
 
@@ -606,7 +617,8 @@ class AdvancedConsentManager:
             validation_issues.append("Consent indication is ambiguous")
 
         # Method-specific validation
-        if consent_record.method == ConsentMethod.IMPLICIT:
+        # Note: IMPLICIT is a ConsentType, not ConsentMethod
+        if hasattr(consent_record, 'consent_type') and consent_record.consent_type == ConsentType.IMPLICIT:
             validation_issues.append("Implicit consent not suitable for GDPR Article 7")
 
         return {

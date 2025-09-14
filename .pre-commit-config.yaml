@@ -48,6 +48,11 @@ repos:
   # --- Heavy/flaky tools: manual or push-only ---
   - repo: local
     hooks:
+      - id: no-top-level-streamlit
+        name: forbid top-level streamlit import in core
+        entry: bash -c 'if rg -n "^(\\s*from\\s+streamlit\\s+import|\\s*import\\s+streamlit)" candidate lukhas | rg -v "optional_import"; then echo "Top-level streamlit import found"; exit 1; fi'
+        language: system
+        pass_filenames: false
       # LUKHAS AI analyzer: run manually, never block commits
       - id: lukhas-ai-analyzer
         name: LUKHAS AI analyzer (manual)

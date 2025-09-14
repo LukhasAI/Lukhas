@@ -68,3 +68,16 @@ def pytest_runtest_makereport(item, call):
     """T4 quarantine system: Track quarantine test failures."""
     if "quarantine" in item.keywords and call.when == "call" and call.excinfo:
         item._quarantine_fail = getattr(item, "_quarantine_fail", 0) + 1
+
+import types
+
+@pytest.fixture(autouse=True, scope="session")
+def _stub_streamlit_for_tests():
+    if "streamlit" not in sys.modules:
+        stub = types.SimpleNamespace(
+            write=lambda *a, **k: None,
+            markdown=lambda *a, **k: None,
+            cache_data=lambda *a, **k: (lambda f: f),
+        )
+        sys.modules["streamlit"] = stub
+    yield
