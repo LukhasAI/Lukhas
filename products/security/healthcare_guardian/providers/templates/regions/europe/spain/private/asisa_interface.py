@@ -8,40 +8,11 @@ including access to their clinics, hospitals, and specialist network.
 from datetime import datetime
 from typing import Any, Optional
 
-# Fixed: Converted complex relative imports to robust absolute imports with fallback chains
-try:
-    # Try absolute import first
-    # TODO: Fix import paths - lambda directory doesn't exist
-    # from products.lambda.lambda_products_pack.lambda_core.HealthcareGuardian.providers.templates.base_provider import (
-    #     BaseHealthcareProvider,
-    #     ProviderConfig,
-    #     SecurityConfig,
-    # )
-    BaseHealthcareProvider = object  # Placeholder
-    ProviderConfig = object  # Placeholder
-    SecurityConfig = object  # Placeholder
-except ImportError:
-    try:
-        # Fallback to relative imports for existing installations
-        from ....base_provider import (
-            BaseHealthcareProvider,
-            ProviderConfig,
-            SecurityConfig,
-        )
-    except ImportError:
-        # Mock fallback for development/testing
-        class BaseHealthcareProvider:
-            pass
-
-        class ProviderConfig:
-            def __init__(self, **kwargs):
-                for k, v in kwargs.items():
-                    setattr(self, k, v)
-
-        class SecurityConfig:
-            def __init__(self, **kwargs):
-                for k, v in kwargs.items():
-                    setattr(self, k, v)
+from products.security.healthcare_guardian.providers.templates.base_provider import (
+    BaseHealthcareProvider,
+    ProviderConfig,
+    SecurityConfig,
+)
 
 
 class ASISAHealthcareInterface(BaseHealthcareProvider):
