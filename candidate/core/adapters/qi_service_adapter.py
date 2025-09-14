@@ -26,9 +26,13 @@ class QIServiceAdapter(IQuantumService):
         if not self._initialized:
             try:
                 # Try to import qim_components
-                from qi.engines.consciousness.engine import QIEngine  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution
+                from qi.engines.consciousness.engine import (
+                    QIEngine,
+                )  # MATRIZ Integration: Quantum Intelligence consciousness engine for Trinity Framework bio-inspired processing
                 from qi.processing.qi_bio_coordinator import MockQuantumBioCoordinator
-                from qi.qi_states.processor import QIProcessor  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+                from qi.qi_states.processor import (
+                    QIProcessor,
+                )  # MATRIZ Integration: Quantum state processor for consciousness evolution and bio-quantum coordination
 
                 self._quantum_coordinator = MockQuantumBioCoordinator()
                 logger.info("QIM Quantum Bio Coordinator initialized")

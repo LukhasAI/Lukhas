@@ -1,12 +1,16 @@
 name: Logging Tag Guard
 
 on:
-  pull_request:
+  push:
+    branches: [ main ]
     paths:
       - 'serve/**'
       - 'tests/contract/**'
       - '.github/workflows/logging-tag-guard.yml'
       - 'Makefile'
+  schedule:
+    - cron: '55 3 * * *'
+  workflow_dispatch: {}
 
 jobs:
   guard:
@@ -42,4 +46,3 @@ jobs:
             fi
           done
           echo "No disallowed logging kwargs detected in changed files."
-

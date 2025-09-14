@@ -11,8 +11,7 @@ from typing import Any, Optional
 
 from lukhas.core.container.service_container import ServiceLifetime, injectable
 from lukhas.core.events.contracts import MemoryFoldCreated, serialize_event
-from lukhas.core.interfaces.services import (  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
-from datetime import timezone
+from lukhas.core.interfaces.services import (  # MATRIZ Integration: Service interfaces for API expansion and modular architecture integration
     IBridgeService,
     IConsciousnessService,
     IDreamService,

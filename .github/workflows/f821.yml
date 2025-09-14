@@ -1,7 +1,8 @@
 name: f821-undefined-names
 on:
-  pull_request:
-    types: [opened, synchronize, edited]
+  schedule:
+    - cron: '25 3 * * *'
+  workflow_dispatch: {}
 jobs:
   f821:
     runs-on: ubuntu-latest

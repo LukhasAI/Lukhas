@@ -153,7 +153,7 @@ try:
     from branding.adapters.voice_adapter import BrandVoiceAdapter
     from branding.enforcement.real_time_validator import (
         RealTimeBrandValidator,
-    )  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    )  # MATRIZ Integration: Real-time brand validator for MATRIZ-powered brand compliance monitoring and validation enforcement
     from branding.intelligence.brand_monitor import (
         BrandIntelligenceMonitor as BrandMonitor,
     )

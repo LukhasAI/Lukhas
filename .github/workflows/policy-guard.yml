@@ -1,0 +1,23 @@
+name: Policy Guard (CI Hygiene)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  guard-advanced-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Ensure advanced-testing.yml has no pull_request trigger
+        run: |
+          if [ -f .github/workflows/advanced-testing.yml ]; then
+            if grep -E "^\s*pull_request:" -n .github/workflows/advanced-testing.yml >/dev/null; then
+              echo "::error::advanced-testing.yml must not trigger on pull_request"; exit 1;
+            fi
+          fi

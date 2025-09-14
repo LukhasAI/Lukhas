@@ -5,11 +5,17 @@ on:
     branches: [ main, develop ]
   pull_request:
     branches: [ main, develop ]
+  merge_group:
+    types: [checks_requested]
+
+permissions:
+  contents: read
 
 jobs:
-  migration-check:
+  trinity-pr:
     runs-on: ubuntu-latest
     name: Check Trinity→Constellation Migration Status
+    timeout-minutes: 12
 
     steps:
     - uses: actions/checkout@v4
@@ -37,3 +43,14 @@ jobs:
         echo "3. Plan shim removal (2 releases after full conversion)" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "See \`PUBLIC_API.md\` for full migration details." >> $GITHUB_STEP_SUMMARY
+
+  trinity-main:
+    name: Enforce Migration on main
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    needs: [trinity-pr]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Trinity migration check (hard)
+        run: .github/scripts/check-trinity-migration.sh

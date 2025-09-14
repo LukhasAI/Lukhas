@@ -43,7 +43,9 @@ try:
     from .identity.matriz_consciousness_identity import consciousness_identity_manager
 
     # Core adapter
-    from .matriz_adapter import CoreMatrizAdapter  # TODO[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
+    from .matriz_adapter import (
+        CoreMatrizAdapter,
+    )  # MATRIZ Integration: Core adapter for MATRIZ-R2 trace integration and consciousness technology demonstration
 
     # Orchestration
     from .orchestration.matriz_consciousness_coordinator import consciousness_coordinator

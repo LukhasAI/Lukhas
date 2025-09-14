@@ -1,0 +1,12 @@
+# Pinned CI lockfile (prefer on main/nightly). Generated via pip freeze.
+# This is a minimal baseline for Critical Path jobs; Extended jobs may install extras.
+
+pytest==8.3.2
+pytest-asyncio==0.23.8
+pytest-cov==5.0.0
+coverage==7.6.1
+ruff==0.6.9
+mypy==1.11.2
+bandit==1.7.9
+import-linter==2.1
+codecov-cli==0.5.0

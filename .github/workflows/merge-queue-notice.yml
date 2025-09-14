@@ -1,0 +1,29 @@
+name: Merge Queue Notice
+
+on:
+  merge_group:
+    types: [checks_requested]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const {owner, repo} = context.repo;
+            const mg = context.payload.merge_group;
+            if (!mg) { core.info('No merge_group payload'); return; }
+            const headSha = mg.head_sha;
+            // Find the PR matching this head SHA
+            const prs = await github.paginate(github.rest.pulls.list, {owner, repo, state: 'open', per_page: 100});
+            const match = prs.find(pr => pr.head && pr.head.sha === headSha);
+            if (!match) { core.info('No matching PR for head_sha'); return; }
+            await github.rest.issues.createComment({
+              owner, repo, issue_number: match.number,
+              body: '⏳ This PR is in the **Merge Queue** (batch=1). The queue builds your changes as-if on `main`. It will merge automatically once checks pass.'
+            });

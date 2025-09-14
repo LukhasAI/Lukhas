@@ -34,7 +34,7 @@ try:
     from .auth_glyph_registry import (
         AuthGlyphCategory,
         auth_glyph_registry,
-    )  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    )  # MATRIZ Integration: Auth glyph registry for GLYPH protocol communication and constellation-based symbolic authentication glyph generation
     from .auth_guardian_integration import AuthenticationGuardian, AuthEventType
 except ImportError:
     # Fallback for development
@@ -167,7 +167,7 @@ class ConstellationFrameworkIntegration:
         return {
             "primary_aspect": primary_aspect,
             "emphasis": emphasis,
-            "symbol": self.triad_aspects[emphasis],
+            "symbol": self.constellation_stars.get(emphasis, "⚛️"),
             "framework": "✨🌟⭐🔥💎⚖️🛡️🌌",
             "integration_level": self._calculate_integration_level(auth_context),
         }

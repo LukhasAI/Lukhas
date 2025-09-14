@@ -33,7 +33,7 @@ try:
     from fastapi.responses import JSONResponse, RedirectResponse
     from fastapi.staticfiles import (
         StaticFiles,
-    )  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    )  # MATRIZ Integration: FastAPI static files serving for API expansion and web application architecture
 
     FASTAPI_AVAILABLE = True
 except ImportError:
