@@ -1,12 +1,9 @@
 name: Lint
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - "**/*.py"
-      - "pyproject.toml"
-      - ".ruff.toml"
+  schedule:
+    - cron: '20 3 * * *'
+  workflow_dispatch: {}
 
 jobs:
   lint:
