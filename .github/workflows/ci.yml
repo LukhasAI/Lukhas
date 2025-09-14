@@ -3,6 +3,10 @@ name: CI
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+    paths:
+      - "**/*.py"
+      - "requirements*.txt"
+      - "pyproject.toml"
   push:
     branches: [main]
   schedule:
@@ -236,8 +240,8 @@ jobs:
     timeout-minutes: 12
     permissions:
       contents: read
-    # Non-blocking on PRs; block on pushes and scheduled (main)
-    continue-on-error: ${{ github.event_name == 'pull_request' }}
+    # Do not run on PRs; block on pushes and scheduled (main)
+    if: github.event_name != 'pull_request'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
