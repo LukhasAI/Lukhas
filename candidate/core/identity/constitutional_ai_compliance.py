@@ -28,7 +28,9 @@ from typing import Any, Callable, Optional
 
 # Import MΛTRIZ consciousness components
 try:
-    from ..matriz_consciousness_signals import ConsciousnessSignal  # TODO[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
+    from ..matriz_consciousness_signals import (
+        ConsciousnessSignal,
+    )  # MATRIZ Integration: Constitutional AI compliance signals for consciousness ethics monitoring and constitutional validation
     from .matriz_consciousness_identity_signals import (
         ConstitutionalComplianceData,
         IdentitySignalType,

@@ -70,6 +70,24 @@ jobs:
           pip install coverage pytest-junitxml
           coverage run -m pytest -q -m "smoke" --junitxml=junit.xml || true
           coverage xml -o coverage.xml || true
+      - name: Summarize slowest tests (top 10)
+        if: always()
+        run: |
+          python - <<'PY'
+          import re, sys, os
+          p = 'junit.xml'
+          if not os.path.exists(p):
+              sys.exit(0)
+          text = open(p,'rb').read().decode('utf-8','ignore')
+          cases = re.findall(r'testcase [^>]*?name="([^"]+)"[^>]*?time="([\d\.]+)"', text)
+          top = sorted(((float(t), n) for n,t in cases), reverse=True)[:10]
+          out = ["Top slow tests (Critical Path):"]
+          for t,n in top:
+              out.append(f"{t:5.2f}s  {n}")
+          print('\n'.join(out))
+          with open(os.environ.get('GITHUB_STEP_SUMMARY','/dev/null'),'a') as f:
+              f.write('\n'.join(out) + '\n')
+          PY
       - uses: codecov/codecov-action@v4
         if: always()
         with:
@@ -130,6 +148,24 @@ jobs:
           pip install coverage pytest-junitxml
           coverage run -m pytest -q -m "smoke or ${{ matrix.marker }}" --junitxml=junit.xml || true
           coverage xml -o coverage.xml || true
+      - name: Summarize slowest tests (top 10)
+        if: always()
+        run: |
+          python - <<'PY'
+          import re, sys, os
+          p = 'junit.xml'
+          if not os.path.exists(p):
+              sys.exit(0)
+          text = open(p,'rb').read().decode('utf-8','ignore')
+          cases = re.findall(r'testcase [^>]*?name="([^"]+)"[^>]*?time="([\d\.]+)"', text)
+          top = sorted(((float(t), n) for n,t in cases), reverse=True)[:10]
+          out = ["Top slow tests (Optional shard):"]
+          for t,n in top:
+              out.append(f"{t:5.2f}s  {n}")
+          print('\n'.join(out))
+          with open(os.environ.get('GITHUB_STEP_SUMMARY','/dev/null'),'a') as f:
+              f.write('\n'.join(out) + '\n')
+          PY
       - name: Upload artifacts (failures only)
         if: failure()
         uses: actions/upload-artifact@v4
@@ -168,6 +204,27 @@ jobs:
           pytest -q -m "integration or e2e" --maxfail=1 --disable-warnings || exit 1
           coverage run --branch -m pytest -q -m "integration or e2e" --disable-warnings || true
           coverage xml -o coverage-extended.xml || true
+      - name: Summarize slowest tests (top 10)
+        if: always()
+        run: |
+          python - <<'PY'
+          import re, sys, os
+          p = 'coverage-extended.xml'  # junit may not exist here; skip
+          # if junit exists, prefer it
+          junit = 'junit.xml'
+          if os.path.exists(junit):
+              text = open(junit,'rb').read().decode('utf-8','ignore')
+          else:
+              sys.exit(0)
+          cases = re.findall(r'testcase [^>]*?name="([^"]+)"[^>]*?time="([\d\.]+)"', text)
+          top = sorted(((float(t), n) for n,t in cases), reverse=True)[:10]
+          out = ["Top slow tests (Extended):"]
+          for t,n in top:
+              out.append(f"{t:5.2f}s  {n}")
+          print('\n'.join(out))
+          with open(os.environ.get('GITHUB_STEP_SUMMARY','/dev/null'),'a') as f:
+              f.write('\n'.join(out) + '\n')
+          PY
       - name: Upload artifacts (failures only)
         if: failure()
         uses: actions/upload-artifact@v4
@@ -222,6 +279,24 @@ jobs:
           pip install coverage pytest-junitxml
           coverage run -m pytest -q -m "integration or e2e or ${{ matrix.marker }}" --junitxml=junit.xml || true
           coverage xml -o coverage.xml || true
+      - name: Summarize slowest tests (top 10)
+        if: always()
+        run: |
+          python - <<'PY'
+          import re, sys, os
+          p = 'junit.xml'
+          if not os.path.exists(p):
+              sys.exit(0)
+          text = open(p,'rb').read().decode('utf-8','ignore')
+          cases = re.findall(r'testcase [^>]*?name="([^"]+)"[^>]*?time="([\d\.]+)"', text)
+          top = sorted(((float(t), n) for n,t in cases), reverse=True)[:10]
+          out = ["Top slow tests (Optional full):"]
+          for t,n in top:
+              out.append(f"{t:5.2f}s  {n}")
+          print('\n'.join(out))
+          with open(os.environ.get('GITHUB_STEP_SUMMARY','/dev/null'),'a') as f:
+              f.write('\n'.join(out) + '\n')
+          PY
       - name: Upload artifacts (failures only)
         if: failure()
         uses: actions/upload-artifact@v4

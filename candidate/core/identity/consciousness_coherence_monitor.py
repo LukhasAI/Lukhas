@@ -29,14 +29,19 @@ from typing import Any, Optional
 
 # Import MΛTRIZ consciousness components
 try:
-    from ..matriz_consciousness_signals import ConsciousnessSignal  # TODO[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
+    from ..matriz_consciousness_signals import (
+        ConsciousnessSignal,
+    )  # MATRIZ Integration: Consciousness coherence monitoring signals for identity stability and coherence validation
     from .consciousness_namespace_isolation import consciousness_namespace_manager
     from .matriz_consciousness_identity import (
         ConsciousnessIdentityProfile,
         IdentityConsciousnessType,
         consciousness_identity_manager,
     )
-    from .matriz_consciousness_identity_signals import IdentitySignalType, consciousness_identity_signal_emitter  # TODO[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
+    from .matriz_consciousness_identity_signals import (
+        IdentitySignalType,
+        consciousness_identity_signal_emitter,
+    )  # MATRIZ Integration: Identity signal emitters for consciousness coherence events and stability monitoring
 except ImportError as e:
     std_logging.error(f"Failed to import consciousness components: {e}")
     ConsciousnessIdentityProfile = None

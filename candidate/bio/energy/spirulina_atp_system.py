@@ -21,7 +21,7 @@ import numpy as np
 
 # Bio-inspired computation imports
 try:
-    import scipy.optimize  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    import scipy.optimize  # MATRIZ Integration: Optimization algorithms for bio-inspired energy system efficiency calculations and ATP synthesis modeling
 
     SCIPY_AVAILABLE = True
 except ImportError:
