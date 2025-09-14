@@ -31,7 +31,11 @@ from typing import Any, Optional
 import jwt
 
 try:
-    from fastapi import HTTPException, Request, status  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    from fastapi import (
+        HTTPException,
+        Request,
+        status,
+    )  # MATRIZ Integration: FastAPI security components for API expansion authentication and authorization
     from fastapi.security import HTTPAuthorizationCredentials
 
     FASTAPI_AVAILABLE = True

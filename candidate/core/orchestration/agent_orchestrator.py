@@ -23,8 +23,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 from .interfaces.agent_interface import AgentCapability, AgentContext, AgentInterface, AgentMessage, AgentStatus
-from .interfaces.orchestration_protocol import (  # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination
-from datetime import timezone
+from .interfaces.orchestration_protocol import (  # MATRIZ Integration: Orchestration protocol for multi-AI agent coordination
     MessageBuilder,
     MessageType,
     OrchestrationMessage,

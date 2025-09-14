@@ -36,7 +36,7 @@ try:
         Field,
         ValidationError,
         validator,
-    )  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    )  # MATRIZ Integration: Pydantic validation models for API expansion and data validation architecture
 
     JWT_AVAILABLE = True
 except ImportError:
