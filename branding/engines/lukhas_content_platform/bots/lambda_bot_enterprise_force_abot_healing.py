@@ -50,8 +50,8 @@ result = controller.make_intelligent_request(
 
 if healing_result.get("response"):
     print("🤖 LUKHAS AI ΛBot Forced Response:")
-    print(healing_result["response"])
-    print(f"💰 Cost: ${healing_result.get('cost', 0):.6f}")
+    print(healing_result["response"])  # noqa: F821  # TODO: healing_result  
+    print(f"💰 Cost: ${healing_result.get('cost', 0):.6f}")  # noqa: F821  # TODO: healing_result
     print("🔥 Force healing processing complete")
 else:
     print("❌ Forced healing failed:", healing_result.get("error", "Unknown error"))

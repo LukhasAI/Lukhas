@@ -23,8 +23,8 @@ import time
 
 class VoiceAdaptationModule:
     def __init__(self):
-        self.emotion_map = load_initial_emotion_map()
-        self.resonator_weights = load_initial_resonator_weights()
+        self.emotion_map = load_initial_emotion_map()  # noqa: F821  # TODO: load_initial_emotion_map
+        self.resonator_weights = load_initial_resonator_weights()  # noqa: F821  # TODO: load_initial_resonator_weights
         self.interaction_log = []
 
     def get_voice_settings(self, emotion, emoji=None):

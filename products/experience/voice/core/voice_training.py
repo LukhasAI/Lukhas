@@ -18,7 +18,7 @@ from typing import Any, Callable, Optional
 
 import numpy as np
 
-from candidate.core.common.glyph import GLYPHToken, GLYPHSymbol, create_glyph
+from candidate.core.common.glyph import GLYPHSymbol, create_glyph
 from candidate.core.common.logger import get_logger
 from candidate.governance.guardian import GuardianValidator
 from candidate.voice.audio_processing import AudioBuffer
@@ -364,7 +364,7 @@ class LUKHASVoiceTrainer:
                 data=audio_data,
                 sample_rate=sample_rate,
                 channels=1,
-                format=AudioFormat.FLOAT_32,
+                format=AudioFormat.FLOAT_32,  # noqa: F821  # TODO: AudioFormat
             )
 
             # Convert to bytes for analytics
@@ -400,15 +400,20 @@ class LUKHASVoiceTrainer:
             self.training_data.append(training_sample)
 
             # Create GLYPH event
-            glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
-                "voice.training.sample_added",
+            glyph_token = create_glyph(
+                GLYPHSymbol.CREATE,
+                "voice_pipeline",
+                "consciousness",
                 {
-                    "speaker_id": speaker_id,
-                    "duration": duration,
-                    "quality_score": training_sample.quality_score,
-                    "total_samples": len(self.training_data),
+                    "voice.training.sample_added",
+                    {
+                        "speaker_id": speaker_id,
+                        "duration": duration,
+                        "quality_score": training_sample.quality_score,
+                        "total_samples": len(self.training_data),
+                    },
                 },
-            })
+            )
 
             self.logger.info(
                 f"Added training sample: {speaker_id} ({duration:.2f}s, quality: {training_sample.quality_score:.2f})"
@@ -494,12 +499,17 @@ class LUKHASVoiceTrainer:
             self.model = MockVoiceTrainingModel(self.config)
 
             # Create GLYPH event
-        glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
-                "voice.training.started",
+            glyph_token = create_glyph(
+                GLYPHSymbol.CREATE,
+                "voice_pipeline",
+                "consciousness",
                 {
-                    "objective": self.config.objective.value,
-                    "training_samples": len(self.training_data),
-                    "config": self.config.to_dict(),
+                    "voice.training.started",
+                    {
+                        "objective": self.config.objective.value,
+                        "training_samples": len(self.training_data),
+                        "config": self.config.to_dict(),
+                    },
                 },
             )
 
@@ -577,12 +587,17 @@ class LUKHASVoiceTrainer:
             final_metrics = await self._evaluate_model(val_loader)
 
             # Create GLYPH event
-        glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
-                "voice.training.completed",
+            glyph_token = create_glyph(
+                GLYPHSymbol.CREATE,
+                "voice_pipeline",
+                "consciousness",
                 {
-                    "final_metrics": final_metrics.to_dict(),
-                    "total_epochs": len(self.training_metrics),
-                    "best_validation_loss": best_val_loss,
+                    "voice.training.completed",
+                    {
+                        "final_metrics": final_metrics.to_dict(),
+                        "total_epochs": len(self.training_metrics),
+                        "best_validation_loss": best_val_loss,
+                    },
                 },
             )
 
@@ -593,9 +608,14 @@ class LUKHASVoiceTrainer:
             self.logger.error(f"Voice training failed: {e!s}")
 
             # Create GLYPH event
-        glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
-                "voice.training.failed",
-                {"error": str(e), "stage": self.current_stage.value},
+            glyph_token = create_glyph(
+                GLYPHSymbol.CREATE,
+                "voice_pipeline",
+                "consciousness",
+                {
+                    "voice.training.failed",
+                    {"error": str(e), "stage": self.current_stage.value},
+                },
             )
 
             return False

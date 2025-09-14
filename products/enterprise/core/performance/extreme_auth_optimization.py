@@ -59,7 +59,7 @@ except ImportError:
 
 
 try:
-    import lz4.frame as _  # Ultra-fast compression for large payloads
+    import lz4.frame as _  # Ultra-fast compression for large payloads  # noqa: F401  # TODO: lz4.frame; consider using impo...
 
     COMPRESSION_AVAILABLE = True
 except ImportError:

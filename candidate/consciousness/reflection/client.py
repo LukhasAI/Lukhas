@@ -656,7 +656,7 @@ class Client(BaseClient):
 
         if http2:
             try:
-                import h2
+                import h2  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
             except ImportError:  # pragma: no cover
                 raise ImportError(
                     "Using http2=True, but the 'h2' package is not installed. "
@@ -1358,7 +1358,7 @@ class AsyncClient(BaseClient):
 
         if http2:
             try:
-                import h2
+                import h2  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
             except ImportError:  # pragma: no cover
                 raise ImportError(
                     "Using http2=True, but the 'h2' package is not installed. "

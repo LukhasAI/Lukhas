@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import logging
-import streamlit as st
-import time
+
 logger = logging.getLogger(__name__)
 """
 Bio-Symbolic Coherence Monitor
@@ -507,7 +506,7 @@ class BioSymbolicCoherenceMonitor:
         return CoherenceMeasurement(
             metric_type=CoherenceMetric.LEARNING_INTEGRATION,
             coherence_score=coherence_score,
-            bio_component_state={"learning_hormones": {"dopamine": dopamine, "serotonin": serotonin},
+            bio_component_state={"learning_hormones": {"dopamine": dopamine, "serotonin": serotonin}},
             symbolic_component_state={"memory_ops": memory_operations},
             alignment_factors=alignment_factors,
             misalignment_factors=misalignment_factors,

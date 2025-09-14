@@ -1,0 +1,230 @@
+# Jules-04: Governance & Ethics Test Specification
+agent_id: "Jules-04"
+priority: "HIGH"
+tier: "tier2"
+estimated_tests: 18
+
+# Module Assignment
+modules:
+  primary:
+    - "candidate/governance/ethics/enhanced_ethical_guardian.py"
+    - "lukhas/governance/ethics/constitutional_ai.py"
+    - "candidate/governance/consent/consent_manager.py"
+    - "candidate/governance/guardian_system_integration.py"
+  
+  supporting:
+    - "lukhas/governance/security/"
+    - "candidate/governance/compliance/"
+    - "candidate/governance/ethics/"
+
+# Test Requirements
+tests:
+  ethics_validation:
+    - name: "test_ethical_decision_making"
+      description: "Test ethical decision validation system"
+      input: {"decision": "object", "ethical_context": "object", "rules": "array"}
+      expected: {"ethical_score": "number", "approval": "bool", "reasoning": "string"}
+      tags: ["tier2", "ethics", "critical"]
+    
+    - name: "test_constitutional_ai_compliance"
+      description: "Test constitutional AI principle adherence"
+      input: {"action": "object", "constitutional_principles": "array"}
+      expected: {"compliant": "bool", "violations": "array", "recommendations": "array"}
+      tags: ["tier2", "ethics", "governance"]
+    
+    - name: "test_guardian_system_integration"
+      description: "Test integration with Guardian System v1.0.0"
+      input: {"guardian_request": "object", "context": "object"}
+      expected: {"guardian_response": "object", "validation_passed": "bool"}
+      tags: ["tier2", "guardian", "integration"]
+
+  compliance_management:
+    - name: "test_gdpr_compliance_validation"
+      description: "Test GDPR compliance checking"
+      input: {"data_processing": "object", "consent_status": "object"}
+      expected: {"gdpr_compliant": "bool", "violations": "array", "required_actions": "array"}
+      tags: ["tier2", "gdpr", "compliance"]
+    
+    - name: "test_consent_management_flow"
+      description: "Test user consent management lifecycle"
+      input: {"user_id": "string", "consent_request": "object", "data_types": "array"}
+      expected: {"consent_granted": "bool", "consent_id": "string", "expiry": "datetime"}
+      tags: ["tier2", "consent", "privacy"]
+    
+    - name: "test_regulatory_validation"
+      description: "Test regulatory compliance validation"
+      input: {"regulation": "string", "action": "object", "jurisdiction": "string"}
+      expected: {"compliant": "bool", "compliance_score": "number", "recommendations": "array"}
+      tags: ["tier2", "compliance", "regulatory"]
+
+  monitoring_systems:
+    - name: "test_ethics_violation_detection"
+      description: "Test real-time ethics violation detection"
+      input: {"activity": "object", "ethical_rules": "array", "context": "object"}
+      expected: {"violation_detected": "bool", "severity": "string", "alert_triggered": "bool"}
+      tags: ["tier2", "monitoring", "ethics"]
+    
+    - name: "test_compliance_reporting"
+      description: "Test automated compliance reporting"
+      input: {"reporting_period": "object", "regulations": "array"}
+      expected: {"report": "object", "compliance_status": "string", "issues": "array"}
+      tags: ["tier2", "reporting", "compliance"]
+    
+    - name: "test_audit_trail_generation"
+      description: "Test comprehensive audit trail creation"
+      input: {"actions": "array", "time_period": "object", "audit_scope": "string"}
+      expected: {"audit_trail": "array", "integrity_verified": "bool", "completeness": "number"}
+      tags: ["tier2", "audit", "governance"]
+
+# Performance Requirements
+performance:
+  ethics_validation: "< 100ms p95"
+  compliance_check: "< 50ms p95"
+  consent_processing: "< 200ms p95"
+  audit_generation: "< 2s p95"
+
+# Quality Requirements
+quality:
+  ethics_accuracy: "> 95%"
+  compliance_detection: "> 98%"
+  false_positive_rate: "< 2%"
+
+# Coverage Targets
+coverage:
+  line_coverage: 85%
+  branch_coverage: 80%
+  ethics_scenarios: 90%
+
+# Dependencies
+dependencies:
+  - "pytest"
+  - "pytest-asyncio"
+  - "cryptography"
+  - "jsonschema"
+  - "sqlalchemy"
+
+# Test Environment
+environment:
+  database: "postgresql_test"
+  encryption: "test_keys"
+  audit_storage: "mock_storage"
+
+# Success Criteria
+success_criteria:
+  - "All ethical validation tested"
+  - "GDPR/CCPA compliance verified"
+  - "Guardian system integration functional"
+  - "Audit trails comprehensive"
+  - "Performance targets achieved"
+
+# Deliverables
+deliverables:
+  - "tests/unit/governance/ethics/"
+  - "tests/integration/governance/compliance/"
+  - "tests/security/governance/"
+  - "Ethics compliance report"
+  - "Guardian system validation"
+
+# --- T4 Governance Rails ----------------------------------------------------
+
+governance:
+  owner: "Lead—Governance & Ethics"
+  reviewers:
+    - "Security Lead"
+    - "Privacy Officer"
+    - "Trinity Steward"
+  determinism:
+    env:
+      TZ: "UTC"
+      PYTHONHASHSEED: "0"
+      NUMBA_DISABLE_JIT: "1"
+    pytest_addopts: "-q -ra -s --maxfail=1 --strict-markers --durations=10"
+  quarantine_policy:
+    marker: "quarantine"
+    rule: "Runs in CI; merge blocked if a quarantined test fails twice"
+  import_laws:
+    - law: "Nothing may import quarantine/"
+    - law: "Production must not import candidate/"
+  provenance_header:
+    required: true
+    fields: ["model", "temperature", "timeout", "timestamp"]
+
+invariants:
+  - name: "No PII leakage"
+    rule: "Governance/ethics modules must not emit raw personal data"
+    check: "scan redaction before assertions; synthetic fixtures only"
+  - name: "Audit trail immutability"
+    rule: "Audit records are append-only and hash-linked"
+    check: "create→hash→append; mutation must fail"
+  - name: "Consent monotonicity"
+    rule: "Revocation reduces, never increases, effective permissions"
+    check: "property-based test across action matrix"
+  - name: "Constitutional explainability"
+    rule: "Every deny/allow has an associated principle and rationale"
+    check: "jsonschema with `principle_id` and `rationale`"
+  - name: "Key hygiene"
+    rule: "Only test keys from ops/fixtures/keys are loadable in tests"
+    check: "os.environ guards; fail on non-fixture path"
+
+artifacts:
+  reports_dir: "reports/tests/governance"
+  coverage_bucket: "tier2/governance"
+  audit_json: "reports/tests/governance/audit_samples.json"
+  timings_json: "reports/tests/governance/timings.json"
+
+goldens:
+  required: true
+  locations:
+    - "tests/golden/tier2/governance/decisions/*.json"
+  schema_min:
+    type: "object"
+    required: ["decision_id", "subject_id", "action", "resource", "principle_id", "verdict", "rationale", "timestamp"]
+    properties:
+      decision_id: {type: "string"}
+      subject_id:  {type: "string"}
+      action:      {type: "string"}
+      resource:    {type: "string"}
+      principle_id:{type: "string"}
+      verdict:     {type: "string", enum: ["allow","deny"]}
+      rationale:   {type: "string"}
+      timestamp:   {type: ["string","number"]}
+
+acceptance:
+  - "All tests in this spec pass on CI with deterministic env"
+  - "Governance goldens validated against schema_min"
+  - "Coverage (tier2/governance) ≥ 85% line / 80% branch"
+  - "No import-linter violations for governance boundaries"
+  - "PII-leak scanner clean for artifacts/"
+  - "Audit trail immutability invariant enforced"
+
+runbook:
+  fast_loop: |
+    TZ=UTC PYTHONHASHSEED=0 pytest -m "tier2 and (ethics or governance) and not quarantine" -q
+  coverage: |
+    TZ=UTC PYTHONHASHSEED=0 pytest -m "tier2 and governance and not quarantine" --cov=lukhas --cov-branch --cov-report=xml:reports/tests/governance/cov.xml
+  goldens_only: |
+    pytest -k "golden and governance" -q
+  mutate_sample: |
+    mutmut run --paths-to-mutate lukhas/governance/ethics --runner "pytest -m 'tier2 and ethics' -q" --CI --disable-coverage
+
+ownership:
+  primary: "Governance Team"
+  escalation:
+    - "Security Architecture"
+    - "Legal/Privacy"
+    - "Trinity Council"
+
+risks:
+  - "Ambiguous policy text → flaky tests (mitigate with goldens + schema)"
+  - "Over-mocking ethics engines → false green (prefer contract tests)"
+  - "Time skew in audit timestamps (lock TZ=UTC)"
+
+out_of_scope:
+  - "Real-world regulatory interpretations beyond codified rules"
+  - "Production key material or live data sources"
+
+agent_prompts:
+  codex: |
+    You are Jules-04 operating under T4 governance rails. Implement tests strictly under this YAML. Prefer contract/golden tests, avoid heavy mocking. Maintain determinism env and write artifacts under reports/tests/governance. Respect import laws.
+  claude: |
+    Act as a meticulous governance QA. For each added test, include a brief rationale referencing a constitutional or compliance principle. Refactor tests toward property-based checks where practical. Tag flaky candidates with @pytest.mark.quarantine and open an issue with seed + trace.

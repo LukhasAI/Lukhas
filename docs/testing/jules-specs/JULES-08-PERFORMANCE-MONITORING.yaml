@@ -1,0 +1,242 @@
+# Jules-08: Performance & Monitoring Test Specification
+agent_id: "Jules-08"
+priority: "MEDIUM"
+tier: "tier3"
+estimated_tests: 10
+
+# Module Assignment
+modules:
+  primary:
+    - "candidate/aka_qualia/metrics.py"
+    - "lukhas/core/distributed_tracing.py"
+    - "candidate/tools/performance_monitor.py"
+    - "lukhas/core/observability/"
+  
+  supporting:
+    - "candidate/aka_qualia/observability/"
+    - "candidate/monitoring/"
+    - "lukhas/core/metrics/"
+    - "candidate/tools/profiling/"
+
+# Test Requirements
+tests:
+  performance_monitoring:
+    - name: "test_metrics_collection"
+      description: "Test comprehensive metrics collection system"
+      input: {"metric_sources": "array", "collection_interval": "number", "aggregation_rules": "object"}
+      expected: {"metrics_collected": "array", "collection_successful": "bool", "data_integrity": "bool"}
+      tags: ["tier3", "performance", "metrics"]
+    
+    - name: "test_performance_benchmarks"
+      description: "Test automated performance benchmarking"
+      input: {"benchmark_suite": "array", "baseline_metrics": "object", "performance_targets": "object"}
+      expected: {"benchmark_results": "object", "targets_met": "bool", "performance_regression": "bool"}
+      tags: ["tier3", "performance", "benchmarks"]
+    
+    - name: "test_resource_utilization"
+      description: "Test system resource utilization monitoring"
+      input: {"resource_types": "array", "monitoring_duration": "number", "threshold_config": "object"}
+      expected: {"utilization_data": "object", "thresholds_exceeded": "array", "optimization_suggestions": "array"}
+      tags: ["tier3", "performance", "resources"]
+
+  distributed_tracing:
+    - name: "test_trace_propagation"
+      description: "Test distributed trace propagation across services"
+      input: {"trace_context": "object", "service_chain": "array", "propagation_headers": "object"}
+      expected: {"trace_propagated": "bool", "context_preserved": "bool", "trace_id_consistent": "bool"}
+      tags: ["tier3", "tracing", "distributed"]
+    
+    - name: "test_span_creation"
+      description: "Test span creation and lifecycle management"
+      input: {"operation": "string", "span_context": "object", "tags": "object"}
+      expected: {"span_created": "bool", "span_id": "string", "timing_accurate": "bool"}
+      tags: ["tier3", "tracing", "spans"]
+    
+    - name: "test_distributed_debugging"
+      description: "Test distributed debugging capabilities"
+      input: {"error_context": "object", "trace_data": "array", "debugging_session": "object"}
+      expected: {"error_traced": "bool", "root_cause_identified": "bool", "debugging_data": "object"}
+      tags: ["tier3", "tracing", "debugging"]
+
+  observability:
+    - name: "test_prometheus_integration"
+      description: "Test Prometheus metrics integration"
+      input: {"metric_definitions": "array", "scrape_config": "object", "alert_rules": "array"}
+      expected: {"metrics_exposed": "bool", "prometheus_compatible": "bool", "alerts_configured": "bool"}
+      tags: ["tier3", "observability", "prometheus"]
+    
+    - name: "test_dashboard_generation"
+      description: "Test automated dashboard generation"
+      input: {"dashboard_config": "object", "data_sources": "array", "visualization_rules": "object"}
+      expected: {"dashboard_created": "bool", "visualizations_accurate": "bool", "real_time_updates": "bool"}
+      tags: ["tier3", "observability", "dashboards"]
+    
+    - name: "test_alert_mechanisms"
+      description: "Test intelligent alerting mechanisms"
+      input: {"alert_conditions": "array", "notification_channels": "array", "escalation_rules": "object"}
+      expected: {"alerts_triggered": "array", "notifications_sent": "bool", "escalation_followed": "bool"}
+      tags: ["tier3", "observability", "alerts"]
+
+  profiling_analysis:
+    - name: "test_performance_profiling"
+      description: "Test automated performance profiling"
+      input: {"profiling_target": "string", "profiling_duration": "number", "profile_types": "array"}
+      expected: {"profile_data": "object", "bottlenecks_identified": "array", "optimization_recommendations": "array"}
+      tags: ["tier3", "profiling", "analysis"]
+
+# Performance Requirements
+performance:
+  metrics_collection: "< 10ms overhead"
+  trace_propagation: "< 1ms overhead"
+  dashboard_refresh: "< 2s p95"
+  alert_processing: "< 100ms p95"
+
+# Quality Requirements
+quality:
+  metrics_accuracy: "> 99%"
+  trace_completeness: "> 95%"
+  alert_precision: "> 90%"
+
+# Coverage Targets
+coverage:
+  line_coverage: 80%
+  branch_coverage: 75%
+  monitoring_scenarios: 85%
+
+# Dependencies
+dependencies:
+  - "pytest"
+  - "pytest-asyncio"
+  - "prometheus_client"
+  - "opentelemetry-api"
+  - "opentelemetry-sdk"
+  - "psutil"
+  - "memory_profiler"
+
+# Test Environment
+environment:
+  metrics_backend: "prometheus_test"
+  tracing_backend: "jaeger_test"
+  monitoring_stack: "mock_observability"
+
+# Success Criteria
+success_criteria:
+  - "All monitoring systems tested"
+  - "Performance benchmarks established"
+  - "Distributed tracing functional"
+  - "Observability stack validated"
+  - "Alert mechanisms reliable"
+
+# Deliverables
+deliverables:
+  - "tests/unit/observability/"
+  - "tests/performance/monitoring/"
+  - "tests/integration/tracing/"
+  - "Performance monitoring benchmarks"
+  - "Observability stack validation"
+
+# --- T4 Determinism & Policy (added) ---
+determinism:
+  env:
+    TZ: "UTC"
+    PYTHONHASHSEED: "0"
+    NUMBA_DISABLE_JIT: "1"
+  pytest:
+    addopts: ["-q", "-ra", "-s", "--maxfail=1", "--strict-markers", "--durations=10"]
+    markers_enforced: true  # tests without explicit tier/owner are rejected
+  flake_policy:
+    quarantine_marker: "quarantine"
+    fail_if_quarantine_fails_twice: true
+
+# --- T4 Perf/Observability Invariants (added) ---
+invariants:
+  metrics_clock_monotonic: true       # timing/ratelimit logic uses monotonic clock
+  labels_canonical: true              # metric names/labels must match canonical map
+  sampling_budget_respected: true     # tracing sampling never exceeds budget
+  pii_never_in_metrics: true          # no PII in labels/samples
+  span_parentage_consistent: true     # every span except roots has a valid parent
+  alert_rules_testable: true          # alert rules shipped with testable fixtures
+
+# --- T4 Golden Artifacts & Contracts (added) ---
+goldens:
+  contracts_dir: "tests/golden/tier1/observability/"
+  required_files:
+    - "contract_metrics_catalog.json"    # canonical metric names/labels/types
+    - "contract_trace_context.json"      # required trace headers & propagation rules
+    - "contract_alerts_smoke.json"       # minimal alert rules that must load
+  validators:
+    - name: "metrics_catalog_validator"
+      module: "tools/tests/validators/metrics_catalog_validator.py"
+      ensures:
+        - "metric names match ^[a-z_][a-z0-9_]*$"
+        - "labels only from approved set"
+    - name: "trace_context_validator"
+      module: "tools/tests/validators/trace_context_validator.py"
+      ensures:
+        - "w3c traceparent/tracestate present end-to-end"
+        - "span_id/trace_id lengths correct"
+
+# --- T4 Acceptance Gates (added) ---
+acceptance_gates:
+  - name: "lane_integrity"
+    check: "lint-imports"
+    must_pass: true
+  - name: "ruff_syntax"
+    check: "python3 -m ruff check --select E9,F63,F7,F82 lukhas candidate"
+    must_pass: true
+  - name: "observability_tier3_suite"
+    check: "TZ=UTC PYTHONHASHSEED=0 pytest -m 'tier3 and (performance or observability or tracing) and not quarantine' -q"
+    must_pass: true
+  - name: "golden_contracts"
+    check: "python3 tools/tests/validators/metrics_catalog_validator.py --dir tests/golden/tier1/observability && python3 tools/tests/validators/trace_context_validator.py --dir tests/golden/tier1/observability"
+    must_pass: true
+  - name: "perf_budget"
+    check: "python3 tools/tests/perf_budget.py --suite observability --max-seconds 120"
+    must_pass: false
+
+# --- T4 Runbook (added) ---
+runbook:
+  quick_checks:
+    - "make test-fast"
+    - "TZ=UTC PYTHONHASHSEED=0 pytest -m 'tier3 and (performance or observability)' -q"
+  local_debug:
+    - "pytest tests -k 'metrics or tracing or observability' -vv --maxfail=1"
+    - "python -m lukhas.core.distributed_tracing --selftest"
+  contract_smoke:
+    - "python3 tools/tests/validators/metrics_catalog_validator.py --one-shot"
+    - "python3 tools/tests/validators/trace_context_validator.py --one-shot"
+
+# --- T4 Ownership & Escalation (added) ---
+ownership:
+  codeowners:
+    - path: "lukhas/core/observability/"
+      owners: ["@LukhasAI/observability"]
+    - path: "lukhas/core/distributed_tracing.py"
+      owners: ["@LukhasAI/telemetry"]
+  escalation:
+    pager: "#matriz-oncall"
+    docs: "AUDIT/SYSTEM_MAP.md#observability"
+
+# --- T4 Risks & Out-of-Scope (added) ---
+risks:
+  - "High-cardinality label explosions causing memory/TSDB cost spikes"
+  - "Clock skew between nodes corrupting latency metrics"
+  - "Tracer/metrics exporters blocking request path"
+out_of_scope:
+  - "Real TSDB load/perf benchmarking"
+  - "Vendor-specific APM features beyond OpenTelemetry"
+
+# --- T4 Agent Prompts (added) ---
+agent_prompts:
+  jules08_system_prompt: |
+    You own performance & monitoring tests. Enforce invariants: monotonic clocks, canonical labels, no-PII, consistent span parentage.
+    Prefer contract/golden tests for metrics catalogs and trace propagation. Simulate failures deterministically; avoid sleeping in tests.
+  jules08_task_prompt: |
+    Implement tests listed under `tests:` ensuring golden validators pass and acceptance gates remain green.
+    If implementations diverge from contracts, open an issue tagged `observability:contract-gap` with evidence.
+
+# --- T4 Metadata (added) ---
+metadata:
+  schema_version: 1
+  last_updated_by: "T4-lens"
+  last_updated_at: "{{AUTO-UPDATE-ON-COMMIT}}"

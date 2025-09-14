@@ -14,7 +14,7 @@ from typing import Any, Optional, Union
 
 import numpy as np
 
-from candidate.core.common.glyph import GLYPHToken, GLYPHSymbol, create_glyph
+from candidate.core.common.glyph import GLYPHSymbol, create_glyph
 from candidate.core.common.logger import get_logger
 from candidate.governance.guardian import GuardianValidator
 
@@ -286,7 +286,12 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
             }
 
             # Create GLYPH event
-        glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {"voice.modulation.completed", glyph_data)
+            glyph_token = create_glyph(
+                GLYPHSymbol.CREATE,
+                "voice_pipeline",
+                "consciousness",
+                {"event_type": "voice.modulation.completed", **glyph_data},
+            )
 
             return output_audio_data, {
                 "success": True,
@@ -298,9 +303,15 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
         except Exception as e:
             self.logger.error(f"Voice modulation failed: {e!s}")
             # Create GLYPH event
-        glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
-                "voice.modulation.error",
-                {"error": str(e), "parameters": parameters.to_dict()},
+            glyph_token = create_glyph(
+                GLYPHSymbol.CREATE,
+                "voice_pipeline",
+                "consciousness",
+                {
+                    "event_type": "voice.modulation.error",
+                    "error": str(e),
+                    "parameters": parameters.to_dict(),
+                },
             )
 
             return audio_data, {
@@ -613,7 +624,7 @@ class VoiceModulator:
         adapted_parameters = self._adapt_to_context(base_parameters, context)
 
         # Cache parameters for consistency
-        cache_key = f"{mode.value}_{hash(json.dumps(context, sort_keys=True)}"
+        cache_key = f"{mode.value}_{hash(json.dumps(context, sort_keys=True))}"
         self.parameter_cache[cache_key] = adapted_parameters
 
         return adapted_parameters

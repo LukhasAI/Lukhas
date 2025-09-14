@@ -38,7 +38,8 @@ LOG = REPORTS / "unused_imports.jsonl"
 WAIVERS = REPO / "AUDIT" / "waivers" / "unused_imports.yaml"
 
 # Production vs Experimental separation
-SKIP_DIRS = {".git", ".venv", "node_modules", "archive", "quarantine", "candidate", "reports"}
+SKIP_DIRS = {".git", ".venv", "node_modules", "archive", "quarantine", "reports"}
+# Note: candidate is excluded by default but can be explicitly included via --paths
 
 # T4 TODO system configuration
 HEADER_BLOCK = (
@@ -188,7 +189,7 @@ Examples:
         "--paths",
         nargs="+",
         default=["lukhas", "core", "api", "consciousness", "memory", "identity", "MATRIZ"],
-        help="Roots to scan (default: lukhas core api consciousness memory identity MATRIZ). 'candidate' is always skipped.",
+        help="Roots to scan (default: lukhas core api consciousness memory identity MATRIZ). Use --paths candidate for experimental code.",
     )
     parser.add_argument("--reason", default=None, help="Override reason text (default: smart contextual reasons)")
 
@@ -201,7 +202,7 @@ Examples:
     # Resolve and filter paths that actually exist; skip disallowed roots up-front
     valid_roots = []
     for path_arg in args.paths:
-        if path_arg.strip() in SKIP_DIRS or path_arg.strip() == "candidate":
+        if path_arg.strip() in SKIP_DIRS:
             print(f"⚪ Skipping excluded path: {path_arg}")
             continue
 

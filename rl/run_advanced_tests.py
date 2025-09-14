@@ -26,21 +26,21 @@ def check_dependencies() -> dict[str, bool]:
     dependencies = {}
 
     try:
-        import hypothesis
+        import hypothesis  # noqa: F401  # TODO: hypothesis; consider using imp...
 
         dependencies["hypothesis"] = True
     except ImportError:
         dependencies["hypothesis"] = False
 
     try:
-        import z3
+        import z3  # noqa: F401  # TODO: z3; consider using importlib.u...
 
         dependencies["z3"] = True
     except ImportError:
         dependencies["z3"] = False
 
     try:
-        import torch
+        import torch  # noqa: F401  # TODO: torch; consider using importli...
 
         dependencies["torch"] = True
     except ImportError:

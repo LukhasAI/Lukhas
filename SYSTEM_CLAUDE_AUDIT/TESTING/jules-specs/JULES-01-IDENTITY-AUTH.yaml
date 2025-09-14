@@ -1,0 +1,99 @@
+# Jules-01: Identity & Authentication Test Specification
+agent_id: "Jules-01"
+priority: "CRITICAL"
+tier: "tier1"
+estimated_tests: 25
+
+# Module Assignment
+modules:
+  primary:
+    - "lukhas/governance/identity/core/auth/"
+    - "candidate/governance/identity/auth_backend/"
+    - "lukhas/governance/security/access_control.py"
+    - "candidate/governance/identity/core/qrg/qrg_manager.py"
+  
+  supporting:
+    - "lukhas/governance/identity/__init__.py"
+    - "candidate/governance/security/consent_manager.py"
+
+# Test Requirements
+tests:
+  authentication:
+    - name: "test_user_login_success"
+      description: "Test successful user authentication"
+      input: {"username": "test_user", "password": "valid_password"}
+      expected: {"success": true, "token": "string", "expires_at": "datetime"}
+      tags: ["tier1", "critical", "security"]
+    
+    - name: "test_password_validation"
+      description: "Test password strength validation"
+      input: {"password": "string"}
+      expected: {"valid": "bool", "strength_score": "number", "requirements": "array"}
+      tags: ["tier1", "security"]
+    
+    - name: "test_session_management"
+      description: "Test user session lifecycle"
+      input: {"token": "string", "action": "string"}
+      expected: {"session_valid": "bool", "remaining_time": "number"}
+      tags: ["tier1", "critical"]
+  
+  authorization:
+    - name: "test_permission_checking"
+      description: "Test user permission validation"
+      input: {"user_id": "string", "resource": "string", "action": "string"}
+      expected: {"authorized": "bool", "permissions": "array"}
+      tags: ["tier1", "critical"]
+    
+    - name: "test_role_based_access"
+      description: "Test role-based access control"
+      input: {"user_role": "string", "resource": "string"}
+      expected: {"access_granted": "bool", "role_permissions": "array"}
+      tags: ["tier1", "security"]
+
+# Performance Requirements
+performance:
+  authentication_latency: "< 100ms p95"
+  token_generation: "< 50ms p95"
+  session_validation: "< 10ms p95"
+
+# Security Requirements  
+security:
+  password_hashing: "bcrypt or stronger"
+  token_encryption: "AES-256 minimum"
+  session_security: "HttpOnly, Secure, SameSite"
+
+# Coverage Targets
+coverage:
+  line_coverage: 85%
+  branch_coverage: 80%
+  critical_paths: 95%
+
+# Dependencies
+dependencies:
+  - "pytest"
+  - "pytest-asyncio"
+  - "cryptography"
+  - "bcrypt"
+  - "jwt"
+
+# Test Environment
+environment:
+  database: "sqlite_memory"
+  redis: "mock_redis"
+  external_apis: "mocked"
+
+# Success Criteria
+success_criteria:
+  - "All authentication flows tested"
+  - "Security vulnerabilities prevented" 
+  - "Performance targets met"
+  - "Error handling comprehensive"
+  - "Integration with governance systems"
+
+# Deliverables
+deliverables:
+  - "tests/unit/governance/identity/"
+  - "tests/integration/governance/identity/"
+  - "tests/security/authentication/"
+  - "Performance benchmarks"
+  - "Security test report"

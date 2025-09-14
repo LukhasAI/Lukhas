@@ -1,0 +1,39 @@
+module: orchestration
+description: Manages workflows and task orchestration
+version: 1.0.0
+tier: tier2
+tests:
+- name: test_workflow_management
+  description: Manage workflow execution
+  input:
+    workflow: object
+    parameters: object
+  expected:
+    execution_id: string
+    status: string
+  tags:
+  - tier2
+  - integration
+- name: test_task_scheduling
+  description: Schedule and coordinate tasks
+  input:
+    tasks: array
+    schedule: object
+  expected:
+    scheduled: bool
+    next_execution: string
+  tags:
+  - tier2
+  - integration
+metadata:
+  author: ''
+  created: ''
+  updated: ''
+  contract_ref: ''
+golden:
+  enabled: false
+  files: []
+  schema_ref: ''
+coverage:
+  line_rate_min: 0.8
+  branch_rate_min: 0.7

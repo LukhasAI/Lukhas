@@ -13,7 +13,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-from candidate.core.common.glyph import GLYPHToken, GLYPHSymbol, create_glyph
+from candidate.core.common.glyph import GLYPHSymbol, create_glyph
 from candidate.core.common.logger import get_logger
 from candidate.governance.guardian import GuardianValidator
 from candidate.voice.audio_processing import AudioBuffer, AudioFormat
@@ -631,10 +631,12 @@ class VoiceEffectsProcessor:
             result = await effect.apply(buffer, parameters)
 
             # Emit GLYPH event
-            # Create GLYPH event
-        glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
-                "voice.effect.applied",
+            glyph_token = create_glyph(
+                GLYPHSymbol.CREATE,
+                "voice_pipeline",
+                "consciousness",
                 {
+                    "event_type": "voice.effect.applied",
                     "effect_type": effect_type.value,
                     "intensity": parameters.intensity.value,
                     "mix": parameters.mix,
@@ -698,9 +700,12 @@ class VoiceEffectsProcessor:
 
         # Emit GLYPH event
         # Create GLYPH event
-        glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
-            "voice.preset.applied",
+        glyph_token = create_glyph(
+            GLYPHSymbol.CREATE,
+            "voice_pipeline",
+            "consciousness",
             {
+                "event_type": "voice.preset.applied",
                 "preset_name": preset_name,
                 "effects_count": len(effect_chain),
                 "intensity_override": (intensity_override.value if intensity_override else None),

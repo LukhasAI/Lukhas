@@ -1,0 +1,220 @@
+# Jules-03: Memory Systems Test Specification
+agent_id: "Jules-03"
+priority: "CRITICAL" 
+tier: "tier1"
+estimated_tests: 20
+
+# Governance (T4 rails)
+governance:
+  owner: "Jules-03"
+  reviewers: ["T4-Core", "Memory-Owners"]
+  lane: "tier1"
+  determinism:
+    env:
+      TZ: "UTC"
+      PYTHONHASHSEED: "0"
+      NUMBA_DISABLE_JIT: "1"
+    pytest:
+      addopts: "-q -ra -s --maxfail=1 --strict-markers --durations=10"
+  quarantine_policy:
+    enabled: true
+    rule: "quarantined tests run; if a quarantined test fails twice in a row, block merge"
+  ci:
+    import_laws: ["No cross-lane imports", "No dynamic candidate imports from tier1"]
+    contracts: ["Memory contracts kept", "No cycles touching memory.*"]
+  provenance:
+    require_patch_header: true
+    fields: ["model","temperature","timestamp","timeout"]
+
+# Invariants (must hold)
+invariants:
+  - "No test mutates global memory registry across tests (function-scoped fixtures only)."
+  - "All storage/retrieval operations round-trip JSON-serializable payloads."
+  - "Fold lineage is acyclic and each fold has a stable parent pointer or ROOT."
+  - "All cache interactions are idempotent under same key+payload."
+  - "No network/disk I/O without explicit fixture opt-in."
+
+# Artifacts & IDs
+artifacts:
+  priority_id: "MEM-T1"
+  coverage_bucket: "memory-core"
+  reports:
+    - "reports/tests/infra/collection.json"
+    - "reports/tests/cov.xml"
+    - "reports/tests/memory/latency.json"
+
+# Golden discipline
+golden:
+  required: true
+  location:
+    live: "reports/matriz/traces/"
+    tier1: "tests/golden/tier1/"
+  schema_min:
+    type: "object"
+    required: ["trace_id","timestamp"]
+    properties:
+      trace_id: {"type":"string"}
+      timestamp: {"type": ["string","number","integer"]}
+  notes: "At least one golden per public memory API (store, retrieve, search, fold)."
+
+# Acceptance gates
+acceptance:
+  - "Tier1 tests green on CI (no xfail left)."
+  - "Line coverage ≥ 90% and branch ≥ 85% for memory package."
+  - "p95 storage & retrieval latency under defined budgets."
+  - "Import-linter shows 0 violations for memory contracts."
+  - "No quarantined failures recorded in last two CI runs."
+
+# Runbook (fast loop)
+runbook:
+  fast_loop: |
+    TZ=UTC PYTHONHASHSEED=0 pytest -m "tier1 and memory and not quarantine" -q
+  coverage: |
+    TZ=UTC PYTHONHASHSEED=0 pytest -m "tier1 and memory" --cov=memory --cov-branch --cov-report=xml:reports/tests/cov.xml
+  golden_only: |
+    TZ=UTC PYTHONHASHSEED=0 pytest -m "tier1 and golden and memory" -q
+  mutation_sample: |
+    mutmut run --paths-to-mutate memory/ --runner "pytest -q -m 'tier1 and memory'"
+
+# Ownership & escalation
+ownership:
+  codeowners: ["@LukhasAI/memory","@LukhasAI/infra"]
+  escalation: ["#oncall-memory", "#t4-ci"]
+
+# Risks & mitigations
+risks:
+  - risk: "SQLite shared state across tests"
+    mitigation: "Per-test tmp DB fixture; PRAGMA foreign_keys=ON; WAL off."
+  - risk: "False-positive speedups due to OS cache"
+    mitigation: "Warm-up phase; report cold vs warm metrics."
+  - risk: "Dynamic imports bypass import-linter"
+    mitigation: "Static wrappers with _try_import audited; lane guard in CI."
+
+# Out of scope
+out_of_scope:
+  - "GPU-accelerated kernels"
+  - "Distributed memory backends"
+  - "Cross-process stress beyond smoke"
+
+# Agent prompts (for quick-start)
+agent_prompts:
+  codex: |
+    Implement unit tests for store/retrieve/fold with tmp SQLite + redis_mock. Enforce invariants and golden checks. Use markers: tier1, memory. Keep tests deterministic (set env).
+  claude: |
+    Generate integration tests for hierarchical storage and lineage. Add one golden JSON per API. Refactor fixtures to be function-scoped and avoid global mutation. Respect CI import laws.
+
+# Module Assignment
+modules:
+  primary:
+    - "candidate/memory/core/unified_memory_orchestrator.py"
+    - "candidate/memory/systems/memory_manager.py"
+    - "candidate/memory/folds/fold_engine.py"
+    - "memory/" # core memory module
+  
+  supporting:
+    - "candidate/memory/systems/helix_dna.py"
+    - "candidate/memory/learning/"
+    - "candidate/aka_qualia/memory.py"
+
+# Test Requirements
+tests:
+  memory_storage:
+    - name: "test_hierarchical_storage"
+      description: "Test hierarchical data storage system"
+      input: {"data": "object", "tier": "string", "metadata": "object"}
+      expected: {"stored": "bool", "storage_id": "string", "tier_assigned": "string"}
+      tags: ["tier1", "critical", "memory"]
+    
+    - name: "test_memory_fold_operations"
+      description: "Test memory fold creation and operations"
+      input: {"fold_data": "object", "fold_type": "string", "parent_fold": "string"}
+      expected: {"fold_created": "bool", "fold_id": "string", "lineage": "array"}
+      tags: ["tier1", "memory", "critical"]
+    
+    - name: "test_data_persistence"
+      description: "Test data persistence across sessions"
+      input: {"data": "object", "persistence_level": "string"}
+      expected: {"persisted": "bool", "retrieval_key": "string", "expiry": "datetime"}
+      tags: ["tier1", "memory"]
+
+  memory_retrieval:
+    - name: "test_key_based_retrieval"
+      description: "Test retrieval by key/ID"
+      input: {"key": "string", "retrieval_options": "object"}
+      expected: {"data": "object", "found": "bool", "metadata": "object"}
+      tags: ["tier1", "critical"]
+    
+    - name: "test_semantic_search"
+      description: "Test semantic memory search capabilities"
+      input: {"query": "string", "semantic_filters": "object", "limit": "number"}
+      expected: {"results": "array", "relevance_scores": "array", "total_found": "number"}
+      tags: ["tier1", "memory"]
+    
+    - name: "test_memory_lineage_tracking"
+      description: "Test memory evolution and lineage tracking"
+      input: {"memory_id": "string", "lineage_depth": "number"}
+      expected: {"lineage_chain": "array", "evolution_points": "array", "lineage_valid": "bool"}
+      tags: ["tier1", "memory"]
+
+  performance:
+    - name: "test_memory_optimization"
+      description: "Test memory usage optimization"
+      input: {"optimization_target": "string", "constraints": "object"}
+      expected: {"optimization_result": "object", "memory_saved": "number", "performance_impact": "number"}
+      tags: ["tier1", "performance"]
+    
+    - name: "test_compression_algorithms"
+      description: "Test memory compression efficiency"
+      input: {"data": "object", "compression_type": "string"}
+      expected: {"compressed_size": "number", "compression_ratio": "number", "decompression_time": "number"}
+      tags: ["tier1", "performance"]
+
+# Performance Requirements
+performance:
+  storage_latency: "< 10ms p95"
+  retrieval_latency: "< 5ms p95" 
+  search_latency: "< 100ms p95"
+  fold_operations: "< 50ms p95"
+
+# Memory Requirements
+memory_constraints:
+  max_memory_usage: "1GB"
+  cache_efficiency: "> 80%"
+  memory_leak_tolerance: "< 1MB/hour"
+
+# Coverage Targets
+coverage:
+  line_coverage: 90%
+  branch_coverage: 85%
+  memory_operations: 95%
+
+# Dependencies
+dependencies:
+  - "pytest"
+  - "pytest-asyncio"
+  - "sqlalchemy"
+  - "redis"
+  - "numpy"
+  - "psutil"
+
+# Test Environment
+environment:
+  database: "sqlite_test"
+  cache_backend: "redis_mock"
+  memory_limit: "512MB"
+
+# Success Criteria
+success_criteria:
+  - "All memory operations tested"
+  - "Hierarchical storage functional"
+  - "Memory folds working correctly"
+  - "Performance targets achieved"
+  - "Data integrity maintained"
+
+# Deliverables
+deliverables:
+  - "tests/unit/memory/"
+  - "tests/integration/memory/"
+  - "tests/performance/memory/"
+  - "Memory performance benchmarks"
+  - "Data integrity validation"

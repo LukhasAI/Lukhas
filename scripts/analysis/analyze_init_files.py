@@ -21,10 +21,14 @@ for root, dirs, files in os.walk("."):
             lines = []
             for line in content.split("\n"):
                 stripped = line.strip()
-                if stripped and not stripped.startswith(")  # ":
+                if stripped and not stripped.startswith("#"):
                     # Skip docstrings
-                    if not (stripped == '"""' or stripped == "'''" or
-                           stripped.startswith('"""') or stripped.startswith("'''")):
+                    if not (
+                        stripped == '"""'
+                        or stripped == "'''"
+                        or stripped.startswith('"""')
+                        or stripped.startswith("'''")
+                    ):
                         lines.append(line)
 
             # Check if it's empty or just imports __version__ etc
@@ -39,9 +43,9 @@ for root, dirs, files in os.walk("."):
                 meaningful_inits.append((init_path, len(lines)))
 
 print("=== SUMMARY ===")
-print(f"Empty/stub __init__.py files: {len(empty_inits}")
-print(f"Meaningful __init__.py files: {len(meaningful_inits}")
-print(f"Directories with ONLY stub __init__.py: {len(stub_only_dirs}")
+print(f"Empty/stub __init__.py files: {len(empty_inits)}")
+print(f"Meaningful __init__.py files: {len(meaningful_inits)}")
+print(f"Directories with ONLY stub __init__.py: {len(stub_only_dirs)}")
 
 print("\n=== Sample meaningful __init__.py files ===")
 for path, lines in sorted(meaningful_inits, key=lambda x: x[1], reverse=True)[:5]:
@@ -51,4 +55,4 @@ print("\n=== Stub-only directories (safe to remove) ===")
 for d in sorted(stub_only_dirs)[:20]:
     print(f"  {d}")
 if len(stub_only_dirs) > 20:
-    print(f"  ... and {len(stub_only_dirs} - 20} more")
+    print(f"  ... and {len(stub_only_dirs) - 20} more")

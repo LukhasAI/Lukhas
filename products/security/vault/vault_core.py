@@ -4,9 +4,6 @@ Lambda-enhanced secure vault system with symbolic identity rooting.
 
 Integrated from existing symbolic_vault.py implementations.
 """
-from consciousness.qi import qi
-import time
-import streamlit as st
 
 import hashlib
 import json
@@ -132,7 +129,7 @@ class LambdaVaultCore:
             trigger_type=trigger_type,
             trigger_hash=trigger_hash,
             confidence=0.0,
-            lambda_signature=f"Λ{trigger_type.upper()}[:2]}🔐",
+            lambda_signature=f"Λ{trigger_type.upper()[:2]}🔐",
             qi_entangled=qi_secure,
         )
 

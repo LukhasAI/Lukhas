@@ -1,0 +1,39 @@
+module: consciousness
+description: Core consciousness processing and awareness systems
+version: 1.0.0
+tier: tier1
+tests:
+- name: test_awareness_processing
+  description: Process consciousness awareness states
+  input:
+    state: object
+    context: object
+  expected:
+    processed_state: object
+    actions: array
+  tags:
+  - tier1
+  - critical
+- name: test_decision_making
+  description: Consciousness-driven decision making
+  input:
+    options: array
+    context: object
+  expected:
+    decision: object
+    reasoning: string
+  tags:
+  - tier1
+  - critical
+metadata:
+  author: ''
+  created: ''
+  updated: ''
+  contract_ref: ''
+golden:
+  enabled: false
+  files: []
+  schema_ref: ''
+coverage:
+  line_rate_min: 0.8
+  branch_rate_min: 0.7

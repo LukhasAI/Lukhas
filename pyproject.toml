@@ -11,7 +11,7 @@ authors = [
     {name = "LUKHAS AI", email = "contact@lukhas.ai"}
 ]
 readme = "README.md"
-license = {text = "MIT"}
+license = "MIT"
 keywords = ["ai", "consciousness", "cognitive-architecture", "constellation-framework"]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -49,6 +49,7 @@ dev = [
     "coverage>=7.3.0",
     "bandit>=1.7.5",
     "pre-commit>=3.4.0",
+    "PyJWT>=2.8.0",
 ]
 lambda = [
     "msgpack>=1.0.5",
@@ -75,14 +76,14 @@ Repository = "https://github.com/LukhasAI/Lukhas"
 Issues = "https://github.com/LukhasAI/Lukhas/issues"
 
 [tool.setuptools]
-packages = ["lukhas", "matriz"]
+packages = ["lukhas", "MATRIZ", "candidate", "branding"]
 
 [tool.pytest.ini_options]
 minversion = "8.0"
-testpaths = ["tests_new", "tests"]
+testpaths = ["tests"]
 pythonpath = ["."]
 python_files = ["test_*.py", "*_test.py"]
-python_classes = ["Test*"]
+python_classes = ["Test*"]  
 python_functions = ["test_*"]
 addopts = "-q --strict-markers --disable-warnings"
 markers = [
@@ -96,10 +97,26 @@ markers = [
     "datetime: Datetime UTC compliance tests",
     "imports: Import structure validation",
     "consciousness: Consciousness system tests",
+    "constellation: Constellation Framework tests",
     "tier1: fast, blocking MATRIZ smoke",
     "matriz: MATRIZ subsystem tests",
     "smoke: tiny health checks",
+    "critical: critical path tests",
+    "regression: regression tests",
+    "slow: slow running tests",
     "golden: deterministic trace tests",
+    "ablation: consciousness ablation tests",
+    "ethics: ethics validation tests",
+    "no_mock: tests requiring real dependencies",
+    "benchmark: performance benchmark tests",
+    "performance: performance tests",
+    "audit_safe: tests safe for audit environments",
+    "nias_transcendence: NIAS transcendence system tests",
+    "no_external_calls: tests that make no external API calls",
+    "fault: fault injection tests",
+    "perf: performance tests",
+    "adapters: external service adapter tests",
+    "oauth: OAuth integration tests",
 ]
 filterwarnings = [
     "ignore::DeprecationWarning",
@@ -227,19 +244,42 @@ max-returns = 3
 "MATRIZ/**" = ["UP007"]  # Keep Python 3.9 compatible union syntax
 
 [tool.mypy]
-python_version = "3.10"
-ignore_missing_imports = true
-follow_imports = "skip"
+python_version = "3.11"
+strict = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+no_implicit_optional = true
+disallow_any_generics = true
+disallow_subclassing_any = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+disallow_untyped_calls = true
+disallow_untyped_decorated_calls = true
+check_untyped_defs = true
+show_error_codes = true
+pretty = false
+color_output = false
+show_column_numbers = true
+# Core enforcement: lukhas, MATRIZ (strict)
+files = ["lukhas", "MATRIZ"]
+
+# Experimental/deferred areas get narrower checks or are excluded explicitly
+[[tool.mypy.overrides]]
+module = ["candidate.*", "archive.*", "quarantine.*", "tests.*", "tools.*"]
+ignore_errors = true
+
+# T4 Mutation Testing Configuration
+[tool.mutmut]
+paths = ["lukhas/", "candidate/"]
+tests_dir = "tests"
+runner = "pytest"
+timeout = 10
 exclude = [
-  "^agents/",
-  "^adapters/",
-  "^branding/",
-  "^candidate/",
-  "^dashboard/",
-  "^docs/",
-  "^enterprise/",
-  "^lambda_products/",
-  "^lukhas_website/",
-  "^node_modules/",
-  "^tools/templates/",
+    "tests/specs/",
+    "tests/fixtures/",
+    "__pycache__",
+    "*.pyc"
 ]
+report_only = true

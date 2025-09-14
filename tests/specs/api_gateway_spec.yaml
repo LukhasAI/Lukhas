@@ -1,0 +1,39 @@
+module: api_gateway
+description: API gateway and external interface management
+version: 1.0.0
+tier: tier3
+tests:
+- name: test_request_routing
+  description: Route API requests to appropriate services
+  input:
+    request: object
+    path: string
+  expected:
+    routed: bool
+    service: string
+  tags:
+  - tier3
+  - integration
+- name: test_rate_limiting
+  description: Apply rate limiting to API requests
+  input:
+    client_id: string
+    endpoint: string
+  expected:
+    allowed: bool
+    remaining: number
+  tags:
+  - tier3
+  - performance
+metadata:
+  author: ''
+  created: ''
+  updated: ''
+  contract_ref: ''
+golden:
+  enabled: false
+  files: []
+  schema_ref: ''
+coverage:
+  line_rate_min: 0.8
+  branch_rate_min: 0.7

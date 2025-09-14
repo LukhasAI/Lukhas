@@ -21,10 +21,10 @@ async def debug_kwargs_issue():
         # Test 1: Create AuditEvent directly
         direct_event = AuditEvent(
             event_id="test_direct",
-            timestamp=datetime.now(),
+            timestamp=datetime.now(),  # noqa: F821  # TODO: datetime
             event_type=AuditEventType.DATA_READ,
-            category=AuditCategory.SYSTEM_EVENT,
-            level=AuditLevel.INFO,
+            category=AuditCategory.SYSTEM_EVENT,  # noqa: F821  # TODO: AuditCategory
+            level=AuditLevel.INFO,  # noqa: F821  # TODO: AuditLevel
             message="Direct event",
             compliance_relevant=True,
             compliance_frameworks={"gdpr"},

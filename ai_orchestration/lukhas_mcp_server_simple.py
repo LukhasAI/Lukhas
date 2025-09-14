@@ -21,9 +21,6 @@ logger = logging.getLogger(__name__)
 # MCP imports
 try:
     from mcp.types import (
-        CallToolRequest,
-        ListResourcesRequest,
-        ListToolsRequest,
         Resource,
         TextContent,
         Tool,

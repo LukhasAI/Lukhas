@@ -7,6 +7,10 @@ The actual implementation is in lukhas.governance.identity, this is a bridge
 module for backwards compatibility with candidate modules.
 """
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 try:
     # Import from the actual implementation
     from lukhas.governance.identity import *
@@ -25,10 +29,8 @@ try:
         webauthn,
     )
 except ImportError as e:
-    # If lukhas.governance.identity is not available, provide error message
-    import warnings
-
-    warnings.warn(f"Could not import lukhas.governance.identity: {e}", ImportWarning, stacklevel=2)
+    # If lukhas.governance.identity is not available, log and provide a minimal stub
+    logger.warning(f"Could not import lukhas.governance.identity: {e}")
 
     # Provide minimal stub interface for development
     class IdentityStub:

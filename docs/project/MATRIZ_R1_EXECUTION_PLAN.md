@@ -73,6 +73,12 @@ Stream D (Syntax/Cycles) ── Waits for A+B merge
 
 Env override: `MATRIZ_TRACES_DIR` for runtime; default GOLD=`tests/golden/tier1`, LIVE=`reports/matriz/traces`.
 
+#### Acceptance Validation (2025-09-12)
+- Added golden trace: `tests/golden/tier1/trace_gold_0001.json`
+- Verified `GET /traces/latest` returns 200 with `trace_id` and `source: golden_fallback` when serving goldens
+- Tier‑1 test `tests/matriz/test_traces_tier1.py::test_latest_returns_json_with_trace_id` passes locally
+- Router now detects golden source even when GOLD is supplied via absolute env path
+
 ---
 
 ### Stream C — Security & SBOM ✅ **COMPLETE**

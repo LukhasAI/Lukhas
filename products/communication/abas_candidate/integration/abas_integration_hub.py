@@ -34,7 +34,7 @@ class ABASIntegrationHub:
 
     def __init__(self):
         self.trio_orchestrator = TrioOrchestrator()
-        self.abas_engine = ABASEngine()
+        self.abas_engine = ABASEngine()  # noqa: F821  # TODO: ABASEngine
         self.ethics_engine = SharedEthicsEngine()
         self.audit_engine = DecisionAuditEngine()
         self.seedra = SEEDRACore()

@@ -1,0 +1,102 @@
+agent: Jules-03
+module: memory_systems
+tier: tier1
+description: "Tests for core memory systems: Fold Engine, Advanced Memory Manager, and Unified Memory Orchestrator."
+version: 1.0.0
+
+# Contract references for these modules should be created if they don't exist.
+# For now, we will test the public interfaces as they are.
+contract_ref: "docs/contracts/memory_systems.md"
+
+golden:
+  enabled: false
+  files: []
+
+coverage:
+  line_rate_min: 0.80
+  branch_rate_min: 0.60
+
+tests:
+  - module: candidate.memory.folds.fold_engine
+    specs:
+      - name: test_memory_fold_creation
+        description: "Test the creation and initialization of a MemoryFold object."
+        input:
+          key: "test_key"
+          content: "test_content"
+          memory_type: "EPISODIC"
+          priority: "HIGH"
+        expected:
+          - "MemoryFold object is created with correct attributes."
+          - "Initial importance score is calculated correctly."
+        tags: [tier1, memory, critical, unit]
+
+      - name: test_memory_fold_update
+        description: "Test updating a MemoryFold's content and priority."
+        input:
+          new_content: "updated_content"
+          new_priority: "CRITICAL"
+        expected:
+          - "Content and priority are updated."
+          - "access_count and last_accessed_utc are updated."
+          - "importance_score is recalculated."
+        tags: [tier1, memory, critical, unit]
+
+      - name: test_agi_memory_add_and_get_fold
+        description: "Test adding a new fold to AGIMemory and retrieving it."
+        input:
+          fold: "A MemoryFold object"
+        expected:
+          - "The fold is added to the memory system."
+          - "The same fold can be retrieved by its key."
+        tags: [tier1, memory, critical, unit]
+
+  - module: candidate.memory.systems.memory_manager
+    specs:
+      - name: test_advanced_manager_initialization
+        description: "Test the initialization of AdvancedMemoryManager with mocked dependencies."
+        input:
+          base_memory_manager: "Mocked MemoryManager"
+          fold_engine_instance: "Mocked AGIMemory"
+        expected:
+          - "The manager initializes without errors."
+          - "Dependencies are correctly assigned."
+        tags: [tier1, memory, critical, unit]
+
+      - name: test_store_memory_with_mocks
+        description: "Test the store_memory method, ensuring it calls its dependencies."
+        input:
+          content: "some data"
+          memory_type: "SEMANTIC"
+        expected:
+          - "base_memory_manager.store is called once."
+          - "fold_engine.add_fold is called once."
+        tags: [tier1, memory, critical, unit]
+
+  - module: candidate.memory.core.unified_memory_orchestrator
+    specs:
+      - name: test_orchestrator_initialization
+        description: "Test the initialization of UnifiedMemoryOrchestrator."
+        input: {}
+        expected:
+          - "Orchestrator initializes correctly, handling missing components with fallbacks."
+        tags: [tier1, memory, critical, unit]
+
+      - name: test_encode_and_retrieve_hippocampal
+        description: "Test encoding a memory and retrieving it from the hippocampal buffer."
+        input:
+          content: "a new memory"
+          memory_type: "EPISODIC"
+        expected:
+          - "Memory is added to the hippocampal_buffer."
+          - "The memory can be retrieved by a query."
+        tags: [tier1, memory, critical, unit]
+
+      - name: test_consolidation_process
+        description: "Test the memory consolidation process from hippocampus to neocortex."
+        input:
+          memory_id: "id_of_a_hippocampal_memory"
+        expected:
+          - "Memory is moved from hippocampal_buffer to neocortical_network after consolidation."
+          - "Consolidation state of the memory trace is updated."
+        tags: [tier1, memory, critical, unit]
