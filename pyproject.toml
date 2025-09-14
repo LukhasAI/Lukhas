@@ -125,6 +125,7 @@ markers = [
     "perf: performance tests",
     "adapters: external service adapter tests",
     "oauth: OAuth integration tests",
+    "bio: bio-related tests",
 ]
 filterwarnings = [
     "ignore::DeprecationWarning",

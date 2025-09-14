@@ -16,7 +16,7 @@ Trinity Framework Integration: ⚛️🧠🛡️
 """
 
 import logging
-from typing import Optional  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+from typing import Dict, List, Optional, Union  # API expansion types
 
 # Import core API applications
 try:
@@ -55,6 +55,14 @@ except ImportError as e:
     feedback_app = None
     FEEDBACK_AVAILABLE = False
 
+try:
+    from .expansion_api import app as expansion_app
+    EXPANSION_AVAILABLE = True
+except ImportError as e:
+    logging.warning(f"API Expansion not available: {e}")
+    expansion_app = None
+    EXPANSION_AVAILABLE = False
+
 # API Registry
 API_REGISTRY = {
     "consciousness_chat": {
@@ -77,22 +85,27 @@ API_REGISTRY = {
         "available": FEEDBACK_AVAILABLE,
         "description": "User feedback collection and processing",
     },
+    "expansion": {
+        "app": expansion_app,
+        "available": EXPANSION_AVAILABLE,
+        "description": "API expansion strategy for Consciousness, Identity, and Guardian systems",
+    }
 }
 
 
-def get_available_apis():
+def get_available_apis() -> Dict[str, Dict[str, Union[bool, str, Optional[object]]]]:
     """Get list of available API applications."""
     return {name: info for name, info in API_REGISTRY.items() if info["available"]}
 
 
-def get_api_app(api_name: str):
+def get_api_app(api_name: str) -> Optional[object]:
     """Get specific API application by name."""
     if api_name in API_REGISTRY and API_REGISTRY[api_name]["available"]:
         return API_REGISTRY[api_name]["app"]
     return None
 
 
-def get_api_status():
+def get_api_status() -> Dict[str, Union[str, int, float, Dict[str, Dict[str, Union[bool, str, Optional[object]]]]]]:
     """Get comprehensive API module status."""
     available_count = sum(1 for api in API_REGISTRY.values() if api["available"])
     total_count = len(API_REGISTRY)

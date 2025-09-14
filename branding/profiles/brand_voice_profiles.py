@@ -8,13 +8,44 @@ from enum import Enum
 from typing import Any, Optional
 
 
-def fix_later(*args, **kwargs):
-    """TODO(symbol-resolver): implement missing functionality
+def create_voice_profile_summary(primary_name: str, secondary_name: str, blend_weight: float) -> str:
+    """Create a summary description of a blended voice profile.
 
-    This is a placeholder for functionality that needs to be implemented.
-    Replace this stub with the actual implementation.
+    Args:
+        primary_name: Name of the primary voice profile
+        secondary_name: Name of the secondary voice profile
+        blend_weight: Weight of the primary profile (0.0 to 1.0)
+
+    Returns:
+        A descriptive summary of the blended voice profile
     """
-    raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+    primary_descriptors = {
+        "consciousness_ambassador": "wise and inspiring",
+        "helpful_companion": "friendly and supportive",
+        "technical_expert": "precise and authoritative",
+        "creative_visionary": "imaginative and visionary",
+        "crisis_counselor": "calm and reassuring",
+        "enterprise_consultant": "professional and strategic",
+    }
+
+    secondary_descriptors = {
+        "consciousness_ambassador": "consciousness-focused",
+        "helpful_companion": "approachable",
+        "technical_expert": "technically grounded",
+        "creative_visionary": "creatively inspiring",
+        "crisis_counselor": "steadying",
+        "enterprise_consultant": "business-oriented",
+    }
+
+    primary_desc = primary_descriptors.get(primary_name, "specialized")
+    secondary_desc = secondary_descriptors.get(secondary_name, "adaptive")
+
+    if blend_weight > 0.8:
+        return f"Primarily {primary_desc} with subtle {secondary_desc} undertones"
+    elif blend_weight > 0.6:
+        return f"{primary_desc.title()} voice enhanced by {secondary_desc} elements"
+    else:
+        return f"Balanced blend of {primary_desc} and {secondary_desc} characteristics"
 
 
 class VoiceContext(Enum):
@@ -902,7 +933,11 @@ class LukhasBrandVoiceProfiles:
 
         # Blend characteristics and descriptors
         blended_profile = {
-            "description": fix_later,
+            "description": create_voice_profile_summary(
+                primary_profile.get("description", "Primary profile"),
+                secondary_profile.get("description", "Secondary profile"),
+                primary_weight,
+            ),
             "parameters": blended_params,
             "characteristics": primary_profile.get("characteristics", [])
             + secondary_profile.get("characteristics", []),
@@ -910,7 +945,11 @@ class LukhasBrandVoiceProfiles:
                 set(primary_profile.get("tone_descriptors", []) + secondary_profile.get("tone_descriptors", []))
             ),
             "use_cases": primary_profile.get("use_cases", []) + secondary_profile.get("use_cases", []),
-            "triad_emphasis": {component: fix_later for component in ["identity", "consciousness", "guardian"]},
+            "triad_emphasis": {
+                "identity": f"Blended {primary_profile.get('triad_emphasis', {}).get('identity', 'authentic expression')}",
+                "consciousness": f"Blended {primary_profile.get('triad_emphasis', {}).get('consciousness', 'aware communication')}",
+                "guardian": f"Blended {primary_profile.get('triad_emphasis', {}).get('guardian', 'responsible interaction')}",
+            },
         }
 
         return blended_profile
@@ -1019,7 +1058,8 @@ if __name__ == "__main__":
     print("=== Audience Recommendations ===")
     executive_recommendations = voice_profiles.get_audience_recommendations(AudienceType.EXECUTIVES)
     print("Executive Audience Recommendations:")
-    print(fix_later)
+    voice_adjustments = executive_recommendations.get("voice_adjustments", {})
+    print(f"Voice Adjustments: {list(voice_adjustments.keys())[:3]}")
     print(f"Priorities: {executive_recommendations['communication_priorities'][:2]}")
     print()
 
