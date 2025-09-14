@@ -21,20 +21,15 @@ Target: 99.99% confidence in OAuth security and reliability properties.
 """
 
 import asyncio
-import random
 import time
-from datetime import datetime, timezone, timedelta
-from typing import Any, Dict, List, Optional
+from typing import Optional
 
 import pytest
-from hypothesis import given, strategies as st, settings, assume, note
-from hypothesis.stateful import RuleBasedStateMachine, rule, invariant, Bundle
-import hypothesis
+from hypothesis import given, strategies as st, settings, assume
 
 from candidate.bridge.external_adapters.oauth_manager import (
     OAuthManager, 
     OAuthProvider, 
-    TokenStatus,
     CircuitBreaker,
     CircuitBreakerState
 )
