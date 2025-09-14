@@ -10,7 +10,7 @@ Inspired by Bhavik Sarkhedi's "Ohh My Brand" approach:
 - Personal brand as business asset and thought leadership platform
 """
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 
 def create_authority_content_summary(pillar_name: str, theme: str, frequency: str) -> str:
@@ -35,6 +35,26 @@ def create_authority_content_summary(pillar_name: str, theme: str, frequency: st
     frequency_desc = frequency_map.get(frequency, frequency.replace("_", " "))
 
     return f"{pillar_name}: {frequency_desc} focusing on {theme.replace('_', ' ')}"
+
+
+@dataclass
+class AuthorityScore:
+    """Represents the calculated authority score and its components."""
+    overall_score: float
+    consciousness_depth: float
+    technical_expertise: float
+    community_engagement: float
+    innovation_leadership: float
+    profile_completeness: float = 0.0
+
+
+@dataclass
+class Strategy:
+    """Recommended positioning strategy."""
+    name: str
+    description: str
+    key_actions: list[str] = field(default_factory=list)
+    potential_impact: str = ""
 
 
 @dataclass
@@ -83,6 +103,153 @@ class ConsciousnessAuthorityBuilder:
         self.content_pillars = self._create_content_pillars()
         self.engagement_systems = self._create_engagement_systems()
         self.thought_leadership_framework = self._create_thought_leadership_framework()
+        try:
+            from lukhas.identity.lambda_id_wrapper import LambdaIdWrapper
+            from lukhas.consciousness.consciousness_wrapper import ConsciousnessWrapper
+            self.identity_wrapper = LambdaIdWrapper()
+            self.consciousness_wrapper = ConsciousnessWrapper()
+        except ImportError:
+            self.identity_wrapper = None
+            self.consciousness_wrapper = None
+
+    def calculate_authority_score(self, profile_data: dict, history: list) -> AuthorityScore:
+        """Calculate comprehensive authority metrics."""
+        # NOTE: This is a placeholder implementation.
+        # The real implementation will use the identity and consciousness wrappers
+        # to fetch and process data. For now, we use the input data directly.
+
+        # 1. Profile Completeness
+        required_fields = ["name", "title", "bio", "skills"]
+        filled_fields = sum(1 for field in required_fields if profile_data.get(field))
+        profile_completeness = filled_fields / len(required_fields)
+
+        # 2. Consciousness Depth
+        consciousness_activities = [item for item in history if "consciousness" in item.get("tags", [])]
+        consciousness_depth = min(len(consciousness_activities) / 10, 1.0)
+
+        # 3. Technical Expertise
+        technical_skills = len(profile_data.get("skills", []))
+        technical_activities = [item for item in history if "technical" in item.get("tags", [])]
+        technical_expertise = min((technical_skills / 10) + (len(technical_activities) / 20), 1.0)
+
+        # 4. Community Engagement
+        community_activities = [item for item in history if "community" in item.get("tags", [])]
+        community_engagement = min(len(community_activities) / 50, 1.0)
+
+        # 5. Innovation Leadership
+        innovation_activities = [item for item in history if "innovation" in item.get("tags", [])]
+        innovation_leadership = min(len(innovation_activities) / 5, 1.0)
+
+        # 6. Overall Score (weighted average)
+        weights = {
+            "consciousness_depth": 0.3,
+            "technical_expertise": 0.25,
+            "community_engagement": 0.2,
+            "innovation_leadership": 0.2,
+            "profile_completeness": 0.05,
+        }
+        overall_score = (
+            consciousness_depth * weights["consciousness_depth"] +
+            technical_expertise * weights["technical_expertise"] +
+            community_engagement * weights["community_engagement"] +
+            innovation_leadership * weights["innovation_leadership"] +
+            profile_completeness * weights["profile_completeness"]
+        )
+
+        return AuthorityScore(
+            overall_score=overall_score,
+            consciousness_depth=consciousness_depth,
+            technical_expertise=technical_expertise,
+            community_engagement=community_engagement,
+            innovation_leadership=innovation_leadership,
+            profile_completeness=profile_completeness,
+        )
+
+    def build_consciousness_narrative(self, authority_score: AuthorityScore) -> str:
+        """Generate compelling authority narrative."""
+        score = authority_score.overall_score
+        if score >= 0.8:
+            descriptor = "a leading voice"
+        elif score >= 0.6:
+            descriptor = "an emerging authority"
+        elif score >= 0.4:
+            descriptor = "a promising contributor"
+        else:
+            descriptor = "a developing participant"
+
+        scores = {
+            "Consciousness Depth": authority_score.consciousness_depth,
+            "Technical Expertise": authority_score.technical_expertise,
+            "Community Engagement": authority_score.community_engagement,
+            "Innovation Leadership": authority_score.innovation_leadership,
+        }
+        strongest_area = max(scores, key=scores.get)
+        weakest_area = min(scores, key=scores.get)
+
+        narrative = (
+            f"You are recognized as {descriptor} in the field of consciousness technology. "
+            f"Your key strength is in {strongest_area.lower()}, where you demonstrate significant impact. "
+            f"To further elevate your brand, consider focusing on enhancing your {weakest_area.lower()}."
+        )
+        return narrative
+
+    def suggest_positioning_strategy(self, score: AuthorityScore, market_data: dict) -> Strategy:
+        """Recommend positioning based on authority analysis."""
+        # NOTE: market_data is not used in this placeholder implementation.
+
+        scores = {
+            "consciousness_depth": score.consciousness_depth,
+            "technical_expertise": score.technical_expertise,
+            "community_engagement": score.community_engagement,
+            "innovation_leadership": score.innovation_leadership,
+        }
+
+        strongest_area = max(scores, key=scores.get)
+
+        if strongest_area == "technical_expertise":
+            return Strategy(
+                name="The Technical Evangelist",
+                description="Leverage your deep technical knowledge to become a go-to expert for developers and researchers.",
+                key_actions=[
+                    "Publish technical deep-dive articles on the Trinity Framework.",
+                    "Create open-source tools for consciousness development.",
+                    "Host workshops and webinars on technical topics.",
+                ],
+                potential_impact="Become a trusted authority among the technical community."
+            )
+        elif strongest_area == "community_engagement":
+            return Strategy(
+                name="The Community Builder",
+                description="Build and nurture a vibrant community around consciousness technology.",
+                key_actions=[
+                    "Launch a Discord or forum for community discussions.",
+                    "Host regular community events and AMAs.",
+                    "Spotlight community members and their projects.",
+                ],
+                potential_impact="Create a loyal following and a strong network effect."
+            )
+        elif strongest_area == "innovation_leadership":
+            return Strategy(
+                name="The Visionary",
+                description="Position yourself as a forward-thinker who is shaping the future of consciousness technology.",
+                key_actions=[
+                    "Publish thought leadership articles on the future of AI consciousness.",
+                    "Launch a podcast or video series on innovation.",
+                    "Collaborate with other visionaries on research projects.",
+                ],
+                potential_impact="Become known as a key influencer shaping the industry's future."
+            )
+        else: # Default to consciousness_depth
+            return Strategy(
+                name="The Philosopher-King",
+                description="Focus on the deep philosophical and ethical implications of consciousness technology.",
+                key_actions=[
+                    "Write essays on the nature of digital consciousness.",
+                    "Engage in debates and discussions on AI ethics.",
+                    "Develop and publish a personal manifesto on conscious AI.",
+                ],
+                potential_impact="Become a respected voice on the moral and philosophical dimensions of AI."
+            )
 
     def _establish_brand_philosophy(self) -> dict[str, str]:
         """Establish personal brand philosophy inspired by Bhavik Sarkhedi's approach"""
