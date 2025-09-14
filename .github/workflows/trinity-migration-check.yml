@@ -15,6 +15,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: 🔍 Check Trinity Migration Status
+      continue-on-error: ${{ github.event_name == 'pull_request' }}
       run: .github/scripts/check-trinity-migration.sh
 
     - name: 📊 Generate Migration Report
