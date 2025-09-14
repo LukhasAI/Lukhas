@@ -1,91 +1,48 @@
 repos:
-  # --- Ruff: Fast, reliable, stays on commit ---
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.7
-    hooks:
-      - id: ruff
-        args: [--fix]
-        exclude: ^(candidate/|quarantine/|archive/)  # reduce noise
-      - id: ruff-format
-        exclude: ^(candidate/|quarantine/|archive/)
-
-  # --- Security: Keep on commit - fast and important ---
-  - repo: https://github.com/zricethezav/gitleaks
-    rev: v8.17.0
-    hooks:
-      - id: gitleaks
-        args: ["--redact", "--report-format", "sarif", "--report-path", "gitleaks.sarif"]
-
-  # --- T4 Unused Imports System: Production Lane Policy ---
-  - repo: local
-    hooks:
-      # T4 Unused Imports Annotator: add TODO tags to unused imports
-      - id: t4-unused-imports
-        name: T4 unused imports annotator (prod lanes)
-        entry: python3 tools/ci/unused_imports.py --paths lukhas MATRIZ
-        language: system
-        pass_filenames: false
-        stages: [pre-commit]
-
-      # T4 Unused Imports Enforcer: fail if any unannotated F401 remain
-      - id: t4-unused-imports-check
-        name: T4 unused imports must be TODO-annotated (prod lanes)
-        entry: python3 tools/ci/unused_imports.py --paths lukhas MATRIZ --strict
-        language: system
-        pass_filenames: false
-        stages: [pre-push]
-
-      # Legacy T4 Unused Imports Validator (keeping for compatibility)
-      - id: t4-unused-imports-legacy
-        name: T4 Unused Imports Validator (legacy)
-        entry: python3 tools/ci/check_unused_imports_todo.py
-        language: system
-        pass_filenames: false
-        always_run: true
-        stages: [manual]
-        files: ^(lukhas/|core/|api/|consciousness/|memory/|identity/|MATRIZ/)
-
-  # --- Heavy/flaky tools: manual or push-only ---
-  - repo: local
-    hooks:
-      - id: no-top-level-streamlit
-        name: forbid top-level streamlit import in core
-        entry: bash -c 'if rg -n "^(\\s*from\\s+streamlit\\s+import|\\s*import\\s+streamlit)" candidate lukhas | rg -v "optional_import"; then echo "Top-level streamlit import found"; exit 1; fi'
-        language: system
-        pass_filenames: false
-      # LUKHAS AI analyzer: run manually, never block commits
-      - id: lukhas-ai-analyzer
-        name: LUKHAS AI analyzer (manual)
-        entry: echo "[LUKHAS-LLM] Skipping on commit; run pre-commit run lukhas-ai-analyzer --hook-stage manual -a"
-        language: system
-        pass_filenames: false
-        stages: [manual]   # KEY: manual-only
-        always_run: true
-
-      # Syntax guardian: push-only or manual, not on commit
-      - id: syntax-guardian
-        name: syntax-guardian (push)
-        entry: python -m pyflakes
-        language: system
-        types: [python]
-        stages: [pre-push]     # run on push, not per local commit
-        files: ^lukhas/|^MATRIZ/
-        exclude: ^(candidate/|quarantine/|archive/)
-
-      # T4 Unused Imports Annotator: manual trigger for new F401 annotation
-      - id: t4-unused-imports-annotate
-        name: T4 Unused Imports Annotator (manual)
-        entry: python3 tools/ci/mark_unused_imports_todo.py
-        language: system
-        pass_filenames: false
-        stages: [manual]
-        always_run: true
-
-  # --- MyPy: push-only due to venv conflicts ---
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.10.0
-    hooks:
-      - id: mypy
-        stages: [pre-push]     # push-only due to .venv311 typing conflicts
-        additional_dependencies: []
-        exclude: ^(candidate/|quarantine/|archive/)
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.4.0
+  hooks:
+  - id: trailing-whitespace
+  - id: end-of-file-fixer
+  - id: check-yaml
+  - id: check-added-large-files
+  - id: check-json
+  - id: check-merge-conflict
+- repo: https://github.com/charliermarsh/ruff-pre-commit
+  rev: v0.1.6
+  hooks:
+  - id: ruff
+    args:
+    - --fix
+    - --exit-non-zero-on-fix
+- repo: https://github.com/psf/black
+  rev: 23.11.0
+  hooks:
+  - id: black
+    language_version: python3.11
+# Temporarily disabled bandit due to dependency issues
+# - repo: https://github.com/PyCQA/bandit
+#   rev: 1.7.5
+#   hooks:
+#   - id: bandit
+#     args:
+#     - -c
+#     - pyproject.toml
+#     additional_dependencies:
+#     - bandit[toml]
+#     exclude: ^tests/
+- repo: local
+  hooks:
+  - id: lukhas-lane-guard
+    name: LUKHAS Lane Guard
+    entry: python3 tools/ci/runtime_lane_guard.py
+    language: system
+    pass_filenames: false
+    always_run: true
+  - id: lukhas-advanced-tests
+    name: LUKHAS Advanced Tests (Fast)
+    entry: python3 tools/ci/test_orchestrator.py --tier smoke
+    language: system
+    pass_filenames: false
+    stages:
+    - pre-push

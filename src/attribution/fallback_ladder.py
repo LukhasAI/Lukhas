@@ -83,7 +83,8 @@ class AttributionFallbackLadder:
         # Initialize service connections
         self.session = None
         self.receipt_matcher = ReceiptMatcher(config.get("receipt_matching", {}))
-        self.behavioral_analyzer = Behaviorالanalyzer(config.get("behavioral_analysis", {}))  # noqa: F821  # TODO: Behaviorالanalyzer
+        # Initialize behavioral analyzer (fixed corrupted identifier)
+        self.behavioral_analyzer = BehavioralAnalyzer(config.get("behavioral_analysis", {}))
 
     async def __aenter__(self):
         """Async context manager entry"""
