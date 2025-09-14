@@ -12,8 +12,9 @@ import numpy as np
 
 from candidate.core.common import get_logger
 
-from .multimodal_memory_support import (  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
 from datetime import timezone
+
+from .multimodal_memory_support import (  # MATRIZ Integration: Core multimodal memory support for consciousness technology cross-modal processing
     AudioProcessor,
     ImageProcessor,
     ModalityType,

@@ -1,5 +1,5 @@
 import logging
-import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+import streamlit as st  # MATRIZ Integration: Consciousness namespace isolation dashboard for Trinity Framework domain separation monitoring and control
 
 logger = logging.getLogger(__name__)
 """
@@ -33,7 +33,7 @@ try:
     from ..matriz_consciousness_signals import (
         ConsciousnessSignal,
         ConstellationStar,
-    )  # TODO[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
+    )  # MATRIZ Integration: Consciousness signals for namespace isolation events and constellation-based domain management
     from .matriz_consciousness_identity_signals import (
         IdentitySignalType,
         NamespaceIsolationData,

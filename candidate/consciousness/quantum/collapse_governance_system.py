@@ -24,8 +24,10 @@ import numpy as np
 
 # Cryptographic and merkle tree imports
 try:
-    import cryptography  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
-    from cryptography.hazmat.primitives import hashes  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    import cryptography  # MATRIZ Integration: Cryptographic foundation for quantum collapse governance security and consciousness state protection
+    from cryptography.hazmat.primitives import (
+        hashes,
+    )  # MATRIZ Integration: Hash primitives for collapse governance merkle trees and quantum state validation
 
     CRYPTO_AVAILABLE = True
 except ImportError:

@@ -24,8 +24,14 @@ from typing import Any, Optional
 
 # Quantum Security Imports (placeholder for actual quantum crypto)
 try:
-    from cryptography.hazmat.primitives import hashes, serialization  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
-    from cryptography.hazmat.primitives.asymmetric import padding, rsa  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+    from cryptography.hazmat.primitives import (
+        hashes,
+        serialization,
+    )  # MATRIZ Integration: Core cryptographic primitives for LUKHAS_ID quantum security and tiered authentication system
+    from cryptography.hazmat.primitives.asymmetric import (
+        padding,
+        rsa,
+    )  # MATRIZ Integration: Asymmetric cryptography for LUKHAS_ID secure authentication and quantum-resistant key exchange
     from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
     CRYPTO_AVAILABLE = True

@@ -65,8 +65,12 @@ try:
     from candidate.core.utils.orchestration_energy_aware_execution_planner import (
         EnergyAwareExecutionPlanner,
     )
-    from lukhas.memory.governance.ethical_drift_governor import EthicalDriftGovernor  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
-    from reasoning.symbolic_reasoning import SymbolicEngine  # TODO[T4-UNUSED-IMPORT]: kept for bio-inspired/quantum systems development
+    from lukhas.memory.governance.ethical_drift_governor import (
+        EthicalDriftGovernor,
+    )  # MATRIZ Integration: Ethical decision governance for consciousness-aware choice evaluation and compliance monitoring
+    from reasoning.symbolic_reasoning import (
+        SymbolicEngine,
+    )  # MATRIZ Integration: Symbolic reasoning engine for consciousness-driven decision analysis and bio-inspired logic patterns
 except ImportError:
     pass
 

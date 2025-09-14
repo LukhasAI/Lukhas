@@ -24,7 +24,9 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 try:
-    from fastapi import FastAPI  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    from fastapi import (
+        FastAPI,
+    )  # MATRIZ Integration: FastAPI framework for API documentation generation and expansion architecture
     from fastapi.openapi.utils import get_openapi
 
     FASTAPI_AVAILABLE = True

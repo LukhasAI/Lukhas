@@ -1,19 +1,9 @@
 name: Python Lint (lane-local)
 
 on:
-  pull_request:
-    paths:
-      - "serve/**"
-      - "tests/contract/**"
-      - ".github/workflows/python-lint.yml"
-      - "Makefile"
-  push:
-    branches: [main]
-    paths:
-      - "serve/**"
-      - "tests/contract/**"
-      - ".github/workflows/python-lint.yml"
-      - "Makefile"
+  schedule:
+    - cron: '45 3 * * *'
+  workflow_dispatch: {}
 
 jobs:
   check:

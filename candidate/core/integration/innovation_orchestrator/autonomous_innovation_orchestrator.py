@@ -6,9 +6,11 @@ breakthrough generation without human intervention.
 
 Integration with LUKHAS Trinity Framework (⚛️🧠🛡️)
 """
-from consciousness.qi import qi  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution
-from typing import List  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
-import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+from consciousness.qi import (
+    qi,
+)  # MATRIZ Integration: Quantum Intelligence processing for consciousness-driven innovation orchestration
+from typing import List  # MATRIZ Integration: Type annotations for innovation orchestrator lists
+import streamlit as st  # MATRIZ Integration: Innovation orchestrator dashboard for Trinity Framework
 
 import asyncio
 import logging

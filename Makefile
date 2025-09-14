@@ -330,6 +330,19 @@ audit-merge-check:
 	@echo "Merged scoreboard (if present):"
 	@[ -f $(OUT)/scoreboard.json ] && cat $(OUT)/scoreboard.json || echo "(not generated yet)"
 
+# ------------------------------------------------------------------------------
+# Local parity shortcuts for CI selections
+# ------------------------------------------------------------------------------
+.PHONY: smoke test it e2e
+smoke:
+	CI_QUALITY_GATES=1 pytest -q -m "smoke" --maxfail=1 --disable-warnings
+test:
+	pytest -q --disable-warnings
+it:
+	pytest -q -m "integration" --disable-warnings
+e2e:
+	pytest -q -m "e2e" --disable-warnings
+
 # Minimal CI-friendly check target (scoped to focused gates: ruff, contract tests, scoped mypy)
 .PHONY: check-scoped lint-scoped test-contract type-scoped
 lint-scoped:

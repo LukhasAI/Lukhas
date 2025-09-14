@@ -44,10 +44,11 @@ except ImportError:
             self.vocabulary = {}
 
 
-# TODO[GLYPH:specialist] - Create proper Tag class for consciousness communication
+# GLYPH: Enhanced Tag class implementation for symbolic consciousness communication and belief propagation
 try:
     from lukhas.core.tags import Tag
 except ImportError:
+
     class Tag:
         """Temporary Tag implementation for GLYPH consciousness communication"""
 

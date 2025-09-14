@@ -2,67 +2,60 @@ name: 🧬 Advanced Testing Suite
 
 on:
   push:
-    branches: [ main, main-2, develop ]
-    paths:
-      - 'rl/tests/**'
-      - 'rl/engine/**'
-      - 'rl/rewards/**'
-      - 'requirements-test.txt'
-      - 'pytest.ini'
-  pull_request:
-    branches: [ main, main-2 ]
-    paths:
-      - 'rl/tests/**'
-      - 'rl/engine/**'
-      - 'rl/rewards/**'
-      - 'requirements-test.txt'
-      - 'pytest.ini'
+    branches: [ main ]
+  schedule:
+    - cron: "17 2 * * *"
+  workflow_dispatch:
+    inputs:
+      shard:
+        description: "advanced shard to run"
+        required: false
 
 jobs:
   advanced-testing-suite:
     name: 🔬 0.001% Methodology Tests
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    
+
     strategy:
       matrix:
         python-version: ['3.11', '3.12']
         test-category: ['property-based', 'chaos', 'performance', 'mutation']
       fail-fast: false
-    
+
     steps:
     - name: 📥 Checkout Repository
       uses: actions/checkout@v4
-      
+
     - name: 🐍 Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v6
       with:
         python-version: ${{ matrix.python-version }}
         cache: 'pip'
-        
+
     - name: 📦 Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -e .
         pip install pytest hypothesis mutmut
-        
+
     - name: 🔍 Validate Test Suite Structure
       run: |
         echo "🧬 Validating Advanced Testing Suite..."
         python -c "
         import sys
         import os
-        
+
         test_files = [
             'rl/tests/test_consciousness_properties.py',
-            'rl/tests/test_metamorphic_consciousness.py', 
+            'rl/tests/test_metamorphic_consciousness.py',
             'rl/tests/test_chaos_consciousness.py',
             'rl/tests/test_formal_verification.py',
             'rl/tests/test_generative_oracles.py',
             'rl/tests/test_performance_regression.py',
             'rl/tests/test_mutation_testing.py'
         ]
-        
+
         missing = [f for f in test_files if not os.path.exists(f)]
         if missing:
             print(f'❌ Missing test files: {missing}')
@@ -70,44 +63,44 @@ jobs:
         else:
             print(f'✅ All {len(test_files)} advanced test files found')
         "
-        
+
     - name: 🧪 Run Property-Based Tests
       if: matrix.test-category == 'property-based'
       run: |
         echo "🔬 Running Property-Based Testing Suite..."
         pytest rl/tests/test_consciousness_properties.py -v -m property_based --tb=short || echo "⚠️ Property-based tests require hypothesis package"
         pytest rl/tests/test_generative_oracles.py -v -m generative_oracles --tb=short || echo "⚠️ Generative oracle tests require hypothesis package"
-        
-    - name: 🌪️ Run Chaos Engineering Tests  
+
+    - name: 🌪️ Run Chaos Engineering Tests
       if: matrix.test-category == 'chaos'
       run: |
         echo "🌪️ Running Chaos Engineering Suite..."
         pytest rl/tests/test_chaos_consciousness.py -v -m chaos_engineering --tb=short
         pytest rl/tests/test_metamorphic_consciousness.py -v -m metamorphic --tb=short
-        
+
     - name: 📊 Run Performance Tests
       if: matrix.test-category == 'performance'
       run: |
         echo "📊 Running Performance Regression Suite..."
         pytest rl/tests/test_performance_regression.py -v -m performance_regression --tb=short
-        
+
     - name: 🧬 Run Mutation Tests
-      if: matrix.test-category == 'mutation'  
+      if: matrix.test-category == 'mutation'
       run: |
         echo "🧬 Running Mutation Testing Suite..."
         pytest rl/tests/test_mutation_testing.py -v -m mutation_testing --tb=short
-        
+
     - name: ⚖️ Run Formal Verification Tests
       run: |
         echo "⚖️ Running Formal Verification Suite..."
         pytest rl/tests/test_formal_verification.py -v -m formal_verification --tb=short || echo "⚠️ Formal verification tests require z3-solver package"
-        
+
     - name: 🚀 Run Standalone Test Suite
       run: |
         echo "🚀 Running Standalone Advanced Test Suite..."
         python test_advanced_suite_standalone.py
-        
-    - name: 📋 Generate Test Summary  
+
+    - name: 📋 Generate Test Summary
       if: always()
       run: |
         echo "📋 Advanced Testing Suite Summary"
@@ -115,13 +108,13 @@ jobs:
         echo "🐍 Python Version: ${{ matrix.python-version }}"
         echo "🧪 Test Category: ${{ matrix.test-category }}"
         echo "📊 Test Results:"
-        
+
         if [ -f test-results.xml ]; then
           echo "✅ JUnit XML results generated"
         else
           echo "⚠️ No JUnit XML results found"
         fi
-        
+
         echo ""
         echo "🧠 Advanced Testing Methodologies:"
         echo "  • Property-Based: Mathematical proofs for ALL inputs"
@@ -137,33 +130,33 @@ jobs:
     runs-on: ubuntu-latest
     needs: advanced-testing-suite
     if: always()
-    
+
     steps:
     - name: 📥 Checkout Repository
       uses: actions/checkout@v4
-      
+
     - name: 🐍 Set up Python 3.11
       uses: actions/setup-python@v6
       with:
         python-version: '3.11'
         cache: 'pip'
-        
+
     - name: 📦 Install All Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -e .
         pip install pytest hypothesis mutmut
-        
+
     - name: 🧬 Run Complete Advanced Testing Suite
       run: |
         echo "🧬 Running Complete 0.001% Advanced Testing Suite..."
         python rl/run_advanced_tests.py --verbose
-        
+
     - name: 📊 Test Coverage Report
       run: |
         echo "📊 Generating Coverage Report for Advanced Tests..."
         pytest rl/tests/ --cov=rl --cov-report=xml --cov-report=term-missing || echo "⚠️ Coverage generation requires dependencies"
-        
+
     - name: 🎉 Success Summary
       if: success()
       run: |

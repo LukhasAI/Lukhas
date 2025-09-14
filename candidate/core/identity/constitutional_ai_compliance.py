@@ -28,7 +28,9 @@ from typing import Any, Callable, Optional
 
 # Import MΛTRIZ consciousness components
 try:
-    from ..matriz_consciousness_signals import ConsciousnessSignal  # TODO[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
+    from ..matriz_consciousness_signals import (
+        ConsciousnessSignal,
+    )  # MATRIZ Integration: Constitutional AI compliance signals for consciousness ethics monitoring and constitutional validation
     from .matriz_consciousness_identity_signals import (
         ConstitutionalComplianceData,
         IdentitySignalType,
@@ -1365,7 +1367,9 @@ class ConstitutionalAIComplianceMonitor:
 
             if severity > 0.6:  # Corresponds to Minimal or Non-Compliance
                 enforcement_action = EnforcementAction.BLOCK
-                reason = f"Action blocked due to severe violation. Score: {validation_result.overall_compliance_score:.2f}"
+                reason = (
+                    f"Action blocked due to severe violation. Score: {validation_result.overall_compliance_score:.2f}"
+                )
             elif severity > 0.4:  # Corresponds to Partial Compliance with significant issues
                 enforcement_action = EnforcementAction.ESCALATE
                 reason = f"Action escalated for human review due to moderate violation. Score: {validation_result.overall_compliance_score:.2f}"

@@ -1,0 +1,33 @@
+name: Auto-label CI states
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  flake-label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Label flake:quarantined when body references flaky quarantine
+        if: contains(github.event.pull_request.body, '@pytest.mark.flaky')
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: "flake:quarantined"
+
+      - name: Require Owner and SLA when flake:quarantined present
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = (context.payload.pull_request.labels || []).map(l => l.name);
+            if (!labels.includes('flake:quarantined')) return;
+            const body = context.payload.pull_request.body || '';
+            const hasOwner = /Owner\s*@\w+/i.test(body);
+            const hasSLA = /SLA\s*[:\-]\s*\d{4}-\d{2}-\d{2}/i.test(body);
+            if (!hasOwner || !hasSLA) {
+              core.setFailed('flake:quarantined requires Owner @username and SLA YYYY-MM-DD in PR body');
+            }

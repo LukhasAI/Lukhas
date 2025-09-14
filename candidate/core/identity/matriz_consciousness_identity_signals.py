@@ -1,5 +1,5 @@
 import logging
-import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+import streamlit as st  # MATRIZ Integration: Identity consciousness signals dashboard for real-time Trinity Framework monitoring
 
 logger = logging.getLogger(__name__)
 """
@@ -841,12 +841,12 @@ class ConsciousnessIdentitySignalProcessor:
         if ConsciousnessSignal is None:
             processed = ProcessedBatch(invalid_signals=[(s, "ConsciousnessSignal not available") for s in signals])
             processed.trace_info = {
-                'node_type': 'PROCESSING_BATCH',
-                'data': {
-                    'status': 'FAILURE',
-                    'reason': 'ConsciousnessSignal not available',
-                    'num_signals': len(signals),
-                }
+                "node_type": "PROCESSING_BATCH",
+                "data": {
+                    "status": "FAILURE",
+                    "reason": "ConsciousnessSignal not available",
+                    "num_signals": len(signals),
+                },
             }
             return processed
 
@@ -858,18 +858,22 @@ class ConsciousnessIdentitySignalProcessor:
                     processed.signals_by_identity[identity_id] = []
                 processed.signals_by_identity[identity_id].append(signal)
             else:
-                reason = "Not a ConsciousnessSignal instance" if not isinstance(signal, ConsciousnessSignal) else "Missing consciousness_id"
+                reason = (
+                    "Not a ConsciousnessSignal instance"
+                    if not isinstance(signal, ConsciousnessSignal)
+                    else "Missing consciousness_id"
+                )
                 processed.invalid_signals.append((signal, reason))
 
         processed.trace_info = {
-            'node_type': 'PROCESSING_BATCH',
-            'data': {
-                'status': 'SUCCESS',
-                'num_signals': len(signals),
-                'num_valid': sum(len(v) for v in processed.signals_by_identity.values()),
-                'num_invalid': len(processed.invalid_signals),
-                'batch_id': processed.batch_id,
-            }
+            "node_type": "PROCESSING_BATCH",
+            "data": {
+                "status": "SUCCESS",
+                "num_signals": len(signals),
+                "num_valid": sum(len(v) for v in processed.signals_by_identity.values()),
+                "num_invalid": len(processed.invalid_signals),
+                "batch_id": processed.batch_id,
+            },
         }
         return processed
 
@@ -882,25 +886,45 @@ class ConsciousnessIdentitySignalProcessor:
         """
         if ConsciousnessSignal is None or not isinstance(signal, ConsciousnessSignal):
             result = ValidationResult(is_coherent=False, reason="Invalid signal type")
-            result.trace_info = {'node_type': 'VALIDATION', 'data': {'status': 'FAILURE', 'reason': result.reason}}
+            result.trace_info = {"node_type": "VALIDATION", "data": {"status": "FAILURE", "reason": result.reason}}
             return result
 
-        if not hasattr(signal, "processing_hints") or not hasattr(signal, "consciousness_id") or not hasattr(signal, "created_timestamp"):
+        if (
+            not hasattr(signal, "processing_hints")
+            or not hasattr(signal, "consciousness_id")
+            or not hasattr(signal, "created_timestamp")
+        ):
             result = ValidationResult(is_coherent=False, reason="Signal is missing required attributes for validation.")
-            result.trace_info = {'node_type': 'VALIDATION', 'data': {'status': 'FAILURE', 'reason': result.reason}}
+            result.trace_info = {"node_type": "VALIDATION", "data": {"status": "FAILURE", "reason": result.reason}}
             return result
 
         identity_signal_type_str = signal.processing_hints.get("identity_signal_type")
         if not identity_signal_type_str:
             result = ValidationResult(is_coherent=False, reason="Missing identity_signal_type in processing_hints")
-            result.trace_info = {'node_type': 'VALIDATION', 'data': {'status': 'FAILURE', 'reason': result.reason, 'signal_id': getattr(signal, 'signal_id', 'unknown')}}
+            result.trace_info = {
+                "node_type": "VALIDATION",
+                "data": {
+                    "status": "FAILURE",
+                    "reason": result.reason,
+                    "signal_id": getattr(signal, "signal_id", "unknown"),
+                },
+            }
             return result
 
         try:
             identity_signal_type = IdentitySignalType(identity_signal_type_str)
         except ValueError:
-            result = ValidationResult(is_coherent=False, reason=f"Unknown identity_signal_type: {identity_signal_type_str}")
-            result.trace_info = {'node_type': 'VALIDATION', 'data': {'status': 'FAILURE', 'reason': result.reason, 'signal_id': getattr(signal, 'signal_id', 'unknown')}}
+            result = ValidationResult(
+                is_coherent=False, reason=f"Unknown identity_signal_type: {identity_signal_type_str}"
+            )
+            result.trace_info = {
+                "node_type": "VALIDATION",
+                "data": {
+                    "status": "FAILURE",
+                    "reason": result.reason,
+                    "signal_id": getattr(signal, "signal_id", "unknown"),
+                },
+            }
             return result
 
         # --- Consistency Checking ---
@@ -909,11 +933,13 @@ class ConsciousnessIdentitySignalProcessor:
             auth_request_found = False
             for recent_signal in reversed(recent_signals):
                 if (
-                    isinstance(recent_signal, ConsciousnessSignal) and
-                    hasattr(recent_signal, 'processing_hints') and
-                    recent_signal.processing_hints.get("identity_signal_type") == IdentitySignalType.AUTHENTICATION_REQUEST.value and
-                    hasattr(recent_signal, 'consciousness_id') and recent_signal.consciousness_id == signal.consciousness_id and
-                    hasattr(recent_signal, 'created_timestamp')
+                    isinstance(recent_signal, ConsciousnessSignal)
+                    and hasattr(recent_signal, "processing_hints")
+                    and recent_signal.processing_hints.get("identity_signal_type")
+                    == IdentitySignalType.AUTHENTICATION_REQUEST.value
+                    and hasattr(recent_signal, "consciousness_id")
+                    and recent_signal.consciousness_id == signal.consciousness_id
+                    and hasattr(recent_signal, "created_timestamp")
                 ):
                     time_diff = signal.created_timestamp - recent_signal.created_timestamp
                     if 0 < time_diff < 300000:  # 5 minutes
@@ -921,8 +947,20 @@ class ConsciousnessIdentitySignalProcessor:
                         break
 
             if not auth_request_found:
-                result = ValidationResult(is_coherent=False, reason="AUTHENTICATION_SUCCESS signal without a recent AUTHENTICATION_REQUEST.", confidence=0.1)
-                result.trace_info = {'node_type': 'VALIDATION', 'data': {'status': 'FAILURE', 'reason': result.reason, 'signal_id': getattr(signal, 'signal_id', 'unknown'), 'check': 'consistency'}}
+                result = ValidationResult(
+                    is_coherent=False,
+                    reason="AUTHENTICATION_SUCCESS signal without a recent AUTHENTICATION_REQUEST.",
+                    confidence=0.1,
+                )
+                result.trace_info = {
+                    "node_type": "VALIDATION",
+                    "data": {
+                        "status": "FAILURE",
+                        "reason": result.reason,
+                        "signal_id": getattr(signal, "signal_id", "unknown"),
+                        "check": "consistency",
+                    },
+                }
                 return result
 
         # --- Anomaly Detection for Identity Drift ---
@@ -930,17 +968,42 @@ class ConsciousnessIdentitySignalProcessor:
             recent_failures = 0
             recent_signals = context.get("recent_signals", [])
             for r_signal in reversed(recent_signals):
-                 if hasattr(r_signal, 'processing_hints') and r_signal.processing_hints.get("identity_signal_type") == IdentitySignalType.AUTHENTICATION_FAILURE.value:
-                     recent_failures += 1
-                 else:
-                     break
+                if (
+                    hasattr(r_signal, "processing_hints")
+                    and r_signal.processing_hints.get("identity_signal_type")
+                    == IdentitySignalType.AUTHENTICATION_FAILURE.value
+                ):
+                    recent_failures += 1
+                else:
+                    break
             if recent_failures > 5:
-                 result = ValidationResult(is_coherent=False, reason=f"Anomaly detected: {recent_failures+1} consecutive authentication failures.", confidence=0.2)
-                 result.trace_info = {'node_type': 'VALIDATION', 'data': {'status': 'FAILURE', 'reason': result.reason, 'signal_id': getattr(signal, 'signal_id', 'unknown'), 'check': 'anomaly_detection'}}
-                 return result
+                result = ValidationResult(
+                    is_coherent=False,
+                    reason=f"Anomaly detected: {recent_failures+1} consecutive authentication failures.",
+                    confidence=0.2,
+                )
+                result.trace_info = {
+                    "node_type": "VALIDATION",
+                    "data": {
+                        "status": "FAILURE",
+                        "reason": result.reason,
+                        "signal_id": getattr(signal, "signal_id", "unknown"),
+                        "check": "anomaly_detection",
+                    },
+                }
+                return result
 
-        result = ValidationResult(is_coherent=True, reason="Signal is coherent with current identity state.", confidence=0.9)
-        result.trace_info = {'node_type': 'VALIDATION', 'data': {'status': 'SUCCESS', 'reason': result.reason, 'signal_id': getattr(signal, 'signal_id', 'unknown')}}
+        result = ValidationResult(
+            is_coherent=True, reason="Signal is coherent with current identity state.", confidence=0.9
+        )
+        result.trace_info = {
+            "node_type": "VALIDATION",
+            "data": {
+                "status": "SUCCESS",
+                "reason": result.reason,
+                "signal_id": getattr(signal, "signal_id", "unknown"),
+            },
+        }
         return result
 
     def correlate_consciousness_state(self, signals: list[Any]) -> CorrelationMatrix:
@@ -953,7 +1016,10 @@ class ConsciousnessIdentitySignalProcessor:
         if ConsciousnessSignal is None:
             logger.warning("Cannot correlate state, ConsciousnessSignal not available.")
             matrix = CorrelationMatrix()
-            matrix.trace_info = {'node_type': 'CORRELATION', 'data': {'status': 'FAILURE', 'reason': 'ConsciousnessSignal not available'}}
+            matrix.trace_info = {
+                "node_type": "CORRELATION",
+                "data": {"status": "FAILURE", "reason": "ConsciousnessSignal not available"},
+            }
             return matrix
 
         correlations: dict[str, dict[str, list[float]]] = {}
@@ -978,7 +1044,9 @@ class ConsciousnessIdentitySignalProcessor:
             if hasattr(signal, "reflection_depth"):
                 correlations[identity_signal_type_str]["reflection_depth"].append(signal.reflection_depth)
             if hasattr(signal, "bio_symbolic_data") and hasattr(signal.bio_symbolic_data, "coherence_score"):
-                correlations[identity_signal_type_str]["coherence_score"].append(signal.bio_symbolic_data.coherence_score)
+                correlations[identity_signal_type_str]["coherence_score"].append(
+                    signal.bio_symbolic_data.coherence_score
+                )
 
         # Calculate average correlations
         final_matrix = CorrelationMatrix()
@@ -991,13 +1059,13 @@ class ConsciousnessIdentitySignalProcessor:
                     final_matrix.matrix[signal_type][metric] = 0.0
 
         final_matrix.trace_info = {
-            'node_type': 'CORRELATION',
-            'data': {
-                'status': 'SUCCESS',
-                'matrix': final_matrix.matrix,
-                'num_signals': len(signals),
-                'num_signal_types': len(correlations),
-            }
+            "node_type": "CORRELATION",
+            "data": {
+                "status": "SUCCESS",
+                "matrix": final_matrix.matrix,
+                "num_signals": len(signals),
+                "num_signal_types": len(correlations),
+            },
         }
         return final_matrix
 

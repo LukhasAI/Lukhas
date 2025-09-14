@@ -71,6 +71,15 @@ ml = [
     "transformers>=4.30.0",
     "tiktoken>=0.5.0",
 ]
+mcp = [
+    "mcp",
+]
+s3 = [
+    "boto3",
+]
+dropbox = [
+    "dropbox",
+]
 
 [project.scripts]
 lukhas = "main:main"
@@ -90,7 +99,7 @@ minversion = "8.0"
 testpaths = ["tests"]
 pythonpath = ["."]
 python_files = ["test_*.py", "*_test.py"]
-python_classes = ["Test*"]  
+python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = "-q --strict-markers --disable-warnings"
 asyncio_mode = "auto"
@@ -160,7 +169,7 @@ target-version = "py39"
 # T4 Production vs Experimental Lane Policy
 extend-exclude = [
     ".git",
-    "__pycache__", 
+    "__pycache__",
     ".venv*",
     "venv*",
     "node_modules",
