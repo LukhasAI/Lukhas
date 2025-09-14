@@ -18,13 +18,24 @@ from typing import Any
 # Add branding modules to path
 
 
-def fix_later(*args, **kwargs):
-    """TODO(symbol-resolver): implement missing functionality
+def create_deployment_error_message(error: Exception, context: str, file_path: str = "") -> str:
+    """Create descriptive error message for Trinity deployment failures.
 
-    This is a placeholder for functionality that needs to be implemented.
-    Replace this stub with the actual implementation.
+    Args:
+        error: The exception that occurred
+        context: Context description of the deployment operation
+        file_path: Optional file path where error occurred
+
+    Returns:
+        A formatted error message for logging
     """
-    raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+    error_type = type(error).__name__
+    error_details = str(error)
+
+    if file_path:
+        return f"❌ Trinity deployment failed in {context} for {file_path}: {error_type} - {error_details}"
+    else:
+        return f"❌ Trinity deployment failed in {context}: {error_type} - {error_details}"
 
 
 sys.path.append(str(Path(__file__).parent.parent))
@@ -212,8 +223,9 @@ class TrinityFrameworkDeployer:
                 result = await self._deploy_triad_to_file(file_path)
                 if result:
                     results.append(result)
-            except Exception:
-                self.logger.error(fix_later)
+            except Exception as e:
+                error_msg = create_deployment_error_message(e, "Trinity framework deployment", str(file_path))
+                self.logger.error(error_msg)
 
         return results
 
@@ -283,8 +295,9 @@ class TrinityFrameworkDeployer:
                 success=True,
             )
 
-        except Exception:
-            self.logger.error(fix_later)
+        except Exception as e:
+            error_msg = create_deployment_error_message(e, "Trinity file deployment", str(file_path))
+            self.logger.error(error_msg)
             return TrinityDeploymentResult(
                 file_path=str(file_path),
                 integrations_added=0,

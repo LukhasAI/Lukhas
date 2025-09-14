@@ -21,13 +21,38 @@ from symbolic.vocabularies.voice_vocabulary import VoiceSymbolicVocabulary
 from ..core import VoiceEmotion, VoiceProvider
 
 
-def fix_later(*args, **kwargs):
-    """TODO(symbol-resolver): implement missing functionality
+def create_symbolic_synthesis_phrase(emotion: "VoiceEmotion", provider: "VoiceProvider", text: str) -> str:
+    """Create a symbolic phrase for voice synthesis combining emotion, provider, and content.
 
-    This is a placeholder for functionality that needs to be implemented.
-    Replace this stub with the actual implementation.
+    Args:
+        emotion: The emotional tone for the voice synthesis
+        provider: The voice provider/engine to use
+        text: The text content to synthesize
+
+    Returns:
+        A symbolic string representing the synthesis configuration
     """
-    raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+    # This replaces the fix_later placeholder with actual functionality
+
+    # Create a global vocabulary instance to access symbol mappings
+    vocab = Voicesymbolicvocabulary()
+
+    emotion_symbol = vocab.get_symbol_for_emotion(emotion)
+    provider_symbol = vocab.get_symbol_for_provider(provider)
+
+    # Create synthesis phrase with emotional and provider context
+    synthesis_phrase = f"{emotion_symbol}{provider_symbol} {text}"
+
+    # Add quality indicators based on text complexity
+    text_length = len(text)
+    if text_length > 500:
+        synthesis_phrase += " 🎭"  # Complex/dramatic
+    elif text_length > 100:
+        synthesis_phrase += " 🗣️"  # Standard speech
+    else:
+        synthesis_phrase += " 💬"  # Simple/quick
+
+    return synthesis_phrase
 
 
 @dataclass
@@ -395,10 +420,22 @@ class Voicesymbolicvocabulary:
 
     def create_synthesis_phrase(self, emotion: VoiceEmotion, provider: VoiceProvider, text: str) -> str:
         """Create a symbolic phrase for voice synthesis."""
-        self.get_symbol_for_emotion(emotion)
-        self.get_symbol_for_provider(provider)
+        emotion_symbol = self.get_symbol_for_emotion(emotion)
+        provider_symbol = self.get_symbol_for_provider(provider)
 
-        return fix_later
+        # Create synthesis phrase with emotional and provider context
+        synthesis_phrase = f"{emotion_symbol}{provider_symbol} {text}"
+
+        # Add quality indicators based on text complexity
+        text_length = len(text)
+        if text_length > 500:
+            synthesis_phrase += " 🎭"  # Complex/dramatic
+        elif text_length > 100:
+            synthesis_phrase += " 🗣️"  # Standard speech
+        else:
+            synthesis_phrase += " 💬"  # Simple/quick
+
+        return synthesis_phrase
 
     def get_quality_indicators(self, success: bool, processing_time: float) -> str:
         """Get quality indicator symbols based on synthesis results."""
