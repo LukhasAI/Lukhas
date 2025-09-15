@@ -23,12 +23,16 @@ DESCRIPTION:
 """
 
 
-from nias.core.nias_engine import NIASEngine
+import logging
 
+from nias.core.nias_engine import NIASEngine
+from .nias_core import push_symbolic_message
 from candidate.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
 from ethics.seedra.seedra_core import SEEDRACore
 
 # Explicit imports replacing star imports per PEP8 guidelines # CLAUDE_EDIT_v0.8
+
+logger = logging.getLogger(__name__)
 
 
 def run_delivery_queue(queue, user_context):
@@ -40,9 +44,14 @@ def run_delivery_queue(queue, user_context):
     - user_context (dict): Current emotional, consent, and symbolic tier data
     """
     # Begin symbolic delivery loop (NIAS cadence driver)
-    for _message in queue:
-        # TODO: Import and call push_symbolic_message, log each decision
-        pass
+    for message in queue:
+        # ΛTAG: queue_delivery
+        decision = push_symbolic_message(message, user_context)
+        logger.info(
+            "delivery_attempt",
+            message=message.get("message_id"),
+            decision=decision.get("status"),
+        )
 
 
 class NIASDeliveryLoop:
