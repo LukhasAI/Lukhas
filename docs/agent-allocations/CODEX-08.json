@@ -1,0 +1,663 @@
+{
+  "agent_id": "CODEX-08",
+  "specialty": "Medium Priority Batch 2",
+  "focus": "medium priority tasks",
+  "task_count": 40,
+  "priority": "med",
+  "risk_level": "low",
+  "branch_prefix": "feat/codex-08/medium-priority-batch-2-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-MED-BRANDING-ENGINES-c987801c",
+      "priority": "med",
+      "title": "implement missing functionality",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_ai_controller_lambda_bot.py",
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "line_hint": 20,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_ai_controller_lambda_bot.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-ENGINES-a57666c4",
+      "priority": "med",
+      "title": "agi_controller.ModuleStatus; c...",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_ai_controller_lambda_bot.py",
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "line_hint": 37,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_ai_controller_lambda_bot.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-ENGINES-8fa6ecc4",
+      "priority": "med",
+      "title": "\u039biD.trauma_lock.TraumaLockSyst...",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_cli.py",
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "line_hint": 463,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_cli.py:        from \u039biD.identity_manager import Identitymanager  # noqa: F401  # TODO: \u039biD.identity_manager.Identitym...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-ENGINES-141140ff",
+      "priority": "med",
+      "title": "implement missing functionality",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_multi_brain_symphony_lambda_bot.py",
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "line_hint": 21,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_multi_brain_symphony_lambda_bot.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-ENGINES-93b823ec",
+      "priority": "med",
+      "title": "MultiBrainSymphony.BrainRegion...",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_multi_brain_symphony_lambda_bot.py",
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "line_hint": 36,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_multi_brain_symphony_lambda_bot.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-ENGINES-56565c60",
+      "priority": "med",
+      "title": "implement missing functionality",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_bio_symbolic_lambda_bot.py",
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "line_hint": 22,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_bio_symbolic_lambda_bot.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-ENGINES-0ef5b227",
+      "priority": "med",
+      "title": "implement missing functionality",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_designer.py",
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "line_hint": 13,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_designer.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-ENGINES-5e945881",
+      "priority": "med",
+      "title": "implement missing functionality",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_autonomous_healer.py",
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "line_hint": 16,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_autonomous_healer.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-ENGINES-691d1693",
+      "priority": "med",
+      "title": "implement missing functionality",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_free_abot_direct.py",
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "line_hint": 12,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_free_abot_direct.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "b6adabb2b7676b2b815a648d53f1d13a59ceff8c"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-ENGINES-396fb540",
+      "priority": "med",
+      "title": "direct_result",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_free_abot_direct.py",
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "line_hint": 64,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_free_abot_direct.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "b6adabb2b7676b2b815a648d53f1d13a59ceff8c"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-ENGINES-396fb540",
+      "priority": "med",
+      "title": "direct_result",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_free_abot_direct.py",
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "line_hint": 65,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_free_abot_direct.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "b6adabb2b7676b2b815a648d53f1d13a59ceff8c"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-ENGINES-aa378bdf",
+      "priority": "med",
+      "title": "implement missing functionality",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_click_actions.py",
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "line_hint": 11,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_click_actions.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-ENGINES-adab0a91",
+      "priority": "med",
+      "title": "implement missing functionality",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_notion_sync.py",
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "line_hint": 17,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_notion_sync.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-ENGINES-57aef93d",
+      "priority": "med",
+      "title": "implement missing functionality",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_multi_brain_lambda_bot.py",
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "line_hint": 20,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_multi_brain_lambda_bot.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-ENGINES-e70756ad",
+      "priority": "med",
+      "title": "implement missing functionality",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_financial_intelligence.py",
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "line_hint": 15,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_financial_intelligence.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-ENGINES-8d14b70c",
+      "priority": "med",
+      "title": "implement missing functionality",
+      "file": "./branding/engines/lukhas_content_platform/test_content_generation.py",
+      "module": "branding/engines",
+      "trinity": "null",
+      "line_hint": 14,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/test_content_generation.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "af55a2aebacad32f4a5b0be972fb1c0747da83f1"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-STORYTELLING-589c184e",
+      "priority": "med",
+      "title": "implement missing functionality",
+      "file": "./branding/storytelling/consciousness_narratives.py",
+      "module": "branding/storytelling",
+      "trinity": "Consciousness",
+      "line_hint": 18,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "0bfd9778a326c38e96fce9c750722d0bd0cc084f"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-BIO-5e36a5d4",
+      "priority": "med",
+      "title": "kept pending MATRIZ wiring (document or remove)",
+      "file": "./candidate/bio/energy/spirulina_atp_system.py",
+      "module": "candidate/bio",
+      "trinity": "null",
+      "line_hint": 24,
+      "risk": "low",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "244821f72bec212cb6c564aa679fe826856bcf80"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-BRANDING_BRIDGE.PY-98879368",
+      "priority": "med",
+      "title": "kept pending MATRIZ wiring (document or remove)",
+      "file": "./candidate/branding_bridge.py",
+      "module": "candidate/branding_bridge.py",
+      "trinity": "null",
+      "line_hint": 154,
+      "risk": "low",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f869d7ac01b8f36fdeff3091894843582545fce0"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-BRIDGE-96359d80",
+      "priority": "med",
+      "title": "kept pending MATRIZ wiring (document or remove)",
+      "file": "./candidate/bridge/llm_wrappers/anthropic_function_bridge.py",
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "line_hint": 32,
+      "risk": "low",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f869d7ac01b8f36fdeff3091894843582545fce0"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-BRIDGE-2d109e3c",
+      "priority": "med",
+      "title": "Configure file rotation",
+      "file": "./candidate/bridge/trace_logger.py",
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "line_hint": 108,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/bridge/trace_logger.py:        # TODO: Configure file rotation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-BRIDGE-d87a23ab",
+      "priority": "med",
+      "title": "Implement log compression",
+      "file": "./candidate/bridge/trace_logger.py",
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "line_hint": 110,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/bridge/trace_logger.py:        # TODO: Configure file rotation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-BRIDGE-b1a870ae",
+      "priority": "med",
+      "title": "Aggregate trace statistics",
+      "file": "./candidate/bridge/trace_logger.py",
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "line_hint": 239,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/bridge/trace_logger.py:        # TODO: Configure file rotation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-BRIDGE-14ce34de",
+      "priority": "med",
+      "title": "Identify trace patterns",
+      "file": "./candidate/bridge/trace_logger.py",
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "line_hint": 240,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/bridge/trace_logger.py:        # TODO: Configure file rotation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-BRIDGE-ab4a7f9a",
+      "priority": "med",
+      "title": "Generate summary report",
+      "file": "./candidate/bridge/trace_logger.py",
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "line_hint": 241,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/bridge/trace_logger.py:        # TODO: Configure file rotation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-BRIDGE-a8a8c18b",
+      "priority": "med",
+      "title": "Implement JSON export",
+      "file": "./candidate/bridge/trace_logger.py",
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "line_hint": 259,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/bridge/trace_logger.py:        # TODO: Configure file rotation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-BRIDGE-3d55c6c9",
+      "priority": "med",
+      "title": "Add example",
+      "file": "./candidate/bridge/examples/basic/example.py",
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "line_hint": 7,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/bridge/examples/basic/example.py:# TODO: Add example",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-BRIDGE-e69f4b27",
+      "priority": "med",
+      "title": "No description",
+      "file": "./candidate/bridge/protocols/chat_completion_reasoning_effort.py",
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "line_hint": 42,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/bridge/protocols/chat_completion_reasoning_effort.py:# AIMPORT_TODO: Verify the package structure for `shared.reasoning_effort`.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-QI-d27b6718",
+      "priority": "med",
+      "title": ")",
+      "file": "./candidate/qi/glyphs/cli.py",
+      "module": "candidate/qi",
+      "trinity": "null",
+      "line_hint": 251,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/qi/glyphs/cli.py:    print(\"  \u2022 PDF     - Embedded in metadata (TODO)\")",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-QI-84e28399",
+      "priority": "med",
+      "title": "Review path manipulation. For production, 'abstract_reasoning' should be an installable package",
+      "file": "./candidate/qi/ui/abstract_reasoning_demo.original.py",
+      "module": "candidate/qi",
+      "trinity": "null",
+      "line_hint": 55,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/qi/ui/abstract_reasoning_demo.original.py:# TODO: Review path manipulation. For production, 'abstract_reasoning' should be an installable package",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-QI-acf4b2c3",
+      "priority": "med",
+      "title": "Validate against token store",
+      "file": "./candidate/qi/bio/oscillators/oscillator.py",
+      "module": "candidate/qi",
+      "trinity": "null",
+      "line_hint": 263,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/qi/bio/oscillators/oscillator.py:            # TODO: Validate against token store",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-QI-a9644c0f",
+      "priority": "med",
+      "title": "Verify these import paths against the actual LUKHAS project structure.",
+      "file": "./candidate/qi/bio/bio_optimizer.py",
+      "module": "candidate/qi",
+      "trinity": "null",
+      "line_hint": 62,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/qi/bio/bio_optimizer.py:# AIMPORT_TODO: Verify these import paths against the actual LUKHAS project structure.",
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-QI-84934471",
+      "priority": "med",
+      "title": "kept for bio-inspired/quantum systems development",
+      "file": "./candidate/qi/bio/bio_optimizer.py",
+      "module": "candidate/qi",
+      "trinity": "null",
+      "line_hint": 93,
+      "risk": "high",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/qi/bio/bio_optimizer.py:# AIMPORT_TODO: Verify these import paths against the actual LUKHAS project structure.",
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-QI-bfad0f78",
+      "priority": "med",
+      "title": "config=None needs review",
+      "file": "./candidate/qi/bio/bio_optimizer.py",
+      "module": "candidate/qi",
+      "trinity": "null",
+      "line_hint": 325,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/qi/bio/bio_optimizer.py:# AIMPORT_TODO: Verify these import paths against the actual LUKHAS project structure.",
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-QI-7dc8e734",
+      "priority": "med",
+      "title": "Implement actual encoding logic beyond simple hashing.",
+      "file": "./candidate/qi/bio/bio_components.py",
+      "module": "candidate/qi",
+      "trinity": "null",
+      "line_hint": 379,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/qi/bio/bio_components.py:        #\u039bTODO: Implement actual encoding logic beyond simple hashing.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-QI-db165f63",
+      "priority": "med",
+      "title": "Bot file paths are hardcoded and user-specific. This needs to be",
+      "file": "./candidate/qi/bio/bio_multi_orchestrator.py",
+      "module": "candidate/qi",
+      "trinity": "null",
+      "line_hint": 234,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/qi/bio/bio_multi_orchestrator.py:        AIMPORT_TODO: Bot file paths are hardcoded and user-specific. This needs to be",
+        "last_commit": "10f5fa6937959bcaaa1754020fca1ef42b7d6e43"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-QI-c9abeb94",
+      "priority": "med",
+      "title": "Implement actual consolidation logic",
+      "file": "./candidate/qi/engines/dream/consolidate_dream_qi_learning.py",
+      "module": "candidate/qi",
+      "trinity": "Consciousness",
+      "line_hint": 34,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/qi/engines/dream/consolidate_dream_qi_learning.py:    # TODO: Implement actual consolidation logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-QI-67857873",
+      "priority": "med",
+      "title": "Implement actual consolidation logic",
+      "file": "./candidate/qi/scripts/consolidate_qi_sgi_core.py",
+      "module": "candidate/qi",
+      "trinity": "null",
+      "line_hint": 34,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/qi/scripts/consolidate_qi_sgi_core.py:    # TODO: Implement actual consolidation logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-QI-6e5c4d94",
+      "priority": "med",
+      "title": "implement persistence cleanup for old runs",
+      "file": "./candidate/qi/ops/budgeter.py",
+      "module": "candidate/qi",
+      "trinity": "null",
+      "line_hint": 65,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/qi/ops/budgeter.py:        # TODO[codex]: implement persistence cleanup for old runs",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-QI-921b50e9",
+      "priority": "med",
+      "title": "Review deep relative imports for robustness and potential refactoring",
+      "file": "./candidate/qi/awareness_system/awareness.py",
+      "module": "candidate/qi",
+      "trinity": "Consciousness",
+      "line_hint": 29,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/qi/awareness_system/awareness.py:# AIMPORT_TODO: Review deep relative imports for robustness and potential refactoring",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: codex-08-batch-$(date +%m%d)",
+      "2. Work through 40 tasks systematically",
+      "3. One TaskID per commit",
+      "4. Focus: medium priority tasks",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(medium): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.160489Z",
+  "source": "Direct allocation from manifest_clean.json"
+}

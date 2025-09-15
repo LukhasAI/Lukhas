@@ -1,0 +1,663 @@
+{
+  "agent_id": "CODEX-01",
+  "specialty": "High Priority Batch 1",
+  "focus": "high priority mechanical fixes",
+  "task_count": 40,
+  "priority": "high",
+  "risk_level": "low",
+  "branch_prefix": "feat/codex-01/high-priority-batch-1-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-5da291f8",
+      "priority": "high",
+      "title": "kept for API expansion (document or implement)",
+      "file": "./candidate/core/api/service_implementations.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 71,
+      "risk": "low",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-6960091d",
+      "priority": "high",
+      "title": "Hardcoded path, should be configurable.",
+      "file": "./candidate/core/glyph/api_manager.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 366,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/glyph/api_manager.py:        # \u039bCONFIG_TODO: Hardcoded path, should be configurable.",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-327a775f",
+      "priority": "high",
+      "title": ".",
+      "file": "./candidate/core/glyph/api_manager.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 846,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/glyph/api_manager.py:        # \u039bCONFIG_TODO: Hardcoded path, should be configurable.",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-1dc917d9",
+      "priority": "high",
+      "title": ":",
+      "file": "./candidate/core/glyph/api_manager.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 854,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/glyph/api_manager.py:        # \u039bCONFIG_TODO: Hardcoded path, should be configurable.",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-61cdaff9",
+      "priority": "high",
+      "title": "These imports suggest a complex LUKHAS directory structure.",
+      "file": "./candidate/core/meta_learning/remediator_agent.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 77,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/core/meta_learning/remediator_agent.py:# AIMPORT_TODO: These imports suggest a complex LUKHAS directory structure.",
+        "last_commit": "e00b322dff9b4943c0c0d42ff35a232823f4bdcd"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-b04654fd",
+      "priority": "high",
+      "title": "Install or implement AID",
+      "file": "./candidate/core/meta_learning/remediator_agent.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 85,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/meta_learning/remediator_agent.py:# AIMPORT_TODO: These imports suggest a complex LUKHAS directory structure.",
+        "last_commit": "e00b322dff9b4943c0c0d42ff35a232823f4bdcd"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-ddef7c71",
+      "priority": "high",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/core/meta_learning/enhancement_system.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 38,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-563a1623",
+      "priority": "high",
+      "title": "refine scoring algorithm",
+      "file": "./candidate/core/symbolic/dast_engine.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 85,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/dast_engine.py:        return 1.0  # TODO: refine scoring algorithm",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-9dc37071",
+      "priority": "high",
+      "title": "0.0},  # TODO: implement",
+      "file": "./candidate/core/symbolic/dast_engine.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 132,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/dast_engine.py:        return 1.0  # TODO: refine scoring algorithm",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-ec1fb76a",
+      "priority": "high",
+      "title": "implement _fetch_data",
+      "file": "./candidate/core/symbolic/dast_engine.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 150,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/dast_engine.py:        return 1.0  # TODO: refine scoring algorithm",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-575e8430",
+      "priority": "high",
+      "title": "Potentially implement more sophisticated relinking logic here,",
+      "file": "./candidate/core/symbolic/crista_optimizer.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 350,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/crista_optimizer.py:        # TODO: Potentially implement more sophisticated relinking logic here,",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-712c2723",
+      "priority": "high",
+      "title": "Implement symbolic memory parsing",
+      "file": "./candidate/core/symbolic/symbolic_memory_mapper.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 130,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_memory_mapper.py:        # TODO: Implement symbolic memory parsing",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-a54e1876",
+      "priority": "high",
+      "title": "Create bridge-compatible memory structures",
+      "file": "./candidate/core/symbolic/symbolic_memory_mapper.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 131,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_memory_mapper.py:        # TODO: Implement symbolic memory parsing",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-218eddaf",
+      "priority": "high",
+      "title": "Establish memory coherence protocols",
+      "file": "./candidate/core/symbolic/symbolic_memory_mapper.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 132,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_memory_mapper.py:        # TODO: Implement symbolic memory parsing",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-14f170b8",
+      "priority": "high",
+      "title": "Add ML-based pattern prediction for proactive anomaly detection",
+      "file": "./candidate/core/symbolic/symbolic_anomaly_explorer.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 55,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_anomaly_explorer.py:TODO: Add ML-based pattern prediction for proactive anomaly detection",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-da5e5694",
+      "priority": "high",
+      "title": "implement import logic for market replay",
+      "file": "./candidate/core/symbolic/creative_market.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 120,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/creative_market.py:    # \u2705 TODO: implement import logic for market replay",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-6dd27036",
+      "priority": "high",
+      "title": "Add ML-based theme prediction for proactive narrative modeling",
+      "file": "./candidate/core/symbolic/symbolic_theme_clusterer.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 54,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_theme_clusterer.py:TODO: Add ML-based theme prediction for proactive narrative modeling",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-2f472d0f",
+      "priority": "high",
+      "title": "Implement superposition-like state states for parallel processing",
+      "file": "./candidate/core/symbolic/neuro_symbolic_fusion_layer.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 50,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/neuro_symbolic_fusion_layer.py:\u039bTODO: Implement superposition-like state states for parallel processing",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-a4c9bc1b",
+      "priority": "high",
+      "title": "Implement phase resonance validation",
+      "file": "./candidate/core/symbolic/symbolic_dream_bridge.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 102,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_dream_bridge.py:        # TODO: Implement phase resonance validation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-5894e070",
+      "priority": "high",
+      "title": "Establish symbolic mapping protocols",
+      "file": "./candidate/core/symbolic/symbolic_dream_bridge.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 103,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_dream_bridge.py:        # TODO: Implement phase resonance validation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-f082f253",
+      "priority": "high",
+      "title": "Initialize intention bridge pathways",
+      "file": "./candidate/core/symbolic/symbolic_dream_bridge.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 104,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_dream_bridge.py:        # TODO: Implement phase resonance validation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-4f9559a1",
+      "priority": "high",
+      "title": "Implement symbolic parsing algorithms",
+      "file": "./candidate/core/symbolic/symbolic_dream_bridge.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 121,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_dream_bridge.py:        # TODO: Implement phase resonance validation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-e83a67ca",
+      "priority": "high",
+      "title": "Map dream metaphors to core logic structures",
+      "file": "./candidate/core/symbolic/symbolic_dream_bridge.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 122,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_dream_bridge.py:        # TODO: Implement phase resonance validation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-292cb7eb",
+      "priority": "high",
+      "title": "Preserve semantic meaning across translation",
+      "file": "./candidate/core/symbolic/symbolic_dream_bridge.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 123,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_dream_bridge.py:        # TODO: Implement phase resonance validation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-9e704f2a",
+      "priority": "high",
+      "title": "Monitor system phase states",
+      "file": "./candidate/core/symbolic/symbolic_dream_bridge.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 137,
+      "risk": "low",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_dream_bridge.py:        # TODO: Implement phase resonance validation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-38fc3c3b",
+      "priority": "high",
+      "title": "Adjust resonance parameters",
+      "file": "./candidate/core/symbolic/symbolic_dream_bridge.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 138,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_dream_bridge.py:        # TODO: Implement phase resonance validation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-9768a77f",
+      "priority": "high",
+      "title": "Ensure stable symbolic communication",
+      "file": "./candidate/core/symbolic/symbolic_dream_bridge.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 139,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_dream_bridge.py:        # TODO: Implement phase resonance validation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-b20d7778",
+      "priority": "high",
+      "title": "Implement graceful context cleanup",
+      "file": "./candidate/core/symbolic/symbolic_dream_bridge.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 157,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_dream_bridge.py:        # TODO: Implement phase resonance validation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-a3c26daf",
+      "priority": "high",
+      "title": "Preserve important symbolic mappings",
+      "file": "./candidate/core/symbolic/symbolic_dream_bridge.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 158,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_dream_bridge.py:        # TODO: Implement phase resonance validation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-71ff2fd8",
+      "priority": "high",
+      "title": "Archive bridge session data",
+      "file": "./candidate/core/symbolic/symbolic_dream_bridge.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 159,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_dream_bridge.py:        # TODO: Implement phase resonance validation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-34878baf",
+      "priority": "high",
+      "title": "Add temporal correlation weighting for chronological proximity",
+      "file": "./candidate/core/symbolic/dream_divergence_map.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 57,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/dream_divergence_map.py:TODO: Add temporal correlation weighting for chronological proximity",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-7ba19c5e",
+      "priority": "high",
+      "title": "Parse symbolic reasoning structures",
+      "file": "./candidate/core/symbolic/symbolic_reasoning_adapter.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 111,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_reasoning_adapter.py:        # TODO: Parse symbolic reasoning structures",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-4037dae7",
+      "priority": "high",
+      "title": "Apply mode-specific adaptation algorithms",
+      "file": "./candidate/core/symbolic/symbolic_reasoning_adapter.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 112,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_reasoning_adapter.py:        # TODO: Parse symbolic reasoning structures",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-245dbab6",
+      "priority": "high",
+      "title": "Validate reasoning coherence",
+      "file": "./candidate/core/symbolic/symbolic_reasoning_adapter.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 113,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_reasoning_adapter.py:        # TODO: Parse symbolic reasoning structures",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-ae943d63",
+      "priority": "high",
+      "title": "Establish reasoning flow pathways",
+      "file": "./candidate/core/symbolic/symbolic_reasoning_adapter.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 130,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_reasoning_adapter.py:        # TODO: Parse symbolic reasoning structures",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-1269c477",
+      "priority": "high",
+      "title": "Maintain reasoning state consistency",
+      "file": "./candidate/core/symbolic/symbolic_reasoning_adapter.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 131,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_reasoning_adapter.py:        # TODO: Parse symbolic reasoning structures",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-9a1f44b2",
+      "priority": "high",
+      "title": "Ensure logical coherence",
+      "file": "./candidate/core/symbolic/symbolic_reasoning_adapter.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 132,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_reasoning_adapter.py:        # TODO: Parse symbolic reasoning structures",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-80bd89d9",
+      "priority": "high",
+      "title": "Check reasoning consistency",
+      "file": "./candidate/core/symbolic/symbolic_reasoning_adapter.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 146,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_reasoning_adapter.py:        # TODO: Parse symbolic reasoning structures",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-da8ec34b",
+      "priority": "high",
+      "title": "Validate logical integrity",
+      "file": "./candidate/core/symbolic/symbolic_reasoning_adapter.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 147,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_reasoning_adapter.py:        # TODO: Parse symbolic reasoning structures",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-dec61b99",
+      "priority": "high",
+      "title": "Measure adaptation quality",
+      "file": "./candidate/core/symbolic/symbolic_reasoning_adapter.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 148,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_reasoning_adapter.py:        # TODO: Parse symbolic reasoning structures",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: codex-01-batch-$(date +%m%d)",
+      "2. Work through 40 tasks systematically",
+      "3. One TaskID per commit",
+      "4. Focus: high priority mechanical fixes",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(high): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.157310Z",
+  "source": "Direct allocation from manifest_clean.json"
+}

@@ -1,0 +1,663 @@
+{
+  "agent_id": "CODEX-05",
+  "specialty": "High Priority Batch 5",
+  "focus": "high priority remaining",
+  "task_count": 40,
+  "priority": "high",
+  "risk_level": "low",
+  "branch_prefix": "feat/codex-05/high-priority-batch-5-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-ec069a27",
+      "priority": "high",
+      "title": "d",
+      "file": "./candidate/consciousness/cognitive/adapter.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 45,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/cognitive/adapter.py:# DESCRIPTION: Complete Cognitive Adapter with all TODOs resolved",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-dd42d744",
+      "priority": "high",
+      "title": "n",
+      "file": "./candidate/consciousness/cognitive/adapter.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 1014,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/cognitive/adapter.py:# DESCRIPTION: Complete Cognitive Adapter with all TODOs resolved",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-093910a8",
+      "priority": "high",
+      "title": "This internal tier mapping (restricted, basic, standard, elevated, advanced)",
+      "file": "./candidate/consciousness/awareness/awareness_protocol.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 262,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/awareness/awareness_protocol.py:        # TODO: Reconcile these safety boundaries and tier names with the global LUKHAS Tier system.",
+        "last_commit": "927987c928984a8592922b8de2824c7b1743c778"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-96894892",
+      "priority": "high",
+      "title": "Re-enable when qi_attention is properly implemented",
+      "file": "./candidate/consciousness/awareness/symbolic_qi_attention.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 21,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/awareness/symbolic_qi_attention.py:# TODO: Re-enable when qi_attention is properly implemented",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-43ce4859",
+      "priority": "high",
+      "title": "Implement actual consciousness-specific setup logic here.",
+      "file": "./candidate/consciousness/awareness/awareness_engine.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 151,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/awareness/awareness_engine.py:        # TODO: Implement actual consciousness-specific setup logic here.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-7841cd80",
+      "priority": "high",
+      "title": "This dispatch logic should be more robust, potentially using a",
+      "file": "./candidate/consciousness/awareness/awareness_engine.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 214,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/awareness/awareness_engine.py:        # TODO: Implement actual consciousness-specific setup logic here.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-fdab89f7",
+      "priority": "high",
+      "title": "Implement actual validation logic (e.g., check dependencies,",
+      "file": "./candidate/consciousness/awareness/awareness_engine.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 296,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/awareness/awareness_engine.py:        # TODO: Implement actual consciousness-specific setup logic here.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-d33991f5",
+      "priority": "high",
+      "title": "Add actual resource cleanup logic here.",
+      "file": "./candidate/consciousness/awareness/awareness_engine.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 330,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/awareness/awareness_engine.py:        # TODO: Implement actual consciousness-specific setup logic here.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-1b3eae39",
+      "priority": "high",
+      "title": "This dispatch logic should be more robust and specific to",
+      "file": "./candidate/consciousness/awareness/awareness_processor.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 199,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/awareness/awareness_processor.py:        # TODO: This dispatch logic should be more robust and specific to",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-d6077b28",
+      "priority": "high",
+      "title": "Add actual resource cleanup logic here if any resources are held.",
+      "file": "./candidate/consciousness/awareness/awareness_processor.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 587,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/awareness/awareness_processor.py:        # TODO: This dispatch logic should be more robust and specific to",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-0498cb03",
+      "priority": "high",
+      "title": "Implement actual consolidation logic",
+      "file": "./candidate/consciousness/unified/consolidate_consciousness_unification.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 32,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/unified/consolidate_consciousness_unification.py:    # TODO: Implement actual consolidation logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-cda0aa94",
+      "priority": "high",
+      "title": "kept pending MATRIZ wiring (document or remove)",
+      "file": "./candidate/consciousness/reasoning/id_reasoning_engine.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 30,
+      "risk": "med",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-cda0aa94",
+      "priority": "high",
+      "title": "kept pending MATRIZ wiring (document or remove)",
+      "file": "./candidate/consciousness/reasoning/id_reasoning_engine.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 31,
+      "risk": "med",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-69873d1d",
+      "priority": "high",
+      "title": "No description",
+      "file": "./candidate/consciousness/reasoning/response_reasoning_summary_text_delta_event.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 46,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reasoning/response_reasoning_summary_text_delta_event.py:# AIMPORT_TODO: Verify the location of `_models.BaseModel`.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-2021cb60",
+      "priority": "high",
+      "title": "No description",
+      "file": "./candidate/consciousness/reasoning/response_reasoning_summary_done_event.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 46,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reasoning/response_reasoning_summary_done_event.py:# AIMPORT_TODO: Verify the location of `_models.BaseModel`.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-95e58ebb",
+      "priority": "high",
+      "title": "These relative imports assume a specific directory structure where",
+      "file": "./candidate/consciousness/reasoning/analysis/engine.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 53,
+      "risk": "med",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/consciousness/reasoning/analysis/engine.py:# AIMPORT_TODO: These relative imports assume a specific directory structure where",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-d11de9f9",
+      "priority": "high",
+      "title": ".",
+      "file": "./candidate/consciousness/reasoning/analysis/engine.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 1187,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reasoning/analysis/engine.py:# AIMPORT_TODO: These relative imports assume a specific directory structure where",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-45f26f22",
+      "priority": "high",
+      "title": "No description",
+      "file": "./candidate/consciousness/reasoning/response_reasoning_summary_part_done_event.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 46,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reasoning/response_reasoning_summary_part_done_event.py:# AIMPORT_TODO: Verify the location of `_models.BaseModel`.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-786742f1",
+      "priority": "high",
+      "title": "No description",
+      "file": "./candidate/consciousness/reasoning/response_reasoning_summary_delta_event.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 46,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reasoning/response_reasoning_summary_delta_event.py:# AIMPORT_TODO: Verify the location of `_models.BaseModel`.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-6e7c868f",
+      "priority": "high",
+      "title": "No description",
+      "file": "./candidate/consciousness/reasoning/response_reasoning_item.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 49,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reasoning/response_reasoning_item.py:# AIMPORT_TODO: Verify the location of `_models.BaseModel`.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-a77c62f4",
+      "priority": "high",
+      "title": "No description",
+      "file": "./candidate/consciousness/reasoning/response_reasoning_done_event.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 47,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reasoning/response_reasoning_done_event.py:# AIMPORT_TODO: Verify the location of `_models.BaseModel`.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-4cbd4355",
+      "priority": "high",
+      "title": "Implement quantum decision superposition for parallel evaluation",
+      "file": "./candidate/consciousness/reasoning/decision/bridge.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 47,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reasoning/decision/bridge.py:TODO: Implement quantum decision superposition for parallel evaluation",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-bc8d4541",
+      "priority": "high",
+      "title": "kept pending MATRIZ wiring (document or remove)",
+      "file": "./candidate/consciousness/reasoning/decision/bridge.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 68,
+      "risk": "med",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/consciousness/reasoning/decision/bridge.py:TODO: Implement quantum decision superposition for parallel evaluation",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-c386efcc",
+      "priority": "high",
+      "title": "kept for bio-inspired/quantum systems development",
+      "file": "./candidate/consciousness/reasoning/decision/bridge.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 69,
+      "risk": "high",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/consciousness/reasoning/decision/bridge.py:TODO: Implement quantum decision superposition for parallel evaluation",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-cf49af4d",
+      "priority": "high",
+      "title": "No description",
+      "file": "./candidate/consciousness/reasoning/response_reasoning_delta_event.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 47,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reasoning/response_reasoning_delta_event.py:# AIMPORT_TODO: Verify the location of `_models.BaseModel`. The relative import `from candidate.core.models import BaseModel`",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-62fd459c",
+      "priority": "high",
+      "title": "No description",
+      "file": "./candidate/consciousness/reasoning/response_reasoning_summary_part_added_event.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 46,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reasoning/response_reasoning_summary_part_added_event.py:# AIMPORT_TODO: Verify the location of `_models.BaseModel`.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-2a227188",
+      "priority": "high",
+      "title": "No description",
+      "file": "./candidate/consciousness/reasoning/response_reasoning_summary_text_done_event.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 46,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reasoning/response_reasoning_summary_text_done_event.py:# AIMPORT_TODO: Verify the location of `_models.BaseModel`.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-ec6ee7c5",
+      "priority": "high",
+      "title": "Verify these import paths and ensure modules are structured as packages.",
+      "file": "./candidate/consciousness/qi_consciousness_integration.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 91,
+      "risk": "med",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/consciousness/qi_consciousness_integration.py:# TODO: Verify these import paths and ensure modules are structured as packages.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-0d1e2b79",
+      "priority": "high",
+      "title": "Implement Activation",
+      "file": "./candidate/consciousness/activation.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 5,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/activation.py:# TODO: Implement Activation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-9b299862",
+      "priority": "high",
+      "title": "Add example",
+      "file": "./candidate/consciousness/examples/basic/example.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 7,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/examples/basic/example.py:# TODO: Add example",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-2210c5ab",
+      "priority": "high",
+      "title": "kept for Trinity Framework consciousness evolution",
+      "file": "./candidate/consciousness/states/openai_consciousness_adapter.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 26,
+      "risk": "med",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-76471051",
+      "priority": "high",
+      "title": "Review robustness of importing IdentityClient from candidate.core.lukhas_id.",
+      "file": "./candidate/consciousness/states/shared_state.py",
+      "module": "candidate/consciousness",
+      "trinity": "Identity",
+      "line_hint": 79,
+      "risk": "med",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/consciousness/states/shared_state.py:# AIMPORT_TODO: Review robustness of importing IdentityClient from candidate.core.lukhas_id.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-9407b0a1",
+      "priority": "high",
+      "title": ".",
+      "file": "./candidate/consciousness/states/shared_state.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 1052,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/states/shared_state.py:# AIMPORT_TODO: Review robustness of importing IdentityClient from candidate.core.lukhas_id.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-9149971e",
+      "priority": "high",
+      "title": "this should be handled in provider helpers directly",
+      "file": "./candidate/consciousness/states/async_client.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 359,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/states/async_client.py:        # TODO: this should be handled in provider helpers directly",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-f1d4cb09",
+      "priority": "high",
+      "title": "Update to use unified tier system and user identity",
+      "file": "./candidate/consciousness/states/emotional_memory_manager.py",
+      "module": "candidate/consciousness",
+      "trinity": "Identity",
+      "line_hint": 22,
+      "risk": "med",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/consciousness/states/emotional_memory_manager.py:\u2551 TODO: Update to use unified tier system and user identity",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-f629416a",
+      "priority": "high",
+      "title": "Tiered state management system with Event Sourcing for global",
+      "file": "./candidate/consciousness/states/tiered_state_management.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 24,
+      "risk": "med",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/consciousness/states/tiered_state_management.py:\u2551 Implements TODO 75: Tiered state management system with Event Sourcing for global",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-e9983f65",
+      "priority": "high",
+      "title": "No description",
+      "file": "./candidate/consciousness/meta_cognitive/meta_cognitive.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 30,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/meta_cognitive/meta_cognitive.py:# AIMPORT_TODO: Review relative import paths for robustness, especially for `EnhancedDASTOrchestrator`.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-66e2b17d",
+      "priority": "high",
+      "title": ".",
+      "file": "./candidate/consciousness/meta_cognitive/meta_cognitive.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 374,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/meta_cognitive/meta_cognitive.py:# AIMPORT_TODO: Review relative import paths for robustness, especially for `EnhancedDASTOrchestrator`.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-6aa75494",
+      "priority": "high",
+      "title": "Implement quantum-coherent reflection states for enhanced self-awareness",
+      "file": "./candidate/consciousness/systems/lambda_mirror.py",
+      "module": "candidate/consciousness",
+      "trinity": "Identity",
+      "line_hint": 54,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/systems/lambda_mirror.py:TODO: Implement quantum-coherent reflection states for enhanced self-awareness",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-121d008d",
+      "priority": "high",
+      "title": "Add colony load balancing for optimal dream distribution",
+      "file": "./candidate/consciousness/dream/colony_dream_coordinator.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 45,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/dream/colony_dream_coordinator.py:\u039bTODO: Add colony load balancing for optimal dream distribution",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: codex-05-batch-$(date +%m%d)",
+      "2. Work through 40 tasks systematically",
+      "3. One TaskID per commit",
+      "4. Focus: high priority remaining",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(high): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.159269Z",
+  "source": "Direct allocation from manifest_clean.json"
+}
