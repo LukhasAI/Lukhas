@@ -19,7 +19,10 @@ import asyncio
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-# Initialize structured logger
+from ._logging import BRIDGE_LOGGER as logger
+from ._logging import get_voice_bridge_logger
+
+# ΛTAG: voice_logging
 
 
 class VoiceRecognition:
@@ -40,7 +43,7 @@ class VoiceRecognition:
 
     def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
-        self.logger = logger  # noqa: F821  # TODO: logger
+        self.logger = get_voice_bridge_logger(self.__class__.__name__)
         self.is_initialized = False
         self.status = "inactive"
 

@@ -62,12 +62,40 @@ except ImportError as e:
 
 # Multi-AI Orchestration
 try:
-    from candidate.bridge.orchestration.consensus_engine import ConsensusEngine  # noqa: F401  # TODO: candidate.bridge.orchestration...
+    from candidate.bridge.orchestration.consensus_engine import ConsensusEngine
     from candidate.bridge.orchestration.multi_ai_orchestrator import MultiAIOrchestrator
 
     ORCHESTRATION_AVAILABLE = True
-except ImportError:
+except ImportError as orchestration_error:
     ORCHESTRATION_AVAILABLE = False
+
+    # ΛTAG: orchestration_fallback
+    logging.warning(f"Consensus orchestration unavailable, using fallback: {orchestration_error}")
+
+    class ConsensusEngine:  # type: ignore[override]
+        async def process_consensus(self, responses, task_type=None, method=None):
+            return {
+                "final_response": responses[0] if responses else "",
+                "confidence_score": 0.5,
+                "consensus_method": "fallback",
+                "participating_models": len(responses),
+                "processing_time_ms": 0.0,
+                "individual_responses": responses,
+            }
+
+    class MultiAIOrchestrator:  # type: ignore[override]
+        def __init__(self, providers=None, consensus_threshold=0.5, max_latency_ms=1000):
+            self.providers = providers or []
+            self.consensus_threshold = consensus_threshold
+            self.max_latency_ms = max_latency_ms
+
+        async def execute_consensus(self, prompt: str, task_type: str, consensus_required: bool = False):
+            return {
+                "response": prompt,
+                "confidence": 0.5,
+                "providers": self.providers,
+                "consensus_method": "fallback",
+            }
 
 # Jules Enterprise components
 try:

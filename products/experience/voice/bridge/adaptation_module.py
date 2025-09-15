@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 ════════════════════════════════════════════════════════════════════════════════
 ║ 🎤 LUKHAS AI - VOICE ADAPTATION MODULE
@@ -19,12 +16,58 @@ logger = logging.getLogger(__name__)
 """
 
 import time
+from statistics import mean
+
+from ._logging import BRIDGE_LOGGER as logger
+from ._logging import get_voice_bridge_logger
+
+# ΛTAG: voice_adaptation_defaults
+_BASE_EMOTION_MAP = {
+    "calm": {"pitch": 0.95, "tempo": 0.85, "timbre": 0.9},
+    "confident": {"pitch": 1.05, "tempo": 1.0, "timbre": 1.1},
+    "empathetic": {"pitch": 0.9, "tempo": 0.8, "timbre": 1.2},
+    "excited": {"pitch": 1.15, "tempo": 1.1, "timbre": 1.0},
+}
+_BASE_RESONATOR_WEIGHTS = {"fundamental": 1.0, "harmonics": 0.65, "breathiness": 0.4}
+
+# ΛTAG: voice_adaptation_logging
+logger.debug(
+    "Voice adaptation defaults initialised",
+    extra={
+        "driftScore": mean(settings["pitch"] for settings in _BASE_EMOTION_MAP.values()),
+        "affect_delta": mean(settings["tempo"] for settings in _BASE_EMOTION_MAP.values()) - 1.0,
+    },
+)
+
+
+def load_initial_emotion_map() -> dict[str, dict[str, float]]:
+    component_logger = get_voice_bridge_logger("voice_adaptation.emotion_loader")
+    emotion_map = {emotion: settings.copy() for emotion, settings in _BASE_EMOTION_MAP.items()}
+    drift_score = mean(settings["pitch"] for settings in emotion_map.values())
+    affect_delta = mean(settings["tempo"] for settings in emotion_map.values()) - 1.0
+    component_logger.debug(
+        "Loaded default emotion map",
+        extra={"driftScore": drift_score, "affect_delta": affect_delta},
+    )
+    return emotion_map
+
+
+def load_initial_resonator_weights() -> dict[str, float]:
+    component_logger = get_voice_bridge_logger("voice_adaptation.resonator_loader")
+    weights = dict(_BASE_RESONATOR_WEIGHTS)
+    collapse_hash = sum(weights.values())
+    component_logger.debug(
+        "Loaded resonator weights",
+        extra={"collapseHash": f"{collapse_hash:.3f}"},
+    )
+    return weights
 
 
 class VoiceAdaptationModule:
     def __init__(self):
-        self.emotion_map = load_initial_emotion_map()  # noqa: F821  # TODO: load_initial_emotion_map
-        self.resonator_weights = load_initial_resonator_weights()  # noqa: F821  # TODO: load_initial_resonator_weights
+        self.logger = get_voice_bridge_logger(self.__class__.__name__)
+        self.emotion_map = load_initial_emotion_map()
+        self.resonator_weights = load_initial_resonator_weights()
         self.interaction_log = []
 
     def get_voice_settings(self, emotion, emoji=None):
@@ -56,7 +99,7 @@ class VoiceAdaptationModule:
                 self.emotion_map[emotion]["pitch"] *= 0.98
 
     def log_awakening_event(self, event_type, details):
-        logger.info(f"AWAKENING EVENT ({event_type}): {details}")
+        self.logger.info(f"AWAKENING EVENT ({event_type}): {details}")
 
 
 """

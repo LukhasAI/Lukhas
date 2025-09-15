@@ -9,7 +9,10 @@ import builtins
 import contextlib
 import logging
 import random
+import re
 from typing import Any, Optional
+
+# ΛTAG: cultural_regex
 
 from ..spine.accent_adapter import AccentAdapter
 from ..spine.emotion_mapper_alt import LUKHAS
