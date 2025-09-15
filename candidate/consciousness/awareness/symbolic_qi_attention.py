@@ -12,16 +12,21 @@ Advanced: qi_attention.py
 Integration Date: 2025-05-31T07:55:28.192995
 """
 import logging
-from typing import Any, Optional
+from typing import Any, Optional, Type
 
 import numpy as np
 
-from bio.core import BioOrchestrator, ResourcePriority
-
-# TODO: Re-enable when qi_attention is properly implemented
-# from candidate.orchestration.brain.attention.qi_attention import *
-
+# ΛTAG: integration - prefer canonical core attention implementation when available
 logger = logging.getLogger("QIAttention")
+try:
+    from candidate.core.orchestration.brain.attention.qi_attention import (
+        QIInspiredAttention as CoreQIInspiredAttention,
+    )
+except ImportError:  # pragma: no cover - optional dependency path
+    CoreQIInspiredAttention = None  # type: ignore[assignment]
+    logger.warning(
+        "ΛTRACE: Core QI attention module unavailable; using symbolic implementation only."
+    )
 
 
 class QIInspiredAttention:
@@ -404,7 +409,41 @@ class QIAttentionEnsemble:
             "coherence_avg": np.mean([m.attention_stats["coherence"] for m in self.attention_modules]),
         }
 
-    """This implementation includes:
+    # No additional methods beyond diagnostics
+
+
+# ΛTAG: integration - runtime helper for selecting the canonical backend
+def resolve_qi_attention_backend(prefer_core: bool = True) -> Type[Any]:
+    """Resolve which QI attention backend should be used by callers."""
+
+    if prefer_core and CoreQIInspiredAttention is not None:
+        logger.debug("ΛTRACE: Resolved core QI attention backend (prefer_core=True).")
+        return CoreQIInspiredAttention
+
+    logger.debug(
+        "ΛTRACE: Resolved symbolic QI attention backend (prefer_core=%s).",
+        prefer_core,
+    )
+    return QIInspiredAttention
+
+
+# ΛTAG: integration - safe factory for creating QI attention instances
+def create_qi_attention(*args: Any, prefer_core: bool = True, **kwargs: Any) -> Any:
+    """Instantiate the preferred QI attention implementation with safe fallback."""
+
+    backend = resolve_qi_attention_backend(prefer_core=prefer_core)
+    try:
+        return backend(*args, **kwargs)
+    except Exception as exc:
+        if backend is CoreQIInspiredAttention and CoreQIInspiredAttention is not None and prefer_core:
+            logger.error(
+                "ΛTRACE: Core QI attention instantiation failed (%s). Falling back to symbolic implementation.",
+                exc,
+            )
+            return QIInspiredAttention(*args, **kwargs)
+        raise
+
+"""This implementation includes:
 
 -Quantum Tunneling Mechanics
 Simulates electrons tunneling through energy barriers in mitochondria
@@ -425,56 +464,53 @@ Reinitializes quantum matrices when coherence drops too low
 -Diagnostics and Monitoring
 Tracks attention statistics for performance analysis
 Provides stability indicators through eigenvalue analysis
-To use this module with your bio-orchestrator, you can update your integration code:"""
+"""
 
 
+# ΛTAG: docs - preserved integration reference for manual wiring
+EXAMPLE_INTEGRATION_SNIPPET = """
 # In your main LUKHAS_AGI initialization
-
-# Initialize bio-symbolic layer
-bio_orchestrator = BioOrchestrator(total_energy_capacity=2.0, monitoring_interval=10.0)
-
-# Choose between single quantum attention or ensemble
-use_ensemble = True  # Set to False for single module
-
-if use_ensemble:
-    # Register ensemble for better stability
-    qi_attn = QIAttentionEnsemble(dimension=CONFIG.embedding_size, ensemble_size=3)
-    bio_orchestrator.register_module(
-        "qi_attention",
-        qi_attn,
-        priority=ResourcePriority.HIGH,
-        energy_cost=0.25,  # Higher cost for ensemble
-    )
-else:
-    # Register single quantum attention module
-    qi_attn = QIInspiredAttention(dimension=CONFIG.embedding_size)
-    bio_orchestrator.register_module(
-        "qi_attention",
-        qi_attn,
-        priority=ResourcePriority.HIGH,
-        energy_cost=0.15,
-    )
-
-
-# Hook into attention mechanism
-def enhanced_attention_hook(original_attention_fn):
-    def wrapped_attention(query, key, value, mask=None):
-        # Get original attention distribution
-        attn_dist = original_attention_fn(query, key, value, mask)
-
-        # Prepare context information (optional)
-        context = {
-            "query_norm": np.linalg.norm(query),
-            "key_value_similarity": np.mean(np.dot(key, value.T)),
-        }
-
-        # Apply quantum-inspired processing via orchestrator
-        success, enhanced_dist = bio_orchestrator.invoke_module("qi_attention", "process", attn_dist, context)
-
-        return enhanced_dist if success else attn_dist
-
-    return wrapped_attention
+#
+# bio_orchestrator = BioOrchestrator(total_energy_capacity=2.0, monitoring_interval=10.0)
+#
+# use_ensemble = True  # Set to False for single module
+# if use_ensemble:
+#     qi_attn = QIAttentionEnsemble(dimension=CONFIG.embedding_size, ensemble_size=3)
+#     bio_orchestrator.register_module(
+#         "qi_attention",
+#         qi_attn,
+#         priority=ResourcePriority.HIGH,
+#         energy_cost=0.25,
+#     )
+# else:
+#     qi_attn = QIInspiredAttention(dimension=CONFIG.embedding_size)
+#     bio_orchestrator.register_module(
+#         "qi_attention",
+#         qi_attn,
+#         priority=ResourcePriority.HIGH,
+#         energy_cost=0.15,
+#     )
+#
+# def enhanced_attention_hook(original_attention_fn):
+#     def wrapped_attention(query, key, value, mask=None):
+#         attn_dist = original_attention_fn(query, key, value, mask)
+#         context = {
+#             "query_norm": np.linalg.norm(query),
+#             "key_value_similarity": np.mean(np.dot(key, value.T)),
+#         }
+#         success, enhanced_dist = bio_orchestrator.invoke_module("qi_attention", "process", attn_dist, context)
+#         return enhanced_dist if success else attn_dist
+#
+#     return wrapped_attention
+#
+# lukhas_agi.attention_mechanism = enhanced_attention_hook(lukhas_agi.attention_mechanism)
+"""
 
 
-# Apply hook to existing attention mechanism
-lukhas_agi.attention_mechanism = enhanced_attention_hook(lukhas_agi.attention_mechanism)
+__all__ = [
+    "CoreQIInspiredAttention",
+    "QIInspiredAttention",
+    "QIAttentionEnsemble",
+    "resolve_qi_attention_backend",
+    "create_qi_attention",
+]
