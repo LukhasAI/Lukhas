@@ -50,7 +50,7 @@ pytest==8.4.1  # Testing framework
 setuptools==80.9.0  # Package security
 
 # Voice & Audio
-elevenlabs==1.58.1  # Voice synthesis
+elevenlabs==2.15.0  # Voice synthesis
 edge_tts==7.2.1  # Text-to-speech
 TTS==0.22.0  # Text-to-speech
 pyttsx3==2.99  # TTS library
