@@ -13,8 +13,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
 
-from universal_language.core import Concept, ConceptType, Symbol, SymbolicDomain
-from universal_language.glyph import get_glyph_engine
+from .core import Concept, ConceptType, Symbol, SymbolicDomain
+from ..glyph import get_glyph_engine
 
 logger = logging.getLogger(__name__)
 
@@ -630,9 +630,7 @@ class UnifiedVocabulary:
         )
         return concept
 
-    def _resolve_symbol_reference(
-        self, payload: dict[str, Any], fallback_domain: SymbolicDomain
-    ) -> Optional[Symbol]:
+    def _resolve_symbol_reference(self, payload: dict[str, Any], fallback_domain: SymbolicDomain) -> Optional[Symbol]:
         symbol_id = payload.get("id")
         if symbol_id:
             for vocab in self.manager.vocabularies.values():
