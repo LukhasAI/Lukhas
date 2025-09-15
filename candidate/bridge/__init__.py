@@ -5,8 +5,6 @@ Trinity Framework: ⚛️🧠🛡️
 Bridge system with integrated branding compliance for external
 communications and API responses with consistent brand voice.
 """
-import streamlit as st
-
 # Import LUKHAS AI branding system for bridge operations
 try:
     from lukhas.branding_bridge import (

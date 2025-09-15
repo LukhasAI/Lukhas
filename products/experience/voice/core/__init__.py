@@ -20,7 +20,10 @@ import logging
 import time
 from typing import Any, Optional
 
-import streamlit as st
+# ΛTAG: voice_numpy
+import numpy as np
+
+from ...streamlit_safe import get_streamlit
 
 # Audio codecs
 from .audio_codec import (
@@ -120,6 +123,9 @@ from .voice_training import (
     TrainingObjective,
     train_voice_model,
 )
+
+# ΛTAG: voice_streamlit_proxy
+st = get_streamlit()
 
 # Version and metadata
 __version__ = "1.0.0"

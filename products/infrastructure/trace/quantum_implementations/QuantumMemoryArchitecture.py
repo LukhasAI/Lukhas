@@ -43,7 +43,6 @@ except Exception:  # noqa: BLE001 - qiskit is optional in this lane
         def __repr__(self) -> str:  # pragma: no cover - debugging helper
             return f"QuantumRegister(name={self.name!r}, size={self.size})"
 
-
     class QuantumCircuit:  # type: ignore[misc]
         """Simplified circuit recorder for deterministic fallbacks."""
 
@@ -144,11 +143,13 @@ class DecoherenceMitigation:
         self._stabilization_events: list[dict[str, Any]] = []
 
     async def stabilize(self, state: QuantumState) -> QuantumState:
-        self._stabilization_events.append({
-            "strategy": self.strategy,
-            "associations": state.associations,
-            "ΛTAG": "ΛDECOHERENCE_STABILIZED",
-        })
+        self._stabilization_events.append(
+            {
+                "strategy": self.strategy,
+                "associations": state.associations,
+                "ΛTAG": "ΛDECOHERENCE_STABILIZED",
+            }
+        )
         return state
 
 
@@ -170,9 +171,7 @@ class QIAssociativeMemoryBank:
         # Decoherence mitigation
         self.decoherence_mitigator = DecoherenceMitigation(strategy="dynamical_decoupling")
 
-    async def store_quantum_state(
-        self, memory_id: str, quantum_state: QuantumState, associations: list[str]
-    ) -> None:
+    async def store_quantum_state(self, memory_id: str, quantum_state: QuantumState, associations: list[str]) -> None:
         """
         Store information in quantum superposition
         """
@@ -262,12 +261,16 @@ class QIAssociativeMemoryBank:
 
         normalized_state = quantum_state.normalized().with_associations(associations)
         metadata = dict(normalized_state.metadata)
-        metadata.update({
-            "memory_id": memory_id,
-            "associations": list(normalized_state.associations),
-            "ΛTAG": "ΛENCODED_STATE",
-        })
-        return QuantumState(normalized_state.amplitudes, normalized_state.associations, normalized_state.label, metadata)
+        metadata.update(
+            {
+                "memory_id": memory_id,
+                "associations": list(normalized_state.associations),
+                "ΛTAG": "ΛENCODED_STATE",
+            }
+        )
+        return QuantumState(
+            normalized_state.amplitudes, normalized_state.associations, normalized_state.label, metadata
+        )
 
     def _build_query_oracle(self, query: QuantumQuery) -> dict[str, Any]:
         """Represent a query oracle structure for deterministic evaluation."""
@@ -283,9 +286,7 @@ class QIAssociativeMemoryBank:
 
         return {"operation": "diffusion", "ΛTAG": "ΛDIFFUSE"}
 
-    async def _measure_with_mitigation(
-        self, circuit: QuantumCircuit, query: QuantumQuery
-    ) -> dict[str, float]:
+    async def _measure_with_mitigation(self, circuit: QuantumCircuit, query: QuantumQuery) -> dict[str, float]:
         """Compute deterministic probabilities using association similarity."""
 
         del circuit  # Circuit is recorded for audit trails only
@@ -296,9 +297,7 @@ class QIAssociativeMemoryBank:
                 scores[memory_id] = score
         return scores
 
-    def _extract_memories(
-        self, results: dict[str, float], query: QuantumQuery
-    ) -> list[QuantumMemory]:
+    def _extract_memories(self, results: dict[str, float], query: QuantumQuery) -> list[QuantumMemory]:
         """Convert measurement ratios into QuantumMemory objects."""
 
         extracted: list[QuantumMemory] = []

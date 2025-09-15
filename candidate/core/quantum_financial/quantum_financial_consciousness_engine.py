@@ -47,9 +47,13 @@ class AbundanceCalculator:
     async def calculate_abundance_impact(
         self, contribution: dict[str, Any]
     ) -> float:
-        """Calculates abundance impact based on a seeded random generator."""
-        # TODO[QUANTUM-BIO:specialist] - Contribution used for quantum consciousness calculation
-        return self.rng.uniform(1.0, 2.0)
+        """Calculates abundance impact based on contribution and deterministic randomness."""
+        base = self.rng.uniform(1.0, 2.0)
+        impact_factor = float(contribution.get("impact", 1.0))
+        if impact_factor <= 0:
+            impact_factor = 1.0
+        # ΛTAG: quantum_abundance
+        return base * impact_factor
 
 
 class ConsciousnessTokenProtocol:
@@ -73,9 +77,13 @@ class GiftEconomyEngine:
     async def calculate_gift_value(
         self, contribution: dict[str, Any]
     ) -> float:
-        """Calculates gift value based on a seeded random generator."""
-        # TODO[QUANTUM-BIO:specialist] - Contribution drives quantum gift consciousness economy
-        return self.rng.uniform(10, 100)
+        """Calculates gift value based on contribution magnitude and deterministic randomness."""
+        base = self.rng.uniform(10, 100)
+        contribution_value = float(contribution.get("value", 1.0))
+        if contribution_value <= 0:
+            contribution_value = 1.0
+        # ΛTAG: quantum_gift_economy
+        return base * contribution_value
 
 
 # --- Main Engine ---

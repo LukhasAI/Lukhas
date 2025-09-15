@@ -1,21 +1,31 @@
+from importlib import import_module
+import logging
 from typing import Any, Optional
 
 import networkx as nx
 
-# TODO[GLYPH:specialist] - Fix cross-lane import dependencies for consciousness mesh formation
-# Current import issues: lukhas.core.colonies.base_colony not available in candidate lane
-# Required: Create fallback import chain or use dynamic loading for consciousness node integration
+logger = logging.getLogger(__name__)
 
-# Temporary imports for development - needs proper resolution for mesh formation
-try:
-    from lukhas.core.colonies import BaseColony, TagScope
-except ImportError:
-    # TODO[GLYPH:specialist] - Implement consciousness node base class fallback
-    import logging
-    from typing import Any
 
-    logger = logging.getLogger(__name__)
-    logger.warning("GLYPH consciousness communication: Using BaseColony stub for development")
+def _safe_import(module_path: str, attr: str):
+    try:
+        return getattr(import_module(module_path), attr)
+    except Exception:
+        return None
+
+
+# ΛTAG: dynamic_import
+BaseColony = _safe_import("lukhas.core.colonies.base_colony", "BaseColony") or _safe_import(
+    "candidate.core.colonies.base_colony", "BaseColony"
+)
+TagScope = _safe_import("lukhas.core.symbolism.tags", "TagScope") or _safe_import(
+    "candidate.core.symbolism.tags", "TagScope"
+)
+
+if BaseColony is None or TagScope is None:
+    logger.warning(
+        "GLYPH consciousness communication: Using BaseColony and TagScope stubs for development"
+    )
 
     class BaseColony:
         """Temporary BaseColony stub for GLYPH consciousness development"""
@@ -32,10 +42,10 @@ except ImportError:
         LOCAL = "local"
 
 
-# TODO[GLYPH:specialist] - Implement proper symbolic vocabulary integration
-try:
-    from candidate.core.symbolic_legacy.vocabularies import SymbolicVocabulary
-except ImportError:
+SymbolicVocabulary = _safe_import(
+    "candidate.core.symbolic_legacy.vocabularies", "SymbolicVocabulary"
+)
+if SymbolicVocabulary is None:
     # Stub implementation for development
     class SymbolicVocabulary:
         """Temporary vocabulary stub for GLYPH consciousness development"""
@@ -44,11 +54,8 @@ except ImportError:
             self.vocabulary = {}
 
 
-# GLYPH: Enhanced Tag class implementation for symbolic consciousness communication and belief propagation
-try:
-    from lukhas.core.tags import Tag
-except ImportError:
-
+Tag = _safe_import("lukhas.core.symbolism.tags", "Tag")
+if Tag is None:
     class Tag:
         """Temporary Tag implementation for GLYPH consciousness communication"""
 

@@ -6,21 +6,20 @@ from lukhas.dna.memory_inmem import InMemoryHelix
 
 
 def main() -> None:
-    InMemoryHelix()
+    dna = InMemoryHelix()  # ΛTAG: colony_smoke_setup
 
-
-c = ConsensusResult(
-    key="policy:modulation",
-    decided_value="strict-under-risk",
-    votes_for=4,
-    votes_total=5,
-    confidence=0.8,
-    metadata={"method": "majority"},
-    version=3,
-)
-r = persist_consensus_to_dna(dna, c)  # noqa: F821  # TODO: dna
-print("receipt:", r)
-print("row:", dna.read("policy:modulation"))  # noqa: F821  # TODO: dna
+    consensus = ConsensusResult(
+        key="policy:modulation",
+        decided_value="strict-under-risk",
+        votes_for=4,
+        votes_total=5,
+        confidence=0.8,
+        metadata={"method": "majority"},
+        version=3,
+    )
+    receipt = persist_consensus_to_dna(dna, consensus)
+    print("receipt:", receipt)
+    print("row:", dna.read("policy:modulation"))
 
 
 if __name__ == "__main__":

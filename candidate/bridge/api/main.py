@@ -132,7 +132,7 @@ async def generate_dream(request: Request, user: AuthUser = Depends(get_current_
         updated_profile = await update_user_drift_profile(user.id, dream_metrics)
 
         # Add profile info to response
-        dream_response["userProfile"] = {
+        dream_response["user_profile"] = {
             "total_dreams": updated_profile.get("total_dreams", 0),
             "avg_drift": updated_profile.get("drift_history", [{}])[-1].get("drift_score", 0.0),
         }
@@ -147,8 +147,8 @@ async def generate_dream(request: Request, user: AuthUser = Depends(get_current_
 
 
 @app.get("/api/dreams")
-async def list_dreams(user: AuthUser = Depends(get_current_user)):
-    """List user's dreams"""
+async def get_user_dreams(user: AuthUser = Depends(get_current_user)):
+    """Get user's dreams"""
     # Mock dreams data
     dreams = [
         {
@@ -198,8 +198,8 @@ async def rate_dream(dream_id: str, request: Request, user: AuthUser = Depends(g
 
 
 @app.get("/api/symbols")
-async def list_symbols(user: AuthUser = Depends(get_current_user)):
-    """List user's symbolic patterns"""
+async def get_user_symbols(user: AuthUser = Depends(get_current_user)):
+    """Get user's symbolic patterns"""
     # Mock symbols data
     symbols = [
         {

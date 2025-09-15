@@ -26,6 +26,7 @@ try:  # pragma: no cover - optional integration
         trace_tools,  # assuming trace_tools.py is importable
     )
 except Exception:  # noqa: BLE001 - fallback when integration not present
+
     class _TraceToolsFallback:
         """Minimal analytics fallback for environments without voice interfaces."""
 
@@ -43,6 +44,7 @@ logger = logging.getLogger(__name__)
 
 try:  # pragma: no cover - exercised in environments with streamlit available
     import streamlit as st  # type: ignore
+
     STREAMLIT_AVAILABLE = True
 except Exception:  # noqa: BLE001 - optional dependency fallback
     STREAMLIT_AVAILABLE = False
@@ -75,9 +77,7 @@ except Exception:  # noqa: BLE001 - optional dependency fallback
         def caption(self, text: str) -> None:
             logger.info("Streamlit fallback caption", extra={"ΛTAG": "ΛSTREAMLIT_FALLBACK", "caption": text})
 
-        def multiselect(
-            self, label: str, options: Sequence[str], default: Iterable[str] | None = None
-        ) -> list[str]:
+        def multiselect(self, label: str, options: Sequence[str], default: Iterable[str] | None = None) -> list[str]:
             selected = list(default if default is not None else options)
             logger.info(
                 "Streamlit fallback multiselect",
@@ -91,10 +91,19 @@ except Exception:  # noqa: BLE001 - optional dependency fallback
             return selected
 
         def dataframe(self, data: Any) -> None:
-            logger.info("Streamlit fallback dataframe", extra={"ΛTAG": "ΛSTREAMLIT_FALLBACK", "rows": getattr(data, "shape", None)})
+            logger.info(
+                "Streamlit fallback dataframe",
+                extra={"ΛTAG": "ΛSTREAMLIT_FALLBACK", "rows": getattr(data, "shape", None)},
+            )
 
         def json(self, value: Any) -> None:
-            logger.info("Streamlit fallback json", extra={"ΛTAG": "ΛSTREAMLIT_FALLBACK", "json_keys": list(value.keys()) if isinstance(value, dict) else None})
+            logger.info(
+                "Streamlit fallback json",
+                extra={
+                    "ΛTAG": "ΛSTREAMLIT_FALLBACK",
+                    "json_keys": list(value.keys()) if isinstance(value, dict) else None,
+                },
+            )
 
         def button(self, label: str) -> bool:
             logger.info("Streamlit fallback button", extra={"ΛTAG": "ΛSTREAMLIT_FALLBACK", "label": label})

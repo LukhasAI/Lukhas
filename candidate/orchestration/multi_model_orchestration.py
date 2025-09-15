@@ -79,6 +79,17 @@ except ImportError as e:
         def __init__(self, *args, **kwargs):
             pass
 
+try:
+    from candidate.governance.ethics.constitutional_ai import ConstitutionalAI
+except ImportError as e:
+    logging.warning(f"ConstitutionalAI import failed: {e}")
+    # Provide a stub if the import fails
+    class ConstitutionalAI:
+        async def initialize(self):
+            pass
+        async def evaluate_request(self, *args, **kwargs):
+            return {"intervention_needed": False}
+
 
 logger = logging.getLogger(__name__)
 
@@ -350,6 +361,15 @@ class MultiModelOrchestrator:
                 raise ValueError(f"Unknown pipeline: {pipeline}")
         else:
             pipeline_config = pipeline
+
+        # 🛡️ Guardian Oversight Check
+        if pipeline_config.requires_guardian_oversight:
+            guardian_ai = ConstitutionalAI()
+            await guardian_ai.initialize()
+            safety_evaluation = await guardian_ai.evaluate_request(prompt, context or {})
+            if safety_evaluation.get("intervention_needed", False):
+                raise PermissionError(f"Guardian oversight blocked orchestration due to safety concerns: {safety_evaluation.get('recommendations')}")
+            logger.info("✅ Guardian oversight passed.")
 
         logger.info(f"🎭 Starting orchestration: {pipeline_config.name}")
         logger.info(f"   Models: {[m.value for m in pipeline_config.models]}")

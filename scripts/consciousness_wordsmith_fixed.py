@@ -64,20 +64,32 @@ import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Callable, Optional
 
 import yaml
 
 # Configure the consciousness logger
+_FIX_LATER_REGISTRY: dict[str, Callable[..., Any]] = {}
 
 
-def fix_later(*args, **kwargs):
-    """Consciousness-aware symbol resolver for dynamic functionality expansion.
+def register_fix_later(symbol: str, handler: Callable[..., Any]) -> None:
+    """Register a deferred handler for later resolution."""  # ΛTAG: dynamic_symbol_registry
 
-    Implemented as a Trinity Framework-aware placeholder that can be
-    dynamically extended with consciousness technology patterns.
-    """
-    raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+    _FIX_LATER_REGISTRY[symbol] = handler
+
+
+def fix_later(symbol: str, *args, default: Any = None, **kwargs):
+    """Resolve deferred consciousness hooks in a deterministic manner."""
+
+    handler = _FIX_LATER_REGISTRY.get(symbol)
+    if handler:
+        return handler(*args, **kwargs)
+
+    logging.getLogger("ConsciousnessWordsmith").debug(
+        "Deferred symbol unresolved; returning default",
+        extra={"symbol": symbol, "args": args, "kwargs": kwargs},
+    )
+    return default
 
 
 logging.basicConfig(level=logging.INFO, format="🧠 %(asctime)s - %(name)s - %(levelname)s - %(message)s")

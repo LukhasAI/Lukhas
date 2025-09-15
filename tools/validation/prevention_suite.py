@@ -265,11 +265,27 @@ class TestExample:
 
         try:
             # Test auth_integration import
-            from lukhas.governance.identity import auth_integration  # noqa: F401  # TODO: lukhas.governance.identity.aut...
+            from lukhas.governance.identity import auth_integration
 
-            results.append(
-                ValidationResult("Import Bridge: auth_integration", True, "auth_integration import bridge working")
-            )
+            has_identity_client = getattr(auth_integration, "IdentityClient", None)
+            if has_identity_client is not None:
+                results.append(
+                    ValidationResult(
+                        "Import Bridge: auth_integration",
+                        True,
+                        "auth_integration import bridge working",
+                        details={"ΛTAG": "ΛBRIDGE_CHECK"},
+                    )
+                )
+            else:
+                results.append(
+                    ValidationResult(
+                        "Import Bridge: auth_integration",
+                        False,
+                        "auth_integration module missing IdentityClient export",
+                        details={"ΛTAG": "ΛBRIDGE_CHECK"},
+                    )
+                )
         except ImportError as e:
             results.append(
                 ValidationResult("Import Bridge: auth_integration", False, f"auth_integration import failed: {e}")

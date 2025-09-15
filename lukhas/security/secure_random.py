@@ -27,6 +27,7 @@
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 
+import os
 import random
 import secrets
 import string
@@ -339,6 +340,60 @@ def secure_nonce(nbytes: int = 16) -> bytes:
     return secure_random.secure_nonce(nbytes)
 
 
+# --- Quantum Entropy Stub Functions (EXPERIMENTAL) ---
+
+def get_quantum_random_bytes(num_bytes: int) -> bytes:
+    """
+    Returns a specified number of quantum-safe random bytes.
+
+    .. warning::
+        This is a stub implementation using os.urandom. It is NOT connected
+        to a real quantum entropy source. For research and interface
+        development only.
+
+    Args:
+        num_bytes: The number of random bytes to generate.
+
+    Returns:
+        A byte string containing the requested number of random bytes.
+    """
+    if not isinstance(num_bytes, int):
+        raise TypeError("Number of bytes must be an integer.")
+    if num_bytes < 0:
+        raise ValueError("Number of bytes must be a non-negative integer.")
+    return os.urandom(num_bytes)
+
+def get_quantum_random_int(min_val: int, max_val: int) -> int:
+    """
+    Returns a quantum-safe random integer within a specified range (inclusive).
+
+    .. warning::
+        This is a stub implementation. It is NOT connected to a real
+        quantum entropy source. For research and interface development only.
+
+    Args:
+        min_val: The minimum value of the random integer.
+        max_val: The maximum value of the random integer.
+
+    Returns:
+        A random integer in the range [min_val, max_val].
+
+    Raises:
+        ValueError: If min_val > max_val.
+    """
+    if not isinstance(min_val, int) or not isinstance(max_val, int):
+        raise TypeError("min_val and max_val must be integers.")
+
+    if min_val > max_val:
+        raise ValueError("min_val cannot be greater than max_val.")
+
+    if min_val == max_val:
+        return min_val
+
+    # Use the existing secure randint function for the stub implementation
+    return randint(min_val, max_val)
+
+
 __all__ = [
     "SecureRandom",
     "choice",
@@ -358,4 +413,6 @@ __all__ = [
     "secure_token",
     "shuffle",
     "uniform",
+    "get_quantum_random_bytes",
+    "get_quantum_random_int",
 ]

@@ -65,7 +65,9 @@ class ConsentHistoryManager:
         f"{record['timestamp']}|{record['event_type']}|{record['scope_data']!s}|{user_id}"
 
         # TODO: Call ΛTRACE logger
-        # self.trace_logger.log_activity(user_id, 'consent', symbolic_data)
+        if self.trace_logger:
+            symbolic_data = {"record": record}
+            self.trace_logger.log_activity(user_id, "consent", symbolic_data)
 
     def verify_consent_chain(self, user_id: str) -> bool:
         """Verify integrity of user's consent chain"""

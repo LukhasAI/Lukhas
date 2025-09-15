@@ -21,6 +21,7 @@ import numpy as np
 logger = logging.getLogger(__name__)
 
 
+
 class SymbolicDomain(Enum):
     """Core domains in the universal language"""
 
@@ -42,6 +43,34 @@ class SymbolicDomain(Enum):
     CONSCIOUSNESS = "consciousness"
     QUANTUM = "quantum"
     MEMORY = "memory"
+
+
+# ΛTAG: grammar_token_map
+GRAMMAR_TOKEN_MAP = {
+    "ENTITY": {
+        SymbolicDomain.IDENTITY,
+        SymbolicDomain.CONTEXT,
+        SymbolicDomain.RESOURCE,
+        SymbolicDomain.EMOTION,
+        SymbolicDomain.ACTION,
+    },
+    "ACTION": {SymbolicDomain.ACTION},
+    "STATE": {SymbolicDomain.STATE},
+    "EMOTION": {SymbolicDomain.EMOTION},
+    "CONSENT": {SymbolicDomain.CONSENT},
+    "TASK": {SymbolicDomain.TASK},
+    "ANY": set(SymbolicDomain),
+}
+
+
+def _resolve_token_domains(token: str) -> set[SymbolicDomain]:
+    token_upper = token.upper()
+    if token_upper in GRAMMAR_TOKEN_MAP:
+        return GRAMMAR_TOKEN_MAP[token_upper]
+    try:
+        return {SymbolicDomain[token_upper]}
+    except KeyError:
+        return set(SymbolicDomain)
 
 
 class ConceptType(Enum):
@@ -219,13 +248,65 @@ class Grammar:
 
     def validate(self, symbols: list[Symbol]) -> bool:
         """Validate symbols against this grammar rule"""
-        # TODO: Implement pattern matching
+
+        # ΛTAG: grammar_validation
+        if not self.pattern:
+            return True
+
+        tokens = [token for token in self.pattern.split() if token]
+        if len(tokens) != len(symbols):
+            return False
+
+        for token, symbol in zip(tokens, symbols):
+            allowed_domains = _resolve_token_domains(token)
+            if allowed_domains and symbol.domain not in allowed_domains:
+                return False
+
         return True
 
     def apply_transformations(self, symbols: list[Symbol]) -> list[Symbol]:
         """Apply transformations defined by this rule"""
-        # TODO: Implement transformations
-        return symbols
+        # ΛTAG: grammar_transformation
+        transformed = list(symbols)
+
+        for instruction in self.transformations:
+            op, _, argument = instruction.partition(":")
+            op = op.strip().lower()
+            argument = argument.strip()
+
+            if op == "deduplicate":
+                unique: dict[str, Symbol] = {}
+                for symbol in transformed:
+                    unique.setdefault(symbol.id, symbol)
+                transformed = list(unique.values())
+            elif op == "sort":
+                key_name = argument or "domain"
+                if key_name == "name":
+                    transformed = sorted(transformed, key=lambda s: s.name)
+                else:
+                    transformed = sorted(transformed, key=lambda s: s.domain.value)
+            elif op == "tag":
+                tag = argument or self.rule_id
+                for symbol in transformed:
+                    tags = symbol.metadata.setdefault("grammar_tags", [])
+                    if tag not in tags:
+                        tags.append(tag)
+            elif op == "adjust-confidence":
+                try:
+                    delta = float(argument or "0")
+                except ValueError:
+                    continue
+                for symbol in transformed:
+                    symbol.confidence = max(0.0, min(1.0, symbol.confidence + delta))
+            elif op == "set-attribute":
+                key, _, value = argument.partition("=")
+                key = key.strip()
+                if key:
+                    value = value.strip()
+                    for symbol in transformed:
+                        symbol.attributes[key] = value or True
+
+        return transformed
 
 
 @dataclass
