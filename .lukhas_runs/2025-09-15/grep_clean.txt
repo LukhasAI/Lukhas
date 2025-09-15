@@ -1,0 +1,1017 @@
+./candidate/bio/oscillator.py:        self.timestamp = utc_now()  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement
+./candidate/bio/oscillator.py:        self.timestamp = utc_now()  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement
+./candidate/bio/qi.py:    from datetime import (  # TODO[QUANTUM-BIO:specialist] - Import timezone for UTC enforcement
+./candidate/bio/qi.py:        "validation_timestamp": utc_now().isoformat(),  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement
+./candidate/bio/awareness.py:        self.timestamp = utc_now()  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement
+./candidate/bio/awareness.py:    def __init__(self, *args, **kwargs):  # TODO[QUANTUM-BIO:specialist] - Args used for constellation flexibility
+./candidate/bio/awareness.py:    ):  # TODO[QUANTUM-BIO:specialist] - Context for constellation integration
+./candidate/bio/awareness.py:                        "timestamp": utc_now(),  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement
+./candidate/bio/awareness.py:                ).seconds  # TODO[QUANTUM-BIO:specialist] - UTC timezone consistency
+./candidate/colonies/__init__.py:TODO[T4-AUDIT]:triage - Colony system implementation status unclear. Need integration assessment with actor system.
+./candidate/core/symbolic_legacy/colony_tag_propagation.py:# TODO[GLYPH:specialist] - Fix cross-lane import dependencies for consciousness mesh formation
+./candidate/core/symbolic_legacy/colony_tag_propagation.py:    # TODO[GLYPH:specialist] - Implement consciousness node base class fallback
+./candidate/core/symbolic_legacy/colony_tag_propagation.py:# TODO[GLYPH:specialist] - Implement proper symbolic vocabulary integration
+./candidate/core/symbolic_legacy/colony_tag_propagation.py:        # TODO[GLYPH:specialist] - Initialize consciousness agents for mesh formation
+./candidate/core/symbolic_legacy/colony_tag_propagation.py:    # TODO[GLYPH:specialist] - Implement consciousness processing with GLYPH communication
+./candidate/core/symbolic_legacy/colony_tag_propagation.py:    # TODO[GLYPH:specialist] - Implement consciousness consensus with mesh formation
+./candidate/core/symbolic_legacy/bio/mito_qi_attention.py:TODO[T4-AUDIT]:triage - Large legacy symbolic processing system. Need migration strategy vs preservation decision.
+./candidate/core/symbolic_legacy/__init__.py:TODO[T4-AUDIT]:triage - Large legacy symbolic processing system. Need migration strategy vs preservation decision.
+./candidate/core/swarm.py:Addresses TODOs 76-90
+./candidate/core/resource_efficiency_analyzer.py:║ Addresses REALITY_TODO 135: Analysis of Resource Efficiency and Implementation.
+./candidate/core/quantum_financial/quantum_financial_consciousness_engine.py:        # TODO[QUANTUM-BIO:specialist] - Contribution used for quantum consciousness calculation
+./candidate/core/quantum_financial/quantum_financial_consciousness_engine.py:        # TODO[QUANTUM-BIO:specialist] - Amount determines quantum token consciousness value
+./candidate/core/quantum_financial/quantum_financial_consciousness_engine.py:        # TODO[QUANTUM-BIO:specialist] - Contribution drives quantum gift consciousness economy
+./candidate/core/quantum_financial/quantum_financial_consciousness_engine.py:        # TODO[QUANTUM-BIO:specialist] - User ID for quantum consciousness profile mapping
+./candidate/core/quantum_financial/quantum_financial_consciousness_engine.py:        # TODO[QUANTUM-BIO:specialist] - Product quantum consciousness value in exchange calculation
+./candidate/core/integrator.py:# ΛIMPORT_TODO: Resolve 'CORE.' import paths. Ensure CORE is a top-level
+./candidate/core/symbolic_bridge/token_map.py:# TODO[GLYPH:specialist] - Add causal linkage preservation and drift detection capabilities
+./candidate/core/symbolic_bridge/token_map.py:# TODO[GLYPH:specialist] - Integrate with Guardian system for ethical validation of consciousness flows
+./candidate/core/symbolic_bridge/integrator.py:# TODO[GLYPH:specialist] - Add dream seed propagation mechanisms for creative consciousness
+./candidate/core/symbolic_bridge/integrator.py:# TODO[GLYPH:specialist] - Integrate temporal synchronization for consciousness state transitions
+./candidate/core/symbolic_bridge/integrator.py:# TODO[GLYPH:specialist] - Add drift detection and consciousness stability monitoring
+./candidate/core/distributed_tracing.py:Addresses TODO 168: Distributed tracing with correlation IDs
+./candidate/core/distributed_tracing.py:# --- New Additions for Event Replay and State Snapshotting (TODO 169) ---
+./candidate/core/identity/consciousness_coherence_monitor.py:        # TODO: Replace with actual MATRIZ tracer
+./candidate/core/identity/consciousness_coherence_monitor.py:        # TODO: Implement actual fragmentation prevention mechanisms,
+./candidate/core/qi_biometrics/qi_biometrics_engine.py:    ) -> float:  # TODO[QUANTUM-BIO:specialist] - User ID for biometric consciousness tracking
+./candidate/core/qi_biometrics/qi_biometrics_engine.py:    ) -> str:  # TODO[QUANTUM-BIO:specialist] - User ID for circadian consciousness mapping
+./candidate/core/qi_biometrics/qi_biometrics_engine.py:    ) -> str:  # TODO[QUANTUM-BIO:specialist] - User ID for sleep consciousness profiling
+./candidate/core/qi_biometrics/qi_biometrics_engine.py:    ) -> float:  # TODO[QUANTUM-BIO:specialist] - User ID for neural consciousness coherence
+./candidate/core/qi_biometrics/qi_biometrics_engine.py:    ) -> float:  # TODO[QUANTUM-BIO:specialist] - User ID for hive mind consciousness resonance
+./candidate/core/p2p_fabric.py:Addresses TODOs 57-67
+./candidate/core/image_processing_pipeline.py:║ Implements TODO 95: Event-driven image processing pipeline triggered by
+./candidate/core/framework_integration.py:# TODO[JULES-1]: Fix 19 F821 undefined name errors - Framework integration fixes, class name corrections, variable definitions
+./candidate/core/integration/consolidate_bio_symbolic_coherence.py:    # TODO: Implement actual consolidation logic
+./candidate/core/qi_financial/quantum_financial_consciousness_engine.py:    ) -> float:  # TODO[QUANTUM-BIO:specialist] - Contribution used for quantum consciousness calculation
+./candidate/core/qi_financial/quantum_financial_consciousness_engine.py:    ) -> str:  # TODO[QUANTUM-BIO:specialist] - Amount determines quantum token consciousness value
+./candidate/core/qi_financial/quantum_financial_consciousness_engine.py:    ) -> float:  # TODO[QUANTUM-BIO:specialist] - Contribution drives quantum gift consciousness economy
+./candidate/core/qi_financial/quantum_financial_consciousness_engine.py:        ],  # TODO[QUANTUM-BIO:specialist] - User ID for quantum consciousness profile mapping
+./candidate/core/qi_financial/quantum_financial_consciousness_engine.py:        ],  # TODO[QUANTUM-BIO:specialist] - Product quantum consciousness value in exchange calculation
+./candidate/core/qi_financial/qi_financial_consciousness_engine.py:    ) -> float:  # TODO[QUANTUM-BIO:specialist] - Contribution used for consciousness calculation
+./candidate/core/qi_financial/qi_financial_consciousness_engine.py:    ) -> str:  # TODO[QUANTUM-BIO:specialist] - Amount determines token consciousness value
+./candidate/core/qi_financial/qi_financial_consciousness_engine.py:    ) -> float:  # TODO[QUANTUM-BIO:specialist] - Contribution drives gift consciousness economy
+./candidate/core/qi_financial/qi_financial_consciousness_engine.py:        ],  # TODO[QUANTUM-BIO:specialist] - User ID for consciousness profile mapping
+./candidate/core/qi_financial/qi_financial_consciousness_engine.py:        ],  # TODO[QUANTUM-BIO:specialist] - Product consciousness value in exchange calculation
+./candidate/core/event_sourcing.py:║ and fault recovery. Addresses REALITY_TODO 120-125 with SQLite persistence layer
+./candidate/core/energy_consumption_analysis.py:║ Implements TODO 139: Energy Consumption Analysis
+./candidate/core/bridges/identity_core_bridge.py:        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Trinity identity-consciousness state comparison
+./candidate/core/bridges/identity_core_bridge.py:        # TODO[TRINITY:specialist] Implement Trinity Framework identity-consciousness state comparison
+./candidate/core/bridges/core_consciousness_bridge.py:            # TODO connect actual consciousness system
+./candidate/core/bridges/core_consciousness_bridge.py:            # TODO connect actual core system
+./candidate/core/bridges/core_consciousness_bridge.py:        # TODO implement synchronization logic
+./candidate/core/bridges/core_consciousness_bridge.py:        # TODO implement event handling
+./candidate/core/bridges/consciousness_qi_bridge.py:        ).isoformat()  # TODO[TRINITY:specialist] UTC enforcement for consciousness bridge temporal sync
+./candidate/core/bridges/core_safety_bridge.py:        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Trinity-aware state comparison
+./candidate/core/bridges/core_safety_bridge.py:        # TODO[TRINITY:specialist] Implement Trinity Framework consciousness state comparison logic
+./candidate/core/rem/streamlit_lidar.py:# import streamlit as st  # TODO: Install or implement streamlit
+./candidate/core/integrations/nias_dream_bridge.py:        # TODO: Check actual dream state from dream adapter
+./candidate/core/notion_sync.py:# import streamlit as st  # TODO: Install or implement streamlit
+./candidate/core/notion_sync.py:        #         import streamlit as st  # TODO: Install or implement streamlit
+./candidate/core/supervision.py:Addresses TODO 41: Inherent Fault Tolerance and Resilience
+./candidate/core/efficient_communication.py:Addresses TODO 142: Optimized dual EDA/P2P communication
+./candidate/core/observability_steering.py:Addresses TODO 167: Complex Adaptive System Monitoring
+./candidate/core/examples/basic/example.py:# TODO: Add example
+./candidate/core/collaboration.py:Addresses TODOs 91-114
+./candidate/core/task_manager.py:        # TODO: Implement config loading
+./candidate/core/task_manager.py:        # TODO: Register actual task handler functions
+./candidate/core/task_manager.py:            # TODO: Implement actual symbol validation
+./candidate/core/task_manager.py:            # TODO: Implement actual design system operations
+./candidate/core/task_manager.py:            # TODO: Implement actual file operations
+./candidate/core/symbolic_core/colony_tag_propagation.py:    # TODO[GLYPH:specialist] - Implement consciousness node base class fallback
+./candidate/core/symbolic_core/colony_tag_propagation.py:# TODO[GLYPH:specialist] - Implement proper symbolic vocabulary integration
+./candidate/core/symbolic_core/colony_tag_propagation.py:# TODO[GLYPH:specialist] - Create proper Tag class for consciousness communication
+./candidate/core/symbolic_core/colony_tag_propagation.py:        # TODO[GLYPH:specialist] - Initialize consciousness agents for mesh formation
+./candidate/core/symbolic_core/colony_tag_propagation.py:    # TODO[GLYPH:specialist] - Implement consciousness processing with GLYPH communication
+./candidate/core/symbolic_core/colony_tag_propagation.py:    # TODO[GLYPH:specialist] - Implement consciousness consensus with mesh formation
+./candidate/core/symbolic_core/bio/mito_qi_attention.py:TODO[T4-AUDIT]:triage - Large legacy symbolic processing system. Need migration strategy vs preservation decision.
+./candidate/core/symbolic_core/__init__.py:TODO[T4-AUDIT]:triage - Large legacy symbolic processing system preserved.
+./candidate/core/orchestration/integration_hub.py:# from qi.system_orchestrator import QIAGISystem  # TODO: Implement quantum AGI system
+./candidate/core/orchestration/apis/code_process_integration_api.py:    # TODO: Implement business logic based on requirements
+./candidate/core/orchestration/core.py:║ • TODO: ModuleRegistry implementation pending
+./candidate/core/orchestration/core.py:            # await self.module_registry.register_module(name, module) #TODO: See above
+./candidate/core/orchestration/core.py:# [CLAUDE_01] Applied standardized LUKHAS AI header and footer template to orchestration core.py module. Updated header with proper module metadata, detailed description of orchestration responsibilities, and integration notes. Added module constants and preserved all existing functionality including TODOs for missing imports. Maintained bio-inspired consciousness architecture. # CLAUDE_EDIT_v0.1
+./candidate/core/orchestration/agent_orchestrator.py:                # TODO: Reassign or cancel tasks
+./candidate/core/orchestration/brain/symbol_validator.py:    # TODO[CONSCIOUSNESS:specialist] Fix syntax error - missing 'self\' parameter in __init__ method
+./candidate/core/orchestration/brain/visualization/healix_visualizer.py:                        # TODO[CONSCIOUSNESS:specialist] Fix syntax error - unmatched parentheses in color mapping
+./candidate/core/orchestration/brain/visualization/memory_helix_visualizer.py:# from ...AID.core.lambda_id import ID, AccessTier  # TODO: Install or implement AID
+./candidate/core/orchestration/brain/canadian_awareness_engine.py:# TODO[CONSCIOUSNESS:specialist] Fix syntax error - malformed function definition parameters
+./candidate/core/orchestration/brain/dynamic_adaptive_dashboard.py:    from AGENT.lukhas_nias_filter import evaluate_ad_permission  # TODO: Install or implement AGENT
+./candidate/core/orchestration/brain/dynamic_adaptive_dashboard.py:    from AGENT.lukhas_widget_engine import WidgetEngine  # TODO: Install or implement AGENT
+./candidate/core/orchestration/brain/spine/main_loop.py:#     import edge_tts  # TODO: Install or implement edge_tts
+./candidate/core/orchestration/brain/config/settings_editor.py:# import streamlit as st  # TODO: Install or implement streamlit
+./candidate/core/orchestration/brain/integration/brain_integration.py:    # from DASHBOARD.Λ_as_agent.core.memory_folds import create_memory_fold, recall_memory_folds  # TODO: Install or implement DASHBOARD
+./candidate/core/orchestration/brain/integration/brain_integration.py:    # from DASHBOARD.as_agent.core.memory_folds import create_memory_fold, recall_memory_folds  # TODO: Install or implement DASHBOARD
+./candidate/core/orchestration/brain/unified_integration/adapters/dream_adapter.py:        # TODO: Implement state tracking
+./candidate/core/orchestration/brain/rem/streamlit_lidar.py:# import streamlit as st  # TODO: Install or implement streamlit
+./candidate/core/orchestration/brain/orchestration/core.py:TODO: Fix imports as part of CODEX_ENHANCEMENT_PLAN.md Phase 4
+./candidate/core/orchestration/brain/orchestration/core.py:# TODO: Create or find existing ModuleRegistry and uncomment.
+./candidate/core/orchestration/brain/orchestration/core.py:        # self.module_registry = ModuleRegistry() #TODO: See above
+./candidate/core/orchestration/brain/orchestration/core.py:            # await self.module_registry.register_module(name, module) #TODO: See above
+./candidate/core/orchestration/brain/orchestration/main_node.py:    # from AID.service.identity_manager import IdentityManager  # TODO:
+./candidate/core/orchestration/core_modules/symbolic_signal_router.py:    # TODO: Implement actual routing logic here.
+./candidate/core/mailbox.py:Addresses TODO 35: Sequential Processing with Advanced Features
+./candidate/core/glyph/api_manager.py:        # ΛCONFIG_TODO: Hardcoded path, should be configurable.
+./candidate/core/glyph/api_manager.py:#                     Flagged hardcoded self.storage_path with ΛCONFIG_TODO and suggested os.getenv fallback.
+./candidate/core/glyph/api_manager.py:# ΛTRACE_TODO:
+./candidate/core/meta_learning/remediator_agent.py:# AIMPORT_TODO: These imports suggest a complex LUKHAS directory structure.
+./candidate/core/meta_learning/remediator_agent.py:    # replay_recent_dreams # Conceptual  # TODO: Install or implement AID
+./candidate/core/symbolic/dast_engine.py:        return 1.0  # TODO: refine scoring algorithm
+./candidate/core/symbolic/dast_engine.py:            {"interpretation": "TODO", "confidence": 0.0},  # TODO: implement
+./candidate/core/symbolic/dast_engine.py:                # TODO: implement _fetch_data
+./candidate/core/symbolic/crista_optimizer.py:        # TODO: Potentially implement more sophisticated relinking logic here,
+./candidate/core/symbolic/symbolic_memory_mapper.py:        # TODO: Implement symbolic memory parsing
+./candidate/core/symbolic/symbolic_memory_mapper.py:        # TODO: Create bridge-compatible memory structures
+./candidate/core/symbolic/symbolic_memory_mapper.py:        # TODO: Establish memory coherence protocols
+./candidate/core/symbolic/symbolic_anomaly_explorer.py:TODO: Add ML-based pattern prediction for proactive anomaly detection
+./candidate/core/symbolic/creative_market.py:    # ✅ TODO: implement import logic for market replay
+./candidate/core/symbolic/symbolic_theme_clusterer.py:TODO: Add ML-based theme prediction for proactive narrative modeling
+./candidate/core/symbolic/neuro_symbolic_fusion_layer.py:ΛTODO: Implement superposition-like state states for parallel processing
+./candidate/core/symbolic/symbolic_dream_bridge.py:        # TODO: Implement phase resonance validation
+./candidate/core/symbolic/symbolic_dream_bridge.py:        # TODO: Establish symbolic mapping protocols
+./candidate/core/symbolic/symbolic_dream_bridge.py:        # TODO: Initialize intention bridge pathways
+./candidate/core/symbolic/symbolic_dream_bridge.py:        # TODO: Implement symbolic parsing algorithms
+./candidate/core/symbolic/symbolic_dream_bridge.py:        # TODO: Map dream metaphors to core logic structures
+./candidate/core/symbolic/symbolic_dream_bridge.py:        # TODO: Preserve semantic meaning across translation
+./candidate/core/symbolic/symbolic_dream_bridge.py:        # TODO: Monitor system phase states
+./candidate/core/symbolic/symbolic_dream_bridge.py:        # TODO: Adjust resonance parameters
+./candidate/core/symbolic/symbolic_dream_bridge.py:        # TODO: Ensure stable symbolic communication
+./candidate/core/symbolic/symbolic_dream_bridge.py:            # TODO: Implement graceful context cleanup
+./candidate/core/symbolic/symbolic_dream_bridge.py:            # TODO: Preserve important symbolic mappings
+./candidate/core/symbolic/symbolic_dream_bridge.py:            # TODO: Archive bridge session data
+./candidate/core/symbolic/dream_divergence_map.py:TODO: Add temporal correlation weighting for chronological proximity
+./candidate/core/symbolic/symbolic_reasoning_adapter.py:        # TODO: Parse symbolic reasoning structures
+./candidate/core/symbolic/symbolic_reasoning_adapter.py:        # TODO: Apply mode-specific adaptation algorithms
+./candidate/core/symbolic/symbolic_reasoning_adapter.py:        # TODO: Validate reasoning coherence
+./candidate/core/symbolic/symbolic_reasoning_adapter.py:        # TODO: Establish reasoning flow pathways
+./candidate/core/symbolic/symbolic_reasoning_adapter.py:        # TODO: Maintain reasoning state consistency
+./candidate/core/symbolic/symbolic_reasoning_adapter.py:        # TODO: Ensure logical coherence
+./candidate/core/symbolic/symbolic_reasoning_adapter.py:        # TODO: Check reasoning consistency
+./candidate/core/symbolic/symbolic_reasoning_adapter.py:        # TODO: Validate logical integrity
+./candidate/core/symbolic/symbolic_reasoning_adapter.py:        # TODO: Measure adaptation quality
+./candidate/core/symbolic/symbolic_reasoning_adapter.py:            # TODO: Implement graceful context cleanup
+./candidate/core/symbolic/symbolic_reasoning_adapter.py:            # TODO: Archive reasoning adaptation data
+./candidate/core/symbolic/symbolic_reasoning_adapter.py:            # TODO: Update reasoning metrics
+./candidate/core/symbolic/message_hub.py:# import streamlit as st  # TODO: Install or implement streamlit
+./candidate/core/modules/nias/__init__.py:        # TODO: Integrate with actual voice narration system
+./candidate/core/actor_model.py:Addresses TODOs 29-42
+./candidate/core/p2p_communication.py:║ Implements TODO 60: P2P decentralized communication model where peers connect
+./candidate/core/interfaces/ui/components/voice_preview_streamlit.py:# import streamlit as st  # TODO: Install or implement streamlit
+./candidate/core/interfaces/ui/components/tier_visualizer.py:# import streamlit as st  # TODO: Install or implement streamlit
+./candidate/core/interfaces/research_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit
+./candidate/core/interfaces/tools/research/research_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit
+./candidate/core/interfaces/tools/cli/speak.py:# from edge_tts import Communicate  # TODO: Install or implement edge_tts
+./candidate/core/interfaces/nias/__init__.py:# AIMPORT_TODO: Verify these relative imports work correctly in the context of the larger system.
+./candidate/core/interfaces/nias/__init__.py:# ΛTAGS: ΛSTANDARD_INIT, ΛMODULE_INIT, ΛPLUGIN_SYSTEM, ΛNIAS_INTEGRATION, ΛLOGGING_NORMALIZED, AIO_NODE, AINTEROP, ΛSYMBOLIC_ECHO, AIMPORT_TODO
+./candidate/core/interfaces/logic/context/context_builder.py:# AIMPORT_TODO: These imports are commented out in the original or point to future modules.
+./candidate/core/interfaces/logic/context/context_builder.py:# ΛTAGS: ΛCONTEXT_MANAGEMENT, ΛUSER_STATE, ΛPLACEHOLDER_LOGIC, AIO_NODE, AINTEROP, ΛSYMBOLIC_ECHO, ΛSTANDARDIZED, ΛLOGGING_NORMALIZED, AIMPORT_TODO, ΛTECH_DEBT
+./candidate/core/interfaces/logic/agent_self.py:# import streamlit as st  # TODO: Install or implement streamlit
+./candidate/core/interfaces/logic/agent_core.py:# from Agent_Logic_Architecture import (  # TODO: Install or implement
+./candidate/core/interfaces/voice/voice_agent.py:    # TODO: Route to appropriate voice engine based on tier or emotion index
+./candidate/core/interfaces/voice/edge_voice.py:# from edge_tts import Communicate  # TODO: Install or implement edge_tts
+./candidate/core/interfaces/custom_llm.py:            # ΛVALIDATE_ASSIGNMENT_TODO: Consider validate_assignment=True for
+./candidate/core/interfaces/api/v1/rest/routers/process.py:    # TODO: implement metrics recording
+./candidate/core/interfaces/api/v1/rest/middleware.py:        # TODO: Implement actual API key lookup from database/cache
+./candidate/core/interfaces/api/v1/rest/middleware.py:# TODO: Import lukhas_tier_required decorator
+./candidate/core/interfaces/as_agent/streamlit/components/dream_export_streamlit.py:# import streamlit as st  # TODO: Install or implement streamlit
+./candidate/core/interfaces/as_agent/streamlit/components/voice_preview_streamlit.py:# import streamlit as st  # TODO: Install or implement streamlit
+./candidate/core/interfaces/as_agent/streamlit/components/tier_visualizer.py:# import streamlit as st  # TODO: Install or implement streamlit
+./candidate/core/interfaces/as_agent/streamlit/app.py:# import streamlit as st  # TODO: Install or implement streamlit
+./candidate/core/interfaces/as_agent/utils/constants.py:# TODO: Define SYMBOLIC_TIERS, DEFAULT_TAGS, etc. # ΛTECH_DEBT: Constants
+./candidate/core/interfaces/as_agent/sys/nias/delivery_loop.py:        # TODO: Import and call push_symbolic_message, log each decision
+./candidate/core/interfaces/as_agent/sys/nias/dream_export_streamlit.py:# import streamlit as st  # TODO: Install or implement streamlit
+./candidate/core/interfaces/as_agent/sys/nias/symbolic_matcher.py:    # TODO: Implement symbolic matching algorithm using emotion, DAST tags, dream memory
+./candidate/core/interfaces/as_agent/sys/dast/store.py:# TODO: Enable when hub dependencies are resolved
+./candidate/core/interfaces/as_agent/sys/dast/store.py:            # TODO: Enable when hub dependencies are resolved
+./candidate/core/interfaces/as_agent/sys/dast/partner_sdk.py:# TODO: Enable when hub dependencies are resolved
+./candidate/core/interfaces/as_agent/sys/dast/partner_sdk.py:            # TODO: Enable when hub dependencies are resolved
+./candidate/core/interfaces/as_agent/sys/dast/aggregator.py:# TODO: Enable when hub dependencies are resolved
+./candidate/core/interfaces/as_agent/sys/dast/aggregator.py:            # TODO: Enable when hub dependencies are resolved
+./candidate/core/interfaces/as_agent/news_and_social/s_dispatcher.py:# TODO: Replace this hack with proper Python packaging imports once
+./candidate/core/state_management.py:Addresses TODOs 115-117, 131-134
+./candidate/memory/temporal/drift_dashboard_visual.py:TODO: Add drift pattern library for operator training
+./candidate/memory/temporal/hyperspace_dream_simulator.py:TODO: Implement predictive token consumption modeling for simulation planning
+./candidate/memory/temporal/benchmark_swarm.py:from event_bus import *  # TODO: Specify imports
+./candidate/memory/temporal/benchmark_swarm.py:from minimal_actor import *  # TODO: Specify imports
+./candidate/memory/temporal/documentation_analytics.py:        # Check for TODO/FIXME items
+./candidate/memory/temporal/documentation_analytics.py:        todos = len(re.findall(r"TODO|FIXME|XXX", content, re.IGNORECASE))
+./candidate/memory/temporal/documentation_analytics.py:        # Adjust score based on TODOs
+./candidate/memory/temporal/documentation_analytics.py:            recommendations.append(f"Complete {todos} TODO items")
+./candidate/memory/temporal/output_log.py:# import streamlit as st  # TODO: Install or implement streamlit
+./candidate/memory/causal/service_analysis.py:Addresses REALITY_TODO tasks 9 and 12.
+./candidate/memory/causal/memory_cleaner.py:#                    agent like RemediatorAgent. Full implementation of its capabilities (TODOs) is required.
+./candidate/memory/causal/fold_lineage_tracker.py:TODO: Implement quantum causal entanglement detection with dream correlation
+./candidate/memory/causal/feedback_propagator.py:TODO: Implement machine learning-based causality pattern recognition
+./candidate/memory/causal/verifold_connector.py:        # TODO: Implement chain connection logic
+./candidate/memory/causal/verifold_connector.py:        # TODO: Implement session submission logic
+./candidate/memory/causal/verifold_connector.py:        # TODO: Implement data retrieval logic
+./candidate/memory/causal/verifold_connector.py:        # TODO: Implement chain verification logic
+./candidate/memory/learning/service.py:# AIMPORT_TODO: This sys.path manipulation is generally discouraged.
+./candidate/memory/episodic/episodic_memory.py:        # TODO: Implement consolidated memory processing
+./candidate/memory/folds/event_replayer.py:    # ✅ TODO: extend with CLI interface for governance dashboard
+./candidate/memory/fold_system/fold_lineage_tracker.py:TODO: Implement quantum causal entanglement detection with dream correlation
+./candidate/memory/examples/basic/example.py:# TODO: Add example
+./candidate/memory/lightweight_concurrency.py:║ Implements TODO 40: Lightweight Concurrency for actors with extreme memory
+./candidate/memory/systems/memory_profiler.py:        # TODO(robieta): Move away from load bearing names
+./candidate/memory/systems/memory_profiler.py:        # TODO(robieta):
+./candidate/memory/systems/memory_profiler.py:        # TODO: Write a faster serialize (orjson not available in CI)
+./candidate/memory/systems/dream_memory_manager.py:            # --- TODO (future): Implement actual dream processing logic --- #ΛCOLLAPSE_POINT (Core logic is placeholder)
+./candidate/memory/systems/memory_learning/memory_manager.py:# TODO: Resolve import paths if these files are moved or structure changes.
+./candidate/memory/systems/memory_learning/memory_manager.py:# from AID.core.lambda_id import ID, AccessTier  # TODO: Install or implement AID
+./candidate/memory/systems/memory_learning/memory_manager.py:# from AID.core.memory_identity import MemoryIdentityIntegration, MemoryAccessPolicy  # TODO: Install or implement AID
+./candidate/memory/systems/memory_media_file_storage.py:# from streamlit.runtime.media_file_storage import (  # TODO: Install or
+./candidate/memory/systems/memory_media_file_storage.py:# group_stats  # TODO: Install or implement streamlit
+./candidate/memory/systems/memory_format.py:    # TODO: expand this to `_ConvNd` when channels_last support is extended
+./candidate/memory/systems/memory_format.py:    # TODO: expand this to `_ConvNd` when channels_last support is extended
+./candidate/memory/systems/memory_visualizer.py:# import streamlit as st  # TODO: Install or implement streamlit
+./candidate/memory/systems/memory_session_storage.py:# SessionStorage  # TODO: Install or implement streamlit
+./candidate/memory/systems/memory_legacy/dreams.py:# CRITICAL TODO: Remove hardcoded sys.path.append. Manage paths via
+./candidate/memory/systems/memory_legacy/replayer.py:# AIMPORT_TODO: Resolve these imports via proper packaging or PYTHONPATH.
+./candidate/memory/systems/memory_legacy/dream_cron.py:# TODO: Make DREAM_SCRIPT_PATH_STR robust (e.g., relative to project root
+./candidate/memory/systems/memory_planning.py:            # TODO(jansel): we could try harder here by merging overlapping in space
+./candidate/memory/systems/memory_planning.py:                # TODO(jansel): we should support reusing buffers created via
+./candidate/memory/systems/memory_collapse_verifier.py:        # TODO: Initialize verification parameters
+./candidate/memory/systems/memory_collapse_verifier.py:        # TODO: Implement collapse integrity verification
+./candidate/memory/systems/memory_collapse_verifier.py:        # TODO: Implement semantic preservation validation
+./candidate/memory/systems/memory_collapse_verifier.py:        # TODO: Implement emotional consistency checking
+./candidate/memory/systems/memory_collapse_verifier.py:        # TODO: Implement collapse auditing
+./candidate/memory/systems/memory_collapse_verifier.py:# TODO: Implement DAG integrity algorithms
+./candidate/memory/systems/memory_collapse_verifier.py:# TODO: Add semantic preservation checks
+./candidate/memory/systems/memory_collapse_verifier.py:# TODO: Create emotional consistency validation
+./candidate/memory/consolidation/consolidate_memory_dna_helix.py:    # TODO: Implement actual consolidation logic
+./candidate/memory/consolidation/visualization.py:        # TODO: Merge functionality from source files
+./candidate/memory/consolidation/visualization.py:# TODO: Add compatibility functions for merged components
+./candidate/memory/consolidation/consolidate_emotion_feeling_memory.py:    # TODO: Implement actual consolidation logic
+./candidate/memory/consolidation/commerce_api.py:        # TODO: Merge functionality from source files
+./candidate/memory/consolidation/commerce_api.py:# TODO: Add compatibility functions for merged components
+./candidate/memory/consolidation/memory_consolidator.py:        # TODO: Implement smart merging logic
+./candidate/memory/visualizer.py:# AIMPORT_TODO: Review deep relative imports for robustness.
+./candidate/bridge/trace_logger.py:        # TODO: Configure file rotation
+./candidate/bridge/trace_logger.py:        # TODO: Setup JSON formatting
+./candidate/bridge/trace_logger.py:        # TODO: Implement log compression
+./candidate/bridge/trace_logger.py:        # TODO: Aggregate trace statistics
+./candidate/bridge/trace_logger.py:        # TODO: Identify trace patterns
+./candidate/bridge/trace_logger.py:        # TODO: Generate summary report
+./candidate/bridge/trace_logger.py:            # TODO: Implement JSON export
+./candidate/bridge/trace_logger.py:        # TODO: Implement other export formats
+./candidate/bridge/examples/basic/example.py:# TODO: Add example
+./candidate/bridge/api_legacy/core/dream_commerce.py:ΛTODO: Add blockchain integration for decentralized dream commerce
+./candidate/bridge/api/orchestration_endpoints.py:                "rate_limit_violations": 0,  # TODO: Track this
+./candidate/bridge/api/orchestration_endpoints.py:                "cost_limit_violations": 0,  # TODO: Track this
+./candidate/bridge/api/direct_ai_router.py:# TODO: Legacy constants kept for backward compatibility
+./candidate/bridge/protocols/chat_completion_reasoning_effort.py:# AIMPORT_TODO: Verify the package structure for `shared.reasoning_effort`.
+./candidate/consciousness/cognitive/adapter.py:# DESCRIPTION: Complete Cognitive Adapter with all TODOs resolved
+./candidate/consciousness/cognitive/adapter.py:# STATUS: All TODOs resolved - complete implementation with configuration
+./candidate/consciousness/core/engine.py:        # TODO: Ensure interaction_data contains expected keys like 'timestamps', 'symbols', 'actions', 'pressure_patterns', 'velocity_patterns'.
+./candidate/consciousness/awareness/awareness_protocol.py:        # TODO: Reconcile these safety boundaries and tier names with the global LUKHAS Tier system.
+./candidate/consciousness/awareness/awareness_protocol.py:        TODO: This internal tier mapping (restricted, basic, standard, elevated, advanced)
+./candidate/consciousness/awareness/symbolic_qi_attention.py:# TODO: Re-enable when qi_attention is properly implemented
+./candidate/consciousness/awareness/awareness_engine.py:        # TODO: Implement actual consciousness-specific setup logic here.
+./candidate/consciousness/awareness/awareness_engine.py:        # TODO: This dispatch logic should be more robust, potentially using a
+./candidate/consciousness/awareness/awareness_engine.py:        # TODO: Implement actual validation logic (e.g., check dependencies,
+./candidate/consciousness/awareness/awareness_engine.py:        # TODO: Add actual resource cleanup logic here.
+./candidate/consciousness/awareness/awareness_processor.py:        # TODO: This dispatch logic should be more robust and specific to
+./candidate/consciousness/awareness/awareness_processor.py:        # TODO: Add actual resource cleanup logic here if any resources are held.
+./candidate/consciousness/unified/consolidate_consciousness_unification.py:    # TODO: Implement actual consolidation logic
+./candidate/consciousness/reasoning/response_reasoning_summary_text_delta_event.py:# AIMPORT_TODO: Verify the location of `_models.BaseModel`.
+./candidate/consciousness/reasoning/response_reasoning_summary_done_event.py:# AIMPORT_TODO: Verify the location of `_models.BaseModel`.
+./candidate/consciousness/reasoning/analysis/engine.py:# AIMPORT_TODO: These relative imports assume a specific directory structure where
+./candidate/consciousness/reasoning/analysis/engine.py:#                    Relies heavily on sibling packages for full functionality (#AIMPORT_TODO).
+./candidate/consciousness/reasoning/response_reasoning_summary_part_done_event.py:# AIMPORT_TODO: Verify the location of `_models.BaseModel`.
+./candidate/consciousness/reasoning/response_reasoning_summary_delta_event.py:# AIMPORT_TODO: Verify the location of `_models.BaseModel`.
+./candidate/consciousness/reasoning/response_reasoning_item.py:# AIMPORT_TODO: Verify the location of `_models.BaseModel`.
+./candidate/consciousness/reasoning/response_reasoning_done_event.py:# AIMPORT_TODO: Verify the location of `_models.BaseModel`.
+./candidate/consciousness/reasoning/decision/bridge.py:TODO: Implement quantum decision superposition for parallel evaluation
+./candidate/consciousness/reasoning/response_reasoning_delta_event.py:# AIMPORT_TODO: Verify the location of `_models.BaseModel`. The relative import `from candidate.core.models import BaseModel`
+./candidate/consciousness/reasoning/response_reasoning_summary_part_added_event.py:# AIMPORT_TODO: Verify the location of `_models.BaseModel`.
+./candidate/consciousness/reasoning/response_reasoning_summary_text_done_event.py:# AIMPORT_TODO: Verify the location of `_models.BaseModel`.
+./candidate/consciousness/qi_consciousness_integration.py:# TODO: Verify these import paths and ensure modules are structured as packages.
+./candidate/consciousness/activation.py:# TODO: Implement Activation
+./candidate/consciousness/examples/basic/example.py:# TODO: Add example
+./candidate/consciousness/states/shared_state.py:# AIMPORT_TODO: Review robustness of importing IdentityClient from candidate.core.lukhas_id.
+./candidate/consciousness/states/shared_state.py:#               threading, copy. Optional: core.lukhas_id components (AIMPORT_TODO).
+./candidate/consciousness/states/async_client.py:        # TODO: this should be handled in provider helpers directly
+./candidate/consciousness/states/emotional_memory_manager.py:║ TODO: Update to use unified tier system and user identity
+./candidate/consciousness/states/tiered_state_management.py:║ Implements TODO 75: Tiered state management system with Event Sourcing for global
+./candidate/consciousness/meta_cognitive/meta_cognitive.py:# AIMPORT_TODO: Review relative import paths for robustness, especially for `EnhancedDASTOrchestrator`.
+./candidate/consciousness/meta_cognitive/meta_cognitive.py:#                    Relies on several complex components (#AIMPORT_TODO for paths).
+./candidate/consciousness/systems/lambda_mirror.py:TODO: Implement quantum-coherent reflection states for enhanced self-awareness
+./candidate/consciousness/dream/colony_dream_coordinator.py:ΛTODO: Add colony load balancing for optimal dream distribution
+./candidate/consciousness/dream/core/dream_feedback_controller.py:        # TODO: Implement symbolic match scoring
+./candidate/consciousness/dream/oneiric/oneiric_core/engine/dream_engine_fastapi.py:# TODO: Update to use unified tier system
+./candidate/consciousness/dream/oneiric/oneiric_core/engine/dream_engine_fastapi.py:    TODO: Add tier validation and user context
+./candidate/consciousness/dream/oneiric/oneiric_core/engine/dream_engine_fastapi.py:    TODO: Add tier validation for memory snapshot creation
+./candidate/consciousness/dream/immersive_ingestion.py:# TODO: integrate quantum features and emotional resonance tracking
+./candidate/consciousness/dream/dream_trace_linker.py:TODO: Implement quantum dream resonance detection across parallel memory streams
+./candidate/consciousness/reflection/service.py:        # TODO: Reconcile "LAMBDA_TIER_X" string constants with the global 0-5 integer tier system.
+./candidate/consciousness/reflection/service.py:#              TODO: Reconcile these tier systems.
+./candidate/consciousness/reflection/brain_integration.py:    # from CORE.spine.fold_engine import (  # TODO: Install or implement CORE
+./candidate/consciousness/reflection/brain_integration.py:    # from DASHBOARD.lucas_as_agent.core.memory_folds import (  # TODO: Install or implement DASHBOARD
+./candidate/consciousness/reflection/brain_integration.py:    # from CORE.memory_learning.memory_manager import (  # TODO: Install or implement CORE
+./candidate/consciousness/reflection/brain_integration.py:    pass  # from BIO_SYMBOLIC.qi_attention import QIAttention  # TODO: Install or implement BIO_SYMBOLIC
+./candidate/consciousness/reflection/brain_integration.py:    pass  # from AID.dream_engine.dream_reflection_loop import DreamReflectionLoop  # TODO: Install or implement AID
+./candidate/consciousness/reflection/reflection_layer.py:# AIMPORT_TODO: This block uses deep relative imports (e.g., `...spine`, timezone) which can be fragile and indicate overly complex coupling or a need for better packaging of shared LUKHAS infrastructure components. Consider refactoring these into a more clearly defined shared library or service interface layer.
+./candidate/consciousness/reflection/reflection_layer.py:    # replay_recent_dreams  # TODO: Install or implement AID
+./candidate/consciousness/reflection/reflection_layer.py:    # from ....INTENT.intent_node import IntentNode  # TODO: Install or
+./candidate/consciousness/reflection/reflection_layer.py:# AIMPORT_TODO: Similar to above, ensure '.remediator_agent' is robustly available.
+./candidate/consciousness/reflection/reflection_layer.py:    triggered_dreams: list[str]  # TODO: Track dream IDs from reflection metadata
+./candidate/consciousness/reflection/reflection_layer.py:    voice_alerts: list[str]  # TODO: Track voice alerts if vocalize_conscience returns specific alert IDs/info
+./candidate/consciousness/reflection/reflection_layer.py:        # Integration with actual dream engine is a TODO.
+./candidate/consciousness/reflection/reflection_layer.py:            triggered_dreams=[],  # TODO: Track dream IDs from reflection metadata
+./candidate/consciousness/reflection/reflection_layer.py:            voice_alerts=[],  # TODO: Track voice alerts if vocalize_conscience returns specific alert IDs/info
+./candidate/consciousness/reflection/integration_manager.py:                #                 from Bot_agi_core import BotAGICore  # TODO: Install or implement Bot_agi_core
+./candidate/consciousness/reflection/integration_manager.py:                # from Bot_consciousness_monitor import BotConsciousnessMonitor  # TODO:
+./candidate/consciousness/reflection/awareness_system.py:        # ΛCONFIG_TODO: Relative path "metrics" might not be ideal for all
+./candidate/consciousness/reflection/awareness_system.py:# ΛTRACE_TODO:
+./candidate/consciousness/reflection/lambda_dependa_bot.py:Part of TODO #10: Module Dependency Analysis and Network-Based M        self.excluded_dirs = {
+./candidate/consciousness/reflection/lambda_dependa_bot.py:Integrates with: ΛBot Elite Orchestrator, TODO #8 Performance, TODO #9 Index System
+./candidate/consciousness/reflection/colony_orchestrator.py:ΛTODO: Add colony discovery mechanisms for distributed deployments
+./candidate/consciousness/reflection/practical_optimizations.py:║ Addresses REALITY_TODO 136: Practical optimization strategies that enable
+./candidate/consciousness/reflection/visionary_orchestrator.py:    #     from system.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE
+./candidate/consciousness/reflection/visionary_orchestrator.py:    #     from system.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE
+./candidate/consciousness/reflection/visionary_orchestrator.py:    #     from system.CORE.emotion.emotional_resonance import EmotionalResonanceEngine  # TODO: Install or implement CORE
+./candidate/consciousness/reflection/visionary_orchestrator.py:    #     from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID
+./candidate/consciousness/reflection/visionary_orchestrator.py:    # from system.CORE.qi.qi_processor import QIEngine  # TODO:
+./candidate/consciousness/reflection/bio_crista_optimizer_adapter.py:# AIMPORT_TODO: Define or import the actual `CristaOptimizerBase` or similar type
+./candidate/consciousness/reflection/ethical_drift_sentinel.py:TODO: Implement phase harmonics analyzer for resonance breakdown detection
+./candidate/consciousness/reflection/orchestration_service.py:# from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID
+./candidate/consciousness/reflection/orchestration_service.py:# from candidate.core.common.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE
+./candidate/consciousness/reflection/orchestration_service.py:# from candidate.core.common.CORE.emotion.emotional_resonance import EmotionalResonanceEngine  # TODO: Install or implement CORE
+./candidate/consciousness/reflection/orchestration_service.py:# from candidate.core.common.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE
+./candidate/consciousness/reflection/orchestration_service.py:# These included 70+ empty class stubs with TODO comments that were blocking maintainability.
+./candidate/consciousness/reflection/orchestration_service.py:# and 60+ other stub classes with TODO: Implement consolidated functionality
+./candidate/consciousness/reflection/circuit_breaker.py:Addresses TODO 172: Fault containment patterns for distributed systems
+./candidate/consciousness/reflection/event_replay_snapshot.py:Addresses TODO 169: Deterministic debugging through event replay
+./candidate/consciousness/reflection/monitoring_observability.py:# TODO: Restore this import when creative_expressions_v2 module is available
+./candidate/consciousness/reflection/ethical_reasoning_system.py:# AIMPORT_TODO (future): The following ML/DL imports (torch, sklearn, etc.) are commented out.
+./candidate/consciousness/reflection/processing_core.py:from qi.bio.awareness.advanced_quantum_bio import (  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+./candidate/consciousness/reflection/_dict_learning.py:        X = validate_data(self, X, reset=False)  # TODO: original code uses self, but should be X?
+./candidate/consciousness/reflection/agent_coordination.py:Addresses TODO 24: Dynamic Working Group Formation
+./candidate/consciousness/reflection/core_integrator.py:# TODO: Refactor path-based import to standard package imports if possible.
+./candidate/consciousness/reflection/core_integrator.py:# TODO: Reconcile this AccessTier with the global LUKHAS Tier System (0-5, Free-Transcendent).
+./candidate/consciousness/reflection/core_integrator.py:        # TODO: Make default paths relative to a configurable project root or use
+./candidate/consciousness/reflection/core_integrator.py:        # TODO: Refactor dynamic import to be more robust or use explicit imports
+./candidate/consciousness/reflection/core_integrator.py:# MAINTENANCE: Regularly review TODOs. Update default configurations.
+./candidate/consciousness/reflection/actor_system.py:║ supervision hierarchies, fault tolerance, and persistence. Addresses REALITY_TODO
+./candidate/qi/glyphs/cli.py:    print("  • PDF     - Embedded in metadata (TODO)")
+./candidate/qi/ui/abstract_reasoning_demo.original.py:# TODO: Review path manipulation. For production, 'abstract_reasoning' should be an installable package
+./candidate/qi/bio/oscillators/oscillator.py:            # TODO: Validate against token store
+./candidate/qi/bio/bio_optimizer.py:# AIMPORT_TODO: Verify these import paths against the actual LUKHAS project structure.
+./candidate/qi/bio/bio_optimizer.py:    # AIMPORT_TODO: Review this path for QIBioCoordinator. If it's part
+./candidate/qi/bio/bio_optimizer.py:            )  # type: ignore # TODO: integration=None needs review
+./candidate/qi/bio/bio_optimizer.py:            self.qi_dream_adapter: QIDreamAdapter = QIDreamAdapter(orchestrator=self.bio_orchestrator, config=None)  # type: ignore # TODO: config=None needs review
+./candidate/qi/bio/bio_components.py:        #ΛTODO: Implement actual encoding logic beyond simple hashing.
+./candidate/qi/bio/bio_multi_orchestrator.py:        AIMPORT_TODO: Bot file paths are hardcoded and user-specific. This needs to be
+./candidate/qi/coordination/orchestration/orchestration_compatibility.py:from old import *  # TODO: Specify imports
+./candidate/qi/attention_economics.py:            # TODO: Send notification through consciousness hub
+./candidate/qi/engines/dream/consolidate_dream_qi_learning.py:    # TODO: Implement actual consolidation logic
+./candidate/qi/scripts/consolidate_qi_sgi_core.py:    # TODO: Implement actual consolidation logic
+./candidate/qi/ops/budgeter.py:        # TODO[codex]: implement persistence cleanup for old runs
+./candidate/qi/systems/qi_processing_core.py:from ..bio.awareness.advanced_qi_bio import (  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+./candidate/qi/awareness_system/awareness.py:# AIMPORT_TODO: Review deep relative imports for robustness and potential refactoring
+./candidate/qi/awareness_system/awareness.py:#                    (#AIMPORT_TODO) need review. Many internal methods are placeholders (#ΛNOTE)
+./candidate/qi/awareness_system/awareness.py:# MAINTENANCE: Implement all TODOs and placeholder methods.
+./candidate/qi/qi_entanglement.py:TODO[JULES-3]: Fix 19 F821 undefined name errors - QI/quantum entanglement fixes, quantum state references, mathematical function definitions
+./candidate/orchestration/context_bus.py:        # TODO: GmailAdapter, DriveAdapter, DropboxAdapter are abstract; use concrete implementations or mocks for instantiation
+./candidate/orchestration/context_bus.py:                # TODO: validate_access is not implemented on LukhasIdentityService; replace with actual method
+./candidate/orchestration/migrate_to_kernel_bus.py:                    r"# TODO: Remove print-based.*?\n",
+./candidate/orchestration/openai_modulated_service.py:TODO[JULES-1]: Fix 19 F821 undefined name errors - Focus on service integration patterns, fix_later placeholders, and import fallbacks
+./candidate/governance/drift_dashboard_visual.py:TODO[JULES-2]: Fix 19 F821 undefined name errors - Drift dashboard visualization, chart/graph undefined references, display fixes
+./candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py:from governance.identity.core.colonies import (  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution
+./candidate/governance/identity/core/trace/pattern_analyzer.py:        # TODO: Implement pattern analysis logic
+./candidate/governance/identity/core/trace/pattern_analyzer.py:        # TODO: Implement anomaly detection logic
+./candidate/governance/identity/core/trace/pattern_analyzer.py:        # TODO: Implement insight generation logic
+./candidate/governance/identity/core/lambd_id_service.py:            "uptime": "active",  # TODO: Calculate actual uptime
+./candidate/governance/identity/core/lambd_id_service.py:        # TODO: Implement proper rate limiting
+./candidate/governance/identity/core/lambd_id_service.py:        # TODO: Implement automatic upgrade logic
+./candidate/governance/identity/core/lambd_id_service.py:        # TODO: Implement manual upgrade logic
+./candidate/governance/identity/core/sent/consent_manager.py:        # TODO: Load tier boundaries from consent_tiers.json
+./candidate/governance/identity/core/sent/consent_manager.py:        # TODO: Implement tier-based validation logic
+./candidate/governance/identity/core/sent/consent_history.py:        # TODO: Call ΛTRACE logger
+./candidate/governance/identity/core/sent/consent_history.py:        # TODO: Implement zero-knowledge proof generation
+./candidate/governance/identity/core/sent/symbolic_scopes.py:        # TODO: Implement scope definition logic
+./candidate/governance/identity/core/sent/symbolic_scopes.py:        # TODO: Implement scope requirements logic
+./candidate/governance/identity/core/sent/symbolic_scopes.py:        # TODO: Implement scope access validation
+./candidate/governance/identity/core/sent/symbolic_scopes.py:        # TODO: Implement symbolic parsing logic
+./candidate/governance/identity/core/events/identity_event_publisher.py:from .identity_event_types import (  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution
+./candidate/governance/identity/core/qrs/qrg_generator.py:        # TODO: Implement QR-G generation logic
+./candidate/governance/identity/core/qrs/qrg_generator.py:        # TODO: Implement validation logic
+./candidate/governance/identity/core/qrs/qrg_generator.py:        # TODO: Implement cleanup logic
+./candidate/governance/identity/core/qrs/session_replay.py:        # TODO: Implement session creation logic
+./candidate/governance/identity/core/qrs/session_replay.py:        # TODO: Implement session restoration logic
+./candidate/governance/identity/core/qrs/session_replay.py:        # TODO: Implement session invalidation logic
+./candidate/governance/identity/core/sing/sso_engine.py:        # TODO: Implement symbolic challenge verification
+./candidate/governance/identity/core/sing/sso_engine.py:        # TODO: Implement biometric validation
+./candidate/governance/identity/core/sing/sso_engine.py:        # TODO: Implement cryptographic signing
+./candidate/governance/identity/core/sing/sso_engine.py:        # TODO: Implement device sync token creation
+./candidate/governance/identity/core/sing/sso_engine.py:        # TODO: Implement sync token registration
+./candidate/governance/identity/core/sing/sso_engine.py:        # TODO: Implement service notification logic
+./candidate/governance/identity/core/sing/cross_device_manager.py:    from cryptography.hazmat.primitives import hashes  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+./candidate/governance/identity/core/tier/tier_manager.py:        # TODO: Implement persistent storage loading
+./candidate/governance/identity/core/tier/tier_manager.py:        # TODO: Implement persistent storage
+./candidate/governance/identity/core/tier/tier_manager.py:        # TODO: Implement sophisticated scoring algorithm
+./candidate/governance/identity/auth_integrations/qrg_bridge.py:            # TODO: Initialize when QRG components are wired
+./candidate/governance/identity/auth_integrations/qrg_bridge.py:        # TODO: Implement when QRG is integrated
+./candidate/governance/identity/auth_integrations/qrg_bridge.py:        # TODO: Implement when QRG is integrated
+./candidate/governance/identity/auth_integrations/qrg_bridge.py:        # TODO: Implement when QRG animation engine is integrated
+./candidate/governance/identity/auth_integrations/qrg_bridge.py:        # TODO: Implement when QRG steganography is integrated
+./candidate/governance/identity/auth_integrations/wallet_bridge.py:            # TODO: Initialize when WALLET components are wired
+./candidate/governance/identity/auth_integrations/wallet_bridge.py:        # TODO: Implement when WALLET is integrated
+./candidate/governance/identity/auth_integrations/wallet_bridge.py:        # TODO: Implement when WALLET is integrated
+./candidate/governance/identity/auth_integrations/wallet_bridge.py:        # TODO: Implement when WALLET QI core is integrated
+./candidate/governance/integration/policy_board.py:# AIMPORT_TODO: Review deep relative imports for robustness.
+./candidate/governance/integration/policy_board.py:#                    Relies on `QIOscillator` and `EnhancedSystemAwareness` (#AIMPORT_TODO).
+./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks
+./candidate/governance/healthcare/decision_support.py:        # TODO: Implement comprehensive risk assessment
+./candidate/governance/healthcare/decision_support.py:        # TODO: Implement evidence-based test suggestion
+./candidate/governance/healthcare/decision_support.py:        # TODO: Implement sophisticated confidence calculation
+./candidate/governance/healthcare/decision_support.py:        # TODO: Implement evidence gathering from validated sources
+./candidate/governance/healthcare/decision_support.py:        # TODO: Implement evidence-based treatment planning
+./candidate/governance/healthcare/decision_support.py:        # TODO: Implement follow-up suggestion logic
+./candidate/governance/healthcare/decision_support.py:        # TODO: Integrate with LUKHAS ethical engine
+./candidate/governance/healthcare/decision_support.py:            "specialist_referral": False,  # TODO: Implement logic
+./candidate/governance/healthcare/decision_support.py:        # TODO: Implement comprehensive safety validation
+./candidate/governance/healthcare/decision_support.py:        # TODO: Forward to main governance audit system
+./candidate/governance/healthcare/case_manager.py:        # TODO: Integrate with LUKHAS ethical engine
+./candidate/governance/healthcare/case_manager.py:        # TODO: Implement role-based access control
+./candidate/governance/healthcare/case_manager.py:        # TODO: Forward to main governance audit system
+./candidate/governance/guardian_sentinel.py:# TODO: Implement additional Guardian features:
+./candidate/governance/ethics/enhanced_ethical_guardian.py:        # TODO: Integrate with advanced intent analysis system
+./candidate/governance/ethics/enhanced_ethical_guardian.py:        # TODO: Forward to main governance system
+./candidate/governance/ethics/enhanced_ethical_guardian.py:        # TODO: Implement sophisticated tier requirement analysis
+./candidate/governance/ethics/moral_agent_template.py:        # TODO: Implement moral reasoning logic here.
+./candidate/governance/ethics/guardian_reflector.py:    #     from ...CORE.ethics.ethics_engine import EthicsEngine  # TODO: Install or implement CORE
+./candidate/governance/ethics/guardian_reflector.py:    #     from ...CORE.memory.memory_manager import MemoryManager  # TODO: Install or implement CORE
+./candidate/governance/ethics/guardian_reflector.py:    # TODO: Install or implement CORE
+./candidate/governance/ethics/hitlo_bridge.py:from ..orchestration_src.human_in_the_loop_orchestrator import (  # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination
+./candidate/governance/ethics/ethical_sentinel_dashboard.py:TODO: Add violation heatmap for pattern recognition
+./candidate/governance/examples/basic/example.py:# TODO: Add example
+./candidate/governance/ethics_legacy/governor/lambda_governor.py:TODO: Implement quantum-safe arbitration for distributed mesh deployments
+./candidate/governance/ethics_legacy/security/main_node_security_engine.py:    # from AID.service.identity_manager import IdentityManager  # TODO:
+./candidate/governance/ethics_legacy/safety/compliance_dashboard_visual.py:# import streamlit as st  # TODO: Install or implement streamlit
+./candidate/governance/monitoring/threat_monitor.py:            "ethics_reviewed": True,  # TODO: Integrate with ethics engine
+./candidate/governance/monitoring/threat_monitor.py:        # TODO: Integrate with full governance policy engine
+./candidate/governance/monitoring/threat_monitor.py:        # TODO: Forward to main governance audit system
+./candidate/governance/monitoring/guardian_dashboard.py:        # TODO: Implement governance validation
+./candidate/governance/monitoring/guardian_dashboard.py:        avg_response_time = 5.2  # TODO: Calculate from actual data
+./candidate/governance/compliance_dashboard_visual.py:TODO[JULES-2]: Fix 19 F821 undefined name errors - Dashboard visualization fixes, Streamlit import fallbacks, undefined widget references
+./candidate/migration/read_strategy.py:                # TODO: replace with your audit/metrics logger
+./candidate/emotion/dreamseed_upgrade.py:# TODO: Update to use unified tier system
+./candidate/emotion/dreamseed_upgrade.py:    TODO: This enum should be replaced with unified tier system.
+./candidate/emotion/dreamseed_upgrade.py:    # TODO: Replace with unified tier system
+./candidate/emotion/dreamseed_upgrade.py:        TODO: This method should:
+./candidate/emotion/dreamseed_upgrade.py:    # TODO: Add unified tier validation
+./candidate/emotion/dreamseed_upgrade.py:        TODO: Update to:
+./candidate/emotion/examples/basic/example.py:# TODO: Add example
+./candidate/aka_qualia/core.py:                    user_id="system",  # TODO: Use actual user ID from context
+./agi_core/reasoning/chain_of_thought.py:    from lukhas.consciousness.consciousness_wrapper import ConsciousnessWrapper  # noqa: F401  # TODO: lukhas.consciousness.conscious...
+./branding/vocabularies/vocabulary_creativity_engine.py:    """TODO(symbol-resolver): implement missing functionality
+./branding/vocabularies/vocabulary_creativity_engine.py:        for obj in detected_objects:  # noqa: F821  # TODO: detected_objects
+./branding/vocabularies/vocabulary_creativity_engine.py:            if obj.lower() in object_symbolism:  # noqa: F821  # TODO: object_symbolism
+./branding/vocabularies/vocabulary_creativity_engine.py:                symbolic_elements.extend(object_symbolism[obj.lower()])  # noqa: F821  # TODO: symbolic_elements
+./branding/vocabularies/vocabulary_creativity_engine.py:        return list(set(symbolic_elements))  # Remove duplicates  # noqa: F821  # TODO: symbolic_elements
+./branding/vocabularies/vocabulary.py:    """TODO(symbol-resolver): implement missing functionality
+./branding/tools/keatsian_replacer.py:    """TODO(symbol-resolver): implement missing functionality
+./branding/apis/platform_integrations.py:    from linkedin_api import Linkedin  # LinkedIn API  # noqa: F401  # TODO: linkedin_api.Linkedin; conside...
+./branding/apis/platform_integrations.py:    import requests_oauthlib  # OAuth for various platforms  # noqa: F401  # TODO: requests_oauthlib; consider us...
+./branding/poetry/legacy/advanced_haiku_generator.py:    """TODO(symbol-resolver): implement missing functionality
+./branding/poetry/update_poetry_imports.py:            "from branding.poetry.legacy import advanced_haiku_generator  # TODO: Migrate to new soul.py",
+./branding/poetry/vocabulary_balancer.py:    """TODO(symbol-resolver): implement missing functionality
+./branding/poetry/cliche_analysis.py:    """TODO(symbol-resolver): implement missing functionality
+./branding/poetry/vocabulary_amplifier.py:    from .expanded_lexicon import ExpandedLUKHASLexicon  # noqa: F401  # TODO: .expanded_lexicon.ExpandedLUKH...
+./branding/poetry/vocabulary_amplifier.py:    from .poetic_techniques import PoeticTechniques  # noqa: F401  # TODO: .poetic_techniques.PoeticTechn...
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_master_lambda_bot_orchestrator.py:    from core_ΛBot import CoreLambdaBot, SubscriptionTier  # noqa: F401  # TODO: core_ΛBot.SubscriptionTier; co...
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_force_abot_healing.py:# TODO: Implement result processing
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_core_abot.py:    from enhanced_bot_primary import AGICapabilityLevel, AGIResponse, EnhancedAGIBot  # noqa: F401  # TODO: enhanced_bot_primary.AGICapabi...
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_ai_controller_lambda_bot.py:    """TODO(symbol-resolver): implement missing functionality
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_ai_controller_lambda_bot.py:    from agi_controller import AGIController, ConsciousnessLevel, ModuleStatus  # noqa: F401  # TODO: agi_controller.ModuleStatus; c...
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_ai_controller_lambda_bot.py:    from core_ΛBot import CoreLambdaBot, SubscriptionTier  # noqa: F401  # TODO: core_ΛBot.SubscriptionTier; co...
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_LbotSecurityHealer.py:    from lukhas_ai_lambda_bot.specialists.ΛBotPRReviewer import ΛBotPRReviewer  # noqa: F401  # TODO: lukhas_ai_lambda_bot.specialis...
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_cli.py:        from ΛiD.identity_manager import Identitymanager  # noqa: F401  # TODO: ΛiD.identity_manager.Identitym...
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_cli.py:        from ΛiD.trauma_lock import TraumaLockSystem  # noqa: F401  # TODO: ΛiD.trauma_lock.TraumaLockSyst...
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_qi_consciousness_lambda_bot.py:    from lukhas.qi.consciousness_integration import QIConsciousnessProcessor, QIState  # noqa: F401  # TODO: lukhas.qi.consciousness_integr...
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_qi_consciousness_lambda_bot.py:    from qi import QICoherence, QIProcessor  # noqa: F401  # TODO: qi.QICoherence; consider using...
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_qi_consciousness_lambda_bot.py:    from core_ΛBot import CoreLambdaBot, SubscriptionTier  # noqa: F401  # TODO: core_ΛBot.SubscriptionTier; co...
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_multi_brain_symphony_lambda_bot.py:    """TODO(symbol-resolver): implement missing functionality
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_multi_brain_symphony_lambda_bot.py:    from MultiBrainSymphony import BrainRegion, CognitiveState, MultiBrainSymphony  # noqa: F401  # TODO: MultiBrainSymphony.BrainRegion...
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_multi_brain_symphony_lambda_bot.py:    from core_ΛBot import CoreLambdaBot, SubscriptionTier  # noqa: F401  # TODO: core_ΛBot.SubscriptionTier; co...
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_bio_symbolic_lambda_bot.py:    """TODO(symbol-resolver): implement missing functionality
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_designer.py:    """TODO(symbol-resolver): implement missing functionality
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_autonomous_healer.py:    """TODO(symbol-resolver): implement missing functionality
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_free_abot_direct.py:    """TODO(symbol-resolver): implement missing functionality
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_free_abot_direct.py:# TODO: Implement result processing
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_click_actions.py:    """TODO(symbol-resolver): implement missing functionality
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_notion_sync.py:    """TODO(symbol-resolver): implement missing functionality
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_notion_sync.py:            # TODO: Implement actual Notion API integration
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_multi_brain_lambda_bot.py:    """TODO(symbol-resolver): implement missing functionality
+./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_financial_intelligence.py:    """TODO(symbol-resolver): implement missing functionality
+./branding/engines/lukhas_content_platform/test_content_generation.py:    """TODO(symbol-resolver): implement missing functionality
+./branding/orchestration/system_integrator.py:    """TODO(symbol-resolver): implement missing functionality
+./branding/orchestration/system_consolidator.py:    """TODO(symbol-resolver): implement missing functionality
+./branding/orchestration/content_orchestrator.py:    """TODO(symbol-resolver): implement missing functionality
+./lukhas_website/unified/consciousness_integration.py:    from lukhas.memory.folds.memory_fold import MemoryFold  # noqa: F401  # TODO: lukhas.memory.folds.memory_fol...
+./lukhas_website/unified/consciousness_integration.py:    )  # noqa: F401  # TODO: lukhas.qi.engines.consciousnes...
+./tools/2030_full_consolidator.py:    # TODO: Implement actual consolidation logic
+./tools/keyword_extractor.py:    extractor = lukhasKeywordExtractor()  # noqa: F821  # TODO: lukhasKeywordExtractor
+./tools/ml_integration_analyzer.py:            stub = f"import pytest\n\ndef {test_name}():\n    # TODO: Implement test for {f.name}\n    assert True\n"
+./tools/analysis/2030_full_consolidator.py:    # TODO: Implement actual consolidation logic
+./tools/analysis/keyword_extractor.py:    extractor = lukhasKeywordExtractor()  # noqa: F821  # TODO: lukhasKeywordExtractor
+./tools/analysis/ml_integration_analyzer.py:                f"    # TODO: call target function with args: {args_str}\n"
+./tools/analysis/import_fixer.py:                lines[line_num - 1] = "    pass  # TODO: Implement\n"
+./tools/analysis/import_fixer.py:                content = f'"""\n{module_name.title()} Module\n"""\n\npass  # TODO: Implement {module_name}\n'
+./tools/analysis/focused_atlas_builder.py:        # Key comments and TODOs (sample first 50 lines to avoid performance issues)
+./tools/analysis/focused_atlas_builder.py:                    clues.append(f"TODO: {comment[:80]}")
+./tools/analysis/code_atlas_builder.py:    intent_clues: list[str]  # From docstrings, comments, TODOs
+./tools/analysis/code_atlas_builder.py:        # Comments and TODOs
+./tools/analysis/code_atlas_builder.py:                    clues.append(f"TODO_L{i+1}: {comment[:100]}")
+./tools/analysis/OrganizationScanner.py:    scanner = lukhasOrganizationScanner(workspace_root)  # noqa: F821  # TODO: lukhasOrganizationScanner
+./tools/analysis/final_import_cleanup.py:                content = f'"""\n{module_name} Module\n"""\n\n# TODO: Implement {module_name}\npass\n'
+./tools/analysis/final_import_cleanup.py:                    "# from . import utils  # TODO: Create utils module",
+./tools/analysis/final_import_cleanup.py:                    "# from .commands.base import  # TODO: Create commands.base module",
+./tools/analysis/final_import_cleanup.py:                    "# from . import commands  # TODO: Create commands module",
+./tools/analysis/comprehensive_organizational_audit.py:                "TODO.md",
+./tools/enterprise/observability_system.py:                    expected_value=0,  # TODO: Calculate from baseline
+./tools/autodoc_headers.py:            if os.getenv("AUTODOC_DRY_RUN", "").lower() != "true":
+./tools/autodoc_headers.py:            os.environ["AUTODOC_DRY_RUN"] = "true"
+./tools/autodoc_headers.py:    def generate_report(self, output_path: str = "docs/AUDIT/DOCS_TODO.md"):
+./tools/autodoc_headers.py:    parser.add_argument("--report", default="docs/AUDIT/DOCS_TODO.md", help="Report output path")
+./tools/CoreAnalyzer.py:    analyzer = lukhasCoreAnalyzer(workspace_path)  # noqa: F821  # TODO: lukhasCoreAnalyzer
+./tools/security/guardian_compliance_validator.py:    def _is_guardian_compliant(self, results: Dict[str, Any]) -> bool:  # noqa: F821  # TODO: Dict
+./tools/ci/build_manifest.py:T4-Compliant TODO Manifest Builder
+./tools/ci/build_manifest.py:Implements ground truth enumeration per PLANNING_TODO.md:
+./tools/ci/build_manifest.py:- Parse all TODO markdown files
+./tools/ci/build_manifest.py:        """Parse structured TODOs from markdown files"""
+./tools/ci/build_manifest.py:            # Parse markdown TODO entries
+./tools/ci/build_manifest.py:        """Parse individual TODO entries from markdown content"""
+./tools/ci/build_manifest.py:        """Parse a single TODO entry from markdown section"""
+./tools/ci/build_manifest.py:        title_match = re.search(r"\*\*TODO Text:\*\*\s*```([^`]+)```", section, re.DOTALL)
+./tools/ci/build_manifest.py:        """Generate TaskID: TODO-{PRIORITY}-{MODULE}-{HASH8}"""
+./tools/ci/build_manifest.py:        return f"TODO-{priority_code}-{module}-{hash_8}"
+./tools/ci/build_manifest.py:        """Classify TODO type"""
+./tools/ci/build_manifest.py:        """Cross-check TODOs against live codebase"""
+./tools/ci/build_manifest.py:                    if ":" in line and ("TODO" in line or "FIXME" in line or "HACK" in line):
+./tools/ci/build_manifest.py:        # Add evidence to existing TODOs
+./tools/ci/build_manifest.py:        # Add new TODOs found in grep but not in markdown
+./tools/ci/build_manifest.py:        """Find evidence for TODO in grep results and git history"""
+./tools/ci/build_manifest.py:        """Create TODO entry from grep result"""
+./tools/ci/build_manifest.py:        # Extract TODO content
+./tools/ci/build_manifest.py:        todo_match = re.search(r"(TODO|FIXME|HACK)[:\s]*(.+)", content, re.IGNORECASE)
+./tools/ci/build_manifest.py:    parser = argparse.ArgumentParser(description="Build T4-compliant TODO manifest")
+./tools/ci/build_manifest.py:    parser.add_argument("--todo-md", nargs="+", required=True, help="TODO markdown files to parse")
+./tools/ci/build_manifest.py:    # Parse markdown TODOs
+./tools/ci/build_manifest.py:    print(f"Parsing {len(args.todo_md)} TODO markdown files...")
+./tools/ci/build_manifest.py:    print(f"Found {len(todos)} TODOs in markdown files")
+./tools/ci/build_manifest.py:    print(f"Total TODOs after cross-check: {len(todos)}")
+./tools/ci/mark_unused_imports_todo.py:Mark unused imports with TODOs instead of deleting them.
+./tools/ci/mark_unused_imports_todo.py:- Adds inline marker: # TODO[T4-UNUSED-IMPORT]: <reason>
+./tools/ci/mark_unused_imports_todo.py:# T4 TODO system configuration
+./tools/ci/mark_unused_imports_todo.py:    "# TODO[T4-UNUSED-IMPORT]: This file contains unused imports intentionally kept.\n"
+./tools/ci/mark_unused_imports_todo.py:TODO_TAG = "TODO[T4-UNUSED-IMPORT]"
+./tools/ci/mark_unused_imports_todo.py:INLINE_PATTERN = re.compile(rf"#\s*{re.escape(TODO_TAG)}")
+./tools/ci/mark_unused_imports_todo.py:    """Add T4 header if no prior TODO tag present."""
+./tools/ci/mark_unused_imports_todo.py:    return text if TODO_TAG in text else (HEADER_BLOCK + text)
+./tools/ci/mark_unused_imports_todo.py:    """Mark a specific line with T4 TODO annotation."""
+./tools/ci/mark_unused_imports_todo.py:    # Add TODO annotation
+./tools/ci/mark_unused_imports_todo.py:    lines[idx] = f"{line}  # {TODO_TAG}: {reason}"
+./tools/ci/check_unused_imports_todo.py:- Checks each finding has a TODO[T4-UNUSED-IMPORT] annotation
+./tools/ci/check_unused_imports_todo.py:TODO_TAG = "TODO[T4-UNUSED-IMPORT]"
+./tools/ci/check_unused_imports_todo.py:INLINE_PATTERN = re.compile(rf"#\s*{re.escape(TODO_TAG)}")
+./tools/ci/check_unused_imports_todo.py:    """Check if line has TODO[T4-UNUSED-IMPORT] annotation."""
+./tools/ci/check_unused_imports_todo.py:    """Check that all unused imports are annotated with T4 TODO tags."""
+./tools/ci/check_unused_imports_todo.py:        file_path = pathlib.Path(finding["filename"])  # noqa: F821  # TODO: pathlib
+./tools/ci/check_unused_imports_todo.py:                if not TODO_PATTERN.search(line_content):  # noqa: F821  # TODO: TODO_PATTERN
+./tools/ci/check_unused_imports_todo.py:        print("These F401 errors must be annotated with TODO[T4-UNUSED-IMPORT] tags:")
+./tools/ci/check_unused_imports_todo.py:            print(f"✅ OK: All {total_annotated} unused imports are properly annotated with T4 TODO tags.")
+./tools/ci/lock_batches.py:        """Validate TaskID format: TODO-{PRIORITY}-{MODULE}-{HASH8}"""
+./tools/ci/lock_batches.py:        if not task_id.startswith("TODO-"):
+./tools/ci/mark_f821_f401_todo.py:🛡️ Guardian-validated TODO annotation system for production stability
+./tools/ci/mark_f821_f401_todo.py:This tool automatically adds TODO annotations to F821 (undefined name) and
+./tools/ci/mark_f821_f401_todo.py:from typing import List, Dict, Set  # noqa: F401  # TODO: typing.Set
+./tools/ci/mark_f821_f401_todo.py:        """Add TODO annotation for F821/F401 error"""
+./tools/ci/mark_f821_f401_todo.py:                if f"# noqa: {error_code}" in current_line or f"# TODO.*{error_code}" in current_line:
+./tools/ci/mark_f821_f401_todo.py:                # Add noqa annotation with TODO context at end of line
+./tools/ci/mark_f821_f401_todo.py:                todo_comment = f"  # noqa: {error_code}  # TODO: {clean_msg}"
+./tools/ci/mark_f821_f401_todo.py:                # Simplify message for TODO comment
+./tools/ci/mark_f821_f401_todo.py:            logger.info(f"\n🎯 Successfully annotated {self.annotated_count} errors with TODO comments")
+./tools/ci/targeted_syntax_fixer.py:from typing import Dict, List, Set  # noqa: F401  # TODO: typing.Set
+./tools/ci/comprehensive_syntax_fixer.py:from typing import List, Dict, Tuple, Set  # noqa: F401  # TODO: typing.Tuple
+./tools/ci/split_batches.py:Splits TODOs from manifest into agent-specific batches following T4 principles:
+./tools/ci/split_batches.py:        """Split TODOs into agent-specific batches"""
+./tools/ci/split_batches.py:        # Sort TODOs by priority for allocation
+./tools/ci/split_batches.py:                continue  # Skip completed or blocked TODOs
+./tools/ci/split_batches.py:        """Assign a TODO to the most appropriate agent"""
+./tools/ci/split_batches.py:        """Count TODOs by a specific field"""
+./tools/ci/split_batches.py:    parser = argparse.ArgumentParser(description="Split TODOs into agent batches")
+./tools/ci/split_batches.py:    print(f"Splitting {len(manifest['todos'])} TODOs into agent batches...")
+./tools/ci/f821_report.py:            tag = f"# TODO[T4-F821:{it['class']}]: {it['message']}"
+./tools/ci/unused_imports.py:  * adds an inline TODO tag (idempotent):  # TODO[T4-UNUSED-IMPORT]: <reason>
+./tools/ci/unused_imports.py:    "# TODO[T4-UNUSED-IMPORT]: This file contains intentionally kept unused imports.\n"
+./tools/ci/unused_imports.py:TODO_TAG = "TODO[T4-UNUSED-IMPORT]"
+./tools/ci/unused_imports.py:INLINE_RE = re.compile(rf"#\s*{re.escape(TODO_TAG)}")
+./tools/ci/unused_imports.py:    return text if TODO_TAG in text else (HEADER_BLOCK + text)
+./tools/ci/unused_imports.py:    lines[idx] = f"{line}  # {TODO_TAG}: {reason}"
+./tools/ci/unused_imports.py:    ap = argparse.ArgumentParser(description="Annotate or enforce TODOs for unused imports (F401).")
+./tools/ci/unused_imports.py:        "--reason", default="kept pending MATRIZ wiring (document or remove)", help="Reason appended to the TODO tag."
+./tools/ci/unused_imports.py:                print(f"[DRY-RUN] Would annotate {file_path}:{line} -> {TODO_TAG}")
+./tools/journal_cli.py:    start_date = datetime.now(timezone.utc) - timedelta(days=days)  # noqa: F821  # TODO: timezone
+./tools/journal_cli.py:        date_range=(start_date, datetime.now(timezone.utc)),  # noqa: F821  # TODO: timezone
+./tools/journal_cli.py:    start_date = datetime.now(timezone.utc) - timedelta(days=days)  # noqa: F821  # TODO: timezone
+./tools/journal_cli.py:    entries = journal.search(date_range=(start_date, datetime.now(timezone.utc)))  # noqa: F821  # TODO: timezone
+./tools/journal_cli.py:        output = f"journal_export_{datetime.now(timezone.utc).strftime('%Y%m%d')}.md"  # noqa: F821  # TODO: timezone
+./tools/journal_cli.py:        date_range=(datetime.now(timezone.utc) - timedelta(days=7), datetime.now(timezone.utc)),  # noqa: F821  # TODO: timezone
+./tools/journal_cli.py:        f"  Entries this week: {len(ctx.obj['journal'].search(date_range=(datetime.now(timezone.utc) - timedelta(days=7), datetime.now(timezone.utc))))}"  # noqa: F821  # TODO: timezone
+./tools/matriz/lane_aware_fixer.py:    from diagnostic_orchestrator import DiagnosticOrchestrator  # noqa: F401  # TODO: diagnostic_orchestrator.Diagno...
+./tools/matriz/lane_aware_fixer.py:    from pytest_class_fixer import PytestClassFixer  # noqa: F401  # TODO: pytest_class_fixer.PytestClass...
+./tools/file_organization_oracle.py:                "tasks/": ["*TASK*", "*TODO*", "*PENDING*"],
+./tools/assign_module_ownership.py:                if match not in ["TODO", "FIXME", "None", "Unknown"]:
+./tools/fix_later_stubs.py:    """TODO(symbol-resolver): implement missing functionality
+./tools/cleanup/cleanup_duplicates.py:    # TODO: Implement actual consolidation logic
+./tools/cleanup/duplicate_code_analyzer.py:    # TODO: Implement actual consolidation logic
+./tools/scripts/enhance_modules_simple.py:    # TODO: Add example
+./tools/scripts/FULL_INTEGRATION.py:            adapter = LukhasegrationAdapter()  # noqa: F821  # TODO: LukhasegrationAdapter
+./tools/scripts/system_status_comprehensive_report.py:# TODO[T4-AUTOFIX]: Remaining minor syntax issues - review malformed f-strings and list comprehensions
+./tools/scripts/promote_module.py:        "# TODO: remove after dependents migrate.\n"
+./tools/scripts/consolidation/consolidate_orchestration_brain.py:    # TODO: Implement actual consolidation logic
+./tools/symbol_resolver.py:                    {"type": "TODO_STUB", "symbol": symbol, "count": count, "files": self.symbol_patterns[symbol]}
+./tools/commands/__init__.py:pass  # TODO: Implement __init__
+./tools/commands/base.py:pass  # TODO: Implement base
+./tools/automation/import_fixer.py:                lines[line_num - 1] = "    pass  # TODO: Implement\n"
+./tools/automation/import_fixer.py:                content = f'"""\n{module_name.title()} Module\n"""\n\npass  # TODO: Implement {module_name}\n'
+./tools/automation/cleanup_generator.py:            "find . -name '*.py' -exec grep -l 'TODO\\|placeholder\\|not implemented' {} \\; 2>/dev/null || echo 'None found ✅'",
+./tools/automation/diagnostic_orchestrator.py:            from lukhas.governance.identity import auth_integration  # noqa: F401  # TODO: lukhas.governance.identity.aut...
+./tools/PatternScanner.py:    scanner = lukhasFunctionScanner()  # noqa: F821  # TODO: lukhasFunctionScanner
+./tools/decision_tracker.py:        self.timestamp = datetime.now(timezone.utc)  # noqa: F821  # TODO: timezone
+./tools/decision_tracker.py:        start_date = datetime.now(timezone.utc) - timedelta(days=days)  # noqa: F821  # TODO: timezone
+./tools/decision_tracker.py:        decisions = self.journal.search(type="decision", date_range=(start_date, datetime.now(timezone.utc)))  # noqa: F821  # TODO: timezone
+./tools/extreme_performance_validator.py:        AuthPerformanceMetrics,  # noqa: F401  # TODO: enterprise.performance.extreme...
+./tools/extreme_performance_validator.py:        ExtremeAuthPerformanceOptimizer,  # noqa: F401  # TODO: enterprise.performance.extreme...
+./tools/extreme_performance_validator.py:        run_audit_benchmark_extreme,  # noqa: F401  # TODO: lukhas.governance.identity.aut...
+./tools/extreme_performance_validator.py:    from lukhas.governance.identity.connector import get_identity_connector  # noqa: F401  # TODO: lukhas.governance.identity.con...
+./tools/validation/prevention_suite.py:            from lukhas.governance.identity import auth_integration  # noqa: F401  # TODO: lukhas.governance.identity.aut...
+./tools/reports/weekly_hygiene.py:        f"* TODO count: {todos} {spark(todos)}\n"
+./bio/symbolic/__init__.py:TODO[T4-AUDIT]:triage - Deep bio hierarchy with unclear integration path. Need architecture analysis.
+./products/experience/feedback/core/enterprise/advanced_security.py:                "average_trust_score": (np.mean(list(self.trust_scores.values())) if self.trust_scores else 0.5),  # noqa: F821  # TODO: np
+./products/experience/feedback/qi_feedback/triage.py:        for fc in feedback:  # noqa: F821  # TODO: feedback
+./products/experience/feedback/qi_feedback/triage.py:            if key in seen:  # noqa: F821  # TODO: seen
+./products/experience/feedback/qi_feedback/triage.py:                last_ts = seen[key]  # noqa: F821  # TODO: seen
+./products/experience/feedback/qi_feedback/triage.py:            seen[key] = ts  # noqa: F821  # TODO: seen
+./products/experience/dashboard/core/meta/utils.py:# TODO: Add more utility functions:
+./products/experience/dashboard/core/meta/dashboard_server.py:# TODO: Implement additional dashboard features:
+./products/experience/dashboard/consciousness/trace_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit
+./products/experience/dashboard/consciousness/trace_dashboard.py:    st.title("Reasoning and Memory Metrics Dashboard")  # noqa: F821  # TODO: st
+./products/experience/dashboard/consciousness/trace_dashboard.py:    st.header("Logic Drift Index")  # noqa: F821  # TODO: st
+./products/experience/dashboard/consciousness/trace_dashboard.py:    st.metric("Logic Drift", drift)  # noqa: F821  # TODO: st
+./products/experience/dashboard/consciousness/trace_dashboard.py:    st.header("Recall Efficiency Score")  # noqa: F821  # TODO: st
+./products/experience/dashboard/consciousness/trace_dashboard.py:    st.metric("Recall Efficiency", score)  # noqa: F821  # TODO: st
+./products/experience/dashboard/interfaces/core/universal_adaptive_dashboard.py:        self.event_bus = EventBus()  # noqa: F821  # TODO: EventBus
+./products/experience/voice/core/voice_training.py:                format=AudioFormat.FLOAT_32,  # noqa: F821  # TODO: AudioFormat
+./products/experience/voice/core/__init__.py:                    data=np.frombuffer(response.audio_data, dtype=np.int16).astype(np.float32) / 32768.0,  # noqa: F821  # TODO: np
+./products/experience/voice/core/__init__.py:                effects_audio = (effects_buffer.data * 32767).astype(np.int16).tobytes()  # noqa: F821  # TODO: np
+./products/experience/voice/bridge/validator.py:        self.logger = logger  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/validator.py:        logger.info(f"Initialization: {'success' if success else 'failed'}")  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/validator.py:        logger.info(f"Processing result: {result}")  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/validator.py:        logger.info(f"Validation: {'passed' if valid else 'failed'}")  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/validator.py:        logger.info(f"Status: {status}")  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/recognition.py:        self.logger = logger  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/recognition.py:        logger.info(f"Initialization: {'success' if success else 'failed'}")  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/recognition.py:        logger.info(f"Processing result: {result}")  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/recognition.py:        logger.info(f"Validation: {'passed' if valid else 'failed'}")  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/recognition.py:        logger.info(f"Status: {status}")  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/voice_cultural_integrator.py:        words = [w for w in re.findall(r"\b[a-zA-Z\']+\b", context.get("user_text", "")) if len(w) > 5]  # noqa: F821  # TODO: re
+./products/experience/voice/bridge/voice_integration.py:    import torch  # noqa: F401  # TODO: torch; consider using importli...
+./products/experience/voice/bridge/voice_integration.py:    import torchaudio  # noqa: F401  # TODO: torchaudio; consider using imp...
+./products/experience/voice/bridge/speech_engine.py:        self.logger = logger  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/speech_engine.py:        logger.info(f"Initialization: {'success' if success else 'failed'}")  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/speech_engine.py:        logger.info(f"Processing result: {result}")  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/speech_engine.py:        logger.info(f"Validation: {'passed' if valid else 'failed'}")  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/speech_engine.py:        logger.info(f"Status: {status}")  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/audio_processor.py:        self.logger = logger  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/audio_processor.py:        logger.info(f"Initialization: {'success' if success else 'failed'}")  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/audio_processor.py:        logger.info(f"Processing result: {result}")  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/audio_processor.py:        logger.info(f"Validation: {'passed' if valid else 'failed'}")  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/audio_processor.py:        logger.info(f"Status: {status}")  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/audio_engine.py:        self.logger = logger  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/audio_engine.py:        logger.info(f"Initialization: {'success' if success else 'failed'}")  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/audio_engine.py:        logger.info(f"Processing result: {result}")  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/audio_engine.py:        logger.info(f"Validation: {'passed' if valid else 'failed'}")  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/audio_engine.py:        logger.info(f"Status: {status}")  # noqa: F821  # TODO: logger
+./products/experience/voice/bridge/adaptation_module.py:        self.emotion_map = load_initial_emotion_map()  # noqa: F821  # TODO: load_initial_emotion_map
+./products/experience/voice/bridge/adaptation_module.py:        self.resonator_weights = load_initial_resonator_weights()  # noqa: F821  # TODO: load_initial_resonator_weights
+./products/experience/universal_language/core/multimodal.py:        # TODO: Implement actual language detection
+./products/experience/universal_language/core/multimodal.py:        # TODO: Implement emoji categorization
+./products/experience/universal_language/core/core.py:        # TODO: Implement pattern matching
+./products/experience/universal_language/core/core.py:        # TODO: Implement transformations
+./products/experience/universal_language/core/vocabulary.py:                    # TODO: Implement import logic
+./products/enterprise/core/integration/unified_consciousness_layer.py:    from candidate.bridge.orchestration.consensus_engine import ConsensusEngine  # noqa: F401  # TODO: candidate.bridge.orchestration...
+./products/enterprise/core/integration/unified_consciousness_layer.py:    from enterprise.compliance.data_protection_service import DataProtectionService  # noqa: F401  # TODO: enterprise.compliance.data_pro...
+./products/enterprise/core/integration/unified_consciousness_layer.py:    from enterprise.monitoring.datadog_integration import DatadogIntegration  # noqa: F401  # TODO: enterprise.monitoring.datadog_...
+./products/enterprise/core/rigor/ab_testing_platform.py:self.significance_threshold = 0.95  # noqa: F821  # TODO: self
+./products/enterprise/core/observability/t4_observability_stack.py:    from datadog.api.metrics import Metric  # noqa: F401  # TODO: datadog.api.metrics.Metric; co...
+./products/enterprise/core/observability/t4_observability_stack.py:    from opentelemetry import metrics, trace  # noqa: F401  # TODO: opentelemetry.metrics; conside...
+./products/enterprise/core/observability/t4_observability_stack.py:    )  # noqa: F401  # TODO: opentelemetry.sdk.trace.export...
+./products/enterprise/core/observability/t4_observability_stack.py:    import prometheus_client  # noqa: F401  # TODO: prometheus_client; consider us...
+./products/enterprise/core/observability/t4_observability_stack.py:    from lukhas.guardian import GuardianSystem  # noqa: F401  # TODO: lukhas.guardian.GuardianSystem...
+./products/enterprise/core/observability/t4_observability_stack.py:    from lukhas.trinity import TrinityFramework  # noqa: F401  # TODO: lukhas.trinity.TrinityFramewor...
+./products/enterprise/core/observability/t4_observability_stack.py:        from candidate.consciousness import ConsciousnessCore  # noqa: F401  # TODO: candidate.consciousness.Consci...
+./products/enterprise/core/observability/t4_observability_stack.py:        from candidate.memory import MemoryFoldSystem  # noqa: F401  # TODO: candidate.memory.MemoryFoldSys...
+./products/enterprise/core/observability/t4_observability_stack.py:    # TODO: Implement real metric collection from LUKHAS components.
+./products/enterprise/core/compliance/data_protection_service.py:    from cryptography.hazmat.backends import default_backend  # noqa: F401  # TODO: cryptography.hazmat.backends.d...
+./products/enterprise/core/compliance/data_protection_service.py:    from cryptography.hazmat.primitives import hashes, serialization  # noqa: F401  # TODO: cryptography.hazmat.primitives...
+./products/enterprise/core/compliance/data_protection_service.py:    from cryptography.hazmat.primitives.asymmetric import padding, rsa  # noqa: F401  # TODO: cryptography.hazmat.primitives...
+./products/enterprise/core/compliance/data_protection_service.py:    from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes  # noqa: F401  # TODO: cryptography.hazmat.primitives...
+./products/enterprise/core/compliance/data_protection_service.py:    from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC  # noqa: F401  # TODO: cryptography.hazmat.primitives...
+./products/enterprise/core/compliance/api.py:        "user_lid": user_lid,  # noqa: F821  # TODO: user_lid
+./products/enterprise/core/compliance/api.py:        "updated_consent_grants": updated_grants,  # noqa: F821  # TODO: updated_grants
+./products/enterprise/core/compliance/api.py:        "updated_protected_data_entries": updated_data,  # noqa: F821  # TODO: updated_data
+./products/enterprise/core/performance/extreme_auth_optimization.py:    import lz4.frame as _  # Ultra-fast compression for large payloads  # noqa: F401  # TODO: lz4.frame; consider using impo...
+./products/enterprise/core/performance/constellation_benchmarks.py:    from lukhas.constellation import ConstellationFramework  # noqa: F401  # TODO: lukhas.constellation.Constella...
+./products/enterprise/core/performance/constellation_benchmarks.py:        from candidate.consciousness import ConsciousnessCore  # noqa: F401  # TODO: candidate.consciousness.Consci...
+./products/enterprise/core/performance/constellation_benchmarks.py:        from candidate.governance import GuardianSystem  # noqa: F401  # TODO: candidate.governance.GuardianS...
+./products/enterprise/core/performance/constellation_benchmarks.py:        from candidate.memory import MemoryFoldSystem  # noqa: F401  # TODO: candidate.memory.MemoryFoldSys...
+./products/enterprise/compliance/data_protection_service.py:    from cryptography.hazmat.backends import default_backend  # noqa: F401  # TODO: cryptography.hazmat.backends.d...
+./products/enterprise/compliance/data_protection_service.py:    from cryptography.hazmat.primitives import hashes, serialization  # noqa: F401  # TODO: cryptography.hazmat.primitives...
+./products/enterprise/compliance/data_protection_service.py:    from cryptography.hazmat.primitives.asymmetric import padding, rsa  # noqa: F401  # TODO: cryptography.hazmat.primitives...
+./products/enterprise/compliance/data_protection_service.py:    from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes  # noqa: F401  # TODO: cryptography.hazmat.primitives...
+./products/enterprise/compliance/data_protection_service.py:    from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC  # noqa: F401  # TODO: cryptography.hazmat.primitives...
+./products/enterprise/compliance/api.py:        "user_lid": user_lid,  # noqa: F821  # TODO: user_lid
+./products/enterprise/compliance/api.py:        "updated_consent_grants": updated_grants,  # noqa: F821  # TODO: updated_grants
+./products/enterprise/compliance/api.py:        "updated_protected_data_entries": updated_data,  # noqa: F821  # TODO: updated_data
+./products/enterprise/performance/extreme_auth_optimization.py:📋 TODO FOR AGENT INTEGRATION:
+./products/intelligence/dast_enhanced/dast_core.py:                    age_match = re.search(r"symbol_age >= (\d+) hours", rule.condition)  # noqa: F821  # TODO: re
+./products/intelligence/dast_enhanced/dast_core.py:                    conf_match = re.search(r"confidence <= ([\d.]+)", rule.condition)  # noqa: F821  # TODO: re
+./products/intelligence/lens/tests/test_api_integration.py:    # TODO: Fix import path - lambda directory doesn't exist
+./products/intelligence/lens/api/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist
+./products/intelligence/lens/api/standalone_server.py:# TODO: Update these import paths to correct locations
+./products/intelligence/lens/api/standalone_server.py:lens_core = LensCore()  # noqa: F821  # TODO: LensCore
+./products/intelligence/lens/api/standalone_server.py:symbol_generator = SymbolGenerator()  # noqa: F821  # TODO: SymbolGenerator
+./products/intelligence/lens/api/standalone_server.py:widget_factory = WidgetFactory()  # noqa: F821  # TODO: WidgetFactory
+./products/intelligence/lens/api/standalone_server.py:web_renderer = Web2DRenderer()  # noqa: F821  # TODO: Web2DRenderer
+./products/intelligence/lens/api/standalone_server.py:xr_renderer = XRRenderer()  # noqa: F821  # TODO: XRRenderer
+./products/intelligence/lens/api/standalone_server.py:            parser = TextParser()  # noqa: F821  # TODO: TextParser
+./products/intelligence/lens/api/standalone_server.py:            parser = CodeParser()  # noqa: F821  # TODO: CodeParser
+./products/intelligence/lens/api/standalone_server.py:            parser = DataParser()  # noqa: F821  # TODO: DataParser
+./products/intelligence/lens/api/standalone_server.py:            parser = CSVParser()  # noqa: F821  # TODO: CSVParser
+./products/intelligence/lens/api/standalone_server.py:            parser = MarkdownParser()  # noqa: F821  # TODO: MarkdownParser
+./products/intelligence/lens/api/standalone_server.py:            parser = PDFParser()  # noqa: F821  # TODO: PDFParser
+./products/intelligence/lens/api/standalone_server.py:            parser = TextParser()  # noqa: F821  # TODO: TextParser
+./products/intelligence/lens/test_api.py:    from api.schemas import JobRequest, JobResponse, PhotonDocument  # noqa: F401  # TODO: api.schemas.JobResponse; consi...
+./products/intelligence/lens/api_new/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist
+./products/intelligence/lens/api_new/standalone_server.py:# TODO: Update these import paths to correct locations
+./products/intelligence/lens/api_new/standalone_server.py:lens_core = LensCore()  # noqa: F821  # TODO: LensCore
+./products/intelligence/lens/api_new/standalone_server.py:symbol_generator = SymbolGenerator()  # noqa: F821  # TODO: SymbolGenerator
+./products/intelligence/lens/api_new/standalone_server.py:widget_factory = WidgetFactory()  # noqa: F821  # TODO: WidgetFactory
+./products/intelligence/lens/api_new/standalone_server.py:web_renderer = Web2DRenderer()  # noqa: F821  # TODO: Web2DRenderer
+./products/intelligence/lens/api_new/standalone_server.py:xr_renderer = XRRenderer()  # noqa: F821  # TODO: XRRenderer
+./products/intelligence/lens/api_new/standalone_server.py:            parser = TextParser()  # noqa: F821  # TODO: TextParser
+./products/intelligence/lens/api_new/standalone_server.py:            parser = CodeParser()  # noqa: F821  # TODO: CodeParser
+./products/intelligence/lens/api_new/standalone_server.py:            parser = DataParser()  # noqa: F821  # TODO: DataParser
+./products/intelligence/lens/api_new/standalone_server.py:            parser = CSVParser()  # noqa: F821  # TODO: CSVParser
+./products/intelligence/lens/api_new/standalone_server.py:            parser = MarkdownParser()  # noqa: F821  # TODO: MarkdownParser
+./products/intelligence/lens/api_new/standalone_server.py:            parser = PDFParser()  # noqa: F821  # TODO: PDFParser
+./products/intelligence/lens/api_new/standalone_server.py:            parser = TextParser()  # noqa: F821  # TODO: TextParser
+./products/intelligence/monitoring_candidate/real_data_collector.py:            if memoria_path.exists():  # noqa: F821  # TODO: memoria_path
+./products/intelligence/dast/dast_core.py:                    age_match = re.search(r"symbol_age >= (\d+) hours", rule.condition)  # noqa: F821  # TODO: re
+./products/intelligence/dast/dast_core.py:                    conf_match = re.search(r"confidence <= ([\d.]+)", rule.condition)  # noqa: F821  # TODO: re
+./products/security/healthcare_guardian/healthcare_guardian_es/voice_andaluz/voice_engine.py:            from gtts import gTTS  # noqa: F401  # TODO: gtts.gTTS; consider using impo...
+./products/security/guardian/guardian_core.py:                self.medical_ocr = MockMedicationOCR(cache_dir=self.data_dir / "ocr_cache")  # noqa: F821  # TODO: MockMedicationOCR
+./products/security/qrg/bridge.py:    # TODO: Fix import paths - lambda directory doesn't exist
+./products/security/qrg/bridge.py:            created_timestamp=datetime.now(timezone.utc),  # noqa: F821  # TODO: timezone
+./products/security/qrg/bridge.py:        identity.last_authentication = datetime.now(timezone.utc)  # noqa: F821  # TODO: timezone
+./products/security/qrg/bridge.py:            "valid_until": (datetime.now(timezone.utc) + timedelta(hours=24)).isoformat(),  # noqa: F821  # TODO: timezone
+./products/security/qrg/bridge.py:            verification_result["temporal_validity"] = datetime.now(timezone.utc) <= validity_time  # noqa: F821  # TODO: timezone
+./products/security/qrg/bridge.py:            "issued": datetime.now(timezone.utc).isoformat(),  # noqa: F821  # TODO: timezone
+./products/security/qrg/bridge.py:            "QRG": {"authenticated": True, "last_used": datetime.now(timezone.utc).isoformat()},  # noqa: F821  # TODO: timezone
+./products/security/qrg/qi_entropy.py:        entropy_source: QuantumEntropySource = QuantumEntropySource.HYBRID_ENSEMBLE,  # noqa: F821  # TODO: QuantumEntropySource
+./products/security/qrg/qi_entropy.py:                    self.entropy_sources[QuantumEntropySource.HARDWARE_RNG] = True  # noqa: F821  # TODO: QuantumEntropySource
+./products/security/qrg/qi_entropy.py:            self.entropy_sources[QuantumEntropySource.HARDWARE_RNG] = False  # noqa: F821  # TODO: QuantumEntropySource
+./products/security/qrg/qi_entropy.py:        self.entropy_sources[QuantumEntropySource.CRYPTOGRAPHIC_SECURE] = True  # noqa: F821  # TODO: QuantumEntropySource
+./products/security/qrg/qi_entropy.py:        self.entropy_sources[QuantumEntropySource.QUANTUM_API] = True  # noqa: F821  # TODO: QuantumEntropySource
+./products/security/qrg/qi_entropy.py:        self.entropy_sources[QuantumEntropySource.ATMOSPHERIC_NOISE] = True  # noqa: F821  # TODO: QuantumEntropySource
+./products/security/qrg/qi_entropy.py:        if self.entropy_source == QuantumEntropySource.HYBRID_ENSEMBLE:  # noqa: F821  # TODO: QuantumEntropySource
+./products/security/qrg/qi_entropy.py:        elif self.entropy_source == QuantumEntropySource.QUANTUM_API:  # noqa: F821  # TODO: QuantumEntropySource
+./products/security/qrg/qi_entropy.py:        elif self.entropy_source == QuantumEntropySource.HARDWARE_RNG:  # noqa: F821  # TODO: QuantumEntropySource
+./products/security/qrg/qi_entropy.py:        if self.entropy_sources.get(QuantumEntropySource.QUANTUM_API):  # noqa: F821  # TODO: QuantumEntropySource
+./products/security/qrg/qi_entropy.py:        if self.entropy_sources.get(QuantumEntropySource.HARDWARE_RNG):  # noqa: F821  # TODO: QuantumEntropySource
+./products/security/qrg/qi_entropy.py:        if not self.entropy_sources.get(QuantumEntropySource.HARDWARE_RNG):  # noqa: F821  # TODO: QuantumEntropySource
+./products/content/poetica/creativity_engines/personality/brain.py:        self.emotional_oscillator = EmotionalOscillator()  # noqa: F821  # TODO: EmotionalOscillator
+./products/content/poetica/creativity_engines/personality/brain.py:        self.qi_attention = QIAttention()  # noqa: F821  # TODO: QIAttention
+./products/content/poetica/creativity_engines/personality/brain.py:        self.ethics_engine = EthicsEngine()  # noqa: F821  # TODO: EthicsEngine
+./products/content/poetica/creativity_engines/personality/brain.py:        self.memory_manager = EnhancedMemoryManager(  # noqa: F821  # TODO: EnhancedMemoryManager
+./products/content/poetica/creativity_engines/personality/brain.py:        self.decision_engine = DecisionEngine(  # noqa: F821  # TODO: DecisionEngine
+./products/content/poetica/creativity_engines/qi_creative_types.py:    base_state: Any  # "CreativeQuantumLikeState" - TODO: Define this type
+./products/content/poetica/creativity_engines/qi_creative_types.py:    async def process(self, context: str) -> dict[str, Any]:  # TODO: Return QuantumHaiku when defined
+./products/content/poetica/creativity_engines/creative_engine.py:HAIKU_GENERATION_TIME = Histogram("haiku_generation_seconds", "Time spent generating haiku")  # noqa: F821  # TODO: Histogram
+./products/content/poetica/creativity_engines/creative_engine.py:ACTIVE_GENERATORS = Gauge("active_generators", "Number of active generators")  # noqa: F821  # TODO: Gauge
+./products/content/poetica/creativity_engines/advanced_haiku_generator.py:        generate_branded_content,  # noqa: F401  # TODO: lukhas.branding_bridge.generat...
+./products/content/poetica/creativity_engines/advanced_haiku_generator.py:        get_triad_context,  # noqa: F401  # TODO: lukhas.branding_bridge.get_tri...
+./products/communication/nias/dream_generator.py:    logger.warning("OpenAI library not available. Install with: pip install openai", timezone)  # noqa: F821  # TODO: logger
+./products/communication/nias_candidate/core/nias_engine.py:            return [self.symbolic.create_symbol("rec", {"context": "TODO"})]
+./products/communication/abas_candidate/core/abas_engine.py:# from ethics.core import get_shared_ethics_engine  # TODO: Fix ethics integration
+./products/communication/abas_candidate/core/abas_engine.py:        # TODO: integrate dependency analysis
+./products/communication/abas_candidate/integration/abas_integration_hub.py:        self.abas_engine = ABASEngine()  # noqa: F821  # TODO: ABASEngine
+./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py:        self.memory_register = QuantumRegister(capacity_qubits, "memory")  # noqa: F821  # TODO: QuantumRegister
+./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py:        self.query_register = QuantumRegister(capacity_qubits, "query")  # noqa: F821  # TODO: QuantumRegister
+./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py:        self.error_correction = SurfaceCodeErrorCorrection(physical_qubits_per_logical=17)  # noqa: F821  # TODO: SurfaceCodeErrorCorrection
+./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py:        self.decoherence_mitigator = DecoherenceMitigation(strategy="dynamical_decoupling")  # noqa: F821  # TODO: DecoherenceMitigation
+./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py:    async def store_quantum_state(self, memory_id: str, quantum_state: QuantumState, associations: list[str]):  # noqa: F821  # TODO: QuantumState
+./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py:        query: QuantumQuery,  # noqa: F821  # TODO: QuantumQuery
+./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py:        num_iterations: Optional[int] = None,  # noqa: F821  # TODO: QuantumQuery
+./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py:    ) -> list[QuantumMemory]:  # noqa: F821  # TODO: QuantumMemory
+./products/infrastructure/legado/legacy_systems/governor/lambda_governor.py:TODO: Implement quantum-safe arbitration for distributed mesh deployments
+./products/infrastructure/legado/legacy_systems/security/main_node_security_engine.py:    # from AID.service.identity_manager import IdentityManager  # TODO:
+./products/infrastructure/legado/legacy_systems/security/main_node_security_engine.py:        self.identity_manager = IdentityManager()  # noqa: F821  # TODO: IdentityManager
+./products/infrastructure/legado/legacy_systems/security/main_node_security_engine.py:    system = AdaptiveAGISystem()  # noqa: F821  # TODO: AdaptiveAGISystem
+./products/infrastructure/legado/legacy_systems/security/flagship_security_engine.py:    system = LucasFlagshipSystem()  # noqa: F821  # TODO: LucasFlagshipSystem
+./products/infrastructure/legado/legacy_systems/compliance/engine.py:logger = logging.getLogger("prot2.AdvancedComplianceEthicsEngine", timezone)  # noqa: F821  # TODO: logging
+./products/infrastructure/legado/legacy_systems/compliance/engine.py:        self.logger = logging.getLogger("prot2.AdvancedComplianceEthicsEngine._CorePrivateEthicsEngine")  # noqa: F821  # TODO: logging
+./products/infrastructure/legado/legacy_systems/compliance/engine.py:                "timestamp": datetime.now(timezone.utc).isoformat(),  # noqa: F821  # TODO: timezone
+./products/infrastructure/legado/legacy_systems/compliance/engine.py:        self.logger = logging.getLogger("prot2.AdvancedComplianceEthicsEngine._LucasPrivateEthicsGuard")  # noqa: F821  # TODO: logging
+./products/infrastructure/legado/legacy_systems/compliance/engine.py:            "timestamp": datetime.now(timezone.utc).isoformat() + "Z",  # noqa: F821  # TODO: timezone
+./products/infrastructure/legado/legacy_systems/compliance/engine.py:            "report_generated_utc": datetime.now(timezone.utc).isoformat() + "Z",  # noqa: F821  # TODO: timezone
+./products/infrastructure/legado/legacy_systems/compliance/engine.py:                "timestamp": datetime.now(timezone.utc).isoformat(),  # noqa: F821  # TODO: timezone
+./products/infrastructure/legado/legacy_systems/compliance/engine.py:            "timestamp": datetime.now(timezone.utc).isoformat() + "Z",  # noqa: F821  # TODO: timezone
+./products/infrastructure/legado/legacy_systems/compliance/engine.py:            "timestamp_utc": datetime.now(timezone.utc).isoformat() + "Z",  # noqa: F821  # TODO: timezone
+./products/infrastructure/legado/legacy_systems/compliance/engine.py:    logging.basicConfig(  # noqa: F821  # TODO: logging
+./products/infrastructure/legado/legacy_systems/compliance/engine.py:        level=logging.INFO,  # noqa: F821  # TODO: logging
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:st.set_page_config(page_title="LUKHAS Institutional Compliance Viewer")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:st.title("🛡️ LUKHAS AGI – Compliance Audit Dashboard")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:    st.warning("No emergency logs found.")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:    st.markdown("## 📜 Emergency Override Incidents")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:        st.markdown("---")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:        st.markdown(f"**⏱️ Timestamp:** {entry.get('timestamp')}")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:        st.markdown(f"**🔍 Reason:** {entry.get('reason')}")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:        st.markdown(f"**🧑‍💼 User:** {entry.get('user')} (Tier {entry.get('tier')})")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:        st.markdown("**🧩 Actions Taken:**")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:        st.code(", ".join(entry.get("actions_taken", [])), language="bash")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:        st.markdown("**📋 Compliance Tags:**")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:            st.markdown(f"- `{tag}`: {'✅' if value else '❌'}")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:st.caption("🔒 All emergency actions are traceable, tiered, and GDPR-aligned.")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:    st.markdown("## 🧠 Symbolic Trace Overview")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:        filter_cols = st.multiselect("Filter Columns", df.columns.tolist(), default=df.columns.tolist())  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:        st.dataframe(df[filter_cols] if filter_cols else df)  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:        st.markdown("## 📊 Symbolic Summary")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:        st.json(summary)  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:        if st.button("🧹 Filter by status = 'FAIL' or confidence < 0.6"):  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:            st.dataframe(filtered)  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:        st.error(f"Failed to load or process symbolic trace dashboard: {e}")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:    st.info("No symbolic trace data found.")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:# import streamlit as st  # TODO: Install or implement streamlit
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:st.set_page_config(page_title="Lukhas Compliance Visual Dashboard", layout="wide")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:st.title("🛡️ Lukhas AGI — Visual Compliance Review Dashboard")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:st.markdown("✅ **Restored Symbolic Export** — LUKHAS_AGI_3_FINAL_HANDOVER.zip")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:st.markdown("🔐 SHA-256: `33fc117c5fd786fb701de0cfe1514f6d5dabe70002cb4c09857d92cc58a4f569`")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:st.markdown("## 📜 Compliance Digest Summary")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:        st.markdown(f.read())  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:    st.error("Digest not found. Run `compliance_digest.py` to generate it first.")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:st.divider()  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:col1, col2, col3 = st.columns(3)  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:st.divider()  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:st.markdown("## 🧾 Presentation Script (Attendees & Auditor View)")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:st.code(script_text)  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:st.markdown(href, unsafe_allow_html=True)  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:st.caption("✅ Approved under the symbolic vision of SA (governance) and SJ (experience design).")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:st.divider()  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:st.markdown("## ⏰ Scheduling & Mobile Optimization")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:st.markdown(  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:st.code(  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:if st.checkbox("📱 Optimize for Mobile Display (experimental)"):  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:    st.markdown(  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:    st.success("✅ Mobile layout adjustments applied.")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:st.markdown("💬 *Next module to re-link: `id_portal/frontend/login.js` — tiered auth + face emoji grid.*")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:st.divider()  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:st.markdown("## 🔐 ID Portal Preview")  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:if st.button("🔓 Preview Tiered Login (id_portal/login.js)"):  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:    st.session_state["restore_target"] = "id_portal/frontend/login.js"  # noqa: F821  # TODO: st
+./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py:    st.markdown(  # noqa: F821  # TODO: st
+./memory/fold_lineage_tracker.py:TODO: Implement quantum causal entanglement detection with dream correlation
+./config/fallback_settings.py:            )  # TODO[T4-AUDIT]: Validate fallback behavior
+./config/read_settings.py:# AIMPORT_TODO: Ensure settings_loader.py is robustly available in the
+./fix_syntax_errors_v2.py:Handles more complex patterns and TODO marker issues.
+./fix_syntax_errors_v2.py:    """Fix TODO markers that break syntax."""
+./fix_syntax_errors_v2.py:    # Remove TODO markers at the beginning of files
+./fix_syntax_errors_v2.py:        # Skip TODO markers that aren't valid Python
+./fix_syntax_errors_v2.py:        if line.strip().startswith("TODO[") and ":" in line and i < 5:
+./tests/smoke/test_accepted_smoke.py:        import lukhas  # noqa: F401  # TODO: lukhas; consider using importl...
+./tests/integration/candidate/identity/test_trinity_validation.py:# TODO: Fix imports after reviewing actual identity architecture
+./tests/integration/candidate/identity/test_constellation_validation.py:# TODO: Fix imports after reviewing actual identity architecture
+./tests/system/integration/test_failover.py:@pytest.mark.skipif(True, reason="TODO: The environment is running out of disk space when pulling Docker images. This prevents the system tests from running. The issue needs to be resolved by increasing the available disk space.")
+./tests/system/integration/test_failover.py:@pytest.mark.skipif(True, reason="TODO: The environment is running out of disk space when pulling Docker images. This prevents the system tests from running. The issue needs to be resolved by increasing the available disk space.")
+./tests/system/integration/test_system_lifecycle.py:@pytest.mark.skipif(True, reason="TODO: The environment is running out of disk space when pulling Docker images. This prevents the system tests from running. The issue needs to be resolved by increasing the available disk space.")
+./tests/e2e/test_consciousness_activation.py:        get_activation_orchestrator,  # noqa: F401  # TODO: lukhas.consciousness.activatio...
+./tests/e2e/test_consciousness_activation.py:        get_consciousness_registry,  # noqa: F401  # TODO: lukhas.consciousness.registry....
+./tests/e2e/test_consciousness_activation.py:        TrinityFramework,  # noqa: F401  # TODO: lukhas.consciousness.triad_i...
+./tests/e2e/test_consciousness_activation.py:        get_triad_integrator,  # noqa: F401  # TODO: lukhas.consciousness.triad_i...
+./tests/e2e/test_consciousness_activation.py:        initialize_triad_consciousness,  # noqa: F401  # TODO: lukhas.consciousness.triad_i...
+./tests/e2e/test_consciousness_activation.py:        get_memory_integrator,  # noqa: F401  # TODO: lukhas.memory.consciousness_me...
+./tests/e2e/integration/test_high_impact_working_modules.py:        )  # noqa: F401  # TODO: lukhas.core.common.logger.conf...
+./tests/e2e/integration/test_high_impact_working_modules.py:        )  # noqa: F401  # TODO: lukhas.core.common.glyph.Symbo...
+./tests/e2e/integration/test_high_impact_working_modules.py:        )  # noqa: F401  # TODO: lukhas.core.efficient_communic...
+./tests/e2e/integration/test_high_impact_working_modules.py:        )  # noqa: F401  # TODO: lukhas.core.event_sourcing.Eve...
+./tests/e2e/integration/test_multi_ai_orchestration.py:    from candidate.bridge.workflow import WorkflowOrchestrator  # noqa: F401  # TODO: candidate.bridge.workflow.Work...
+./tests/e2e/consciousness/test_consciousness_suite_comprehensive.py:            from candidate.consciousness.reasoning import id_reasoning_engine  # noqa: F401  # TODO: candidate.consciousness.reason...
+./tests/e2e/consciousness/test_consciousness_suite_comprehensive.py:            from candidate.consciousness.reflection import brain_integration, core_integrator  # noqa: F401  # TODO: candidate.consciousness.reflec...
+./tests/e2e/phase2/test_performance_benchmarks.py:            jwt_secret=test_jwt_secret,  # TODO[T4-AUDIT]: Update IdentitySystem to use centralized config
+./lukhas_pb2.py:📋 TODO FOR AGENT INTEGRATION:
+./fix_syntax_errors_v3.py:        # Fix common TODO issues
+./fix_syntax_errors_v3.py:        content = re.sub(r"^TODO\[.*?\]:", "# TODO:", content, flags=re.MULTILINE)
+./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority
+./TODO/scripts/categorize_todos.py:Processes the extracted TODO list and sorts into CRITICAL/HIGH/MED/LOW
+./TODO/scripts/categorize_todos.py:    """Load standardized exclusions and get clean TODO list"""
+./TODO/scripts/categorize_todos.py:    # Use our clean search to get accurate TODO list
+./TODO/scripts/categorize_todos.py:    clean_grep "TODO" --include="*.py" -n
+./TODO/scripts/categorize_todos.py:    """Classify TODO priority based on content and location"""
+./TODO/scripts/categorize_todos.py:    """Extract TODO text and context from grep line"""
+./TODO/scripts/categorize_todos.py:    # Extract just the TODO part
+./TODO/scripts/categorize_todos.py:    todo_match = re.search(r"TODO[^:]*:?\s*(.+)", content, re.IGNORECASE)
+./TODO/scripts/categorize_todos.py:    """Main function to categorize all TODOs"""
+./TODO/scripts/categorize_todos.py:    print("🔍 Loading TODOs with clean search...")
+./TODO/scripts/categorize_todos.py:        print("❌ No TODOs found!")
+./TODO/scripts/categorize_todos.py:    print(f"📊 Processing {len(todo_lines)} TODO entries...")
+./TODO/scripts/categorize_todos.py:    print(f"\n📋 TODO Categorization Results:")
+./TODO/scripts/categorize_todos.py:    base_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/TODO")
+./TODO/scripts/categorize_todos.py:            f.write(f"# {info['emoji']} {priority} Priority TODOs\n\n")
+./TODO/scripts/categorize_todos.py:            f.write(f"**Count**: {len(todos)} TODOs\n")
+./TODO/scripts/categorize_todos.py:                f.write(f"- **{module}**: {len(by_module[module])} TODOs\n")
+./TODO/scripts/categorize_todos.py:                f.write(f"## 📁 {module.title()} Module ({len(module_todos)} TODOs)\n\n")
+./TODO/scripts/categorize_todos.py:                    f.write(f"\n**TODO Text:**\n```\n{todo['text']}\n```\n\n")
+./TODO/scripts/categorize_todos.py:    print("🎯 LUKHAS TODO Categorization System")
+./TODO/scripts/categorize_todos.py:        print("\n✅ TODO categorization complete!")
+./TODO/scripts/categorize_todos.py:        print("📂 Check TODO/CRITICAL/, TODO/HIGH/, TODO/MED/, TODO/LOW/ directories")
+./TODO/scripts/categorize_todos.py:        print("❌ No TODOs to categorize")
+./TODO/mark_claude_completed.py:Mark Claude's completed TODOs in the priority files
+./TODO/mark_claude_completed.py:# Claude's completed TODOs (69 total)
+./TODO/mark_claude_completed.py:COMPLETED_TODOS = {
+./TODO/mark_claude_completed.py:    """Mark TODOs as completed in the priority files"""
+./TODO/mark_claude_completed.py:    todo_files = [Path("TODO/HIGH/high_todos.md"), Path("TODO/MED/med_todos.md"), Path("TODO/LOW/low_todos.md")]
+./TODO/mark_claude_completed.py:        # Find and mark completed TODOs
+./TODO/mark_claude_completed.py:        for file_line, completion_note in COMPLETED_TODOS.items():
+./TODO/mark_claude_completed.py:            # Look for the TODO entry
+./TODO/mark_claude_completed.py:            print(f"  Updated {modifications} TODOs in {todo_file}")
+./TODO/mark_claude_completed.py:            print(f"  No matching TODOs found in {todo_file}")
+./TODO/mark_claude_completed.py:    print("✅ Completed marking Claude's TODOs as done!")
+./system/common/constellation_generator.py:    def generate_api_documentation(self, api_spec: dict[str, Any]) -> TrinityContent:  # noqa: F821  # TODO: TrinityContent
+./hybrid_memory_fold.py:📋 TODO FOR AGENT INTEGRATION:
+./scripts/lukhas_mcp_server.py:    )  # noqa: F401  # TODO: tools.analysis._OPERATIONAL_SU...
+./scripts/analysis/agi_module_analyzer.py:        interface_freq = Counter(all_interfaces)  # noqa: F821  # TODO: Counter
+./scripts/analysis/codebase_analyzer.py:                        "TODO",
+./scripts/activate_consciousness.py:                activate_lukhas_consciousness,  # noqa: F401  # TODO: lukhas.consciousness.activatio...
+./scripts/transfer_candidate_scanner.py:            if code_lines < 20 and len(text) > 0 and ("Feature:" in text or "TODO" in text or "Notes" in text):
+./scripts/debug_kwargs.py:            timestamp=datetime.now(),  # noqa: F821  # TODO: datetime
+./scripts/debug_kwargs.py:            category=AuditCategory.SYSTEM_EVENT,  # noqa: F821  # TODO: AuditCategory
+./scripts/debug_kwargs.py:            level=AuditLevel.INFO,  # noqa: F821  # TODO: AuditLevel
+./scripts/test_mcp_integration.py:        import mcp.server.stdio  # noqa: F401  # TODO: mcp.server.stdio; consider usi...
+./scripts/test_mcp_integration.py:        from mcp import types  # noqa: F401  # TODO: mcp.types; consider using impo...
+./scripts/test_mcp_integration.py:        from mcp.server import Server  # noqa: F401  # TODO: mcp.server.Server; consider us...
+./scripts/lukhas_mcp_server_simple.py:        CallToolRequest,  # noqa: F401  # TODO: mcp.types.CallToolRequest; con...
+./scripts/lukhas_mcp_server_simple.py:        ListResourcesRequest,  # noqa: F401  # TODO: mcp.types.ListResourcesRequest...
+./scripts/lukhas_mcp_server_simple.py:        ListToolsRequest,  # noqa: F401  # TODO: mcp.types.ListToolsRequest; co...
+./scripts/fix_imports.py:TODO: Implement proper classes or remove references
+./scripts/colony_dna_smoke.py:r = persist_consensus_to_dna(dna, c)  # noqa: F821  # TODO: dna
+./scripts/colony_dna_smoke.py:print("row:", dna.read("policy:modulation"))  # noqa: F821  # TODO: dna
+./diagnostics/drift_diagnostics.py:    # TODO: Integrate glyph heatmap support
+./mcp_servers/identity/server.py:    )  # noqa: F401  # TODO: mcp.types.EmbeddedResource; co...
+./mcp_servers/lukhas_consciousness/server.py:    )  # noqa: F401  # TODO: mcp.types.EmbeddedResource; co...
+./lukhas/core/distributed_tracing.py:Addresses TODO 168: Distributed tracing with correlation IDs
+./lukhas/core/distributed_tracing.py:# --- New Additions for Event Replay and State Snapshotting (TODO 169) ---
+./lukhas/core/core_wrapper.py:                relationships=[],  # TODO: Extract relationship data
+./lukhas/core/event_sourcing.py:║ and fault recovery. Addresses REALITY_TODO 120-125 with SQLite persistence layer
+./lukhas/bridge/llm_wrappers/unified_openai_client.py:            )  # TODO[T4-AUDIT]: Add organization to centralized config
+./lukhas/consciousness/registry.py:        # TODO: Implement proper topological sort for dependencies
+./lukhas/consciousness/trinity_integration.py:        ConsciousnessComponentRegistry,  # noqa: F401  # TODO: lukhas.consciousness.registry....
+./lukhas/matriz/runtime/policy.py:        # TODO: Bind to real constitutional engine. For now, accept unless explicitly forbidden.
+./rl/run_advanced_tests.py:        import hypothesis  # noqa: F401  # TODO: hypothesis; consider using imp...
+./rl/run_advanced_tests.py:        import z3  # noqa: F401  # TODO: z3; consider using importlib.u...
+./rl/run_advanced_tests.py:        import torch  # noqa: F401  # TODO: torch; consider using importli...
+./rl/tests/test_metamorphic_consciousness.py:        ConsciousnessBuffer,  # noqa: F401  # TODO: rl.ConsciousnessBuffer; consid...
+./rl/tests/test_metamorphic_consciousness.py:        ConsciousnessMetaLearning,  # noqa: F401  # TODO: rl.ConsciousnessMetaLearning; ...
+./rl/tests/test_metamorphic_consciousness.py:        ConsciousnessState,  # noqa: F401  # TODO: rl.ConsciousnessState; conside...
+./rl/tests/test_metamorphic_consciousness.py:        MatrizNode,  # noqa: F401  # TODO: rl.MatrizNode; consider using ...
+./rl/tests/test_metamorphic_consciousness.py:        MultiAgentCoordination,  # noqa: F401  # TODO: rl.MultiAgentCoordination; con...
+./rl/tests/test_generative_oracles.py:        ConsciousnessBuffer,  # noqa: F401  # TODO: rl.ConsciousnessBuffer; consid...
+./rl/tests/test_generative_oracles.py:        ConsciousnessEnvironment,  # noqa: F401  # TODO: rl.ConsciousnessEnvironment; c...
+./rl/tests/test_generative_oracles.py:        ConsciousnessMetaLearning,  # noqa: F401  # TODO: rl.ConsciousnessMetaLearning; ...
+./rl/tests/test_generative_oracles.py:        ConsciousnessRewards,  # noqa: F401  # TODO: rl.ConsciousnessRewards; consi...
+./rl/tests/test_generative_oracles.py:        MultiAgentCoordination,  # noqa: F401  # TODO: rl.MultiAgentCoordination; con...
+./rl/tests/test_generative_oracles.py:        PolicyNetwork,  # noqa: F401  # TODO: rl.PolicyNetwork; consider usi...
+./rl/tests/test_generative_oracles.py:        ValueNetwork,  # noqa: F401  # TODO: rl.ValueNetwork; consider usin...
+./rl/tests/test_formal_verification.py:        ConsciousnessBuffer,  # noqa: F401  # TODO: rl.ConsciousnessBuffer; consid...
+./rl/tests/test_formal_verification.py:        ConsciousnessEnvironment,  # noqa: F401  # TODO: rl.ConsciousnessEnvironment; c...
+./rl/tests/test_formal_verification.py:        ConsciousnessMetaLearning,  # noqa: F401  # TODO: rl.ConsciousnessMetaLearning; ...
+./rl/tests/test_formal_verification.py:        ConsciousnessRewards,  # noqa: F401  # TODO: rl.ConsciousnessRewards; consi...
+./rl/tests/test_formal_verification.py:        MultiAgentCoordination,  # noqa: F401  # TODO: rl.MultiAgentCoordination; con...
+./rl/tests/test_formal_verification.py:        PolicyNetwork,  # noqa: F401  # TODO: rl.PolicyNetwork; consider usi...
+./rl/tests/test_formal_verification.py:        ValueNetwork,  # noqa: F401  # TODO: rl.ValueNetwork; consider usin...
+./rl/tests/test_consciousness_properties.py:        ConsciousnessMetaLearning,  # noqa: F401  # TODO: rl.ConsciousnessMetaLearning; ...
+./rl/tests/test_consciousness_properties.py:        ConsciousnessState,  # noqa: F401  # TODO: rl.ConsciousnessState; conside...
+./rl/tests/test_consciousness_properties.py:        MatrizNode,  # noqa: F401  # TODO: rl.MatrizNode; consider using ...
+./rl/tests/test_consciousness_properties.py:        MultiAgentCoordination,  # noqa: F401  # TODO: rl.MultiAgentCoordination; con...
+./rl/tests/test_chaos_consciousness.py:        ConsciousnessBuffer,  # noqa: F401  # TODO: rl.ConsciousnessBuffer; consid...
+./rl/tests/test_chaos_consciousness.py:        ConsciousnessEnvironment,  # noqa: F401  # TODO: rl.ConsciousnessEnvironment; c...
+./rl/tests/test_chaos_consciousness.py:        ConsciousnessMetaLearning,  # noqa: F401  # TODO: rl.ConsciousnessMetaLearning; ...
+./rl/tests/test_chaos_consciousness.py:        ConsciousnessRewards,  # noqa: F401  # TODO: rl.ConsciousnessRewards; consi...
+./rl/tests/test_chaos_consciousness.py:        MultiAgentCoordination,  # noqa: F401  # TODO: rl.MultiAgentCoordination; con...
+./rl/tests/test_chaos_consciousness.py:        PolicyNetwork,  # noqa: F401  # TODO: rl.PolicyNetwork; consider usi...
+./rl/tests/test_chaos_consciousness.py:        ValueNetwork,  # noqa: F401  # TODO: rl.ValueNetwork; consider usin...
+./emotion/__init__.py:        return {"status": "emotion_unavailable", "error": str(e)}  # noqa: F821  # TODO: e
+./emotion/__init__.py:        return {"status": "mood_regulation_unavailable", "error": str(e)}  # noqa: F821  # TODO: e
+./emotion/__init__.py:        return {"status": "valence_tracking_unavailable", "error": str(e)}  # noqa: F821  # TODO: e

@@ -1,0 +1,439 @@
+{
+  "batch_id": "BATCH-JULES04-2025-09-15-01",
+  "agent": "jules04",
+  "created_at": "2025-09-15T01:41:37.125398Z",
+  "expires_at": "2025-09-18T01:41:37.125398Z",
+  "branch_name": "feat/jules04/awareness-\u03bbtier-batch01",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-6f89bf0d",
+      "priority": "critical",
+      "title": "Implement comprehensive safety validation",
+      "file": "./candidate/governance/healthcare/decision_support.py",
+      "line_hint": 518,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-da0ebdc0",
+      "priority": "critical",
+      "title": "Implement additional Guardian features:",
+      "file": "./candidate/governance/guardian_sentinel.py",
+      "line_hint": 209,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/guardian_sentinel.py:# TODO: Implement additional Guardian features:",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-292f37f1",
+      "priority": "critical",
+      "title": "Integrate with advanced intent analysis system",
+      "file": "./candidate/governance/ethics/enhanced_ethical_guardian.py",
+      "line_hint": 344,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/ethics/enhanced_ethical_guardian.py:        # TODO: Integrate with advanced intent analysis system",
+        "last_commit": "9296e052e49c35d6e9c3b00df619ef109d77b1eb"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-f9a52ee8",
+      "priority": "critical",
+      "title": "Forward to main governance system",
+      "file": "./candidate/governance/ethics/enhanced_ethical_guardian.py",
+      "line_hint": 763,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/ethics/enhanced_ethical_guardian.py:        # TODO: Integrate with advanced intent analysis system",
+        "last_commit": "9296e052e49c35d6e9c3b00df619ef109d77b1eb"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-de64394b",
+      "priority": "critical",
+      "title": "Implement sophisticated tier requirement analysis",
+      "file": "./candidate/governance/ethics/enhanced_ethical_guardian.py",
+      "line_hint": 848,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/ethics/enhanced_ethical_guardian.py:        # TODO: Integrate with advanced intent analysis system",
+        "last_commit": "9296e052e49c35d6e9c3b00df619ef109d77b1eb"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-4ae11c0b",
+      "priority": "critical",
+      "title": "Install or implement CORE",
+      "file": "./candidate/governance/ethics/guardian_reflector.py",
+      "line_hint": 53,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/ethics/guardian_reflector.py:    #     from ...CORE.ethics.ethics_engine import EthicsEngine  # TODO: Install or implement CORE",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-bb653b92",
+      "priority": "critical",
+      "title": ":",
+      "file": "./candidate/governance/ethics_legacy/security/main_node_security_engine.py",
+      "line_hint": 32,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/ethics_legacy/security/main_node_security_engine.py:    # from AID.service.identity_manager import IdentityManager  # TODO:",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-304882ec",
+      "priority": "critical",
+      "title": "Implement governance validation",
+      "file": "./candidate/governance/monitoring/guardian_dashboard.py",
+      "line_hint": 416,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/monitoring/guardian_dashboard.py:        # TODO: Implement governance validation",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-dbbb2ccc",
+      "priority": "critical",
+      "title": "Calculate from actual data",
+      "file": "./candidate/governance/monitoring/guardian_dashboard.py",
+      "line_hint": 876,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/monitoring/guardian_dashboard.py:        # TODO: Implement governance validation",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-433a7cdd",
+      "priority": "critical",
+      "title": "kept pending MATRIZ wiring (document or remove)",
+      "file": "./candidate/governance/auth_cross_module_integration.py",
+      "line_hint": 34,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f869d7ac01b8f36fdeff3091894843582545fce0"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-MCP_SERVERS-IDENTITY-622feb2d",
+      "priority": "critical",
+      "title": "mcp.types.EmbeddedResource; co...",
+      "file": "./mcp_servers/identity/server.py",
+      "line_hint": 33,
+      "module": "mcp_servers/identity",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./mcp_servers/identity/server.py:    )  # noqa: F401  # TODO: mcp.types.EmbeddedResource; co...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-EXPERIENCE-a7f67b86",
+      "priority": "critical",
+      "title": "np",
+      "file": "./products/experience/feedback/core/enterprise/advanced_security.py",
+      "line_hint": 694,
+      "module": "products/experience",
+      "trinity": "null",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./products/experience/feedback/core/enterprise/advanced_security.py:                \"average_trust_score\": (np.mean(list(self.trust_scores.values())) if self.trust_scores else 0.5),  # noqa: F821  # TODO: np",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-ENTERPRISE-d8e0d5aa",
+      "priority": "critical",
+      "title": "lukhas.guardian.GuardianSystem...",
+      "file": "./products/enterprise/core/observability/t4_observability_stack.py",
+      "line_hint": 46,
+      "module": "products/enterprise",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./products/enterprise/core/observability/t4_observability_stack.py:    from datadog.api.metrics import Metric  # noqa: F401  # TODO: datadog.api.metrics.Metric; co...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-ENTERPRISE-63e2d72c",
+      "priority": "critical",
+      "title": "lz4.frame; consider using impo...",
+      "file": "./products/enterprise/core/performance/extreme_auth_optimization.py",
+      "line_hint": 62,
+      "module": "products/enterprise",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./products/enterprise/core/performance/extreme_auth_optimization.py:    import lz4.frame as _  # Ultra-fast compression for large payloads  # noqa: F401  # TODO: lz4.frame; consider using impo...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-ENTERPRISE-c1ebf7d9",
+      "priority": "critical",
+      "title": "candidate.governance.GuardianS...",
+      "file": "./products/enterprise/core/performance/constellation_benchmarks.py",
+      "line_hint": 42,
+      "module": "products/enterprise",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./products/enterprise/core/performance/constellation_benchmarks.py:    from lukhas.constellation import ConstellationFramework  # noqa: F401  # TODO: lukhas.constellation.Constella...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-ENTERPRISE-43580871",
+      "priority": "critical",
+      "title": ":",
+      "file": "./products/enterprise/performance/extreme_auth_optimization.py",
+      "line_hint": 10,
+      "module": "products/enterprise",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./products/enterprise/performance/extreme_auth_optimization.py:\ud83d\udccb TODO FOR AGENT INTEGRATION:",
+        "last_commit": "6d0d98005f1b7ba69dd00141537cc0fe9c9db2b0"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-f4faae9b",
+      "priority": "critical",
+      "title": "gtts.gTTS; consider using impo...",
+      "file": "./products/security/healthcare_guardian/healthcare_guardian_es/voice_andaluz/voice_engine.py",
+      "line_hint": 122,
+      "module": "products/security",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./products/security/healthcare_guardian/healthcare_guardian_es/voice_andaluz/voice_engine.py:            from gtts import gTTS  # noqa: F401  # TODO: gtts.gTTS; consider using impo...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-bf4c80cd",
+      "priority": "critical",
+      "title": "MockMedicationOCR",
+      "file": "./products/security/guardian/guardian_core.py",
+      "line_hint": 354,
+      "module": "products/security",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./products/security/guardian/guardian_core.py:                self.medical_ocr = MockMedicationOCR(cache_dir=self.data_dir / \"ocr_cache\")  # noqa: F821  # TODO: MockMedicationOCR",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-f95b295c",
+      "priority": "critical",
+      "title": "timezone",
+      "file": "./products/security/qrg/bridge.py",
+      "line_hint": 152,
+      "module": "products/security",
+      "trinity": "null",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./products/security/qrg/bridge.py:    # TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-1e9c0627",
+      "priority": "critical",
+      "title": "QuantumEntropySource",
+      "file": "./products/security/qrg/qi_entropy.py",
+      "line_hint": 55,
+      "module": "products/security",
+      "trinity": "null",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./products/security/qrg/qi_entropy.py:        entropy_source: QuantumEntropySource = QuantumEntropySource.HYBRID_ENSEMBLE,  # noqa: F821  # TODO: QuantumEntropySource",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    }
+  ],
+  "meta": {
+    "domain": "Awareness/\u039bTIER",
+    "description": "Awareness protocol reconciliation with \u039bTIER",
+    "risk_level": "high",
+    "requires_review": true,
+    "feature_flags_required": false,
+    "experimental": false,
+    "total_tasks": 20
+  }
+}

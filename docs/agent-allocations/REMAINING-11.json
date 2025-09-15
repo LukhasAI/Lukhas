@@ -1,0 +1,519 @@
+{
+  "agent_id": "REMAINING-11",
+  "specialty": "Remaining Batch 11",
+  "focus": "unallocated TODOs",
+  "task_count": 31,
+  "priority": "mixed",
+  "risk_level": "low",
+  "branch_prefix": "feat/remaining-11/remaining-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-MED-PRODUCTS-INTELLIGENCE-06934dde",
+      "priority": "med",
+      "title": "memoria_path",
+      "file": "./products/intelligence/monitoring_candidate/real_data_collector.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 136,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/monitoring_candidate/real_data_collector.py:            if memoria_path.exists():  # noqa: F821  # TODO: memoria_path",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-MED-PRODUCTS-COMMUNICATION-be4bffb0",
+      "priority": "med",
+      "title": "ABASEngine",
+      "file": "./products/communication/abas_candidate/integration/abas_integration_hub.py",
+      "module": "products/communication",
+      "trinity": "null",
+      "line_hint": 37,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/communication/abas_candidate/integration/abas_integration_hub.py:        self.abas_engine = ABASEngine()  # noqa: F821  # TODO: ABASEngine",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-MED-SCRIPTS-LUKHAS_MCP_SERVER.PY-1f0b1c42",
+      "priority": "med",
+      "title": "tools.analysis._OPERATIONAL_SU...",
+      "file": "./scripts/lukhas_mcp_server.py",
+      "module": "scripts/lukhas_mcp_server.py",
+      "trinity": "null",
+      "line_hint": 34,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./scripts/lukhas_mcp_server.py:    )  # noqa: F401  # TODO: tools.analysis._OPERATIONAL_SU...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-MED-SCRIPTS-ANALYSIS-0978160e",
+      "priority": "med",
+      "title": "Counter",
+      "file": "./scripts/analysis/agi_module_analyzer.py",
+      "module": "scripts/analysis",
+      "trinity": "null",
+      "line_hint": 443,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./scripts/analysis/agi_module_analyzer.py:        interface_freq = Counter(all_interfaces)  # noqa: F821  # TODO: Counter",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-MED-SCRIPTS-ANALYSIS-ba9f0dd4",
+      "priority": "med",
+      "title": ",",
+      "file": "./scripts/analysis/codebase_analyzer.py",
+      "module": "scripts/analysis",
+      "trinity": "null",
+      "line_hint": 270,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./scripts/analysis/codebase_analyzer.py:                        \"TODO\",",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-MED-SCRIPTS-TRANSFER_CANDIDATE_SCANNER.PY-2283851b",
+      "priority": "med",
+      "title": ":",
+      "file": "./scripts/transfer_candidate_scanner.py",
+      "module": "scripts/transfer_candidate_scanner.py",
+      "trinity": "null",
+      "line_hint": 121,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./scripts/transfer_candidate_scanner.py:            if code_lines < 20 and len(text) > 0 and (\"Feature:\" in text or \"TODO\" in text or \"Notes\" in text):",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-SCRIPTS-DEBUG_KWARGS.PY-cb376197",
+      "priority": "med",
+      "title": "datetime",
+      "file": "./scripts/debug_kwargs.py",
+      "module": "scripts/debug_kwargs.py",
+      "trinity": "null",
+      "line_hint": 24,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./scripts/debug_kwargs.py:            timestamp=datetime.now(),  # noqa: F821  # TODO: datetime",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-MED-SCRIPTS-DEBUG_KWARGS.PY-29a26e4f",
+      "priority": "med",
+      "title": "AuditCategory",
+      "file": "./scripts/debug_kwargs.py",
+      "module": "scripts/debug_kwargs.py",
+      "trinity": "null",
+      "line_hint": 26,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./scripts/debug_kwargs.py:            timestamp=datetime.now(),  # noqa: F821  # TODO: datetime",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-MED-SCRIPTS-DEBUG_KWARGS.PY-7c0299e5",
+      "priority": "med",
+      "title": "AuditLevel",
+      "file": "./scripts/debug_kwargs.py",
+      "module": "scripts/debug_kwargs.py",
+      "trinity": "null",
+      "line_hint": 27,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./scripts/debug_kwargs.py:            timestamp=datetime.now(),  # noqa: F821  # TODO: datetime",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-MED-SCRIPTS-LUKHAS_MCP_SERVER_SIMPLE.PY-044388e3",
+      "priority": "med",
+      "title": "mcp.types.CallToolRequest; con...",
+      "file": "./scripts/lukhas_mcp_server_simple.py",
+      "module": "scripts/lukhas_mcp_server_simple.py",
+      "trinity": "null",
+      "line_hint": 22,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./scripts/lukhas_mcp_server_simple.py:        CallToolRequest,  # noqa: F401  # TODO: mcp.types.CallToolRequest; con...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-MED-SCRIPTS-LUKHAS_MCP_SERVER_SIMPLE.PY-b26d0b9a",
+      "priority": "med",
+      "title": "mcp.types.ListResourcesRequest...",
+      "file": "./scripts/lukhas_mcp_server_simple.py",
+      "module": "scripts/lukhas_mcp_server_simple.py",
+      "trinity": "null",
+      "line_hint": 23,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./scripts/lukhas_mcp_server_simple.py:        CallToolRequest,  # noqa: F401  # TODO: mcp.types.CallToolRequest; con...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-MED-SCRIPTS-LUKHAS_MCP_SERVER_SIMPLE.PY-8dc5e126",
+      "priority": "med",
+      "title": "mcp.types.ListToolsRequest; co...",
+      "file": "./scripts/lukhas_mcp_server_simple.py",
+      "module": "scripts/lukhas_mcp_server_simple.py",
+      "trinity": "null",
+      "line_hint": 24,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./scripts/lukhas_mcp_server_simple.py:        CallToolRequest,  # noqa: F401  # TODO: mcp.types.CallToolRequest; con...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-MED-SCRIPTS-FIX_IMPORTS.PY-fcce793f",
+      "priority": "med",
+      "title": "Implement proper classes or remove references",
+      "file": "./scripts/fix_imports.py",
+      "module": "scripts/fix_imports.py",
+      "trinity": "null",
+      "line_hint": 75,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./scripts/fix_imports.py:TODO: Implement proper classes or remove references",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-SCRIPTS-CONSCIOUSNESS_WORDSMITH_FIXED.PY-138df05f",
+      "priority": "med",
+      "title": "implement missing functionality",
+      "file": "./scripts/consciousness_wordsmith_fixed.py",
+      "module": "scripts/consciousness_wordsmith_fixed.py",
+      "trinity": "Consciousness",
+      "line_hint": 75,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "d84f24154c21de7e05c16e108d7bcce86f034a59"
+      }
+    },
+    {
+      "task_id": "TODO-MED-SCRIPTS-COLONY_DNA_SMOKE.PY-09bee36f",
+      "priority": "med",
+      "title": "dna",
+      "file": "./scripts/colony_dna_smoke.py",
+      "module": "scripts/colony_dna_smoke.py",
+      "trinity": "null",
+      "line_hint": 21,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./scripts/colony_dna_smoke.py:r = persist_consensus_to_dna(dna, c)  # noqa: F821  # TODO: dna",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-MED-SCRIPTS-COLONY_DNA_SMOKE.PY-09bee36f",
+      "priority": "med",
+      "title": "dna",
+      "file": "./scripts/colony_dna_smoke.py",
+      "module": "scripts/colony_dna_smoke.py",
+      "trinity": "null",
+      "line_hint": 23,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./scripts/colony_dna_smoke.py:r = persist_consensus_to_dna(dna, c)  # noqa: F821  # TODO: dna",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-MED-SRC-ATTRIBUTION-66193e5f",
+      "priority": "med",
+      "title": "Behavior\u0627\u0644analyzer (resolved \u2192 BehavioralAnalyzer)",
+      "file": "./src/attribution/fallback_ladder.py",
+      "module": "src/attribution",
+      "trinity": "null",
+      "line_hint": 86,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "4fd335087c4c85a4b469201e66ccf81d99335b9d"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TOOLS-CI-2a879f89",
+      "priority": "med",
+      "title": "# TODO[T4-UNUSED-IMPORT]: <reason>",
+      "file": "./tools/ci/unused_imports.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 8,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./tools/ci/unused_imports.py:  * adds an inline TODO tag (idempotent):  # TODO[T4-UNUSED-IMPORT]: <reason>",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-CI-027c65eb",
+      "priority": "high",
+      "title": "",
+      "file": "./tools/ci/build_manifest.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": null,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/build_manifest.py:Implements ground truth enumeration per PLANNING_TODO.md:",
+        "last_commit": null
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-CI-77f2d3fb",
+      "priority": "high",
+      "title": "\\*\\*\\s*```([^`]+)```\", section, re.DOTALL)",
+      "file": "./tools/ci/build_manifest.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": null,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/build_manifest.py:        title_match = re.search(r\"\\*\\*TODO Text:\\*\\*\\s*```([^`]+)```\", section, re.DOTALL)",
+        "last_commit": null
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-CI-3c5e162f",
+      "priority": "high",
+      "title": "-{PRIORITY}-{MODULE}-{HASH8}\"\"\"",
+      "file": "./tools/ci/build_manifest.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": null,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/build_manifest.py:        \"\"\"Generate TaskID: TODO-{PRIORITY}-{MODULE}-{HASH8}\"\"\"",
+        "last_commit": null
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-CI-287e1cc7",
+      "priority": "high",
+      "title": "\" in line or \"FIXME\" in line or \"HACK\" in line):",
+      "file": "./tools/ci/build_manifest.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": null,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/build_manifest.py:                    if \":\" in line and (\"TODO\" in line or \"FIXME\" in line or \"HACK\" in line):",
+        "last_commit": null
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-CI-6f5a4464",
+      "priority": "high",
+      "title": "\\s]*(.+)\", content, re.IGNORECASE)",
+      "file": "./tools/ci/build_manifest.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": null,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/build_manifest.py:        todo_match = re.search(r\"(TODO|FIXME|HACK)[:\\s]*(.+)\", content, re.IGNORECASE)",
+        "last_commit": null
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-CI-db60c910",
+      "priority": "high",
+      "title": "s)}\")",
+      "file": "./tools/ci/build_manifest.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": null,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/build_manifest.py:    print(f\"Total TODOs after cross-check: {len(todos)}\")",
+        "last_commit": null
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-CI-e9e06c14",
+      "priority": "high",
+      "title": "-{PRIORITY}-{MODULE}-{HASH8}\"\"\"",
+      "file": "./tools/ci/lock_batches.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": null,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/lock_batches.py:        \"\"\"Validate TaskID format: TODO-{PRIORITY}-{MODULE}-{HASH8}\"\"\"",
+        "last_commit": null
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-CI-fa572503",
+      "priority": "high",
+      "title": "",
+      "file": "./tools/ci/lock_batches.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": null,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/lock_batches.py:        if not task_id.startswith(\"TODO-\"):",
+        "last_commit": null
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-CI-81db52a8",
+      "priority": "high",
+      "title": "",
+      "file": "./tools/ci/split_batches.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": null,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/split_batches.py:Splits TODOs from manifest into agent-specific batches following T4 principles:",
+        "last_commit": null
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TESTS-SYSTEM-7f6d941e",
+      "priority": "high",
+      "title": "The environment is running out of disk space when pulling Docker images. This prevents the system tests from running. The issue needs to be resolved by increasing the available disk space.\")",
+      "file": "./tests/system/integration/test_failover.py",
+      "module": "tests/system",
+      "trinity": "null",
+      "line_hint": null,
+      "risk": "low",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./tests/system/integration/test_failover.py:@pytest.mark.skipif(True, reason=\"TODO: The environment is running out of disk space when pulling Docker images. This prevents the system tests from running. The issue needs to be resolved by increasing the available disk space.\")",
+        "last_commit": null
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TESTS-SYSTEM-7f6d941e",
+      "priority": "high",
+      "title": "The environment is running out of disk space when pulling Docker images. This prevents the system tests from running. The issue needs to be resolved by increasing the available disk space.\")",
+      "file": "./tests/system/integration/test_failover.py",
+      "module": "tests/system",
+      "trinity": "null",
+      "line_hint": null,
+      "risk": "low",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./tests/system/integration/test_failover.py:@pytest.mark.skipif(True, reason=\"TODO: The environment is running out of disk space when pulling Docker images. This prevents the system tests from running. The issue needs to be resolved by increasing the available disk space.\")",
+        "last_commit": null
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TESTS-SYSTEM-668113f2",
+      "priority": "high",
+      "title": "The environment is running out of disk space when pulling Docker images. This prevents the system tests from running. The issue needs to be resolved by increasing the available disk space.\")",
+      "file": "./tests/system/integration/test_system_lifecycle.py",
+      "module": "tests/system",
+      "trinity": "null",
+      "line_hint": null,
+      "risk": "low",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./tests/system/integration/test_system_lifecycle.py:@pytest.mark.skipif(True, reason=\"TODO: The environment is running out of disk space when pulling Docker images. This prevents the system tests from running. The issue needs to be resolved by increasing the available disk space.\")",
+        "last_commit": null
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TODO-MARK_CLAUDE_COMPLETED.PY-87aead35",
+      "priority": "high",
+      "title": "",
+      "file": "./TODO/mark_claude_completed.py",
+      "module": "TODO/mark_claude_completed.py",
+      "trinity": "null",
+      "line_hint": null,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./TODO/mark_claude_completed.py:        for file_line, completion_note in COMPLETED_TODOS.items():",
+        "last_commit": null
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: remaining-11-$(date +%m%d)",
+      "2. Work through 31 remaining tasks",
+      "3. One TaskID per commit",
+      "4. Mixed priority cleanup",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(cleanup): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.166592Z",
+  "source": "Remaining unallocated TODOs"
+}

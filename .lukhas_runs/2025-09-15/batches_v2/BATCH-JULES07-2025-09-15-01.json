@@ -1,0 +1,439 @@
+{
+  "batch_id": "BATCH-JULES07-2025-09-15-01",
+  "agent": "jules07",
+  "created_at": "2025-09-15T01:41:37.127356Z",
+  "expires_at": "2025-09-18T01:41:37.127357Z",
+  "branch_name": "feat/jules07/wallet-qi-bridges-batch01",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-007de334",
+      "priority": "high",
+      "title": "specialist] Implement Trinity Framework identity-consciousness state comparison",
+      "file": "./candidate/core/bridges/identity_core_bridge.py",
+      "line_hint": 176,
+      "module": "candidate/core",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/bridges/identity_core_bridge.py:        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Trinity identity-consciousness state comparison",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-57dd5fe1",
+      "priority": "high",
+      "title": "m",
+      "file": "./candidate/core/bridges/core_consciousness_bridge.py",
+      "line_hint": 22,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/bridges/core_consciousness_bridge.py:            # TODO connect actual consciousness system",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-d6a36d98",
+      "priority": "high",
+      "title": "c",
+      "file": "./candidate/core/bridges/core_consciousness_bridge.py",
+      "line_hint": 35,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/bridges/core_consciousness_bridge.py:            # TODO connect actual consciousness system",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-7a25d1f3",
+      "priority": "high",
+      "title": "g",
+      "file": "./candidate/core/bridges/core_consciousness_bridge.py",
+      "line_hint": 40,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/bridges/core_consciousness_bridge.py:            # TODO connect actual consciousness system",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-5c222cfe",
+      "priority": "high",
+      "title": "specialist] UTC enforcement for consciousness bridge temporal sync",
+      "file": "./candidate/core/bridges/consciousness_qi_bridge.py",
+      "line_hint": 260,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/bridges/consciousness_qi_bridge.py:        ).isoformat()  # TODO[TRINITY:specialist] UTC enforcement for consciousness bridge temporal sync",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-bfbc4155",
+      "priority": "high",
+      "title": "specialist] Implement Trinity-aware state comparison",
+      "file": "./candidate/core/bridges/core_safety_bridge.py",
+      "line_hint": 171,
+      "module": "candidate/core",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/bridges/core_safety_bridge.py:        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Trinity-aware state comparison",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-fc12ea3c",
+      "priority": "high",
+      "title": "specialist] Implement Trinity Framework consciousness state comparison logic",
+      "file": "./candidate/core/bridges/core_safety_bridge.py",
+      "line_hint": 176,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/bridges/core_safety_bridge.py:        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Trinity-aware state comparison",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-060ec135",
+      "priority": "high",
+      "title": "kept for MATRIZ-R2 trace integration",
+      "file": "./candidate/core/matriz_integrated_demonstration.py",
+      "line_hint": 46,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "244821f72bec212cb6c564aa679fe826856bcf80"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "integration",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-3bcfcfd8",
+      "priority": "high",
+      "title": "Install or implement streamlit",
+      "file": "./candidate/core/rem/streamlit_lidar.py",
+      "line_hint": 7,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/rem/streamlit_lidar.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-1ca2e6b8",
+      "priority": "high",
+      "title": "Check actual dream state from dream adapter",
+      "file": "./candidate/core/integrations/nias_dream_bridge.py",
+      "line_hint": 260,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/integrations/nias_dream_bridge.py:        # TODO: Check actual dream state from dream adapter",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-4f3d4c11",
+      "priority": "high",
+      "title": "kept for Trinity Framework consciousness evolution",
+      "file": "./candidate/core/adapters/qi_service_adapter.py",
+      "line_hint": 29,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "244821f72bec212cb6c564aa679fe826856bcf80"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-255cbe47",
+      "priority": "high",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/core/adapters/qi_service_adapter.py",
+      "line_hint": 31,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "244821f72bec212cb6c564aa679fe826856bcf80"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-13757e92",
+      "priority": "high",
+      "title": "kept for API expansion (document or implement)",
+      "file": "./candidate/core/adapters/module_service_adapter.py",
+      "line_hint": 14,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "d9979b4c7379a6da7419e37517bdd86bddfac8e2"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-9f34431f",
+      "priority": "high",
+      "title": "Install or implement streamlit",
+      "file": "./candidate/core/notion_sync.py",
+      "line_hint": 71,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/notion_sync.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "44144cb703c49438b8ca13e5bdc2db627c5454b3"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-246ad803",
+      "priority": "high",
+      "title": "Inherent Fault Tolerance and Resilience",
+      "file": "./candidate/core/supervision.py",
+      "line_hint": 3,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/supervision.py:Addresses TODO 41: Inherent Fault Tolerance and Resilience",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-02bd4d9f",
+      "priority": "high",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/core/audit/audit_integration_example.py",
+      "line_hint": 10,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "d9979b4c7379a6da7419e37517bdd86bddfac8e2"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-5d5efb78",
+      "priority": "high",
+      "title": "Optimized dual EDA/P2P communication",
+      "file": "./candidate/core/efficient_communication.py",
+      "line_hint": 3,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/efficient_communication.py:Addresses TODO 142: Optimized dual EDA/P2P communication",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-24f2f5a4",
+      "priority": "high",
+      "title": "Complex Adaptive System Monitoring",
+      "file": "./candidate/core/observability_steering.py",
+      "line_hint": 3,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/observability_steering.py:Addresses TODO 167: Complex Adaptive System Monitoring",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-28d78ed6",
+      "priority": "high",
+      "title": "Add example",
+      "file": "./candidate/core/examples/basic/example.py",
+      "line_hint": 7,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/examples/basic/example.py:# TODO: Add example",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-72259477",
+      "priority": "high",
+      "title": "4",
+      "file": "./candidate/core/collaboration.py",
+      "line_hint": 3,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/collaboration.py:Addresses TODOs 91-114",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    }
+  ],
+  "meta": {
+    "domain": "Wallet/QI Bridges",
+    "description": "init placeholders, interfaces (flagged)",
+    "risk_level": "critical",
+    "requires_review": true,
+    "feature_flags_required": true,
+    "experimental": true,
+    "total_tasks": 20
+  }
+}

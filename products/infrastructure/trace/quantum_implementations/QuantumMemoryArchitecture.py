@@ -21,7 +21,7 @@
 from typing import Optional
 
 import numpy as np
-from qiskit import QuantumCircuit
+from qiskit import QuantumCircuit, QuantumRegister
 
 
 class QIAssociativeMemoryBank:
@@ -31,17 +31,19 @@ class QIAssociativeMemoryBank:
 
     def __init__(self, capacity_qubits: int = 10):
         self.capacity = 2**capacity_qubits
-        self.memory_register = QuantumRegister(capacity_qubits, "memory")  # noqa: F821  # TODO: QuantumRegister
-        self.query_register = QuantumRegister(capacity_qubits, "query")  # noqa: F821  # TODO: QuantumRegister
+        self.memory_register = QuantumRegister(capacity_qubits, "memory")
+        self.query_register = QuantumRegister(capacity_qubits, "query")
         self.oracle_circuits: dict[str, QuantumCircuit] = {}
 
         # Quantum error correction
-        self.error_correction = SurfaceCodeErrorCorrection(physical_qubits_per_logical=17)  # noqa: F821  # TODO: SurfaceCodeErrorCorrection
+        self.error_correction = SurfaceCodeErrorCorrection(physical_qubits_per_logical=17)  # noqa: F821
 
         # Decoherence mitigation
-        self.decoherence_mitigator = DecoherenceMitigation(strategy="dynamical_decoupling")  # noqa: F821  # TODO: DecoherenceMitigation
+        self.decoherence_mitigator = DecoherenceMitigation(strategy="dynamical_decoupling")  # noqa: F821
 
-    async def store_quantum_state(self, memory_id: str, quantum_state: QuantumState, associations: list[str]):  # noqa: F821  # TODO: QuantumState
+    async def store_quantum_state(
+        self, memory_id: str, quantum_state: QuantumState, associations: list[str]  # noqa: F821
+    ):
         """
         Store information in quantum superposition
         """

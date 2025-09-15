@@ -1,0 +1,663 @@
+{
+  "agent_id": "REMAINING-08",
+  "specialty": "Remaining Batch 8",
+  "focus": "unallocated TODOs",
+  "task_count": 40,
+  "priority": "mixed",
+  "risk_level": "low",
+  "branch_prefix": "feat/remaining-08/remaining-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-RL-TESTS-a2687fe5",
+      "priority": "high",
+      "title": "rl.ConsciousnessRewards; consi...",
+      "file": "./rl/tests/test_formal_verification.py",
+      "module": "rl/tests",
+      "trinity": "Consciousness",
+      "line_hint": 33,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./rl/tests/test_formal_verification.py:        ConsciousnessBuffer,  # noqa: F401  # TODO: rl.ConsciousnessBuffer; consid...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-RL-TESTS-ac5cc0e4",
+      "priority": "high",
+      "title": "rl.MultiAgentCoordination; con...",
+      "file": "./rl/tests/test_formal_verification.py",
+      "module": "rl/tests",
+      "trinity": "null",
+      "line_hint": 34,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./rl/tests/test_formal_verification.py:        ConsciousnessBuffer,  # noqa: F401  # TODO: rl.ConsciousnessBuffer; consid...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-RL-TESTS-8872fe0f",
+      "priority": "high",
+      "title": "rl.ConsciousnessMetaLearning; ...",
+      "file": "./rl/tests/test_consciousness_properties.py",
+      "module": "rl/tests",
+      "trinity": "Consciousness",
+      "line_hint": 25,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./rl/tests/test_consciousness_properties.py:        ConsciousnessMetaLearning,  # noqa: F401  # TODO: rl.ConsciousnessMetaLearning; ...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-RL-TESTS-854cbbfb",
+      "priority": "high",
+      "title": "rl.ConsciousnessState; conside...",
+      "file": "./rl/tests/test_consciousness_properties.py",
+      "module": "rl/tests",
+      "trinity": "Consciousness",
+      "line_hint": 27,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./rl/tests/test_consciousness_properties.py:        ConsciousnessMetaLearning,  # noqa: F401  # TODO: rl.ConsciousnessMetaLearning; ...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-RL-TESTS-45cfbad4",
+      "priority": "high",
+      "title": "rl.MultiAgentCoordination; con...",
+      "file": "./rl/tests/test_consciousness_properties.py",
+      "module": "rl/tests",
+      "trinity": "Consciousness",
+      "line_hint": 29,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./rl/tests/test_consciousness_properties.py:        ConsciousnessMetaLearning,  # noqa: F401  # TODO: rl.ConsciousnessMetaLearning; ...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-RL-TESTS-601655f5",
+      "priority": "high",
+      "title": "rl.ConsciousnessBuffer; consid...",
+      "file": "./rl/tests/test_chaos_consciousness.py",
+      "module": "rl/tests",
+      "trinity": "Consciousness",
+      "line_hint": 26,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./rl/tests/test_chaos_consciousness.py:        ConsciousnessBuffer,  # noqa: F401  # TODO: rl.ConsciousnessBuffer; consid...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-RL-TESTS-e192d201",
+      "priority": "high",
+      "title": "rl.ConsciousnessEnvironment; c...",
+      "file": "./rl/tests/test_chaos_consciousness.py",
+      "module": "rl/tests",
+      "trinity": "Consciousness",
+      "line_hint": 27,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./rl/tests/test_chaos_consciousness.py:        ConsciousnessBuffer,  # noqa: F401  # TODO: rl.ConsciousnessBuffer; consid...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-RL-TESTS-ef9ecd7d",
+      "priority": "high",
+      "title": "rl.ConsciousnessMetaLearning; ...",
+      "file": "./rl/tests/test_chaos_consciousness.py",
+      "module": "rl/tests",
+      "trinity": "Consciousness",
+      "line_hint": 28,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./rl/tests/test_chaos_consciousness.py:        ConsciousnessBuffer,  # noqa: F401  # TODO: rl.ConsciousnessBuffer; consid...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-RL-TESTS-8fc0b5fe",
+      "priority": "high",
+      "title": "rl.ConsciousnessRewards; consi...",
+      "file": "./rl/tests/test_chaos_consciousness.py",
+      "module": "rl/tests",
+      "trinity": "Consciousness",
+      "line_hint": 29,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./rl/tests/test_chaos_consciousness.py:        ConsciousnessBuffer,  # noqa: F401  # TODO: rl.ConsciousnessBuffer; consid...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-RL-TESTS-bf6225e0",
+      "priority": "high",
+      "title": "rl.MultiAgentCoordination; con...",
+      "file": "./rl/tests/test_chaos_consciousness.py",
+      "module": "rl/tests",
+      "trinity": "Consciousness",
+      "line_hint": 30,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./rl/tests/test_chaos_consciousness.py:        ConsciousnessBuffer,  # noqa: F401  # TODO: rl.ConsciousnessBuffer; consid...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-SCRIPTS-ACTIVATE_CONSCIOUSNESS.PY-c29c2c18",
+      "priority": "high",
+      "title": "lukhas.consciousness.activatio...",
+      "file": "./scripts/activate_consciousness.py",
+      "module": "scripts/activate_consciousness.py",
+      "trinity": "Consciousness",
+      "line_hint": 178,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./scripts/activate_consciousness.py:                activate_lukhas_consciousness,  # noqa: F401  # TODO: lukhas.consciousness.activatio...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-SYSTEM-COMMON-71c6c4f2",
+      "priority": "high",
+      "title": "TrinityContent",
+      "file": "./system/common/constellation_generator.py",
+      "module": "system/common",
+      "trinity": "null",
+      "line_hint": 170,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./system/common/constellation_generator.py:    def generate_api_documentation(self, api_spec: dict[str, Any]) -> TrinityContent:  # noqa: F821  # TODO: TrinityContent",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TESTS-E2E-b2e9f457",
+      "priority": "high",
+      "title": "lukhas.consciousness.activatio...",
+      "file": "./tests/e2e/test_consciousness_activation.py",
+      "module": "tests/e2e",
+      "trinity": "Consciousness",
+      "line_hint": 40,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tests/e2e/test_consciousness_activation.py:        get_activation_orchestrator,  # noqa: F401  # TODO: lukhas.consciousness.activatio...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TESTS-E2E-db5fa7db",
+      "priority": "high",
+      "title": "lukhas.consciousness.registry....",
+      "file": "./tests/e2e/test_consciousness_activation.py",
+      "module": "tests/e2e",
+      "trinity": "Consciousness",
+      "line_hint": 46,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tests/e2e/test_consciousness_activation.py:        get_activation_orchestrator,  # noqa: F401  # TODO: lukhas.consciousness.activatio...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TESTS-E2E-5fff3ba8",
+      "priority": "high",
+      "title": "lukhas.consciousness.trinity_i...",
+      "file": "./tests/e2e/test_consciousness_activation.py",
+      "module": "tests/e2e",
+      "trinity": "Consciousness",
+      "line_hint": 49,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tests/e2e/test_consciousness_activation.py:        get_activation_orchestrator,  # noqa: F401  # TODO: lukhas.consciousness.activatio...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TESTS-E2E-5fff3ba8",
+      "priority": "high",
+      "title": "lukhas.consciousness.trinity_i...",
+      "file": "./tests/e2e/test_consciousness_activation.py",
+      "module": "tests/e2e",
+      "trinity": "Consciousness",
+      "line_hint": 51,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tests/e2e/test_consciousness_activation.py:        get_activation_orchestrator,  # noqa: F401  # TODO: lukhas.consciousness.activatio...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TESTS-E2E-5fff3ba8",
+      "priority": "high",
+      "title": "lukhas.consciousness.trinity_i...",
+      "file": "./tests/e2e/test_consciousness_activation.py",
+      "module": "tests/e2e",
+      "trinity": "Consciousness",
+      "line_hint": 52,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tests/e2e/test_consciousness_activation.py:        get_activation_orchestrator,  # noqa: F401  # TODO: lukhas.consciousness.activatio...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TESTS-E2E-504c6722",
+      "priority": "high",
+      "title": "lukhas.memory.consciousness_me...",
+      "file": "./tests/e2e/test_consciousness_activation.py",
+      "module": "tests/e2e",
+      "trinity": "Consciousness",
+      "line_hint": 58,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tests/e2e/test_consciousness_activation.py:        get_activation_orchestrator,  # noqa: F401  # TODO: lukhas.consciousness.activatio...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TESTS-E2E-0d77bad3",
+      "priority": "high",
+      "title": "lukhas.core.common.logger.conf...",
+      "file": "./tests/e2e/integration/test_high_impact_working_modules.py",
+      "module": "tests/e2e",
+      "trinity": "null",
+      "line_hint": 17,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tests/e2e/integration/test_high_impact_working_modules.py:        )  # noqa: F401  # TODO: lukhas.core.common.logger.conf...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TESTS-E2E-dadbd64d",
+      "priority": "high",
+      "title": "lukhas.core.common.glyph.Symbo...",
+      "file": "./tests/e2e/integration/test_high_impact_working_modules.py",
+      "module": "tests/e2e",
+      "trinity": "null",
+      "line_hint": 45,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tests/e2e/integration/test_high_impact_working_modules.py:        )  # noqa: F401  # TODO: lukhas.core.common.logger.conf...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TESTS-E2E-fb87a2a1",
+      "priority": "high",
+      "title": "lukhas.core.efficient_communic...",
+      "file": "./tests/e2e/integration/test_high_impact_working_modules.py",
+      "module": "tests/e2e",
+      "trinity": "null",
+      "line_hint": 344,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tests/e2e/integration/test_high_impact_working_modules.py:        )  # noqa: F401  # TODO: lukhas.core.common.logger.conf...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TESTS-E2E-fcabb8ea",
+      "priority": "high",
+      "title": "lukhas.core.event_sourcing.Eve...",
+      "file": "./tests/e2e/integration/test_high_impact_working_modules.py",
+      "module": "tests/e2e",
+      "trinity": "null",
+      "line_hint": 412,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tests/e2e/integration/test_high_impact_working_modules.py:        )  # noqa: F401  # TODO: lukhas.core.common.logger.conf...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TESTS-E2E-f3343756",
+      "priority": "high",
+      "title": "candidate.consciousness.reason...",
+      "file": "./tests/e2e/consciousness/test_consciousness_suite_comprehensive.py",
+      "module": "tests/e2e",
+      "trinity": "Consciousness",
+      "line_hint": 53,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tests/e2e/consciousness/test_consciousness_suite_comprehensive.py:            from candidate.consciousness.reasoning import id_reasoning_engine  # noqa: F401  # TODO: candidate.consciousness.reason...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TESTS-E2E-08ae1aa6",
+      "priority": "high",
+      "title": "candidate.consciousness.reflec...",
+      "file": "./tests/e2e/consciousness/test_consciousness_suite_comprehensive.py",
+      "module": "tests/e2e",
+      "trinity": "Consciousness",
+      "line_hint": 54,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tests/e2e/consciousness/test_consciousness_suite_comprehensive.py:            from candidate.consciousness.reasoning import id_reasoning_engine  # noqa: F401  # TODO: candidate.consciousness.reason...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TESTS-E2E-700fce4c",
+      "priority": "high",
+      "title": "Update IdentitySystem to use centralized config",
+      "file": "./tests/e2e/phase2/test_performance_benchmarks.py",
+      "module": "tests/e2e",
+      "trinity": "Identity",
+      "line_hint": 204,
+      "risk": "med",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./tests/e2e/phase2/test_performance_benchmarks.py:            jwt_secret=test_jwt_secret,  # TODO[T4-AUDIT]: Update IdentitySystem to use centralized config",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-COREANALYZER.PY-2c6bce45",
+      "priority": "high",
+      "title": "lukhasCoreAnalyzer",
+      "file": "./tools/CoreAnalyzer.py",
+      "module": "tools/CoreAnalyzer.py",
+      "trinity": "null",
+      "line_hint": 312,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/CoreAnalyzer.py:    analyzer = lukhasCoreAnalyzer(workspace_path)  # noqa: F821  # TODO: lukhasCoreAnalyzer",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-AUTOMATION-aceb2b8b",
+      "priority": "high",
+      "title": "lukhas.governance.identity.aut...",
+      "file": "./tools/automation/diagnostic_orchestrator.py",
+      "module": "tools/automation",
+      "trinity": "Identity",
+      "line_hint": 269,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/automation/diagnostic_orchestrator.py:            from lukhas.governance.identity import auth_integration  # noqa: F401  # TODO: lukhas.governance.identity.aut...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-EXTREME_PERFORMANCE_VALIDATOR.PY-8995242a",
+      "priority": "high",
+      "title": "enterprise.performance.extreme...",
+      "file": "./tools/extreme_performance_validator.py",
+      "module": "tools/extreme_performance_validator.py",
+      "trinity": "null",
+      "line_hint": 39,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/extreme_performance_validator.py:        AuthPerformanceMetrics,  # noqa: F401  # TODO: enterprise.performance.extreme...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-EXTREME_PERFORMANCE_VALIDATOR.PY-8995242a",
+      "priority": "high",
+      "title": "enterprise.performance.extreme...",
+      "file": "./tools/extreme_performance_validator.py",
+      "module": "tools/extreme_performance_validator.py",
+      "trinity": "null",
+      "line_hint": 40,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/extreme_performance_validator.py:        AuthPerformanceMetrics,  # noqa: F401  # TODO: enterprise.performance.extreme...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-EXTREME_PERFORMANCE_VALIDATOR.PY-446f2b60",
+      "priority": "high",
+      "title": "lukhas.governance.identity.aut...",
+      "file": "./tools/extreme_performance_validator.py",
+      "module": "tools/extreme_performance_validator.py",
+      "trinity": "Identity",
+      "line_hint": 45,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/extreme_performance_validator.py:        AuthPerformanceMetrics,  # noqa: F401  # TODO: enterprise.performance.extreme...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-EXTREME_PERFORMANCE_VALIDATOR.PY-58698117",
+      "priority": "high",
+      "title": "lukhas.governance.identity.con...",
+      "file": "./tools/extreme_performance_validator.py",
+      "module": "tools/extreme_performance_validator.py",
+      "trinity": "Identity",
+      "line_hint": 60,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/extreme_performance_validator.py:        AuthPerformanceMetrics,  # noqa: F401  # TODO: enterprise.performance.extreme...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-7ab9af91",
+      "priority": "low",
+      "title": "Implement {module_name}\\npass\\n'",
+      "file": "./tools/analysis/final_import_cleanup.py",
+      "module": "tools/analysis",
+      "trinity": "null",
+      "line_hint": 193,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/analysis/final_import_cleanup.py:                content = f'\"\"\"\\n{module_name} Module\\n\"\"\"\\n\\n# TODO: Implement {module_name}\\npass\\n'",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-265b8db1",
+      "priority": "low",
+      "title": "Create utils module\",",
+      "file": "./tools/analysis/final_import_cleanup.py",
+      "module": "tools/analysis",
+      "trinity": "null",
+      "line_hint": 216,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/analysis/final_import_cleanup.py:                content = f'\"\"\"\\n{module_name} Module\\n\"\"\"\\n\\n# TODO: Implement {module_name}\\npass\\n'",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-48ad68e2",
+      "priority": "low",
+      "title": "Create commands.base module\",",
+      "file": "./tools/analysis/final_import_cleanup.py",
+      "module": "tools/analysis",
+      "trinity": "null",
+      "line_hint": 220,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/analysis/final_import_cleanup.py:                content = f'\"\"\"\\n{module_name} Module\\n\"\"\"\\n\\n# TODO: Implement {module_name}\\npass\\n'",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-0c163b0b",
+      "priority": "low",
+      "title": "Create commands module\",",
+      "file": "./tools/analysis/final_import_cleanup.py",
+      "module": "tools/analysis",
+      "trinity": "null",
+      "line_hint": 224,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/analysis/final_import_cleanup.py:                content = f'\"\"\"\\n{module_name} Module\\n\"\"\"\\n\\n# TODO: Implement {module_name}\\npass\\n'",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-61b0a1c4",
+      "priority": "low",
+      "title": ",",
+      "file": "./tools/analysis/comprehensive_organizational_audit.py",
+      "module": "tools/analysis",
+      "trinity": "null",
+      "line_hint": 35,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/analysis/comprehensive_organizational_audit.py:                \"TODO.md\",",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ENTERPRISE-69e464a2",
+      "priority": "low",
+      "title": "Calculate from baseline",
+      "file": "./tools/enterprise/observability_system.py",
+      "module": "tools/enterprise",
+      "trinity": "null",
+      "line_hint": 506,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/enterprise/observability_system.py:                    expected_value=0,  # TODO: Calculate from baseline",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-AUTODOC_HEADERS.PY-46136b4a",
+      "priority": "low",
+      "title": ":",
+      "file": "./tools/autodoc_headers.py",
+      "module": "tools/autodoc_headers.py",
+      "trinity": "null",
+      "line_hint": 215,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/autodoc_headers.py:            if os.getenv(\"AUTODOC_DRY_RUN\", \"\").lower() != \"true\":",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-AUTODOC_HEADERS.PY-78800d4a",
+      "priority": "low",
+      "title": "\"",
+      "file": "./tools/autodoc_headers.py",
+      "module": "tools/autodoc_headers.py",
+      "trinity": "null",
+      "line_hint": 228,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/autodoc_headers.py:            if os.getenv(\"AUTODOC_DRY_RUN\", \"\").lower() != \"true\":",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-AUTODOC_HEADERS.PY-46136b4a",
+      "priority": "low",
+      "title": ":",
+      "file": "./tools/autodoc_headers.py",
+      "module": "tools/autodoc_headers.py",
+      "trinity": "null",
+      "line_hint": 256,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/autodoc_headers.py:            if os.getenv(\"AUTODOC_DRY_RUN\", \"\").lower() != \"true\":",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: remaining-08-$(date +%m%d)",
+      "2. Work through 40 remaining tasks",
+      "3. One TaskID per commit",
+      "4. Mixed priority cleanup",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(cleanup): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.165128Z",
+  "source": "Remaining unallocated TODOs"
+}

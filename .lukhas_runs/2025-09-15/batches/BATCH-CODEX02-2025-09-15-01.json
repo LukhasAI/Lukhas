@@ -1,0 +1,366 @@
+{
+  "batch_id": "BATCH-CODEX02-2025-09-15-01",
+  "agent": "codex02",
+  "created_at": "2025-09-15T01:17:08.834999Z",
+  "expires_at": "2025-09-18T01:17:08.835001Z",
+  "branch_name": "feat/codex02/candidate-batch01",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-a475ba49",
+      "priority": "high",
+      "title": "specialist] - Fix cross-lane import dependencies for consciousness mesh formation",
+      "file": "./candidate/core/symbolic_legacy/colony_tag_propagation.py",
+      "line_hint": 5,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "d84f24154c21de7e05c16e108d7bcce86f034a59"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-a3c26daf",
+      "priority": "high",
+      "title": "Preserve important symbolic mappings",
+      "file": "./candidate/core/symbolic/symbolic_dream_bridge.py",
+      "line_hint": 158,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-e5536936",
+      "priority": "high",
+      "title": "Replace this hack with proper Python packaging imports once",
+      "file": "./candidate/core/interfaces/as_agent/news_and_social/s_dispatcher.py",
+      "line_hint": 11,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-1007653b",
+      "priority": "high",
+      "title": "Implement import logic",
+      "file": "./products/experience/universal_language/core/vocabulary.py",
+      "line_hint": 535,
+      "module": "products/experience",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-RL-RUN_ADVANCED_TESTS.PY-349c54a0",
+      "priority": "high",
+      "title": "torch; consider using importli...",
+      "file": "rl/run_advanced_tests.py",
+      "line_hint": 43,
+      "module": "rl/run_advanced_tests.py",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "rl/run_advanced_tests.py:43:        import torch  # noqa: F401  # TODO: torch; consider using importli...",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-CI-2806145d",
+      "priority": "high",
+      "title": "s for unused imports (F401).\")",
+      "file": "tools/ci/unused_imports.py",
+      "line_hint": 101,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "tools/ci/unused_imports.py:101:    ap = argparse.ArgumentParser(description=\"Annotate or enforce TODOs for unused imports (F401).\")",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-CI-cd36abf8",
+      "priority": "high",
+      "title": "[T4-UNUSED-IMPORT] annotation.\"\"\"",
+      "file": "tools/ci/check_unused_imports_todo.py",
+      "line_hint": 77,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "tools/ci/check_unused_imports_todo.py:77:    \"\"\"Check if line has TODO[T4-UNUSED-IMPORT] annotation.\"\"\"",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TESTS-SMOKE-56324f03",
+      "priority": "high",
+      "title": "lukhas; consider using importl...",
+      "file": "tests/smoke/test_accepted_smoke.py",
+      "line_hint": 7,
+      "module": "tests/smoke",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "tests/smoke/test_accepted_smoke.py:7:        import lukhas  # noqa: F401  # TODO: lukhas; consider using importl...",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-44c8f91b",
+      "priority": "high",
+      "title": "Fix import paths - lambda directory doesn't exist",
+      "file": "products/intelligence/lens/api/standalone_server.py",
+      "line_hint": 23,
+      "module": "products/intelligence",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "products/intelligence/lens/api/standalone_server.py:23:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BIO-ce58c72c",
+      "priority": "high",
+      "title": "[QUANTUM-BIO:specialist] - Import timezone for UTC enforcement",
+      "file": "candidate/bio/qi.py",
+      "line_hint": 88,
+      "module": "candidate/bio",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "candidate/bio/qi.py:88:    from datetime import (  # TODO[QUANTUM-BIO:specialist] - Import timezone for UTC enforcement",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-34015f0f",
+      "priority": "high",
+      "title": "Resolve these imports via proper packaging or PYTHONPATH.",
+      "file": "candidate/memory/systems/memory_legacy/replayer.py",
+      "line_hint": 46,
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "candidate/memory/systems/memory_legacy/replayer.py:46:# AIMPORT_TODO: Resolve these imports via proper packaging or PYTHONPATH.",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-e0d98678",
+      "priority": "high",
+      "title": "Verify these relative imports work correctly in the context of the larger system.",
+      "file": "candidate/core/interfaces/nias/__init__.py",
+      "line_hint": 27,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "candidate/core/interfaces/nias/__init__.py:27:# AIMPORT_TODO: Verify these relative imports work correctly in the context of the larger system.",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-83a8d429",
+      "priority": "high",
+      "title": "These imports suggest a complex LUKHAS directory structure.",
+      "file": "candidate/core/meta_learning/remediator_agent.py",
+      "line_hint": 77,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "candidate/core/meta_learning/remediator_agent.py:77:# AIMPORT_TODO: These imports suggest a complex LUKHAS directory structure.",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-0d07ae45",
+      "priority": "high",
+      "title": "Fix imports as part of CODEX_ENHANCEMENT_PLAN.md Phase 4",
+      "file": "candidate/core/orchestration/brain/orchestration/core.py",
+      "line_hint": 20,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "candidate/core/orchestration/brain/orchestration/core.py:20:TODO: Fix imports as part of CODEX_ENHANCEMENT_PLAN.md Phase 4",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-RL-RUN_ADVANCED_TESTS.PY-d5f40fcd",
+      "priority": "low",
+      "title": "z3; consider using importlib.u...",
+      "file": "./rl/run_advanced_tests.py",
+      "line_hint": 36,
+      "module": "rl/run_advanced_tests.py",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    }
+  ],
+  "summary": {
+    "total_tasks": 15,
+    "by_priority": {
+      "high": 14,
+      "low": 1
+    },
+    "by_type": {
+      "mechanical": 15
+    },
+    "by_risk": {
+      "med": 1,
+      "low": 13,
+      "high": 1
+    }
+  },
+  "dependencies": [],
+  "checks": [
+    "ruff check .",
+    "pytest -q",
+    "pre-commit run --all-files"
+  ]
+}
