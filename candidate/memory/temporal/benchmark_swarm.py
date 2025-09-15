@@ -12,8 +12,8 @@ Measures message throughput and demonstrates energy-efficient computation.
 import asyncio
 import time
 
-from event_bus import *  # TODO: Specify imports
-from minimal_actor import *  # TODO: Specify imports
+from candidate.core.event_bus import get_global_event_bus
+from candidate.core.minimal_actor import Actor
 
 
 def bench_behavior(actor, message):
