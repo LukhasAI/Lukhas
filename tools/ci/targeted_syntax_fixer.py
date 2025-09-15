@@ -10,7 +10,7 @@ import json
 import subprocess
 import re
 from pathlib import Path
-from typing import Dict, List, Set  # noqa: F401  # TODO: typing.Set
+from typing import Dict, List
 
 
 class TargetedSyntaxFixer:
