@@ -35,7 +35,7 @@
       "line_hint": 27,
       "module": "candidate/core",
       "trinity": "null",
-      "status": "open",
+      "status": "completed",
       "source": "high_todos.md",
       "evidence": {
         "grep": "./candidate/core/interfaces/nias/__init__.py:# AIMPORT_TODO: Verify these relative imports work correctly in the context of the larger system.",
@@ -46,7 +46,9 @@
       "est": {
         "type": "mechanical",
         "size": "XS"
-      }
+      },
+      "completion_pr": "242",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-HIGH-CANDIDATE-MEMORY-602cddf2",
@@ -56,7 +58,7 @@
       "line_hint": 15,
       "module": "candidate/memory",
       "trinity": "Consciousness",
-      "status": "open",
+      "status": "completed",
       "source": "high_todos.md",
       "evidence": {
         "grep": "./candidate/memory/temporal/benchmark_swarm.py:from event_bus import *  # TODO: Specify imports",
@@ -67,7 +69,9 @@
       "est": {
         "type": "mechanical",
         "size": "XS"
-      }
+      },
+      "completion_pr": "242",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-46a72d12",
@@ -98,7 +102,7 @@
       "line_hint": 8,
       "module": "tools/ci",
       "trinity": "null",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./tools/ci/unused_imports.py:  * adds an inline TODO tag (idempotent):  # TODO[T4-UNUSED-IMPORT]: <reason>",
@@ -109,7 +113,9 @@
       "est": {
         "type": "mechanical",
         "size": "XS"
-      }
+      },
+      "completion_pr": "242",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-LOW-TOOLS-CI-48aabd9a",
@@ -119,7 +125,7 @@
       "line_hint": 47,
       "module": "tools/ci",
       "trinity": "null",
-      "status": "open",
+      "status": "completed",
       "source": "low_todos.md",
       "evidence": {
         "grep": "./tools/ci/mark_unused_imports_todo.py:Mark unused imports with TODOs instead of deleting them.",
@@ -130,7 +136,9 @@
       "est": {
         "type": "mechanical",
         "size": "XS"
-      }
+      },
+      "completion_pr": "242",
+      "completed_at": "2025-09-15T08:00:00Z"
     }
   ],
   "summary": {

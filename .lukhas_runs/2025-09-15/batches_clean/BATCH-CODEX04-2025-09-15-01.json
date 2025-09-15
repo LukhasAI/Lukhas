@@ -14,7 +14,7 @@
       "line_hint": 5,
       "module": "candidate/core",
       "trinity": "Consciousness",
-      "status": "open",
+      "status": "completed",
       "source": "high_todos.md",
       "evidence": {
         "grep": "./candidate/core/symbolic_core/colony_tag_propagation.py:    # TODO[GLYPH:specialist] - Implement consciousness node base class fallback",
@@ -25,7 +25,9 @@
       "est": {
         "type": "mechanical",
         "size": "XS"
-      }
+      },
+      "completion_pr": "241",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-HIGH-CANDIDATE-CORE-1e5afc27",
@@ -56,7 +58,7 @@
       "line_hint": 16,
       "module": "candidate/memory",
       "trinity": "Consciousness",
-      "status": "open",
+      "status": "completed",
       "source": "high_todos.md",
       "evidence": {
         "grep": "./candidate/memory/temporal/benchmark_swarm.py:from event_bus import *  # TODO: Specify imports",
@@ -67,7 +69,9 @@
       "est": {
         "type": "mechanical",
         "size": "XS"
-      }
+      },
+      "completion_pr": "242",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-d9fe3644",
@@ -119,7 +123,7 @@
       "line_hint": 241,
       "module": "tools/ci",
       "trinity": "null",
-      "status": "open",
+      "status": "completed",
       "source": "low_todos.md",
       "evidence": {
         "grep": "./tools/ci/check_unused_imports_todo.py:- Checks each finding has a TODO[T4-UNUSED-IMPORT] annotation",
@@ -130,7 +134,9 @@
       "est": {
         "type": "mechanical",
         "size": "S"
-      }
+      },
+      "completion_pr": "242",
+      "completed_at": "2025-09-15T08:00:00Z"
     }
   ],
   "summary": {
