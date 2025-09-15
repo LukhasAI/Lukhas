@@ -1,0 +1,503 @@
+{
+  "agent_id": "JULES-09",
+  "specialty": "Dashboards",
+  "focus": "compliance/guardian wiring",
+  "task_count": 30,
+  "priority": "high",
+  "risk_level": "med",
+  "branch_prefix": "feat/jules-09/dashboards-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-060ec135",
+      "priority": "high",
+      "title": "kept for MATRIZ-R2 trace integration",
+      "file": "./candidate/core/matriz_integrated_demonstration.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 46,
+      "risk": "low",
+      "type": "integration",
+      "size": "M",
+      "evidence": {
+        "grep": null,
+        "last_commit": "244821f72bec212cb6c564aa679fe826856bcf80"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-3bcfcfd8",
+      "priority": "high",
+      "title": "Install or implement streamlit",
+      "file": "./candidate/core/rem/streamlit_lidar.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 7,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/rem/streamlit_lidar.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-1ca2e6b8",
+      "priority": "high",
+      "title": "Check actual dream state from dream adapter",
+      "file": "./candidate/core/integrations/nias_dream_bridge.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 260,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/integrations/nias_dream_bridge.py:        # TODO: Check actual dream state from dream adapter",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-4f3d4c11",
+      "priority": "high",
+      "title": "kept for Trinity Framework consciousness evolution",
+      "file": "./candidate/core/adapters/qi_service_adapter.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 29,
+      "risk": "med",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": null,
+        "last_commit": "244821f72bec212cb6c564aa679fe826856bcf80"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-255cbe47",
+      "priority": "high",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/core/adapters/qi_service_adapter.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 31,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "244821f72bec212cb6c564aa679fe826856bcf80"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-13757e92",
+      "priority": "high",
+      "title": "kept for API expansion (document or implement)",
+      "file": "./candidate/core/adapters/module_service_adapter.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 14,
+      "risk": "low",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "d9979b4c7379a6da7419e37517bdd86bddfac8e2"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-9f34431f",
+      "priority": "high",
+      "title": "Install or implement streamlit",
+      "file": "./candidate/core/notion_sync.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 71,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/notion_sync.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "44144cb703c49438b8ca13e5bdc2db627c5454b3"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-9f34431f",
+      "priority": "high",
+      "title": "Install or implement streamlit",
+      "file": "./candidate/core/notion_sync.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 299,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/notion_sync.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "44144cb703c49438b8ca13e5bdc2db627c5454b3"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-246ad803",
+      "priority": "high",
+      "title": "Inherent Fault Tolerance and Resilience",
+      "file": "./candidate/core/supervision.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 3,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/supervision.py:Addresses TODO 41: Inherent Fault Tolerance and Resilience",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-02bd4d9f",
+      "priority": "high",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/core/audit/audit_integration_example.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 10,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "d9979b4c7379a6da7419e37517bdd86bddfac8e2"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-5d5efb78",
+      "priority": "high",
+      "title": "Optimized dual EDA/P2P communication",
+      "file": "./candidate/core/efficient_communication.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 3,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/efficient_communication.py:Addresses TODO 142: Optimized dual EDA/P2P communication",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-24f2f5a4",
+      "priority": "high",
+      "title": "Complex Adaptive System Monitoring",
+      "file": "./candidate/core/observability_steering.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 3,
+      "risk": "low",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/core/observability_steering.py:Addresses TODO 167: Complex Adaptive System Monitoring",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-28d78ed6",
+      "priority": "high",
+      "title": "Add example",
+      "file": "./candidate/core/examples/basic/example.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 7,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/examples/basic/example.py:# TODO: Add example",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-72259477",
+      "priority": "high",
+      "title": "4",
+      "file": "./candidate/core/collaboration.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 3,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/collaboration.py:Addresses TODOs 91-114",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-33f32026",
+      "priority": "high",
+      "title": "Implement config loading",
+      "file": "./candidate/core/task_manager.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 109,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/task_manager.py:        # TODO: Implement config loading",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-ec42920d",
+      "priority": "high",
+      "title": "Register actual task handler functions",
+      "file": "./candidate/core/task_manager.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 210,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/task_manager.py:        # TODO: Implement config loading",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-51e4596d",
+      "priority": "high",
+      "title": "Implement actual symbol validation",
+      "file": "./candidate/core/task_manager.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 219,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/task_manager.py:        # TODO: Implement config loading",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-136faa0a",
+      "priority": "high",
+      "title": "Implement actual design system operations",
+      "file": "./candidate/core/task_manager.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 226,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/task_manager.py:        # TODO: Implement config loading",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-03c99f4c",
+      "priority": "high",
+      "title": "Implement actual file operations",
+      "file": "./candidate/core/task_manager.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 233,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/task_manager.py:        # TODO: Implement config loading",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-5af347ed",
+      "priority": "high",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/core/matriz_consciousness_signals.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 9,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b36efb1c5a706b4ecfb8e5b0699601978e255fb4"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-017e094a",
+      "priority": "high",
+      "title": "specialist] - Fix cross-lane import dependencies for consciousness mesh formation",
+      "file": "./candidate/core/symbolic_core/colony_tag_propagation.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 5,
+      "risk": "med",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_core/colony_tag_propagation.py:    # TODO[GLYPH:specialist] - Implement consciousness node base class fallback",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-17583574",
+      "priority": "high",
+      "title": "specialist] - Implement consciousness node base class fallback",
+      "file": "./candidate/core/symbolic_core/colony_tag_propagation.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 13,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_core/colony_tag_propagation.py:    # TODO[GLYPH:specialist] - Implement consciousness node base class fallback",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-9a4b9413",
+      "priority": "high",
+      "title": "specialist] - Implement proper symbolic vocabulary integration",
+      "file": "./candidate/core/symbolic_core/colony_tag_propagation.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 35,
+      "risk": "low",
+      "type": "integration",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_core/colony_tag_propagation.py:    # TODO[GLYPH:specialist] - Implement consciousness node base class fallback",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-7f57657a",
+      "priority": "high",
+      "title": "specialist] - Create proper Tag class for consciousness communication",
+      "file": "./candidate/core/symbolic_core/colony_tag_propagation.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 47,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_core/colony_tag_propagation.py:    # TODO[GLYPH:specialist] - Implement consciousness node base class fallback",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-d3f3f11f",
+      "priority": "high",
+      "title": "specialist] - Initialize consciousness agents for mesh formation",
+      "file": "./candidate/core/symbolic_core/colony_tag_propagation.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 67,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_core/colony_tag_propagation.py:    # TODO[GLYPH:specialist] - Implement consciousness node base class fallback",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-03c35470",
+      "priority": "high",
+      "title": "specialist] - Implement consciousness processing with GLYPH communication",
+      "file": "./candidate/core/symbolic_core/colony_tag_propagation.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 77,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_core/colony_tag_propagation.py:    # TODO[GLYPH:specialist] - Implement consciousness node base class fallback",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-cdda7c80",
+      "priority": "high",
+      "title": "specialist] - Implement consciousness consensus with mesh formation",
+      "file": "./candidate/core/symbolic_core/colony_tag_propagation.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 83,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_core/colony_tag_propagation.py:    # TODO[GLYPH:specialist] - Implement consciousness node base class fallback",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-b8aedb41",
+      "priority": "high",
+      "title": "triage - Large legacy symbolic processing system. Need migration strategy vs preservation decision.",
+      "file": "./candidate/core/symbolic_core/bio/mito_qi_attention.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 7,
+      "risk": "low",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_core/bio/mito_qi_attention.py:TODO[T4-AUDIT]:triage - Large legacy symbolic processing system. Need migration strategy vs preservation decision.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-9d8e2fcc",
+      "priority": "high",
+      "title": "triage - Large legacy symbolic processing system preserved.",
+      "file": "./candidate/core/symbolic_core/__init__.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 34,
+      "risk": "low",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_core/__init__.py:TODO[T4-AUDIT]:triage - Large legacy symbolic processing system preserved.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-441d6078",
+      "priority": "high",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/core/verifold/verifold_unified.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 2,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: jules-09-batch-$(date +%m%d)",
+      "2. Work through 30 tasks systematically",
+      "3. One TaskID per commit",
+      "4. Focus: compliance/guardian wiring",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(dashboards): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.156653Z",
+  "source": "Direct allocation from manifest_clean.json"
+}

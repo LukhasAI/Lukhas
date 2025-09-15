@@ -1,0 +1,663 @@
+{
+  "agent_id": "CODEX-04",
+  "specialty": "High Priority Batch 4",
+  "focus": "high priority cleanup",
+  "task_count": 40,
+  "priority": "high",
+  "risk_level": "low",
+  "branch_prefix": "feat/codex-04/high-priority-batch-4-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-db741361",
+      "priority": "high",
+      "title": "Install or",
+      "file": "./candidate/memory/systems/memory_media_file_storage.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 28,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_media_file_storage.py:# from streamlit.runtime.media_file_storage import (  # TODO: Install or",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-be16f8e6",
+      "priority": "high",
+      "title": "Install or implement streamlit",
+      "file": "./candidate/memory/systems/memory_media_file_storage.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 35,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_media_file_storage.py:# from streamlit.runtime.media_file_storage import (  # TODO: Install or",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-34108283",
+      "priority": "high",
+      "title": "No description",
+      "file": "./candidate/memory/systems/memory_format.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 66,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_format.py:    # TODO: expand this to `_ConvNd` when channels_last support is extended",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-34108283",
+      "priority": "high",
+      "title": "No description",
+      "file": "./candidate/memory/systems/memory_format.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 137,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_format.py:    # TODO: expand this to `_ConvNd` when channels_last support is extended",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-ac537d6f",
+      "priority": "high",
+      "title": "Install or implement streamlit",
+      "file": "./candidate/memory/systems/memory_visualizer.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 18,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_visualizer.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-849eed8c",
+      "priority": "high",
+      "title": "Install or implement streamlit",
+      "file": "./candidate/memory/systems/memory_session_storage.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 21,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_session_storage.py:# SessionStorage  # TODO: Install or implement streamlit",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-d028c3e9",
+      "priority": "high",
+      "title": "Remove hardcoded sys.path.append. Manage paths via",
+      "file": "./candidate/memory/systems/memory_legacy/dreams.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 95,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_legacy/dreams.py:# CRITICAL TODO: Remove hardcoded sys.path.append. Manage paths via",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-0fdacfc9",
+      "priority": "high",
+      "title": "Resolve these imports via proper packaging or PYTHONPATH.",
+      "file": "./candidate/memory/systems/memory_legacy/replayer.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 46,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_legacy/replayer.py:# AIMPORT_TODO: Resolve these imports via proper packaging or PYTHONPATH.",
+        "last_commit": "10f5fa6937959bcaaa1754020fca1ef42b7d6e43"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-4b95bc2e",
+      "priority": "high",
+      "title": "Make DREAM_SCRIPT_PATH_STR robust (e.g., relative to project root",
+      "file": "./candidate/memory/systems/memory_legacy/dream_cron.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 56,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_legacy/dream_cron.py:# TODO: Make DREAM_SCRIPT_PATH_STR robust (e.g., relative to project root",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-953db624",
+      "priority": "high",
+      "title": "we could try harder here by merging overlapping in space",
+      "file": "./candidate/memory/systems/memory_planning.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 254,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_planning.py:            # TODO(jansel): we could try harder here by merging overlapping in space",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-710fee17",
+      "priority": "high",
+      "title": "we should support reusing buffers created via",
+      "file": "./candidate/memory/systems/memory_planning.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 618,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_planning.py:            # TODO(jansel): we could try harder here by merging overlapping in space",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-26997821",
+      "priority": "high",
+      "title": "Initialize verification parameters",
+      "file": "./candidate/memory/systems/memory_collapse_verifier.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 28,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_collapse_verifier.py:        # TODO: Initialize verification parameters",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-eca1035a",
+      "priority": "high",
+      "title": "Implement collapse integrity verification",
+      "file": "./candidate/memory/systems/memory_collapse_verifier.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 37,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_collapse_verifier.py:        # TODO: Initialize verification parameters",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-bfd7e21e",
+      "priority": "high",
+      "title": "Implement semantic preservation validation",
+      "file": "./candidate/memory/systems/memory_collapse_verifier.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 41,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_collapse_verifier.py:        # TODO: Initialize verification parameters",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-6a68a0af",
+      "priority": "high",
+      "title": "Implement emotional consistency checking",
+      "file": "./candidate/memory/systems/memory_collapse_verifier.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 45,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_collapse_verifier.py:        # TODO: Initialize verification parameters",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-3d810993",
+      "priority": "high",
+      "title": "Implement collapse auditing",
+      "file": "./candidate/memory/systems/memory_collapse_verifier.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 49,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_collapse_verifier.py:        # TODO: Initialize verification parameters",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-0a6f2c37",
+      "priority": "high",
+      "title": "Implement DAG integrity algorithms",
+      "file": "./candidate/memory/systems/memory_collapse_verifier.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 52,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_collapse_verifier.py:        # TODO: Initialize verification parameters",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-9448f024",
+      "priority": "high",
+      "title": "Add semantic preservation checks",
+      "file": "./candidate/memory/systems/memory_collapse_verifier.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 53,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_collapse_verifier.py:        # TODO: Initialize verification parameters",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-7640c4ab",
+      "priority": "high",
+      "title": "Create emotional consistency validation",
+      "file": "./candidate/memory/systems/memory_collapse_verifier.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 54,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_collapse_verifier.py:        # TODO: Initialize verification parameters",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-0134f958",
+      "priority": "high",
+      "title": "kept pending MATRIZ wiring (document or remove)",
+      "file": "./candidate/memory/systems/multimodal_memory_integration.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 15,
+      "risk": "low",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "d84f24154c21de7e05c16e108d7bcce86f034a59"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-3726e3e2",
+      "priority": "high",
+      "title": "Implement actual consolidation logic",
+      "file": "./candidate/memory/consolidation/consolidate_memory_dna_helix.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 34,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/consolidation/consolidate_memory_dna_helix.py:    # TODO: Implement actual consolidation logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-a2403dc2",
+      "priority": "high",
+      "title": "Merge functionality from source files",
+      "file": "./candidate/memory/consolidation/visualization.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 35,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/consolidation/visualization.py:        # TODO: Merge functionality from source files",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-2f30bb45",
+      "priority": "high",
+      "title": "Add compatibility functions for merged components",
+      "file": "./candidate/memory/consolidation/visualization.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 48,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/consolidation/visualization.py:        # TODO: Merge functionality from source files",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-f265fcf3",
+      "priority": "high",
+      "title": "Implement actual consolidation logic",
+      "file": "./candidate/memory/consolidation/consolidate_emotion_feeling_memory.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 34,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/consolidation/consolidate_emotion_feeling_memory.py:    # TODO: Implement actual consolidation logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-16c47d08",
+      "priority": "high",
+      "title": "Merge functionality from source files",
+      "file": "./candidate/memory/consolidation/commerce_api.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 27,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/consolidation/commerce_api.py:        # TODO: Merge functionality from source files",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-4743a252",
+      "priority": "high",
+      "title": "Add compatibility functions for merged components",
+      "file": "./candidate/memory/consolidation/commerce_api.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 40,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/consolidation/commerce_api.py:        # TODO: Merge functionality from source files",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-26e6c0d3",
+      "priority": "high",
+      "title": "Implement smart merging logic",
+      "file": "./candidate/memory/consolidation/memory_consolidator.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 93,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/consolidation/memory_consolidator.py:        # TODO: Implement smart merging logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-1282200f",
+      "priority": "high",
+      "title": "Review deep relative imports for robustness.",
+      "file": "./candidate/memory/visualizer.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 57,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/memory/visualizer.py:# AIMPORT_TODO: Review deep relative imports for robustness.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BRIDGE-605a5f53",
+      "priority": "high",
+      "title": "Add blockchain integration for decentralized dream commerce",
+      "file": "./candidate/bridge/api_legacy/core/dream_commerce.py",
+      "module": "candidate/bridge",
+      "trinity": "Consciousness",
+      "line_hint": 46,
+      "risk": "low",
+      "type": "integration",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/bridge/api_legacy/core/dream_commerce.py:\u039bTODO: Add blockchain integration for decentralized dream commerce",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BRIDGE-e071aeba",
+      "priority": "high",
+      "title": "Consider a more robust way to manage this dependency, e.g.,",
+      "file": "./candidate/bridge/api/ai_interface.py",
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "line_hint": 28,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "895bf047cc55ed1c850d84636a24997516ef06e7"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BRIDGE-cc1aae04",
+      "priority": "high",
+      "title": "kept for API expansion (document or implement)",
+      "file": "./candidate/bridge/api/orchestration_endpoints.py",
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "line_hint": 31,
+      "risk": "low",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/bridge/api/orchestration_endpoints.py:                \"rate_limit_violations\": 0,  # TODO: Track this",
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BRIDGE-cc1aae04",
+      "priority": "high",
+      "title": "kept for API expansion (document or implement)",
+      "file": "./candidate/bridge/api/orchestration_endpoints.py",
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "line_hint": 45,
+      "risk": "low",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/bridge/api/orchestration_endpoints.py:                \"rate_limit_violations\": 0,  # TODO: Track this",
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BRIDGE-f5cd3593",
+      "priority": "high",
+      "title": "Track this",
+      "file": "./candidate/bridge/api/orchestration_endpoints.py",
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "line_hint": 609,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/bridge/api/orchestration_endpoints.py:                \"rate_limit_violations\": 0,  # TODO: Track this",
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BRIDGE-f5cd3593",
+      "priority": "high",
+      "title": "Track this",
+      "file": "./candidate/bridge/api/orchestration_endpoints.py",
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "line_hint": 610,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/bridge/api/orchestration_endpoints.py:                \"rate_limit_violations\": 0,  # TODO: Track this",
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BRIDGE-771ebcf7",
+      "priority": "high",
+      "title": "kept for API expansion (document or implement)",
+      "file": "./candidate/bridge/api/documentation.py",
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "line_hint": 27,
+      "risk": "low",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "d9979b4c7379a6da7419e37517bdd86bddfac8e2"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BRIDGE-2d439ad1",
+      "priority": "high",
+      "title": "kept for API expansion (document or implement)",
+      "file": "./candidate/bridge/api/onboarding.py",
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "line_hint": 46,
+      "risk": "low",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BRIDGE-4ef3adda",
+      "priority": "high",
+      "title": "kept for API expansion (document or implement)",
+      "file": "./candidate/bridge/api/test_orchestration_system.py",
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "line_hint": 30,
+      "risk": "low",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "d9979b4c7379a6da7419e37517bdd86bddfac8e2"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BRIDGE-4ef3adda",
+      "priority": "high",
+      "title": "kept for API expansion (document or implement)",
+      "file": "./candidate/bridge/api/test_orchestration_system.py",
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "line_hint": 31,
+      "risk": "low",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "d9979b4c7379a6da7419e37517bdd86bddfac8e2"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BRIDGE-109ebf99",
+      "priority": "high",
+      "title": "Legacy constants kept for backward compatibility",
+      "file": "./candidate/bridge/api/direct_ai_router.py",
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "line_hint": 25,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/bridge/api/direct_ai_router.py:# TODO: Legacy constants kept for backward compatibility",
+        "last_commit": "4fd335087c4c85a4b469201e66ccf81d99335b9d"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BRIDGE-7e8f7fb7",
+      "priority": "high",
+      "title": "kept for API expansion (document or implement)",
+      "file": "./candidate/bridge/api/main_app.py",
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "line_hint": 34,
+      "risk": "low",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "d9979b4c7379a6da7419e37517bdd86bddfac8e2"
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: codex-04-batch-$(date +%m%d)",
+      "2. Work through 40 tasks systematically",
+      "3. One TaskID per commit",
+      "4. Focus: high priority cleanup",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(high): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.158823Z",
+  "source": "Direct allocation from manifest_clean.json"
+}

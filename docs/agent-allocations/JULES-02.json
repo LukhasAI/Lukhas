@@ -1,0 +1,503 @@
+{
+  "agent_id": "JULES-02",
+  "specialty": "Consent/Scopes",
+  "focus": "tier boundaries, validation, history",
+  "task_count": 30,
+  "priority": "critical",
+  "risk_level": "high",
+  "branch_prefix": "feat/jules-02/consent/scopes-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-cf47a643",
+      "priority": "critical",
+      "title": "Fix 19 F821 undefined name errors - Drift dashboard visualization, chart/graph undefined references, display fixes",
+      "file": "./candidate/governance/drift_dashboard_visual.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 1,
+      "risk": "med",
+      "type": "mechanical",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/drift_dashboard_visual.py:TODO[JULES-2]: Fix 19 F821 undefined name errors - Drift dashboard visualization, chart/graph undefined references, display fixes",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-45906ffc",
+      "priority": "critical",
+      "title": "Implement actual consolidation logic \u2192 Implemented metadata registry + report",
+      "file": "./candidate/governance/oversight/consolidate_guardian_governance.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 34,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "4fd335087c4c85a4b469201e66ccf81d99335b9d"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-66824f12",
+      "priority": "critical",
+      "title": "Load from actual config file",
+      "file": "./candidate/governance/identity/core/id_service/lambd_id_generator.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 179,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "4fd335087c4c85a4b469201e66ccf81d99335b9d"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-2120dbf8",
+      "priority": "critical",
+      "title": "Implement actual logging to file/database",
+      "file": "./candidate/governance/identity/core/id_service/lambd_id_generator.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 216,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "4fd335087c4c85a4b469201e66ccf81d99335b9d"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-3853a416",
+      "priority": "critical",
+      "title": "Calculate actual collision rate",
+      "file": "./candidate/governance/identity/core/id_service/lambd_id_generator.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 223,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "4fd335087c4c85a4b469201e66ccf81d99335b9d"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-e73e20ef",
+      "priority": "critical",
+      "title": "Calculate tier distribution",
+      "file": "./candidate/governance/identity/core/id_service/lambd_id_generator.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 224,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "4fd335087c4c85a4b469201e66ccf81d99335b9d"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-14cc8e78",
+      "priority": "critical",
+      "title": "Calculate symbolic character usage",
+      "file": "./candidate/governance/identity/core/id_service/lambd_id_generator.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 225,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "4fd335087c4c85a4b469201e66ccf81d99335b9d"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-e49f4ab7",
+      "priority": "critical",
+      "title": "kept for Trinity Framework consciousness evolution",
+      "file": "./candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 19,
+      "risk": "med",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py:from governance.identity.core.colonies import (  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-febfa200",
+      "priority": "critical",
+      "title": "Implement persistent storage logic",
+      "file": "./candidate/governance/identity/core/trace/activity_logger.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 225,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "43575b856f36d4a9c41a0f17ab44274fad314b74"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-522cb5b5",
+      "priority": "critical",
+      "title": "Integration with \u039bTIER system",
+      "file": "./candidate/governance/identity/core/trace/activity_logger.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 229,
+      "risk": "med",
+      "type": "integration",
+      "size": "M",
+      "evidence": {
+        "grep": null,
+        "last_commit": "43575b856f36d4a9c41a0f17ab44274fad314b74"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-b4790085",
+      "priority": "critical",
+      "title": "Implement audit chain linking",
+      "file": "./candidate/governance/identity/core/trace/activity_logger.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 294,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "43575b856f36d4a9c41a0f17ab44274fad314b74"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-291f534f",
+      "priority": "critical",
+      "title": "Implement pattern analysis logic",
+      "file": "./candidate/governance/identity/core/trace/pattern_analyzer.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 19,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/trace/pattern_analyzer.py:        # TODO: Implement pattern analysis logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-4b35bb43",
+      "priority": "critical",
+      "title": "Implement anomaly detection logic",
+      "file": "./candidate/governance/identity/core/trace/pattern_analyzer.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 23,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/trace/pattern_analyzer.py:        # TODO: Implement pattern analysis logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-0a627034",
+      "priority": "critical",
+      "title": "Implement insight generation logic",
+      "file": "./candidate/governance/identity/core/trace/pattern_analyzer.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 27,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/trace/pattern_analyzer.py:        # TODO: Implement pattern analysis logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-fa1e7ff1",
+      "priority": "critical",
+      "title": "Calculate actual uptime",
+      "file": "./candidate/governance/identity/core/lambd_id_service.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 412,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/lambd_id_service.py:            \"uptime\": \"active\",  # TODO: Calculate actual uptime",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-4c8786a7",
+      "priority": "critical",
+      "title": "Implement proper rate limiting",
+      "file": "./candidate/governance/identity/core/lambd_id_service.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 597,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/lambd_id_service.py:            \"uptime\": \"active\",  # TODO: Calculate actual uptime",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-59336e52",
+      "priority": "critical",
+      "title": "Implement automatic upgrade logic",
+      "file": "./candidate/governance/identity/core/lambd_id_service.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 625,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/lambd_id_service.py:            \"uptime\": \"active\",  # TODO: Calculate actual uptime",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-3b4f29de",
+      "priority": "critical",
+      "title": "Implement manual upgrade logic",
+      "file": "./candidate/governance/identity/core/lambd_id_service.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 630,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/lambd_id_service.py:            \"uptime\": \"active\",  # TODO: Calculate actual uptime",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-65e074f8",
+      "priority": "critical",
+      "title": "Load tier boundaries from consent_tiers.json",
+      "file": "./candidate/governance/identity/core/sent/consent_manager.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 159,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/sent/consent_manager.py:        # TODO: Load tier boundaries from consent_tiers.json",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-f32ad0a2",
+      "priority": "critical",
+      "title": "Implement tier-based validation logic",
+      "file": "./candidate/governance/identity/core/sent/consent_manager.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 160,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/sent/consent_manager.py:        # TODO: Load tier boundaries from consent_tiers.json",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-e6255497",
+      "priority": "critical",
+      "title": "Call \u039bTRACE logger",
+      "file": "./candidate/governance/identity/core/sent/consent_history.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 67,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/sent/consent_history.py:        # TODO: Call \u039bTRACE logger",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-95ebe602",
+      "priority": "critical",
+      "title": "Implement zero-knowledge proof generation",
+      "file": "./candidate/governance/identity/core/sent/consent_history.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 103,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/sent/consent_history.py:        # TODO: Call \u039bTRACE logger",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-ff72188f",
+      "priority": "critical",
+      "title": "Implement scope definition logic",
+      "file": "./candidate/governance/identity/core/sent/symbolic_scopes.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 39,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/sent/symbolic_scopes.py:        # TODO: Implement scope definition logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-9793688b",
+      "priority": "critical",
+      "title": "Implement scope requirements logic",
+      "file": "./candidate/governance/identity/core/sent/symbolic_scopes.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 43,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/sent/symbolic_scopes.py:        # TODO: Implement scope definition logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-727f1afe",
+      "priority": "critical",
+      "title": "Implement scope access validation",
+      "file": "./candidate/governance/identity/core/sent/symbolic_scopes.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 47,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/sent/symbolic_scopes.py:        # TODO: Implement scope definition logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-e332e332",
+      "priority": "critical",
+      "title": "Implement symbolic parsing logic",
+      "file": "./candidate/governance/identity/core/sent/symbolic_scopes.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 56,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/sent/symbolic_scopes.py:        # TODO: Implement scope definition logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-b70de571",
+      "priority": "critical",
+      "title": "kept for Trinity Framework consciousness evolution",
+      "file": "./candidate/governance/identity/core/events/identity_event_publisher.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 14,
+      "risk": "med",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/events/identity_event_publisher.py:from .identity_event_types import (  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-402e4c5d",
+      "priority": "critical",
+      "title": "Implement QR-G generation logic",
+      "file": "./candidate/governance/identity/core/qrs/qrg_generator.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 20,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/qrs/qrg_generator.py:        # TODO: Implement QR-G generation logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-25ac6695",
+      "priority": "critical",
+      "title": "Implement validation logic",
+      "file": "./candidate/governance/identity/core/qrs/qrg_generator.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 24,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/qrs/qrg_generator.py:        # TODO: Implement QR-G generation logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-941486ea",
+      "priority": "critical",
+      "title": "Implement cleanup logic",
+      "file": "./candidate/governance/identity/core/qrs/qrg_generator.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 28,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/qrs/qrg_generator.py:        # TODO: Implement QR-G generation logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: jules-02-batch-$(date +%m%d)",
+      "2. Work through 30 tasks systematically",
+      "3. One TaskID per commit",
+      "4. Focus: tier boundaries, validation, history",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(consent/scopes): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.154369Z",
+  "source": "Direct allocation from manifest_clean.json"
+}

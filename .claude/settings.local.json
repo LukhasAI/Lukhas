@@ -199,7 +199,10 @@
       "Bash(.venv/bin/pytest tests/unit/bio/core/test_bio_symbolic.py -v)",
       "Bash(.venv/bin/pytest tests/smoke/ --tb=no --disable-warnings -q)",
       "Bash(git reset:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(gh pr checks:*)",
+      "Bash(gh run view:*)",
+      "Bash(.venv/bin/pytest --collect-only -q --tb=line)"
     ],
     "deny": [],
     "ask": []

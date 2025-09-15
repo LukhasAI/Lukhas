@@ -174,6 +174,54 @@ def generate_operational_summary(reports):
     print("   4. Document operational capabilities")
 
 
+class LUKHASOperationalAnalyzer:
+    """
+    LUKHAS Operational Analysis Engine
+
+    Provides operational status analysis for LUKHAS consciousness system components.
+    Used by MCP server for system health monitoring and capability reporting.
+    """
+
+    def __init__(self):
+        self.reports = {}
+
+    def load_reports(self):
+        """Load all analysis reports"""
+        self.reports = load_analysis_reports()
+        return self.reports
+
+    def get_system_status(self):
+        """Get overall system operational status"""
+        if "functional" not in self.reports:
+            return {"status": "unknown", "message": "No functional analysis data available"}
+
+        func_data = self.reports["functional"]["system_capabilities"]
+        total_systems = len(func_data)
+        functional_systems = sum(1 for d in func_data.values() if d["status"] == "functional")
+
+        if functional_systems / total_systems >= 0.8:
+            status = "excellent"
+        elif functional_systems / total_systems >= 0.6:
+            status = "good"
+        elif functional_systems / total_systems >= 0.4:
+            status = "fair"
+        else:
+            status = "poor"
+
+        return {
+            "status": status,
+            "functional_systems": functional_systems,
+            "total_systems": total_systems,
+            "operational_rate": functional_systems / total_systems,
+        }
+
+    def generate_summary(self):
+        """Generate and return operational summary"""
+        if not self.reports:
+            self.load_reports()
+        generate_operational_summary(self.reports)
+
+
 def main():
     reports = load_analysis_reports()
     generate_operational_summary(reports)
