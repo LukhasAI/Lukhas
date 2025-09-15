@@ -1,6 +1,18 @@
 #!/usr/bin/env python3
 import logging
-from quantum.creative import QuantumCreativeComponent
+from typing import Any, Optional
+try:
+    from quantum.creative import QuantumCreativeComponent
+except ImportError:  # pragma: no cover - optional dependency
+
+    class QuantumCreativeComponent:  # type: ignore[override]
+        """Fallback quantum creative component base."""
+
+        async def initialize(self) -> None:  # pragma: no cover - minimal stub
+            return None
+
+        async def process(self, input_data: Any) -> Any:  # pragma: no cover - minimal stub
+            raise NotImplementedError("Quantum creative subsystem not available")
 
 logger = logging.getLogger(__name__)
 """
@@ -43,10 +55,40 @@ logger = logging.getLogger(__name__)
 import asyncio
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Any, Optional
 
 import numpy as np
-from qiskit import QuantumCircuit
+
+try:
+    from qiskit import QuantumCircuit
+except ImportError:  # pragma: no cover - optional dependency
+
+    class QuantumCircuit:  # type: ignore[override]
+        def __init__(self, *_args, **_kwargs) -> None:
+            self.operations = []
+
+        def append(self, *_args, **_kwargs) -> None:
+            self.operations.append(("append", _args, _kwargs))
+
+try:
+    from candidate.qi.engines.creativity.creative_q_expression import CreativeQuantumLikeState
+except Exception:  # pragma: no cover - fallback for sandboxed envs
+    @dataclass
+    class CreativeQuantumLikeState:  # type: ignore[override]
+        """Fallback creative quantum-like state."""
+
+        amplitude_vector: np.ndarray
+        entanglement_map: dict[str, float]
+        coherence_time: float
+        cultural_resonance: dict[str, float]
+        emotional_spectrum: np.ndarray
+
+        def collapse_to_expression(self) -> dict[str, Any]:
+            return {
+                "content": "Fallback quantum expression",
+                "modality": "quantum",
+                "metadata": {"coherence_time": self.coherence_time},
+            }
+
 
 
 @dataclass
@@ -132,7 +174,7 @@ class CognitiveState:
 class EnhancedCreativeState:
     """Enhanced creative state with bio-cognitive enhancements."""
 
-    base_state: Any  # "CreativeQuantumLikeState" - TODO: Define this type
+    base_state: CreativeQuantumLikeState
     cognitive_enhancement: CognitiveState
     synaptic_plasticity: float
     creative_flow_intensity: float
@@ -158,6 +200,26 @@ class ProtectedCreativeWork:
     original_work: CreativeExpression
     creator_identity: CreatorIdentity
     quantum_watermark: np.ndarray
+
+
+@dataclass
+class QuantumHaiku:
+    """Structured quantum haiku artefact returned by generators."""
+
+    # ΛTAG: creativity, quantum_haiku
+
+    content: str
+    modality: str = "haiku"
+    lines: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+    def __post_init__(self) -> None:
+        if not self.lines:
+            self.lines = self.content.split("\n")
+        self.metadata.setdefault(
+            "syllable_structure",
+            [len(line.split()) for line in self.lines if line.strip()],
+        )
     blockchain_hash: str
     license: str
     usage_rights: dict[str, Any]
@@ -784,10 +846,16 @@ class NeuroHaikuGenerator(QuantumCreativeComponent):
         """Generate a haiku with specified expansion depth."""
         return "Old pond\nFrog jumps in\nSound of water"
 
-    async def process(self, context: str) -> dict[str, Any]:  # TODO: Return QuantumHaiku when defined
+    async def process(self, context: str) -> QuantumHaiku:
+        """Return a structured quantum haiku artefact."""
+
+        # ΛTAG: creativity, haiku_process
         haiku_text = self.generate_haiku()
-        # return QuantumHaiku(content=haiku_text, modality="haiku", lines=haiku_text.split("\n"))
-        return {"content": haiku_text, "modality": "haiku", "lines": haiku_text.split("\n")}
+        return QuantumHaiku(
+            content=haiku_text,
+            lines=haiku_text.split("\n"),
+            metadata={"context": context, "affect_delta": 0.0},
+        )
 
 
 # Module validation and health

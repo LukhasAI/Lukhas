@@ -59,19 +59,20 @@ try:
 
 except ImportError as e:
     logger.warning(f"⚠️  Could not import lukhas.emotion: {e}")
+    error_msg = str(e)  # ΛTAG: emotion_import_error | TaskID: TODO-MED-EMOTION-__INIT__.PY-85a5d8bf
 
     # Fallback placeholder functions
     def process_emotion(*args, **kwargs):
         """Fallback emotion processing"""
-        return {"status": "emotion_unavailable", "error": str(e)}  # noqa: F821  # TODO: e
+        return {"status": "emotion_unavailable", "error": error_msg}
 
     def regulate_mood(*args, **kwargs):
         """Fallback mood regulation"""
-        return {"status": "mood_regulation_unavailable", "error": str(e)}  # noqa: F821  # TODO: e
+        return {"status": "mood_regulation_unavailable", "error": error_msg}
 
     def track_valence(*args, **kwargs):
         """Fallback valence tracking"""
-        return {"status": "valence_tracking_unavailable", "error": str(e)}  # noqa: F821  # TODO: e
+        return {"status": "valence_tracking_unavailable", "error": error_msg}
 
     def get_emotion_wrapper(*args, **kwargs):
         """Fallback emotion wrapper"""

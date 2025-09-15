@@ -1,7 +1,3 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - MEMORY VISUALIZER
@@ -41,14 +37,14 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-# Module imports
+import logging
 from dataclasses import dataclass
-from datetime import datetime  # timedelta not used
+from datetime import datetime, timezone  # timedelta not used
 from typing import Any, Optional
 
 import streamlit as st  # Streamlit available - enabled visualization
 
-# Configure module logger
+logger = logging.getLogger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -59,7 +55,11 @@ try:
     from ...qi_processing.qi_engine import QIOscillator
     from ..bio_awareness.qi_bio_components import ProtonGradient
 
-    logger.info("Successfully imported QIOscillator and ProtonGradient.", timezone)
+    # ΛTAG: robust_import
+    logger.info(
+        "Successfully imported QIOscillator and ProtonGradient.",
+        timezone=str(timezone.utc),
+    )
 except ImportError as e:
     logger.error(
         "Failed to import critical dependencies for MemoryVisualizer.",

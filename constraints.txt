@@ -20,7 +20,7 @@ urllib3>=2.0.0,<3.0.0  # URL handling security
 certifi>=2023.7.22  # Certificate validation
 
 # Data Validation & Serialization
-pydantic==2.11.4  # Type validation security
+pydantic==2.11.9  # Type validation security
 jsonschema==4.25.1  # JSON schema validation
 PyYAML==6.0.2  # YAML parsing security
 

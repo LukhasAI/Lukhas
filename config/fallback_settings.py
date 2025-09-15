@@ -34,6 +34,10 @@ class FallbackSettings:
 
     def __init__(self):
         """Initialize with safe defaults."""
+        # ΛTAG: fallback_validation
+        self.validation_summary: dict[str, Any] = {}
+        self.degraded_components: tuple[str, ...] = ()
+
         # Use centralized config if available, fallback to direct os.getenv
         try:
             from config.env import get_lukhas_config
@@ -53,12 +57,58 @@ class FallbackSettings:
             self.DEBUG: bool = os.getenv("DEBUG", "false").lower() == "true"
             logger.warning(
                 "Centralized config not available, using direct os.getenv"
-            )  # TODO[T4-AUDIT]: Validate fallback behavior
+            )
+            self._validate_fallback_behavior()
 
         # Fallback mode indicator
         self.FALLBACK_MODE: bool = True
 
         logger.warning("Using fallback configuration system - some features may be limited")
+
+    def _apply_safe_defaults(self) -> None:
+        """Ensure fallback values are normalized and safe."""
+        # ΛTAG: fallback_validation
+        if not self.DATABASE_URL:
+            self.DATABASE_URL = "sqlite:///lukhas_fallback.db"
+
+        if not self.REDIS_URL:
+            self.REDIS_URL = "redis://localhost:6379"
+
+        if not self.OPENAI_API_KEY:
+            self.OPENAI_API_KEY = None
+
+        normalized_level = str(self.LOG_LEVEL or "WARNING").upper()
+        if isinstance(logging.getLevelName(normalized_level), str):
+            logger.warning(
+                "Invalid log level '%s' for fallback configuration, defaulting to WARNING",
+                self.LOG_LEVEL,
+            )
+            normalized_level = "WARNING"
+
+        self.LOG_LEVEL = normalized_level
+
+    def _validate_fallback_behavior(self) -> None:
+        """Validate fallback configuration and capture degraded states."""
+        # ΛTAG: fallback_validation
+        self._apply_safe_defaults()
+
+        status = validate_fallback_config(self)
+        self.validation_summary = status
+
+        degraded = tuple(
+            key
+            for key in ("openai_configured", "database_configured", "redis_configured")
+            if not status.get(key, False)
+        )
+        self.degraded_components = degraded
+
+        if degraded:
+            logger.warning(
+                "Fallback configuration degraded states detected: %s",
+                ", ".join(degraded),
+            )
+        else:
+            logger.info("Fallback configuration validated successfully")
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""

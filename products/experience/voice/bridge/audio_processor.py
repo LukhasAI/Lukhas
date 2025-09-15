@@ -24,6 +24,9 @@ from typing import Any, Optional
 
 # Initialize structured logger
 
+import logging
+
+logger = logging.getLogger(__name__)  # ΛTAG: logger_setup
 
 class AudioProcessor:
     """
@@ -36,7 +39,7 @@ class AudioProcessor:
 
     def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
-        self.logger = logger  # noqa: F821  # TODO: logger
+        self.logger = logger  # ΛTAG: logger_init
         self.is_initialized = False
         self.status = "inactive"
 
@@ -198,19 +201,19 @@ if __name__ == "__main__":
 
         # Initialize
         success = await component.initialize()
-        logger.info(f"Initialization: {'success' if success else 'failed'}")  # noqa: F821  # TODO: logger
+        logger.info(f"Initialization: {'success' if success else 'failed'}")
 
         # Process some data
         result = await component.process({"test": "data"})
-        logger.info(f"Processing result: {result}")  # noqa: F821  # TODO: logger
+        logger.info(f"Processing result: {result}")
 
         # Validate
         valid = await component.validate()
-        logger.info(f"Validation: {'passed' if valid else 'failed'}")  # noqa: F821  # TODO: logger
+        logger.info(f"Validation: {'passed' if valid else 'failed'}")
 
         # Get status
         status = component.get_status()
-        logger.info(f"Status: {status}")  # noqa: F821  # TODO: logger
+        logger.info(f"Status: {status}")
 
         # Shutdown
         await component.shutdown()

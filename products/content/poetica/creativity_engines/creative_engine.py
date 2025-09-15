@@ -30,7 +30,7 @@ import asyncio
 import hashlib
 import json
 import time
-from collections import Counter, defaultdict, deque
+from collections import defaultdict, deque
 from collections.abc import Awaitable
 from dataclasses import dataclass, field
 from enum import Enum, auto
@@ -43,21 +43,76 @@ from typing import (
     TypeVar,
 )
 
-import aioredis
+try:
+    import aioredis  # type: ignore[import-not-found]
+except ImportError:  # pragma: no cover - optional dependency
+    aioredis = None
 import numpy as np
 
 # from prometheus_client import Counter, Histogram, Gauge
-import torch
-from torch.nn import functional as F
+try:
+    import torch
+    from torch.nn import functional as F
+except ImportError:  # pragma: no cover - optional dependency
+    torch = None
+
+    class _TorchFunctionalFallback:
+        @staticmethod
+        def cosine_similarity(*_args, **_kwargs):
+            return 0.0
+
+    F = _TorchFunctionalFallback()  # type: ignore[assignment]
 
 # Type definitions
 T = TypeVar("T")
 CreativeOutput = TypeVar("CreativeOutput")
 
 # Metrics collection
-HAIKU_GENERATION_TIME = Histogram("haiku_generation_seconds", "Time spent generating haiku")  # noqa: F821  # TODO: Histogram
-CREATIVE_REQUESTS_TOTAL = Counter("creative_requests_total", "Total creative requests", ["type", "status"])
-ACTIVE_GENERATORS = Gauge("active_generators", "Number of active generators")  # noqa: F821  # TODO: Gauge
+try:
+    from prometheus_client import Counter as PrometheusCounter, Gauge, Histogram
+except ImportError:  # pragma: no cover - fallback when prometheus_client missing
+
+    class _MetricStub:
+        def __init__(self, *args, **kwargs) -> None:
+            self._labels = kwargs.get("labelnames", [])
+
+        def labels(self, *args, **kwargs):  # type: ignore[override]
+            return self
+
+        def observe(self, *_args, **_kwargs) -> None:
+            pass
+
+        def inc(self, *_args, **_kwargs) -> None:
+            pass
+
+        def dec(self, *_args, **_kwargs) -> None:
+            pass
+
+        def set(self, *_args, **_kwargs) -> None:
+            pass
+
+        def time(self):
+            from contextlib import contextmanager
+
+            @contextmanager
+            def _timer():
+                yield
+
+            return _timer()
+
+    class Histogram(_MetricStub):
+        pass
+
+    class Gauge(_MetricStub):
+        pass
+
+    class PrometheusCounter(_MetricStub):
+        pass
+
+# ΛTAG: creativity, metrics
+HAIKU_GENERATION_TIME = Histogram("haiku_generation_seconds", "Time spent generating haiku")
+CREATIVE_REQUESTS_TOTAL = PrometheusCounter("creative_requests_total", "Total creative requests", ["type", "status"])
+ACTIVE_GENERATORS = Gauge("active_generators", "Number of active generators")
 
 # Structured logging
 
