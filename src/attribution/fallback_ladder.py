@@ -619,6 +619,8 @@ class BehavioralAnalyzer:
 
     def __init__(self, config: dict[str, Any]):
         self.config = config
+        self.enabled = config.get("enabled", True)
+        self.required_confidence = config.get("confidence_threshold", 0.6)
 
     async def infer_attribution(
         self, user_id: str, purchase_data: dict[str, Any], context: dict[str, Any]
@@ -627,19 +629,33 @@ class BehavioralAnalyzer:
         Infer attribution based on behavioral patterns
         """
 
+        if not self.enabled:
+            return {
+                "attribution_likely": False,
+                "confidence": 0.0,
+                "signals": {},
+                "pattern": "behavioral_disabled",
+            }
+
         # Collect behavioral signals
-        signals = await self._collect_behavioral_signals(user_id, purchase_data)
+        signals = await self._collect_behavioral_signals(user_id, purchase_data, context)
 
         # Analyze patterns
         pattern_score = self._analyze_attribution_patterns(signals, purchase_data)
 
-        if pattern_score > 0.6:
+        likely_opportunity_id = signals.get("likely_opportunity_id")
+        if not likely_opportunity_id and context.get("affiliate_params"):
+            likely_opportunity_id = context["affiliate_params"].get("opportunity_id")
+            if likely_opportunity_id:
+                signals["likely_opportunity_id"] = likely_opportunity_id
+
+        if pattern_score >= self.required_confidence:
             return {
                 "attribution_likely": True,
                 "confidence": pattern_score,
                 "signals": signals,
                 "pattern": "lukhas_influenced_purchase",
-                "opportunity_id": signals.get("likely_opportunity_id"),
+                "opportunity_id": likely_opportunity_id,
             }
 
         return {
@@ -649,12 +665,14 @@ class BehavioralAnalyzer:
             "pattern": "no_clear_pattern",
         }
 
-    async def _collect_behavioral_signals(self, user_id: str, purchase_data: dict[str, Any]) -> dict[str, Any]:
+    async def _collect_behavioral_signals(
+        self, user_id: str, purchase_data: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Collect behavioral signals for analysis"""
 
         # This would query user behavior databases
         # For now, return mock signals
-        return {
+        signals = {
             "recent_lukhas_interactions": 3,
             "product_views_before_purchase": 5,
             "time_between_last_interaction_and_purchase": 7200,  # 2 hours
@@ -662,6 +680,21 @@ class BehavioralAnalyzer:
             "price_comparison_behavior": True,
             "typical_purchase_pattern": "research_then_buy",
         }
+
+        # ΛTAG: behavioral_inference_enhancement
+        affiliate_params = context.get("affiliate_params", {}) if context else {}
+        if affiliate_params:
+            signals["affiliate_source"] = affiliate_params.get("source")
+            signals["likely_opportunity_id"] = affiliate_params.get("opportunity_id")
+
+        session_data = context.get("session_data", {}) if context else {}
+        if session_data:
+            signals["session_device"] = session_data.get("device")
+
+        if context.get("recent_opportunities"):
+            signals.setdefault("likely_opportunity_id", context["recent_opportunities"][0])
+
+        return signals
 
     def _analyze_attribution_patterns(self, signals: dict[str, Any], purchase_data: dict[str, Any]) -> float:
         """Analyze behavioral patterns for attribution likelihood"""

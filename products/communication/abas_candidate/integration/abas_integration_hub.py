@@ -11,7 +11,7 @@ from analysis_tools.audit_decision_embedding_engine import DecisionAuditEngine
 
 from candidate.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
 
-# from abas.core.abas_engine import ABASEngine
+from products.communication.abas_candidate.core.abas_engine import ABASEngine  # ΛTAG: abas_core_integration
 from ethics.core.shared_ethics_engine import SharedEthicsEngine
 from ethics.seedra.seedra_core import SEEDRACore
 
@@ -34,7 +34,7 @@ class ABASIntegrationHub:
 
     def __init__(self):
         self.trio_orchestrator = TrioOrchestrator()
-        self.abas_engine = ABASEngine()  # noqa: F821  # TODO: ABASEngine
+        self.abas_engine = ABASEngine()
         self.ethics_engine = SharedEthicsEngine()
         self.audit_engine = DecisionAuditEngine()
         self.seedra = SEEDRACore()

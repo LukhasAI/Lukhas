@@ -2,10 +2,13 @@
 
 import asyncio
 import tempfile
+from datetime import datetime
 
 from candidate.governance.security.audit_system import (
+    AuditCategory,
     AuditEvent,
     AuditEventType,
+    AuditLevel,
     ComprehensiveAuditSystem,
 )
 
@@ -21,10 +24,10 @@ async def debug_kwargs_issue():
         # Test 1: Create AuditEvent directly
         direct_event = AuditEvent(
             event_id="test_direct",
-            timestamp=datetime.now(),  # noqa: F821  # TODO: datetime
+            timestamp=datetime.now(),
             event_type=AuditEventType.DATA_READ,
-            category=AuditCategory.SYSTEM_EVENT,  # noqa: F821  # TODO: AuditCategory
-            level=AuditLevel.INFO,  # noqa: F821  # TODO: AuditLevel
+            category=AuditCategory.SYSTEM_EVENT,
+            level=AuditLevel.INFO,
             message="Direct event",
             compliance_relevant=True,
             compliance_frameworks={"gdpr"},

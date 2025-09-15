@@ -8,6 +8,7 @@ import asyncio
 import json
 import logging
 import sys
+from typing import Any, Optional
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -19,9 +20,9 @@ try:
     from mcp.server.models import InitializationOptions
     from mcp.server.stdio import stdio_server
     from mcp.types import (
-        CallToolRequest,  # noqa: F401  # TODO: mcp.types.CallToolRequest; con...
-        ListResourcesRequest,  # noqa: F401  # TODO: mcp.types.ListResourcesRequest...
-        ListToolsRequest,  # noqa: F401  # TODO: mcp.types.ListToolsRequest; co...
+        CallToolRequest,
+        ListResourcesRequest,
+        ListToolsRequest,
         Resource,
         TextContent,
         Tool,
@@ -42,7 +43,9 @@ class LUKHASMCPServer:
         """Setup MCP request handlers"""
 
         @self.server.list_resources()
-        async def list_resources() -> list[Resource]:
+        async def list_resources(
+            request: Optional[ListResourcesRequest] = None,
+        ) -> list[Resource]:  # ΛTAG: mcp_request_context
             """List available LUKHAS consciousness resources"""
             return [
                 Resource(
@@ -122,7 +125,9 @@ class LUKHASMCPServer:
                 return f"Resource not found: {uri}"
 
         @self.server.list_tools()
-        async def list_tools() -> list[Tool]:
+        async def list_tools(
+            request: Optional[ListToolsRequest] = None,
+        ) -> list[Tool]:  # ΛTAG: mcp_request_context
             """List available LUKHAS consciousness tools"""
             return [
                 Tool(
@@ -144,7 +149,11 @@ class LUKHASMCPServer:
             ]
 
         @self.server.call_tool()
-        async def call_tool(name: str, arguments: dict) -> list[TextContent]:
+        async def call_tool(
+            name: str,
+            arguments: dict[str, Any],
+            request: Optional[CallToolRequest] = None,
+        ) -> list[TextContent]:  # ΛTAG: mcp_request_context
             """Execute LUKHAS consciousness tool"""
 
             if name == "consciousness_analyze":

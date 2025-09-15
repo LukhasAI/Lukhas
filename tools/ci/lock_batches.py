@@ -12,6 +12,7 @@ Locks batch files to prevent duplicate task assignment:
 import argparse
 import json
 import hashlib
+import re
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Any, Set
@@ -36,8 +37,21 @@ class BatchLocker:
 
         print(f"Locking {len(batch_files)} batch files...")
 
+        seen_batches = set()
         for batch_file in batch_files:
             self._process_batch_file(batch_file)
+            batch_id = self.batch_registry.get(Path(batch_file).stem, {}).get("batch_id")
+            if batch_id:
+                if batch_id in seen_batches:
+                    self.conflicts.append(
+                        {
+                            "task_id": "BATCH_DUPLICATE",
+                            "reason": f"Duplicate batch identifier detected: {batch_id}",
+                            "current_batch": batch_id,
+                            "file": str(batch_file),
+                        }
+                    )
+                seen_batches.add(batch_id)
 
         # Create registry
         registry = self._create_registry(batch_dir)
@@ -194,8 +208,12 @@ class BatchLocker:
         if priority not in valid_priorities:
             return False
 
+        module = parts[2]
+        if not re.fullmatch(r"[A-Z0-9-]+", module):
+            return False
+
         hash_part = parts[3]
-        if len(hash_part) != 8:
+        if len(hash_part) != 8 or not re.fullmatch(r"[0-9a-fA-F]{8}", hash_part):
             return False
 
         return True
