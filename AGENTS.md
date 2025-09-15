@@ -89,7 +89,97 @@ To get started with Jules agents for test development, follow these steps:
 
 > ⚠️ NOTE — Jules tasks are currently happening: Do NOT delete or remove any Jules-related sections or files while this work is in progress. Preserve all Jules assignments, configs, and docs until the Jules program is explicitly closed.
 
-## 🏗️ Agent System Architecture
+## 🏗️ T4-COMPLIANT TODO COORDINATION SYSTEM
+
+**Implementation Status**: ACTIVE - PLANNING_TODO.md Section 1.3 Compliance
+**Run ID**: LUKHAS-RUN-2025-09-15-CLEAN
+**Manifest**: 1,129 TODOs (11 completed, 1,118 open)
+
+### **Agent Roster & Capabilities Matrix**
+
+#### **Operating Principles (T4 Lens)**
+- **Skepticism First**: Never trust TODO without checking codebase and git history
+- **Evidence-Based**: Status = proven by grep/tests/CI, not wishful comments
+- **Atomic Discipline**: Every change traceable to TaskID with reproducible verification
+- **Batch Discipline**: 25-30 tasks/agent/cycle (40 for mechanical edits)
+- **Risk Gating**: QI/cryptography/Guardian safety behind feature flags
+
+#### **Agent Specialization Matrix**
+
+**🔥 Jules Agents (Complex Logic & Cross-Module Integration)**
+- **Jules-01..03**: Identity/Governance/Guardian (complex, cross-module)
+  - Identity core (ΛTRACE persistence; audit chain linking)
+  - Consent/Scopes (tier boundaries, validation, history → ΛTRACE)
+  - SSO/biometrics/symbolic challenge (gated, mocked)
+  - Capabilities: Cross-module integration, complex business logic, Trinity Framework alignment
+  - Risk Level: HIGH - Requires Claude Code review for critical changes
+
+- **Jules-04..05**: Orchestration/Consciousness (complex logic)
+  - Awareness protocol reconciliation with ΛTIER
+  - Guardian ethics advanced intent + governance forwarding
+  - Capabilities: Complex consciousness systems, orchestration workflows
+  - Risk Level: HIGH - Safety boundaries, consciousness engines
+
+- **Jules-06..08**: QI/Entropy/QRG scaffolding (experimental, guarded)
+  - QRG generator & session replay scaffolding
+  - Wallet/QI bridges (init placeholders, interfaces)
+  - Quantum entropy stubs + interfaces (no prod)
+  - Capabilities: Experimental quantum systems, prototype development
+  - Risk Level: CRITICAL - Feature flags required, no production deployment
+
+- **Jules-09..10**: Dashboards/Monitoring/Docs wiring
+  - Compliance/Guardian dashboards (data wiring)
+  - Tests: integration identity imports + e2e glue
+  - Capabilities: UI integration, monitoring systems, documentation
+  - Risk Level: MEDIUM - Dashboard widgets, test infrastructure
+
+**⚙️ Codex Agents (Mechanical Fixes & Code Generation)**
+- **Codex-01..06**: Mechanical fixes (imports, undefined names, renames, docstring enforcement)
+  - F821/undefined names/imports/renames/docstrings
+  - Batch Size: 30-40 tasks (mechanical efficiency)
+  - Capabilities: Systematic code cleanup, import optimization, linting fixes
+  - Risk Level: LOW - Automated verification, low business logic impact
+
+- **Codex-07..10**: Codegen stubs, template wiring, perf micro-tweaks
+  - Dashboard widgets, perf micro-tweaks, stub factories
+  - Batch Size: 30 tasks
+  - Capabilities: Code generation, template systems, performance optimization
+  - Risk Level: LOW-MEDIUM - Template compliance, performance metrics
+
+**🧠 Claude Code**: Allocator, verifier, integrator, reviewer of risky changes
+- Responsibilities: Critical review, allocation coordination, merge verification
+- Focus: All critical TODOs, Guardian/Identity/Consciousness changes
+- Capabilities: T4 verification, evidence validation, system integration
+- Authority: Final approval on high-risk changes, batch coordination
+
+#### **Batch Allocation Status**
+
+| Agent | Domain | Allocated Tasks | Batch ID | Status | Expires |
+|-------|--------|----------------|----------|---------|---------|
+| Jules-01 | Identity Core | 25 | BATCH-JULES01-2025-09-15-01 | Ready | 72h |
+| Jules-02 | Consent/Scopes | 25 | BATCH-JULES02-2025-09-15-01 | Ready | 72h |
+| Jules-03 | SSO/Biometrics | 25 | BATCH-JULES03-2025-09-15-01 | Ready | 72h |
+| Jules-04 | Awareness/ΛTIER | 20 | BATCH-JULES04-2025-09-15-01 | Ready | 72h |
+| Jules-05 | Guardian Ethics | 20 | BATCH-JULES05-2025-09-15-01 | Ready | 72h |
+| Jules-06 | QRG Generator | 20 | BATCH-JULES06-2025-09-15-01 | Ready | 72h |
+| Jules-07 | Wallet/QI Bridges | 20 | BATCH-JULES07-2025-09-15-01 | Ready | 72h |
+| Jules-08 | Quantum Entropy | 20 | BATCH-JULES08-2025-09-15-01 | Ready | 72h |
+| Jules-09 | Dashboards | 6 | BATCH-JULES09-2025-09-15-01 | Ready | 72h |
+| Jules-10 | Testing/E2E | 6 | BATCH-JULES10-2025-09-15-01 | Ready | 72h |
+| Codex-01 | F821 Fixes | 6 | BATCH-CODEX01-2025-09-15-01 | Ready | 72h |
+| Codex-02 | Import Cleanup | 6 | BATCH-CODEX02-2025-09-15-01 | Ready | 72h |
+| Codex-03 | Docstring Fixes | 6 | BATCH-CODEX03-2025-09-15-01 | Ready | 72h |
+| Codex-04 | Rename Operations | 6 | BATCH-CODEX04-2025-09-15-01 | Ready | 72h |
+| Codex-05 | Lint Compliance | 6 | BATCH-CODEX05-2025-09-15-01 | Ready | 72h |
+| Codex-06 | Code Cleanup | 5 | BATCH-CODEX06-2025-09-15-01 | Ready | 72h |
+| Codex-07 | Widget Generation | 30 | BATCH-CODEX07-2025-09-15-01 | Ready | 72h |
+| Codex-08 | Template Systems | 30 | BATCH-CODEX08-2025-09-15-01 | Ready | 72h |
+| Codex-09 | Perf Optimization | 30 | BATCH-CODEX09-2025-09-15-01 | Ready | 72h |
+| Codex-10 | Stub Factories | 30 | BATCH-CODEX10-2025-09-15-01 | Ready | 72h |
+
+**Total Allocated**: 406 tasks across 20 agent batches
+
+## 🏗️ Legacy Agent System Architecture
 
 LUKHAS employs a multi-layered agent system with different specializations and deployment methods:
 

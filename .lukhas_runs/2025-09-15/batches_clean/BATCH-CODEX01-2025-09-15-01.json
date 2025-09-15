@@ -1,0 +1,156 @@
+{
+  "batch_id": "BATCH-CODEX01-2025-09-15-01",
+  "agent": "codex01",
+  "created_at": "2025-09-15T01:32:13.854886Z",
+  "expires_at": "2025-09-18T01:32:13.854887Z",
+  "branch_name": "feat/codex01/candidate-batch01",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BIO-cdf7a7ea",
+      "priority": "high",
+      "title": "specialist] - Import timezone for UTC enforcement",
+      "file": "./candidate/bio/qi.py",
+      "line_hint": 88,
+      "module": "candidate/bio",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/bio/qi.py:    from datetime import (  # TODO[QUANTUM-BIO:specialist] - Import timezone for UTC enforcement",
+        "last_commit": "f203cbd2b8e04c94dfc42644ca019cfb993693ef"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-da5e5694",
+      "priority": "high",
+      "title": "implement import logic for market replay",
+      "file": "./candidate/core/symbolic/creative_market.py",
+      "line_hint": 120,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/creative_market.py:    # \u2705 TODO: implement import logic for market replay",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-f717df47",
+      "priority": "high",
+      "title": "Import and call push_symbolic_message, log each decision",
+      "file": "./candidate/core/interfaces/as_agent/sys/nias/delivery_loop.py",
+      "line_hint": 44,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/interfaces/as_agent/sys/nias/delivery_loop.py:        # TODO: Import and call push_symbolic_message, log each decision",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-1282200f",
+      "priority": "high",
+      "title": "Review deep relative imports for robustness.",
+      "file": "./candidate/memory/visualizer.py",
+      "line_hint": 57,
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/memory/visualizer.py:# AIMPORT_TODO: Review deep relative imports for robustness.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-POETRY-f03a7a34",
+      "priority": "med",
+      "title": "Implement poetry imports",
+      "file": "./branding/poetry/update_poetry_imports.py",
+      "line_hint": 47,
+      "module": "branding/poetry",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./branding/poetry/update_poetry_imports.py:            \"from branding.poetry.legacy import advanced_haiku_generator  # TODO: Migrate to new soul.py\",",
+        "last_commit": "2dbb64ac67508b2c9be663e72060eb6e6884f8aa"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-RL-RUN_ADVANCED_TESTS.PY-56c3afc6",
+      "priority": "low",
+      "title": "torch; consider using importli...",
+      "file": "./rl/run_advanced_tests.py",
+      "line_hint": 43,
+      "module": "rl/run_advanced_tests.py",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./rl/run_advanced_tests.py:        import hypothesis  # noqa: F401  # TODO: hypothesis; consider using imp...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    }
+  ],
+  "summary": {
+    "total_tasks": 6,
+    "by_priority": {
+      "high": 4,
+      "med": 1,
+      "low": 1
+    },
+    "by_type": {
+      "mechanical": 6
+    },
+    "by_risk": {
+      "low": 6
+    }
+  },
+  "dependencies": [],
+  "checks": [
+    "ruff check .",
+    "pytest -q",
+    "pre-commit run --all-files"
+  ]
+}

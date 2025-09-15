@@ -1,0 +1,660 @@
+{
+  "batch_id": "BATCH-CODEX08-2025-09-15-01",
+  "agent": "codex08",
+  "created_at": "2025-09-15T01:32:13.857778Z",
+  "expires_at": "2025-09-18T01:32:13.857779Z",
+  "branch_name": "feat/codex08/candidate-batch01",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-f0ebcdba",
+      "priority": "med",
+      "title": "W",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 4,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-60c4c904",
+      "priority": "med",
+      "title": "\"",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 29,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-60c4c904",
+      "priority": "med",
+      "title": "\"",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 132,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-65ad88c6",
+      "priority": "med",
+      "title": "\")",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 168,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-4e509bc9",
+      "priority": "med",
+      "title": ")",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 222,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-4e509bc9",
+      "priority": "med",
+      "title": ")",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 258,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-VOCABULARIES-341d9651",
+      "priority": "med",
+      "title": "detected_objects",
+      "file": "./branding/vocabularies/vocabulary_creativity_engine.py",
+      "line_hint": 1010,
+      "module": "branding/vocabularies",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./branding/vocabularies/vocabulary_creativity_engine.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-VOCABULARIES-0d60ab64",
+      "priority": "med",
+      "title": "implement missing functionality",
+      "file": "./branding/vocabularies/vocabulary.py",
+      "line_hint": 33,
+      "module": "branding/vocabularies",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./branding/vocabularies/vocabulary.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "12697f524064ea2c23c1251e38a0b906589cf9cf"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-POETRY-d5d87827",
+      "priority": "med",
+      "title": "implement missing functionality",
+      "file": "./branding/poetry/cliche_analysis.py",
+      "line_hint": 20,
+      "module": "branding/poetry",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./branding/poetry/cliche_analysis.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-ENGINES-0b018fdc",
+      "priority": "med",
+      "title": "healing_result",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_force_abot_healing.py",
+      "line_hint": 54,
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_force_abot_healing.py:# TODO: Implement result processing",
+        "last_commit": "b6adabb2b7676b2b815a648d53f1d13a59ceff8c"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-ENGINES-8fa6ecc4",
+      "priority": "med",
+      "title": "\u039biD.trauma_lock.TraumaLockSyst...",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_cli.py",
+      "line_hint": 463,
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_cli.py:        from \u039biD.identity_manager import Identitymanager  # noqa: F401  # TODO: \u039biD.identity_manager.Identitym...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-ENGINES-0ef5b227",
+      "priority": "med",
+      "title": "implement missing functionality",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_designer.py",
+      "line_hint": 13,
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_designer.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-ENGINES-396fb540",
+      "priority": "med",
+      "title": "direct_result",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_free_abot_direct.py",
+      "line_hint": 65,
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_free_abot_direct.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "b6adabb2b7676b2b815a648d53f1d13a59ceff8c"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-ENGINES-e70756ad",
+      "priority": "med",
+      "title": "implement missing functionality",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_financial_intelligence.py",
+      "line_hint": 15,
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_financial_intelligence.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-BRANDING_BRIDGE.PY-98879368",
+      "priority": "med",
+      "title": "kept pending MATRIZ wiring (document or remove)",
+      "file": "./candidate/branding_bridge.py",
+      "line_hint": 154,
+      "module": "candidate/branding_bridge.py",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f869d7ac01b8f36fdeff3091894843582545fce0"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-BRIDGE-b1a870ae",
+      "priority": "med",
+      "title": "Aggregate trace statistics",
+      "file": "./candidate/bridge/trace_logger.py",
+      "line_hint": 239,
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./candidate/bridge/trace_logger.py:        # TODO: Configure file rotation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-BRIDGE-3d55c6c9",
+      "priority": "med",
+      "title": "Add example",
+      "file": "./candidate/bridge/examples/basic/example.py",
+      "line_hint": 7,
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./candidate/bridge/examples/basic/example.py:# TODO: Add example",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-856a0a00",
+      "priority": "med",
+      "title": "Implement comprehensive risk assessment",
+      "file": "./candidate/governance/healthcare/decision_support.py",
+      "line_hint": 298,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-945397ec",
+      "priority": "med",
+      "title": "Implement evidence-based treatment planning",
+      "file": "./candidate/governance/healthcare/decision_support.py",
+      "line_hint": 433,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-7897c690",
+      "priority": "med",
+      "title": "Forward to main governance audit system",
+      "file": "./candidate/governance/healthcare/decision_support.py",
+      "line_hint": 538,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-be857682",
+      "priority": "med",
+      "title": "Implement moral reasoning logic here.",
+      "file": "./candidate/governance/ethics/moral_agent_template.py",
+      "line_hint": 22,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/ethics/moral_agent_template.py:        # TODO: Implement moral reasoning logic here.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-3bcfe36e",
+      "priority": "med",
+      "title": "Install or implement streamlit",
+      "file": "./candidate/governance/ethics_legacy/safety/compliance_dashboard_visual.py",
+      "line_hint": 17,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/ethics_legacy/safety/compliance_dashboard_visual.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-MIGRATION-81a9c4fa",
+      "priority": "med",
+      "title": "replace with your audit/metrics logger",
+      "file": "./candidate/migration/read_strategy.py",
+      "line_hint": 24,
+      "module": "candidate/migration",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./candidate/migration/read_strategy.py:                # TODO: replace with your audit/metrics logger",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-EMOTION-e123dfc8",
+      "priority": "med",
+      "title": "This method should:",
+      "file": "./candidate/emotion/dreamseed_upgrade.py",
+      "line_hint": 270,
+      "module": "candidate/emotion",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./candidate/emotion/dreamseed_upgrade.py:# TODO: Update to use unified tier system",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-AKA_QUALIA-0c0c05da",
+      "priority": "med",
+      "title": "Use actual user ID from context",
+      "file": "./candidate/aka_qualia/core.py",
+      "line_hint": 975,
+      "module": "candidate/aka_qualia",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./candidate/aka_qualia/core.py:                    user_id=\"system\",  # TODO: Use actual user ID from context",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CONFIG-READ_SETTINGS.PY-000d4cb5",
+      "priority": "med",
+      "title": "Ensure settings_loader.py is robustly available in the",
+      "file": "./config/read_settings.py",
+      "line_hint": 47,
+      "module": "config/read_settings.py",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./config/read_settings.py:# AIMPORT_TODO: Ensure settings_loader.py is robustly available in the",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-EMOTION-__INIT__.PY-85a5d8bf",
+      "priority": "med",
+      "title": "e",
+      "file": "./emotion/__init__.py",
+      "line_hint": 74,
+      "module": "emotion/__init__.py",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./emotion/__init__.py:        return {\"status\": \"emotion_unavailable\", \"error\": str(e)}  # noqa: F821  # TODO: e",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-FIX_SYNTAX_ERRORS_V2.PY-aa0a3e75",
+      "priority": "med",
+      "title": "n",
+      "file": "./fix_syntax_errors_v2.py",
+      "line_hint": 70,
+      "module": "fix_syntax_errors_v2.py",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./fix_syntax_errors_v2.py:Handles more complex patterns and TODO marker issues.",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-HYBRID_MEMORY_FOLD.PY-5dec6944",
+      "priority": "med",
+      "title": ":",
+      "file": "./hybrid_memory_fold.py",
+      "line_hint": 10,
+      "module": "hybrid_memory_fold.py",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./hybrid_memory_fold.py:\ud83d\udccb TODO FOR AGENT INTEGRATION:",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-PRODUCTS-COMMUNICATION-be4bffb0",
+      "priority": "med",
+      "title": "ABASEngine",
+      "file": "./products/communication/abas_candidate/integration/abas_integration_hub.py",
+      "line_hint": 37,
+      "module": "products/communication",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./products/communication/abas_candidate/integration/abas_integration_hub.py:        self.abas_engine = ABASEngine()  # noqa: F821  # TODO: ABASEngine",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    }
+  ],
+  "summary": {
+    "total_tasks": 30,
+    "by_priority": {
+      "med": 30
+    },
+    "by_type": {
+      "logic": 30
+    },
+    "by_risk": {
+      "low": 25,
+      "med": 4,
+      "high": 1
+    }
+  },
+  "dependencies": [],
+  "checks": [
+    "ruff check .",
+    "pytest -q",
+    "pre-commit run --all-files"
+  ]
+}

@@ -1,0 +1,649 @@
+{
+  "batch_id": "BATCH-CODEX01-2025-09-15-01",
+  "agent": "codex01",
+  "created_at": "2025-09-15T01:41:37.124236Z",
+  "expires_at": "2025-09-18T01:41:37.124239Z",
+  "branch_name": "feat/codex01/f821-fixes-batch01",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-CORE-9156b4ea",
+      "priority": "critical",
+      "title": "Fix 19 F821 undefined name errors - Framework integration fixes, class name corrections, variable definitions",
+      "file": "./candidate/core/framework_integration.py",
+      "line_hint": 1,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/framework_integration.py:# TODO[JULES-1]: Fix 19 F821 undefined name errors - Framework integration fixes, class name corrections, variable definitions",
+        "last_commit": "176aa1406ea1bba7e8a87355a125f0d1782be0af"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-ORCHESTRATION-4d81575f",
+      "priority": "critical",
+      "title": "Fix 19 F821 undefined name errors - Focus on service integration patterns, fix_later placeholders, and import fallbacks",
+      "file": "./candidate/orchestration/openai_modulated_service.py",
+      "line_hint": 1,
+      "module": "candidate/orchestration",
+      "trinity": "null",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/orchestration/openai_modulated_service.py:TODO[JULES-1]: Fix 19 F821 undefined name errors - Focus on service integration patterns, fix_later placeholders, and import fallbacks",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-cf47a643",
+      "priority": "critical",
+      "title": "Fix 19 F821 undefined name errors - Drift dashboard visualization, chart/graph undefined references, display fixes",
+      "file": "./candidate/governance/drift_dashboard_visual.py",
+      "line_hint": 1,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/drift_dashboard_visual.py:TODO[JULES-2]: Fix 19 F821 undefined name errors - Drift dashboard visualization, chart/graph undefined references, display fixes",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-bda5b02b",
+      "priority": "critical",
+      "title": "Fix 19 F821 undefined name errors - Dashboard visualization fixes, Streamlit import fallbacks, undefined widget references",
+      "file": "./candidate/governance/compliance_dashboard_visual.py",
+      "line_hint": 1,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/compliance_dashboard_visual.py:TODO[JULES-2]: Fix 19 F821 undefined name errors - Dashboard visualization fixes, Streamlit import fallbacks, undefined widget references",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TESTS-INTEGRATION-bfeaecb6",
+      "priority": "critical",
+      "title": "Fix imports after reviewing actual identity architecture",
+      "file": "./tests/integration/candidate/identity/test_trinity_validation.py",
+      "line_hint": 14,
+      "module": "tests/integration",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./tests/integration/candidate/identity/test_trinity_validation.py:# TODO: Fix imports after reviewing actual identity architecture",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TESTS-INTEGRATION-15bf59f9",
+      "priority": "critical",
+      "title": "Fix imports after reviewing actual identity architecture",
+      "file": "./tests/integration/candidate/identity/test_constellation_validation.py",
+      "line_hint": 14,
+      "module": "tests/integration",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./tests/integration/candidate/identity/test_constellation_validation.py:# TODO: Fix imports after reviewing actual identity architecture",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BIO-cdf7a7ea",
+      "priority": "high",
+      "title": "specialist] - Import timezone for UTC enforcement",
+      "file": "./candidate/bio/qi.py",
+      "line_hint": 88,
+      "module": "candidate/bio",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/bio/qi.py:    from datetime import (  # TODO[QUANTUM-BIO:specialist] - Import timezone for UTC enforcement",
+        "last_commit": "f203cbd2b8e04c94dfc42644ca019cfb993693ef"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-a475ba49",
+      "priority": "high",
+      "title": "specialist] - Fix cross-lane import dependencies for consciousness mesh formation",
+      "file": "./candidate/core/symbolic_legacy/colony_tag_propagation.py",
+      "line_hint": 5,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_legacy/colony_tag_propagation.py:# TODO[GLYPH:specialist] - Fix cross-lane import dependencies for consciousness mesh formation",
+        "last_commit": "d84f24154c21de7e05c16e108d7bcce86f034a59"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-04b373e2",
+      "priority": "high",
+      "title": "Resolve 'CORE.' import paths. Ensure CORE is a top-level",
+      "file": "./candidate/core/integrator.py",
+      "line_hint": 42,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/integrator.py:# \u039bIMPORT_TODO: Resolve 'CORE.' import paths. Ensure CORE is a top-level",
+        "last_commit": "f203cbd2b8e04c94dfc42644ca019cfb993693ef"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-017e094a",
+      "priority": "high",
+      "title": "specialist] - Fix cross-lane import dependencies for consciousness mesh formation",
+      "file": "./candidate/core/symbolic_core/colony_tag_propagation.py",
+      "line_hint": 5,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_core/colony_tag_propagation.py:    # TODO[GLYPH:specialist] - Implement consciousness node base class fallback",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-19ae258d",
+      "priority": "high",
+      "title": "kept for multi-AI agent coordination",
+      "file": "./candidate/core/orchestration/agent_orchestrator.py",
+      "line_hint": 26,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/orchestration/agent_orchestrator.py:                # TODO: Reassign or cancel tasks",
+        "last_commit": "d9979b4c7379a6da7419e37517bdd86bddfac8e2"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-f6a5edcb",
+      "priority": "high",
+      "title": "Reassign or cancel tasks",
+      "file": "./candidate/core/orchestration/agent_orchestrator.py",
+      "line_hint": 232,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/orchestration/agent_orchestrator.py:                # TODO: Reassign or cancel tasks",
+        "last_commit": "d9979b4c7379a6da7419e37517bdd86bddfac8e2"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-3303d4a2",
+      "priority": "high",
+      "title": "specialist] Fix syntax error - missing 'self\\' parameter in __init__ method",
+      "file": "./candidate/core/orchestration/brain/symbol_validator.py",
+      "line_hint": 138,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/orchestration/brain/symbol_validator.py:    # TODO[CONSCIOUSNESS:specialist] Fix syntax error - missing 'self\\' parameter in __init__ method",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-b21b6026",
+      "priority": "high",
+      "title": "specialist] Fix syntax error - unmatched parentheses in color mapping",
+      "file": "./candidate/core/orchestration/brain/visualization/healix_visualizer.py",
+      "line_hint": 277,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/orchestration/brain/visualization/healix_visualizer.py:                        # TODO[CONSCIOUSNESS:specialist] Fix syntax error - unmatched parentheses in color mapping",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-0d1c540f",
+      "priority": "high",
+      "title": "Install or implement AID",
+      "file": "./candidate/core/orchestration/brain/visualization/memory_helix_visualizer.py",
+      "line_hint": 32,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/orchestration/brain/visualization/memory_helix_visualizer.py:# from ...AID.core.lambda_id import ID, AccessTier  # TODO: Install or implement AID",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-e58257d8",
+      "priority": "high",
+      "title": "specialist] Fix syntax error - malformed function definition parameters",
+      "file": "./candidate/core/orchestration/brain/canadian_awareness_engine.py",
+      "line_hint": 232,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/orchestration/brain/canadian_awareness_engine.py:# TODO[CONSCIOUSNESS:specialist] Fix syntax error - malformed function definition parameters",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-7ebc38f3",
+      "priority": "high",
+      "title": "Install or implement AGENT",
+      "file": "./candidate/core/orchestration/brain/dynamic_adaptive_dashboard.py",
+      "line_hint": 28,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/orchestration/brain/dynamic_adaptive_dashboard.py:    from AGENT.lukhas_nias_filter import evaluate_ad_permission  # TODO: Install or implement AGENT",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-6b0fcc75",
+      "priority": "high",
+      "title": "Install or implement edge_tts",
+      "file": "./candidate/core/orchestration/brain/spine/main_loop.py",
+      "line_hint": 176,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/orchestration/brain/spine/main_loop.py:#     import edge_tts  # TODO: Install or implement edge_tts",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-d3d3382e",
+      "priority": "high",
+      "title": "Install or implement streamlit",
+      "file": "./candidate/core/orchestration/brain/config/settings_editor.py",
+      "line_hint": 14,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/orchestration/brain/config/settings_editor.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-074c87ba",
+      "priority": "high",
+      "title": "kept for multi-AI agent coordination",
+      "file": "./candidate/core/orchestration/brain/integration/brain_integration.py",
+      "line_hint": 58,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/orchestration/brain/integration/brain_integration.py:    # from DASHBOARD.\u039b_as_agent.core.memory_folds import create_memory_fold, recall_memory_folds  # TODO: Install or implement DASHBOARD",
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-9283dcf3",
+      "priority": "high",
+      "title": "Install or implement DASHBOARD",
+      "file": "./candidate/core/orchestration/brain/integration/brain_integration.py",
+      "line_hint": 64,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/orchestration/brain/integration/brain_integration.py:    # from DASHBOARD.\u039b_as_agent.core.memory_folds import create_memory_fold, recall_memory_folds  # TODO: Install or implement DASHBOARD",
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-718f0ce5",
+      "priority": "high",
+      "title": "Implement state tracking",
+      "file": "./candidate/core/orchestration/brain/unified_integration/adapters/dream_adapter.py",
+      "line_hint": 65,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/orchestration/brain/unified_integration/adapters/dream_adapter.py:        # TODO: Implement state tracking",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-0f7f8ebe",
+      "priority": "high",
+      "title": "Install or implement streamlit",
+      "file": "./candidate/core/orchestration/brain/rem/streamlit_lidar.py",
+      "line_hint": 14,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/orchestration/brain/rem/streamlit_lidar.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-6d622497",
+      "priority": "high",
+      "title": "Fix imports as part of CODEX_ENHANCEMENT_PLAN.md Phase 4",
+      "file": "./candidate/core/orchestration/brain/orchestration/core.py",
+      "line_hint": 20,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/orchestration/brain/orchestration/core.py:TODO: Fix imports as part of CODEX_ENHANCEMENT_PLAN.md Phase 4",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-3e13558e",
+      "priority": "high",
+      "title": "Create or find existing ModuleRegistry and uncomment.",
+      "file": "./candidate/core/orchestration/brain/orchestration/core.py",
+      "line_hint": 108,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/orchestration/brain/orchestration/core.py:TODO: Fix imports as part of CODEX_ENHANCEMENT_PLAN.md Phase 4",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-c08a4993",
+      "priority": "high",
+      "title": "See above",
+      "file": "./candidate/core/orchestration/brain/orchestration/core.py",
+      "line_hint": 131,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/orchestration/brain/orchestration/core.py:TODO: Fix imports as part of CODEX_ENHANCEMENT_PLAN.md Phase 4",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-a82e4f96",
+      "priority": "high",
+      "title": ":",
+      "file": "./candidate/core/orchestration/brain/orchestration/main_node.py",
+      "line_hint": 35,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/orchestration/brain/orchestration/main_node.py:    # from AID.service.identity_manager import IdentityManager  # TODO:",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-775a8367",
+      "priority": "high",
+      "title": "Implement actual routing logic here.",
+      "file": "./candidate/core/orchestration/core_modules/symbolic_signal_router.py",
+      "line_hint": 40,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/orchestration/core_modules/symbolic_signal_router.py:    # TODO: Implement actual routing logic here.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-115c7753",
+      "priority": "high",
+      "title": "Sequential Processing with Advanced Features",
+      "file": "./candidate/core/mailbox.py",
+      "line_hint": 3,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/mailbox.py:Addresses TODO 35: Sequential Processing with Advanced Features",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-5da291f8",
+      "priority": "high",
+      "title": "kept for API expansion (document or implement)",
+      "file": "./candidate/core/api/service_implementations.py",
+      "line_hint": 55,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "XS"
+      }
+    }
+  ],
+  "meta": {
+    "domain": "F821 Fixes",
+    "description": "undefined names fixes",
+    "risk_level": "low",
+    "requires_review": false,
+    "feature_flags_required": false,
+    "experimental": false,
+    "total_tasks": 30
+  }
+}

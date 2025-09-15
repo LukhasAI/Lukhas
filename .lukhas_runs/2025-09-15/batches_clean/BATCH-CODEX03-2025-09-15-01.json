@@ -1,0 +1,156 @@
+{
+  "batch_id": "BATCH-CODEX03-2025-09-15-01",
+  "agent": "codex03",
+  "created_at": "2025-09-15T01:32:13.856524Z",
+  "expires_at": "2025-09-18T01:32:13.856525Z",
+  "branch_name": "feat/codex03/candidate-batch01",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-04b373e2",
+      "priority": "high",
+      "title": "Resolve 'CORE.' import paths. Ensure CORE is a top-level",
+      "file": "./candidate/core/integrator.py",
+      "line_hint": 42,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/integrator.py:# \u039bIMPORT_TODO: Resolve 'CORE.' import paths. Ensure CORE is a top-level",
+        "last_commit": "f203cbd2b8e04c94dfc42644ca019cfb993693ef"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-7ccc4505",
+      "priority": "high",
+      "title": "Verify these relative imports work correctly in the context of the larger system.",
+      "file": "./candidate/core/interfaces/nias/__init__.py",
+      "line_hint": 27,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/interfaces/nias/__init__.py:# AIMPORT_TODO: Verify these relative imports work correctly in the context of the larger system.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-602cddf2",
+      "priority": "high",
+      "title": "Specify imports",
+      "file": "./candidate/memory/temporal/benchmark_swarm.py",
+      "line_hint": 15,
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/memory/temporal/benchmark_swarm.py:from event_bus import *  # TODO: Specify imports",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-46a72d12",
+      "priority": "high",
+      "title": "Fix import paths - lambda directory doesn't exist",
+      "file": "./products/intelligence/lens/api/standalone_server.py",
+      "line_hint": 23,
+      "module": "products/intelligence",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TOOLS-CI-2a879f89",
+      "priority": "med",
+      "title": "# TODO[T4-UNUSED-IMPORT]: <reason>",
+      "file": "./tools/ci/unused_imports.py",
+      "line_hint": 8,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./tools/ci/unused_imports.py:  * adds an inline TODO tag (idempotent):  # TODO[T4-UNUSED-IMPORT]: <reason>",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-48aabd9a",
+      "priority": "low",
+      "title": "This file contains unused imports intentionally kept.\\n\"",
+      "file": "./tools/ci/mark_unused_imports_todo.py",
+      "line_hint": 47,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/ci/mark_unused_imports_todo.py:Mark unused imports with TODOs instead of deleting them.",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    }
+  ],
+  "summary": {
+    "total_tasks": 6,
+    "by_priority": {
+      "high": 4,
+      "med": 1,
+      "low": 1
+    },
+    "by_type": {
+      "mechanical": 6
+    },
+    "by_risk": {
+      "low": 6
+    }
+  },
+  "dependencies": [],
+  "checks": [
+    "ruff check .",
+    "pytest -q",
+    "pre-commit run --all-files"
+  ]
+}

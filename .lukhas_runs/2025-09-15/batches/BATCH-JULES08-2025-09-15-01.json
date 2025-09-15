@@ -1,0 +1,448 @@
+{
+  "batch_id": "BATCH-JULES08-2025-09-15-01",
+  "agent": "jules08",
+  "created_at": "2025-09-15T01:17:08.836273Z",
+  "expires_at": "2025-09-18T01:17:08.836275Z",
+  "branch_name": "feat/jules08/products-batch01",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-519afa59",
+      "priority": "high",
+      "title": "specialist] - Contribution drives quantum gift consciousness economy",
+      "file": "./candidate/core/quantum_financial/quantum_financial_consciousness_engine.py",
+      "line_hint": 34,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f203cbd2b8e04c94dfc42644ca019cfb993693ef"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-d122be15",
+      "priority": "high",
+      "title": "specialist] - Integrate with Guardian system for ethical validation of consciousness flows",
+      "file": "./candidate/core/symbolic_bridge/token_map.py",
+      "line_hint": 9,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-d8613ed2",
+      "priority": "high",
+      "title": "specialist] - Contribution drives quantum gift consciousness economy",
+      "file": "./candidate/core/qi_financial/quantum_financial_consciousness_engine.py",
+      "line_hint": 34,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-bfbc4155",
+      "priority": "high",
+      "title": "specialist] Implement Trinity-aware state comparison",
+      "file": "./candidate/core/bridges/core_safety_bridge.py",
+      "line_hint": 171,
+      "module": "candidate/core",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-bbcaa223",
+      "priority": "high",
+      "title": "Implement quantum causal entanglement detection with dream correlation",
+      "file": "./candidate/memory/causal/fold_lineage_tracker.py",
+      "line_hint": 66,
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-c386efcc",
+      "priority": "high",
+      "title": "kept for bio-inspired/quantum systems development",
+      "file": "./candidate/consciousness/reasoning/decision/bridge.py",
+      "line_hint": 69,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-f16935ea",
+      "priority": "high",
+      "title": "Implement quantum dream resonance detection across parallel memory streams",
+      "file": "./candidate/consciousness/dream/dream_trace_linker.py",
+      "line_hint": 52,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-a229ed17",
+      "priority": "high",
+      "title": "kept for bio-inspired/quantum systems development",
+      "file": "./candidate/consciousness/reflection/reflection_layer.py",
+      "line_hint": 95,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "d9979b4c7379a6da7419e37517bdd86bddfac8e2"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-b1272dba",
+      "priority": "high",
+      "title": "cryptography.hazmat.primitives...",
+      "file": "./products/enterprise/core/compliance/data_protection_service.py",
+      "line_hint": 18,
+      "module": "products/enterprise",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-b1272dba",
+      "priority": "high",
+      "title": "cryptography.hazmat.primitives...",
+      "file": "./products/enterprise/core/compliance/data_protection_service.py",
+      "line_hint": 21,
+      "module": "products/enterprise",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-ae1205af",
+      "priority": "high",
+      "title": "cryptography.hazmat.primitives...",
+      "file": "./products/enterprise/compliance/data_protection_service.py",
+      "line_hint": 19,
+      "module": "products/enterprise",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-CONTENT-b0592c6f",
+      "priority": "high",
+      "title": "Return QuantumHaiku when defined",
+      "file": "./products/content/poetica/creativity_engines/qi_creative_types.py",
+      "line_hint": 787,
+      "module": "products/content",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-fddfbe7c",
+      "priority": "high",
+      "title": "DecoherenceMitigation",
+      "file": "./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py",
+      "line_hint": 42,
+      "module": "products/infrastructure",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-facd99f2",
+      "priority": "high",
+      "title": "QuantumQuery",
+      "file": "./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py",
+      "line_hint": 64,
+      "module": "products/infrastructure",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-adce094b",
+      "priority": "high",
+      "title": "Install or implement streamlit",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "line_hint": 13,
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "line_hint": 30,
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "line_hint": 38,
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "line_hint": 41,
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "line_hint": 46,
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "line_hint": 61,
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    }
+  ],
+  "summary": {
+    "total_tasks": 20,
+    "by_priority": {
+      "high": 20
+    },
+    "by_type": {
+      "logic": 20
+    },
+    "by_risk": {
+      "high": 20
+    }
+  },
+  "dependencies": [],
+  "checks": [
+    "ruff check .",
+    "pytest -q",
+    "pre-commit run --all-files"
+  ]
+}

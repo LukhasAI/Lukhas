@@ -197,7 +197,9 @@
       "Bash(git log:*)",
       "Bash(.venv/bin/pytest tests/unit/ai_orchestration/test_mcp_operational_support.py -v)",
       "Bash(.venv/bin/pytest tests/unit/bio/core/test_bio_symbolic.py -v)",
-      "Bash(.venv/bin/pytest tests/smoke/ --tb=no --disable-warnings -q)"
+      "Bash(.venv/bin/pytest tests/smoke/ --tb=no --disable-warnings -q)",
+      "Bash(git reset:*)",
+      "Bash(ls:*)"
     ],
     "deny": [],
     "ask": []
