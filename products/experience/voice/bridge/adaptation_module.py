@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 ════════════════════════════════════════════════════════════════════════════════
 ║ 🎤 LUKHAS AI - VOICE ADAPTATION MODULE
@@ -17,14 +14,28 @@ logger = logging.getLogger(__name__)
 ║ Learns from user feedback to adjust voice synthesis parameters.
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
-
+import logging
 import time
+
+logger = logging.getLogger(__name__)  # ΛTAG: logger_setup
+
+
+def load_initial_emotion_map() -> dict:
+    """Return default emotion map."""
+    # ΛTAG: placeholder
+    return {}
+
+
+def load_initial_resonator_weights() -> dict:
+    """Return default resonator weights."""
+    # ΛTAG: placeholder
+    return {}
 
 
 class VoiceAdaptationModule:
     def __init__(self):
-        self.emotion_map = load_initial_emotion_map()  # noqa: F821  # TODO: load_initial_emotion_map
-        self.resonator_weights = load_initial_resonator_weights()  # noqa: F821  # TODO: load_initial_resonator_weights
+        self.emotion_map = load_initial_emotion_map()
+        self.resonator_weights = load_initial_resonator_weights()
         self.interaction_log = []
 
     def get_voice_settings(self, emotion, emoji=None):
