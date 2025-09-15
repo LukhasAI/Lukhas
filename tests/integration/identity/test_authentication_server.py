@@ -3,7 +3,7 @@
 import asyncio
 import json
 from datetime import datetime, timezone
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 import nacl.encoding
@@ -46,7 +46,7 @@ async def test_session_creation_and_initial_message(server, user_id, signing_key
         json.dumps(
             {
                 "user_id": user_id,
-                "device_public_key": signing_key.verify_key.encode(encoder=nacl.encoding.HexEncoder).decode('ascii'),
+                "device_public_key": signing_key.verify_key.encode(encoder=nacl.encoding.HexEncoder).decode("ascii"),
             }
         ),
         json.dumps({"type": "disconnect"}),
@@ -72,7 +72,9 @@ async def test_invalid_user_id_rejection(server):
     """
     websocket = AsyncMock()
     # Send handshake with an invalid (empty) user ID
-    websocket.recv.return_value = json.dumps({"user_id": "", "device_public_key": "a" * 64}) # a 32-byte key hex-encoded
+    websocket.recv.return_value = json.dumps(
+        {"user_id": "", "device_public_key": "a" * 64}
+    )  # a 32-byte key hex-encoded
 
     await server.handle_client_connection(websocket, "/")
 

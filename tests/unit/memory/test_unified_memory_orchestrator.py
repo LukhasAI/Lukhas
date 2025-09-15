@@ -4,17 +4,18 @@
 # criticality: P0
 
 import pytest
-import asyncio
 from candidate.memory.core.unified_memory_orchestrator import UnifiedMemoryOrchestrator, MemoryType, SleepStage
+
 
 @pytest.fixture
 def orchestrator():
     """Fixture for a clean UnifiedMemoryOrchestrator instance."""
     # We test with components disabled to focus on the orchestrator's own logic
     with pytest.MonkeyPatch.context() as m:
-        m.setattr('candidate.memory.core.unified_memory_orchestrator.LUKHAS_COMPONENTS_AVAILABLE', False)
-        m.setattr('candidate.memory.core.unified_memory_orchestrator.MEMORY_COMPONENTS_AVAILABLE', False)
+        m.setattr("candidate.memory.core.unified_memory_orchestrator.LUKHAS_COMPONENTS_AVAILABLE", False)
+        m.setattr("candidate.memory.core.unified_memory_orchestrator.MEMORY_COMPONENTS_AVAILABLE", False)
         yield UnifiedMemoryOrchestrator()
+
 
 @pytest.mark.tier1
 @pytest.mark.memory
@@ -31,10 +32,7 @@ class TestUnifiedMemoryOrchestrator:
 
     async def test_encode_memory(self, orchestrator):
         """Test encoding a memory into the hippocampal buffer."""
-        memory_id = await orchestrator.encode_memory(
-            content="test memory",
-            memory_type=MemoryType.EPISODIC
-        )
+        memory_id = await orchestrator.encode_memory(content="test memory", memory_type=MemoryType.EPISODIC)
         assert memory_id is not None
         assert len(orchestrator.hippocampal_buffer) == 1
         assert orchestrator.hippocampal_buffer[0].memory_id == memory_id
@@ -49,12 +47,14 @@ class TestUnifiedMemoryOrchestrator:
 
     async def test_consolidation(self, orchestrator):
         """Test the memory consolidation process."""
-        memory_id = await orchestrator.encode_memory(content="to be consolidated", memory_type=MemoryType.SEMANTIC, importance=0.8)
+        memory_id = await orchestrator.encode_memory(
+            content="to be consolidated", memory_type=MemoryType.SEMANTIC, importance=0.8
+        )
 
         trace_to_consolidate = None
         for trace in orchestrator.hippocampal_buffer:
             if trace.memory_id == memory_id:
-                trace.replay_count = 10 # Increased replay count
+                trace.replay_count = 10  # Increased replay count
                 trace_to_consolidate = trace
                 break
 
@@ -68,11 +68,13 @@ class TestUnifiedMemoryOrchestrator:
 
     async def test_forget_memory(self, orchestrator):
         """Test forgetting a memory."""
-        memory_id = await orchestrator.encode_memory(content="to be forgotten", memory_type=MemoryType.EPISODIC, importance=0.9)
+        memory_id = await orchestrator.encode_memory(
+            content="to be forgotten", memory_type=MemoryType.EPISODIC, importance=0.9
+        )
 
         for trace in orchestrator.hippocampal_buffer:
             if trace.memory_id == memory_id:
-                trace.replay_count = 10 # Increased replay count
+                trace.replay_count = 10  # Increased replay count
 
         await orchestrator.consolidate_memory(memory_id, force=True)
 
@@ -97,7 +99,9 @@ class TestUnifiedMemoryOrchestrator:
 
     async def test_sleep_stage_impacts_consolidation(self, orchestrator):
         """Test that sleep stage impacts consolidation."""
-        memory_id = await orchestrator.encode_memory(content="sleepy memory", memory_type=MemoryType.SEMANTIC, importance=0.8)
+        memory_id = await orchestrator.encode_memory(
+            content="sleepy memory", memory_type=MemoryType.SEMANTIC, importance=0.8
+        )
 
         for trace in orchestrator.hippocampal_buffer:
             if trace.memory_id == memory_id:
@@ -120,8 +124,12 @@ class TestUnifiedMemoryOrchestrator:
 
     async def test_pattern_separation(self, orchestrator):
         """Test the pattern separation mechanism."""
-        mem1_id = await orchestrator.encode_memory(content="similar memory", memory_type=MemoryType.EPISODIC, semantic_links=["a", "b"])
-        mem2_id = await orchestrator.encode_memory(content="similar memory", memory_type=MemoryType.EPISODIC, semantic_links=["a", "b", "c"])
+        mem1_id = await orchestrator.encode_memory(
+            content="similar memory", memory_type=MemoryType.EPISODIC, semantic_links=["a", "b"]
+        )
+        mem2_id = await orchestrator.encode_memory(
+            content="similar memory", memory_type=MemoryType.EPISODIC, semantic_links=["a", "b", "c"]
+        )
 
         trace1 = orchestrator.hippocampal_buffer[0]
         trace2 = orchestrator.hippocampal_buffer[1]

@@ -13,7 +13,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional, List, Dict
+from typing import Any, Optional, List
 
 from lukhas.core.common.logger import get_logger
 
@@ -505,37 +505,40 @@ class AccessControlEngine:
             },
         }
 
+
 @dataclass
 class DataSubjectRequest:
     request_id: str
     subject_email: str
     request_type: str  # access, rectification, erasure, portability, restriction
-    status: str       # pending, processing, completed, rejected
+    status: str  # pending, processing, completed, rejected
     submitted_at: datetime
     due_date: datetime
     legal_basis: Optional[str] = None
 
-class GDPRCompliance: # Renamed from GDPRComplianceEngine
+
+class GDPRCompliance:  # Renamed from GDPRComplianceEngine
     def __init__(self, lukhas_id_system=None):
         self.id_system = lukhas_id_system
         self.request_deadline = timedelta(days=30)  # GDPR Article 12(3)
         self.supported_rights = [
-            'access',           # Article 15
-            'rectification',    # Article 16
-            'erasure',          # Article 17 (Right to be forgotten)
-            'portability',      # Article 20
-            'restriction',      # Article 18
-            'objection'         # Article 21
+            "access",  # Article 15
+            "rectification",  # Article 16
+            "erasure",  # Article 17 (Right to be forgotten)
+            "portability",  # Article 20
+            "restriction",  # Article 18
+            "objection",  # Article 21
         ]
 
     async def handle_access_request(self, subject_email: str) -> dict:
-        return {} # Placeholder
+        return {}  # Placeholder
 
     async def handle_erasure_request(self, subject_email: str, grounds: str) -> dict:
-        return {} # Placeholder
+        return {}  # Placeholder
 
     async def handle_portability_request(self, subject_email: str) -> dict:
-        return {} # Placeholder
+        return {}  # Placeholder
+
 
 class ConsentScope(Enum):
     OPPORTUNITY_MATCHING = "opportunity.matching"
@@ -544,6 +547,7 @@ class ConsentScope(Enum):
     THIRD_PARTY_SHARING = "sharing.partners"
     FINANCIAL_PROCESSING = "financial.payouts"
     COMMUNICATION = "communication.marketing"
+
 
 class ConsentRecord:
     def __init__(self):
@@ -555,6 +559,7 @@ class ConsentRecord:
         self.legal_basis = None
         self.consent_string = None  # IAB TCF v2.2 compatible
         self.withdrawal_method = None
+
 
 class ConsentManager:
     def __init__(self):
@@ -569,17 +574,17 @@ class ConsentManager:
             7: "Measure ad performance",
             8: "Measure content performance",
             9: "Apply market research to generate audience insights",
-            10: "Develop and improve products"
+            10: "Develop and improve products",
         }
 
     async def request_consent(self, user_id: str, scopes: List[ConsentScope], context: dict) -> dict:
-        return {} # Placeholder
+        return {}  # Placeholder
 
     async def grant_consent(self, request_id: str, granted_scopes: List[str], consent_string: str) -> dict:
-        return {} # Placeholder
+        return {}  # Placeholder
 
     async def withdraw_consent(self, user_id: str, scopes: List[str] = None) -> dict:
-        return {} # Placeholder
+        return {}  # Placeholder
 
 
 class CCPACompliance:
@@ -591,18 +596,20 @@ class CCPACompliance:
             "religious_beliefs",
             "health_data",
             "sexual_orientation",
-            "biometric_identifiers"
+            "biometric_identifiers",
         ]
 
     def generate_privacy_policy_disclosure(self) -> dict:
-        return {} # Placeholder
+        return {}  # Placeholder
 
     async def handle_ccpa_opt_out(self, consumer_id: str, opt_out_type: str) -> dict:
-        return {} # Placeholder
+        return {}  # Placeholder
+
 
 class DataRetentionManager:
     def __init__(self):
         pass
+
 
 # Export classes for import
 __all__ = [

@@ -1,5 +1,5 @@
 import pytest
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 from ai_orchestration.mcp_operational_support import (
     LUKHASMCPOperationalSupport,
     MCPServerContext,
@@ -7,17 +7,17 @@ from ai_orchestration.mcp_operational_support import (
     SupportIncident,
 )
 
+
 @pytest.fixture
 def operational_support():
     """Fixture for LUKHASMCPOperationalSupport."""
     return LUKHASMCPOperationalSupport()
 
+
 @pytest.mark.mcp_operational
 class TestLUKHASMCPOperationalSupport:
     def test_monitor_mcp_operations(self, operational_support):
-        with patch("psutil.cpu_percent") as mock_cpu, patch(
-            "psutil.virtual_memory"
-        ) as mock_mem:
+        with patch("psutil.cpu_percent") as mock_cpu, patch("psutil.virtual_memory") as mock_mem:
             # Configure mocks
             mock_cpu.return_value = 50.0
             mock_mem.return_value.percent = 60.0
@@ -44,7 +44,7 @@ class TestLUKHASMCPOperationalSupport:
             OperationalMetrics({"cpu_usage_percent": 10}),
             OperationalMetrics({"cpu_usage_percent": 20}),
             OperationalMetrics({"cpu_usage_percent": 30}),
-            OperationalMetrics({"cpu_usage_percent": 85}), # also triggers high usage
+            OperationalMetrics({"cpu_usage_percent": 85}),  # also triggers high usage
         ]
         result = operational_support.analyze_operational_patterns(metrics_history)
         assert any("Increasing CPU usage trend detected" in finding for finding in result.findings)

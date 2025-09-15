@@ -334,3 +334,168 @@ Jules agents should refer to these `claude.me` files for domain-specific underst
 5. **Follow test allocation assignments** in docs/testing/
 
 ---
+
+# 🎯 T4-COMPLIANT TODO COORDINATION SYSTEM
+
+**Implementation Date**: September 15, 2025
+**Ground Truth Source**: `.lukhas_runs/2025-09-15/manifest.json`
+**Methodology**: Evidence-based verification per PLANNING_TODO.md
+
+## 📊 Current TODO Ground Truth (Evidence-Based)
+
+### **Reality Check Results**
+- **Total TODOs**: 1,115 (verified via manifest)
+- **Completed**: 11 (evidence-verified)
+- **Open**: 1,104 requiring assignment
+- **Previous Claims**: 100/100 completion claims CORRECTED to 2/100 actual evidence
+
+### **Priority Distribution**
+- **Critical**: 150 TODOs (Security, core infrastructure, blocking issues)
+- **High**: 687 TODOs (T4 framework, specialist assignments, core functionality)
+- **Medium**: 159 TODOs (Feature enhancements, optimization, documentation)
+- **Low**: 119 TODOs (Cleanup, refactoring, nice-to-have features)
+
+## 🤖 T4 Agent Coordination Matrix
+
+### **Operating Principles (T4 Lens)**
+- **Skepticism First**: Never trust TODO without checking codebase and git history
+- **Evidence-Based**: Status = proven by grep/tests/CI, not wishful comments
+- **Atomic Commits**: Every change traceable to TaskID with reproducible verification
+- **Batch Discipline**: 25-30 items/agent/cycle (40 for mechanical edits only)
+- **No Silent Merges**: PRs require TaskID, scope, and checks
+
+### **Agent Capability Matrix**
+
+#### **Jules Agents (01-10): Complex Logic & Cross-Module Work**
+- **Jules-01..03**: Identity/Governance/Guardian (complex, cross-module)
+- **Jules-04..05**: Orchestration/Consciousness (complex logic)
+- **Jules-06..08**: QI/Entropy/QRG scaffolding (experimental, guarded)
+- **Jules-09..10**: Dashboards/Monitoring/Docs wiring
+- **Batch Size**: 25-30 tasks (20-25 for experimental work)
+- **Risk Level**: HIGH for consciousness/quantum, requires Claude Code review
+
+#### **Codex Agents (01-10): Mechanical Fixes & Code Generation**
+- **Codex-01..06**: Mechanical fixes (imports, F821, renames, docstrings)
+- **Codex-07..10**: Codegen stubs, template wiring, perf micro-tweaks
+- **Batch Size**: 30-40 tasks (mechanical work allows larger batches)
+- **Risk Level**: LOW - Mechanical changes with automated verification
+
+#### **Support Agents**
+- **Copilot**: Inline refactors & quick fix-ups (never primary owner)
+- **Claude Code**: Allocator, verifier, integrator, reviewer of risky changes
+
+### **TaskID Format**: `TODO-{PRIORITY}-{MODULE}-{HASH8}`
+Example: `TODO-CRIT-IDENTITY-1a2b3c4d`
+
+### **Batch Management**
+- **File Format**: `BATCH-{AGENT}-{DATE}-{SEQ}.json`
+- **Branch Naming**: `feat/jules03/identity-trace-batch01`
+- **Expiration**: 72 hours (rebase or re-plan)
+- **Location**: `.lukhas_runs/2025-09-15/batches/`
+
+## 🛡️ Risk Gating & Safety Protocols
+
+### **High-Risk Areas (Require Claude Code Review)**
+- QI/cryptography/Guardian safety code
+- Consciousness engines and awareness systems
+- Identity and authentication systems
+- Trinity Framework boundary changes
+
+### **Feature Flag Requirements**
+- All QI/Entropy/QRG work behind feature flags + kill switch
+- Experimental consciousness features gated by default
+- Risk assessment documented in TaskID metadata
+
+### **Verification Requirements**
+- Every TODO completion requires grep/test evidence
+- Integration tests for cross-module changes
+- No TODO marked complete without verifiable implementation
+- T4 principle: "If a TODO can't be verified in code or tests, it's not done"
+
+## 📋 T4 Workflow Protocol
+
+### **1. Enumeration (Ground Truth)**
+```bash
+# Generate current state
+rg -n "TODO|FIXME|HACK" --type py > .lukhas_runs/2025-09-15/grep.txt
+python3 tools/ci/build_manifest.py \
+  --todo-md TODO/critical_todos.md TODO/high_todos.md TODO/med_todos.md TODO/low_todos.md \
+  --grep .lukhas_runs/2025-09-15/grep.txt \
+  --out .lukhas_runs/2025-09-15/manifest.json
+```
+
+### **2. Batch Allocation**
+```bash
+# Split into agent batches
+python3 tools/ci/split_batches.py \
+  --manifest .lukhas_runs/2025-09-15/manifest.json \
+  --strategy rules/allocation_rules.yaml \
+  --out .lukhas_runs/2025-09-15/batches/
+
+# Lock tasks to prevent duplication
+python3 tools/ci/lock_batches.py --dir .lukhas_runs/2025-09-15/batches/
+```
+
+### **3. Execution Protocol**
+For each batch:
+1. **Pre-flight**: Sync main → create branch → run checks
+2. **Atomic commits**: One commit per TaskID with evidence
+3. **Self-verification**: Re-run checks, update manifest
+4. **PR creation**: Include BatchID, TaskIDs, test reports
+5. **Review gates**: Claude Code reviews critical/Guardian/Identity PRs
+6. **Merge discipline**: Squash with TaskID preservation
+
+### **4. Completion Verification**
+- Grep evidence required for every completion claim
+- Test coverage validation where applicable
+- Git history verification of actual implementation
+- Update manifest.json with evidence before marking complete
+
+## 📊 Success Metrics & Reporting
+
+### **Daily Reports** (`.lukhas_runs/2025-09-15/reports/`)
+- New TODOs discovered vs. closed
+- PRs merged/blocked with reasons
+- Coverage delta, lint debt delta
+- High-risk areas and mitigations
+
+### **Progress JSON** (Real-time dashboard data)
+```json
+{
+  "date": "2025-09-15",
+  "counts": {
+    "critical": {"open": 150, "wip": 0, "done": 0},
+    "high": {"open": 687, "wip": 0, "done": 0},
+    "med": {"open": 159, "wip": 0, "done": 0},
+    "low": {"open": 119, "wip": 0, "done": 0}
+  },
+  "agents": {
+    "jules01": {"assigned": 0, "done": 0},
+    "codex01": {"assigned": 0, "done": 0}
+  }
+}
+```
+
+### **Completion Criteria**
+- Manifest shows 0 open items (all done or consciously waived)
+- All critical tasks have tests and appropriate feature flags
+- Governance alignment verified for Guardian/Identity changes
+- No silent inconsistencies or unverified completions
+
+## 🔄 Integration with Existing Jules System
+
+### **Coordination Protocol**
+- **T4 System**: Provides systematic TODO allocation and verification
+- **Jules Agents**: Continue test development as assigned in existing docs
+- **Handover**: No conflicts - T4 handles TODO management, Jules handles test development
+- **Verification**: Both systems use evidence-based completion verification
+
+### **Priority Integration**
+1. **Continue Jules test development** per existing allocations
+2. **Apply T4 verification** to any TODO-related work
+3. **Use T4 batching** for systematic TODO cleanup
+4. **Maintain Jules protocols** for test-specific work
+
+---
+
+**Next Actions**: Ready to begin T4-compliant systematic TODO allocation with evidence-based verification while maintaining compatibility with existing Jules agent test development workflows.

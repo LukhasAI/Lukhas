@@ -4,10 +4,11 @@
 # criticality: P1
 
 import pytest
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock
 from candidate.memory.systems.memory_manager import AdvancedMemoryManager
-from candidate.memory.folds.fold_engine import MemoryType, MemoryPriority
+from candidate.memory.folds.fold_engine import MemoryType
 from candidate.memory.fakes.agimemory_fake import AGIMemoryFake
+
 
 @pytest.fixture
 def mock_base_memory_manager():
@@ -16,10 +17,12 @@ def mock_base_memory_manager():
     mock.retrieve.return_value = {"access_count": 0}
     return mock
 
+
 @pytest.fixture
 def mock_fold_engine():
     """Fixture for a mocked AGIMemory (fold engine)."""
     return AGIMemoryFake()
+
 
 @pytest.fixture
 def mock_emotional_oscillator():
@@ -28,12 +31,14 @@ def mock_emotional_oscillator():
     mock.process_memory_emotion = AsyncMock()
     return mock
 
+
 @pytest.fixture
 def mock_qi_attention():
     """Fixture for a mocked quantum attention mechanism."""
     mock = AsyncMock()
     mock.score_memory_relevance = AsyncMock(return_value=0.5)
     return mock
+
 
 @pytest.fixture
 def advanced_memory_manager(mock_base_memory_manager, mock_fold_engine, mock_emotional_oscillator, mock_qi_attention):
@@ -42,7 +47,7 @@ def advanced_memory_manager(mock_base_memory_manager, mock_fold_engine, mock_emo
         base_memory_manager=mock_base_memory_manager,
         fold_engine_instance=mock_fold_engine,
         emotional_oscillator=mock_emotional_oscillator,
-        qi_attention=mock_qi_attention
+        qi_attention=mock_qi_attention,
     )
     return manager
 
@@ -62,9 +67,7 @@ class TestAdvancedMemoryManager:
     async def test_store_memory_with_emotional_context(self, advanced_memory_manager, mock_emotional_oscillator):
         """Test storing a memory with emotional context."""
         await advanced_memory_manager.store_memory(
-            content="emotional content",
-            memory_type=MemoryType.EMOTIONAL,
-            emotional_context={"emotion": "joy"}
+            content="emotional content", memory_type=MemoryType.EMOTIONAL, emotional_context={"emotion": "joy"}
         )
         mock_emotional_oscillator.process_memory_emotion.assert_called_once()
         assert advanced_memory_manager.metrics["emotional_context_usage"] == 1
@@ -75,9 +78,13 @@ class TestAdvancedMemoryManager:
         memory_data = await advanced_memory_manager.retrieve_memory("non_existent_id")
         assert memory_data is None
 
-    async def test_search_memories_with_qi_attention(self, advanced_memory_manager, mock_fold_engine, mock_qi_attention):
+    async def test_search_memories_with_qi_attention(
+        self, advanced_memory_manager, mock_fold_engine, mock_qi_attention
+    ):
         """Test searching memories with the quantum attention mechanism."""
-        mem_id = await advanced_memory_manager.store_memory(content="attention content", memory_type=MemoryType.SEMANTIC)
+        mem_id = await advanced_memory_manager.store_memory(
+            content="attention content", memory_type=MemoryType.SEMANTIC
+        )
 
         mock_fold_engine.search_folds = AsyncMock(return_value=[mem_id])
         advanced_memory_manager.retrieve_memory = AsyncMock(return_value={"content": "attention content"})

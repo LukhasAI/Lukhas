@@ -19,7 +19,7 @@
 !**/templates/**/*.html
 !**/static/**/*.html
 !lukhas_website/**/*.html
-.cleanenv/ 
+.cleanenv/
 # Database files
 *.db
 *.sqlite
@@ -314,3 +314,6 @@ memory/protection/sanctum_vault/*.vault
 .claude/
 reports/dashboard/*.json
 .lukhas_audit/*.jsonl
+
+# Generated TODO manifests (large files)
+.lukhas_runs/*/manifest.json
