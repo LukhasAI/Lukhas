@@ -7,7 +7,7 @@ Understands that AGI requires modular complexity, not simplification to basic ch
 
 import ast
 import json
-from collections import defaultdict
+from collections import Counter, defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
@@ -440,7 +440,7 @@ class AGIModuleAnalyzer:
                 all_interfaces.extend(self.modules[module_path].interfaces)
 
         # Find common patterns
-        interface_freq = Counter(all_interfaces)  # noqa: F821  # TODO: Counter
+        interface_freq = Counter(all_interfaces)  # ΛTAG: interface_frequency
         common_interfaces = [iface for iface, count in interface_freq.items() if count > 1]
 
         return {

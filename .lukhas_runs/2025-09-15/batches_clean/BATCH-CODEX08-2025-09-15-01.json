@@ -308,7 +308,7 @@
       "line_hint": 154,
       "module": "candidate/branding_bridge.py",
       "trinity": "null",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": null,
@@ -319,7 +319,9 @@
       "est": {
         "type": "logic",
         "size": "XS"
-      }
+      },
+      "completion_pr": "250",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-BRIDGE-b1a870ae",
@@ -371,7 +373,7 @@
       "line_hint": 298,
       "module": "candidate/governance",
       "trinity": "Guardian",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
@@ -382,7 +384,9 @@
       "est": {
         "type": "logic",
         "size": "S"
-      }
+      },
+      "completion_pr": "251",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-945397ec",
@@ -392,7 +396,7 @@
       "line_hint": 433,
       "module": "candidate/governance",
       "trinity": "Guardian",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
@@ -403,7 +407,9 @@
       "est": {
         "type": "logic",
         "size": "S"
-      }
+      },
+      "completion_pr": "251",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-7897c690",
@@ -413,7 +419,7 @@
       "line_hint": 538,
       "module": "candidate/governance",
       "trinity": "Guardian",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
@@ -424,7 +430,9 @@
       "est": {
         "type": "logic",
         "size": "L"
-      }
+      },
+      "completion_pr": "251",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-be857682",
@@ -434,7 +442,7 @@
       "line_hint": 22,
       "module": "candidate/governance",
       "trinity": "Guardian",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./candidate/governance/ethics/moral_agent_template.py:        # TODO: Implement moral reasoning logic here.",
@@ -445,7 +453,9 @@
       "est": {
         "type": "logic",
         "size": "S"
-      }
+      },
+      "completion_pr": "251",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-3bcfe36e",
@@ -455,7 +465,7 @@
       "line_hint": 17,
       "module": "candidate/governance",
       "trinity": "Guardian",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./candidate/governance/ethics_legacy/safety/compliance_dashboard_visual.py:# import streamlit as st  # TODO: Install or implement streamlit",
@@ -466,7 +476,9 @@
       "est": {
         "type": "logic",
         "size": "S"
-      }
+      },
+      "completion_pr": "247",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-MIGRATION-81a9c4fa",
@@ -602,7 +614,7 @@
       "line_hint": 10,
       "module": "hybrid_memory_fold.py",
       "trinity": "Consciousness",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./hybrid_memory_fold.py:\ud83d\udccb TODO FOR AGENT INTEGRATION:",
@@ -613,7 +625,9 @@
       "est": {
         "type": "logic",
         "size": "S"
-      }
+      },
+      "completion_pr": "254",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-PRODUCTS-COMMUNICATION-be4bffb0",

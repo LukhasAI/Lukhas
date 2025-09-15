@@ -1,0 +1,663 @@
+{
+  "agent_id": "CODEX-06",
+  "specialty": "High Priority Batch 6",
+  "focus": "high priority final",
+  "task_count": 40,
+  "priority": "high",
+  "risk_level": "low",
+  "branch_prefix": "feat/codex-06/high-priority-batch-6-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-53f6d1c2",
+      "priority": "high",
+      "title": "Implement symbolic match scoring",
+      "file": "./candidate/consciousness/dream/core/dream_feedback_controller.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 31,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/dream/core/dream_feedback_controller.py:        # TODO: Implement symbolic match scoring",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-3dd92997",
+      "priority": "high",
+      "title": "Update to use unified tier system",
+      "file": "./candidate/consciousness/dream/oneiric/oneiric_core/engine/dream_engine_fastapi.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 31,
+      "risk": "med",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/consciousness/dream/oneiric/oneiric_core/engine/dream_engine_fastapi.py:# TODO: Update to use unified tier system",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-14dc9693",
+      "priority": "high",
+      "title": "Add tier validation and user context",
+      "file": "./candidate/consciousness/dream/oneiric/oneiric_core/engine/dream_engine_fastapi.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 719,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/dream/oneiric/oneiric_core/engine/dream_engine_fastapi.py:# TODO: Update to use unified tier system",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-8c77d0ff",
+      "priority": "high",
+      "title": "Add tier validation for memory snapshot creation",
+      "file": "./candidate/consciousness/dream/oneiric/oneiric_core/engine/dream_engine_fastapi.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 886,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/dream/oneiric/oneiric_core/engine/dream_engine_fastapi.py:# TODO: Update to use unified tier system",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-152c3a93",
+      "priority": "high",
+      "title": "integrate quantum features and emotional resonance tracking",
+      "file": "./candidate/consciousness/dream/immersive_ingestion.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 56,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/dream/immersive_ingestion.py:# TODO: integrate quantum features and emotional resonance tracking",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-f16935ea",
+      "priority": "high",
+      "title": "Implement quantum dream resonance detection across parallel memory streams",
+      "file": "./candidate/consciousness/dream/dream_trace_linker.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 52,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/dream/dream_trace_linker.py:TODO: Implement quantum dream resonance detection across parallel memory streams",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-b32cbe7d",
+      "priority": "high",
+      "title": "kept pending MATRIZ wiring (document or remove)",
+      "file": "./candidate/consciousness/quantum/collapse_governance_system.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 27,
+      "risk": "high",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-b32cbe7d",
+      "priority": "high",
+      "title": "kept pending MATRIZ wiring (document or remove)",
+      "file": "./candidate/consciousness/quantum/collapse_governance_system.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 28,
+      "risk": "high",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-0b1da4cc",
+      "priority": "high",
+      "title": "kept pending MATRIZ wiring (document or remove)",
+      "file": "./candidate/consciousness/reflection/id_reasoning_engine.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 61,
+      "risk": "med",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-0b1da4cc",
+      "priority": "high",
+      "title": "kept pending MATRIZ wiring (document or remove)",
+      "file": "./candidate/consciousness/reflection/id_reasoning_engine.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 62,
+      "risk": "med",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-2839533f",
+      "priority": "high",
+      "title": "Reconcile \"LAMBDA_TIER_X\" string constants with the global 0-5 integer tier system.",
+      "file": "./candidate/consciousness/reflection/service.py",
+      "module": "candidate/consciousness",
+      "trinity": "Identity",
+      "line_hint": 248,
+      "risk": "med",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/service.py:        # TODO: Reconcile \"LAMBDA_TIER_X\" string constants with the global 0-5 integer tier system.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-64b439d6",
+      "priority": "high",
+      "title": "Reconcile these tier systems.",
+      "file": "./candidate/consciousness/reflection/service.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 1270,
+      "risk": "med",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/service.py:        # TODO: Reconcile \"LAMBDA_TIER_X\" string constants with the global 0-5 integer tier system.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-53d7f673",
+      "priority": "high",
+      "title": "Install or implement CORE",
+      "file": "./candidate/consciousness/reflection/brain_integration.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 47,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/brain_integration.py:    # from CORE.spine.fold_engine import (  # TODO: Install or implement CORE",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-58a1003f",
+      "priority": "high",
+      "title": "Install or implement DASHBOARD",
+      "file": "./candidate/consciousness/reflection/brain_integration.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 65,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/brain_integration.py:    # from CORE.spine.fold_engine import (  # TODO: Install or implement CORE",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-53d7f673",
+      "priority": "high",
+      "title": "Install or implement CORE",
+      "file": "./candidate/consciousness/reflection/brain_integration.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 84,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/brain_integration.py:    # from CORE.spine.fold_engine import (  # TODO: Install or implement CORE",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-0f0265c7",
+      "priority": "high",
+      "title": "Install or implement BIO_SYMBOLIC",
+      "file": "./candidate/consciousness/reflection/brain_integration.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 108,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/brain_integration.py:    # from CORE.spine.fold_engine import (  # TODO: Install or implement CORE",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-0abceb6c",
+      "priority": "high",
+      "title": "Install or implement AID",
+      "file": "./candidate/consciousness/reflection/brain_integration.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 114,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/brain_integration.py:    # from CORE.spine.fold_engine import (  # TODO: Install or implement CORE",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-229aae73",
+      "priority": "high",
+      "title": "No description",
+      "file": "./candidate/consciousness/reflection/reflection_layer.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 85,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/reflection_layer.py:# AIMPORT_TODO: This block uses deep relative imports (e.g., `...spine`, timezone) which can be fragile and indicate overly complex coupling or a need for better packaging of shared LUKHAS infrastructure components. Consider refactoring these into a more clearly defined shared library or service interface layer.",
+        "last_commit": "d9979b4c7379a6da7419e37517bdd86bddfac8e2"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-15dd338d",
+      "priority": "high",
+      "title": "Install or implement AID",
+      "file": "./candidate/consciousness/reflection/reflection_layer.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 93,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/reflection_layer.py:# AIMPORT_TODO: This block uses deep relative imports (e.g., `...spine`, timezone) which can be fragile and indicate overly complex coupling or a need for better packaging of shared LUKHAS infrastructure components. Consider refactoring these into a more clearly defined shared library or service interface layer.",
+        "last_commit": "d9979b4c7379a6da7419e37517bdd86bddfac8e2"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-a229ed17",
+      "priority": "high",
+      "title": "kept for bio-inspired/quantum systems development",
+      "file": "./candidate/consciousness/reflection/reflection_layer.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 95,
+      "risk": "high",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/reflection_layer.py:# AIMPORT_TODO: This block uses deep relative imports (e.g., `...spine`, timezone) which can be fragile and indicate overly complex coupling or a need for better packaging of shared LUKHAS infrastructure components. Consider refactoring these into a more clearly defined shared library or service interface layer.",
+        "last_commit": "d9979b4c7379a6da7419e37517bdd86bddfac8e2"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-979914d2",
+      "priority": "high",
+      "title": "Install or",
+      "file": "./candidate/consciousness/reflection/reflection_layer.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 101,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/reflection_layer.py:# AIMPORT_TODO: This block uses deep relative imports (e.g., `...spine`, timezone) which can be fragile and indicate overly complex coupling or a need for better packaging of shared LUKHAS infrastructure components. Consider refactoring these into a more clearly defined shared library or service interface layer.",
+        "last_commit": "d9979b4c7379a6da7419e37517bdd86bddfac8e2"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-550f4dd9",
+      "priority": "high",
+      "title": "Similar to above, ensure '.remediator_agent' is robustly available.",
+      "file": "./candidate/consciousness/reflection/reflection_layer.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 119,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/reflection_layer.py:# AIMPORT_TODO: This block uses deep relative imports (e.g., `...spine`, timezone) which can be fragile and indicate overly complex coupling or a need for better packaging of shared LUKHAS infrastructure components. Consider refactoring these into a more clearly defined shared library or service interface layer.",
+        "last_commit": "d9979b4c7379a6da7419e37517bdd86bddfac8e2"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-f7b67e9f",
+      "priority": "high",
+      "title": "Track dream IDs from reflection metadata",
+      "file": "./candidate/consciousness/reflection/reflection_layer.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 197,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/reflection_layer.py:# AIMPORT_TODO: This block uses deep relative imports (e.g., `...spine`, timezone) which can be fragile and indicate overly complex coupling or a need for better packaging of shared LUKHAS infrastructure components. Consider refactoring these into a more clearly defined shared library or service interface layer.",
+        "last_commit": "d9979b4c7379a6da7419e37517bdd86bddfac8e2"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-b1f6be85",
+      "priority": "high",
+      "title": "Track voice alerts if vocalize_conscience returns specific alert IDs/info",
+      "file": "./candidate/consciousness/reflection/reflection_layer.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 198,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/reflection_layer.py:# AIMPORT_TODO: This block uses deep relative imports (e.g., `...spine`, timezone) which can be fragile and indicate overly complex coupling or a need for better packaging of shared LUKHAS infrastructure components. Consider refactoring these into a more clearly defined shared library or service interface layer.",
+        "last_commit": "d9979b4c7379a6da7419e37517bdd86bddfac8e2"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-03daf543",
+      "priority": "high",
+      "title": ".",
+      "file": "./candidate/consciousness/reflection/reflection_layer.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 835,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/reflection_layer.py:# AIMPORT_TODO: This block uses deep relative imports (e.g., `...spine`, timezone) which can be fragile and indicate overly complex coupling or a need for better packaging of shared LUKHAS infrastructure components. Consider refactoring these into a more clearly defined shared library or service interface layer.",
+        "last_commit": "d9979b4c7379a6da7419e37517bdd86bddfac8e2"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-f7b67e9f",
+      "priority": "high",
+      "title": "Track dream IDs from reflection metadata",
+      "file": "./candidate/consciousness/reflection/reflection_layer.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 941,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/reflection_layer.py:# AIMPORT_TODO: This block uses deep relative imports (e.g., `...spine`, timezone) which can be fragile and indicate overly complex coupling or a need for better packaging of shared LUKHAS infrastructure components. Consider refactoring these into a more clearly defined shared library or service interface layer.",
+        "last_commit": "d9979b4c7379a6da7419e37517bdd86bddfac8e2"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-b1f6be85",
+      "priority": "high",
+      "title": "Track voice alerts if vocalize_conscience returns specific alert IDs/info",
+      "file": "./candidate/consciousness/reflection/reflection_layer.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 942,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/reflection_layer.py:# AIMPORT_TODO: This block uses deep relative imports (e.g., `...spine`, timezone) which can be fragile and indicate overly complex coupling or a need for better packaging of shared LUKHAS infrastructure components. Consider refactoring these into a more clearly defined shared library or service interface layer.",
+        "last_commit": "d9979b4c7379a6da7419e37517bdd86bddfac8e2"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-cbe43d16",
+      "priority": "high",
+      "title": "Install or implement Bot_agi_core",
+      "file": "./candidate/consciousness/reflection/integration_manager.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 165,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/integration_manager.py:                #                 from Bot_agi_core import BotAGICore  # TODO: Install or implement Bot_agi_core",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-dbeb166d",
+      "priority": "high",
+      "title": ":",
+      "file": "./candidate/consciousness/reflection/integration_manager.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 166,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/integration_manager.py:                #                 from Bot_agi_core import BotAGICore  # TODO: Install or implement Bot_agi_core",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-2c283f7d",
+      "priority": "high",
+      "title": "Relative path \"metrics\" might not be ideal for all",
+      "file": "./candidate/consciousness/reflection/awareness_system.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 135,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/awareness_system.py:        # \u039bCONFIG_TODO: Relative path \"metrics\" might not be ideal for all",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-e2db0c0a",
+      "priority": "high",
+      "title": ":",
+      "file": "./candidate/consciousness/reflection/awareness_system.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 1129,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/awareness_system.py:        # \u039bCONFIG_TODO: Relative path \"metrics\" might not be ideal for all",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-16e6c410",
+      "priority": "high",
+      "title": "kept pending MATRIZ wiring (document or remove)",
+      "file": "./candidate/consciousness/reflection/client.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 659,
+      "risk": "med",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f869d7ac01b8f36fdeff3091894843582545fce0"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-16e6c410",
+      "priority": "high",
+      "title": "kept pending MATRIZ wiring (document or remove)",
+      "file": "./candidate/consciousness/reflection/client.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 1361,
+      "risk": "med",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f869d7ac01b8f36fdeff3091894843582545fce0"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-98821853",
+      "priority": "high",
+      "title": "Module Dependency Analysis and Network-Based M        self.excluded_dirs = {",
+      "file": "./candidate/consciousness/reflection/lambda_dependa_bot.py",
+      "module": "candidate/consciousness",
+      "trinity": "Identity",
+      "line_hint": 28,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/lambda_dependa_bot.py:Part of TODO #10: Module Dependency Analysis and Network-Based M        self.excluded_dirs = {",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-f0880034",
+      "priority": "high",
+      "title": "m",
+      "file": "./candidate/consciousness/reflection/lambda_dependa_bot.py",
+      "module": "candidate/consciousness",
+      "trinity": "Identity",
+      "line_hint": 35,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/lambda_dependa_bot.py:Part of TODO #10: Module Dependency Analysis and Network-Based M        self.excluded_dirs = {",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-8c252eaa",
+      "priority": "high",
+      "title": "Add colony discovery mechanisms for distributed deployments",
+      "file": "./candidate/consciousness/reflection/colony_orchestrator.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 48,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/colony_orchestrator.py:\u039bTODO: Add colony discovery mechanisms for distributed deployments",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-91aade29",
+      "priority": "high",
+      "title": "Practical optimization strategies that enable",
+      "file": "./candidate/consciousness/reflection/practical_optimizations.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 24,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/practical_optimizations.py:\u2551 Addresses REALITY_TODO 136: Practical optimization strategies that enable",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-71ebd5b7",
+      "priority": "high",
+      "title": "Install or implement CORE",
+      "file": "./candidate/consciousness/reflection/visionary_orchestrator.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 75,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/visionary_orchestrator.py:    #     from system.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-71ebd5b7",
+      "priority": "high",
+      "title": "Install or implement CORE",
+      "file": "./candidate/consciousness/reflection/visionary_orchestrator.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 76,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/visionary_orchestrator.py:    #     from system.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-71ebd5b7",
+      "priority": "high",
+      "title": "Install or implement CORE",
+      "file": "./candidate/consciousness/reflection/visionary_orchestrator.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 77,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/visionary_orchestrator.py:    #     from system.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: codex-06-batch-$(date +%m%d)",
+      "2. Work through 40 tasks systematically",
+      "3. One TaskID per commit",
+      "4. Focus: high priority final",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(high): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.159695Z",
+  "source": "Direct allocation from manifest_clean.json"
+}

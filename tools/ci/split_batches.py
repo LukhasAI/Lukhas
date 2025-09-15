@@ -22,6 +22,17 @@ class BatchSplitter:
 
     def _load_strategy(self, strategy_file: str) -> Dict[str, Any]:
         """Load allocation strategy from YAML or use defaults"""
+        if strategy_file and strategy_file != "default" and Path(strategy_file).exists():
+            try:
+                import yaml
+
+                with open(strategy_file, "r") as handle:
+                    data = yaml.safe_load(handle) or {}
+                if data:
+                    return data  # ΛTAG: strategy_loader
+            except Exception as strategy_error:
+                print(f"⚠️ Failed to load strategy {strategy_file}: {strategy_error}")
+
         # Default T4 strategy if file doesn't exist
         return {
             "agent_capabilities": {

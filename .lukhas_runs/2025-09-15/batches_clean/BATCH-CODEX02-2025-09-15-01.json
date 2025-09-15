@@ -14,7 +14,7 @@
       "line_hint": 5,
       "module": "candidate/core",
       "trinity": "Consciousness",
-      "status": "open",
+      "status": "completed",
       "source": "high_todos.md",
       "evidence": {
         "grep": "./candidate/core/symbolic_legacy/colony_tag_propagation.py:# TODO[GLYPH:specialist] - Fix cross-lane import dependencies for consciousness mesh formation",
@@ -25,7 +25,9 @@
       "est": {
         "type": "mechanical",
         "size": "XS"
-      }
+      },
+      "completion_pr": "241",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-HIGH-CANDIDATE-CORE-a3c26daf",
@@ -56,7 +58,7 @@
       "line_hint": 11,
       "module": "candidate/core",
       "trinity": "null",
-      "status": "open",
+      "status": "completed",
       "source": "high_todos.md",
       "evidence": {
         "grep": "./candidate/core/interfaces/as_agent/news_and_social/s_dispatcher.py:# TODO: Replace this hack with proper Python packaging imports once",
@@ -67,7 +69,9 @@
       "est": {
         "type": "mechanical",
         "size": "XS"
-      }
+      },
+      "completion_pr": "242",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-1007653b",
@@ -98,7 +102,7 @@
       "line_hint": 29,
       "module": "candidate/governance",
       "trinity": "Guardian",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./candidate/governance/integration/policy_board.py:# AIMPORT_TODO: Review deep relative imports for robustness.",
@@ -109,7 +113,9 @@
       "est": {
         "type": "mechanical",
         "size": "XS"
-      }
+      },
+      "completion_pr": "242",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-LOW-TESTS-SMOKE-6090d7a6",
@@ -119,7 +125,7 @@
       "line_hint": 7,
       "module": "tests/smoke",
       "trinity": "null",
-      "status": "open",
+      "status": "completed",
       "source": "low_todos.md",
       "evidence": {
         "grep": "./tests/smoke/test_accepted_smoke.py:        import lukhas  # noqa: F401  # TODO: lukhas; consider using importl...",
@@ -130,7 +136,9 @@
       "est": {
         "type": "mechanical",
         "size": "XS"
-      }
+      },
+      "completion_pr": "247",
+      "completed_at": "2025-09-15T08:00:00Z"
     }
   ],
   "summary": {

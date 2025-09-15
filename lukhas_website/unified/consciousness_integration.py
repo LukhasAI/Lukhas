@@ -16,10 +16,8 @@ try:
     from emotion.service import EmotionService
     from lukhas.consciousness.unified.auto_consciousness import AutoConsciousness
     from lukhas.core.glyph.glyph_engine import GlyphEngine
-    from lukhas.memory.folds.memory_fold import MemoryFold  # noqa: F401  # TODO: lukhas.memory.folds.memory_fol...
-    from lukhas.qi.engines.consciousness.engine import (
-        ConsciousnessEngine,
-    )  # noqa: F401  # TODO: lukhas.qi.engines.consciousnes...
+    from lukhas.memory.folds.memory_fold import MemoryFold
+    from lukhas.qi.engines.consciousness.engine import ConsciousnessEngine
 except ImportError as e:
     print(f"Warning: Some LUKHAS modules not available: {e}")
 
@@ -117,6 +115,18 @@ class ConsciousnessVisualizationBridge:
             print("✓ Connected to EmotionService")
         except:
             print("✗ EmotionService not available")
+
+        try:
+            self.memory = MemoryFold()  # ΛTAG: memory_bridge
+            print("✓ Connected to MemoryFold")
+        except Exception:
+            print("✗ MemoryFold not available")
+
+        try:
+            self.qi_engine = ConsciousnessEngine()  # ΛTAG: qi_bridge
+            print("✓ Connected to ConsciousnessEngine")
+        except Exception:
+            print("✗ ConsciousnessEngine not available")
 
         try:
             self.glyph_engine = GlyphEngine()

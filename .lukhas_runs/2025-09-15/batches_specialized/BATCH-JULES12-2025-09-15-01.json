@@ -1,0 +1,773 @@
+{
+  "batch_id": "BATCH-JULES12-2025-09-15-01",
+  "agent": "jules12",
+  "created_at": "2025-09-15T09:28:33.062535Z",
+  "expires_at": "2025-09-18T09:28:33.062537Z",
+  "branch_name": "feat/jules12/critical_consciousness_core",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-CONSCIOUSNESS-5f621c23",
+      "priority": "critical",
+      "title": "Reconcile these safety boundaries and tier names with the global LUKHAS Tier system.",
+      "file": "./candidate/consciousness/awareness/awareness_protocol.py",
+      "line_hint": 143,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/awareness/awareness_protocol.py:        # TODO: Reconcile these safety boundaries and tier names with the global LUKHAS Tier system.",
+        "last_commit": "927987c928984a8592922b8de2824c7b1743c778"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-BRANDING-PERSONAL_BRAND-1d64c1fd",
+      "priority": "critical",
+      "title": "implement missing functionality",
+      "file": "./branding/personal_brand/consciousness_authority_builder.py",
+      "line_hint": 17,
+      "module": "branding/personal_brand",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "2826e653af45bb379fe143227bed797c1f8c06b9"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-CORE-8343b461",
+      "priority": "critical",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/core/identity/matriz_consciousness_identity_signals.py",
+      "line_hint": 2,
+      "module": "candidate/core",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b36efb1c5a706b4ecfb8e5b0699601978e255fb4"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-CORE-b3a11d0a",
+      "priority": "critical",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/core/identity/consciousness_namespace_isolation.py",
+      "line_hint": 2,
+      "module": "candidate/core",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b36efb1c5a706b4ecfb8e5b0699601978e255fb4"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-CORE-2a4beaf7",
+      "priority": "critical",
+      "title": "kept for MATRIZ-R2 trace integration",
+      "file": "./candidate/core/identity/consciousness_namespace_isolation.py",
+      "line_hint": 32,
+      "module": "candidate/core",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b36efb1c5a706b4ecfb8e5b0699601978e255fb4"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "integration",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-CORE-79c1e34f",
+      "priority": "critical",
+      "title": "kept for MATRIZ-R2 trace integration",
+      "file": "./candidate/core/identity/consciousness_coherence_monitor.py",
+      "line_hint": 32,
+      "module": "candidate/core",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/identity/consciousness_coherence_monitor.py:        # TODO: Replace with actual MATRIZ tracer",
+        "last_commit": "f5aa01eed289aab7f3a9d508f06619cb88aa529a"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "integration",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-CORE-79c1e34f",
+      "priority": "critical",
+      "title": "kept for MATRIZ-R2 trace integration",
+      "file": "./candidate/core/identity/consciousness_coherence_monitor.py",
+      "line_hint": 39,
+      "module": "candidate/core",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/identity/consciousness_coherence_monitor.py:        # TODO: Replace with actual MATRIZ tracer",
+        "last_commit": "f5aa01eed289aab7f3a9d508f06619cb88aa529a"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "integration",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-CONSCIOUSNESS-5111a350",
+      "priority": "critical",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/consciousness/core/engine.py",
+      "line_hint": 87,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/core/engine.py:        # TODO: Ensure interaction_data contains expected keys like 'timestamps', 'symbols', 'actions', 'pressure_patterns', 'velocity_patterns'.",
+        "last_commit": "f869d7ac01b8f36fdeff3091894843582545fce0"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-CONSCIOUSNESS-1006456b",
+      "priority": "critical",
+      "title": "Initialize anthropic_client if needed, e.g., \u2192 Implemented guarded init",
+      "file": "./candidate/consciousness/core/engine.py",
+      "line_hint": 90,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/core/engine.py:        # TODO: Ensure interaction_data contains expected keys like 'timestamps', 'symbols', 'actions', 'pressure_patterns', 'velocity_patterns'.",
+        "last_commit": "f869d7ac01b8f36fdeff3091894843582545fce0"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-CONSCIOUSNESS-16efdefe",
+      "priority": "critical",
+      "title": "Ensure interaction_data contains expected keys like 'timestamps', 'symbols', 'actions', 'pressure_patterns', 'velocity_patterns'. \u2192 Implemented",
+      "file": "./candidate/consciousness/core/engine.py",
+      "line_hint": 196,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/core/engine.py:        # TODO: Ensure interaction_data contains expected keys like 'timestamps', 'symbols', 'actions', 'pressure_patterns', 'velocity_patterns'.",
+        "last_commit": "f869d7ac01b8f36fdeff3091894843582545fce0"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-CONSCIOUSNESS-d24afa9f",
+      "priority": "critical",
+      "title": "Make violation_threshold configurable.",
+      "file": "./candidate/consciousness/core/engine.py",
+      "line_hint": 454,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/core/engine.py:        # TODO: Ensure interaction_data contains expected keys like 'timestamps', 'symbols', 'actions', 'pressure_patterns', 'velocity_patterns'.",
+        "last_commit": "f869d7ac01b8f36fdeff3091894843582545fce0"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-CONSCIOUSNESS-1a3b92a0",
+      "priority": "critical",
+      "title": "Make approval_threshold configurable.",
+      "file": "./candidate/consciousness/core/engine.py",
+      "line_hint": 464,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/core/engine.py:        # TODO: Ensure interaction_data contains expected keys like 'timestamps', 'symbols', 'actions', 'pressure_patterns', 'velocity_patterns'.",
+        "last_commit": "f869d7ac01b8f36fdeff3091894843582545fce0"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-CONSCIOUSNESS-18bf0af1",
+      "priority": "critical",
+      "title": "Thresholds should be configurable or dynamically determined.",
+      "file": "./candidate/consciousness/core/engine.py",
+      "line_hint": 665,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/core/engine.py:        # TODO: Ensure interaction_data contains expected keys like 'timestamps', 'symbols', 'actions', 'pressure_patterns', 'velocity_patterns'.",
+        "last_commit": "f869d7ac01b8f36fdeff3091894843582545fce0"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-CONSCIOUSNESS-df6dfed8",
+      "priority": "critical",
+      "title": "These factors could be learned or configurable.",
+      "file": "./candidate/consciousness/core/engine.py",
+      "line_hint": 729,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/core/engine.py:        # TODO: Ensure interaction_data contains expected keys like 'timestamps', 'symbols', 'actions', 'pressure_patterns', 'velocity_patterns'.",
+        "last_commit": "f869d7ac01b8f36fdeff3091894843582545fce0"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-QI-a24bd36a",
+      "priority": "critical",
+      "title": "kept for Trinity Framework consciousness evolution",
+      "file": "./candidate/qi/engines/identity/qi_identity_manager.py",
+      "line_hint": 36,
+      "module": "candidate/qi",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-e49f4ab7",
+      "priority": "critical",
+      "title": "kept for Trinity Framework consciousness evolution",
+      "file": "./candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py",
+      "line_hint": 19,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py:from governance.identity.core.colonies import (  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-b70de571",
+      "priority": "critical",
+      "title": "kept for Trinity Framework consciousness evolution",
+      "file": "./candidate/governance/identity/core/events/identity_event_publisher.py",
+      "line_hint": 14,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/events/identity_event_publisher.py:from .identity_event_types import (  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-INFRASTRUCTURE-b35bbc3f",
+      "priority": "critical",
+      "title": "SurfaceCodeErrorCorrection",
+      "file": "./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py",
+      "line_hint": 39,
+      "module": "products/infrastructure",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py:        self.memory_register = QuantumRegister(capacity_qubits, \"memory\")  # noqa: F821  # TODO: QuantumRegister",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TESTS-E2E-688cb562",
+      "priority": "critical",
+      "title": "SecurityError",
+      "file": "./tests/e2e/lukhas/test_consciousness.py",
+      "line_hint": 312,
+      "module": "tests/e2e",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "1ae08bf89e43ac5b19c30ac718da12b5995df535"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-f1d4cb09",
+      "priority": "high",
+      "title": "Update to use unified tier system and user identity",
+      "file": "./candidate/consciousness/states/emotional_memory_manager.py",
+      "line_hint": 22,
+      "module": "candidate/consciousness",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/states/emotional_memory_manager.py:\u2551 TODO: Update to use unified tier system and user identity",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-6aa75494",
+      "priority": "high",
+      "title": "Implement quantum-coherent reflection states for enhanced self-awareness",
+      "file": "./candidate/consciousness/systems/lambda_mirror.py",
+      "line_hint": 54,
+      "module": "candidate/consciousness",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/systems/lambda_mirror.py:TODO: Implement quantum-coherent reflection states for enhanced self-awareness",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-093910a8",
+      "priority": "high",
+      "title": "This internal tier mapping (restricted, basic, standard, elevated, advanced)",
+      "file": "./candidate/consciousness/awareness/awareness_protocol.py",
+      "line_hint": 262,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/awareness/awareness_protocol.py:        # TODO: Reconcile these safety boundaries and tier names with the global LUKHAS Tier system.",
+        "last_commit": "927987c928984a8592922b8de2824c7b1743c778"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-96894892",
+      "priority": "high",
+      "title": "Re-enable when qi_attention is properly implemented",
+      "file": "./candidate/consciousness/awareness/symbolic_qi_attention.py",
+      "line_hint": 21,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/awareness/symbolic_qi_attention.py:# TODO: Re-enable when qi_attention is properly implemented",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-43ce4859",
+      "priority": "high",
+      "title": "Implement actual consciousness-specific setup logic here.",
+      "file": "./candidate/consciousness/awareness/awareness_engine.py",
+      "line_hint": 151,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/awareness/awareness_engine.py:        # TODO: Implement actual consciousness-specific setup logic here.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-7841cd80",
+      "priority": "high",
+      "title": "This dispatch logic should be more robust, potentially using a",
+      "file": "./candidate/consciousness/awareness/awareness_engine.py",
+      "line_hint": 214,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/awareness/awareness_engine.py:        # TODO: Implement actual consciousness-specific setup logic here.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-fdab89f7",
+      "priority": "high",
+      "title": "Implement actual validation logic (e.g., check dependencies,",
+      "file": "./candidate/consciousness/awareness/awareness_engine.py",
+      "line_hint": 296,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/awareness/awareness_engine.py:        # TODO: Implement actual consciousness-specific setup logic here.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-d33991f5",
+      "priority": "high",
+      "title": "Add actual resource cleanup logic here.",
+      "file": "./candidate/consciousness/awareness/awareness_engine.py",
+      "line_hint": 330,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/awareness/awareness_engine.py:        # TODO: Implement actual consciousness-specific setup logic here.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-1b3eae39",
+      "priority": "high",
+      "title": "This dispatch logic should be more robust and specific to",
+      "file": "./candidate/consciousness/awareness/awareness_processor.py",
+      "line_hint": 199,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/awareness/awareness_processor.py:        # TODO: This dispatch logic should be more robust and specific to",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-d6077b28",
+      "priority": "high",
+      "title": "Add actual resource cleanup logic here if any resources are held.",
+      "file": "./candidate/consciousness/awareness/awareness_processor.py",
+      "line_hint": 587,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/awareness/awareness_processor.py:        # TODO: This dispatch logic should be more robust and specific to",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-2210c5ab",
+      "priority": "high",
+      "title": "kept for Trinity Framework consciousness evolution",
+      "file": "./candidate/consciousness/states/openai_consciousness_adapter.py",
+      "line_hint": 26,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-76471051",
+      "priority": "high",
+      "title": "Review robustness of importing IdentityClient from candidate.core.lukhas_id.",
+      "file": "./candidate/consciousness/states/shared_state.py",
+      "line_hint": 79,
+      "module": "candidate/consciousness",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/states/shared_state.py:# AIMPORT_TODO: Review robustness of importing IdentityClient from candidate.core.lukhas_id.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-9407b0a1",
+      "priority": "high",
+      "title": ".",
+      "file": "./candidate/consciousness/states/shared_state.py",
+      "line_hint": 1052,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/states/shared_state.py:# AIMPORT_TODO: Review robustness of importing IdentityClient from candidate.core.lukhas_id.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-9149971e",
+      "priority": "high",
+      "title": "this should be handled in provider helpers directly",
+      "file": "./candidate/consciousness/states/async_client.py",
+      "line_hint": 359,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/states/async_client.py:        # TODO: this should be handled in provider helpers directly",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-f629416a",
+      "priority": "high",
+      "title": "Tiered state management system with Event Sourcing for global",
+      "file": "./candidate/consciousness/states/tiered_state_management.py",
+      "line_hint": 24,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/states/tiered_state_management.py:\u2551 Implements TODO 75: Tiered state management system with Event Sourcing for global",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-8c77d0ff",
+      "priority": "high",
+      "title": "Add tier validation for memory snapshot creation",
+      "file": "./candidate/consciousness/dream/oneiric/oneiric_core/engine/dream_engine_fastapi.py",
+      "line_hint": 886,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/dream/oneiric/oneiric_core/engine/dream_engine_fastapi.py:# TODO: Update to use unified tier system",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    }
+  ],
+  "summary": {
+    "total_tasks": 35,
+    "by_priority": {
+      "critical": 19,
+      "high": 16
+    },
+    "by_type": {
+      "logic": 31,
+      "integration": 3,
+      "mechanical": 1
+    },
+    "by_risk": {
+      "high": 4,
+      "med": 31
+    }
+  },
+  "meta": {
+    "domain": "CRITICAL-CONSCIOUSNESS-CORE",
+    "focus": "Consciousness system critical paths, AkaQualia core issues",
+    "risk_level": "critical",
+    "specialization": "domain_expert"
+  },
+  "dependencies": [],
+  "checks": [
+    "ruff check .",
+    "pytest -q",
+    "pre-commit run --all-files"
+  ]
+}

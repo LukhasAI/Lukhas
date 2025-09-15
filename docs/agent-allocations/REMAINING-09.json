@@ -1,0 +1,663 @@
+{
+  "agent_id": "REMAINING-09",
+  "specialty": "Remaining Batch 9",
+  "focus": "unallocated TODOs",
+  "task_count": 40,
+  "priority": "mixed",
+  "risk_level": "low",
+  "branch_prefix": "feat/remaining-09/remaining-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-LOW-TOOLS-AUTODOC_HEADERS.PY-646dfc14",
+      "priority": "low",
+      "title": ")",
+      "file": "./tools/autodoc_headers.py",
+      "module": "tools/autodoc_headers.py",
+      "trinity": "null",
+      "line_hint": 303,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/autodoc_headers.py:            if os.getenv(\"AUTODOC_DRY_RUN\", \"\").lower() != \"true\":",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-9049ebb3",
+      "priority": "low",
+      "title": ".",
+      "file": "./tools/ci/mark_unused_imports_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 5,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/mark_unused_imports_todo.py:Mark unused imports with TODOs instead of deleting them.",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-912cf506",
+      "priority": "low",
+      "title": "<reason>",
+      "file": "./tools/ci/mark_unused_imports_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 8,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/mark_unused_imports_todo.py:Mark unused imports with TODOs instead of deleting them.",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-2c46cfe8",
+      "priority": "low",
+      "title": "n",
+      "file": "./tools/ci/mark_unused_imports_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 44,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/mark_unused_imports_todo.py:Mark unused imports with TODOs instead of deleting them.",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-48aabd9a",
+      "priority": "low",
+      "title": "This file contains unused imports intentionally kept.\\n\"",
+      "file": "./tools/ci/mark_unused_imports_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 47,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./tools/ci/mark_unused_imports_todo.py:Mark unused imports with TODOs instead of deleting them.",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-5bf4b9c1",
+      "priority": "low",
+      "title": "\"",
+      "file": "./tools/ci/mark_unused_imports_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 53,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/mark_unused_imports_todo.py:Mark unused imports with TODOs instead of deleting them.",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-050e1bb8",
+      "priority": "low",
+      "title": ")",
+      "file": "./tools/ci/mark_unused_imports_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 54,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/mark_unused_imports_todo.py:Mark unused imports with TODOs instead of deleting them.",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-5bf4b9c1",
+      "priority": "low",
+      "title": "\"",
+      "file": "./tools/ci/mark_unused_imports_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 108,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/mark_unused_imports_todo.py:Mark unused imports with TODOs instead of deleting them.",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-050e1bb8",
+      "priority": "low",
+      "title": ")",
+      "file": "./tools/ci/mark_unused_imports_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 109,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/mark_unused_imports_todo.py:Mark unused imports with TODOs instead of deleting them.",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-5bf4b9c1",
+      "priority": "low",
+      "title": "\"",
+      "file": "./tools/ci/mark_unused_imports_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 113,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/mark_unused_imports_todo.py:Mark unused imports with TODOs instead of deleting them.",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-2c46cfe8",
+      "priority": "low",
+      "title": "n",
+      "file": "./tools/ci/mark_unused_imports_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 131,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/mark_unused_imports_todo.py:Mark unused imports with TODOs instead of deleting them.",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-3b263c29",
+      "priority": "low",
+      "title": "{reason}\"",
+      "file": "./tools/ci/mark_unused_imports_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 132,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/mark_unused_imports_todo.py:Mark unused imports with TODOs instead of deleting them.",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-9f8f0ad0",
+      "priority": "low",
+      "title": "n",
+      "file": "./tools/ci/check_unused_imports_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 8,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/check_unused_imports_todo.py:- Checks each finding has a TODO[T4-UNUSED-IMPORT] annotation",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-d5d6e416",
+      "priority": "low",
+      "title": "\"",
+      "file": "./tools/ci/check_unused_imports_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 33,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/check_unused_imports_todo.py:- Checks each finding has a TODO[T4-UNUSED-IMPORT] annotation",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-e622f7bf",
+      "priority": "low",
+      "title": ")",
+      "file": "./tools/ci/check_unused_imports_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 34,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/check_unused_imports_todo.py:- Checks each finding has a TODO[T4-UNUSED-IMPORT] annotation",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-d5d6e416",
+      "priority": "low",
+      "title": "\"",
+      "file": "./tools/ci/check_unused_imports_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 77,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/check_unused_imports_todo.py:- Checks each finding has a TODO[T4-UNUSED-IMPORT] annotation",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-d5d6e416",
+      "priority": "low",
+      "title": "\"",
+      "file": "./tools/ci/check_unused_imports_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 210,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/check_unused_imports_todo.py:- Checks each finding has a TODO[T4-UNUSED-IMPORT] annotation",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-b5b5ed5c",
+      "priority": "low",
+      "title": "pathlib",
+      "file": "./tools/ci/check_unused_imports_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 232,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/check_unused_imports_todo.py:- Checks each finding has a TODO[T4-UNUSED-IMPORT] annotation",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-032329cc",
+      "priority": "low",
+      "title": "# noqa: F821  # TODO: TODO_PATTERN",
+      "file": "./tools/ci/check_unused_imports_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 241,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/check_unused_imports_todo.py:- Checks each finding has a TODO[T4-UNUSED-IMPORT] annotation",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-d3d594a2",
+      "priority": "low",
+      "title": "\")",
+      "file": "./tools/ci/check_unused_imports_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 252,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/check_unused_imports_todo.py:- Checks each finding has a TODO[T4-UNUSED-IMPORT] annotation",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-e622f7bf",
+      "priority": "low",
+      "title": ")",
+      "file": "./tools/ci/check_unused_imports_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 262,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/check_unused_imports_todo.py:- Checks each finding has a TODO[T4-UNUSED-IMPORT] annotation",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-2239c45f",
+      "priority": "low",
+      "title": "y",
+      "file": "./tools/ci/mark_f821_f401_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 7,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/mark_f821_f401_todo.py:\ud83d\udee1\ufe0f Guardian-validated TODO annotation system for production stability",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-db25a661",
+      "priority": "low",
+      "title": "d",
+      "file": "./tools/ci/mark_f821_f401_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 9,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/mark_f821_f401_todo.py:\ud83d\udee1\ufe0f Guardian-validated TODO annotation system for production stability",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-0e2eddb3",
+      "priority": "low",
+      "title": "typing.Set",
+      "file": "./tools/ci/mark_f821_f401_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 17,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/mark_f821_f401_todo.py:\ud83d\udee1\ufe0f Guardian-validated TODO annotation system for production stability",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-d9a9dfed",
+      "priority": "low",
+      "title": "\"",
+      "file": "./tools/ci/mark_f821_f401_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 47,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/mark_f821_f401_todo.py:\ud83d\udee1\ufe0f Guardian-validated TODO annotation system for production stability",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-9a89b6cd",
+      "priority": "low",
+      "title": ":",
+      "file": "./tools/ci/mark_f821_f401_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 58,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/mark_f821_f401_todo.py:\ud83d\udee1\ufe0f Guardian-validated TODO annotation system for production stability",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-660e60b3",
+      "priority": "low",
+      "title": "e",
+      "file": "./tools/ci/mark_f821_f401_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 62,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/mark_f821_f401_todo.py:\ud83d\udee1\ufe0f Guardian-validated TODO annotation system for production stability",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-ae6a1bc3",
+      "priority": "low",
+      "title": "t",
+      "file": "./tools/ci/mark_f821_f401_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 95,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/mark_f821_f401_todo.py:\ud83d\udee1\ufe0f Guardian-validated TODO annotation system for production stability",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-72fb7300",
+      "priority": "low",
+      "title": ")",
+      "file": "./tools/ci/mark_f821_f401_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 110,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/mark_f821_f401_todo.py:\ud83d\udee1\ufe0f Guardian-validated TODO annotation system for production stability",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-569aa5d8",
+      "priority": "low",
+      "title": "typing.Set",
+      "file": "./tools/ci/targeted_syntax_fixer.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 13,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/targeted_syntax_fixer.py:from typing import Dict, List, Set  # noqa: F401  # TODO: typing.Set",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-87e7b531",
+      "priority": "low",
+      "title": "typing.Tuple",
+      "file": "./tools/ci/comprehensive_syntax_fixer.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 16,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/comprehensive_syntax_fixer.py:from typing import List, Dict, Tuple, Set  # noqa: F401  # TODO: typing.Tuple",
+        "last_commit": "9db7bd5d8ed70eae5f918b4c2cd7823c406ba6ef"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-53421071",
+      "priority": "low",
+      "title": "{it['class']}]: {it['message']}\"",
+      "file": "./tools/ci/f821_report.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 151,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/f821_report.py:            tag = f\"# TODO[T4-F821:{it['class']}]: {it['message']}\"",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-015f1af1",
+      "priority": "low",
+      "title": "This file contains intentionally kept unused imports.\\n\"",
+      "file": "./tools/ci/unused_imports.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 34,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./tools/ci/unused_imports.py:  * adds an inline TODO tag (idempotent):  # TODO[T4-UNUSED-IMPORT]: <reason>",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-0d0b824f",
+      "priority": "low",
+      "title": "\"",
+      "file": "./tools/ci/unused_imports.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 39,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/unused_imports.py:  * adds an inline TODO tag (idempotent):  # TODO[T4-UNUSED-IMPORT]: <reason>",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-55b62617",
+      "priority": "low",
+      "title": ")",
+      "file": "./tools/ci/unused_imports.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 40,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/unused_imports.py:  * adds an inline TODO tag (idempotent):  # TODO[T4-UNUSED-IMPORT]: <reason>",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-55b62617",
+      "priority": "low",
+      "title": ")",
+      "file": "./tools/ci/unused_imports.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 80,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/unused_imports.py:  * adds an inline TODO tag (idempotent):  # TODO[T4-UNUSED-IMPORT]: <reason>",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-ae908578",
+      "priority": "low",
+      "title": "{reason}\"",
+      "file": "./tools/ci/unused_imports.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 93,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/unused_imports.py:  * adds an inline TODO tag (idempotent):  # TODO[T4-UNUSED-IMPORT]: <reason>",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-55b62617",
+      "priority": "low",
+      "title": ")",
+      "file": "./tools/ci/unused_imports.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 101,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/unused_imports.py:  * adds an inline TODO tag (idempotent):  # TODO[T4-UNUSED-IMPORT]: <reason>",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-0d0b824f",
+      "priority": "low",
+      "title": "\"",
+      "file": "./tools/ci/unused_imports.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 104,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/unused_imports.py:  * adds an inline TODO tag (idempotent):  # TODO[T4-UNUSED-IMPORT]: <reason>",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-55b62617",
+      "priority": "low",
+      "title": ")",
+      "file": "./tools/ci/unused_imports.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 168,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/unused_imports.py:  * adds an inline TODO tag (idempotent):  # TODO[T4-UNUSED-IMPORT]: <reason>",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: remaining-09-$(date +%m%d)",
+      "2. Work through 40 remaining tasks",
+      "3. One TaskID per commit",
+      "4. Mixed priority cleanup",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(cleanup): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.165611Z",
+  "source": "Remaining unallocated TODOs"
+}

@@ -6,7 +6,10 @@ Resolves conflicts and manages policy registration for the Golden Trio.
 import logging
 from typing import Any
 
-from ethics.core import get_shared_ethics_engine  # ΛTAG: ethics_bridge
+try:
+    from ethics.core import get_shared_ethics_engine  # ΛTAG: ethics_bridge
+except (ImportError, AttributeError):  # pragma: no cover - fallback when namespace missing
+    from candidate.governance.ethics.shared_ethics_engine import get_shared_ethics_engine
 from symbolic.core import SymbolicVocabulary, get_symbolic_vocabulary
 
 logger = logging.getLogger(__name__)
@@ -47,10 +50,38 @@ class ConflictDetector:
             self.orchestrator = None
 
     async def detect_conflicts(self, current: dict[str, Any], proposed: dict[str, Any]) -> list[str]:
-        # TODO: integrate dependency analysis
+        # ΛTAG: abas, dependency_analysis
+        conflicts: list[str] = []
+
+        orchestrator_context: dict[str, Any] = {}
         if self.orchestrator:
-            _ = await self.orchestrator.context_manager.get_full_context()
-        return []
+            try:
+                orchestrator_context = await self.orchestrator.context_manager.get_full_context()
+            except Exception as exc:  # pragma: no cover - orchestrator failures are non-critical
+                logger.debug("Golden Trio context unavailable", extra={"error": str(exc)})
+
+        proposed_deps = proposed.get("dependencies", [])
+        if proposed_deps:
+            system_state = orchestrator_context.get("system_state", {})
+            for dep in proposed_deps:
+                if not isinstance(dep, dict):
+                    continue
+                system = dep.get("system")
+                requirement = dep.get("requirement")
+                if not system or not requirement:
+                    continue
+                current_state = system_state.get(system.lower(), {}) if isinstance(system_state, dict) else {}
+                active_elements = set(current_state.get("active_tasks", [])) | set(current.get("active_tasks", []))
+                if requirement not in active_elements:
+                    conflicts.append(f"missing:{system}:{requirement}")
+
+        if proposed.get("policy_id") and current.get("policy_id") == proposed["policy_id"]:
+            conflicts.append("duplicate_policy")
+
+        if conflicts:
+            logger.info("ABAS dependency conflicts detected", extra={"conflicts": conflicts})
+
+        return conflicts
 
 
 class ResolutionAlgorithm:

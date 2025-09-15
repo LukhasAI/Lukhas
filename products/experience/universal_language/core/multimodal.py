@@ -9,6 +9,8 @@ Based on /symbolic/multi_modal_language.py and Universal Language spec.
 import hashlib
 import logging
 import time
+import unicodedata
+from collections import Counter
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
@@ -16,6 +18,25 @@ from typing import Any, Optional
 import numpy as np
 
 logger = logging.getLogger(__name__)
+
+_LANGUAGE_KEYWORDS = {
+    "es": ["¿", "¡", " ñ", " gracias", " hola", "¿cómo"],
+    "fr": [" merci", "bonjour", "être", "ç", " voilà"],
+    "de": [" der ", " die ", " und ", "ß", "schön"],
+    "pt": [" você", " obrigado", "ção", " tudo bem"],
+    "it": [" grazie", " buongiorno", " signore", " è", " ciao"],
+}
+
+_EMOJI_CATEGORY_KEYWORDS = {
+    "emotion": ["FACE", "SMILING", "CRYING", "HEART", "KISS"],
+    "gesture": ["HAND", "FIST", "THUMB", "CLAP", "WAVE"],
+    "nature": ["FLOWER", "ANIMAL", "TREE", "PLANT", "WEATHER"],
+    "object": ["CAR", "PHONE", "COMPUTER", "BOOK", "CLOCK"],
+    "food": ["FOOD", "FRUIT", "DRINK", "MEAL", "BREAD"],
+    "activity": ["SPORT", "BALL", "GAME", "ART", "MUSIC"],
+    "travel": ["AIRPLANE", "TRAIN", "SHIP", "HOTEL"],
+    "symbol": ["ARROW", "STAR", "SYMBOL", "SIGN"],
+}
 
 
 class ModalityType(Enum):
@@ -260,14 +281,73 @@ class ModalityProcessor:
 
     # Helper methods
     def detect_language(self, text: str) -> str:
-        """Detect language of text (simplified)"""
-        # TODO: Implement actual language detection
+        """Detect language of text using lightweight heuristics."""
+
+        # ΛTAG: language_detection
+        stripped = text.strip()
+        if not stripped:
+            return "unknown"
+
+        # Script detection via Unicode ranges
+        script_checks = [
+            ("ja", lambda ch: "HIRAGANA" in unicodedata.name(ch, "") or "KATAKANA" in unicodedata.name(ch, "")),
+            ("ko", lambda ch: "HANGUL" in unicodedata.name(ch, "")),
+            ("zh", lambda ch: 0x4E00 <= ord(ch) <= 0x9FFF),
+            ("ru", lambda ch: 0x0400 <= ord(ch) <= 0x04FF),
+            ("ar", lambda ch: 0x0600 <= ord(ch) <= 0x06FF),
+            ("he", lambda ch: 0x0590 <= ord(ch) <= 0x05FF),
+        ]
+        for code, predicate in script_checks:
+            if any(predicate(ch) for ch in stripped):
+                return code
+
+        lowered = stripped.lower()
+        for code, triggers in _LANGUAGE_KEYWORDS.items():
+            if any(token in lowered for token in triggers):
+                return code
+
+        accent_ratio = 0.0
+        alphabetic = [ch for ch in stripped if ch.isalpha()]
+        if alphabetic:
+            accent_ratio = sum(1 for ch in alphabetic if unicodedata.combining(ch)) / len(alphabetic)
+        if accent_ratio > 0.2:
+            return "fr"
+
+        # Fallback heuristic: choose most common unicode block across characters
+        blocks = Counter(unicodedata.name(ch, "OTHER").split(" ")[0] for ch in alphabetic)
+        if blocks:
+            dominant = blocks.most_common(1)[0][0]
+            if dominant not in {"LATIN", "OTHER"}:
+                return dominant.lower()
         return "en"
 
     def get_emoji_categories(self, emoji: str) -> list[str]:
-        """Get emoji categories (simplified)"""
-        # TODO: Implement emoji categorization
-        return ["emotion"]
+        """Categorise an emoji sequence based on Unicode names."""
+
+        # ΛTAG: emoji_categorization
+        categories: set[str] = set()
+        if not emoji:
+            return ["unknown"]
+
+        for char in emoji:
+            if char in {"\ufe0f", "\u200d"}:
+                continue
+            try:
+                name = unicodedata.name(char)
+            except ValueError:
+                continue
+            upper = name.upper()
+            for category, keywords in _EMOJI_CATEGORY_KEYWORDS.items():
+                if any(keyword in upper for keyword in keywords):
+                    categories.add(category)
+            if "FLAG" in upper:
+                categories.add("flag")
+            if "SKIN TONE" in upper:
+                categories.add("skin_tone")
+
+        if not categories:
+            categories.add("symbolic")
+        return sorted(categories)
 
     def hex_to_rgb(self, hex_color: str) -> tuple[int, int, int]:
         """Convert hex color to RGB"""

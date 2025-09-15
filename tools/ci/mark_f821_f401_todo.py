@@ -14,7 +14,7 @@ import subprocess
 import json
 import re
 from pathlib import Path
-from typing import List, Dict, Set  # noqa: F401  # TODO: typing.Set
+from typing import Dict, List
 import logging
 
 # Setup logging

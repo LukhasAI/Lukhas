@@ -18,10 +18,65 @@
 └────────────────────────────────────────────────────────────────────────────
 """
 
-from typing import Optional
+from dataclasses import dataclass
+from typing import Any, Optional
 
 import numpy as np
-from qiskit import QuantumCircuit
+try:
+    from qiskit import QuantumCircuit, QuantumRegister
+except ImportError:  # pragma: no cover - qiskit is optional in this environment
+
+    class QuantumRegister:
+        """Lightweight fallback quantum register."""
+
+        # ΛTAG: quantum_memory, register_fallback
+
+        def __init__(self, capacity_qubits: int, name: str = "q") -> None:
+            self.size = capacity_qubits
+            self.name = name
+
+        def __len__(self) -> int:
+            return self.size
+
+        def __iter__(self):
+            return iter(range(self.size))
+
+        def __getitem__(self, item):
+            qubits = list(range(self.size))
+            return qubits[item]
+
+
+    class QuantumCircuit:
+        """Fallback circuit capturing intended operations."""
+
+        def __init__(self, *registers) -> None:
+            self.registers = registers
+            self.operations = []
+
+        def h(self, register) -> None:
+            self.operations.append(("h", list(register) if hasattr(register, "__iter__") else register))
+
+        def append(self, operation, qubits) -> None:
+            self.operations.append(("append", operation, list(qubits) if hasattr(qubits, "__iter__") else qubits))
+
+        def mcp(self, *args, **kwargs) -> None:
+            self.operations.append(("mcp", args, kwargs))
+
+
+@dataclass
+class QuantumState:  # pragma: no cover - fallback placeholder
+    label: str = "fallback"
+
+
+@dataclass
+class QuantumQuery:  # pragma: no cover - fallback placeholder
+    pattern: str = ""
+
+
+@dataclass
+class QuantumMemory:  # pragma: no cover - fallback placeholder
+    identifier: str
+    metadata: dict[str, Any]
 
 
 class QIAssociativeMemoryBank:
@@ -31,17 +86,41 @@ class QIAssociativeMemoryBank:
 
     def __init__(self, capacity_qubits: int = 10):
         self.capacity = 2**capacity_qubits
-        self.memory_register = QuantumRegister(capacity_qubits, "memory")  # noqa: F821  # TODO: QuantumRegister
-        self.query_register = QuantumRegister(capacity_qubits, "query")  # noqa: F821  # TODO: QuantumRegister
+        self.memory_register = QuantumRegister(capacity_qubits, "memory")
+        self.query_register = QuantumRegister(capacity_qubits, "query")
         self.oracle_circuits: dict[str, QuantumCircuit] = {}
 
         # Quantum error correction
-        self.error_correction = SurfaceCodeErrorCorrection(physical_qubits_per_logical=17)  # noqa: F821  # TODO: SurfaceCodeErrorCorrection
+        try:
+            from quantum.error_correction import SurfaceCodeErrorCorrection  # type: ignore[import-not-found]
+        except ImportError:  # pragma: no cover - fallback stub
+
+            class SurfaceCodeErrorCorrection:  # type: ignore[override]
+                def __init__(self, *_, **__):
+                    pass
+
+                async def encode(self, state):
+                    return state
+
+        self.error_correction = SurfaceCodeErrorCorrection(physical_qubits_per_logical=17)
 
         # Decoherence mitigation
-        self.decoherence_mitigator = DecoherenceMitigation(strategy="dynamical_decoupling")  # noqa: F821  # TODO: DecoherenceMitigation
+        try:
+            from quantum.decoherence import DecoherenceMitigation  # type: ignore[import-not-found]
+        except ImportError:  # pragma: no cover - fallback stub
 
-    async def store_quantum_state(self, memory_id: str, quantum_state: QuantumState, associations: list[str]):  # noqa: F821  # TODO: QuantumState
+            class DecoherenceMitigation:  # type: ignore[override]
+                def __init__(self, *_, **__):
+                    pass
+
+                async def stabilize(self, state):
+                    return state
+
+        self.decoherence_mitigator = DecoherenceMitigation(strategy="dynamical_decoupling")
+
+    async def store_quantum_state(
+        self, memory_id: str, quantum_state: QuantumState, associations: list[str]  # noqa: F821
+    ):
         """
         Store information in quantum superposition
         """

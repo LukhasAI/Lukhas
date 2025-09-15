@@ -1,0 +1,663 @@
+{
+  "agent_id": "REMAINING-05",
+  "specialty": "Remaining Batch 5",
+  "focus": "unallocated TODOs",
+  "task_count": 40,
+  "priority": "mixed",
+  "risk_level": "low",
+  "branch_prefix": "feat/remaining-05/remaining-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-2910bb00",
+      "priority": "high",
+      "title": "CodeParser",
+      "file": "./products/intelligence/lens/api/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 191,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-1fd0df10",
+      "priority": "high",
+      "title": "DataParser",
+      "file": "./products/intelligence/lens/api/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 193,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-166c94aa",
+      "priority": "high",
+      "title": "CSVParser",
+      "file": "./products/intelligence/lens/api/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 195,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-3744b67e",
+      "priority": "high",
+      "title": "MarkdownParser",
+      "file": "./products/intelligence/lens/api/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 197,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-4cb4ce34",
+      "priority": "high",
+      "title": "PDFParser",
+      "file": "./products/intelligence/lens/api/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 199,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-435cecb1",
+      "priority": "high",
+      "title": "TextParser",
+      "file": "./products/intelligence/lens/api/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 201,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-d4c85012",
+      "priority": "high",
+      "title": "api.schemas.JobResponse; consi...",
+      "file": "./products/intelligence/lens/test_api.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 18,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/test_api.py:    from api.schemas import JobRequest, JobResponse, PhotonDocument  # noqa: F401  # TODO: api.schemas.JobResponse; consi...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-3e66e234",
+      "priority": "high",
+      "title": "Fix import paths - lambda directory doesn't exist",
+      "file": "./products/intelligence/lens/api_new/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "Identity",
+      "line_hint": 23,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api_new/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-21d479de",
+      "priority": "high",
+      "title": "Update these import paths to correct locations",
+      "file": "./products/intelligence/lens/api_new/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 27,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api_new/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-04cf43c5",
+      "priority": "high",
+      "title": "LensCore",
+      "file": "./products/intelligence/lens/api_new/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 64,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api_new/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-5608cfcb",
+      "priority": "high",
+      "title": "SymbolGenerator",
+      "file": "./products/intelligence/lens/api_new/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 65,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api_new/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-cf610133",
+      "priority": "high",
+      "title": "WidgetFactory",
+      "file": "./products/intelligence/lens/api_new/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 66,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api_new/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-20f6a874",
+      "priority": "high",
+      "title": "Web2DRenderer",
+      "file": "./products/intelligence/lens/api_new/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 67,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api_new/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-01cc0ea2",
+      "priority": "high",
+      "title": "XRRenderer",
+      "file": "./products/intelligence/lens/api_new/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 68,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api_new/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-b8592578",
+      "priority": "high",
+      "title": "TextParser",
+      "file": "./products/intelligence/lens/api_new/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 189,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api_new/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-889f6c1c",
+      "priority": "high",
+      "title": "CodeParser",
+      "file": "./products/intelligence/lens/api_new/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 191,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api_new/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-d8d205b8",
+      "priority": "high",
+      "title": "DataParser",
+      "file": "./products/intelligence/lens/api_new/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 193,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api_new/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-82782570",
+      "priority": "high",
+      "title": "CSVParser",
+      "file": "./products/intelligence/lens/api_new/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 195,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api_new/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-ce66b751",
+      "priority": "high",
+      "title": "MarkdownParser",
+      "file": "./products/intelligence/lens/api_new/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 197,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api_new/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-7fdd060f",
+      "priority": "high",
+      "title": "PDFParser",
+      "file": "./products/intelligence/lens/api_new/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 199,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api_new/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-b8592578",
+      "priority": "high",
+      "title": "TextParser",
+      "file": "./products/intelligence/lens/api_new/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 201,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api_new/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-5abce7ae",
+      "priority": "high",
+      "title": "re",
+      "file": "./products/intelligence/dast/dast_core.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 776,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/dast/dast_core.py:                    age_match = re.search(r\"symbol_age >= (\\d+) hours\", rule.condition)  # noqa: F821  # TODO: re",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-5abce7ae",
+      "priority": "high",
+      "title": "re",
+      "file": "./products/intelligence/dast/dast_core.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 777,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/dast/dast_core.py:                    age_match = re.search(r\"symbol_age >= (\\d+) hours\", rule.condition)  # noqa: F821  # TODO: re",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-CONTENT-60581237",
+      "priority": "high",
+      "title": "EmotionalOscillator",
+      "file": "./products/content/poetica/creativity_engines/personality/brain.py",
+      "module": "products/content",
+      "trinity": "null",
+      "line_hint": 22,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/content/poetica/creativity_engines/personality/brain.py:        self.emotional_oscillator = EmotionalOscillator()  # noqa: F821  # TODO: EmotionalOscillator",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-CONTENT-995f1557",
+      "priority": "high",
+      "title": "QIAttention",
+      "file": "./products/content/poetica/creativity_engines/personality/brain.py",
+      "module": "products/content",
+      "trinity": "null",
+      "line_hint": 23,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/content/poetica/creativity_engines/personality/brain.py:        self.emotional_oscillator = EmotionalOscillator()  # noqa: F821  # TODO: EmotionalOscillator",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-CONTENT-8d8e6cb7",
+      "priority": "high",
+      "title": "EthicsEngine",
+      "file": "./products/content/poetica/creativity_engines/personality/brain.py",
+      "module": "products/content",
+      "trinity": "Guardian",
+      "line_hint": 24,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/content/poetica/creativity_engines/personality/brain.py:        self.emotional_oscillator = EmotionalOscillator()  # noqa: F821  # TODO: EmotionalOscillator",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-CONTENT-4af85da0",
+      "priority": "high",
+      "title": "EnhancedMemoryManager",
+      "file": "./products/content/poetica/creativity_engines/personality/brain.py",
+      "module": "products/content",
+      "trinity": "Consciousness",
+      "line_hint": 27,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/content/poetica/creativity_engines/personality/brain.py:        self.emotional_oscillator = EmotionalOscillator()  # noqa: F821  # TODO: EmotionalOscillator",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-CONTENT-0ececbab",
+      "priority": "high",
+      "title": "DecisionEngine",
+      "file": "./products/content/poetica/creativity_engines/personality/brain.py",
+      "module": "products/content",
+      "trinity": "null",
+      "line_hint": 33,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/content/poetica/creativity_engines/personality/brain.py:        self.emotional_oscillator = EmotionalOscillator()  # noqa: F821  # TODO: EmotionalOscillator",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-CONTENT-eb4d94d7",
+      "priority": "high",
+      "title": "Define this type",
+      "file": "./products/content/poetica/creativity_engines/qi_creative_types.py",
+      "module": "products/content",
+      "trinity": "null",
+      "line_hint": 135,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/content/poetica/creativity_engines/qi_creative_types.py:    base_state: Any  # \"CreativeQuantumLikeState\" - TODO: Define this type",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-CONTENT-b0592c6f",
+      "priority": "high",
+      "title": "Return QuantumHaiku when defined",
+      "file": "./products/content/poetica/creativity_engines/qi_creative_types.py",
+      "module": "products/content",
+      "trinity": "null",
+      "line_hint": 787,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/content/poetica/creativity_engines/qi_creative_types.py:    base_state: Any  # \"CreativeQuantumLikeState\" - TODO: Define this type",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-CONTENT-4ce7377b",
+      "priority": "high",
+      "title": "Histogram",
+      "file": "./products/content/poetica/creativity_engines/creative_engine.py",
+      "module": "products/content",
+      "trinity": "null",
+      "line_hint": 58,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/content/poetica/creativity_engines/creative_engine.py:HAIKU_GENERATION_TIME = Histogram(\"haiku_generation_seconds\", \"Time spent generating haiku\")  # noqa: F821  # TODO: Histogram",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-CONTENT-8a17402e",
+      "priority": "high",
+      "title": "Gauge",
+      "file": "./products/content/poetica/creativity_engines/creative_engine.py",
+      "module": "products/content",
+      "trinity": "null",
+      "line_hint": 60,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/content/poetica/creativity_engines/creative_engine.py:HAIKU_GENERATION_TIME = Histogram(\"haiku_generation_seconds\", \"Time spent generating haiku\")  # noqa: F821  # TODO: Histogram",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-CONTENT-3cc47352",
+      "priority": "high",
+      "title": "lukhas.branding_bridge.generat...",
+      "file": "./products/content/poetica/creativity_engines/advanced_haiku_generator.py",
+      "module": "products/content",
+      "trinity": "null",
+      "line_hint": 67,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/content/poetica/creativity_engines/advanced_haiku_generator.py:        generate_branded_content,  # noqa: F401  # TODO: lukhas.branding_bridge.generat...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-CONTENT-689b07b1",
+      "priority": "high",
+      "title": "lukhas.branding_bridge.get_tri...",
+      "file": "./products/content/poetica/creativity_engines/advanced_haiku_generator.py",
+      "module": "products/content",
+      "trinity": "null",
+      "line_hint": 69,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/content/poetica/creativity_engines/advanced_haiku_generator.py:        generate_branded_content,  # noqa: F401  # TODO: lukhas.branding_bridge.generat...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-COMMUNICATION-433578ea",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/communication/nias/dream_generator.py",
+      "module": "products/communication",
+      "trinity": "Consciousness",
+      "line_hint": 24,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/communication/nias/dream_generator.py:    logger.warning(\"OpenAI library not available. Install with: pip install openai\", timezone)  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-COMMUNICATION-56d7fe11",
+      "priority": "high",
+      "title": "]",
+      "file": "./products/communication/nias_candidate/core/nias_engine.py",
+      "module": "products/communication",
+      "trinity": "null",
+      "line_hint": 64,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/communication/nias_candidate/core/nias_engine.py:            return [self.symbolic.create_symbol(\"rec\", {\"context\": \"TODO\"})]",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-COMMUNICATION-7093791e",
+      "priority": "high",
+      "title": "Fix ethics integration",
+      "file": "./products/communication/abas_candidate/core/abas_engine.py",
+      "module": "products/communication",
+      "trinity": "Guardian",
+      "line_hint": 10,
+      "risk": "low",
+      "type": "integration",
+      "size": "M",
+      "evidence": {
+        "grep": "./products/communication/abas_candidate/core/abas_engine.py:# from ethics.core import get_shared_ethics_engine  # TODO: Fix ethics integration",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-COMMUNICATION-d9cfb4bd",
+      "priority": "high",
+      "title": "integrate dependency analysis",
+      "file": "./products/communication/abas_candidate/core/abas_engine.py",
+      "module": "products/communication",
+      "trinity": "null",
+      "line_hint": 61,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/communication/abas_candidate/core/abas_engine.py:# from ethics.core import get_shared_ethics_engine  # TODO: Fix ethics integration",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-b96cecbc",
+      "priority": "high",
+      "title": "QuantumRegister",
+      "file": "./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py",
+      "module": "products/infrastructure",
+      "trinity": "Consciousness",
+      "line_hint": 34,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py:        self.memory_register = QuantumRegister(capacity_qubits, \"memory\")  # noqa: F821  # TODO: QuantumRegister",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-b96cecbc",
+      "priority": "high",
+      "title": "QuantumRegister",
+      "file": "./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py",
+      "module": "products/infrastructure",
+      "trinity": "Consciousness",
+      "line_hint": 35,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py:        self.memory_register = QuantumRegister(capacity_qubits, \"memory\")  # noqa: F821  # TODO: QuantumRegister",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: remaining-05-$(date +%m%d)",
+      "2. Work through 40 remaining tasks",
+      "3. One TaskID per commit",
+      "4. Mixed priority cleanup",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(cleanup): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.163788Z",
+  "source": "Remaining unallocated TODOs"
+}

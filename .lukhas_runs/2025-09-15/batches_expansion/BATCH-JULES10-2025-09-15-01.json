@@ -1,0 +1,544 @@
+{
+  "batch_id": "BATCH-JULES10-2025-09-15-01",
+  "agent": "jules10",
+  "created_at": "2025-09-15T09:27:44.102664Z",
+  "expires_at": "2025-09-18T09:27:44.102665Z",
+  "branch_name": "feat/jules10/testing-e2e-batch01",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-876d3326",
+      "priority": "high",
+      "title": "triage - Large legacy symbolic processing system. Need migration strategy vs preservation decision.",
+      "file": "./candidate/core/symbolic_legacy/bio/mito_qi_attention.py",
+      "line_hint": 7,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_legacy/bio/mito_qi_attention.py:TODO[T4-AUDIT]:triage - Large legacy symbolic processing system. Need migration strategy vs preservation decision.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-a571e11d",
+      "priority": "high",
+      "title": "triage - Large legacy symbolic processing system. Need migration strategy vs preservation decision.",
+      "file": "./candidate/core/symbolic_legacy/__init__.py",
+      "line_hint": 3,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_legacy/__init__.py:TODO[T4-AUDIT]:triage - Large legacy symbolic processing system. Need migration strategy vs preservation decision.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-3270c886",
+      "priority": "high",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/core/bootstrap.py",
+      "line_hint": 14,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f869d7ac01b8f36fdeff3091894843582545fce0"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-20d0fcef",
+      "priority": "high",
+      "title": "0",
+      "file": "./candidate/core/swarm.py",
+      "line_hint": 3,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/swarm.py:Addresses TODOs 76-90",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-6ac67aaf",
+      "priority": "high",
+      "title": "Analysis of Resource Efficiency and Implementation.",
+      "file": "./candidate/core/resource_efficiency_analyzer.py",
+      "line_hint": 14,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/resource_efficiency_analyzer.py:\u2551 Addresses REALITY_TODO 135: Analysis of Resource Efficiency and Implementation.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-32112474",
+      "priority": "high",
+      "title": "specialist] - Contribution used for quantum consciousness calculation",
+      "file": "./candidate/core/quantum_financial/quantum_financial_consciousness_engine.py",
+      "line_hint": 20,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/quantum_financial/quantum_financial_consciousness_engine.py:        # TODO[QUANTUM-BIO:specialist] - Contribution used for quantum consciousness calculation",
+        "last_commit": "f203cbd2b8e04c94dfc42644ca019cfb993693ef"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-b883c0d4",
+      "priority": "high",
+      "title": "specialist] - Amount determines quantum token consciousness value",
+      "file": "./candidate/core/quantum_financial/quantum_financial_consciousness_engine.py",
+      "line_hint": 27,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/quantum_financial/quantum_financial_consciousness_engine.py:        # TODO[QUANTUM-BIO:specialist] - Contribution used for quantum consciousness calculation",
+        "last_commit": "f203cbd2b8e04c94dfc42644ca019cfb993693ef"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-519afa59",
+      "priority": "high",
+      "title": "specialist] - Contribution drives quantum gift consciousness economy",
+      "file": "./candidate/core/quantum_financial/quantum_financial_consciousness_engine.py",
+      "line_hint": 34,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/quantum_financial/quantum_financial_consciousness_engine.py:        # TODO[QUANTUM-BIO:specialist] - Contribution used for quantum consciousness calculation",
+        "last_commit": "f203cbd2b8e04c94dfc42644ca019cfb993693ef"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-f2f48445",
+      "priority": "high",
+      "title": "specialist] - User ID for quantum consciousness profile mapping",
+      "file": "./candidate/core/quantum_financial/quantum_financial_consciousness_engine.py",
+      "line_hint": 59,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/quantum_financial/quantum_financial_consciousness_engine.py:        # TODO[QUANTUM-BIO:specialist] - Contribution used for quantum consciousness calculation",
+        "last_commit": "f203cbd2b8e04c94dfc42644ca019cfb993693ef"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-7998c493",
+      "priority": "high",
+      "title": "specialist] - Product quantum consciousness value in exchange calculation",
+      "file": "./candidate/core/quantum_financial/quantum_financial_consciousness_engine.py",
+      "line_hint": 76,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/quantum_financial/quantum_financial_consciousness_engine.py:        # TODO[QUANTUM-BIO:specialist] - Contribution used for quantum consciousness calculation",
+        "last_commit": "f203cbd2b8e04c94dfc42644ca019cfb993693ef"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-85b2a387",
+      "priority": "high",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/core/constellation_alignment_system.py",
+      "line_hint": 16,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f203cbd2b8e04c94dfc42644ca019cfb993693ef"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-49b6fc51",
+      "priority": "high",
+      "title": "implement more operation types",
+      "file": "./candidate/core/colonies/temporal_colony.py",
+      "line_hint": 49,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f203cbd2b8e04c94dfc42644ca019cfb993693ef"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-65046475",
+      "priority": "high",
+      "title": "specialist] - Implement full consciousness token mapping with emotional vectors and temporal sync",
+      "file": "./candidate/core/symbolic_bridge/token_map.py",
+      "line_hint": 7,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_bridge/token_map.py:# TODO[GLYPH:specialist] - Add causal linkage preservation and drift detection capabilities",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-47a1ded2",
+      "priority": "high",
+      "title": "specialist] - Add causal linkage preservation and drift detection capabilities",
+      "file": "./candidate/core/symbolic_bridge/token_map.py",
+      "line_hint": 8,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_bridge/token_map.py:# TODO[GLYPH:specialist] - Add causal linkage preservation and drift detection capabilities",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-d122be15",
+      "priority": "high",
+      "title": "specialist] - Integrate with Guardian system for ethical validation of consciousness flows",
+      "file": "./candidate/core/symbolic_bridge/token_map.py",
+      "line_hint": 9,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_bridge/token_map.py:# TODO[GLYPH:specialist] - Add causal linkage preservation and drift detection capabilities",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-83ced6ee",
+      "priority": "high",
+      "title": "specialist] - Implement full consciousness mesh formation protocols",
+      "file": "./candidate/core/symbolic_bridge/integrator.py",
+      "line_hint": 7,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_bridge/integrator.py:# TODO[GLYPH:specialist] - Add dream seed propagation mechanisms for creative consciousness",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-aa3a07ac",
+      "priority": "high",
+      "title": "specialist] - Add dream seed propagation mechanisms for creative consciousness",
+      "file": "./candidate/core/symbolic_bridge/integrator.py",
+      "line_hint": 8,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_bridge/integrator.py:# TODO[GLYPH:specialist] - Add dream seed propagation mechanisms for creative consciousness",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-8df0c3f4",
+      "priority": "high",
+      "title": "specialist] - Integrate temporal synchronization for consciousness state transitions",
+      "file": "./candidate/core/symbolic_bridge/integrator.py",
+      "line_hint": 9,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_bridge/integrator.py:# TODO[GLYPH:specialist] - Add dream seed propagation mechanisms for creative consciousness",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-afe04c8d",
+      "priority": "high",
+      "title": "specialist] - Add drift detection and consciousness stability monitoring",
+      "file": "./candidate/core/symbolic_bridge/integrator.py",
+      "line_hint": 10,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_bridge/integrator.py:# TODO[GLYPH:specialist] - Add dream seed propagation mechanisms for creative consciousness",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-26189e29",
+      "priority": "high",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/core/id.py",
+      "line_hint": 27,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "244821f72bec212cb6c564aa679fe826856bcf80"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-a9b59f31",
+      "priority": "high",
+      "title": "Distributed tracing with correlation IDs",
+      "file": "./candidate/core/distributed_tracing.py",
+      "line_hint": 3,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/distributed_tracing.py:Addresses TODO 168: Distributed tracing with correlation IDs",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-836e5683",
+      "priority": "high",
+      "title": "-",
+      "file": "./candidate/core/distributed_tracing.py",
+      "line_hint": 572,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/distributed_tracing.py:Addresses TODO 168: Distributed tracing with correlation IDs",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-dffe52f2",
+      "priority": "high",
+      "title": "specialist] - User ID for biometric consciousness tracking",
+      "file": "./candidate/core/qi_biometrics/qi_biometrics_engine.py",
+      "line_hint": 15,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/qi_biometrics/qi_biometrics_engine.py:    ) -> float:  # TODO[QUANTUM-BIO:specialist] - User ID for biometric consciousness tracking",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-2fa969b3",
+      "priority": "high",
+      "title": "specialist] - User ID for circadian consciousness mapping",
+      "file": "./candidate/core/qi_biometrics/qi_biometrics_engine.py",
+      "line_hint": 20,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/qi_biometrics/qi_biometrics_engine.py:    ) -> float:  # TODO[QUANTUM-BIO:specialist] - User ID for biometric consciousness tracking",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-be4556c4",
+      "priority": "high",
+      "title": "specialist] - User ID for sleep consciousness profiling",
+      "file": "./candidate/core/qi_biometrics/qi_biometrics_engine.py",
+      "line_hint": 27,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/qi_biometrics/qi_biometrics_engine.py:    ) -> float:  # TODO[QUANTUM-BIO:specialist] - User ID for biometric consciousness tracking",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    }
+  ],
+  "meta": {
+    "domain": "Testing/E2E",
+    "description": "integration identity imports + e2e glue",
+    "risk_level": "medium",
+    "requires_review": false,
+    "feature_flags_required": false,
+    "experimental": false,
+    "total_tasks": 25
+  }
+}

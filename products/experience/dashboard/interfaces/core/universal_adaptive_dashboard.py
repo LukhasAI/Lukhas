@@ -60,6 +60,7 @@ from lukhas.core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
 from lukhas.core.monitoring.drift_monitor import UnifiedDriftMonitor
 from lukhas.core.oracle_nervous_system import get_oracle_nervous_system
 from lukhas.memory.systems.healix_memory_core import HealixMemoryCore
+from system.common.event_bus import EventBus
 
 logger = logging.getLogger("ΛTRACE.universal_adaptive_dashboard", timezone)
 
@@ -130,7 +131,8 @@ class UniversalAdaptiveDashboard:
         self.threshold_colony = AdaptiveThresholdColony()
         self.drift_monitor = UnifiedDriftMonitor()
         self.healix_memory = HealixMemoryCore()
-        self.event_bus = EventBus()  # noqa: F821  # TODO: EventBus
+        # ΛTAG: event_bus_bridge
+        self.event_bus = EventBus()
 
         # LUKHAS AI system integration
         self.oracle_nervous_system = None

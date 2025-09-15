@@ -83,8 +83,7 @@ class TodoManifestBuilder:
         clean_file = re.sub(r":\d+$", "", file_path)
 
         # Extract title/description
-        title_match = re.search(r"\*\*TODO Text:\*\*\s*```([^`]+)```", section, re.DOTALL)
-        title = title_match.group(1).strip() if title_match else "No description"
+        title = self._extract_todo_text(section)
 
         # Check completion status
         status_match = re.search(r"\*\*Status\*\*:\s*(.+)", section)
@@ -120,7 +119,10 @@ class TodoManifestBuilder:
     def _generate_task_id(self, priority: str, file_path: str, title: str) -> str:
         """Generate TaskID: TODO-{PRIORITY}-{MODULE}-{HASH8}"""
         priority_code = priority.upper()[:4]
-        module = self._extract_module(file_path).replace("/", "-").upper()
+        module_raw = self._extract_module(file_path)
+        module = re.sub(r"[^A-Z0-9-]", "", module_raw.replace("/", "-").upper())
+        if not module:
+            module = "GENERAL"
 
         # Generate 8-char hash from file + title
         hash_input = f"{file_path}:{title}"
@@ -212,24 +214,37 @@ class TodoManifestBuilder:
             todo["evidence"] = evidence
 
         # Add new TODOs found in grep but not in markdown
-        markdown_files = {todo["file"] for todo in todos}
+        markdown_files = {todo["file"].lstrip("./") for todo in todos}
+        existing_ids = {todo["task_id"] for todo in todos}
         for grep_line in grep_todos:
             file_path = grep_line.split(":")[0]
-            if file_path not in markdown_files:
+            if file_path.lstrip("./") not in markdown_files:
                 new_todo = self._create_todo_from_grep(grep_line)
-                if new_todo:
+                if new_todo and new_todo["task_id"] not in existing_ids:
                     todos.append(new_todo)
+                    existing_ids.add(new_todo["task_id"])
 
         return todos
+
+    def _extract_todo_text(self, section: str) -> str:
+        """Extract TODO text allowing for language-specific fences."""  # ΛTAG: manifest_resilience
+
+        block_match = re.search(r"\*\*TODO Text:\*\*\s*```(?:[\w-]+\n)?([^`]+)```", section, re.DOTALL)
+        if block_match:
+            return block_match.group(1).strip()
+
+        inline_match = re.search(r"\*\*TODO Text:\*\*\s*(.+)", section)
+        return inline_match.group(1).strip() if inline_match else "No description"
 
     def _find_evidence(self, todo: Dict[str, Any], grep_todos: List[str]) -> Dict[str, Any]:
         """Find evidence for TODO in grep results and git history"""
         evidence = {"grep": None, "last_commit": None}
 
         # Check grep evidence
-        file_path = todo["file"]
+        file_path = todo["file"].lstrip("./")
         for grep_line in grep_todos:
-            if grep_line.startswith(file_path):
+            grep_file = grep_line.split(":", 1)[0].lstrip("./")
+            if grep_file == file_path:
                 evidence["grep"] = grep_line
                 break
 

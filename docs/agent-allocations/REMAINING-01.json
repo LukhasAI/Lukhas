@@ -1,0 +1,663 @@
+{
+  "agent_id": "REMAINING-01",
+  "specialty": "Remaining Batch 1",
+  "focus": "unallocated TODOs",
+  "task_count": 40,
+  "priority": "mixed",
+  "risk_level": "low",
+  "branch_prefix": "feat/remaining-01/remaining-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-UNKN-PATH-TO-b037f03f",
+      "priority": "unknown",
+      "title": "No description",
+      "file": "path/to/file.py:line_number",
+      "module": "path/to",
+      "trinity": "null",
+      "line_hint": null,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TOOLS-SECURITY-a2448201",
+      "priority": "critical",
+      "title": "lukhas.governance.security.acc...",
+      "file": "./tools/security/enterprise_security_automation.py",
+      "module": "tools/security",
+      "trinity": "Guardian",
+      "line_hint": 35,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "53ad44463046154335624462ddda7391bf83fde3"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TOOLS-SECURITY-b635a32f",
+      "priority": "critical",
+      "title": "Dict",
+      "file": "./tools/security/guardian_compliance_validator.py",
+      "module": "tools/security",
+      "trinity": "Guardian",
+      "line_hint": 260,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/security/guardian_compliance_validator.py:    def _is_guardian_compliant(self, results: Dict[str, Any]) -> bool:  # noqa: F821  # TODO: Dict",
+        "last_commit": "9db7bd5d8ed70eae5f918b4c2cd7823c406ba6ef"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TOOLS-SECURITY-b635a32f",
+      "priority": "critical",
+      "title": "Dict",
+      "file": "./tools/security/guardian_compliance_validator.py",
+      "module": "tools/security",
+      "trinity": "Guardian",
+      "line_hint": 361,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/security/guardian_compliance_validator.py:    def _is_guardian_compliant(self, results: Dict[str, Any]) -> bool:  # noqa: F821  # TODO: Dict",
+        "last_commit": "9db7bd5d8ed70eae5f918b4c2cd7823c406ba6ef"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TOOLS-SECURITY-b635a32f",
+      "priority": "critical",
+      "title": "Dict",
+      "file": "./tools/security/guardian_compliance_validator.py",
+      "module": "tools/security",
+      "trinity": "Guardian",
+      "line_hint": 370,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/security/guardian_compliance_validator.py:    def _is_guardian_compliant(self, results: Dict[str, Any]) -> bool:  # noqa: F821  # TODO: Dict",
+        "last_commit": "9db7bd5d8ed70eae5f918b4c2cd7823c406ba6ef"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TOOLS-SECURITY-b635a32f",
+      "priority": "critical",
+      "title": "Dict",
+      "file": "./tools/security/guardian_compliance_validator.py",
+      "module": "tools/security",
+      "trinity": "Guardian",
+      "line_hint": 379,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/security/guardian_compliance_validator.py:    def _is_guardian_compliant(self, results: Dict[str, Any]) -> bool:  # noqa: F821  # TODO: Dict",
+        "last_commit": "9db7bd5d8ed70eae5f918b4c2cd7823c406ba6ef"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TOOLS-SECURITY-b635a32f",
+      "priority": "critical",
+      "title": "Dict",
+      "file": "./tools/security/guardian_compliance_validator.py",
+      "module": "tools/security",
+      "trinity": "Guardian",
+      "line_hint": 384,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/security/guardian_compliance_validator.py:    def _is_guardian_compliant(self, results: Dict[str, Any]) -> bool:  # noqa: F821  # TODO: Dict",
+        "last_commit": "9db7bd5d8ed70eae5f918b4c2cd7823c406ba6ef"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TOOLS-SECURITY-b635a32f",
+      "priority": "critical",
+      "title": "Dict",
+      "file": "./tools/security/guardian_compliance_validator.py",
+      "module": "tools/security",
+      "trinity": "Guardian",
+      "line_hint": 390,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/security/guardian_compliance_validator.py:    def _is_guardian_compliant(self, results: Dict[str, Any]) -> bool:  # noqa: F821  # TODO: Dict",
+        "last_commit": "9db7bd5d8ed70eae5f918b4c2cd7823c406ba6ef"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TOOLS-CI-d2a13499",
+      "priority": "critical",
+      "title": "{error_code}  # TODO: {clean_msg}\"",
+      "file": "./tools/ci/mark_f821_f401_todo.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 64,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/mark_f821_f401_todo.py:\ud83d\udee1\ufe0f Guardian-validated TODO annotation system for production stability",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TOOLS-CI-4e2a71a9",
+      "priority": "critical",
+      "title": "Handle exception properly\")",
+      "file": "./tools/ci/comprehensive_syntax_fixer.py",
+      "module": "tools/ci",
+      "trinity": "null",
+      "line_hint": 126,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ci/comprehensive_syntax_fixer.py:from typing import List, Dict, Tuple, Set  # noqa: F401  # TODO: typing.Tuple",
+        "last_commit": "9db7bd5d8ed70eae5f918b4c2cd7823c406ba6ef"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TOOLS-SCRIPTS-e9584ecc",
+      "priority": "critical",
+      "title": "Implement proper password validation",
+      "file": "./tools/scripts/identity_refactor.py",
+      "module": "tools/scripts",
+      "trinity": "Identity",
+      "line_hint": 127,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TOOLS-SCRIPTS-74a953ef",
+      "priority": "critical",
+      "title": "Implement proper user storage and password hashing",
+      "file": "./tools/scripts/identity_refactor.py",
+      "module": "tools/scripts",
+      "trinity": "Identity",
+      "line_hint": 169,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TOOLS-SCRIPTS-8d86fbdf",
+      "priority": "critical",
+      "title": "MODULE_REQUIRED_TIER",
+      "file": "./tools/scripts/AUTO_IDENTITY_FIXER.py",
+      "module": "tools/scripts",
+      "trinity": "Identity",
+      "line_hint": 182,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "53ad44463046154335624462ddda7391bf83fde3"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TOOLS-SCRIPTS-597323ce",
+      "priority": "critical",
+      "title": "e",
+      "file": "./tools/scripts/AUTO_IDENTITY_FIXER.py",
+      "module": "tools/scripts",
+      "trinity": "Identity",
+      "line_hint": 188,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "53ad44463046154335624462ddda7391bf83fde3"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TOOLS-VALIDATION-c1ef8fac",
+      "priority": "critical",
+      "title": "lukhas.governance.identity.aut...",
+      "file": "./tools/validation/prevention_suite.py",
+      "module": "tools/validation",
+      "trinity": "Identity",
+      "line_hint": 268,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/validation/prevention_suite.py:            from lukhas.governance.identity import auth_integration  # noqa: F401  # TODO: lukhas.governance.identity.aut...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-7d296297",
+      "priority": "high",
+      "title": "Install or implement AID",
+      "file": "./candidate/consciousness/reflection/visionary_orchestrator.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 78,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/visionary_orchestrator.py:    #     from system.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-43729cc0",
+      "priority": "high",
+      "title": ":",
+      "file": "./candidate/consciousness/reflection/visionary_orchestrator.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 79,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/visionary_orchestrator.py:    #     from system.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-ea6d68c7",
+      "priority": "high",
+      "title": "No description",
+      "file": "./candidate/consciousness/reflection/bio_crista_optimizer_adapter.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 56,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/bio_crista_optimizer_adapter.py:# AIMPORT_TODO: Define or import the actual `CristaOptimizerBase` or similar type",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-beffc6d6",
+      "priority": "high",
+      "title": "Implement phase harmonics analyzer for resonance breakdown detection",
+      "file": "./candidate/consciousness/reflection/ethical_drift_sentinel.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 56,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/ethical_drift_sentinel.py:TODO: Implement phase harmonics analyzer for resonance breakdown detection",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-dd2da567",
+      "priority": "high",
+      "title": "Install or implement AID",
+      "file": "./candidate/consciousness/reflection/orchestration_service.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 45,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/orchestration_service.py:# from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-7f44a05d",
+      "priority": "high",
+      "title": "Install or implement CORE",
+      "file": "./candidate/consciousness/reflection/orchestration_service.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 46,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/orchestration_service.py:# from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-7f44a05d",
+      "priority": "high",
+      "title": "Install or implement CORE",
+      "file": "./candidate/consciousness/reflection/orchestration_service.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 47,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/orchestration_service.py:# from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-7f44a05d",
+      "priority": "high",
+      "title": "Install or implement CORE",
+      "file": "./candidate/consciousness/reflection/orchestration_service.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 48,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/orchestration_service.py:# from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-ee29d473",
+      "priority": "high",
+      "title": ".",
+      "file": "./candidate/consciousness/reflection/orchestration_service.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 2317,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/orchestration_service.py:# from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-078baf67",
+      "priority": "high",
+      "title": "Implement consolidated functionality",
+      "file": "./candidate/consciousness/reflection/orchestration_service.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 2323,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/orchestration_service.py:# from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-0e399d08",
+      "priority": "high",
+      "title": "Fault containment patterns for distributed systems",
+      "file": "./candidate/consciousness/reflection/circuit_breaker.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 13,
+      "risk": "med",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/circuit_breaker.py:Addresses TODO 172: Fault containment patterns for distributed systems",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-64d5394e",
+      "priority": "high",
+      "title": "kept for Trinity Framework consciousness evolution",
+      "file": "./candidate/consciousness/reflection/openai_modulated_service.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 21,
+      "risk": "med",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-89abc269",
+      "priority": "high",
+      "title": "Deterministic debugging through event replay",
+      "file": "./candidate/consciousness/reflection/event_replay_snapshot.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 13,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/event_replay_snapshot.py:Addresses TODO 169: Deterministic debugging through event replay",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-64229750",
+      "priority": "high",
+      "title": "Restore this import when creative_expressions_v2 module is available",
+      "file": "./candidate/consciousness/reflection/monitoring_observability.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 71,
+      "risk": "med",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/monitoring_observability.py:# TODO: Restore this import when creative_expressions_v2 module is available",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-e0668de9",
+      "priority": "high",
+      "title": "The following ML/DL imports (torch, sklearn, etc.) are commented out.",
+      "file": "./candidate/consciousness/reflection/ethical_reasoning_system.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 63,
+      "risk": "med",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/ethical_reasoning_system.py:# AIMPORT_TODO (future): The following ML/DL imports (torch, sklearn, etc.) are commented out.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-a1229662",
+      "priority": "high",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/consciousness/reflection/processing_core.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 48,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/processing_core.py:from qi.bio.awareness.advanced_quantum_bio import (  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-a4840d58",
+      "priority": "high",
+      "title": "original code uses self, but should be X?",
+      "file": "./candidate/consciousness/reflection/_dict_learning.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 723,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/_dict_learning.py:        X = validate_data(self, X, reset=False)  # TODO: original code uses self, but should be X?",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-9f8033e3",
+      "priority": "high",
+      "title": "Dynamic Working Group Formation",
+      "file": "./candidate/consciousness/reflection/agent_coordination.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 13,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/agent_coordination.py:Addresses TODO 24: Dynamic Working Group Formation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-1ac4c1d9",
+      "priority": "high",
+      "title": "Refactor path-based import to standard package imports if possible.",
+      "file": "./candidate/consciousness/reflection/core_integrator.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 32,
+      "risk": "med",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/core_integrator.py:# TODO: Refactor path-based import to standard package imports if possible.",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-400d9e07",
+      "priority": "high",
+      "title": "Reconcile this AccessTier with the global LUKHAS Tier System (0-5, Free-Transcendent).",
+      "file": "./candidate/consciousness/reflection/core_integrator.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 54,
+      "risk": "med",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/core_integrator.py:# TODO: Refactor path-based import to standard package imports if possible.",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-34d020a4",
+      "priority": "high",
+      "title": "Make default paths relative to a configurable project root or use",
+      "file": "./candidate/consciousness/reflection/core_integrator.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 172,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/core_integrator.py:# TODO: Refactor path-based import to standard package imports if possible.",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-2f26f60e",
+      "priority": "high",
+      "title": "Refactor dynamic import to be more robust or use explicit imports",
+      "file": "./candidate/consciousness/reflection/core_integrator.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 520,
+      "risk": "med",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/core_integrator.py:# TODO: Refactor path-based import to standard package imports if possible.",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-e8602726",
+      "priority": "high",
+      "title": ".",
+      "file": "./candidate/consciousness/reflection/core_integrator.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 777,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/core_integrator.py:# TODO: Refactor path-based import to standard package imports if possible.",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-8d9ea507",
+      "priority": "high",
+      "title": "\u2551 supervision hierarchies, fault tolerance, and persistence. Addresses REALITY_TODO",
+      "file": "./candidate/consciousness/reflection/actor_system.py",
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 25,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/consciousness/reflection/actor_system.py:\u2551 supervision hierarchies, fault tolerance, and persistence. Addresses REALITY_TODO",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-QI-28a30e44",
+      "priority": "high",
+      "title": "Review this path for QIBioCoordinator. If it's part",
+      "file": "./candidate/qi/bio/bio_optimizer.py",
+      "module": "candidate/qi",
+      "trinity": "null",
+      "line_hint": 89,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/qi/bio/bio_optimizer.py:# AIMPORT_TODO: Verify these import paths against the actual LUKHAS project structure.",
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: remaining-01-$(date +%m%d)",
+      "2. Work through 40 remaining tasks",
+      "3. One TaskID per commit",
+      "4. Mixed priority cleanup",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(cleanup): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.161824Z",
+  "source": "Remaining unallocated TODOs"
+}
