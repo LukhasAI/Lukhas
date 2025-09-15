@@ -14,15 +14,85 @@ from enum import Enum
 from typing import Any, Optional
 
 # Ensure repo-relative paths (avoid absolute user paths)
+DEFAULT_FIX_LATER_MESSAGE = "Deferred implementation pending review"
 
 
-def fix_later(*args, **kwargs):
-    """TODO(symbol-resolver): implement missing functionality
+def _safe_float(value: Any) -> float:
+    """Safely coerce values to float without raising."""
+    # ΛTAG: numeric_guardrails
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return 0.0
 
-    This is a placeholder for functionality that needs to be implemented.
-    Replace this stub with the actual implementation.
-    """
-    raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+
+# ΛTAG: deferred_action_signal
+@dataclass(frozen=True)
+class DeferredImplementationSignal:
+    """Structured representation of intentionally deferred work."""
+
+    message: str
+    created_at: datetime
+    args: tuple[Any, ...] = field(default_factory=tuple)
+    metadata: dict[str, Any] = field(default_factory=dict)
+    drift_score: float = 0.0
+    affect_delta: float = 0.0
+
+    def to_payload(self) -> dict[str, Any]:
+        """Serialize the signal for logging or storage."""
+
+        return {
+            "message": self.message,
+            "created_at": self.created_at.isoformat(),
+            "args": list(self.args),
+            "metadata": self.metadata,
+            "drift_score": self.drift_score,
+            "affect_delta": self.affect_delta,
+        }
+
+
+def fix_later(*args, **kwargs) -> DeferredImplementationSignal:
+    """Create a structured placeholder entry for deferred implementation."""
+
+    message = kwargs.pop("message", None)
+    extra_args: tuple[Any, ...] = ()
+    if args:
+        if message is None:
+            message = str(args[0])
+            extra_args = tuple(args[1:])
+        else:
+            extra_args = tuple(args)
+
+    if message is None:
+        message = DEFAULT_FIX_LATER_MESSAGE
+
+    raw_metadata = kwargs.pop("metadata", {})
+    if raw_metadata is None:
+        metadata: dict[str, Any] = {}
+    elif isinstance(raw_metadata, dict):
+        metadata = dict(raw_metadata)
+    else:
+        metadata = {"value": raw_metadata}
+
+    drift_score = _safe_float(kwargs.pop("drift_score", metadata.pop("drift_score", 0.0)))
+    affect_delta = _safe_float(kwargs.pop("affect_delta", metadata.pop("affect_delta", 0.0)))
+
+    if kwargs:
+        metadata.update(kwargs)
+
+    signal = DeferredImplementationSignal(
+        message=message,
+        created_at=datetime.now(timezone.utc),
+        args=extra_args,
+        metadata=metadata,
+        drift_score=drift_score,
+        affect_delta=affect_delta,
+    )
+
+    logger = logging.getLogger("LUKHAS.fix_later")
+    # ΛTAG: deferred_action_trace
+    logger.info("Deferred implementation captured", extra={"fix_later": signal.to_payload()})
+    return signal
 
 
 try:
@@ -338,7 +408,17 @@ class AGIControllerΛBot:
             "assessment_status": "ethical_approved",
         }
 
-        logger.info(fix_later)
+        deferred_signal = fix_later(
+            "Ethical assessment recorded",
+            metadata={"assessment": assessment},
+            drift_score=assessment.get("ethical_score", 0.0),
+            affect_delta=assessment.get("ethical_score", 0.0) - 0.5,
+        )
+        # ΛTAG: affect_delta_trace
+        logger.info(
+            "🧭 Ethical assessment recorded",
+            extra={"ethical_signal": deferred_signal.to_payload()},
+        )
         return assessment
 
     async def _generate_consciousness_strategy(
