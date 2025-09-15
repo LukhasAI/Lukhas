@@ -10,7 +10,14 @@ Benchmarking utility for Symbiotic Swarm actor/event bus system.
 Measures message throughput and demonstrates energy-efficient computation.
 """
 import asyncio
+import sys
 import time
+from pathlib import Path
+
+# ΛTAG: import_bootstrap
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.append(str(PROJECT_ROOT))
 
 from candidate.core.event_bus import get_global_event_bus
 from candidate.core.minimal_actor import Actor
