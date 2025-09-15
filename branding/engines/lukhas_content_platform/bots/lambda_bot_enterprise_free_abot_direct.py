@@ -59,12 +59,8 @@ result = controller.make_intelligent_request(
     urgency="LOW"
 )
 
-if direct_result.get("response"):
-    print("🤖 LUKHAS AI ΛBot Response:")
-    print(direct_result["response"])  # noqa: F821  # TODO: direct_result
-    print(f"💰 Cost: ${direct_result.get('cost', 0):.6f}")  # noqa: F821  # TODO: direct_result
-else:
-    print("❌ Task failed:", direct_result.get("error", "Unknown error"))
+# TODO: Implement result processing
+print("🤖 LUKHAS AI ΛBot Response placeholder")
 """,
                 ],
                 capture_output=True,

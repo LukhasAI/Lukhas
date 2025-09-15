@@ -1,0 +1,162 @@
+{
+  "batch_id": "BATCH-CODEX04-2025-09-15-01",
+  "agent": "codex04",
+  "created_at": "2025-09-15T01:32:13.856716Z",
+  "expires_at": "2025-09-18T01:32:13.856718Z",
+  "branch_name": "feat/codex04/candidate-batch01",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-017e094a",
+      "priority": "high",
+      "title": "specialist] - Fix cross-lane import dependencies for consciousness mesh formation",
+      "file": "./candidate/core/symbolic_core/colony_tag_propagation.py",
+      "line_hint": 5,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "completed",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_core/colony_tag_propagation.py:    # TODO[GLYPH:specialist] - Implement consciousness node base class fallback",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      },
+      "completion_pr": "241",
+      "completed_at": "2025-09-15T08:00:00Z"
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-1e5afc27",
+      "priority": "high",
+      "title": "# \u039bTAGS: \u039bSTANDARD_INIT, \u039bMODULE_INIT, \u039bPLUGIN_SYSTEM, \u039bNIAS_INTEGRATION, \u039bLOGGING_NORMALIZED, AIO_NODE, AINTEROP, \u039bSYMBOLIC_ECHO, AIMPORT_TODO",
+      "file": "./candidate/core/interfaces/nias/__init__.py",
+      "line_hint": 74,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/interfaces/nias/__init__.py:# AIMPORT_TODO: Verify these relative imports work correctly in the context of the larger system.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-602cddf2",
+      "priority": "high",
+      "title": "Specify imports",
+      "file": "./candidate/memory/temporal/benchmark_swarm.py",
+      "line_hint": 16,
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "status": "completed",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/memory/temporal/benchmark_swarm.py:from event_bus import *  # TODO: Specify imports",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      },
+      "completion_pr": "242",
+      "completed_at": "2025-09-15T08:00:00Z"
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-d9fe3644",
+      "priority": "high",
+      "title": "Update these import paths to correct locations",
+      "file": "./products/intelligence/lens/api/standalone_server.py",
+      "line_hint": 27,
+      "module": "products/intelligence",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-PRODUCTS-EXPERIENCE-905591f4",
+      "priority": "low",
+      "title": "torch; consider using importli...",
+      "file": "./products/experience/voice/bridge/voice_integration.py",
+      "line_hint": 28,
+      "module": "products/experience",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/voice_integration.py:    import torch  # noqa: F401  # TODO: torch; consider using importli...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-032329cc",
+      "priority": "low",
+      "title": "# noqa: F821  # TODO: TODO_PATTERN",
+      "file": "./tools/ci/check_unused_imports_todo.py",
+      "line_hint": 241,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "completed",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/ci/check_unused_imports_todo.py:- Checks each finding has a TODO[T4-UNUSED-IMPORT] annotation",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      },
+      "completion_pr": "242",
+      "completed_at": "2025-09-15T08:00:00Z"
+    }
+  ],
+  "summary": {
+    "total_tasks": 6,
+    "by_priority": {
+      "high": 4,
+      "low": 2
+    },
+    "by_type": {
+      "mechanical": 6
+    },
+    "by_risk": {
+      "med": 1,
+      "low": 5
+    }
+  },
+  "dependencies": [],
+  "checks": [
+    "ruff check .",
+    "pytest -q",
+    "pre-commit run --all-files"
+  ]
+}

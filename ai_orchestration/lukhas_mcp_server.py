@@ -31,7 +31,7 @@ try:
     from lukhas.consciousness.awareness_engine import ConsciousnessAwarenessEngine
     from lukhas.governance.guardian_system.guardian_validator import GuardianValidator
     from lukhas.memory.fold_system import MemoryFoldSystem
-    from ai_orchestration.mcp_operational_support import LUKHASMCPOperationalSupport, MCPServerContext
+    from ai_orchestration.mcp_operational_support import LUKHASMCPOperationalSupport, MCPServerContext, SupportIncident
 except ImportError as e:
     logging.warning(f"Could not import LUKHAS modules: {e}")
 
@@ -765,15 +765,15 @@ class LUKHASConsciousnessMCP:
 
         # These attributes might not exist on the server object, this is an educated guess
         # In a real scenario, we would need to know the actual API of the MCP server
-        server_context.active_connections = getattr(self.server, 'active_connections', 0)
-        server_context.requests_per_minute = getattr(self.server, 'requests_per_minute', 0)
-        server_context.error_rate = getattr(self.server, 'error_rate', 0.0)
+        server_context.active_connections = getattr(self.server, "active_connections", 0)
+        server_context.requests_per_minute = getattr(self.server, "requests_per_minute", 0)
+        server_context.error_rate = getattr(self.server, "error_rate", 0.0)
 
         metrics = self.operational_support.monitor_mcp_operations(server_context)
 
         # Store metrics in history
         self.metrics_history.append(metrics)
-        if len(self.metrics_history) > 100: # Limit history size
+        if len(self.metrics_history) > 100:  # Limit history size
             self.metrics_history.pop(0)
 
         # Format the metrics for display

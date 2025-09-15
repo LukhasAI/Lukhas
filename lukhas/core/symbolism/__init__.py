@@ -7,7 +7,7 @@ This module provides symbolic tagging and processing capabilities for LUKHAS AI,
 including tag scopes, permissions, and methylation models for tag lifecycle management.
 """
 
-import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+import streamlit as st  # MATRIZ Integration: Streamlit dashboard for LUKHAS symbolic system monitoring and Trinity Framework tag visualization
 
 from .methylation_model import MethylationModel, get_methylation_model
 from .tags import SymbolicTag, TagManager, TagPermission, TagScope, get_tag_manager

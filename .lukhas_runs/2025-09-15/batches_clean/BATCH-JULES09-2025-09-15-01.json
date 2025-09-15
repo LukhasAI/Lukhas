@@ -1,0 +1,155 @@
+{
+  "batch_id": "BATCH-JULES09-2025-09-15-01",
+  "agent": "jules09",
+  "created_at": "2025-09-15T01:32:13.854505Z",
+  "expires_at": "2025-09-18T01:32:13.854506Z",
+  "branch_name": "feat/jules09/candidate-batch01",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-BIO-SYMBOLIC-54a205fe",
+      "priority": "high",
+      "title": "triage - Deep bio hierarchy with unclear integration path. Need architecture analysis.",
+      "file": "./bio/symbolic/__init__.py",
+      "line_hint": 6,
+      "module": "bio/symbolic",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./bio/symbolic/__init__.py:TODO[T4-AUDIT]:triage - Deep bio hierarchy with unclear integration path. Need architecture analysis.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "integration",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BIO-cdb47780",
+      "priority": "high",
+      "title": "specialist] - Context for constellation integration",
+      "file": "./candidate/bio/awareness.py",
+      "line_hint": 59,
+      "module": "candidate/bio",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/bio/awareness.py:        self.timestamp = utc_now()  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement",
+        "last_commit": "f203cbd2b8e04c94dfc42644ca019cfb993693ef"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "integration",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-c6b0d0d6",
+      "priority": "high",
+      "title": "specialist] - Implement proper symbolic vocabulary integration",
+      "file": "./candidate/core/symbolic_legacy/colony_tag_propagation.py",
+      "line_hint": 35,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_legacy/colony_tag_propagation.py:# TODO[GLYPH:specialist] - Fix cross-lane import dependencies for consciousness mesh formation",
+        "last_commit": "d84f24154c21de7e05c16e108d7bcce86f034a59"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "integration",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-9a4b9413",
+      "priority": "high",
+      "title": "specialist] - Implement proper symbolic vocabulary integration",
+      "file": "./candidate/core/symbolic_core/colony_tag_propagation.py",
+      "line_hint": 35,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_core/colony_tag_propagation.py:    # TODO[GLYPH:specialist] - Implement consciousness node base class fallback",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "integration",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-QI-7cd41d3f",
+      "priority": "high",
+      "title": "integration=None needs review",
+      "file": "./candidate/qi/bio/bio_optimizer.py",
+      "line_hint": 324,
+      "module": "candidate/qi",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/qi/bio/bio_optimizer.py:# AIMPORT_TODO: Verify these import paths against the actual LUKHAS project structure.",
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "integration",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-d65ca353",
+      "priority": "high",
+      "title": "candidate.bridge.orchestration...",
+      "file": "./products/enterprise/core/integration/unified_consciousness_layer.py",
+      "line_hint": 65,
+      "module": "products/enterprise",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./products/enterprise/core/integration/unified_consciousness_layer.py:    from candidate.bridge.orchestration.consensus_engine import ConsensusEngine  # noqa: F401  # TODO: candidate.bridge.orchestration...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "integration",
+        "size": "S"
+      }
+    }
+  ],
+  "summary": {
+    "total_tasks": 6,
+    "by_priority": {
+      "high": 6
+    },
+    "by_type": {
+      "integration": 6
+    },
+    "by_risk": {
+      "low": 5,
+      "med": 1
+    }
+  },
+  "dependencies": [],
+  "checks": [
+    "ruff check .",
+    "pytest -q",
+    "pre-commit run --all-files"
+  ]
+}

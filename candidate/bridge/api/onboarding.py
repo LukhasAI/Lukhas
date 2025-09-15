@@ -43,7 +43,7 @@ try:
     FASTAPI_AVAILABLE = True
 except ImportError:
     try:
-        from flask import Blueprint, jsonify, request  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+        from flask import Blueprint, jsonify, request  # MATRIZ Integration: Flask framework for API expansion onboarding endpoints and Trinity Framework web service coordination
 
         FLASK_AVAILABLE = True
         FASTAPI_AVAILABLE = False

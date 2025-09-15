@@ -1,0 +1,355 @@
+{
+  "batch_id": "BATCH-CODEX08-2025-09-15-01",
+  "agent": "codex08",
+  "created_at": "2025-09-15T01:41:37.130905Z",
+  "expires_at": "2025-09-18T01:41:37.130906Z",
+  "branch_name": "feat/codex08/template-systems-batch01",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-LOW-TOOLS-CLEANUP-9ccf75ae",
+      "priority": "low",
+      "title": "Implement actual consolidation logic",
+      "file": "./tools/cleanup/cleanup_duplicates.py",
+      "line_hint": 81,
+      "module": "tools/cleanup",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/cleanup/cleanup_duplicates.py:    # TODO: Implement actual consolidation logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CLEANUP-1a4045d9",
+      "priority": "low",
+      "title": "Implement actual consolidation logic",
+      "file": "./tools/cleanup/duplicate_code_analyzer.py",
+      "line_hint": 313,
+      "module": "tools/cleanup",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/cleanup/duplicate_code_analyzer.py:    # TODO: Implement actual consolidation logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-SCRIPTS-8dce2d44",
+      "priority": "low",
+      "title": "Add example",
+      "file": "./tools/scripts/enhance_modules_simple.py",
+      "line_hint": 99,
+      "module": "tools/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/scripts/enhance_modules_simple.py:    # TODO: Add example",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-SCRIPTS-29640c29",
+      "priority": "low",
+      "title": "LukhasegrationAdapter",
+      "file": "./tools/scripts/FULL_INTEGRATION.py",
+      "line_hint": 232,
+      "module": "tools/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/scripts/FULL_INTEGRATION.py:            adapter = LukhasegrationAdapter()  # noqa: F821  # TODO: LukhasegrationAdapter",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-SCRIPTS-a5e088ec",
+      "priority": "low",
+      "title": "Remaining minor syntax issues - review malformed f-strings and list comprehensions",
+      "file": "./tools/scripts/system_status_comprehensive_report.py",
+      "line_hint": 1,
+      "module": "tools/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/scripts/system_status_comprehensive_report.py:# TODO[T4-AUTOFIX]: Remaining minor syntax issues - review malformed f-strings and list comprehensions",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-SCRIPTS-31e3c4cb",
+      "priority": "low",
+      "title": "remove after dependents migrate.\\n\"",
+      "file": "./tools/scripts/promote_module.py",
+      "line_hint": 147,
+      "module": "tools/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/scripts/promote_module.py:        \"# TODO: remove after dependents migrate.\\n\"",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-SCRIPTS-4ef28899",
+      "priority": "low",
+      "title": "Implement actual consolidation logic",
+      "file": "./tools/scripts/consolidation/consolidate_orchestration_brain.py",
+      "line_hint": 34,
+      "module": "tools/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/scripts/consolidation/consolidate_orchestration_brain.py:    # TODO: Implement actual consolidation logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-SYMBOL_RESOLVER.PY-78c70b93",
+      "priority": "low",
+      "title": "symbol, \"count\": count, \"files\": self.symbol_patterns[symbol]}",
+      "file": "./tools/symbol_resolver.py",
+      "line_hint": 118,
+      "module": "tools/symbol_resolver.py",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/symbol_resolver.py:                    {\"type\": \"TODO_STUB\", \"symbol\": symbol, \"count\": count, \"files\": self.symbol_patterns[symbol]}",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-COMMANDS-6ecc6b84",
+      "priority": "low",
+      "title": "Implement __init__",
+      "file": "./tools/commands/__init__.py",
+      "line_hint": 5,
+      "module": "tools/commands",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/commands/__init__.py:pass  # TODO: Implement __init__",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-COMMANDS-e4d9390a",
+      "priority": "low",
+      "title": "Implement base",
+      "file": "./tools/commands/base.py",
+      "line_hint": 5,
+      "module": "tools/commands",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/commands/base.py:pass  # TODO: Implement base",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-AUTOMATION-58ac79d3",
+      "priority": "low",
+      "title": "Implement\\n\"",
+      "file": "./tools/automation/import_fixer.py",
+      "line_hint": 127,
+      "module": "tools/automation",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/automation/import_fixer.py:                lines[line_num - 1] = \"    pass  # TODO: Implement\\n\"",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-AUTOMATION-7df45c70",
+      "priority": "low",
+      "title": "Implement {module_name}\\n'",
+      "file": "./tools/automation/import_fixer.py",
+      "line_hint": 182,
+      "module": "tools/automation",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/automation/import_fixer.py:                lines[line_num - 1] = \"    pass  # TODO: Implement\\n\"",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-AUTOMATION-0d85f838",
+      "priority": "low",
+      "title": ",",
+      "file": "./tools/automation/cleanup_generator.py",
+      "line_hint": 255,
+      "module": "tools/automation",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/automation/cleanup_generator.py:            \"find . -name '*.py' -exec grep -l 'TODO\\\\|placeholder\\\\|not implemented' {} \\\\; 2>/dev/null || echo 'None found \u2705'\",",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-PATTERNSCANNER.PY-848db8a1",
+      "priority": "low",
+      "title": "lukhasFunctionScanner",
+      "file": "./tools/PatternScanner.py",
+      "line_hint": 349,
+      "module": "tools/PatternScanner.py",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/PatternScanner.py:    scanner = lukhasFunctionScanner()  # noqa: F821  # TODO: lukhasFunctionScanner",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-DECISION_TRACKER.PY-9eadaa32",
+      "priority": "low",
+      "title": "timezone",
+      "file": "./tools/decision_tracker.py",
+      "line_hint": 35,
+      "module": "tools/decision_tracker.py",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/decision_tracker.py:        self.timestamp = datetime.now(timezone.utc)  # noqa: F821  # TODO: timezone",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-REPORTS-a0fc51f4",
+      "priority": "low",
+      "title": "{todos} {spark(todos)}\\n\"",
+      "file": "./tools/reports/weekly_hygiene.py",
+      "line_hint": 102,
+      "module": "tools/reports",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/reports/weekly_hygiene.py:        f\"* TODO count: {todos} {spark(todos)}\\n\"",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    }
+  ],
+  "meta": {
+    "domain": "Template Systems",
+    "description": "template wiring and generation",
+    "risk_level": "low",
+    "requires_review": false,
+    "feature_flags_required": false,
+    "experimental": false,
+    "total_tasks": 16
+  }
+}

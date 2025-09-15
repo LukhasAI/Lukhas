@@ -1,0 +1,663 @@
+{
+  "agent_id": "REMAINING-10",
+  "specialty": "Remaining Batch 10",
+  "focus": "unallocated TODOs",
+  "task_count": 40,
+  "priority": "mixed",
+  "risk_level": "low",
+  "branch_prefix": "feat/remaining-10/remaining-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-LOW-TOOLS-JOURNAL_CLI.PY-c51a8d30",
+      "priority": "low",
+      "title": "timezone",
+      "file": "./tools/journal_cli.py",
+      "module": "tools/journal_cli.py",
+      "trinity": "null",
+      "line_hint": 215,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/journal_cli.py:    start_date = datetime.now(timezone.utc) - timedelta(days=days)  # noqa: F821  # TODO: timezone",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-JOURNAL_CLI.PY-c51a8d30",
+      "priority": "low",
+      "title": "timezone",
+      "file": "./tools/journal_cli.py",
+      "module": "tools/journal_cli.py",
+      "trinity": "null",
+      "line_hint": 222,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/journal_cli.py:    start_date = datetime.now(timezone.utc) - timedelta(days=days)  # noqa: F821  # TODO: timezone",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-JOURNAL_CLI.PY-c51a8d30",
+      "priority": "low",
+      "title": "timezone",
+      "file": "./tools/journal_cli.py",
+      "module": "tools/journal_cli.py",
+      "trinity": "null",
+      "line_hint": 482,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/journal_cli.py:    start_date = datetime.now(timezone.utc) - timedelta(days=days)  # noqa: F821  # TODO: timezone",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-JOURNAL_CLI.PY-c51a8d30",
+      "priority": "low",
+      "title": "timezone",
+      "file": "./tools/journal_cli.py",
+      "module": "tools/journal_cli.py",
+      "trinity": "null",
+      "line_hint": 483,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/journal_cli.py:    start_date = datetime.now(timezone.utc) - timedelta(days=days)  # noqa: F821  # TODO: timezone",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-JOURNAL_CLI.PY-c51a8d30",
+      "priority": "low",
+      "title": "timezone",
+      "file": "./tools/journal_cli.py",
+      "module": "tools/journal_cli.py",
+      "trinity": "null",
+      "line_hint": 487,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/journal_cli.py:    start_date = datetime.now(timezone.utc) - timedelta(days=days)  # noqa: F821  # TODO: timezone",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-JOURNAL_CLI.PY-c51a8d30",
+      "priority": "low",
+      "title": "timezone",
+      "file": "./tools/journal_cli.py",
+      "module": "tools/journal_cli.py",
+      "trinity": "null",
+      "line_hint": 930,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/journal_cli.py:    start_date = datetime.now(timezone.utc) - timedelta(days=days)  # noqa: F821  # TODO: timezone",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-JOURNAL_CLI.PY-c51a8d30",
+      "priority": "low",
+      "title": "timezone",
+      "file": "./tools/journal_cli.py",
+      "module": "tools/journal_cli.py",
+      "trinity": "null",
+      "line_hint": 943,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/journal_cli.py:    start_date = datetime.now(timezone.utc) - timedelta(days=days)  # noqa: F821  # TODO: timezone",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-MATRIZ-115e0e5c",
+      "priority": "low",
+      "title": "diagnostic_orchestrator.Diagno...",
+      "file": "./tools/matriz/lane_aware_fixer.py",
+      "module": "tools/matriz",
+      "trinity": "null",
+      "line_hint": 43,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/matriz/lane_aware_fixer.py:    from diagnostic_orchestrator import DiagnosticOrchestrator  # noqa: F401  # TODO: diagnostic_orchestrator.Diagno...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-MATRIZ-ea3294ef",
+      "priority": "low",
+      "title": "pytest_class_fixer.PytestClass...",
+      "file": "./tools/matriz/lane_aware_fixer.py",
+      "module": "tools/matriz",
+      "trinity": "null",
+      "line_hint": 45,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/matriz/lane_aware_fixer.py:    from diagnostic_orchestrator import DiagnosticOrchestrator  # noqa: F401  # TODO: diagnostic_orchestrator.Diagno...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-FILE_ORGANIZATION_ORACLE.PY-8c59089d",
+      "priority": "low",
+      "title": ",",
+      "file": "./tools/file_organization_oracle.py",
+      "module": "tools/file_organization_oracle.py",
+      "trinity": "null",
+      "line_hint": 70,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/file_organization_oracle.py:                \"tasks/\": [\"*TASK*\", \"*TODO*\", \"*PENDING*\"],",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ASSIGN_MODULE_OWNERSHIP.PY-d614aef6",
+      "priority": "low",
+      "title": ":",
+      "file": "./tools/assign_module_ownership.py",
+      "module": "tools/assign_module_ownership.py",
+      "trinity": "null",
+      "line_hint": 66,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/assign_module_ownership.py:                if match not in [\"TODO\", \"FIXME\", \"None\", \"Unknown\"]:",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-FIX_LATER_STUBS.PY-356f177e",
+      "priority": "low",
+      "title": "implement missing functionality",
+      "file": "./tools/fix_later_stubs.py",
+      "module": "tools/fix_later_stubs.py",
+      "trinity": "null",
+      "line_hint": 81,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/fix_later_stubs.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CLEANUP-9ccf75ae",
+      "priority": "low",
+      "title": "Implement actual consolidation logic",
+      "file": "./tools/cleanup/cleanup_duplicates.py",
+      "module": "tools/cleanup",
+      "trinity": "null",
+      "line_hint": 81,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/cleanup/cleanup_duplicates.py:    # TODO: Implement actual consolidation logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CLEANUP-1a4045d9",
+      "priority": "low",
+      "title": "Implement actual consolidation logic",
+      "file": "./tools/cleanup/duplicate_code_analyzer.py",
+      "module": "tools/cleanup",
+      "trinity": "null",
+      "line_hint": 313,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/cleanup/duplicate_code_analyzer.py:    # TODO: Implement actual consolidation logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-SCRIPTS-8dce2d44",
+      "priority": "low",
+      "title": "Add example",
+      "file": "./tools/scripts/enhance_modules_simple.py",
+      "module": "tools/scripts",
+      "trinity": "null",
+      "line_hint": 99,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/scripts/enhance_modules_simple.py:    # TODO: Add example",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-SCRIPTS-29640c29",
+      "priority": "low",
+      "title": "LukhasegrationAdapter",
+      "file": "./tools/scripts/FULL_INTEGRATION.py",
+      "module": "tools/scripts",
+      "trinity": "null",
+      "line_hint": 232,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/scripts/FULL_INTEGRATION.py:            adapter = LukhasegrationAdapter()  # noqa: F821  # TODO: LukhasegrationAdapter",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-SCRIPTS-a5e088ec",
+      "priority": "low",
+      "title": "Remaining minor syntax issues - review malformed f-strings and list comprehensions",
+      "file": "./tools/scripts/system_status_comprehensive_report.py",
+      "module": "tools/scripts",
+      "trinity": "null",
+      "line_hint": 1,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/scripts/system_status_comprehensive_report.py:# TODO[T4-AUTOFIX]: Remaining minor syntax issues - review malformed f-strings and list comprehensions",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-SCRIPTS-31e3c4cb",
+      "priority": "low",
+      "title": "remove after dependents migrate.\\n\"",
+      "file": "./tools/scripts/promote_module.py",
+      "module": "tools/scripts",
+      "trinity": "null",
+      "line_hint": 147,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/scripts/promote_module.py:        \"# TODO: remove after dependents migrate.\\n\"",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-SCRIPTS-4ef28899",
+      "priority": "low",
+      "title": "Implement actual consolidation logic",
+      "file": "./tools/scripts/consolidation/consolidate_orchestration_brain.py",
+      "module": "tools/scripts",
+      "trinity": "null",
+      "line_hint": 34,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/scripts/consolidation/consolidate_orchestration_brain.py:    # TODO: Implement actual consolidation logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-SYMBOL_RESOLVER.PY-78c70b93",
+      "priority": "low",
+      "title": "symbol, \"count\": count, \"files\": self.symbol_patterns[symbol]}",
+      "file": "./tools/symbol_resolver.py",
+      "module": "tools/symbol_resolver.py",
+      "trinity": "null",
+      "line_hint": 118,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/symbol_resolver.py:                    {\"type\": \"TODO_STUB\", \"symbol\": symbol, \"count\": count, \"files\": self.symbol_patterns[symbol]}",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-COMMANDS-6ecc6b84",
+      "priority": "low",
+      "title": "Implement __init__",
+      "file": "./tools/commands/__init__.py",
+      "module": "tools/commands",
+      "trinity": "null",
+      "line_hint": 5,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/commands/__init__.py:pass  # TODO: Implement __init__",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-COMMANDS-e4d9390a",
+      "priority": "low",
+      "title": "Implement base",
+      "file": "./tools/commands/base.py",
+      "module": "tools/commands",
+      "trinity": "null",
+      "line_hint": 5,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/commands/base.py:pass  # TODO: Implement base",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-AUTOMATION-58ac79d3",
+      "priority": "low",
+      "title": "Implement\\n\"",
+      "file": "./tools/automation/import_fixer.py",
+      "module": "tools/automation",
+      "trinity": "null",
+      "line_hint": 127,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/automation/import_fixer.py:                lines[line_num - 1] = \"    pass  # TODO: Implement\\n\"",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-AUTOMATION-7df45c70",
+      "priority": "low",
+      "title": "Implement {module_name}\\n'",
+      "file": "./tools/automation/import_fixer.py",
+      "module": "tools/automation",
+      "trinity": "null",
+      "line_hint": 182,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/automation/import_fixer.py:                lines[line_num - 1] = \"    pass  # TODO: Implement\\n\"",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-AUTOMATION-0d85f838",
+      "priority": "low",
+      "title": ",",
+      "file": "./tools/automation/cleanup_generator.py",
+      "module": "tools/automation",
+      "trinity": "null",
+      "line_hint": 255,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/automation/cleanup_generator.py:            \"find . -name '*.py' -exec grep -l 'TODO\\\\|placeholder\\\\|not implemented' {} \\\\; 2>/dev/null || echo 'None found \u2705'\",",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-PATTERNSCANNER.PY-848db8a1",
+      "priority": "low",
+      "title": "lukhasFunctionScanner",
+      "file": "./tools/PatternScanner.py",
+      "module": "tools/PatternScanner.py",
+      "trinity": "null",
+      "line_hint": 349,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/PatternScanner.py:    scanner = lukhasFunctionScanner()  # noqa: F821  # TODO: lukhasFunctionScanner",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-DECISION_TRACKER.PY-9eadaa32",
+      "priority": "low",
+      "title": "timezone",
+      "file": "./tools/decision_tracker.py",
+      "module": "tools/decision_tracker.py",
+      "trinity": "null",
+      "line_hint": 35,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/decision_tracker.py:        self.timestamp = datetime.now(timezone.utc)  # noqa: F821  # TODO: timezone",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-DECISION_TRACKER.PY-9eadaa32",
+      "priority": "low",
+      "title": "timezone",
+      "file": "./tools/decision_tracker.py",
+      "module": "tools/decision_tracker.py",
+      "trinity": "null",
+      "line_hint": 369,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/decision_tracker.py:        self.timestamp = datetime.now(timezone.utc)  # noqa: F821  # TODO: timezone",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-DECISION_TRACKER.PY-9eadaa32",
+      "priority": "low",
+      "title": "timezone",
+      "file": "./tools/decision_tracker.py",
+      "module": "tools/decision_tracker.py",
+      "trinity": "null",
+      "line_hint": 370,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/decision_tracker.py:        self.timestamp = datetime.now(timezone.utc)  # noqa: F821  # TODO: timezone",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-REPORTS-a0fc51f4",
+      "priority": "low",
+      "title": "{todos} {spark(todos)}\\n\"",
+      "file": "./tools/reports/weekly_hygiene.py",
+      "module": "tools/reports",
+      "trinity": "null",
+      "line_hint": 102,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/reports/weekly_hygiene.py:        f\"* TODO count: {todos} {spark(todos)}\\n\"",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-FIX_SYNTAX_ERRORS_V2.PY-1c042cf3",
+      "priority": "med",
+      "title": ".",
+      "file": "./fix_syntax_errors_v2.py",
+      "module": "fix_syntax_errors_v2.py",
+      "trinity": "null",
+      "line_hint": 4,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./fix_syntax_errors_v2.py:Handles more complex patterns and TODO marker issues.",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-MED-FIX_SYNTAX_ERRORS_V2.PY-a1430df3",
+      "priority": "med",
+      "title": "\"",
+      "file": "./fix_syntax_errors_v2.py",
+      "module": "fix_syntax_errors_v2.py",
+      "trinity": "null",
+      "line_hint": 64,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./fix_syntax_errors_v2.py:Handles more complex patterns and TODO marker issues.",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-MED-FIX_SYNTAX_ERRORS_V2.PY-cd39bd13",
+      "priority": "med",
+      "title": "s",
+      "file": "./fix_syntax_errors_v2.py",
+      "module": "fix_syntax_errors_v2.py",
+      "trinity": "null",
+      "line_hint": 65,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./fix_syntax_errors_v2.py:Handles more complex patterns and TODO marker issues.",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-MED-FIX_SYNTAX_ERRORS_V2.PY-aa0a3e75",
+      "priority": "med",
+      "title": "n",
+      "file": "./fix_syntax_errors_v2.py",
+      "module": "fix_syntax_errors_v2.py",
+      "trinity": "null",
+      "line_hint": 70,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./fix_syntax_errors_v2.py:Handles more complex patterns and TODO marker issues.",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-MED-FIX_SYNTAX_ERRORS_V2.PY-da90ed97",
+      "priority": "med",
+      "title": "\" in line and i < 5:",
+      "file": "./fix_syntax_errors_v2.py",
+      "module": "fix_syntax_errors_v2.py",
+      "trinity": "null",
+      "line_hint": 71,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./fix_syntax_errors_v2.py:Handles more complex patterns and TODO marker issues.",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-MED-FIX_SYNTAX_ERRORS_V3.PY-cd31a3fb",
+      "priority": "med",
+      "title": "s",
+      "file": "./fix_syntax_errors_v3.py",
+      "module": "fix_syntax_errors_v3.py",
+      "trinity": "null",
+      "line_hint": 129,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./fix_syntax_errors_v3.py:        # Fix common TODO issues",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-MED-FIX_SYNTAX_ERRORS_V3.PY-2a8d6de1",
+      "priority": "med",
+      "title": "\", \"# TODO:\", content, flags=re.MULTILINE)",
+      "file": "./fix_syntax_errors_v3.py",
+      "module": "fix_syntax_errors_v3.py",
+      "trinity": "null",
+      "line_hint": 130,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./fix_syntax_errors_v3.py:        # Fix common TODO issues",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-MED-HYBRID_MEMORY_FOLD.PY-5dec6944",
+      "priority": "med",
+      "title": ":",
+      "file": "./hybrid_memory_fold.py",
+      "module": "hybrid_memory_fold.py",
+      "trinity": "Consciousness",
+      "line_hint": 10,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./hybrid_memory_fold.py:\ud83d\udccb TODO FOR AGENT INTEGRATION:",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-MED-LUKHAS_PB2.PY-fb003b54",
+      "priority": "med",
+      "title": ":",
+      "file": "./lukhas_pb2.py",
+      "module": "lukhas_pb2.py",
+      "trinity": "null",
+      "line_hint": 9,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./lukhas_pb2.py:\ud83d\udccb TODO FOR AGENT INTEGRATION:",
+        "last_commit": "6d0d98005f1b7ba69dd00141537cc0fe9c9db2b0"
+      }
+    },
+    {
+      "task_id": "TODO-MED-LUKHAS_WEBSITE-UNIFIED-b00fc3e9",
+      "priority": "med",
+      "title": "lukhas.qi.engines.consciousnes...",
+      "file": "./lukhas_website/unified/consciousness_integration.py",
+      "module": "lukhas_website/unified",
+      "trinity": "Consciousness",
+      "line_hint": 20,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./lukhas_website/unified/consciousness_integration.py:    from lukhas.memory.folds.memory_fold import MemoryFold  # noqa: F401  # TODO: lukhas.memory.folds.memory_fol...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: remaining-10-$(date +%m%d)",
+      "2. Work through 40 remaining tasks",
+      "3. One TaskID per commit",
+      "4. Mixed priority cleanup",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(cleanup): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.166109Z",
+  "source": "Remaining unallocated TODOs"
+}

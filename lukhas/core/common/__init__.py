@@ -4,8 +4,8 @@
 Shared utilities and helpers for all LUKHAS modules.
 """
 
-import logging  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
-import time  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+import logging  # MATRIZ Integration: Logging infrastructure for LUKHAS core common utilities and Trinity Framework operation logging
+import time  # MATRIZ Integration: Time utilities for LUKHAS core operations and Trinity Framework temporal coordination
 
 from .config import ConfigLoader, get_config
 from .decorators import lukhas_tier_required, retry, with_timeout

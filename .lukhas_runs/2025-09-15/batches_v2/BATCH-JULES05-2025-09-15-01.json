@@ -1,0 +1,439 @@
+{
+  "batch_id": "BATCH-JULES05-2025-09-15-01",
+  "agent": "jules05",
+  "created_at": "2025-09-15T01:41:37.125808Z",
+  "expires_at": "2025-09-18T01:41:37.125809Z",
+  "branch_name": "feat/jules05/guardian-ethics-batch01",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-INFRASTRUCTURE-b35bbc3f",
+      "priority": "critical",
+      "title": "SurfaceCodeErrorCorrection",
+      "file": "./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py",
+      "line_hint": 39,
+      "module": "products/infrastructure",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py:        self.memory_register = QuantumRegister(capacity_qubits, \"memory\")  # noqa: F821  # TODO: QuantumRegister",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-INFRASTRUCTURE-d6667c66",
+      "priority": "critical",
+      "title": ":",
+      "file": "./products/infrastructure/legado/legacy_systems/security/main_node_security_engine.py",
+      "line_hint": 32,
+      "module": "products/infrastructure",
+      "trinity": "null",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/security/main_node_security_engine.py:    # from AID.service.identity_manager import IdentityManager  # TODO:",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-INFRASTRUCTURE-fde70802",
+      "priority": "critical",
+      "title": "IdentityManager",
+      "file": "./products/infrastructure/legado/legacy_systems/security/main_node_security_engine.py",
+      "line_hint": 85,
+      "module": "products/infrastructure",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/security/main_node_security_engine.py:    # from AID.service.identity_manager import IdentityManager  # TODO:",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-INFRASTRUCTURE-29593ba2",
+      "priority": "critical",
+      "title": "AdaptiveAGISystem",
+      "file": "./products/infrastructure/legado/legacy_systems/security/main_node_security_engine.py",
+      "line_hint": 387,
+      "module": "products/infrastructure",
+      "trinity": "null",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/security/main_node_security_engine.py:    # from AID.service.identity_manager import IdentityManager  # TODO:",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-INFRASTRUCTURE-6089261f",
+      "priority": "critical",
+      "title": "LucasFlagshipSystem",
+      "file": "./products/infrastructure/legado/legacy_systems/security/flagship_security_engine.py",
+      "line_hint": 229,
+      "module": "products/infrastructure",
+      "trinity": "null",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/security/flagship_security_engine.py:    system = LucasFlagshipSystem()  # noqa: F821  # TODO: LucasFlagshipSystem",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TESTS-E2E-688cb562",
+      "priority": "critical",
+      "title": "SecurityError",
+      "file": "./tests/e2e/lukhas/test_consciousness.py",
+      "line_hint": 312,
+      "module": "tests/e2e",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "1ae08bf89e43ac5b19c30ac718da12b5995df535"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TOOLS-SECURITY-a2448201",
+      "priority": "critical",
+      "title": "lukhas.governance.security.acc...",
+      "file": "./tools/security/enterprise_security_automation.py",
+      "line_hint": 35,
+      "module": "tools/security",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "53ad44463046154335624462ddda7391bf83fde3"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TOOLS-SECURITY-b635a32f",
+      "priority": "critical",
+      "title": "Dict",
+      "file": "./tools/security/guardian_compliance_validator.py",
+      "line_hint": 260,
+      "module": "tools/security",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./tools/security/guardian_compliance_validator.py:    def _is_guardian_compliant(self, results: Dict[str, Any]) -> bool:  # noqa: F821  # TODO: Dict",
+        "last_commit": "9db7bd5d8ed70eae5f918b4c2cd7823c406ba6ef"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TOOLS-CI-d2a13499",
+      "priority": "critical",
+      "title": "{error_code}  # TODO: {clean_msg}\"",
+      "file": "./tools/ci/mark_f821_f401_todo.py",
+      "line_hint": 64,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./tools/ci/mark_f821_f401_todo.py:\ud83d\udee1\ufe0f Guardian-validated TODO annotation system for production stability",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TOOLS-CI-4e2a71a9",
+      "priority": "critical",
+      "title": "Handle exception properly\")",
+      "file": "./tools/ci/comprehensive_syntax_fixer.py",
+      "line_hint": 126,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./tools/ci/comprehensive_syntax_fixer.py:from typing import List, Dict, Tuple, Set  # noqa: F401  # TODO: typing.Tuple",
+        "last_commit": "9db7bd5d8ed70eae5f918b4c2cd7823c406ba6ef"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TOOLS-SCRIPTS-e9584ecc",
+      "priority": "critical",
+      "title": "Implement proper password validation",
+      "file": "./tools/scripts/identity_refactor.py",
+      "line_hint": 127,
+      "module": "tools/scripts",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TOOLS-SCRIPTS-74a953ef",
+      "priority": "critical",
+      "title": "Implement proper user storage and password hashing",
+      "file": "./tools/scripts/identity_refactor.py",
+      "line_hint": 169,
+      "module": "tools/scripts",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TOOLS-SCRIPTS-8d86fbdf",
+      "priority": "critical",
+      "title": "MODULE_REQUIRED_TIER",
+      "file": "./tools/scripts/AUTO_IDENTITY_FIXER.py",
+      "line_hint": 182,
+      "module": "tools/scripts",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "53ad44463046154335624462ddda7391bf83fde3"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TOOLS-SCRIPTS-597323ce",
+      "priority": "critical",
+      "title": "e",
+      "file": "./tools/scripts/AUTO_IDENTITY_FIXER.py",
+      "line_hint": 188,
+      "module": "tools/scripts",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "53ad44463046154335624462ddda7391bf83fde3"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TOOLS-VALIDATION-c1ef8fac",
+      "priority": "critical",
+      "title": "lukhas.governance.identity.aut...",
+      "file": "./tools/validation/prevention_suite.py",
+      "line_hint": 268,
+      "module": "tools/validation",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./tools/validation/prevention_suite.py:            from lukhas.governance.identity import auth_integration  # noqa: F401  # TODO: lukhas.governance.identity.aut...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-AGI_CORE-REASONING-e18ec162",
+      "priority": "high",
+      "title": "lukhas.consciousness.conscious...",
+      "file": "./agi_core/reasoning/chain_of_thought.py",
+      "line_hint": 25,
+      "module": "agi_core/reasoning",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./agi_core/reasoning/chain_of_thought.py:    from lukhas.consciousness.consciousness_wrapper import ConsciousnessWrapper  # noqa: F401  # TODO: lukhas.consciousness.conscious...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-AI_ORCHESTRATION-LUKHAS_MCP_SERVER.PY-eaaf5f90",
+      "priority": "high",
+      "title": "tools.analysis._OPERATIONAL_SU...",
+      "file": "./ai_orchestration/lukhas_mcp_server.py",
+      "line_hint": 34,
+      "module": "ai_orchestration/lukhas_mcp_server.py",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b6adabb2b7676b2b815a648d53f1d13a59ceff8c"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-API-__INIT__.PY-6c41b650",
+      "priority": "high",
+      "title": "kept for API expansion (document or implement)",
+      "file": "./api/__init__.py",
+      "line_hint": 19,
+      "module": "api/__init__.py",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "fb086607d728524204bd05c923386e58c4d2cd71"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BIO-SYMBOLIC-54a205fe",
+      "priority": "high",
+      "title": "triage - Deep bio hierarchy with unclear integration path. Need architecture analysis.",
+      "file": "./bio/symbolic/__init__.py",
+      "line_hint": 6,
+      "module": "bio/symbolic",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./bio/symbolic/__init__.py:TODO[T4-AUDIT]:triage - Deep bio hierarchy with unclear integration path. Need architecture analysis.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "integration",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRANDING-APIS-aa7fb64e",
+      "priority": "high",
+      "title": "linkedin_api.Linkedin; conside...",
+      "file": "./branding/apis/platform_integrations.py",
+      "line_hint": 34,
+      "module": "branding/apis",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./branding/apis/platform_integrations.py:    from linkedin_api import Linkedin  # LinkedIn API  # noqa: F401  # TODO: linkedin_api.Linkedin; conside...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    }
+  ],
+  "meta": {
+    "domain": "Guardian Ethics",
+    "description": "advanced intent + governance forwarding",
+    "risk_level": "high",
+    "requires_review": true,
+    "feature_flags_required": false,
+    "experimental": false,
+    "total_tasks": 20
+  }
+}

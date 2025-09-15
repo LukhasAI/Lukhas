@@ -4,8 +4,7 @@ Core biological-inspired processing components
 Trinity Framework: ⚛️🧠🛡️
 """
 
-import streamlit as st
-
+from .architecture_analyzer import BioSymbolicArchitectureAnalyzer
 from .bio_symbolic import (
     BioSymbolic,
     BioSymbolicOrchestrator,
@@ -21,4 +20,5 @@ __all__ = [
     "SymbolicGlyph",
     "symbolic_bio_symbolic",
     "symbolic_bio_symbolic_orchestrator",
+    "BioSymbolicArchitectureAnalyzer",
 ]

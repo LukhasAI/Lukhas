@@ -1,0 +1,423 @@
+{
+  "agent_id": "JULES-05",
+  "specialty": "Guardian Ethics",
+  "focus": "advanced intent + governance",
+  "task_count": 25,
+  "priority": "critical",
+  "risk_level": "high",
+  "branch_prefix": "feat/jules-05/guardian-ethics-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-f95b295c",
+      "priority": "critical",
+      "title": "timezone",
+      "file": "./products/security/qrg/bridge.py",
+      "module": "products/security",
+      "trinity": "null",
+      "line_hint": 262,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/security/qrg/bridge.py:    # TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-f95b295c",
+      "priority": "critical",
+      "title": "timezone",
+      "file": "./products/security/qrg/bridge.py",
+      "module": "products/security",
+      "trinity": "null",
+      "line_hint": 275,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/security/qrg/bridge.py:    # TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-f95b295c",
+      "priority": "critical",
+      "title": "timezone",
+      "file": "./products/security/qrg/bridge.py",
+      "module": "products/security",
+      "trinity": "null",
+      "line_hint": 299,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/security/qrg/bridge.py:    # TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-f95b295c",
+      "priority": "critical",
+      "title": "timezone",
+      "file": "./products/security/qrg/bridge.py",
+      "module": "products/security",
+      "trinity": "null",
+      "line_hint": 374,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/security/qrg/bridge.py:    # TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-f95b295c",
+      "priority": "critical",
+      "title": "timezone",
+      "file": "./products/security/qrg/bridge.py",
+      "module": "products/security",
+      "trinity": "null",
+      "line_hint": 478,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/security/qrg/bridge.py:    # TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-1e9c0627",
+      "priority": "critical",
+      "title": "QuantumEntropySource",
+      "file": "./products/security/qrg/qi_entropy.py",
+      "module": "products/security",
+      "trinity": "null",
+      "line_hint": 55,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/security/qrg/qi_entropy.py:        entropy_source: QuantumEntropySource = QuantumEntropySource.HYBRID_ENSEMBLE,  # noqa: F821  # TODO: QuantumEntropySource",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-1e9c0627",
+      "priority": "critical",
+      "title": "QuantumEntropySource",
+      "file": "./products/security/qrg/qi_entropy.py",
+      "module": "products/security",
+      "trinity": "null",
+      "line_hint": 91,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/security/qrg/qi_entropy.py:        entropy_source: QuantumEntropySource = QuantumEntropySource.HYBRID_ENSEMBLE,  # noqa: F821  # TODO: QuantumEntropySource",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-1e9c0627",
+      "priority": "critical",
+      "title": "QuantumEntropySource",
+      "file": "./products/security/qrg/qi_entropy.py",
+      "module": "products/security",
+      "trinity": "null",
+      "line_hint": 94,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/security/qrg/qi_entropy.py:        entropy_source: QuantumEntropySource = QuantumEntropySource.HYBRID_ENSEMBLE,  # noqa: F821  # TODO: QuantumEntropySource",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-1e9c0627",
+      "priority": "critical",
+      "title": "QuantumEntropySource",
+      "file": "./products/security/qrg/qi_entropy.py",
+      "module": "products/security",
+      "trinity": "null",
+      "line_hint": 97,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/security/qrg/qi_entropy.py:        entropy_source: QuantumEntropySource = QuantumEntropySource.HYBRID_ENSEMBLE,  # noqa: F821  # TODO: QuantumEntropySource",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-1e9c0627",
+      "priority": "critical",
+      "title": "QuantumEntropySource",
+      "file": "./products/security/qrg/qi_entropy.py",
+      "module": "products/security",
+      "trinity": "null",
+      "line_hint": 101,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/security/qrg/qi_entropy.py:        entropy_source: QuantumEntropySource = QuantumEntropySource.HYBRID_ENSEMBLE,  # noqa: F821  # TODO: QuantumEntropySource",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-1e9c0627",
+      "priority": "critical",
+      "title": "QuantumEntropySource",
+      "file": "./products/security/qrg/qi_entropy.py",
+      "module": "products/security",
+      "trinity": "null",
+      "line_hint": 104,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/security/qrg/qi_entropy.py:        entropy_source: QuantumEntropySource = QuantumEntropySource.HYBRID_ENSEMBLE,  # noqa: F821  # TODO: QuantumEntropySource",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-1e9c0627",
+      "priority": "critical",
+      "title": "QuantumEntropySource",
+      "file": "./products/security/qrg/qi_entropy.py",
+      "module": "products/security",
+      "trinity": "null",
+      "line_hint": 144,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/security/qrg/qi_entropy.py:        entropy_source: QuantumEntropySource = QuantumEntropySource.HYBRID_ENSEMBLE,  # noqa: F821  # TODO: QuantumEntropySource",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-1e9c0627",
+      "priority": "critical",
+      "title": "QuantumEntropySource",
+      "file": "./products/security/qrg/qi_entropy.py",
+      "module": "products/security",
+      "trinity": "null",
+      "line_hint": 146,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/security/qrg/qi_entropy.py:        entropy_source: QuantumEntropySource = QuantumEntropySource.HYBRID_ENSEMBLE,  # noqa: F821  # TODO: QuantumEntropySource",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-1e9c0627",
+      "priority": "critical",
+      "title": "QuantumEntropySource",
+      "file": "./products/security/qrg/qi_entropy.py",
+      "module": "products/security",
+      "trinity": "null",
+      "line_hint": 148,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/security/qrg/qi_entropy.py:        entropy_source: QuantumEntropySource = QuantumEntropySource.HYBRID_ENSEMBLE,  # noqa: F821  # TODO: QuantumEntropySource",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-1e9c0627",
+      "priority": "critical",
+      "title": "QuantumEntropySource",
+      "file": "./products/security/qrg/qi_entropy.py",
+      "module": "products/security",
+      "trinity": "null",
+      "line_hint": 174,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/security/qrg/qi_entropy.py:        entropy_source: QuantumEntropySource = QuantumEntropySource.HYBRID_ENSEMBLE,  # noqa: F821  # TODO: QuantumEntropySource",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-1e9c0627",
+      "priority": "critical",
+      "title": "QuantumEntropySource",
+      "file": "./products/security/qrg/qi_entropy.py",
+      "module": "products/security",
+      "trinity": "null",
+      "line_hint": 178,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/security/qrg/qi_entropy.py:        entropy_source: QuantumEntropySource = QuantumEntropySource.HYBRID_ENSEMBLE,  # noqa: F821  # TODO: QuantumEntropySource",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-1e9c0627",
+      "priority": "critical",
+      "title": "QuantumEntropySource",
+      "file": "./products/security/qrg/qi_entropy.py",
+      "module": "products/security",
+      "trinity": "null",
+      "line_hint": 529,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/security/qrg/qi_entropy.py:        entropy_source: QuantumEntropySource = QuantumEntropySource.HYBRID_ENSEMBLE,  # noqa: F821  # TODO: QuantumEntropySource",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-INFRASTRUCTURE-b35bbc3f",
+      "priority": "critical",
+      "title": "SurfaceCodeErrorCorrection",
+      "file": "./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py",
+      "module": "products/infrastructure",
+      "trinity": "Consciousness",
+      "line_hint": 39,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py:        self.memory_register = QuantumRegister(capacity_qubits, \"memory\")  # noqa: F821  # TODO: QuantumRegister",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-INFRASTRUCTURE-d6667c66",
+      "priority": "critical",
+      "title": ":",
+      "file": "./products/infrastructure/legado/legacy_systems/security/main_node_security_engine.py",
+      "module": "products/infrastructure",
+      "trinity": "null",
+      "line_hint": 32,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/security/main_node_security_engine.py:    # from AID.service.identity_manager import IdentityManager  # TODO:",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-INFRASTRUCTURE-fde70802",
+      "priority": "critical",
+      "title": "IdentityManager",
+      "file": "./products/infrastructure/legado/legacy_systems/security/main_node_security_engine.py",
+      "module": "products/infrastructure",
+      "trinity": "Identity",
+      "line_hint": 85,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/security/main_node_security_engine.py:    # from AID.service.identity_manager import IdentityManager  # TODO:",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-INFRASTRUCTURE-29593ba2",
+      "priority": "critical",
+      "title": "AdaptiveAGISystem",
+      "file": "./products/infrastructure/legado/legacy_systems/security/main_node_security_engine.py",
+      "module": "products/infrastructure",
+      "trinity": "null",
+      "line_hint": 387,
+      "risk": "high",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/security/main_node_security_engine.py:    # from AID.service.identity_manager import IdentityManager  # TODO:",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-INFRASTRUCTURE-6089261f",
+      "priority": "critical",
+      "title": "LucasFlagshipSystem",
+      "file": "./products/infrastructure/legado/legacy_systems/security/flagship_security_engine.py",
+      "module": "products/infrastructure",
+      "trinity": "null",
+      "line_hint": 229,
+      "risk": "high",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/security/flagship_security_engine.py:    system = LucasFlagshipSystem()  # noqa: F821  # TODO: LucasFlagshipSystem",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TESTS-INTEGRATION-bfeaecb6",
+      "priority": "critical",
+      "title": "Fix imports after reviewing actual identity architecture",
+      "file": "./tests/integration/candidate/identity/test_trinity_validation.py",
+      "module": "tests/integration",
+      "trinity": "Identity",
+      "line_hint": 14,
+      "risk": "med",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./tests/integration/candidate/identity/test_trinity_validation.py:# TODO: Fix imports after reviewing actual identity architecture",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TESTS-INTEGRATION-15bf59f9",
+      "priority": "critical",
+      "title": "Fix imports after reviewing actual identity architecture",
+      "file": "./tests/integration/candidate/identity/test_constellation_validation.py",
+      "module": "tests/integration",
+      "trinity": "Identity",
+      "line_hint": 14,
+      "risk": "med",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./tests/integration/candidate/identity/test_constellation_validation.py:# TODO: Fix imports after reviewing actual identity architecture",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-TESTS-E2E-688cb562",
+      "priority": "critical",
+      "title": "SecurityError",
+      "file": "./tests/e2e/lukhas/test_consciousness.py",
+      "module": "tests/e2e",
+      "trinity": "Consciousness",
+      "line_hint": 312,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "1ae08bf89e43ac5b19c30ac718da12b5995df535"
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: jules-05-batch-$(date +%m%d)",
+      "2. Work through 25 tasks systematically",
+      "3. One TaskID per commit",
+      "4. Focus: advanced intent + governance",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(guardian): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.155359Z",
+  "source": "Direct allocation from manifest_clean.json"
+}

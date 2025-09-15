@@ -1,0 +1,165 @@
+{
+  "batch_id": "BATCH-CODEX02-2025-09-15-01",
+  "agent": "codex02",
+  "created_at": "2025-09-15T01:32:13.855097Z",
+  "expires_at": "2025-09-18T01:32:13.855098Z",
+  "branch_name": "feat/codex02/candidate-batch01",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-a475ba49",
+      "priority": "high",
+      "title": "specialist] - Fix cross-lane import dependencies for consciousness mesh formation",
+      "file": "./candidate/core/symbolic_legacy/colony_tag_propagation.py",
+      "line_hint": 5,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "completed",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_legacy/colony_tag_propagation.py:# TODO[GLYPH:specialist] - Fix cross-lane import dependencies for consciousness mesh formation",
+        "last_commit": "d84f24154c21de7e05c16e108d7bcce86f034a59"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      },
+      "completion_pr": "241",
+      "completed_at": "2025-09-15T08:00:00Z"
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-a3c26daf",
+      "priority": "high",
+      "title": "Preserve important symbolic mappings",
+      "file": "./candidate/core/symbolic/symbolic_dream_bridge.py",
+      "line_hint": 158,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/symbolic_dream_bridge.py:        # TODO: Implement phase resonance validation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-e5536936",
+      "priority": "high",
+      "title": "Replace this hack with proper Python packaging imports once",
+      "file": "./candidate/core/interfaces/as_agent/news_and_social/s_dispatcher.py",
+      "line_hint": 11,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "completed",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/interfaces/as_agent/news_and_social/s_dispatcher.py:# TODO: Replace this hack with proper Python packaging imports once",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      },
+      "completion_pr": "242",
+      "completed_at": "2025-09-15T08:00:00Z"
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-1007653b",
+      "priority": "high",
+      "title": "Implement import logic",
+      "file": "./products/experience/universal_language/core/vocabulary.py",
+      "line_hint": 535,
+      "module": "products/experience",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./products/experience/universal_language/core/vocabulary.py:                    # TODO: Implement import logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-d06f75bb",
+      "priority": "med",
+      "title": "Review deep relative imports for robustness.",
+      "file": "./candidate/governance/integration/policy_board.py",
+      "line_hint": 29,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "completed",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/integration/policy_board.py:# AIMPORT_TODO: Review deep relative imports for robustness.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      },
+      "completion_pr": "242",
+      "completed_at": "2025-09-15T08:00:00Z"
+    },
+    {
+      "task_id": "TODO-LOW-TESTS-SMOKE-6090d7a6",
+      "priority": "low",
+      "title": "lukhas; consider using importl...",
+      "file": "./tests/smoke/test_accepted_smoke.py",
+      "line_hint": 7,
+      "module": "tests/smoke",
+      "trinity": "null",
+      "status": "completed",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tests/smoke/test_accepted_smoke.py:        import lukhas  # noqa: F401  # TODO: lukhas; consider using importl...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      },
+      "completion_pr": "247",
+      "completed_at": "2025-09-15T08:00:00Z"
+    }
+  ],
+  "summary": {
+    "total_tasks": 6,
+    "by_priority": {
+      "high": 4,
+      "med": 1,
+      "low": 1
+    },
+    "by_type": {
+      "mechanical": 6
+    },
+    "by_risk": {
+      "med": 2,
+      "low": 4
+    }
+  },
+  "dependencies": [],
+  "checks": [
+    "ruff check .",
+    "pytest -q",
+    "pre-commit run --all-files"
+  ]
+}

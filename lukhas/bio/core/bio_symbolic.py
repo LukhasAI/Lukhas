@@ -55,55 +55,44 @@ class SymbolicGlyph(Enum):
     DREAM_PROCESS = "ΛDREAM_PROCESS"
 
 
-class BioSymbolic:
-    """
-    Bio-symbolic processing core.
-    Maps biological processes to symbolic representations.
-    """
-
-    def __init__(self) -> None:
-        self.initialized = True
-        self.bio_states: list[dict] = []
-        self.symbolic_mappings: list[dict] = []
-        self.integration_events: list[dict] = []
-        self.coherence_threshold = 0.7
-
-        logger.info("Bio-Symbolic processor initialized")
-        logger.info(f"Coherence threshold: {self.coherence_threshold}")
+class BioSymbolicProcessor:
+    """Base class for bio-symbolic processors."""
 
     def process(self, data: dict[str, Any]) -> dict[str, Any]:
+        """Process bio-symbolic data."""
+        raise NotImplementedError
+
+    @staticmethod
+    def calculate_coherence(data: dict[str, Any]) -> float:
         """
-        Process bio-symbolic data.
+        Calculate coherence score for bio-symbolic data.
 
         Args:
-            data: Input data containing biological signals
+            data: Input data
 
         Returns:
-            Symbolic representation with GLYPHs
+            Coherence score (0.0 to 1.0)
         """
-        data_type = data.get("type", "unknown")
+        # Simple coherence based on data completeness
+        expected_keys = {"type", "timestamp"}
+        actual_keys = set(data.keys())
 
-        if data_type == "rhythm":
-            return self.process_rhythm(data)
-        elif data_type == "energy":
-            return self.process_energy(data)
-        elif data_type == "dna":
-            return self.process_dna(data)
-        elif data_type == "stress":
-            return self.process_stress(data)
-        elif data_type == "homeostasis":
-            return self.process_homeostasis(data)
-        elif data_type == "dream":
-            return self.process_dream(data)
-        else:
-            return self.process_generic(data)
+        completeness = len(actual_keys & expected_keys) / len(expected_keys) if expected_keys else 0.0
 
-    def process_rhythm(self, data: dict[str, Any]) -> dict[str, Any]:
-        """Process biological rhythm data."""
+        # Check for noise or anomalies
+        noise_factor = data.get("noise", 0.0)
+        coherence = completeness * (1 - noise_factor)
+
+        return min(1.0, max(0.0, coherence))
+
+
+class RhythmProcessor(BioSymbolicProcessor):
+    """Processes biological rhythm data."""
+
+    def process(self, data: dict[str, Any]) -> dict[str, Any]:
         frequency = data.get("frequency", 1.0)
         amplitude = data.get("amplitude", 1.0)
 
-        # Map to appropriate GLYPH
         if frequency < 0.1:
             glyph = SymbolicGlyph.CIRCADIAN
         elif frequency < 1.0:
@@ -121,11 +110,13 @@ class BioSymbolic:
             "coherence": self.calculate_coherence(data),
         }
 
-    def process_energy(self, data: dict[str, Any]) -> dict[str, Any]:
-        """Process energy level data."""
+
+class EnergyProcessor(BioSymbolicProcessor):
+    """Processes energy level data."""
+
+    def process(self, data: dict[str, Any]) -> dict[str, Any]:
         level = data.get("level", 0.5)
 
-        # Map to appropriate GLYPH
         if level > 0.8:
             glyph = SymbolicGlyph.POWER_ABUNDANT
         elif level > 0.5:
@@ -142,10 +133,12 @@ class BioSymbolic:
             "coherence": self.calculate_coherence(data),
         }
 
-    def process_dna(self, data: dict[str, Any]) -> dict[str, Any]:
-        """Process DNA-related symbolic data."""
-        operation = data.get("operation", "express")
 
+class DnaProcessor(BioSymbolicProcessor):
+    """Processes DNA-related symbolic data."""
+
+    def process(self, data: dict[str, Any]) -> dict[str, Any]:
+        operation = data.get("operation", "express")
         glyph_map = {
             "control": SymbolicGlyph.DNA_CONTROL,
             "structure": SymbolicGlyph.DNA_STRUCTURE,
@@ -153,7 +146,6 @@ class BioSymbolic:
             "pattern": SymbolicGlyph.DNA_PATTERN,
             "express": SymbolicGlyph.DNA_EXPRESS,
         }
-
         glyph = glyph_map.get(operation, SymbolicGlyph.DNA_EXPRESS)
 
         return {
@@ -163,18 +155,19 @@ class BioSymbolic:
             "coherence": self.calculate_coherence(data),
         }
 
-    def process_stress(self, data: dict[str, Any]) -> dict[str, Any]:
-        """Process stress response data."""
+
+class StressProcessor(BioSymbolicProcessor):
+    """Processes stress response data."""
+
+    def process(self, data: dict[str, Any]) -> dict[str, Any]:
         stress_level = data.get("stress_level", 0.5)
         response_type = data.get("response", "adapt")
-
         glyph_map = {
             "transform": SymbolicGlyph.STRESS_TRANSFORM,
             "adapt": SymbolicGlyph.STRESS_ADAPT,
             "buffer": SymbolicGlyph.STRESS_BUFFER,
             "flow": SymbolicGlyph.STRESS_FLOW,
         }
-
         glyph = glyph_map.get(response_type, SymbolicGlyph.STRESS_ADAPT)
 
         return {
@@ -185,11 +178,13 @@ class BioSymbolic:
             "coherence": self.calculate_coherence(data),
         }
 
-    def process_homeostasis(self, data: dict[str, Any]) -> dict[str, Any]:
-        """Process homeostatic state data."""
+
+class HomeostasisProcessor(BioSymbolicProcessor):
+    """Processes homeostatic state data."""
+
+    def process(self, data: dict[str, Any]) -> dict[str, Any]:
         balance = data.get("balance", 0.5)
 
-        # Map to appropriate GLYPH
         if balance > 0.9:
             glyph = SymbolicGlyph.HOMEO_PERFECT
         elif balance > 0.7:
@@ -206,16 +201,17 @@ class BioSymbolic:
             "coherence": self.calculate_coherence(data),
         }
 
-    def process_dream(self, data: dict[str, Any]) -> dict[str, Any]:
-        """Process dream state data."""
-        dream_phase = data.get("phase", "process")
 
+class DreamProcessor(BioSymbolicProcessor):
+    """Processes dream state data."""
+
+    def process(self, data: dict[str, Any]) -> dict[str, Any]:
+        dream_phase = data.get("phase", "process")
         glyph_map = {
             "explore": SymbolicGlyph.DREAM_EXPLORE,
             "integrate": SymbolicGlyph.DREAM_INTEGRATE,
             "process": SymbolicGlyph.DREAM_PROCESS,
         }
-
         glyph = glyph_map.get(dream_phase, SymbolicGlyph.DREAM_PROCESS)
 
         return {
@@ -225,15 +221,60 @@ class BioSymbolic:
             "coherence": self.calculate_coherence(data),
         }
 
-    def process_generic(self, data: dict[str, Any]) -> dict[str, Any]:
-        """Process generic bio-symbolic data."""
+
+class GenericProcessor(BioSymbolicProcessor):
+    """Processes generic bio-symbolic data."""
+
+    def process(self, data: dict[str, Any]) -> dict[str, Any]:
         return {
             "type": "generic",
             "data": data,
             "coherence": self.calculate_coherence(data),
         }
 
-    def calculate_coherence(self, data: dict[str, Any]) -> float:
+
+class BioSymbolic:
+    """
+    Bio-symbolic processing core.
+    Maps biological processes to symbolic representations using a strategy pattern.
+    """
+
+    def __init__(self) -> None:
+        self.initialized = True
+        self.bio_states: list[dict] = []
+        self.symbolic_mappings: list[dict] = []
+        self.integration_events: list[dict] = []
+        self.coherence_threshold = 0.7
+
+        self.processors = {
+            "rhythm": RhythmProcessor(),
+            "energy": EnergyProcessor(),
+            "dna": DnaProcessor(),
+            "stress": StressProcessor(),
+            "homeostasis": HomeostasisProcessor(),
+            "dream": DreamProcessor(),
+            "unknown": GenericProcessor(),
+        }
+
+        logger.info("Bio-Symbolic processor initialized with strategy pattern")
+        logger.info(f"Coherence threshold: {self.coherence_threshold}")
+
+    def process(self, data: dict[str, Any]) -> dict[str, Any]:
+        """
+        Process bio-symbolic data using a registered processor.
+
+        Args:
+            data: Input data containing biological signals
+
+        Returns:
+            Symbolic representation with GLYPHs
+        """
+        data_type = data.get("type", "unknown")
+        processor = self.processors.get(data_type, self.processors["unknown"])
+        return processor.process(data)
+
+    @staticmethod
+    def calculate_coherence(data: dict[str, Any]) -> float:
         """
         Calculate coherence score for bio-symbolic data.
 
@@ -247,7 +288,7 @@ class BioSymbolic:
         expected_keys = {"type", "timestamp"}
         actual_keys = set(data.keys())
 
-        completeness = len(actual_keys & expected_keys) / len(expected_keys)
+        completeness = len(actual_keys & expected_keys) / len(expected_keys) if expected_keys else 0.0
 
         # Check for noise or anomalies
         noise_factor = data.get("noise", 0.0)
@@ -312,14 +353,22 @@ class BioSymbolicOrchestrator:
         # Calculate overall coherence
         overall_coherence = sum(r.get("coherence", 0) for r in results) / len(results) if results else 0
 
+        dominant_glyph = self.get_dominant_glyph(results)
+
         orchestration_result = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "results": results,
             "overall_coherence": overall_coherence,
             "threshold_met": overall_coherence >= self.bio_symbolic.coherence_threshold,
+            "dominant_glyph": dominant_glyph,
         }
 
         self.orchestration_events.append(orchestration_result)
+
+        # Trigger the bio-feedback loop to consciousness
+        # Local import to prevent circular dependency
+        from lukhas.consciousness.bio_integration import bio_feedback_loop
+        bio_feedback_loop(orchestration_result)
 
         return orchestration_result
 

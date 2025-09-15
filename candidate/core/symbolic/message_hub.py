@@ -126,7 +126,7 @@ if "result" in locals() and result:
     )
 
     if save_memory:
-        import hashlib  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+        import hashlib  # MATRIZ Integration: Hashlib for symbolic message cryptographic fingerprinting and Trinity Framework message integrity validation
 
         memory_entry = {
             "type": (

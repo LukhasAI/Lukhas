@@ -1,0 +1,366 @@
+{
+  "batch_id": "BATCH-CODEX03-2025-09-15-01",
+  "agent": "codex03",
+  "created_at": "2025-09-15T01:17:08.836870Z",
+  "expires_at": "2025-09-18T01:17:08.836871Z",
+  "branch_name": "feat/codex03/candidate-batch01",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-04b373e2",
+      "priority": "high",
+      "title": "Resolve 'CORE.' import paths. Ensure CORE is a top-level",
+      "file": "./candidate/core/integrator.py",
+      "line_hint": 42,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f203cbd2b8e04c94dfc42644ca019cfb993693ef"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-7ccc4505",
+      "priority": "high",
+      "title": "Verify these relative imports work correctly in the context of the larger system.",
+      "file": "./candidate/core/interfaces/nias/__init__.py",
+      "line_hint": 27,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-602cddf2",
+      "priority": "high",
+      "title": "Specify imports",
+      "file": "./candidate/memory/temporal/benchmark_swarm.py",
+      "line_hint": 15,
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-46a72d12",
+      "priority": "high",
+      "title": "Fix import paths - lambda directory doesn't exist",
+      "file": "./products/intelligence/lens/api/standalone_server.py",
+      "line_hint": 23,
+      "module": "products/intelligence",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TESTS-INTEGRATION-6bed2a7d",
+      "priority": "high",
+      "title": "Fix imports after reviewing actual identity architecture",
+      "file": "tests/integration/candidate/identity/test_constellation_validation.py",
+      "line_hint": 14,
+      "module": "tests/integration",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "tests/integration/candidate/identity/test_constellation_validation.py:14:# TODO: Fix imports after reviewing actual identity architecture",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "med",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-CI-4eb472f0",
+      "priority": "high",
+      "title": "[T4-F821:{it['class']}]: {it['message']}\"",
+      "file": "tools/ci/f821_report.py",
+      "line_hint": 151,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "tools/ci/f821_report.py:151:            tag = f\"# TODO[T4-F821:{it['class']}]: {it['message']}\"",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-CI-c92d0a28",
+      "priority": "high",
+      "title": "_PATTERN.search(line_content):  # noqa: F821  # TODO: TODO_PATTERN",
+      "file": "tools/ci/check_unused_imports_todo.py",
+      "line_hint": 241,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "tools/ci/check_unused_imports_todo.py:241:                if not TODO_PATTERN.search(line_content):  # noqa: F821  # TODO: TODO_PATTERN",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-SECURITY-28895242",
+      "priority": "high",
+      "title": "Fix import paths - lambda directory doesn't exist",
+      "file": "products/security/qrg/bridge.py",
+      "line_hint": 19,
+      "module": "products/security",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "products/security/qrg/bridge.py:19:    # TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-20861d2f",
+      "priority": "high",
+      "title": "Update these import paths to correct locations",
+      "file": "products/intelligence/lens/api/standalone_server.py",
+      "line_hint": 27,
+      "module": "products/intelligence",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "products/intelligence/lens/api/standalone_server.py:27:# TODO: Update these import paths to correct locations",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-ec0c1451",
+      "priority": "high",
+      "title": "Specify imports",
+      "file": "candidate/memory/temporal/benchmark_swarm.py",
+      "line_hint": 15,
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "candidate/memory/temporal/benchmark_swarm.py:15:from event_bus import *  # TODO: Specify imports",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-GOVERNANCE-d4019caa",
+      "priority": "high",
+      "title": "[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination",
+      "file": "candidate/governance/ethics/hitlo_bridge.py",
+      "line_hint": 55,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "candidate/governance/ethics/hitlo_bridge.py:55:from ..orchestration_src.human_in_the_loop_orchestrator import (  # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "med",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-658482fd",
+      "priority": "high",
+      "title": "# \u039bTAGS: \u039bSTANDARD_INIT, \u039bMODULE_INIT, \u039bPLUGIN_SYSTEM, \u039bNIAS_INTEGRATION, \u039bLOGGING_NORMALIZED, AIO_NODE, AINTEROP, \u039bSYMBOLIC_ECHO, AIMPORT_TODO",
+      "file": "candidate/core/interfaces/nias/__init__.py",
+      "line_hint": 74,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "candidate/core/interfaces/nias/__init__.py:74:# \u039bTAGS: \u039bSTANDARD_INIT, \u039bMODULE_INIT, \u039bPLUGIN_SYSTEM, \u039bNIAS_INTEGRATION, \u039bLOGGING_NORMALIZED, AIO_NODE, AINTEROP, \u039bSYMBOLIC_ECHO, AIMPORT_TODO",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-GOVERNANCE-6e50bd41",
+      "priority": "high",
+      "title": "[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)",
+      "file": "candidate/governance/identity/core/sing/cross_device_manager.py",
+      "line_hint": 25,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "candidate/governance/identity/core/sing/cross_device_manager.py:25:    from cryptography.hazmat.primitives import hashes  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "med",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-c48f73ab",
+      "priority": "high",
+      "title": "implement import logic for market replay",
+      "file": "candidate/core/symbolic/creative_market.py",
+      "line_hint": 120,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "candidate/core/symbolic/creative_market.py:120:    # \u2705 TODO: implement import logic for market replay",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-RL-RUN_ADVANCED_TESTS.PY-56c3afc6",
+      "priority": "low",
+      "title": "torch; consider using importli...",
+      "file": "./rl/run_advanced_tests.py",
+      "line_hint": 43,
+      "module": "rl/run_advanced_tests.py",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    }
+  ],
+  "summary": {
+    "total_tasks": 15,
+    "by_priority": {
+      "high": 14,
+      "low": 1
+    },
+    "by_type": {
+      "mechanical": 15
+    },
+    "by_risk": {
+      "low": 11,
+      "med": 3,
+      "high": 1
+    }
+  },
+  "dependencies": [],
+  "checks": [
+    "ruff check .",
+    "pytest -q",
+    "pre-commit run --all-files"
+  ]
+}

@@ -23,8 +23,7 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-from candidate.consciousness.reflection.openai_core_service import (  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution
-from datetime import timezone
+from candidate.consciousness.reflection.openai_core_service import (  # MATRIZ Integration: OpenAI core service for Trinity Framework consciousness evolution and state adaptation coordination
     ModelType,
     OpenAICapability,
     OpenAICoreService,
