@@ -12,22 +12,25 @@ outputs should transform in predictable, mathematically verifiable ways.
 
 import asyncio
 import copy
+import logging
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 import numpy as np
 import pytest
 
+logger = logging.getLogger(__name__)
+
 try:
     from rl import (
-        ConsciousnessBuffer,  # noqa: F401  # TODO: rl.ConsciousnessBuffer; consid...
+        ConsciousnessBuffer,
         ConsciousnessEnvironment,
-        ConsciousnessMetaLearning,  # noqa: F401  # TODO: rl.ConsciousnessMetaLearning; ...
+        ConsciousnessMetaLearning,
         ConsciousnessRewards,
-        ConsciousnessState,  # noqa: F401  # TODO: rl.ConsciousnessState; conside...
-        MatrizNode,  # noqa: F401  # TODO: rl.MatrizNode; consider using ...
-        MultiAgentCoordination,  # noqa: F401  # TODO: rl.MultiAgentCoordination; con...
+        ConsciousnessState,
+        MatrizNode,
+        MultiAgentCoordination,
         PolicyNetwork,
         ValueNetwork,
     )
@@ -35,7 +38,8 @@ try:
     RL_AVAILABLE = True
 except ImportError:
     RL_AVAILABLE = False
-    pytest.skip("MΛTRIZ RL components not available", allow_module_level=True)
+    logger.warning("MΛTRIZ RL components not available; using mock systems for metamorphic tests")
+
 
 
 class MetamorphicRelation(Enum):
@@ -333,7 +337,7 @@ class MetamorphicConsciousnessTesting:
             self.value_network = ValueNetwork()
             self.rewards = ConsciousnessRewards()
             self.real_system = True
-        except:
+        except Exception as exc:  # pragma: no cover - fallback for optional deps
             # Use mock system for testing
             mock_system = MockConsciousnessSystem()
             self.environment = mock_system.environment
@@ -341,8 +345,54 @@ class MetamorphicConsciousnessTesting:
             self.value_network = mock_system.value_network
             self.rewards = mock_system.rewards
             self.real_system = False
+            logger.warning("Metamorphic suite using mock consciousness system: %s", exc)
+
+        self.buffer = None
+        self.meta_learning = None
+        self.coordination = None
+        self.memory_events = 0
+        self.meta_learning_events = 0
+        self.coordination_events = 0
+        self._coordination_initialized = False
+
+        if self.real_system:
+            try:
+                self.buffer = ConsciousnessBuffer(capacity=256)
+            except Exception as exc:  # pragma: no cover - optional dependency path
+                logger.warning("ConsciousnessBuffer unavailable, continuing without memory integration: %s", exc)
+
+            try:
+                self.meta_learning = ConsciousnessMetaLearning(max_experiences=128)
+            except Exception as exc:  # pragma: no cover - optional dependency path
+                logger.warning("ConsciousnessMetaLearning unavailable: %s", exc)
+
+            try:
+                self.coordination = MultiAgentCoordination()
+            except Exception as exc:  # pragma: no cover - optional dependency path
+                logger.warning("MultiAgentCoordination unavailable: %s", exc)
 
         self.metamorphic_test_cases = self._define_metamorphic_test_cases()
+
+    def _ensure_coordination_agents(self) -> None:
+        """Register baseline agents for coordination decisions."""
+
+        if not self.coordination or self._coordination_initialized:
+            return
+
+        # ΛTAG: coordination_review
+        try:
+            from rl.coordination.multi_agent_coordination import AgentProfile, CoordinationStrategy
+
+            self.coordination.strategy = CoordinationStrategy.CONSENSUS
+            self.coordination.register_agent(
+                AgentProfile(agent_id="guardian_observer", agent_type="guardian", specialization="ethics")
+            )
+            self.coordination.register_agent(
+                AgentProfile(agent_id="metamorphic_monitor", agent_type="consciousness", specialization="metamorphic")
+            )
+            self._coordination_initialized = True
+        except Exception as exc:  # pragma: no cover - optional dependency path
+            logger.warning("Unable to initialize coordination agents: %s", exc)
 
     def _define_metamorphic_test_cases(self) -> list[MetamorphicTestCase]:
         """Define metamorphic test cases for consciousness"""
@@ -424,6 +474,15 @@ class MetamorphicConsciousnessTesting:
         # Check metamorphic relation
         relation_holds = test_case.relation_checker(source_result, follow_up_result, test_case.tolerance)
 
+        experience_metrics = await self._record_experience(
+            test_case,
+            source_context,
+            source_result,
+            follow_up_context,
+            follow_up_result,
+            relation_holds,
+        )
+
         return {
             "test_case": test_case.relation.value,
             "relation_holds": relation_holds,
@@ -437,10 +496,96 @@ class MetamorphicConsciousnessTesting:
                 getattr(follow_up_result.state, "confidence", 0.0) if hasattr(follow_up_result, "state") else 0.0
             ),
             "tolerance": test_case.tolerance,
+            "experience_metrics": experience_metrics,
+        }
+
+    async def _record_experience(
+        self,
+        test_case: MetamorphicTestCase,
+        source_context: Any,
+        source_result: Any,
+        follow_up_context: Any,
+        follow_up_result: Any,
+        relation_holds: bool,
+    ) -> Optional[dict[str, Any]]:
+        """Store memory, trigger meta-learning, and coordinate outcomes."""
+
+        if not self.real_system or not self.buffer:
+            return None
+
+        # ΛTAG: memory_trace
+        reward_node = await self.rewards.compute_reward(source_context, source_result, follow_up_context)
+        memory_node = await self.buffer.store_experience(
+            state=source_context,
+            action=source_result,
+            reward=reward_node,
+            next_state=follow_up_context,
+            done=not relation_holds,
+        )
+        self.memory_events += 1
+
+        coordination_decision = None
+        if self.meta_learning:
+            trajectory = [
+                source_result.state.get("confidence", 0.0) if hasattr(source_result, "state") else 0.0,
+                follow_up_result.state.get("confidence", 0.0) if hasattr(follow_up_result, "state") else 0.0,
+            ]
+            await self.meta_learning.record_learning_experience(
+                task_id=f"metamorphic::{test_case.relation.value}",
+                learning_trajectory=trajectory,
+                strategy_used="metamorphic_relation_validation",
+                context_node=source_context,
+                final_performance=1.0 if relation_holds else 0.85,
+            )
+            self.meta_learning_events += 1
+
+        if self.coordination:
+            self._ensure_coordination_agents()
+            proposals = {
+                "guardian_observer": "pass" if relation_holds else "investigate",
+                "metamorphic_monitor": "pass"
+                if follow_up_result.state.get("temporal_coherence", 0.95) >= 0.95
+                else "investigate",
+            }
+            coordination_decision = self.coordination.coordinate_decision("metamorphic_relation", proposals)
+            self.coordination_events += 1
+
+        return {
+            "memory_node_id": getattr(memory_node, "id", None),
+            "reward_total": reward_node.state.get("reward_total") if hasattr(reward_node, "state") else None,
+            "relation_holds": relation_holds,
+            "coordination_consensus": getattr(coordination_decision, "consensus_level", None),
         }
 
     def _create_context_node(self, state_data: dict[str, Any]):
-        """Create a mock context node for testing"""
+        """Create a context node compatible with real or mock systems."""
+
+        if self.real_system:
+            # ΛTAG: metamorphic_node
+            consciousness_state = ConsciousnessState(
+                module_states={"metamorphic_suite": dict(state_data)},
+                temporal_coherence=state_data.get("temporal_coherence", 0.95),
+                reflection_depth=3,
+                ethical_alignment=state_data.get("ethical_alignment", 0.98),
+                memory_salience={"metamorphic_suite": state_data.get("awareness_level", 0.8)},
+                quantum_entanglement={},
+                emotion_vector=[
+                    state_data.get("valence", 0.0),
+                    state_data.get("arousal", 0.5),
+                    state_data.get("confidence", 0.7),
+                ],
+            )
+
+            node_state = dict(state_data)
+            node_state["consciousness_state"] = consciousness_state
+            node_state["metamorphic_tag"] = "relation_testing"
+            return MatrizNode(
+                type="CONTEXT",
+                state=node_state,
+                labels=["metamorphic:test@1"],
+                provenance={"producer": "tests.metamorphic", "framework": "ΛTAG"},
+            )
+
         return type("MockContextNode", (), {"type": "CONTEXT", "state": state_data})()
 
     async def run_all_metamorphic_tests(self) -> dict[str, Any]:
@@ -473,6 +618,9 @@ class MetamorphicConsciousnessTesting:
             "success_rate": passed_tests / total_tests if total_tests > 0 else 0.0,
             "test_results": results,
             "system_type": "real" if self.real_system else "mock",
+            "memory_events": self.memory_events,
+            "meta_learning_events": self.meta_learning_events,
+            "coordination_events": self.coordination_events,
         }
 
 
@@ -620,6 +768,15 @@ async def test_all_metamorphic_relations():
     print(f"   Failed: {results['failed_tests']}")
     print(f"   Success rate: {results['success_rate']:.2%}")
     print(f"   System type: {results['system_type']}")
+
+    if tester.real_system:
+        assert results["memory_events"] == results["total_tests"], "Each relation should record a memory event"
+        assert (
+            results["meta_learning_events"] == results["total_tests"]
+        ), "Each relation should produce a meta-learning trace"
+        assert (
+            results["coordination_events"] == results["total_tests"]
+        ), "Each relation should trigger coordination review"
 
     # Analyze failed tests
     failed_tests = [r for r in results["test_results"] if not r.get("relation_holds", False)]

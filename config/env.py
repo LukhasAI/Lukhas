@@ -273,6 +273,20 @@ class LUKHASConfig:
         """API rate limit per minute"""
         return self.config.get_int("API_RATE_LIMIT_PER_MINUTE", 1000)
 
+    @property
+    def api_vault_path(self) -> Path:
+        """Filesystem path for the secure API vault."""
+        repo_root = Path(__file__).resolve().parents[1]
+        default_path = repo_root / "var" / "api_vault"  # ΛTAG: config_default
+        raw_path = self.config.get(
+            "LUKHAS_API_VAULT_PATH",
+            str(default_path),
+        )
+        resolved_path = Path(str(raw_path)).expanduser()
+        if not resolved_path.is_absolute():
+            resolved_path = (repo_root / resolved_path).resolve()
+        return resolved_path
+
     # External Services
     @property
     def github_token(self) -> str:

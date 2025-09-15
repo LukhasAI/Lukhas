@@ -20,6 +20,7 @@ Created: 2025-09-05
 
 import asyncio
 import logging
+from collections import defaultdict  # ΛTAG: performance
 from datetime import datetime, timezone
 from typing import Any, Optional
 
@@ -271,17 +272,15 @@ class AGIServiceInitializer:
         before services that depend on them.
         """
         # Simple dependency resolution using priority and dependencies
-        services_by_priority = {}
+        services_by_priority: dict[int, list[str]] = defaultdict(list)  # ΛTAG: performance
 
         for service_name, config in self.config.service_configs.items():
             priority = config.get("priority", 10)
-            if priority not in services_by_priority:
-                services_by_priority[priority] = []
             services_by_priority[priority].append(service_name)
 
         # Return services ordered by priority (lower number = higher priority)
         ordered_services = []
-        for priority in sorted(services_by_priority.keys()):
+        for priority in sorted(services_by_priority):  # ΛTAG: performance
             ordered_services.extend(services_by_priority[priority])
 
         return ordered_services

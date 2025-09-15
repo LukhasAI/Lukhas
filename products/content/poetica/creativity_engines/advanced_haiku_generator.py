@@ -64,9 +64,9 @@ from lukhas.core.common import get_logger
 try:
     from lukhas.branding_bridge import (
         BrandContext,
-        generate_branded_content,  # noqa: F401  # TODO: lukhas.branding_bridge.generat...
+        generate_branded_content,
         get_brand_voice,
-        get_triad_context,  # noqa: F401  # TODO: lukhas.branding_bridge.get_tri...
+        get_triad_context,
         normalize_output_text,
         validate_output,
     )
@@ -392,6 +392,7 @@ class AdvancedHaikuGenerator:
             enhanced_haiku = expanded_haiku
 
         # Apply LUKHAS AI branding and Trinity Framework integration
+        branding_metadata: dict[str, Any] | None = None
         if BRANDING_BRIDGE_AVAILABLE:
             brand_context = BrandContext(
                 voice_profile="consciousness",
@@ -408,6 +409,11 @@ class AdvancedHaikuGenerator:
 
             # Apply normalization if needed
             final_haiku = normalize_output_text(branded_haiku, brand_context)
+            triad_context = get_triad_context(brand_context.triad_emphasis)
+            branding_metadata = {
+                "triad": triad_context,
+                "augmented_content": generate_branded_content(final_haiku, brand_context),
+            }
         else:
             final_haiku = enhanced_haiku
 
@@ -428,6 +434,7 @@ class AdvancedHaikuGenerator:
             "consciousness_metrics": consciousness_metrics,
             "generation_timestamp": datetime.now(timezone.utc).isoformat(),
             "expansion_depth": expansion_depth,
+            "branding": branding_metadata,
         }
 
     async def generate_haiku_series(self, themes: list[str], count_per_theme: int = 1) -> dict[str, Any]:

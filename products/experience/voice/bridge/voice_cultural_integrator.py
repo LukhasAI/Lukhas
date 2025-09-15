@@ -9,7 +9,7 @@ import builtins
 import contextlib
 import logging
 import random
-import re
+import re  # ΛTAG: regex
 from typing import Any, Optional
 
 # ΛTAG: cultural_regex
@@ -219,7 +219,7 @@ class VoiceCulturalIntegrator:
         cultural_context = context.get("cultural_context", "casual")
 
         # Extract unusual words (longer words are more likely to be interesting)
-        words = [w for w in re.findall(r"\b[a-zA-Z\']+\b", context.get("user_text", "")) if len(w) > 5]  # noqa: F821  # TODO: re
+        words = [w for w in re.findall(r"\b[a-zA-Z\']+\b", context.get("user_text", "")) if len(w) > 5]
 
         for word in words:
             if self.accent_adapter.should_express_curiosity(word, cultural_context):

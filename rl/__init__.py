@@ -17,7 +17,7 @@ via MΛTRIZ schema with proper provenance and capability tracking.
 """
 
 from .coordination.multi_agent_coordination import MultiAgentCoordination
-from .engine.consciousness_environment import ConsciousnessEnvironment
+from .engine.consciousness_environment import ConsciousnessEnvironment, ConsciousnessState, MatrizNode
 from .engine.policy_networks import PolicyNetwork
 from .engine.value_networks import ValueNetwork
 from .experience.consciousness_buffer import ConsciousnessBuffer
@@ -27,7 +27,9 @@ from .rewards.consciousness_rewards import ConsciousnessRewards
 __version__ = "1.0.0"
 __all__ = [
     "ConsciousnessBuffer",
+    "ConsciousnessState",
     "ConsciousnessEnvironment",
+    "MatrizNode",
     "ConsciousnessMetaLearning",
     "ConsciousnessRewards",
     "MultiAgentCoordination",

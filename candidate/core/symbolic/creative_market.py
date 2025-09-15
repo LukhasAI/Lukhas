@@ -117,7 +117,34 @@ class CreativeMarket:
         logger.info("item_exported", item=item.item_id)
         return item
 
-    # ✅ TODO: implement import logic for market replay
+    # ΛTAG: market_replay
+    def import_items(self) -> list[CreativeItem]:
+        """Import previously exported items for replay analysis."""
+        items: list[CreativeItem] = []
+        if not self.export_path.exists():
+            return items
+        with self.export_path.open("r", encoding="utf-8") as f:
+            for line in f:
+                try:
+                    data = json.loads(line)
+                except json.JSONDecodeError:
+                    logger.warning("replay_import_failed", line=line)
+                    continue
+                tag = self._create_tag(data["content"])
+                item = CreativeItem(
+                    data["item_id"],
+                    data["content"],
+                    data.get("item_type", "unknown"),
+                    tag,
+                    data.get("glyph", ""),
+                    data.get("symbolic_value", 0.0),
+                    data.get("reputation", 1.0),
+                    data.get("created_at", datetime.now(timezone.utc).isoformat()),
+                )
+                items.append(item)
+                self.reputation_store[item.item_id] = item.reputation
+        logger.info("market_replay_imported", count=len(items))
+        return items
 
 
 __all__ = ["CreativeItem", "CreativeMarket"]

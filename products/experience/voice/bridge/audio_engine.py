@@ -198,26 +198,25 @@ async def create_and_initialize_audio_engine(
 
 if __name__ == "__main__":
     # Example usage
-    import asyncio
 
     async def main():
         component = AudioEngine()
 
         # Initialize
         success = await component.initialize()
-        logger.info(f"Initialization: {'success' if success else 'failed'}")  # noqa: F821  # TODO: logger
+        logger.info(f"Initialization: {'success' if success else 'failed'}")
 
         # Process some data
         result = await component.process({"test": "data"})
-        logger.info(f"Processing result: {result}")  # noqa: F821  # TODO: logger
+        logger.info(f"Processing result: {result}")
 
         # Validate
         valid = await component.validate()
-        logger.info(f"Validation: {'passed' if valid else 'failed'}")  # noqa: F821  # TODO: logger
+        logger.info(f"Validation: {'passed' if valid else 'failed'}")
 
         # Get status
         status = component.get_status()
-        logger.info(f"Status: {status}")  # noqa: F821  # TODO: logger
+        logger.info(f"Status: {status}")
 
         # Shutdown
         await component.shutdown()

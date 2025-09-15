@@ -529,23 +529,28 @@ class UnifiedVocabulary:
         return export_data
 
     def import_vocabulary(self, data: dict[str, Any]) -> bool:
-        """Import vocabulary data"""
+        """Import vocabulary data with consciousness-aware processing"""
 
         # ΛTAG: vocabulary_import
         try:
             domains_data = data.get("domains", {})
             for domain_name, domain_payload in domains_data.items():
                 try:
-                    domain = SymbolicDomain[domain_name.upper()]
-                except KeyError:
+                    # Support both enum access patterns for consciousness integration
+                    try:
+                        domain = SymbolicDomain[domain_name.upper()]
+                    except KeyError:
+                        domain = SymbolicDomain(domain_name)
+                except (KeyError, ValueError):
                     logger.warning(f"Unknown domain '{domain_name}' in import payload")
                     continue
 
                 vocab = self.manager.get_vocabulary(domain)
                 if not vocab:
-                    continue
+                    vocab = DomainVocabulary(domain=domain)
+                    self.manager.vocabularies[domain] = vocab
 
-                # Symbols
+                # Symbols - use enhanced deserialization for consciousness metadata
                 for symbol_payload in domain_payload.get("symbols", []):
                     symbol = self._deserialize_symbol(symbol_payload, domain)
                     vocab.add_symbol(symbol)
@@ -553,11 +558,15 @@ class UnifiedVocabulary:
                     if symbol.glyph:
                         self.glyph_engine.register_custom_glyph(symbol.glyph, symbol.name)
 
-                # Concepts
+                # Concepts - enhanced processing with consciousness validation
                 for concept_payload in domain_payload.get("concepts", []):
                     concept = self._deserialize_concept(concept_payload, domain)
                     if concept:
                         vocab.add_concept(concept)
+
+                # Update aliases and metadata for consciousness context
+                vocab.aliases.update(domain_payload.get("aliases", {}))
+                vocab.metadata.update(domain_payload.get("metadata", {}))
 
             logger.info("Vocabulary import completed")
             return True
