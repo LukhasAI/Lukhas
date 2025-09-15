@@ -1,0 +1,663 @@
+{
+  "agent_id": "CODEX-03",
+  "specialty": "High Priority Batch 3",
+  "focus": "high priority integration",
+  "task_count": 40,
+  "priority": "high",
+  "risk_level": "low",
+  "branch_prefix": "feat/codex-03/high-priority-batch-3-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-cd928502",
+      "priority": "high",
+      "title": "Enable when hub dependencies are resolved",
+      "file": "./candidate/core/interfaces/as_agent/sys/dast/aggregator.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 64,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/interfaces/as_agent/sys/dast/aggregator.py:# TODO: Enable when hub dependencies are resolved",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-abc20abc",
+      "priority": "high",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/core/interfaces/as_agent/widgets/widget_engine.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 155,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-e5536936",
+      "priority": "high",
+      "title": "Replace this hack with proper Python packaging imports once",
+      "file": "./candidate/core/interfaces/as_agent/news_and_social/s_dispatcher.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 11,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/core/interfaces/as_agent/news_and_social/s_dispatcher.py:# TODO: Replace this hack with proper Python packaging imports once",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-ecb4d053",
+      "priority": "high",
+      "title": "4",
+      "file": "./candidate/core/state_management.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 3,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/state_management.py:Addresses TODOs 115-117, 131-134",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-82810e74",
+      "priority": "high",
+      "title": "Add drift pattern library for operator training",
+      "file": "./candidate/memory/temporal/drift_dashboard_visual.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 46,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/temporal/drift_dashboard_visual.py:TODO: Add drift pattern library for operator training",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-dfbaa585",
+      "priority": "high",
+      "title": "Implement predictive token consumption modeling for simulation planning",
+      "file": "./candidate/memory/temporal/hyperspace_dream_simulator.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 58,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/temporal/hyperspace_dream_simulator.py:TODO: Implement predictive token consumption modeling for simulation planning",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-602cddf2",
+      "priority": "high",
+      "title": "Specify imports",
+      "file": "./candidate/memory/temporal/benchmark_swarm.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 15,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/memory/temporal/benchmark_swarm.py:from event_bus import *  # TODO: Specify imports",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-602cddf2",
+      "priority": "high",
+      "title": "Specify imports",
+      "file": "./candidate/memory/temporal/benchmark_swarm.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 16,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/memory/temporal/benchmark_swarm.py:from event_bus import *  # TODO: Specify imports",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-5c1d70c3",
+      "priority": "high",
+      "title": "s",
+      "file": "./candidate/memory/temporal/documentation_analytics.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 716,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/temporal/documentation_analytics.py:        # Check for TODO/FIXME items",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-2e0b4a1d",
+      "priority": "high",
+      "title": ")",
+      "file": "./candidate/memory/temporal/documentation_analytics.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 717,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/temporal/documentation_analytics.py:        # Check for TODO/FIXME items",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-5c1d70c3",
+      "priority": "high",
+      "title": "s",
+      "file": "./candidate/memory/temporal/documentation_analytics.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 719,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/temporal/documentation_analytics.py:        # Check for TODO/FIXME items",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-2e0b4a1d",
+      "priority": "high",
+      "title": ")",
+      "file": "./candidate/memory/temporal/documentation_analytics.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 729,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/temporal/documentation_analytics.py:        # Check for TODO/FIXME items",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-cf57f896",
+      "priority": "high",
+      "title": "Install or implement streamlit",
+      "file": "./candidate/memory/temporal/output_log.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 15,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/temporal/output_log.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-7dde92d5",
+      "priority": "high",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/memory/core/base_manager.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 89,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-e1bc911d",
+      "priority": "high",
+      "title": ".",
+      "file": "./candidate/memory/causal/service_analysis.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 10,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/causal/service_analysis.py:Addresses REALITY_TODO tasks 9 and 12.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-6ede0add",
+      "priority": "high",
+      "title": ".",
+      "file": "./candidate/memory/causal/memory_cleaner.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 655,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/causal/memory_cleaner.py:#                    agent like RemediatorAgent. Full implementation of its capabilities (TODOs) is required.",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-bbcaa223",
+      "priority": "high",
+      "title": "Implement quantum causal entanglement detection with dream correlation",
+      "file": "./candidate/memory/causal/fold_lineage_tracker.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 66,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/causal/fold_lineage_tracker.py:TODO: Implement quantum causal entanglement detection with dream correlation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-4dd0840e",
+      "priority": "high",
+      "title": "Implement machine learning-based causality pattern recognition",
+      "file": "./candidate/memory/causal/feedback_propagator.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 53,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/causal/feedback_propagator.py:TODO: Implement machine learning-based causality pattern recognition",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-b1fe086b",
+      "priority": "high",
+      "title": "Implement chain connection logic",
+      "file": "./candidate/memory/causal/verifold_connector.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 33,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/causal/verifold_connector.py:        # TODO: Implement chain connection logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-b960cd66",
+      "priority": "high",
+      "title": "Implement session submission logic",
+      "file": "./candidate/memory/causal/verifold_connector.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 37,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/causal/verifold_connector.py:        # TODO: Implement chain connection logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-4f3a69e1",
+      "priority": "high",
+      "title": "Implement data retrieval logic",
+      "file": "./candidate/memory/causal/verifold_connector.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 41,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/causal/verifold_connector.py:        # TODO: Implement chain connection logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-1a374bce",
+      "priority": "high",
+      "title": "Implement chain verification logic",
+      "file": "./candidate/memory/causal/verifold_connector.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 45,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/causal/verifold_connector.py:        # TODO: Implement chain connection logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-0b79f175",
+      "priority": "high",
+      "title": "This sys.path manipulation is generally discouraged.",
+      "file": "./candidate/memory/learning/service.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 34,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/learning/service.py:# AIMPORT_TODO: This sys.path manipulation is generally discouraged.",
+        "last_commit": "10f5fa6937959bcaaa1754020fca1ef42b7d6e43"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-db4e8339",
+      "priority": "high",
+      "title": "Implement consolidated memory processing",
+      "file": "./candidate/memory/episodic/episodic_memory.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 20,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/episodic/episodic_memory.py:        # TODO: Implement consolidated memory processing",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-8d093187",
+      "priority": "high",
+      "title": "extend with CLI interface for governance dashboard",
+      "file": "./candidate/memory/folds/event_replayer.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 79,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/folds/event_replayer.py:    # \u2705 TODO: extend with CLI interface for governance dashboard",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-1a68a7cb",
+      "priority": "high",
+      "title": "Implement quantum causal entanglement detection with dream correlation",
+      "file": "./candidate/memory/fold_system/fold_lineage_tracker.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 59,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/fold_system/fold_lineage_tracker.py:TODO: Implement quantum causal entanglement detection with dream correlation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-f83c427a",
+      "priority": "high",
+      "title": "Add example",
+      "file": "./candidate/memory/examples/basic/example.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 7,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/examples/basic/example.py:# TODO: Add example",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-99e0457f",
+      "priority": "high",
+      "title": "Lightweight Concurrency for actors with extreme memory",
+      "file": "./candidate/memory/lightweight_concurrency.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 17,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/lightweight_concurrency.py:\u2551 Implements TODO 40: Lightweight Concurrency for actors with extreme memory",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-bf10e984",
+      "priority": "high",
+      "title": "Move away from load bearing names",
+      "file": "./candidate/memory/systems/memory_profiler.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 199,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_profiler.py:        # TODO(robieta): Move away from load bearing names",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-f049c974",
+      "priority": "high",
+      "title": ":",
+      "file": "./candidate/memory/systems/memory_profiler.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 340,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_profiler.py:        # TODO(robieta): Move away from load bearing names",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-6fa3acee",
+      "priority": "high",
+      "title": "Write a faster serialize (orjson not available in CI)",
+      "file": "./candidate/memory/systems/memory_profiler.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 1061,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_profiler.py:        # TODO(robieta): Move away from load bearing names",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-7b719371",
+      "priority": "high",
+      "title": "Install or implement streamlit",
+      "file": "./candidate/memory/systems/in_memory_cache_storage_wrapper.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 57,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "d84f24154c21de7e05c16e108d7bcce86f034a59"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-7b719371",
+      "priority": "high",
+      "title": "Install or implement streamlit",
+      "file": "./candidate/memory/systems/in_memory_cache_storage_wrapper.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 59,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "d84f24154c21de7e05c16e108d7bcce86f034a59"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-7b719371",
+      "priority": "high",
+      "title": "Install or implement streamlit",
+      "file": "./candidate/memory/systems/in_memory_cache_storage_wrapper.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 64,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "d84f24154c21de7e05c16e108d7bcce86f034a59"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-babf88b7",
+      "priority": "high",
+      "title": "kept pending MATRIZ wiring (document or remove)",
+      "file": "./candidate/memory/systems/in_memory_cache_storage_wrapper.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 66,
+      "risk": "low",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "d84f24154c21de7e05c16e108d7bcce86f034a59"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-c0fa8da8",
+      "priority": "high",
+      "title": "Implement actual dream processing logic --- #\u039bCOLLAPSE_POINT (Core logic is placeholder)",
+      "file": "./candidate/memory/systems/dream_memory_manager.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 211,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/dream_memory_manager.py:            # --- TODO (future): Implement actual dream processing logic --- #\u039bCOLLAPSE_POINT (Core logic is placeholder)",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-e3a0b692",
+      "priority": "high",
+      "title": "No description",
+      "file": "./candidate/memory/systems/memory_manager.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 42,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "1b9a674cc88d98ce554970c99495c59e49457bc9"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-80ac38c7",
+      "priority": "high",
+      "title": "Resolve import paths if these files are moved or structure changes.",
+      "file": "./candidate/memory/systems/memory_learning/memory_manager.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 67,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_learning/memory_manager.py:# TODO: Resolve import paths if these files are moved or structure changes.",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-85b02450",
+      "priority": "high",
+      "title": "Install or implement AID",
+      "file": "./candidate/memory/systems/memory_learning/memory_manager.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 108,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_learning/memory_manager.py:# TODO: Resolve import paths if these files are moved or structure changes.",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-85b02450",
+      "priority": "high",
+      "title": "Install or implement AID",
+      "file": "./candidate/memory/systems/memory_learning/memory_manager.py",
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "line_hint": 109,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/memory/systems/memory_learning/memory_manager.py:# TODO: Resolve import paths if these files are moved or structure changes.",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: codex-03-batch-$(date +%m%d)",
+      "2. Work through 40 tasks systematically",
+      "3. One TaskID per commit",
+      "4. Focus: high priority integration",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(high): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.158336Z",
+  "source": "Direct allocation from manifest_clean.json"
+}

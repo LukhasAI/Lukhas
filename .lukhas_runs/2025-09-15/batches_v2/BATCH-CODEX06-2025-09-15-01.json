@@ -1,0 +1,649 @@
+{
+  "batch_id": "BATCH-CODEX06-2025-09-15-01",
+  "agent": "codex06",
+  "created_at": "2025-09-15T01:41:37.130008Z",
+  "expires_at": "2025-09-18T01:41:37.130009Z",
+  "branch_name": "feat/codex06/code-cleanup-batch01",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-LOW-PRODUCTS-EXPERIENCE-f5464f3e",
+      "priority": "low",
+      "title": "torchaudio; consider using imp...",
+      "file": "./products/experience/voice/bridge/voice_integration.py",
+      "line_hint": 29,
+      "module": "products/experience",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/voice_integration.py:    import torch  # noqa: F401  # TODO: torch; consider using importli...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-PRODUCTS-INTELLIGENCE-27a9a39f",
+      "priority": "low",
+      "title": "Fix import path - lambda directory doesn't exist",
+      "file": "./products/intelligence/lens/tests/test_api_integration.py",
+      "line_hint": 12,
+      "module": "products/intelligence",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./products/intelligence/lens/tests/test_api_integration.py:    # TODO: Fix import path - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-RL-RUN_ADVANCED_TESTS.PY-d5f40fcd",
+      "priority": "low",
+      "title": "z3; consider using importlib.u...",
+      "file": "./rl/run_advanced_tests.py",
+      "line_hint": 36,
+      "module": "rl/run_advanced_tests.py",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./rl/run_advanced_tests.py:        import hypothesis  # noqa: F401  # TODO: hypothesis; consider using imp...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-RL-RUN_ADVANCED_TESTS.PY-56c3afc6",
+      "priority": "low",
+      "title": "torch; consider using importli...",
+      "file": "./rl/run_advanced_tests.py",
+      "line_hint": 43,
+      "module": "rl/run_advanced_tests.py",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./rl/run_advanced_tests.py:        import hypothesis  # noqa: F401  # TODO: hypothesis; consider using imp...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TESTS-SMOKE-6090d7a6",
+      "priority": "low",
+      "title": "lukhas; consider using importl...",
+      "file": "./tests/smoke/test_accepted_smoke.py",
+      "line_hint": 7,
+      "module": "tests/smoke",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tests/smoke/test_accepted_smoke.py:        import lukhas  # noqa: F401  # TODO: lukhas; consider using importl...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-2030_FULL_CONSOLIDATOR.PY-47c907aa",
+      "priority": "low",
+      "title": "Implement actual consolidation logic",
+      "file": "./tools/2030_full_consolidator.py",
+      "line_hint": 431,
+      "module": "tools/2030_full_consolidator.py",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/2030_full_consolidator.py:    # TODO: Implement actual consolidation logic",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-KEYWORD_EXTRACTOR.PY-f9d4d9cf",
+      "priority": "low",
+      "title": "lukhasKeywordExtractor",
+      "file": "./tools/keyword_extractor.py",
+      "line_hint": 192,
+      "module": "tools/keyword_extractor.py",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/keyword_extractor.py:    extractor = lukhasKeywordExtractor()  # noqa: F821  # TODO: lukhasKeywordExtractor",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-b710e3fb",
+      "priority": "low",
+      "title": "Implement actual consolidation logic",
+      "file": "./tools/analysis/2030_full_consolidator.py",
+      "line_hint": 431,
+      "module": "tools/analysis",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/analysis/2030_full_consolidator.py:    # TODO: Implement actual consolidation logic",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-fff0f221",
+      "priority": "low",
+      "title": "lukhasKeywordExtractor",
+      "file": "./tools/analysis/keyword_extractor.py",
+      "line_hint": 192,
+      "module": "tools/analysis",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/analysis/keyword_extractor.py:    extractor = lukhasKeywordExtractor()  # noqa: F821  # TODO: lukhasKeywordExtractor",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-5d614892",
+      "priority": "low",
+      "title": "call target function with args: {args_str}\\n\"",
+      "file": "./tools/analysis/ml_integration_analyzer.py",
+      "line_hint": 796,
+      "module": "tools/analysis",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/analysis/ml_integration_analyzer.py:                f\"    # TODO: call target function with args: {args_str}\\n\"",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-11721ac0",
+      "priority": "low",
+      "title": "Implement\\n\"",
+      "file": "./tools/analysis/import_fixer.py",
+      "line_hint": 127,
+      "module": "tools/analysis",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/analysis/import_fixer.py:                lines[line_num - 1] = \"    pass  # TODO: Implement\\n\"",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-2234504a",
+      "priority": "low",
+      "title": "Implement {module_name}\\n'",
+      "file": "./tools/analysis/import_fixer.py",
+      "line_hint": 182,
+      "module": "tools/analysis",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/analysis/import_fixer.py:                lines[line_num - 1] = \"    pass  # TODO: Implement\\n\"",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-7d2fce3b",
+      "priority": "low",
+      "title": ")",
+      "file": "./tools/analysis/focused_atlas_builder.py",
+      "line_hint": 359,
+      "module": "tools/analysis",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/analysis/focused_atlas_builder.py:        # Key comments and TODOs (sample first 50 lines to avoid performance issues)",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-802417d1",
+      "priority": "low",
+      "title": "{comment[:80]}\")",
+      "file": "./tools/analysis/focused_atlas_builder.py",
+      "line_hint": 366,
+      "module": "tools/analysis",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/analysis/focused_atlas_builder.py:        # Key comments and TODOs (sample first 50 lines to avoid performance issues)",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-ca1e80dd",
+      "priority": "low",
+      "title": "s",
+      "file": "./tools/analysis/code_atlas_builder.py",
+      "line_hint": 62,
+      "module": "tools/analysis",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/analysis/code_atlas_builder.py:    intent_clues: list[str]  # From docstrings, comments, TODOs",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-c2b389db",
+      "priority": "low",
+      "title": "{comment[:100]}\")",
+      "file": "./tools/analysis/code_atlas_builder.py",
+      "line_hint": 396,
+      "module": "tools/analysis",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/analysis/code_atlas_builder.py:    intent_clues: list[str]  # From docstrings, comments, TODOs",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-4a76c7fa",
+      "priority": "low",
+      "title": "lukhasOrganizationScanner",
+      "file": "./tools/analysis/OrganizationScanner.py",
+      "line_hint": 314,
+      "module": "tools/analysis",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/analysis/OrganizationScanner.py:    scanner = lukhasOrganizationScanner(workspace_root)  # noqa: F821  # TODO: lukhasOrganizationScanner",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-7ab9af91",
+      "priority": "low",
+      "title": "Implement {module_name}\\npass\\n'",
+      "file": "./tools/analysis/final_import_cleanup.py",
+      "line_hint": 193,
+      "module": "tools/analysis",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/analysis/final_import_cleanup.py:                content = f'\"\"\"\\n{module_name} Module\\n\"\"\"\\n\\n# TODO: Implement {module_name}\\npass\\n'",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-265b8db1",
+      "priority": "low",
+      "title": "Create utils module\",",
+      "file": "./tools/analysis/final_import_cleanup.py",
+      "line_hint": 216,
+      "module": "tools/analysis",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/analysis/final_import_cleanup.py:                content = f'\"\"\"\\n{module_name} Module\\n\"\"\"\\n\\n# TODO: Implement {module_name}\\npass\\n'",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-48ad68e2",
+      "priority": "low",
+      "title": "Create commands.base module\",",
+      "file": "./tools/analysis/final_import_cleanup.py",
+      "line_hint": 220,
+      "module": "tools/analysis",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/analysis/final_import_cleanup.py:                content = f'\"\"\"\\n{module_name} Module\\n\"\"\"\\n\\n# TODO: Implement {module_name}\\npass\\n'",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-0c163b0b",
+      "priority": "low",
+      "title": "Create commands module\",",
+      "file": "./tools/analysis/final_import_cleanup.py",
+      "line_hint": 224,
+      "module": "tools/analysis",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/analysis/final_import_cleanup.py:                content = f'\"\"\"\\n{module_name} Module\\n\"\"\"\\n\\n# TODO: Implement {module_name}\\npass\\n'",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-61b0a1c4",
+      "priority": "low",
+      "title": ",",
+      "file": "./tools/analysis/comprehensive_organizational_audit.py",
+      "line_hint": 35,
+      "module": "tools/analysis",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/analysis/comprehensive_organizational_audit.py:                \"TODO.md\",",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ENTERPRISE-69e464a2",
+      "priority": "low",
+      "title": "Calculate from baseline",
+      "file": "./tools/enterprise/observability_system.py",
+      "line_hint": 506,
+      "module": "tools/enterprise",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/enterprise/observability_system.py:                    expected_value=0,  # TODO: Calculate from baseline",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-AUTODOC_HEADERS.PY-46136b4a",
+      "priority": "low",
+      "title": ":",
+      "file": "./tools/autodoc_headers.py",
+      "line_hint": 215,
+      "module": "tools/autodoc_headers.py",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/autodoc_headers.py:            if os.getenv(\"AUTODOC_DRY_RUN\", \"\").lower() != \"true\":",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-AUTODOC_HEADERS.PY-78800d4a",
+      "priority": "low",
+      "title": "\"",
+      "file": "./tools/autodoc_headers.py",
+      "line_hint": 228,
+      "module": "tools/autodoc_headers.py",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/autodoc_headers.py:            if os.getenv(\"AUTODOC_DRY_RUN\", \"\").lower() != \"true\":",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-AUTODOC_HEADERS.PY-646dfc14",
+      "priority": "low",
+      "title": ")",
+      "file": "./tools/autodoc_headers.py",
+      "line_hint": 303,
+      "module": "tools/autodoc_headers.py",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/autodoc_headers.py:            if os.getenv(\"AUTODOC_DRY_RUN\", \"\").lower() != \"true\":",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-9049ebb3",
+      "priority": "low",
+      "title": ".",
+      "file": "./tools/ci/mark_unused_imports_todo.py",
+      "line_hint": 5,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/ci/mark_unused_imports_todo.py:Mark unused imports with TODOs instead of deleting them.",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-912cf506",
+      "priority": "low",
+      "title": "<reason>",
+      "file": "./tools/ci/mark_unused_imports_todo.py",
+      "line_hint": 8,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/ci/mark_unused_imports_todo.py:Mark unused imports with TODOs instead of deleting them.",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-2c46cfe8",
+      "priority": "low",
+      "title": "n",
+      "file": "./tools/ci/mark_unused_imports_todo.py",
+      "line_hint": 44,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/ci/mark_unused_imports_todo.py:Mark unused imports with TODOs instead of deleting them.",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-48aabd9a",
+      "priority": "low",
+      "title": "This file contains unused imports intentionally kept.\\n\"",
+      "file": "./tools/ci/mark_unused_imports_todo.py",
+      "line_hint": 47,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": "./tools/ci/mark_unused_imports_todo.py:Mark unused imports with TODOs instead of deleting them.",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    }
+  ],
+  "meta": {
+    "domain": "Code Cleanup",
+    "description": "general code cleanup tasks",
+    "risk_level": "low",
+    "requires_review": false,
+    "feature_flags_required": false,
+    "experimental": false,
+    "total_tasks": 30
+  }
+}

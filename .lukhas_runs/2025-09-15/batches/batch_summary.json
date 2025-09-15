@@ -1,0 +1,126 @@
+{
+  "run_id": "LUKHAS-RUN-2025-09-15-A",
+  "created_at": "2025-09-15T01:17:08.831705Z",
+  "batches": {
+    "jules01": {
+      "batch_id": "BATCH-JULES01-2025-09-15-01",
+      "file": "BATCH-JULES01-2025-09-15-01.json",
+      "tasks": 25,
+      "branch": "feat/jules01/candidate-batch01"
+    },
+    "jules02": {
+      "batch_id": "BATCH-JULES02-2025-09-15-01",
+      "file": "BATCH-JULES02-2025-09-15-01.json",
+      "tasks": 25,
+      "branch": "feat/jules02/candidate-batch01"
+    },
+    "jules03": {
+      "batch_id": "BATCH-JULES03-2025-09-15-01",
+      "file": "BATCH-JULES03-2025-09-15-01.json",
+      "tasks": 25,
+      "branch": "feat/jules03/candidate-batch01"
+    },
+    "jules04": {
+      "batch_id": "BATCH-JULES04-2025-09-15-01",
+      "file": "BATCH-JULES04-2025-09-15-01.json",
+      "tasks": 20,
+      "branch": "feat/jules04/candidate-batch01"
+    },
+    "jules05": {
+      "batch_id": "BATCH-JULES05-2025-09-15-01",
+      "file": "BATCH-JULES05-2025-09-15-01.json",
+      "tasks": 20,
+      "branch": "feat/jules05/candidate-batch01"
+    },
+    "jules09": {
+      "batch_id": "BATCH-JULES09-2025-09-15-01",
+      "file": "BATCH-JULES09-2025-09-15-01.json",
+      "tasks": 13,
+      "branch": "feat/jules09/candidate-batch01"
+    },
+    "jules10": {
+      "batch_id": "BATCH-JULES10-2025-09-15-01",
+      "file": "BATCH-JULES10-2025-09-15-01.json",
+      "tasks": 12,
+      "branch": "feat/jules10/candidate-batch01"
+    },
+    "codex01": {
+      "batch_id": "BATCH-CODEX01-2025-09-15-01",
+      "file": "BATCH-CODEX01-2025-09-15-01.json",
+      "tasks": 16,
+      "branch": "feat/codex01/candidate-batch01"
+    },
+    "codex02": {
+      "batch_id": "BATCH-CODEX02-2025-09-15-01",
+      "file": "BATCH-CODEX02-2025-09-15-01.json",
+      "tasks": 15,
+      "branch": "feat/codex02/candidate-batch01"
+    },
+    "jules06": {
+      "batch_id": "BATCH-JULES06-2025-09-15-01",
+      "file": "BATCH-JULES06-2025-09-15-01.json",
+      "tasks": 20,
+      "branch": "feat/jules06/products-batch01"
+    },
+    "jules07": {
+      "batch_id": "BATCH-JULES07-2025-09-15-01",
+      "file": "BATCH-JULES07-2025-09-15-01.json",
+      "tasks": 20,
+      "branch": "feat/jules07/products-batch01"
+    },
+    "jules08": {
+      "batch_id": "BATCH-JULES08-2025-09-15-01",
+      "file": "BATCH-JULES08-2025-09-15-01.json",
+      "tasks": 20,
+      "branch": "feat/jules08/products-batch01"
+    },
+    "codex03": {
+      "batch_id": "BATCH-CODEX03-2025-09-15-01",
+      "file": "BATCH-CODEX03-2025-09-15-01.json",
+      "tasks": 15,
+      "branch": "feat/codex03/candidate-batch01"
+    },
+    "codex04": {
+      "batch_id": "BATCH-CODEX04-2025-09-15-01",
+      "file": "BATCH-CODEX04-2025-09-15-01.json",
+      "tasks": 15,
+      "branch": "feat/codex04/candidate-batch01"
+    },
+    "codex05": {
+      "batch_id": "BATCH-CODEX05-2025-09-15-01",
+      "file": "BATCH-CODEX05-2025-09-15-01.json",
+      "tasks": 15,
+      "branch": "feat/codex05/candidate-batch01"
+    },
+    "codex06": {
+      "batch_id": "BATCH-CODEX06-2025-09-15-01",
+      "file": "BATCH-CODEX06-2025-09-15-01.json",
+      "tasks": 15,
+      "branch": "feat/codex06/candidate-batch01"
+    },
+    "codex07": {
+      "batch_id": "BATCH-CODEX07-2025-09-15-01",
+      "file": "BATCH-CODEX07-2025-09-15-01.json",
+      "tasks": 30,
+      "branch": "feat/codex07/candidate-batch01"
+    },
+    "codex08": {
+      "batch_id": "BATCH-CODEX08-2025-09-15-01",
+      "file": "BATCH-CODEX08-2025-09-15-01.json",
+      "tasks": 30,
+      "branch": "feat/codex08/candidate-batch01"
+    },
+    "codex09": {
+      "batch_id": "BATCH-CODEX09-2025-09-15-01",
+      "file": "BATCH-CODEX09-2025-09-15-01.json",
+      "tasks": 30,
+      "branch": "feat/codex09/candidate-batch01"
+    },
+    "codex10": {
+      "batch_id": "BATCH-CODEX10-2025-09-15-01",
+      "file": "BATCH-CODEX10-2025-09-15-01.json",
+      "tasks": 30,
+      "branch": "feat/codex10/candidate-batch01"
+    }
+  }
+}

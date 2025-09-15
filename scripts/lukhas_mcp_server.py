@@ -31,9 +31,7 @@ try:
     from lukhas.consciousness.awareness_engine import ConsciousnessAwarenessEngine
     from lukhas.governance.guardian_system.guardian_validator import GuardianValidator
     from lukhas.memory.fold_system import MemoryFoldSystem
-    from tools.analysis._OPERATIONAL_SUMMARY import (
-        LUKHASOperationalAnalyzer,
-    )  # noqa: F401  # TODO: tools.analysis._OPERATIONAL_SU...
+    from tools.analysis.operational_summary import LUKHASOperationalAnalyzer  # noqa: F401
 except ImportError as e:
     logging.warning(f"Could not import LUKHAS modules: {e}")
 

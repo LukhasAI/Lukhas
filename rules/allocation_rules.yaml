@@ -1,0 +1,296 @@
+# LUKHAS TODO Allocation Rules - PLANNING_TODO.md Section 10 Implementation
+# T4-Compliant Agent Assignment Matrix
+
+agents:
+  # Jules Agents - Complex Logic & Cross-Module Integration
+  jules01:
+    domain: "Identity Core"
+    description: "ΛTRACE persistence; audit chain linking"
+    capabilities: ["identity", "trace", "persistence", "audit"]
+    modules: ["candidate/core/identity", "lukhas/identity", "identity"]
+    priorities: ["critical", "high"]
+    task_types: ["logic", "integration"]
+    batch_size: 25
+    risk_level: "high"
+    requires_review: true
+
+  jules02:
+    domain: "Consent/Scopes"
+    description: "tier boundaries, validation, history → ΛTRACE"
+    capabilities: ["consent", "scopes", "tier", "validation"]
+    modules: ["candidate/governance", "governance", "consent"]
+    priorities: ["critical", "high"]
+    task_types: ["logic", "integration"]
+    batch_size: 25
+    risk_level: "high"
+    requires_review: true
+
+  jules03:
+    domain: "SSO/Biometrics"
+    description: "symbolic challenge (gated, mocked)"
+    capabilities: ["sso", "biometrics", "symbolic", "auth"]
+    modules: ["candidate/bridge", "bridge", "auth"]
+    priorities: ["critical", "high"]
+    task_types: ["logic", "integration"]
+    batch_size: 25
+    risk_level: "high"
+    requires_review: true
+    feature_flags_required: true
+
+  jules04:
+    domain: "Awareness/ΛTIER"
+    description: "Awareness protocol reconciliation with ΛTIER"
+    capabilities: ["awareness", "consciousness", "tier", "protocol"]
+    modules: ["candidate/consciousness", "consciousness", "awareness"]
+    priorities: ["critical", "high"]
+    task_types: ["logic", "integration"]
+    batch_size: 20
+    risk_level: "high"
+    requires_review: true
+
+  jules05:
+    domain: "Guardian Ethics"
+    description: "advanced intent + governance forwarding"
+    capabilities: ["guardian", "ethics", "intent", "governance"]
+    modules: ["candidate/governance", "governance", "ethics", "guardian"]
+    priorities: ["critical", "high"]
+    task_types: ["logic", "integration"]
+    batch_size: 20
+    risk_level: "high"
+    requires_review: true
+
+  jules06:
+    domain: "QRG Generator"
+    description: "session replay scaffolding (flagged)"
+    capabilities: ["qrg", "quantum", "replay", "session"]
+    modules: ["candidate/qi", "qi", "quantum"]
+    priorities: ["high", "med"]
+    task_types: ["logic", "integration"]
+    batch_size: 20
+    risk_level: "critical"
+    requires_review: true
+    feature_flags_required: true
+    experimental: true
+
+  jules07:
+    domain: "Wallet/QI Bridges"
+    description: "init placeholders, interfaces (flagged)"
+    capabilities: ["wallet", "qi", "bridge", "placeholder"]
+    modules: ["candidate/qi", "qi", "wallet"]
+    priorities: ["high", "med"]
+    task_types: ["logic", "integration"]
+    batch_size: 20
+    risk_level: "critical"
+    requires_review: true
+    feature_flags_required: true
+    experimental: true
+
+  jules08:
+    domain: "Quantum Entropy"
+    description: "stubs + interfaces (no prod, flagged)"
+    capabilities: ["quantum", "entropy", "stub", "interface"]
+    modules: ["candidate/qi", "qi", "quantum", "entropy"]
+    priorities: ["high", "med"]
+    task_types: ["logic", "integration"]
+    batch_size: 20
+    risk_level: "critical"
+    requires_review: true
+    feature_flags_required: true
+    experimental: true
+    no_production: true
+
+  jules09:
+    domain: "Dashboards"
+    description: "Compliance/Guardian dashboards (data wiring)"
+    capabilities: ["dashboard", "compliance", "guardian", "data"]
+    modules: ["candidate/governance", "governance", "dashboard", "visual"]
+    priorities: ["high", "med"]
+    task_types: ["logic", "mechanical"]
+    batch_size: 25
+    risk_level: "medium"
+
+  jules10:
+    domain: "Testing/E2E"
+    description: "integration identity imports + e2e glue"
+    capabilities: ["test", "integration", "e2e", "identity"]
+    modules: ["tests", "test", "integration"]
+    priorities: ["high", "med"]
+    task_types: ["logic", "mechanical"]
+    batch_size: 25
+    risk_level: "medium"
+
+  # Codex Agents - Mechanical Fixes & Code Generation
+  codex01:
+    domain: "F821 Fixes"
+    description: "undefined names fixes"
+    capabilities: ["f821", "undefined", "import"]
+    priorities: ["critical", "high", "med", "low"]
+    task_types: ["mechanical"]
+    batch_size: 30
+    risk_level: "low"
+
+  codex02:
+    domain: "Import Cleanup"
+    description: "import optimization and cleanup"
+    capabilities: ["import", "unused", "optimization"]
+    priorities: ["high", "med", "low"]
+    task_types: ["mechanical"]
+    batch_size: 30
+    risk_level: "low"
+
+  codex03:
+    domain: "Docstring Fixes"
+    description: "docstring enforcement and formatting"
+    capabilities: ["docstring", "documentation", "format"]
+    priorities: ["med", "low"]
+    task_types: ["mechanical"]
+    batch_size: 30
+    risk_level: "low"
+
+  codex04:
+    domain: "Rename Operations"
+    description: "variable and function renames"
+    capabilities: ["rename", "variable", "function"]
+    priorities: ["med", "low"]
+    task_types: ["mechanical"]
+    batch_size: 30
+    risk_level: "low"
+
+  codex05:
+    domain: "Lint Compliance"
+    description: "linting fixes and compliance"
+    capabilities: ["lint", "compliance", "style"]
+    priorities: ["med", "low"]
+    task_types: ["mechanical"]
+    batch_size: 30
+    risk_level: "low"
+
+  codex06:
+    domain: "Code Cleanup"
+    description: "general code cleanup tasks"
+    capabilities: ["cleanup", "refactor", "style"]
+    priorities: ["med", "low"]
+    task_types: ["mechanical"]
+    batch_size: 30
+    risk_level: "low"
+
+  codex07:
+    domain: "Widget Generation"
+    description: "dashboard widgets, UI components"
+    capabilities: ["widget", "dashboard", "ui", "component"]
+    modules: ["dashboard", "visual", "ui"]
+    priorities: ["med", "low"]
+    task_types: ["mechanical"]
+    batch_size: 30
+    risk_level: "low"
+
+  codex08:
+    domain: "Template Systems"
+    description: "template wiring and generation"
+    capabilities: ["template", "generation", "wiring"]
+    priorities: ["med", "low"]
+    task_types: ["mechanical"]
+    batch_size: 30
+    risk_level: "low"
+
+  codex09:
+    domain: "Perf Optimization"
+    description: "performance micro-tweaks"
+    capabilities: ["performance", "optimization", "perf"]
+    priorities: ["med", "low"]
+    task_types: ["mechanical"]
+    batch_size: 30
+    risk_level: "low"
+
+  codex10:
+    domain: "Stub Factories"
+    description: "stub generation and factories"
+    capabilities: ["stub", "factory", "generation"]
+    priorities: ["med", "low"]
+    task_types: ["mechanical"]
+    batch_size: 30
+    risk_level: "low"
+
+# Priority Distribution Rules
+distribution:
+  critical:
+    jules: 60
+    claude_paired_jules: 30
+    codex: 10  # only mechanical criticals
+  high:
+    jules: 40
+    codex: 40
+    copilot: 20
+  med:
+    jules: 20
+    codex: 60
+    copilot: 20
+  low:
+    jules: 10
+    codex: 70
+    copilot: 20
+
+# Task Classification Rules
+classification:
+  mechanical:
+    patterns: ["import", "f821", "undefined", "docstring", "lint", "style", "cleanup"]
+    preferred_agents: ["codex01", "codex02", "codex03", "codex04", "codex05", "codex06"]
+
+  logic:
+    patterns: ["implement", "logic", "algorithm", "business", "workflow"]
+    preferred_agents: ["jules01", "jules02", "jules03", "jules04", "jules05"]
+
+  integration:
+    patterns: ["integration", "bridge", "connection", "linking", "cross-module"]
+    preferred_agents: ["jules01", "jules02", "jules03", "jules04", "jules05"]
+
+  experimental:
+    patterns: ["quantum", "qi", "entropy", "experimental", "prototype"]
+    preferred_agents: ["jules06", "jules07", "jules08"]
+    requires_feature_flags: true
+
+# Module Mapping Rules
+module_patterns:
+  identity: ["jules01", "jules03"]
+  governance: ["jules02", "jules05"]
+  consciousness: ["jules04"]
+  qi: ["jules06", "jules07", "jules08"]
+  quantum: ["jules06", "jules07", "jules08"]
+  dashboard: ["jules09", "codex07"]
+  test: ["jules10"]
+  bridge: ["jules03"]
+  compliance: ["jules02", "jules09"]
+  guardian: ["jules05", "jules09"]
+
+# Safety and Risk Rules
+safety:
+  feature_flags_required:
+    - "jules06"
+    - "jules07"
+    - "jules08"
+
+  requires_claude_review:
+    - "jules01"
+    - "jules02"
+    - "jules03"
+    - "jules04"
+    - "jules05"
+    - "jules06"
+    - "jules07"
+    - "jules08"
+
+  no_production_deployment:
+    - "jules08"  # Quantum entropy stubs
+
+  experimental_gating:
+    - "jules06"  # QRG generator
+    - "jules07"  # Wallet/QI bridges
+    - "jules08"  # Quantum entropy
+
+# Batch Configuration
+batch_settings:
+  expiration_hours: 72
+  max_conflicts: 0  # No task conflicts allowed
+  atomic_commits: true
+  evidence_required: true
+  verification_required: true

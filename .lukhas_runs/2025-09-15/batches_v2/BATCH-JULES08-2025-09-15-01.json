@@ -1,0 +1,439 @@
+{
+  "batch_id": "BATCH-JULES08-2025-09-15-01",
+  "agent": "jules08",
+  "created_at": "2025-09-15T01:41:37.127760Z",
+  "expires_at": "2025-09-18T01:41:37.127761Z",
+  "branch_name": "feat/jules08/quantum-entropy-batch01",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-33f32026",
+      "priority": "high",
+      "title": "Implement config loading",
+      "file": "./candidate/core/task_manager.py",
+      "line_hint": 109,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/task_manager.py:        # TODO: Implement config loading",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-ec42920d",
+      "priority": "high",
+      "title": "Register actual task handler functions",
+      "file": "./candidate/core/task_manager.py",
+      "line_hint": 210,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/task_manager.py:        # TODO: Implement config loading",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-51e4596d",
+      "priority": "high",
+      "title": "Implement actual symbol validation",
+      "file": "./candidate/core/task_manager.py",
+      "line_hint": 219,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/task_manager.py:        # TODO: Implement config loading",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-136faa0a",
+      "priority": "high",
+      "title": "Implement actual design system operations",
+      "file": "./candidate/core/task_manager.py",
+      "line_hint": 226,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/task_manager.py:        # TODO: Implement config loading",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-03c99f4c",
+      "priority": "high",
+      "title": "Implement actual file operations",
+      "file": "./candidate/core/task_manager.py",
+      "line_hint": 233,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/task_manager.py:        # TODO: Implement config loading",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-5af347ed",
+      "priority": "high",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/core/matriz_consciousness_signals.py",
+      "line_hint": 9,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b36efb1c5a706b4ecfb8e5b0699601978e255fb4"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-17583574",
+      "priority": "high",
+      "title": "specialist] - Implement consciousness node base class fallback",
+      "file": "./candidate/core/symbolic_core/colony_tag_propagation.py",
+      "line_hint": 13,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_core/colony_tag_propagation.py:    # TODO[GLYPH:specialist] - Implement consciousness node base class fallback",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-9a4b9413",
+      "priority": "high",
+      "title": "specialist] - Implement proper symbolic vocabulary integration",
+      "file": "./candidate/core/symbolic_core/colony_tag_propagation.py",
+      "line_hint": 35,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_core/colony_tag_propagation.py:    # TODO[GLYPH:specialist] - Implement consciousness node base class fallback",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "integration",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-7f57657a",
+      "priority": "high",
+      "title": "specialist] - Create proper Tag class for consciousness communication",
+      "file": "./candidate/core/symbolic_core/colony_tag_propagation.py",
+      "line_hint": 47,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_core/colony_tag_propagation.py:    # TODO[GLYPH:specialist] - Implement consciousness node base class fallback",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-d3f3f11f",
+      "priority": "high",
+      "title": "specialist] - Initialize consciousness agents for mesh formation",
+      "file": "./candidate/core/symbolic_core/colony_tag_propagation.py",
+      "line_hint": 67,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_core/colony_tag_propagation.py:    # TODO[GLYPH:specialist] - Implement consciousness node base class fallback",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-03c35470",
+      "priority": "high",
+      "title": "specialist] - Implement consciousness processing with GLYPH communication",
+      "file": "./candidate/core/symbolic_core/colony_tag_propagation.py",
+      "line_hint": 77,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_core/colony_tag_propagation.py:    # TODO[GLYPH:specialist] - Implement consciousness node base class fallback",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-cdda7c80",
+      "priority": "high",
+      "title": "specialist] - Implement consciousness consensus with mesh formation",
+      "file": "./candidate/core/symbolic_core/colony_tag_propagation.py",
+      "line_hint": 83,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_core/colony_tag_propagation.py:    # TODO[GLYPH:specialist] - Implement consciousness node base class fallback",
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-b8aedb41",
+      "priority": "high",
+      "title": "triage - Large legacy symbolic processing system. Need migration strategy vs preservation decision.",
+      "file": "./candidate/core/symbolic_core/bio/mito_qi_attention.py",
+      "line_hint": 7,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_core/bio/mito_qi_attention.py:TODO[T4-AUDIT]:triage - Large legacy symbolic processing system. Need migration strategy vs preservation decision.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-9d8e2fcc",
+      "priority": "high",
+      "title": "triage - Large legacy symbolic processing system preserved.",
+      "file": "./candidate/core/symbolic_core/__init__.py",
+      "line_hint": 34,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_core/__init__.py:TODO[T4-AUDIT]:triage - Large legacy symbolic processing system preserved.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-441d6078",
+      "priority": "high",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/core/verifold/verifold_unified.py",
+      "line_hint": 2,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-5b1dfddc",
+      "priority": "high",
+      "title": "Implement quantum AGI system",
+      "file": "./candidate/core/orchestration/integration_hub.py",
+      "line_hint": 105,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/orchestration/integration_hub.py:# from qi.system_orchestrator import QIAGISystem  # TODO: Implement quantum AGI system",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-906d3d6b",
+      "priority": "high",
+      "title": "Implement business logic based on requirements",
+      "file": "./candidate/core/orchestration/apis/code_process_integration_api.py",
+      "line_hint": 317,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/orchestration/apis/code_process_integration_api.py:    # TODO: Implement business logic based on requirements",
+        "last_commit": "912be59df40e530a58cbafd1be9118e5e3021ec2"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-6e8b5fc9",
+      "priority": "high",
+      "title": "ModuleRegistry implementation pending",
+      "file": "./candidate/core/orchestration/core.py",
+      "line_hint": 31,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/orchestration/core.py:\u2551 \u2022 TODO: ModuleRegistry implementation pending",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-ba9354a0",
+      "priority": "high",
+      "title": "See above",
+      "file": "./candidate/core/orchestration/core.py",
+      "line_hint": 341,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/orchestration/core.py:\u2551 \u2022 TODO: ModuleRegistry implementation pending",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-40166cbb",
+      "priority": "high",
+      "title": "1",
+      "file": "./candidate/core/orchestration/core.py",
+      "line_hint": 490,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/core/orchestration/core.py:\u2551 \u2022 TODO: ModuleRegistry implementation pending",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    }
+  ],
+  "meta": {
+    "domain": "Quantum Entropy",
+    "description": "stubs + interfaces (no prod, flagged)",
+    "risk_level": "critical",
+    "requires_review": true,
+    "feature_flags_required": true,
+    "experimental": true,
+    "total_tasks": 20
+  }
+}

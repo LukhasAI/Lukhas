@@ -1,0 +1,663 @@
+{
+  "agent_id": "REMAINING-02",
+  "specialty": "Remaining Batch 2",
+  "focus": "unallocated TODOs",
+  "task_count": 40,
+  "priority": "mixed",
+  "risk_level": "low",
+  "branch_prefix": "feat/remaining-02/remaining-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-QI-7cd41d3f",
+      "priority": "high",
+      "title": "integration=None needs review",
+      "file": "./candidate/qi/bio/bio_optimizer.py",
+      "module": "candidate/qi",
+      "trinity": "null",
+      "line_hint": 324,
+      "risk": "low",
+      "type": "integration",
+      "size": "M",
+      "evidence": {
+        "grep": "./candidate/qi/bio/bio_optimizer.py:# AIMPORT_TODO: Verify these import paths against the actual LUKHAS project structure.",
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-QI-38deb9b3",
+      "priority": "high",
+      "title": "Specify imports",
+      "file": "./candidate/qi/coordination/orchestration/orchestration_compatibility.py",
+      "module": "candidate/qi",
+      "trinity": "null",
+      "line_hint": 12,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/qi/coordination/orchestration/orchestration_compatibility.py:from old import *  # TODO: Specify imports",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-QI-bd54a649",
+      "priority": "high",
+      "title": "Send notification through consciousness hub",
+      "file": "./candidate/qi/attention_economics.py",
+      "module": "candidate/qi",
+      "trinity": "Consciousness",
+      "line_hint": 304,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/qi/attention_economics.py:            # TODO: Send notification through consciousness hub",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-QI-c4423116",
+      "priority": "high",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/qi/systems/qi_processing_core.py",
+      "module": "candidate/qi",
+      "trinity": "null",
+      "line_hint": 41,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/qi/systems/qi_processing_core.py:from ..bio.awareness.advanced_qi_bio import (  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-ORCHESTRATION-9386dbf0",
+      "priority": "high",
+      "title": "GmailAdapter, DriveAdapter, DropboxAdapter are abstract; use concrete implementations or mocks for instantiation",
+      "file": "./candidate/orchestration/context_bus.py",
+      "module": "candidate/orchestration",
+      "trinity": "null",
+      "line_hint": 193,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/orchestration/context_bus.py:        # TODO: GmailAdapter, DriveAdapter, DropboxAdapter are abstract; use concrete implementations or mocks for instantiation",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-ORCHESTRATION-69977ac7",
+      "priority": "high",
+      "title": "validate_access is not implemented on LukhasIdentityService; replace with actual method",
+      "file": "./candidate/orchestration/context_bus.py",
+      "module": "candidate/orchestration",
+      "trinity": "Identity",
+      "line_hint": 540,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/orchestration/context_bus.py:        # TODO: GmailAdapter, DriveAdapter, DropboxAdapter are abstract; use concrete implementations or mocks for instantiation",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-ORCHESTRATION-ce61c039",
+      "priority": "high",
+      "title": "kept for multi-AI agent coordination",
+      "file": "./candidate/orchestration/intelligence_adapter.py",
+      "module": "candidate/orchestration",
+      "trinity": "null",
+      "line_hint": 18,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-ORCHESTRATION-4247187e",
+      "priority": "high",
+      "title": "Remove print-based.*?\\n\",",
+      "file": "./candidate/orchestration/migrate_to_kernel_bus.py",
+      "module": "candidate/orchestration",
+      "trinity": "null",
+      "line_hint": 106,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/orchestration/migrate_to_kernel_bus.py:                    r\"# TODO: Remove print-based.*?\\n\",",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-GOVERNANCE-7f95761a",
+      "priority": "high",
+      "title": "kept for multi-AI agent coordination",
+      "file": "./candidate/governance/ethics/hitlo_bridge.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 55,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/ethics/hitlo_bridge.py:from ..orchestration_src.human_in_the_loop_orchestrator import (  # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-API-da562308",
+      "priority": "high",
+      "title": "kept for API expansion (document or implement)",
+      "file": "./candidate/api/perf.py",
+      "module": "candidate/api",
+      "trinity": "null",
+      "line_hint": 20,
+      "risk": "low",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CONFIG-SETTINGS.PY-48d82805",
+      "priority": "high",
+      "title": "Configuration settings integration with lukhas_settings.json",
+      "file": "./config/settings.py",
+      "module": "config/settings.py",
+      "trinity": "null",
+      "line_hint": 1,
+      "risk": "low",
+      "type": "integration",
+      "size": "M",
+      "evidence": {
+        "grep": null,
+        "last_commit": "2dbb64ac67508b2c9be663e72060eb6e6884f8aa"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CONSCIOUSNESS-__INIT__.PY-039ae7c4",
+      "priority": "high",
+      "title": "kept for Trinity Framework consciousness evolution",
+      "file": "./consciousness/__init__.py",
+      "module": "consciousness/__init__.py",
+      "trinity": "Consciousness",
+      "line_hint": 28,
+      "risk": "med",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-LUKHAS-CORE-f64f1763",
+      "priority": "high",
+      "title": "Distributed tracing with correlation IDs",
+      "file": "./lukhas/core/distributed_tracing.py",
+      "module": "lukhas/core",
+      "trinity": "null",
+      "line_hint": 3,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./lukhas/core/distributed_tracing.py:Addresses TODO 168: Distributed tracing with correlation IDs",
+        "last_commit": "69c3834b546a01f7db184e307ef415dd1ca98e55"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-LUKHAS-CORE-6ba72d4f",
+      "priority": "high",
+      "title": "-",
+      "file": "./lukhas/core/distributed_tracing.py",
+      "module": "lukhas/core",
+      "trinity": "null",
+      "line_hint": 574,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./lukhas/core/distributed_tracing.py:Addresses TODO 168: Distributed tracing with correlation IDs",
+        "last_commit": "69c3834b546a01f7db184e307ef415dd1ca98e55"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-LUKHAS-CORE-15e31fb7",
+      "priority": "high",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./lukhas/core/__init__.py",
+      "module": "lukhas/core",
+      "trinity": "null",
+      "line_hint": 7,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "d84f24154c21de7e05c16e108d7bcce86f034a59"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-LUKHAS-CORE-15e31fb7",
+      "priority": "high",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./lukhas/core/__init__.py",
+      "module": "lukhas/core",
+      "trinity": "null",
+      "line_hint": 27,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "d84f24154c21de7e05c16e108d7bcce86f034a59"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-LUKHAS-CORE-d28c21ab",
+      "priority": "high",
+      "title": "Extract relationship data",
+      "file": "./lukhas/core/core_wrapper.py",
+      "module": "lukhas/core",
+      "trinity": "null",
+      "line_hint": 394,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./lukhas/core/core_wrapper.py:                relationships=[],  # TODO: Extract relationship data",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-LUKHAS-CORE-6b844d4b",
+      "priority": "high",
+      "title": "r",
+      "file": "./lukhas/core/event_sourcing.py",
+      "module": "lukhas/core",
+      "trinity": "null",
+      "line_hint": 15,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./lukhas/core/event_sourcing.py:\u2551 and fault recovery. Addresses REALITY_TODO 120-125 with SQLite persistence layer",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-LUKHAS-CORE-2bb69604",
+      "priority": "high",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./lukhas/core/common/__init__.py",
+      "module": "lukhas/core",
+      "trinity": "null",
+      "line_hint": 7,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-LUKHAS-CORE-2bb69604",
+      "priority": "high",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./lukhas/core/common/__init__.py",
+      "module": "lukhas/core",
+      "trinity": "null",
+      "line_hint": 8,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-LUKHAS-CORE-5b12115f",
+      "priority": "high",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./lukhas/core/symbolism/__init__.py",
+      "module": "lukhas/core",
+      "trinity": "null",
+      "line_hint": 10,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-LUKHAS-BRIDGE-0194f5d4",
+      "priority": "high",
+      "title": "Add organization to centralized config",
+      "file": "./lukhas/bridge/llm_wrappers/unified_openai_client.py",
+      "module": "lukhas/bridge",
+      "trinity": "null",
+      "line_hint": 141,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./lukhas/bridge/llm_wrappers/unified_openai_client.py:            )  # TODO[T4-AUDIT]: Add organization to centralized config",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-LUKHAS-CONSCIOUSNESS-7f9afd74",
+      "priority": "high",
+      "title": "Implement proper topological sort for dependencies",
+      "file": "./lukhas/consciousness/registry.py",
+      "module": "lukhas/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 214,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./lukhas/consciousness/registry.py:        # TODO: Implement proper topological sort for dependencies",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-LUKHAS-CONSCIOUSNESS-967749a6",
+      "priority": "high",
+      "title": "lukhas.consciousness.registry....",
+      "file": "./lukhas/consciousness/trinity_integration.py",
+      "module": "lukhas/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 37,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./lukhas/consciousness/trinity_integration.py:        ConsciousnessComponentRegistry,  # noqa: F401  # TODO: lukhas.consciousness.registry....",
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-LUKHAS-CONSCIOUSNESS-3be1209d",
+      "priority": "high",
+      "title": "kept for Trinity Framework consciousness evolution",
+      "file": "./lukhas/consciousness/trinity_integration.py",
+      "module": "lukhas/consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 39,
+      "risk": "med",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./lukhas/consciousness/trinity_integration.py:        ConsciousnessComponentRegistry,  # noqa: F401  # TODO: lukhas.consciousness.registry....",
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-LUKHAS-MATRIZ-2aacf259",
+      "priority": "high",
+      "title": "Bind to real constitutional engine. For now, accept unless explicitly forbidden.",
+      "file": "./lukhas/matriz/runtime/policy.py",
+      "module": "lukhas/matriz",
+      "trinity": "null",
+      "line_hint": 17,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./lukhas/matriz/runtime/policy.py:        # TODO: Bind to real constitutional engine. For now, accept unless explicitly forbidden.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-LUKHAS_WEBSITE-UNIFIED-57bad430",
+      "priority": "high",
+      "title": "lukhas.memory.folds.memory_fol...",
+      "file": "./lukhas_website/unified/consciousness_integration.py",
+      "module": "lukhas_website/unified",
+      "trinity": "Consciousness",
+      "line_hint": 19,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./lukhas_website/unified/consciousness_integration.py:    from lukhas.memory.folds.memory_fold import MemoryFold  # noqa: F401  # TODO: lukhas.memory.folds.memory_fol...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-MCP_SERVERS-LUKHAS_CONSCIOUSNESS-26e3ea26",
+      "priority": "high",
+      "title": "mcp.types.EmbeddedResource; co...",
+      "file": "./mcp_servers/lukhas_consciousness/server.py",
+      "module": "mcp_servers/lukhas_consciousness",
+      "trinity": "Consciousness",
+      "line_hint": 31,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./mcp_servers/lukhas_consciousness/server.py:    )  # noqa: F401  # TODO: mcp.types.EmbeddedResource; co...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-MEMORY-__INIT__.PY-233d3f3e",
+      "priority": "high",
+      "title": "kept pending implementation (document purpose or remove)",
+      "file": "./memory/__init__.py",
+      "module": "memory/__init__.py",
+      "trinity": "Consciousness",
+      "line_hint": 34,
+      "risk": "low",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-MEMORY-FOLD_LINEAGE_TRACKER.PY-54c34bde",
+      "priority": "high",
+      "title": "Implement quantum causal entanglement detection with dream correlation",
+      "file": "./memory/fold_lineage_tracker.py",
+      "module": "memory/fold_lineage_tracker.py",
+      "trinity": "Consciousness",
+      "line_hint": 56,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./memory/fold_lineage_tracker.py:TODO: Implement quantum causal entanglement detection with dream correlation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-1edf44a0",
+      "priority": "high",
+      "title": "feedback",
+      "file": "./products/experience/feedback/qi_feedback/triage.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 31,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/feedback/qi_feedback/triage.py:        for fc in feedback:  # noqa: F821  # TODO: feedback",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-02aa30bc",
+      "priority": "high",
+      "title": "seen",
+      "file": "./products/experience/feedback/qi_feedback/triage.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 40,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/feedback/qi_feedback/triage.py:        for fc in feedback:  # noqa: F821  # TODO: feedback",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-02aa30bc",
+      "priority": "high",
+      "title": "seen",
+      "file": "./products/experience/feedback/qi_feedback/triage.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 41,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/feedback/qi_feedback/triage.py:        for fc in feedback:  # noqa: F821  # TODO: feedback",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-02aa30bc",
+      "priority": "high",
+      "title": "seen",
+      "file": "./products/experience/feedback/qi_feedback/triage.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 45,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/feedback/qi_feedback/triage.py:        for fc in feedback:  # noqa: F821  # TODO: feedback",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-51c9ccc7",
+      "priority": "high",
+      "title": "Add more utility functions:",
+      "file": "./products/experience/dashboard/core/meta/utils.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 304,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/dashboard/core/meta/utils.py:# TODO: Add more utility functions:",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-b371a7f1",
+      "priority": "high",
+      "title": "Implement additional dashboard features:",
+      "file": "./products/experience/dashboard/core/meta/dashboard_server.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 338,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/dashboard/core/meta/dashboard_server.py:# TODO: Implement additional dashboard features:",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-5b406a78",
+      "priority": "high",
+      "title": "Install or implement streamlit",
+      "file": "./products/experience/dashboard/consciousness/trace_dashboard.py",
+      "module": "products/experience",
+      "trinity": "Consciousness",
+      "line_hint": 1,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/dashboard/consciousness/trace_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-6b52d4bb",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/experience/dashboard/consciousness/trace_dashboard.py",
+      "module": "products/experience",
+      "trinity": "Consciousness",
+      "line_hint": 9,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/dashboard/consciousness/trace_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-6b52d4bb",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/experience/dashboard/consciousness/trace_dashboard.py",
+      "module": "products/experience",
+      "trinity": "Consciousness",
+      "line_hint": 12,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/dashboard/consciousness/trace_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-6b52d4bb",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/experience/dashboard/consciousness/trace_dashboard.py",
+      "module": "products/experience",
+      "trinity": "Consciousness",
+      "line_hint": 17,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/dashboard/consciousness/trace_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: remaining-02-$(date +%m%d)",
+      "2. Work through 40 remaining tasks",
+      "3. One TaskID per commit",
+      "4. Mixed priority cleanup",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(cleanup): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.162338Z",
+  "source": "Remaining unallocated TODOs"
+}

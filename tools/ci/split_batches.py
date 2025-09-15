@@ -69,8 +69,8 @@ class BatchSplitter:
         batches = {}
 
         # Sort TODOs by priority for allocation
-        priority_order = ["critical", "high", "med", "low"]
-        sorted_todos = sorted(todos, key=lambda x: priority_order.index(x.get("priority", "low")))
+        priority_order = ["critical", "high", "med", "low", "unknown"]
+        sorted_todos = sorted(todos, key=lambda x: priority_order.index(x.get("priority", "unknown")))
 
         for todo in sorted_todos:
             if todo["status"] != "open":
