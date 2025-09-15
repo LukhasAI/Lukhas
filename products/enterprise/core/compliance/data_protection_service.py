@@ -6,6 +6,7 @@ Implements persistent storage for data protection policies, keys, and history.
 
 import base64
 import json
+import os
 from datetime import datetime, timedelta, timezone
 from typing import Any, Optional, Union
 
@@ -14,11 +15,12 @@ from pydantic import BaseModel
 
 try:
     from cryptography.fernet import Fernet
-    from cryptography.hazmat.backends import default_backend  # noqa: F401  # TODO: cryptography.hazmat.backends.d...
-    from cryptography.hazmat.primitives import hashes, serialization  # noqa: F401  # TODO: cryptography.hazmat.primitives...
-    from cryptography.hazmat.primitives.asymmetric import padding, rsa  # noqa: F401  # TODO: cryptography.hazmat.primitives...
-    from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes  # noqa: F401  # TODO: cryptography.hazmat.primitives...
-    from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC  # noqa: F401  # TODO: cryptography.hazmat.primitives...
+    from cryptography.exceptions import InvalidSignature
+    from cryptography.hazmat.backends import default_backend
+    from cryptography.hazmat.primitives import hashes, serialization
+    from cryptography.hazmat.primitives.asymmetric import padding, rsa
+    from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+    from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
     CRYPTO_AVAILABLE = True
 except ImportError:
@@ -136,6 +138,12 @@ class DataProtectionService:
         self.db_url = db_url
         self.db_pool = None
         self.protection_policies: dict[str, ProtectionPolicy] = {}
+        self._rsa_private_key = None
+        self._public_key_bytes: Optional[bytes] = None
+        self._default_passphrase = "lukhas-enterprise"
+
+        if CRYPTO_AVAILABLE:
+            self._initialize_crypto_material()
 
     async def initialize(self):
         """Initialize database connection pool and load policies"""
@@ -181,13 +189,43 @@ class DataProtectionService:
         # For now, we will just return the protected data and the methods applied
         return protected_data, {"methods_applied": methods_applied}
 
+    def _initialize_crypto_material(self) -> None:
+        """Generate RSA material for wrapping derived keys."""
+
+        # ΛTAG: crypto_material
+        self._rsa_private_key = rsa.generate_private_key(
+            public_exponent=65537,
+            key_size=2048,
+            backend=default_backend(),
+        )
+        public_key = self._rsa_private_key.public_key()
+        self._public_key_bytes = public_key.public_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PublicFormat.SubjectPublicKeyInfo,
+        )
+
+    def _derive_symmetric_key(self, passphrase: str, salt: bytes) -> bytes:
+        """Derive a symmetric key using PBKDF2."""
+
+        # ΛTAG: key_derivation
+        kdf = PBKDF2HMAC(
+            algorithm=hashes.SHA256(),
+            length=32,
+            salt=salt,
+            iterations=390000,
+            backend=default_backend(),
+        )
+        return kdf.derive(passphrase.encode("utf-8"))
+
     async def _apply_encryption(
         self, data: Any, policy: ProtectionPolicy, context: dict[str, Any]
     ) -> tuple[Any, dict[str, Any]]:
         """Apply encryption based on policy"""
 
-        if not CRYPTO_AVAILABLE:
-            # Fallback to base64 encoding
+        passphrase = context.get("passphrase") if context else None
+        passphrase = passphrase or self._default_passphrase
+
+        if not CRYPTO_AVAILABLE or self._rsa_private_key is None:
             data_str = json.dumps(data, default=str)
             encoded_data = base64.b64encode(data_str.encode()).decode()
             return {"encrypted": True, "data": encoded_data}, {
@@ -195,22 +233,40 @@ class DataProtectionService:
                 "key_id": "fallback",
             }
 
-        # For now, we will use a hardcoded key
-        key_material = b"12345678901234567890123456789012"
-        fernet = Fernet(base64.urlsafe_b64encode(key_material))
-        data_str = json.dumps(data, default=str)
-        encrypted_data = fernet.encrypt(data_str.encode())
+        payload = json.dumps(data, default=str).encode("utf-8")
+        salt = context.get("salt") if context else None
+        if isinstance(salt, str):
+            salt_bytes = base64.b64decode(salt)
+        else:
+            salt_bytes = os.urandom(16)
+
+        key = self._derive_symmetric_key(passphrase, salt_bytes)
+        iv = os.urandom(12)
+        encryptor = Cipher(algorithms.AES(key), modes.GCM(iv), backend=default_backend()).encryptor()
+        ciphertext = encryptor.update(payload) + encryptor.finalize()
+        tag = encryptor.tag
+
+        signature = self._rsa_private_key.sign(
+            ciphertext,
+            padding.PSS(mgf=padding.MGF1(hashes.SHA256()), salt_length=padding.PSS.MAX_LENGTH),
+            hashes.SHA256(),
+        )
 
         result_data = {
             "encrypted": True,
-            "algorithm": "AES-256",
-            "data": base64.b64encode(encrypted_data).decode(),
+            "algorithm": "AES-256-GCM",
+            "ciphertext": base64.b64encode(ciphertext).decode(),
+            "iv": base64.b64encode(iv).decode(),
+            "tag": base64.b64encode(tag).decode(),
+            "salt": base64.b64encode(salt_bytes).decode(),
+            "signature": base64.b64encode(signature).decode(),
+            "public_key": base64.b64encode(self._public_key_bytes or b"").decode(),
         }
 
         result_info = {
-            "method": "symmetric",
-            "algorithm": "AES-256",
-            "key_id": "hardcoded_key",
+            "method": "symmetric_aes256_gcm",
+            "key_derivation": "pbkdf2_sha256",
+            "signature_scheme": "rsa_pss_sha256",
             "success": True,
         }
 
@@ -228,11 +284,53 @@ class DataProtectionService:
             return protected_data
 
         if isinstance(protected_data, dict) and protected_data.get("encrypted"):
-            key_material = b"12345678901234567890123456789012"
-            fernet = Fernet(base64.urlsafe_b64encode(key_material))
-            encrypted_data = base64.b64decode(protected_data["data"])
-            decrypted_data = fernet.decrypt(encrypted_data)
-            return json.loads(decrypted_data)
+            if {
+                "ciphertext",
+                "iv",
+                "tag",
+                "salt",
+                "signature",
+            }.issubset(protected_data):
+                passphrase = (context or {}).get("passphrase", self._default_passphrase)
+                salt_bytes = base64.b64decode(protected_data["salt"])
+                iv = base64.b64decode(protected_data["iv"])
+                tag = base64.b64decode(protected_data["tag"])
+                ciphertext = base64.b64decode(protected_data["ciphertext"])
+                signature = base64.b64decode(protected_data["signature"])
+                public_bytes = protected_data.get("public_key")
+
+                if not CRYPTO_AVAILABLE or self._rsa_private_key is None:
+                    raise ValueError("Cryptography backend unavailable for decryption")
+
+                try:
+                    if public_bytes:
+                        public_key = serialization.load_pem_public_key(base64.b64decode(public_bytes))
+                    else:
+                        public_key = self._rsa_private_key.public_key()
+
+                    public_key.verify(
+                        signature,
+                        ciphertext,
+                        padding.PSS(mgf=padding.MGF1(hashes.SHA256()), salt_length=padding.PSS.MAX_LENGTH),
+                        hashes.SHA256(),
+                    )
+
+                    key = self._derive_symmetric_key(passphrase, salt_bytes)
+                    decryptor = Cipher(algorithms.AES(key), modes.GCM(iv, tag), backend=default_backend()).decryptor()
+                    plaintext = decryptor.update(ciphertext) + decryptor.finalize()
+                    return json.loads(plaintext)
+                except InvalidSignature as exc:
+                    raise ValueError("Signature verification failed") from exc
+                except Exception as exc:  # pragma: no cover - defensive guard
+                    raise ValueError(f"Unable to decrypt payload: {exc!s}") from exc
+
+            # Fallback path for legacy Fernet/base64 payloads
+            if "data" in protected_data:
+                key_material = b"12345678901234567890123456789012"
+                fernet = Fernet(base64.urlsafe_b64encode(key_material))
+                encrypted_data = base64.b64decode(protected_data["data"])
+                decrypted_data = fernet.decrypt(encrypted_data)
+                return json.loads(decrypted_data)
 
         return protected_data
 

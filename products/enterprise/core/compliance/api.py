@@ -6,6 +6,8 @@ FastAPI endpoints for data protection services.
 
 from typing import Any, Optional
 
+from typing import Any, Optional
+
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
@@ -146,12 +148,6 @@ async def assess_processing_activity(
 ):
     """Assess the compliance of a data processing activity."""
     return await service.assess_processing_activity(activity)
-
-    return {
-        "user_lid": user_lid,  # noqa: F821  # TODO: user_lid
-        "updated_consent_grants": updated_grants,  # noqa: F821  # TODO: updated_grants
-        "updated_protected_data_entries": updated_data,  # noqa: F821  # TODO: updated_data
-    }
 
 
 @router.get("/users/{user_lid}/audit_trail")

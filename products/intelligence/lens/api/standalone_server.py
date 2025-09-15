@@ -1,47 +1,25 @@
-#!/usr/bin/env python3
-"""
-ΛLens API Server - Standalone Version
-Standalone server script to avoid relative import issues
-"""
+from __future__ import annotations
 
-import sys
-from pathlib import Path
-
-# Add the project root to Python path (walk up to repository root)
-# Use .resolve().parents to avoid incorrect relative counting
-project_root = Path(__file__).resolve().parents[5]
-sys.path.insert(0, str(project_root))
-
+import tempfile
 import uuid
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any, Optional
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-# TODO: Fix import paths - lambda directory doesn't exist
-# from products.lambda.lambda_products_pack.lambda_core.Lens.lens_core import ΛLens as LensCore
-
-# Import our modules directly
-# TODO: Update these import paths to correct locations
-# from products.lambda.lambda_products_pack.lambda_core.Lens.parsers.code_parser import CodeParser
-# from products.lambda.lambda_products_pack.lambda_core.Lens.parsers.csv_parser import CSVParser
-# from products.lambda.lambda_products_pack.lambda_core.Lens.parsers.data_parser import DataParser
-# from products.lambda.lambda_products_pack.lambda_core.Lens.parsers.markdown_parser import MarkdownParser
-# from products.lambda.lambda_products_pack.lambda_core.Lens.parsers.pdf_parser import PDFParser
-# from products.lambda.lambda_products_pack.lambda_core.Lens.parsers.text_parser import TextParser
-# from products.lambda.lambda_products_pack.lambda_core.Lens.renderers.web2d_renderer import Web2DRenderer
-# from products.lambda.lambda_products_pack.lambda_core.Lens.renderers.xr_renderer import XRRenderer
-# from products.lambda.lambda_products_pack.lambda_core.Lens.symbols.symbol_generator import SymbolGenerator
-# from products.lambda.lambda_products_pack.lambda_core.Lens.widgets.widget_factory import WidgetFactory
+from products.intelligence.lens.lens_core import ΛLens
+from products.intelligence.lens.renderers.web2d_renderer import Web2DRenderer
+from products.intelligence.lens.renderers.xr_renderer import XRRenderer
+from products.intelligence.lens.widgets.widget_factory import WidgetFactory
 
 
-# Pydantic models
 class JobRequest(BaseModel):
-    file_type: str
+    file_type: Optional[str] = None
     content: Optional[str] = None
-    options: Optional[dict[str, Any]] = {}
+    options: Optional[dict[str, Any]] = None
 
 
 class JobResponse(BaseModel):
@@ -60,22 +38,19 @@ class PhotonDocument(BaseModel):
     metadata: dict[str, Any]
 
 
-# Initialize components
-lens_core = LensCore()  # noqa: F821  # TODO: LensCore
-symbol_generator = SymbolGenerator()  # noqa: F821  # TODO: SymbolGenerator
-widget_factory = WidgetFactory()  # noqa: F821  # TODO: WidgetFactory
-web_renderer = Web2DRenderer()  # noqa: F821  # TODO: Web2DRenderer
-xr_renderer = XRRenderer()  # noqa: F821  # TODO: XRRenderer
+lens_engine = ΛLens()
+web_renderer = Web2DRenderer()
+xr_renderer = XRRenderer()
+widget_factory = WidgetFactory()
 
-# Job storage (in production, use a database)
-jobs = {}
+jobs: dict[str, dict[str, Any]] = {}
 
-# Create FastAPI app
 app = FastAPI(
-    title="ΛLens API", description="Symbolic File Transformation and Dashboard Generation API", version="1.0.0"
+    title="ΛLens API",
+    description="Symbolic File Transformation and Dashboard Generation API",
+    version="1.0.0",
 )
 
-# Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -86,7 +61,7 @@ app.add_middleware(
 
 
 @app.get("/")
-async def root():
+async def root() -> dict[str, Any]:
     """Root endpoint with API information"""
     return {
         "message": "ΛLens API - Symbolic File Transformation Service",
@@ -101,14 +76,14 @@ async def root():
 
 
 @app.get("/health")
-async def health_check():
+async def health_check() -> dict[str, Any]:
     """Health check endpoint"""
     return {
         "status": "healthy",
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "components": {
             "lens_core": "active",
-            "symbol_generator": "active",
+            "symbol_generator": isinstance(lens_engine.symbol_generator, object),
             "widget_factory": "active",
             "renderers": "active",
         },
@@ -116,63 +91,38 @@ async def health_check():
 
 
 @app.post("/transform", response_model=JobResponse)
-async def transform_file(file: UploadFile = File(...), file_type: Optional[str] = None):
+async def transform_file(file: UploadFile = File(...)) -> JobResponse:
     """Transform uploaded file into symbolic dashboard"""
     try:
-        # Generate job ID
         job_id = str(uuid.uuid4())
-
-        # Read file content
         content = await file.read()
-        content_str = content.decode("utf-8")
 
-        # Determine file type if not provided
-        if not file_type:
-            file_extension = Path(file.filename).suffix.lower()
-            file_type_map = {
-                ".txt": "text",
-                ".py": "code",
-                ".js": "code",
-                ".ts": "code",
-                ".json": "data",
-                ".csv": "csv",
-                ".md": "markdown",
-                ".pdf": "pdf",
-            }
-            file_type = file_type_map.get(file_extension, "text")
-
-        # Store job
         jobs[job_id] = {
             "status": "processing",
-            "file_type": file_type,
+            "file_type": Path(file.filename or "").suffix.lower().lstrip("."),
             "filename": file.filename,
             "created_at": datetime.now(timezone.utc).isoformat(),
         }
 
-        # Process file based on type
-        result = await process_file_async(content_str, file_type, job_id)
+        result = await process_file_async(content, file.filename or f"upload_{job_id}", job_id)
 
-        # Update job with result
         jobs[job_id].update(
             {"status": "completed", "result": result, "completed_at": datetime.now(timezone.utc).isoformat()}
         )
 
-        return JobResponse(
-            job_id=job_id, status="completed", message=f"Successfully transformed {file.filename}", result=result
-        )
+        return JobResponse(job_id=job_id, status="completed", message=f"Successfully transformed {file.filename}", result=result)
 
-    except Exception as e:
-        # Update job with error
+    except Exception as exc:
         if "job_id" in locals():
             jobs[job_id].update(
-                {"status": "failed", "error": str(e), "failed_at": datetime.now(timezone.utc).isoformat()}
+                {"status": "failed", "error": str(exc), "failed_at": datetime.now(timezone.utc).isoformat()}
             )
 
-        raise HTTPException(status_code=500, detail=f"Transformation failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Transformation failed: {exc!s}")
 
 
 @app.get("/jobs/{job_id}", response_model=JobResponse)
-async def get_job_status(job_id: str):
+async def get_job_status(job_id: str) -> JobResponse:
     """Get job status and result"""
     if job_id not in jobs:
         raise HTTPException(status_code=404, detail="Job not found")
@@ -181,58 +131,45 @@ async def get_job_status(job_id: str):
     return JobResponse(job_id=job_id, status=job["status"], message=f"Job {job['status']}", result=job.get("result"))
 
 
-async def process_file_async(content: str, file_type: str, job_id: str) -> dict[str, Any]:
-    """Process file content asynchronously"""
+# ΛTAG: lens_pipeline
+async def process_file_async(
+    content: bytes, filename: str, job_id: str, options: Optional[dict[str, Any]] = None
+) -> dict[str, Any]:
+    """Process file content asynchronously using the ΛLens engine."""
+
+    suffix = Path(filename).suffix or ".tmp"
+    options = options or {}
+
+    with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp_file:
+        tmp_file.write(content)
+        temp_path = Path(tmp_file.name)
+
     try:
-        # Parse content based on type
-        if file_type == "text":
-            parser = TextParser()  # noqa: F821  # TODO: TextParser
-        elif file_type == "code":
-            parser = CodeParser()  # noqa: F821  # TODO: CodeParser
-        elif file_type == "data":
-            parser = DataParser()  # noqa: F821  # TODO: DataParser
-        elif file_type == "csv":
-            parser = CSVParser()  # noqa: F821  # TODO: CSVParser
-        elif file_type == "markdown":
-            parser = MarkdownParser()  # noqa: F821  # TODO: MarkdownParser
-        elif file_type == "pdf":
-            parser = PDFParser()  # noqa: F821  # TODO: PDFParser
-        else:
-            parser = TextParser()  # noqa: F821  # TODO: TextParser
+        dashboard = await lens_engine.transform(str(temp_path), options)
 
-        # Parse the content
-        parsed_data = parser.parse(content)
-
-        # Generate symbols
-        symbols = symbol_generator.generate_symbols(parsed_data)
-
-        # Create widgets
-        widgets = widget_factory.create_widgets(symbols)
-
-        # Generate dashboard
-        dashboard = web_renderer.render_dashboard(
-            {
-                "title": f"ΛLens Dashboard - {file_type.upper()}",
-                "symbols": symbols,
-                "widgets": widgets,
-                "metadata": {
-                    "file_type": file_type,
-                    "processed_at": datetime.now(timezone.utc).isoformat(),
-                    "job_id": job_id,
-                },
-            }
-        )
+        symbols = [symbol.to_dict() for symbol in dashboard.symbols]
+        widgets = widget_factory.suggest_widgets(dashboard.symbols)
+        web_dashboard = await web_renderer.render(dashboard)
+        xr_scene = await xr_renderer.render(dashboard)
 
         return {
-            "dashboard": dashboard,
-            "symbols_count": len(symbols),
-            "widgets_count": len(widgets),
-            "file_type": file_type,
-            "processing_time": "completed",
+            "job_id": job_id,
+            "dashboard": {
+                "id": dashboard.id,
+                "source_file": dashboard.source_file,
+                "lambda_signature": dashboard.lambda_signature,
+                "metadata": dashboard.metadata,
+                "symbols": symbols,
+                "relationships": dashboard.relationships,
+            },
+            "widgets": widgets,
+            "web_dashboard": web_dashboard,
+            "xr_scene": xr_scene,
+            "processed_at": datetime.now(timezone.utc).isoformat(),
         }
 
-    except Exception as e:
-        raise Exception(f"Processing failed: {e!s}")
+    finally:
+        temp_path.unlink(missing_ok=True)
 
 
 if __name__ == "__main__":

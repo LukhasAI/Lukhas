@@ -21,20 +21,14 @@ import asyncio
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict
 
-# T4 Agent components
-# Import observability stack first
 try:
-    import os
-    import sys
-
-    sys.path.append(os.path.dirname(os.path.dirname(__file__)))  # Add enterprise/ to path
-    from observability.instantiate import obs_stack
+    from products.enterprise.core.observability.instantiate import obs_stack
 
     OBSERVABILITY_AVAILABLE = True
 except ImportError:
-    # Create a stub observability stack
+    # Provide a deterministic fallback to preserve observability decorators during tests
     class MockObsStack:
         def trace(self, name=None):
             def decorator(func):
@@ -43,7 +37,7 @@ except ImportError:
             return decorator
 
         def submit_metric(self, *args, **kwargs):
-            pass
+            return None
 
     obs_stack = MockObsStack()
     OBSERVABILITY_AVAILABLE = False
@@ -62,7 +56,7 @@ except ImportError as e:
 
 # Multi-AI Orchestration
 try:
-    from candidate.bridge.orchestration.consensus_engine import ConsensusEngine  # noqa: F401  # TODO: candidate.bridge.orchestration...
+    from candidate.bridge.orchestration.consensus_engine import ConsensusEngine
     from candidate.bridge.orchestration.multi_ai_orchestrator import MultiAIOrchestrator
 
     ORCHESTRATION_AVAILABLE = True
@@ -71,11 +65,13 @@ except ImportError:
 
 # Jules Enterprise components
 try:
-    from enterprise.compliance.data_protection_service import DataProtectionService  # noqa: F401  # TODO: enterprise.compliance.data_pro...
-    from enterprise.monitoring.datadog_integration import DatadogIntegration  # noqa: F401  # TODO: enterprise.monitoring.datadog_...
+    from products.enterprise.core.compliance.data_protection_service import DataProtectionService
+    from products.enterprise.core.monitoring.datadog_integration import T4DatadogMonitoring
 
     JULES_COMPONENTS_AVAILABLE = True
 except ImportError:
+    DataProtectionService = None  # type: ignore[assignment]
+    T4DatadogMonitoring = None  # type: ignore[assignment]
     JULES_COMPONENTS_AVAILABLE = False
 
 logger = logging.getLogger(__name__)
@@ -106,6 +102,8 @@ class UnifiedConsciousnessLayer:
         self.orchestrator = None
         self.observability_stack = obs_stack
         self.constitutional_ai = None
+        self.enterprise_components: Dict[str, Any] = {}
+        self.consensus_engine_cls = None
 
         self._initialize_components()
 
@@ -127,6 +125,7 @@ class UnifiedConsciousnessLayer:
         # Initialize Multi-AI Orchestration
         if ORCHESTRATION_AVAILABLE:
             try:
+                self.consensus_engine_cls = ConsensusEngine
                 self.orchestrator = MultiAIOrchestrator(
                     providers=["openai", "anthropic", "google", "perplexity"],
                     consensus_threshold=0.7,
@@ -136,7 +135,31 @@ class UnifiedConsciousnessLayer:
             except Exception as e:
                 logger.error(f"❌ Orchestration initialization failed: {e}")
 
+        self._initialize_enterprise_components()
         logger.info("🎉 Unified Consciousness Layer ready for consciousness operations")
+
+    def _initialize_enterprise_components(self) -> None:
+        """Register available enterprise integrations"""
+
+        # ΛTAG: enterprise_components
+        if not JULES_COMPONENTS_AVAILABLE:
+            self.enterprise_components = {}
+            logger.warning("Enterprise integration components unavailable; running in observability-only mode")
+            return
+
+        components: Dict[str, Any] = {}
+
+        if DataProtectionService is not None:
+            components["data_protection_service"] = DataProtectionService
+
+        if T4DatadogMonitoring is not None:
+            components["datadog_monitoring"] = T4DatadogMonitoring
+
+        self.enterprise_components = components
+        if components:
+            logger.info("✅ Enterprise components registered: %s", ", ".join(sorted(components)))
+        else:
+            logger.warning("Enterprise component registry is empty; downstream enterprise features disabled")
 
     @obs_stack.trace(name="unified_consciousness_request")
     async def process_consciousness_request(self, request: dict[str, Any]) -> dict[str, Any]:
@@ -298,8 +321,10 @@ class UnifiedConsciousnessLayer:
             },
             enterprise_readiness={
                 "observability_active": True,
-                "datadog_enabled": self.observability_stack.datadog_enabled,
-                "prometheus_enabled": self.observability_stack.prometheus_enabled,
+                "datadog_enabled": getattr(self.observability_stack, "datadog_enabled", False),
+                "prometheus_enabled": getattr(self.observability_stack, "prometheus_enabled", False),
+                "data_protection_registered": "data_protection_service" in self.enterprise_components,
+                "monitoring_bridge": "datadog_monitoring" in self.enterprise_components,
                 "quality_gates_active": self.quality_validator is not None,
             },
             consciousness_coherence=await self._calculate_consciousness_coherence(),
