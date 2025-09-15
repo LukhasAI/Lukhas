@@ -14,6 +14,9 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
+logger = logging.getLogger("Lambda.NIΛS.DreamGenerator")
+# ΛTAG: nias, logging
+
 # OpenAI integration
 try:
     from openai import AsyncOpenAI
@@ -21,13 +24,10 @@ try:
     OPENAI_AVAILABLE = True
 except ImportError:
     OPENAI_AVAILABLE = False
-    logger.warning("OpenAI library not available. Install with: pip install openai", timezone)  # noqa: F821  # TODO: logger
+    logger.warning("OpenAI library not available. Install with: pip install openai")
 
 from .consent_manager import AIGenerationType
 from .vendor_portal import DreamSeed, DreamSeedType
-
-logger = logging.getLogger("Lambda.NIΛS.DreamGenerator")
-
 
 class DreamMood(Enum):
     """Emotional moods for dream generation"""
