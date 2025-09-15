@@ -63,7 +63,7 @@ except Exception:  # noqa: BLE001 - qiskit is optional in this lane
             self.operations.append(("MEASURE_ALL",))
 
 
-@dataclass(slots=True)
+@dataclass
 class QuantumState:
     """Deterministic representation of a quantum-inspired state."""
 
@@ -83,7 +83,7 @@ class QuantumState:
         return QuantumState(self.amplitudes, tuple(sorted(set(associations))), self.label, dict(self.metadata))
 
 
-@dataclass(slots=True)
+@dataclass
 class QuantumQuery:
     """Symbolic quantum query description for associative recall."""
 
@@ -98,7 +98,7 @@ class QuantumQuery:
         return overlap / len(self.associations)
 
 
-@dataclass(slots=True)
+@dataclass
 class QuantumMemory:
     """Stored associative memory result."""
 
