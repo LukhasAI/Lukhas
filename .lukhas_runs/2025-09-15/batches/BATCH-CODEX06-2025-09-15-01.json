@@ -1,0 +1,363 @@
+{
+  "batch_id": "BATCH-CODEX06-2025-09-15-01",
+  "agent": "codex06",
+  "created_at": "2025-09-15T01:17:08.838193Z",
+  "expires_at": "2025-09-18T01:17:08.838195Z",
+  "branch_name": "feat/codex06/candidate-batch01",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-61cdaff9",
+      "priority": "high",
+      "title": "These imports suggest a complex LUKHAS directory structure.",
+      "file": "./candidate/core/meta_learning/remediator_agent.py",
+      "line_hint": 77,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e00b322dff9b4943c0c0d42ff35a232823f4bdcd"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-6f7f5efc",
+      "priority": "high",
+      "title": "Import lukhas_tier_required decorator",
+      "file": "./candidate/core/interfaces/api/v1/rest/middleware.py",
+      "line_hint": 257,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "bce719e4ac139212c9f36e0e9c00139f10e26f69"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-0fdacfc9",
+      "priority": "high",
+      "title": "Resolve these imports via proper packaging or PYTHONPATH.",
+      "file": "./candidate/memory/systems/memory_legacy/replayer.py",
+      "line_hint": 46,
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "10f5fa6937959bcaaa1754020fca1ef42b7d6e43"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-21d479de",
+      "priority": "high",
+      "title": "Update these import paths to correct locations",
+      "file": "./products/intelligence/lens/api_new/standalone_server.py",
+      "line_hint": 27,
+      "module": "products/intelligence",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-CI-b955dd0a",
+      "priority": "high",
+      "title": "[T4-UNUSED-IMPORT]: This file contains intentionally kept unused imports.\\n\"",
+      "file": "tools/ci/unused_imports.py",
+      "line_hint": 34,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "tools/ci/unused_imports.py:34:    \"# TODO[T4-UNUSED-IMPORT]: This file contains intentionally kept unused imports.\\n\"",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-CI-9e9c5f1d",
+      "priority": "high",
+      "title": "[T4-UNUSED-IMPORT] annotation",
+      "file": "tools/ci/check_unused_imports_todo.py",
+      "line_hint": 8,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "tools/ci/check_unused_imports_todo.py:8:- Checks each finding has a TODO[T4-UNUSED-IMPORT] annotation",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-CI-00dcf1a7",
+      "priority": "high",
+      "title": "[T4-UNUSED-IMPORT]: This file contains unused imports intentionally kept.\\n\"",
+      "file": "tools/ci/mark_unused_imports_todo.py",
+      "line_hint": 47,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "tools/ci/mark_unused_imports_todo.py:47:    \"# TODO[T4-UNUSED-IMPORT]: This file contains unused imports intentionally kept.\\n\"",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-fd363b8c",
+      "priority": "high",
+      "title": "Update these import paths to correct locations",
+      "file": "products/intelligence/lens/api_new/standalone_server.py",
+      "line_hint": 27,
+      "module": "products/intelligence",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "products/intelligence/lens/api_new/standalone_server.py:27:# TODO: Update these import paths to correct locations",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-9c75e1ee",
+      "priority": "high",
+      "title": "Review deep relative imports for robustness.",
+      "file": "candidate/memory/visualizer.py",
+      "line_hint": 57,
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "candidate/memory/visualizer.py:57:# AIMPORT_TODO: Review deep relative imports for robustness.",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-71d05af1",
+      "priority": "high",
+      "title": "Resolve import paths if these files are moved or structure changes.",
+      "file": "candidate/memory/systems/memory_learning/memory_manager.py",
+      "line_hint": 67,
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "candidate/memory/systems/memory_learning/memory_manager.py:67:# TODO: Resolve import paths if these files are moved or structure changes.",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-GOVERNANCE-50f1c1f6",
+      "priority": "high",
+      "title": "Review deep relative imports for robustness.",
+      "file": "candidate/governance/integration/policy_board.py",
+      "line_hint": 29,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "candidate/governance/integration/policy_board.py:29:# AIMPORT_TODO: Review deep relative imports for robustness.",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "med",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-1fe516fb",
+      "priority": "high",
+      "title": "[GLYPH:specialist] - Fix cross-lane import dependencies for consciousness mesh formation",
+      "file": "candidate/core/symbolic_legacy/colony_tag_propagation.py",
+      "line_hint": 5,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "candidate/core/symbolic_legacy/colony_tag_propagation.py:5:# TODO[GLYPH:specialist] - Fix cross-lane import dependencies for consciousness mesh formation",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "med",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-GOVERNANCE-506281cd",
+      "priority": "high",
+      "title": "[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution",
+      "file": "candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py",
+      "line_hint": 19,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py:19:from governance.identity.core.colonies import (  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "med",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-PRODUCTS-EXPERIENCE-905591f4",
+      "priority": "low",
+      "title": "torch; consider using importli...",
+      "file": "./products/experience/voice/bridge/voice_integration.py",
+      "line_hint": 28,
+      "module": "products/experience",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-032329cc",
+      "priority": "low",
+      "title": "# noqa: F821  # TODO: TODO_PATTERN",
+      "file": "./tools/ci/check_unused_imports_todo.py",
+      "line_hint": 241,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      }
+    }
+  ],
+  "summary": {
+    "total_tasks": 15,
+    "by_priority": {
+      "high": 13,
+      "low": 2
+    },
+    "by_type": {
+      "mechanical": 15
+    },
+    "by_risk": {
+      "low": 12,
+      "med": 3
+    }
+  },
+  "dependencies": [],
+  "checks": [
+    "ruff check .",
+    "pytest -q",
+    "pre-commit run --all-files"
+  ]
+}

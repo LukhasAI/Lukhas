@@ -1,0 +1,503 @@
+{
+  "agent_id": "JULES-06",
+  "specialty": "QRG Generator",
+  "focus": "session replay scaffolding",
+  "task_count": 30,
+  "priority": "high",
+  "risk_level": "med",
+  "branch_prefix": "feat/jules-06/qrg-generator-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-AGI_CORE-REASONING-e18ec162",
+      "priority": "high",
+      "title": "lukhas.consciousness.conscious...",
+      "file": "./agi_core/reasoning/chain_of_thought.py",
+      "module": "agi_core/reasoning",
+      "trinity": "Consciousness",
+      "line_hint": 25,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./agi_core/reasoning/chain_of_thought.py:    from lukhas.consciousness.consciousness_wrapper import ConsciousnessWrapper  # noqa: F401  # TODO: lukhas.consciousness.conscious...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-AI_ORCHESTRATION-LUKHAS_MCP_SERVER.PY-eaaf5f90",
+      "priority": "high",
+      "title": "tools.analysis._OPERATIONAL_SU...",
+      "file": "./ai_orchestration/lukhas_mcp_server.py",
+      "module": "ai_orchestration/lukhas_mcp_server.py",
+      "trinity": "null",
+      "line_hint": 34,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b6adabb2b7676b2b815a648d53f1d13a59ceff8c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-API-__INIT__.PY-6c41b650",
+      "priority": "high",
+      "title": "kept for API expansion (document or implement)",
+      "file": "./api/__init__.py",
+      "module": "api/__init__.py",
+      "trinity": "null",
+      "line_hint": 19,
+      "risk": "low",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "fb086607d728524204bd05c923386e58c4d2cd71"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BIO-SYMBOLIC-54a205fe",
+      "priority": "high",
+      "title": "triage - Deep bio hierarchy with unclear integration path. Need architecture analysis.",
+      "file": "./bio/symbolic/__init__.py",
+      "module": "bio/symbolic",
+      "trinity": "null",
+      "line_hint": 6,
+      "risk": "low",
+      "type": "integration",
+      "size": "M",
+      "evidence": {
+        "grep": "./bio/symbolic/__init__.py:TODO[T4-AUDIT]:triage - Deep bio hierarchy with unclear integration path. Need architecture analysis.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRANDING-APIS-aa7fb64e",
+      "priority": "high",
+      "title": "linkedin_api.Linkedin; conside...",
+      "file": "./branding/apis/platform_integrations.py",
+      "module": "branding/apis",
+      "trinity": "null",
+      "line_hint": 34,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/apis/platform_integrations.py:    from linkedin_api import Linkedin  # LinkedIn API  # noqa: F401  # TODO: linkedin_api.Linkedin; conside...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRANDING-ENGINES-4bd39d55",
+      "priority": "high",
+      "title": "core_\u039bBot.SubscriptionTier; co...",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_master_lambda_bot_orchestrator.py",
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "line_hint": 61,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_master_lambda_bot_orchestrator.py:    from core_\u039bBot import CoreLambdaBot, SubscriptionTier  # noqa: F401  # TODO: core_\u039bBot.SubscriptionTier; co...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRANDING-ENGINES-625e19e7",
+      "priority": "high",
+      "title": "core_\u039bBot.SubscriptionTier; co...",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_ai_controller_lambda_bot.py",
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "line_hint": 47,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_ai_controller_lambda_bot.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRANDING-ENGINES-2f129798",
+      "priority": "high",
+      "title": "\u039biD.identity_manager.Identitym...",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_cli.py",
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "line_hint": 456,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_cli.py:        from \u039biD.identity_manager import Identitymanager  # noqa: F401  # TODO: \u039biD.identity_manager.Identitym...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRANDING-ENGINES-4fde8422",
+      "priority": "high",
+      "title": "lukhas.qi.consciousness_integr...",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_qi_consciousness_lambda_bot.py",
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "line_hint": 30,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_qi_consciousness_lambda_bot.py:    from lukhas.qi.consciousness_integration import QIConsciousnessProcessor, QIState  # noqa: F401  # TODO: lukhas.qi.consciousness_integr...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRANDING-ENGINES-7306de9d",
+      "priority": "high",
+      "title": "core_\u039bBot.SubscriptionTier; co...",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_qi_consciousness_lambda_bot.py",
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "line_hint": 40,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_qi_consciousness_lambda_bot.py:    from lukhas.qi.consciousness_integration import QIConsciousnessProcessor, QIState  # noqa: F401  # TODO: lukhas.qi.consciousness_integr...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRANDING-ENGINES-b81cd14b",
+      "priority": "high",
+      "title": "core_\u039bBot.SubscriptionTier; co...",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_multi_brain_symphony_lambda_bot.py",
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "line_hint": 56,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_multi_brain_symphony_lambda_bot.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRANDING-ENGINES-98502be2",
+      "priority": "high",
+      "title": "Implement actual Notion API integration",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_notion_sync.py",
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "line_hint": 298,
+      "risk": "low",
+      "type": "integration",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_notion_sync.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRANDING-ORCHESTRATION-22780c15",
+      "priority": "high",
+      "title": "implement missing functionality",
+      "file": "./branding/orchestration/system_integrator.py",
+      "module": "branding/orchestration",
+      "trinity": "null",
+      "line_hint": 16,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/orchestration/system_integrator.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRANDING-ORCHESTRATION-40f565fc",
+      "priority": "high",
+      "title": "implement missing functionality",
+      "file": "./branding/orchestration/trinity_framework_deployer.py",
+      "module": "branding/orchestration",
+      "trinity": "null",
+      "line_hint": 22,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "c2caba9d9c8270e860596cf15269358add8d9ef6"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRANDING-ORCHESTRATION-ab64993e",
+      "priority": "high",
+      "title": "implement missing functionality",
+      "file": "./branding/orchestration/system_consolidator.py",
+      "module": "branding/orchestration",
+      "trinity": "null",
+      "line_hint": 18,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/orchestration/system_consolidator.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRANDING-ORCHESTRATION-3bb4d101",
+      "priority": "high",
+      "title": "implement missing functionality",
+      "file": "./branding/orchestration/voice_coherence_upgrader.py",
+      "module": "branding/orchestration",
+      "trinity": "null",
+      "line_hint": 22,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "c2caba9d9c8270e860596cf15269358add8d9ef6"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRANDING-ORCHESTRATION-fc294f50",
+      "priority": "high",
+      "title": "implement missing functionality",
+      "file": "./branding/orchestration/content_orchestrator.py",
+      "module": "branding/orchestration",
+      "trinity": "null",
+      "line_hint": 20,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/orchestration/content_orchestrator.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BIO-ec3b7bc3",
+      "priority": "high",
+      "title": "specialist] - UTC timezone enforcement",
+      "file": "./candidate/bio/oscillator.py",
+      "module": "candidate/bio",
+      "trinity": "null",
+      "line_hint": 30,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/bio/oscillator.py:        self.timestamp = utc_now()  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement",
+        "last_commit": "f203cbd2b8e04c94dfc42644ca019cfb993693ef"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BIO-ec3b7bc3",
+      "priority": "high",
+      "title": "specialist] - UTC timezone enforcement",
+      "file": "./candidate/bio/oscillator.py",
+      "module": "candidate/bio",
+      "trinity": "null",
+      "line_hint": 40,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/bio/oscillator.py:        self.timestamp = utc_now()  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement",
+        "last_commit": "f203cbd2b8e04c94dfc42644ca019cfb993693ef"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BIO-cdf7a7ea",
+      "priority": "high",
+      "title": "specialist] - Import timezone for UTC enforcement",
+      "file": "./candidate/bio/qi.py",
+      "module": "candidate/bio",
+      "trinity": "null",
+      "line_hint": 88,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/bio/qi.py:    from datetime import (  # TODO[QUANTUM-BIO:specialist] - Import timezone for UTC enforcement",
+        "last_commit": "f203cbd2b8e04c94dfc42644ca019cfb993693ef"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BIO-36934446",
+      "priority": "high",
+      "title": "specialist] - UTC timezone enforcement",
+      "file": "./candidate/bio/qi.py",
+      "module": "candidate/bio",
+      "trinity": "null",
+      "line_hint": 101,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/bio/qi.py:    from datetime import (  # TODO[QUANTUM-BIO:specialist] - Import timezone for UTC enforcement",
+        "last_commit": "f203cbd2b8e04c94dfc42644ca019cfb993693ef"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BIO-e4096b0a",
+      "priority": "high",
+      "title": "specialist] - UTC timezone enforcement",
+      "file": "./candidate/bio/awareness.py",
+      "module": "candidate/bio",
+      "trinity": "Consciousness",
+      "line_hint": 30,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/bio/awareness.py:        self.timestamp = utc_now()  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement",
+        "last_commit": "f203cbd2b8e04c94dfc42644ca019cfb993693ef"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BIO-741815ec",
+      "priority": "high",
+      "title": "specialist] - Args used for constellation flexibility",
+      "file": "./candidate/bio/awareness.py",
+      "module": "candidate/bio",
+      "trinity": "Consciousness",
+      "line_hint": 53,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/bio/awareness.py:        self.timestamp = utc_now()  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement",
+        "last_commit": "f203cbd2b8e04c94dfc42644ca019cfb993693ef"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BIO-cdb47780",
+      "priority": "high",
+      "title": "specialist] - Context for constellation integration",
+      "file": "./candidate/bio/awareness.py",
+      "module": "candidate/bio",
+      "trinity": "Consciousness",
+      "line_hint": 59,
+      "risk": "low",
+      "type": "integration",
+      "size": "M",
+      "evidence": {
+        "grep": "./candidate/bio/awareness.py:        self.timestamp = utc_now()  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement",
+        "last_commit": "f203cbd2b8e04c94dfc42644ca019cfb993693ef"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BIO-e4096b0a",
+      "priority": "high",
+      "title": "specialist] - UTC timezone enforcement",
+      "file": "./candidate/bio/awareness.py",
+      "module": "candidate/bio",
+      "trinity": "Consciousness",
+      "line_hint": 76,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/bio/awareness.py:        self.timestamp = utc_now()  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement",
+        "last_commit": "f203cbd2b8e04c94dfc42644ca019cfb993693ef"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BIO-9d1c7038",
+      "priority": "high",
+      "title": "specialist] - UTC timezone consistency",
+      "file": "./candidate/bio/awareness.py",
+      "module": "candidate/bio",
+      "trinity": "Consciousness",
+      "line_hint": 103,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/bio/awareness.py:        self.timestamp = utc_now()  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement",
+        "last_commit": "f203cbd2b8e04c94dfc42644ca019cfb993693ef"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-COLONIES-1c8ad269",
+      "priority": "high",
+      "title": "triage - Colony system implementation status unclear. Need integration assessment with actor system.",
+      "file": "./candidate/colonies/__init__.py",
+      "module": "candidate/colonies",
+      "trinity": "null",
+      "line_hint": 6,
+      "risk": "low",
+      "type": "integration",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/colonies/__init__.py:TODO[T4-AUDIT]:triage - Colony system implementation status unclear. Need integration assessment with actor system.",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-a475ba49",
+      "priority": "high",
+      "title": "specialist] - Fix cross-lane import dependencies for consciousness mesh formation",
+      "file": "./candidate/core/symbolic_legacy/colony_tag_propagation.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 5,
+      "risk": "med",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_legacy/colony_tag_propagation.py:# TODO[GLYPH:specialist] - Fix cross-lane import dependencies for consciousness mesh formation",
+        "last_commit": "d84f24154c21de7e05c16e108d7bcce86f034a59"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-3fd5468a",
+      "priority": "high",
+      "title": "specialist] - Implement consciousness node base class fallback",
+      "file": "./candidate/core/symbolic_legacy/colony_tag_propagation.py",
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "line_hint": 13,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_legacy/colony_tag_propagation.py:# TODO[GLYPH:specialist] - Fix cross-lane import dependencies for consciousness mesh formation",
+        "last_commit": "d84f24154c21de7e05c16e108d7bcce86f034a59"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-c6b0d0d6",
+      "priority": "high",
+      "title": "specialist] - Implement proper symbolic vocabulary integration",
+      "file": "./candidate/core/symbolic_legacy/colony_tag_propagation.py",
+      "module": "candidate/core",
+      "trinity": "null",
+      "line_hint": 35,
+      "risk": "low",
+      "type": "integration",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/core/symbolic_legacy/colony_tag_propagation.py:# TODO[GLYPH:specialist] - Fix cross-lane import dependencies for consciousness mesh formation",
+        "last_commit": "d84f24154c21de7e05c16e108d7bcce86f034a59"
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: jules-06-batch-$(date +%m%d)",
+      "2. Work through 30 tasks systematically",
+      "3. One TaskID per commit",
+      "4. Focus: session replay scaffolding",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(qrg): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.155663Z",
+  "source": "Direct allocation from manifest_clean.json"
+}

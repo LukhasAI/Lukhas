@@ -1,0 +1,450 @@
+{
+  "batch_id": "BATCH-JULES05-2025-09-15-01",
+  "agent": "jules05",
+  "created_at": "2025-09-15T01:32:13.854096Z",
+  "expires_at": "2025-09-18T01:32:13.854097Z",
+  "branch_name": "feat/jules05/candidate-batch01",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-CORE-d93e946b",
+      "priority": "critical",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/core/orchestration/brain/identity_manager.py",
+      "line_hint": 7,
+      "module": "candidate/core",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-CORE-93d8a8ae",
+      "priority": "critical",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/core/governance/guardian_integration.py",
+      "line_hint": 42,
+      "module": "candidate/core",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-BRIDGE-5b418c45",
+      "priority": "critical",
+      "title": "kept for API expansion (document or implement)",
+      "file": "./candidate/bridge/api/validation.py",
+      "line_hint": 34,
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "d9979b4c7379a6da7419e37517bdd86bddfac8e2"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-CONSCIOUSNESS-1a3b92a0",
+      "priority": "critical",
+      "title": "Make approval_threshold configurable.",
+      "file": "./candidate/consciousness/core/engine.py",
+      "line_hint": 464,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/consciousness/core/engine.py:        # TODO: Ensure interaction_data contains expected keys like 'timestamps', 'symbols', 'actions', 'pressure_patterns', 'velocity_patterns'.",
+        "last_commit": "f869d7ac01b8f36fdeff3091894843582545fce0"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-QI-da52a336",
+      "priority": "critical",
+      "title": "Implement actual consolidation logic",
+      "file": "./candidate/qi/engines/identity/consolidate_identity_qi_secure.py",
+      "line_hint": 33,
+      "module": "candidate/qi",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "c84574ffc1ec703d3ce4f4def0ef1ea225cd8d07"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-2120dbf8",
+      "priority": "critical",
+      "title": "Implement actual logging to file/database",
+      "file": "./candidate/governance/identity/core/id_service/lambd_id_generator.py",
+      "line_hint": 216,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "4fd335087c4c85a4b469201e66ccf81d99335b9d"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-febfa200",
+      "priority": "critical",
+      "title": "Implement persistent storage logic",
+      "file": "./candidate/governance/identity/core/trace/activity_logger.py",
+      "line_hint": 225,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "43575b856f36d4a9c41a0f17ab44274fad314b74"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-0a627034",
+      "priority": "critical",
+      "title": "Implement insight generation logic",
+      "file": "./candidate/governance/identity/core/trace/pattern_analyzer.py",
+      "line_hint": 27,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/trace/pattern_analyzer.py:        # TODO: Implement pattern analysis logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-65e074f8",
+      "priority": "critical",
+      "title": "Load tier boundaries from consent_tiers.json",
+      "file": "./candidate/governance/identity/core/sent/consent_manager.py",
+      "line_hint": 159,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/sent/consent_manager.py:        # TODO: Load tier boundaries from consent_tiers.json",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-9793688b",
+      "priority": "critical",
+      "title": "Implement scope requirements logic",
+      "file": "./candidate/governance/identity/core/sent/symbolic_scopes.py",
+      "line_hint": 43,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/sent/symbolic_scopes.py:        # TODO: Implement scope definition logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-25ac6695",
+      "priority": "critical",
+      "title": "Implement validation logic",
+      "file": "./candidate/governance/identity/core/qrs/qrg_generator.py",
+      "line_hint": 24,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/qrs/qrg_generator.py:        # TODO: Implement QR-G generation logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-02d93d6c",
+      "priority": "critical",
+      "title": "Implement symbolic challenge verification",
+      "file": "./candidate/governance/identity/core/sing/sso_engine.py",
+      "line_hint": 627,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/sing/sso_engine.py:        # TODO: Implement symbolic challenge verification",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-23b0eac7",
+      "priority": "critical",
+      "title": "Implement service notification logic",
+      "file": "./candidate/governance/identity/core/sing/sso_engine.py",
+      "line_hint": 653,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/sing/sso_engine.py:        # TODO: Implement symbolic challenge verification",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-870eced1",
+      "priority": "critical",
+      "title": "Initialize when QRG components are wired",
+      "file": "./candidate/governance/identity/auth_integrations/qrg_bridge.py",
+      "line_hint": 64,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/identity/auth_integrations/qrg_bridge.py:            # TODO: Initialize when QRG components are wired",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-b02f0c3c",
+      "priority": "critical",
+      "title": "Initialize when WALLET components are wired",
+      "file": "./candidate/governance/identity/auth_integrations/wallet_bridge.py",
+      "line_hint": 54,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/identity/auth_integrations/wallet_bridge.py:            # TODO: Initialize when WALLET components are wired",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-6f89bf0d",
+      "priority": "critical",
+      "title": "Implement comprehensive safety validation",
+      "file": "./candidate/governance/healthcare/decision_support.py",
+      "line_hint": 518,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-4ae11c0b",
+      "priority": "critical",
+      "title": "Install or implement CORE",
+      "file": "./candidate/governance/ethics/guardian_reflector.py",
+      "line_hint": 53,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/ethics/guardian_reflector.py:    #     from ...CORE.ethics.ethics_engine import EthicsEngine  # TODO: Install or implement CORE",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-dbbb2ccc",
+      "priority": "critical",
+      "title": "Calculate from actual data",
+      "file": "./candidate/governance/monitoring/guardian_dashboard.py",
+      "line_hint": 876,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./candidate/governance/monitoring/guardian_dashboard.py:        # TODO: Implement governance validation",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-ENTERPRISE-63e2d72c",
+      "priority": "critical",
+      "title": "lz4.frame; consider using impo...",
+      "file": "./products/enterprise/core/performance/extreme_auth_optimization.py",
+      "line_hint": 62,
+      "module": "products/enterprise",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./products/enterprise/core/performance/extreme_auth_optimization.py:    import lz4.frame as _  # Ultra-fast compression for large payloads  # noqa: F401  # TODO: lz4.frame; consider using impo...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-f95b295c",
+      "priority": "critical",
+      "title": "timezone",
+      "file": "./products/security/qrg/bridge.py",
+      "line_hint": 152,
+      "module": "products/security",
+      "trinity": "null",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": "./products/security/qrg/bridge.py:    # TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    }
+  ],
+  "summary": {
+    "total_tasks": 20,
+    "by_priority": {
+      "critical": 20
+    },
+    "by_type": {
+      "logic": 20
+    },
+    "by_risk": {
+      "med": 13,
+      "high": 5,
+      "low": 2
+    }
+  },
+  "dependencies": [],
+  "checks": [
+    "ruff check .",
+    "pytest -q",
+    "pre-commit run --all-files"
+  ]
+}

@@ -1,0 +1,154 @@
+{
+  "batch_id": "BATCH-JULES10-2025-09-15-01",
+  "agent": "jules10",
+  "created_at": "2025-09-15T01:32:13.854703Z",
+  "expires_at": "2025-09-18T01:32:13.854704Z",
+  "branch_name": "feat/jules10/candidate-batch01",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-BRANDING-ENGINES-98502be2",
+      "priority": "high",
+      "title": "Implement actual Notion API integration",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_notion_sync.py",
+      "line_hint": 298,
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_notion_sync.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "integration",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-COLONIES-1c8ad269",
+      "priority": "high",
+      "title": "triage - Colony system implementation status unclear. Need integration assessment with actor system.",
+      "file": "./candidate/colonies/__init__.py",
+      "line_hint": 6,
+      "module": "candidate/colonies",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/colonies/__init__.py:TODO[T4-AUDIT]:triage - Colony system implementation status unclear. Need integration assessment with actor system.",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "integration",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-060ec135",
+      "priority": "high",
+      "title": "kept for MATRIZ-R2 trace integration",
+      "file": "./candidate/core/matriz_integrated_demonstration.py",
+      "line_hint": 46,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "244821f72bec212cb6c564aa679fe826856bcf80"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "integration",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-BRIDGE-605a5f53",
+      "priority": "high",
+      "title": "Add blockchain integration for decentralized dream commerce",
+      "file": "./candidate/bridge/api_legacy/core/dream_commerce.py",
+      "line_hint": 46,
+      "module": "candidate/bridge",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./candidate/bridge/api_legacy/core/dream_commerce.py:\u039bTODO: Add blockchain integration for decentralized dream commerce",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "integration",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CONFIG-SETTINGS.PY-48d82805",
+      "priority": "high",
+      "title": "Configuration settings integration with lukhas_settings.json",
+      "file": "./config/settings.py",
+      "line_hint": 1,
+      "module": "config/settings.py",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "2dbb64ac67508b2c9be663e72060eb6e6884f8aa"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "integration",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-COMMUNICATION-7093791e",
+      "priority": "high",
+      "title": "Fix ethics integration",
+      "file": "./products/communication/abas_candidate/core/abas_engine.py",
+      "line_hint": 10,
+      "module": "products/communication",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": "./products/communication/abas_candidate/core/abas_engine.py:# from ethics.core import get_shared_ethics_engine  # TODO: Fix ethics integration",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "integration",
+        "size": "M"
+      }
+    }
+  ],
+  "summary": {
+    "total_tasks": 6,
+    "by_priority": {
+      "high": 6
+    },
+    "by_type": {
+      "integration": 6
+    },
+    "by_risk": {
+      "low": 6
+    }
+  },
+  "dependencies": [],
+  "checks": [
+    "ruff check .",
+    "pytest -q",
+    "pre-commit run --all-files"
+  ]
+}

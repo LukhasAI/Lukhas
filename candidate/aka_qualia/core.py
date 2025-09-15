@@ -971,8 +971,9 @@ class AkaQualia:
                 }
 
                 # Save using C4 memory interface with full audit trail
+                user_id = memory_ctx.get("user_id", "system")  # Extract user_id from context
                 scene_id = self.memory.save(
-                    user_id="system",  # TODO: Use actual user ID from context
+                    user_id=user_id,
                     scene=scene_data,
                     glyphs=glyphs_data,
                     policy=policy_data,

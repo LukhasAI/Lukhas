@@ -70,7 +70,7 @@ jobs:
       - name: Generate JUnit + Coverage (always)
         if: always()
         run: |
-          pip install coverage pytest-junitxml
+          pip install coverage
           coverage run -m pytest -q -m "smoke" --junitxml=junit.xml || true
           coverage xml -o coverage.xml || true
       - name: Summarize slowest tests (top 10)
@@ -148,7 +148,7 @@ jobs:
       - name: Generate JUnit + Coverage (always)
         if: always()
         run: |
-          pip install coverage pytest-junitxml
+          pip install coverage
           coverage run -m pytest -q -m "smoke or ${{ matrix.marker }}" --junitxml=junit.xml || true
           coverage xml -o coverage.xml || true
       - name: Summarize slowest tests (top 10)
@@ -279,7 +279,7 @@ jobs:
       - name: Generate JUnit + Coverage (always)
         if: always()
         run: |
-          pip install coverage pytest-junitxml
+          pip install coverage
           coverage run -m pytest -q -m "integration or e2e or ${{ matrix.marker }}" --junitxml=junit.xml || true
           coverage xml -o coverage.xml || true
       - name: Summarize slowest tests (top 10)

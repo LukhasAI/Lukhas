@@ -7,9 +7,7 @@ across the distributed consciousness architecture.
 
 import asyncio
 import logging
-import sys
 import time
-from pathlib import Path
 
 import pytest
 

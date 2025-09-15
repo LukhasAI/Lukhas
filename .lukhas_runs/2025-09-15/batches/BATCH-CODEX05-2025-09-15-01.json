@@ -1,0 +1,364 @@
+{
+  "batch_id": "BATCH-CODEX05-2025-09-15-01",
+  "agent": "codex05",
+  "created_at": "2025-09-15T01:17:08.837809Z",
+  "expires_at": "2025-09-18T01:17:08.837812Z",
+  "branch_name": "feat/codex05/candidate-batch01",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-6d622497",
+      "priority": "high",
+      "title": "Fix imports as part of CODEX_ENHANCEMENT_PLAN.md Phase 4",
+      "file": "./candidate/core/orchestration/brain/orchestration/core.py",
+      "line_hint": 20,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-6e87ac9b",
+      "priority": "high",
+      "title": "These imports are commented out in the original or point to future modules.",
+      "file": "./candidate/core/interfaces/logic/context/context_builder.py",
+      "line_hint": 51,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-80ac38c7",
+      "priority": "high",
+      "title": "Resolve import paths if these files are moved or structure changes.",
+      "file": "./candidate/memory/systems/memory_learning/memory_manager.py",
+      "line_hint": 67,
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-3e66e234",
+      "priority": "high",
+      "title": "Fix import paths - lambda directory doesn't exist",
+      "file": "./products/intelligence/lens/api_new/standalone_server.py",
+      "line_hint": 23,
+      "module": "products/intelligence",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-CI-3d3fabde",
+      "priority": "high",
+      "title": "tag (idempotent):  # TODO[T4-UNUSED-IMPORT]: <reason>",
+      "file": "tools/ci/unused_imports.py",
+      "line_hint": 8,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "tools/ci/unused_imports.py:8:  * adds an inline TODO tag (idempotent):  # TODO[T4-UNUSED-IMPORT]: <reason>",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-CI-df2c55a6",
+      "priority": "high",
+      "title": "annotation for F821/F401 error\"\"\"",
+      "file": "tools/ci/mark_f821_f401_todo.py",
+      "line_hint": 47,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "tools/ci/mark_f821_f401_todo.py:47:        \"\"\"Add TODO annotation for F821/F401 error\"\"\"",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-CI-93030a0b",
+      "priority": "high",
+      "title": "[T4-UNUSED-IMPORT]: <reason>",
+      "file": "tools/ci/mark_unused_imports_todo.py",
+      "line_hint": 8,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "tools/ci/mark_unused_imports_todo.py:8:- Adds inline marker: # TODO[T4-UNUSED-IMPORT]: <reason>",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-45652699",
+      "priority": "high",
+      "title": "Fix import paths - lambda directory doesn't exist",
+      "file": "products/intelligence/lens/api_new/standalone_server.py",
+      "line_hint": 23,
+      "module": "products/intelligence",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "products/intelligence/lens/api_new/standalone_server.py:23:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-fe07047a",
+      "priority": "high",
+      "title": "torch; consider using importli...",
+      "file": "products/experience/voice/bridge/voice_integration.py",
+      "line_hint": 28,
+      "module": "products/experience",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "products/experience/voice/bridge/voice_integration.py:28:    import torch  # noqa: F401  # TODO: torch; consider using importli...",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-37c08ae8",
+      "priority": "high",
+      "title": "Replace this hack with proper Python packaging imports once",
+      "file": "candidate/core/interfaces/as_agent/news_and_social/s_dispatcher.py",
+      "line_hint": 11,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "candidate/core/interfaces/as_agent/news_and_social/s_dispatcher.py:11:# TODO: Replace this hack with proper Python packaging imports once",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-GOVERNANCE-e5ee68ca",
+      "priority": "high",
+      "title": "[JULES-2]: Fix 19 F821 undefined name errors - Drift dashboard visualization, chart/graph undefined references, display fixes",
+      "file": "candidate/governance/drift_dashboard_visual.py",
+      "line_hint": 1,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "candidate/governance/drift_dashboard_visual.py:1:TODO[JULES-2]: Fix 19 F821 undefined name errors - Drift dashboard visualization, chart/graph undefined references, display fixes",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "med",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-ed3ac933",
+      "priority": "high",
+      "title": "[JULES-1]: Fix 19 F821 undefined name errors - Framework integration fixes, class name corrections, variable definitions",
+      "file": "candidate/core/framework_integration.py",
+      "line_hint": 1,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "candidate/core/framework_integration.py:1:# TODO[JULES-1]: Fix 19 F821 undefined name errors - Framework integration fixes, class name corrections, variable definitions",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-257298a9",
+      "priority": "high",
+      "title": "s for missing imports. Maintained bio-inspired consciousness architecture. # CLAUDE_EDIT_v0.1",
+      "file": "candidate/core/orchestration/core.py",
+      "line_hint": 490,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "candidate/core/orchestration/core.py:490:# [CLAUDE_01] Applied standardized LUKHAS AI header and footer template to orchestration core.py module. Updated header with proper module metadata, detailed description of orchestration responsibilities, and integration notes. Added module constants and preserved all existing functionality including TODOs for missing imports. Maintained bio-inspired consciousness architecture. # CLAUDE_EDIT_v0.1",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "med",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TOOLS-CI-2a879f89",
+      "priority": "med",
+      "title": "# TODO[T4-UNUSED-IMPORT]: <reason>",
+      "file": "./tools/ci/unused_imports.py",
+      "line_hint": 8,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-CI-48aabd9a",
+      "priority": "low",
+      "title": "This file contains unused imports intentionally kept.\\n\"",
+      "file": "./tools/ci/mark_unused_imports_todo.py",
+      "line_hint": 47,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    }
+  ],
+  "summary": {
+    "total_tasks": 15,
+    "by_priority": {
+      "high": 13,
+      "med": 1,
+      "low": 1
+    },
+    "by_type": {
+      "mechanical": 15
+    },
+    "by_risk": {
+      "low": 13,
+      "med": 2
+    }
+  },
+  "dependencies": [],
+  "checks": [
+    "ruff check .",
+    "pytest -q",
+    "pre-commit run --all-files"
+  ]
+}

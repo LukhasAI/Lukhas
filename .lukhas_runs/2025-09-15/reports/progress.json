@@ -1,0 +1,294 @@
+{
+  "date": "2025-09-15",
+  "run_id": "LUKHAS-RUN-2025-09-15-CLEAN",
+  "timestamp": "2025-09-15T09:29:17.739207",
+  "summary": {
+    "total_todos": 1129,
+    "total_assigned": 517,
+    "total_done": 54,
+    "total_wip": 0,
+    "total_remaining": 463,
+    "completion_rate": 10.444874274661508,
+    "active_batches": 25
+  },
+  "counts": {
+    "critical": {
+      "open": 149,
+      "wip": 0,
+      "done": 1,
+      "total": 150
+    },
+    "high": {
+      "open": 699,
+      "wip": 0,
+      "done": 1,
+      "total": 700
+    },
+    "med": {
+      "open": 150,
+      "wip": 0,
+      "done": 9,
+      "total": 159
+    },
+    "low": {
+      "open": 119,
+      "wip": 0,
+      "done": 0,
+      "total": 119
+    }
+  },
+  "agents": {
+    "codex12": {
+      "assigned": 35,
+      "done": 0,
+      "wip": 0,
+      "remaining": 35,
+      "batch_id": "BATCH-CODEX12-2025-09-15-01",
+      "domain": "MEDIUM-REFACTORING",
+      "risk_level": "low"
+    },
+    "jules07": {
+      "assigned": 20,
+      "done": 0,
+      "wip": 0,
+      "remaining": 20,
+      "batch_id": "BATCH-JULES07-2025-09-15-01",
+      "domain": "",
+      "risk_level": "medium"
+    },
+    "codex02": {
+      "assigned": 6,
+      "done": 4,
+      "wip": 0,
+      "remaining": 2,
+      "batch_id": "BATCH-CODEX02-2025-09-15-01",
+      "domain": "",
+      "risk_level": "medium"
+    },
+    "codex01": {
+      "assigned": 6,
+      "done": 3,
+      "wip": 0,
+      "remaining": 3,
+      "batch_id": "BATCH-CODEX01-2025-09-15-01",
+      "domain": "",
+      "risk_level": "medium"
+    },
+    "jules09": {
+      "assigned": 6,
+      "done": 0,
+      "wip": 0,
+      "remaining": 6,
+      "batch_id": "BATCH-JULES09-2025-09-15-01",
+      "domain": "",
+      "risk_level": "medium"
+    },
+    "codex11": {
+      "assigned": 35,
+      "done": 0,
+      "wip": 0,
+      "remaining": 35,
+      "batch_id": "BATCH-CODEX11-2025-09-15-01",
+      "domain": "HIGH-API-INTEGRATION",
+      "risk_level": "medium"
+    },
+    "jules04": {
+      "assigned": 20,
+      "done": 0,
+      "wip": 0,
+      "remaining": 20,
+      "batch_id": "BATCH-JULES04-2025-09-15-01",
+      "domain": "",
+      "risk_level": "medium"
+    },
+    "codex07": {
+      "assigned": 30,
+      "done": 7,
+      "wip": 0,
+      "remaining": 23,
+      "batch_id": "BATCH-CODEX07-2025-09-15-01",
+      "domain": "",
+      "risk_level": "medium"
+    },
+    "jules12": {
+      "assigned": 35,
+      "done": 0,
+      "wip": 0,
+      "remaining": 35,
+      "batch_id": "BATCH-JULES12-2025-09-15-01",
+      "domain": "CRITICAL-CONSCIOUSNESS-CORE",
+      "risk_level": "critical"
+    },
+    "jules02": {
+      "assigned": 25,
+      "done": 0,
+      "wip": 0,
+      "remaining": 25,
+      "batch_id": "BATCH-JULES02-2025-09-15-01",
+      "domain": "",
+      "risk_level": "medium"
+    },
+    "jules01": {
+      "assigned": 25,
+      "done": 0,
+      "wip": 0,
+      "remaining": 25,
+      "batch_id": "BATCH-JULES01-2025-09-15-01",
+      "domain": "",
+      "risk_level": "medium"
+    },
+    "codex09": {
+      "assigned": 30,
+      "done": 8,
+      "wip": 0,
+      "remaining": 22,
+      "batch_id": "BATCH-CODEX09-2025-09-15-01",
+      "domain": "",
+      "risk_level": "medium"
+    },
+    "codex04": {
+      "assigned": 6,
+      "done": 3,
+      "wip": 0,
+      "remaining": 3,
+      "batch_id": "BATCH-CODEX04-2025-09-15-01",
+      "domain": "",
+      "risk_level": "medium"
+    },
+    "jules11": {
+      "assigned": 35,
+      "done": 0,
+      "wip": 0,
+      "remaining": 35,
+      "batch_id": "BATCH-JULES11-2025-09-15-01",
+      "domain": "CRITICAL-CORE-INFRASTRUCTURE",
+      "risk_level": "high"
+    },
+    "codex08": {
+      "assigned": 30,
+      "done": 7,
+      "wip": 0,
+      "remaining": 23,
+      "batch_id": "BATCH-CODEX08-2025-09-15-01",
+      "domain": "",
+      "risk_level": "medium"
+    },
+    "jules10": {
+      "assigned": 6,
+      "done": 0,
+      "wip": 0,
+      "remaining": 6,
+      "batch_id": "BATCH-JULES10-2025-09-15-01",
+      "domain": "",
+      "risk_level": "medium"
+    },
+    "codex05": {
+      "assigned": 6,
+      "done": 5,
+      "wip": 0,
+      "remaining": 1,
+      "batch_id": "BATCH-CODEX05-2025-09-15-01",
+      "domain": "",
+      "risk_level": "medium"
+    },
+    "jules03": {
+      "assigned": 25,
+      "done": 0,
+      "wip": 0,
+      "remaining": 25,
+      "batch_id": "BATCH-JULES03-2025-09-15-01",
+      "domain": "",
+      "risk_level": "medium"
+    },
+    "jules13": {
+      "assigned": 35,
+      "done": 0,
+      "wip": 0,
+      "remaining": 35,
+      "batch_id": "BATCH-JULES13-2025-09-15-01",
+      "domain": "CRITICAL-IDENTITY-AUTH",
+      "risk_level": "critical"
+    },
+    "codex06": {
+      "assigned": 5,
+      "done": 3,
+      "wip": 0,
+      "remaining": 2,
+      "batch_id": "BATCH-CODEX06-2025-09-15-01",
+      "domain": "",
+      "risk_level": "medium"
+    },
+    "jules08": {
+      "assigned": 20,
+      "done": 0,
+      "wip": 0,
+      "remaining": 20,
+      "batch_id": "BATCH-JULES08-2025-09-15-01",
+      "domain": "",
+      "risk_level": "medium"
+    },
+    "jules05": {
+      "assigned": 20,
+      "done": 0,
+      "wip": 0,
+      "remaining": 20,
+      "batch_id": "BATCH-JULES05-2025-09-15-01",
+      "domain": "",
+      "risk_level": "medium"
+    },
+    "codex10": {
+      "assigned": 30,
+      "done": 10,
+      "wip": 0,
+      "remaining": 20,
+      "batch_id": "BATCH-CODEX10-2025-09-15-01",
+      "domain": "",
+      "risk_level": "medium"
+    },
+    "codex03": {
+      "assigned": 6,
+      "done": 4,
+      "wip": 0,
+      "remaining": 2,
+      "batch_id": "BATCH-CODEX03-2025-09-15-01",
+      "domain": "",
+      "risk_level": "medium"
+    },
+    "jules06": {
+      "assigned": 20,
+      "done": 0,
+      "wip": 0,
+      "remaining": 20,
+      "batch_id": "BATCH-JULES06-2025-09-15-01",
+      "domain": "",
+      "risk_level": "medium"
+    }
+  },
+  "distribution": {
+    "by_priority": {
+      "unknown": 1,
+      "critical": 150,
+      "high": 700,
+      "low": 119,
+      "med": 159
+    },
+    "by_status": {
+      "open": 1118,
+      "completed": 11
+    },
+    "by_source": {
+      "README.md": 1,
+      "critical_todos.md": 150,
+      "high_todos.md": 687,
+      "low_todos.md": 119,
+      "med_todos.md": 159,
+      "code_scan": 13
+    }
+  },
+  "verification": {
+    "evidence_verified": 54,
+    "requires_review": 0,
+    "feature_flags_required": 0,
+    "experimental": 0
+  }
+}

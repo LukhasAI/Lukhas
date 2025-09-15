@@ -1,0 +1,663 @@
+{
+  "agent_id": "REMAINING-03",
+  "specialty": "Remaining Batch 3",
+  "focus": "unallocated TODOs",
+  "task_count": 40,
+  "priority": "mixed",
+  "risk_level": "low",
+  "branch_prefix": "feat/remaining-03/remaining-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-6b52d4bb",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/experience/dashboard/consciousness/trace_dashboard.py",
+      "module": "products/experience",
+      "trinity": "Consciousness",
+      "line_hint": 20,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/dashboard/consciousness/trace_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-6b52d4bb",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/experience/dashboard/consciousness/trace_dashboard.py",
+      "module": "products/experience",
+      "trinity": "Consciousness",
+      "line_hint": 25,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/dashboard/consciousness/trace_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-08f5628e",
+      "priority": "high",
+      "title": "EventBus",
+      "file": "./products/experience/dashboard/interfaces/core/universal_adaptive_dashboard.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 133,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/dashboard/interfaces/core/universal_adaptive_dashboard.py:        self.event_bus = EventBus()  # noqa: F821  # TODO: EventBus",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-9c6def35",
+      "priority": "high",
+      "title": "AudioFormat",
+      "file": "./products/experience/voice/core/voice_training.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 367,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/core/voice_training.py:                format=AudioFormat.FLOAT_32,  # noqa: F821  # TODO: AudioFormat",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-4885baaa",
+      "priority": "high",
+      "title": "np",
+      "file": "./products/experience/voice/core/__init__.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 222,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/core/__init__.py:                    data=np.frombuffer(response.audio_data, dtype=np.int16).astype(np.float32) / 32768.0,  # noqa: F821  # TODO: np",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-4885baaa",
+      "priority": "high",
+      "title": "np",
+      "file": "./products/experience/voice/core/__init__.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 231,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/core/__init__.py:                    data=np.frombuffer(response.audio_data, dtype=np.int16).astype(np.float32) / 32768.0,  # noqa: F821  # TODO: np",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-d5f3e70d",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/validator.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 42,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/validator.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-d5f3e70d",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/validator.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 204,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/validator.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-d5f3e70d",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/validator.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 208,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/validator.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-d5f3e70d",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/validator.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 212,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/validator.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-d5f3e70d",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/validator.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 216,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/validator.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-668a57c3",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/recognition.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 43,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/recognition.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-668a57c3",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/recognition.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 207,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/recognition.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-668a57c3",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/recognition.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 211,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/recognition.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-668a57c3",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/recognition.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 215,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/recognition.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-668a57c3",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/recognition.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 219,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/recognition.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-2cb98b2f",
+      "priority": "high",
+      "title": "re",
+      "file": "./products/experience/voice/bridge/voice_cultural_integrator.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 219,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/voice_cultural_integrator.py:        words = [w for w in re.findall(r\"\\b[a-zA-Z\\']+\\b\", context.get(\"user_text\", \"\")) if len(w) > 5]  # noqa: F821  # TODO: re",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-c8c8594d",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/speech_engine.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 46,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/speech_engine.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-c8c8594d",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/speech_engine.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 208,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/speech_engine.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-c8c8594d",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/speech_engine.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 212,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/speech_engine.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-c8c8594d",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/speech_engine.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 216,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/speech_engine.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-c8c8594d",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/speech_engine.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 220,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/speech_engine.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-e0a16616",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/audio_processor.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 39,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/audio_processor.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-e0a16616",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/audio_processor.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 201,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/audio_processor.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-e0a16616",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/audio_processor.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 205,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/audio_processor.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-e0a16616",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/audio_processor.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 209,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/audio_processor.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-e0a16616",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/audio_processor.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 213,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/audio_processor.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-cdf217b4",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/audio_engine.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 43,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/audio_engine.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-cdf217b4",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/audio_engine.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 205,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/audio_engine.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-cdf217b4",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/audio_engine.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 209,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/audio_engine.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-cdf217b4",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/audio_engine.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 213,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/audio_engine.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-cdf217b4",
+      "priority": "high",
+      "title": "logger",
+      "file": "./products/experience/voice/bridge/audio_engine.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 217,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/audio_engine.py:        self.logger = logger  # noqa: F821  # TODO: logger",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-875ca2b0",
+      "priority": "high",
+      "title": "load_initial_emotion_map",
+      "file": "./products/experience/voice/bridge/adaptation_module.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 26,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/adaptation_module.py:        self.emotion_map = load_initial_emotion_map()  # noqa: F821  # TODO: load_initial_emotion_map",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-6a771fc6",
+      "priority": "high",
+      "title": "load_initial_resonator_weights",
+      "file": "./products/experience/voice/bridge/adaptation_module.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 27,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/adaptation_module.py:        self.emotion_map = load_initial_emotion_map()  # noqa: F821  # TODO: load_initial_emotion_map",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-af31e40c",
+      "priority": "high",
+      "title": "Implement actual language detection",
+      "file": "./products/experience/universal_language/core/multimodal.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 264,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/universal_language/core/multimodal.py:        # TODO: Implement actual language detection",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-0f2790a6",
+      "priority": "high",
+      "title": "Implement emoji categorization",
+      "file": "./products/experience/universal_language/core/multimodal.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 269,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/universal_language/core/multimodal.py:        # TODO: Implement actual language detection",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-38ffe4f6",
+      "priority": "high",
+      "title": "Implement pattern matching",
+      "file": "./products/experience/universal_language/core/core.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 222,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/universal_language/core/core.py:        # TODO: Implement pattern matching",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-86b56e4c",
+      "priority": "high",
+      "title": "Implement transformations",
+      "file": "./products/experience/universal_language/core/core.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 227,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/universal_language/core/core.py:        # TODO: Implement pattern matching",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-1007653b",
+      "priority": "high",
+      "title": "Implement import logic",
+      "file": "./products/experience/universal_language/core/vocabulary.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 535,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./products/experience/universal_language/core/vocabulary.py:                    # TODO: Implement import logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-d65ca353",
+      "priority": "high",
+      "title": "candidate.bridge.orchestration...",
+      "file": "./products/enterprise/core/integration/unified_consciousness_layer.py",
+      "module": "products/enterprise",
+      "trinity": "Consciousness",
+      "line_hint": 65,
+      "risk": "med",
+      "type": "integration",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/integration/unified_consciousness_layer.py:    from candidate.bridge.orchestration.consensus_engine import ConsensusEngine  # noqa: F401  # TODO: candidate.bridge.orchestration...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: remaining-03-$(date +%m%d)",
+      "2. Work through 40 remaining tasks",
+      "3. One TaskID per commit",
+      "4. Mixed priority cleanup",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(cleanup): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.162851Z",
+  "source": "Remaining unallocated TODOs"
+}

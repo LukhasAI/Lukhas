@@ -9,8 +9,6 @@ Tests the integrated consciousness system across all core modules:
 - Orchestration coordination
 """
 
-import sys
-from pathlib import Path
 from unittest.mock import MagicMock
 
 import pytest

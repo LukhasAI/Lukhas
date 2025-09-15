@@ -1,0 +1,663 @@
+{
+  "agent_id": "CODEX-10",
+  "specialty": "Low Priority Batch",
+  "focus": "low priority cleanup",
+  "task_count": 40,
+  "priority": "low",
+  "risk_level": "low",
+  "branch_prefix": "feat/codex-10/low-priority-batch-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-LOW-BRANDING-TONE-a6678f3b",
+      "priority": "low",
+      "title": "implement missing functionality",
+      "file": "./branding/tone/tools/lukhas_tone_fixer.py",
+      "module": "branding/tone",
+      "trinity": "null",
+      "line_hint": 18,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "c2caba9d9c8270e860596cf15269358add8d9ef6"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-BRANDING-TONE-32915f2d",
+      "priority": "low",
+      "title": "implement missing functionality",
+      "file": "./branding/tone/tools/consciousness_wordsmith.py",
+      "module": "branding/tone",
+      "trinity": "Consciousness",
+      "line_hint": 75,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": null,
+        "last_commit": "c2caba9d9c8270e860596cf15269358add8d9ef6"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-BRANDING-TOOLS-1f6d6338",
+      "priority": "low",
+      "title": "implement missing functionality",
+      "file": "./branding/tools/keatsian_replacer.py",
+      "module": "branding/tools",
+      "trinity": "null",
+      "line_hint": 18,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/tools/keatsian_replacer.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-BRANDING-APIS-d3008e63",
+      "priority": "low",
+      "title": "requests_oauthlib; consider us...",
+      "file": "./branding/apis/platform_integrations.py",
+      "module": "branding/apis",
+      "trinity": "Identity",
+      "line_hint": 41,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/apis/platform_integrations.py:    from linkedin_api import Linkedin  # LinkedIn API  # noqa: F401  # TODO: linkedin_api.Linkedin; conside...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-BRANDING-ENGINES-8c86c5e5",
+      "priority": "low",
+      "title": "qi.QICoherence; consider using...",
+      "file": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_qi_consciousness_lambda_bot.py",
+      "module": "branding/engines",
+      "trinity": "Identity",
+      "line_hint": 31,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_qi_consciousness_lambda_bot.py:    from lukhas.qi.consciousness_integration import QIConsciousnessProcessor, QIState  # noqa: F401  # TODO: lukhas.qi.consciousness_integr...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-CANDIDATE-BRIDGE-097917ce",
+      "priority": "low",
+      "title": "Setup JSON formatting",
+      "file": "./candidate/bridge/trace_logger.py",
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "line_hint": 109,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/bridge/trace_logger.py:        # TODO: Configure file rotation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-CANDIDATE-BRIDGE-a43f3e33",
+      "priority": "low",
+      "title": "Implement other export formats",
+      "file": "./candidate/bridge/trace_logger.py",
+      "module": "candidate/bridge",
+      "trinity": "null",
+      "line_hint": 262,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/bridge/trace_logger.py:        # TODO: Configure file rotation",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-PRODUCTS-EXPERIENCE-905591f4",
+      "priority": "low",
+      "title": "torch; consider using importli...",
+      "file": "./products/experience/voice/bridge/voice_integration.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 28,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/voice_integration.py:    import torch  # noqa: F401  # TODO: torch; consider using importli...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-PRODUCTS-EXPERIENCE-f5464f3e",
+      "priority": "low",
+      "title": "torchaudio; consider using imp...",
+      "file": "./products/experience/voice/bridge/voice_integration.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 29,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/voice/bridge/voice_integration.py:    import torch  # noqa: F401  # TODO: torch; consider using importli...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-PRODUCTS-INTELLIGENCE-27a9a39f",
+      "priority": "low",
+      "title": "Fix import path - lambda directory doesn't exist",
+      "file": "./products/intelligence/lens/tests/test_api_integration.py",
+      "module": "products/intelligence",
+      "trinity": "Identity",
+      "line_hint": 12,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./products/intelligence/lens/tests/test_api_integration.py:    # TODO: Fix import path - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-RL-RUN_ADVANCED_TESTS.PY-c4fc9581",
+      "priority": "low",
+      "title": "hypothesis; consider using imp...",
+      "file": "./rl/run_advanced_tests.py",
+      "module": "rl/run_advanced_tests.py",
+      "trinity": "null",
+      "line_hint": 29,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./rl/run_advanced_tests.py:        import hypothesis  # noqa: F401  # TODO: hypothesis; consider using imp...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-RL-RUN_ADVANCED_TESTS.PY-d5f40fcd",
+      "priority": "low",
+      "title": "z3; consider using importlib.u...",
+      "file": "./rl/run_advanced_tests.py",
+      "module": "rl/run_advanced_tests.py",
+      "trinity": "null",
+      "line_hint": 36,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./rl/run_advanced_tests.py:        import hypothesis  # noqa: F401  # TODO: hypothesis; consider using imp...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-RL-RUN_ADVANCED_TESTS.PY-56c3afc6",
+      "priority": "low",
+      "title": "torch; consider using importli...",
+      "file": "./rl/run_advanced_tests.py",
+      "module": "rl/run_advanced_tests.py",
+      "trinity": "null",
+      "line_hint": 43,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./rl/run_advanced_tests.py:        import hypothesis  # noqa: F401  # TODO: hypothesis; consider using imp...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-RL-TESTS-75eed1c1",
+      "priority": "low",
+      "title": "rl.MatrizNode; consider using ...",
+      "file": "./rl/tests/test_metamorphic_consciousness.py",
+      "module": "rl/tests",
+      "trinity": "Consciousness",
+      "line_hint": 29,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./rl/tests/test_metamorphic_consciousness.py:        ConsciousnessBuffer,  # noqa: F401  # TODO: rl.ConsciousnessBuffer; consid...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-RL-TESTS-75bd97ec",
+      "priority": "low",
+      "title": "rl.PolicyNetwork; consider usi...",
+      "file": "./rl/tests/test_generative_oracles.py",
+      "module": "rl/tests",
+      "trinity": "null",
+      "line_hint": 30,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./rl/tests/test_generative_oracles.py:        ConsciousnessBuffer,  # noqa: F401  # TODO: rl.ConsciousnessBuffer; consid...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-RL-TESTS-410925cc",
+      "priority": "low",
+      "title": "rl.ValueNetwork; consider usin...",
+      "file": "./rl/tests/test_generative_oracles.py",
+      "module": "rl/tests",
+      "trinity": "null",
+      "line_hint": 31,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./rl/tests/test_generative_oracles.py:        ConsciousnessBuffer,  # noqa: F401  # TODO: rl.ConsciousnessBuffer; consid...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-RL-TESTS-a4865cc5",
+      "priority": "low",
+      "title": "rl.PolicyNetwork; consider usi...",
+      "file": "./rl/tests/test_formal_verification.py",
+      "module": "rl/tests",
+      "trinity": "null",
+      "line_hint": 35,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./rl/tests/test_formal_verification.py:        ConsciousnessBuffer,  # noqa: F401  # TODO: rl.ConsciousnessBuffer; consid...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-RL-TESTS-416f4e04",
+      "priority": "low",
+      "title": "rl.ValueNetwork; consider usin...",
+      "file": "./rl/tests/test_formal_verification.py",
+      "module": "rl/tests",
+      "trinity": "null",
+      "line_hint": 36,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./rl/tests/test_formal_verification.py:        ConsciousnessBuffer,  # noqa: F401  # TODO: rl.ConsciousnessBuffer; consid...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-RL-TESTS-ec5c0c8f",
+      "priority": "low",
+      "title": "rl.MatrizNode; consider using ...",
+      "file": "./rl/tests/test_consciousness_properties.py",
+      "module": "rl/tests",
+      "trinity": "Consciousness",
+      "line_hint": 28,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./rl/tests/test_consciousness_properties.py:        ConsciousnessMetaLearning,  # noqa: F401  # TODO: rl.ConsciousnessMetaLearning; ...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-RL-TESTS-dbf29a07",
+      "priority": "low",
+      "title": "rl.PolicyNetwork; consider usi...",
+      "file": "./rl/tests/test_chaos_consciousness.py",
+      "module": "rl/tests",
+      "trinity": "Consciousness",
+      "line_hint": 31,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./rl/tests/test_chaos_consciousness.py:        ConsciousnessBuffer,  # noqa: F401  # TODO: rl.ConsciousnessBuffer; consid...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-RL-TESTS-56593cb7",
+      "priority": "low",
+      "title": "rl.ValueNetwork; consider usin...",
+      "file": "./rl/tests/test_chaos_consciousness.py",
+      "module": "rl/tests",
+      "trinity": "Consciousness",
+      "line_hint": 32,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./rl/tests/test_chaos_consciousness.py:        ConsciousnessBuffer,  # noqa: F401  # TODO: rl.ConsciousnessBuffer; consid...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-SCRIPTS-TEST_MCP_INTEGRATION.PY-e0b052d0",
+      "priority": "low",
+      "title": "mcp.server.stdio; consider usi...",
+      "file": "./scripts/test_mcp_integration.py",
+      "module": "scripts/test_mcp_integration.py",
+      "trinity": "null",
+      "line_hint": 89,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./scripts/test_mcp_integration.py:        import mcp.server.stdio  # noqa: F401  # TODO: mcp.server.stdio; consider usi...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-SCRIPTS-TEST_MCP_INTEGRATION.PY-b6da5af1",
+      "priority": "low",
+      "title": "mcp.types; consider using impo...",
+      "file": "./scripts/test_mcp_integration.py",
+      "module": "scripts/test_mcp_integration.py",
+      "trinity": "null",
+      "line_hint": 90,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./scripts/test_mcp_integration.py:        import mcp.server.stdio  # noqa: F401  # TODO: mcp.server.stdio; consider usi...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-SCRIPTS-TEST_MCP_INTEGRATION.PY-9dfd2510",
+      "priority": "low",
+      "title": "mcp.server.Server; consider us...",
+      "file": "./scripts/test_mcp_integration.py",
+      "module": "scripts/test_mcp_integration.py",
+      "trinity": "null",
+      "line_hint": 91,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./scripts/test_mcp_integration.py:        import mcp.server.stdio  # noqa: F401  # TODO: mcp.server.stdio; consider usi...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TESTS-SMOKE-6090d7a6",
+      "priority": "low",
+      "title": "lukhas; consider using importl...",
+      "file": "./tests/smoke/test_accepted_smoke.py",
+      "module": "tests/smoke",
+      "trinity": "null",
+      "line_hint": 7,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./tests/smoke/test_accepted_smoke.py:        import lukhas  # noqa: F401  # TODO: lukhas; consider using importl...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TESTS-E2E-6a14749c",
+      "priority": "low",
+      "title": "candidate.bridge.workflow.Work...",
+      "file": "./tests/e2e/integration/test_multi_ai_orchestration.py",
+      "module": "tests/e2e",
+      "trinity": "null",
+      "line_hint": 27,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tests/e2e/integration/test_multi_ai_orchestration.py:    from candidate.bridge.workflow import WorkflowOrchestrator  # noqa: F401  # TODO: candidate.bridge.workflow.Work...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-2030_FULL_CONSOLIDATOR.PY-47c907aa",
+      "priority": "low",
+      "title": "Implement actual consolidation logic",
+      "file": "./tools/2030_full_consolidator.py",
+      "module": "tools/2030_full_consolidator.py",
+      "trinity": "null",
+      "line_hint": 431,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/2030_full_consolidator.py:    # TODO: Implement actual consolidation logic",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-KEYWORD_EXTRACTOR.PY-f9d4d9cf",
+      "priority": "low",
+      "title": "lukhasKeywordExtractor",
+      "file": "./tools/keyword_extractor.py",
+      "module": "tools/keyword_extractor.py",
+      "trinity": "null",
+      "line_hint": 192,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/keyword_extractor.py:    extractor = lukhasKeywordExtractor()  # noqa: F821  # TODO: lukhasKeywordExtractor",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ML_INTEGRATION_ANALYZER.PY-1426a86d",
+      "priority": "low",
+      "title": "Implement test for {f.name}\\n    assert True\\n\"",
+      "file": "./tools/ml_integration_analyzer.py",
+      "module": "tools/ml_integration_analyzer.py",
+      "trinity": "null",
+      "line_hint": 746,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/ml_integration_analyzer.py:            stub = f\"import pytest\\n\\ndef {test_name}():\\n    # TODO: Implement test for {f.name}\\n    assert True\\n\"",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-b710e3fb",
+      "priority": "low",
+      "title": "Implement actual consolidation logic",
+      "file": "./tools/analysis/2030_full_consolidator.py",
+      "module": "tools/analysis",
+      "trinity": "null",
+      "line_hint": 431,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/analysis/2030_full_consolidator.py:    # TODO: Implement actual consolidation logic",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-fff0f221",
+      "priority": "low",
+      "title": "lukhasKeywordExtractor",
+      "file": "./tools/analysis/keyword_extractor.py",
+      "module": "tools/analysis",
+      "trinity": "null",
+      "line_hint": 192,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/analysis/keyword_extractor.py:    extractor = lukhasKeywordExtractor()  # noqa: F821  # TODO: lukhasKeywordExtractor",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-5d614892",
+      "priority": "low",
+      "title": "call target function with args: {args_str}\\n\"",
+      "file": "./tools/analysis/ml_integration_analyzer.py",
+      "module": "tools/analysis",
+      "trinity": "null",
+      "line_hint": 796,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/analysis/ml_integration_analyzer.py:                f\"    # TODO: call target function with args: {args_str}\\n\"",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-11721ac0",
+      "priority": "low",
+      "title": "Implement\\n\"",
+      "file": "./tools/analysis/import_fixer.py",
+      "module": "tools/analysis",
+      "trinity": "null",
+      "line_hint": 127,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/analysis/import_fixer.py:                lines[line_num - 1] = \"    pass  # TODO: Implement\\n\"",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-2234504a",
+      "priority": "low",
+      "title": "Implement {module_name}\\n'",
+      "file": "./tools/analysis/import_fixer.py",
+      "module": "tools/analysis",
+      "trinity": "null",
+      "line_hint": 182,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/analysis/import_fixer.py:                lines[line_num - 1] = \"    pass  # TODO: Implement\\n\"",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-7d2fce3b",
+      "priority": "low",
+      "title": ")",
+      "file": "./tools/analysis/focused_atlas_builder.py",
+      "module": "tools/analysis",
+      "trinity": "null",
+      "line_hint": 359,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/analysis/focused_atlas_builder.py:        # Key comments and TODOs (sample first 50 lines to avoid performance issues)",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-802417d1",
+      "priority": "low",
+      "title": "{comment[:80]}\")",
+      "file": "./tools/analysis/focused_atlas_builder.py",
+      "module": "tools/analysis",
+      "trinity": "null",
+      "line_hint": 366,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/analysis/focused_atlas_builder.py:        # Key comments and TODOs (sample first 50 lines to avoid performance issues)",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-ca1e80dd",
+      "priority": "low",
+      "title": "s",
+      "file": "./tools/analysis/code_atlas_builder.py",
+      "module": "tools/analysis",
+      "trinity": "null",
+      "line_hint": 62,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/analysis/code_atlas_builder.py:    intent_clues: list[str]  # From docstrings, comments, TODOs",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-ca1e80dd",
+      "priority": "low",
+      "title": "s",
+      "file": "./tools/analysis/code_atlas_builder.py",
+      "module": "tools/analysis",
+      "trinity": "null",
+      "line_hint": 389,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/analysis/code_atlas_builder.py:    intent_clues: list[str]  # From docstrings, comments, TODOs",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-c2b389db",
+      "priority": "low",
+      "title": "{comment[:100]}\")",
+      "file": "./tools/analysis/code_atlas_builder.py",
+      "module": "tools/analysis",
+      "trinity": "null",
+      "line_hint": 396,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/analysis/code_atlas_builder.py:    intent_clues: list[str]  # From docstrings, comments, TODOs",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TOOLS-ANALYSIS-4a76c7fa",
+      "priority": "low",
+      "title": "lukhasOrganizationScanner",
+      "file": "./tools/analysis/OrganizationScanner.py",
+      "module": "tools/analysis",
+      "trinity": "null",
+      "line_hint": 314,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./tools/analysis/OrganizationScanner.py:    scanner = lukhasOrganizationScanner(workspace_root)  # noqa: F821  # TODO: lukhasOrganizationScanner",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: codex-10-batch-$(date +%m%d)",
+      "2. Work through 40 tasks systematically",
+      "3. One TaskID per commit",
+      "4. Focus: low priority cleanup",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(low): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.161289Z",
+  "source": "Direct allocation from manifest_clean.json"
+}

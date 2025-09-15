@@ -1,0 +1,364 @@
+{
+  "batch_id": "BATCH-CODEX04-2025-09-15-01",
+  "agent": "codex04",
+  "created_at": "2025-09-15T01:17:08.837335Z",
+  "expires_at": "2025-09-18T01:17:08.837337Z",
+  "branch_name": "feat/codex04/candidate-batch01",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-017e094a",
+      "priority": "high",
+      "title": "specialist] - Fix cross-lane import dependencies for consciousness mesh formation",
+      "file": "./candidate/core/symbolic_core/colony_tag_propagation.py",
+      "line_hint": 5,
+      "module": "candidate/core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-1e5afc27",
+      "priority": "high",
+      "title": "# \u039bTAGS: \u039bSTANDARD_INIT, \u039bMODULE_INIT, \u039bPLUGIN_SYSTEM, \u039bNIAS_INTEGRATION, \u039bLOGGING_NORMALIZED, AIO_NODE, AINTEROP, \u039bSYMBOLIC_ECHO, AIMPORT_TODO",
+      "file": "./candidate/core/interfaces/nias/__init__.py",
+      "line_hint": 74,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-602cddf2",
+      "priority": "high",
+      "title": "Specify imports",
+      "file": "./candidate/memory/temporal/benchmark_swarm.py",
+      "line_hint": 16,
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-d9fe3644",
+      "priority": "high",
+      "title": "Update these import paths to correct locations",
+      "file": "./products/intelligence/lens/api/standalone_server.py",
+      "line_hint": 27,
+      "module": "products/intelligence",
+      "trinity": "null",
+      "status": "open",
+      "source": "high_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TESTS-INTEGRATION-86fd88b0",
+      "priority": "high",
+      "title": "Fix imports after reviewing actual identity architecture",
+      "file": "tests/integration/candidate/identity/test_trinity_validation.py",
+      "line_hint": 14,
+      "module": "tests/integration",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "tests/integration/candidate/identity/test_trinity_validation.py:14:# TODO: Fix imports after reviewing actual identity architecture",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "med",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-CI-495c9da3",
+      "priority": "high",
+      "title": "annotations to F821 (undefined name) and",
+      "file": "tools/ci/mark_f821_f401_todo.py",
+      "line_hint": 9,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "tools/ci/mark_f821_f401_todo.py:9:This tool automatically adds TODO annotations to F821 (undefined name) and",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-CI-6139345e",
+      "priority": "high",
+      "title": "[T4-UNUSED-IMPORT] tags:\")",
+      "file": "tools/ci/check_unused_imports_todo.py",
+      "line_hint": 252,
+      "module": "tools/ci",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "tools/ci/check_unused_imports_todo.py:252:        print(\"These F401 errors must be annotated with TODO[T4-UNUSED-IMPORT] tags:\")",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-QUARANTINE-PHASE2_SYNTAX-c52be9f6",
+      "priority": "high",
+      "title": "Import the required module",
+      "file": "quarantine/phase2_syntax/documentation_suite/ai_documentation_engine/interactive_tutorial_generator.py",
+      "line_hint": 1048,
+      "module": "quarantine/phase2_syntax",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "quarantine/phase2_syntax/documentation_suite/ai_documentation_engine/interactive_tutorial_generator.py:1048:# TODO: Import the required module",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-EXPERIENCE-a10087e5",
+      "priority": "high",
+      "title": "Implement import logic",
+      "file": "products/experience/universal_language/core/vocabulary.py",
+      "line_hint": 535,
+      "module": "products/experience",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "products/experience/universal_language/core/vocabulary.py:535:                    # TODO: Implement import logic",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-MEMORY-ec0c1451",
+      "priority": "high",
+      "title": "Specify imports",
+      "file": "candidate/memory/temporal/benchmark_swarm.py",
+      "line_hint": 16,
+      "module": "candidate/memory",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "candidate/memory/temporal/benchmark_swarm.py:16:from minimal_actor import *  # TODO: Specify imports",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-02080c82",
+      "priority": "high",
+      "title": "Import lukhas_tier_required decorator",
+      "file": "candidate/core/interfaces/api/v1/rest/middleware.py",
+      "line_hint": 257,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "candidate/core/interfaces/api/v1/rest/middleware.py:257:# TODO: Import lukhas_tier_required decorator",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-CORE-2c6d0694",
+      "priority": "high",
+      "title": "Resolve 'CORE.' import paths. Ensure CORE is a top-level",
+      "file": "candidate/core/integrator.py",
+      "line_hint": 42,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "candidate/core/integrator.py:42:# \u039bIMPORT_TODO: Resolve 'CORE.' import paths. Ensure CORE is a top-level",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CANDIDATE-GOVERNANCE-3f6278cc",
+      "priority": "high",
+      "title": "[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution",
+      "file": "candidate/governance/identity/core/events/identity_event_publisher.py",
+      "line_hint": 14,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "code_scan",
+      "evidence": {
+        "grep": "candidate/governance/identity/core/events/identity_event_publisher.py:14:from .identity_event_types import (  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution",
+        "last_commit": null
+      },
+      "acceptance": [
+        "unit tests cover happy/failure paths"
+      ],
+      "risk": "med",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-d06f75bb",
+      "priority": "med",
+      "title": "Review deep relative imports for robustness.",
+      "file": "./candidate/governance/integration/policy_board.py",
+      "line_hint": 29,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-LOW-TESTS-SMOKE-6090d7a6",
+      "priority": "low",
+      "title": "lukhas; consider using importl...",
+      "file": "./tests/smoke/test_accepted_smoke.py",
+      "line_hint": 7,
+      "module": "tests/smoke",
+      "trinity": "null",
+      "status": "open",
+      "source": "low_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    }
+  ],
+  "summary": {
+    "total_tasks": 15,
+    "by_priority": {
+      "high": 13,
+      "med": 1,
+      "low": 1
+    },
+    "by_type": {
+      "mechanical": 15
+    },
+    "by_risk": {
+      "med": 4,
+      "low": 11
+    }
+  },
+  "dependencies": [],
+  "checks": [
+    "ruff check .",
+    "pytest -q",
+    "pre-commit run --all-files"
+  ]
+}

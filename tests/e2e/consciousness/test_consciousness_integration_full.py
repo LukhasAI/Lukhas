@@ -7,15 +7,16 @@ working together in realistic scenarios.
 
 import asyncio
 import logging
-import sys
 import time
-from pathlib import Path
 
 import pytest
 
 # Test imports with graceful fallback
 try:
-    from candidate.core.matriz_consciousness_integration import create_matriz_consciousness_system, run_matriz_system_demo
+    from candidate.core.matriz_consciousness_integration import (
+        create_matriz_consciousness_system,
+        run_matriz_system_demo,
+    )
 
     COMPONENTS_AVAILABLE = True
 except ImportError as e:

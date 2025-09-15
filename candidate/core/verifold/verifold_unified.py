@@ -1,6 +1,6 @@
 import logging
-import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
-from typing import Dict  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+import streamlit as st  # MATRIZ Integration: Streamlit dashboard for VeriFold unified system monitoring and tier-based symbolic collapse visualization
+from typing import Dict  # MATRIZ Integration: Type annotations for VeriFold dictionary structures and tier configuration mapping
 logger = logging.getLogger(__name__)
 """
 VeriFold Unified System

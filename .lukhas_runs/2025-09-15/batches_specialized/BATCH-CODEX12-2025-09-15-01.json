@@ -1,0 +1,770 @@
+{
+  "batch_id": "BATCH-CODEX12-2025-09-15-01",
+  "agent": "codex12",
+  "created_at": "2025-09-15T09:28:33.068956Z",
+  "expires_at": "2025-09-18T09:28:33.068957Z",
+  "branch_name": "feat/codex12/medium_refactoring",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-MED-CANDIDATE-QI-a9644c0f",
+      "priority": "med",
+      "title": "Verify these import paths against the actual LUKHAS project structure.",
+      "file": "./candidate/qi/bio/bio_optimizer.py",
+      "line_hint": 62,
+      "module": "candidate/qi",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./candidate/qi/bio/bio_optimizer.py:# AIMPORT_TODO: Verify these import paths against the actual LUKHAS project structure.",
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-QI-6e5c4d94",
+      "priority": "med",
+      "title": "implement persistence cleanup for old runs",
+      "file": "./candidate/qi/ops/budgeter.py",
+      "line_hint": 65,
+      "module": "candidate/qi",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./candidate/qi/ops/budgeter.py:        # TODO[codex]: implement persistence cleanup for old runs",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-QI-921b50e9",
+      "priority": "med",
+      "title": "Review deep relative imports for robustness and potential refactoring",
+      "file": "./candidate/qi/awareness_system/awareness.py",
+      "line_hint": 29,
+      "module": "candidate/qi",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./candidate/qi/awareness_system/awareness.py:# AIMPORT_TODO: Review deep relative imports for robustness and potential refactoring",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-f42ad8de",
+      "priority": "med",
+      "title": "y",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 3,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-f0ebcdba",
+      "priority": "med",
+      "title": "W",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 4,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-60c4c904",
+      "priority": "med",
+      "title": "\"",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 14,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-aac7ff4b",
+      "priority": "med",
+      "title": "t",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 18,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-63754e4a",
+      "priority": "med",
+      "title": "n",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 22,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-60c4c904",
+      "priority": "med",
+      "title": "\"",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 29,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-60c4c904",
+      "priority": "med",
+      "title": "\"",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 115,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-aac7ff4b",
+      "priority": "med",
+      "title": "t",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 125,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-7217f2b4",
+      "priority": "med",
+      "title": "]*:?\\s*(.+)', content, re.IGNORECASE)",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 126,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-60c4c904",
+      "priority": "med",
+      "title": "\"",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 132,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-4e509bc9",
+      "priority": "med",
+      "title": ")",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 133,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-4e509bc9",
+      "priority": "med",
+      "title": ")",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 137,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-4e509bc9",
+      "priority": "med",
+      "title": ")",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 140,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-65ad88c6",
+      "priority": "med",
+      "title": "\")",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 168,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-4e509bc9",
+      "priority": "med",
+      "title": ")",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 179,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-4e509bc9",
+      "priority": "med",
+      "title": ")",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 215,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-4e509bc9",
+      "priority": "med",
+      "title": ")",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 217,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-4e509bc9",
+      "priority": "med",
+      "title": ")",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 222,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-4e509bc9",
+      "priority": "med",
+      "title": ")",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 228,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-28299e7b",
+      "priority": "med",
+      "title": "**\\n",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 245,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-4e509bc9",
+      "priority": "med",
+      "title": ")",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 251,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-4e509bc9",
+      "priority": "med",
+      "title": ")",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 258,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-4e509bc9",
+      "priority": "med",
+      "title": ")",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 259,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-TODO-SCRIPTS-4e509bc9",
+      "priority": "med",
+      "title": ")",
+      "file": "./TODO/scripts/categorize_todos.py",
+      "line_hint": 261,
+      "module": "TODO/scripts",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./TODO/scripts/categorize_todos.py:categorize_todos.py - Categorize LUKHAS TODOs by priority",
+        "last_commit": "917e462cabae3674c72e8aa60e042f51f45e6664"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-VOCABULARIES-79a4a01c",
+      "priority": "med",
+      "title": "implement missing functionality",
+      "file": "./branding/vocabularies/vocabulary_creativity_engine.py",
+      "line_hint": 25,
+      "module": "branding/vocabularies",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./branding/vocabularies/vocabulary_creativity_engine.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-VOCABULARIES-341d9651",
+      "priority": "med",
+      "title": "detected_objects",
+      "file": "./branding/vocabularies/vocabulary_creativity_engine.py",
+      "line_hint": 1010,
+      "module": "branding/vocabularies",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./branding/vocabularies/vocabulary_creativity_engine.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-VOCABULARIES-75aff893",
+      "priority": "med",
+      "title": "object_symbolism",
+      "file": "./branding/vocabularies/vocabulary_creativity_engine.py",
+      "line_hint": 1011,
+      "module": "branding/vocabularies",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./branding/vocabularies/vocabulary_creativity_engine.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-VOCABULARIES-6d341357",
+      "priority": "med",
+      "title": "symbolic_elements",
+      "file": "./branding/vocabularies/vocabulary_creativity_engine.py",
+      "line_hint": 1012,
+      "module": "branding/vocabularies",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./branding/vocabularies/vocabulary_creativity_engine.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-VOCABULARIES-6d341357",
+      "priority": "med",
+      "title": "symbolic_elements",
+      "file": "./branding/vocabularies/vocabulary_creativity_engine.py",
+      "line_hint": 1014,
+      "module": "branding/vocabularies",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./branding/vocabularies/vocabulary_creativity_engine.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-VOCABULARIES-0d60ab64",
+      "priority": "med",
+      "title": "implement missing functionality",
+      "file": "./branding/vocabularies/vocabulary.py",
+      "line_hint": 33,
+      "module": "branding/vocabularies",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./branding/vocabularies/vocabulary.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "12697f524064ea2c23c1251e38a0b906589cf9cf"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-POETRY-c9e83137",
+      "priority": "med",
+      "title": "implement missing functionality",
+      "file": "./branding/poetry/legacy/advanced_haiku_generator.py",
+      "line_hint": 5,
+      "module": "branding/poetry",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./branding/poetry/legacy/advanced_haiku_generator.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-BRANDING-POETRY-89294f62",
+      "priority": "med",
+      "title": "Migrate to new soul.py\",",
+      "file": "./branding/poetry/update_poetry_imports.py",
+      "line_hint": 17,
+      "module": "branding/poetry",
+      "trinity": "null",
+      "status": "open",
+      "source": "med_todos.md",
+      "evidence": {
+        "grep": "./branding/poetry/update_poetry_imports.py:            \"from branding.poetry.legacy import advanced_haiku_generator  # TODO: Migrate to new soul.py\",",
+        "last_commit": "2dbb64ac67508b2c9be663e72060eb6e6884f8aa"
+      },
+      "acceptance": [],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    }
+  ],
+  "summary": {
+    "total_tasks": 35,
+    "by_priority": {
+      "med": 35
+    },
+    "by_type": {
+      "mechanical": 2,
+      "logic": 33
+    },
+    "by_risk": {
+      "low": 35
+    }
+  },
+  "meta": {
+    "domain": "MEDIUM-REFACTORING",
+    "focus": "Code refactoring, structure improvements, maintainability",
+    "risk_level": "low",
+    "specialization": "domain_expert"
+  },
+  "dependencies": [],
+  "checks": [
+    "ruff check .",
+    "pytest -q",
+    "pre-commit run --all-files"
+  ]
+}

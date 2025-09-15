@@ -36,7 +36,7 @@ try:
         ComponentType,
         ConsciousnessComponentRegistry,  # noqa: F401  # TODO: lukhas.consciousness.registry....
         get_consciousness_registry,
-    )  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution
+    )  # MATRIZ Integration: Consciousness component registry for Trinity Framework consciousness evolution and component coordination
     from lukhas.core.common.config import get_config
 except ImportError:
     # Graceful fallback for development

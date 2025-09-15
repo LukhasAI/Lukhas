@@ -1,0 +1,555 @@
+{
+  "batch_id": "BATCH-JULES01-2025-09-15-01",
+  "agent": "jules01",
+  "created_at": "2025-09-15T01:17:08.831727Z",
+  "expires_at": "2025-09-18T01:17:08.831729Z",
+  "branch_name": "feat/jules01/candidate-batch01",
+  "status": "ready",
+  "tasks": [
+    {
+      "task_id": "TODO-CRIT-BRANDING-PERSONAL_BRAND-1d64c1fd",
+      "priority": "critical",
+      "title": "implement missing functionality",
+      "file": "./branding/personal_brand/consciousness_authority_builder.py",
+      "line_hint": 17,
+      "module": "branding/personal_brand",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "2826e653af45bb379fe143227bed797c1f8c06b9"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-CORE-2a4beaf7",
+      "priority": "critical",
+      "title": "kept for MATRIZ-R2 trace integration",
+      "file": "./candidate/core/identity/consciousness_namespace_isolation.py",
+      "line_hint": 32,
+      "module": "candidate/core",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b36efb1c5a706b4ecfb8e5b0699601978e255fb4"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "integration",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-CORE-79c1e34f",
+      "priority": "critical",
+      "title": "kept for MATRIZ-R2 trace integration",
+      "file": "./candidate/core/identity/consciousness_coherence_monitor.py",
+      "line_hint": 39,
+      "module": "candidate/core",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f5aa01eed289aab7f3a9d508f06619cb88aa529a"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "integration",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-CONSCIOUSNESS-5111a350",
+      "priority": "critical",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/consciousness/core/engine.py",
+      "line_hint": 87,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f869d7ac01b8f36fdeff3091894843582545fce0"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-CONSCIOUSNESS-18bf0af1",
+      "priority": "critical",
+      "title": "Thresholds should be configurable or dynamically determined.",
+      "file": "./candidate/consciousness/core/engine.py",
+      "line_hint": 665,
+      "module": "candidate/consciousness",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f869d7ac01b8f36fdeff3091894843582545fce0"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-QI-a24bd36a",
+      "priority": "critical",
+      "title": "kept for Trinity Framework consciousness evolution",
+      "file": "./candidate/qi/engines/identity/qi_identity_manager.py",
+      "line_hint": 36,
+      "module": "candidate/qi",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-3853a416",
+      "priority": "critical",
+      "title": "Calculate actual collision rate",
+      "file": "./candidate/governance/identity/core/id_service/lambd_id_generator.py",
+      "line_hint": 223,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "4fd335087c4c85a4b469201e66ccf81d99335b9d"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-522cb5b5",
+      "priority": "critical",
+      "title": "Integration with \u039bTIER system",
+      "file": "./candidate/governance/identity/core/trace/activity_logger.py",
+      "line_hint": 229,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "43575b856f36d4a9c41a0f17ab44274fad314b74"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "integration",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-fa1e7ff1",
+      "priority": "critical",
+      "title": "Calculate actual uptime",
+      "file": "./candidate/governance/identity/core/lambd_id_service.py",
+      "line_hint": 412,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-f32ad0a2",
+      "priority": "critical",
+      "title": "Implement tier-based validation logic",
+      "file": "./candidate/governance/identity/core/sent/consent_manager.py",
+      "line_hint": 160,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-727f1afe",
+      "priority": "critical",
+      "title": "Implement scope access validation",
+      "file": "./candidate/governance/identity/core/sent/symbolic_scopes.py",
+      "line_hint": 47,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-941486ea",
+      "priority": "critical",
+      "title": "Implement cleanup logic",
+      "file": "./candidate/governance/identity/core/qrs/qrg_generator.py",
+      "line_hint": 28,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-44d9de6f",
+      "priority": "critical",
+      "title": "Implement biometric validation",
+      "file": "./candidate/governance/identity/core/sing/sso_engine.py",
+      "line_hint": 632,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-dc95cd46",
+      "priority": "critical",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/governance/identity/core/sing/cross_device_manager.py",
+      "line_hint": 25,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-96e8a5f8",
+      "priority": "critical",
+      "title": "Implement when QRG is integrated",
+      "file": "./candidate/governance/identity/auth_integrations/qrg_bridge.py",
+      "line_hint": 96,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-0db9c597",
+      "priority": "critical",
+      "title": "Implement when WALLET is integrated",
+      "file": "./candidate/governance/identity/auth_integrations/wallet_bridge.py",
+      "line_hint": 79,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-da0ebdc0",
+      "priority": "critical",
+      "title": "Implement additional Guardian features:",
+      "file": "./candidate/governance/guardian_sentinel.py",
+      "line_hint": 209,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-4ae11c0b",
+      "priority": "critical",
+      "title": "Install or implement CORE",
+      "file": "./candidate/governance/ethics/guardian_reflector.py",
+      "line_hint": 54,
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-433a7cdd",
+      "priority": "critical",
+      "title": "kept pending MATRIZ wiring (document or remove)",
+      "file": "./candidate/governance/auth_cross_module_integration.py",
+      "line_hint": 34,
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f869d7ac01b8f36fdeff3091894843582545fce0"
+      },
+      "acceptance": [],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-ENTERPRISE-c1ebf7d9",
+      "priority": "critical",
+      "title": "candidate.governance.GuardianS...",
+      "file": "./products/enterprise/core/performance/constellation_benchmarks.py",
+      "line_hint": 42,
+      "module": "products/enterprise",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-f95b295c",
+      "priority": "critical",
+      "title": "timezone",
+      "file": "./products/security/qrg/bridge.py",
+      "line_hint": 262,
+      "module": "products/security",
+      "trinity": "null",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-f95b295c",
+      "priority": "critical",
+      "title": "timezone",
+      "file": "./products/security/qrg/bridge.py",
+      "line_hint": 374,
+      "module": "products/security",
+      "trinity": "null",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-1e9c0627",
+      "priority": "critical",
+      "title": "QuantumEntropySource",
+      "file": "./products/security/qrg/qi_entropy.py",
+      "line_hint": 91,
+      "module": "products/security",
+      "trinity": "null",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-1e9c0627",
+      "priority": "critical",
+      "title": "QuantumEntropySource",
+      "file": "./products/security/qrg/qi_entropy.py",
+      "line_hint": 101,
+      "module": "products/security",
+      "trinity": "null",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-1e9c0627",
+      "priority": "critical",
+      "title": "QuantumEntropySource",
+      "file": "./products/security/qrg/qi_entropy.py",
+      "line_hint": 146,
+      "module": "products/security",
+      "trinity": "null",
+      "status": "open",
+      "source": "critical_todos.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      },
+      "acceptance": [],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    }
+  ],
+  "summary": {
+    "total_tasks": 25,
+    "by_priority": {
+      "critical": 25
+    },
+    "by_type": {
+      "logic": 22,
+      "integration": 3
+    },
+    "by_risk": {
+      "med": 17,
+      "high": 8
+    }
+  },
+  "dependencies": [],
+  "checks": [
+    "ruff check .",
+    "pytest -q",
+    "pre-commit run --all-files"
+  ]
+}
