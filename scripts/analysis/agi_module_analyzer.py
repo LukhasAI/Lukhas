@@ -7,7 +7,7 @@ Understands that AGI requires modular complexity, not simplification to basic ch
 
 import ast
 import json
-from collections import defaultdict
+from collections import Counter, defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
