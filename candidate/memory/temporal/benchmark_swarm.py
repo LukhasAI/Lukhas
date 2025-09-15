@@ -1,38 +1,53 @@
-"""
-
-#TAG:memory
 #TAG:temporal
 #TAG:neuroplastic
 #TAG:colony
 
+"""Benchmark utilities for the Symbiotic Swarm actor/event bus system.
 
-Benchmarking utility for Symbiotic Swarm actor/event bus system.
 Measures message throughput and demonstrates energy-efficient computation.
 """
+
 import asyncio
 import time
+from typing import Any, Callable
 
-from event_bus import *  # TODO: Specify imports
-from minimal_actor import *  # TODO: Specify imports
+from ...core.event_bus import Event, get_global_event_bus
+from ...core.minimal_actor import Actor
 
 
-def bench_behavior(actor, message):
-    """Simple benchmark message handler."""
-    # Simulate lightweight processing
+def bench_behavior(actor: Actor, message: dict[str, Any]) -> None:
+    """Increment an actor's message counter.
+
+    Args:
+        actor: Actor instance handling the message.
+        message: Incoming message payload.
+    """
     actor.state["count"] = actor.state.get("count", 0) + 1
 
 
-def event_to_actor_bridge(actor):
-    """Create a bridge function from event bus to actor."""
+def event_to_actor_bridge(actor: Actor) -> Callable[[Event], None]:
+    """Create an event-to-actor bridge handler.
 
-    def handle_event(event):
+    Args:
+        actor: Actor that should receive event payloads.
+
+    Returns:
+        Callable[[Event], None]: Function forwarding event payloads to the actor.
+    """
+
+    def handle_event(event: Event) -> None:
         actor.send(event.payload)
 
     return handle_event
 
 
-async def run_benchmark(num_actors=1000, num_messages=10000):
-    """Run async benchmark test."""
+async def run_benchmark(num_actors: int = 1000, num_messages: int = 10000) -> None:
+    """Run an asynchronous throughput benchmark.
+
+    Args:
+        num_actors: Number of actors to spawn.
+        num_messages: Number of messages to publish.
+    """
     bus = await get_global_event_bus()
     actors = []
 
