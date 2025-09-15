@@ -88,9 +88,8 @@ try:
     )
     from qi.qi_awareness_system import QIAwarenessSystem  # type: ignore
 
-    # AIMPORT_TODO: Review this path for QIBioCoordinator. If it's part
-    # of lukhas.core, update path.
-    from qi.qi_bio_coordinator import QIBioCoordinator  # type: ignore
+    # ΛTAG: qi_bio_import_bridge
+    from .bio_coordinator import QIBioCoordinator
     from qi.qi_dream_adapter import QIDreamAdapter  # type: ignore
     from qi.qi_unified_system import UnifiedQuantumSystem  # type: ignore  # MATRIZ Integration: UnifiedQuantumSystem for bio-inspired quantum optimization algorithms and Trinity Framework quantum consciousness coordination
 
