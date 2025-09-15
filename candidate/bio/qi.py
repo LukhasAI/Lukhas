@@ -85,10 +85,7 @@ class NeuroplasticityModulator:
 
 def __validate_module__():
     """Bio quantum function - __validate_module__"""
-    from datetime import (  # TODO[QUANTUM-BIO:specialist] - Import timezone for UTC enforcement
-        datetime,
-        timezone,
-    )
+    from datetime import timezone
     from candidate.utils.time import utc_now
 
     """
@@ -97,7 +94,8 @@ def __validate_module__():
     """
 
     validation_results = {
-        "validation_timestamp": utc_now().isoformat(),  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement
+        # ΛTAG: utc_enforcement
+        "validation_timestamp": utc_now().replace(tzinfo=timezone.utc).isoformat(),
         "module_status": "operational",
         "components_tested": [],
         "test_results": {},
