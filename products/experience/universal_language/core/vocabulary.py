@@ -5,13 +5,13 @@ Unified Vocabulary System for Universal Language
 Consolidates all domain vocabularies from scattered implementations.
 """
 
+from dataclasses import dataclass, field
 import json
 import logging
-from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Optional
 
-from universal_language.core import Concept, Symbol, SymbolicDomain
+from universal_language.core import Concept, ConceptType, Symbol, SymbolicDomain
 from universal_language.glyph import get_glyph_engine
 
 logger = logging.getLogger(__name__)
@@ -528,12 +528,68 @@ class UnifiedVocabulary:
 
     def import_vocabulary(self, data: dict[str, Any]) -> bool:
         """Import vocabulary data"""
+        # ΛTAG: vocabulary_import
         try:
-            # Import domain vocabularies
             if "domains" in data:
-                for _domain_name, _domain_data in data["domains"].items():
-                    # TODO: Implement import logic
-                    pass
+                for domain_name, domain_data in data["domains"].items():
+                    try:
+                        domain = SymbolicDomain(domain_name)
+                    except ValueError:
+                        logger.warning("Unknown symbolic domain: %s", domain_name)
+                        continue
+
+                    vocab = self.manager.get_vocabulary(domain)
+                    if not vocab:
+                        vocab = DomainVocabulary(domain=domain)
+                        self.manager.vocabularies[domain] = vocab
+
+                    for sym_data in domain_data.get("symbols", []):
+                        symbol = Symbol(
+                            id=sym_data.get("id", ""),
+                            domain=domain,
+                            name=sym_data.get("name", ""),
+                            value=sym_data.get("value"),
+                            glyph=sym_data.get("glyph"),
+                            attributes=sym_data.get("attributes", {}),
+                            relationships=sym_data.get("relationships", []),
+                            metadata=sym_data.get("metadata", {}),
+                        )
+                        vocab.add_symbol(symbol)
+                        self.manager.global_index[symbol.id] = domain
+
+                    for concept_data in domain_data.get("concepts", []):
+                        symbols = [
+                            vocab.symbols.get(s.get("id"))
+                            or Symbol(
+                                id=s.get("id", ""),
+                                domain=domain,
+                                name=s.get("name", ""),
+                                value=s.get("value"),
+                                glyph=s.get("glyph"),
+                                attributes=s.get("attributes", {}),
+                                relationships=s.get("relationships", []),
+                                metadata=s.get("metadata", {}),
+                            )
+                            for s in concept_data.get("symbols", [])
+                        ]
+                        concept = Concept(
+                            concept_id=concept_data.get("concept_id", ""),
+                            concept_type=ConceptType(
+                                concept_data.get("concept_type", ConceptType.ATOMIC.value)
+                            ),
+                            meaning=concept_data.get("meaning", ""),
+                            symbols=symbols,
+                            entropy_total=concept_data.get("entropy_total", 0.0),
+                            cultural_validations=concept_data.get("cultural_validations", {}),
+                            creation_time=concept_data.get("creation_time", 0.0),
+                            usage_count=concept_data.get("usage_count", 0),
+                            parent_concepts=concept_data.get("parent_concepts", []),
+                            child_concepts=concept_data.get("child_concepts", []),
+                        )
+                        vocab.add_concept(concept)
+
+                    vocab.aliases.update(domain_data.get("aliases", {}))
+                    vocab.metadata.update(domain_data.get("metadata", {}))
 
             logger.info("Vocabulary import completed")
             return True

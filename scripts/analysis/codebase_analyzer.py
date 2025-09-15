@@ -267,7 +267,7 @@ class CodebaseAnalyzer:
                     # Check for common stub patterns
                     stub_indicators = [
                         "pass",
-                        "TODO",
+                        "todo",
                         "placeholder",
                         "not implemented",
                         "quarantined",
