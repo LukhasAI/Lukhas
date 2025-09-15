@@ -308,7 +308,7 @@
       "line_hint": 24,
       "module": "candidate/bio",
       "trinity": "null",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": null,
@@ -319,7 +319,9 @@
       "est": {
         "type": "logic",
         "size": "XS"
-      }
+      },
+      "completion_pr": "250",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-BRIDGE-d87a23ab",
@@ -371,7 +373,7 @@
       "line_hint": 381,
       "module": "candidate/governance",
       "trinity": "Guardian",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./candidate/governance/integration/policy_board.py:# AIMPORT_TODO: Review deep relative imports for robustness.",
@@ -382,7 +384,9 @@
       "est": {
         "type": "logic",
         "size": "S"
-      }
+      },
+      "completion_pr": "251",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-7e64b2c7",
@@ -392,7 +396,7 @@
       "line_hint": 393,
       "module": "candidate/governance",
       "trinity": "Guardian",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
@@ -403,7 +407,9 @@
       "est": {
         "type": "logic",
         "size": "S"
-      }
+      },
+      "completion_pr": "251",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-476cf1a8",
@@ -413,7 +419,7 @@
       "line_hint": 512,
       "module": "candidate/governance",
       "trinity": "Guardian",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
@@ -424,7 +430,9 @@
       "est": {
         "type": "logic",
         "size": "S"
-      }
+      },
+      "completion_pr": "251",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-d05f486a",
@@ -434,7 +442,7 @@
       "line_hint": 640,
       "module": "candidate/governance",
       "trinity": "Guardian",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./candidate/governance/healthcare/case_manager.py:        # TODO: Integrate with LUKHAS ethical engine",
@@ -445,7 +453,9 @@
       "est": {
         "type": "logic",
         "size": "L"
-      }
+      },
+      "completion_pr": "251",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-6b58c4e6",
@@ -455,7 +465,7 @@
       "line_hint": 51,
       "module": "candidate/governance",
       "trinity": "Identity",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./candidate/governance/ethics_legacy/governor/lambda_governor.py:TODO: Implement quantum-safe arbitration for distributed mesh deployments",
@@ -466,7 +476,9 @@
       "est": {
         "type": "logic",
         "size": "S"
-      }
+      },
+      "completion_pr": "248",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-fb57317f",
@@ -476,7 +488,7 @@
       "line_hint": 1280,
       "module": "candidate/governance",
       "trinity": "Guardian",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./candidate/governance/monitoring/threat_monitor.py:            \"ethics_reviewed\": True,  # TODO: Integrate with ethics engine",
@@ -487,7 +499,9 @@
       "est": {
         "type": "logic",
         "size": "L"
-      }
+      },
+      "completion_pr": "251",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-EMOTION-1659eb6a",

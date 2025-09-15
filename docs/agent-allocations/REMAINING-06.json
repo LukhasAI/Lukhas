@@ -1,0 +1,663 @@
+{
+  "agent_id": "REMAINING-06",
+  "specialty": "Remaining Batch 6",
+  "focus": "unallocated TODOs",
+  "task_count": 40,
+  "priority": "mixed",
+  "risk_level": "low",
+  "branch_prefix": "feat/remaining-06/remaining-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-fddfbe7c",
+      "priority": "high",
+      "title": "DecoherenceMitigation",
+      "file": "./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py",
+      "module": "products/infrastructure",
+      "trinity": "Consciousness",
+      "line_hint": 42,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py:        self.memory_register = QuantumRegister(capacity_qubits, \"memory\")  # noqa: F821  # TODO: QuantumRegister",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-75ab176c",
+      "priority": "high",
+      "title": "QuantumState",
+      "file": "./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py",
+      "module": "products/infrastructure",
+      "trinity": "Consciousness",
+      "line_hint": 44,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py:        self.memory_register = QuantumRegister(capacity_qubits, \"memory\")  # noqa: F821  # TODO: QuantumRegister",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-facd99f2",
+      "priority": "high",
+      "title": "QuantumQuery",
+      "file": "./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py",
+      "module": "products/infrastructure",
+      "trinity": "Consciousness",
+      "line_hint": 63,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py:        self.memory_register = QuantumRegister(capacity_qubits, \"memory\")  # noqa: F821  # TODO: QuantumRegister",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-facd99f2",
+      "priority": "high",
+      "title": "QuantumQuery",
+      "file": "./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py",
+      "module": "products/infrastructure",
+      "trinity": "Consciousness",
+      "line_hint": 64,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py:        self.memory_register = QuantumRegister(capacity_qubits, \"memory\")  # noqa: F821  # TODO: QuantumRegister",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-f6016d07",
+      "priority": "high",
+      "title": "QuantumMemory",
+      "file": "./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py",
+      "module": "products/infrastructure",
+      "trinity": "Consciousness",
+      "line_hint": 65,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/trace/quantum_implementations/QuantumMemoryArchitecture.py:        self.memory_register = QuantumRegister(capacity_qubits, \"memory\")  # noqa: F821  # TODO: QuantumRegister",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-50c4cf57",
+      "priority": "high",
+      "title": "Implement quantum-safe arbitration for distributed mesh deployments",
+      "file": "./products/infrastructure/legado/legacy_systems/governor/lambda_governor.py",
+      "module": "products/infrastructure",
+      "trinity": "Identity",
+      "line_hint": 51,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/governor/lambda_governor.py:TODO: Implement quantum-safe arbitration for distributed mesh deployments",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-d3d152a8",
+      "priority": "high",
+      "title": "logging",
+      "file": "./products/infrastructure/legado/legacy_systems/compliance/engine.py",
+      "module": "products/infrastructure",
+      "trinity": "null",
+      "line_hint": 16,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/compliance/engine.py:logger = logging.getLogger(\"prot2.AdvancedComplianceEthicsEngine\", timezone)  # noqa: F821  # TODO: logging",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-d3d152a8",
+      "priority": "high",
+      "title": "logging",
+      "file": "./products/infrastructure/legado/legacy_systems/compliance/engine.py",
+      "module": "products/infrastructure",
+      "trinity": "null",
+      "line_hint": 31,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/compliance/engine.py:logger = logging.getLogger(\"prot2.AdvancedComplianceEthicsEngine\", timezone)  # noqa: F821  # TODO: logging",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-1ba98205",
+      "priority": "high",
+      "title": "timezone",
+      "file": "./products/infrastructure/legado/legacy_systems/compliance/engine.py",
+      "module": "products/infrastructure",
+      "trinity": "null",
+      "line_hint": 161,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/compliance/engine.py:logger = logging.getLogger(\"prot2.AdvancedComplianceEthicsEngine\", timezone)  # noqa: F821  # TODO: logging",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-d3d152a8",
+      "priority": "high",
+      "title": "logging",
+      "file": "./products/infrastructure/legado/legacy_systems/compliance/engine.py",
+      "module": "products/infrastructure",
+      "trinity": "null",
+      "line_hint": 584,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/compliance/engine.py:logger = logging.getLogger(\"prot2.AdvancedComplianceEthicsEngine\", timezone)  # noqa: F821  # TODO: logging",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-1ba98205",
+      "priority": "high",
+      "title": "timezone",
+      "file": "./products/infrastructure/legado/legacy_systems/compliance/engine.py",
+      "module": "products/infrastructure",
+      "trinity": "null",
+      "line_hint": 638,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/compliance/engine.py:logger = logging.getLogger(\"prot2.AdvancedComplianceEthicsEngine\", timezone)  # noqa: F821  # TODO: logging",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-1ba98205",
+      "priority": "high",
+      "title": "timezone",
+      "file": "./products/infrastructure/legado/legacy_systems/compliance/engine.py",
+      "module": "products/infrastructure",
+      "trinity": "null",
+      "line_hint": 858,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/compliance/engine.py:logger = logging.getLogger(\"prot2.AdvancedComplianceEthicsEngine\", timezone)  # noqa: F821  # TODO: logging",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-1ba98205",
+      "priority": "high",
+      "title": "timezone",
+      "file": "./products/infrastructure/legado/legacy_systems/compliance/engine.py",
+      "module": "products/infrastructure",
+      "trinity": "null",
+      "line_hint": 892,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/compliance/engine.py:logger = logging.getLogger(\"prot2.AdvancedComplianceEthicsEngine\", timezone)  # noqa: F821  # TODO: logging",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-1ba98205",
+      "priority": "high",
+      "title": "timezone",
+      "file": "./products/infrastructure/legado/legacy_systems/compliance/engine.py",
+      "module": "products/infrastructure",
+      "trinity": "null",
+      "line_hint": 915,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/compliance/engine.py:logger = logging.getLogger(\"prot2.AdvancedComplianceEthicsEngine\", timezone)  # noqa: F821  # TODO: logging",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-1ba98205",
+      "priority": "high",
+      "title": "timezone",
+      "file": "./products/infrastructure/legado/legacy_systems/compliance/engine.py",
+      "module": "products/infrastructure",
+      "trinity": "null",
+      "line_hint": 939,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/compliance/engine.py:logger = logging.getLogger(\"prot2.AdvancedComplianceEthicsEngine\", timezone)  # noqa: F821  # TODO: logging",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-d3d152a8",
+      "priority": "high",
+      "title": "logging",
+      "file": "./products/infrastructure/legado/legacy_systems/compliance/engine.py",
+      "module": "products/infrastructure",
+      "trinity": "null",
+      "line_hint": 973,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/compliance/engine.py:logger = logging.getLogger(\"prot2.AdvancedComplianceEthicsEngine\", timezone)  # noqa: F821  # TODO: logging",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-d3d152a8",
+      "priority": "high",
+      "title": "logging",
+      "file": "./products/infrastructure/legado/legacy_systems/compliance/engine.py",
+      "module": "products/infrastructure",
+      "trinity": "null",
+      "line_hint": 974,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/compliance/engine.py:logger = logging.getLogger(\"prot2.AdvancedComplianceEthicsEngine\", timezone)  # noqa: F821  # TODO: logging",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-adce094b",
+      "priority": "high",
+      "title": "Install or implement streamlit",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "line_hint": 13,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "line_hint": 26,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "line_hint": 27,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "line_hint": 30,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "line_hint": 32,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "line_hint": 37,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "line_hint": 38,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "line_hint": 39,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "line_hint": 40,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "line_hint": 41,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "line_hint": 42,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "line_hint": 44,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "line_hint": 46,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "line_hint": 48,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "line_hint": 57,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "line_hint": 61,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "line_hint": 62,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "line_hint": 65,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "line_hint": 67,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "line_hint": 69,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "line_hint": 71,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "line_hint": 74,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INFRASTRUCTURE-2918d4df",
+      "priority": "high",
+      "title": "st",
+      "file": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py",
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "line_hint": 76,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/infrastructure/legado/legacy_systems/safety/compliance_dashboard.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: remaining-06-$(date +%m%d)",
+      "2. Work through 40 remaining tasks",
+      "3. One TaskID per commit",
+      "4. Mixed priority cleanup",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(cleanup): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.164220Z",
+  "source": "Remaining unallocated TODOs"
+}

@@ -11,8 +11,9 @@ import asyncio
 import json
 import logging
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 # MCP SDK imports
 from mcp.server import Server
@@ -31,9 +32,7 @@ try:
     from lukhas.consciousness.awareness_engine import ConsciousnessAwarenessEngine
     from lukhas.governance.guardian_system.guardian_validator import GuardianValidator
     from lukhas.memory.fold_system import MemoryFoldSystem
-    from tools.analysis._OPERATIONAL_SUMMARY import (
-        LUKHASOperationalAnalyzer,
-    )  # noqa: F401  # TODO: tools.analysis._OPERATIONAL_SU...
+    from tools.analysis.operational_summary import LUKHASOperationalAnalyzer
 except ImportError as e:
     logging.warning(f"Could not import LUKHAS modules: {e}")
 
@@ -58,6 +57,7 @@ class LUKHASConsciousnessMCP:
         self.guardian_validator = None
         self.consciousness_engine = None
         self.memory_system = None
+        self.operational_analyzer: Optional[LUKHASOperationalAnalyzer] = None
 
         # Initialize LUKHAS systems
         self._initialize_consciousness_systems()
@@ -110,6 +110,12 @@ class LUKHASConsciousnessMCP:
             self.guardian_validator = GuardianValidator()
             self.consciousness_engine = ConsciousnessAwarenessEngine()
             self.memory_system = MemoryFoldSystem()
+            self.operational_analyzer = LUKHASOperationalAnalyzer()  # ΛTAG: operational_status_bridge
+            try:
+                self.operational_analyzer.load_reports()
+            except Exception as analyzer_error:  # pragma: no cover - diagnostic fallback
+                logging.debug("Operational analyzer reports unavailable", exc_info=analyzer_error)
+                self.operational_analyzer = None
             logging.info("✅ LUKHAS consciousness systems initialized")
         except Exception as e:
             logging.warning(f"⚠️ Could not initialize all consciousness systems: {e}")
@@ -155,6 +161,12 @@ class LUKHASConsciousnessMCP:
                         description="Current Claude agent task assignments and collaboration patterns",
                         mimeType="application/json",
                     ),
+                    Resource(
+                        uri="lukhas://operations/status",
+                        name="Operational Status Summary",
+                        description="Aggregated operational metrics from T4 analyzer",
+                        mimeType="application/json",
+                    ),
                 ]
             )
 
@@ -185,6 +197,8 @@ class LUKHASConsciousnessMCP:
                 return await self._get_active_tasks()
             elif uri == "lukhas://agent/assignments":
                 return await self._get_agent_assignments()
+            elif uri == "lukhas://operations/status":
+                return await self._get_operational_status()
             elif uri.startswith("lukhas://module/"):
                 module_name = uri.split("/")[-1]
                 return await self._get_module_context(module_name)
@@ -503,6 +517,28 @@ class LUKHASConsciousnessMCP:
             },
         }
         return json.dumps(agent_assignments, indent=2)
+
+    async def _get_operational_status(self) -> str:
+        """Return summarized operational health metrics."""
+        if not self.operational_analyzer:
+            return json.dumps(
+                {
+                    "status": "unavailable",
+                    "reason": "operational analyzer data not loaded",
+                },
+                indent=2,
+            )
+
+        reports = self.operational_analyzer.reports or self.operational_analyzer.load_reports()
+        status = self.operational_analyzer.get_system_status()
+        return json.dumps(
+            {
+                "status": status,
+                "reports_available": list(reports.keys()),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            },
+            indent=2,
+        )
 
     async def _get_module_context(self, module_name: str) -> str:
         """Get comprehensive context for a specific module."""

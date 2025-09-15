@@ -17,7 +17,7 @@ def update_imports(root_dir):
     old_imports = [
         (
             r"from consciousness\.creativity import advanced_haiku_generator",
-            "from branding.poetry.legacy import advanced_haiku_generator  # TODO: Migrate to new soul.py",
+            "from branding.poetry.soul import Soul as advanced_haiku_generator",  # ΛTAG: import_update
         ),
         (r"from branding.poetry import (.*)", r"from branding.poetry import \1"),
         (r"import poetry\.", "import branding.poetry."),

@@ -13,16 +13,9 @@ import re
 from collections import Counter
 from pathlib import Path
 
+from .report_utils import render_frequency_line
+
 # The overused metaphors we keep recycling
-
-
-def fix_later(*args, **kwargs):
-    """TODO(symbol-resolver): implement missing functionality
-
-    This is a placeholder for functionality that needs to be implemented.
-    Replace this stub with the actual implementation.
-    """
-    raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
 
 
 CLICHES = {
@@ -196,8 +189,15 @@ def generate_report():
     ]
 
     for word, count in mock_cliches:
-        bar = "█" * (count // 10)
-        print(fix_later)
+        # ΛTAG: vocabulary_reporting
+        line = render_frequency_line(
+            word,
+            count,
+            scale=10,
+            bar_char="█",
+            label="cliché",
+        )
+        print(line)
 
     print("\n\n🟢 UNIQUE LUKHAS VOCABULARY USAGE:")
     print("─" * 40)
@@ -216,9 +216,14 @@ def generate_report():
     ]
 
     for word, count in mock_unique:
-        bar = "▓" * (count // 20)
-        print(f"{word:<20} {count:>3} {bar}")
-        print(fix_later)
+        line = render_frequency_line(
+            word,
+            count,
+            scale=20,
+            bar_char="▓",
+            label="unique",
+        )
+        print(line)
 
     print("\n\n📈 THE PROBLEM:")
     print("─" * 60)

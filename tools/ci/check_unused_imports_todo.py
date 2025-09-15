@@ -33,6 +33,23 @@ REPO = Path(__file__).resolve().parents[2]
 TODO_TAG = "TODO[T4-UNUSED-IMPORT]"
 INLINE_PATTERN = re.compile(rf"#\s*{re.escape(TODO_TAG)}")
 
+# ΛTAG: repo_path_resolution
+def resolve_finding_path(filename: str) -> tuple[Path, Path]:
+    """Return absolute and repo-relative paths for a ruff finding entry."""
+    candidate = Path(filename)
+
+    if candidate.is_absolute():
+        abs_path = candidate
+    else:
+        abs_path = (REPO / candidate).resolve()
+
+    try:
+        rel_path = abs_path.relative_to(REPO)
+    except ValueError:
+        rel_path = candidate
+
+    return abs_path, rel_path
+
 # Production vs Experimental separation
 SKIP_DIRS = {".git", ".venv", "node_modules", "archive", "quarantine", "candidate", "reports"}
 
@@ -229,22 +246,25 @@ def main():
     unannotated = []
 
     for finding in findings:
-        file_path = pathlib.Path(finding["filename"])  # noqa: F821  # TODO: pathlib
+        abs_path, rel_path = resolve_finding_path(finding["filename"])
+        # ΛTAG: repo_relative_display
+        rel_path_str = str(rel_path)
         line_no = finding["location"]["row"]
         message = finding["message"]
 
         try:
-            lines = file_path.read_text().splitlines()
+            lines = abs_path.read_text(encoding="utf-8").splitlines()
             if line_no <= len(lines):
                 line_content = lines[line_no - 1]
 
-                if not TODO_PATTERN.search(line_content):  # noqa: F821  # TODO: TODO_PATTERN
-                    unannotated.append(f"{file_path}:{line_no} {message}")
+                # ΛTAG: t4_annotation_check
+                if not INLINE_PATTERN.search(line_content):
+                    unannotated.append(f"{rel_path_str}:{line_no} {message}")
             else:
-                unannotated.append(f"{file_path}:{line_no} {message} (line out of range)")
+                unannotated.append(f"{rel_path_str}:{line_no} {message} (line out of range)")
 
         except Exception:
-            unannotated.append(f"{file_path}:{line_no} {message} (unreadable)")
+            unannotated.append(f"{rel_path_str}:{line_no} {message} (unreadable)")
 
     # Report results
     if unannotated:

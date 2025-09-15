@@ -14,7 +14,7 @@
       "line_hint": 77,
       "module": "candidate/core",
       "trinity": "null",
-      "status": "open",
+      "status": "completed",
       "source": "high_todos.md",
       "evidence": {
         "grep": "./candidate/core/meta_learning/remediator_agent.py:# AIMPORT_TODO: These imports suggest a complex LUKHAS directory structure.",
@@ -25,7 +25,9 @@
       "est": {
         "type": "mechanical",
         "size": "XS"
-      }
+      },
+      "completion_pr": "242",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-HIGH-CANDIDATE-CORE-6f7f5efc",
@@ -56,7 +58,7 @@
       "line_hint": 46,
       "module": "candidate/memory",
       "trinity": "Consciousness",
-      "status": "open",
+      "status": "completed",
       "source": "high_todos.md",
       "evidence": {
         "grep": "./candidate/memory/systems/memory_legacy/replayer.py:# AIMPORT_TODO: Resolve these imports via proper packaging or PYTHONPATH.",
@@ -67,7 +69,9 @@
       "est": {
         "type": "mechanical",
         "size": "XS"
-      }
+      },
+      "completion_pr": "242",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-21d479de",
@@ -98,7 +102,7 @@
       "line_hint": 36,
       "module": "rl/run_advanced_tests.py",
       "trinity": "null",
-      "status": "open",
+      "status": "completed",
       "source": "low_todos.md",
       "evidence": {
         "grep": "./rl/run_advanced_tests.py:        import hypothesis  # noqa: F401  # TODO: hypothesis; consider using imp...",
@@ -109,7 +113,9 @@
       "est": {
         "type": "mechanical",
         "size": "XS"
-      }
+      },
+      "completion_pr": "247",
+      "completed_at": "2025-09-15T08:00:00Z"
     }
   ],
   "summary": {

@@ -6,6 +6,9 @@
 - dashboard/          - Visualization and dashboard systems
 """
 
-import streamlit as st
+from .streamlit_safe import STREAMLIT_AVAILABLE, get_streamlit
 
-__all__ = ["dashboard", "feedback", "universal_language", "voice"]
+# ΛTAG: experience_streamlit
+st = get_streamlit()
+
+__all__ = ["dashboard", "feedback", "universal_language", "voice", "st", "STREAMLIT_AVAILABLE"]

@@ -14,7 +14,7 @@
       "line_hint": 20,
       "module": "candidate/core",
       "trinity": "null",
-      "status": "open",
+      "status": "completed",
       "source": "high_todos.md",
       "evidence": {
         "grep": "./candidate/core/orchestration/brain/orchestration/core.py:TODO: Fix imports as part of CODEX_ENHANCEMENT_PLAN.md Phase 4",
@@ -25,7 +25,9 @@
       "est": {
         "type": "mechanical",
         "size": "XS"
-      }
+      },
+      "completion_pr": "242",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-HIGH-CANDIDATE-CORE-6e87ac9b",
@@ -35,7 +37,7 @@
       "line_hint": 51,
       "module": "candidate/core",
       "trinity": "null",
-      "status": "open",
+      "status": "completed",
       "source": "high_todos.md",
       "evidence": {
         "grep": "./candidate/core/interfaces/logic/context/context_builder.py:# AIMPORT_TODO: These imports are commented out in the original or point to future modules.",
@@ -46,7 +48,9 @@
       "est": {
         "type": "mechanical",
         "size": "XS"
-      }
+      },
+      "completion_pr": "242",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-HIGH-CANDIDATE-MEMORY-80ac38c7",
@@ -56,7 +60,7 @@
       "line_hint": 67,
       "module": "candidate/memory",
       "trinity": "Consciousness",
-      "status": "open",
+      "status": "completed",
       "source": "high_todos.md",
       "evidence": {
         "grep": "./candidate/memory/systems/memory_learning/memory_manager.py:# TODO: Resolve import paths if these files are moved or structure changes.",
@@ -67,7 +71,9 @@
       "est": {
         "type": "mechanical",
         "size": "XS"
-      }
+      },
+      "completion_pr": "254",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-3e66e234",
@@ -98,7 +104,7 @@
       "line_hint": 12,
       "module": "products/intelligence",
       "trinity": "Identity",
-      "status": "open",
+      "status": "completed",
       "source": "low_todos.md",
       "evidence": {
         "grep": "./products/intelligence/lens/tests/test_api_integration.py:    # TODO: Fix import path - lambda directory doesn't exist",
@@ -109,7 +115,9 @@
       "est": {
         "type": "mechanical",
         "size": "XS"
-      }
+      },
+      "completion_pr": "247",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-LOW-TOOLS-CI-015f1af1",
@@ -119,7 +127,7 @@
       "line_hint": 34,
       "module": "tools/ci",
       "trinity": "null",
-      "status": "open",
+      "status": "completed",
       "source": "low_todos.md",
       "evidence": {
         "grep": "./tools/ci/unused_imports.py:  * adds an inline TODO tag (idempotent):  # TODO[T4-UNUSED-IMPORT]: <reason>",
@@ -130,7 +138,9 @@
       "est": {
         "type": "mechanical",
         "size": "XS"
-      }
+      },
+      "completion_pr": "242",
+      "completed_at": "2025-09-15T08:00:00Z"
     }
   ],
   "summary": {

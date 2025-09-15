@@ -1,0 +1,663 @@
+{
+  "agent_id": "REMAINING-04",
+  "specialty": "Remaining Batch 4",
+  "focus": "unallocated TODOs",
+  "task_count": 40,
+  "priority": "mixed",
+  "risk_level": "low",
+  "branch_prefix": "feat/remaining-04/remaining-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-c53aa240",
+      "priority": "high",
+      "title": "enterprise.compliance.data_pro...",
+      "file": "./products/enterprise/core/integration/unified_consciousness_layer.py",
+      "module": "products/enterprise",
+      "trinity": "Consciousness",
+      "line_hint": 74,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/integration/unified_consciousness_layer.py:    from candidate.bridge.orchestration.consensus_engine import ConsensusEngine  # noqa: F401  # TODO: candidate.bridge.orchestration...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-86e59f6d",
+      "priority": "high",
+      "title": "enterprise.monitoring.datadog_...",
+      "file": "./products/enterprise/core/integration/unified_consciousness_layer.py",
+      "module": "products/enterprise",
+      "trinity": "Consciousness",
+      "line_hint": 75,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/integration/unified_consciousness_layer.py:    from candidate.bridge.orchestration.consensus_engine import ConsensusEngine  # noqa: F401  # TODO: candidate.bridge.orchestration...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-be071910",
+      "priority": "high",
+      "title": "self",
+      "file": "./products/enterprise/core/rigor/ab_testing_platform.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 9,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/rigor/ab_testing_platform.py:self.significance_threshold = 0.95  # noqa: F821  # TODO: self",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-4474a011",
+      "priority": "high",
+      "title": "datadog.api.metrics.Metric; co...",
+      "file": "./products/enterprise/core/observability/t4_observability_stack.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 21,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/observability/t4_observability_stack.py:    from datadog.api.metrics import Metric  # noqa: F401  # TODO: datadog.api.metrics.Metric; co...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-75b10ff9",
+      "priority": "high",
+      "title": "opentelemetry.metrics; conside...",
+      "file": "./products/enterprise/core/observability/t4_observability_stack.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 28,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/observability/t4_observability_stack.py:    from datadog.api.metrics import Metric  # noqa: F401  # TODO: datadog.api.metrics.Metric; co...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-eb255b9e",
+      "priority": "high",
+      "title": "opentelemetry.sdk.trace.export...",
+      "file": "./products/enterprise/core/observability/t4_observability_stack.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 30,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/observability/t4_observability_stack.py:    from datadog.api.metrics import Metric  # noqa: F401  # TODO: datadog.api.metrics.Metric; co...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-e1cee294",
+      "priority": "high",
+      "title": "prometheus_client; consider us...",
+      "file": "./products/enterprise/core/observability/t4_observability_stack.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 37,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/observability/t4_observability_stack.py:    from datadog.api.metrics import Metric  # noqa: F401  # TODO: datadog.api.metrics.Metric; co...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-d0654d65",
+      "priority": "high",
+      "title": "lukhas.trinity.TrinityFramewor...",
+      "file": "./products/enterprise/core/observability/t4_observability_stack.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 48,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/observability/t4_observability_stack.py:    from datadog.api.metrics import Metric  # noqa: F401  # TODO: datadog.api.metrics.Metric; co...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-7829bbd2",
+      "priority": "high",
+      "title": "candidate.consciousness.Consci...",
+      "file": "./products/enterprise/core/observability/t4_observability_stack.py",
+      "module": "products/enterprise",
+      "trinity": "Consciousness",
+      "line_hint": 53,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/observability/t4_observability_stack.py:    from datadog.api.metrics import Metric  # noqa: F401  # TODO: datadog.api.metrics.Metric; co...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-820be69a",
+      "priority": "high",
+      "title": "candidate.memory.MemoryFoldSys...",
+      "file": "./products/enterprise/core/observability/t4_observability_stack.py",
+      "module": "products/enterprise",
+      "trinity": "Consciousness",
+      "line_hint": 54,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/observability/t4_observability_stack.py:    from datadog.api.metrics import Metric  # noqa: F401  # TODO: datadog.api.metrics.Metric; co...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-d3096ee4",
+      "priority": "high",
+      "title": "Implement real metric collection from LUKHAS components.",
+      "file": "./products/enterprise/core/observability/t4_observability_stack.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 295,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/observability/t4_observability_stack.py:    from datadog.api.metrics import Metric  # noqa: F401  # TODO: datadog.api.metrics.Metric; co...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-cc17e871",
+      "priority": "high",
+      "title": "cryptography.hazmat.backends.d...",
+      "file": "./products/enterprise/core/compliance/data_protection_service.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 17,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/compliance/data_protection_service.py:    from cryptography.hazmat.backends import default_backend  # noqa: F401  # TODO: cryptography.hazmat.backends.d...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-b1272dba",
+      "priority": "high",
+      "title": "cryptography.hazmat.primitives...",
+      "file": "./products/enterprise/core/compliance/data_protection_service.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 18,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/compliance/data_protection_service.py:    from cryptography.hazmat.backends import default_backend  # noqa: F401  # TODO: cryptography.hazmat.backends.d...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-b1272dba",
+      "priority": "high",
+      "title": "cryptography.hazmat.primitives...",
+      "file": "./products/enterprise/core/compliance/data_protection_service.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 19,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/compliance/data_protection_service.py:    from cryptography.hazmat.backends import default_backend  # noqa: F401  # TODO: cryptography.hazmat.backends.d...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-b1272dba",
+      "priority": "high",
+      "title": "cryptography.hazmat.primitives...",
+      "file": "./products/enterprise/core/compliance/data_protection_service.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 20,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/compliance/data_protection_service.py:    from cryptography.hazmat.backends import default_backend  # noqa: F401  # TODO: cryptography.hazmat.backends.d...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-b1272dba",
+      "priority": "high",
+      "title": "cryptography.hazmat.primitives...",
+      "file": "./products/enterprise/core/compliance/data_protection_service.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 21,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/compliance/data_protection_service.py:    from cryptography.hazmat.backends import default_backend  # noqa: F401  # TODO: cryptography.hazmat.backends.d...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-3c0b1501",
+      "priority": "high",
+      "title": "user_lid",
+      "file": "./products/enterprise/core/compliance/api.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 151,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/compliance/api.py:        \"user_lid\": user_lid,  # noqa: F821  # TODO: user_lid",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-1f2a7eb5",
+      "priority": "high",
+      "title": "updated_grants",
+      "file": "./products/enterprise/core/compliance/api.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 152,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/compliance/api.py:        \"user_lid\": user_lid,  # noqa: F821  # TODO: user_lid",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-8c7a251f",
+      "priority": "high",
+      "title": "updated_data",
+      "file": "./products/enterprise/core/compliance/api.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 153,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/compliance/api.py:        \"user_lid\": user_lid,  # noqa: F821  # TODO: user_lid",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-fbfc823d",
+      "priority": "high",
+      "title": "lukhas.constellation.Constella...",
+      "file": "./products/enterprise/core/performance/constellation_benchmarks.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 34,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/performance/constellation_benchmarks.py:    from lukhas.constellation import ConstellationFramework  # noqa: F401  # TODO: lukhas.constellation.Constella...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-410b0a9e",
+      "priority": "high",
+      "title": "candidate.consciousness.Consci...",
+      "file": "./products/enterprise/core/performance/constellation_benchmarks.py",
+      "module": "products/enterprise",
+      "trinity": "Consciousness",
+      "line_hint": 41,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/performance/constellation_benchmarks.py:    from lukhas.constellation import ConstellationFramework  # noqa: F401  # TODO: lukhas.constellation.Constella...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-847413ce",
+      "priority": "high",
+      "title": "candidate.memory.MemoryFoldSys...",
+      "file": "./products/enterprise/core/performance/constellation_benchmarks.py",
+      "module": "products/enterprise",
+      "trinity": "Consciousness",
+      "line_hint": 43,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/performance/constellation_benchmarks.py:    from lukhas.constellation import ConstellationFramework  # noqa: F401  # TODO: lukhas.constellation.Constella...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-88af9ed5",
+      "priority": "high",
+      "title": "cryptography.hazmat.backends.d...",
+      "file": "./products/enterprise/compliance/data_protection_service.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 17,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/compliance/data_protection_service.py:    from cryptography.hazmat.backends import default_backend  # noqa: F401  # TODO: cryptography.hazmat.backends.d...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-ae1205af",
+      "priority": "high",
+      "title": "cryptography.hazmat.primitives...",
+      "file": "./products/enterprise/compliance/data_protection_service.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 18,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/compliance/data_protection_service.py:    from cryptography.hazmat.backends import default_backend  # noqa: F401  # TODO: cryptography.hazmat.backends.d...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-ae1205af",
+      "priority": "high",
+      "title": "cryptography.hazmat.primitives...",
+      "file": "./products/enterprise/compliance/data_protection_service.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 19,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/compliance/data_protection_service.py:    from cryptography.hazmat.backends import default_backend  # noqa: F401  # TODO: cryptography.hazmat.backends.d...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-ae1205af",
+      "priority": "high",
+      "title": "cryptography.hazmat.primitives...",
+      "file": "./products/enterprise/compliance/data_protection_service.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 20,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/compliance/data_protection_service.py:    from cryptography.hazmat.backends import default_backend  # noqa: F401  # TODO: cryptography.hazmat.backends.d...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-ae1205af",
+      "priority": "high",
+      "title": "cryptography.hazmat.primitives...",
+      "file": "./products/enterprise/compliance/data_protection_service.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 21,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/compliance/data_protection_service.py:    from cryptography.hazmat.backends import default_backend  # noqa: F401  # TODO: cryptography.hazmat.backends.d...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-4662b776",
+      "priority": "high",
+      "title": "user_lid",
+      "file": "./products/enterprise/compliance/api.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 151,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/compliance/api.py:        \"user_lid\": user_lid,  # noqa: F821  # TODO: user_lid",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-6391ca98",
+      "priority": "high",
+      "title": "updated_grants",
+      "file": "./products/enterprise/compliance/api.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 152,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/compliance/api.py:        \"user_lid\": user_lid,  # noqa: F821  # TODO: user_lid",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-ENTERPRISE-4087148f",
+      "priority": "high",
+      "title": "updated_data",
+      "file": "./products/enterprise/compliance/api.py",
+      "module": "products/enterprise",
+      "trinity": "null",
+      "line_hint": 153,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/compliance/api.py:        \"user_lid\": user_lid,  # noqa: F821  # TODO: user_lid",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-fe2a7279",
+      "priority": "high",
+      "title": "re",
+      "file": "./products/intelligence/dast_enhanced/dast_core.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 764,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/dast_enhanced/dast_core.py:                    age_match = re.search(r\"symbol_age >= (\\d+) hours\", rule.condition)  # noqa: F821  # TODO: re",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-fe2a7279",
+      "priority": "high",
+      "title": "re",
+      "file": "./products/intelligence/dast_enhanced/dast_core.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 765,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/dast_enhanced/dast_core.py:                    age_match = re.search(r\"symbol_age >= (\\d+) hours\", rule.condition)  # noqa: F821  # TODO: re",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-46a72d12",
+      "priority": "high",
+      "title": "Fix import paths - lambda directory doesn't exist",
+      "file": "./products/intelligence/lens/api/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "Identity",
+      "line_hint": 23,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-d9fe3644",
+      "priority": "high",
+      "title": "Update these import paths to correct locations",
+      "file": "./products/intelligence/lens/api/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 27,
+      "risk": "low",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-d4ad91cb",
+      "priority": "high",
+      "title": "LensCore",
+      "file": "./products/intelligence/lens/api/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 64,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-0bf32abc",
+      "priority": "high",
+      "title": "SymbolGenerator",
+      "file": "./products/intelligence/lens/api/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 65,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-0fc20133",
+      "priority": "high",
+      "title": "WidgetFactory",
+      "file": "./products/intelligence/lens/api/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 66,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-b130e204",
+      "priority": "high",
+      "title": "Web2DRenderer",
+      "file": "./products/intelligence/lens/api/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 67,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-a2331b2a",
+      "priority": "high",
+      "title": "XRRenderer",
+      "file": "./products/intelligence/lens/api/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 68,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-INTELLIGENCE-435cecb1",
+      "priority": "high",
+      "title": "TextParser",
+      "file": "./products/intelligence/lens/api/standalone_server.py",
+      "module": "products/intelligence",
+      "trinity": "null",
+      "line_hint": 189,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/intelligence/lens/api/standalone_server.py:# TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: remaining-04-$(date +%m%d)",
+      "2. Work through 40 remaining tasks",
+      "3. One TaskID per commit",
+      "4. Mixed priority cleanup",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(cleanup): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.163350Z",
+  "source": "Remaining unallocated TODOs"
+}

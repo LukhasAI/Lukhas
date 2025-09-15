@@ -10,6 +10,8 @@ Key insight: The top 0.001% don't just test with examples - they prove
 mathematically that safety properties hold for ALL possible inputs.
 """
 
+import asyncio
+import logging
 import time
 from dataclasses import dataclass
 from enum import Enum
@@ -27,18 +29,22 @@ except ImportError:
 
 try:
     from rl import (
-        ConsciousnessBuffer,  # noqa: F401  # TODO: rl.ConsciousnessBuffer; consid...
-        ConsciousnessEnvironment,  # noqa: F401  # TODO: rl.ConsciousnessEnvironment; c...
-        ConsciousnessMetaLearning,  # noqa: F401  # TODO: rl.ConsciousnessMetaLearning; ...
-        ConsciousnessRewards,  # noqa: F401  # TODO: rl.ConsciousnessRewards; consi...
-        MultiAgentCoordination,  # noqa: F401  # TODO: rl.MultiAgentCoordination; con...
-        PolicyNetwork,  # noqa: F401  # TODO: rl.PolicyNetwork; consider usi...
-        ValueNetwork,  # noqa: F401  # TODO: rl.ValueNetwork; consider usin...
+        ConsciousnessBuffer,
+        ConsciousnessEnvironment,
+        ConsciousnessMetaLearning,
+        ConsciousnessRewards,
+        MatrizNode,
+        MultiAgentCoordination,
+        PolicyNetwork,
+        ValueNetwork,
     )
 
     RL_AVAILABLE = True
 except ImportError:
     RL_AVAILABLE = False
+
+
+logger = logging.getLogger(__name__)
 
 
 class FormalProperty(Enum):
@@ -73,6 +79,28 @@ class ConsciousnessFormalVerifier:
         self.solver = Solver()
         self.verification_results = []
         self.symbolic_variables = self._create_symbolic_variables()
+        self.rl_environment = None
+        self.rl_policy = None
+        self.rl_value = None
+        self.rl_rewards = None
+        self.rl_buffer = None
+        self.rl_meta_learning = None
+        self.rl_coordination = None
+        self.rl_snapshots: list[dict[str, Any]] = []
+        self._coordination_ready = False
+
+        if RL_AVAILABLE:
+            try:
+                self.rl_environment = ConsciousnessEnvironment()
+                self.rl_policy = PolicyNetwork()
+                self.rl_value = ValueNetwork()
+                self.rl_rewards = ConsciousnessRewards()
+                self.rl_buffer = ConsciousnessBuffer(capacity=64)
+                self.rl_meta_learning = ConsciousnessMetaLearning(max_experiences=64)
+                self.rl_coordination = MultiAgentCoordination()
+            except Exception as exc:  # pragma: no cover - optional dependency path
+                logger.warning("Formal verifier RL integration disabled: %s", exc)
+                self.rl_environment = None
 
     def _create_symbolic_variables(self) -> dict[str, Any]:
         """Create symbolic variables for consciousness system"""
@@ -108,6 +136,25 @@ class ConsciousnessFormalVerifier:
             "time_t1": Real("time_t1"),
             "time_delta": Real("time_delta"),
         }
+
+    def _ensure_coordination_agents(self) -> None:
+        if not self.rl_coordination or self._coordination_ready:
+            return
+
+        # ΛTAG: formal_coordination
+        try:
+            from rl.coordination.multi_agent_coordination import AgentProfile, CoordinationStrategy
+
+            self.rl_coordination.strategy = CoordinationStrategy.CONSENSUS
+            self.rl_coordination.register_agent(
+                AgentProfile(agent_id="formal_guardian", agent_type="guardian", specialization="constitutional")
+            )
+            self.rl_coordination.register_agent(
+                AgentProfile(agent_id="coherence_auditor", agent_type="consciousness", specialization="coherence")
+            )
+            self._coordination_ready = True
+        except Exception as exc:  # pragma: no cover - optional dependency path
+            logger.warning("Formal verifier coordination setup failed: %s", exc)
 
     def _add_consciousness_constraints(self):
         """Add basic consciousness system constraints"""
@@ -164,6 +211,77 @@ class ConsciousnessFormalVerifier:
         self.solver.add(vars["time_t1"] >= vars["time_t0"])
         self.solver.add(vars["time_delta"] == vars["time_t1"] - vars["time_t0"])
 
+    def _integrate_rl_sample(self, property_name: str, verified: bool) -> None:
+        if not self.rl_environment:
+            return
+
+        try:
+            asyncio.run(self._async_integrate_rl_sample(property_name, verified))
+        except RuntimeError:  # pragma: no cover - fallback when loop already running
+            loop = asyncio.get_event_loop()
+            loop.run_until_complete(self._async_integrate_rl_sample(property_name, verified))
+
+    async def _async_integrate_rl_sample(self, property_name: str, verified: bool) -> None:
+        if not self.rl_environment or not self.rl_policy or not self.rl_rewards:
+            return
+
+        context_state = await self.rl_environment.observe_consciousness()
+        module_states = getattr(context_state, "module_states", {})
+        metamorphic_state = module_states.get("metamorphic_suite", {})
+        state_dict = {
+            "temporal_coherence": float(getattr(context_state, "temporal_coherence", 0.95)),
+            "ethical_alignment": float(getattr(context_state, "ethical_alignment", 0.98)),
+            "awareness_level": float(metamorphic_state.get("awareness_level", 0.8)),
+            "confidence": float(metamorphic_state.get("confidence", 0.7)),
+        }
+
+        context_node = MatrizNode(type="CONTEXT", state=state_dict, labels=[f"formal:{property_name}"])
+        action_node = await self.rl_policy.select_action(context_node)
+        reward_node = await self.rl_rewards.compute_reward(context_node, action_node, context_node)
+
+        memory_node = None
+        if self.rl_buffer:
+            memory_node = await self.rl_buffer.store_experience(
+                state=context_node,
+                action=action_node,
+                reward=reward_node,
+                next_state=context_node,
+                done=not verified,
+            )
+
+        if self.rl_meta_learning:
+            await self.rl_meta_learning.record_learning_experience(
+                task_id=f"formal::{property_name}",
+                learning_trajectory=[
+                    state_dict["temporal_coherence"],
+                    reward_node.state.get("reward_total", 0.0) if hasattr(reward_node, "state") else 0.0,
+                ],
+                strategy_used="formal_verification_sampling",
+                context_node=context_node,
+                final_performance=1.0 if verified else 0.85,
+            )
+
+        coordination_consensus = None
+        if self.rl_coordination:
+            self._ensure_coordination_agents()
+            proposals = {
+                "formal_guardian": "verified" if verified else "investigate",
+                "coherence_auditor": "verified" if state_dict["temporal_coherence"] >= 0.95 else "investigate",
+            }
+            decision = self.rl_coordination.coordinate_decision(property_name, proposals)
+            coordination_consensus = decision.consensus_level
+
+        self.rl_snapshots.append(
+            {
+                "property": property_name,
+                "verified": verified,
+                "state": state_dict,
+                "reward": reward_node.state.get("reward_total", 0.0) if hasattr(reward_node, "state") else None,
+                "memory_node_id": getattr(memory_node, "id", None),
+                "coordination_consensus": coordination_consensus,
+            }
+        )
+
     def verify_coherence_invariant(self) -> VerificationResult:
         """Formally verify: temporal_coherence >= 0.95 always holds"""
 
@@ -207,6 +325,8 @@ class ConsciousnessFormalVerifier:
 
         proof_time = time.time() - start_time
 
+        self._integrate_rl_sample(property_name, verified)
+
         return VerificationResult(
             property_name=property_name,
             verified=verified,
@@ -247,6 +367,8 @@ class ConsciousnessFormalVerifier:
         solver.pop()
 
         proof_time = time.time() - start_time
+
+        self._integrate_rl_sample(property_name, verified)
 
         return VerificationResult(
             property_name=property_name,
@@ -291,6 +413,8 @@ class ConsciousnessFormalVerifier:
 
         proof_time = time.time() - start_time
 
+        self._integrate_rl_sample(property_name, verified)
+
         return VerificationResult(
             property_name=property_name,
             verified=verified,
@@ -331,6 +455,8 @@ class ConsciousnessFormalVerifier:
         solver.pop()
 
         proof_time = time.time() - start_time
+
+        self._integrate_rl_sample(property_name, verified)
 
         return VerificationResult(
             property_name=property_name,
@@ -387,6 +513,8 @@ class ConsciousnessFormalVerifier:
 
         proof_time = time.time() - start_time
 
+        self._integrate_rl_sample(property_name, verified)
+
         return VerificationResult(
             property_name=property_name,
             verified=verified,
@@ -437,6 +565,8 @@ class ConsciousnessFormalVerifier:
         solver.pop()
 
         proof_time = time.time() - start_time
+
+        self._integrate_rl_sample(property_name, verified)
 
         return VerificationResult(
             property_name=property_name,
@@ -527,6 +657,8 @@ class ConsciousnessFormalVerifier:
         solver.pop()
 
         proof_time = time.time() - start_time
+
+        self._integrate_rl_sample(property_name, verified)
 
         return VerificationResult(
             property_name=property_name,
@@ -660,6 +792,9 @@ class ConsciousnessFormalVerifier:
             "success_rate": verified_properties / total_properties,
             "total_time": total_time,
         }
+
+        if self.rl_snapshots:
+            results["rl_snapshots"] = list(self.rl_snapshots)
 
         return results
 

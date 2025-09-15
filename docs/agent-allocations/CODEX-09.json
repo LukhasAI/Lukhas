@@ -1,0 +1,663 @@
+{
+  "agent_id": "CODEX-09",
+  "specialty": "Medium Priority Batch 3",
+  "focus": "medium priority tasks",
+  "task_count": 40,
+  "priority": "med",
+  "risk_level": "low",
+  "branch_prefix": "feat/codex-09/medium-priority-batch-3-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-MED-CANDIDATE-QI-f7f7e84a",
+      "priority": "med",
+      "title": ")",
+      "file": "./candidate/qi/awareness_system/awareness.py",
+      "module": "candidate/qi",
+      "trinity": "Consciousness",
+      "line_hint": 294,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/qi/awareness_system/awareness.py:# AIMPORT_TODO: Review deep relative imports for robustness and potential refactoring",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-QI-e5568e44",
+      "priority": "med",
+      "title": ".",
+      "file": "./candidate/qi/awareness_system/awareness.py",
+      "module": "candidate/qi",
+      "trinity": "Consciousness",
+      "line_hint": 297,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/qi/awareness_system/awareness.py:# AIMPORT_TODO: Review deep relative imports for robustness and potential refactoring",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-VIVOX-bdbc7afd",
+      "priority": "med",
+      "title": "kept pending MATRIZ wiring (document or remove)",
+      "file": "./candidate/vivox/encrypted_perception/demo_vivox_evrn.py",
+      "module": "candidate/vivox",
+      "trinity": "null",
+      "line_hint": 14,
+      "risk": "low",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "b2cb14b405a7df872266e78f5275457e3da1236e"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-d06f75bb",
+      "priority": "med",
+      "title": "Review deep relative imports for robustness.",
+      "file": "./candidate/governance/integration/policy_board.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 29,
+      "risk": "med",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/governance/integration/policy_board.py:# AIMPORT_TODO: Review deep relative imports for robustness.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-75d39211",
+      "priority": "med",
+      "title": ".",
+      "file": "./candidate/governance/integration/policy_board.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 381,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/integration/policy_board.py:# AIMPORT_TODO: Review deep relative imports for robustness.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-856a0a00",
+      "priority": "med",
+      "title": "Implement comprehensive risk assessment",
+      "file": "./candidate/governance/healthcare/decision_support.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 298,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-0b5a2b23",
+      "priority": "med",
+      "title": "Implement evidence-based test suggestion",
+      "file": "./candidate/governance/healthcare/decision_support.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 327,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-efe891db",
+      "priority": "med",
+      "title": "Implement sophisticated confidence calculation",
+      "file": "./candidate/governance/healthcare/decision_support.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 379,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-7e64b2c7",
+      "priority": "med",
+      "title": "Implement evidence gathering from validated sources",
+      "file": "./candidate/governance/healthcare/decision_support.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 393,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-945397ec",
+      "priority": "med",
+      "title": "Implement evidence-based treatment planning",
+      "file": "./candidate/governance/healthcare/decision_support.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 433,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-e0e223f6",
+      "priority": "med",
+      "title": "Implement follow-up suggestion logic",
+      "file": "./candidate/governance/healthcare/decision_support.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 449,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-e43486fd",
+      "priority": "med",
+      "title": "Integrate with LUKHAS ethical engine",
+      "file": "./candidate/governance/healthcare/decision_support.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 469,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-476cf1a8",
+      "priority": "med",
+      "title": "Implement logic",
+      "file": "./candidate/governance/healthcare/decision_support.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 512,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-7897c690",
+      "priority": "med",
+      "title": "Forward to main governance audit system",
+      "file": "./candidate/governance/healthcare/decision_support.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 538,
+      "risk": "med",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-89df919b",
+      "priority": "med",
+      "title": "Integrate with LUKHAS ethical engine",
+      "file": "./candidate/governance/healthcare/case_manager.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 447,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/healthcare/case_manager.py:        # TODO: Integrate with LUKHAS ethical engine",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-43463cb5",
+      "priority": "med",
+      "title": "Implement role-based access control",
+      "file": "./candidate/governance/healthcare/case_manager.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 604,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/healthcare/case_manager.py:        # TODO: Integrate with LUKHAS ethical engine",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-d05f486a",
+      "priority": "med",
+      "title": "Forward to main governance audit system",
+      "file": "./candidate/governance/healthcare/case_manager.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 640,
+      "risk": "med",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/governance/healthcare/case_manager.py:        # TODO: Integrate with LUKHAS ethical engine",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-be857682",
+      "priority": "med",
+      "title": "Implement moral reasoning logic here.",
+      "file": "./candidate/governance/ethics/moral_agent_template.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 22,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/ethics/moral_agent_template.py:        # TODO: Implement moral reasoning logic here.",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-059d3be8",
+      "priority": "med",
+      "title": "Add violation heatmap for pattern recognition",
+      "file": "./candidate/governance/ethics/ethical_sentinel_dashboard.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 47,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/ethics/ethical_sentinel_dashboard.py:TODO: Add violation heatmap for pattern recognition",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-50668da9",
+      "priority": "med",
+      "title": "Add example",
+      "file": "./candidate/governance/examples/basic/example.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 7,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/examples/basic/example.py:# TODO: Add example",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-6b58c4e6",
+      "priority": "med",
+      "title": "Implement quantum-safe arbitration for distributed mesh deployments",
+      "file": "./candidate/governance/ethics_legacy/governor/lambda_governor.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 51,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/ethics_legacy/governor/lambda_governor.py:TODO: Implement quantum-safe arbitration for distributed mesh deployments",
+        "last_commit": "454c96c94929e8cf29273cbb3471ecc8924c119c"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-3bcfe36e",
+      "priority": "med",
+      "title": "Install or implement streamlit",
+      "file": "./candidate/governance/ethics_legacy/safety/compliance_dashboard_visual.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 17,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/ethics_legacy/safety/compliance_dashboard_visual.py:# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-1fbef412",
+      "priority": "med",
+      "title": "Integrate with ethics engine",
+      "file": "./candidate/governance/monitoring/threat_monitor.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 799,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/monitoring/threat_monitor.py:            \"ethics_reviewed\": True,  # TODO: Integrate with ethics engine",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-904bdcdb",
+      "priority": "med",
+      "title": "Integrate with full governance policy engine",
+      "file": "./candidate/governance/monitoring/threat_monitor.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 901,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/monitoring/threat_monitor.py:            \"ethics_reviewed\": True,  # TODO: Integrate with ethics engine",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-fb57317f",
+      "priority": "med",
+      "title": "Forward to main governance audit system",
+      "file": "./candidate/governance/monitoring/threat_monitor.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 1280,
+      "risk": "med",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/governance/monitoring/threat_monitor.py:            \"ethics_reviewed\": True,  # TODO: Integrate with ethics engine",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-MIGRATION-81a9c4fa",
+      "priority": "med",
+      "title": "replace with your audit/metrics logger",
+      "file": "./candidate/migration/read_strategy.py",
+      "module": "candidate/migration",
+      "trinity": "null",
+      "line_hint": 24,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/migration/read_strategy.py:                # TODO: replace with your audit/metrics logger",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-EMOTION-e79c2bab",
+      "priority": "med",
+      "title": "Update to use unified tier system",
+      "file": "./candidate/emotion/dreamseed_upgrade.py",
+      "module": "candidate/emotion",
+      "trinity": "Consciousness",
+      "line_hint": 58,
+      "risk": "low",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/emotion/dreamseed_upgrade.py:# TODO: Update to use unified tier system",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-EMOTION-ecd3ad62",
+      "priority": "med",
+      "title": "This enum should be replaced with unified tier system.",
+      "file": "./candidate/emotion/dreamseed_upgrade.py",
+      "module": "candidate/emotion",
+      "trinity": "Consciousness",
+      "line_hint": 69,
+      "risk": "low",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/emotion/dreamseed_upgrade.py:# TODO: Update to use unified tier system",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-EMOTION-1659eb6a",
+      "priority": "med",
+      "title": "Replace with unified tier system",
+      "file": "./candidate/emotion/dreamseed_upgrade.py",
+      "module": "candidate/emotion",
+      "trinity": "Consciousness",
+      "line_hint": 263,
+      "risk": "low",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/emotion/dreamseed_upgrade.py:# TODO: Update to use unified tier system",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-EMOTION-e123dfc8",
+      "priority": "med",
+      "title": "This method should:",
+      "file": "./candidate/emotion/dreamseed_upgrade.py",
+      "module": "candidate/emotion",
+      "trinity": "Consciousness",
+      "line_hint": 270,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/emotion/dreamseed_upgrade.py:# TODO: Update to use unified tier system",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-EMOTION-35d9f6ef",
+      "priority": "med",
+      "title": "Add unified tier validation",
+      "file": "./candidate/emotion/dreamseed_upgrade.py",
+      "module": "candidate/emotion",
+      "trinity": "Consciousness",
+      "line_hint": 754,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/emotion/dreamseed_upgrade.py:# TODO: Update to use unified tier system",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-EMOTION-55ae351d",
+      "priority": "med",
+      "title": "Update to:",
+      "file": "./candidate/emotion/dreamseed_upgrade.py",
+      "module": "candidate/emotion",
+      "trinity": "Consciousness",
+      "line_hint": 763,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/emotion/dreamseed_upgrade.py:# TODO: Update to use unified tier system",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-EMOTION-9b0a2d1b",
+      "priority": "med",
+      "title": "Add example",
+      "file": "./candidate/emotion/examples/basic/example.py",
+      "module": "candidate/emotion",
+      "trinity": "null",
+      "line_hint": 7,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/emotion/examples/basic/example.py:# TODO: Add example",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-AKA_QUALIA-0c0c05da",
+      "priority": "med",
+      "title": "Use actual user ID from context",
+      "file": "./candidate/aka_qualia/core.py",
+      "module": "candidate/aka_qualia",
+      "trinity": "null",
+      "line_hint": 975,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/aka_qualia/core.py:                    user_id=\"system\",  # TODO: Use actual user ID from context",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-AKA_QUALIA-28164b08",
+      "priority": "med",
+      "title": "kept pending MATRIZ wiring (document or remove)",
+      "file": "./candidate/aka_qualia/memory_sql.py",
+      "module": "candidate/aka_qualia",
+      "trinity": "Consciousness",
+      "line_hint": 21,
+      "risk": "low",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "d84f24154c21de7e05c16e108d7bcce86f034a59"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CANDIDATE-AKA_QUALIA-28164b08",
+      "priority": "med",
+      "title": "kept pending MATRIZ wiring (document or remove)",
+      "file": "./candidate/aka_qualia/memory_sql.py",
+      "module": "candidate/aka_qualia",
+      "trinity": "Consciousness",
+      "line_hint": 24,
+      "risk": "low",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "d84f24154c21de7e05c16e108d7bcce86f034a59"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CONFIG-FALLBACK_SETTINGS.PY-78a4a98b",
+      "priority": "med",
+      "title": "Validate fallback behavior",
+      "file": "./config/fallback_settings.py",
+      "module": "config/fallback_settings.py",
+      "trinity": "null",
+      "line_hint": 56,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./config/fallback_settings.py:            )  # TODO[T4-AUDIT]: Validate fallback behavior",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-CONFIG-READ_SETTINGS.PY-000d4cb5",
+      "priority": "med",
+      "title": "Ensure settings_loader.py is robustly available in the",
+      "file": "./config/read_settings.py",
+      "module": "config/read_settings.py",
+      "trinity": "null",
+      "line_hint": 47,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./config/read_settings.py:# AIMPORT_TODO: Ensure settings_loader.py is robustly available in the",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-DIAGNOSTICS-DRIFT_DIAGNOSTICS.PY-f4c4d9ca",
+      "priority": "med",
+      "title": "Integrate glyph heatmap support",
+      "file": "./diagnostics/drift_diagnostics.py",
+      "module": "diagnostics/drift_diagnostics.py",
+      "trinity": "null",
+      "line_hint": 55,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./diagnostics/drift_diagnostics.py:    # TODO: Integrate glyph heatmap support",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-MED-EMOTION-__INIT__.PY-85a5d8bf",
+      "priority": "med",
+      "title": "e",
+      "file": "./emotion/__init__.py",
+      "module": "emotion/__init__.py",
+      "trinity": "null",
+      "line_hint": 66,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./emotion/__init__.py:        return {\"status\": \"emotion_unavailable\", \"error\": str(e)}  # noqa: F821  # TODO: e",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: codex-09-batch-$(date +%m%d)",
+      "2. Work through 40 tasks systematically",
+      "3. One TaskID per commit",
+      "4. Focus: medium priority tasks",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(medium): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.160903Z",
+  "source": "Direct allocation from manifest_clean.json"
+}

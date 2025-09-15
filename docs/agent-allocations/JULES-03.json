@@ -1,0 +1,423 @@
+{
+  "agent_id": "JULES-03",
+  "specialty": "SSO/Biometrics",
+  "focus": "authentication flows, symbolic challenge",
+  "task_count": 25,
+  "priority": "critical",
+  "risk_level": "high",
+  "branch_prefix": "feat/jules-03/sso/biometrics-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-be9f619b",
+      "priority": "critical",
+      "title": "Implement session creation logic",
+      "file": "./candidate/governance/identity/core/qrs/session_replay.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 19,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/qrs/session_replay.py:        # TODO: Implement session creation logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-c2d4a47e",
+      "priority": "critical",
+      "title": "Implement session restoration logic",
+      "file": "./candidate/governance/identity/core/qrs/session_replay.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 23,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/qrs/session_replay.py:        # TODO: Implement session creation logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-648d8b5c",
+      "priority": "critical",
+      "title": "Implement session invalidation logic",
+      "file": "./candidate/governance/identity/core/qrs/session_replay.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 27,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/qrs/session_replay.py:        # TODO: Implement session creation logic",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-02d93d6c",
+      "priority": "critical",
+      "title": "Implement symbolic challenge verification",
+      "file": "./candidate/governance/identity/core/sing/sso_engine.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 627,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/sing/sso_engine.py:        # TODO: Implement symbolic challenge verification",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-44d9de6f",
+      "priority": "critical",
+      "title": "Implement biometric validation",
+      "file": "./candidate/governance/identity/core/sing/sso_engine.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 632,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/sing/sso_engine.py:        # TODO: Implement symbolic challenge verification",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-04e68df9",
+      "priority": "critical",
+      "title": "Implement cryptographic signing",
+      "file": "./candidate/governance/identity/core/sing/sso_engine.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 637,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/sing/sso_engine.py:        # TODO: Implement symbolic challenge verification",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-464ad2c2",
+      "priority": "critical",
+      "title": "Implement device sync token creation",
+      "file": "./candidate/governance/identity/core/sing/sso_engine.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 643,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/sing/sso_engine.py:        # TODO: Implement symbolic challenge verification",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-54815d20",
+      "priority": "critical",
+      "title": "Implement sync token registration",
+      "file": "./candidate/governance/identity/core/sing/sso_engine.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 648,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/sing/sso_engine.py:        # TODO: Implement symbolic challenge verification",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-23b0eac7",
+      "priority": "critical",
+      "title": "Implement service notification logic",
+      "file": "./candidate/governance/identity/core/sing/sso_engine.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 653,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/sing/sso_engine.py:        # TODO: Implement symbolic challenge verification",
+        "last_commit": "3b57745b046b0d94f2ef11a52fa3e2d704f61ffd"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-dc95cd46",
+      "priority": "critical",
+      "title": "kept for core infrastructure (review and implement)",
+      "file": "./candidate/governance/identity/core/sing/cross_device_manager.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 25,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/sing/cross_device_manager.py:    from cryptography.hazmat.primitives import hashes  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)",
+        "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-d11b2689",
+      "priority": "critical",
+      "title": "Implement persistent storage loading",
+      "file": "./candidate/governance/identity/core/tier/tier_manager.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 742,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/tier/tier_manager.py:        # TODO: Implement persistent storage loading",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-a95f1715",
+      "priority": "critical",
+      "title": "Implement persistent storage",
+      "file": "./candidate/governance/identity/core/tier/tier_manager.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 747,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/tier/tier_manager.py:        # TODO: Implement persistent storage loading",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-0af67529",
+      "priority": "critical",
+      "title": "Implement sophisticated scoring algorithm",
+      "file": "./candidate/governance/identity/core/tier/tier_manager.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 751,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/core/tier/tier_manager.py:        # TODO: Implement persistent storage loading",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-870eced1",
+      "priority": "critical",
+      "title": "Initialize when QRG components are wired",
+      "file": "./candidate/governance/identity/auth_integrations/qrg_bridge.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 64,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/auth_integrations/qrg_bridge.py:            # TODO: Initialize when QRG components are wired",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-96e8a5f8",
+      "priority": "critical",
+      "title": "Implement when QRG is integrated",
+      "file": "./candidate/governance/identity/auth_integrations/qrg_bridge.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 96,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/auth_integrations/qrg_bridge.py:            # TODO: Initialize when QRG components are wired",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-96e8a5f8",
+      "priority": "critical",
+      "title": "Implement when QRG is integrated",
+      "file": "./candidate/governance/identity/auth_integrations/qrg_bridge.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 106,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/auth_integrations/qrg_bridge.py:            # TODO: Initialize when QRG components are wired",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-cf9672bb",
+      "priority": "critical",
+      "title": "Implement when QRG animation engine is integrated",
+      "file": "./candidate/governance/identity/auth_integrations/qrg_bridge.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 116,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/auth_integrations/qrg_bridge.py:            # TODO: Initialize when QRG components are wired",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-71deef41",
+      "priority": "critical",
+      "title": "Implement when QRG steganography is integrated",
+      "file": "./candidate/governance/identity/auth_integrations/qrg_bridge.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 128,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/auth_integrations/qrg_bridge.py:            # TODO: Initialize when QRG components are wired",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-b02f0c3c",
+      "priority": "critical",
+      "title": "Initialize when WALLET components are wired",
+      "file": "./candidate/governance/identity/auth_integrations/wallet_bridge.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 54,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/auth_integrations/wallet_bridge.py:            # TODO: Initialize when WALLET components are wired",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-0db9c597",
+      "priority": "critical",
+      "title": "Implement when WALLET is integrated",
+      "file": "./candidate/governance/identity/auth_integrations/wallet_bridge.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 79,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/auth_integrations/wallet_bridge.py:            # TODO: Initialize when WALLET components are wired",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-0db9c597",
+      "priority": "critical",
+      "title": "Implement when WALLET is integrated",
+      "file": "./candidate/governance/identity/auth_integrations/wallet_bridge.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 88,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/auth_integrations/wallet_bridge.py:            # TODO: Initialize when WALLET components are wired",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-92dd2219",
+      "priority": "critical",
+      "title": "Implement when WALLET QI core is integrated",
+      "file": "./candidate/governance/identity/auth_integrations/wallet_bridge.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 97,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/identity/auth_integrations/wallet_bridge.py:            # TODO: Initialize when WALLET components are wired",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-7db45d58",
+      "priority": "critical",
+      "title": "Implement AI-powered differential diagnosis with safety checks",
+      "file": "./candidate/governance/healthcare/decision_support.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 256,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-6f89bf0d",
+      "priority": "critical",
+      "title": "Implement comprehensive safety validation",
+      "file": "./candidate/governance/healthcare/decision_support.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 518,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-da0ebdc0",
+      "priority": "critical",
+      "title": "Implement additional Guardian features:",
+      "file": "./candidate/governance/guardian_sentinel.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 209,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/guardian_sentinel.py:# TODO: Implement additional Guardian features:",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: jules-03-batch-$(date +%m%d)",
+      "2. Work through 25 tasks systematically",
+      "3. One TaskID per commit",
+      "4. Focus: authentication flows, symbolic challenge",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(sso/biometrics): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.154742Z",
+  "source": "Direct allocation from manifest_clean.json"
+}

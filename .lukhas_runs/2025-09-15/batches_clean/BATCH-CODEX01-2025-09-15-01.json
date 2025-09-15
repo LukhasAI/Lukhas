@@ -77,7 +77,7 @@
       "line_hint": 57,
       "module": "candidate/memory",
       "trinity": "Consciousness",
-      "status": "open",
+      "status": "completed",
       "source": "high_todos.md",
       "evidence": {
         "grep": "./candidate/memory/visualizer.py:# AIMPORT_TODO: Review deep relative imports for robustness.",
@@ -88,7 +88,9 @@
       "est": {
         "type": "mechanical",
         "size": "XS"
-      }
+      },
+      "completion_pr": "242",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-BRANDING-POETRY-f03a7a34",
@@ -98,7 +100,7 @@
       "line_hint": 47,
       "module": "branding/poetry",
       "trinity": "null",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./branding/poetry/update_poetry_imports.py:            \"from branding.poetry.legacy import advanced_haiku_generator  # TODO: Migrate to new soul.py\",",
@@ -109,7 +111,9 @@
       "est": {
         "type": "mechanical",
         "size": "XS"
-      }
+      },
+      "completion_pr": "242",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-LOW-RL-RUN_ADVANCED_TESTS.PY-56c3afc6",
@@ -119,7 +123,7 @@
       "line_hint": 43,
       "module": "rl/run_advanced_tests.py",
       "trinity": "null",
-      "status": "open",
+      "status": "completed",
       "source": "low_todos.md",
       "evidence": {
         "grep": "./rl/run_advanced_tests.py:        import hypothesis  # noqa: F401  # TODO: hypothesis; consider using imp...",
@@ -130,7 +134,9 @@
       "est": {
         "type": "mechanical",
         "size": "XS"
-      }
+      },
+      "completion_pr": "247",
+      "completed_at": "2025-09-15T08:00:00Z"
     }
   ],
   "summary": {

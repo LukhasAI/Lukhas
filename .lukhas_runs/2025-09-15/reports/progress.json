@@ -1,15 +1,15 @@
 {
   "date": "2025-09-15",
   "run_id": "LUKHAS-RUN-2025-09-15-CLEAN",
-  "timestamp": "2025-09-15T01:42:57.194607",
+  "timestamp": "2025-09-15T09:29:17.739207",
   "summary": {
     "total_todos": 1129,
-    "total_assigned": 411,
-    "total_done": 0,
+    "total_assigned": 517,
+    "total_done": 54,
     "total_wip": 0,
-    "total_remaining": 411,
-    "completion_rate": 0.0,
-    "active_batches": 20
+    "total_remaining": 463,
+    "completion_rate": 10.444874274661508,
+    "active_batches": 25
   },
   "counts": {
     "critical": {
@@ -38,6 +38,15 @@
     }
   },
   "agents": {
+    "codex12": {
+      "assigned": 35,
+      "done": 0,
+      "wip": 0,
+      "remaining": 35,
+      "batch_id": "BATCH-CODEX12-2025-09-15-01",
+      "domain": "MEDIUM-REFACTORING",
+      "risk_level": "low"
+    },
     "jules07": {
       "assigned": 20,
       "done": 0,
@@ -48,30 +57,39 @@
       "risk_level": "medium"
     },
     "codex02": {
-      "assigned": 15,
-      "done": 0,
+      "assigned": 6,
+      "done": 4,
       "wip": 0,
-      "remaining": 15,
+      "remaining": 2,
       "batch_id": "BATCH-CODEX02-2025-09-15-01",
       "domain": "",
       "risk_level": "medium"
     },
     "codex01": {
-      "assigned": 16,
-      "done": 0,
+      "assigned": 6,
+      "done": 3,
       "wip": 0,
-      "remaining": 16,
+      "remaining": 3,
       "batch_id": "BATCH-CODEX01-2025-09-15-01",
       "domain": "",
       "risk_level": "medium"
     },
     "jules09": {
-      "assigned": 13,
+      "assigned": 6,
       "done": 0,
       "wip": 0,
-      "remaining": 13,
+      "remaining": 6,
       "batch_id": "BATCH-JULES09-2025-09-15-01",
       "domain": "",
+      "risk_level": "medium"
+    },
+    "codex11": {
+      "assigned": 35,
+      "done": 0,
+      "wip": 0,
+      "remaining": 35,
+      "batch_id": "BATCH-CODEX11-2025-09-15-01",
+      "domain": "HIGH-API-INTEGRATION",
       "risk_level": "medium"
     },
     "jules04": {
@@ -85,12 +103,21 @@
     },
     "codex07": {
       "assigned": 30,
-      "done": 0,
+      "done": 7,
       "wip": 0,
-      "remaining": 30,
+      "remaining": 23,
       "batch_id": "BATCH-CODEX07-2025-09-15-01",
       "domain": "",
       "risk_level": "medium"
+    },
+    "jules12": {
+      "assigned": 35,
+      "done": 0,
+      "wip": 0,
+      "remaining": 35,
+      "batch_id": "BATCH-JULES12-2025-09-15-01",
+      "domain": "CRITICAL-CONSCIOUSNESS-CORE",
+      "risk_level": "critical"
     },
     "jules02": {
       "assigned": 25,
@@ -112,45 +139,54 @@
     },
     "codex09": {
       "assigned": 30,
-      "done": 0,
+      "done": 8,
       "wip": 0,
-      "remaining": 30,
+      "remaining": 22,
       "batch_id": "BATCH-CODEX09-2025-09-15-01",
       "domain": "",
       "risk_level": "medium"
     },
     "codex04": {
-      "assigned": 15,
-      "done": 0,
+      "assigned": 6,
+      "done": 3,
       "wip": 0,
-      "remaining": 15,
+      "remaining": 3,
       "batch_id": "BATCH-CODEX04-2025-09-15-01",
       "domain": "",
       "risk_level": "medium"
     },
-    "codex08": {
-      "assigned": 30,
+    "jules11": {
+      "assigned": 35,
       "done": 0,
       "wip": 0,
-      "remaining": 30,
+      "remaining": 35,
+      "batch_id": "BATCH-JULES11-2025-09-15-01",
+      "domain": "CRITICAL-CORE-INFRASTRUCTURE",
+      "risk_level": "high"
+    },
+    "codex08": {
+      "assigned": 30,
+      "done": 7,
+      "wip": 0,
+      "remaining": 23,
       "batch_id": "BATCH-CODEX08-2025-09-15-01",
       "domain": "",
       "risk_level": "medium"
     },
     "jules10": {
-      "assigned": 12,
+      "assigned": 6,
       "done": 0,
       "wip": 0,
-      "remaining": 12,
+      "remaining": 6,
       "batch_id": "BATCH-JULES10-2025-09-15-01",
       "domain": "",
       "risk_level": "medium"
     },
     "codex05": {
-      "assigned": 15,
-      "done": 0,
+      "assigned": 6,
+      "done": 5,
       "wip": 0,
-      "remaining": 15,
+      "remaining": 1,
       "batch_id": "BATCH-CODEX05-2025-09-15-01",
       "domain": "",
       "risk_level": "medium"
@@ -164,11 +200,20 @@
       "domain": "",
       "risk_level": "medium"
     },
-    "codex06": {
-      "assigned": 15,
+    "jules13": {
+      "assigned": 35,
       "done": 0,
       "wip": 0,
-      "remaining": 15,
+      "remaining": 35,
+      "batch_id": "BATCH-JULES13-2025-09-15-01",
+      "domain": "CRITICAL-IDENTITY-AUTH",
+      "risk_level": "critical"
+    },
+    "codex06": {
+      "assigned": 5,
+      "done": 3,
+      "wip": 0,
+      "remaining": 2,
       "batch_id": "BATCH-CODEX06-2025-09-15-01",
       "domain": "",
       "risk_level": "medium"
@@ -193,18 +238,18 @@
     },
     "codex10": {
       "assigned": 30,
-      "done": 0,
+      "done": 10,
       "wip": 0,
-      "remaining": 30,
+      "remaining": 20,
       "batch_id": "BATCH-CODEX10-2025-09-15-01",
       "domain": "",
       "risk_level": "medium"
     },
     "codex03": {
-      "assigned": 15,
-      "done": 0,
+      "assigned": 6,
+      "done": 4,
       "wip": 0,
-      "remaining": 15,
+      "remaining": 2,
       "batch_id": "BATCH-CODEX03-2025-09-15-01",
       "domain": "",
       "risk_level": "medium"
@@ -241,7 +286,7 @@
     }
   },
   "verification": {
-    "evidence_verified": 0,
+    "evidence_verified": 54,
     "requires_review": 0,
     "feature_flags_required": 0,
     "experimental": 0

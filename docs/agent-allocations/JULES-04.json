@@ -1,0 +1,423 @@
+{
+  "agent_id": "JULES-04",
+  "specialty": "Awareness Protocol",
+  "focus": "\u039bTIER system reconciliation",
+  "task_count": 25,
+  "priority": "critical",
+  "risk_level": "high",
+  "branch_prefix": "feat/jules-04/awareness-protocol-batch",
+  "tasks": [
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-292f37f1",
+      "priority": "critical",
+      "title": "Integrate with advanced intent analysis system",
+      "file": "./candidate/governance/ethics/enhanced_ethical_guardian.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 344,
+      "risk": "high",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/governance/ethics/enhanced_ethical_guardian.py:        # TODO: Integrate with advanced intent analysis system",
+        "last_commit": "9296e052e49c35d6e9c3b00df619ef109d77b1eb"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-f9a52ee8",
+      "priority": "critical",
+      "title": "Forward to main governance system",
+      "file": "./candidate/governance/ethics/enhanced_ethical_guardian.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 763,
+      "risk": "high",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./candidate/governance/ethics/enhanced_ethical_guardian.py:        # TODO: Integrate with advanced intent analysis system",
+        "last_commit": "9296e052e49c35d6e9c3b00df619ef109d77b1eb"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-de64394b",
+      "priority": "critical",
+      "title": "Implement sophisticated tier requirement analysis",
+      "file": "./candidate/governance/ethics/enhanced_ethical_guardian.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 848,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/ethics/enhanced_ethical_guardian.py:        # TODO: Integrate with advanced intent analysis system",
+        "last_commit": "9296e052e49c35d6e9c3b00df619ef109d77b1eb"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-4ae11c0b",
+      "priority": "critical",
+      "title": "Install or implement CORE",
+      "file": "./candidate/governance/ethics/guardian_reflector.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 53,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/ethics/guardian_reflector.py:    #     from ...CORE.ethics.ethics_engine import EthicsEngine  # TODO: Install or implement CORE",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-4ae11c0b",
+      "priority": "critical",
+      "title": "Install or implement CORE",
+      "file": "./candidate/governance/ethics/guardian_reflector.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 54,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/ethics/guardian_reflector.py:    #     from ...CORE.ethics.ethics_engine import EthicsEngine  # TODO: Install or implement CORE",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-4ae11c0b",
+      "priority": "critical",
+      "title": "Install or implement CORE",
+      "file": "./candidate/governance/ethics/guardian_reflector.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 56,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/ethics/guardian_reflector.py:    #     from ...CORE.ethics.ethics_engine import EthicsEngine  # TODO: Install or implement CORE",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-bb653b92",
+      "priority": "critical",
+      "title": ":",
+      "file": "./candidate/governance/ethics_legacy/security/main_node_security_engine.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 32,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/ethics_legacy/security/main_node_security_engine.py:    # from AID.service.identity_manager import IdentityManager  # TODO:",
+        "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-304882ec",
+      "priority": "critical",
+      "title": "Implement governance validation",
+      "file": "./candidate/governance/monitoring/guardian_dashboard.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 416,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/monitoring/guardian_dashboard.py:        # TODO: Implement governance validation",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-dbbb2ccc",
+      "priority": "critical",
+      "title": "Calculate from actual data",
+      "file": "./candidate/governance/monitoring/guardian_dashboard.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 876,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./candidate/governance/monitoring/guardian_dashboard.py:        # TODO: Implement governance validation",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-bda5b02b",
+      "priority": "critical",
+      "title": "Fix 19 F821 undefined name errors - Dashboard visualization fixes, Streamlit import fallbacks, undefined widget references",
+      "file": "./candidate/governance/compliance_dashboard_visual.py",
+      "module": "candidate/governance",
+      "trinity": "Guardian",
+      "line_hint": 1,
+      "risk": "med",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./candidate/governance/compliance_dashboard_visual.py:TODO[JULES-2]: Fix 19 F821 undefined name errors - Dashboard visualization fixes, Streamlit import fallbacks, undefined widget references",
+        "last_commit": "ade3dafb7b15361ff5786ae4055c91865888d5a1"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-433a7cdd",
+      "priority": "critical",
+      "title": "kept pending MATRIZ wiring (document or remove)",
+      "file": "./candidate/governance/auth_cross_module_integration.py",
+      "module": "candidate/governance",
+      "trinity": "Identity",
+      "line_hint": 34,
+      "risk": "med",
+      "type": "logic",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "f869d7ac01b8f36fdeff3091894843582545fce0"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-MCP_SERVERS-IDENTITY-622feb2d",
+      "priority": "critical",
+      "title": "mcp.types.EmbeddedResource; co...",
+      "file": "./mcp_servers/identity/server.py",
+      "module": "mcp_servers/identity",
+      "trinity": "Identity",
+      "line_hint": 33,
+      "risk": "med",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./mcp_servers/identity/server.py:    )  # noqa: F401  # TODO: mcp.types.EmbeddedResource; co...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-EXPERIENCE-a7f67b86",
+      "priority": "critical",
+      "title": "np",
+      "file": "./products/experience/feedback/core/enterprise/advanced_security.py",
+      "module": "products/experience",
+      "trinity": "null",
+      "line_hint": 694,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/experience/feedback/core/enterprise/advanced_security.py:                \"average_trust_score\": (np.mean(list(self.trust_scores.values())) if self.trust_scores else 0.5),  # noqa: F821  # TODO: np",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-ENTERPRISE-d8e0d5aa",
+      "priority": "critical",
+      "title": "lukhas.guardian.GuardianSystem...",
+      "file": "./products/enterprise/core/observability/t4_observability_stack.py",
+      "module": "products/enterprise",
+      "trinity": "Guardian",
+      "line_hint": 46,
+      "risk": "high",
+      "type": "logic",
+      "size": "L",
+      "evidence": {
+        "grep": "./products/enterprise/core/observability/t4_observability_stack.py:    from datadog.api.metrics import Metric  # noqa: F401  # TODO: datadog.api.metrics.Metric; co...",
+        "last_commit": "a5528721ad7d1471a701e415b5bbccc89da89cff"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-ENTERPRISE-63e2d72c",
+      "priority": "critical",
+      "title": "lz4.frame; consider using impo...",
+      "file": "./products/enterprise/core/performance/extreme_auth_optimization.py",
+      "module": "products/enterprise",
+      "trinity": "Identity",
+      "line_hint": 62,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/performance/extreme_auth_optimization.py:    import lz4.frame as _  # Ultra-fast compression for large payloads  # noqa: F401  # TODO: lz4.frame; consider using impo...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-ENTERPRISE-c1ebf7d9",
+      "priority": "critical",
+      "title": "candidate.governance.GuardianS...",
+      "file": "./products/enterprise/core/performance/constellation_benchmarks.py",
+      "module": "products/enterprise",
+      "trinity": "Guardian",
+      "line_hint": 42,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/core/performance/constellation_benchmarks.py:    from lukhas.constellation import ConstellationFramework  # noqa: F401  # TODO: lukhas.constellation.Constella...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-ENTERPRISE-43580871",
+      "priority": "critical",
+      "title": ":",
+      "file": "./products/enterprise/performance/extreme_auth_optimization.py",
+      "module": "products/enterprise",
+      "trinity": "Identity",
+      "line_hint": 10,
+      "risk": "low",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/enterprise/performance/extreme_auth_optimization.py:\ud83d\udccb TODO FOR AGENT INTEGRATION:",
+        "last_commit": "6d0d98005f1b7ba69dd00141537cc0fe9c9db2b0"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-f4faae9b",
+      "priority": "critical",
+      "title": "gtts.gTTS; consider using impo...",
+      "file": "./products/security/healthcare_guardian/healthcare_guardian_es/voice_andaluz/voice_engine.py",
+      "module": "products/security",
+      "trinity": "Guardian",
+      "line_hint": 122,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/security/healthcare_guardian/healthcare_guardian_es/voice_andaluz/voice_engine.py:            from gtts import gTTS  # noqa: F401  # TODO: gtts.gTTS; consider using impo...",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-66223ed1",
+      "priority": "critical",
+      "title": "Fix import paths - lambda directory doesn't exist",
+      "file": "./products/security/healthcare_guardian/providers/templates/regions/europe/spain/private/asisa_interface.py",
+      "module": "products/security",
+      "trinity": "Identity",
+      "line_hint": 14,
+      "risk": "high",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "a1be7dc717add7b7d2521b1f075aefd4c230b0d9"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-2b7af722",
+      "priority": "critical",
+      "title": "Fix import paths - lambda directory doesn't exist",
+      "file": "./products/security/healthcare_guardian/providers/templates/regions/europe/uk/nhs/nhs_interface.py",
+      "module": "products/security",
+      "trinity": "Identity",
+      "line_hint": 14,
+      "risk": "high",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "a1be7dc717add7b7d2521b1f075aefd4c230b0d9"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-2b5d9669",
+      "priority": "critical",
+      "title": "Fix import paths - lambda directory doesn't exist",
+      "file": "./products/security/healthcare_guardian/providers/templates/regions/private/global/axa_interface.py",
+      "module": "products/security",
+      "trinity": "Identity",
+      "line_hint": 13,
+      "risk": "high",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "a1be7dc717add7b7d2521b1f075aefd4c230b0d9"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-b887f3bf",
+      "priority": "critical",
+      "title": "Fix import paths - lambda directory doesn't exist",
+      "file": "./products/security/healthcare_guardian/providers/templates/regions/americas/north_america/us/kaiser_interface.py",
+      "module": "products/security",
+      "trinity": "Identity",
+      "line_hint": 13,
+      "risk": "high",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": null,
+        "last_commit": "a1be7dc717add7b7d2521b1f075aefd4c230b0d9"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-bf4c80cd",
+      "priority": "critical",
+      "title": "MockMedicationOCR",
+      "file": "./products/security/guardian/guardian_core.py",
+      "module": "products/security",
+      "trinity": "Guardian",
+      "line_hint": 354,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/security/guardian/guardian_core.py:                self.medical_ocr = MockMedicationOCR(cache_dir=self.data_dir / \"ocr_cache\")  # noqa: F821  # TODO: MockMedicationOCR",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-197eabde",
+      "priority": "critical",
+      "title": "Fix import paths - lambda directory doesn't exist",
+      "file": "./products/security/qrg/bridge.py",
+      "module": "products/security",
+      "trinity": "Identity",
+      "line_hint": 19,
+      "risk": "high",
+      "type": "mechanical",
+      "size": "XS",
+      "evidence": {
+        "grep": "./products/security/qrg/bridge.py:    # TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    },
+    {
+      "task_id": "TODO-CRIT-PRODUCTS-SECURITY-f95b295c",
+      "priority": "critical",
+      "title": "timezone",
+      "file": "./products/security/qrg/bridge.py",
+      "module": "products/security",
+      "trinity": "null",
+      "line_hint": 152,
+      "risk": "high",
+      "type": "logic",
+      "size": "S",
+      "evidence": {
+        "grep": "./products/security/qrg/bridge.py:    # TODO: Fix import paths - lambda directory doesn't exist",
+        "last_commit": "e488a55ab41671e123b7a722a2dbee9b72fdd204"
+      }
+    }
+  ],
+  "usage_instructions": {
+    "how_to_start": [
+      "1. Create branch: jules-04-batch-$(date +%m%d)",
+      "2. Work through 25 tasks systematically",
+      "3. One TaskID per commit",
+      "4. Focus: \u039bTIER system reconciliation",
+      "5. Run checks: ruff check . && pytest -q"
+    ],
+    "commit_format": "feat(awareness): {description} ({task_id})"
+  },
+  "created_at": "2025-09-15T10:29:57.155060Z",
+  "source": "Direct allocation from manifest_clean.json"
+}

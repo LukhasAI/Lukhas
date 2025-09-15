@@ -287,7 +287,7 @@
       "line_hint": 14,
       "module": "branding/engines",
       "trinity": "null",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./branding/engines/lukhas_content_platform/test_content_generation.py:    \"\"\"TODO(symbol-resolver): implement missing functionality",
@@ -298,7 +298,9 @@
       "est": {
         "type": "logic",
         "size": "S"
-      }
+      },
+      "completion_pr": "247",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-BRIDGE-96359d80",
@@ -308,7 +310,7 @@
       "line_hint": 32,
       "module": "candidate/bridge",
       "trinity": "null",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": null,
@@ -319,7 +321,9 @@
       "est": {
         "type": "logic",
         "size": "XS"
-      }
+      },
+      "completion_pr": "250",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-BRIDGE-14ce34de",
@@ -371,7 +375,7 @@
       "line_hint": 327,
       "module": "candidate/governance",
       "trinity": "Guardian",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
@@ -382,7 +386,9 @@
       "est": {
         "type": "logic",
         "size": "S"
-      }
+      },
+      "completion_pr": "247",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-e0e223f6",
@@ -392,7 +398,7 @@
       "line_hint": 449,
       "module": "candidate/governance",
       "trinity": "Guardian",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
@@ -403,7 +409,9 @@
       "est": {
         "type": "logic",
         "size": "S"
-      }
+      },
+      "completion_pr": "251",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-89df919b",
@@ -413,7 +421,7 @@
       "line_hint": 447,
       "module": "candidate/governance",
       "trinity": "Guardian",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./candidate/governance/healthcare/case_manager.py:        # TODO: Integrate with LUKHAS ethical engine",
@@ -424,7 +432,9 @@
       "est": {
         "type": "logic",
         "size": "S"
-      }
+      },
+      "completion_pr": "251",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-059d3be8",
@@ -434,7 +444,7 @@
       "line_hint": 47,
       "module": "candidate/governance",
       "trinity": "Guardian",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./candidate/governance/ethics/ethical_sentinel_dashboard.py:TODO: Add violation heatmap for pattern recognition",
@@ -445,7 +455,9 @@
       "est": {
         "type": "logic",
         "size": "S"
-      }
+      },
+      "completion_pr": "247",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-1fbef412",
@@ -455,7 +467,7 @@
       "line_hint": 799,
       "module": "candidate/governance",
       "trinity": "Guardian",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./candidate/governance/monitoring/threat_monitor.py:            \"ethics_reviewed\": True,  # TODO: Integrate with ethics engine",
@@ -466,7 +478,9 @@
       "est": {
         "type": "logic",
         "size": "S"
-      }
+      },
+      "completion_pr": "251",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-EMOTION-e79c2bab",
@@ -518,7 +532,7 @@
       "line_hint": 21,
       "module": "candidate/aka_qualia",
       "trinity": "Consciousness",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": null,
@@ -529,7 +543,9 @@
       "est": {
         "type": "logic",
         "size": "XS"
-      }
+      },
+      "completion_pr": "250",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-DIAGNOSTICS-DRIFT_DIAGNOSTICS.PY-f4c4d9ca",

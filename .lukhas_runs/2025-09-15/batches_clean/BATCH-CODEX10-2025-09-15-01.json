@@ -161,7 +161,7 @@
       "line_hint": 17,
       "module": "branding/poetry",
       "trinity": "null",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./branding/poetry/update_poetry_imports.py:            \"from branding.poetry.legacy import advanced_haiku_generator  # TODO: Migrate to new soul.py\",",
@@ -172,7 +172,9 @@
       "est": {
         "type": "logic",
         "size": "S"
-      }
+      },
+      "completion_pr": "242",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-BRANDING-POETRY-bb271305",
@@ -287,7 +289,7 @@
       "line_hint": 18,
       "module": "branding/storytelling",
       "trinity": "Consciousness",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": null,
@@ -298,7 +300,9 @@
       "est": {
         "type": "logic",
         "size": "S"
-      }
+      },
+      "completion_pr": "241",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-BRIDGE-2d109e3c",
@@ -350,7 +354,7 @@
       "line_hint": 14,
       "module": "candidate/vivox",
       "trinity": "null",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": null,
@@ -361,7 +365,9 @@
       "est": {
         "type": "logic",
         "size": "XS"
-      }
+      },
+      "completion_pr": "250",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-efe891db",
@@ -371,7 +377,7 @@
       "line_hint": 379,
       "module": "candidate/governance",
       "trinity": "Guardian",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
@@ -382,7 +388,9 @@
       "est": {
         "type": "logic",
         "size": "S"
-      }
+      },
+      "completion_pr": "251",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-e43486fd",
@@ -392,7 +400,7 @@
       "line_hint": 469,
       "module": "candidate/governance",
       "trinity": "Guardian",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./candidate/governance/healthcare/decision_support.py:        # TODO: Implement AI-powered differential diagnosis with safety checks",
@@ -403,7 +411,9 @@
       "est": {
         "type": "logic",
         "size": "S"
-      }
+      },
+      "completion_pr": "251",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-43463cb5",
@@ -413,7 +423,7 @@
       "line_hint": 604,
       "module": "candidate/governance",
       "trinity": "Guardian",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./candidate/governance/healthcare/case_manager.py:        # TODO: Integrate with LUKHAS ethical engine",
@@ -424,7 +434,9 @@
       "est": {
         "type": "logic",
         "size": "S"
-      }
+      },
+      "completion_pr": "251",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-50668da9",
@@ -434,7 +446,7 @@
       "line_hint": 7,
       "module": "candidate/governance",
       "trinity": "Guardian",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./candidate/governance/examples/basic/example.py:# TODO: Add example",
@@ -445,7 +457,9 @@
       "est": {
         "type": "logic",
         "size": "S"
-      }
+      },
+      "completion_pr": "251",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-GOVERNANCE-904bdcdb",
@@ -455,7 +469,7 @@
       "line_hint": 901,
       "module": "candidate/governance",
       "trinity": "Guardian",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./candidate/governance/monitoring/threat_monitor.py:            \"ethics_reviewed\": True,  # TODO: Integrate with ethics engine",
@@ -466,7 +480,9 @@
       "est": {
         "type": "logic",
         "size": "S"
-      }
+      },
+      "completion_pr": "251",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-CANDIDATE-EMOTION-ecd3ad62",
@@ -518,7 +534,7 @@
       "line_hint": 24,
       "module": "candidate/aka_qualia",
       "trinity": "Consciousness",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": null,
@@ -529,7 +545,9 @@
       "est": {
         "type": "logic",
         "size": "XS"
-      }
+      },
+      "completion_pr": "250",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-EMOTION-__INIT__.PY-85a5d8bf",
@@ -602,7 +620,7 @@
       "line_hint": 20,
       "module": "lukhas_website/unified",
       "trinity": "Consciousness",
-      "status": "open",
+      "status": "completed",
       "source": "med_todos.md",
       "evidence": {
         "grep": "./lukhas_website/unified/consciousness_integration.py:    from lukhas.memory.folds.memory_fold import MemoryFold  # noqa: F401  # TODO: lukhas.memory.folds.memory_fol...",
@@ -613,7 +631,9 @@
       "est": {
         "type": "logic",
         "size": "S"
-      }
+      },
+      "completion_pr": "241",
+      "completed_at": "2025-09-15T08:00:00Z"
     },
     {
       "task_id": "TODO-MED-SCRIPTS-ANALYSIS-0978160e",
