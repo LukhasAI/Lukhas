@@ -8,6 +8,8 @@ import random
 from dataclasses import dataclass
 from typing import Any, Optional
 
+from candidate.flags.ff import Flags
+
 
 # --- Dataclasses for Typed Responses ---
 
@@ -48,8 +50,11 @@ class AbundanceCalculator:
         self, contribution: dict[str, Any]
     ) -> float:
         """Calculates abundance impact based on a seeded random generator."""
-        # TODO[QUANTUM-BIO:specialist] - Contribution used for quantum consciousness calculation
-        return self.rng.uniform(1.0, 2.0)
+        magnitude = sum(
+            float(v) for v in contribution.values() if isinstance(v, (int, float))
+        )
+        base = self.rng.uniform(1.0, 2.0)
+        return base * (1 + magnitude / 100)
 
 
 class ConsciousnessTokenProtocol:
@@ -61,8 +66,9 @@ class ConsciousnessTokenProtocol:
         self, amount: float
     ) -> str:
         """Issues a deterministic token based on a seeded random generator."""
-        # TODO[QUANTUM-BIO:specialist] - Amount determines quantum token consciousness value
-        return f"token_{self.rng.randint(1000, 9999)}"
+        # ΛTAG: wallet
+        token_value = 1000 + int(abs(amount) * 1000) % 9000
+        return f"token_{token_value}"
 
 
 class GiftEconomyEngine:
@@ -74,8 +80,11 @@ class GiftEconomyEngine:
         self, contribution: dict[str, Any]
     ) -> float:
         """Calculates gift value based on a seeded random generator."""
-        # TODO[QUANTUM-BIO:specialist] - Contribution drives quantum gift consciousness economy
-        return self.rng.uniform(10, 100)
+        # ΛTAG: qi_bridge
+        magnitude = sum(
+            float(v) for v in contribution.values() if isinstance(v, (int, float))
+        )
+        return self.rng.uniform(10, 100) + magnitude
 
 
 # --- Main Engine ---
@@ -86,6 +95,8 @@ class QuantumFinancialConsciousnessEngine:
     """
 
     # ΛTAG: quantum, financial, economy
+
+    FEATURE_FLAG = "QI_FINANCIAL_EXPERIMENTAL"  # ΛTAG: wallet, qi_bridge
 
     def __init__(self, seed: int = 42):
         """
@@ -107,12 +118,21 @@ class QuantumFinancialConsciousnessEngine:
         """
         Calculates value in consciousness rather than money, returning a typed dataclass.
         """
-        # TODO[QUANTUM-BIO:specialist] - User ID for quantum consciousness profile mapping
+        if not Flags.is_enabled(self.FEATURE_FLAG):
+            raise RuntimeError("QI financial features require experimental flag")
+        self.blockchain_consciousness.record_transaction(
+            {"user_id": user_id, "contribution": consciousness_contribution}
+        )
+        profile_factor = (sum(ord(c) for c in user_id) % 10) / 100
         return ConsciousnessExchange(
             consciousness_tokens_earned=self.rng.uniform(5, 50),
-            abundance_multiplier=await self.abundance_metrics.calculate_abundance_impact(consciousness_contribution),
-            gift_economy_credits=await self.gift_economy.calculate_gift_value(consciousness_contribution),
-            collective_wealth_increase=self.rng.uniform(0.01, 0.1),
+            abundance_multiplier=await self.abundance_metrics.calculate_abundance_impact(
+                consciousness_contribution
+            ),
+            gift_economy_credits=await self.gift_economy.calculate_gift_value(
+                consciousness_contribution
+            ),
+            collective_wealth_increase=self.rng.uniform(0.01, 0.1) + profile_factor,
         )
 
     async def propose_consciousness_based_exchange(
@@ -125,7 +145,9 @@ class QuantumFinancialConsciousnessEngine:
         """
         Proposes an exchange based on consciousness value, returning a typed dataclass.
         """
-        # TODO[QUANTUM-BIO:specialist] - Product quantum consciousness value in exchange calculation
+        if not Flags.is_enabled(self.FEATURE_FLAG):
+            raise RuntimeError("QI financial features require experimental flag")
+        quantum_value = product_consciousness_value.get("quantum_value", 0.0)
         if user_consciousness_profile.get("financial_stress", 0) > 0.6:
             return ExchangeProposal(
                 exchange_type="gift_economy",
@@ -136,12 +158,12 @@ class QuantumFinancialConsciousnessEngine:
             return ExchangeProposal(
                 exchange_type="abundance_based",
                 proposal="Invest in consciousness evolution for yourself and others.",
-                suggested_contribution=self.rng.uniform(10, 100),
+                suggested_contribution=self.rng.uniform(10, 100) * (1 + quantum_value),
             )
         else:
             return ExchangeProposal(
                 exchange_type="consciousness_enhanced_traditional",
                 proposal="A fair exchange for mutual growth.",
-                fair_price=self.rng.uniform(20, 200),
+                fair_price=self.rng.uniform(20, 200) * (1 + quantum_value),
                 growth_investment_framing=True,
             )
