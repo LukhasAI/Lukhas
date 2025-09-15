@@ -440,7 +440,7 @@ class AGIModuleAnalyzer:
                 all_interfaces.extend(self.modules[module_path].interfaces)
 
         # Find common patterns
-        interface_freq = Counter(all_interfaces)  # noqa: F821  # TODO: Counter
+        interface_freq = Counter(all_interfaces)  # ΛTAG: interface_frequency
         common_interfaces = [iface for iface, count in interface_freq.items() if count > 1]
 
         return {
