@@ -8,20 +8,26 @@ import random
 from dataclasses import dataclass
 from typing import Any, Optional
 
+from candidate.flags.ff import Flags
+
 
 # --- Dataclasses for Typed Responses ---
+
 
 @dataclass
 class ConsciousnessExchange:
     """Represents the result of a consciousness-based value calculation."""
+
     consciousness_tokens_earned: float
     abundance_multiplier: float
     gift_economy_credits: float
     collective_wealth_increase: float
 
+
 @dataclass
 class ExchangeProposal:
     """Represents a proposed exchange based on consciousness value."""
+
     exchange_type: str
     proposal: str
     financial_requirement: Optional[float] = None
@@ -32,8 +38,10 @@ class ExchangeProposal:
 
 # --- Deterministic Helper Classes ---
 
+
 class ConsciousnessBlockchain:
     """Placeholder for a consciousness-based transaction ledger."""
+
     def record_transaction(self, transaction: dict[str, Any]):
         """Records a transaction in the consciousness ledger."""
         print(f"Recording transaction on consciousness blockchain: {transaction}")
@@ -41,12 +49,11 @@ class ConsciousnessBlockchain:
 
 class AbundanceCalculator:
     """Calculates abundance impact deterministically."""
+
     def __init__(self, rng: random.Random):
         self.rng = rng
 
-    async def calculate_abundance_impact(
-        self, contribution: dict[str, Any]
-    ) -> float:
+    async def calculate_abundance_impact(self, contribution: dict[str, Any]) -> float:
         """Calculates abundance impact based on contribution and deterministic randomness."""
         base = self.rng.uniform(1.0, 2.0)
         impact_factor = float(contribution.get("impact", 1.0))
@@ -58,25 +65,24 @@ class AbundanceCalculator:
 
 class ConsciousnessTokenProtocol:
     """Issues consciousness tokens deterministically."""
+
     def __init__(self, rng: random.Random):
         self.rng = rng
 
-    def issue_tokens(
-        self, amount: float
-    ) -> str:
+    def issue_tokens(self, amount: float) -> str:
         """Issues a deterministic token based on a seeded random generator."""
-        # TODO[QUANTUM-BIO:specialist] - Amount determines quantum token consciousness value
-        return f"token_{self.rng.randint(1000, 9999)}"
+        # ΛTAG: wallet
+        token_value = 1000 + int(abs(amount) * 1000) % 9000
+        return f"token_{token_value}"
 
 
 class GiftEconomyEngine:
     """Calculates gift economy value deterministically."""
+
     def __init__(self, rng: random.Random):
         self.rng = rng
 
-    async def calculate_gift_value(
-        self, contribution: dict[str, Any]
-    ) -> float:
+    async def calculate_gift_value(self, contribution: dict[str, Any]) -> float:
         """Calculates gift value based on contribution magnitude and deterministic randomness."""
         base = self.rng.uniform(10, 100)
         contribution_value = float(contribution.get("value", 1.0))
@@ -88,12 +94,15 @@ class GiftEconomyEngine:
 
 # --- Main Engine ---
 
+
 class QuantumFinancialConsciousnessEngine:
     """
     Transcends traditional monetary exchange using deterministic, seeded operations.
     """
 
     # ΛTAG: quantum, financial, economy
+
+    FEATURE_FLAG = "QI_FINANCIAL_EXPERIMENTAL"  # ΛTAG: wallet, qi_bridge
 
     def __init__(self, seed: int = 42):
         """
@@ -108,32 +117,35 @@ class QuantumFinancialConsciousnessEngine:
     async def calculate_consciousness_exchange_rate(
         self,
         user_id: str,
-        consciousness_contribution: dict[
-            str, Any
-        ],
+        consciousness_contribution: dict[str, Any],
     ) -> ConsciousnessExchange:
         """
         Calculates value in consciousness rather than money, returning a typed dataclass.
         """
-        # TODO[QUANTUM-BIO:specialist] - User ID for quantum consciousness profile mapping
+        if not Flags.is_enabled(self.FEATURE_FLAG):
+            raise RuntimeError("QI financial features require experimental flag")
+        self.blockchain_consciousness.record_transaction(
+            {"user_id": user_id, "contribution": consciousness_contribution}
+        )
+        profile_factor = (sum(ord(c) for c in user_id) % 10) / 100
         return ConsciousnessExchange(
             consciousness_tokens_earned=self.rng.uniform(5, 50),
             abundance_multiplier=await self.abundance_metrics.calculate_abundance_impact(consciousness_contribution),
             gift_economy_credits=await self.gift_economy.calculate_gift_value(consciousness_contribution),
-            collective_wealth_increase=self.rng.uniform(0.01, 0.1),
+            collective_wealth_increase=self.rng.uniform(0.01, 0.1) + profile_factor,
         )
 
     async def propose_consciousness_based_exchange(
         self,
         user_consciousness_profile: dict[str, Any],
-        product_consciousness_value: dict[
-            str, Any
-        ],
+        product_consciousness_value: dict[str, Any],
     ) -> ExchangeProposal:
         """
         Proposes an exchange based on consciousness value, returning a typed dataclass.
         """
-        # TODO[QUANTUM-BIO:specialist] - Product quantum consciousness value in exchange calculation
+        if not Flags.is_enabled(self.FEATURE_FLAG):
+            raise RuntimeError("QI financial features require experimental flag")
+        quantum_value = product_consciousness_value.get("quantum_value", 0.0)
         if user_consciousness_profile.get("financial_stress", 0) > 0.6:
             return ExchangeProposal(
                 exchange_type="gift_economy",
@@ -144,12 +156,12 @@ class QuantumFinancialConsciousnessEngine:
             return ExchangeProposal(
                 exchange_type="abundance_based",
                 proposal="Invest in consciousness evolution for yourself and others.",
-                suggested_contribution=self.rng.uniform(10, 100),
+                suggested_contribution=self.rng.uniform(10, 100) * (1 + quantum_value),
             )
         else:
             return ExchangeProposal(
                 exchange_type="consciousness_enhanced_traditional",
                 proposal="A fair exchange for mutual growth.",
-                fair_price=self.rng.uniform(20, 200),
+                fair_price=self.rng.uniform(20, 200) * (1 + quantum_value),
                 growth_investment_framing=True,
             )

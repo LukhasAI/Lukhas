@@ -1,0 +1,190 @@
+# LUKHAS AI Context - Vendor-Neutral AI Guidance
+*This file provides domain-specific context for any AI development tool*
+*Also available as claude.me for Claude Desktop compatibility*
+
+---
+
+
+# Drift Detection Systems
+## Ethical Drift Monitoring & Prevention
+
+### Drift Detection Overview
+- **Purpose**: Ethical drift detection and behavioral alignment monitoring
+- **Architecture**: Real-time drift monitoring with 0.15 threshold detection
+- **Integration**: Constitutional AI alignment verification and correction
+- **Scale**: Cross-system drift detection with predictive analytics
+
+### Core Drift Detection Architecture
+
+#### **Behavioral Monitoring** - AI Behavior Analysis & Tracking
+- Continuous behavioral pattern analysis and baseline establishment
+- Decision-making pattern tracking and deviation identification
+- Constitutional AI alignment monitoring and measurement systems
+- Cross-system behavioral consistency validation and enforcement
+
+#### **Drift Threshold Management** - Precision Detection Systems
+- 0.15 drift threshold monitoring with configurable sensitivity
+- Multi-dimensional drift measurement across ethical dimensions
+- Gradual drift detection and early warning systems
+- Threshold calibration and optimization for different contexts
+
+#### **Pattern Recognition** - Advanced Analytics & ML
+- Machine learning algorithms for drift pattern identification
+- Anomaly detection systems for unusual behavioral changes
+- Trend analysis and predictive drift modeling systems
+- Cross-correlation analysis for multi-system drift detection
+
+#### **Alert & Response** - Automated Intervention Systems
+- Real-time drift alerting and notification systems
+- Automated drift correction and realignment procedures
+- Escalation protocols for severe drift violations
+- Drift remediation workflow automation and tracking
+
+### Drift Detection Integration Patterns
+
+#### **Trinity Framework Drift Monitoring**
+```
+Drift Detection ←→ Guardian 🛡️ ←→ Consciousness 🧠 ←→ Memory 💾
+       │              │                │              │
+  Behavioral → Constitutional AI ← Decision → Memory Pattern
+   Monitoring        Alignment       Monitoring     Analysis
+       │              │                │              │
+  Threshold → Ethics Validation ← Drift → Historical
+   Detection         Systems        Correction    Comparison
+```
+
+#### **Cross-System Drift Flow**
+```
+CANDIDATE Monitoring → LUKHAS Detection → PRODUCTS Prevention
+         │                    │                     │
+   Drift Research → Drift Validation → Production Monitoring
+         │                    │                     │
+   Pattern Analysis → Threshold → Enterprise Drift
+                      Calibration    Management
+```
+
+### Key Drift Detection Components
+
+#### **Alignment Verification** - Constitutional AI Monitoring
+- Constitutional principle adherence measurement and validation
+- AI behavior alignment with defined ethical values and goals
+- Cross-system constitutional compliance verification systems
+- Ethical reasoning consistency monitoring and assessment
+
+#### **Predictive Analytics** - Advanced Drift Prediction
+- Predictive modeling for potential drift scenarios and risks
+- Early warning systems for behavioral degradation patterns
+- Risk assessment and proactive drift prevention measures
+- Trend extrapolation and future drift likelihood estimation
+
+#### **Corrective Mechanisms** - Drift Remediation Systems
+- Automated drift correction algorithms and realignment procedures
+- Manual intervention protocols for complex drift scenarios
+- System rollback and recovery mechanisms for severe drift
+- Continuous learning and adaptation from drift incidents
+
+### Drift Detection Development Patterns
+
+#### **Drift System Development Workflow**
+```
+Baseline Establishment → Monitoring Implementation → Alert Systems
+          │                      │                      │
+   Pattern Learning → Threshold Calibration → Response Automation
+          │                      │                      │
+   Testing → Integration → Production → Optimization
+```
+
+#### **Drift Detection Pipeline**
+- Continuous behavioral data collection and preprocessing
+- Real-time drift analysis and threshold comparison systems
+- Alert generation and automated response coordination
+- Post-incident analysis and system improvement integration
+
+### Advanced Drift Detection Features
+
+#### **Multi-Modal Drift Detection** - Comprehensive Monitoring
+- Behavioral drift detection across multiple AI system components
+- Cross-modal drift correlation and pattern identification
+- Holistic drift assessment considering system interdependencies
+- Comprehensive drift scoring and risk assessment systems
+
+#### **Adaptive Thresholds** - Dynamic Detection Optimization
+- Context-aware threshold adjustment and optimization systems
+- Learning-based threshold calibration from historical data
+- Environmental factor consideration in drift threshold setting
+- Personalized drift detection based on system usage patterns
+
+#### **Drift Forensics** - Deep Analysis & Investigation
+- Detailed drift incident analysis and root cause investigation
+- Drift propagation tracking across system components
+- Historical drift pattern analysis and trend identification
+- Drift incident documentation and knowledge base integration
+
+### Performance Optimization
+
+#### **Real-Time Processing** - Low-Latency Drift Detection
+- High-frequency monitoring with minimal system impact
+- Efficient algorithm implementation for real-time processing
+- Optimized data structures for fast drift calculation
+- Parallel processing for large-scale drift monitoring systems
+
+#### **Scalability Architecture** - Enterprise Drift Monitoring
+- Distributed drift detection across multiple system instances
+- Load balancing for high-volume drift monitoring systems
+- Horizontal scaling for enterprise-wide drift detection
+- Cloud-native drift detection architecture and deployment
+
+### Integration Points
+
+#### **Ethics Framework Integration**
+- Integration with ../guardian/claude.me for safety coordination
+- Integration with ../compliance/claude.me for regulatory monitoring
+- Integration with ../claude.me for comprehensive ethics framework
+- Cross-system ethics and drift detection coordination
+
+#### **Constitutional AI Integration**
+- Deep integration with Constitutional AI principles and validation
+- Alignment verification with constitutional values and ethics
+- Cross-system constitutional compliance drift monitoring
+- Constitutional AI evolution and drift detection adaptation
+
+### Development Tools & Testing
+
+#### **Drift Detection Development Tools**
+- Drift simulation and testing environment frameworks
+- Baseline establishment and threshold calibration utilities
+- Pattern recognition training and validation systems
+- Drift detection performance profiling and optimization tools
+
+#### **Testing Strategies**
+- Comprehensive drift scenario simulation and validation
+- Threshold sensitivity testing and optimization validation
+- Cross-system drift detection integration testing systems
+- Performance testing for high-volume drift monitoring
+
+### Drift Detection Metrics & Monitoring
+
+#### **Detection Effectiveness Metrics**
+- Drift detection accuracy and false positive/negative rates
+- Early warning effectiveness and prediction accuracy
+- Corrective action success rates and system recovery time
+- Constitutional AI alignment maintenance and improvement
+
+#### **System Performance Metrics**
+- Drift detection processing latency and throughput
+- System resource utilization for monitoring systems
+- Detection system availability and reliability monitoring
+- Cross-system coordination effectiveness and efficiency
+
+### Related Contexts
+- `../claude.me` - Ethics framework overview
+- `../guardian/claude.me` - Safety enforcement integration
+- `../compliance/claude.me` - Compliance monitoring systems
+- `../../governance/claude.me` - Governance framework
+- `../../candidate/governance/claude.me` - Development governance
+
+### Drift Detection Evolution
+- Current 0.15 threshold system capabilities and performance
+- Advanced drift detection research and development roadmap
+- Machine learning enhancement for improved drift prediction
+- Integration with next-generation Constitutional AI systems
