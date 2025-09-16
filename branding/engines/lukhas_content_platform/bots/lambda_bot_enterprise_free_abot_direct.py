@@ -59,8 +59,17 @@ result = controller.make_intelligent_request(
     urgency="LOW"
 )
 
-# TODO: Implement result processing
-print("🤖 LUKHAS AI ΛBot Response placeholder")
+# ΛTAG: response_trace
+if result.get("response"):
+    print("🤖 LUKHAS AI ΛBot Response:")
+    print(result["response"])
+    if "cost" in result:
+        print(f"💰 Cost: ${{result.get('cost', 0):.6f}}")
+    if "financial_decision" in result:
+        print(f"🧠 Decision: {{result.get('financial_decision', 'Unknown')}}")
+else:
+    error_message = result.get("error", "Unknown error")
+    print(f"❌ Task failed: {{error_message}}")
 """,
                 ],
                 capture_output=True,
