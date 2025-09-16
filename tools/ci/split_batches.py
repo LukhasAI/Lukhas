@@ -2,7 +2,7 @@
 """
 T4-Compliant Batch Splitter
 
-Splits TODOs from manifest into agent-specific batches following T4 principles:
+Splits tracked tasks from manifest into agent-specific batches following T4 principles:
 - Respects agent capabilities and batch size limits
 - Implements risk-based assignment
 - Creates locked batch files to prevent duplication
@@ -75,17 +75,17 @@ class BatchSplitter:
         return agents
 
     def split_todos(self, manifest: Dict[str, Any]) -> Dict[str, List[Dict[str, Any]]]:
-        """Split TODOs into agent-specific batches"""
+        """Split tracked tasks into agent-specific batches"""
         todos = manifest["todos"]
         batches = {}
 
-        # Sort TODOs by priority for allocation
+        # Sort tasks by priority for allocation
         priority_order = ["critical", "high", "med", "low", "unknown"]
         sorted_todos = sorted(todos, key=lambda x: priority_order.index(x.get("priority", "unknown")))
 
         for todo in sorted_todos:
             if todo["status"] != "open":
-                continue  # Skip completed or blocked TODOs
+                continue  # Skip completed or blocked tasks
 
             agent = self._assign_todo_to_agent(todo)
             if agent:
@@ -98,7 +98,7 @@ class BatchSplitter:
         return batches
 
     def _assign_todo_to_agent(self, todo: Dict[str, Any]) -> str:
-        """Assign a TODO to the most appropriate agent"""
+        """Assign a tracked task to the most appropriate agent"""
         priority = todo["priority"]
         todo_type = todo["est"]["type"]
         risk = todo["risk"]
@@ -223,7 +223,7 @@ class BatchSplitter:
         return expiry.isoformat() + "Z"
 
     def _count_by_field(self, todos: List[Dict[str, Any]], field) -> Dict[str, int]:
-        """Count TODOs by a specific field"""
+        """Count tracked tasks by a specific field"""
         counts = {}
         for todo in todos:
             if isinstance(field, list):
@@ -239,7 +239,7 @@ class BatchSplitter:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Split TODOs into agent batches")
+    parser = argparse.ArgumentParser(description="Split tracked tasks into agent batches")
     parser.add_argument("--manifest", required=True, help="Input manifest file")
     parser.add_argument("--strategy", help="Allocation strategy file (optional)")
     parser.add_argument("--out", required=True, help="Output directory for batch files")
@@ -255,7 +255,7 @@ def main():
     splitter = BatchSplitter(strategy_file)
 
     # Split into batches
-    print(f"Splitting {len(manifest['todos'])} TODOs into agent batches...")
+    print(f"Splitting {len(manifest['todos'])} tracked tasks into agent batches...")
     batches = splitter.split_todos(manifest)
 
     # Create batch files

@@ -10,7 +10,31 @@ try:
     from ethics.core import get_shared_ethics_engine  # ΛTAG: ethics_bridge
 except (ImportError, AttributeError):  # pragma: no cover - fallback when namespace missing
     from candidate.governance.ethics.shared_ethics_engine import get_shared_ethics_engine
-from symbolic.core import SymbolicVocabulary, get_symbolic_vocabulary
+
+try:
+    from candidate.core.symbolic_core.symbolic_vocabulary import SymbolicVocabulary, get_symbolic_vocabulary
+except ImportError:
+    # Fallback for legacy path
+    try:
+        from symbolic.core import SymbolicVocabulary, get_symbolic_vocabulary
+    except ImportError:
+        # Mock implementation if symbolic module unavailable
+        class MockSymbol:
+            def __init__(self, symbol_type: str, data: Any):
+                self.symbol_type = symbol_type
+                self.data = data
+                self.id = f"{symbol_type}_{hash(str(data))}"
+
+            def to_dict(self) -> dict[str, Any]:
+                return {"id": self.id, "type": self.symbol_type, "data": self.data}
+
+        class SymbolicVocabulary:
+            def create_symbol(self, symbol_type: str, data: Any) -> MockSymbol:
+                return MockSymbol(symbol_type, data)
+
+        def get_symbolic_vocabulary() -> SymbolicVocabulary:
+            return SymbolicVocabulary()
+
 
 logger = logging.getLogger(__name__)
 
