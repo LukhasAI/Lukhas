@@ -44,7 +44,6 @@ logger.setLevel(logging.INFO)
 # Import core memory components - using try/except to handle potential import errors
 try:
     # Import the sophisticated memory fold engine
-    # from CORE.spine.fold_engine import (  # TODO: Install or implement CORE
     #     AGIMemory, MemoryFold, MemoryType, MemoryPriority, ContextReasoner
     # )
     AGIMemory = None
@@ -62,7 +61,6 @@ except ImportError:
 
 try:
     # Import the emotional memory components
-    # from DASHBOARD.lucas_as_agent.core.memory_folds import (  # TODO: Install or implement DASHBOARD
     #     create_memory_fold,
     #     recall_memory_folds,
     #     calculate_emotion_distance,
@@ -81,7 +79,6 @@ except ImportError:
 
 try:
     # Import advanced memory manager
-    # from CORE.memory_learning.memory_manager import (  # TODO: Install or implement CORE
     #     MemoryManager, MemoryAccessError
     # )
     MemoryManager = None
@@ -108,13 +105,11 @@ except ImportError:
 
 
 try:
-    pass  # from BIO_SYMBOLIC.qi_attention import QIAttention  # TODO: Install or implement BIO_SYMBOLIC
 except ImportError:
     logger.warning("Could not import qi attention. Cognitive integration will be limited.")
     QIAttention = None
 
 try:
-    pass  # from AID.dream_engine.dream_reflection_loop import DreamReflectionLoop  # TODO: Install or implement AID
 except ImportError:
     logger.warning("Could not import dream reflection loop. Dream integration will be limited.")
     DreamReflectionLoop = None

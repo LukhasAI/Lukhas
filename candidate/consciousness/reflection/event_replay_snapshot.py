@@ -10,7 +10,6 @@ logger = logging.getLogger(__name__)
 
 
 Event Replay and State Snapshotting System
-Addresses TODO 169: Deterministic debugging through event replay
 
 This module implements event sourcing with replay capabilities and state
 snapshotting for efficient recovery and debugging of the actor system.

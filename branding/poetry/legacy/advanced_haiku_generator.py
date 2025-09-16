@@ -2,8 +2,7 @@ import logging
 
 
 def fix_later(*args, **kwargs):
-    """TODO(symbol-resolver): implement missing functionality
-
+    """
     This is a placeholder for functionality that needs to be implemented.
     Replace this stub with the actual implementation.
     """

@@ -42,10 +42,6 @@ Key Consolidated Features:
 All operations respect user consent, tier access, and LUKHAS identity requirements.
 """
 # === CONSOLIDATED IMPORTS ===
-# from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID
-# from candidate.core.common.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE
-# from candidate.core.common.CORE.emotion.emotional_resonance import EmotionalResonanceEngine  # TODO: Install or implement CORE
-# from candidate.core.common.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE
 # from MODULES_GOLDEN.bio.core import BioModule
 # from MODULES_GOLDEN.common.base_module import SymbolicLogger
 # from MODULES_GOLDEN.core.registry import core_registry

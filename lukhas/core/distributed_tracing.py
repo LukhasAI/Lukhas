@@ -1,6 +1,5 @@
 """
 Distributed Tracing System for Lukhas AI
-Addresses TODO 168: Distributed tracing with correlation IDs
 
 This module provides comprehensive tracing capabilities for distributed
 AI agent interactions, enabling observability and debugging.
@@ -699,8 +698,6 @@ class EventReplayer:
 
 
 if __name__ == "__main__":
-    import os
-
     demo_distributed_tracing()
 
     # --- Demo for new features ---

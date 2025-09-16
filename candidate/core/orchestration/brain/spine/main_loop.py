@@ -173,7 +173,6 @@ except ImportError:
     el_play = None
 try:
     pass
-#     import edge_tts  # TODO: Install or implement edge_tts
 except ImportError:
     edge_tts = None
 

@@ -105,10 +105,6 @@ except ImportError:
             return True
 
 
-# from AID.core.lambda_id import ID, AccessTier  # TODO: Install or implement AID
-# from AID.core.memory_identity import MemoryIdentityIntegration, MemoryAccessPolicy  # TODO: Install or implement AID
-
-
 # Create fallback classes for missing AID components
 class MemoryIdentityIntegration:
     """Fallback class for AID MemoryIdentityIntegration"""

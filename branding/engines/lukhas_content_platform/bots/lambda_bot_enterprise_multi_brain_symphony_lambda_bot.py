@@ -18,8 +18,7 @@ from typing import Any
 
 
 def fix_later(*args, **kwargs):
-    """TODO(symbol-resolver): implement missing functionality
-
+    """
     This is a placeholder for functionality that needs to be implemented.
     Replace this stub with the actual implementation.
     """
@@ -33,7 +32,11 @@ sys.path.append("/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot")
 
 # Import workspace components
 try:
-    from MultiBrainSymphony import BrainRegion, CognitiveState, MultiBrainSymphony  # noqa: F401  # TODO: MultiBrainSymphony.BrainRegion...
+    from MultiBrainSymphony import (
+        BrainRegion,
+        CognitiveState,
+        MultiBrainSymphony,
+    )  # noqa: F401  # TODO: MultiBrainSymphony.BrainRegion...
 
     WORKSPACE_BRAIN_AVAILABLE = True
 except ImportError as e:
