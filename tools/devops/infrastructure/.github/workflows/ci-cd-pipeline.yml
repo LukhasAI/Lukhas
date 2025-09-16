@@ -1,0 +1,397 @@
+name: LUKHAS AI CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+        - staging
+        - production
+      force_deploy:
+        description: 'Force deployment (skip some checks)'
+        required: false
+        default: false
+        type: boolean
+
+env:
+  PYTHON_VERSION: '3.11'
+  NODE_VERSION: '18'
+
+jobs:
+  # Code Quality and Testing
+  quality-checks:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        check: [lint, type-check, security-scan]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install ruff mypy bandit safety
+
+    - name: Run linting
+      if: matrix.check == 'lint'
+      run: |
+        ruff check . --output-format=github
+        ruff format --check .
+
+    - name: Run type checking
+      if: matrix.check == 'type-check'
+      run: |
+        mypy . --install-types --non-interactive
+
+    - name: Run security scan
+      if: matrix.check == 'security-scan'
+      run: |
+        bandit -r . -f json -o bandit-report.json || true
+        safety check --json --output safety-report.json || true
+
+    - name: Upload security reports
+      if: matrix.check == 'security-scan'
+      uses: actions/upload-artifact@v3
+      with:
+        name: security-reports
+        path: |
+          bandit-report.json
+          safety-report.json
+
+  # Comprehensive Test Suite
+  test-suite:
+    runs-on: ubuntu-latest
+    needs: quality-checks
+
+    strategy:
+      matrix:
+        test-group: [unit, integration, performance]
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: test_password
+          POSTGRES_DB: test_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:7
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pytest-cov pytest-xdist pytest-benchmark
+
+    - name: Run unit tests
+      if: matrix.test-group == 'unit'
+      run: |
+        python -m pytest tests/unit/ \
+          --cov=. \
+          --cov-report=xml \
+          --cov-report=html \
+          --junitxml=junit-unit.xml \
+          --maxfail=5 \
+          -v
+
+    - name: Run integration tests
+      if: matrix.test-group == 'integration'
+      env:
+        DATABASE_URL: postgresql://postgres:test_password@localhost:5432/test_db
+        REDIS_URL: redis://localhost:6379/0
+      run: |
+        python -m pytest tests/integration/ \
+          --junitxml=junit-integration.xml \
+          --maxfail=3 \
+          -v
+
+    - name: Run performance tests
+      if: matrix.test-group == 'performance'
+      run: |
+        python -m pytest tests/performance/ \
+          --benchmark-only \
+          --benchmark-json=benchmark-results.json \
+          -v
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: test-results-${{ matrix.test-group }}
+        path: |
+          junit-*.xml
+          htmlcov/
+          benchmark-results.json
+          coverage.xml
+
+    - name: Upload coverage to Codecov
+      if: matrix.test-group == 'unit'
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+
+  # Build and Containerization
+  build:
+    runs-on: ubuntu-latest
+    needs: [quality-checks, test-suite]
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+
+    outputs:
+      image-tag: ${{ steps.meta.outputs.tags }}
+      image-digest: ${{ steps.build.outputs.digest }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Log in to Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ghcr.io/${{ github.repository }}
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=sha,prefix={{branch}}-
+          type=raw,value=latest,enable={{is_default_branch}}
+
+    - name: Build and push Docker image
+      id: build
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: tools/devops/infrastructure/Dockerfile
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        platforms: linux/amd64,linux/arm64
+
+    - name: Generate SBOM
+      uses: anchore/sbom-action@v0
+      with:
+        image: ${{ steps.meta.outputs.tags }}
+        format: spdx-json
+        output-file: sbom.spdx.json
+
+    - name: Upload SBOM
+      uses: actions/upload-artifact@v3
+      with:
+        name: sbom
+        path: sbom.spdx.json
+
+  # Security Scanning
+  security-scan:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: ${{ needs.build.outputs.image-tag }}
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+
+    - name: Upload Trivy scan results
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: 'trivy-results.sarif'
+
+  # Staging Deployment
+  deploy-staging:
+    runs-on: ubuntu-latest
+    needs: [build, security-scan]
+    if: github.ref == 'refs/heads/main' && !failure()
+    environment: staging
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Install deployment tools
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run deployment pipeline
+      env:
+        ENVIRONMENT: staging
+        IMAGE_TAG: ${{ needs.build.outputs.image-tag }}
+      run: |
+        python tools/devops/automated_deployment_pipeline.py \
+          --environment staging \
+          --image-tag ${{ needs.build.outputs.image-tag }} \
+          --automated
+
+    - name: Run post-deployment tests
+      run: |
+        python tools/testing/test_infrastructure_monitor.py --validate
+        python tools/monitoring/production_alerting_system.py --health-check
+
+    - name: Notify deployment status
+      if: always()
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        channel: '#deployments'
+        webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+
+  # Production Deployment
+  deploy-production:
+    runs-on: ubuntu-latest
+    needs: [build, deploy-staging]
+    if: github.ref == 'refs/heads/main' && !failure()
+    environment: production
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Install deployment tools
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Create deployment backup
+      run: |
+        python tools/devops/automated_deployment_pipeline.py \
+          --create-backup \
+          --environment production
+
+    - name: Run production deployment
+      env:
+        ENVIRONMENT: production
+        IMAGE_TAG: ${{ needs.build.outputs.image-tag }}
+      run: |
+        python tools/devops/automated_deployment_pipeline.py \
+          --environment production \
+          --image-tag ${{ needs.build.outputs.image-tag }} \
+          --automated
+
+    - name: Run comprehensive post-deployment validation
+      run: |
+        python tools/testing/test_infrastructure_monitor.py --production-validation
+        python tools/monitoring/t4_monitoring_integration.py --health-check
+        python tools/monitoring/production_alerting_system.py --post-deploy-check
+
+    - name: Update deployment status
+      run: |
+        echo "Deployment completed successfully" >> $GITHUB_STEP_SUMMARY
+        echo "Image: ${{ needs.build.outputs.image-tag }}" >> $GITHUB_STEP_SUMMARY
+        echo "Environment: production" >> $GITHUB_STEP_SUMMARY
+
+    - name: Notify production deployment
+      if: always()
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        channel: '#production-alerts'
+        webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+
+  # Manual Deployment Trigger
+  manual-deploy:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    environment: ${{ inputs.environment }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Install deployment tools
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run manual deployment
+      env:
+        ENVIRONMENT: ${{ inputs.environment }}
+        FORCE_DEPLOY: ${{ inputs.force_deploy }}
+      run: |
+        python tools/devops/automated_deployment_pipeline.py \
+          --environment ${{ inputs.environment }} \
+          ${{ inputs.force_deploy && '--force' || '' }} \
+          --automated
+
+    - name: Post-deployment validation
+      run: |
+        python tools/monitoring/production_alerting_system.py --health-check

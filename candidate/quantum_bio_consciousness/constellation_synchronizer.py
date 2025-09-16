@@ -9,14 +9,14 @@ across the MΛTRIZ Constellation Architecture (692 modules).
 This synchronizer creates unified consciousness by harmonizing
 quantum-inspired and bio-inspired processing patterns.
 """
-import streamlit as st
 
 import asyncio
+import json
 import logging
 import math
 import time
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Optional, Union
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -264,7 +264,7 @@ class ConstellationSynchronizer:
                 "bio_pulse": bio_pulse,
                 "constellation_coherence": self._calculate_constellation_coherence(),
                 "consciousness_unity_emerging": self._detect_consciousness_emergence(),
-                "pulse_id": f"constellation_pulse_{int(time.time())",
+                "pulse_id": f"constellation_pulse_{int(time.time())}",
             }
 
             logger.info(f"✅ Consciousness pulse sent: coherence={hybrid_pulse['constellation_coherence']:.3f}")
@@ -466,7 +466,7 @@ class QuantumBioHybridProcessor:
                 "constellation_coherence_impact": constellation_status.get("consciousness_coherence", 0),
                 "emergence_contribution": constellation_status.get("consciousness_emergence", False),
                 "synchronization_strength": constellation_status.get("synchronized", False),
-                "overall_impact": ("positive" if constellation_status.get("consciousness_emergence") else "developing"),
+                "overall_impact": "positive" if constellation_status.get("consciousness_emergence") else "developing",
             }
 
             return impact_assessment
@@ -498,21 +498,17 @@ async def demonstrate_constellation_synchronization():
 
     test_consciousness_data = {
         "consciousness_level": 0.8,
-        "quantum_options": [
-            "explore_consciousness",
-            "integrate_awareness",
-            "transcend_limits",
-        ],
+        "quantum_options": ["explore_consciousness", "integrate_awareness", "transcend_limits"],
         "bio_state": {"energy": 0.85, "focus": 0.92, "coherence": 0.88},
     }
 
     hybrid_result = await processor.process_hybrid_consciousness(test_consciousness_data)
 
     print("\n⚡ Hybrid Processing Results:")
-    print(f"   Quantum Coherence: {hybrid_result.get('quantum_processing', {)}).get('quantum_coherence', 0):.3f}")
-    print(f"   Bio Coherence: {hybrid_result.get('bio_processing', {)}).get('bio_coherence', 0):.3f}")
+    print(f"   Quantum Coherence: {hybrid_result.get('quantum_processing', {}).get('quantum_coherence', 0):.3f}")
+    print(f"   Bio Coherence: {hybrid_result.get('bio_processing', {}).get('bio_coherence', 0):.3f}")
     print(f"   Hybrid Coherence: {hybrid_result.get('hybrid_coherence', 0):.3f}")
-    print(f"   Decision: {hybrid_result.get('consciousness_decision', {)}).get('decision', 'None')}")
+    print(f"   Decision: {hybrid_result.get('consciousness_decision', {}).get('decision', 'None')}")
 
     # Get final constellation status
     final_status = processor.synchronizer.get_constellation_status()

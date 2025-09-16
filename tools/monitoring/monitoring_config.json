@@ -1,0 +1,90 @@
+{
+  "evaluation_interval": 60,
+  "metrics_retention_days": 30,
+  "alert_retention_days": 90,
+  "max_alerts_per_hour": 10,
+  "escalation_enabled": true,
+  "channels": {
+    "email": {
+      "enabled": false,
+      "smtp_host": "smtp.gmail.com",
+      "smtp_port": 587,
+      "username": "your-email@gmail.com",
+      "password": "your-app-password",
+      "from_email": "alerts@lukhas.ai",
+      "to_emails": ["admin@lukhas.ai", "devops@lukhas.ai"]
+    },
+    "slack": {
+      "enabled": false,
+      "webhook_url": "https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK",
+      "channel": "#lukhas-alerts"
+    },
+    "webhook": {
+      "enabled": false,
+      "url": "https://your-webhook-endpoint.com/alerts",
+      "headers": {
+        "Authorization": "Bearer your-api-token",
+        "Content-Type": "application/json"
+      }
+    }
+  },
+  "alert_rules": {
+    "high_cpu_usage": {
+      "threshold": 80.0,
+      "cooldown_period": 600,
+      "escalation_delay": 1800
+    },
+    "high_memory_usage": {
+      "threshold": 85.0,
+      "cooldown_period": 600,
+      "escalation_delay": 1800
+    },
+    "disk_space_critical": {
+      "threshold": 90.0,
+      "cooldown_period": 300,
+      "escalation_delay": 900
+    },
+    "test_success_rate_low": {
+      "threshold": 95.0,
+      "cooldown_period": 900,
+      "escalation_delay": 3600
+    },
+    "coverage_regression": {
+      "threshold": 80.0,
+      "cooldown_period": 1800,
+      "escalation_delay": 3600
+    },
+    "response_time_degradation": {
+      "threshold": 1000.0,
+      "cooldown_period": 300,
+      "escalation_delay": 1800
+    },
+    "error_rate_spike": {
+      "threshold": 1.0,
+      "cooldown_period": 300,
+      "escalation_delay": 900
+    }
+  },
+  "performance_baselines": {
+    "cpu_p95": 60.0,
+    "memory_p95": 70.0,
+    "response_time_p95": 500.0,
+    "test_duration_p95": 300.0
+  },
+  "integration": {
+    "t4_observability": {
+      "enabled": true,
+      "datadog_integration": true,
+      "prometheus_integration": true,
+      "opentelemetry_integration": true
+    },
+    "coverage_metrics": {
+      "enabled": true,
+      "database_path": "tools/testing/coverage_metrics.db"
+    },
+    "test_infrastructure": {
+      "enabled": true,
+      "monitor_path": "tools/testing/test_infrastructure_monitor.py"
+    }
+  }
+}

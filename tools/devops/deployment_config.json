@@ -1,0 +1,108 @@
+{
+  "environments": {
+    "development": {
+      "target_branch": "develop",
+      "docker_enabled": true,
+      "health_check_url": "http://localhost:8080/health",
+      "health_check_timeout": 60,
+      "rollback_enabled": false,
+      "backup_enabled": false,
+      "notification_channels": ["console"],
+      "environment_vars": {
+        "ENVIRONMENT": "development",
+        "DEBUG": "true",
+        "LOG_LEVEL": "DEBUG"
+      },
+      "pre_deploy_commands": [
+        "python -m pip install --upgrade pip",
+        "pip install -r requirements.txt"
+      ],
+      "post_deploy_commands": [
+        "python tools/testing/coverage_metrics_system.py --quick-check"
+      ]
+    },
+    "staging": {
+      "target_branch": "main",
+      "docker_enabled": true,
+      "health_check_url": "http://localhost:8081/health",
+      "health_check_timeout": 120,
+      "rollback_enabled": true,
+      "backup_enabled": true,
+      "notification_channels": ["console", "slack"],
+      "environment_vars": {
+        "ENVIRONMENT": "staging",
+        "DEBUG": "false",
+        "LOG_LEVEL": "INFO",
+        "DATADOG_ENV": "staging"
+      },
+      "pre_deploy_commands": [
+        "python -m pip install --upgrade pip",
+        "pip install -r requirements.txt",
+        "python tools/testing/test_infrastructure_monitor.py --validate"
+      ],
+      "post_deploy_commands": [
+        "python tools/testing/coverage_metrics_system.py --full-report",
+        "python tools/monitoring/production_alerting_system.py --health-check"
+      ]
+    },
+    "production": {
+      "target_branch": "main",
+      "docker_enabled": true,
+      "health_check_url": "http://production.lukhas.ai/health",
+      "health_check_timeout": 300,
+      "rollback_enabled": true,
+      "backup_enabled": true,
+      "notification_channels": ["email", "slack", "webhook"],
+      "environment_vars": {
+        "ENVIRONMENT": "production",
+        "DEBUG": "false",
+        "LOG_LEVEL": "WARNING",
+        "DATADOG_ENV": "production",
+        "PROMETHEUS_ENABLED": "true"
+      },
+      "secrets": {
+        "DATABASE_URL": "production-db-connection-string",
+        "API_KEYS": "production-api-keys",
+        "ENCRYPTION_KEY": "production-encryption-key"
+      },
+      "pre_deploy_commands": [
+        "python -m pip install --upgrade pip",
+        "pip install -r requirements.txt",
+        "python tools/testing/test_infrastructure_monitor.py --validate",
+        "python tools/monitoring/production_alerting_system.py --pre-deploy-check"
+      ],
+      "post_deploy_commands": [
+        "python tools/testing/coverage_metrics_system.py --production-report",
+        "python tools/monitoring/t4_monitoring_integration.py --health-check",
+        "python tools/monitoring/production_alerting_system.py --post-deploy-check"
+      ]
+    }
+  },
+  "global_settings": {
+    "docker_registry": "localhost:5000",
+    "max_concurrent_deployments": 2,
+    "deployment_timeout": 1800,
+    "health_check_retries": 5,
+    "backup_retention_days": 30,
+    "log_retention_days": 90
+  },
+  "notification_settings": {
+    "slack": {
+      "webhook_url": "https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK",
+      "channel": "#deployments",
+      "mention_on_failure": "@devops-team"
+    },
+    "email": {
+      "smtp_host": "smtp.gmail.com",
+      "smtp_port": 587,
+      "from_email": "deployments@lukhas.ai",
+      "to_emails": ["devops@lukhas.ai", "admin@lukhas.ai"]
+    },
+    "webhook": {
+      "url": "https://your-monitoring-system.com/webhooks/deployment",
+      "headers": {
+        "Authorization": "Bearer your-webhook-token"
+      }
+    }
+  }
+}

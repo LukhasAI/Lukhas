@@ -1,0 +1,232 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lukhas-ai-app
+  namespace: lukhas-ai
+  labels:
+    app: lukhas-ai
+    component: application
+    version: v1
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: lukhas-ai
+      component: application
+  template:
+    metadata:
+      labels:
+        app: lukhas-ai
+        component: application
+        version: v1
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: lukhas-ai-service-account
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+      - name: lukhas-ai
+        image: ghcr.io/lukhasai/lukhas:latest
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        - name: metrics
+          containerPort: 9090
+          protocol: TCP
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: lukhas-ai-secrets
+              key: database-url
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: lukhas-ai-secrets
+              key: redis-url
+        - name: ENCRYPTION_KEY
+          valueFrom:
+            secretKeyRef:
+              name: lukhas-ai-secrets
+              key: encryption-key
+        envFrom:
+        - configMapRef:
+            name: lukhas-ai-config
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        startupProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 30
+        volumeMounts:
+        - name: app-logs
+          mountPath: /app/logs
+        - name: app-data
+          mountPath: /app/data
+        - name: monitoring-config
+          mountPath: /app/config/monitoring
+          readOnly: true
+      volumes:
+      - name: app-logs
+        emptyDir: {}
+      - name: app-data
+        persistentVolumeClaim:
+          claimName: lukhas-ai-data-pvc
+      - name: monitoring-config
+        configMap:
+          name: lukhas-ai-monitoring-config
+      nodeSelector:
+        kubernetes.io/arch: amd64
+      tolerations:
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 300
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 300
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - lukhas-ai
+                - key: component
+                  operator: In
+                  values:
+                  - application
+              topologyKey: kubernetes.io/hostname
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lukhas-ai-service
+  namespace: lukhas-ai
+  labels:
+    app: lukhas-ai
+    component: application
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9090"
+    prometheus.io/path: "/metrics"
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
+    protocol: TCP
+  - name: metrics
+    port: 9090
+    targetPort: metrics
+    protocol: TCP
+  selector:
+    app: lukhas-ai
+    component: application
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: lukhas-ai-data-pvc
+  namespace: lukhas-ai
+  labels:
+    app: lukhas-ai
+    component: storage
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: gp3
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: lukhas-ai-service-account
+  namespace: lukhas-ai
+  labels:
+    app: lukhas-ai
+    component: rbac
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: lukhas-ai
+  name: lukhas-ai-role
+  labels:
+    app: lukhas-ai
+    component: rbac
+rules:
+- apiGroups: [""]
+  resources: ["configmaps", "secrets"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: lukhas-ai-rolebinding
+  namespace: lukhas-ai
+  labels:
+    app: lukhas-ai
+    component: rbac
+subjects:
+- kind: ServiceAccount
+  name: lukhas-ai-service-account
+  namespace: lukhas-ai
+roleRef:
+  kind: Role
+  name: lukhas-ai-role
+  apiGroup: rbac.authorization.k8s.io

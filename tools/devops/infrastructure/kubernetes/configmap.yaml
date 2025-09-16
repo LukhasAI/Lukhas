@@ -1,0 +1,134 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lukhas-ai-config
+  namespace: lukhas-ai
+  labels:
+    app: lukhas-ai
+    component: config
+data:
+  # Application Configuration
+  ENVIRONMENT: "production"
+  LOG_LEVEL: "INFO"
+  DEBUG: "false"
+
+  # Server Configuration
+  SERVER_HOST: "0.0.0.0"
+  SERVER_PORT: "8080"
+
+  # Monitoring Configuration
+  PROMETHEUS_ENABLED: "true"
+  PROMETHEUS_PORT: "9090"
+  METRICS_ENABLED: "true"
+
+  # Feature Flags
+  CONSCIOUSNESS_MODULE_ENABLED: "true"
+  MEMORY_FOLD_SYSTEM_ENABLED: "true"
+  GUARDIAN_SYSTEM_ENABLED: "true"
+  T4_OBSERVABILITY_ENABLED: "true"
+
+  # Cache Configuration
+  REDIS_ENABLED: "true"
+  CACHE_TTL: "3600"
+
+  # Database Configuration
+  DB_POOL_SIZE: "10"
+  DB_MAX_OVERFLOW: "20"
+  DB_POOL_TIMEOUT: "30"
+
+  # Security Configuration
+  CORS_ENABLED: "true"
+  CORS_ORIGINS: "*"
+  RATE_LIMITING_ENABLED: "true"
+  RATE_LIMIT_PER_MINUTE: "100"
+
+  # AI Model Configuration
+  MODEL_TEMPERATURE: "0.7"
+  MODEL_MAX_TOKENS: "4096"
+  CONTEXT_WINDOW_SIZE: "8192"
+
+  # Memory System Configuration
+  MAX_ACTIVE_FOLDS: "1000"
+  FOLD_LINEAGE_TRACKING: "true"
+  DREAM_CORRELATION_ENABLED: "true"
+
+  # Guardian System Configuration
+  ETHICAL_MONITORING: "true"
+  INCIDENT_REPORTING: "true"
+  AFFECT_DELTA_TRACKING: "true"
+
+  # Performance Configuration
+  ASYNC_WORKERS: "4"
+  THREAD_POOL_SIZE: "10"
+  REQUEST_TIMEOUT: "30"
+
+  # Logging Configuration
+  STRUCTURED_LOGGING: "true"
+  LOG_FORMAT: "json"
+  ACCESS_LOGGING: "true"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lukhas-ai-monitoring-config
+  namespace: lukhas-ai-monitoring
+  labels:
+    app: lukhas-ai
+    component: monitoring
+data:
+  # Monitoring Configuration
+  monitoring_config.json: |
+    {
+      "evaluation_interval": 60,
+      "metrics_retention_days": 30,
+      "alert_retention_days": 90,
+      "max_alerts_per_hour": 10,
+      "escalation_enabled": true,
+      "channels": {
+        "webhook": {
+          "enabled": true,
+          "url": "http://alertmanager:9093/api/v1/alerts",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      },
+      "alert_rules": {
+        "high_cpu_usage": {
+          "threshold": 80.0,
+          "cooldown_period": 600,
+          "escalation_delay": 1800
+        },
+        "high_memory_usage": {
+          "threshold": 85.0,
+          "cooldown_period": 600,
+          "escalation_delay": 1800
+        },
+        "response_time_degradation": {
+          "threshold": 1000.0,
+          "cooldown_period": 300,
+          "escalation_delay": 1800
+        }
+      }
+    }
+
+  deployment_config.json: |
+    {
+      "environments": {
+        "production": {
+          "target_branch": "main",
+          "docker_enabled": true,
+          "health_check_url": "http://lukhas-ai-service:8080/health",
+          "health_check_timeout": 300,
+          "rollback_enabled": true,
+          "backup_enabled": true,
+          "notification_channels": ["webhook"],
+          "environment_vars": {
+            "ENVIRONMENT": "production",
+            "DEBUG": "false",
+            "LOG_LEVEL": "INFO"
+          }
+        }
+      }
+    }

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lukhas-ai
+  labels:
+    name: lukhas-ai
+    project: lukhas-ai
+    managed-by: kubernetes
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lukhas-ai-monitoring
+  labels:
+    name: lukhas-ai-monitoring
+    project: lukhas-ai
+    managed-by: kubernetes
