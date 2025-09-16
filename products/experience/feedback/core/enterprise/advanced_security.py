@@ -14,6 +14,8 @@ import hashlib
 import hmac
 import json
 import secrets
+
+import numpy as np
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
@@ -691,7 +693,7 @@ class AdvancedSecuritySystem(CoreInterface):
             "security_metrics": {
                 "active_sessions": len(self.verified_sessions),
                 "blocked_users": len(self.blocked_ips),
-                "average_trust_score": (np.mean(list(self.trust_scores.values())) if self.trust_scores else 0.5),  # noqa: F821  # TODO: np
+                "average_trust_score": (np.mean(list(self.trust_scores.values())) if self.trust_scores else 0.5),
                 "threats_last_hour": sum(1 for entry in self.security_blockchain[-100:] if "threat" in entry),
             },
             "blockchain": {

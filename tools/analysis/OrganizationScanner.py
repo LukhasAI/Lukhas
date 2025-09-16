@@ -311,7 +311,7 @@ def main():
     """Execute organization scan"""
     workspace_root = "/Users/A_G_I/CodexGPT_Lukhas"
 
-    scanner = lukhasOrganizationScanner(workspace_root)  # noqa: F821  # TODO: lukhasOrganizationScanner
+    scanner = OrganizationScanner(workspace_root)
     report_path = scanner.execute_scan()
 
     print("\n🎉 ORGANIZATION SCAN COMPLETE!")

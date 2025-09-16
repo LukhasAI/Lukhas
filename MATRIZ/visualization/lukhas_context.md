@@ -1,0 +1,202 @@
+# LUKHAS AI Context - Vendor-Neutral AI Guidance
+*This file provides domain-specific context for any AI development tool*
+*Also available as claude.me for Claude Desktop compatibility*
+
+---
+
+
+# Graph Visualization
+## Interactive Cognitive DNA Visualization & Thought Process Exploration
+
+### Visualization System Overview
+- **Purpose**: Interactive visualization of cognitive DNA and thought processes
+- **Architecture**: Graph rendering with interactive exploration capabilities
+- **Integration**: MATRIZ cognitive engine visualization and Trinity Framework coordination
+- **Scale**: 16,042 frontend assets with advanced visualization capabilities
+
+### Core Visualization Architecture
+
+#### **Graph Rendering Engine** - Advanced Graph Visualization
+- Interactive graph rendering with real-time updates and exploration
+- Node-edge visualization for cognitive process representation
+- Dynamic graph layout algorithms and optimization systems
+- Multi-level graph exploration with zoom and navigation capabilities
+
+#### **Cognitive DNA Visualization** - Thought Process Mapping
+- Cognitive DNA tracing and provenance visualization systems
+- Thought process flow visualization and reasoning chain display
+- Decision path visualization and cognitive pattern exploration
+- Cross-node relationship visualization and dependency mapping
+
+#### **Interactive Exploration** - User-Driven Discovery
+- Interactive graph exploration with node selection and filtering
+- Dynamic query and search capabilities across cognitive graphs
+- User-driven analysis and pattern discovery tools
+- Collaborative exploration and shared visualization sessions
+
+#### **Real-Time Updates** - Live Cognitive Monitoring
+- Real-time cognitive process visualization and monitoring
+- Live updates of thought processes and reasoning chains
+- Dynamic graph updates with smooth animations and transitions
+- Real-time collaboration and multi-user exploration
+
+### Visualization Integration Patterns
+
+#### **MATRIZ Visualization Integration**
+```
+Visualization ⟷ MATRIZ Core ⟷ Trinity Framework ⟷ Cognitive Processing
+      │             │              │                 │
+  Graph ← Cognitive DNA → Consciousness ← Decision
+  Rendering     Tracking      Integration     Visualization
+      │             │              │                 │
+ Interactive ← Node → Memory ← Pattern
+  Exploration   Orchestration  Visualization   Recognition
+```
+
+#### **Cognitive Visualization Flow**
+```
+Cognitive Processing → Data Collection → Graph Generation
+         │                 │                │
+   Thought Process ← DNA Tracking ← Interactive
+         │                 │         Rendering
+         │                 │                │
+   Decision Making → Visualization → User
+         │         Pipeline       Exploration
+         │                 │                │
+   Pattern Analysis ← Real-time ← Collaborative
+                      Updates      Discovery
+```
+
+### Key Visualization Components
+
+#### **Graph Components** - Visual Graph Elements
+- Node visualization with customizable appearance and properties
+- Edge visualization with relationship types and weights
+- Cluster visualization for related cognitive processes
+- Layout algorithms for optimal graph presentation
+
+#### **Cognitive DNA Display** - Provenance Visualization
+- Thought process timeline visualization and progression display
+- Decision tree visualization and reasoning path exploration
+- Cognitive pattern visualization and pattern recognition display
+- Cross-cognitive correlation visualization and relationship mapping
+
+#### **Interactive Controls** - User Interface Components
+- Navigation controls for graph exploration and manipulation
+- Search and filtering interfaces for targeted analysis
+- Zoom and pan controls for detailed graph examination
+- Export and sharing controls for visualization distribution
+
+#### **Analytics Dashboard** - Cognitive Analytics Interface
+- Cognitive performance analytics and metrics visualization
+- Pattern analysis dashboard and trend identification
+- Comparative analysis tools and cognitive benchmarking
+- Real-time monitoring dashboard and alert visualization
+
+### Visualization Development Patterns
+
+#### **Visualization Development Workflow**
+```
+UI/UX Design → Graph Implementation → Interactive Features
+     │               │                     │
+User Research → Rendering → Exploration
+     │           Engine         Tools
+     │               │                     │
+Prototyping → Integration → Production → User Training
+```
+
+#### **Cognitive Visualization Pipeline**
+- Cognitive data processing and graph data preparation
+- Real-time graph rendering and visualization generation
+- Interactive feature implementation and user experience optimization
+- Continuous improvement based on user feedback and usage analytics
+
+### Advanced Visualization Features
+
+#### **AI-Powered Visualization** - Intelligent Graph Generation
+- Machine learning optimization for graph layout and presentation
+- Intelligent highlighting and pattern recognition visualization
+- Automated insight generation and visual annotation
+- Context-aware visualization with adaptive presentation
+
+#### **Multi-Modal Visualization** - Comprehensive Cognitive Display
+- Multi-dimensional visualization with layered information display
+- Time-series visualization for cognitive process evolution
+- Comparative visualization for multi-system analysis
+- Cross-domain visualization for integrated cognitive understanding
+
+#### **Collaborative Visualization** - Shared Cognitive Exploration
+- Real-time collaborative exploration and analysis sessions
+- Shared annotation and commenting systems for team analysis
+- Collaborative filtering and personalized view management
+- Team workspace management and shared visualization libraries
+
+### Performance Optimization
+
+#### **High-Performance Rendering** - Optimized Visualization Processing
+- Efficient graph rendering with WebGL acceleration
+- Optimized data structures for large-scale graph visualization
+- Level-of-detail rendering for performance optimization
+- Smooth animations and transitions with minimal performance impact
+
+#### **Scalable Architecture** - Enterprise Visualization Deployment
+- Horizontal scaling for large-scale visualization operations
+- Distributed rendering and load balancing for high-volume usage
+- CDN integration for global visualization asset delivery
+- Cloud-native visualization architecture and deployment
+
+### Integration Points
+
+#### **MATRIZ System Integration**
+- Integration with ../core/claude.me for cognitive node visualization
+- Integration with ../claude.me for MATRIZ cognitive engine coordination
+- Integration with cognitive DNA tracking and provenance systems
+- Cross-system cognitive visualization and pattern exploration
+
+#### **External System Integration**
+- Integration with ../../products/intelligence/lens/claude.me
+- Integration with ../../products/experience/dashboard/claude.me
+- Integration with ../../lukhas/claude.me for Trinity Framework visualization
+- Cross-platform visualization and cognitive analysis integration
+
+### Development Tools & Testing
+
+#### **Visualization Development Tools**
+- Graph visualization testing and validation frameworks
+- Interactive exploration testing and usability validation
+- Performance testing for large-scale graph rendering
+- Accessibility testing and inclusive design validation
+
+#### **Testing Strategies**
+- Comprehensive visualization testing and rendering validation
+- Interactive feature testing and user experience optimization
+- Performance testing for high-load visualization scenarios
+- Cross-browser and cross-device compatibility testing
+
+### Visualization Metrics & Monitoring
+
+#### **Visualization Effectiveness Metrics**
+- User engagement and exploration depth measurements
+- Visualization clarity and cognitive insight generation
+- Pattern discovery success rates and analytical effectiveness
+- Collaborative exploration effectiveness and team productivity
+
+#### **System Performance Metrics**
+- Visualization rendering performance and frame rate measurements
+- Resource utilization for graph processing and rendering
+- System availability and reliability monitoring
+- Enterprise deployment effectiveness and user adoption rates
+
+### Related Contexts
+- `../core/claude.me` - MATRIZ core node architecture
+- `../claude.me` - MATRIZ cognitive engine overview
+- `../../products/intelligence/lens/claude.me` - Analytics visualization
+- `../../products/experience/dashboard/claude.me` - User dashboard integration
+- `../../lukhas/claude.me` - Trinity Framework visualization
+
+### Visualization Capabilities
+- Interactive graph visualization with cognitive DNA exploration
+- Real-time thought process visualization and monitoring
+- Advanced graph rendering with WebGL acceleration
+- Collaborative cognitive exploration and pattern discovery
+- Multi-modal visualization with comprehensive cognitive analysis

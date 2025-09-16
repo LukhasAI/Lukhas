@@ -28,7 +28,7 @@
 ║ INTEGRATION NOTES:
 ║ • Requires MemoryManager, DreamEngine, EthicsCore components
 ║ • BioAwarenessSystem integration for consciousness simulation
-║ • TODO: ModuleRegistry implementation pending
+║ • ModuleRegistry: Available at candidate/core/module_registry.py
 ║ • Import paths may need updates per CODEX_ENHANCEMENT_PLAN.md
 ║
 ║ SYMBOLIC TAGS: ΛCORE, ΛORCHESTRATION, ΛCONSCIOUSNESS
@@ -338,10 +338,12 @@ class OrchestrationCore:
         }
 
         for name, module in core_modules.items():
-            # await self.module_registry.register_module(name, module) #TODO: See above
+            if self.module_registry:
+                await self.module_registry.register_module(name, module)
             self.active_modules[name] = module
 
-        logger.info(f"Registered {len(core_modules)} core modules (ModuleRegistry part N/A for now)")
+        registry_status = "with ModuleRegistry" if self.module_registry else "without ModuleRegistry"
+        logger.info(f"Registered {len(core_modules)} core modules {registry_status}")
 
     async def _initiate_consciousness_loop(self):
         """Start the main consciousness simulation loop."""

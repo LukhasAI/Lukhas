@@ -323,6 +323,33 @@ class BioSymbolic:
         }
 
 
+_PENDING_FEEDBACK_EVENTS: list[dict[str, Any]] = []
+
+
+def bio_feedback_loop(event: dict[str, Any]) -> None:
+    """Route bio-symbolic orchestration output into the consciousness layer.
+
+    The integration module lives in the consciousness subsystem, but tests and
+    legacy callers expect a local entrypoint. We proxy the call and provide
+    graceful degradation so orchestration can continue during development.
+    """
+
+    try:
+        from lukhas.consciousness.bio_integration import bio_feedback_loop as _consciousness_loop
+    except ImportError:
+        logger.warning("Consciousness bio_feedback_loop unavailable; queuing event for deferred processing")
+        _PENDING_FEEDBACK_EVENTS.append(event)
+        return
+
+    try:
+        _consciousness_loop(event)
+    except Exception as exc:  # noqa: BLE001 - log and retain context for ops triage
+        logger.exception("Bio feedback loop raised an error: %s", exc)
+        failed_event = dict(event)
+        failed_event["error"] = str(exc)
+        _PENDING_FEEDBACK_EVENTS.append(failed_event)
+
+
 class BioSymbolicOrchestrator:
     """
     Orchestrator for bio-symbolic processing across multiple domains.
@@ -365,9 +392,7 @@ class BioSymbolicOrchestrator:
 
         self.orchestration_events.append(orchestration_result)
 
-        # Trigger the bio-feedback loop to consciousness
-        # Local import to prevent circular dependency
-        from lukhas.consciousness.bio_integration import bio_feedback_loop
+        # Trigger the bio-feedback loop to consciousness through local proxy
         bio_feedback_loop(orchestration_result)
 
         return orchestration_result

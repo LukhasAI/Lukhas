@@ -225,7 +225,7 @@ class LUKHASVoiceSystem:
         if effects_preset and response.success and response.audio_data:
             try:
                 buffer = AudioBuffer(
-                    data=np.frombuffer(response.audio_data, dtype=np.int16).astype(np.float32) / 32768.0,  # noqa: F821  # TODO: np
+                    data=np.frombuffer(response.audio_data, dtype=np.int16).astype(np.float32) / 32768.0,
                     sample_rate=response.sample_rate,
                     channels=1,
                     format=AudioFormat.PCM_16,
@@ -234,7 +234,7 @@ class LUKHASVoiceSystem:
                 effects_buffer = await self.voice_effects.apply_preset(buffer, effects_preset)
 
                 # Convert back to bytes
-                effects_audio = (effects_buffer.data * 32767).astype(np.int16).tobytes()  # noqa: F821  # TODO: np
+                effects_audio = (effects_buffer.data * 32767).astype(np.int16).tobytes()
                 response.audio_data = effects_audio
                 response.metadata["effects_applied"] = effects_preset
 

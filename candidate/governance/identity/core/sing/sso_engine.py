@@ -13,17 +13,19 @@ Supported SSO Methods:
 """
 
 import hashlib
+import hmac
+import importlib
 import json
 import secrets
 from datetime import datetime, timedelta, timezone
-from typing import Optional
+from typing import Any, Optional
 
 
 class LambdaSSOEngine:
     """Symbolic SSO engine for cross-service authentication with multi-device sync"""
 
     def __init__(self, config, trace_logger=None, tier_manager=None):
-        self.config = config
+        self.config = config or {}
         self.trace_logger = trace_logger
         self.tier_manager = tier_manager
 
@@ -31,6 +33,7 @@ class LambdaSSOEngine:
         self.active_tokens = {}
         self.service_registry = {}
         self.device_registry = {}
+        self.sync_token_registry: dict[str, dict[str, Any]] = {}
 
         # SSO configuration
         self.token_expiry_hours = config.get("sso_token_expiry_hours", 24)
@@ -365,19 +368,28 @@ class LambdaSSOEngine:
 
     def _generate_qr_glyph(self, token_data: dict) -> dict:
         """Generate QR-G code for cross-device authentication"""
+        symbolic_challenge = self._create_symbolic_challenge(token_data)
         glyph_payload = {
             "user_id": token_data["user_id"],
-            "symbolic_challenge": self._create_symbolic_challenge(token_data),
+            "symbolic_challenge": symbolic_challenge,
             "service_scope": token_data["service_scope"],
             "expires_at": token_data["expires_at"],
             "glyph_id": f"QRG_{secrets.token_hex(8)}",
         }
 
-        # Generate dynamic glyph image
-        from identity.mobile.qr_code_animator import QRCodeAnimator
+        token_data["symbolic_challenge"] = symbolic_challenge
 
-        animator = QRCodeAnimator()
-        glyph_payload["glyph_image_b64"] = animator.generate_glyph(token_data["user_id"], token_data["token_id"])
+        animator_module = importlib.import_module("identity.mobile.qr_code_animator")
+        animator_cls = getattr(animator_module, "QRCodeAnimator", None)
+        if animator_cls and hasattr(animator_cls, "generate_glyph"):
+            animator = animator_cls()
+            glyph_payload["glyph_image_b64"] = animator.generate_glyph(
+                token_data["user_id"], token_data["token_id"]
+            )
+        else:
+            # ΛTAG: qrg_fallback – provide deterministic glyph when animator unavailable
+            fallback_seed = f"{token_data['token_id']}|{symbolic_challenge}"
+            glyph_payload["glyph_image_b64"] = hashlib.sha256(fallback_seed.encode()).hexdigest()
 
         # Create QR-G signature
         glyph_signature = self._sign_qr_glyph(glyph_payload)
@@ -519,12 +531,24 @@ class LambdaSSOEngine:
         return max(0, int(remaining.total_seconds()))
 
     def _create_symbolic_challenge(self, token_data: dict) -> str:
-        """Create symbolic challenge for QR-G authentication"""
-        # Generate symbolic pattern based on user and token data
+        """Create deterministic symbolic challenge for QR-G authentication"""
+
+        seed = "|".join(
+            [
+                token_data.get("token_id", ""),
+                token_data.get("user_id", ""),
+                token_data.get("created_at", ""),
+                token_data.get("symbolic_signature", ""),
+            ]
+        )
+        digest = hashlib.sha256(seed.encode()).hexdigest()
+        glyphs = ["🎯", "🔮", "✨", "🌟"]
+        glyph = glyphs[int(digest[0], 16) % len(glyphs)]
         challenge_elements = [
-            token_data["symbolic_signature"],
-            secrets.choice(["🎯", "🔮", "✨", "🌟"]),
-            str(len(token_data["service_scope"])),
+            token_data.get("symbolic_signature", ""),
+            glyph,
+            str(len(token_data.get("service_scope", []))),
+            digest[:6],
         ]
         return "".join(challenge_elements)
 
@@ -624,30 +648,148 @@ class LambdaSSOEngine:
 
     def _verify_symbolic_challenge(self, user_id: str, symbolic_challenge: str) -> bool:
         """Verify symbolic challenge for authentication"""
-        # TODO: Implement symbolic challenge verification
-        return True
+
+        if not user_id or not symbolic_challenge:
+            return False
+
+        verifier = self.config.get("symbolic_challenge_verifier")
+        if callable(verifier):
+            # ΛTAG: symbolic_challenge_hook – optional external verification override
+            external_result = verifier(user_id, symbolic_challenge)
+            if external_result is not None:
+                return bool(external_result)
+
+        for token in self.active_tokens.values():
+            if token.get("user_id") != user_id:
+                continue
+
+            expected = token.get("symbolic_challenge")
+            consumed = set(token.get("consumed_challenges", []))
+            if expected and expected not in consumed and hmac.compare_digest(
+                expected.encode("utf-8"), symbolic_challenge.encode("utf-8")
+            ):
+                consumed.add(expected)
+                token["consumed_challenges"] = list(consumed)
+                return True
+
+        return False
 
     def _validate_biometric_data(self, user_id: str, biometric_data: dict) -> bool:
         """Validate biometric authentication data"""
-        # TODO: Implement biometric validation
-        return biometric_data.get("confidence_score", 0.0) > 0.8
+        if not biometric_data:
+            return False
+
+        confidence_threshold = self.config.get("biometric_confidence_threshold", 0.82)
+        allowed_modalities = set(
+            self.config.get("biometric_modalities", ["face", "voice", "fingerprint"])
+        )
+
+        modality = biometric_data.get("modality")
+        confidence = float(biometric_data.get("confidence_score", 0.0))
+        liveness = float(biometric_data.get("liveness_score", 0.0))
+        timestamp = biometric_data.get("captured_at")
+
+        if modality not in allowed_modalities or confidence < confidence_threshold:
+            return False
+
+        if liveness < self.config.get("biometric_liveness_threshold", 0.6):
+            return False
+
+        if timestamp:
+            try:
+                captured_at = datetime.fromisoformat(timestamp)
+            except ValueError:
+                return False
+
+            age_seconds = (datetime.now(timezone.utc) - captured_at).total_seconds()
+            if age_seconds > self.config.get("biometric_max_age_seconds", 120):
+                return False
+
+        # ΛTAG: biometric_validation – deterministic trust evaluation
+        return True
 
     def _sign_qr_glyph(self, glyph_payload: dict) -> str:
         """Sign QR-G payload for security"""
-        # TODO: Implement cryptographic signing
-        payload_str = json.dumps(glyph_payload, sort_keys=True)
-        return hashlib.sha256(payload_str.encode()).hexdigest()
+        canonical_payload = {k: glyph_payload[k] for k in sorted(glyph_payload) if k != "signature"}
+        payload_str = json.dumps(canonical_payload, separators=(",", ":"))
+
+        signing_key = self.config.get("qr_glyph_signing_key", "ΛQRG::2025").encode()
+
+        # ΛTAG: qrg_signing – deterministic HMAC for glyph payload integrity
+        return hmac.new(signing_key, payload_str.encode(), hashlib.sha256).hexdigest()
 
     def _create_device_sync_token(self, user_tokens: dict, device_id: str) -> dict:
         """Create device-specific sync token"""
-        # TODO: Implement device sync token creation
-        return {}
+        if not user_tokens:
+            raise ValueError("No tokens available for synchronization")
+
+        latest_token = max(
+            user_tokens.values(),
+            key=lambda token: datetime.fromisoformat(token.get("created_at")),
+        )
+
+        sync_seed = "|".join(
+            [
+                latest_token["token_id"],
+                latest_token["user_id"],
+                device_id,
+                latest_token.get("symbolic_signature", ""),
+            ]
+        )
+        sync_signature = hashlib.sha256(sync_seed.encode()).hexdigest()
+
+        expires_at = datetime.now(timezone.utc) + timedelta(
+            hours=self.config.get("device_sync_expiry_hours", 6)
+        )
+
+        sync_token = {
+            "sync_token_id": f"SYNC_{secrets.token_hex(10)}",
+            "user_id": latest_token["user_id"],
+            "device_id": device_id,
+            "issued_at": datetime.now(timezone.utc).isoformat(),
+            "expires_at": expires_at.isoformat(),
+            "source_token": latest_token["token_id"],
+            "service_scope": latest_token.get("service_scope", []),
+            "symbolic_signature": sync_signature,
+        }
+
+        # ΛTAG: device_sync_token – deterministic per-device derivation
+        return sync_token
 
     def _register_sync_token(self, sync_token: dict) -> str:
         """Register sync token for cross-device use"""
-        # TODO: Implement sync token registration
-        return f"SYNC_{secrets.token_hex(8)}"
+        sync_id = sync_token.get("sync_token_id") or f"SYNC_{secrets.token_hex(10)}"
+        sync_token["sync_token_id"] = sync_id
+
+        user_id = sync_token["user_id"]
+        self.sync_token_registry.setdefault(user_id, {})[sync_id] = sync_token
+
+        device_id = sync_token.get("device_id")
+        if user_id in self.device_registry and device_id in self.device_registry[user_id]:
+            device_record = self.device_registry[user_id][device_id]
+            device_record.setdefault("sync_tokens", []).append(sync_id)
+
+        # ΛTAG: sync_token_register – maintain registry for revocation + auditing
+        return sync_id
 
     def _notify_services_token_revoked(self, token_data: dict):
         """Notify services about token revocation"""
-        # TODO: Implement service notification logic
+        services = token_data.get("service_scope", [])
+        token_id = token_data.get("token_id")
+
+        for service_id in services:
+            registry_entry = self.service_registry.get(service_id)
+            if not registry_entry:
+                continue
+
+            registry_entry.setdefault("revoked_tokens", []).append(
+                {
+                    "token_id": token_id,
+                    "revoked_at": datetime.now(timezone.utc).isoformat(),
+                }
+            )
+
+        callback = self.config.get("token_revocation_hook")
+        if callable(callback):
+            # ΛTAG: revocation_notify – cascade revocation to orchestrators
+            callback(token_data)
