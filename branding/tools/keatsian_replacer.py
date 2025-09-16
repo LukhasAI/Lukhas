@@ -7,20 +7,81 @@ across the LUKHAS branding system.
 """
 
 import json
+import os
 import re
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any
 
 import yaml
 
 
-def fix_later(*args, **kwargs):
-    """TODO(symbol-resolver): implement missing functionality
+def fix_later(
+    context: str | None = None,
+    *,
+    file_path: Path | None = None,
+    error: Exception | None = None,
+    metadata: dict[str, Any] | None = None,
+    log_path: Path | None = None,
+) -> str:
+    """Record graceful fallback diagnostics for Keatsian replacements.
 
-    This is a placeholder for functionality that needs to be implemented.
-    Replace this stub with the actual implementation.
+    The fixer previously surfaced a placeholder, leaving downstream callers with
+    an unhelpful function reference. This implementation records contextual
+    diagnostics and returns a human-readable status line that can be displayed
+    to the operator.
     """
-    raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+
+    # ΛTAG: keatsian_fallback_diagnostics
+    timestamp = datetime.now(timezone.utc).isoformat()
+    safe_metadata = {
+        key: value
+        if isinstance(value, (str, int, float, bool)) or value is None
+        else str(value)
+        for key, value in (metadata or {}).items()
+    }
+
+    if log_path is None:
+        env_log_dir = os.getenv("LUKHAS_BRANDING_LOG_DIR")
+        if env_log_dir:
+            log_path = Path(env_log_dir) / "keatsian_replacer_fallbacks.jsonl"
+        else:
+            log_path = Path(__file__).with_name("keatsian_replacer_fallbacks.jsonl")
+
+    log_entry = {
+        "timestamp": timestamp,
+        "context": context or "unspecified",
+        "file": str(file_path) if file_path else None,
+        "metadata": safe_metadata,
+        "error": {
+            "type": type(error).__name__ if error else None,
+            "message": str(error) if error else None,
+        },
+    }
+
+    try:
+        log_path.parent.mkdir(parents=True, exist_ok=True)
+        with log_path.open("a", encoding="utf-8") as log_file:
+            log_file.write(json.dumps(log_entry, ensure_ascii=False) + "\n")
+    except Exception as logging_error:  # pragma: no cover - logging must never break flow
+        # ΛTAG: keatsian_fallback_logging_guard
+        print(
+            f"⚠️ Keatsian fallback logger failure: {logging_error}",
+            file=sys.stderr,
+        )
+
+    summary_parts = ["⚠️ Keatsian fallback activated"]
+    if context:
+        summary_parts.append(f"context={context}")
+    if file_path:
+        summary_parts.append(f"file={file_path}")
+    if error:
+        summary_parts.append(f"error={error}")
+    if safe_metadata:
+        summary_parts.append(f"metadata={safe_metadata}")
+
+    return " | ".join(summary_parts)
 
 
 class KeatsianReplacer:
@@ -134,8 +195,14 @@ class KeatsianReplacer:
 
             return False
 
-        except Exception:
-            print(fix_later)
+        except Exception as error:
+            fallback_message = fix_later(
+                "process_markdown_file",
+                file_path=file_path,
+                error=error,
+                metadata={"stage": "markdown_transformation"},
+            )
+            print(fallback_message)
             return False
 
     def process_yaml_file(self, file_path: Path) -> bool:
@@ -187,8 +254,14 @@ class KeatsianReplacer:
 
             return False
 
-        except Exception:
-            print(fix_later)
+        except Exception as error:
+            fallback_message = fix_later(
+                "process_yaml_file",
+                file_path=file_path,
+                error=error,
+                metadata={"stage": "yaml_transformation"},
+            )
+            print(fallback_message)
             return False
 
     def process_json_file(self, file_path: Path) -> bool:
@@ -216,12 +289,14 @@ class KeatsianReplacer:
                                 obj[key] = keatsian_defs[system_name]["definition"]
 
                         if isinstance(value, (dict, list)):
-                            update_nested_json(value, fix_later)
+                            next_path = f"{path}.{key}" if path else key
+                            update_nested_json(value, next_path)
 
                 elif isinstance(obj, list):
                     for i, item in enumerate(obj):
                         if isinstance(item, (dict, list)):
-                            update_nested_json(item, f"{path}[{i}]")
+                            next_path = f"{path}[{i}]" if path else f"[{i}]"
+                            update_nested_json(item, next_path)
 
             update_nested_json(data)
 
@@ -241,8 +316,14 @@ class KeatsianReplacer:
 
             return False
 
-        except Exception:
-            print(fix_later)
+        except Exception as error:
+            fallback_message = fix_later(
+                "process_json_file",
+                file_path=file_path,
+                error=error,
+                metadata={"stage": "json_transformation"},
+            )
+            print(fallback_message)
             return False
 
     def _inject_keatsian_definitions(self, content: str) -> str:

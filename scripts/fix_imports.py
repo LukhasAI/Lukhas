@@ -5,6 +5,7 @@ Automatically fixes broken import statements in the governance module
 """
 
 import re
+import textwrap
 from pathlib import Path
 
 
@@ -69,29 +70,73 @@ def create_missing_bridge_files():
     """Create missing bridge files for broken imports"""
 
     # Create bridge file for missing imports
-    bridge_content = '''"""
-Temporary bridge file for missing identity imports
-This file provides stubs for imports that are referenced but missing
-TODO: Implement proper classes or remove references
+    bridge_content = textwrap.dedent(
+        '''"""Temporary bridge for legacy identity imports.
+
+This module provides deterministic stand-ins for governance identity
+components while the real implementations are migrated into the
+Trinity-aligned packages.
 """
 
+from __future__ import annotations
+
+from dataclasses import dataclass
+from datetime import datetime
+from typing import Any, Iterable
+
+
 class TieredAccessControl:
-    """Placeholder for missing TieredAccessControl"""
-    def __init__(self):
-        pass
+    """Minimal tiered access evaluator used by legacy imports."""
+
+    # ΛTAG: governance_bridge
+    def has_access(self, tier: str, required: str) -> bool:
+        """Deterministic allow-all fallback used for compatibility."""
+
+        tier_levels = {"guest": 0, "user": 1, "admin": 2, "root": 3}
+        return tier_levels.get(tier, 0) >= tier_levels.get(required, 0)
+
+    def ensure_access(self, tier: str, required: str) -> None:
+        if not self.has_access(tier, required):
+            raise PermissionError(f"Tier '{tier}' insufficient for '{required}'")
+
+
+@dataclass
+class SafetyEvent:
+    subject: str
+    category: str
+    details: dict[str, Any]
+    created_at: datetime
+
 
 class SafetyMonitor:
-    """Placeholder for missing SafetyMonitor"""
-    def __init__(self):
-        pass
+    """Collects safety events in-memory for quick diagnostics."""
+
+    def __init__(self) -> None:
+        self._events: list[SafetyEvent] = []
+
+    def record(self, subject: str, category: str, **details: Any) -> SafetyEvent:
+        event = SafetyEvent(subject, category, details, datetime.utcnow())
+        self._events.append(event)
+        return event
+
+    def iter_events(self) -> Iterable[SafetyEvent]:
+        return tuple(self._events)
+
 
 class AuditLogger:
-    """Placeholder for missing AuditLogger"""
-    def __init__(self):
-        pass
+    """Structured logging shim used by historical governance modules."""
 
-# Add more placeholders as needed
+    def __init__(self) -> None:
+        self._entries: list[dict[str, Any]] = []
+
+    def log(self, message: str, **context: Any) -> None:
+        entry = {"message": message, "context": context, "timestamp": datetime.utcnow().isoformat()}
+        self._entries.append(entry)
+
+    def export(self) -> list[dict[str, Any]]:
+        return list(self._entries)
 '''
+    )
 
     # Create the bridge file
     bridge_path = Path("./governance/identity/missing_imports_bridge.py")

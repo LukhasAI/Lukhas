@@ -16,14 +16,7 @@ import re
 from collections import Counter
 from typing import Optional
 
-
-def fix_later(*args, **kwargs):
-    """TODO(symbol-resolver): implement missing functionality
-
-    This is a placeholder for functionality that needs to be implemented.
-    Replace this stub with the actual implementation.
-    """
-    raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+from .report_utils import render_enrichment_summary, render_frequency_line
 
 
 class VocabularyBalancer:
@@ -258,13 +251,34 @@ if __name__ == "__main__":
     ]
 
     print("▸ TRACKING REPETITION:\n")
-    for _i, text in enumerate(texts, 1):
+    for idx, text in enumerate(texts, 1):
         enriched = balancer.enrich_text(text)
-        print(fix_later)
-        print(f"  Enriched: {enriched}\n")
+        # ΛTAG: vocabulary_reporting
+        summary = render_enrichment_summary(
+            index=idx,
+            original=text,
+            enriched=enriched,
+            usage_counter=balancer.usage_counter,
+            repetition_threshold=balancer.repetition_threshold,
+        )
+        print(summary)
+        print()
 
     print("▸ USAGE REPORT:")
-    print(f"  {balancer.get_usage_report()}\n")
+    usage_report = balancer.get_usage_report()
+    if usage_report:
+        for metaphor, count in sorted(usage_report.items()):
+            formatted_line = render_frequency_line(
+                metaphor,
+                count,
+                scale=1,
+                bar_char="█",
+                label="usage",
+            )
+            print(f"  {formatted_line}")
+    else:
+        print("  No tracked metaphors yet.")
+    print()
 
     print("▸ VARIETY SUGGESTIONS FOR 'complexity':")
     for suggestion in balancer.suggest_variety("complexity"):

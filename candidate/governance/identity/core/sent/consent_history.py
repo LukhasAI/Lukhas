@@ -15,6 +15,7 @@ Features:
 
 from datetime import datetime, timezone
 from typing import Optional
+import hashlib
 
 
 class ConsentHistoryManager:
@@ -59,13 +60,34 @@ class ConsentHistoryManager:
 
         return record_hash
 
+    def _log_to_trace(self, user_id: str, record: dict) -> None:
+        """Send consent record to ΛTRACE logger"""
+        symbolic_data = {
+            "hash": record.get("hash"),
+            "event_type": record.get("event_type"),
+            "scopes": list(record.get("scope_data", {}).keys()),
+        }
+        # ΛTAG: consent_audit
+        # TODO: include previous_hash and metadata in trace context
+        self.trace_logger.log_activity(user_id, f"consent_{record.get('event_type')}", symbolic_data)
+
     def _generate_record_hash(self, record: dict, user_id: str) -> str:
         """Generate cryptographic hash for consent record"""
         # Create deterministic string for hashing
-        f"{record['timestamp']}|{record['event_type']}|{record['scope_data']!s}|{user_id}"
+        hash_input = f"{record['timestamp']}|{record['event_type']}|{record['scope_data']!s}|{user_id}"
+        record_hash = hashlib.sha256(hash_input.encode()).hexdigest()
 
-        # TODO: Call ΛTRACE logger
-        # self.trace_logger.log_activity(user_id, 'consent', symbolic_data)
+        if self.trace_logger:
+            symbolic_data = {
+                "hash": record_hash,
+                "event_type": record.get("event_type"),
+                "scopes": list(record.get("scope_data", {}).keys()),
+            }
+            # ΛTAG: consent_trace
+            # TODO: enrich symbolic_data with ΛTIER metadata
+            self.trace_logger.log_activity(user_id, f"consent_{record.get('event_type')}", symbolic_data)
+
+        return record_hash
 
     def verify_consent_chain(self, user_id: str) -> bool:
         """Verify integrity of user's consent chain"""

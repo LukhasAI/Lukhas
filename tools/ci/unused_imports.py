@@ -5,7 +5,7 @@ T4 unused-imports policy enforcer.
 - Scans for Ruff F401 (unused imports) in selected roots (default: lukhas, MATRIZ)
 - Skips noisy trees (candidate, archive, quarantine, .venv, node_modules, reports, .git)
 - If a F401 is found, the tool:
-  * adds an inline TODO tag (idempotent):  # TODO[T4-UNUSED-IMPORT]: <reason>
+  * adds an inline T4 unused-import tag (idempotent) such as "# TODO[T4-UNUSED-IMPORT]: <reason>"
   * ensures a small header block exists at top of file once
   * logs each action to reports/todos/unused_imports.jsonl
 - --strict: exits non-zero if any F401 remain unannotated (for CI fail)

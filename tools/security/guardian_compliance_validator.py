@@ -16,7 +16,7 @@ import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict
 
 
 class GuardianComplianceValidator:
@@ -358,7 +358,7 @@ class GuardianComplianceValidator:
         except Exception:
             return False
 
-    def _is_guardian_compliant(self, results: Dict[str, Any]) -> bool:  # noqa: F821  # TODO: Dict
+    def _is_guardian_compliant(self, results: Dict[str, Any]) -> bool:
         """Check if Guardian System is compliant."""
         guardian = results["guardian"]
         return (

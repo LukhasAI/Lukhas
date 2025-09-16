@@ -20,21 +20,19 @@ from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-# TODO: Fix import paths - lambda directory doesn't exist
-# from products.lambda.lambda_products_pack.lambda_core.Lens.lens_core import ΛLens as LensCore
-
-# Import our modules directly
-# TODO: Update these import paths to correct locations
-# from products.lambda.lambda_products_pack.lambda_core.Lens.parsers.code_parser import CodeParser
-# from products.lambda.lambda_products_pack.lambda_core.Lens.parsers.csv_parser import CSVParser
-# from products.lambda.lambda_products_pack.lambda_core.Lens.parsers.data_parser import DataParser
-# from products.lambda.lambda_products_pack.lambda_core.Lens.parsers.markdown_parser import MarkdownParser
-# from products.lambda.lambda_products_pack.lambda_core.Lens.parsers.pdf_parser import PDFParser
-# from products.lambda.lambda_products_pack.lambda_core.Lens.parsers.text_parser import TextParser
-# from products.lambda.lambda_products_pack.lambda_core.Lens.renderers.web2d_renderer import Web2DRenderer
-# from products.lambda.lambda_products_pack.lambda_core.Lens.renderers.xr_renderer import XRRenderer
-# from products.lambda.lambda_products_pack.lambda_core.Lens.symbols.symbol_generator import SymbolGenerator
-# from products.lambda.lambda_products_pack.lambda_core.Lens.widgets.widget_factory import WidgetFactory
+# ΛTAG: lens, component_imports
+from products.intelligence.lens.lens_core import ΛLens as LensCore
+from products.intelligence.lens.parsers import (
+    CodeParser,
+    CSVParser,
+    DataParser,
+    MarkdownParser,
+    PDFParser,
+    TextParser,
+)
+from products.intelligence.lens.renderers import Web2DRenderer, XRRenderer
+from products.intelligence.lens.symbols import SymbolGenerator
+from products.intelligence.lens.widgets import WidgetFactory
 
 
 # Pydantic models
@@ -61,11 +59,12 @@ class PhotonDocument(BaseModel):
 
 
 # Initialize components
-lens_core = LensCore()  # noqa: F821  # TODO: LensCore
-symbol_generator = SymbolGenerator()  # noqa: F821  # TODO: SymbolGenerator
-widget_factory = WidgetFactory()  # noqa: F821  # TODO: WidgetFactory
-web_renderer = Web2DRenderer()  # noqa: F821  # TODO: Web2DRenderer
-xr_renderer = XRRenderer()  # noqa: F821  # TODO: XRRenderer
+# ΛTAG: lens, component_state
+lens_core = LensCore()
+symbol_generator = SymbolGenerator()
+widget_factory = WidgetFactory()
+web_renderer = Web2DRenderer()
+xr_renderer = XRRenderer()
 
 # Job storage (in production, use a database)
 jobs = {}
@@ -186,19 +185,19 @@ async def process_file_async(content: str, file_type: str, job_id: str) -> dict[
     try:
         # Parse content based on type
         if file_type == "text":
-            parser = TextParser()  # noqa: F821  # TODO: TextParser
+            parser = TextParser()
         elif file_type == "code":
-            parser = CodeParser()  # noqa: F821  # TODO: CodeParser
+            parser = CodeParser()
         elif file_type == "data":
-            parser = DataParser()  # noqa: F821  # TODO: DataParser
+            parser = DataParser()
         elif file_type == "csv":
-            parser = CSVParser()  # noqa: F821  # TODO: CSVParser
+            parser = CSVParser()
         elif file_type == "markdown":
-            parser = MarkdownParser()  # noqa: F821  # TODO: MarkdownParser
+            parser = MarkdownParser()
         elif file_type == "pdf":
-            parser = PDFParser()  # noqa: F821  # TODO: PDFParser
+            parser = PDFParser()
         else:
-            parser = TextParser()  # noqa: F821  # TODO: TextParser
+            parser = TextParser()
 
         # Parse the content
         parsed_data = parser.parse(content)

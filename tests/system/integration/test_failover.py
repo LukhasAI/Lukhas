@@ -4,6 +4,7 @@
 # criticality: P2
 
 import pytest
+import shutil
 import subprocess
 import time
 import requests
@@ -12,7 +13,17 @@ import os
 DOCKER_COMPOSE_FILE = "deployment/docker/docker-compose.yml"
 BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8000")
 
-@pytest.mark.skipif(True, reason="TODO: The environment is running out of disk space when pulling Docker images. This prevents the system tests from running. The issue needs to be resolved by increasing the available disk space.")
+RUN_SYSTEM_TESTS = os.getenv("RUN_SYSTEM_TESTS") == "1"
+# ΛTAG: system_test_opt_in
+HAS_DOCKER = shutil.which("docker-compose") or shutil.which("docker")
+pytestmark = pytest.mark.skipif(
+    not RUN_SYSTEM_TESTS or not HAS_DOCKER,
+    reason=(
+        "System tests require RUN_SYSTEM_TESTS=1 and Docker tooling; skipping to protect CI"
+    ),
+)
+
+
 @pytest.fixture(scope="module")
 def system_up():
     """Fixture to start and stop the system for the test module."""
@@ -36,7 +47,6 @@ def system_up():
     finally:
         subprocess.run(["docker-compose", "-f", DOCKER_COMPOSE_FILE, "down"], check=True)
 
-@pytest.mark.skipif(True, reason="TODO: The environment is running out of disk space when pulling Docker images. This prevents the system tests from running. The issue needs to be resolved by increasing the available disk space.")
 @pytest.mark.tier2
 @pytest.mark.system
 def test_redis_failover(system_up):

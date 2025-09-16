@@ -133,7 +133,7 @@ class LukhasRealDataCollector:
         try:
             # Connect to Memoria
             memory_path = self.lukhas_root / "candidate" / "memory" / "memory_core.py"
-            if memoria_path.exists():  # noqa: F821  # TODO: memoria_path
+            if memory_path.exists():
                 spec = importlib.util.spec_from_file_location("memory_core", memory_path)
                 memory_module = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(memory_module)

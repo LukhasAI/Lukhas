@@ -146,9 +146,19 @@ class AwarenessEngine:
 
     # Human-readable comment: Internal method to set up the core consciousness system.
     async def _setup_consciousness_system(self):
-        """Placeholder for setting up the core consciousness system."""
-        self.instance_logger.debug("ΛTRACE: Internal: Setting up core consciousness system (placeholder).")
-        # TODO: Implement actual consciousness-specific setup logic here.
+        """Set up core consciousness metrics and baseline state."""
+        # ΛTAG: consciousness_setup
+        self.instance_logger.debug("ΛTRACE: Internal: Setting up core consciousness system.")
+
+        # Establish baseline metrics for drift and affect.
+        self.drift_score = float(self.config.get("baseline_drift", 0.0))
+        self.affect_delta = float(self.config.get("baseline_affect", 0.0))
+        self.instance_logger.debug(
+            "ΛTRACE: Baseline metrics established.",
+            extra={"driftScore": self.drift_score, "affect_delta": self.affect_delta},
+        )
+
+        # TODO: Integrate memory and emotion subsystems for full consciousness setup.
         await asyncio.sleep(0.01)  # Simulate async setup operation
         self.instance_logger.debug("ΛTRACE: Internal: Core consciousness system setup complete.")
 

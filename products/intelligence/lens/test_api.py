@@ -15,7 +15,7 @@ sys.path.insert(0, api_dir)
 try:
     from api.endpoints import router
     from api.main import app
-    from api.schemas import JobRequest, JobResponse, PhotonDocument  # noqa: F401  # TODO: api.schemas.JobResponse; consi...
+    from api.schemas import JobRequest, JobResponse, PhotonDocument
 
     print("✅ API imports successful!")
     print(f"📡 FastAPI app: {app.title}")
@@ -23,8 +23,26 @@ try:
     print("📋 Schemas: JobRequest, JobResponse, PhotonDocument")
 
     # Test schema validation
-    test_request = JobRequest()
-    print(f"🔍 Default request: {test_request.dict()}")
+    # ΛTAG: lens, schema_smoke_test
+    test_request = JobRequest(file_type="text", content="Lambda lens test")
+    print(f"🔍 Request payload: {test_request.model_dump()}")
+
+    sample_response = JobResponse(
+        job_id="demo-job",
+        status="pending",
+        message="ΛLens job accepted",
+    )
+    print(f"📨 Sample response: {sample_response.model_dump()}")
+
+    photon_document = PhotonDocument(
+        id="photon-demo",
+        title="Demo Document",
+        content="ΛLens photon blueprint",
+        symbols=[],
+        widgets=[],
+        metadata={"triad": "consciousness"},
+    )
+    print(f"🗂️ Photon document schema validated: {photon_document.model_dump()}")
 
     print("\n🎉 ΛLens API is ready to use!")
     print("\nTo start the server:")

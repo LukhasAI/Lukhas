@@ -68,8 +68,20 @@ from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import StandardScaler
 
 # Custom imports (would be actual imports in production)
-# TODO: Restore this import when creative_expressions_v2 module is available
-# from creative_expressions_v2 import CreativeMetrics
+try:
+    from creative_expressions_v2 import CreativeMetrics
+except ImportError:  # pragma: no cover - fallback path exercised in tests
+    @dataclass
+    class CreativeMetrics:
+        """Fallback metrics container for creative observability."""
+
+        creativity_score: float = 0.0
+        novelty_index: float = 0.0
+        coherence_score: float = 0.0
+        affect_delta: float = 0.0
+
+
+# ΛTAG: observability_creative_metrics
 
 
 # Prometheus metrics

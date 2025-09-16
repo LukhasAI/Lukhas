@@ -22,7 +22,10 @@ import asyncio
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-# Initialize structured logger
+from ._logging import BRIDGE_LOGGER as logger
+from ._logging import get_voice_bridge_logger
+
+# ΛTAG: voice_logging
 
 
 class AudioProcessor:
@@ -36,7 +39,7 @@ class AudioProcessor:
 
     def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
-        self.logger = logger  # noqa: F821  # TODO: logger
+        self.logger = get_voice_bridge_logger(self.__class__.__name__)
         self.is_initialized = False
         self.status = "inactive"
 
@@ -191,26 +194,25 @@ async def create_and_initialize_audio_processor(
 
 if __name__ == "__main__":
     # Example usage
-    import asyncio
 
     async def main():
         component = AudioProcessor()
 
         # Initialize
         success = await component.initialize()
-        logger.info(f"Initialization: {'success' if success else 'failed'}")  # noqa: F821  # TODO: logger
+        logger.info(f"Initialization: {'success' if success else 'failed'}")
 
         # Process some data
         result = await component.process({"test": "data"})
-        logger.info(f"Processing result: {result}")  # noqa: F821  # TODO: logger
+        logger.info(f"Processing result: {result}")
 
         # Validate
         valid = await component.validate()
-        logger.info(f"Validation: {'passed' if valid else 'failed'}")  # noqa: F821  # TODO: logger
+        logger.info(f"Validation: {'passed' if valid else 'failed'}")
 
         # Get status
         status = component.get_status()
-        logger.info(f"Status: {status}")  # noqa: F821  # TODO: logger
+        logger.info(f"Status: {status}")
 
         # Shutdown
         await component.shutdown()
