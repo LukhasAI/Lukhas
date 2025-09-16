@@ -1,5 +1,11 @@
+import sys
 import unittest
+from pathlib import Path
 from unittest.mock import Mock
+
+# Add the root directory to the path for proper imports
+sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
+
 from branding.personal_brand.consciousness_authority_builder import (
     ConsciousnessAuthorityBuilder,
     AuthorityScore,
