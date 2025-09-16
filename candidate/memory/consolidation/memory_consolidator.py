@@ -90,13 +90,158 @@ class MemorySystemConsolidator:
         with open(target) as f:
             f.read()
 
-        # TODO: Implement smart merging logic
-        # For now, we'll keep this as a placeholder
-        logger.info(f"Would merge {source} into {target}")
+        # Smart merging logic for memory implementations
+        try:
+            # Read source content
+            with open(source, 'r', encoding='utf-8') as f:
+                source_content = f.read()
+
+            # Read target content
+            with open(target, 'r', encoding='utf-8') as f:
+                target_content = f.read()
+
+            # Extract classes and functions from source
+            source_classes = self._extract_classes(source_content)
+            source_functions = self._extract_functions(source_content)
+
+            # Merge unique components
+            merged_content = target_content
+
+            # Add missing classes from source
+            for class_name, class_code in source_classes.items():
+                if class_name not in target_content:
+                    merged_content += f"\n\n{class_code}"
+                    logger.info(f"Added class {class_name} from {source}")
+
+            # Add missing functions from source
+            for func_name, func_code in source_functions.items():
+                if func_name not in target_content:
+                    merged_content += f"\n\n{func_code}"
+                    logger.info(f"Added function {func_name} from {source}")
+
+            # Write merged content back to target
+            with open(target, 'w', encoding='utf-8') as f:
+                f.write(merged_content)
+
+            logger.info(f"Successfully merged {source} into {target}")
+
+        except Exception as e:
+            logger.error(f"Failed to merge {source} into {target}: {e}")
+            # Fallback: keep original target file
+            logger.info(f"Keeping original {target} file due to merge error")
+
+    def _extract_classes(self, content: str) -> dict:
+        """Extract class definitions from Python content."""
+        classes = {}
+        class_pattern = r'^class\s+(\w+).*?(?=^class\s|\n^def\s|\Z)'
+        matches = re.finditer(class_pattern, content, re.MULTILINE | re.DOTALL)
+
+        for match in matches:
+            class_name = match.group(1)
+            class_code = match.group(0)
+            classes[class_name] = class_code
+
+        return classes
+
+    def _extract_functions(self, content: str) -> dict:
+        """Extract function definitions from Python content."""
+        functions = {}
+        # Match top-level functions (not inside classes)
+        func_pattern = r'^def\s+(\w+).*?(?=^def\s|^class\s|\Z)'
+        matches = re.finditer(func_pattern, content, re.MULTILINE | re.DOTALL)
+
+        for match in matches:
+            func_name = match.group(1)
+            func_code = match.group(0)
+            functions[func_name] = func_code
+
+        return functions
 
     def _tag_critical_files(self):
         """Apply proper tagging to all critical files."""
         logger.info("Applying tags to critical files...")
+
+        for filename, file_info in self.critical_files.items():
+            file_path = file_info["path"] / filename
+
+            if file_path.exists():
+                self._apply_tags_to_file(file_path, file_info["tags"])
+            else:
+                logger.warning(f"Critical file not found: {file_path}")
+
+    def _apply_tags_to_file(self, file_path: Path, tags: list):
+        """Apply proper tags to a Python file."""
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+
+            # Check if tags already exist
+            if '#TAG:' in content:
+                logger.info(f"Tags already exist in {file_path}")
+                return
+
+            # Create tag header
+            tag_header = '\n'.join([f'#TAG:{tag}' for tag in tags])
+
+            # Insert tags after docstring or at beginning
+            if '"""' in content:
+                # Find end of first docstring
+                parts = content.split('"""', 2)
+                if len(parts) >= 3:
+                    new_content = f'{parts[0]}"""{parts[1]}"""\n\n{tag_header}\n{parts[2]}'
+                else:
+                    new_content = f'{tag_header}\n\n{content}'
+            else:
+                new_content = f'{tag_header}\n\n{content}'
+
+            # Write updated content
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write(new_content)
+
+            logger.info(f"Applied tags to {file_path}: {', '.join(tags)}")
+
+        except Exception as e:
+            logger.error(f"Failed to apply tags to {file_path}: {e}")
+
+    def validate_memory_system(self) -> dict:
+        """Validate the consolidated memory system."""
+        validation_results = {
+            'critical_files_found': 0,
+            'missing_files': [],
+            'properly_tagged': 0,
+            'dependency_issues': [],
+            'status': 'unknown'
+        }
+
+        # Check critical files
+        for filename, file_info in self.critical_files.items():
+            file_path = file_info["path"] / filename
+
+            if file_path.exists():
+                validation_results['critical_files_found'] += 1
+
+                # Check if properly tagged
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+
+                if '#TAG:' in content:
+                    validation_results['properly_tagged'] += 1
+            else:
+                validation_results['missing_files'].append(str(file_path))
+
+        # Determine overall status
+        total_critical = len(self.critical_files)
+        if validation_results['critical_files_found'] == total_critical:
+            if validation_results['properly_tagged'] == total_critical:
+                validation_results['status'] = 'excellent'
+            else:
+                validation_results['status'] = 'good'
+        elif validation_results['critical_files_found'] > total_critical * 0.7:
+            validation_results['status'] = 'acceptable'
+        else:
+            validation_results['status'] = 'critical_issues'
+
+        return validation_results
 
         header_template = '''"""
 CRITICAL: {name}

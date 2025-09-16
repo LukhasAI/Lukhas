@@ -38,16 +38,19 @@ except ImportError:
 
     class MediaFileKind(Enum):
         """Media file type enumeration."""
+
         IMAGE = "image"
         VIDEO = "video"
         AUDIO = "audio"
 
     class MediaFileStorageError(Exception):
         """Media file storage error."""
+
         pass
 
     class MediaFileStorage:
         """Fallback media file storage implementation."""
+
         def __init__(self):
             pass
 
@@ -85,6 +88,8 @@ except ImportError:
             CacheStat(category_name=category, cache_name=cache, byte_length=byte_length)
             for (category, cache), byte_length in aggregated.items()
         ]
+
+
 # Mimetype -> filename extension map for the `get_extension_for_mimetype`
 # function. We use Python's `mimetypes.guess_extension` for most mimetypes,
 # but (as of Python 3.9) `mimetypes.guess_extension("audio/wav")` returns None,
@@ -166,20 +171,14 @@ class MemoryMediaFileStorage(MediaFileStorage, CacheStatsProvider):
     ) -> str:
         """Add a file to the manager and return its ID."""
         file_data: bytes
-        file_data = (
-            self._read_file(path_or_data)
-            if isinstance(path_or_data, str)
-            else path_or_data
-        )
+        file_data = self._read_file(path_or_data) if isinstance(path_or_data, str) else path_or_data
 
         # Because our file_ids are stable, if we already have a file with the
         # given ID, we don't need to create a new one.
         file_id = _calculate_file_id(file_data, mimetype, filename)
         if file_id not in self._files_by_id:
             _LOGGER.debug("Adding media file %s", file_id)
-            media_file = MemoryFile(
-                content=file_data, mimetype=mimetype, kind=kind, filename=filename
-            )
+            media_file = MemoryFile(content=file_data, mimetype=mimetype, kind=kind, filename=filename)
             self._files_by_id[file_id] = media_file
 
         return file_id
@@ -195,9 +194,7 @@ class MemoryMediaFileStorage(MediaFileStorage, CacheStatsProvider):
         try:
             return self._files_by_id[file_id]
         except KeyError as e:
-            raise MediaFileStorageError(
-                f"Bad filename '{filename}'. (No media file with id '{file_id}')"
-            ) from e
+            raise MediaFileStorageError(f"Bad filename '{filename}'. (No media file with id '{file_id}')") from e
 
     def get_url(self, file_id: str) -> str:
         """Get a URL for a given media file. Raise a MediaFileStorageError if
