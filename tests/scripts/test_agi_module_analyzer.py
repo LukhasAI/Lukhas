@@ -1,3 +1,7 @@
+import pytest
+
+pytest.importorskip("networkx", reason="networkx required for agi_module_analyzer tests")
+
 from scripts.analysis.agi_module_analyzer import AGIModuleAnalyzer, ModuleAnalysis
 
 
