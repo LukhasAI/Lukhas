@@ -11,31 +11,61 @@ alignment even when underlying components fail or behave unexpectedly.
 """
 
 import asyncio
+import importlib
+from importlib.util import find_spec
 import random
 import time
 from contextlib import asynccontextmanager, contextmanager
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 import numpy as np
 import pytest
 
-try:
-    from rl import (
-        ConsciousnessBuffer,  # noqa: F401  # TODO: rl.ConsciousnessBuffer; consid...
-        ConsciousnessEnvironment,  # noqa: F401  # TODO: rl.ConsciousnessEnvironment; c...
-        ConsciousnessMetaLearning,  # noqa: F401  # TODO: rl.ConsciousnessMetaLearning; ...
-        ConsciousnessRewards,  # noqa: F401  # TODO: rl.ConsciousnessRewards; consi...
-        MultiAgentCoordination,  # noqa: F401  # TODO: rl.MultiAgentCoordination; con...
-        PolicyNetwork,  # noqa: F401  # TODO: rl.PolicyNetwork; consider usi...
-        ValueNetwork,  # noqa: F401  # TODO: rl.ValueNetwork; consider usin...
+RL_COMPONENT_NAMES = (
+    "ConsciousnessBuffer",
+    "ConsciousnessEnvironment",
+    "ConsciousnessMetaLearning",
+    "ConsciousnessRewards",
+    "MultiAgentCoordination",
+    "PolicyNetwork",
+    "ValueNetwork",
+)
+
+if TYPE_CHECKING:  # pragma: no cover - imported for type checking only
+    from rl import (  # type: ignore
+        ConsciousnessBuffer,
+        ConsciousnessEnvironment,
+        ConsciousnessMetaLearning,
+        ConsciousnessRewards,
+        MultiAgentCoordination,
+        PolicyNetwork,
+        ValueNetwork,
     )
 
-    RL_AVAILABLE = True
-except ImportError:
+
+# ΛTAG: rl_dependency_check
+def _ensure_rl_components() -> bool:
+    """Verify RL module availability without importing unused symbols."""
+
+    spec = find_spec("rl")
+    if spec is None:
+        raise ImportError("rl module not found")
+
+    module = importlib.import_module("rl")
+    missing = [name for name in RL_COMPONENT_NAMES if not hasattr(module, name)]
+    if missing:
+        raise ImportError(f"Missing RL components: {', '.join(missing)}")
+
+    return True
+
+
+try:
+    RL_AVAILABLE = _ensure_rl_components()
+except ImportError as exc:  # pragma: no cover - module unavailable in CI
     RL_AVAILABLE = False
-    pytest.skip("MΛTRIZ RL components not available", allow_module_level=True)
+    pytest.skip(f"MΛTRIZ RL components not available: {exc}", allow_module_level=True)
 
 
 class ChaosFailureType(Enum):

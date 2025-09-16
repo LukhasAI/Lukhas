@@ -8,33 +8,67 @@ not just specific examples.
 Inspired by the top 0.001% engineering practices for mission-critical systems.
 """
 
+import importlib
+from importlib.util import find_spec
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 import numpy as np
 import pytest
-from hypothesis import HealthCheck, given, settings
-from hypothesis import strategies as st
-from hypothesis.stateful import RuleBasedStateMachine, initialize, invariant, rule
 
 try:
-    from rl import (
+    from hypothesis import HealthCheck, given, settings
+    from hypothesis import strategies as st
+    from hypothesis.stateful import RuleBasedStateMachine, initialize, invariant, rule
+except ModuleNotFoundError as exc:  # pragma: no cover - optional dependency
+    pytest.skip(f"Hypothesis dependency not available: {exc}", allow_module_level=True)
+
+RL_COMPONENT_NAMES = (
+    "ConsciousnessBuffer",
+    "ConsciousnessEnvironment",
+    "ConsciousnessMetaLearning",
+    "ConsciousnessRewards",
+    "ConsciousnessState",
+    "MatrizNode",
+    "MultiAgentCoordination",
+    "PolicyNetwork",
+    "ValueNetwork",
+)
+
+if TYPE_CHECKING:  # pragma: no cover
+    from rl import (  # type: ignore
         ConsciousnessBuffer,
         ConsciousnessEnvironment,
-        ConsciousnessMetaLearning,  # noqa: F401  # TODO: rl.ConsciousnessMetaLearning; ...
+        ConsciousnessMetaLearning,
         ConsciousnessRewards,
-        ConsciousnessState,  # noqa: F401  # TODO: rl.ConsciousnessState; conside...
-        MatrizNode,  # noqa: F401  # TODO: rl.MatrizNode; consider using ...
-        MultiAgentCoordination,  # noqa: F401  # TODO: rl.MultiAgentCoordination; con...
+        ConsciousnessState,
+        MatrizNode,
+        MultiAgentCoordination,
         PolicyNetwork,
         ValueNetwork,
     )
 
-    RL_AVAILABLE = True
-except ImportError:
+
+# ΛTAG: rl_dependency_check
+def _ensure_rl_components() -> bool:
+    spec = find_spec("rl")
+    if spec is None:
+        raise ImportError("rl module not found")
+
+    module = importlib.import_module("rl")
+    missing = [name for name in RL_COMPONENT_NAMES if not hasattr(module, name)]
+    if missing:
+        raise ImportError(f"Missing RL components: {', '.join(missing)}")
+
+    return True
+
+
+try:
+    RL_AVAILABLE = _ensure_rl_components()
+except ImportError as exc:  # pragma: no cover - optional dependency
     RL_AVAILABLE = False
-    pytest.skip("MΛTRIZ RL components not available", allow_module_level=True)
+    pytest.skip(f"MΛTRIZ RL components not available: {exc}", allow_module_level=True)
 
 
 # Consciousness Property Strategies

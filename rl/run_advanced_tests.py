@@ -13,6 +13,7 @@ Usage:
 """
 
 import argparse
+import importlib.util
 import sys
 from pathlib import Path
 
@@ -20,32 +21,17 @@ from pathlib import Path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
+_DEPENDENCY_MODULES = ("hypothesis", "z3", "torch")
 
+
+# ΛTAG: dependency_probe
 def check_dependencies() -> dict[str, bool]:
-    """Check availability of advanced testing dependencies"""
+    """Check availability of advanced testing dependencies."""
+
     dependencies = {}
-
-    try:
-        import hypothesis  # noqa: F401  # TODO: hypothesis; consider using imp...
-
-        dependencies["hypothesis"] = True
-    except ImportError:
-        dependencies["hypothesis"] = False
-
-    try:
-        import z3  # noqa: F401  # TODO: z3; consider using importlib.u...
-
-        dependencies["z3"] = True
-    except ImportError:
-        dependencies["z3"] = False
-
-    try:
-        import torch  # noqa: F401  # TODO: torch; consider using importli...
-
-        dependencies["torch"] = True
-    except ImportError:
-        dependencies["torch"] = False
-
+    for module_name in _DEPENDENCY_MODULES:
+        spec = importlib.util.find_spec(module_name)
+        dependencies[module_name] = spec is not None
     return dependencies
 
 
