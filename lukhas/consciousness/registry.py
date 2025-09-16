@@ -25,6 +25,7 @@ capabilities built throughout the LUKHAS transformation phases.
 """
 
 import asyncio
+import heapq
 import logging
 import uuid
 from contextlib import asynccontextmanager, suppress
@@ -209,10 +210,59 @@ class ConsciousnessComponentRegistry:
         components = list(self._metadata_registry.values())
 
         # Sort by activation priority first
-        components.sort(key=lambda c: c.activation_priority)
+        components.sort(key=lambda c: (c.activation_priority, c.component_id))
 
-        # TODO: Implement proper topological sort for dependencies
-        self._activation_order = [c.component_id for c in components]
+        # ΛTAG: activation_order
+        graph: dict[str, set[str]] = {c.component_id: set() for c in components}
+        indegree: dict[str, int] = {c.component_id: 0 for c in components}
+        metadata_by_id = {c.component_id: c for c in components}
+
+        for component in components:
+            valid_dependencies: set[str] = set()
+            for dependency in component.dependencies:
+                if dependency in graph:
+                    valid_dependencies.add(dependency)
+                else:
+                    logger.debug(
+                        "Dependency %s for component %s not registered", dependency, component.component_id
+                    )
+            for dependency in valid_dependencies:
+                graph[dependency].add(component.component_id)
+                indegree[component.component_id] += 1
+
+        heap: list[tuple[int, str]] = []
+        for component in components:
+            if indegree[component.component_id] == 0:
+                heapq.heappush(heap, (component.activation_priority, component.component_id))
+
+        ordered: list[str] = []
+        while heap:
+            _, component_id = heapq.heappop(heap)
+            ordered.append(component_id)
+            for neighbor in sorted(graph[component_id]):
+                indegree[neighbor] -= 1
+                if indegree[neighbor] == 0:
+                    neighbor_metadata = metadata_by_id[neighbor]
+                    heapq.heappush(heap, (neighbor_metadata.activation_priority, neighbor))
+
+        if len(ordered) != len(components):
+            remaining = [
+                component_id
+                for component_id, degree in indegree.items()
+                if degree > 0 and component_id not in ordered
+            ]
+            if remaining:
+                logger.warning(
+                    "Detected circular or unresolved dependencies for components: %s",
+                    ", ".join(sorted(remaining)),
+                )
+                remaining.sort(key=lambda cid: (
+                    metadata_by_id[cid].activation_priority,
+                    cid,
+                ))
+                ordered.extend(remaining)
+
+        self._activation_order = ordered
 
     async def activate_component(self, component_id: str, force: bool = False) -> bool:
         """

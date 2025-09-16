@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import logging
 import os
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Protocol
@@ -405,9 +406,11 @@ class CoreWrapper:
             all_symbols = list(self._symbolic_world.symbols.values())
             patterns = self._symbolic_reasoner.find_patterns(all_symbols)
 
+            relationships = self._extract_symbolic_relationships(symbol)
+
             return SymbolicResult(
                 symbols=[s.name for s in related_symbols],
-                relationships=[],  # TODO: Extract relationship data
+                relationships=relationships,
                 patterns=patterns,
                 reasoning=reasoning_result,
                 success=True,
@@ -422,6 +425,102 @@ class CoreWrapper:
                 reasoning={"error": str(e)},
                 success=False,
             )
+
+    # ΛTAG: symbolic_relationships
+    def _extract_symbolic_relationships(self, symbol: Any) -> list[dict[str, Any]]:
+        if not self._symbolic_world:
+            return []
+
+        symbol_name = self._get_symbol_name(symbol)
+        relationships_store = getattr(self._symbolic_world, "relationships", None)
+
+        if isinstance(relationships_store, Mapping):
+            raw_relationships = list(relationships_store.get(symbol_name, []))
+        else:
+            raw_relationships = []
+            getter = getattr(self._symbolic_world, "get_relationships", None)
+            if callable(getter):
+                try:
+                    raw_relationships = list(getter(symbol))
+                except Exception as exc:  # pragma: no cover - defensive
+                    logger.debug("Failed to retrieve relationships via getter: %s", exc)
+
+        normalized: list[dict[str, Any]] = []
+        seen: set[tuple[str | None, str | None, str | None]] = set()
+        for relationship in raw_relationships:
+            data = self._normalize_relationship(symbol_name, relationship)
+            key = (data.get("type"), data.get("source"), data.get("target"))
+            if key in seen:
+                continue
+            seen.add(key)
+            normalized.append(data)
+
+        return normalized
+
+    def _normalize_relationship(self, focus_name: str, relationship: Any) -> dict[str, Any]:
+        if isinstance(relationship, Mapping):
+            data = {**relationship}
+            target = data.get("target")
+            if target is not None:
+                data["target"] = self._get_symbol_name(target)
+            data.setdefault("source", focus_name)
+            data["properties"] = self._normalize_properties(data.get("properties"))
+            return data
+
+        relationship_type = getattr(relationship, "type", getattr(relationship, "relationship_type", "related"))
+        properties_dict = self._normalize_properties(getattr(relationship, "properties", None))
+
+        source_obj = getattr(relationship, "symbol1", None)
+        target_obj = getattr(relationship, "symbol2", None)
+
+        if source_obj is not None and target_obj is not None:
+            source_name = self._get_symbol_name(source_obj)
+            target_name = self._get_symbol_name(target_obj)
+            if source_name == focus_name:
+                actual_target = target_name
+                actual_source = focus_name
+            elif target_name == focus_name:
+                actual_target = source_name
+                actual_source = focus_name
+            else:
+                actual_target = target_name
+                actual_source = source_name
+        else:
+            actual_source = focus_name
+            linked = getattr(relationship, "target", None) or getattr(relationship, "symbol", None)
+            actual_target = self._get_symbol_name(linked) if linked is not None else None
+
+        return {
+            "type": relationship_type,
+            "source": actual_source,
+            "target": actual_target,
+            "properties": properties_dict,
+        }
+
+    def _get_symbol_name(self, symbol: Any) -> str:
+        name = getattr(symbol, "name", None)
+        if name is None:
+            return str(symbol)
+        return str(name)
+
+    def _normalize_properties(self, properties: Any) -> dict[str, Any]:
+        if isinstance(properties, Mapping):
+            return {str(key): value for key, value in properties.items()}
+        if properties is None:
+            return {}
+        if isinstance(properties, Sequence) and not isinstance(properties, (str, bytes)):
+            try:
+                return {str(key): value for key, value in dict(properties).items()}
+            except Exception:
+                return {"items": [self._coerce_property_value(item) for item in properties]}
+        return {"value": self._coerce_property_value(properties)}
+
+    def _coerce_property_value(self, value: Any) -> Any:
+        if hasattr(value, "name") and not isinstance(value, (str, bytes)):
+            name = getattr(value, "name", None)
+            if name is not None:
+                return str(name)
+        return value
 
     # Actor System Interface
     def send_actor_message(self, actor_id: str, message: Any, mode: str = "dry_run") -> bool:
