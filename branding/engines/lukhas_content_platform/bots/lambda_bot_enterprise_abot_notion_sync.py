@@ -5,24 +5,46 @@ Automatically generates and syncs daily reports with financial, AI routing, and 
 
 import json
 import logging
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
+
+try:
+    import requests
+    from requests import Response
+    from requests.exceptions import RequestException
+except Exception:  # pragma: no cover - fallback when requests is unavailable
+    requests = None  # type: ignore[assignment]
+    Response = Any  # type: ignore[assignment]
+    RequestException = Exception  # type: ignore[assignment]
 
 # Configure logging
 
-
-def fix_later(*args, **kwargs):
-    """
-    This is a placeholder for functionality that needs to be implemented.
-    Replace this stub with the actual implementation.
-    """
-    raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
-
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+
+NOTION_API_URL = "https://api.notion.com/v1/pages"
+DEFAULT_NOTION_VERSION = "2022-06-28"
+
+
+def _default_property_map() -> dict[str, str]:
+    """Return the default Notion property mapping used for daily reports."""
+
+    return {
+        "name": "Name",
+        "date": "Date",
+        "summary": "Summary",
+        "financial_status": "Financial Status",
+        "current_balance": "Current Balance",
+        "efficiency_score": "Efficiency Score",
+        "available_services": "AI Services",
+        "system_health": "System Health",
+        "recommendations": "Recommendations",
+        "alerts": "Alerts",
+        "raw_json": "Raw Data",
+    }
 
 
 @dataclass
@@ -34,6 +56,8 @@ class NotionSyncConfig:
     sync_enabled: bool = False
     auto_sync_time: str = "09:00"
     timezone: str = "UTC"
+    notion_version: str = DEFAULT_NOTION_VERSION
+    property_map: dict[str, str] = field(default_factory=_default_property_map)
 
 
 @dataclass
@@ -52,28 +76,34 @@ class ABotNotionSync:
     """Comprehensive LUKHAS AI ΛBot Notion sync system"""
 
     def __init__(self):
-        self.config_path = Path("/Users/A_G_I/Λ/LUKHAS AI ΛBot/config/notion_sync_config.json")
-        self.output_path = Path("/Users/A_G_I/Λ/LUKHAS AI ΛBot/config/notion_sync")
+        self.branding_root = Path(__file__).resolve().parents[3]
+        self.config_path = self.branding_root / "config" / "notion_sync_config.json"
+        self.output_path = self.branding_root / "config" / "notion_sync"
         self.config = self._load_config()
+        self._session = self._create_requests_session()
 
         # Ensure output directory exists
         self.output_path.mkdir(parents=True, exist_ok=True)
 
     def _load_config(self) -> NotionSyncConfig:
         """Load Notion sync configuration"""
+        config = NotionSyncConfig()
         try:
             if self.config_path.exists():
                 with open(self.config_path) as f:
                     data = json.load(f)
-                return NotionSyncConfig(**data)
+                config = NotionSyncConfig(**data)
             else:
                 # Create default config
-                config = NotionSyncConfig()
                 self._save_config(config)
-                return config
         except Exception as e:
             logger.error(f"Error loading config: {e}")
-            return NotionSyncConfig()
+
+        config.property_map = self._merge_property_map(config.property_map)
+        if not config.notion_version:
+            config.notion_version = DEFAULT_NOTION_VERSION
+
+        return config
 
     def _save_config(self, config: NotionSyncConfig):
         """Save Notion sync configuration"""
@@ -83,6 +113,27 @@ class ABotNotionSync:
                 json.dump(asdict(config), f, indent=2)
         except Exception as e:
             logger.error(f"Error saving config: {e}")
+
+    def _merge_property_map(self, override: Optional[dict[str, str]]) -> dict[str, str]:
+        """Merge an override map with the default Notion property mapping."""
+
+        merged = _default_property_map()
+        if override:
+            for key, value in override.items():
+                if key and value:
+                    merged[key] = value
+        return merged
+
+    def _create_requests_session(self) -> Optional["requests.Session"]:
+        """Create an HTTP session for communicating with the Notion API."""
+
+        if requests is None:
+            logger.warning("requests library not available; Notion sync will run in offline mode")
+            return None
+
+        session = requests.Session()
+        session.headers.update({"Content-Type": "application/json"})
+        return session
 
     def get_financial_data(self) -> dict[str, Any]:
         """Get financial intelligence data"""
@@ -283,42 +334,241 @@ class ABotNotionSync:
         except Exception as e:
             logger.error(f"Error saving report: {e}")
 
+    def _build_headers(self) -> dict[str, str]:
+        """Construct HTTP headers for Notion API requests."""
+
+        return {
+            "Authorization": f"Bearer {self.config.api_key}",
+            "Content-Type": "application/json",
+            "Notion-Version": self.config.notion_version or DEFAULT_NOTION_VERSION,
+        }
+
+    def _build_summary(self, report: DailyReport) -> str:
+        """Create a concise textual summary for the Notion page."""
+
+        balance = report.financial_data.get("current_balance", 0.0)
+        services = report.ai_routing_data.get("available_services", 0)
+        health = report.system_health.get("status", "unknown")
+        status = "Healthy" if not report.alerts else "Attention Required"
+
+        return (
+            f"Daily report for {report.date}: {status}. "
+            f"Balance ${balance:,.2f}, {services} AI services active, system health {health}."
+        )
+
+    def _build_notion_payload(self, report: DailyReport) -> dict[str, Any]:
+        """Create the Notion API payload for the daily report."""
+
+        property_map = self.config.property_map or _default_property_map()
+        default_map = _default_property_map()
+
+        def prop(key: str) -> str:
+            return property_map.get(key, default_map.get(key, key))
+
+        alerts_text = "\n".join(report.alerts) if report.alerts else "No alerts."
+        recommendations_text = (
+            "\n".join(report.recommendations) if report.recommendations else "No recommendations."
+        )
+
+        payload = {
+            "parent": {"database_id": self.config.database_id},
+            "properties": {
+                prop("name"): {
+                    "title": [
+                        {
+                            "text": {
+                                "content": f"LUKHAS Daily Report {report.date}",
+                            }
+                        }
+                    ]
+                },
+                prop("date"): {"date": {"start": report.date}},
+                prop("summary"): {
+                    "rich_text": [{"text": {"content": self._build_summary(report)}}]
+                },
+                prop("financial_status"): {
+                    "select": {
+                        "name": "Healthy" if not report.alerts else "Needs Attention",
+                    }
+                },
+                prop("current_balance"): {
+                    "number": float(report.financial_data.get("current_balance", 0.0))
+                },
+                prop("efficiency_score"): {
+                    "number": float(report.financial_data.get("efficiency_score", 0.0))
+                },
+                prop("available_services"): {
+                    "number": int(report.ai_routing_data.get("available_services", 0))
+                },
+                prop("system_health"): {
+                    "rich_text": [
+                        {
+                            "text": {
+                                "content": report.system_health.get("status", "unknown"),
+                            }
+                        }
+                    ]
+                },
+                prop("recommendations"): {
+                    "rich_text": [{"text": {"content": recommendations_text}}]
+                },
+                prop("alerts"): {"rich_text": [{"text": {"content": alerts_text}}]},
+            },
+        }
+
+        raw_property = prop("raw_json")
+        if raw_property:
+            payload["properties"][raw_property] = {
+                "rich_text": [
+                    {
+                        "text": {
+                            "content": json.dumps(
+                                asdict(report), ensure_ascii=False, separators=(",", ":")
+                            ),
+                        }
+                    }
+                ]
+            }
+
+        return payload
+
+    def _build_manual_export(self, report: DailyReport) -> dict[str, Any]:
+        """Create a manual export structure for auditing and import assistance."""
+
+        health_status = "✅ Healthy" if not report.alerts else "⚠️ Issues"
+        return {
+            "date": report.date,
+            "financial_status": health_status,
+            "current_balance": report.financial_data.get("current_balance"),
+            "efficiency_score": report.financial_data.get("efficiency_score"),
+            "ai_services": report.ai_routing_data.get("available_services"),
+            "system_health": report.system_health.get("status"),
+            "recommendations": report.recommendations,
+            "alerts": report.alerts,
+            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "report": asdict(report),
+        }
+
+    def _persist_notion_export(
+        self,
+        report: DailyReport,
+        payload: dict[str, Any],
+        manual_export: dict[str, Any],
+        *,
+        response: Optional[dict[str, Any]] = None,
+        error: Optional[str] = None,
+        response_text: Optional[str] = None,
+    ) -> Path:
+        """Persist the prepared Notion payload and context for auditing."""
+
+        notion_file = self.output_path / f"notion_import_{report.date}.json"
+        export_payload = {
+            "meta": {
+                "generated_at": datetime.now(timezone.utc).isoformat(),
+                "database_id": self.config.database_id,
+                "sync_enabled": self.config.sync_enabled,
+            },
+            "manual_summary": manual_export,
+            "api_payload": payload,
+        }
+
+        if response is not None:
+            export_payload["api_response"] = response
+        if response_text:
+            export_payload.setdefault("api_response", {})["raw"] = response_text
+        if error:
+            export_payload["error"] = error
+
+        notion_file.write_text(json.dumps(export_payload, indent=2, default=str), encoding="utf-8")
+        return notion_file
+
     def sync_to_notion(self, report: DailyReport) -> bool:
-        """Sync report to Notion (placeholder for real API integration)"""
+        """Sync the prepared daily report to Notion and log the outcome."""
         if not self.config.sync_enabled:
             logger.info("Notion sync disabled in config")
             return False
 
+        manual_export = self._build_manual_export(report)
+        payload = self._build_notion_payload(report)
+
         if not self.config.database_id or not self.config.api_key:
-            logger.warning("Notion API not configured - saving to file instead")
+            logger.warning("Notion API not configured - persisting manual export only")
+            self._persist_notion_export(
+                report,
+                payload,
+                manual_export,
+                error="missing_database_id_or_api_key",
+            )
+            return False
+
+        if self._session is None:
+            logger.warning("HTTP session unavailable - stored Notion payload for manual review")
+            self._persist_notion_export(
+                report,
+                payload,
+                manual_export,
+                error="requests_library_unavailable",
+            )
             return False
 
         try:
-            # TODO: Implement actual Notion API integration
-            logger.info("🔄 Syncing to Notion...")
+            logger.info("🔄 Syncing daily report to Notion database %s", self.config.database_id)
+            response: Response = self._session.post(
+                NOTION_API_URL,
+                headers=self._build_headers(),
+                json=payload,
+                timeout=30,
+            )
 
-            # For now, save formatted data for manual import
-            notion_data = {
-                "Date": report.date,
-                "Financial Status": "✅ Healthy" if not report.alerts else "⚠️ Issues",
-                "Current Balance": fix_later,
-                "Efficiency Score": f"{report.financial_data.get('efficiency_score', 0):.1f}%",
-                "AI Services": report.ai_routing_data.get("available_services", 0),
-                "System Health": report.system_health.get("status", "unknown"),
-                "Recommendations": len(report.recommendations),
-                "Alerts": len(report.alerts),
-                "Raw Data": asdict(report),
-            }
+            if response.status_code >= 400:
+                logger.error(
+                    "Error syncing to Notion: HTTP %s - %s",
+                    response.status_code,
+                    response.text,
+                )
+                response_payload: Optional[dict[str, Any]]
+                try:
+                    response_payload = response.json()
+                except ValueError:
+                    response_payload = None
 
-            notion_file = self.output_path / f"notion_import_{report.date}.json"
-            with open(notion_file, "w") as f:
-                json.dump(notion_data, f, indent=2, default=str)
+                self._persist_notion_export(
+                    report,
+                    payload,
+                    manual_export,
+                    error=f"http_{response.status_code}",
+                    response=response_payload,
+                    response_text=None if response_payload else response.text,
+                )
+                return False
 
-            logger.info(f"✅ Notion import data saved to {notion_file}")
+            response_payload = response.json()
+            self._persist_notion_export(
+                report,
+                payload,
+                manual_export,
+                response=response_payload,
+            )
+            logger.info("✅ Notion sync successful")
             return True
 
-        except Exception as e:
+        except RequestException as e:
             logger.error(f"Error syncing to Notion: {e}")
+            self._persist_notion_export(
+                report,
+                payload,
+                manual_export,
+                error=str(e),
+            )
+            return False
+        except Exception as e:  # pragma: no cover - defensive guard
+            logger.error(f"Unexpected error during Notion sync: {e}")
+            self._persist_notion_export(
+                report,
+                payload,
+                manual_export,
+                error=str(e),
+            )
             return False
 
     def get_recent_reports(self, days: int = 7) -> list[DailyReport]:

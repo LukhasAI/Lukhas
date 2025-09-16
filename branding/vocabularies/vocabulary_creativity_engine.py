@@ -12,8 +12,9 @@ providing the symbolic language elements used for visual analysis,
 image interpretation, and visual communication.
 """
 
+from collections import OrderedDict
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Iterable
 
 from lukhas.core.symbolic import VisualSymbol
 from symbolic.vocabularies.vision_vocabulary import VisionSymbolicVocabulary
@@ -47,6 +48,7 @@ class VocabularyCreativityEngine:
     def __init__(self):
         self.analysis_symbols = self._init_analysis_symbols()
         self.object_symbols = self._init_object_symbols()
+        self.object_alias_map = self._build_object_alias_map()
         self.color_symbols = self._init_color_symbols()
         self.emotion_symbols = self._init_emotion_symbols()
         self.composition_symbols = self._init_composition_symbols()
@@ -266,6 +268,33 @@ class VocabularyCreativityEngine:
                 color_associations=[(255, 0, 0), (255, 165, 0), (255, 255, 0)],
             ),
         }
+
+    # ΛTAG: object_symbol_resolver
+    def _build_object_alias_map(self) -> dict[str, str]:
+        """Create lookup aliases so detected labels resolve to symbolic entries."""
+
+        alias_map: dict[str, str] = {}
+        for symbol, visual_symbol in self.object_symbols.items():
+            alias_map[symbol] = symbol
+
+            meaning_tokens = {
+                token.lower()
+                for token in visual_symbol.meaning.replace("/", " ").split()
+                if token and token.lower() not in {"and", "or", "the"}
+            }
+
+            alias_map[visual_symbol.meaning.lower()] = symbol
+            for token in meaning_tokens:
+                alias_map.setdefault(token, symbol)
+
+            category = visual_symbol.analysis_properties.get("category")
+            if isinstance(category, str):
+                alias_map.setdefault(category.lower(), symbol)
+
+            for context in visual_symbol.usage_contexts:
+                alias_map.setdefault(context.replace("_", " ").lower(), symbol)
+
+        return alias_map
 
     def _init_color_symbols(self) -> dict[str, VisualSymbol]:
         """Initialize color analysis symbolic elements."""
@@ -1006,11 +1035,32 @@ class VocabularyCreativityEngine:
 
         return f"{analysis_symbol} {provider_symbol} {confidence_symbol}"
 
-        for obj in detected_objects:  # noqa: F821  # TODO: detected_objects
-            if obj.lower() in object_symbolism:  # noqa: F821  # TODO: object_symbolism
-                symbolic_elements.extend(object_symbolism[obj.lower()])  # noqa: F821  # TODO: symbolic_elements
+    # ΛTAG: object_symbol_resolver
+    def get_symbolic_elements_for_objects(self, detected_objects: Iterable[str]) -> list[VisualSymbol]:
+        """Map detected object labels to their corresponding symbolic definitions."""
 
-        return list(set(symbolic_elements))  # Remove duplicates  # noqa: F821  # TODO: symbolic_elements
+        if not detected_objects:
+            return []
+
+        resolved: OrderedDict[str, VisualSymbol] = OrderedDict()
+
+        for raw_label in detected_objects:
+            if not raw_label:
+                continue
+
+            label = raw_label.strip().lower()
+            symbol_key = self.object_alias_map.get(label)
+
+            if symbol_key is None:
+                for alias_label, alias_symbol in self.object_alias_map.items():
+                    if label in alias_label or alias_label in label:
+                        symbol_key = alias_symbol
+                        break
+
+            if symbol_key and symbol_key in self.object_symbols:
+                resolved.setdefault(symbol_key, self.object_symbols[symbol_key])
+
+        return list(resolved.values())
 
     def get_quality_indicators(self, success: bool, confidence: float, processing_time: float) -> str:
         """Get quality indicator symbols based on analysis results."""
