@@ -333,6 +333,62 @@
           "SYMBOLIC_COMPLETIONS": "enhanced"
         }
       }
+    },
+    {
+      "label": "🔄 Sync Context Files",
+      "type": "shell",
+      "command": "./scripts/sync_context_files.sh",
+      "args": ["--bidirectional"],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "🔍 Check Context File Sync Status",
+      "type": "shell",
+      "command": "./scripts/sync_context_files.sh",
+      "args": ["--check-status"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "🛠️ Context Files Maintenance",
+      "type": "shell",
+      "command": "./scripts/maintain_context_files.sh",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
     }
   ]
 }
