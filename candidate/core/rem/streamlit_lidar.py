@@ -2,10 +2,10 @@
 from __future__ import annotations
 
 import logging
+from collections.abc import Iterable
 from contextlib import AbstractContextManager
 from dataclasses import dataclass, field
-from typing import Any, Iterable
-
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -61,7 +61,7 @@ except ImportError:  # pragma: no cover - we cover the stub via unit tests
         def __init__(self, buffer: list[dict[str, Any]]):
             self._buffer = buffer
 
-        def __enter__(self) -> "_ContainerStub":  # noqa: D401 - standard context protocol
+        def __enter__(self) -> _ContainerStub:  # noqa: D401 - standard context protocol
             return self
 
         def __exit__(self, exc_type, exc, exc_tb) -> bool:
@@ -99,7 +99,7 @@ except ImportError:  # pragma: no cover - we cover the stub via unit tests
         def info(self, value: str) -> None:
             self.events.append({"action": "info", "value": value})
 
-        def container(self) -> AbstractContextManager["_ContainerStub"]:
+        def container(self) -> AbstractContextManager[_ContainerStub]:
             return _ContainerStub(self.events)
 
         @property

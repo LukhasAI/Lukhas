@@ -39,13 +39,19 @@ import nacl.exceptions
 import nacl.signing
 import websockets
 
-from .audit_logger import AuditLogger
-from .pqc_crypto_engine import PQCCryptoEngine
-from .trust_scorer import LukhasTrustScorer
 from candidate.governance.identity.auth.constitutional_gatekeeper import get_constitutional_gatekeeper
 from candidate.governance.identity.auth.entropy_synchronizer import EntropySynchronizer
 from candidate.governance.identity.auth_utils.replay_protection import ReplayProtection
-from lukhas.governance.security.access_control import CCPACompliance, ConsentManager, DataRetentionManager, GDPRCompliance
+from lukhas.governance.security.access_control import (
+    CCPACompliance,
+    ConsentManager,
+    DataRetentionManager,
+    GDPRCompliance,
+)
+
+from .audit_logger import AuditLogger
+from .pqc_crypto_engine import PQCCryptoEngine
+from .trust_scorer import LukhasTrustScorer
 
 
 # 🛡️ Privacy and Compliance Data Structures

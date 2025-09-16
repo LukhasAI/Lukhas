@@ -6,11 +6,10 @@ the initialization, orchestration, and lifecycle of consciousness components.
 Integrates with Trinity Framework for ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian alignment.
 """
 
-import asyncio
 import logging
-from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Union
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from typing import Optional
 
 # Trinity Framework integration
 try:
@@ -25,8 +24,8 @@ except ImportError:
 
 # Core consciousness components
 try:
-    from .core.engine import LUKHASConsciousnessEngine, ConsciousnessState
     from .awareness.awareness_engine import AwarenessEngine
+    from .core.engine import ConsciousnessState, LUKHASConsciousnessEngine
     from .dream.oneiric.oneiric_core.engine.dream_engine_fastapi import DreamEngine
 
     CONSCIOUSNESS_CORE_AVAILABLE = True
@@ -49,7 +48,7 @@ class ActivationConfig:
     enable_quantum_awareness: bool = True
     consciousness_tier_requirement: int = 4
     activation_timeout_seconds: float = 30.0
-    performance_targets: Dict[str, float] = field(
+    performance_targets: dict[str, float] = field(
         default_factory=lambda: {
             "memory_operations_ms": 10.0,
             "consciousness_updates_ms": 50.0,
@@ -65,12 +64,12 @@ class ActivationStatus:
 
     is_activated: bool = False
     activation_timestamp: Optional[datetime] = None
-    components_active: Dict[str, bool] = field(default_factory=dict)
-    performance_metrics: Dict[str, float] = field(default_factory=dict)
-    trinity_alignment: Dict[str, bool] = field(
+    components_active: dict[str, bool] = field(default_factory=dict)
+    performance_metrics: dict[str, float] = field(default_factory=dict)
+    trinity_alignment: dict[str, bool] = field(
         default_factory=lambda: {"identity": False, "consciousness": False, "guardian": False}
     )
-    error_log: List[str] = field(default_factory=list)
+    error_log: list[str] = field(default_factory=list)
 
 
 class ConsciousnessActivator:

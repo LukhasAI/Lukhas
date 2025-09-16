@@ -1,4 +1,5 @@
-from typing import Protocol, runtime_checkable, Any, Optional
+from typing import Any, Optional, Protocol, runtime_checkable
+
 
 @runtime_checkable
 class AGIMemoryProtocol(Protocol):

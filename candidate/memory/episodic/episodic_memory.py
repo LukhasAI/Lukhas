@@ -10,11 +10,11 @@ Consolidated from 4 files:
 Implements episodic memory with temporal sequencing, emotional encoding,
 and consciousness-memory integration for LUKHAS AI.
 """
-from typing import Any, Optional, List, Dict
-from dataclasses import dataclass
-from datetime import datetime, timezone
 import hashlib
 import json
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from typing import Any, Optional
 
 
 @dataclass
@@ -23,11 +23,11 @@ class EpisodicMemoryEntry:
     memory_id: str
     content: str
     timestamp: str
-    emotional_context: Dict[str, float]  # VAD encoding
+    emotional_context: dict[str, float]  # VAD encoding
     consciousness_state: str
     importance_score: float
-    associations: List[str]
-    sensory_data: Optional[Dict[str, Any]] = None
+    associations: list[str]
+    sensory_data: Optional[dict[str, Any]] = None
 
 
 class ConsolidatedEpisodicmemory:
@@ -99,7 +99,7 @@ class ConsolidatedEpisodicmemory:
             'status': 'processed'
         }
 
-    def recall_memories(self, query: str, limit: int = 10) -> List[EpisodicMemoryEntry]:
+    def recall_memories(self, query: str, limit: int = 10) -> list[EpisodicMemoryEntry]:
         """Recall memories based on content similarity and importance."""
         matching_memories = []
 
@@ -114,7 +114,7 @@ class ConsolidatedEpisodicmemory:
         matching_memories.sort(key=lambda x: x[1], reverse=True)
         return [memory for memory, _ in matching_memories[:limit]]
 
-    def get_temporal_sequence(self, start_time: str, end_time: str) -> List[EpisodicMemoryEntry]:
+    def get_temporal_sequence(self, start_time: str, end_time: str) -> list[EpisodicMemoryEntry]:
         """Get memories within a temporal range."""
         memories_in_range = []
 
@@ -124,8 +124,8 @@ class ConsolidatedEpisodicmemory:
 
         return sorted(memories_in_range, key=lambda x: x.timestamp)
 
-    def get_emotional_memories(self, emotional_state: Dict[str, float],
-                              threshold: float = 0.7) -> List[EpisodicMemoryEntry]:
+    def get_emotional_memories(self, emotional_state: dict[str, float],
+                              threshold: float = 0.7) -> list[EpisodicMemoryEntry]:
         """Retrieve memories with similar emotional context."""
         matching_memories = []
 
@@ -139,7 +139,7 @@ class ConsolidatedEpisodicmemory:
 
         return sorted(matching_memories, key=lambda x: x.importance_score, reverse=True)
 
-    def consolidate_memories(self, consolidation_type: str = 'temporal') -> Dict[str, Any]:
+    def consolidate_memories(self, consolidation_type: str = 'temporal') -> dict[str, Any]:
         """Consolidate memories for long-term storage."""
         if consolidation_type == 'temporal':
             return self._temporal_consolidation()
@@ -150,7 +150,7 @@ class ConsolidatedEpisodicmemory:
         else:
             return {'error': 'Unknown consolidation type'}
 
-    def _generate_memory_id(self, memory_data: Dict[str, Any]) -> str:
+    def _generate_memory_id(self, memory_data: dict[str, Any]) -> str:
         """Generate unique ID for memory entry."""
         content_hash = hashlib.sha256(
             json.dumps(memory_data, sort_keys=True).encode()
@@ -158,7 +158,7 @@ class ConsolidatedEpisodicmemory:
         timestamp = datetime.now(timezone.utc).isoformat()
         return f"episodic_{timestamp}_{content_hash[:8]}"
 
-    def _calculate_importance(self, emotional_context: Dict[str, float],
+    def _calculate_importance(self, emotional_context: dict[str, float],
                             consciousness_state: str, content: str) -> float:
         """Calculate importance score for memory entry."""
         # Base importance from emotional intensity
@@ -176,7 +176,7 @@ class ConsolidatedEpisodicmemory:
 
         return min(1.0, importance)
 
-    def _find_associations(self, content: str) -> List[str]:
+    def _find_associations(self, content: str) -> list[str]:
         """Find associations with existing memories."""
         associations = []
         content_words = set(content.lower().split())
@@ -218,7 +218,7 @@ class ConsolidatedEpisodicmemory:
             self.replay_buffer.sort(key=lambda x: x.importance_score)
             self.replay_buffer = self.replay_buffer[1:]
 
-    def _integrate_with_consciousness(self, memory_entry: EpisodicMemoryEntry) -> Dict[str, Any]:
+    def _integrate_with_consciousness(self, memory_entry: EpisodicMemoryEntry) -> dict[str, Any]:
         """Integrate memory with consciousness systems."""
         return {
             'consciousness_state': memory_entry.consciousness_state,
@@ -240,8 +240,8 @@ class ConsolidatedEpisodicmemory:
 
         return intersection / union if union > 0 else 0.0
 
-    def _calculate_emotional_similarity(self, emotion1: Dict[str, float],
-                                       emotion2: Dict[str, float]) -> float:
+    def _calculate_emotional_similarity(self, emotion1: dict[str, float],
+                                       emotion2: dict[str, float]) -> float:
         """Calculate similarity between emotional states."""
         similarities = []
 
@@ -253,7 +253,7 @@ class ConsolidatedEpisodicmemory:
 
         return sum(similarities) / len(similarities)
 
-    def _temporal_consolidation(self) -> Dict[str, Any]:
+    def _temporal_consolidation(self) -> dict[str, Any]:
         """Perform temporal-based memory consolidation."""
         consolidated_count = 0
         for date_key, memory_ids in self.temporal_index.items():
@@ -266,7 +266,7 @@ class ConsolidatedEpisodicmemory:
             'total_memories': len(self.memory_store)
         }
 
-    def _emotional_consolidation(self) -> Dict[str, Any]:
+    def _emotional_consolidation(self) -> dict[str, Any]:
         """Perform emotion-based memory consolidation."""
         consolidated_count = 0
         for emotion_key, memory_ids in self.emotional_index.items():
@@ -279,7 +279,7 @@ class ConsolidatedEpisodicmemory:
             'total_memories': len(self.memory_store)
         }
 
-    def _importance_consolidation(self) -> Dict[str, Any]:
+    def _importance_consolidation(self) -> dict[str, Any]:
         """Perform importance-based memory consolidation."""
         # Group memories by importance ranges
         importance_groups = {
@@ -306,7 +306,7 @@ class ConsolidatedEpisodicmemory:
             'total_memories': len(self.memory_store)
         }
 
-    def _consolidate_memory_cluster(self, memory_ids: List[str]) -> int:
+    def _consolidate_memory_cluster(self, memory_ids: list[str]) -> int:
         """Consolidate a cluster of related memories."""
         # Placeholder for actual consolidation logic
         # Would combine similar memories into representative memories

@@ -15,11 +15,11 @@ Logged Events:
 - 🔗 Cross-system interactions
 """
 
+import hashlib
 import json
 import os
 import sqlite3
 import time
-import hashlib
 from datetime import datetime, timezone
 from typing import Any
 
@@ -354,7 +354,7 @@ class LambdaTraceLogger:
         elif self.sink_type == "file":
             if not os.path.exists(self.file_path) or os.path.getsize(self.file_path) == 0:
                 return 1, "0" * 64
-            with open(self.file_path, "r") as f:
+            with open(self.file_path) as f:
                 lines = f.readlines()
             if not lines:
                 return 1, "0" * 64
@@ -387,7 +387,7 @@ class LambdaTraceLogger:
         elif self.sink_type == "file":
             if not os.path.exists(self.file_path):
                 return []
-            with open(self.file_path, "r") as f:
+            with open(self.file_path) as f:
                 lines = f.readlines()
 
             return [json.loads(line) for line in lines[-count:]]

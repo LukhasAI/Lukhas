@@ -34,8 +34,9 @@ class VeriFoldConnector:
 
     def connect_to_chain(self):
         """Establish connection to VeriFold chain"""
-        import requests
         import time
+
+        import requests
 
         connection_id = f"conn_{int(time.time())}"
 
@@ -71,10 +72,11 @@ class VeriFoldConnector:
 
     def submit_replay_session(self, session_data):
         """Submit session data to VeriFold chain"""
-        import requests
         import hashlib
         import json
         import time
+
+        import requests
 
         # Generate session hash for integrity
         session_hash = hashlib.sha256(
@@ -183,7 +185,6 @@ class VeriFoldConnector:
     def verify_chain_integrity(self):
         """Verify VeriFold chain integrity"""
         import requests
-        import hashlib
 
         # Find active connection
         active_conn = None

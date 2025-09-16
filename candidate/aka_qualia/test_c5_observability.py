@@ -10,7 +10,6 @@ import time
 
 from candidate.aka_qualia.memory_noop import NoopMemory
 from candidate.aka_qualia.monitoring_dashboard import MonitoringDashboard
-
 from candidate.aka_qualia.observability import (
     AkaqMetrics,
     get_observability,

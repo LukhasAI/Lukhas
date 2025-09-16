@@ -15,13 +15,12 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 import asyncio
 import logging
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Tuple
-from enum import Enum
-import json
 import statistics
 from collections import defaultdict
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from enum import Enum
+from typing import Any, Optional
 
 
 class CouplingType(Enum):
@@ -77,18 +76,18 @@ class MemoryConsciousnessOptimizer:
     - Performance and resource utilization
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.logger = logging.getLogger(__name__)
 
         # Optimization state
         self.optimization_active = False
         self.current_strategy = OptimizationStrategy.ADAPTIVE
-        self.optimization_targets: List[OptimizationTarget] = []
+        self.optimization_targets: list[OptimizationTarget] = []
 
         # Coupling monitoring
-        self.coupling_metrics: Dict[CouplingType, CouplingMetrics] = {}
-        self.coupling_history: List[Dict[str, Any]] = []
+        self.coupling_metrics: dict[CouplingType, CouplingMetrics] = {}
+        self.coupling_history: list[dict[str, Any]] = []
 
         # Optimization parameters
         self.optimization_config = {
@@ -142,7 +141,7 @@ class MemoryConsciousnessOptimizer:
             return False
 
     async def optimize_coupling(self, coupling_type: CouplingType,
-                              strategy: Optional[OptimizationStrategy] = None) -> Dict[str, Any]:
+                              strategy: Optional[OptimizationStrategy] = None) -> dict[str, Any]:
         """Optimize specific memory-consciousness coupling"""
 
         if strategy is None:
@@ -191,7 +190,7 @@ class MemoryConsciousnessOptimizer:
         self.logger.info(f"Coupling optimization completed: {improvement:.3f} improvement")
         return result
 
-    async def optimize_all_couplings(self) -> Dict[str, Any]:
+    async def optimize_all_couplings(self) -> dict[str, Any]:
         """Optimize all memory-consciousness couplings"""
 
         self.logger.info("Starting comprehensive coupling optimization")
@@ -258,7 +257,7 @@ class MemoryConsciousnessOptimizer:
 
         return True
 
-    async def monitor_coupling_health(self) -> Dict[str, Any]:
+    async def monitor_coupling_health(self) -> dict[str, Any]:
         """Monitor overall coupling health"""
 
         health_report = {
@@ -307,7 +306,7 @@ class MemoryConsciousnessOptimizer:
 
         return health_report
 
-    async def analyze_coupling_patterns(self) -> Dict[str, Any]:
+    async def analyze_coupling_patterns(self) -> dict[str, Any]:
         """Analyze patterns in memory-consciousness coupling"""
 
         pattern_analysis = {
@@ -335,7 +334,7 @@ class MemoryConsciousnessOptimizer:
 
         return pattern_analysis
 
-    async def get_optimization_state(self) -> Dict[str, Any]:
+    async def get_optimization_state(self) -> dict[str, Any]:
         """Get current optimization state and metrics"""
 
         return {
@@ -457,7 +456,7 @@ class MemoryConsciousnessOptimizer:
     async def _execute_optimization_strategy(self, coupling_type: CouplingType,
                                            current_metrics: CouplingMetrics,
                                            target: OptimizationTarget,
-                                           strategy: OptimizationStrategy) -> Dict[str, Any]:
+                                           strategy: OptimizationStrategy) -> dict[str, Any]:
         """Execute optimization strategy"""
 
         optimization_result = {
@@ -497,7 +496,7 @@ class MemoryConsciousnessOptimizer:
 
     async def _gradient_descent_optimization(self, coupling_type: CouplingType,
                                            current_metrics: CouplingMetrics,
-                                           target: OptimizationTarget) -> Dict[str, Any]:
+                                           target: OptimizationTarget) -> dict[str, Any]:
         """Perform gradient descent optimization"""
 
         result = {
@@ -545,7 +544,7 @@ class MemoryConsciousnessOptimizer:
 
     async def _adaptive_optimization(self, coupling_type: CouplingType,
                                    current_metrics: CouplingMetrics,
-                                   target: OptimizationTarget) -> Dict[str, Any]:
+                                   target: OptimizationTarget) -> dict[str, Any]:
         """Perform adaptive optimization"""
 
         result = {
@@ -599,7 +598,7 @@ class MemoryConsciousnessOptimizer:
 
     async def _evolutionary_optimization(self, coupling_type: CouplingType,
                                        current_metrics: CouplingMetrics,
-                                       target: OptimizationTarget) -> Dict[str, Any]:
+                                       target: OptimizationTarget) -> dict[str, Any]:
         """Perform evolutionary optimization"""
 
         result = {
@@ -679,7 +678,7 @@ class MemoryConsciousnessOptimizer:
 
     async def _reinforcement_optimization(self, coupling_type: CouplingType,
                                         current_metrics: CouplingMetrics,
-                                        target: OptimizationTarget) -> Dict[str, Any]:
+                                        target: OptimizationTarget) -> dict[str, Any]:
         """Perform reinforcement learning optimization"""
 
         result = {
@@ -739,7 +738,7 @@ class MemoryConsciousnessOptimizer:
 
     async def _hybrid_optimization(self, coupling_type: CouplingType,
                                  current_metrics: CouplingMetrics,
-                                 target: OptimizationTarget) -> Dict[str, Any]:
+                                 target: OptimizationTarget) -> dict[str, Any]:
         """Perform hybrid optimization combining multiple strategies"""
 
         result = {
@@ -794,13 +793,13 @@ class MemoryConsciousnessOptimizer:
         efficiency_gap = abs(target.target_efficiency - metrics.efficiency)
         return (strength_gap + efficiency_gap) / 2.0
 
-    def _calculate_evolutionary_fitness(self, individual: Dict[str, float], target: OptimizationTarget) -> float:
+    def _calculate_evolutionary_fitness(self, individual: dict[str, float], target: OptimizationTarget) -> float:
         """Calculate fitness for evolutionary optimization"""
         strength_fitness = 1.0 - abs(target.target_strength - individual['strength'])
         efficiency_fitness = 1.0 - abs(target.target_efficiency - individual['efficiency'])
         return (strength_fitness + efficiency_fitness) / 2.0
 
-    def _tournament_selection(self, population: List[Dict[str, float]], fitness_scores: List[float]) -> Dict[str, float]:
+    def _tournament_selection(self, population: list[dict[str, float]], fitness_scores: list[float]) -> dict[str, float]:
         """Tournament selection for evolutionary optimization"""
         tournament_size = 3
         tournament_indices = random.sample(range(len(population)), min(tournament_size, len(population)))
@@ -832,7 +831,7 @@ class MemoryConsciousnessOptimizer:
 
         return after_score - before_score
 
-    def _update_optimization_stats(self, optimization_result: Dict[str, Any], improvement: float):
+    def _update_optimization_stats(self, optimization_result: dict[str, Any], improvement: float):
         """Update optimization statistics"""
 
         self.optimization_stats['total_optimizations'] += 1
@@ -856,7 +855,7 @@ class MemoryConsciousnessOptimizer:
         if len(self.adaptive_state['performance_history']) > 100:
             self.adaptive_state['performance_history'] = self.adaptive_state['performance_history'][-100:]
 
-    def _metrics_to_dict(self, metrics: CouplingMetrics) -> Dict[str, Any]:
+    def _metrics_to_dict(self, metrics: CouplingMetrics) -> dict[str, Any]:
         """Convert metrics to dictionary"""
         return {
             'coupling_type': metrics.coupling_type.name,
@@ -868,7 +867,7 @@ class MemoryConsciousnessOptimizer:
             'last_measured': metrics.last_measured.isoformat()
         }
 
-    async def _adapt_optimization_strategy(self, comprehensive_result: Dict[str, Any]):
+    async def _adapt_optimization_strategy(self, comprehensive_result: dict[str, Any]):
         """Adapt optimization strategy based on results"""
 
         average_improvement = comprehensive_result['average_improvement']
@@ -922,7 +921,7 @@ class MemoryConsciousnessOptimizer:
 
         return sum(health_factors)
 
-    async def _identify_coupling_issues(self, metrics: CouplingMetrics) -> List[str]:
+    async def _identify_coupling_issues(self, metrics: CouplingMetrics) -> list[str]:
         """Identify specific issues with coupling"""
 
         issues = []
@@ -944,7 +943,7 @@ class MemoryConsciousnessOptimizer:
 
         return issues
 
-    async def _generate_health_recommendations(self, health_report: Dict[str, Any]) -> List[str]:
+    async def _generate_health_recommendations(self, health_report: dict[str, Any]) -> list[str]:
         """Generate recommendations based on health report"""
 
         recommendations = []
@@ -960,7 +959,7 @@ class MemoryConsciousnessOptimizer:
 
         return recommendations
 
-    async def _analyze_temporal_patterns(self) -> Dict[str, Any]:
+    async def _analyze_temporal_patterns(self) -> dict[str, Any]:
         """Analyze temporal patterns in coupling performance"""
 
         # Simplified temporal analysis
@@ -971,7 +970,7 @@ class MemoryConsciousnessOptimizer:
             'performance_variance': 0.15
         }
 
-    async def _analyze_coupling_correlations(self) -> Dict[str, Any]:
+    async def _analyze_coupling_correlations(self) -> dict[str, Any]:
         """Analyze correlations between different couplings"""
 
         # Simplified correlation analysis
@@ -986,7 +985,7 @@ class MemoryConsciousnessOptimizer:
 
         return correlations
 
-    async def _analyze_efficiency_patterns(self) -> Dict[str, Any]:
+    async def _analyze_efficiency_patterns(self) -> dict[str, Any]:
         """Analyze efficiency patterns across couplings"""
 
         return {
@@ -997,7 +996,7 @@ class MemoryConsciousnessOptimizer:
             'efficiency_trends': 'improving'
         }
 
-    async def _analyze_stability_patterns(self) -> Dict[str, Any]:
+    async def _analyze_stability_patterns(self) -> dict[str, Any]:
         """Analyze stability patterns"""
 
         return {
@@ -1008,7 +1007,7 @@ class MemoryConsciousnessOptimizer:
             'stability_trends': 'stable'
         }
 
-    async def _analyze_optimization_patterns(self) -> Dict[str, Any]:
+    async def _analyze_optimization_patterns(self) -> dict[str, Any]:
         """Analyze optimization effectiveness patterns"""
 
         strategy_effectiveness = {}

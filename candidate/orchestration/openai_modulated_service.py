@@ -3,8 +3,9 @@ from __future__ import annotations
 
 import asyncio
 import logging
+from collections.abc import AsyncIterator, Iterable
 from dataclasses import dataclass, field
-from typing import Any, AsyncIterator, Callable, Iterable
+from typing import Any, Callable
 
 # Optional imports with graceful degradation to maintain deterministic execution
 try:  # pragma: no cover - import guard

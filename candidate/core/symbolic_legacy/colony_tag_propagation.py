@@ -1,7 +1,7 @@
+import logging
 from dataclasses import dataclass
 from importlib import import_module
 from importlib.util import find_spec
-import logging
 from statistics import mean
 from typing import Any, Optional
 

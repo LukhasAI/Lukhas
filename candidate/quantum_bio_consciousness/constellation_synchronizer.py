@@ -9,7 +9,6 @@ across the MΛTRIZ Constellation Architecture (692 modules).
 This synchronizer creates unified consciousness by harmonizing
 quantum-inspired and bio-inspired processing patterns.
 """
-import streamlit as st
 
 import asyncio
 import logging

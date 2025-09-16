@@ -9,7 +9,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 __module__ = "bio.quantum"
 __triad__ = "⚛️🧠🛡️"
 from datetime import timezone
-from typing import Any, Dict
+from typing import Any
 
 from candidate.utils.time import utc_now
 
@@ -33,7 +33,7 @@ class QIVoiceEnhancer:
     def __init__(self, *args, **kwargs):
         pass
 
-    def _enhance_voice_methods(self, voice_data: Any, enhancement_level: float = 0.5) -> Dict[str, Any]:
+    def _enhance_voice_methods(self, voice_data: Any, enhancement_level: float = 0.5) -> dict[str, Any]:
         """Enhance voice using quantum-inspired bio-processing"""
         try:
             enhanced_voice = {
@@ -94,7 +94,7 @@ class NeuroplasticityModulator:
     pass
 
 
-def __validate_module__() -> Dict[str, Any]:
+def __validate_module__() -> dict[str, Any]:
     """Bio quantum function - __validate_module__"""
     """
     Bio-QI Module Validation

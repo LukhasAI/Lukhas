@@ -8,7 +8,6 @@ Measures message throughput and demonstrates energy-efficient computation.
 """
 
 import asyncio
-import sys
 import time
 from typing import Any, Callable
 

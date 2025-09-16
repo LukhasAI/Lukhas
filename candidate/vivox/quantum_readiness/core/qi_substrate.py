@@ -1,8 +1,6 @@
 import logging
 from datetime import timezone
-import streamlit as st
-import random
-from typing import List
+
 logger = logging.getLogger(__name__)
 """
 VIVOX.QREADY Core - Quantum Substrate
@@ -418,7 +416,8 @@ class QISubstrate:
         """Generate unique state ID"""
         timestamp = datetime.now(timezone.utc).isoformat()
         random_bytes = np.random.bytes(8)
-        return f"qstate_{hashlib.sha256(f'{timestamp}{random_bytes)}'.encode()).hexdigest()[:12]}"
+        combined_data = f'{timestamp}{random_bytes}'
+        return f"qstate_{hashlib.sha256(combined_data.encode()).hexdigest()[:12]}"
 
     def get_quantum_metrics(self) -> dict[str, Any]:
         """Get current quantum substrate metrics"""

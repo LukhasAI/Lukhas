@@ -10,6 +10,7 @@ When enabled, this module will attempt to import and use the `matriz_client`.
 When disabled (default), it will raise a NotImplementedError on import.
 """
 from __future__ import annotations
+
 import os
 import warnings
 

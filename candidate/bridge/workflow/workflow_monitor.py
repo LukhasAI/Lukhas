@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +30,7 @@ class WorkflowMonitor:
 
     def __init__(self, config: dict[str, Any] | None = None) -> None:
         self.config = config or {}
-        self._workflow_tasks: Dict[str, Dict[str, TaskLifecycle]] = {}
+        self._workflow_tasks: dict[str, dict[str, TaskLifecycle]] = {}
 
     async def record_task_start(self, workflow_id: str, task_id: str) -> None:
         """Register the start of a task."""

@@ -29,9 +29,8 @@ This file now embeds an explicit triage plan for the preserved symbolic
 processing system, enabling deterministic evaluation of migration actions.
 """
 
-from typing import Any, Dict, Optional
-
 import logging
+from typing import Any, Dict, Optional
 
 try:  # pragma: no cover - prefer UI rendering when Streamlit exists
     import streamlit as st  # type: ignore
@@ -69,8 +68,9 @@ from .matriz_symbolic_consciousness import (
     symbolic_consciousness_processor,
 )
 
+
 # ΛTAG: symbolic_core_triage
-def plan_symbolic_core_preservation(metrics: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+def plan_symbolic_core_preservation(metrics: Optional[dict[str, Any]] = None) -> dict[str, Any]:
     """Return a deterministic triage plan for the symbolic legacy system."""
 
     metrics = metrics or {}

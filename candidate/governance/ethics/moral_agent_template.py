@@ -1,8 +1,8 @@
 """Symbolic moral agent template with simple reasoning hooks."""
 
 # LUKHAS_TAG: symbolic_template, moral_agent
-from typing import Any
 import logging
+from typing import Any
 
 # TAG:governance
 # TAG:ethics

@@ -26,9 +26,11 @@ DESCRIPTION:
 import logging
 
 from nias.core.nias_engine import NIASEngine
-from .nias_core import push_symbolic_message
+
 from candidate.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
 from ethics.seedra.seedra_core import SEEDRACore
+
+from .nias_core import push_symbolic_message
 
 # Explicit imports replacing star imports per PEP8 guidelines # CLAUDE_EDIT_v0.8
 

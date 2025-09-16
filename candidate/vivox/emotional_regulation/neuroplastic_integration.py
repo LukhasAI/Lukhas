@@ -1,6 +1,5 @@
 import logging
-import streamlit as st
-import time
+
 logger = logging.getLogger(__name__)
 """
 VIVOX.ERN Neuroplastic & Tag System Integration
@@ -339,7 +338,7 @@ class VIVOXNeuroplasticLearner:
             return best_match
 
         # Create new pattern
-        pattern_id = f"pattern_{len(self.learned_patterns)}_{int(datetime.now(timezone.utc).timestamp()}"
+        pattern_id = f"pattern_{len(self.learned_patterns)}_{int(datetime.now(timezone.utc).timestamp())}"
 
         triggers = self._extract_triggers(regulation_response, context)
 

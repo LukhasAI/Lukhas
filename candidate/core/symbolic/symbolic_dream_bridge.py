@@ -49,8 +49,8 @@
 ║ Trace: #ΛTRACE: ENABLED
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from dataclasses import dataclass
 import logging
+from dataclasses import dataclass
 from typing import Any
 
 # ΛTRACE injection point

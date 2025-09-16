@@ -7,10 +7,9 @@ that may import it indirectly. It avoids hard dependencies at import time.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import math
 import threading
-from typing import Dict, Optional
+from dataclasses import dataclass
 
 try:  # Optional dependency, do not fail import if missing
     from cachetools import TTLCache  # type: ignore
@@ -37,8 +36,8 @@ except Exception:  # pragma: no cover
 class CacheStorageContext:
     function_key: str
     function_display_name: str
-    ttl_seconds: Optional[float] = None
-    max_entries: Optional[int] = None
+    ttl_seconds: float | None = None
+    max_entries: int | None = None
 
 
 class CacheStorage:  # minimal protocol
@@ -68,7 +67,7 @@ class CacheStat:
 
 class _DictCache:
     def __init__(self) -> None:
-        self._data: Dict[str, bytes] = {}
+        self._data: dict[str, bytes] = {}
 
     def __contains__(self, key: str) -> bool:
         return key in self._data

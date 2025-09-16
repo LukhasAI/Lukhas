@@ -1,7 +1,5 @@
 import logging
-import streamlit as st
-import random
-import time
+
 logger = logging.getLogger(__name__)
 """
 VIVOX.EVRN Core - Encrypted Visual Recognition Node
@@ -353,7 +351,7 @@ class VIVOXEncryptedPerceptionNode:
 
         # Create multiple vectors for different aspects
         for i, features in enumerate(encrypted_features):
-            vector_id = f"{modality}_{int(datetime.now(timezone.utc).timestamp()}_{i}"
+            vector_id = f"{modality}_{int(datetime.now(timezone.utc).timestamp())}_{i}"
             vector_signature = hashlib.sha256(features.tobytes()).hexdigest()[:16]
 
             vector = PerceptualVector(
@@ -584,7 +582,7 @@ class VIVOXEncryptedPerceptionNode:
 
         # Create anomaly signature
         anomaly = AnomalySignature(
-            anomaly_id=f"{anomaly_type}_{int(datetime.now(timezone.utc).timestamp()}",
+            anomaly_id=f"{anomaly_type}_{int(datetime.now(timezone.utc).timestamp())}",
             anomaly_type=anomaly_type,
             confidence=float(confidence),
             significance=significance,
@@ -941,7 +939,7 @@ class VIVOXEncryptedPerceptionNode:
             confidence = (thermal_score + visual_score) / 2
 
             return AnomalySignature(
-                anomaly_id=f"heat_stress_{int(datetime.now(timezone.utc).timestamp()}",
+                anomaly_id=f"heat_stress_{int(datetime.now(timezone.utc).timestamp())}",
                 anomaly_type="cross_modal_heat_stress",
                 confidence=float(confidence),
                 significance=(EthicalSignificance.HIGH if confidence > 0.8 else EthicalSignificance.MODERATE),
@@ -972,7 +970,7 @@ class VIVOXEncryptedPerceptionNode:
             confidence = min(0.95, (motion_variance + texture_anomaly) / 2)
 
             return AnomalySignature(
-                anomaly_id=f"physical_distress_{int(datetime.now(timezone.utc).timestamp()}",
+                anomaly_id=f"physical_distress_{int(datetime.now(timezone.utc).timestamp())}",
                 anomaly_type="cross_modal_physical_distress",
                 confidence=float(confidence),
                 significance=(EthicalSignificance.CRITICAL if confidence > 0.85 else EthicalSignificance.HIGH),

@@ -47,13 +47,13 @@ AIDEA: Implement colony evolution tracking for dream processing capabilities
 """
 import asyncio
 import logging
+import time
 import uuid
+from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
-from collections import defaultdict, deque
-import time
+from typing import Any, Optional
 
 # Import colony and orchestration systems
 try:
@@ -195,11 +195,11 @@ class ColonyLoadBalancer:
         self.logger = logging.getLogger("colony_load_balancer")
 
         # Colony tracking
-        self.colony_metrics: Dict[str, ColonyLoadMetrics] = {}
-        self.colony_assignments: Dict[str, List[str]] = defaultdict(list)  # task_id -> colony_ids
+        self.colony_metrics: dict[str, ColonyLoadMetrics] = {}
+        self.colony_assignments: dict[str, list[str]] = defaultdict(list)  # task_id -> colony_ids
 
         # Load balancing state
-        self.round_robin_counters: Dict[str, int] = defaultdict(int)
+        self.round_robin_counters: dict[str, int] = defaultdict(int)
         self.last_rebalance_time = time.time()
         self.last_health_check = time.time()
 
@@ -249,8 +249,8 @@ class ColonyLoadBalancer:
         )
 
     def select_best_colonies(
-        self, task_type: str, required_colonies: int = 1, colony_type_preferences: Optional[List[str]] = None
-    ) -> List[str]:
+        self, task_type: str, required_colonies: int = 1, colony_type_preferences: Optional[list[str]] = None
+    ) -> list[str]:
         """Select the best colonies for task distribution using load balancing"""
 
         # Filter colonies by type preference if specified
@@ -296,7 +296,7 @@ class ColonyLoadBalancer:
         self.logger.info(f"Load balancer selected colonies {selected} for task type {task_type}")
         return selected
 
-    def _select_by_performance_weighted(self, available_colonies: List[tuple], required: int) -> List[str]:
+    def _select_by_performance_weighted(self, available_colonies: list[tuple], required: int) -> list[str]:
         """Select colonies based on weighted performance scores"""
         # Sort by performance score (higher is better)
         sorted_colonies = sorted(available_colonies, key=lambda x: x[1].performance_score, reverse=True)
@@ -310,7 +310,7 @@ class ColonyLoadBalancer:
 
         return selected
 
-    def _select_by_least_loaded(self, available_colonies: List[tuple], required: int) -> List[str]:
+    def _select_by_least_loaded(self, available_colonies: list[tuple], required: int) -> list[str]:
         """Select colonies with the lowest current load"""
         # Sort by utilization rate (lower is better)
         sorted_colonies = sorted(available_colonies, key=lambda x: x[1].utilization_rate)
@@ -324,7 +324,7 @@ class ColonyLoadBalancer:
 
         return selected
 
-    def _select_by_round_robin(self, available_colonies: List[tuple], required: int, task_type: str) -> List[str]:
+    def _select_by_round_robin(self, available_colonies: list[tuple], required: int, task_type: str) -> list[str]:
         """Select colonies using simple round-robin"""
         colony_ids = [col_id for col_id, _ in available_colonies]
         selected = []
@@ -346,8 +346,8 @@ class ColonyLoadBalancer:
         return selected
 
     def _select_by_weighted_round_robin(
-        self, available_colonies: List[tuple], required: int, task_type: str
-    ) -> List[str]:
+        self, available_colonies: list[tuple], required: int, task_type: str
+    ) -> list[str]:
         """Select colonies using weighted round-robin based on performance"""
         # Create weighted list based on performance scores
         weighted_colonies = []
@@ -404,7 +404,7 @@ class ColonyLoadBalancer:
 
         return False
 
-    def perform_health_check(self) -> Dict[str, Any]:
+    def perform_health_check(self) -> dict[str, Any]:
         """Perform health check on all registered colonies"""
         current_time = time.time()
 
@@ -455,7 +455,7 @@ class ColonyLoadBalancer:
 
         return health_report
 
-    def get_load_balancing_stats(self) -> Dict[str, Any]:
+    def get_load_balancing_stats(self) -> dict[str, Any]:
         """Get comprehensive load balancing statistics"""
         return {
             "total_tasks_balanced": self.total_tasks_balanced,

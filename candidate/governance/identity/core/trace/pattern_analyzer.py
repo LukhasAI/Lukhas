@@ -7,11 +7,10 @@ Used for insights, recommendations, and anomaly detection.
 """
 
 import logging
-from datetime import datetime, timezone
-from typing import Dict, List, Any, Optional, Tuple
-from collections import defaultdict, Counter
 import statistics
-import hashlib
+from collections import Counter, defaultdict
+from datetime import datetime, timezone
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +25,7 @@ class SymbolicPatternAnalyzer:
         self.anomaly_threshold = config.get("anomaly_threshold", 0.7)
         self.pattern_window = config.get("pattern_window", 100)
 
-    def analyze_patterns(self, trace_data: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def analyze_patterns(self, trace_data: list[dict[str, Any]]) -> dict[str, Any]:
         """Analyze symbolic patterns in trace data"""
         if not trace_data:
             return {"status": "no_data", "patterns": []}
@@ -61,7 +60,7 @@ class SymbolicPatternAnalyzer:
                 "patterns": []
             }
 
-    def _analyze_temporal_patterns(self, trace_data: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _analyze_temporal_patterns(self, trace_data: list[dict[str, Any]]) -> dict[str, Any]:
         """Analyze temporal patterns in user activity"""
         timestamps = []
         hourly_activity = defaultdict(int)
@@ -101,7 +100,7 @@ class SymbolicPatternAnalyzer:
             "activity_regularity": self._calculate_regularity(hourly_activity)
         }
 
-    def _analyze_frequency_patterns(self, trace_data: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _analyze_frequency_patterns(self, trace_data: list[dict[str, Any]]) -> dict[str, Any]:
         """Analyze frequency patterns of actions and symbols"""
         action_counts = Counter()
         symbol_counts = Counter()
@@ -127,7 +126,7 @@ class SymbolicPatternAnalyzer:
             "symbol_diversity": len(symbol_counts)
         }
 
-    def _analyze_sequence_patterns(self, trace_data: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _analyze_sequence_patterns(self, trace_data: list[dict[str, Any]]) -> dict[str, Any]:
         """Analyze action sequences and transitions"""
         sequences = []
         transitions = defaultdict(int)
@@ -157,7 +156,7 @@ class SymbolicPatternAnalyzer:
             "sequence_complexity": len(set(bigrams)) / max(len(bigrams), 1)
         }
 
-    def _analyze_interaction_patterns(self, trace_data: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _analyze_interaction_patterns(self, trace_data: list[dict[str, Any]]) -> dict[str, Any]:
         """Analyze interaction patterns with system components"""
         component_interactions = defaultdict(int)
         success_rates = defaultdict(list)
@@ -191,7 +190,7 @@ class SymbolicPatternAnalyzer:
             "most_used_components": sorted(component_interactions.items(), key=lambda x: x[1], reverse=True)[:5]
         }
 
-    def _analyze_symbolic_patterns(self, trace_data: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _analyze_symbolic_patterns(self, trace_data: list[dict[str, Any]]) -> dict[str, Any]:
         """Analyze symbolic and governance-related patterns"""
         governance_actions = []
         ethical_scores = []
@@ -228,7 +227,7 @@ class SymbolicPatternAnalyzer:
             "drift_score_trend": self._calculate_trend(drift_scores)
         }
 
-    def _calculate_pattern_confidence(self, pattern_data: Dict[str, Any]) -> float:
+    def _calculate_pattern_confidence(self, pattern_data: dict[str, Any]) -> float:
         """Calculate confidence score for pattern data"""
         if not pattern_data or pattern_data.get("status") == "no_data":
             return 0.0
@@ -251,7 +250,7 @@ class SymbolicPatternAnalyzer:
 
         return statistics.mean(confidence_factors) if confidence_factors else 0.5
 
-    def _calculate_regularity(self, activity_data: Dict) -> float:
+    def _calculate_regularity(self, activity_data: dict) -> float:
         """Calculate activity regularity score"""
         if not activity_data:
             return 0.0
@@ -268,7 +267,7 @@ class SymbolicPatternAnalyzer:
         regularity = max(0, 1 - (std_dev / max(mean_val, 1)))
         return regularity
 
-    def _calculate_trend(self, values: List[float]) -> str:
+    def _calculate_trend(self, values: list[float]) -> str:
         """Calculate trend direction for a series of values"""
         if len(values) < 2:
             return "insufficient_data"
@@ -290,7 +289,7 @@ class SymbolicPatternAnalyzer:
         else:
             return "stable"
 
-    def detect_anomalies(self, user_patterns: Dict[str, Any], current_activity: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def detect_anomalies(self, user_patterns: dict[str, Any], current_activity: list[dict[str, Any]]) -> dict[str, Any]:
         """Detect anomalous activity patterns"""
         if not user_patterns or not current_activity:
             return {"status": "insufficient_data", "anomalies": []}
@@ -335,7 +334,7 @@ class SymbolicPatternAnalyzer:
                 "anomalies": []
             }
 
-    def _compare_patterns(self, baseline: Dict[str, Any], current: Dict[str, Any]) -> float:
+    def _compare_patterns(self, baseline: dict[str, Any], current: dict[str, Any]) -> float:
         """Compare two pattern dictionaries and return anomaly score"""
         differences = []
 
@@ -362,7 +361,7 @@ class SymbolicPatternAnalyzer:
 
         return statistics.mean(differences) if differences else 0.0
 
-    def generate_insights(self, user_id: str, analysis_period: int = 30) -> Dict[str, Any]:
+    def generate_insights(self, user_id: str, analysis_period: int = 30) -> dict[str, Any]:
         """Generate behavioral insights from patterns"""
         try:
             # This would typically fetch user trace data for the analysis period
@@ -418,7 +417,7 @@ class SymbolicPatternAnalyzer:
                 "insights": []
             }
 
-    def _generate_temporal_insights(self, temporal_patterns: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _generate_temporal_insights(self, temporal_patterns: dict[str, Any]) -> list[dict[str, Any]]:
         """Generate insights from temporal patterns"""
         insights = []
 
@@ -450,7 +449,7 @@ class SymbolicPatternAnalyzer:
 
         return insights
 
-    def _generate_frequency_insights(self, frequency_patterns: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _generate_frequency_insights(self, frequency_patterns: dict[str, Any]) -> list[dict[str, Any]]:
         """Generate insights from frequency patterns"""
         insights = []
 
@@ -475,7 +474,7 @@ class SymbolicPatternAnalyzer:
 
         return insights
 
-    def _generate_interaction_insights(self, interaction_patterns: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _generate_interaction_insights(self, interaction_patterns: dict[str, Any]) -> list[dict[str, Any]]:
         """Generate insights from interaction patterns"""
         insights = []
 
@@ -501,7 +500,7 @@ class SymbolicPatternAnalyzer:
 
         return insights
 
-    def _generate_security_insights(self, symbolic_patterns: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _generate_security_insights(self, symbolic_patterns: dict[str, Any]) -> list[dict[str, Any]]:
         """Generate security and governance insights"""
         insights = []
 

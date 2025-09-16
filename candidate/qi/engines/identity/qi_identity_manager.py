@@ -33,8 +33,6 @@
 ║ ΛTAG: ΛIDENTITY, ΛQUANTUM, ΛAGI, ΛSECURITY, ΛTIER
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from consciousness.qi import qi  # MATRIZ Integration: QI consciousness module for Trinity Framework consciousness evolution and quantum identity synchronization
-import streamlit as st  # MATRIZ Integration: Streamlit dashboard for QI Identity Manager monitoring and post-quantum cryptography visualization
 
 import hashlib
 import logging

@@ -48,14 +48,14 @@ IMPLEMENTED: Quantum decision superposition for parallel evaluation
 AIDEA: Add emotional intelligence integration for empathetic decisions
 """
 
-import json
 import asyncio
+import json
 from abc import ABC, abstractmethod
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional, List, Tuple
-from concurrent.futures import ThreadPoolExecutor
+from typing import Any, Optional
 
 import numpy as np
 
@@ -198,7 +198,7 @@ class QuantumDecisionState:
     probability_amplitude: complex
     evaluation_score: float
     confidence_weight: float
-    entanglement_partners: List[str] = field(default_factory=list)
+    entanglement_partners: list[str] = field(default_factory=list)
     collapse_threshold: float = 0.7
 
     @property
@@ -217,9 +217,9 @@ class QuantumDecisionSuperposition:
     """Represents multiple decision alternatives in quantum superposition"""
 
     decision_id: str
-    quantum_states: List[QuantumDecisionState]
+    quantum_states: list[QuantumDecisionState]
     coherence_time: float = 1.0  # Time before decoherence
-    measurement_operators: List[str] = field(default_factory=list)
+    measurement_operators: list[str] = field(default_factory=list)
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def add_state(self, state: QuantumDecisionState) -> None:
@@ -256,7 +256,7 @@ class QuantumDecisionSuperposition:
         chosen_index = np.random.choice(len(self.quantum_states), p=probabilities)
         return self.quantum_states[chosen_index].alternative_id
 
-    def get_entangled_states(self) -> List[Tuple[str, str]]:
+    def get_entangled_states(self) -> list[tuple[str, str]]:
         """Get all entangled state pairs"""
         entangled_pairs = []
         for state in self.quantum_states:
@@ -284,8 +284,8 @@ class QuantumDecisionStrategy(DecisionStrategy):
         self.executor = ThreadPoolExecutor(max_workers=4)
 
     async def evaluate_alternatives(
-        self, context: DecisionContext, alternatives: List[DecisionAlternative]
-    ) -> List[DecisionEvaluation]:
+        self, context: DecisionContext, alternatives: list[DecisionAlternative]
+    ) -> list[DecisionEvaluation]:
         """Evaluate alternatives using quantum superposition"""
 
         # Create quantum superposition
@@ -299,7 +299,7 @@ class QuantumDecisionStrategy(DecisionStrategy):
 
         return evaluations
 
-    async def select_best_alternative(self, evaluations: List[DecisionEvaluation]) -> Tuple[str, float]:
+    async def select_best_alternative(self, evaluations: list[DecisionEvaluation]) -> tuple[str, float]:
         """Select best alternative through quantum measurement"""
         if not evaluations:
             raise ValueError("No evaluations provided")
@@ -331,7 +331,7 @@ class QuantumDecisionStrategy(DecisionStrategy):
         return selected_id, selected_eval.overall_score
 
     async def _create_quantum_superposition(
-        self, context: DecisionContext, alternatives: List[DecisionAlternative]
+        self, context: DecisionContext, alternatives: list[DecisionAlternative]
     ) -> QuantumDecisionSuperposition:
         """Create quantum superposition from decision alternatives"""
 
@@ -366,8 +366,8 @@ class QuantumDecisionStrategy(DecisionStrategy):
         return superposition
 
     async def _parallel_quantum_evaluation(
-        self, superposition: QuantumDecisionSuperposition, alternatives: List[DecisionAlternative]
-    ) -> List[DecisionEvaluation]:
+        self, superposition: QuantumDecisionSuperposition, alternatives: list[DecisionAlternative]
+    ) -> list[DecisionEvaluation]:
         """Perform parallel evaluation of alternatives in quantum space"""
 
         # Create evaluation tasks for parallel execution
@@ -435,7 +435,7 @@ class QuantumDecisionStrategy(DecisionStrategy):
         )
 
     async def _create_quantum_entanglements(
-        self, superposition: QuantumDecisionSuperposition, alternatives: List[DecisionAlternative]
+        self, superposition: QuantumDecisionSuperposition, alternatives: list[DecisionAlternative]
     ) -> None:
         """Create quantum entanglements between similar alternatives"""
 
@@ -458,7 +458,7 @@ class QuantumDecisionStrategy(DecisionStrategy):
                     state2.probability_amplitude *= entanglement_factor
 
     async def _apply_quantum_entanglement(
-        self, superposition: QuantumDecisionSuperposition, evaluations: List[DecisionEvaluation]
+        self, superposition: QuantumDecisionSuperposition, evaluations: list[DecisionEvaluation]
     ) -> None:
         """Apply quantum entanglement effects to evaluations"""
 

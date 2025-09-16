@@ -13,13 +13,11 @@ Ensures alignment with ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian p
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
-import asyncio
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Tuple
 from enum import Enum
-import json
+from typing import Any, Optional
 
 
 class TrinityComponent(Enum):
@@ -44,9 +42,9 @@ class TrinityValidationResult:
     validation_level: ValidationLevel
     passed: bool
     score: float
-    issues: List[str] = field(default_factory=list)
-    recommendations: List[str] = field(default_factory=list)
-    details: Dict[str, Any] = field(default_factory=dict)
+    issues: list[str] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
+    details: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
 
@@ -60,7 +58,7 @@ class TrinityFrameworkValidator:
     - 🛡️ Guardian: Protection, safety, and ethical compliance
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.logger = logging.getLogger(__name__)
 
@@ -102,7 +100,7 @@ class TrinityFrameworkValidator:
         }
 
         # Validation state
-        self.validation_results: List[TrinityValidationResult] = []
+        self.validation_results: list[TrinityValidationResult] = []
         self.last_validation: Optional[datetime] = None
 
         # System references for validation
@@ -128,7 +126,7 @@ class TrinityFrameworkValidator:
             self.logger.error(f"Failed to initialize Trinity validator: {e}")
             return False
 
-    async def validate_trinity_compliance(self, validation_level: ValidationLevel = ValidationLevel.STANDARD) -> Dict[str, Any]:
+    async def validate_trinity_compliance(self, validation_level: ValidationLevel = ValidationLevel.STANDARD) -> dict[str, Any]:
         """Validate complete Trinity Framework compliance"""
 
         self.logger.info(f"Starting Trinity Framework validation (level: {validation_level.name})")
@@ -376,7 +374,7 @@ class TrinityFrameworkValidator:
             details=details
         )
 
-    async def get_trinity_status(self) -> Dict[str, Any]:
+    async def get_trinity_status(self) -> dict[str, Any]:
         """Get current Trinity Framework status"""
 
         status = {
@@ -485,7 +483,7 @@ class TrinityFrameworkValidator:
 
         return preservation_score
 
-    async def _validate_identity_features(self) -> Dict[str, bool]:
+    async def _validate_identity_features(self) -> dict[str, bool]:
         """Validate presence of required identity features"""
 
         features = {}
@@ -541,7 +539,7 @@ class TrinityFrameworkValidator:
 
         return integration_score
 
-    async def _validate_consciousness_features(self) -> Dict[str, bool]:
+    async def _validate_consciousness_features(self) -> dict[str, bool]:
         """Validate presence of required consciousness features"""
 
         features = {}
@@ -596,7 +594,7 @@ class TrinityFrameworkValidator:
 
         return ethics_score
 
-    async def _validate_guardian_features(self) -> Dict[str, bool]:
+    async def _validate_guardian_features(self) -> dict[str, bool]:
         """Validate presence of required guardian features"""
 
         features = {}
@@ -616,7 +614,7 @@ class TrinityFrameworkValidator:
 
         return features
 
-    def _result_to_dict(self, result: TrinityValidationResult) -> Dict[str, Any]:
+    def _result_to_dict(self, result: TrinityValidationResult) -> dict[str, Any]:
         """Convert validation result to dictionary"""
 
         return {
@@ -630,7 +628,7 @@ class TrinityFrameworkValidator:
             'timestamp': result.timestamp.isoformat()
         }
 
-    async def _generate_final_recommendations(self, overall_results: Dict[str, Any]) -> List[str]:
+    async def _generate_final_recommendations(self, overall_results: dict[str, Any]) -> list[str]:
         """Generate final recommendations based on overall results"""
 
         recommendations = []

@@ -6,6 +6,7 @@ Quantum-resistant identity and access
 import json
 from datetime import datetime, timezone
 
+
 def consolidate_identities(primary, secondary_list, rules=None):
     """Consolidate multiple identities into a single canonical identity.
 

@@ -42,7 +42,11 @@ try:
     from fastapi.middleware.cors import CORSMiddleware
     from fastapi.responses import StreamingResponse
     from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-    from pydantic import BaseModel, Field, ValidationError  # MATRIZ Integration: Pydantic models for API expansion data validation and Trinity Framework schema coordination
+    from pydantic import (  # MATRIZ Integration: Pydantic models for API expansion data validation and Trinity Framework schema coordination
+        BaseModel,
+        Field,
+        ValidationError,
+    )
 
     # LUKHAS imports
     from candidate.bridge.api.orchestration_api_bridge import (
@@ -565,23 +569,26 @@ if FASTAPI_AVAILABLE:
 
         # Validate functions before registration
         try:
-            validator = get_validator()
-            if validator:
-                validation_result = await validator.validate_request(
-                    "function_registration",
-                    request.dict(),
-                    {"user_tier": user_info.get("tier")},
-                )
+            # TODO: Implement get_validator function
+            # validator = get_validator()
+            # if validator:
+            #     validation_result = await validator.validate_request(
+            #         "function_registration",
+            #         request.dict(),
+            #         {"user_tier": user_info.get("tier")},
+            #     )
 
-                if not validation_result.is_valid:
-                    raise HTTPException(
-                        status_code=status.HTTP_400_BAD_REQUEST,
-                        detail={
-                            "error": "Function validation failed",
-                            "validation_errors": validation_result.errors,
-                            "security_issues": [e for e in validation_result.errors if "security" in e.get("type", "")],
-                        },
-                    )
+            # TODO: Implement validation result handling
+            # if not validation_result.is_valid:
+            #     raise HTTPException(
+            #         status_code=status.HTTP_400_BAD_REQUEST,
+            #         detail={
+            #             "error": "Function validation failed",
+            #             "validation_errors": validation_result.errors,
+            #             "security_issues": [e for e in validation_result.errors if "security" in e.get("type", "")],
+            #         },
+            #     )
+            pass  # Placeholder for validation logic
         except Exception as e:
             logger.warning(f"Function validation error: {e}")
             # Continue with basic validation

@@ -23,7 +23,8 @@ from consciousness.reflection.openai_core_service import (  # MATRIZ Integration
     OpenAICapability,
     OpenAICoreService,
     OpenAIRequest,
-    OpenAIResponse)
+    OpenAIResponse,
+)
 
 logger = logging.getLogger(__name__)
 

@@ -6,8 +6,8 @@ Authentication middleware for the unified API gateway.
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 """
-from typing import Dict, Any, Optional
 import logging
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -15,12 +15,12 @@ logger = logging.getLogger(__name__)
 class AuthMiddleware:
     """Authentication middleware for API gateway requests."""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize auth middleware with configuration."""
         self.config = config or {}
         self.enabled = self.config.get("enabled", True)
 
-    async def authenticate(self, request: Dict[str, Any]) -> Dict[str, Any]:
+    async def authenticate(self, request: dict[str, Any]) -> dict[str, Any]:
         """Authenticate incoming request."""
         if not self.enabled:
             return {"authenticated": True, "user_id": "test"}
@@ -37,7 +37,7 @@ class AuthMiddleware:
 
         return {"authenticated": True, "user_id": user_id}
 
-    def _extract_token(self, request: Dict[str, Any]) -> Optional[str]:
+    def _extract_token(self, request: dict[str, Any]) -> Optional[str]:
         """Extract authentication token from request."""
         headers = request.get("headers", {})
         auth_header = headers.get("authorization", "")

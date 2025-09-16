@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import asyncio
 import json
-from typing import Any, Dict
+from typing import Any
 
 from candidate.bridge.api_gateway.route_handlers import RouteHandlers
 
@@ -16,7 +16,7 @@ async def _run_demo() -> None:
     # ΛTAG: bridge_example
     handlers = RouteHandlers()
 
-    async def custom_handler(request: Dict[str, Any]) -> Dict[str, Any]:
+    async def custom_handler(request: dict[str, Any]) -> dict[str, Any]:
         """Simple custom handler used by the demonstration."""
 
         payload = request.get("payload", {})

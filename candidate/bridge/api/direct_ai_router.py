@@ -12,10 +12,9 @@ import logging
 import os
 import subprocess
 import sys
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional, Union
 
 # ΛTAG: core, router, config
-from candidate.core.common.config import config
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.core.direct_ai_router")
@@ -68,7 +67,7 @@ class DirectAIRouter:
         debug: bool = False,
         *,
         structured: bool = False,
-    ) -> Union[str, Dict[str, Any]]:
+    ) -> Union[str, dict[str, Any]]:
         """
         Routes a request through the Python AI router by executing a dynamically generated script.
         Args:
@@ -280,7 +279,7 @@ logger.info("ΛTRACE: Global _direct_router_instance created.")
 
 def route_ai_request(
     task: str, task_type: str = "general", debug: bool = False, *, structured: bool = False
-) -> Union[str, Dict[str, Any]]:
+) -> Union[str, dict[str, Any]]:
     """
     Global convenience function to route AI requests using the default DirectAIRouter instance.
     Args:

@@ -4,9 +4,10 @@ Consolidated from 4 variants
 Generated: 2025-08-12T19:38:03.084851
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
+from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Dict, Iterable, Optional
+from typing import Any, Optional
 
 from candidate.utils.time import utc_now
 
@@ -74,7 +75,7 @@ class EnhancedSystemAwareness(BioAwareness):
         self,
         *args: Any,
         constellation_channels: Optional[Iterable[str]] = None,
-        context_defaults: Optional[Dict[str, Any]] = None,
+        context_defaults: Optional[dict[str, Any]] = None,
         **kwargs: Any,
     ):
         """Allow callers to forward constellation metadata.
@@ -97,7 +98,7 @@ class EnhancedSystemAwareness(BioAwareness):
     ):
         """Update awareness state based on stimulus and context"""
         try:
-            merged_context: Dict[str, Any] = {**self.default_context}
+            merged_context: dict[str, Any] = {**self.default_context}
             if isinstance(context, dict):
                 merged_context.update(context)
 
@@ -207,7 +208,7 @@ class EnhancedSystemAwareness(BioAwareness):
             # If even error handling fails, just return False
             return False
 
-    def _append_history(self, entry: Dict[str, Any]) -> None:
+    def _append_history(self, entry: dict[str, Any]) -> None:
         """Store history entries while enforcing deterministic limits."""
 
         timestamp = entry.get("timestamp")

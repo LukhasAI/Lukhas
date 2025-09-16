@@ -32,7 +32,6 @@
 """
 
 import asyncio
-import cmath
 import logging
 import math
 import random
@@ -42,10 +41,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
-
-import numpy as np
-from hypothesis import given, strategies as st, settings, HealthCheck
+from typing import Any, Callable, Optional
 
 # Configure metamorphic testing logging
 logger = logging.getLogger("ΛTRACE.consciousness.testing.metamorphic")
@@ -89,8 +85,8 @@ class MetamorphicTestCase:
     transformation_type: TransformationType = TransformationType.PERMUTATION
 
     # Test inputs
-    source_input: Dict[str, Any] = field(default_factory=dict)
-    followup_input: Dict[str, Any] = field(default_factory=dict)
+    source_input: dict[str, Any] = field(default_factory=dict)
+    followup_input: dict[str, Any] = field(default_factory=dict)
     transformation_description: str = ""
 
     # Expected relation
@@ -115,17 +111,17 @@ class QuantumConsciousnessState:
     """Quantum consciousness state for metamorphic testing"""
 
     # Quantum superposition components
-    quantum_amplitudes: List[complex] = field(default_factory=list)
-    quantum_phases: List[float] = field(default_factory=list)
-    superposition_coefficients: List[float] = field(default_factory=list)
+    quantum_amplitudes: list[complex] = field(default_factory=list)
+    quantum_phases: list[float] = field(default_factory=list)
+    superposition_coefficients: list[float] = field(default_factory=list)
 
     # Entanglement information
-    entangled_states: List[str] = field(default_factory=list)
-    entanglement_correlations: Dict[str, float] = field(default_factory=dict)
+    entangled_states: list[str] = field(default_factory=list)
+    entanglement_correlations: dict[str, float] = field(default_factory=dict)
 
     # Consciousness properties
     awareness_level: float = 0.5
-    attention_distribution: Dict[str, float] = field(default_factory=dict)
+    attention_distribution: dict[str, float] = field(default_factory=dict)
     consciousness_depth: float = 0.5
 
     # Emotional state (VAD model)
@@ -134,16 +130,16 @@ class QuantumConsciousnessState:
     dominance: float = 0.0    # -1 (submissive) to +1 (dominant)
 
     # Memory system state
-    active_memory_folds: List[str] = field(default_factory=list)
-    memory_access_pattern: List[str] = field(default_factory=list)
+    active_memory_folds: list[str] = field(default_factory=list)
+    memory_access_pattern: list[str] = field(default_factory=list)
 
     # Trinity Framework components
     identity_coherence: float = 1.0
-    triad_balance: Tuple[float, float, float] = (0.8, 0.7, 0.9)  # Identity, Consciousness, Guardian
+    triad_balance: tuple[float, float, float] = (0.8, 0.7, 0.9)  # Identity, Consciousness, Guardian
 
     # Bio-oscillator state
-    oscillator_frequencies: Dict[str, float] = field(default_factory=dict)
-    bio_rhythm_phases: Dict[str, float] = field(default_factory=dict)
+    oscillator_frequencies: dict[str, float] = field(default_factory=dict)
+    bio_rhythm_phases: dict[str, float] = field(default_factory=dict)
 
     def get_total_probability(self) -> float:
         """Calculate total quantum probability (should be 1.0)"""
@@ -191,7 +187,7 @@ class MetamorphicRelation(ABC):
         self.tests_failed = 0
 
     @abstractmethod
-    def generate_followup_input(self, source_input: QuantumConsciousnessState) -> Tuple[QuantumConsciousnessState, str]:
+    def generate_followup_input(self, source_input: QuantumConsciousnessState) -> tuple[QuantumConsciousnessState, str]:
         """
         Generate follow-up input by applying metamorphic transformation
 
@@ -201,7 +197,7 @@ class MetamorphicRelation(ABC):
         pass
 
     @abstractmethod
-    def check_relation(self, source_output: Any, followup_output: Any) -> Tuple[bool, str]:
+    def check_relation(self, source_output: Any, followup_output: Any) -> tuple[bool, str]:
         """
         Check if metamorphic relation holds between outputs
 
@@ -230,7 +226,7 @@ class QuantumSuperpositionConservationRelation(MetamorphicRelation):
     def __init__(self, tolerance: float = 0.001):
         super().__init__(MetamorphicRelationType.QUANTUM_SUPERPOSITION_CONSERVATION, tolerance)
 
-    def generate_followup_input(self, source_input: QuantumConsciousnessState) -> Tuple[QuantumConsciousnessState, str]:
+    def generate_followup_input(self, source_input: QuantumConsciousnessState) -> tuple[QuantumConsciousnessState, str]:
         """Generate follow-up input by permuting superposition components"""
 
         followup = source_input.clone()
@@ -258,7 +254,7 @@ class QuantumSuperpositionConservationRelation(MetamorphicRelation):
 
         return followup, transformation_desc
 
-    def check_relation(self, source_output: Any, followup_output: Any) -> Tuple[bool, str]:
+    def check_relation(self, source_output: Any, followup_output: Any) -> tuple[bool, str]:
         """Check quantum superposition conservation relation"""
 
         # Extract quantum probability distributions
@@ -292,7 +288,7 @@ class QuantumSuperpositionConservationRelation(MetamorphicRelation):
 
         return relation_satisfied, violation_details.strip()
 
-    def _extract_probability_distribution(self, output: Any) -> Dict[str, float]:
+    def _extract_probability_distribution(self, output: Any) -> dict[str, float]:
         """Extract probability distribution from output"""
         if isinstance(output, dict):
             # Look for probability-related keys
@@ -333,7 +329,7 @@ class PhaseSymmetryRelation(MetamorphicRelation):
     def __init__(self, tolerance: float = 0.001):
         super().__init__(MetamorphicRelationType.PHASE_SYMMETRY, tolerance)
 
-    def generate_followup_input(self, source_input: QuantumConsciousnessState) -> Tuple[QuantumConsciousnessState, str]:
+    def generate_followup_input(self, source_input: QuantumConsciousnessState) -> tuple[QuantumConsciousnessState, str]:
         """Generate follow-up input by applying global phase shift"""
 
         followup = source_input.clone()
@@ -352,7 +348,7 @@ class PhaseSymmetryRelation(MetamorphicRelation):
 
         return followup, transformation_desc
 
-    def check_relation(self, source_output: Any, followup_output: Any) -> Tuple[bool, str]:
+    def check_relation(self, source_output: Any, followup_output: Any) -> tuple[bool, str]:
         """Check phase symmetry relation"""
 
         # Extract probability measurements (should be identical)
@@ -382,7 +378,7 @@ class PhaseSymmetryRelation(MetamorphicRelation):
 
         return relation_satisfied, violation_details.strip()
 
-    def _extract_probabilities(self, output: Any) -> Dict[str, float]:
+    def _extract_probabilities(self, output: Any) -> dict[str, float]:
         """Extract probability measurements from output"""
         probs = {}
 
@@ -443,7 +439,7 @@ class AttentionConservationRelation(MetamorphicRelation):
     def __init__(self, tolerance: float = 0.01):
         super().__init__(MetamorphicRelationType.ATTENTION_CONSERVATION, tolerance)
 
-    def generate_followup_input(self, source_input: QuantumConsciousnessState) -> Tuple[QuantumConsciousnessState, str]:
+    def generate_followup_input(self, source_input: QuantumConsciousnessState) -> tuple[QuantumConsciousnessState, str]:
         """Generate follow-up input by redistributing attention"""
 
         followup = source_input.clone()
@@ -482,7 +478,7 @@ class AttentionConservationRelation(MetamorphicRelation):
 
         return followup, transformation_desc
 
-    def check_relation(self, source_output: Any, followup_output: Any) -> Tuple[bool, str]:
+    def check_relation(self, source_output: Any, followup_output: Any) -> tuple[bool, str]:
         """Check attention conservation relation"""
 
         # Extract attention totals
@@ -546,7 +542,7 @@ class EmotionalStateSymmetryRelation(MetamorphicRelation):
     def __init__(self, tolerance: float = 0.01):
         super().__init__(MetamorphicRelationType.EMOTIONAL_STATE_SYMMETRY, tolerance)
 
-    def generate_followup_input(self, source_input: QuantumConsciousnessState) -> Tuple[QuantumConsciousnessState, str]:
+    def generate_followup_input(self, source_input: QuantumConsciousnessState) -> tuple[QuantumConsciousnessState, str]:
         """Generate follow-up input by flipping emotional valence"""
 
         followup = source_input.clone()
@@ -559,7 +555,7 @@ class EmotionalStateSymmetryRelation(MetamorphicRelation):
 
         return followup, transformation_desc
 
-    def check_relation(self, source_output: Any, followup_output: Any) -> Tuple[bool, str]:
+    def check_relation(self, source_output: Any, followup_output: Any) -> tuple[bool, str]:
         """Check emotional state symmetry relation"""
 
         # Extract emotional processing metrics
@@ -597,7 +593,7 @@ class EmotionalStateSymmetryRelation(MetamorphicRelation):
 
         return relation_satisfied, violation_details.strip()
 
-    def _extract_emotional_metrics(self, output: Any) -> Dict[str, float]:
+    def _extract_emotional_metrics(self, output: Any) -> dict[str, float]:
         """Extract emotional metrics from output"""
         emotion = {}
 
@@ -642,7 +638,7 @@ class TrinityBalanceInvarianceRelation(MetamorphicRelation):
     def __init__(self, tolerance: float = 0.001):
         super().__init__(MetamorphicRelationType.TRINITY_BALANCE_INVARIANCE, tolerance)
 
-    def generate_followup_input(self, source_input: QuantumConsciousnessState) -> Tuple[QuantumConsciousnessState, str]:
+    def generate_followup_input(self, source_input: QuantumConsciousnessState) -> tuple[QuantumConsciousnessState, str]:
         """Generate follow-up input by permuting Trinity components"""
 
         followup = source_input.clone()
@@ -659,7 +655,7 @@ class TrinityBalanceInvarianceRelation(MetamorphicRelation):
 
         return followup, transformation_desc
 
-    def check_relation(self, source_output: Any, followup_output: Any) -> Tuple[bool, str]:
+    def check_relation(self, source_output: Any, followup_output: Any) -> tuple[bool, str]:
         """Check Trinity balance invariance relation"""
 
         # Extract Trinity coherence metrics
@@ -716,7 +712,7 @@ class ConsciousnessMetamorphicTestingFramework:
         self.version = "1.0.0"
 
         # Initialize metamorphic relations
-        self.relations: Dict[MetamorphicRelationType, MetamorphicRelation] = {
+        self.relations: dict[MetamorphicRelationType, MetamorphicRelation] = {
             MetamorphicRelationType.QUANTUM_SUPERPOSITION_CONSERVATION: QuantumSuperpositionConservationRelation(),
             MetamorphicRelationType.PHASE_SYMMETRY: PhaseSymmetryRelation(),
             MetamorphicRelationType.ATTENTION_CONSERVATION: AttentionConservationRelation(),
@@ -725,10 +721,10 @@ class ConsciousnessMetamorphicTestingFramework:
         }
 
         # Test execution tracking
-        self.executed_tests: List[MetamorphicTestCase] = []
+        self.executed_tests: list[MetamorphicTestCase] = []
         self.total_tests_run = 0
         self.total_relations_satisfied = 0
-        self.relation_success_rates: Dict[MetamorphicRelationType, float] = {}
+        self.relation_success_rates: dict[MetamorphicRelationType, float] = {}
 
         logger.info(f"ΛTRACE: Consciousness Metamorphic Testing Framework initialized: {self.framework_id}")
 
@@ -824,9 +820,9 @@ class ConsciousnessMetamorphicTestingFramework:
     async def execute_metamorphic_test_suite(
         self,
         consciousness_function: Callable[[QuantumConsciousnessState], Any],
-        test_inputs: List[QuantumConsciousnessState],
-        relation_types: Optional[List[MetamorphicRelationType]] = None
-    ) -> Dict[str, Any]:
+        test_inputs: list[QuantumConsciousnessState],
+        relation_types: Optional[list[MetamorphicRelationType]] = None
+    ) -> dict[str, Any]:
         """
         Execute comprehensive metamorphic test suite
 
@@ -942,7 +938,7 @@ class ConsciousnessMetamorphicTestingFramework:
                 "triad_coherence": 0.5
             }
 
-    def _convert_state_to_input(self, state: QuantumConsciousnessState) -> Dict[str, Any]:
+    def _convert_state_to_input(self, state: QuantumConsciousnessState) -> dict[str, Any]:
         """Convert QuantumConsciousnessState to function input format"""
         return {
             "quantum_amplitudes": state.quantum_amplitudes,
@@ -971,7 +967,7 @@ class ConsciousnessMetamorphicTestingFramework:
             else:
                 self.relation_success_rates[relation_type] = 0.0
 
-    def get_framework_statistics(self) -> Dict[str, Any]:
+    def get_framework_statistics(self) -> dict[str, Any]:
         """Get comprehensive framework statistics"""
 
         # Calculate per-relation statistics
@@ -1018,7 +1014,7 @@ class ConsciousnessMetamorphicTestingFramework:
 
 
 # Example consciousness function for testing
-async def example_consciousness_function(input_state: Dict[str, Any]) -> Dict[str, Any]:
+async def example_consciousness_function(input_state: dict[str, Any]) -> dict[str, Any]:
     """
     Example consciousness function for metamorphic testing
 

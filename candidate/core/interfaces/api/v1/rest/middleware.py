@@ -31,6 +31,7 @@ from typing import Any, Optional
 
 # Replaced python-jose (vulnerable) with PyJWT for secure JWT handling
 import jwt
+
 try:  # pragma: no cover - structlog optional in lightweight environments
     import structlog
 except ImportError:  # pragma: no cover

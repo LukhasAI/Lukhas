@@ -27,8 +27,8 @@ Combines prot1's policy system with prot2's quantum-inspired capabilities.
 
 # ΛTAG: import_refactor
 try:
-    from candidate.qi.processing.qi_engine import QIOscillator
     from candidate.bio.awareness import EnhancedSystemAwareness
+    from candidate.qi.processing.qi_engine import QIOscillator
     logger.info("Successfully imported QIOscillator and EnhancedSystemAwareness.")
 except ImportError as e:
     logger.error(

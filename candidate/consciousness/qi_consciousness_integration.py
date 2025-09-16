@@ -97,8 +97,8 @@ ElevatedConsciousnessModule, ConsciousnessLevel, QualiaType, ConsciousExperience
 )  # Placeholders
 try:
     # Corrected import paths for consciousness components
-    from .core.engine import LUKHASConsciousnessEngine, ConsciousnessState
     from .awareness.awareness_engine import AwarenessEngine
+    from .core.engine import ConsciousnessState, LUKHASConsciousnessEngine
     from .reflection.consciousness_system import ConsciousnessLevel, QualiaType
 
     # Create compatibility aliases for the existing code

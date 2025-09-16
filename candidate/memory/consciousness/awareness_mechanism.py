@@ -17,9 +17,8 @@ import asyncio
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Tuple
 from enum import Enum
-import json
+from typing import Any, Optional
 
 
 class AwarenessLevel(Enum):
@@ -49,9 +48,9 @@ class AwarenessEvent:
     timestamp: datetime
     awareness_level: AwarenessLevel
     content: str
-    triggers: List[str]
-    emotional_context: Dict[str, float]
-    meta_cognitive_data: Dict[str, Any]
+    triggers: list[str]
+    emotional_context: dict[str, float]
+    meta_cognitive_data: dict[str, Any]
     reflection_depth: float = 0.0
 
 
@@ -60,10 +59,10 @@ class ConsciousnessState:
     """Current state of consciousness"""
     awareness_level: AwarenessLevel
     awareness_state: AwarenessState
-    attention_focus: List[str]
-    working_memory: List[str]
-    meta_thoughts: List[str]
-    emotional_baseline: Dict[str, float]
+    attention_focus: list[str]
+    working_memory: list[str]
+    meta_thoughts: list[str]
+    emotional_baseline: dict[str, float]
     temporal_coherence: float = 1.0
     last_update: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -80,7 +79,7 @@ class AwarenessMechanism:
     - Memory-consciousness integration
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.logger = logging.getLogger(__name__)
 
@@ -95,9 +94,9 @@ class AwarenessMechanism:
         )
 
         # Awareness tracking
-        self.awareness_events: List[AwarenessEvent] = []
-        self.awareness_patterns: Dict[str, Any] = {}
-        self.reflection_history: List[Dict[str, Any]] = []
+        self.awareness_events: list[AwarenessEvent] = []
+        self.awareness_patterns: dict[str, Any] = {}
+        self.reflection_history: list[dict[str, Any]] = []
 
         # Meta-cognitive monitoring
         self.meta_cognitive_state = {
@@ -138,7 +137,7 @@ class AwarenessMechanism:
             self.logger.error(f"Failed to initialize awareness mechanism: {e}")
             return False
 
-    async def process_awareness_trigger(self, trigger_data: Dict[str, Any]) -> AwarenessEvent:
+    async def process_awareness_trigger(self, trigger_data: dict[str, Any]) -> AwarenessEvent:
         """Process an awareness trigger and generate awareness event"""
 
         # Generate unique event ID
@@ -185,7 +184,7 @@ class AwarenessMechanism:
 
         return awareness_event
 
-    async def generate_self_reflection(self) -> Dict[str, Any]:
+    async def generate_self_reflection(self) -> dict[str, Any]:
         """Generate self-reflection on current awareness state"""
 
         reflection_start = datetime.now(timezone.utc)
@@ -226,7 +225,7 @@ class AwarenessMechanism:
 
         return reflection_data
 
-    async def update_attention_focus(self, focus_items: List[str]) -> None:
+    async def update_attention_focus(self, focus_items: list[str]) -> None:
         """Update current attention focus"""
 
         # Limit attention focus to prevent overwhelm
@@ -247,7 +246,7 @@ class AwarenessMechanism:
                 'emotional_context': {'arousal': 0.8, 'valence': 0.3}
             })
 
-    async def integrate_with_memory(self, memory_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def integrate_with_memory(self, memory_data: dict[str, Any]) -> dict[str, Any]:
         """Integrate awareness with memory systems"""
 
         # Analyze memory for consciousness relevance
@@ -274,7 +273,7 @@ class AwarenessMechanism:
             'awareness_event_generated': None
         }
 
-    async def get_awareness_state(self) -> Dict[str, Any]:
+    async def get_awareness_state(self) -> dict[str, Any]:
         """Get current awareness state"""
 
         return {
@@ -316,7 +315,7 @@ class AwarenessMechanism:
                 self.logger.error(f"Error in meta-cognitive loop: {e}")
                 await asyncio.sleep(30.0)
 
-    async def _calculate_awareness_level(self, trigger_data: Dict[str, Any]) -> AwarenessLevel:
+    async def _calculate_awareness_level(self, trigger_data: dict[str, Any]) -> AwarenessLevel:
         """Calculate awareness level based on trigger data"""
 
         # Base awareness from current state
@@ -344,7 +343,7 @@ class AwarenessMechanism:
         else:
             return AwarenessLevel.UNCONSCIOUS
 
-    async def _generate_meta_cognitive_data(self, trigger_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _generate_meta_cognitive_data(self, trigger_data: dict[str, Any]) -> dict[str, Any]:
         """Generate meta-cognitive data for awareness event"""
 
         return {
@@ -357,7 +356,7 @@ class AwarenessMechanism:
             'cognitive_coherence': self.consciousness_state.temporal_coherence
         }
 
-    def _calculate_attention_distribution(self) -> Dict[str, float]:
+    def _calculate_attention_distribution(self) -> dict[str, float]:
         """Calculate how attention is distributed"""
 
         focus_items = self.consciousness_state.attention_focus
@@ -368,7 +367,7 @@ class AwarenessMechanism:
         attention_per_item = 1.0 / len(focus_items)
         return {item: attention_per_item for item in focus_items}
 
-    async def _calculate_reflection_depth(self, trigger_data: Dict[str, Any],
+    async def _calculate_reflection_depth(self, trigger_data: dict[str, Any],
                                         awareness_level: AwarenessLevel) -> float:
         """Calculate depth of reflection needed"""
 
@@ -483,7 +482,7 @@ class AwarenessMechanism:
             'meta_cognitive_processing'
         ]
 
-    async def _analyze_consciousness_state(self) -> Dict[str, Any]:
+    async def _analyze_consciousness_state(self) -> dict[str, Any]:
         """Analyze current consciousness state"""
         return {
             'awareness_level_stability': self._calculate_awareness_stability(),
@@ -534,7 +533,7 @@ class AwarenessMechanism:
             overload = current_load - optimal_load
             return max(0.0, 1.0 - (overload / optimal_load))
 
-    async def _analyze_recent_awareness_events(self) -> Dict[str, Any]:
+    async def _analyze_recent_awareness_events(self) -> dict[str, Any]:
         """Analyze recent awareness events"""
         recent_events = self.awareness_events[-20:]  # Last 20 events
 
@@ -559,7 +558,7 @@ class AwarenessMechanism:
             'average_reflection_depth': sum(e.reflection_depth for e in recent_events) / len(recent_events)
         }
 
-    async def _generate_meta_cognitive_insights(self) -> List[str]:
+    async def _generate_meta_cognitive_insights(self) -> list[str]:
         """Generate meta-cognitive insights"""
         insights = []
 
@@ -575,7 +574,7 @@ class AwarenessMechanism:
 
         return insights
 
-    async def _assess_emotional_coherence(self) -> Dict[str, Any]:
+    async def _assess_emotional_coherence(self) -> dict[str, Any]:
         """Assess emotional coherence"""
         baseline = self.consciousness_state.emotional_baseline
 
@@ -590,7 +589,7 @@ class AwarenessMechanism:
             'dominant_emotion': max(baseline.items(), key=lambda x: x[1])[0] if baseline else None
         }
 
-    async def _generate_self_assessment(self) -> Dict[str, Any]:
+    async def _generate_self_assessment(self) -> dict[str, Any]:
         """Generate self-assessment"""
         return {
             'consciousness_effectiveness': self._assess_consciousness_effectiveness(),
@@ -642,7 +641,7 @@ class AwarenessMechanism:
         ]
         return sum(components) / len(components)
 
-    async def _assess_memory_consciousness_relevance(self, memory_data: Dict[str, Any]) -> float:
+    async def _assess_memory_consciousness_relevance(self, memory_data: dict[str, Any]) -> float:
         """Assess consciousness relevance of memory data"""
 
         relevance_score = 0.0

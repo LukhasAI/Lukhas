@@ -6,11 +6,12 @@ import json
 import os
 import threading
 import time
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from types import SimpleNamespace
-from typing import Any, Dict, Iterable, Optional
+from typing import Any
 
 try:  # pragma: no cover - structlog is optional in some test environments
     import structlog
@@ -36,12 +37,12 @@ class ApiKeyMetadata:
     user_id: str
     tier: int = 1
     scopes: tuple[str, ...] = ()
-    expires_at: Optional[datetime] = None
+    expires_at: datetime | None = None
     revoked: bool = False
-    attributes: Dict[str, Any] = field(default_factory=dict)
+    attributes: dict[str, Any] = field(default_factory=dict)
 
     # ΛTAG: auth_cache - ensure tier decisions remain deterministic.
-    def is_expired(self, reference: Optional[datetime] = None) -> bool:
+    def is_expired(self, reference: datetime | None = None) -> bool:
         """Return ``True`` when the key is past its expiry window."""
 
         if not self.expires_at:
@@ -50,7 +51,7 @@ class ApiKeyMetadata:
         reference_dt = reference or datetime.now(timezone.utc)
         return self.expires_at <= reference_dt
 
-    def is_active(self, reference: Optional[datetime] = None) -> bool:
+    def is_active(self, reference: datetime | None = None) -> bool:
         """Return ``True`` when the key is neither revoked nor expired."""
 
         if self.revoked:
@@ -63,18 +64,18 @@ class ApiKeyCache:
 
     def __init__(
         self,
-        registry_path: Optional[str] = None,
-        refresh_interval: Optional[int] = None,
+        registry_path: str | None = None,
+        refresh_interval: int | None = None,
     ) -> None:
         self._registry_path = Path(registry_path) if registry_path else None
         env_refresh = int(os.getenv(_REFRESH_ENV, "60"))
         self._refresh_interval = refresh_interval if refresh_interval is not None else env_refresh
-        self._cache: Dict[str, ApiKeyMetadata] = {}
+        self._cache: dict[str, ApiKeyMetadata] = {}
         self._configured = False
         self._last_loaded = 0.0
         self._lock = threading.RLock()
 
-    def lookup(self, api_key: str) -> Optional[ApiKeyMetadata]:
+    def lookup(self, api_key: str) -> ApiKeyMetadata | None:
         """Lookup API key metadata using a constant-time hash."""
 
         key_hash = hashlib.sha256(api_key.encode("utf-8")).hexdigest()
@@ -125,8 +126,8 @@ class ApiKeyCache:
         self._cache, self._configured = self._load_registry()
         self._last_loaded = now
 
-    def _load_registry(self) -> tuple[Dict[str, ApiKeyMetadata], bool]:
-        cache: Dict[str, ApiKeyMetadata] = {}
+    def _load_registry(self) -> tuple[dict[str, ApiKeyMetadata], bool]:
+        cache: dict[str, ApiKeyMetadata] = {}
         configured = False
 
         # Load from JSON file path when provided.
@@ -171,8 +172,8 @@ class ApiKeyCache:
 
         return cache, configured
 
-    def _parse_registry(self, payload: Any, source: str) -> Dict[str, ApiKeyMetadata]:
-        records: Dict[str, ApiKeyMetadata] = {}
+    def _parse_registry(self, payload: Any, source: str) -> dict[str, ApiKeyMetadata]:
+        records: dict[str, ApiKeyMetadata] = {}
         if not isinstance(payload, dict):
             logger.warning("api_key_registry_unexpected_payload", source=source)
             return records
@@ -192,7 +193,7 @@ class ApiKeyCache:
 
         return records
 
-    def _build_metadata(self, entry: Dict[str, Any], *, source: str) -> Optional[ApiKeyMetadata]:
+    def _build_metadata(self, entry: dict[str, Any], *, source: str) -> ApiKeyMetadata | None:
         raw_hash = entry.get("hash")
         raw_key = entry.get("key")
 
@@ -225,7 +226,7 @@ class ApiKeyCache:
             attributes=attributes,
         )
 
-    def _parse_expiry(self, value: Any) -> Optional[datetime]:
+    def _parse_expiry(self, value: Any) -> datetime | None:
         if value in (None, ""):
             return None
 
@@ -246,7 +247,7 @@ class ApiKeyCache:
         logger.warning("api_key_registry_unsupported_expiry", type=type(value).__name__)
         return None
 
-    def _get_env_path(self) -> Optional[Path]:
+    def _get_env_path(self) -> Path | None:
         path_value = os.getenv(_REGISTRY_PATH_ENV)
         if not path_value:
             return None

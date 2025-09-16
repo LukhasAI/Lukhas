@@ -14,7 +14,8 @@ from candidate.core.common import get_logger
 from candidate.core.interfaces.encrypted_perception_interface import (
     AnomalySignature,
     EthicalSignificance,
-    PerceptualVector)
+    PerceptualVector,
+)
 
 logger = get_logger(__name__)
 
@@ -296,7 +297,7 @@ class AnomalyDetector:
 
             if significance and final_score >= self.min_confidence:
                 anomaly = AnomalySignature(
-                    anomaly_id=f"{pattern.anomaly_type.value}_{int(datetime.now(timezone.utc).timestamp()}",
+                    anomaly_id=f"{pattern.anomaly_type.value}_{int(datetime.now(timezone.utc).timestamp())}",
                     anomaly_type=pattern.anomaly_type.value,
                     confidence=float(final_score),
                     significance=significance,
@@ -371,7 +372,7 @@ class AnomalyDetector:
                     all_vectors.extend(modality_groups[modality])
 
                 anomaly = AnomalySignature(
-                    anomaly_id=f"cross_modal_{pattern.anomaly_type.value}_{int(datetime.now(timezone.utc).timestamp()}",
+                    anomaly_id=f"cross_modal_{pattern.anomaly_type.value}_{int(datetime.now(timezone.utc).timestamp())}",
                     anomaly_type=f"cross_modal_{pattern.anomaly_type.value}",
                     confidence=float(min(score, 1.0)),
                     significance=significance,

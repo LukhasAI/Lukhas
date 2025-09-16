@@ -7,7 +7,8 @@ AI provider types for orchestration system.
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 """
 from enum import Enum
-from typing import Dict, Any, Optional
+from typing import Any, Optional
+
 from pydantic import BaseModel
 
 
@@ -76,8 +77,8 @@ class OrchestrationRequest(BaseModel):
     task_type: TaskType = TaskType.CHAT_COMPLETION
     provider: Optional[AIProvider] = None
     content: str
-    context: Optional[Dict[str, Any]] = None
-    parameters: Optional[Dict[str, Any]] = None
+    context: Optional[dict[str, Any]] = None
+    parameters: Optional[dict[str, Any]] = None
     user_id: Optional[str] = None
     session_id: Optional[str] = None
     max_tokens: Optional[int] = None
@@ -87,7 +88,7 @@ class OrchestrationRequest(BaseModel):
         use_enum_values = True
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "OrchestrationRequest":
+    def from_dict(cls, data: dict[str, Any]) -> "OrchestrationRequest":
         """Create request from dictionary."""
         # Convert string enums to enum objects
         if "task_type" in data and isinstance(data["task_type"], str):
@@ -108,7 +109,7 @@ class OrchestrationResponse(BaseModel):
     latency_ms: float
     token_count: Optional[int] = None
     cost_estimate: Optional[float] = None
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: Optional[dict[str, Any]] = None
     error: Optional[str] = None
 
     class Config:

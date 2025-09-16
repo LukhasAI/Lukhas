@@ -21,7 +21,6 @@ import pytest
 from candidate.aka_qualia.memory import create_memory_client
 from candidate.aka_qualia.memory_noop import NoopMemory
 from candidate.aka_qualia.memory_sql import SqlMemory
-
 from candidate.aka_qualia.tests.conftest import create_test_glyph, create_test_scene
 
 

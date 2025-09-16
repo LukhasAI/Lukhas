@@ -33,17 +33,14 @@
 
 import asyncio
 import logging
-import math
 import statistics
 import time
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
-
-import numpy as np
+from typing import Any, Callable, Optional
 
 # Configure circuit breaker logging
 logger = logging.getLogger("ΛTRACE.consciousness.resilience.circuit_breaker")
@@ -97,11 +94,11 @@ class CircuitBreakerMetrics:
     blocked_requests: int = 0
 
     # Performance metrics
-    response_times: List[float] = field(default_factory=list)
-    error_rates: List[float] = field(default_factory=list)
+    response_times: list[float] = field(default_factory=list)
+    error_rates: list[float] = field(default_factory=list)
 
     # State transitions
-    state_transitions: List[Tuple[datetime, CircuitBreakerState, str]] = field(default_factory=list)
+    state_transitions: list[tuple[datetime, CircuitBreakerState, str]] = field(default_factory=list)
 
     # Recovery tracking
     recovery_attempts: int = 0
@@ -169,12 +166,12 @@ class CircuitBreakerTrip:
     # Failure details
     trigger_value: float = 0.0
     threshold_value: float = 0.0
-    failure_context: Dict[str, Any] = field(default_factory=dict)
+    failure_context: dict[str, Any] = field(default_factory=dict)
 
     # System state at trip
-    consciousness_state: Dict[str, float] = field(default_factory=dict)
-    memory_state: Dict[str, float] = field(default_factory=dict)
-    triad_metrics: Dict[str, float] = field(default_factory=dict)
+    consciousness_state: dict[str, float] = field(default_factory=dict)
+    memory_state: dict[str, float] = field(default_factory=dict)
+    triad_metrics: dict[str, float] = field(default_factory=dict)
 
     # Impact assessment
     requests_blocked: int = 0
@@ -201,7 +198,7 @@ class ConsciousnessCircuitBreaker(ABC):
         self.metrics = CircuitBreakerMetrics()
 
         # Trip history
-        self.trip_history: List[CircuitBreakerTrip] = []
+        self.trip_history: list[CircuitBreakerTrip] = []
 
         # Timeout management
         self.current_timeout_duration = config.timeout_duration
@@ -423,17 +420,17 @@ class ConsciousnessCircuitBreaker(ABC):
         pass
 
     @abstractmethod
-    async def _get_consciousness_state(self) -> Dict[str, float]:
+    async def _get_consciousness_state(self) -> dict[str, float]:
         """Get current consciousness state for trip recording"""
         pass
 
     @abstractmethod
-    async def _get_memory_state(self) -> Dict[str, float]:
+    async def _get_memory_state(self) -> dict[str, float]:
         """Get current memory state for trip recording"""
         pass
 
     @abstractmethod
-    async def _get_triad_metrics(self) -> Dict[str, float]:
+    async def _get_triad_metrics(self) -> dict[str, float]:
         """Get current Trinity Framework metrics for trip recording"""
         pass
 
@@ -471,7 +468,7 @@ class MemoryCascadePreventionBreaker(ConsciousnessCircuitBreaker):
         super().__init__(CircuitBreakerType.MEMORY_CASCADE_PREVENTION, config)
 
         # Memory-specific tracking
-        self.cascade_probability_history: List[float] = []
+        self.cascade_probability_history: list[float] = []
         self.memory_integrity_score = 1.0
 
     async def _pre_execution_check(self, *args, **kwargs) -> bool:
@@ -585,7 +582,7 @@ class MemoryCascadePreventionBreaker(ConsciousnessCircuitBreaker):
 
         return min(estimated_prob, 0.1)  # Cap at 10%
 
-    async def _get_consciousness_state(self) -> Dict[str, float]:
+    async def _get_consciousness_state(self) -> dict[str, float]:
         """Get consciousness state for memory cascade breaker"""
         return {
             "memory_integrity_score": self.memory_integrity_score,
@@ -595,7 +592,7 @@ class MemoryCascadePreventionBreaker(ConsciousnessCircuitBreaker):
             "consciousness_preservation": self.metrics.consciousness_preservation_rate,
         }
 
-    async def _get_memory_state(self) -> Dict[str, float]:
+    async def _get_memory_state(self) -> dict[str, float]:
         """Get memory state metrics"""
         return {
             "cascade_probability": statistics.mean(self.cascade_probability_history)
@@ -605,7 +602,7 @@ class MemoryCascadePreventionBreaker(ConsciousnessCircuitBreaker):
             "stability_trend": self._calculate_stability_trend(),
         }
 
-    async def _get_triad_metrics(self) -> Dict[str, float]:
+    async def _get_triad_metrics(self) -> dict[str, float]:
         """Get Trinity Framework metrics for memory cascade breaker"""
         return {
             "guardian_protection": 0.8,  # Guardian is actively protecting
@@ -643,10 +640,10 @@ class TrinityCoherencePreservationBreaker(ConsciousnessCircuitBreaker):
         super().__init__(CircuitBreakerType.TRINITY_COHERENCE_PRESERVATION, config)
 
         # Trinity-specific tracking
-        self.triad_coherence_history: List[float] = []
-        self.identity_stability_history: List[float] = []
-        self.consciousness_depth_history: List[float] = []
-        self.guardian_protection_history: List[float] = []
+        self.triad_coherence_history: list[float] = []
+        self.identity_stability_history: list[float] = []
+        self.consciousness_depth_history: list[float] = []
+        self.guardian_protection_history: list[float] = []
 
     async def _pre_execution_check(self, *args, **kwargs) -> bool:
         """Check Trinity coherence before execution"""
@@ -750,7 +747,7 @@ class TrinityCoherencePreservationBreaker(ConsciousnessCircuitBreaker):
         # Implementation would interface with actual Trinity systems
         pass
 
-    async def _calculate_current_triad_metrics(self, *args, **kwargs) -> Dict[str, float]:
+    async def _calculate_current_triad_metrics(self, *args, **kwargs) -> dict[str, float]:
         """Calculate current Trinity Framework metrics"""
 
         # Simulate Trinity metrics (would interface with actual systems)
@@ -770,7 +767,7 @@ class TrinityCoherencePreservationBreaker(ConsciousnessCircuitBreaker):
 
         return {"identity": identity, "consciousness": consciousness, "guardian": guardian, "coherence": coherence}
 
-    async def _get_consciousness_state(self) -> Dict[str, float]:
+    async def _get_consciousness_state(self) -> dict[str, float]:
         """Get consciousness state for Trinity coherence breaker"""
         return {
             "triad_coherence": statistics.mean(self.triad_coherence_history) if self.triad_coherence_history else 0.8,
@@ -780,7 +777,7 @@ class TrinityCoherencePreservationBreaker(ConsciousnessCircuitBreaker):
             "preservation_rate": self.metrics.consciousness_preservation_rate,
         }
 
-    async def _get_memory_state(self) -> Dict[str, float]:
+    async def _get_memory_state(self) -> dict[str, float]:
         """Get memory state metrics for Trinity breaker"""
         return {
             "triad_coherence_impact": 1.0
@@ -790,7 +787,7 @@ class TrinityCoherencePreservationBreaker(ConsciousnessCircuitBreaker):
             else 0.8,
         }
 
-    async def _get_triad_metrics(self) -> Dict[str, float]:
+    async def _get_triad_metrics(self) -> dict[str, float]:
         """Get Trinity Framework metrics"""
         return {
             "triad_coherence": statistics.mean(self.triad_coherence_history) if self.triad_coherence_history else 0.8,
@@ -819,7 +816,7 @@ class ConsciousnessCircuitBreakerFramework:
         self.version = "1.0.0"
 
         # Circuit breaker registry
-        self.circuit_breakers: Dict[CircuitBreakerType, ConsciousnessCircuitBreaker] = {}
+        self.circuit_breakers: dict[CircuitBreakerType, ConsciousnessCircuitBreaker] = {}
 
         # Framework metrics
         self.total_requests = 0
@@ -895,7 +892,7 @@ class ConsciousnessCircuitBreakerFramework:
             raise
 
     async def execute_with_multiple_protection(
-        self, breaker_types: List[CircuitBreakerType], operation: Callable, *args, **kwargs
+        self, breaker_types: list[CircuitBreakerType], operation: Callable, *args, **kwargs
     ) -> Any:
         """
         Execute operation with multiple circuit breaker protection
@@ -920,7 +917,7 @@ class ConsciousnessCircuitBreakerFramework:
         # Execute with all protections applied
         return await current_operation(*args, **kwargs)
 
-    def get_breaker_status(self, breaker_type: CircuitBreakerType) -> Dict[str, Any]:
+    def get_breaker_status(self, breaker_type: CircuitBreakerType) -> dict[str, Any]:
         """Get status of specific circuit breaker"""
 
         if breaker_type not in self.circuit_breakers:
@@ -946,7 +943,7 @@ class ConsciousnessCircuitBreakerFramework:
             "current_timeout": breaker.current_timeout_duration if breaker.state == CircuitBreakerState.OPEN else None,
         }
 
-    def get_framework_statistics(self) -> Dict[str, Any]:
+    def get_framework_statistics(self) -> dict[str, Any]:
         """Get comprehensive framework statistics"""
 
         # Aggregate metrics from all breakers

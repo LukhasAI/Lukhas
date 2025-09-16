@@ -12,7 +12,7 @@ Advanced: qi_attention.py
 Integration Date: 2025-05-31T07:55:28.192995
 """
 import logging
-from typing import Any, Optional, Type
+from typing import Any, Optional
 
 import numpy as np
 
@@ -413,7 +413,7 @@ class QIAttentionEnsemble:
 
 
 # ΛTAG: integration - runtime helper for selecting the canonical backend
-def resolve_qi_attention_backend(prefer_core: bool = True) -> Type[Any]:
+def resolve_qi_attention_backend(prefer_core: bool = True) -> type[Any]:
     """Resolve which QI attention backend should be used by callers."""
 
     if prefer_core and CoreQIInspiredAttention is not None:

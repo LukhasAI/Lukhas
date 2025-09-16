@@ -36,8 +36,6 @@ from datetime import datetime, timezone  # For timestamping memory records.
 from typing import Any, Optional
 
 # Third-Party Imports
-import structlog  # ΛTRACE: Standardized logging.
-
 # LUKHAS Core Imports
 # from learning.memory_learning.memory_manager import MemoryManager
 from ..folds.fold_engine import MemoryPriority, MemoryType

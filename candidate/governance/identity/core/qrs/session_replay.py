@@ -6,13 +6,13 @@ import hashlib
 import secrets
 from copy import deepcopy
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict
+from typing import Any
 
 
 class SessionReplayManager:
     """Manage session replay lifecycles for paired devices."""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         self.config = config or {}
         self.active_sessions: dict[str, dict[str, Any]] = {}
 

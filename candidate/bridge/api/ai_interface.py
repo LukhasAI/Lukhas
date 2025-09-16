@@ -13,7 +13,7 @@ import sys
 import time
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, Optional, Union  # Dict, Any, List not in signatures, but good for context
+from typing import Any, Optional, Union  # Dict, Any, List not in signatures, but good for context
 from uuid import uuid4
 
 # Initialize logger for ΛTRACE
@@ -31,7 +31,7 @@ _AI_AUDIT_LOG_PATH = os.getenv("LUKHAS_AI_AUDIT_LOG_PATH", "logs/ai_interface_ev
 _AI_AUDIT_REPORT_PATH = os.getenv("LUKHAS_AI_AUDIT_REPORT_PATH", "reports/audit/merged/ai_interface_events.jsonl")
 
 
-def _write_audit_event(record: Dict[str, Any]) -> None:
+def _write_audit_event(record: dict[str, Any]) -> None:
     try:
         from json import dumps as _dumps
         from os import makedirs as _makedirs
@@ -49,7 +49,7 @@ def _write_audit_event(record: Dict[str, Any]) -> None:
         pass
 
 
-def _prompt_meta(prompt: str) -> Dict[str, Any]:
+def _prompt_meta(prompt: str) -> dict[str, Any]:
     """Compute privacy-preserving metadata for the prompt.
 
     - request_size: number of characters
@@ -174,7 +174,7 @@ class LukhusAI:
         debug: bool = False,
         *,
         structured: bool = False,
-    ) -> Union[str, Dict[str, Any]]:
+    ) -> Union[str, dict[str, Any]]:
         """
         Generates an AI response by routing the prompt through `multiverse_route`.
         Args:
@@ -408,7 +408,7 @@ class LukhusAI:
 
 def ai_code(
     prompt: str, language: str = "", component: str = "LukhusQuickAccess", *, structured: bool = False
-) -> Union[str, Dict[str, Any]]:
+) -> Union[str, dict[str, Any]]:
     """Global convenience function for code assistance."""
     logger.debug(f"ΛTRACE: Global ai_code() called by component '{component}'.")
     ai_instance = LukhusAI(component)
@@ -424,7 +424,7 @@ def ai_code(
 
 def ai_audit(
     prompt: str, component: str = "LukhusQuickAccess", *, structured: bool = False
-) -> Union[str, Dict[str, Any]]:
+) -> Union[str, dict[str, Any]]:
     """Global convenience function for security/ethical audits."""
     logger.debug(f"ΛTRACE: Global ai_audit() called by component '{component}'.")
     ai_instance = LukhusAI(component)
@@ -436,7 +436,7 @@ def ai_audit(
 
 def ai_docs(
     prompt: str, component: str = "LukhusQuickAccess", *, structured: bool = False
-) -> Union[str, Dict[str, Any]]:
+) -> Union[str, dict[str, Any]]:
     """Global convenience function for documentation assistance."""
     logger.debug(f"ΛTRACE: Global ai_docs() called by component '{component}'.")
     ai_instance = LukhusAI(component)
@@ -448,7 +448,7 @@ def ai_docs(
 
 def ai_chat(
     message: str, component: str = "LukhusQuickAccess", *, structured: bool = False
-) -> Union[str, Dict[str, Any]]:
+) -> Union[str, dict[str, Any]]:
     """Global convenience function for general chat."""
     logger.debug(f"ΛTRACE: Global ai_chat() called by component '{component}'.")
     ai_instance = LukhusAI(component)
@@ -460,7 +460,7 @@ def ai_chat(
 
 def ai_research(
     prompt: str, component: str = "LukhusQuickAccess", *, structured: bool = False
-) -> Union[str, Dict[str, Any]]:
+) -> Union[str, dict[str, Any]]:
     """Global convenience function for web research."""
     logger.debug(f"ΛTRACE: Global ai_research() called by component '{component}'.")
     ai_instance = LukhusAI(component)

@@ -4,15 +4,13 @@ Provides integration wrapper for connecting the multimodal memory support to the
 """
 
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional, Union
 
 import numpy as np
 
 from candidate.core.common import get_logger
-
-from datetime import timezone
 
 from .multimodal_memory_support import (  # MATRIZ Integration: Core multimodal memory support for consciousness technology cross-modal processing
     AudioProcessor,

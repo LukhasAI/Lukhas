@@ -12,10 +12,10 @@
 # LUKHAS Consciousness-Aware AGI Authentication Engine
 # File: /lukhas_wallet/agi_consciousness_engine.py (Original path comment)
 import asyncio
-import os
 import hashlib
 import json
 import logging
+import os
 import time
 from collections import deque
 from dataclasses import asdict, dataclass, field  # Added field

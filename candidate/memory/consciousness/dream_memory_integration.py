@@ -15,12 +15,11 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 import asyncio
 import logging
+import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Tuple
 from enum import Enum
-import json
-import uuid
+from typing import Any, Optional
 
 
 class DreamState(Enum):
@@ -49,11 +48,11 @@ class DreamMemoryEntry:
     memory_id: str
     content: Any
     dream_relevance: float
-    symbolic_content: Dict[str, Any]
+    symbolic_content: dict[str, Any]
     emotional_weight: float
     consolidation_priority: float
-    dream_associations: List[str] = field(default_factory=list)
-    transformation_history: List[Dict[str, Any]] = field(default_factory=list)
+    dream_associations: list[str] = field(default_factory=list)
+    transformation_history: list[dict[str, Any]] = field(default_factory=list)
 
 
 @dataclass
@@ -64,13 +63,13 @@ class DreamExperience:
     dream_state: DreamState
     start_time: datetime
     duration_seconds: float
-    participating_memories: List[str]
+    participating_memories: list[str]
     dream_narrative: str
-    symbolic_elements: Dict[str, Any]
-    emotional_themes: Dict[str, float]
-    insights_generated: List[str]
-    memory_transformations: List[Dict[str, Any]]
-    consciousness_integration: Dict[str, Any]
+    symbolic_elements: dict[str, Any]
+    emotional_themes: dict[str, float]
+    insights_generated: list[str]
+    memory_transformations: list[dict[str, Any]]
+    consciousness_integration: dict[str, Any]
 
 
 class DreamMemoryIntegrator:
@@ -85,14 +84,14 @@ class DreamMemoryIntegrator:
     - Consciousness-dream-memory integration
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.logger = logging.getLogger(__name__)
 
         # Dream state tracking
         self.current_dream_state = DreamState.AWAKE
-        self.dream_experiences: List[DreamExperience] = []
-        self.active_dream_memories: Dict[str, DreamMemoryEntry] = {}
+        self.dream_experiences: list[DreamExperience] = []
+        self.active_dream_memories: dict[str, DreamMemoryEntry] = {}
 
         # Integration parameters
         self.integration_config = {
@@ -136,7 +135,7 @@ class DreamMemoryIntegrator:
             self.logger.error(f"Failed to initialize dream-memory integration: {e}")
             return False
 
-    async def start_dream_session(self, memories: Optional[List[Dict[str, Any]]] = None,
+    async def start_dream_session(self, memories: Optional[list[dict[str, Any]]] = None,
                                  dream_type: DreamType = DreamType.MEMORY_CONSOLIDATION) -> DreamExperience:
         """Start a new dream session with memory integration"""
 
@@ -178,7 +177,7 @@ class DreamMemoryIntegrator:
 
         return dream_experience
 
-    async def consolidate_dream_memories(self, dream_experience: DreamExperience) -> Dict[str, Any]:
+    async def consolidate_dream_memories(self, dream_experience: DreamExperience) -> dict[str, Any]:
         """Consolidate memories processed during dream"""
 
         consolidation_results = {
@@ -251,7 +250,7 @@ class DreamMemoryIntegrator:
 
         return True
 
-    async def get_dream_memory_insights(self, memory_id: str) -> Dict[str, Any]:
+    async def get_dream_memory_insights(self, memory_id: str) -> dict[str, Any]:
         """Get dream-based insights for a specific memory"""
 
         insights = {
@@ -285,7 +284,7 @@ class DreamMemoryIntegrator:
 
         return insights
 
-    async def optimize_memory_dream_coupling(self) -> Dict[str, Any]:
+    async def optimize_memory_dream_coupling(self) -> dict[str, Any]:
         """Optimize the coupling between memory and dream systems"""
 
         optimization_results = {
@@ -334,7 +333,7 @@ class DreamMemoryIntegrator:
                 self.logger.error(f"Error in integration monitoring loop: {e}")
                 await asyncio.sleep(60.0)
 
-    async def _select_memories_for_dream(self, dream_type: DreamType) -> List[Dict[str, Any]]:
+    async def _select_memories_for_dream(self, dream_type: DreamType) -> list[dict[str, Any]]:
         """Select memories for dream processing based on type"""
 
         # This would integrate with actual memory systems
@@ -355,7 +354,7 @@ class DreamMemoryIntegrator:
         self.logger.info(f"Selected {len(memories)} memories for {dream_type.name} dream")
         return memories
 
-    async def _prepare_dream_memories(self, memories: List[Dict[str, Any]]) -> Dict[str, DreamMemoryEntry]:
+    async def _prepare_dream_memories(self, memories: list[dict[str, Any]]) -> dict[str, DreamMemoryEntry]:
         """Prepare memories for dream processing"""
 
         dream_memories = {}
@@ -388,7 +387,7 @@ class DreamMemoryIntegrator:
 
     async def _process_dream_experience(self, dream_id: str, dream_type: DreamType,
                                       start_time: datetime,
-                                      dream_memories: Dict[str, DreamMemoryEntry]) -> DreamExperience:
+                                      dream_memories: dict[str, DreamMemoryEntry]) -> DreamExperience:
         """Process the core dream experience"""
 
         # Simulate dream processing duration
@@ -428,7 +427,7 @@ class DreamMemoryIntegrator:
             consciousness_integration=consciousness_integration
         )
 
-    async def _calculate_dream_relevance(self, memory: Dict[str, Any]) -> float:
+    async def _calculate_dream_relevance(self, memory: dict[str, Any]) -> float:
         """Calculate how relevant a memory is for dream processing"""
 
         relevance_factors = []
@@ -452,7 +451,7 @@ class DreamMemoryIntegrator:
 
         return sum(relevance_factors)
 
-    async def _extract_symbolic_content(self, memory: Dict[str, Any]) -> Dict[str, Any]:
+    async def _extract_symbolic_content(self, memory: dict[str, Any]) -> dict[str, Any]:
         """Extract symbolic content from memory for dream processing"""
 
         content = str(memory.get('content', ''))
@@ -479,7 +478,7 @@ class DreamMemoryIntegrator:
 
         return symbolic_content
 
-    async def _calculate_consolidation_priority(self, memory: Dict[str, Any]) -> float:
+    async def _calculate_consolidation_priority(self, memory: dict[str, Any]) -> float:
         """Calculate consolidation priority for memory"""
 
         priority_factors = []
@@ -500,7 +499,7 @@ class DreamMemoryIntegrator:
         return sum(priority_factors)
 
     async def _generate_dream_narrative(self, dream_type: DreamType,
-                                      dream_memories: Dict[str, DreamMemoryEntry]) -> str:
+                                      dream_memories: dict[str, DreamMemoryEntry]) -> str:
         """Generate a narrative for the dream experience"""
 
         memory_count = len(dream_memories)
@@ -522,7 +521,7 @@ class DreamMemoryIntegrator:
 
         return base_narrative
 
-    async def _extract_dream_symbols(self, dream_memories: Dict[str, DreamMemoryEntry]) -> Dict[str, Any]:
+    async def _extract_dream_symbols(self, dream_memories: dict[str, DreamMemoryEntry]) -> dict[str, Any]:
         """Extract symbolic elements from dream memories"""
 
         symbols = {
@@ -548,7 +547,7 @@ class DreamMemoryIntegrator:
 
         return symbols
 
-    async def _identify_emotional_themes(self, dream_memories: Dict[str, DreamMemoryEntry]) -> Dict[str, float]:
+    async def _identify_emotional_themes(self, dream_memories: dict[str, DreamMemoryEntry]) -> dict[str, float]:
         """Identify emotional themes in dream memories"""
 
         themes = {
@@ -576,7 +575,7 @@ class DreamMemoryIntegrator:
         return themes
 
     async def _generate_dream_insights(self, dream_type: DreamType,
-                                     dream_memories: Dict[str, DreamMemoryEntry]) -> List[str]:
+                                     dream_memories: dict[str, DreamMemoryEntry]) -> list[str]:
         """Generate insights from dream processing"""
 
         insights = []
@@ -604,7 +603,7 @@ class DreamMemoryIntegrator:
 
         return insights
 
-    def _calculate_emotional_variance(self, dream_memories: Dict[str, DreamMemoryEntry]) -> float:
+    def _calculate_emotional_variance(self, dream_memories: dict[str, DreamMemoryEntry]) -> float:
         """Calculate emotional variance across dream memories"""
         emotional_weights = [mem.emotional_weight for mem in dream_memories.values()]
 
@@ -616,7 +615,7 @@ class DreamMemoryIntegrator:
 
         return variance
 
-    async def _create_memory_transformations(self, dream_memories: Dict[str, DreamMemoryEntry]) -> List[Dict[str, Any]]:
+    async def _create_memory_transformations(self, dream_memories: dict[str, DreamMemoryEntry]) -> list[dict[str, Any]]:
         """Create memory transformations during dream processing"""
 
         transformations = []
@@ -634,8 +633,8 @@ class DreamMemoryIntegrator:
 
         return transformations
 
-    async def _prepare_consciousness_integration(self, dream_memories: Dict[str, DreamMemoryEntry],
-                                               insights: List[str]) -> Dict[str, Any]:
+    async def _prepare_consciousness_integration(self, dream_memories: dict[str, DreamMemoryEntry],
+                                               insights: list[str]) -> dict[str, Any]:
         """Prepare data for consciousness integration"""
 
         return {
@@ -696,7 +695,7 @@ class DreamMemoryIntegrator:
             return False
 
     async def _apply_dream_transformations(self, memory_entry: DreamMemoryEntry,
-                                         dream_experience: DreamExperience) -> List[Dict[str, Any]]:
+                                         dream_experience: DreamExperience) -> list[dict[str, Any]]:
         """Apply dream-based transformations to memory"""
 
         transformations = []
@@ -724,7 +723,7 @@ class DreamMemoryIntegrator:
         return transformations
 
     async def _create_dream_associations(self, memory_entry: DreamMemoryEntry,
-                                       dream_experience: DreamExperience) -> List[str]:
+                                       dream_experience: DreamExperience) -> list[str]:
         """Create new associations through dream processing"""
 
         new_associations = []
@@ -746,7 +745,7 @@ class DreamMemoryIntegrator:
 
         return new_associations
 
-    async def _integrate_dream_insights(self, dream_experience: DreamExperience) -> List[Dict[str, Any]]:
+    async def _integrate_dream_insights(self, dream_experience: DreamExperience) -> list[dict[str, Any]]:
         """Integrate dream insights into memory system"""
 
         integrated_insights = []
@@ -764,7 +763,7 @@ class DreamMemoryIntegrator:
         return integrated_insights
 
     async def _calculate_consolidation_quality(self, dream_experience: DreamExperience,
-                                             consolidation_results: Dict[str, Any]) -> float:
+                                             consolidation_results: dict[str, Any]) -> float:
         """Calculate the quality of dream consolidation"""
 
         quality_factors = []
@@ -874,7 +873,7 @@ class DreamMemoryIntegrator:
 
         return sum(correlations) / len(correlations) if correlations else 0.5
 
-    async def _identify_coupling_optimizations(self) -> List[Dict[str, Any]]:
+    async def _identify_coupling_optimizations(self) -> list[dict[str, Any]]:
         """Identify opportunities to optimize memory-dream coupling"""
 
         optimizations = []
@@ -904,7 +903,7 @@ class DreamMemoryIntegrator:
 
         return optimizations
 
-    async def _apply_coupling_optimization(self, optimization: Dict[str, Any]):
+    async def _apply_coupling_optimization(self, optimization: dict[str, Any]):
         """Apply a specific coupling optimization"""
 
         opt_type = optimization['type']

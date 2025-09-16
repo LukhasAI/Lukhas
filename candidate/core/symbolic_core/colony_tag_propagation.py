@@ -5,8 +5,9 @@ from __future__ import annotations
 import logging
 import math
 import random
+from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import Any, Dict, Iterable, Optional
+from typing import Any
 
 try:  # pragma: no cover - exercised when networkx is available
     import networkx as nx
@@ -30,7 +31,7 @@ except ImportError:  # pragma: no cover - fallback executed in unit tests
         participation_rate: float
 
     class BaseColony:  # type: ignore[redefinition]
-        def __init__(self, colony_id: str, capabilities: Optional[list[str]] = None):
+        def __init__(self, colony_id: str, capabilities: list[str] | None = None):
             self.colony_id = colony_id
             self.capabilities = capabilities or []
             self.agents: dict[str, Any] = {}
@@ -48,10 +49,10 @@ except ImportError:  # pragma: no cover - deterministic fallback for tests
     class SymbolicVocabulary:  # type: ignore[redefinition]
         """Light-weight vocabulary for symbolic registration during testing."""
 
-        _registry: Dict[str, Dict[str, Any]] = field(default_factory=dict)
+        _registry: dict[str, dict[str, Any]] = field(default_factory=dict)
 
         # ΛTAG: glyph_vocabulary
-        def register(self, concept: str, value: Any, metadata: Optional[dict[str, Any]] = None) -> None:
+        def register(self, concept: str, value: Any, metadata: dict[str, Any] | None = None) -> None:
             metadata = metadata or {}
             self._registry.setdefault(concept, {"values": set(), "metadata": []})
             self._registry[concept]["values"].add(value)

@@ -52,7 +52,9 @@ try:
 except ImportError:
     try:
         # Try alternative emotion system
-        from lukhas.emotion import EmotionWrapper as EmotionEngine  # MATRIZ Integration: EmotionWrapper for API expansion with Trinity Framework emotional intelligence coordination
+        from lukhas.emotion import (
+            EmotionWrapper as EmotionEngine,  # MATRIZ Integration: EmotionWrapper for API expansion with Trinity Framework emotional intelligence coordination
+        )
 
         EMOTION_ENGINE_AVAILABLE = True
     except ImportError as e:
@@ -60,7 +62,9 @@ except ImportError:
         EMOTION_ENGINE_AVAILABLE = False
 
 try:
-    from candidate.consciousness.dream.core.dream_engine import DreamEngine  # MATRIZ Integration: DreamEngine for Trinity Framework consciousness evolution and API service dream state processing
+    from candidate.consciousness.dream.core.dream_engine import (
+        DreamEngine,  # MATRIZ Integration: DreamEngine for Trinity Framework consciousness evolution and API service dream state processing
+    )
 
     DREAM_ENGINE_AVAILABLE = True
 except ImportError:
@@ -68,7 +72,9 @@ except ImportError:
     DREAM_ENGINE_AVAILABLE = False
 
 try:
-    from candidate.core.coordination import ContractNetInitiator as CoordinationManager  # MATRIZ Integration: ContractNet coordination for API expansion multi-agent orchestration protocols
+    from candidate.core.coordination import (
+        ContractNetInitiator as CoordinationManager,  # MATRIZ Integration: ContractNet coordination for API expansion multi-agent orchestration protocols
+    )
 
     COORDINATION_MANAGER_AVAILABLE = True
 except ImportError:

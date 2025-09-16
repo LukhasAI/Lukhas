@@ -20,7 +20,7 @@ import hashlib
 import random
 import time
 from dataclasses import dataclass
-from typing import Any, List, Optional
+from typing import Any, Optional
 
 import torch
 import torch.nn as nn
@@ -166,7 +166,7 @@ class MigrationDecision:
 
     preserve: bool
     rationale: str
-    actions: List[str]
+    actions: list[str]
     driftScore: float
     affect_delta: float
     collapseHash: str

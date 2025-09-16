@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 from datetime import datetime, timezone
-from typing import Any, Dict
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +20,7 @@ class WorkflowTransparency:
 
     def __init__(self, config: dict[str, Any] | None = None) -> None:
         self.config = config or {}
-        self._workflows: Dict[str, Dict[str, Any]] = {}
+        self._workflows: dict[str, dict[str, Any]] = {}
 
     async def initialize_workflow_tracking(self, workflow_id: str, definition: Any) -> None:
         """Create a transparency entry for a workflow definition."""

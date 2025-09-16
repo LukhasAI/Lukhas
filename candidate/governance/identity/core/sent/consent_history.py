@@ -13,9 +13,9 @@ Features:
 - Zero-knowledge proof support (future)
 """
 
+import hashlib
 from datetime import datetime, timezone
 from typing import Optional
-import hashlib
 
 
 class ConsentHistoryManager:

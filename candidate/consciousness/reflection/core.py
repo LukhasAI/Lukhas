@@ -41,16 +41,12 @@ try:
     from lukhas.memory.structural_conscience import create_structural_conscience
 except ImportError:
     create_structural_conscience = None
+from hybrid_memory_fold import (
+    HybridMemoryFold,
+)
 from memory_fold_system import MemoryFoldSystem, MemoryItem
 from optimized_hybrid_memory_fold import OptimizedHybridMemoryFold
 from optimized_memory_item import OptimizedMemoryItem, create_optimized_memory
-
-from hybrid_memory_fold import (
-    ContinuousLearningEngine,
-    HybridMemoryFold,
-    MemoryAttentionLayer,
-    VectorStorageLayer,
-)
 
 
 def create_hybrid_memory_fold(

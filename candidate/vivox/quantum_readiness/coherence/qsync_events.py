@@ -1,10 +1,6 @@
 import logging
 from datetime import timezone
-import streamlit as st
-import random
-from typing import Dict
-from typing import List
-from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 """
 VIVOX.QREADY - Quantum Synchronization Events
@@ -522,7 +518,8 @@ class QISynchronizer:
         """Generate unique event ID"""
         timestamp = datetime.now(timezone.utc).isoformat()
         random_bytes = np.random.bytes(8)
-        return f"qsync_{hashlib.sha256(f'{timestamp}{random_bytes)}'.encode()).hexdigest()[:12]}"
+        combined_data = f'{timestamp}{random_bytes}'
+        return f"qsync_{hashlib.sha256(combined_data.encode()).hexdigest()[:12]}"
 
     def _get_sync_quality(self, correlation: float) -> str:
         """Get synchronization quality description"""

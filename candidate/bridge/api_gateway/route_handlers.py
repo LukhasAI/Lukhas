@@ -6,11 +6,11 @@ Route handling functionality for the unified API gateway.
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 """
-from typing import Dict, Any, Optional, Callable, List
-import logging
 import asyncio
+import logging
 import time
 from datetime import datetime, timezone
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -18,11 +18,11 @@ logger = logging.getLogger(__name__)
 class RouteHandlers:
     """Route handlers for API gateway endpoints."""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize route handlers with configuration."""
         self.config = config or {}
-        self.handlers: Dict[str, Callable] = {}
-        self.middleware: List[Callable] = []
+        self.handlers: dict[str, Callable] = {}
+        self.middleware: list[Callable] = []
         # ΛTAG: uptime_tracking
         self._boot_timestamp = datetime.now(timezone.utc)
         self._boot_monotonic = time.monotonic()
@@ -40,7 +40,7 @@ class RouteHandlers:
         self.middleware.append(middleware)
         logger.info(f"Registered middleware: {middleware.__name__}")
 
-    async def handle_request(self, path: str, request: Dict[str, Any]) -> Dict[str, Any]:
+    async def handle_request(self, path: str, request: dict[str, Any]) -> dict[str, Any]:
         """Handle incoming request by routing to appropriate handler."""
         try:
             # Apply middleware
@@ -95,7 +95,7 @@ class RouteHandlers:
 
         return request_path == registered_path
 
-    async def _apply_middleware(self, middleware: Callable, request: Dict[str, Any]) -> Dict[str, Any]:
+    async def _apply_middleware(self, middleware: Callable, request: dict[str, Any]) -> dict[str, Any]:
         """Apply middleware to request."""
         try:
             if asyncio.iscoroutinefunction(middleware):
@@ -112,11 +112,11 @@ class RouteHandlers:
         self.register_handler("/status", self._status_handler)
         self.register_handler("/api/v1/*", self._api_handler)
 
-    async def _health_handler(self, request: Dict[str, Any]) -> Dict[str, Any]:
+    async def _health_handler(self, request: dict[str, Any]) -> dict[str, Any]:
         """Health check handler."""
         return {"status": "healthy", "service": "LUKHAS API Gateway", "version": "1.0.0", "status_code": 200}
 
-    async def _status_handler(self, request: Dict[str, Any]) -> Dict[str, Any]:
+    async def _status_handler(self, request: dict[str, Any]) -> dict[str, Any]:
         """Status handler."""
         return {
             "status": "operational",
@@ -127,7 +127,7 @@ class RouteHandlers:
             "status_code": 200,
         }
 
-    async def _api_handler(self, request: Dict[str, Any]) -> Dict[str, Any]:
+    async def _api_handler(self, request: dict[str, Any]) -> dict[str, Any]:
         """Default API handler."""
         path = request.get("path", "/api/v1/")
 
@@ -139,7 +139,7 @@ class RouteHandlers:
             "data": "This is a placeholder API response",
         }
 
-    def get_registered_paths(self) -> List[str]:
+    def get_registered_paths(self) -> list[str]:
         """Get list of registered paths."""
         return list(self.handlers.keys())
 

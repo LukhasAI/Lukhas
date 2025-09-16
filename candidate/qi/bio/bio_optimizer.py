@@ -45,15 +45,15 @@ __tier__ = 2
 
 
 import asyncio
-import inspect
 import hashlib  # For caching key generation
+import inspect
 import json  # For caching key generation if complex dicts are used
 import re
 import time
 from dataclasses import asdict, dataclass, field  # Added asdict
 from datetime import datetime, timezone  # Standardized timestamping
 from pathlib import Path  # Not used in current code, but often useful
-from typing import Any, Callable, List, Optional  # Added Type
+from typing import Any, Callable, Optional  # Added Type
 
 import numpy as np
 import structlog  # Standardized logging
@@ -116,7 +116,9 @@ try:
             DreamQuantumConfig,
             QIDreamAdapter,
         )
-    from qi.qi_unified_system import UnifiedQuantumSystem  # type: ignore  # MATRIZ Integration: UnifiedQuantumSystem for bio-inspired quantum optimization algorithms and Trinity Framework quantum consciousness coordination
+    from qi.qi_unified_system import (
+        UnifiedQuantumSystem,  # type: ignore  # MATRIZ Integration: UnifiedQuantumSystem for bio-inspired quantum optimization algorithms and Trinity Framework quantum consciousness coordination
+    )
 
     LUKHAS_CORE_COMPONENTS_AVAILABLE = True
     log.info("LUKHAS core components for QIBioOptimizationAdapter imported successfully.")
@@ -337,17 +339,17 @@ def reduce_gain(context: dict) -> None:
         context["log"].append("Reducing gain")
 
 
-CORRECTIVE_STRATEGIES: dict[str, List[Callable[[dict], None]]] = {
+CORRECTIVE_STRATEGIES: dict[str, list[Callable[[dict], None]]] = {
     "metabolic_drift": [reset_metabolic_baseline, adjust_sensitivity],
     "sensor_loss": [switch_backup_sensor, interpolate_missing_data],
     "parameter_instability": [apply_smoothing_filter, reduce_gain],
 }
 
 
-def handle_failed_target(target_type: str, context: dict) -> List[str]:
+def handle_failed_target(target_type: str, context: dict) -> list[str]:
     """Apply corrective actions for a failed optimization target."""
     strategies = CORRECTIVE_STRATEGIES.get(target_type, [])
-    applied_actions: List[str] = []
+    applied_actions: list[str] = []
     log.info(
         "Handling failed target.",
         target_type=target_type,

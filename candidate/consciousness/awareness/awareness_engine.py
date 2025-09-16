@@ -38,9 +38,9 @@
 import asyncio
 import logging
 import math
-from datetime import datetime, timezone
-from typing import Any, Optional, Dict, List
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from typing import Any, Optional
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.awareness_engine")
@@ -60,7 +60,7 @@ except ImportError:
     FoldManager = None
 
 try:
-    from candidate.emotion.core import EmotionCore, EmotionalState
+    from candidate.emotion.core import EmotionalState, EmotionCore
     from candidate.emotion.vad_processor import VADProcessor
 
     EMOTION_AVAILABLE = True
@@ -76,7 +76,7 @@ class MemoryIntegrationState:
     """State tracking for memory integration in awareness"""
 
     fold_count: int = 0
-    active_memories: List[str] = field(default_factory=list)
+    active_memories: list[str] = field(default_factory=list)
     memory_coherence: float = 0.0
     last_memory_update: Optional[datetime] = None
     cascade_prevention_active: bool = True
@@ -589,7 +589,7 @@ class AwarenessEngine:
             self.integration_metrics.overall_coherence = 0.3  # Emergency coherence
             self.integration_metrics.integration_stability = 0.2
 
-    def get_integration_status(self) -> Dict[str, Any]:
+    def get_integration_status(self) -> dict[str, Any]:
         """Get comprehensive status of consciousness integration"""
         return {
             "memory_integration": {

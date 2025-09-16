@@ -4,13 +4,12 @@ This module contains the full implementation. Canonical wrapper
 `lambda_id_generator.py` re-exports `LambdaIDGenerator` from here.
 """
 
-from datetime import timezone
 import hashlib
-import os
 import json
+import os
 import secrets
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Optional
 
@@ -191,7 +190,7 @@ class LambdaIDGenerator:
         try:
             import json as _json
 
-            with open(path, "r", encoding="utf-8") as f:
+            with open(path, encoding="utf-8") as f:
                 data = _json.load(f)
             if isinstance(data, dict):
                 # Merge with defaults

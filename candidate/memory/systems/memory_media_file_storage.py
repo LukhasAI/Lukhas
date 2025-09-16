@@ -73,10 +73,10 @@ except ImportError:
     class CacheStatsProvider:
         """Fallback CacheStatsProvider providing an interface contract."""
 
-        def get_stats(self) -> list["CacheStat"]:  # pragma: no cover - interface stub
+        def get_stats(self) -> list[CacheStat]:  # pragma: no cover - interface stub
             raise NotImplementedError("Cache statistics not available without Streamlit.")
 
-    def group_stats(stats: list["CacheStat"]) -> list["CacheStat"]:
+    def group_stats(stats: list[CacheStat]) -> list[CacheStat]:
         """Aggregate cache stats by category/cache pair in fallback mode."""
 
         aggregated: OrderedDict[tuple[str, str], int] = OrderedDict()

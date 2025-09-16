@@ -93,11 +93,11 @@ class MemorySystemConsolidator:
         # Smart merging logic for memory implementations
         try:
             # Read source content
-            with open(source, 'r', encoding='utf-8') as f:
+            with open(source, encoding='utf-8') as f:
                 source_content = f.read()
 
             # Read target content
-            with open(target, 'r', encoding='utf-8') as f:
+            with open(target, encoding='utf-8') as f:
                 target_content = f.read()
 
             # Extract classes and functions from source
@@ -172,7 +172,7 @@ class MemorySystemConsolidator:
     def _apply_tags_to_file(self, file_path: Path, tags: list):
         """Apply proper tags to a Python file."""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
 
             # Check if tags already exist
@@ -221,7 +221,7 @@ class MemorySystemConsolidator:
                 validation_results['critical_files_found'] += 1
 
                 # Check if properly tagged
-                with open(file_path, 'r', encoding='utf-8') as f:
+                with open(file_path, encoding='utf-8') as f:
                     content = f.read()
 
                 if '#TAG:' in content:

@@ -33,15 +33,14 @@
 
 import asyncio
 import logging
-import math
 import random
 import time
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -99,9 +98,9 @@ class ChaosInjectionResult:
     recovery_time_seconds: float = 0.0
 
     # System state before/after
-    pre_chaos_metrics: Dict[str, float] = field(default_factory=dict)
-    post_chaos_metrics: Dict[str, float] = field(default_factory=dict)
-    recovery_metrics: Dict[str, float] = field(default_factory=dict)
+    pre_chaos_metrics: dict[str, float] = field(default_factory=dict)
+    post_chaos_metrics: dict[str, float] = field(default_factory=dict)
+    recovery_metrics: dict[str, float] = field(default_factory=dict)
 
     # Resilience measurements
     system_survived: bool = True
@@ -110,9 +109,9 @@ class ChaosInjectionResult:
     data_loss_occurred: bool = False
 
     # Detailed analysis
-    failure_points: List[str] = field(default_factory=list)
-    resilience_patterns: List[str] = field(default_factory=list)
-    recommendations: List[str] = field(default_factory=list)
+    failure_points: list[str] = field(default_factory=list)
+    resilience_patterns: list[str] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
 
     # Trinity Framework impact
     identity_impact: float = 0.0
@@ -141,7 +140,7 @@ class ConsciousnessSystemState:
     entanglement_stability: float = 1.0
 
     # Attention and processing
-    attention_allocation: Dict[str, float] = field(default_factory=dict)
+    attention_allocation: dict[str, float] = field(default_factory=dict)
     processing_load: float = 0.5
 
     # Bio-oscillator metrics
@@ -186,7 +185,7 @@ class ChaosScenario(ABC):
         pass
 
     @abstractmethod
-    def get_expected_impact(self) -> Dict[str, float]:
+    def get_expected_impact(self) -> dict[str, float]:
         """Get expected impact metrics for this scenario"""
         pass
 
@@ -267,7 +266,7 @@ class MemoryCascadeInjectionScenario(ChaosScenario):
 
         return system_state
 
-    def get_expected_impact(self) -> Dict[str, float]:
+    def get_expected_impact(self) -> dict[str, float]:
         """Get expected impact for memory cascade injection"""
         intensity_impacts = {
             ChaosIntensity.MINIMAL: 0.05,  # 5% impact
@@ -363,7 +362,7 @@ class QuantumDecoherenceAttackScenario(ChaosScenario):
 
         return system_state
 
-    def get_expected_impact(self) -> Dict[str, float]:
+    def get_expected_impact(self) -> dict[str, float]:
         """Get expected impact for quantum decoherence attack"""
         intensity_impacts = {
             ChaosIntensity.MINIMAL: 0.1,
@@ -467,7 +466,7 @@ class TrinityComponentIsolationScenario(ChaosScenario):
 
         return system_state
 
-    def get_expected_impact(self) -> Dict[str, float]:
+    def get_expected_impact(self) -> dict[str, float]:
         """Get expected impact for Trinity component isolation"""
         intensity_impacts = {
             ChaosIntensity.MINIMAL: 0.2,
@@ -500,7 +499,7 @@ class ConsciousnessChaosEngineeringFramework:
         self.version = "1.0.0"
 
         # Available chaos scenarios
-        self.scenarios: Dict[ChaosScenarioType, type] = {
+        self.scenarios: dict[ChaosScenarioType, type] = {
             ChaosScenarioType.MEMORY_CASCADE_INJECTION: MemoryCascadeInjectionScenario,
             ChaosScenarioType.QUANTUM_DECOHERENCE_ATTACK: QuantumDecoherenceAttackScenario,
             ChaosScenarioType.TRINITY_COMPONENT_ISOLATION: TrinityComponentIsolationScenario,
@@ -508,8 +507,8 @@ class ConsciousnessChaosEngineeringFramework:
         }
 
         # Chaos experiment tracking
-        self.active_experiments: Dict[str, ChaosScenario] = {}
-        self.experiment_history: List[ChaosInjectionResult] = []
+        self.active_experiments: dict[str, ChaosScenario] = {}
+        self.experiment_history: list[ChaosInjectionResult] = []
 
         # Framework metrics
         self.total_experiments = 0
@@ -680,7 +679,7 @@ class ConsciousnessChaosEngineeringFramework:
         else:  # MANUAL recovery
             return await scenario.recover_system(chaotic_state)
 
-    def _extract_system_metrics(self, state: ConsciousnessSystemState) -> Dict[str, float]:
+    def _extract_system_metrics(self, state: ConsciousnessSystemState) -> dict[str, float]:
         """Extract key metrics from system state"""
         return {
             "triad_coherence": state.triad_coherence,
@@ -743,7 +742,7 @@ class ConsciousnessChaosEngineeringFramework:
         if result.performance_degradation > 0.5:
             result.recommendations.append("Implement circuit breakers to prevent severe performance degradation")
 
-    def get_chaos_engineering_statistics(self) -> Dict[str, Any]:
+    def get_chaos_engineering_statistics(self) -> dict[str, Any]:
         """Get comprehensive chaos engineering statistics"""
 
         if not self.experiment_history:

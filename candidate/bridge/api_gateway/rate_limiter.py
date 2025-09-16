@@ -6,10 +6,10 @@ Rate limiting functionality for the unified API gateway.
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 """
-from typing import Dict, Any, Optional
-import time
 import logging
+import time
 from collections import defaultdict
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 class RateLimiter:
     """Rate limiter for API gateway requests."""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize rate limiter with configuration."""
         self.config = config or {}
         self.enabled = self.config.get("enabled", True)
@@ -25,9 +25,9 @@ class RateLimiter:
         self.burst_limit = self.config.get("burst_limit", 10)
 
         # In-memory storage for rate limiting (replace with Redis in production)
-        self._request_counts: Dict[str, list] = defaultdict(list)
+        self._request_counts: dict[str, list] = defaultdict(list)
 
-    def check_rate_limit(self, client_id: str) -> Dict[str, Any]:
+    def check_rate_limit(self, client_id: str) -> dict[str, Any]:
         """Check if client has exceeded rate limit."""
         if not self.enabled:
             return {"allowed": True}
@@ -62,7 +62,7 @@ class RateLimiter:
             "remaining": self.requests_per_minute - request_count - 1,
         }
 
-    def get_client_id(self, request: Dict[str, Any]) -> str:
+    def get_client_id(self, request: dict[str, Any]) -> str:
         """Extract client ID from request for rate limiting."""
         # Try to get authenticated user ID first
         user_id = request.get("user_id")
@@ -78,7 +78,7 @@ class RateLimiter:
         if client_id in self._request_counts:
             del self._request_counts[client_id]
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get rate limiting statistics."""
         current_time = time.time()
         minute_ago = current_time - 60

@@ -9,9 +9,10 @@ reasoning modules that expect to import BaseModel from candidate.core.models.
 """
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
-from pydantic import BaseModel as PydanticBaseModel, Field, ConfigDict
+from pydantic import BaseModel as PydanticBaseModel
+from pydantic import ConfigDict, Field
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +43,7 @@ class BaseModel(PydanticBaseModel):
     tier: Optional[int] = Field(None, ge=0, le=5, description="LUKHAS tier (0-5)")
     trinity_aspect: Optional[str] = Field(None, description="Trinity Framework aspect")
     
-    def to_lukhas_dict(self) -> Dict[str, Any]:
+    def to_lukhas_dict(self) -> dict[str, Any]:
         """Convert to dictionary with LUKHAS-specific formatting."""
         data = self.model_dump()
         

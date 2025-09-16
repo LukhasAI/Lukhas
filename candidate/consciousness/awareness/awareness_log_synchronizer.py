@@ -2,7 +2,7 @@
 import json
 import logging
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 from lukhas.tiers import GlobalTier
 
@@ -22,7 +22,7 @@ class AwarenessLogSynchronizer:
             "\u039bTRACE: Initialized AwarenessLogSynchronizer", log_path=str(self.log_path)
         )
 
-    def _read_logs(self) -> List[Dict[str, Any]]:
+    def _read_logs(self) -> list[dict[str, Any]]:
         """Read raw log entries.
 
         Returns:
@@ -30,7 +30,7 @@ class AwarenessLogSynchronizer:
 
         # \u039bTAG: log_read
         """
-        entries: List[Dict[str, Any]] = []
+        entries: list[dict[str, Any]] = []
         if not self.log_path.exists():
             self.instance_logger.warning("\u039bTRACE: Log file not found", path=str(self.log_path))
             return entries
@@ -41,12 +41,12 @@ class AwarenessLogSynchronizer:
                 self.instance_logger.warning("\u039bTRACE: Malformed log line skipped", line=line)
         return entries
 
-    def sync_for_user(self, user_id: str, requester_tier: GlobalTier) -> List[Dict[str, Any]]:
+    def sync_for_user(self, user_id: str, requester_tier: GlobalTier) -> list[dict[str, Any]]:
         """Return log entries visible to requester tier, marking boundaries.
 
         # \u039bTAG: tier_sync
         """
-        visible: List[Dict[str, Any]] = []
+        visible: list[dict[str, Any]] = []
         for entry in self._read_logs():
             if entry.get("user_id") != user_id:
                 continue

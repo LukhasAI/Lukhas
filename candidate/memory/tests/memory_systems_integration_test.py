@@ -14,26 +14,26 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 import asyncio
-import unittest
 import logging
-from datetime import datetime, timezone
-from typing import Any, Dict, List
-import sys
 import os
+import sys
+import unittest
+from datetime import datetime, timezone
 
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Import memory system components
 try:
-    from fold import FoldManager, MemoryFold
     from episodic.episodic_memory import ConsolidatedEpisodicmemory
+    from fold import FoldManager, MemoryFold
     from systems.dream_memory_manager import DreamMemoryManager
     from systems.memory_collapse_verifier import MemoryCollapseVerifier
+    from trinity_framework_validator import TrinityFrameworkValidator
+
     from consciousness.awareness_mechanism import AwarenessMechanism
     from consciousness.dream_memory_integration import DreamMemoryIntegrator
     from consciousness.memory_consciousness_optimizer import MemoryConsciousnessOptimizer
-    from trinity_framework_validator import TrinityFrameworkValidator
 except ImportError as e:
     print(f"Warning: Could not import some modules: {e}")
 
@@ -187,7 +187,7 @@ class TestMemorySystemsIntegration(unittest.TestCase):
     def test_awareness_mechanism(self):
         """Test consciousness awareness mechanism"""
         try:
-            from consciousness.awareness_mechanism import AwarenessMechanism, AwarenessLevel
+            from consciousness.awareness_mechanism import AwarenessLevel, AwarenessMechanism
 
             # Initialize awareness mechanism
             awareness = AwarenessMechanism()
@@ -235,7 +235,9 @@ class TestMemorySystemsIntegration(unittest.TestCase):
         """Test memory-consciousness coupling optimizer"""
         try:
             from consciousness.memory_consciousness_optimizer import (
-                MemoryConsciousnessOptimizer, CouplingType, OptimizationStrategy
+                CouplingType,
+                MemoryConsciousnessOptimizer,
+                OptimizationStrategy,
             )
 
             # Initialize optimizer
@@ -281,9 +283,7 @@ class TestMemorySystemsIntegration(unittest.TestCase):
     def test_trinity_framework_validation(self):
         """Test Trinity Framework compliance validation"""
         try:
-            from trinity_framework_validator import (
-                TrinityFrameworkValidator, TrinityComponent, ValidationLevel
-            )
+            from trinity_framework_validator import TrinityComponent, TrinityFrameworkValidator, ValidationLevel
 
             # Initialize validator
             validator = TrinityFrameworkValidator()
@@ -330,6 +330,7 @@ class TestMemorySystemsIntegration(unittest.TestCase):
         """Test memory collapse verification system"""
         try:
             from systems.memory_collapse_verifier import MemoryCollapseVerifier, MemoryNode
+
             from candidate.core.symbolic.symbolic_tracer import SymbolicTracer
 
             # Create mock tracer
@@ -501,9 +502,7 @@ class TestMemorySystemsIntegration(unittest.TestCase):
     def _test_optimization_flow(self):
         """Test memory-consciousness optimization flow"""
         try:
-            from consciousness.memory_consciousness_optimizer import (
-                MemoryConsciousnessOptimizer, CouplingType
-            )
+            from consciousness.memory_consciousness_optimizer import CouplingType, MemoryConsciousnessOptimizer
 
             optimizer = MemoryConsciousnessOptimizer()
             loop = asyncio.new_event_loop()

@@ -8,7 +8,7 @@ import inspect
 import logging
 from collections.abc import Mapping, Sequence
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any
 
 # ΛTAG: logging, trinity_bridge
 logger = logging.getLogger(__name__)
@@ -19,8 +19,8 @@ class CoreConsciousnessBridge:
 
     def __init__(
         self,
-        core_system: Optional[Any] = None,
-        consciousness_system: Optional[Any] = None,
+        core_system: Any | None = None,
+        consciousness_system: Any | None = None,
     ) -> None:
         self.core_system = core_system
         self.consciousness_system = consciousness_system

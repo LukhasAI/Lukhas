@@ -8,6 +8,7 @@ from .core_safety_bridge import CoreSafetyBridge
 from .identity_core_bridge import IdentityCoreBridge
 from .memory_consciousness_bridge import get_memory_consciousness_bridge
 from .memory_learning_bridge import MemoryLearningBridge, get_memory_learning_bridge
+
 try:
     from .nias_dream_bridge import get_nias_dream_bridge  # optional
 except Exception:  # broad on purpose for optional deps

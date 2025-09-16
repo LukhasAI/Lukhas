@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass, field
-from typing import Any, Dict, List
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +16,7 @@ class RouteRecord:
     workflow_id: str
     task_id: str
     route: str
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 # ΛTAG:workflow_routing
@@ -31,7 +31,7 @@ class TaskRouter:
 
     def __init__(self, config: dict[str, Any] | None = None) -> None:
         self.config = config or {}
-        self._route_history: List[RouteRecord] = []
+        self._route_history: list[RouteRecord] = []
         self._default_route = self.config.get("default_route", "default")
 
     async def route_task(self, workflow_id: str, task_id: str, **metadata: Any) -> str:

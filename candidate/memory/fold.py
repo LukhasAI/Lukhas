@@ -3,13 +3,12 @@ LUKHAS AI Memory - Fold System
 Fold-based memory with 99.7% cascade prevention
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
-import uuid
 import logging
+import uuid
+from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Optional, Dict, List
-import statistics
-from collections import defaultdict
+from typing import Any, Optional
 
 
 @dataclass
@@ -110,7 +109,7 @@ class FoldManager:
             # Fallback to simple removal to prevent system failure
             self._emergency_cascade_prevention()
 
-    def _calculate_fold_scores(self) -> Dict[str, float]:
+    def _calculate_fold_scores(self) -> dict[str, float]:
         """Calculate comprehensive scores for each fold"""
         scores = {}
         current_time = datetime.now()
@@ -161,7 +160,7 @@ class FoldManager:
 
         return max(min_remove, optimal_remove)
 
-    def _select_folds_for_removal(self, fold_scores: Dict[str, float], prune_count: int) -> List[str]:
+    def _select_folds_for_removal(self, fold_scores: dict[str, float], prune_count: int) -> list[str]:
         """Select folds for removal using sophisticated algorithms"""
         # Sort by score (lowest first for removal)
         sorted_folds = sorted(fold_scores.items(), key=lambda x: x[1])
@@ -193,7 +192,7 @@ class FoldManager:
         # Select up to prune_count from candidates
         return candidates_for_removal[:prune_count]
 
-    def _execute_safe_removal(self, folds_to_remove: List[str]):
+    def _execute_safe_removal(self, folds_to_remove: list[str]):
         """Safely remove selected folds with integrity checks"""
         for fold_id in folds_to_remove:
             if fold_id in self.folds:
@@ -240,7 +239,7 @@ class FoldManager:
             if fold.id in self.active_folds:
                 self.active_folds.remove(fold.id)
 
-    def get_cascade_prevention_stats(self) -> Dict[str, Any]:
+    def get_cascade_prevention_stats(self) -> dict[str, Any]:
         """Get cascade prevention statistics"""
         return {
             **self.cascade_stats,
@@ -292,7 +291,7 @@ class FoldManager:
             "consolidation_timestamp": consolidation_start.isoformat()
         }
 
-    def _identify_consolidation_candidates(self) -> List[List[str]]:
+    def _identify_consolidation_candidates(self) -> list[list[str]]:
         """Identify groups of folds that can be consolidated"""
         candidates = []
 
@@ -310,7 +309,7 @@ class FoldManager:
 
         return candidates
 
-    def _perform_consolidation(self, candidates: List[List[str]]) -> int:
+    def _perform_consolidation(self, candidates: list[list[str]]) -> int:
         """Perform actual consolidation of fold groups"""
         consolidated_count = 0
 

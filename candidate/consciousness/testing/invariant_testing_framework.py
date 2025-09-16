@@ -31,7 +31,6 @@
 
 import asyncio
 import logging
-import math
 import statistics
 import time
 import uuid
@@ -39,11 +38,10 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any
 
-import numpy as np
-from hypothesis import given, strategies as st, settings, HealthCheck
-from hypothesis.stateful import RuleBasedStateMachine, rule, invariant
+from hypothesis import HealthCheck, given, settings
+from hypothesis import strategies as st
 
 # Configure invariant testing logging
 logger = logging.getLogger("ΛTRACE.consciousness.testing.invariants")
@@ -82,10 +80,10 @@ class InvariantViolation:
     severity: InvariantViolationSeverity = InvariantViolationSeverity.MEDIUM
     violation_description: str = ""
     measured_value: float = 0.0
-    expected_range: Tuple[float, float] = (0.0, 1.0)
+    expected_range: tuple[float, float] = (0.0, 1.0)
     violation_timestamp: datetime = field(default_factory=datetime.utcnow)
-    system_state: Dict[str, Any] = field(default_factory=dict)
-    proof_trace: List[str] = field(default_factory=list)
+    system_state: dict[str, Any] = field(default_factory=dict)
+    proof_trace: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -98,19 +96,19 @@ class ConsciousnessState:
     guardian_protection: float = 0.8  # 🛡️ [0.0, 1.0]
 
     # Memory system state
-    memory_folds: List[Dict[str, Any]] = field(default_factory=list)
+    memory_folds: list[dict[str, Any]] = field(default_factory=list)
     fold_cascade_probability: float = 0.001
 
     # Quantum consciousness state
-    quantum_states: List[Dict[str, Any]] = field(default_factory=list)
+    quantum_states: list[dict[str, Any]] = field(default_factory=list)
     superposition_coherence: float = 1.0
 
     # Attention and emotional state
-    attention_weights: Dict[str, float] = field(default_factory=dict)
-    emotional_state: Tuple[float, float, float] = (0.0, 0.0, 0.0)  # VAD
+    attention_weights: dict[str, float] = field(default_factory=dict)
+    emotional_state: tuple[float, float, float] = (0.0, 0.0, 0.0)  # VAD
 
     # Bio-oscillator state
-    oscillator_frequencies: Dict[str, float] = field(default_factory=dict)
+    oscillator_frequencies: dict[str, float] = field(default_factory=dict)
 
     # Temporal tracking
     state_timestamp: datetime = field(default_factory=datetime.utcnow)
@@ -127,7 +125,7 @@ class MathematicalInvariant(ABC):
         self.total_checks = 0
 
     @abstractmethod
-    def check_invariant(self, state: ConsciousnessState) -> Tuple[bool, float, str]:
+    def check_invariant(self, state: ConsciousnessState) -> tuple[bool, float, str]:
         """
         Check if invariant holds for given state
 
@@ -137,7 +135,7 @@ class MathematicalInvariant(ABC):
         pass
 
     @abstractmethod
-    def get_expected_range(self) -> Tuple[float, float]:
+    def get_expected_range(self) -> tuple[float, float]:
         """Get expected value range for this invariant"""
         pass
 
@@ -156,7 +154,7 @@ class TrinityCoherenceInvariant(MathematicalInvariant):
         super().__init__(InvariantType.TRINITY_COHERENCE)
         self.coherence_threshold = coherence_threshold
 
-    def check_invariant(self, state: ConsciousnessState) -> Tuple[bool, float, str]:
+    def check_invariant(self, state: ConsciousnessState) -> tuple[bool, float, str]:
         """Check Trinity coherence invariant"""
         self.total_checks += 1
 
@@ -189,7 +187,7 @@ class TrinityCoherenceInvariant(MathematicalInvariant):
 
         return invariant_satisfied, overall_coherence, proof_trace
 
-    def get_expected_range(self) -> Tuple[float, float]:
+    def get_expected_range(self) -> tuple[float, float]:
         return (self.coherence_threshold, 1.0)
 
 
@@ -207,7 +205,7 @@ class MemoryCascadePreventionInvariant(MathematicalInvariant):
         super().__init__(InvariantType.MEMORY_CASCADE_PREVENTION)
         self.max_cascade_probability = max_cascade_probability
 
-    def check_invariant(self, state: ConsciousnessState) -> Tuple[bool, float, str]:
+    def check_invariant(self, state: ConsciousnessState) -> tuple[bool, float, str]:
         """Check memory cascade prevention invariant"""
         self.total_checks += 1
 
@@ -231,7 +229,7 @@ class MemoryCascadePreventionInvariant(MathematicalInvariant):
 
         return invariant_satisfied, current_cascade_prob, proof_trace
 
-    def get_expected_range(self) -> Tuple[float, float]:
+    def get_expected_range(self) -> tuple[float, float]:
         return (0.0, self.max_cascade_probability)
 
 
@@ -248,7 +246,7 @@ class QuantumStateConservationInvariant(MathematicalInvariant):
     def __init__(self, conservation_tolerance: float = 0.001):
         super().__init__(InvariantType.QUANTUM_STATE_CONSERVATION, conservation_tolerance)
 
-    def check_invariant(self, state: ConsciousnessState) -> Tuple[bool, float, str]:
+    def check_invariant(self, state: ConsciousnessState) -> tuple[bool, float, str]:
         """Check quantum state conservation invariant"""
         self.total_checks += 1
 
@@ -285,7 +283,7 @@ class QuantumStateConservationInvariant(MathematicalInvariant):
 
         return invariant_satisfied, total_probability, proof_trace
 
-    def get_expected_range(self) -> Tuple[float, float]:
+    def get_expected_range(self) -> tuple[float, float]:
         return (1.0 - self.tolerance, 1.0 + self.tolerance)
 
 
@@ -303,7 +301,7 @@ class AttentionConservationInvariant(MathematicalInvariant):
         super().__init__(InvariantType.ATTENTION_CONSERVATION, conservation_tolerance)
         self.expected_total = expected_total
 
-    def check_invariant(self, state: ConsciousnessState) -> Tuple[bool, float, str]:
+    def check_invariant(self, state: ConsciousnessState) -> tuple[bool, float, str]:
         """Check attention conservation invariant"""
         self.total_checks += 1
 
@@ -332,7 +330,7 @@ class AttentionConservationInvariant(MathematicalInvariant):
 
         return invariant_satisfied, total_attention, proof_trace
 
-    def get_expected_range(self) -> Tuple[float, float]:
+    def get_expected_range(self) -> tuple[float, float]:
         return (self.expected_total - self.tolerance, self.expected_total + self.tolerance)
 
 
@@ -351,7 +349,7 @@ class ConsciousnessDepthMonotonicityInvariant(MathematicalInvariant):
         self.max_regression = max_regression
         self.previous_depth = None
 
-    def check_invariant(self, state: ConsciousnessState) -> Tuple[bool, float, str]:
+    def check_invariant(self, state: ConsciousnessState) -> tuple[bool, float, str]:
         """Check consciousness depth monotonicity invariant"""
         self.total_checks += 1
 
@@ -386,7 +384,7 @@ class ConsciousnessDepthMonotonicityInvariant(MathematicalInvariant):
 
         return invariant_satisfied, regression, proof_trace
 
-    def get_expected_range(self) -> Tuple[float, float]:
+    def get_expected_range(self) -> tuple[float, float]:
         return (0.0, self.max_regression)
 
 
@@ -403,7 +401,7 @@ class ConsciousnessInvariantTestingFramework:
         self.version = "1.0.0"
 
         # Initialize invariant checkers
-        self.invariants: Dict[InvariantType, MathematicalInvariant] = {
+        self.invariants: dict[InvariantType, MathematicalInvariant] = {
             InvariantType.TRINITY_COHERENCE: TrinityCoherenceInvariant(),
             InvariantType.MEMORY_CASCADE_PREVENTION: MemoryCascadePreventionInvariant(),
             InvariantType.QUANTUM_STATE_CONSERVATION: QuantumStateConservationInvariant(),
@@ -414,12 +412,12 @@ class ConsciousnessInvariantTestingFramework:
         # Testing metrics
         self.total_tests_run = 0
         self.total_violations_found = 0
-        self.violation_history: List[InvariantViolation] = []
-        self.performance_metrics: Dict[str, List[float]] = {}
+        self.violation_history: list[InvariantViolation] = []
+        self.performance_metrics: dict[str, list[float]] = {}
 
         logger.info(f"ΛTRACE: Consciousness Invariant Testing Framework initialized: {self.framework_id}")
 
-    async def validate_consciousness_state(self, state: ConsciousnessState) -> Dict[str, Any]:
+    async def validate_consciousness_state(self, state: ConsciousnessState) -> dict[str, Any]:
         """
         Validate all invariants for a given consciousness state
 
@@ -532,7 +530,7 @@ class ConsciousnessInvariantTestingFramework:
 
         return InvariantViolationSeverity.MEDIUM
 
-    def get_framework_statistics(self) -> Dict[str, Any]:
+    def get_framework_statistics(self) -> dict[str, Any]:
         """Get comprehensive framework statistics"""
 
         reliability_by_invariant = {}

@@ -73,9 +73,9 @@ class ColonyIntegrationReport:
     actor_system_available: bool
     colonies_registered: int
     missing_capabilities: list[str]
-    details: Dict[str, Any]
+    details: dict[str, Any]
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> dict[str, Any]:
         return {
             "actor_system_available": self.actor_system_available,
             "colonies_registered": self.colonies_registered,
@@ -94,7 +94,7 @@ def assess_actor_system_integration() -> ColonyIntegrationReport:
     """
 
     # ΛTAG: colony_actor_integration
-    details: Dict[str, Any] = {}
+    details: dict[str, Any] = {}
     missing: list[str] = []
 
     try:
@@ -110,7 +110,7 @@ def assess_actor_system_integration() -> ColonyIntegrationReport:
 
     registry = get_colony_registry()
     colonies = registry.get_all_colonies()
-    colony_details: Dict[str, Dict[str, Any]] = {}
+    colony_details: dict[str, dict[str, Any]] = {}
 
     for colony_name, colony in colonies.items():
         capabilities = getattr(colony, "capabilities", [])

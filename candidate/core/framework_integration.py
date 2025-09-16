@@ -7,8 +7,8 @@ Core Framework Integration System for LUKHAS
 
 import asyncio
 import logging
-from dataclasses import dataclass, field
-from typing import Any, Callable, Dict, Optional
+from dataclasses import dataclass
+from typing import Any, Callable, Optional
 
 try:
     from lukhas.consciousness.trinity_integration import TrinityFrameworkIntegrator, TrinityIntegrationConfig
@@ -28,7 +28,7 @@ class FrameworkIntegrationException(LukhasException):
 @dataclass
 class ModuleAdapter:
     """Adapter for integrating a LUKHAS module."""
-    prepare_payload: Callable[[Dict[str, Any]], Dict[str, Any]]
+    prepare_payload: Callable[[dict[str, Any]], dict[str, Any]]
     module_type: str
     triad_aspect: str
 
@@ -52,8 +52,8 @@ class FrameworkIntegrationManager:
             self.trinity_integrator = TrinityFrameworkIntegrator(trinity_config)
             self.is_active = True
 
-        self.registered_modules: Dict[str, Any] = {}
-        self.module_adapters: Dict[str, ModuleAdapter] = {}
+        self.registered_modules: dict[str, Any] = {}
+        self.module_adapters: dict[str, ModuleAdapter] = {}
         self._lock = asyncio.Lock()
         if self.is_active:
             logger.info("FrameworkIntegrationManager initialized.")
@@ -75,7 +75,7 @@ class FrameworkIntegrationManager:
 
     def _create_identity_adapter(self) -> ModuleAdapter:
         """Creates the adapter for the Identity module."""
-        async def prepare_payload(auth_context: Dict[str, Any]) -> Dict[str, Any]:
+        async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
                 "identity_integration": True,
                 "lambda_id": auth_context.get("user_id"),
@@ -90,7 +90,7 @@ class FrameworkIntegrationManager:
 
     def _create_consciousness_adapter(self) -> ModuleAdapter:
         """Creates the adapter for the Consciousness module."""
-        async def prepare_payload(auth_context: Dict[str, Any]) -> Dict[str, Any]:
+        async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
                 "consciousness_integration": True,
                 "user_identity": auth_context.get("user_id"),
@@ -105,7 +105,7 @@ class FrameworkIntegrationManager:
 
     def _create_guardian_adapter(self) -> ModuleAdapter:
         """Creates the adapter for the Guardian module."""
-        async def prepare_payload(auth_context: Dict[str, Any]) -> Dict[str, Any]:
+        async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
                 "guardian_integration": True,
                 "protected_user": auth_context.get("user_id"),
@@ -120,7 +120,7 @@ class FrameworkIntegrationManager:
 
     def _create_memory_adapter(self) -> ModuleAdapter:
         """Creates the adapter for the Memory module."""
-        async def prepare_payload(auth_context: Dict[str, Any]) -> Dict[str, Any]:
+        async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
                 "memory_integration": True,
                 "user_identity": auth_context.get("user_id"),
@@ -133,7 +133,7 @@ class FrameworkIntegrationManager:
             triad_aspect="🧠",
         )
 
-    async def register_module(self, module_name: str, module_config: Dict[str, Any], adapter: ModuleAdapter):
+    async def register_module(self, module_name: str, module_config: dict[str, Any], adapter: ModuleAdapter):
         """
         Registers a module with the integration manager.
         Args:
@@ -175,7 +175,7 @@ class FrameworkIntegrationManager:
         """
         return self.module_adapters.get(module_name)
 
-    def get_registered_modules(self) -> Dict[str, Any]:
+    def get_registered_modules(self) -> dict[str, Any]:
         """
         Returns a dictionary of all registered modules.
         """

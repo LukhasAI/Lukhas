@@ -42,10 +42,9 @@ try:
     from .optimized_memory_item import OptimizedMemoryItem, create_optimized_memory
 except ImportError:
     # Fallback for direct execution
+    from hybrid_memory_fold import HybridMemoryFold, VectorStorageLayer
     from memory_fold_system import MemoryItem
     from optimized_memory_item import OptimizedMemoryItem, create_optimized_memory
-
-    from hybrid_memory_fold import HybridMemoryFold, VectorStorageLayer
 
     try:
         from lazy_loading_embeddings import (

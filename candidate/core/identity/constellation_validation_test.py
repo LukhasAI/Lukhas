@@ -4,12 +4,12 @@
 Comprehensive validation of Constellation Framework integration across identity consciousness systems
 """
 import asyncio
-import os
 
 # Bridge imports
-import sys
 import time
 from datetime import datetime, timezone
+
+from ..bridges.identity_core_bridge import get_identity_core_bridge
 
 # Constellation Framework imports
 from .lambda_id_core import (
@@ -17,8 +17,6 @@ from .lambda_id_core import (
     WebAuthnPasskeyManager,
     validate_constellation_framework,
 )
-
-from ..bridges.identity_core_bridge import get_identity_core_bridge
 
 
 async def validate_constellation_framework_integration():
