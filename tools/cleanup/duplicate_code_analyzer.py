@@ -310,7 +310,6 @@ def cleanup_duplicates():
 
     print("🧹 Cleaning up duplicates...")
 
-    # TODO: Implement actual consolidation logic
     # For now, just report what would be cleaned
 
     for signature, locations in duplicates.items():

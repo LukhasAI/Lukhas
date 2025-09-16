@@ -61,6 +61,7 @@ import hashlib
 import json
 import logging
 import os
+import re
 from collections import defaultdict, deque
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
@@ -69,6 +70,8 @@ from typing import Any, Optional
 
 # Configure logger
 logger = logging.getLogger(__name__)
+
+DREAM_EVENT_PATTERN = re.compile(r"dream[:_\-]?([A-Za-z0-9-]+)")
 
 # JULES05_NOTE: Loop-safe guard added
 MAX_DRIFT_RATE = 0.85
@@ -348,6 +351,8 @@ class FoldLineageTracker:
         # Calculate stability metrics
         stability_metrics = self._calculate_stability_metrics(lineage_trace)
 
+        entanglement_analysis = self._detect_quantum_entanglement(lineage_trace)
+
         analysis = {
             "fold_key": fold_key,
             "analysis_timestamp": datetime.now(timezone.utc).isoformat(),
@@ -359,6 +364,7 @@ class FoldLineageTracker:
             "stability_metrics": stability_metrics,
             "dominant_causation_type": causation_analysis.get("dominant_type"),
             "lineage_strength": causation_analysis.get("average_strength", 0.0),
+            "entanglement_analysis": entanglement_analysis,
         }
 
         # Store analysis result
@@ -522,6 +528,140 @@ class FoldLineageTracker:
             "importance_volatility": round(importance_volatility, 4),
             "average_drift": round(drift_mean, 3),
         }
+
+    # ΛTAG: entanglement_detection
+    def _detect_quantum_entanglement(self, lineage_trace: list[FoldLineageNode]) -> dict[str, Any]:
+        """Detect quantum entanglement signals correlated with dream events."""
+
+        if not lineage_trace:
+            return {
+                "status": "none",
+                "entangled_links": 0,
+                "dream_correlations": [],
+                "max_entanglement_strength": 0.0,
+                "correlation_score": 0.0,
+            }
+
+        lineage_keys = {node.fold_key for node in lineage_trace}
+        fold_dream_index = {
+            node.fold_key: self._extract_dream_ids(node.causative_events) for node in lineage_trace
+        }
+
+        entanglement_links: list[CausalLink] = []
+        dream_correlations: dict[str, dict[str, Any]] = defaultdict(
+            lambda: {"folds": set(), "strengths": [], "events": set()}
+        )
+
+        for source_key, links in self.lineage_graph.items():
+            for link in links:
+                if link.causation_type != CausationType.QUANTUM_ENTANGLEMENT:
+                    continue
+                if link.source_fold_key not in lineage_keys and link.target_fold_key not in lineage_keys:
+                    continue
+
+                entanglement_links.append(link)
+
+                source_dreams = fold_dream_index.get(link.source_fold_key, set())
+                target_dreams = fold_dream_index.get(link.target_fold_key, set())
+                dream_id = self._resolve_dream_reference(link.metadata, source_dreams, target_dreams)
+
+                if dream_id:
+                    record = dream_correlations[dream_id]
+                    record["folds"].update([link.source_fold_key, link.target_fold_key])
+                    record["strengths"].append(self._extract_entanglement_strength(link))
+                    record["events"].update(source_dreams | target_dreams)
+
+        if not entanglement_links:
+            logger.debug(
+                "FoldLineage_entanglement_analysis",
+                extra={"entangled_links": 0, "ΛTAG": "entanglement_detection"},
+            )
+            return {
+                "status": "none",
+                "entangled_links": 0,
+                "dream_correlations": [],
+                "max_entanglement_strength": 0.0,
+                "correlation_score": 0.0,
+            }
+
+        correlation_entries = []
+        strength_values: list[float] = []
+
+        for dream_id, details in dream_correlations.items():
+            strengths = details["strengths"] or [0.0]
+            strength_values.extend(strengths)
+            average_strength = sum(strengths) / len(strengths)
+
+            correlation_entries.append(
+                {
+                    "dream_id": dream_id,
+                    "folds": sorted(details["folds"]),
+                    "entanglement_strength": round(min(average_strength, 1.0), 3),
+                    "event_tags": sorted(details["events"]),
+                }
+            )
+
+        max_strength = max(strength_values) if strength_values else 0.0
+        correlation_score = (
+            sum(strength_values) / len(strength_values) if strength_values else 0.0
+        )
+
+        logger.debug(
+            "FoldLineage_entanglement_analysis",
+            extra={
+                "entangled_links": len(entanglement_links),
+                "correlation_score": correlation_score,
+                "ΛTAG": "entanglement_detection",
+            },
+        )
+
+        return {
+            "status": "detected",
+            "entangled_links": len(entanglement_links),
+            "dream_correlations": correlation_entries,
+            "max_entanglement_strength": round(min(max_strength, 1.0), 3),
+            "correlation_score": round(min(correlation_score, 1.0), 3),
+        }
+
+    @staticmethod
+    def _extract_entanglement_strength(link: CausalLink) -> float:
+        """Extract normalized entanglement strength from a causal link."""
+
+        strength = link.metadata.get("entanglement_level")
+        if isinstance(strength, (int, float)):
+            value = float(strength)
+        else:
+            value = float(link.strength)
+        return max(0.0, min(1.0, value))
+
+    @staticmethod
+    def _extract_dream_ids(causative_events: list[str]) -> set[str]:
+        """Extract dream identifiers from causative event tags."""
+
+        dream_ids: set[str] = set()
+        for event in causative_events or []:
+            match = DREAM_EVENT_PATTERN.search(event)
+            if match:
+                dream_ids.add(match.group(1))
+        return dream_ids
+
+    @staticmethod
+    def _resolve_dream_reference(
+        metadata: dict[str, Any],
+        *dream_sets: set[str],
+    ) -> Optional[str]:
+        """Resolve dream identifier from metadata and event-derived sets."""
+
+        for key in ("dream_id", "dreamId", "dream"):
+            value = metadata.get(key)
+            if isinstance(value, str) and value:
+                return value
+
+        for dream_set in dream_sets:
+            if dream_set:
+                return sorted(dream_set)[0]
+
+        return None
 
     # LUKHAS_TAG: lineage_visualization
     def generate_lineage_graph(self, fold_key: str, output_format: str = "json") -> dict[str, Any]:

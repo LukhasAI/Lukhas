@@ -37,25 +37,25 @@ try:
         ConsciousnessActivationOrchestrator,
         ConsciousnessActivationPhase,
         activate_lukhas_consciousness,
-        get_activation_orchestrator,  # noqa: F401  # TODO: lukhas.consciousness.activatio...
+        get_activation_orchestrator,
     )
     from lukhas.consciousness.registry import (
         ComponentStatus,
         ComponentType,
         ConsciousnessComponentRegistry,
-        get_consciousness_registry,  # noqa: F401  # TODO: lukhas.consciousness.registry....
+        get_consciousness_registry,
     )
-    from lukhas.consciousness.triad_integration import (
-        TrinityFramework,  # noqa: F401  # TODO: lukhas.consciousness.triad_i...
+    from lukhas.consciousness.trinity_integration import (
+        TrinityFramework,
         TrinityFrameworkIntegrator,
-        get_triad_integrator,  # noqa: F401  # TODO: lukhas.consciousness.triad_i...
-        initialize_triad_consciousness,  # noqa: F401  # TODO: lukhas.consciousness.triad_i...
+        get_triad_integrator,
+        initialize_triad_consciousness,
     )
     from lukhas.memory.consciousness_memory_integration import (
         ConsciousnessMemoryIntegrator,
         EmotionalContext,
         MemoryFoldType,
-        get_memory_integrator,  # noqa: F401  # TODO: lukhas.memory.consciousness_me...
+        get_memory_integrator,
     )
 
     CONSCIOUSNESS_MODULES_AVAILABLE = True
@@ -599,11 +599,17 @@ def test_consciousness_module_imports():
         pytest.skip("Consciousness modules not available")
 
     # Test basic imports work
-    from lukhas.consciousness import activation_orchestrator, registry, triad_integration
-    from lukhas.memory import consciousness_memory_integration
+    import importlib
+
+    activation_orchestrator = importlib.import_module("lukhas.consciousness.activation_orchestrator")
+    registry = importlib.import_module("lukhas.consciousness.registry")
+    trinity_integration = importlib.import_module("lukhas.consciousness.trinity_integration")
+    consciousness_memory_integration = importlib.import_module(
+        "lukhas.memory.consciousness_memory_integration"
+    )
 
     assert registry is not None
-    assert triad_integration is not None
+    assert trinity_integration is not None
     assert consciousness_memory_integration is not None
     assert activation_orchestrator is not None
 

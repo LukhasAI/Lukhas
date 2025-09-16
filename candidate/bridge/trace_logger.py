@@ -1,6 +1,13 @@
 #!/usr/bin/env python3
+import csv
+import gzip
 import logging
+import shutil
+from collections import Counter
 from datetime import datetime, timezone
+from io import StringIO
+from logging.handlers import RotatingFileHandler
+from pathlib import Path
 
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -46,6 +53,31 @@ from typing import Any, Optional
 
 # ΛTRACE injection point
 logger = logging.getLogger("bridge.trace_logger")
+
+
+class JSONTraceFormatter(logging.Formatter):
+    """Formatter that emits structured JSON trace records."""
+
+    def format(self, record: logging.LogRecord) -> str:  # noqa: D401 - simple override
+        payload: dict[str, Any] = {}
+        structured = getattr(record, "bridge_event", None)
+
+        if isinstance(structured, dict):
+            payload.update(structured)
+        else:
+            payload["message"] = record.getMessage()
+
+        payload.setdefault(
+            "timestamp",
+            datetime.fromtimestamp(record.created, tz=timezone.utc).isoformat(),
+        )
+        payload.setdefault("logger", record.name)
+        payload.setdefault("level", record.levelname.lower())
+
+        if record.exc_info:
+            payload["exception"] = self.formatException(record.exc_info)
+
+        return json.dumps(payload, ensure_ascii=False)
 
 
 class TraceLevel(Enum):
@@ -104,10 +136,39 @@ class BridgeTraceLogger:
 
     def _setup_file_logging(self):
         """Setup file-based trace logging"""
-        # PLACEHOLDER: Implement file logging setup
-        # TODO: Configure file rotation
-        # TODO: Setup JSON formatting
-        # TODO: Implement log compression
+        log_path = Path(self.log_file)
+        log_path.parent.mkdir(parents=True, exist_ok=True)
+
+        for existing in logger.handlers:
+            if getattr(existing, "__bridge_trace__", False) and getattr(existing, "baseFilename", None) == str(
+                log_path
+            ):
+                self._file_handler = existing  # type: ignore[attr-defined]
+                return
+
+        handler = RotatingFileHandler(str(log_path), maxBytes=1_000_000, backupCount=5, encoding="utf-8")
+        handler.setFormatter(JSONTraceFormatter())
+        handler.namer = self._rotated_file_namer
+        handler.rotator = self._compress_rotated_file
+        handler.__bridge_trace__ = True  # type: ignore[attr-defined]
+
+        logger.addHandler(handler)
+        logger.setLevel(logging.INFO)
+        logger.propagate = False
+
+        self._file_handler = handler  # type: ignore[attr-defined]
+
+    @staticmethod
+    def _rotated_file_namer(default_name: str) -> str:
+        """Ensure rotated files end with .gz for compressed archives."""
+        return f"{default_name}.gz"
+
+    @staticmethod
+    def _compress_rotated_file(source: str, dest: str) -> None:
+        """Compress rotated log files with gzip for compact storage."""
+        with open(source, "rb") as src, gzip.open(dest, "wb") as target:
+            shutil.copyfileobj(src, target)
+        Path(source).unlink(missing_ok=True)
 
     def log_bridge_event(
         self,
@@ -138,17 +199,18 @@ class BridgeTraceLogger:
             metadata = {}
 
         # Structured event logging implementation
-        timestamp = datetime.now(timezone.utc).isoformat()
+        event_timestamp = datetime.now(timezone.utc)
 
         # Create structured event data
+        metadata_payload = dict(metadata)
         event_data = {
             "event_id": event_id,
-            "timestamp": timestamp,
+            "timestamp": event_timestamp.isoformat(),
             "category": category.value,
             "level": level.value,
             "component": component,
             "message": message,
-            "metadata": metadata,
+            "metadata": metadata_payload,
         }
 
         # Add correlation data if available
@@ -165,12 +227,26 @@ class BridgeTraceLogger:
         if len(self._event_history) > 1000:
             self._event_history = self._event_history[-1000:]
 
-        # Structured logging with all event data
-        logger.info(
-            "Bridge event: %(event_id)s [%(category)s/%(level)s] %(component)s: %(message)s",
-            event_data,
-            extra={"structured_data": event_data},
+        # Persist the latest representation for summary queries
+        self.trace_events[event_id] = BridgeTraceEvent(
+            event_id=event_id,
+            timestamp=event_timestamp,
+            category=category,
+            level=level,
+            component=component,
+            message=message,
+            metadata=metadata_payload,
         )
+
+        # Structured logging with all event data
+        level_mapping = {
+            TraceLevel.DEBUG: logging.DEBUG,
+            TraceLevel.INFO: logging.INFO,
+            TraceLevel.WARNING: logging.WARNING,
+            TraceLevel.ERROR: logging.ERROR,
+            TraceLevel.CRITICAL: logging.CRITICAL,
+        }
+        logger.log(level_mapping[level], event_data, extra={"bridge_event": event_data})
 
         return event_id
 
@@ -233,14 +309,47 @@ class BridgeTraceLogger:
         Returns:
             Dict: Trace summary statistics and recent events
         """
-        # PLACEHOLDER: Implement trace summary generation
+        # ΛTAG: trace_summary
         logger.debug("Generating bridge trace summary")
 
-        # TODO: Aggregate trace statistics
-        # TODO: Identify trace patterns
-        # TODO: Generate summary report
+        events = list(self.trace_events.values())
+        total_events = len(events)
 
-        return {"total_events": len(self.trace_events), "placeholder": True}
+        if total_events == 0:
+            return {
+                "total_events": 0,
+                "by_category": {},
+                "by_level": {},
+                "top_components": [],
+                "recent_events": [],
+                "patterns": [],
+                "report": "No bridge trace events have been recorded yet.",
+            }
+
+        category_counts = Counter(event.category.value for event in events)
+        level_counts = Counter(event.level.value for event in events)
+        component_counts = Counter(event.component for event in events)
+
+        recent_events = [
+            self._serialize_event(event)
+            for event in sorted(events, key=lambda ev: ev.timestamp, reverse=True)[:5]
+        ]
+
+        patterns = self._detect_patterns(events)
+
+        summary: dict[str, Any] = {
+            "total_events": total_events,
+            "by_category": dict(category_counts),
+            "by_level": dict(level_counts),
+            "top_components": [
+                {"component": component, "count": count}
+                for component, count in component_counts.most_common(5)
+            ],
+            "recent_events": recent_events,
+            "patterns": patterns,
+        }
+        summary["report"] = self._build_summary_report(summary)
+        return summary
 
     def export_trace_data(self, format_type: str = "json") -> str:
         """
@@ -252,15 +361,127 @@ class BridgeTraceLogger:
         Returns:
             str: Exported trace data
         """
-        # PLACEHOLDER: Implement trace data export
+        # ΛTAG: trace_export
         logger.info("Exporting trace data in format: %s", format_type)
 
-        if format_type == "json":
-            # TODO: Implement JSON export
-            return json.dumps({"placeholder": True}, indent=2)
+        events = [
+            self._serialize_event(event)
+            for event in sorted(self.trace_events.values(), key=lambda ev: ev.timestamp)
+        ]
 
-        # TODO: Implement other export formats
-        return "Trace data export - PLACEHOLDER"
+        normalized_format = format_type.lower()
+
+        if normalized_format == "json":
+            return json.dumps({"events": events}, indent=2)
+
+        if normalized_format == "csv":
+            if not events:
+                return ""
+
+            buffer = StringIO()
+            fieldnames = [
+                "event_id",
+                "timestamp",
+                "category",
+                "level",
+                "component",
+                "message",
+                "metadata",
+            ]
+            writer = csv.DictWriter(buffer, fieldnames=fieldnames)
+            writer.writeheader()
+            for event in events:
+                writer.writerow({
+                    **{key: event[key] for key in fieldnames[:-1]},
+                    "metadata": json.dumps(event["metadata"], sort_keys=True),
+                })
+            return buffer.getvalue()
+
+        if normalized_format in {"markdown", "md"}:
+            header = "| event_id | timestamp | category | level | component | message |"
+            separator = "| --- | --- | --- | --- | --- | --- |"
+            rows = [
+                "| {event_id} | {timestamp} | {category} | {level} | {component} | {message} |".format(
+                    event_id=event["event_id"],
+                    timestamp=event["timestamp"],
+                    category=event["category"],
+                    level=event["level"],
+                    component=event["component"],
+                    message=event["message"].replace("|", "/"),
+                )
+                for event in events
+            ]
+            return "\n".join([header, separator, *rows])
+
+        raise ValueError(f"Unsupported export format: {format_type}")
+
+    def _serialize_event(self, event: BridgeTraceEvent) -> dict[str, Any]:
+        """Convert a trace event into a serializable dictionary."""
+
+        return {
+            "event_id": event.event_id,
+            "timestamp": event.timestamp.isoformat(),
+            "category": event.category.value,
+            "level": event.level.value,
+            "component": event.component,
+            "message": event.message,
+            "metadata": event.metadata,
+        }
+
+    def _detect_patterns(self, events: list[BridgeTraceEvent]) -> list[dict[str, Any]]:
+        """Identify frequently occurring event patterns."""
+
+        grouping_counter: Counter[tuple[str, str]] = Counter(
+            (event.component, event.category.value) for event in events
+        )
+
+        patterns: list[dict[str, Any]] = []
+        for (component, category), count in grouping_counter.items():
+            if count <= 1:
+                continue
+
+            level_distribution = Counter(
+                event.level.value
+                for event in events
+                if event.component == component and event.category.value == category
+            )
+
+            patterns.append(
+                {
+                    "component": component,
+                    "category": category,
+                    "level_distribution": dict(level_distribution),
+                    "occurrences": count,
+                }
+            )
+
+        patterns.sort(key=lambda entry: entry["occurrences"], reverse=True)
+        return patterns[:5]
+
+    def _build_summary_report(self, summary: dict[str, Any]) -> str:
+        """Create a short human-readable summary from the aggregated data."""
+
+        total_events = summary["total_events"]
+        if total_events == 0:
+            return "No bridge trace events have been recorded yet."
+
+        dominant_component = summary["top_components"][0]["component"] if summary["top_components"] else "n/a"
+        dominant_category = max(summary["by_category"], key=summary["by_category"].get, default="n/a")
+        dominant_level = max(summary["by_level"], key=summary["by_level"].get, default="n/a")
+
+        pattern_summary = (
+            f"Key pattern detected in component '{summary['patterns'][0]['component']}'"
+            if summary["patterns"]
+            else "No repeating patterns detected"
+        )
+
+        return (
+            f"Total events: {total_events}. "
+            f"Most active component: {dominant_component}. "
+            f"Dominant category: {dominant_category}. "
+            f"Alert level trend: {dominant_level}. "
+            f"{pattern_summary}."
+        )
 
 
 def log_symbolic_event(origin: str, target: str, trace_id: str) -> None:

@@ -15,7 +15,7 @@ Integration Date: 2025-05-31T07:55:30.384694
 # ║ 🔄 UPDATED: 2025-04-22                                            ║
 # ╚═══════════════════════════════════════════════════════════════════╝
 
-# import streamlit as st  # TODO: Install or implement streamlit
+import streamlit as st
 from lukhas.core.dashboard_settings import get_paired_apps
 
 st.set_page_config(page_title="LUKHAS Agent Dashboard", layout="wide")
@@ -54,7 +54,7 @@ if lukhas_plugin_enabled:
 
 # ─── Symbolic Widget Preview ──────────────────────────────────────────────────
 
-st.markdown("##)  #  🧱 Symbolic Widget Preview"
+st.markdown("## 🧱 Symbolic Widget Preview")
 
 try:
     from candidate.core.lukhas_widget_engine import create_symbolic_widget

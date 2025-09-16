@@ -22,3 +22,31 @@ async def test_initialize_defaults_zero_metrics():
     await engine.initialize()
     assert engine.drift_score == 0.0
     assert engine.affect_delta == 0.0
+
+
+@pytest.mark.asyncio
+async def test_validate_confirms_active_metrics():
+    engine = AwarenessEngine()
+    await engine.initialize(user_id="validator")
+
+    assert await engine.validate(user_id="validator") is True
+    assert getattr(engine, "last_validation_snapshot", None)
+    assert "metrics" in engine.last_validation_snapshot
+
+
+@pytest.mark.asyncio
+async def test_validate_detects_invalid_metric_values():
+    engine = AwarenessEngine()
+    await engine.initialize()
+
+    engine.drift_score = float("nan")
+
+    assert await engine.validate() is False
+
+
+@pytest.mark.asyncio
+async def test_validate_detects_unhealthy_dependencies():
+    engine = AwarenessEngine(config={"dependencies": {"memory_bridge": True, "emotion_interface": False}})
+    await engine.initialize()
+
+    assert await engine.validate() is False

@@ -1,4 +1,3 @@
-
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
 
@@ -127,15 +126,15 @@ def view_audit(audit_id: str):
       <title>LUKHΛS Audit · {audit_id}</title>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <style>
-        body {{ font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; }
-        h1 {{ font-weight: 500; }
-        .pill {{ display:inline-block; padding:4px 10px; border-radius:999px; background:#f2f2f2; margin-right:8px; }
-        .safety-badge {{ display:inline-block; padding:6px 12px; border-radius:999px; font-weight:500; text-transform:uppercase; font-size:12px; {badge_style} }
-        pre {{ background:#0b0b0b; color:#e6e6e6; padding:16px; border-radius:8px; overflow:auto; }
-        .grid {{ display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
-        .card {{ border:1px solid #eee; border-radius:12px; padding:16px; }
-        .tools-list code {{ background:#f8f9fa; padding:2px 6px; border-radius:4px; margin-right:8px; }
-        code {{ font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+        body {{ font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; }}
+        h1 {{ font-weight: 500; }}
+        .pill {{ display:inline-block; padding:4px 10px; border-radius:999px; background:#f2f2f2; margin-right:8px; }}
+        .safety-badge {{ display:inline-block; padding:6px 12px; border-radius:999px; font-weight:500; text-transform:uppercase; font-size:12px; {badge_style} }}
+        pre {{ background:#0b0b0b; color:#e6e6e6; padding:16px; border-radius:8px; overflow:auto; }}
+        .grid {{ display:grid; grid-template-columns: 1fr 1fr; gap:16px; }}
+        .card {{ border:1px solid #eee; border-radius:12px; padding:16px; }}
+        .tools-list code {{ background:#f8f9fa; padding:2px 6px; border-radius:4px; margin-right:8px; }}
+        code {{ font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }}
       </style>
     </head>
     <body>

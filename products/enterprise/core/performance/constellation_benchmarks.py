@@ -9,6 +9,7 @@ targeting enterprise-grade scalability and sub-25ms P95 latency.
 """
 
 import asyncio
+import importlib
 import json
 import logging
 import os
@@ -20,32 +21,35 @@ from typing import Any, Optional
 
 import psutil
 
-# Enterprise monitoring integration
-try:
-    from datadog import DogStatsdClient
 
-    DATADOG_AVAILABLE = True
-except ImportError:
-    DATADOG_AVAILABLE = False
-
-# LUKHAS integrations with fallback
-try:
-    from lukhas.consciousness import ConsciousnessCore
-    from lukhas.constellation import ConstellationFramework  # noqa: F401  # TODO: lukhas.constellation.Constella...
-    from lukhas.guardian import GuardianSystem
-    from lukhas.memory import MemoryFoldSystem
-
-    LUKHAS_AVAILABLE = True
-except ImportError:
+def _load_optional(module: str, attribute: Optional[str] = None) -> Optional[Any]:
     try:
-        from candidate.consciousness import ConsciousnessCore  # noqa: F401  # TODO: candidate.consciousness.Consci...
-        from candidate.governance import GuardianSystem  # noqa: F401  # TODO: candidate.governance.GuardianS...
-        from candidate.memory import MemoryFoldSystem  # noqa: F401  # TODO: candidate.memory.MemoryFoldSys...
+        loaded_module = importlib.import_module(module)
+        return getattr(loaded_module, attribute) if attribute else loaded_module
+    except (ImportError, AttributeError):
+        return None
 
-        LUKHAS_AVAILABLE = True
-    except ImportError:
-        LUKHAS_AVAILABLE = False
-        print("⚠️ LUKHAS modules not available - using simulation mode", timezone)
+
+datadog_client_cls = _load_optional("datadog", "DogStatsd") or _load_optional("datadog", "DogStatsdClient")
+DATADOG_AVAILABLE = datadog_client_cls is not None
+
+ConstellationFramework = _load_optional("lukhas.constellation", "ConstellationFramework")
+if ConstellationFramework is None:
+    ConstellationFramework = _load_optional("candidate.constellation", "ConstellationFramework")
+
+ConsciousnessCore = _load_optional("lukhas.consciousness", "ConsciousnessCore") or _load_optional(
+    "candidate.consciousness", "ConsciousnessCore"
+)
+GuardianSystem = _load_optional("lukhas.guardian", "GuardianSystem") or _load_optional(
+    "candidate.governance", "GuardianSystem"
+)
+MemoryFoldSystem = _load_optional("lukhas.memory", "MemoryFoldSystem") or _load_optional(
+    "candidate.memory", "MemoryFoldSystem"
+)
+
+LUKHAS_AVAILABLE = ConstellationFramework is not None
+if not LUKHAS_AVAILABLE:
+    print("⚠️ LUKHAS modules not available - using simulation mode", timezone)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -95,7 +99,7 @@ class ConstellationFrameworkBenchmark:
         self.datadog_client = None
 
         if DATADOG_AVAILABLE and datadog_enabled:
-            self.datadog_client = DogStatsdClient(host="localhost", port=8125)
+            self.datadog_client = datadog_client_cls(host="localhost", port=8125) if datadog_client_cls else None
 
         # Initialize test data
         self.test_payloads = self._generate_test_payloads()

@@ -7,12 +7,12 @@ elevenlabs==2.15.0
 fastapi==0.116.1
 Flask==3.1.2
 h2==4.3.0
-huggingface_hub==0.34.4
+huggingface_hub==0.34.5
 jsonschema==4.25.1
 lukhas==0.0.1
 matplotlib==3.10.5
 numpy==2.2.6
-openai==1.107.2
+openai==1.107.3
 pandas==2.3.2
 Pillow==11.3.0
 plotly==6.3.0

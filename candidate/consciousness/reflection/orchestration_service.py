@@ -42,10 +42,6 @@ Key Consolidated Features:
 All operations respect user consent, tier access, and LUKHAS identity requirements.
 """
 # === CONSOLIDATED IMPORTS ===
-# from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID
-# from candidate.core.common.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE
-# from candidate.core.common.CORE.emotion.emotional_resonance import EmotionalResonanceEngine  # TODO: Install or implement CORE
-# from candidate.core.common.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE
 # from MODULES_GOLDEN.bio.core import BioModule
 # from MODULES_GOLDEN.common.base_module import SymbolicLogger
 # from MODULES_GOLDEN.core.registry import core_registry
@@ -63,13 +59,37 @@ import time
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from interfaces.voice_interface import *
-from safety.voice_safety_guard import *
-from systems.synthesis import *
-from systems.voice_synthesis import *
+# Voice system imports with fallbacks
+try:
+    from interfaces.voice_interface import *
+except ImportError:
+    print("WARNING: Voice interface not available, using fallbacks")
 
-from integrations.elevenlabs import *
-from integrations.openai import *
+try:
+    from safety.voice_safety_guard import *
+except ImportError:
+    print("WARNING: Voice safety guard not available, using fallbacks")
+
+try:
+    from systems.synthesis import *
+except ImportError:
+    print("WARNING: Synthesis systems not available, using fallbacks")
+
+try:
+    from systems.voice_synthesis import *
+except ImportError:
+    print("WARNING: Voice synthesis not available, using fallbacks")
+
+try:
+    from integrations.elevenlabs import *
+except ImportError:
+    print("WARNING: ElevenLabs integration not available, using fallbacks")
+
+try:
+    from integrations.openai import *
+except ImportError:
+    print("WARNING: OpenAI integration not available, using fallbacks")
+
 from lukhas.governance.identity.interface import IdentityClient
 
 # === PRIMARY ORCHESTRATION SERVICE CONTENT ===

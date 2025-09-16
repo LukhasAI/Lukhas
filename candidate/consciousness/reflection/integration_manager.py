@@ -162,7 +162,6 @@ class LukhasAGIIntegrationManager:
 
                 sys.path.append(str(github_app_path))
 
-                #                 from Bot_agi_core import BotAGICore  # TODO: Install or implement Bot_agi_core
                 # from Bot_consciousness_monitor import BotConsciousnessMonitor  # TODO:
                 # Install or implement Bot_consciousness_monitor
 

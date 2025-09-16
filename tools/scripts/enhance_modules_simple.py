@@ -92,11 +92,16 @@ def test_{module_name}_import():
     example = f"""#!/usr/bin/env python3
 \"\"\"Basic {module_name} example\"\"\"
 
-from {module_name} import *
+from {module_name} import *  # noqa: F401,F403 - demo import for quick experimentation
+
 
 def main():
     print("Using {module_name} module")
-    # TODO: Add example
+    public_members = [name for name in globals() if not name.startswith("_")]
+    if public_members:
+        print("Available helpers:", ", ".join(sorted(public_members)))
+    else:
+        print("Module does not expose public helpers yet. Inspect implementation for details.")
 
 if __name__ == "__main__":
     main()

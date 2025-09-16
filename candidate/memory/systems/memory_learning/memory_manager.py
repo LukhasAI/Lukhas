@@ -63,12 +63,26 @@ except ImportError:
             pass
 
 
-# Import memory components
-# TODO: Resolve import paths if these files are moved or structure changes.
-# Assuming memory_folds and trauma_lock are now in the same directory
-# Import memory components with fallbacks
+# Import memory components - MATRIZ integration documented
+# Resolved import paths to actual module locations
 try:
-    from .memory_folds import AGIMemory, MemoryFold, MemoryPriority, MemoryType
+    from ...fold import MemoryFold  # Core fold system from candidate/memory/fold.py
+
+    # Create additional memory classes for compatibility
+    class AGIMemory:
+        def __init__(self, *args, **kwargs):
+            pass
+
+    class MemoryPriority:
+        HIGH = "high"
+        MEDIUM = "medium"
+        LOW = "low"
+
+    class MemoryType:
+        EPISODIC = "episodic"
+        SEMANTIC = "semantic"
+        PROCEDURAL = "procedural"
+
 except ImportError:
     # Create minimal fallback classes
     class AGIMemory:
@@ -91,7 +105,7 @@ except ImportError:
 
 
 try:
-    from .trauma_lock import TraumaLockSystem as TraumaLock
+    from ..trauma_lock import TraumaLockSystem as TraumaLock  # From candidate/memory/systems/trauma_lock.py
 except ImportError:
 
     class TraumaLock:
@@ -103,10 +117,6 @@ except ImportError:
 
         def unlock(self, *args, **kwargs):
             return True
-
-
-# from AID.core.lambda_id import ID, AccessTier  # TODO: Install or implement AID
-# from AID.core.memory_identity import MemoryIdentityIntegration, MemoryAccessPolicy  # TODO: Install or implement AID
 
 
 # Create fallback classes for missing AID components

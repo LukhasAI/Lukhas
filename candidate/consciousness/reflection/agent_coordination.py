@@ -10,7 +10,6 @@ logger = logging.getLogger(__name__)
 
 
 Decentralized Agent Coordination System
-Addresses TODO 24: Dynamic Working Group Formation
 
 This module implements a decentralized coordination system where agents can:
 1. Broadcast their needs to the network

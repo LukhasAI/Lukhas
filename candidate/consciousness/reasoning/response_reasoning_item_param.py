@@ -2,7 +2,10 @@ from __future__ import annotations
 
 import logging
 
-logger = logging.getLogger(__name__)
+logger.info(
+    "ΛTRACE: Initializing response_reasoning_item_param.py module (Data Model Definition). Module: %s",
+    __file__
+)er = logging.getLogger(__name__)
 
 # ██╗      ██████╗  ██████╗ ██╗  ██╗ █████╗ ███████╗
 # ██║     ██╔═══██╗██╔════╝ ██║  ██║██╔══██╗██╔════╝

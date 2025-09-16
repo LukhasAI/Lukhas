@@ -1,0 +1,34 @@
+{
+  "timestamp": "2025-09-16T17:02:08.917333",
+  "files_processed": [
+    "candidate/core/interfaces/as_agent/streamlit/app.py",
+    "candidate/core/interfaces/as_agent/streamlit/components/dream_export_streamlit.py",
+    "candidate/core/interfaces/as_agent/streamlit/components/tier_visualizer.py",
+    "candidate/core/interfaces/as_agent/streamlit/components/voice_preview_streamlit.py",
+    "candidate/core/interfaces/as_agent/sys/nias/dream_export_streamlit.py",
+    "candidate/core/interfaces/logic/agent_self.py",
+    "candidate/core/interfaces/research_dashboard.py",
+    "candidate/core/interfaces/tools/research/research_dashboard.py",
+    "candidate/core/interfaces/ui/components/tier_visualizer.py",
+    "candidate/core/interfaces/ui/components/voice_preview_streamlit.py",
+    "candidate/core/orchestration/brain/rem/streamlit_lidar.py",
+    "candidate/core/symbolic/message_hub.py",
+    "candidate/memory/systems/memory_media_file_storage.py",
+    "candidate/memory/systems/memory_session_storage.py",
+    "candidate/memory/systems/memory_visualizer.py",
+    "candidate/consciousness/unified/consolidate_consciousness_unification.py",
+    "candidate/core/integration/consolidate_bio_symbolic_coherence.py",
+    "candidate/memory/consolidation/consolidate_emotion_feeling_memory.py",
+    "candidate/memory/consolidation/consolidate_memory_dna_helix.py",
+    "candidate/qi/engines/dream/consolidate_dream_qi_learning.py",
+    "candidate/qi/scripts/consolidate_qi_sgi_core.py",
+    "tools/2030_full_consolidator.py",
+    "tools/cleanup/cleanup_duplicates.py",
+    "tools/cleanup/duplicate_code_analyzer.py"
+  ],
+  "total_removals": 24,
+  "removals_by_type": {
+    "streamlit_stubs": 15,
+    "consolidation_stubs": 9
+  }
+}

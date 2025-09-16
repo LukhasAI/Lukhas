@@ -594,7 +594,28 @@ class LambdaIDService:
 
     def _check_rate_limit(self, user_context: Optional[UserContext], operation: str) -> bool:
         """Check rate limiting for user/operation"""
-        # TODO: Implement proper rate limiting
+        import time
+        from collections import defaultdict
+
+        if not hasattr(self, "_rate_limits"):
+            self._rate_limits = defaultdict(list)
+
+        # Basic rate limiting: 100 operations per minute per user
+        user_key = user_context.user_id if user_context else "anonymous"
+        operation_key = f"{user_key}:{operation}"
+        current_time = time.time()
+
+        # Clean old entries (older than 1 minute)
+        self._rate_limits[operation_key] = [
+            timestamp for timestamp in self._rate_limits[operation_key] if current_time - timestamp < 60
+        ]
+
+        # Check if under rate limit (100 per minute)
+        if len(self._rate_limits[operation_key]) >= 100:
+            return False
+
+        # Add current request
+        self._rate_limits[operation_key].append(current_time)
         return True
 
     def _store_lambda_id(

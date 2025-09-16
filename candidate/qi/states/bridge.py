@@ -5,7 +5,6 @@ from datetime import timezone
 
 log = logging.getLogger(__name__)
 
-# ΛORIGIN_AGENT: CODEX-01
 # ΛTASK_ID: C-08
 # ΛCOMMIT_WINDOW: postO3-infra-phase2
 # ΛPROVED_BY: Human Overseer (Gonzalo)

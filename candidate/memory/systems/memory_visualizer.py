@@ -15,7 +15,6 @@ Enhanced REM and memory visualization system combining prot1's visualization
 capabilities with prot2's quantum features.
 """
 
-# import streamlit as st  # TODO: Install or implement streamlit
 from dataclasses import dataclass
 from typing import Any, Optional
 

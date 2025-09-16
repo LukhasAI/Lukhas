@@ -18,10 +18,11 @@ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 """
 
 import asyncio
+import importlib
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Optional
 
 # T4 Agent components
 # Import observability stack first
@@ -97,14 +98,35 @@ except ImportError as orchestration_error:
                 "consensus_method": "fallback",
             }
 
-# Jules Enterprise components
-try:
-    from enterprise.compliance.data_protection_service import DataProtectionService  # noqa: F401  # TODO: enterprise.compliance.data_pro...
-    from enterprise.monitoring.datadog_integration import DatadogIntegration  # noqa: F401  # TODO: enterprise.monitoring.datadog_...
+# ΛTAG: optional_dependency_resolver
+def _load_optional_component(module_path: str, attribute: Optional[str] = None) -> Optional[Any]:
+    """Safely import optional enterprise component without raising ImportError."""
 
-    JULES_COMPONENTS_AVAILABLE = True
-except ImportError:
-    JULES_COMPONENTS_AVAILABLE = False
+    try:
+        module = importlib.import_module(module_path)
+        return getattr(module, attribute) if attribute else module
+    except (ImportError, AttributeError) as import_error:
+        logging.getLogger(__name__).debug(
+            "Optional component unavailable",
+            extra={
+                "module_path": module_path,
+                "attribute": attribute,
+                "error": str(import_error),
+            },
+        )
+        return None
+
+
+_JULES_COMPONENT_REGISTRY = {
+    "DataProtectionService": _load_optional_component(
+        "compliance.data_protection_service", "DataProtectionService"
+    ),
+    "DatadogIntegration": _load_optional_component(
+        "monitoring.datadog_integration", "DatadogIntegration"
+    ),
+}
+
+JULES_COMPONENTS_AVAILABLE = all(component is not None for component in _JULES_COMPONENT_REGISTRY.values())
 
 logger = logging.getLogger(__name__)
 

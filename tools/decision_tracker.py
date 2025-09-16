@@ -9,7 +9,21 @@ import subprocess
 from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
 
-from .journal_engine import JournalEngine, JournalEntry
+# Use absolute import instead of relative import
+try:
+    from tools.journal_engine import JournalEngine, JournalEntry
+except ImportError:
+    # Fallback implementations if journal_engine not available
+    class JournalEngine:
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def add_entry(self, *args, **kwargs):
+            pass
+
+    class JournalEntry:
+        def __init__(self, *args, **kwargs):
+            pass
 
 
 class Decision:

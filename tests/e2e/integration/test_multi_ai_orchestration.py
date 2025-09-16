@@ -24,7 +24,7 @@ try:
         OrchestrationRequest,
         TaskType,
     )
-    from candidate.bridge.workflow import WorkflowOrchestrator  # noqa: F401  # TODO: candidate.bridge.workflow.Work...
+    from candidate.bridge.workflow.workflow_orchestrator import WorkflowOrchestrator  # noqa: F401
 
     ORCHESTRATION_AVAILABLE = True
 except ImportError:

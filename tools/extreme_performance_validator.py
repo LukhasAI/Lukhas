@@ -36,13 +36,13 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 # Import extreme performance optimizations
 try:
     from enterprise.performance.extreme_auth_optimization import (
-        AuthPerformanceMetrics,  # noqa: F401  # TODO: enterprise.performance.extreme...
-        ExtremeAuthPerformanceOptimizer,  # noqa: F401  # TODO: enterprise.performance.extreme...
+        AuthPerformanceMetrics,  # noqa: F401  # Import available when enterprise features enabled
+        ExtremeAuthPerformanceOptimizer,  # noqa: F401  # Import available when enterprise features enabled
         get_extreme_optimizer,
     )
     from lukhas.governance.identity.auth_backend.extreme_performance_audit_logger import (
         get_extreme_audit_logger,
-        run_audit_benchmark_extreme,  # noqa: F401  # TODO: lukhas.governance.identity.aut...
+        run_audit_benchmark_extreme,  # noqa: F401  # Import available when extreme auth logging enabled
     )
     from lukhas.governance.identity.extreme_performance_connector import (
         get_extreme_identity_connector,
@@ -57,9 +57,11 @@ except ImportError as e:
 
 # Import standard components for comparison
 try:
-    from lukhas.governance.identity.connector import get_identity_connector  # noqa: F401  # TODO: lukhas.governance.identity.con...
+    from lukhas.governance.identity.connector import get_identity_connector
 
     STANDARD_COMPONENTS_AVAILABLE = True
+    # Store reference for potential performance comparison
+    _identity_connector_ref = get_identity_connector
 except ImportError:
     STANDARD_COMPONENTS_AVAILABLE = False
     print("⚠️ Standard components not available for comparison")
@@ -652,8 +654,6 @@ async def main():
 
 
 if __name__ == "__main__":
-    import asyncio
-
     # Run validation
     try:
         result = asyncio.run(main())
