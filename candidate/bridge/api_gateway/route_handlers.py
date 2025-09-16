@@ -1,0 +1,147 @@
+"""
+LUKHAS AI - Route Handlers
+==========================
+
+Route handling functionality for the unified API gateway.
+
+Copyright (c) 2025 LUKHAS AI. All rights reserved.
+"""
+from typing import Dict, Any, Optional, Callable, List
+import logging
+import asyncio
+from datetime import datetime
+
+logger = logging.getLogger(__name__)
+
+
+class RouteHandlers:
+    """Route handlers for API gateway endpoints."""
+
+    def __init__(self, config: Optional[Dict[str, Any]] = None):
+        """Initialize route handlers with configuration."""
+        self.config = config or {}
+        self.handlers: Dict[str, Callable] = {}
+        self.middleware: List[Callable] = []
+
+        # Register default handlers
+        self._register_default_handlers()
+
+    def register_handler(self, path: str, handler: Callable) -> None:
+        """Register a handler for a specific path."""
+        self.handlers[path] = handler
+        logger.info(f"Registered handler for path: {path}")
+
+    def register_middleware(self, middleware: Callable) -> None:
+        """Register middleware to be applied to all requests."""
+        self.middleware.append(middleware)
+        logger.info(f"Registered middleware: {middleware.__name__}")
+
+    async def handle_request(self, path: str, request: Dict[str, Any]) -> Dict[str, Any]:
+        """Handle incoming request by routing to appropriate handler."""
+        try:
+            # Apply middleware
+            for middleware in self.middleware:
+                request = await self._apply_middleware(middleware, request)
+
+            # Find and execute handler
+            handler = self._find_handler(path)
+            if not handler:
+                return {
+                    "error": f"No handler found for path: {path}",
+                    "status_code": 404,
+                    "timestamp": datetime.utcnow().isoformat(),
+                }
+
+            # Execute handler
+            response = await handler(request)
+
+            # Add metadata
+            response["timestamp"] = datetime.utcnow().isoformat()
+            response["path"] = path
+
+            return response
+
+        except Exception as e:
+            logger.error(f"Error handling request for {path}: {str(e)}")
+            return {
+                "error": f"Internal server error: {str(e)}",
+                "status_code": 500,
+                "timestamp": datetime.utcnow().isoformat(),
+            }
+
+    def _find_handler(self, path: str) -> Optional[Callable]:
+        """Find handler for given path."""
+        # Direct match
+        if path in self.handlers:
+            return self.handlers[path]
+
+        # Pattern matching (simple implementation)
+        for registered_path, handler in self.handlers.items():
+            if self._path_matches(path, registered_path):
+                return handler
+
+        return None
+
+    def _path_matches(self, request_path: str, registered_path: str) -> bool:
+        """Check if request path matches registered path pattern."""
+        # Simple wildcard matching
+        if registered_path.endswith("*"):
+            prefix = registered_path[:-1]
+            return request_path.startswith(prefix)
+
+        return request_path == registered_path
+
+    async def _apply_middleware(self, middleware: Callable, request: Dict[str, Any]) -> Dict[str, Any]:
+        """Apply middleware to request."""
+        try:
+            if asyncio.iscoroutinefunction(middleware):
+                return await middleware(request)
+            else:
+                return middleware(request)
+        except Exception as e:
+            logger.error(f"Error applying middleware {middleware.__name__}: {str(e)}")
+            return request  # Continue with original request
+
+    def _register_default_handlers(self) -> None:
+        """Register default handlers."""
+        self.register_handler("/health", self._health_handler)
+        self.register_handler("/status", self._status_handler)
+        self.register_handler("/api/v1/*", self._api_handler)
+
+    async def _health_handler(self, request: Dict[str, Any]) -> Dict[str, Any]:
+        """Health check handler."""
+        return {"status": "healthy", "service": "LUKHAS API Gateway", "version": "1.0.0", "status_code": 200}
+
+    async def _status_handler(self, request: Dict[str, Any]) -> Dict[str, Any]:
+        """Status handler."""
+        return {
+            "status": "operational",
+            "registered_handlers": len(self.handlers),
+            "middleware_count": len(self.middleware),
+            "uptime": "unknown",  # TODO: Track actual uptime
+            "status_code": 200,
+        }
+
+    async def _api_handler(self, request: Dict[str, Any]) -> Dict[str, Any]:
+        """Default API handler."""
+        path = request.get("path", "/api/v1/")
+
+        return {
+            "message": f"API endpoint: {path}",
+            "method": request.get("method", "GET"),
+            "user_id": request.get("user_id", "anonymous"),
+            "status_code": 200,
+            "data": "This is a placeholder API response",
+        }
+
+    def get_registered_paths(self) -> List[str]:
+        """Get list of registered paths."""
+        return list(self.handlers.keys())
+
+    def remove_handler(self, path: str) -> bool:
+        """Remove handler for specified path."""
+        if path in self.handlers:
+            del self.handlers[path]
+            logger.info(f"Removed handler for path: {path}")
+            return True
+        return False
