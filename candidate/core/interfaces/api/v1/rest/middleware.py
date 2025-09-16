@@ -26,16 +26,21 @@ logger = logging.getLogger(__name__)
 import os
 import time
 from datetime import datetime, timezone
+from types import SimpleNamespace
 from typing import Any, Optional
 
 # Replaced python-jose (vulnerable) with PyJWT for secure JWT handling
 import jwt
-import structlog
+try:  # pragma: no cover - structlog optional in lightweight environments
+    import structlog
+except ImportError:  # pragma: no cover
+    structlog = SimpleNamespace(get_logger=lambda name=None: logging.getLogger(name or __name__))
 from fastapi import HTTPException, Request, status
 from fastapi.security import HTTPBearer
 from jwt.exceptions import InvalidTokenError as JWTError
 
-# Import centralized decorators and tier system
+from candidate.core.common import lukhas_tier_required
+from candidate.core.interfaces.api.v1.common import ApiKeyCache, api_key_cache
 
 # Import validators
 try:
@@ -62,7 +67,7 @@ security = HTTPBearer()
 class AuthMiddleware:
     """Authentication middleware for LUKHAS REST API."""
 
-    def __init__(self):
+    def __init__(self, key_cache: Optional[ApiKeyCache] = None):
         self.secret_key = SECRET_KEY
         self.algorithm = ALGORITHM
         self.excluded_paths = [
@@ -72,6 +77,7 @@ class AuthMiddleware:
             "/api/v1/auth/login",
             "/api/v1/auth/register",
         ]
+        self._api_key_cache = key_cache or api_key_cache
 
     async def __call__(self, request: Request, call_next):
         """Process authentication for incoming requests."""
@@ -90,6 +96,7 @@ class AuthMiddleware:
             request.state.user_id = auth_result.get("user_id")
             request.state.tier_level = auth_result.get("tier_level", 0)
             request.state.auth_method = auth_result.get("auth_method")
+            request.state.scopes = auth_result.get("scopes", ())
 
             # Log authentication success
             process_time = time.time() - start_time
@@ -204,27 +211,65 @@ class AuthMiddleware:
                 detail="Invalid API key format",
             )
 
-        # TODO: Implement actual API key lookup from database/cache
-        # For now, use a simple validation based on key pattern
+        metadata = self._api_key_cache.lookup(api_key)
 
-        # Example tier mapping based on API key prefix
-        if api_key.startswith("sk_live_admin_"):
-            tier_level = 4
-        elif api_key.startswith("sk_live_pro_"):
-            tier_level = 3
-        elif api_key.startswith("sk_live_std_"):
-            tier_level = 2
-        elif api_key.startswith("sk_live_"):
-            tier_level = 1
-        else:
-            tier_level = 0
+        if metadata and metadata.revoked:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="API key revoked",
+            )
+
+        if metadata and metadata.is_expired():
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="API key expired",
+            )
+
+        if metadata:
+            logger.info(
+                "api_key_authenticated",
+                user_id=metadata.user_id,
+                tier_level=metadata.tier,
+                scopes=list(metadata.scopes),
+                source=metadata.attributes.get("source", "cache"),
+            )
+            return {
+                "user_id": metadata.user_id,
+                "tier_level": metadata.tier,
+                "auth_method": "api_key",
+                "scopes": metadata.scopes,
+            }
+
+        if self._api_key_cache.is_configured():
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="API key not recognized",
+            )
+
+        tier_level = self._infer_tier_from_prefix(api_key)
 
         return {
-            # Extract last 8 chars as user identifier
             "user_id": f"api_user_{api_key[-8:]}",
             "tier_level": tier_level,
             "auth_method": "api_key",
+            "scopes": (),
         }
+
+    def _infer_tier_from_prefix(self, api_key: str) -> int:
+        """Infer tier from historical prefix patterns when no registry is configured."""
+
+        prefix_mapping: dict[str, int] = {
+            "sk_live_admin_": 4,
+            "sk_live_pro_": 3,
+            "sk_live_std_": 2,
+            "sk_live_": 1,
+        }
+
+        for prefix, tier in prefix_mapping.items():
+            if api_key.startswith(prefix):
+                return tier
+
+        return 0
 
 
 # Create singleton instance
@@ -254,8 +299,7 @@ def create_access_token(data: dict[str, Any], expires_delta: Optional[int] = Non
     return encoded_jwt
 
 
-# TODO: Import lukhas_tier_required decorator
-# @lukhas_tier_required(level=1)
+@lukhas_tier_required(level=1)
 def get_current_user(request: Request) -> dict[str, Any]:
     """Get current authenticated user from request.
 

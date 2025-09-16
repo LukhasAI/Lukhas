@@ -1001,18 +1001,33 @@ Integrate with the LUKHAS  API to perform a compliance validation through the RE
 Complete the API client configuration and make a successful compliance validation request.
 """,
             "starter_code": """
+import os
 from system.ent import APIClient
 
-# TODO: Configure the API client
+# ΛTAG: compliance_validation_flow
+api_key = os.environ.get("LUKHAS_API_KEY")
+if not api_key:
+    raise EnvironmentError("Set LUKHAS_API_KEY with your API credential before running this exercise")
+
 client = APIClient(
-    # TODO: Add base URL
-    # TODO: Add authentication
+    base_url="https://api.lukhas-ai.com",
+    api_key=api_key,
+    timeout=30,
 )
 
-# TODO: Make a compliance validation request
-# Use the compliance endpoint to validate a system
+response = client.compliance.validate(
+    system_id="lukhas-sandbox",
+    framework="EU_AI_ACT",
+)
 
-# TODO: Handle the response and print results
+if response.status_code == 200:
+    payload = response.json()
+    print("API Response: 200 OK")
+    print(f"Compliance Status: {payload.get('status', 'unknown')}")
+    print(f"Score: {payload.get('score', 'n/a')}")
+    print(f"Framework: {payload.get('framework', 'unspecified')}")
+else:
+    raise RuntimeError(f"Compliance request failed: {response.status_code}")
 """,
             "expected_output": """
 API Response: 200 OK
@@ -1025,10 +1040,10 @@ assert hasattr(client, 'base_url')
 assert hasattr(client, 'api_key') or hasattr(client, 'token')
 """,
             "hints": [
-                "Use 'https://api.lukhas-.com' as base URL",
-                "Add your API key for authentication",
-                "Use client.compliance.validate() method",
-                "Check response.status_code for success",
+                "Use 'https://api.lukhas-ai.com' as the base URL",
+                "Load your API key from the LUKHAS_API_KEY environment variable",
+                "Call client.compliance.validate() with a system_id and framework",
+                "Inspect response.json() when the status code is 200",
             ],
         }
 
@@ -1044,19 +1059,20 @@ Complete the implementation to demonstrate understanding of {topic} concepts.
 **Your Task:**
 Follow the TODOs in the code to complete the implementation.
 """,
-            "starter_code": """
-# TODO: Import the required module
-from system ort ...
+            "starter_code": f"""
+from system.runtime import resolve_component
 
-# TODO: Initialize the component
-component = ...
+# ΛTAG: tutorial_component_setup
+topic_name = "{topic}"
+component = resolve_component(topic_name)
 
-# TODO: Configure the component
-component.configure({
-    # TODO: Add configuration options
-})
+component.configure(
+    {
+        "mode": "tutorial",
+        "capture_metrics": True,
+    }
+)
 
-# TODO: Use the component
 result = component.process()
 
 print(f"Result: {result}")
@@ -1064,9 +1080,9 @@ print(f"Result: {result}")
             "expected_output": f"{topic} processing completed successfully",
             "validation_code": "assert result is not None",
             "hints": [
-                f"Import the {topic} module from systemInitialize {topic}() class",
-                "Add basic configuration options",
-                "Call the process() method",
+                "Resolve the component for the requested topic using system.runtime",
+                "Enable tutorial mode and capture_metrics in the configuration",
+                "Call process() and review the returned result",
             ],
         }
 

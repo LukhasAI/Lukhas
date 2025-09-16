@@ -5,15 +5,26 @@ T4 TODO Marker - Annotate remaining TODO items with context and suggestions.
 This script scans for TODO[T4-*] markers and enriches them with additional context,
 suggestions, and tracking information.
 """
-import streamlit as st
 
 import argparse
+import importlib
 import os
 import re
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
+from types import ModuleType
 
-import tomli as tomllib
+
+def _load_tomllib() -> ModuleType:
+    """Load the tomllib-compatible module without try/except around imports."""
+
+    if importlib.util.find_spec("tomllib") is not None:
+        return importlib.import_module("tomllib")
+    return importlib.import_module("tomli")
+
+
+tomllib = _load_tomllib()
 
 
 def load_t4_config() -> dict:
@@ -136,11 +147,11 @@ def annotate_file(file_path: str, todos: list[dict], dry_run: bool = False) -> i
             continue  # Already annotated
 
         # Generate suggestion
-        suggest_autofix_pattern(todo["type"], todo["message"], todo["context"])
+        suggestion_text = suggest_autofix_pattern(todo["type"], todo["message"], todo["context"])
 
         # Create annotation comment
         indent = len(lines[line_idx]) - len(lines[line_idx].lstrip())
-        annotation = " " * indent + ""
+        annotation = " " * indent + f"# T4-SUGGESTION: {suggestion_text}\n"
 
         # Insert annotation after TODO line
         lines.insert(line_idx + 1, annotation)
@@ -175,9 +186,10 @@ def generate_todo_report(all_todos: list[dict]) -> str:
         by_type[todo_type].append(todo)
 
     # Generate report
+    generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     report_lines = [
         "# T4 TODO Analysis Report",
-        f"Generated: {os.popen('date -u +%Y-%m-%dT%H:%M:%SZ').read().strip()}",
+        f"Generated: {generated_at}",
         "",
         "## Summary",
         f"Total TODOs: {len(all_todos)}",
@@ -197,7 +209,7 @@ def generate_todo_report(all_todos: list[dict]) -> str:
             report_lines.append(f"- `{todo['file']}:{todo['line']}` - {todo['message']}")
 
         if len(todos) > 10:
-            report_lines.append(f"- ... and {len(todos)} - 10} more")
+            report_lines.append(f"- ... and {len(todos) - 10} more")
 
         report_lines.append("")
 

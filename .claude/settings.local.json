@@ -206,7 +206,9 @@
       "Bash(do echo \"Attempting to merge PR $pr with admin override...\")",
       "Read(//tmp/**)",
       "Bash(git branch:*)",
-      "Bash(do echo \"Closing PR $pr as merged...\")"
+      "Bash(do echo \"Closing PR $pr as merged...\")",
+      "Bash(.venv/bin/pytest tests/tools/test_commands_base.py -v)",
+      "Bash(.venv/bin/pytest tests/tools/test_stub_generation.py -v)"
     ],
     "deny": [],
     "ask": []

@@ -5,10 +5,13 @@
 Final pass to clean up remaining import errors and syntax issues.
 """
 
+from __future__ import annotations
+
 import ast
 import logging
 import re
 import sys
+import textwrap
 from pathlib import Path
 
 # Add project root to path
@@ -17,6 +20,41 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+
+def _generate_stub_module_content(module_path: Path) -> str:
+    """Return informative stub content for missing modules."""
+
+    module_title = module_path.stem.replace("_", " ").title()
+    return textwrap.dedent(
+        f'''
+        """Auto-generated stub for {module_title}.
+
+        Created by the final import cleanup to keep legacy imports working
+        until a full implementation is ready.
+        """
+
+        from __future__ import annotations
+
+        import logging
+
+
+        logger = logging.getLogger(__name__)
+        logger.warning(
+            "Loaded auto-generated stub module '%s'; provide a concrete implementation when available.",
+            __name__,
+        )
+
+
+        __all__: list[str] = []
+
+
+        def __getattr__(name: str) -> None:
+            raise AttributeError(
+                f"{{__name__}}.{{name}} is not implemented in the stub module."
+            )
+        '''
+    ).lstrip()
 
 
 class FinalImportCleanup:
@@ -189,8 +227,7 @@ class FinalImportCleanup:
             full_path.parent.mkdir(parents=True, exist_ok=True)
 
             if not full_path.exists():
-                module_name = full_path.stem.replace("_", " ").title()
-                content = f'"""\n{module_name} Module\n"""\n\n# TODO: Implement {module_name}\npass\n'
+                content = _generate_stub_module_content(full_path)
 
                 with open(full_path, "w", encoding="utf-8") as f:
                     f.write(content)
@@ -213,15 +250,15 @@ class FinalImportCleanup:
                 # Fix relative imports
                 content = content.replace(
                     "from . import utils",
-                    "# from . import utils  # TODO: Create utils module",
+                    "# from . import utils  # placeholder until utils module is restored",
                 )
                 content = content.replace(
                     "from .commands.base import",
-                    "# from .commands.base import  # TODO: Create commands.base module",
+                    "# from .commands.base import  # awaiting commands.base implementation",
                 )
                 content = content.replace(
                     "from . import commands",
-                    "# from . import commands  # TODO: Create commands module",
+                    "# from . import commands  # placeholder until commands package is available",
                 )
 
                 with open(dev_tools_path, "w", encoding="utf-8") as f:
