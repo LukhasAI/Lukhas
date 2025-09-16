@@ -20,10 +20,15 @@ except Exception:
 from .consensus_engine import ConsensusEngine
 from .context_manager import ContextManager
 from .performance_monitor import PerformanceMonitor
+from .ai_provider import AIProvider, TaskType, OrchestrationRequest, OrchestrationResponse
 
 __all__ = [
+    "AIProvider",
     "ConsensusEngine",
     "ContextManager",
     "MultiAIOrchestrator",
+    "OrchestrationRequest",
+    "OrchestrationResponse",
     "PerformanceMonitor",
+    "TaskType",
 ]

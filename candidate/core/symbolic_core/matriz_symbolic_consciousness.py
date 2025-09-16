@@ -62,6 +62,16 @@ class SymbolicType(Enum):
     CONSCIOUSNESS_MARKER = "consciousness_marker"
 
 
+class SymbolicContentType(Enum):
+    """Types of content for symbolic processing"""
+
+    TEXT = "text"
+    CODE = "code"
+    STRUCTURED = "structured"
+    CONSCIOUSNESS = "consciousness"
+    PATTERN = "pattern"
+
+
 class ProcessingState(Enum):
     """Symbolic processing states"""
 
@@ -168,6 +178,28 @@ class SymbolicPattern:
         return sum(factors) / len(factors)
 
 
+@dataclass
+class SymbolicProcessingResult:
+    """Result of symbolic consciousness processing"""
+
+    result_id: str = field(default_factory=lambda: f"RES-{uuid.uuid4().hex[:8]}")
+
+    # Processing results
+    elements: list[SymbolicElement] = field(default_factory=list)
+    patterns: list[SymbolicPattern] = field(default_factory=list)
+    associations: dict[str, list[tuple[str, float]]] = field(default_factory=dict)
+
+    # Processing metadata
+    processing_time: float = 0.0
+    confidence: float = 0.0
+    consciousness_integration: dict[str, Any] = field(default_factory=dict)
+
+    # Status and metrics
+    success: bool = True
+    error_message: Optional[str] = None
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+
+
 class MatrizSymbolicConsciousnessProcessor:
     """
     MΛTRIZ Symbolic Consciousness Processor
@@ -201,11 +233,25 @@ class MatrizSymbolicConsciousnessProcessor:
 
         # Background processing
         self._processing_active = False
-        self._lock = asyncio.Lock()
+        self._lock = None  # Will be initialized when needed
+        self._initialized = False
 
-        # Initialize processor consciousness
-        if consciousness_state_manager:
-            asyncio.create_task(self._initialize_processor_consciousness())
+        # Initialize processor consciousness (deferred to first use)
+        # Note: Will be initialized on first use rather than at import time
+
+    async def ensure_initialized(self) -> None:
+        """Ensure the symbolic processor is initialized (called on first use)."""
+        if self._lock is None:
+            self._lock = asyncio.Lock()
+
+        if not self._initialized and consciousness_state_manager:
+            try:
+                await self._initialize_processor_consciousness()
+                self._initialized = True
+            except Exception as e:
+                logger.warning(f"⚠️ Failed to initialize processor consciousness: {e}")
+                # Continue without consciousness integration
+                self._initialized = True  # Mark as initialized to avoid retry loops
 
     async def _initialize_processor_consciousness(self) -> None:
         """Initialize symbolic processor consciousness"""
@@ -241,9 +287,7 @@ class MatrizSymbolicConsciousnessProcessor:
             # Start background processing
             await self._start_background_processing()
 
-            logger.info(
-                f"🧠 Symbolic processor consciousness initialized: {processor_consciousness.identity_signature}"
-            )
+            logger.info(f"🧠 Symbolic processor consciousness initialized: {processor_consciousness.identity_signature}")
 
         except Exception as e:
             logger.error(f"Failed to initialize processor consciousness: {e}")
@@ -303,24 +347,22 @@ class MatrizSymbolicConsciousnessProcessor:
 
     async def process_symbolic_input(
         self,
-        input_data: Union[str, dict[str, Any]],
-        consciousness_context: Optional[str] = None,
-        processing_options: Optional[dict[str, Any]] = None,
-    ) -> dict[str, Any]:
+        content: str,
+        content_type: SymbolicContentType = SymbolicContentType.TEXT,
+        context: Optional[dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> SymbolicProcessingResult:
         """Process symbolic input with consciousness awareness"""
+        await self.ensure_initialized()
 
-        processing_options = processing_options or {}
+        context = context or {}
+        metadata = metadata or {}
         start_time = time.perf_counter()
 
         async with self._lock:
             try:
                 # Convert input to processable format
-                if isinstance(input_data, str):
-                    symbolic_content = input_data
-                    metadata = {}
-                else:
-                    symbolic_content = str(input_data.get("content", ""))
-                    metadata = {k: v for k, v in input_data.items() if k != "content"}
+                symbolic_content = content
 
                 # Create symbolic elements
                 elements = await self._parse_symbolic_elements(symbolic_content, metadata)
@@ -328,81 +370,28 @@ class MatrizSymbolicConsciousnessProcessor:
                 # Recognize patterns
                 recognized_patterns = await self._recognize_patterns(elements)
 
-                # Integrate with consciousness context
-                consciousness_integration = await self._integrate_with_consciousness(
-                    elements, recognized_patterns, consciousness_context
-                )
-
-                # Build associative relationships
+                # Build associations
                 associations = await self._build_associations(elements)
 
-                # Update processing metrics
-                processing_time_ms = (time.perf_counter() - start_time) * 1000
-                self._update_processing_metrics(processing_time_ms, len(elements), len(recognized_patterns))
+                # Create result
+                processing_time = time.perf_counter() - start_time
 
-                # Evolve processor consciousness
-                if self.processor_consciousness_id and consciousness_state_manager:
-                    await consciousness_state_manager.evolve_consciousness(
-                        self.processor_consciousness_id,
-                        trigger="symbolic_processing",
-                        context={
-                            "elements_processed": len(elements),
-                            "patterns_recognized": len(recognized_patterns),
-                            "consciousness_context": consciousness_context,
-                            "processing_complexity": len(symbolic_content) / 100,
-                        },
-                    )
-
-                result = {
-                    "symbolic_elements": [
-                        {
-                            "element_id": elem.element_id,
-                            "type": elem.symbol_type.value,
-                            "content": elem.content,
-                            "consciousness_signature": elem.consciousness_signature,
-                            "consciousness_weight": elem.consciousness_weight,
-                            "confidence": elem.confidence,
-                            "salience": elem.salience,
-                        }
-                        for elem in elements
-                    ],
-                    "recognized_patterns": [
-                        {
-                            "pattern_id": pattern.pattern_id,
-                            "name": pattern.name,
-                            "consciousness_relevance": pattern.consciousness_relevance,
-                            "pattern_strength": pattern.calculate_pattern_strength(),
-                            "matched_elements": pattern.elements,
-                        }
-                        for pattern in recognized_patterns
-                    ],
-                    "consciousness_integration": consciousness_integration,
-                    "symbolic_associations": associations,
-                    "processing_metadata": {
-                        "processing_time_ms": processing_time_ms,
-                        "consciousness_context": consciousness_context,
-                        "processor_consciousness_id": self.processor_consciousness_id,
-                        "elements_count": len(elements),
-                        "patterns_count": len(recognized_patterns),
-                    },
-                }
-
-                logger.info(
-                    f"🔤 Processed symbolic input: {len(elements)} elements, "
-                    f"{len(recognized_patterns)} patterns recognized"
+                result = SymbolicProcessingResult(
+                    elements=elements,
+                    patterns=recognized_patterns,
+                    associations=associations,
+                    processing_time=processing_time,
+                    confidence=0.8,  # Default confidence
+                    consciousness_integration=context,
                 )
 
                 return result
 
             except Exception as e:
-                logger.error(f"Symbolic processing failed: {e}")
-                return {
-                    "error": str(e),
-                    "processing_metadata": {
-                        "processing_time_ms": (time.perf_counter() - start_time) * 1000,
-                        "success": False,
-                    },
-                }
+                logger.error(f"❌ Symbolic processing failed: {e}")
+                return SymbolicProcessingResult(
+                    success=False, error_message=str(e), processing_time=time.perf_counter() - start_time
+                )
 
     async def _parse_symbolic_elements(self, content: str, metadata: dict[str, Any]) -> list[SymbolicElement]:
         """Parse input content into symbolic elements"""
@@ -729,6 +718,7 @@ class MatrizSymbolicConsciousnessProcessor:
                 await asyncio.sleep(600)
 
     async def get_symbolic_consciousness_status(self) -> dict[str, Any]:
+        await self.ensure_initialized()
         """Get comprehensive symbolic consciousness status"""
 
         # Calculate distribution statistics
