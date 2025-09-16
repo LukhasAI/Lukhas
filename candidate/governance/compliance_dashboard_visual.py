@@ -17,17 +17,24 @@ Integration Date: 2025-05-31T07:55:27.747593
 try:
     import streamlit as st
 except ImportError:
-    st = None  # Fallback if streamlit is not installed
+    # Create a mock streamlit object to prevent undefined name errors
+    class MockStreamlit:
+        def __getattr__(self, name):
+            def mock_method(*args, **kwargs):
+                print(f"Streamlit not available: {name} called with {args}, {kwargs}")
+
+            return mock_method
+
+    st = MockStreamlit()
 
 import base64
 from pathlib import Path
 
-st.set_page_config(page_title="Lukhas Compliance Visual Dashboard", layout="wide")
-st.title("🛡️ Lukhas AGI — Visual Compliance Review Dashboard")
-st.markdown("✅ **Restored Symbolic Export** — LUKHAS_AGI_3_FINAL_HANDOVER.zip")
-st.markdown(
-    "🔐 SHA-256: `33fc117c5fd786fb701de0cfe1514f6d5dabe70002cb4c09857d92cc58a4f569`"
-)
+if hasattr(st, "set_page_config"):
+    st.set_page_config(page_title="Lukhas Compliance Visual Dashboard", layout="wide")
+    st.title("🛡️ Lukhas AGI — Visual Compliance Review Dashboard")
+    st.markdown("✅ **Restored Symbolic Export** — LUKHAS_AGI_3_FINAL_HANDOVER.zip")
+    st.markdown("🔐 SHA-256: `33fc117c5fd786fb701de0cfe1514f6d5dabe70002cb4c09857d92cc58a4f569`")
 
 digest_path = Path("logs/weekly_compliance_digest.md")
 plot_dir = Path("logs")
@@ -42,7 +49,7 @@ Welcome. This report summarizes symbolic emergency activity from Lukhas AGI over
 All logs were GDPR-compliant and audit-traceable. Visual summaries are included below.
 """
 
-st.markdown("##)  #  📜 Compliance Digest Summary"
+st.markdown("## 📜 Compliance Digest Summary")
 
 if digest_path.exists():
     with open(digest_path) as f:
@@ -59,31 +66,27 @@ for col, image in zip(
 ):
     img_path = plot_dir / image
     if img_path.exists():
-        col.image(
-            str(img_path), caption=image.replace("_", " ").replace(".png", "").title()
-        )
+        col.image(str(img_path), caption=image.replace("_", " ").replace(".png", "").title())
     else:
         col.warning(f"{image} not found")
 
 st.divider()
-st.markdown("##)  #  🧾 Presentation Script (Attendees & Auditor View")
+st.markdown("## 🧾 Presentation Script (Attendees & Auditor View)")
 st.code(script_text)
 
 # Generate handout file
-handout_text = (
-    "# Lukhas Compliance Brief\n\n" + digest_path.read_text() + "\n---\n" + script_text
-)
+handout_text = "# Lukhas Compliance Brief\n\n" + digest_path.read_text() + "\n---\n" + script_text
 handout_bytes = handout_text.encode("utf-8")
 b64 = base64.b64encode(handout_bytes).decode()
-href = f'<a href="data:file/txt;base64,{b64}" download="lukhas_compliance_handout.txt">📥 Download Compliance Handout</a>'
+href = (
+    f'<a href="data:file/txt;base64,{b64}" download="lukhas_compliance_handout.txt">📥 Download Compliance Handout</a>'
+)
 st.markdown(href, unsafe_allow_html=True)
 
-st.caption(
-    "✅ Approved under the symbolic vision of SA (governance) and SJ (experience design)."
-)
+st.caption("✅ Approved under the symbolic vision of SA (governance) and SJ (experience design).")
 
 st.divider()
-st.markdown("##)  #  ⏰ Scheduling & Mobile Optimization"
+st.markdown("## ⏰ Scheduling & Mobile Optimization")
 
 st.markdown(
     "To enable automated compliance digests every Sunday at 8:00 AM, integrate this script with your system scheduler (e.g. `cron`, `launchd`, or GitHub Actions)."
@@ -112,12 +115,10 @@ if st.checkbox("📱 Optimize for Mobile Display (experimental)"):
     )
     st.success("✅ Mobile layout adjustments applied.")
 
-st.markdown(
-    "💬 *Next module to re-link: `id_portal/frontend/login.js` — tiered auth + face emoji grid.*"
-)
+st.markdown("💬 *Next module to re-link: `id_portal/frontend/login.js` — tiered auth + face emoji grid.*")
 
 st.divider()
-st.markdown("##)  #  🔐 ID Portal Preview"
+st.markdown("## 🔐 ID Portal Preview")
 
 if st.button("🔓 Preview Tiered Login (id_portal/login.js)"):
     st.session_state["restore_target"] = "id_portal/frontend/login.js"
