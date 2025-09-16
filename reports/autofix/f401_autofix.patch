@@ -1,0 +1,15 @@
+diff --git a/reports/lints/f401.json b/reports/lints/f401.json
+new file mode 100644
+index 00000000..0637a088
+--- /dev/null
++++ b/reports/lints/f401.json
+@@ -0,0 +1 @@
++[]
+\ No newline at end of file
+diff --git a/reports/lints/f401_report.csv b/reports/lints/f401_report.csv
+new file mode 100644
+index 00000000..1ae415b8
+--- /dev/null
++++ b/reports/lints/f401_report.csv
+@@ -0,0 +1 @@
++file,line,code,message
