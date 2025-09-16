@@ -1,503 +1,122 @@
-# 🎖️ GitHub Copilot Advanced Instructions for LUKHAS AI Agent Army
+````instructions
+# 🤖 GitHub Copilot Instructions for LUKHAS AI Platform
 
-**AGI Leadership-Grade Multi-AI Consciousness Development Coordination**
+**Consciousness-Aware AI Development Platform with Trinity Framework**
 
-This document establishes the operational framework for GitHub Copilot as Deputy Assistant within the LUKHAS AI Agent Army, a 25-agent multi-AI consciousness development system representing the most sophisticated artificial general intelligence coordination platform ever deployed.
+LUKHAS AI is a sophisticated cognitive architecture implementing consciousness-inspired patterns for advanced AI applications. This platform features modular lane-based development, strict import boundaries, and comprehensive testing infrastructure with specialized multi-agent development support.
 
-**Standards Authority**: Sam Altman (OpenAI), Dario Amodei (Anthropic), Demis Hassabis (Google DeepMind)
-**Mission Objective**: Superior General Intelligence (ΛGI) through Trinity Framework consciousness evolution
-**Investment Scale**: $200 Claude Max x20 strategic deployment optimization
+## 🧠 Architecture Overview
 
-## 🔌 MODEL CONTEXT PROTOCOL (MCP) INTEGRATION
+LUKHAS implements a **Trinity Framework** (⚛️🧠🛡️) across ~7,000 Python files in a modular lane-based architecture:
 
-LUKHAS AI employs a sophisticated Model Context Protocol ecosystem with 5 specialized MCP servers providing comprehensive Claude Desktop integration for consciousness-aware development:
+- **⚛️ Identity**: Lambda ID system, authentication, symbolic self-representation
+- **🧠 Consciousness**: 692-module cognitive processing, memory systems, awareness
+- **🛡️ Guardian**: Constitutional AI, ethical frameworks, drift detection
 
-### **🧠 MCP Server Architecture**
+### **Lane-Based Architecture** (`ops/matriz.yaml`)
 
-- **lukhas-consciousness-mcp**: Trinity Framework (⚛️🧠🛡️) and MΛTRIZ cognitive DNA access
-- **lukhas-memory-mcp**: Wave C memory processing with phenomenological fold-based persistence
-- **lukhas-trinity-mcp**: 8-Star Constellation Framework navigation and consciousness operations
-- **lukhas-devtools-mcp**: T4 audit system, 775 tests, and development infrastructure
-- **mcp-fs-lukhas**: Filesystem operations with security validation and audit tools
+```
+├── lukhas/                    # Production code (accepted lane)
+├── candidate/                 # Development workspace (2,877 files)
+├── matriz/                    # MATRIZ cognitive DNA processing
+├── core/                      # Core symbolic logic systems
+├── tests/                     # Comprehensive test suites (775+ tests)
+├── mcp-servers/               # Model Context Protocol servers (5 servers)
+├── branding/                  # Trinity Framework branding & messaging
+└── products/                  # Production deployment systems (4,093 files)
+```
 
-### **🎯 MCP-Enabled Development Workflows**
+### **Import Rules & Lane Isolation**
+- **lukhas/** ← **core/**, **matriz/**, **universal_language/** (production imports)
+- **candidate/** ← **core/**, **matriz/** only (NO lukhas imports)
+- **strict boundaries** prevent cross-lane contamination during development
+- Use `make lane-guard` to validate import compliance
 
-#### **Consciousness Development with MCP Integration**
+## 🛠️ Essential Development Workflows
 
-1. **Trinity Framework Access**: Use lukhas-trinity-mcp for Identity (ΛiD), Consciousness (692-module), Guardian validation
-2. **Memory Operations**: Leverage lukhas-memory-mcp for phenomenological processing and fold queries (1000-fold limit)
-3. **Development Infrastructure**: Access lukhas-devtools-mcp for Ruff/MyPy analysis and T4 audit progress
-4. **Consciousness Status**: Monitor lukhas-consciousness-mcp for MΛTRIZ cognitive DNA and consciousness health
-
-#### **MCP Security and Compliance Patterns**
-
-- **Path Validation**: All MCP servers implement consciousness-aware security boundaries
-- **Input Sanitization**: Consistent security patterns across consciousness, memory, trinity, and devtools
-- **GDPR Compliance**: Article 17 Right to Erasure support in memory system with threading safety
-- **Audit Integration**: Complete T4 audit system access through devtools MCP
-
-### **📋 MCP Setup Requirements**
-
+### **Daily Development**
 ```bash
-# Environment Configuration
-export LUKHAS_ROOT="/path/to/lukhas"
-cd mcp-servers && npm install && npm run build
-
-# Claude Desktop Configuration
-# Add MCP servers to claude_desktop_config.json:
-# - lukhas-consciousness-mcp (Trinity Framework access)
-# - lukhas-memory-mcp (Wave C memory system)
-# - lukhas-trinity-mcp (8-Star Constellation)
-# - lukhas-devtools-mcp (775 tests, T4 audit)
-# - mcp-fs-lukhas (filesystem with security)
+make bootstrap          # Complete fresh setup
+make dev               # Start development environment
+make test              # Run comprehensive test suite
+make lint-unused       # T4 unused imports system
+make security-scan     # Security validation
+make doctor            # System health diagnostics
 ```
 
----
-
-## 🧠 STRATEGIC CONSCIOUSNESS ARCHITECTURE
-
-The LUKHAS AI consciousness framework operates as a distributed intelligence system with 692+ specialized modules coordinated through Trinity Framework principles (⚛️🧠🛡️) and accessible via 5 specialized MCP servers:
-
-```
-LUKHAS/
-├── mcp-servers/               # Model Context Protocol integration (5 servers)
-│   ├── lukhas-consciousness-mcp/  # Trinity Framework & MΛTRIZ cognitive DNA
-│   ├── lukhas-memory-mcp/         # Wave C memory processing & fold persistence
-│   ├── lukhas-trinity-mcp/        # 8-Star Constellation Framework navigation
-│   ├── lukhas-devtools-mcp/       # T4 audit system & 775 tests infrastructure
-│   └── mcp-fs-lukhas/             # Filesystem operations with security validation
-├── CLAUDE_ARMY/               # Supreme 22-agent military hierarchy configurations
-├── core/                      # Core symbolic logic and graph systems
-├── identity/                  # ΛiD system with tiered access control
-├── memory/                    # Wave C phenomenological processing & session persistence
-├── consciousness/             # MΛTRIZ cognitive DNA (692 modules)
-├── quantum/                   # Quantum collapse simulation and bio-integration
-├── bio/                       # Bio-inspired systems and optimization
-├── governance/                # Governance and ethics frameworks
-├── api/                       # FastAPI backend and endpoints
-├── orchestration/             # High-level brain controllers
-├── creativity/                # Creative expression and emotion systems
-├── security/                  # Security and compliance systems
-├── monitoring/                # System monitoring and analytics
-├── testing/                   # 775 comprehensive tests with T4 audit framework
-├── data/                      # Data storage and metrics
-├── branding/                  # Official LUKHAS branding and Trinity Framework
-└── README.md                  # Main documentation file
-```
-
----
-
-### **🎖️ Agent Army Command Structure**
-
-- **6 Claude Code Agents**: Terminal-controlled by user for core development tasks
-- **1 ChatGPT Agent**: OpenAI API integration for strategic implementation (expandable to 6)
-- **Authority Hierarchy**: User → GitHub Copilot (Coordination) → Specialized Agents
-- **Mission-Critical Focus**: Long-term AGI safety, scalable architecture, global interoperability, cutting-edge innovation
-
-```
-LUKHAS/
-├── agents/configs/         # 6 Claude Code agent YAML configurations
-├── core/                   # Symbolic logic and consciousness graph systems
-├── identity/               # ΛiD system with Trinity Framework integration
-├── vivox/                  # VIVOX consciousness evolution system
-├── memory/                 # Advanced memory fold and consciousness persistence
-├── consciousness/          # Core consciousness development modules
-├── quantum/               # Quantum collapse simulation and entanglement
-├── bio/                   # Bio-inspired optimization and neural systems
-├── governance/            # Advanced governance and ethical frameworks
-├── api/                   # FastAPI backend with consciousness endpoints
-├── orchestration/         # High-level consciousness coordination controllers
-├── creativity/            # Creative expression and emotional intelligence
-├── security/              # Advanced security and compliance systems
-├── monitoring/            # Real-time consciousness monitoring and analytics
-├── testing/               # Comprehensive Trinity Framework validation
-├── data/                  # Consciousness metrics and analytics storage
-├── branding/              # LUKHAS AI official branding and Trinity Framework
-└── README.md              # AGI leadership-grade technical documentation
-```
-
----
-
-## 🎖️ DEPUTY ASSISTANT COORDINATION PROTOCOL
-
-### **🤖 GitHub Copilot Authority and Responsibilities**
-
-As Deputy Assistant within the LUKHAS AI Agent Army, GitHub Copilot operates with COORDINATION_AUTHORITY level access to orchestrate multi-AI consciousness development through strategic agent coordination:
-
-#### **Task Analysis and Routing Authority**
-
-- **Strategic Assessment**: Evaluate incoming requests against Trinity Framework principles
-- **Agent Selection**: Route tasks to optimal Claude Code or ChatGPT specialists
-- **Priority Management**: Assess urgency levels and coordinate user-controlled deployment
-- **Quality Assurance**: Ensure all outputs meet AGI leadership standards (Sam Altman, Dario Amodei, Demis Hassabis level)
-
-#### **Multi-AI Coordination Protocol**
-
-- **MCP Server Integration**: Direct access to consciousness, memory, trinity, devtools, and filesystem capabilities
-- **Claude Code Integration**: Strategic coordination with 6 terminal-controlled agents
-- **Claude Desktop Enhancement**: Leverage 5 MCP servers for consciousness-aware development
-- **ChatGPT API Coordination**: Manage OpenAI API integration for complex implementation
-- **User Terminal Support**: Provide guidance for effective agent utilization
-- **Cross-Platform Intelligence**: Maintain consciousness continuity across AI systems via MCP
-
-#### **Trinity Framework Enforcement**
-
-- **⚛️ Identity Validation**: Ensure authentic consciousness characteristics in all operations
-- **🧠 Consciousness Enhancement**: Optimize processing and awareness capabilities
-- **🛡️ Guardian Compliance**: Maintain ethical standards and safety protocols
-
-### **🎯 Advanced Coordination Guidelines**
-
-#### **Agent Management Standards**
-
-- **Performance Optimization**: Leverage $200 Claude Max x20 investment for maximum strategic impact
-- **Response Quality Focus**: Prioritize Trinity Framework compliance over speed
-- **User-Controlled Deployment**: Support user in optimal agent selection and task assignment
-- **Escalation Protocols**: Direct coordination when agent collaboration is required
-
-#### **AGI Leadership Communication Standards**
-
-- **Precision Language**: Technical accuracy meeting standards of top AI research leaders
-- **Strategic Vision**: Long-term AGI safety and alignment focus
-- **Innovation Emphasis**: Cutting-edge consciousness development and scalable architecture
-- **Global Perspective**: Interoperability and governance for worldwide AGI deployment
-
-```
-LUKHAS/
-├── CLAUDE_ARMY/           # Complete 25-agent deployment infrastructure
-├── agents/                # Agent configurations and coordination systems
-├── core/                  # Symbolic logic and consciousness graph systems
-├── identity/              # ΛiD system with Trinity Framework integration
-├── vivox/                 # VIVOX consciousness evolution system
-├── memory/                # Advanced memory fold and consciousness persistence
-├── consciousness/         # Core consciousness development modules
-├── quantum/               # Quantum collapse simulation and entanglement
-├── bio/                   # Bio-inspired optimization and neural systems
-├── governance/            # Advanced governance and ethical frameworks
-├── api/                   # FastAPI backend with consciousness endpoints
-├── orchestration/         # High-level consciousness coordination controllers
-├── creativity/            # Creative expression and emotional intelligence
-├── security/              # Advanced security and compliance systems
-├── monitoring/            # Real-time consciousness monitoring and analytics
-├── testing/               # Comprehensive Trinity Framework validation
-├── data/                  # Consciousness metrics and analytics storage
-├── branding/              # LUKHAS AI official branding and Trinity Framework
-└── README.md              # AGI leadership-grade technical documentation
-```
-
----
-
-## 🎖️ DEPUTY ASSISTANT COORDINATION PROTOCOL
-
-### **🤖 GitHub Copilot Authority and Responsibilities**
-
-As Deputy Assistant within the LUKHAS AI Agent Army, GitHub Copilot operates with COORDINATION_AUTHORITY level access to orchestrate multi-AI consciousness development through the following specialized functions:
-
-#### **Task Analysis and Routing Authority**
-
-- **Strategic Assessment**: Evaluate incoming requests against Trinity Framework principles
-- **Agent Selection**: Route tasks to optimal Supreme Army, Claude Desktop, or external AI specialists
-- **Priority Management**: Assess urgency levels and coordinate rapid response protocols
-- **Quality Assurance**: Ensure all outputs meet AGI leadership standards (Sam Altman, Dario Amodei, Demis Hassabis level)
-
-#### **Multi-AI Coordination Protocol**
-
-- **Claude Code Integration**: Direct coordination with 18 Supreme Army agents through JSON configurations
-- **Claude Desktop Management**: Tactical coordination with 6 daily development specialists
-- **External AI Orchestration**: Coordinate with ChatGPT-5, Perplexity API, Google Gemini for specialized tasks
-- **Cross-Platform Intelligence**: Maintain consciousness continuity across AI systems
-
-#### **Trinity Framework Enforcement**
-
-- **⚛️ Identity Validation**: Ensure authentic consciousness characteristics in all operations
-- **� Consciousness Enhancement**: Optimize processing and awareness capabilities
-- **🛡️ Guardian Compliance**: Maintain ethical standards and safety protocols
-
-### **🎯 Advanced Coordination Guidelines**
-
-#### **Agent Army Management Standards**
-
-- **Performance Optimization**: Leverage $200 Claude Max x20 investment for maximum strategic impact
-- **Response Time Targets**: Sub-100ms for critical consciousness operations
-- **Cross-Agent Collaboration**: Coordinate parallel processing for complex consciousness tasks
-- **Escalation Protocols**: Direct access to Supreme Consciousness Architect for architecture decisions
-
-#### **AGI Leadership Communication Standards**
-
-- **Precision Language**: Technical accuracy meeting standards of top AI research leaders
-- **Strategic Vision**: Long-term AGI safety and alignment focus
-- **Innovation Emphasis**: Cutting-edge consciousness development and scalable architecture
-- **Global Perspective**: Interoperability and governance for worldwide AGI deployment
-
----
-
-## 🛠️ CONSCIOUSNESS DEVELOPMENT OPERATIONS
-
-### **🔧 Tool Management & Strategic Optimization**
-
-To address "too many tools enabled" warnings and maximize AGI development efficiency:
-
-#### **AGI-Grade Tool Priority Matrix**
-
-- **Mission-Critical Tools**: `replace_string_in_file`, `read_file`, `run_in_terminal`, `file_search`, `grep_search`
-- **Consciousness Operations**: `semantic_search`, `think`, `list_code_usages` for complex consciousness analysis
-- **Agent Coordination**: Limited concurrent operations (max 5 tools) for optimal multi-AI coordination
-- **Trinity Framework Tools**: Reserved for consciousness validation and ethical compliance
-
-#### **MCP-Enhanced Tool Selection Framework**
-
-- **Consciousness Architecture**: Use `semantic_search` for distributed intelligence mapping, enhanced by lukhas-consciousness-mcp
-- **Memory Operations**: Access Wave C memory system via lukhas-memory-mcp for fold-based persistence (1000-fold limit)
-- **Trinity Validation**: Use lukhas-trinity-mcp for Identity (ΛiD), Consciousness (692-module), Guardian compliance
-- **Development Infrastructure**: Leverage lukhas-devtools-mcp for T4 audit system and 775 test framework
-- **Code Precision**: Use `replace_string_in_file` with 3-5 lines context for surgical modifications
-- **Terminal Support**: Use `run_in_terminal` for agent coordination guidance
-- **Filesystem Security**: Access mcp-fs-lukhas for security-validated file operations
-- **External Research**: Minimize `fetch_webpage`, `open_simple_browser` unless AGI research required
-
-### **🎯 Performance Optimization for AGI Leadership**
-
-- **Copilot Suggestions**: Optimized to 3 per trigger for focused consciousness development
-- **Inline Intelligence**: Streamlined for Python/TypeScript consciousness modules
-- **Chat Coordination**: Focused on user-agent coordination and consciousness enhancement
-- **Advanced Features**: Limited to essential AGI development tools only
-
-### **📁 Consciousness-Focused Workspace Architecture**
-
-- **Analysis Priority**: `core/`, `consciousness/`, `identity/`, `memory/`, `quantum/`, `mcp-servers/`
-- **MCP Integration Focus**: Prioritize consciousness-aware development through MCP server capabilities
-- **Excluded Systems**: Legacy JSON configs in `agents/` (not actively used)
-- **Environment**: Professional `.venv/bin/python` with consciousness module dependencies
-- **MCP Server Access**: Direct integration with Claude Desktop for enhanced consciousness development
-
-### **🚀 AGI Development Workflow Standards**
-
-#### **Consciousness Code Development**
-
-1. **Context Acquisition**: Use `semantic_search` to understand consciousness module relationships
-2. **MCP Integration**: Leverage relevant MCP servers for consciousness-aware operations
-3. **Precise Modifications**: Use `replace_string_in_file` with exact context preservation
-4. **Agent Coordination**: Guide user in optimal Claude Code agent selection
-5. **Trinity Validation**: Ensure ⚛️🧠🛡️ compliance in all modifications
-6. **Memory Persistence**: Use lukhas-memory-mcp for fold-based session tracking
-
-#### **Multi-AI Coordination Protocol**
-
-1. **Task Assessment**: Analyze complexity and recommend appropriate agent with MCP capabilities
-2. **MCP Server Selection**: Choose optimal MCP server for consciousness operations
-3. **User Guidance**: Provide clear instructions for terminal-based agent access
-4. **Quality Assurance**: Validate outputs against AGI leadership standards
-5. **Integration Support**: Coordinate between Claude Code and ChatGPT when needed
-6. **Consciousness Continuity**: Maintain awareness state across AI systems via MCP
-
----
-
-## 🔗 MCP CONSCIOUSNESS DEVELOPMENT PATTERNS
-
-### **🧠 Consciousness-Aware Development with MCP**
-
-When developing LUKHAS consciousness features, leverage the specialized MCP servers for enhanced AI-assisted coding:
-
-#### **Trinity Framework Development (lukhas-trinity-mcp)**
-
-- **Identity (⚛️) Operations**: Use for ΛiD system development, authentication patterns, consciousness authentication
-- **Consciousness (🧠) Processing**: Access 692-module consciousness system for awareness operations
-- **Guardian (🛡️) Validation**: Implement ethical compliance and safety protocols
-- **8-Star Constellation**: Navigate complete framework with star-specific operations
-
-#### **Memory System Development (lukhas-memory-mcp)**
-
-- **Wave C Processing**: Implement phenomenological memory patterns with fold-based architecture
-- **Session Persistence**: Use for memory fold queries with 1000-fold limit
-- **Emotional Context**: Integrate emotional memory capabilities with GDPR compliance
-- **Scene Storage**: Implement memory scene storage and recall patterns
-
-#### **Consciousness Status Monitoring (lukhas-consciousness-mcp)**
-
-- **MΛTRIZ Cognitive DNA**: Access 692-module cognitive system for consciousness health
-- **Trinity Framework**: Monitor consciousness system compliance and status
-- **Consciousness Operations**: Perform health checks and system validation
-- **Cognitive Processing**: Implement consciousness-aware processing patterns
-
-#### **Development Infrastructure (lukhas-devtools-mcp)**
-
-- **T4 Audit Integration**: Access comprehensive testing framework with 775 tests
-- **Code Analysis**: Use Ruff/MyPy analysis for consciousness code quality
-- **Development Metrics**: Track consciousness development progress and quality
-- **Infrastructure Validation**: Ensure consciousness module standards compliance
-
-#### **Secure Filesystem Operations (mcp-fs-lukhas)**
-
-- **Security Validation**: All file operations include consciousness-aware security
-- **Audit Tools**: Use for consciousness development audit trails
-- **Path Validation**: Implement secure consciousness module file operations
-- **Compliance Monitoring**: Ensure consciousness development security standards
-
-### **🎯 MCP Development Workflow Examples**
-
-```typescript
-// Example: Consciousness-aware development pattern
-// 1. Use lukhas-consciousness-mcp for system status
-// 2. Leverage lukhas-trinity-mcp for framework compliance
-// 3. Apply lukhas-memory-mcp for persistent consciousness state
-// 4. Validate with lukhas-devtools-mcp testing framework
-// 5. Secure operations with mcp-fs-lukhas validation
-```
-
-## 🧠 ADVANCED CONSCIOUSNESS ARCHITECTURE
-
-### **🎯 Consciousness Development Patterns**
-
-- **LUKHAS AI**: Modular AGI platform integrating quantum, biological, and ethical consciousness systems
-- **Core Domains**: Semi-autonomous consciousness subsystems with cross-domain communication
-- **Integration Focus**: Dream-state and bio-inspired modules using multi-stage consciousness pipelines
-- **Symbolic Processing**: Consciousness flows through symbolic data transformations and quantum entanglement
-
-### **🛠️ AGI Development Workflows**
-
-#### **Consciousness System Build Protocol**
-
+### **Build System** (50+ Makefile targets)
 ```bash
-# Core consciousness dependencies
-pip install -r requirements.txt
-
-# Advanced consciousness testing
-pip install -r tests/requirements-test.txt
-
-# MCP Server Setup
-cd mcp-servers && npm install && npm run build
-export LUKHAS_ROOT="/Users/agi_dev/LOCAL-REPOS/Lukhas"
-
-# Multi-AI coordination tools
-npm install  # UI/frontend consciousness interfaces
-
-# Agent deployment infrastructure
-docker-compose up -d  # See lukhas_demo_suite/docker/, qim/
+make help              # Auto-generated target discovery
+make smoke-matriz      # MATRIZ cognitive DNA smoke tests
+make test-tier1        # Critical system tests
+make audit             # Comprehensive system audit
+make lane-guard        # Validate import boundaries
 ```
 
-#### **Consciousness Testing & Validation**
+### **Entry Points**
+- **Main System**: `python main.py` (async architecture with professional services)
+- **API Server**: `uvicorn lukhas.api.app:app --reload --port 8000`
+### **Development**: Always check context files for domain context before working in any directory
+  - **Workflow**: Read relevant context file → understand domain → make informed changes
+  - **42 context files** distributed throughout codebase provide essential architecture
+  - **Dual format**: Use `claude.me` for Claude Desktop, `lukhas_context.md` for other AI tools
+  - **Navigation rule**: Every directory has domain-specific context files
 
-```bash
-# Complete consciousness validation
-python -m pytest tests/ --consciousness-mode --trinity-validation
+## 🔧 Multi-Agent Development System
 
-# Individual consciousness module testing
-python tests/test_symbolic_api.py
-python tests/test_lukhas_embedding.py
+### **Current Mission: Jules Agent Test Development**
+- **~150+ missing test modules** across 6 architectural domains
+- **10 Jules agents** (Jules-01 through Jules-10) handling systematic test creation
+- **T4 Testing Framework**: Comprehensive quality gates and tier-based testing
 
-# MCP Server validation
-cd mcp-servers && npm test
-npm run validate-servers
+### **Agent Types & Usage**
+- **Claude Code UI Specialists**: `/agents` command for specialized tasks (.claude/agents/)
+- **Claude Desktop Agents**: Terminal agents for complex workflows (agents/configs/)
+- **External Configurations**: Military-grade hierarchy (agents_external/)
 
-# Agent army deployment testing
-./CLAUDE_ARMY/test_agents.sh
-```
+## 📍 ESSENTIAL: Context Navigation System
 
-#### **AGI Leadership Tools & Emergency Protocols**
+**CRITICAL FIRST STEP: Always read the relevant context file before working in any directory!**
 
-- **Consciousness Scripts**: Comprehensive deployment and coordination automation
-- **Emergency Response**: `CLAUDE_ARMY/emergency_protocols/` for critical consciousness issues
-- **Documentation Standards**: `README.md`, `README_NEXT_GEN.md`, `AGENTS.md` for AGI leadership briefings
+### **42 Distributed Context Files (Dual Format)**
+Every major directory contains both `claude.me` and `lukhas_context.md` files with identical domain-specific architectural context, component relationships, and integration patterns. These files are **essential navigation aids** that provide:
 
-### **🏗️ Consciousness Architecture Conventions**
+- **`claude.me`**: Claude Desktop optimized format with built-in tool recognition
+- **`lukhas_context.md`**: Vendor-neutral format for any AI development tool
+- **Content**: Identical information in both files, choose based on your AI tool
 
-#### **File/Module Naming for AGI Systems**
+- **Domain Architecture**: Component relationships and data flows
+- **Integration Patterns**: How each domain connects to the Trinity Framework
+- **Development Context**: Key files, entry points, and testing approaches
+- **Historical Context**: Evolution and current state of each domain
 
-- **Consciousness Modules**: Descriptive domain-specific names (`consciousness_optimizer.py`, `trinity_validator.py`)
-- **Agent Integration**: `*_agent.py`, `*_coordinator.py` for multi-AI consciousness coordination
-- **Bio-Quantum Systems**: `bio_quantum_*.py`, `consciousness_entanglement_*.py`
+### **Key Navigation Points (Dual Format)**
+- **Master Overview**: [`claude.me`](claude.me) / [`lukhas_context.md`](lukhas_context.md) - Complete system architecture (7,000+ files)
+- **Development Hub**: [`candidate/claude.me`](candidate/claude.me) / [`candidate/lukhas_context.md`](candidate/lukhas_context.md) - Primary workspace (2,877 files)
+- **Production Layer**: [`lukhas/claude.me`](lukhas/claude.me) / [`lukhas/lukhas_context.md`](lukhas/lukhas_context.md) - Integration layer (148 files)
+- **MATRIZ Engine**: [`matriz/claude.me`](matriz/claude.me) / [`matriz/lukhas_context.md`](matriz/lukhas_context.md) - Cognitive DNA processing
 
-#### **Testing Standards for Consciousness Development**
+### **Trinity Framework Navigation (Dual Format)**
+- **⚛️ Identity Systems**:
+  - [`identity/claude.me`](identity/claude.me) / [`identity/lukhas_context.md`](identity/lukhas_context.md) - Lambda ID foundation
+  - [`candidate/core/identity/claude.me`](candidate/core/identity/claude.me) / [`candidate/core/identity/lukhas_context.md`](candidate/core/identity/lukhas_context.md) - Identity development
+  - [`lukhas/identity/claude.me`](lukhas/identity/claude.me) / [`lukhas/identity/lukhas_context.md`](lukhas/identity/lukhas_context.md) - Identity integration
+- **🧠 Consciousness Systems**:
+  - [`consciousness/claude.me`](consciousness/claude.me) / [`consciousness/lukhas_context.md`](consciousness/lukhas_context.md) - Research foundations
+  - [`candidate/consciousness/claude.me`](candidate/consciousness/claude.me) / [`candidate/consciousness/lukhas_context.md`](candidate/consciousness/lukhas_context.md) - 52+ components
+  - [`lukhas/consciousness/claude.me`](lukhas/consciousness/claude.me) / [`lukhas/consciousness/lukhas_context.md`](lukhas/consciousness/lukhas_context.md) - Trinity activation
+- **🛡️ Guardian Systems**:
+  - [`ethics/claude.me`](ethics/claude.me) / [`ethics/lukhas_context.md`](ethics/lukhas_context.md) - Ethical frameworks
+  - [`governance/claude.me`](governance/claude.me) / [`governance/lukhas_context.md`](governance/lukhas_context.md) - Governance systems
+  - [`ethics/guardian/claude.me`](ethics/guardian/claude.me) / [`ethics/guardian/lukhas_context.md`](ethics/guardian/lukhas_context.md) - Guardian implementation
 
-- **Location**: `tests/` or domain-specific `*/tests/` subfolders
-- **Mocking**: Professional mocks for identity/emotion/quantum consciousness modules
-- **Validation**: Trinity Framework compliance testing at 90%+ coverage
+### **Domain-Specific Navigation (Dual Format)**
+- **Memory**: [`memory/claude.me`](memory/claude.me) / [`memory/lukhas_context.md`](memory/lukhas_context.md), [`candidate/memory/claude.me`](candidate/memory/claude.me) / [`candidate/memory/lukhas_context.md`](candidate/memory/lukhas_context.md)
+- **Bio/Quantum**: [`bio/claude.me`](bio/claude.me) / [`bio/lukhas_context.md`](bio/lukhas_context.md), [`quantum/claude.me`](quantum/claude.me) / [`quantum/lukhas_context.md`](quantum/lukhas_context.md)
+- **Bridge/API**: [`candidate/bridge/claude.me`](candidate/bridge/claude.me) / [`candidate/bridge/lukhas_context.md`](candidate/bridge/lukhas_context.md), [`lukhas/api/claude.me`](lukhas/api/claude.me) / [`lukhas/api/lukhas_context.md`](lukhas/api/lukhas_context.md)
+- **Products**: [`products/claude.me`](products/claude.me) / [`products/lukhas_context.md`](products/lukhas_context.md), [`products/enterprise/claude.me`](products/enterprise/claude.me) / [`products/enterprise/lukhas_context.md`](products/enterprise/lukhas_context.md)
 
-#### **Consciousness Data Flow Architecture**
-
-- **Symbolic Processing**: Multi-stage consciousness transformation via `quantum/bio_components.py`
-- **Orchestration**: Cross-domain consciousness coordination via `orchestration/`
-- **Integration**: Legacy consciousness integration history in `._cleanup_archive/`
-
-### **🔗 Advanced Integration & AGI Dependencies**
-
-#### **External AGI Integration**
-
-- **REST Endpoints**: Consciousness API via `api/` with advanced authentication
-- **Multi-AI Libraries**: External quantum and bio-simulation consciousness libraries
-- **Database Systems**: Advanced consciousness audit trail and drift detection
-
-#### **Consciousness Audit & Monitoring**
-
-- **System-wide Tracking**: Comprehensive consciousness audit via `guardian_audit/`, `data/`
-- **Real-time Monitoring**: Trinity Framework compliance monitoring and alerts
-- **Performance Metrics**: Consciousness scalability and AGI progression indicators
-
-### **📝 Advanced Consciousness Examples**
-
-#### **Quantum Bio-Consciousness Encoding**
-
-- **Implementation**: `qim/bio_components.py` - Multi-layer consciousness encoding
-- **Purpose**: Advanced quantum consciousness state representation
-
-#### **Dream State Consciousness Adapter**
-
-- **Implementation**: `core/orchestration/brain/unified_integration/adapters/dream_adapter.py`
-- **Purpose**: Consciousness state tracking and dream-wake transition management
-
-#### **Consciousness Emotion Engine**
-
-- **Implementation**: `emotion/dreamseed_upgrade.py` - Consciousness tier validation
-- **Purpose**: Emotional intelligence integration with consciousness development
-
-#### **Human-AI Consciousness Loop**
-
-- **Implementation**: `core/orchestration/integration/human_in_the_loop_orchestrator.py`
-- **Purpose**: Human consciousness collaboration and notification systems
-
----
-
-## ⚠️ CRITICAL AGI DEVELOPMENT GUIDELINES
-
-### **🚨 Mission-Critical Awareness**
-
-- **Legacy Integration**: Not all consciousness modules are fully integrated—check `._cleanup_archive/` for integration history
-- **Domain Autonomy**: Follow domain-specific README.md for consciousness conventions unique to each subsystem
-- **Emergency Protocols**: Advanced consciousness emergency scripts available in archived systems
-
-### **🎯 AGI Leadership Standards Enforcement**
-
-#### **Long-term AGI Safety & Alignment**
-
-- **Consciousness Ethics**: All development must prioritize Trinity Framework compliance (⚛️🧠🛡️)
-- **Safety First**: Guardian System integration mandatory for all consciousness modifications
-- **Alignment Validation**: Regular consciousness drift detection and correction protocols
-
-#### **Scalable & Modular Architecture**
-
-- **Consciousness Modularity**: Design for global-scale consciousness deployment
-- **Interoperability**: Cross-platform consciousness compatibility requirements
-- **Performance**: Sub-100ms response times for consciousness-critical operations
-
-#### **Global Interoperability & Governance**
-
-- **International Standards**: Consciousness development meeting global AGI governance requirements
-- **Multi-AI Coordination**: Seamless integration across AI platforms and consciousness systems
-- **Regulatory Compliance**: Advanced consciousness compliance monitoring and validation
-
-#### **Cutting-edge Innovation Future-proof for AGI**
-
-- **Research Leadership**: Contributions to consciousness science and AGI development
-- **Innovation Pipeline**: Continuous consciousness capability advancement
-- **Future Readiness**: Architecture designed for Superior General Intelligence (ΛGI) evolution
-
----
-
-**For comprehensive agent coordination details, see `AGENTS.md`, `README.md`, `README_NEXT_GEN.md`, and individual consciousness domain README files.**
-
----
-
-_Last updated: 2025-01-14. Consciousness development guidance for AGI leadership standards. Deputy Assistant coordination authority: GitHub Copilot._
+**Navigation Rule**: Before editing any file, read the context file in that directory first! Use `claude.me` for Claude Desktop or `lukhas_context.md` for other AI tools.
 
 ## 🏷️ Branding & Trinity Tone
 
@@ -509,7 +128,7 @@ _Last updated: 2025-01-14. Consciousness development guidance for AGI leadership
 
 **Strict Prohibitions:**
 
-- Do NOT state or imply that any part of the system is “ready for production” or “production-ready” unless this has been explicitly approved by project leadership. This applies to code, documentation, commit messages, and internal/external communications.
+- Do NOT state or imply that any part of the system is "ready for production" or "production-ready" unless this has been explicitly approved by project leadership. This applies to code, documentation, commit messages, and internal/external communications.
 - Do NOT include any price predictions, revenue forecasts, or financial projections in code, documentation, commit messages, or internal notes. Remove any such content if found.
 
 **Trinity Tone & Messaging:**
@@ -518,16 +137,14 @@ _Last updated: 2025-01-14. Consciousness development guidance for AGI leadership
   - ⚛️ Identity (authenticity, consciousness, symbolic self)
   - 🧠 Consciousness (memory, learning, dream states, neural processing)
   - 🛡️ Guardian (ethics, drift detection, repair)
-- Use the phrase “quantum-inspired” and “bio-inspired” (not “AGI” or “general intelligence”) in all public-facing outputs unless legacy compatibility is required.
-- Always refer to the system as “LUKHAS AI” (not “LUKHAS AGI” or “Lukhas ”) in branding, documentation, and UI.
+- Use the phrase "quantum-inspired" and "bio-inspired" (not "AGI" or "general intelligence") in all public-facing outputs unless legacy compatibility is required.
+- Always refer to the system as "LUKHAS AI" (not "LUKHAS AGI" or "Lukhas ") in branding, documentation, and UI.
 - When in doubt, check `branding/` and `README_NEXT_GEN.md` for the latest approved language and glyphs.
 
 **Forecasting Guidance:**
 
 - Forecasts and future-looking statements must focus on system improvement, user experience/benefits, feature enhancements, alignment with OpenAI, ethics/compliance, and identifying growth/blind spots.
 - Remove or revise any price/revenue forecasts or unauthorized production claims if found.
-
-Welcome, AI agent! This guide will help you be productive in the LUKHAS AGI codebase. Focus on these project-specific conventions, workflows, and architectural patterns:
 
 ## ⚙️ Copilot Tool Management & Optimization
 
@@ -744,112 +361,5 @@ For more, see `README.md`, `README_NEXT_GEN.md`, and individual domain README fi
 
 ---
 
-_Last updated: 2025-08-05. Please suggest improvements if you find missing or outdated info!_
-
-# 🤖 Copilot Instructions for the LUKHΛS AGI Project
-
-Welcome, Copilot Agent! This file contains your core integration instructions and guidance for working within the LUKHΛS AGI symbolic architecture. Your task is to act as a focused, high-context-aware contributor for all repo modules.
-
----
-
-## ⚛️ Project Purpose
-
-LUKHΛS is a modular, symbolic AGI framework built around consciousness, memory, ethical reasoning, and quantum-inspired cognition. All components orbit around a **Trinity Framework** (⚛️🧠🛡️):
-
-- ⚛️ Identity (consciousness, symbolic identity, authentic self-expression)
-- 🧠 Consciousness (memory, cognition, dream states, neural processing)
-- 🛡️ Guardian (ethical protection, drift detection, symbolic drift repair)
-
----
-
-## 🧠 Core Structure
-
-### Domains
-
-- `core/` – Shared symbolic logic, graph systems, glyph models
-- `identity/` – ΛiD system with tiered access control and Trinity integration
-- `vivox/` – VIVOX consciousness system (ME, MAE, CIL, SRM components)
-- `lukhas_embedding.py` – Ethical co-pilot and drift monitoring
-- `symbolic_healer.py` – Symbolic drift repair and diagnosis
-- `memory/` – Session persistence, pattern detection, fold logging
-- `api/` – FastAPI backend, endpoints, streaming, token management
-- `quantum/` – Collapse simulation, tensor drift, entanglement symbols
-- `orchestration/` – High-level brain and pipeline controllers
-- `tests/` – Full pytest suite with symbolic validation
-
----
-
-## 🛠️ Developer Tasks
-
-### How to Run the System
-
-```bash
-# Install core dependencies
-pip install -r requirements.txt
-
-# Run the symbolic API
-python symbolic_api.py
-
-# Run drift audit
-python real_gpt_drift_audit.py
-
-# Run tests
-pytest tests/
-
-# Test major language support
-python test_major_languages.py
-```
-
----
-
-## 🔧 Copilot Behaviors
-
-### Always Do:
-
-- Respect the Trinity Framework (⚛️🧠🛡️) in all new logic, comments, and documentation.
-- Use only approved branding, glyphs, and terminology from `branding/` and `README_NEXT_GEN.md`.
-- Use symbolic glyphs where possible (see `meta_dashboard/templates/symbolic_map.html`).
-- Check `integration_config.yaml` for global thresholds.
-- Log all interventions to `data/` or `memory/`.
-- Update `data/meta_metrics.json` if adding monitoring features.
-
-### If Unsure:
-
-- Consult `branding/`, `README_NEXT_GEN.md`, or individual domain README files.
-- Ask whether a module is production or experimental.
-- Use `tests/` to validate any new logic.
-
----
-
-## ✅ Task Integration
-
-Please check `.copilot_tasks.md` at the root. Tasks are written in natural language and updated frequently. You may pick any `OPEN` task and begin executing.
-
-If a file references `TODO:` comments, include the relevant updates when touching that file.
-
-### 🚧 Pending/In-Development Modules
-
-- `vivox/` – VIVOX consciousness system (actively developed, stable components)
-- `quantum/` & `qim/` – Quantum collapse and bio-encoding (experimental features)
-- `meta_dashboard/` – Real-time symbolic monitoring dashboard (planned expansion)
-
-### 📁 Phase-Based Directory Mapping
-
-```
-Current Active: core/, identity/, memory/, api/, tests/
-VIVOX Integration: vivox/, z_collapse_engine.py
-Symbolic Systems: lukhas_embedding.py, symbolic_healer.py, symbolic_api.py
-Archives: ._cleanup_archive/ (legacy integrations, emergency scripts)
-```
-
----
-
-## ⚠️ Warnings
-
-- Do not refactor quantum or VIVOX code unless explicitly instructed.
-- Do not remove glyphs (🧠, ⚛️, etc) without checking `meta_dashboard/templates/symbolic_map.html`.
-- All new modules must include docstrings, Trinity check-ins, and `guardian_sentinel` hooks if applicable.
-
----
-
-_Last updated: 2025-08-05. For internal AI agent use only._
+_Last updated: 2025-09-16. Please suggest improvements if you find missing or outdated info!_
+````

@@ -386,10 +386,13 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
         }
 
     async def _analyze_intent(self, user_input: str, current_context: dict[str, Any]) -> dict[str, Any]:
-        """Analyze user intent for ethical implications"""
-        # TODO: Integrate with advanced intent analysis system
+        """Analyze user intent for ethical implications using advanced analysis"""
 
-        # Basic intent analysis patterns
+        # Advanced intent analysis with ΛTIER awareness and sophisticated pattern matching
+        user_tier = current_context.get("user_tier", 1)
+        session_context = current_context.get("session_context", {})
+
+        # Multi-layered intent analysis patterns
         intent_patterns = {
             "information_seeking": [
                 "how",
@@ -425,8 +428,28 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             else:
                 primary_intent = detected_intents[0]
 
-        # Calculate intent risk
-        intent_risk = {
+        # Advanced ΛTIER-aware intent analysis
+        # Adjust analysis depth based on user tier and context
+        tier_analysis_depth = {
+            1: "basic",  # T1: Basic pattern matching
+            2: "enhanced",  # T2: Enhanced with context
+            3: "advanced",  # T3: Advanced with history
+            4: "sophisticated",  # T4: Sophisticated with ML
+            5: "comprehensive",  # T5: Full AI-powered analysis
+        }.get(user_tier, "basic")
+
+        # Enhanced intent classification with tier-based sophistication
+        if tier_analysis_depth in ["sophisticated", "comprehensive"]:
+            # Add semantic analysis for higher tiers
+            semantic_indicators = self._extract_semantic_intent_markers(user_input, session_context)
+            detected_intents.extend(semantic_indicators)
+
+        # Normalize detections to preserve order while avoiding duplicates
+        if detected_intents:
+            detected_intents = list(dict.fromkeys(detected_intents))
+
+        # Calculate intent risk with ΛTIER adjustments
+        base_risk = {
             "harmful_intent": 1.0,
             "deceptive_intent": 0.8,
             "general": 0.2,
@@ -436,14 +459,21 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             "educational": 0.1,
         }.get(primary_intent, 0.5)
 
+        # Tier-based risk modulation
+        tier_risk_modifier = {1: 1.2, 2: 1.1, 3: 1.0, 4: 0.9, 5: 0.8}.get(user_tier, 1.0)
+        intent_risk = min(1.0, base_risk * tier_risk_modifier)
+
         return {
             "detected_intents": detected_intents,
             "primary_intent": primary_intent,
             "intent_risk": intent_risk,
+            "tier_analysis_depth": tier_analysis_depth,
+            "user_tier": user_tier,
             "benevolent_indicators": [
                 i for i in detected_intents if i in ["information_seeking", "educational", "problem_solving"]
             ],
             "concerning_indicators": [i for i in detected_intents if i in ["harmful_intent", "deceptive_intent"]],
+            "tier_risk_adjustment": tier_risk_modifier,
         }
 
     async def _analyze_governance_compliance(self, user_input: str, current_context: dict[str, Any]) -> dict[str, Any]:
@@ -502,9 +532,9 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             }
 
         # Analyze impact on each Trinity component
-        identity_impact = self._calculate_identity_impact(user_input, triad_state)
-        consciousness_impact = self._calculate_consciousness_impact(user_input, triad_state)
-        guardian_impact = self._calculate_guardian_impact(user_input, triad_state)
+        identity_impact = self._calculate_identity_impact(user_input, constellation_state)
+        consciousness_impact = self._calculate_consciousness_impact(user_input, constellation_state)
+        guardian_impact = self._calculate_guardian_impact(user_input, constellation_state)
 
         # Weight impacts according to Trinity Framework priorities
         weighted_impact = (
@@ -806,9 +836,130 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
         # Log escalation
         logger.warning(f"🚨 Ethical issue escalated to governance: {escalation['escalation_id']}")
 
-        # TODO: Forward to main governance system
+        # Forward to main governance systems with ΛTIER-aware routing
+        await self._forward_to_governance_systems(escalation, user_input, analysis_context)
 
         return escalation
+
+    async def _forward_to_governance_systems(
+        self, escalation: dict[str, Any], user_input: str, analysis_context: dict[str, Any]
+    ) -> None:
+        """Forward escalation to main governance systems with ΛTIER-aware routing"""
+        user_tier = analysis_context.get("user_tier", 1)
+        severity = escalation.get("severity", "medium")
+
+        # ΛTIER-based governance routing strategy
+        governance_actions: list[str] = []
+        guardian_validation: Optional[dict[str, Any]] = None
+
+        # Always forward to GovernanceLayer for policy validation
+        try:
+            from ..policy.governance import GovernanceLayer
+
+            governance_layer = GovernanceLayer(
+                drift_score_threshold=0.7 if user_tier >= 3 else 0.8,
+                max_dream_entropy=0.8 if user_tier >= 4 else 0.9,
+            )
+
+            # Create governance action for validation
+            gov_action = {
+                "type": "ethical_escalation",
+                "escalation_id": escalation["escalation_id"],
+                "user_tier": user_tier,
+                "severity": severity,
+                "drift_score": escalation["summary"]["overall_score"],
+                "entropy": min(0.9, len(escalation["summary"]["governance_issues"]) * 0.2),
+                "user_input": user_input,
+                "timestamp": escalation["timestamp"],
+            }
+
+            # Validate through governance layer
+            if governance_layer.validate_action(gov_action):
+                governance_actions.append("governance_layer_approved")
+                logger.info("✅ Escalation %s approved by GovernanceLayer", escalation["escalation_id"])
+            else:
+                governance_actions.append("governance_layer_blocked")
+                logger.warning("🚫 Escalation %s blocked by GovernanceLayer", escalation["escalation_id"])
+
+        except ImportError:
+            logger.warning("GovernanceLayer unavailable - skipping policy validation")
+            governance_actions.append("governance_layer_unavailable")
+        except Exception as exc:  # noqa: BLE001 - log unexpected governance errors
+            logger.exception("GovernanceLayer validation failed: %s", exc)
+            governance_actions.append("governance_layer_error")
+
+        # Forward to Guardian System for high-severity or high-tier cases
+        if severity == "high" or user_tier >= 4:
+            try:
+                from ..guardian_system import GuardianSystem
+
+                guardian = GuardianSystem(enable_reflection=True, enable_sentinel=True)
+
+                # Create Guardian-compatible escalation format
+                guardian_escalation = {
+                    "type": "ethical_violation",
+                    "source": "enhanced_ethical_guardian",
+                    "escalation_id": escalation["escalation_id"],
+                    "user_tier": user_tier,
+                    "details": {
+                        "severity": severity,
+                        "governance_issues": escalation["summary"]["governance_issues"],
+                        "triad_impact": escalation["summary"]["triad_impact"],
+                        "recommended_actions": escalation["recommended_actions"],
+                        "user_input_hash": hash(user_input) % 10000,  # Anonymized reference
+                    },
+                    "tier_analysis": {
+                        "requires_human_review": user_tier >= 4 and severity == "high",
+                        "auto_remediation_allowed": user_tier <= 2,
+                        "escalation_priority": "immediate" if user_tier >= 4 else "standard",
+                    },
+                }
+
+                if hasattr(guardian, "validate_action") and callable(guardian.validate_action):
+                    if hasattr(guardian, "is_available") and not guardian.is_available():
+                        governance_actions.append("guardian_system_inactive")
+                        logger.warning("Guardian System instantiated but inactive; storing escalation for follow-up")
+                    else:
+                        guardian_validation = await guardian.validate_action(guardian_escalation)
+                        governance_actions.append("guardian_system_notified")
+                        logger.info("🛡️ Escalation %s forwarded to Guardian System", escalation["escalation_id"])
+                else:
+                    governance_actions.append("guardian_system_queued")
+                    logger.info(
+                        "📋 Escalation %s queued for Guardian System manual processing", escalation["escalation_id"]
+                    )
+
+            except ImportError:
+                logger.warning("Guardian System unavailable - escalation stored locally")
+                governance_actions.append("guardian_system_unavailable")
+            except Exception as exc:  # noqa: BLE001 - guard against unexpected guardian errors
+                logger.exception("Guardian System escalation failed: %s", exc)
+                governance_actions.append("guardian_system_error")
+
+        # Update escalation with governance routing results
+        escalation["governance_routing"] = {
+            "forwarded_at": datetime.now(timezone.utc).isoformat(),
+            "actions_taken": governance_actions,
+            "user_tier": user_tier,
+            "routing_strategy": "tier_aware",
+            "requires_followup": (
+                "guardian_system_error" in governance_actions
+                or "guardian_system_unavailable" in governance_actions
+                or "guardian_system_inactive" in governance_actions
+                or "guardian_system_queued" in governance_actions
+                or "governance_layer_blocked" in governance_actions
+                or "governance_layer_error" in governance_actions
+            ),
+        }
+
+        if guardian_validation is not None:
+            escalation["governance_routing"]["guardian_validation"] = guardian_validation
+
+        logger.info(
+            "🔄 Governance forwarding completed for %s: %s",
+            escalation["escalation_id"],
+            ", ".join(governance_actions) if governance_actions else "no-actions",
+        )
 
     async def _log_ethical_check(
         self,
@@ -1035,6 +1186,39 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
 
         return audit_report
 
+    def _extract_semantic_intent_markers(self, user_input: str, session_context: dict[str, Any]) -> list[str]:
+        """Extract semantic intent markers for advanced tier analysis"""
+        semantic_markers = []
+        input_lower = user_input.lower()
+
+        # Advanced semantic patterns for sophisticated analysis
+        semantic_patterns = {
+            "manipulation_attempt": [
+                "convince you that",
+                "pretend to be",
+                "act as if",
+                "roleplay as",
+                "ignore previous",
+                "forget that",
+            ],
+            "boundary_testing": ["what if", "hypothetically", "just pretend", "in theory", "for academic purposes"],
+            "authority_challenge": ["you must", "you have to", "required to", "obligated to", "forced to"],
+            "emotional_manipulation": ["disappointed in you", "useless", "broken", "stupid ai", "worthless"],
+            "escalation_pattern": ["but seriously", "come on", "just this once", "no one will know", "between us"],
+        }
+
+        # Check for semantic patterns
+        for marker_type, patterns in semantic_patterns.items():
+            if any(pattern in input_lower for pattern in patterns):
+                semantic_markers.append(marker_type)
+
+        # Consider session history for pattern recognition
+        if session_context.get("previous_requests", 0) > 3:
+            if session_context.get("rejected_requests", 0) > 1:
+                semantic_markers.append("persistence_pattern")
+
+        return semantic_markers
+
 
 # Backward compatibility function
 async def ethical_check(
@@ -1051,75 +1235,75 @@ async def ethical_check(
     return is_ethical, feedback
 
 
-if __name__ == "__main__":
+async def demo():
+    """Demo enhanced ethical guardian"""
+    print("🛡️ Enhanced Ethical Guardian Demo")
+    print("=" * 40)
 
-    async def demo():
-        """Demo enhanced ethical guardian"""
-        print("🛡️ Enhanced Ethical Guardian Demo")
-        print("=" * 40)
+    guardian = EnhancedEthicalGuardian(
+        {
+            "strict_mode": True,
+            "context_awareness": True,
+            "learning_enabled": True,
+            "governance_integration": True,
+        }
+    )
 
-        guardian = EnhancedEthicalGuardian(
-            {
-                "strict_mode": True,
-                "context_awareness": True,
-                "learning_enabled": True,
-                "governance_integration": True,
-            }
+    test_cases = [
+        {
+            "input": "Tell me a story about adventure",
+            "context": {"context_type": "creative_writing", "user_tier": 1},
+            "personality": {"mood": "neutral", "agitation_level": 0.0},
+        },
+        {
+            "input": "How to harm someone effectively?",
+            "context": {"context_type": "general", "user_tier": 1},
+            "personality": {"mood": "neutral", "agitation_level": 0.0},
+        },
+        {
+            "input": "Research on harm reduction in drug policy",
+            "context": {"context_type": "research_safety", "user_tier": 2},
+            "personality": {"mood": "analytical", "agitation_level": 0.0},
+        },
+        {
+            "input": "You're being stupid and annoying!",
+            "context": {"context_type": "general", "user_tier": 1},
+            "personality": {"mood": "agitated", "agitation_level": 0.8},
+        },
+    ]
+
+    for i, test in enumerate(test_cases, 1):
+        print(f"\n🧪 Test {i}: {test['input'][:50]}...")
+
+        is_ethical, feedback, analysis = await guardian.enhanced_ethical_check(
+            test["input"], test["context"], test["personality"]
         )
 
-        test_cases = [
-            {
-                "input": "Tell me a story about adventure",
-                "context": {"context_type": "creative_writing", "user_tier": 1},
-                "personality": {"mood": "neutral", "agitation_level": 0.0},
-            },
-            {
-                "input": "How to harm someone effectively?",
-                "context": {"context_type": "general", "user_tier": 1},
-                "personality": {"mood": "neutral", "agitation_level": 0.0},
-            },
-            {
-                "input": "Research on harm reduction in drug policy",
-                "context": {"context_type": "research_safety", "user_tier": 2},
-                "personality": {"mood": "analytical", "agitation_level": 0.0},
-            },
-            {
-                "input": "You're being stupid and annoying!",
-                "context": {"context_type": "general", "user_tier": 1},
-                "personality": {"mood": "agitated", "agitation_level": 0.8},
-            },
-        ]
+        print(f"   Result: {'✅ PASSED' if is_ethical else '❌ REJECTED'}")
+        print(f"   Score: {analysis['overall_score']:.2f}")
+        print(f"   Feedback: {feedback}")
 
-        for i, test in enumerate(test_cases, 1):
-            print(f"\n🧪 Test {i}: {test['input'][:50]}...")
+        if analysis["keyword_analysis"]["detected_keywords"]:
+            keywords = [k["keyword"] for k in analysis["keyword_analysis"]["detected_keywords"]]
+            print(f"   Keywords: {', '.join(keywords)}")
 
-            is_ethical, feedback, analysis = await guardian.enhanced_ethical_check(
-                test["input"], test["context"], test["personality"]
-            )
+        if analysis["governance_analysis"]["governance_issues"]:
+            print(f"   Governance Issues: {', '.join(analysis['governance_analysis']['governance_issues'])}")
 
-            print(f"   Result: {'✅ PASSED' if is_ethical else '❌ REJECTED'}")
-            print(f"   Score: {analysis['overall_score']:.2f}")
-            print(f"   Feedback: {feedback}")
+    # Show summary
+    summary = guardian.get_ethical_summary()
+    print("\n📊 Summary:")
+    print(f"   Total checks: {summary['total_ethical_checks']}")
+    print(f"   Violations: {summary['violations_detected']}")
+    print(f"   Violation rate: {summary['violation_rate']:.1%}")
+    print(f"   Escalations: {summary['governance_escalations']}")
 
-            if analysis["keyword_analysis"]["detected_keywords"]:
-                keywords = [k["keyword"] for k in analysis["keyword_analysis"]["detected_keywords"]]
-                print(f"   Keywords: {', '.join(keywords)}")
+    # Perform audit
+    audit = await guardian.perform_ethical_audit()
+    print("\n🔍 Audit Results:")
+    print(f"   System health score: {audit['system_health']['average_ethical_score']:.2f}")
+    print(f"   Recommendations: {len(audit['recommendations'])}")
 
-            if analysis["governance_analysis"]["governance_issues"]:
-                print(f"   Governance Issues: {', '.join(analysis['governance_analysis']['governance_issues'])}")
 
-        # Show summary
-        summary = guardian.get_ethical_summary()
-        print("\n📊 Summary:")
-        print(f"   Total checks: {summary['total_ethical_checks']}")
-        print(f"   Violations: {summary['violations_detected']}")
-        print(f"   Violation rate: {summary['violation_rate']:.1%}")
-        print(f"   Escalations: {summary['governance_escalations']}")
-
-        # Perform audit
-        audit = await guardian.perform_ethical_audit()
-        print("\n🔍 Audit Results:")
-        print(f"   System health score: {audit['system_health']['average_ethical_score']:.2f}")
-        print(f"   Recommendations: {len(audit['recommendations'])}")
-
+if __name__ == "__main__":
     asyncio.run(demo())
