@@ -360,6 +360,150 @@ def format_violation(violation) -> str:
     """
 
 
+def create_violation_heatmap(violations: list) -> go.Figure:
+    """Create violation heatmap for pattern recognition."""
+    import pandas as pd
+
+    if not violations:
+        # Create empty heatmap
+        fig = go.Figure(data=go.Heatmap(
+            z=[[0]],
+            colorscale='Reds',
+            showscale=False
+        ))
+        fig.update_layout(
+            title="Violation Heatmap - No Data",
+            xaxis_title="Hour of Day",
+            yaxis_title="Day of Week"
+        )
+        return fig
+
+    # Convert violations to DataFrame for analysis
+    violation_data = []
+    for v in violations[-1000:]:  # Last 1000 violations for performance
+        try:
+            timestamp = pd.to_datetime(v.timestamp)
+            violation_data.append({
+                'timestamp': timestamp,
+                'hour': timestamp.hour,
+                'day_of_week': timestamp.strftime('%A'),
+                'violation_type': v.violation_type.value,
+                'severity': v.severity.value,
+                'risk_score': v.risk_score
+            })
+        except Exception:
+            continue
+
+    if not violation_data:
+        return create_violation_heatmap([])
+
+    df = pd.DataFrame(violation_data)
+
+    # Create heatmap data: violations per hour/day combination
+    heatmap_data = df.groupby(['day_of_week', 'hour']).size().reset_index(name='count')
+
+    # Ensure all days and hours are represented
+    days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    hours = list(range(24))
+
+    # Create complete grid
+    heatmap_matrix = []
+    for day in days:
+        day_data = []
+        for hour in hours:
+            count = heatmap_data[
+                (heatmap_data['day_of_week'] == day) &
+                (heatmap_data['hour'] == hour)
+            ]['count'].sum()
+            day_data.append(count)
+        heatmap_matrix.append(day_data)
+
+    # Create heatmap
+    fig = go.Figure(data=go.Heatmap(
+        z=heatmap_matrix,
+        x=[f"{h:02d}:00" for h in hours],
+        y=days,
+        colorscale='Reds',
+        hoverongaps=False,
+        hovertemplate='<b>%{y}</b><br>Time: %{x}<br>Violations: %{z}<extra></extra>'
+    ))
+
+    fig.update_layout(
+        title="Violation Pattern Heatmap - Temporal Distribution",
+        xaxis_title="Hour of Day",
+        yaxis_title="Day of Week",
+        height=400,
+        margin=dict(l=100, r=50, t=80, b=50)
+    )
+
+    return fig
+
+
+def create_violation_type_heatmap(violations: list) -> go.Figure:
+    """Create violation type pattern heatmap."""
+    import pandas as pd
+
+    if not violations:
+        return create_violation_heatmap([])
+
+    violation_data = []
+    for v in violations[-500:]:  # Last 500 violations
+        try:
+            timestamp = pd.to_datetime(v.timestamp)
+            violation_data.append({
+                'violation_type': v.violation_type.value,
+                'severity': v.severity.value,
+                'hour': timestamp.hour,
+                'risk_score': v.risk_score
+            })
+        except Exception:
+            continue
+
+    if not violation_data:
+        return create_violation_heatmap([])
+
+    df = pd.DataFrame(violation_data)
+
+    # Group by violation type and hour
+    heatmap_data = df.groupby(['violation_type', 'hour']).agg({
+        'risk_score': 'mean'
+    }).reset_index()
+
+    violation_types = df['violation_type'].unique()
+    hours = list(range(24))
+
+    # Create matrix
+    matrix = []
+    for vtype in violation_types:
+        row = []
+        for hour in hours:
+            risk = heatmap_data[
+                (heatmap_data['violation_type'] == vtype) &
+                (heatmap_data['hour'] == hour)
+            ]['risk_score'].mean()
+            row.append(risk if not pd.isna(risk) else 0)
+        matrix.append(row)
+
+    fig = go.Figure(data=go.Heatmap(
+        z=matrix,
+        x=[f"{h:02d}:00" for h in hours],
+        y=violation_types,
+        colorscale='Plasma',
+        hoverongaps=False,
+        hovertemplate='<b>%{y}</b><br>Time: %{x}<br>Avg Risk: %{z:.2%}<extra></extra>'
+    ))
+
+    fig.update_layout(
+        title="Violation Type Risk Pattern Heatmap",
+        xaxis_title="Hour of Day",
+        yaxis_title="Violation Type",
+        height=300,
+        margin=dict(l=150, r=50, t=80, b=50)
+    )
+
+    return fig
+
+
 async def main():
     """Main dashboard application."""
     st.title("⚖️ ΛGOVERNOR - Ethical Drift Sentinel Dashboard")
@@ -487,6 +631,22 @@ async def main():
                     list(sentinel.violation_log)[-50:]
                 )
                 st.plotly_chart(timeline_fig, use_container_width=True)
+
+                # Violation pattern heatmaps
+                st.subheader("🔥 Violation Pattern Heatmaps")
+
+                # Create two columns for heatmaps
+                heatmap_col1, heatmap_col2 = st.columns(2)
+
+                with heatmap_col1:
+                    st.markdown("**Temporal Distribution**")
+                    temporal_heatmap = create_violation_heatmap(list(sentinel.violation_log))
+                    st.plotly_chart(temporal_heatmap, use_container_width=True)
+
+                with heatmap_col2:
+                    st.markdown("**Risk Pattern by Type**")
+                    type_heatmap = create_violation_type_heatmap(list(sentinel.violation_log))
+                    st.plotly_chart(type_heatmap, use_container_width=True)
 
             # Symbol health comparison
             if sentinel.symbol_states:

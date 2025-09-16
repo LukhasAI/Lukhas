@@ -794,13 +794,17 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         """Raise a threat alert with enhanced governance integration"""
 
         # Generate governance metadata
+        ethics_review_result = self._review_with_ethics_engine(threat_type, description, severity)
+
         governance_metadata = {
             "governance_validated": self.governance_enabled,
-            "ethics_reviewed": True,  # TODO: Integrate with ethics engine
+            "ethics_reviewed": ethics_review_result.get("reviewed", True),
+            "ethics_score": ethics_review_result.get("score", 0.5),
+            "ethics_violations": ethics_review_result.get("violations", []),
             "compliance_checked": True,
             "escalation_required": severity in [ThreatLevel.CRITICAL, ThreatLevel.EMERGENCY],
             "human_oversight_required": threat_type in ["governance_drift", "ethics_violation", "guardian_malfunction"],
-            "policy_alignment": True,
+            "policy_alignment": ethics_review_result.get("policy_aligned", True),
             "audit_trail_entry": time.time(),
         }
 
@@ -896,22 +900,74 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                     {"action": action, "threat_id": threat.threat_id, "error": str(e)},
                 )
 
+    def _review_with_ethics_engine(self, threat_type: str, description: str, severity: ThreatLevel) -> dict:
+        """Review threat with LUKHAS ethics engine"""
+        try:
+            from lukhas.governance.ethics.ethical_engine import EthicalEngine
+
+            engine = EthicalEngine()
+            review_result = engine.review_threat({
+                "threat_type": threat_type,
+                "description": description,
+                "severity": severity.value,
+                "context": "threat_monitoring"
+            })
+
+            return {
+                "reviewed": True,
+                "score": review_result.get("ethics_score", 0.5),
+                "violations": review_result.get("violations", []),
+                "policy_aligned": review_result.get("policy_aligned", True),
+                "recommendations": review_result.get("recommendations", [])
+            }
+
+        except ImportError:
+            logger.warning("LUKHAS ethics engine not available - using basic review")
+            return {
+                "reviewed": False,
+                "score": 0.5,
+                "violations": [],
+                "policy_aligned": True,
+                "recommendations": ["Manual ethics review recommended"]
+            }
+        except Exception as e:
+            logger.error(f"Ethics engine review failed: {e}")
+            return {
+                "reviewed": False,
+                "score": 0.3,  # Lower score for failed review
+                "violations": ["ethics_review_failure"],
+                "policy_aligned": False,
+                "recommendations": ["Immediate ethics review required"]
+            }
+
     async def _validate_action_governance(self, action: str, threat: ThreatIndicator) -> bool:
         """Validate action against governance policies"""
-        # TODO: Integrate with full governance policy engine
+        try:
+            from lukhas.governance.policy.policy_engine import PolicyEngine
 
-        # Basic validation logic
-        high_risk_actions = [
-            "immediate_system_halt",
-            "emergency_system_lockdown",
-            "human_intervention_immediate",
-        ]
+            policy_engine = PolicyEngine()
+            validation_result = policy_engine.validate_threat_action({
+                "action": action,
+                "threat": threat.to_dict(),
+                "context": "threat_response"
+            })
 
-        if action in high_risk_actions:
-            # Require governance approval for high-risk actions
-            return threat.governance_metadata.get("governance_validated", False)
+            return validation_result.get("approved", False)
 
-        return True
+        except ImportError:
+            logger.warning("Policy engine not available - using basic validation")
+            # Basic validation logic
+            high_risk_actions = [
+                "immediate_system_halt",
+                "emergency_system_lockdown",
+                "human_intervention_immediate",
+            ]
+
+            if action in high_risk_actions:
+                # Require governance approval for high-risk actions
+                return threat.governance_metadata.get("governance_validated", False)
+
+            return True
 
     async def _execute_enhanced_action(self, action: str, threat: ThreatIndicator):
         """Execute a threat response action with enhanced governance tracking"""
@@ -1277,8 +1333,31 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
 
         self.governance_log.append(log_entry)
 
-        # TODO: Forward to main governance audit system
-        logger.debug(f"🔍 Enhanced governance action logged: {action}")
+        # Forward to main governance audit system
+        try:
+            from lukhas.governance.audit.audit_manager import AuditManager
+
+            audit_manager = AuditManager()
+            audit_entry = {
+                "timestamp": log_entry["timestamp"],
+                "action": action,
+                "entity_id": log_entry.get("threat_id", "unknown"),
+                "entity_type": "threat_indicator",
+                "metadata": metadata,
+                "source": "threat_monitor",
+                "component": "monitoring",
+                "compliance_context": "threat_monitoring_governance",
+                "governance_context": log_entry["governance_context"]
+            }
+
+            # Forward to centralized audit system
+            audit_manager.log_governance_action(audit_entry)
+            logger.debug(f"🔍 Enhanced governance action forwarded to central audit: {action}")
+
+        except ImportError:
+            # Fallback - log locally only
+            logger.debug(f"🔍 Enhanced governance action logged locally: {action}")
+            logger.warning("Central audit system not available - using local logging only")
 
     # Enhanced public API methods
 

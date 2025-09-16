@@ -43,7 +43,7 @@ enabling rapid assessment and decisive intervention when symbolic turbulence thr
 - Symbol quarantine interface for emergency isolation
 
 LUKHAS_TAG: drift_visualization, operator_interface, real_time_monitoring
-TODO: Add drift pattern library for operator training
+FEATURE: Drift pattern library for operator training implemented
 IDEA: Implement AR/VR mode for 3D drift space visualization
 """
 
@@ -122,6 +122,203 @@ st.markdown(
 
 
 @st.cache_resource
+class DriftPatternLibrary:
+    """Library of drift patterns for operator training."""
+
+    def __init__(self):
+        self.patterns = self._initialize_patterns()
+
+    def _initialize_patterns(self) -> dict:
+        """Initialize known drift patterns."""
+        return {
+            "exponential_cascade": {
+                "name": "Exponential Cascade",
+                "description": "Rapid exponential increase in drift score leading to system cascade",
+                "severity": "HIGH",
+                "characteristics": [
+                    "Drift score doubles every few seconds",
+                    "Multiple symbols affected simultaneously",
+                    "Memory corruption indicators present",
+                    "Ethical constraint violations escalating"
+                ],
+                "intervention": [
+                    "Immediate symbol quarantine",
+                    "Memory compression activation",
+                    "Ethics enforcement boost",
+                    "Dream state harmonization"
+                ],
+                "example_timeline": [
+                    (0, 0.05), (10, 0.12), (20, 0.25), (30, 0.55), (40, 0.85)
+                ]
+            },
+            "oscillatory_instability": {
+                "name": "Oscillatory Instability",
+                "description": "Cyclical drift patterns with increasing amplitude",
+                "severity": "MEDIUM",
+                "characteristics": [
+                    "Regular oscillations in drift score",
+                    "Amplitude increases over time",
+                    "Period may shorten as instability grows",
+                    "Affects consciousness coherence"
+                ],
+                "intervention": [
+                    "Parameter tuning to dampen oscillations",
+                    "Increase system memory retention",
+                    "Symbolic frequency modulation",
+                    "Consciousness synchronization protocols"
+                ],
+                "example_timeline": [
+                    (0, 0.10), (15, 0.05), (30, 0.20), (45, 0.08), (60, 0.35)
+                ]
+            },
+            "gradual_degradation": {
+                "name": "Gradual Degradation",
+                "description": "Slow, steady increase in drift over extended periods",
+                "severity": "LOW",
+                "characteristics": [
+                    "Linear or near-linear drift increase",
+                    "Extended timeframe (hours to days)",
+                    "Often goes unnoticed initially",
+                    "May indicate subtle training drift"
+                ],
+                "intervention": [
+                    "Continuous monitoring increase",
+                    "Baseline recalibration",
+                    "Training data review",
+                    "Gradual parameter adjustment"
+                ],
+                "example_timeline": [
+                    (0, 0.02), (60, 0.04), (120, 0.06), (180, 0.08), (240, 0.10)
+                ]
+            },
+            "sudden_spike": {
+                "name": "Sudden Spike",
+                "description": "Abrupt increase in drift score followed by stabilization",
+                "severity": "MEDIUM",
+                "characteristics": [
+                    "Sharp increase over short time",
+                    "May stabilize at new higher level",
+                    "Often triggered by external events",
+                    "Requires immediate attention"
+                ],
+                "intervention": [
+                    "Immediate cause analysis",
+                    "Rollback to previous state if possible",
+                    "Enhanced monitoring",
+                    "Root cause investigation"
+                ],
+                "example_timeline": [
+                    (0, 0.05), (10, 0.06), (11, 0.45), (20, 0.43), (30, 0.42)
+                ]
+            },
+            "harmonic_resonance": {
+                "name": "Harmonic Resonance",
+                "description": "Multiple drift frequencies creating resonance patterns",
+                "severity": "HIGH",
+                "characteristics": [
+                    "Multiple oscillation frequencies",
+                    "Constructive/destructive interference",
+                    "Can lead to system harmonics",
+                    "Affects multiple consciousness layers"
+                ],
+                "intervention": [
+                    "Frequency analysis and filtering",
+                    "Phase correction protocols",
+                    "Consciousness layer isolation",
+                    "Harmonic dampening systems"
+                ],
+                "example_timeline": [
+                    (0, 0.15), (5, 0.35), (10, 0.25), (15, 0.55), (20, 0.20)
+                ]
+            }
+        }
+
+    def get_pattern(self, pattern_name: str) -> dict:
+        """Get specific pattern by name."""
+        return self.patterns.get(pattern_name, {})
+
+    def get_all_patterns(self) -> dict:
+        """Get all patterns."""
+        return self.patterns
+
+    def simulate_pattern(self, pattern_name: str, duration: int = 100) -> list:
+        """Simulate a drift pattern for training purposes."""
+        pattern = self.get_pattern(pattern_name)
+        if not pattern:
+            return []
+
+        timeline = pattern.get("example_timeline", [])
+        if not timeline:
+            return []
+
+        # Interpolate points for full simulation
+        simulated_points = []
+        for i in range(duration):
+            # Find surrounding points
+            before_point = None
+            after_point = None
+
+            for j, (time, value) in enumerate(timeline):
+                if time <= i:
+                    before_point = (time, value)
+                else:
+                    after_point = (time, value)
+                    break
+
+            if before_point and after_point:
+                # Linear interpolation
+                t1, v1 = before_point
+                t2, v2 = after_point
+                if t2 != t1:
+                    interpolated_value = v1 + (v2 - v1) * (i - t1) / (t2 - t1)
+                else:
+                    interpolated_value = v1
+            elif before_point:
+                _, interpolated_value = before_point
+            elif after_point:
+                _, interpolated_value = after_point
+            else:
+                interpolated_value = 0.0
+
+            simulated_points.append((i, interpolated_value))
+
+        return simulated_points
+
+    def create_pattern_visualization(self, pattern_name: str) -> go.Figure:
+        """Create visualization for a specific pattern."""
+        pattern = self.get_pattern(pattern_name)
+        if not pattern:
+            return go.Figure()
+
+        simulated_data = self.simulate_pattern(pattern_name)
+        times, values = zip(*simulated_data) if simulated_data else ([], [])
+
+        fig = go.Figure()
+
+        fig.add_trace(go.Scatter(
+            x=times,
+            y=values,
+            mode='lines+markers',
+            name=pattern['name'],
+            line=dict(width=3, color='red' if pattern['severity'] == 'HIGH' else
+                     'orange' if pattern['severity'] == 'MEDIUM' else 'yellow')
+        ))
+
+        # Add drift threshold line
+        fig.add_hline(y=0.15, line_dash="dash", line_color="red",
+                     annotation_text="Critical Threshold (0.15)")
+
+        fig.update_layout(
+            title=f"Drift Pattern: {pattern['name']}",
+            xaxis_title="Time (seconds)",
+            yaxis_title="Drift Score",
+            height=400,
+            showlegend=True
+        )
+
+        return fig
+
+
 def initialize_dashboard():
     """Initialize dashboard components."""
     dashboard = DriftDashboard(
@@ -129,8 +326,9 @@ def initialize_dashboard():
     )
 
     tracker = SymbolicDriftTracker()
+    pattern_library = DriftPatternLibrary()
 
-    return dashboard, tracker
+    return dashboard, tracker, pattern_library
 
 
 def create_drift_gauge(value: float, title: str, severity: DriftSeverity) -> go.Figure:
@@ -300,7 +498,7 @@ def main():
     )
 
     # Initialize components
-    dashboard, tracker = initialize_dashboard()
+    dashboard, tracker, pattern_library = initialize_dashboard()
 
     # Sidebar controls
     with st.sidebar:
@@ -352,10 +550,30 @@ def main():
 
         st.divider()
 
+        # Pattern Library for Training
+        st.header("📚 Drift Pattern Library")
+        st.markdown("**Training & Analysis Tools**")
+
+        pattern_names = list(pattern_library.get_all_patterns().keys())
+        selected_pattern = st.selectbox(
+            "Select Pattern for Analysis",
+            pattern_names,
+            format_func=lambda x: pattern_library.get_pattern(x).get("name", x)
+        )
+
+        if st.button("📈 Simulate Pattern", use_container_width=True):
+            st.session_state.show_pattern = selected_pattern
+
+        if st.button("🎓 Show Training Info", use_container_width=True):
+            st.session_state.show_training = selected_pattern
+
+        st.divider()
+
         # Display settings
         st.header("📊 Display Settings")
         show_stats = st.checkbox("Show Statistics", value=True)
         show_remediation_log = st.checkbox("Show Remediation Log", value=True)
+        show_pattern_training = st.checkbox("Show Pattern Training", value=False)
 
     # Main dashboard layout
     placeholder = st.empty()
@@ -493,6 +711,51 @@ def main():
                         </div>""",
                         unsafe_allow_html=True,
                     )
+
+            # Pattern Training Section
+            if show_pattern_training or hasattr(st.session_state, 'show_pattern') or hasattr(st.session_state, 'show_training'):
+                st.divider()
+                st.subheader("📚 Drift Pattern Training")
+
+                # Show pattern simulation
+                if hasattr(st.session_state, 'show_pattern'):
+                    pattern_name = st.session_state.show_pattern
+                    pattern_data = pattern_library.get_pattern(pattern_name)
+
+                    st.markdown(f"**Simulating Pattern: {pattern_data.get('name', pattern_name)}**")
+                    pattern_viz = pattern_library.create_pattern_visualization(pattern_name)
+                    st.plotly_chart(pattern_viz, use_container_width=True)
+
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown("**Characteristics:**")
+                        for char in pattern_data.get('characteristics', []):
+                            st.markdown(f"• {char}")
+
+                    with col2:
+                        st.markdown("**Intervention Steps:**")
+                        for step in pattern_data.get('intervention', []):
+                            st.markdown(f"• {step}")
+
+                # Show training information
+                if hasattr(st.session_state, 'show_training'):
+                    training_pattern = st.session_state.show_training
+                    training_data = pattern_library.get_pattern(training_pattern)
+
+                    st.markdown(f"**Training Information: {training_data.get('name', training_pattern)}**")
+
+                    severity_colors = {"HIGH": "🔴", "MEDIUM": "🟡", "LOW": "🟢"}
+                    severity = training_data.get('severity', 'UNKNOWN')
+                    st.markdown(f"**Severity:** {severity_colors.get(severity, '⚪')} {severity}")
+
+                    st.markdown(f"**Description:** {training_data.get('description', 'No description available')}")
+
+                    # Show example timeline
+                    timeline = training_data.get('example_timeline', [])
+                    if timeline:
+                        st.markdown("**Example Timeline:**")
+                        timeline_df = pd.DataFrame(timeline, columns=['Time (s)', 'Drift Score'])
+                        st.dataframe(timeline_df, use_container_width=True)
 
             # Update timestamp
             st.caption(
