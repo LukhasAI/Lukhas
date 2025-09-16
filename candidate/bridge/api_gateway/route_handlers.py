@@ -9,7 +9,8 @@ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 from typing import Dict, Any, Optional, Callable, List
 import logging
 import asyncio
-from datetime import datetime
+import time
+from datetime import datetime, timezone
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +23,9 @@ class RouteHandlers:
         self.config = config or {}
         self.handlers: Dict[str, Callable] = {}
         self.middleware: List[Callable] = []
+        # ΛTAG: uptime_tracking
+        self._boot_timestamp = datetime.now(timezone.utc)
+        self._boot_monotonic = time.monotonic()
 
         # Register default handlers
         self._register_default_handlers()
@@ -49,14 +53,14 @@ class RouteHandlers:
                 return {
                     "error": f"No handler found for path: {path}",
                     "status_code": 404,
-                    "timestamp": datetime.utcnow().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
 
             # Execute handler
             response = await handler(request)
 
             # Add metadata
-            response["timestamp"] = datetime.utcnow().isoformat()
+            response["timestamp"] = datetime.now(timezone.utc).isoformat()
             response["path"] = path
 
             return response
@@ -66,7 +70,7 @@ class RouteHandlers:
             return {
                 "error": f"Internal server error: {str(e)}",
                 "status_code": 500,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     def _find_handler(self, path: str) -> Optional[Callable]:
@@ -118,7 +122,8 @@ class RouteHandlers:
             "status": "operational",
             "registered_handlers": len(self.handlers),
             "middleware_count": len(self.middleware),
-            "uptime": "unknown",  # TODO: Track actual uptime
+            "uptime": self._format_uptime(self._uptime_seconds()),
+            "started_at": self._boot_timestamp.isoformat(),
             "status_code": 200,
         }
 
@@ -145,3 +150,24 @@ class RouteHandlers:
             logger.info(f"Removed handler for path: {path}")
             return True
         return False
+
+    def _uptime_seconds(self) -> float:
+        """Compute uptime in seconds using a monotonic clock."""
+        return max(0.0, time.monotonic() - self._boot_monotonic)
+
+    @staticmethod
+    def _format_uptime(seconds: float) -> str:
+        """Represent uptime as a human-friendly string."""
+        # ΛTAG: uptime_tracking
+        minutes, remaining_seconds = divmod(int(seconds), 60)
+        hours, minutes = divmod(minutes, 60)
+        days, hours = divmod(hours, 24)
+        segments: list[str] = []
+        if days:
+            segments.append(f"{days}d")
+        if hours or segments:
+            segments.append(f"{hours}h")
+        if minutes or segments:
+            segments.append(f"{minutes}m")
+        segments.append(f"{remaining_seconds}s")
+        return " ".join(segments)
