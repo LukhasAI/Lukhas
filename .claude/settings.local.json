@@ -202,7 +202,11 @@
       "Bash(ls:*)",
       "Bash(gh pr checks:*)",
       "Bash(gh run view:*)",
-      "Bash(.venv/bin/pytest --collect-only -q --tb=line)"
+      "Bash(.venv/bin/pytest --collect-only -q --tb=line)",
+      "Bash(do echo \"Attempting to merge PR $pr with admin override...\")",
+      "Read(//tmp/**)",
+      "Bash(git branch:*)",
+      "Bash(do echo \"Closing PR $pr as merged...\")"
     ],
     "deny": [],
     "ask": []

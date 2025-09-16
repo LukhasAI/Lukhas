@@ -107,7 +107,6 @@ class TrueQuantumRandomness:
 
         # Atmospheric noise (simulated)
         self.entropy_sources[QuantumEntropySource.ATMOSPHERIC_NOISE] = True
-
         logger.info(f"🌐 Initialized {sum(self.entropy_sources.values())} entropy sources")
 
     def _seed_entropy_pool(self):

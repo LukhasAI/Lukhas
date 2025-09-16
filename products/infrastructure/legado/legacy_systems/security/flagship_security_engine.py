@@ -230,7 +230,7 @@ LucasFlagshipSystem = LukhasFlagshipSecurityEngine
 
 async def main():
     """Main entry point for Lukhas AI Flagship System."""
-    system = LucasFlagshipSystem()
+    system = LukhasFlagshipSecurityEngine()
 
     try:
         await system.initialize()

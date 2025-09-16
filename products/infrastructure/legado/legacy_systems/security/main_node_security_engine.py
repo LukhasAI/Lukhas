@@ -26,6 +26,7 @@ try:
     from backend.core.neuro_symbolic_engine import NeuroSymbolicEngine
     from backend.learning.meta_learning import MetaLearningSystem
 
+    from governance.identity.core.id_service import IdentityManager
     from backend.security.privacy_manager import PrivacyManager
     from frontend.interface.adaptive_interface_generator import (
         AdaptiveInterfaceGenerator,
@@ -417,7 +418,7 @@ async def main():
     logger.info("Adaptive AI Interface starting up...")
 
     # Create and start the system
-    system = AdaptiveAGISystem()
+    system = MainNodeSecurityEngine()
 
     try:
         await system.start()
