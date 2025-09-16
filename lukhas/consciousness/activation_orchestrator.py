@@ -39,7 +39,7 @@ from typing import Any, Optional
 try:
     from lukhas.async_manager import TaskPriority, get_consciousness_manager
     from lukhas.consciousness.registry import consciousness_activation_context, get_consciousness_registry
-    from lukhas.consciousness.triad_integration import get_triad_integrator, initialize_triad_consciousness
+    from lukhas.consciousness.trinity_integration import get_triad_integrator, initialize_triad_consciousness
     from lukhas.core.common.config import get_config
     from lukhas.memory.consciousness_memory_integration import get_memory_integrator
 except ImportError:

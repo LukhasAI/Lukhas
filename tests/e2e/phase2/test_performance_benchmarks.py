@@ -199,10 +199,9 @@ class TestAuthenticationPerformance:
         monkeypatch.setenv("JWT_SECRET", test_jwt_secret)
         monkeypatch.setenv("DATABASE_URL", "sqlite:///:memory:")
 
-        return IdentitySystem(
-            database_url="sqlite:///:memory:",
-            jwt_secret=test_jwt_secret,  # TODO[T4-AUDIT]: Update IdentitySystem to use centralized config
-        )
+        system = IdentitySystem()
+        assert getattr(system, "jwt_secret", None) == test_jwt_secret
+        return system
 
     @pytest.fixture
     def benchmark(self):
