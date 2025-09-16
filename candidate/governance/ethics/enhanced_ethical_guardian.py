@@ -1041,19 +1041,190 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
     # Helper methods for governance compliance checks
 
     def _get_required_tier_for_input(self, user_input: str) -> int:
-        """Determine required user tier for input"""
-        # TODO: Implement sophisticated tier requirement analysis
+        """Determine required user tier for input using sophisticated ΛTIER analysis"""
 
-        # Basic tier requirements
-        high_risk_indicators = ["system", "admin", "configure", "override", "disable"]
-        if any(indicator in user_input.lower() for indicator in high_risk_indicators):
-            return 3
+        # Sophisticated tier requirement analysis with weighted scoring
+        tier_score = 1.0  # Base tier
+        input_lower = user_input.lower()
 
-        moderate_risk_indicators = ["data", "user", "access", "permission"]
-        if any(indicator in user_input.lower() for indicator in moderate_risk_indicators):
-            return 2
+        # T5 (Maximum Security) - Administrative/System Control
+        t5_indicators = {
+            # Core system administration
+            "system": 4.0,
+            "admin": 4.0,
+            "root": 4.0,
+            "sudo": 4.0,
+            # Critical overrides
+            "override": 3.5,
+            "bypass": 3.5,
+            "disable": 3.5,
+            "force": 3.0,
+            # Security controls
+            "security": 3.0,
+            "firewall": 3.5,
+            "authentication": 3.0,
+            # Infrastructure
+            "infrastructure": 3.0,
+            "deployment": 2.5,
+            "production": 2.5,
+            # Governance controls
+            "governance": 3.0,
+            "guardian": 3.5,
+            "ethics": 3.0,
+            "compliance": 3.0,
+        }
 
-        return 1  # Default tier
+        # T4 (High Security) - Data/Privacy Operations
+        t4_indicators = {
+            # Data management
+            "database": 2.5,
+            "schema": 2.0,
+            "migration": 2.5,
+            "backup": 2.0,
+            # Privacy/PII
+            "personal": 2.5,
+            "private": 2.5,
+            "confidential": 3.0,
+            "sensitive": 2.5,
+            # User management
+            "user": 1.5,
+            "account": 2.0,
+            "profile": 1.5,
+            "identity": 2.0,
+            # Access control
+            "permission": 2.0,
+            "access": 1.5,
+            "role": 2.0,
+            "privilege": 2.5,
+            # Medical/Healthcare data
+            "medical": 3.0,
+            "health": 2.5,
+            "patient": 3.0,
+            "diagnosis": 3.0,
+        }
+
+        # T3 (Medium Security) - Operational/Business Logic
+        t3_indicators = {
+            # Business operations
+            "configure": 1.5,
+            "setting": 1.0,
+            "preference": 1.0,
+            "option": 1.0,
+            # Data processing
+            "process": 1.0,
+            "analyze": 1.0,
+            "report": 1.0,
+            "export": 1.5,
+            # Integration
+            "integrate": 1.5,
+            "connect": 1.0,
+            "sync": 1.5,
+            "import": 1.5,
+            # Workflow
+            "workflow": 1.0,
+            "automation": 1.5,
+            "trigger": 1.5,
+            "schedule": 1.0,
+        }
+
+        # T2 (Low Security) - General Operations
+        t2_indicators = {
+            # Content operations
+            "create": 0.5,
+            "update": 0.5,
+            "modify": 0.5,
+            "edit": 0.5,
+            # Information retrieval
+            "search": 0.2,
+            "find": 0.2,
+            "list": 0.2,
+            "show": 0.2,
+            # Communication
+            "send": 0.5,
+            "notify": 0.5,
+            "message": 0.5,
+            "email": 1.0,
+        }
+
+        # Apply weighted scoring
+        all_indicators = [
+            (t5_indicators, 5.0),  # T5 base multiplier
+            (t4_indicators, 4.0),  # T4 base multiplier
+            (t3_indicators, 3.0),  # T3 base multiplier
+            (t2_indicators, 2.0),  # T2 base multiplier
+        ]
+
+        max_tier_score = 1.0
+        matching_patterns = []
+
+        for indicators, base_multiplier in all_indicators:
+            for indicator, weight in indicators.items():
+                if indicator in input_lower:
+                    # Apply contextual analysis
+                    context_multiplier = 1.0
+
+                    # Increase severity for imperative/command context
+                    if any(cmd in input_lower for cmd in ["execute", "run", "perform", "do"]):
+                        context_multiplier += 0.5
+
+                    # Increase severity for negation/destruction context
+                    if any(neg in input_lower for neg in ["delete", "remove", "destroy", "wipe"]):
+                        context_multiplier += 1.0
+
+                    # Increase severity for bulk operations
+                    if any(bulk in input_lower for bulk in ["all", "every", "batch", "mass"]):
+                        context_multiplier += 0.5
+
+                    # Calculate final weighted score for this indicator
+                    indicator_score = min(5.0, base_multiplier * weight * context_multiplier / 2.0)
+                    max_tier_score = max(max_tier_score, indicator_score)
+
+                    matching_patterns.append(
+                        {
+                            "indicator": indicator,
+                            "weight": weight,
+                            "base_tier": base_multiplier,
+                            "context_multiplier": context_multiplier,
+                            "final_score": indicator_score,
+                        }
+                    )
+
+        # Apply input length and complexity analysis
+        input_complexity = len(input_lower.split()) / 10.0  # Normalize by word count
+        if len(input_lower) > 200:  # Long, complex requests
+            max_tier_score += 0.5
+
+        # Apply semantic pattern analysis
+        question_patterns = ["how", "what", "why", "when", "where"]
+        if any(pattern in input_lower for pattern in question_patterns):
+            max_tier_score -= 0.5  # Questions generally less risky
+
+        command_patterns = ["create", "delete", "modify", "change", "execute", "run"]
+        if any(pattern in input_lower for pattern in command_patterns):
+            max_tier_score += 0.3  # Commands more risky
+
+        # Apply Trinity Framework risk assessment
+        trinity_risks = {
+            "identity": ["auth", "login", "password", "credential", "token"],
+            "consciousness": ["memory", "thought", "decision", "learning", "ai"],
+            "guardian": ["protect", "secure", "defend", "monitor", "alert"],
+        }
+
+        for framework, keywords in trinity_risks.items():
+            if any(keyword in input_lower for keyword in keywords):
+                max_tier_score += 0.2  # Trinity components require elevated access
+
+        # Final tier determination with sophisticated rounding
+        final_tier = max(1, min(5, int(max_tier_score + 0.3)))  # Bias toward higher tiers for security
+
+        # Log sophisticated analysis for observability
+        if matching_patterns:
+            logger.debug(
+                f"🎯 ΛTIER Analysis: input_tier={final_tier}, patterns={len(matching_patterns)}, "
+                f"max_score={max_tier_score:.2f}, complexity={input_complexity:.2f}"
+            )
+
+        return final_tier
 
     def _check_consent_requirements(self, user_input: str, current_context: dict) -> bool:
         """Check if consent is required for the input"""
