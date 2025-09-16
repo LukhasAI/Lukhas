@@ -1,4 +1,3 @@
-# ΛORIGIN_AGENT: CODEX-01
 # ΛTASK_ID: 0
 # ΛCOMMIT_WINDOW: modular-audit
 # ΛPROVED_BY: GRDM
