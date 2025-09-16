@@ -110,3 +110,41 @@ class TestAdvancedMemoryManager:
         result = await advanced_memory_manager.optimize_memory_storage()
         assert result["consolidation_summary"]["status"] == "consolidated"
         assert result["fold_engine_optimization_status"]["status"] == "optimized"
+
+    async def test_get_related_memories(self, advanced_memory_manager):
+        """Test retrieving memories related by tags or content."""
+        # Store two memories with a shared tag
+        id1 = await advanced_memory_manager.store_memory(content="content one", tags=["shared_tag"])
+        id2 = await advanced_memory_manager.store_memory(content="content two", tags=["shared_tag"])
+        id3 = await advanced_memory_manager.store_memory(content="content three", tags=["other_tag"])
+
+        # Mock the retrieve_memory to return the stored data
+        async def mock_retrieve(mem_id):
+            if mem_id == id1:
+                return {"id": id1, "content": "content one", "tags": ["shared_tag"]}
+            if mem_id == id2:
+                return {"id": id2, "content": "content two", "tags": ["shared_tag"]}
+            if mem_id == id3:
+                return {"id": id3, "content": "content three", "tags": ["other_tag"]}
+            return None
+
+        advanced_memory_manager.retrieve_memory = AsyncMock(side_effect=mock_retrieve)
+
+        related_memories = await advanced_memory_manager.get_related_memories(id1)
+
+        assert len(related_memories) == 1
+        related_ids = {mem["id"] for mem in related_memories}
+        assert id2 in related_ids
+        assert id3 not in related_ids
+
+    def test_get_memory_statistics(self, advanced_memory_manager):
+        """Test that memory statistics are reported correctly."""
+        # The fold_engine mock (AGIMemoryFake) does not have get_status,
+        # so this also tests the fallback path.
+        stats = advanced_memory_manager.get_memory_statistics()
+
+        assert stats["metrics"]["total_memories_managed"] == 0
+        assert stats["cluster_count"] == 0
+        assert stats["fold_engine_status"] == "N/A"
+        assert stats["emotional_oscillator_connected"] is True
+        assert stats["qi_attention_connected"] is True
