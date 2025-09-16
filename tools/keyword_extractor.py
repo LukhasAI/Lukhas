@@ -189,7 +189,7 @@ class KeywordExtractor:
 if __name__ == "__main__":
     print("🚀 Starting lukhas Keyword Extraction...")
 
-    extractor = lukhasKeywordExtractor()  # noqa: F821  # TODO: lukhasKeywordExtractor
+    extractor = KeywordExtractor()
     keywords = extractor.scan_workspace()
     extractor.print_summary()
     results = extractor.save_results()
