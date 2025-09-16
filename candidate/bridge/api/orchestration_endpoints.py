@@ -28,7 +28,7 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 try:
-    import jwt  # MATRIZ Integration: JWT token handling for API expansion orchestration endpoints and Trinity Framework authentication
+    import jwt  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
     from fastapi import (
         Depends,
         FastAPI,
@@ -42,11 +42,7 @@ try:
     from fastapi.middleware.cors import CORSMiddleware
     from fastapi.responses import StreamingResponse
     from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-    from pydantic import (  # MATRIZ Integration: Pydantic models for API expansion data validation and Trinity Framework schema coordination
-        BaseModel,
-        Field,
-        ValidationError,
-    )
+    from pydantic import BaseModel, Field, ValidationError  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
 
     # LUKHAS imports
     from candidate.bridge.api.orchestration_api_bridge import (
@@ -184,10 +180,6 @@ class APIKeyManager:
         # Rate limiting tracking
         self.request_counts = {}
         self.daily_costs = {}
-        # ΛTAG: rate_limit_monitoring - violation counters for orchestration API metrics
-        self.rate_limit_violations: dict[str, int] = {}
-        # ΛTAG: cost_guardrails - track cost guardrail breaches for observability
-        self.cost_limit_violations: dict[str, int] = {}
 
     def validate_api_key(self, api_key: str) -> dict[str, Any]:
         """Validate API key and return user information"""
@@ -213,7 +205,6 @@ class APIKeyManager:
         # Check minute rate limit
         minute_limit = user_info["rate_limit"]["requests_per_minute"]
         if len(self.request_counts[user_id]) >= minute_limit:
-            self._record_rate_limit_violation(user_id)
             return False
 
         # Record this request
@@ -226,38 +217,12 @@ class APIKeyManager:
         daily_limit = user_info["cost_limit"]["daily"]
 
         current_cost = self.daily_costs.get(user_id, 0.0)
-        if current_cost + estimated_cost > daily_limit:
-            self._record_cost_limit_violation(user_id)
-            return False
-
-        return True
+        return current_cost + estimated_cost <= daily_limit
 
     def record_cost(self, api_key: str, user_info: dict[str, Any], cost: float):
         """Record cost for user"""
         user_id = user_info["user_id"]
         self.daily_costs[user_id] = self.daily_costs.get(user_id, 0.0) + cost
-
-    # ΛTAG: rate_limit_monitoring - helper utilities to expose violation metrics safely
-    def _record_rate_limit_violation(self, user_id: str) -> None:
-        self.rate_limit_violations[user_id] = self.rate_limit_violations.get(user_id, 0) + 1
-
-    def _record_cost_limit_violation(self, user_id: str) -> None:
-        self.cost_limit_violations[user_id] = self.cost_limit_violations.get(user_id, 0) + 1
-
-    def get_violation_metrics(self) -> dict[str, Any]:
-        """Summarize guardrail violations for monitoring dashboards."""
-
-        # ΛTAG: metrics_tracking - expose totals while preserving per-user visibility
-        return {
-            "rate_limit_violations": {
-                "total": sum(self.rate_limit_violations.values()),
-                "by_user": dict(self.rate_limit_violations),
-            },
-            "cost_limit_violations": {
-                "total": sum(self.cost_limit_violations.values()),
-                "by_user": dict(self.cost_limit_violations),
-            },
-        }
 
 
 # Global instances
@@ -569,26 +534,23 @@ if FASTAPI_AVAILABLE:
 
         # Validate functions before registration
         try:
-            # TODO: Implement get_validator function
-            # validator = get_validator()
-            # if validator:
-            #     validation_result = await validator.validate_request(
-            #         "function_registration",
-            #         request.dict(),
-            #         {"user_tier": user_info.get("tier")},
-            #     )
+            validator = get_validator()
+            if validator:
+                validation_result = await validator.validate_request(
+                    "function_registration",
+                    request.dict(),
+                    {"user_tier": user_info.get("tier")},
+                )
 
-            # TODO: Implement validation result handling
-            # if not validation_result.is_valid:
-            #     raise HTTPException(
-            #         status_code=status.HTTP_400_BAD_REQUEST,
-            #         detail={
-            #             "error": "Function validation failed",
-            #             "validation_errors": validation_result.errors,
-            #             "security_issues": [e for e in validation_result.errors if "security" in e.get("type", "")],
-            #         },
-            #     )
-            pass  # Placeholder for validation logic
+                if not validation_result.is_valid:
+                    raise HTTPException(
+                        status_code=status.HTTP_400_BAD_REQUEST,
+                        detail={
+                            "error": "Function validation failed",
+                            "validation_errors": validation_result.errors,
+                            "security_issues": [e for e in validation_result.errors if "security" in e.get("type", "")],
+                        },
+                    )
         except Exception as e:
             logger.warning(f"Function validation error: {e}")
             # Continue with basic validation
@@ -642,16 +604,10 @@ if FASTAPI_AVAILABLE:
             metrics = orchestrator.get_metrics()
 
             # Add API-specific metrics
-            violation_metrics = api_key_manager.get_violation_metrics()
             api_metrics = {
                 "api_keys_active": len(api_key_manager.api_keys),
-                "rate_limit_violations": violation_metrics["rate_limit_violations"]["total"],
-                "cost_limit_violations": violation_metrics["cost_limit_violations"]["total"],
-                # ΛTAG: metrics_tracking - surface per-user violation breakdowns for dashboards
-                "violations_by_user": {
-                    "rate_limit": violation_metrics["rate_limit_violations"]["by_user"],
-                    "cost_limit": violation_metrics["cost_limit_violations"]["by_user"],
-                },
+                "rate_limit_violations": 0,  # TODO: Track this
+                "cost_limit_violations": 0,  # TODO: Track this
             }
 
             return {

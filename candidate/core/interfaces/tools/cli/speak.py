@@ -15,6 +15,7 @@ import logging
 import os
 from datetime import datetime, timezone
 
+# from edge_tts import Communicate  # TODO: Install or implement edge_tts
 from lukhas.core.compliance.tier_manager import get_user_tier
 
 DEFAULT_VOICE = "en-US-AriaNeural"
@@ -92,7 +93,7 @@ def main():
     voice = EMOTION_VOICES.get(args.emotion.lower(), DEFAULT_VOICE)
 
     # Keep these as print since they are CLI user output
-    print(f" Tier {tier} |  Emotion: {args.emotion} | Voice: {voice}" "")
+    print(f" Tier {tier} |  Emotion: {args.emotion} | Voice: {voice}""")
     if not args.preview:
         asyncio.run(speak(sentence, voice=voice, preview=False))
     log_output(sentence, tier, voice)

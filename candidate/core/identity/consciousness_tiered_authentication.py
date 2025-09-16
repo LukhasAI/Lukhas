@@ -1,5 +1,5 @@
 import logging
-
+import streamlit as st
 logger = logging.getLogger(__name__)
 """
 ╔══════════════════════════════════════════════════════════════
@@ -466,7 +466,7 @@ class ConsciousnessWebAuthnManager:
             if len(self.biometric_patterns[identity_id]) > 10:
                 self.biometric_patterns[identity_id] = self.biometric_patterns[identity_id][-10:]
 
-            logger.debug(f"🧬 Processed consciousness biometrics for {identity_id}: {list(biometric_patterns.keys())}")
+            logger.debug(f"🧬 Processed consciousness biometrics for {identity_id}: {list(biometric_patterns.keys()}")
             return True
 
         except Exception as e:

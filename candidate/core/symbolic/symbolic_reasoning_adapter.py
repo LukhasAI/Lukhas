@@ -48,9 +48,7 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 import logging
-from copy import deepcopy
 from dataclasses import dataclass
-from datetime import datetime
 from enum import Enum
 from typing import Any
 
@@ -93,22 +91,6 @@ class SymbolicReasoningAdapter:
         self.reasoning_contexts: dict[str, ReasoningContext] = {}
         self.adaptation_cache = {}
         self.coherence_threshold = 0.85
-
-        # ΛTAG: context_archive
-        self.archived_contexts: list[dict[str, Any]] = []
-        self.archive_retention = 25
-
-        # ΛTAG: reasoning_metrics
-        self.metrics: dict[str, Any] = {
-            "closed_contexts": 0,
-            "archived_contexts": 0,
-            "cache_entries_removed": 0,
-            "cleanup_failures": 0,
-            "active_contexts": 0,
-            "last_closed_at": None,
-            "last_closed_mode": None,
-            "coherence_snapshot": self.coherence_threshold,
-        }
 
         logger.info("SymbolicReasoningAdapter initialized - SCAFFOLD MODE")
 
@@ -180,110 +162,14 @@ class SymbolicReasoningAdapter:
         # PLACEHOLDER: Implement context closure
         logger.info("Closing reasoning context: %s", context_id)
 
-        context = self.reasoning_contexts.get(context_id)
+        if context_id in self.reasoning_contexts:
+            # TODO: Implement graceful context cleanup
+            # TODO: Archive reasoning adaptation data
+            # TODO: Update reasoning metrics
+            del self.reasoning_contexts[context_id]
+            return True
 
-        if context is None:
-            logger.warning("Reasoning context not found for cleanup: %s", context_id)
-            self.metrics["cleanup_failures"] += 1
-            return False
-
-        removed_cache_keys = self._cleanup_adaptation_cache(context_id)
-        archive_record = self._create_archive_record(context, removed_cache_keys)
-        self.archived_contexts.append(archive_record)
-        self._trim_archived_contexts()
-
-        # ΛTAG: context_cleanup
-        del self.reasoning_contexts[context_id]
-
-        coherence_snapshot = self.validate_reasoning_coherence()
-        archive_record["coherence_snapshot"] = coherence_snapshot
-        self._update_metrics_after_close(archive_record, removed_cache_keys, coherence_snapshot)
-
-        logger.info(
-            "Reasoning context closed",
-            extra={
-                "context_id": context_id,
-                "mode": archive_record["mode"],
-                "removed_cache_entries": len(removed_cache_keys),
-                "archived_at": archive_record["timestamp"],
-            },
-        )
-
-        return True
-
-    def _cleanup_adaptation_cache(self, context_id: str) -> list[str]:
-        """Remove adaptation cache entries associated with the context."""
-
-        removed_keys: list[str] = []
-
-        direct_entry = self.adaptation_cache.pop(context_id, None)
-        if direct_entry is not None:
-            removed_keys.append(context_id)
-
-        orphaned_keys = [
-            key
-            for key, value in list(self.adaptation_cache.items())
-            if isinstance(value, dict) and value.get("context_id") == context_id
-        ]
-
-        for key in orphaned_keys:
-            self.adaptation_cache.pop(key, None)
-            removed_keys.append(key)
-
-        if removed_keys:
-            logger.debug(
-                "Cleared adaptation cache entries",
-                extra={"context_id": context_id, "removed_keys": removed_keys},
-            )
-
-        return removed_keys
-
-    def _create_archive_record(
-        self, context: ReasoningContext, removed_cache_keys: list[str]
-    ) -> dict[str, Any]:
-        """Create an archive snapshot for a reasoning context."""
-
-        timestamp = datetime.utcnow().isoformat()
-        archive_record = {
-            "archive_id": f"{context.context_id}:{timestamp}",
-            "context_id": context.context_id,
-            "mode": context.mode.value,
-            "symbolic_input": deepcopy(context.symbolic_input),
-            "logical_output": deepcopy(context.logical_output),
-            "metadata": deepcopy(context.adaptation_metadata),
-            "removed_cache_keys": list(removed_cache_keys),
-            "timestamp": timestamp,
-        }
-
-        # ΛTAG: context_archive
-        return archive_record
-
-    def _trim_archived_contexts(self) -> None:
-        """Maintain archive retention bounds."""
-
-        while len(self.archived_contexts) > self.archive_retention:
-            trimmed = self.archived_contexts.pop(0)
-            logger.debug(
-                "Trimmed archived reasoning context",
-                extra={"context_id": trimmed["context_id"], "archive_id": trimmed["archive_id"]},
-            )
-
-    def _update_metrics_after_close(
-        self,
-        archive_record: dict[str, Any],
-        removed_cache_keys: list[str],
-        coherence_snapshot: float,
-    ) -> None:
-        """Update adapter metrics after a context has been closed."""
-
-        self.metrics["closed_contexts"] += 1
-        self.metrics["archived_contexts"] = len(self.archived_contexts)
-        self.metrics["cache_entries_removed"] += len(removed_cache_keys)
-        self.metrics["active_contexts"] = len(self.reasoning_contexts)
-        self.metrics["last_closed_at"] = archive_record["timestamp"]
-        self.metrics["last_closed_mode"] = archive_record["mode"]
-        self.metrics["coherence_snapshot"] = coherence_snapshot
-
+        return False
 
 
 # ΛTRACE: Module initialization complete

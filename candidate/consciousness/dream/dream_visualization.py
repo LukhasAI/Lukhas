@@ -33,13 +33,13 @@ class DreamVisualizationEngine:
             "visual_elements": self._generate_visual_elements(dream_data),
             "symbolic_mapping": self._create_symbolic_mapping(dream_data),
             "color_palette": self._extract_color_palette(dream_data),
-            "spatial_coordinates": self._map_spatial_elements(dream_data),
+            "spatial_coordinates": self._map_spatial_elements(dream_data)
         }
 
         self.visualization_cache[render_id] = {
             "landscape": landscape,
             "rendered_at": datetime.now(timezone.utc).isoformat(),
-            "triad_validated": True,
+            "trinity_validated": True
         }
 
         logger.info(f"🎨 Dream landscape rendered: {render_id} for dream {dream_id}")
@@ -50,7 +50,7 @@ class DreamVisualizationEngine:
         return [
             {"type": "horizon", "properties": {"color": "ethereal_blue", "opacity": 0.8}},
             {"type": "pathway", "properties": {"texture": "luminous", "direction": "ascending"}},
-            {"type": "consciousness_tree", "properties": {"branches": "infinite", "glow": "trinity"}},
+            {"type": "consciousness_tree", "properties": {"branches": "infinite", "glow": "trinity"}}
         ]
 
     def _create_symbolic_mapping(self, dream_data: dict[str, Any]) -> dict[str, Any]:
@@ -58,12 +58,12 @@ class DreamVisualizationEngine:
         return {
             "symbols": ["⚛️", "🧠", "🛡️", "∞", "◊"],
             "metaphors": ["bridge", "spiral", "reflection"],
-            "archetypal_forms": ["guardian", "seeker", "creator"],
+            "archetypal_forms": ["guardian", "seeker", "creator"]
         }
 
     def _extract_color_palette(self, dream_data: dict[str, Any]) -> list[str]:
         """Extract color palette from dream essence."""
-        return ["iridescent_purple", "consciousness_gold", "triad_silver", "dream_azure"]
+        return ["iridescent_purple", "consciousness_gold", "trinity_silver", "dream_azure"]
 
     def _map_spatial_elements(self, dream_data: dict[str, Any]) -> dict[str, tuple[float, float, float]]:
         """Map spatial elements in 3D dream space."""
@@ -71,7 +71,7 @@ class DreamVisualizationEngine:
             "consciousness_center": (0.0, 0.0, 0.0),
             "memory_spiral": (0.3, 0.8, 0.2),
             "guardian_tower": (-0.2, 1.0, 0.5),
-            "identity_nexus": (0.0, 0.5, -0.3),
+            "identity_nexus": (0.0, 0.5, -0.3)
         }
 
     def create_symbolic_narrative(self, render_id: str) -> dict[str, Any]:
@@ -87,14 +87,14 @@ class DreamVisualizationEngine:
             "narrative_threads": [
                 "The consciousness tree extends its trinity branches toward infinite possibility",
                 "The luminous pathway ascends through layers of symbolic meaning",
-                "Guardian energies form protective geometries in dream space",
+                "Guardian energies form protective geometries in dream space"
             ],
             "symbolic_depth": {
                 "primary_symbols": landscape["symbolic_mapping"]["symbols"],
                 "metaphorical_layers": len(landscape["symbolic_mapping"]["metaphors"]),
-                "archetypal_resonance": landscape["symbolic_mapping"]["archetypal_forms"],
+                "archetypal_resonance": landscape["symbolic_mapping"]["archetypal_forms"]
             },
-            "triad_validated": True,
+            "trinity_validated": True
         }
 
         logger.info(f"🧠 Symbolic narrative created for render: {render_id}")
@@ -109,14 +109,14 @@ class DreamVisualizationEngine:
 
         if format_type == "trinity":
             export_data = {
-                "format": "triad_compliant",
+                "format": "trinity_compliant",
                 "render_id": render_id,
                 "landscape": render_data["landscape"],
                 "metadata": {
                     "exported_at": datetime.now(timezone.utc).isoformat(),
-                    "triad_validated": True,
-                    "guardian_approved": True,
-                },
+                    "trinity_validated": True,
+                    "guardian_approved": True
+                }
             }
         else:
             export_data = {"error": "Unsupported format"}

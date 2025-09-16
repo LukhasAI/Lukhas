@@ -35,7 +35,8 @@ from .federated_integration import FederatedLearningIntegration, FederationStrat
 
 # Enhancement system imports
 from .monitor_dashboard import MetaLearningMonitorDashboard
-from .rate_modulator import (  # MATRIZ Integration: Rate modulator for meta-learning enhancement system and Trinity Framework adaptive learning coordination
+from .rate_modulator import (  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+from datetime import timezone
     AdaptationStrategy,
     ConvergenceSignal,
     DynamicLearningRateModulator,

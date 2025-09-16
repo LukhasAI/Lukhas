@@ -163,10 +163,10 @@ class MatrizConsciousnessGovernanceSystem:
         # Background monitoring
         self._monitoring_active = False
         self._lock = asyncio.Lock()
-        self._initialized = False
 
-        # Register with consciousness network if available (deferred)
-        # Note: Will be initialized on first use rather than at import time
+        # Register with consciousness network if available
+        if consciousness_state_manager:
+            asyncio.create_task(self._initialize_governance_consciousness())
 
     def _initialize_constitutional_principles(self) -> dict[str, dict[str, Any]]:
         """Initialize constitutional AI principles for consciousness governance"""
@@ -212,17 +212,6 @@ class MatrizConsciousnessGovernanceSystem:
                 "thresholds": {"violation": 0.4, "concern": 0.6, "positive": 0.8},
             },
         }
-
-    async def ensure_initialized(self) -> None:
-        """Ensure the governance system is initialized (called on first use)."""
-        if not self._initialized and consciousness_state_manager:
-            try:
-                await self._initialize_governance_consciousness()
-                self._initialized = True
-            except Exception as e:
-                logger.warning(f"⚠️ Failed to initialize governance consciousness: {e}")
-                # Continue without consciousness integration
-                self._initialized = True  # Mark as initialized to avoid retry loops
 
     async def _initialize_governance_consciousness(self) -> None:
         """Initialize governance consciousness state"""
@@ -792,7 +781,6 @@ class MatrizConsciousnessGovernanceSystem:
 
     async def get_governance_status(self) -> dict[str, Any]:
         """Get comprehensive governance system status"""
-        await self.ensure_initialized()
 
         # Calculate recent metrics
         recent_cutoff = datetime.now(timezone.utc) - timedelta(hours=24)

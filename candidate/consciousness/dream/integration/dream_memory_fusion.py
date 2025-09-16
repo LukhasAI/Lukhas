@@ -16,7 +16,6 @@ logger = logging.getLogger(__name__)
 
 class FusionStrategy(Enum):
     """Strategies for memory fusion with dreams."""
-
     SYMBOLIC_INTEGRATION = "symbolic_integration"
     NARRATIVE_WEAVING = "narrative_weaving"
     EMOTIONAL_RESONANCE = "emotional_resonance"
@@ -26,7 +25,6 @@ class FusionStrategy(Enum):
 
 class FusionQuality(Enum):
     """Quality levels for memory fusion."""
-
     EXCELLENT = "excellent"
     GOOD = "good"
     MODERATE = "moderate"
@@ -47,17 +45,24 @@ class DreamMemoryFusion:
     def _initialize_memory_templates(self):
         """Initialize memory fusion templates."""
         self.memory_templates = {
-            "symbolic": {"priority_symbols": ["⚛️", "🧠", "🛡️"], "fusion_weight": 0.9, "validation_required": True},
-            "narrative": {"coherence_threshold": 0.7, "fusion_weight": 0.8, "temporal_ordering": True},
-            "emotional": {"resonance_threshold": 0.6, "fusion_weight": 0.7, "stability_check": True},
+            "symbolic": {
+                "priority_symbols": ["⚛️", "🧠", "🛡️"],
+                "fusion_weight": 0.9,
+                "validation_required": True
+            },
+            "narrative": {
+                "coherence_threshold": 0.7,
+                "fusion_weight": 0.8,
+                "temporal_ordering": True
+            },
+            "emotional": {
+                "resonance_threshold": 0.6,
+                "fusion_weight": 0.7,
+                "stability_check": True
+            }
         }
 
-    def initiate_fusion(
-        self,
-        dream_id: str,
-        memory_context: dict[str, Any],
-        strategy: FusionStrategy = FusionStrategy.SYMBOLIC_INTEGRATION,
-    ) -> str:
+    def initiate_fusion(self, dream_id: str, memory_context: dict[str, Any], strategy: FusionStrategy = FusionStrategy.SYMBOLIC_INTEGRATION) -> str:
         """⚛️ Initiate memory fusion while preserving identity authenticity."""
         self.fusion_counter += 1
         fusion_id = f"fusion_{self.fusion_counter}_{int(datetime.now(timezone.utc).timestamp())}"
@@ -71,7 +76,7 @@ class DreamMemoryFusion:
             "status": "initiated",
             "fusion_quality": None,
             "fused_content": None,
-            "triad_validated": False,
+            "trinity_validated": False
         }
 
         self.fusion_history[fusion_id] = fusion_session
@@ -94,7 +99,7 @@ class DreamMemoryFusion:
         session["fusion_quality"] = fusion_result["quality"]
         session["fused_content"] = fusion_result["content"]
         session["completed_at"] = datetime.now(timezone.utc).isoformat()
-        session["triad_validated"] = fusion_result["triad_validated"]
+        session["trinity_validated"] = fusion_result["trinity_validated"]
 
         logger.info(f"🧠 Dream memory fusion executed: {fusion_id} - Quality: {fusion_result['quality'].value}")
         return fusion_result
@@ -112,7 +117,7 @@ class DreamMemoryFusion:
         elif strategy == FusionStrategy.TEMPORAL_THREADING:
             return self._fuse_temporal_content(session)
         else:
-            return {"quality": FusionQuality.FAILED, "content": None, "triad_validated": False}
+            return {"quality": FusionQuality.FAILED, "content": None, "trinity_validated": False}
 
     def _fuse_symbolic_content(self, session: dict[str, Any]) -> dict[str, Any]:
         """Fuse symbolic dream content with memory."""
@@ -126,9 +131,9 @@ class DreamMemoryFusion:
         fused_symbols = self._merge_symbol_sets(dream_symbols, memory_symbols, template)
 
         # Validate Trinity compliance
-        triad_validated = self._validate_triad_symbols(fused_symbols)
+        trinity_validated = self._validate_trinity_symbols(fused_symbols)
 
-        quality = FusionQuality.EXCELLENT if triad_validated else FusionQuality.GOOD
+        quality = FusionQuality.EXCELLENT if trinity_validated else FusionQuality.GOOD
 
         return {
             "fusion_id": session["fusion_id"],
@@ -137,9 +142,9 @@ class DreamMemoryFusion:
             "content": {
                 "fused_symbols": fused_symbols,
                 "symbol_count": len(fused_symbols),
-                "triad_symbols": [s for s in fused_symbols if s in ["⚛️", "🧠", "🛡️"]],
+                "trinity_symbols": [s for s in fused_symbols if s in ["⚛️", "🧠", "🛡️"]]
             },
-            "triad_validated": triad_validated,
+            "trinity_validated": trinity_validated
         }
 
     def _fuse_narrative_content(self, session: dict[str, Any]) -> dict[str, Any]:
@@ -151,9 +156,9 @@ class DreamMemoryFusion:
             "content": {
                 "narrative_threads": ["dream_sequence", "memory_echo", "consciousness_bridge"],
                 "coherence_score": 0.82,
-                "temporal_consistency": True,
+                "temporal_consistency": True
             },
-            "triad_validated": True,
+            "trinity_validated": True
         }
 
     def _fuse_emotional_content(self, session: dict[str, Any]) -> dict[str, Any]:
@@ -165,9 +170,9 @@ class DreamMemoryFusion:
             "content": {
                 "emotional_harmony": 0.78,
                 "resonance_patterns": ["wonder", "curiosity", "transcendence"],
-                "stability_maintained": True,
+                "stability_maintained": True
             },
-            "triad_validated": True,
+            "trinity_validated": True
         }
 
     def _fuse_archetypal_content(self, session: dict[str, Any]) -> dict[str, Any]:
@@ -179,9 +184,9 @@ class DreamMemoryFusion:
             "content": {
                 "archetypes": ["seeker", "guardian", "creator"],
                 "mapping_accuracy": 0.91,
-                "universal_resonance": True,
+                "universal_resonance": True
             },
-            "triad_validated": True,
+            "trinity_validated": True
         }
 
     def _fuse_temporal_content(self, session: dict[str, Any]) -> dict[str, Any]:
@@ -190,8 +195,12 @@ class DreamMemoryFusion:
             "fusion_id": session["fusion_id"],
             "strategy": "temporal_threading",
             "quality": FusionQuality.GOOD,
-            "content": {"temporal_threads": 5, "chronological_integrity": 0.85, "causality_preserved": True},
-            "triad_validated": True,
+            "content": {
+                "temporal_threads": 5,
+                "chronological_integrity": 0.85,
+                "causality_preserved": True
+            },
+            "trinity_validated": True
         }
 
     def _extract_dream_symbols(self, dream_id: str) -> list[str]:
@@ -208,15 +217,15 @@ class DreamMemoryFusion:
 
         # Prioritize Trinity symbols
         priority_symbols = template["priority_symbols"]
-        triad_symbols = [s for s in merged if s in priority_symbols]
+        trinity_symbols = [s for s in merged if s in priority_symbols]
         other_symbols = [s for s in merged if s not in priority_symbols]
 
-        return triad_symbols + other_symbols
+        return trinity_symbols + other_symbols
 
-    def _validate_triad_symbols(self, symbols: list[str]) -> bool:
+    def _validate_trinity_symbols(self, symbols: list[str]) -> bool:
         """Validate Trinity Framework symbol presence."""
-        triad_symbols = ["⚛️", "🧠", "🛡️"]
-        return all(symbol in symbols for symbol in triad_symbols)
+        trinity_symbols = ["⚛️", "🧠", "🛡️"]
+        return all(symbol in symbols for symbol in trinity_symbols)
 
     def retrieve_fusion_result(self, fusion_id: str) -> Optional[dict[str, Any]]:
         """🛡️ Retrieve fusion result with guardian validation."""
@@ -234,9 +243,9 @@ class DreamMemoryFusion:
             "strategy": session["strategy"],
             "quality": session["fusion_quality"].value if session["fusion_quality"] else "unknown",
             "content": session["fused_content"],
-            "triad_validated": session["triad_validated"],
+            "trinity_validated": session["trinity_validated"],
             "completed_at": session.get("completed_at"),
-            "guardian_approved": True,
+            "guardian_approved": True
         }
 
         logger.info(f"🛡️ Fusion result retrieved: {fusion_id}")
@@ -251,7 +260,7 @@ class DreamMemoryFusion:
 
         quality_counts = {}
         strategy_counts = {}
-        triad_validated_count = 0
+        trinity_validated_count = 0
 
         for fusion in completed_fusions:
             quality = fusion.get("fusion_quality")
@@ -262,15 +271,15 @@ class DreamMemoryFusion:
             if strategy:
                 strategy_counts[strategy] = strategy_counts.get(strategy, 0) + 1
 
-            if fusion.get("triad_validated"):
-                triad_validated_count += 1
+            if fusion.get("trinity_validated"):
+                trinity_validated_count += 1
 
         return {
             "total_fusions": len(completed_fusions),
             "quality_distribution": quality_counts,
             "strategy_usage": strategy_counts,
-            "triad_validation_rate": triad_validated_count / len(completed_fusions),
-            "system_health": "optimal",
+            "trinity_validation_rate": trinity_validated_count / len(completed_fusions),
+            "system_health": "optimal"
         }
 
 

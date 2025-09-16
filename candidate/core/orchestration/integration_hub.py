@@ -102,7 +102,7 @@ except ImportError:
     BaseOscillator = None
     QIHub = None
 
-from qi.states.system_orchestrator import QIAGISystem
+# from qi.system_orchestrator import QIAGISystem  # TODO: Implement quantum AGI system
 
 logger = logging.getLogger(__name__)
 

@@ -220,7 +220,7 @@ class ConsciousnessSignalRouter:
             """Filter signals by awareness level"""
             return signal.awareness_level >= 0.5
 
-        def triad_compliance_filter(signal: ConsciousnessSignal) -> bool:
+        def trinity_compliance_filter(signal: ConsciousnessSignal) -> bool:
             """Filter signals by Trinity framework compliance"""
             if not signal.constellation_alignment:
                 return False
@@ -247,7 +247,7 @@ class ConsciousnessSignalRouter:
         self.signal_filters = {
             SignalFilter.COHERENCE_THRESHOLD.value: coherence_filter,
             SignalFilter.AWARENESS_LEVEL.value: awareness_filter,
-            SignalFilter.TRINITY_COMPLIANCE.value: triad_compliance_filter,
+            SignalFilter.TRINITY_COMPLIANCE.value: trinity_compliance_filter,
             SignalFilter.FREQUENCY_BAND.value: frequency_band_filter,
         }
 

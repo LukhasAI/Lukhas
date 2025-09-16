@@ -156,25 +156,9 @@ class LambdaConsentManager:
 
     def _validate_tier_consent_access(self, user_tier: int, consent_scope: str) -> bool:
         """Validate if user tier allows access to consent scope"""
-        # Basic tier-based validation logic
-        tier_permissions = {
-            1: ["basic:read", "basic:write"],  # T1: Basic operations
-            2: ["basic:read", "basic:write", "memory:read"],  # T2: + Memory read
-            3: ["basic:read", "basic:write", "memory:read", "memory:write"],  # T3: + Memory write
-            4: [
-                "basic:read",
-                "basic:write",
-                "memory:read",
-                "memory:write",
-                "consciousness:read",
-            ],  # T4: + Consciousness
-            5: ["*"],  # T5: Full access
-        }
-
-        allowed_scopes = tier_permissions.get(user_tier, ["basic:read"])
-
-        # Check if wildcard permission or specific scope allowed
-        return "*" in allowed_scopes or consent_scope in allowed_scopes
+        # TODO: Load tier boundaries from consent_tiers.json
+        # TODO: Implement tier-based validation logic
+        return True  # Placeholder
 
     def _map_action_to_scope(self, action_type: str) -> str:
         """Map action type to required consent scope"""

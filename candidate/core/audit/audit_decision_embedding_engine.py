@@ -13,10 +13,10 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-from candidate.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
+from candidate.orchestration.golden_trio.trio_orchestrator import \
+    TrioOrchestrator
 from ethics.core.shared_ethics_engine import SharedEthicsEngine
 from ethics.seedra.seedra_core import SEEDRACore
-
 # Import existing infrastructure
 from lukhas.core.swarm import SwarmHub
 from symbolic.core.symbolic_language import SymbolicLanguageFramework

@@ -39,10 +39,7 @@ from typing import Any, Callable, Optional
 
 try:
     from ..security.secure_logging import get_security_logger
-    from .constitutional_ai import (  # MATRIZ Integration: Constitutional AI framework for Guardian System 2.0 decision context and Trinity Framework ethical oversight
-        DecisionContext,
-        get_constitutional_framework,
-    )
+    from .constitutional_ai import DecisionContext, get_constitutional_framework  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
     from .constitutional_compliance_engine import (
         ComplianceLevel,
         ComplianceResult,

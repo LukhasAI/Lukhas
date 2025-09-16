@@ -31,14 +31,14 @@ class DreamAnalyticsEngine:
             "total_dreams": len(dream_data),
             "recurring_themes": self._extract_themes(dream_data),
             "emotional_trends": self._analyze_emotions(dream_data),
-            "temporal_patterns": self._analyze_timing(dream_data),
+            "temporal_patterns": self._analyze_timing(dream_data)
         }
 
         self.analytics_data[analysis_id] = {
             "analysis_id": analysis_id,
             "patterns": patterns,
             "analyzed_at": datetime.now(timezone.utc).isoformat(),
-            "triad_validated": True,
+            "trinity_validated": True
         }
 
         logger.info(f"📊 Dream patterns analyzed: {analysis_id}")
@@ -52,11 +52,19 @@ class DreamAnalyticsEngine:
 
     def _analyze_emotions(self, dream_data: list[dict]) -> dict[str, Any]:
         """Analyze emotional patterns in dreams."""
-        return {"primary_emotion": "wonder", "emotional_variance": "moderate", "positive_ratio": 0.75}
+        return {
+            "primary_emotion": "wonder",
+            "emotional_variance": "moderate",
+            "positive_ratio": 0.75
+        }
 
     def _analyze_timing(self, dream_data: list[dict]) -> dict[str, Any]:
         """Analyze temporal patterns in dreams."""
-        return {"peak_hours": ["2-4 AM", "6-8 AM"], "frequency": "regular", "duration_trend": "increasing"}
+        return {
+            "peak_hours": ["2-4 AM", "6-8 AM"],
+            "frequency": "regular",
+            "duration_trend": "increasing"
+        }
 
     def generate_insights(self, analysis_id: str) -> dict[str, Any]:
         """🧠 Generate consciousness-aware insights from analysis."""
@@ -70,14 +78,14 @@ class DreamAnalyticsEngine:
             "key_insights": [
                 "Dream complexity is increasing over time",
                 "Strong emotional coherence detected",
-                "Healthy dream-wake cycle maintained",
+                "Healthy dream-wake cycle maintained"
             ],
             "recommendations": [
                 "Continue current dream practices",
                 "Explore lucid dreaming techniques",
-                "Maintain regular sleep schedule",
+                "Maintain regular sleep schedule"
             ],
-            "triad_validated": True,
+            "trinity_validated": True
         }
 
         logger.info(f"🧠 Dream insights generated: {analysis_id}")

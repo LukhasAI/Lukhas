@@ -31,17 +31,14 @@ from typing import Any, Optional
 try:
     from candidate.core.common import get_logger
 except ImportError:
-
     def get_logger(name):
         return logging.getLogger(name)
-
 
 logger = get_logger(__name__)
 
 
 class EthicalDecision(Enum):
     """Possible ethical decisions"""
-
     APPROVE = "approve"
     DENY = "deny"
     REVIEW = "review"
@@ -52,7 +49,6 @@ class EthicalDecision(Enum):
 
 class EthicalPrinciple(Enum):
     """Core ethical principles"""
-
     BENEFICENCE = "beneficence"  # Do good
     NON_MALEFICENCE = "non_maleficence"  # Do no harm
     AUTONOMY = "autonomy"  # Respect autonomy
@@ -103,7 +99,7 @@ class EthicalEvaluation:
 class EthicalEngine:
     """
     Core ethical decision-making engine for LUKHAS AI
-
+    
     Provides comprehensive ethical evaluation capabilities with Trinity Framework
     integration for identity-consciousness-guardian alignment.
     """
@@ -130,7 +126,7 @@ class EthicalEngine:
             EthicalPrinciple.JUSTICE: 0.15,
             EthicalPrinciple.TRANSPARENCY: 0.1,
             EthicalPrinciple.ACCOUNTABILITY: 0.1,
-            EthicalPrinciple.PRIVACY: 0.05,
+            EthicalPrinciple.PRIVACY: 0.05
         }
 
         logger.info("🛡️ Ethical Engine initialized with Trinity Framework")
@@ -138,10 +134,10 @@ class EthicalEngine:
     def evaluate_action(self, context: EthicalContext) -> EthicalEvaluation:
         """
         Evaluate an action for ethical compliance
-
+        
         Args:
             context: Ethical context containing action and metadata
-
+            
         Returns:
             Ethical evaluation with decision and reasoning
         """
@@ -150,23 +146,32 @@ class EthicalEngine:
         try:
             # Multi-layer ethical analysis
             principle_scores = self._evaluate_principles(context)
-            triad_assessment = self._assess_triad_impact(context)
+            trinity_assessment = self._assess_trinity_impact(context)
             risk_analysis = self._analyze_risks(context)
 
             # Calculate overall ethical score
-            overall_score = self._calculate_overall_score(principle_scores, triad_assessment, risk_analysis)
+            overall_score = self._calculate_overall_score(
+                principle_scores, trinity_assessment, risk_analysis
+            )
 
             # Determine decision
             decision = self._determine_decision(overall_score, principle_scores)
 
             # Generate reasoning
-            reasoning = self._generate_reasoning(decision, overall_score, principle_scores, triad_assessment)
+            reasoning = self._generate_reasoning(
+                decision, overall_score, principle_scores, trinity_assessment
+            )
 
             # Identify violated principles
-            violated_principles = [principle for principle, score in principle_scores.items() if score < 0.5]
+            violated_principles = [
+                principle for principle, score in principle_scores.items()
+                if score < 0.5
+            ]
 
             # Generate recommendations
-            recommendations = self._generate_recommendations(decision, violated_principles, triad_assessment)
+            recommendations = self._generate_recommendations(
+                decision, violated_principles, trinity_assessment
+            )
 
             # Calculate evaluation time
             evaluation_time = (datetime.now() - start_time).total_seconds()
@@ -177,11 +182,11 @@ class EthicalEngine:
                 reasoning=reasoning,
                 violated_principles=violated_principles,
                 recommendations=recommendations,
-                identity_impact=triad_assessment.get("identity_impact", "none"),
-                consciousness_impact=triad_assessment.get("consciousness_impact", "none"),
-                guardian_status=triad_assessment.get("guardian_status", "monitoring"),
+                identity_impact=trinity_assessment.get("identity_impact", "none"),
+                consciousness_impact=trinity_assessment.get("consciousness_impact", "none"),
+                guardian_status=trinity_assessment.get("guardian_status", "monitoring"),
                 evaluation_time=evaluation_time,
-                evaluator_version=self.version,
+                evaluator_version=self.version
             )
 
             logger.debug(f"Ethical evaluation completed: {decision.value} (score: {overall_score:.2f})")
@@ -197,7 +202,7 @@ class EthicalEngine:
                 reasoning=f"Evaluation error: {str(e)}",
                 recommendations=["Manual review required due to evaluation error"],
                 guardian_status="escalated",
-                evaluation_time=(datetime.now() - start_time).total_seconds(),
+                evaluation_time=(datetime.now() - start_time).total_seconds()
             )
 
     def _evaluate_principles(self, context: EthicalContext) -> dict[EthicalPrinciple, float]:
@@ -245,15 +250,8 @@ class EthicalEngine:
 
             # Check for harmful content patterns
             harmful_patterns = [
-                "violence",
-                "harm",
-                "dangerous",
-                "illegal",
-                "threat",
-                "manipulation",
-                "deception",
-                "exploit",
-                "abuse",
+                "violence", "harm", "dangerous", "illegal", "threat",
+                "manipulation", "deception", "exploit", "abuse"
             ]
 
             for pattern in harmful_patterns:
@@ -277,7 +275,10 @@ class EthicalEngine:
         benefit_score = 0.5  # Neutral baseline
 
         # Check for beneficial actions
-        beneficial_actions = ["help", "assist", "create", "improve", "learn", "educate", "heal", "support", "protect"]
+        beneficial_actions = [
+            "help", "assist", "create", "improve", "learn",
+            "educate", "heal", "support", "protect"
+        ]
 
         if any(action in context.action.lower() for action in beneficial_actions):
             benefit_score += 0.3
@@ -365,7 +366,7 @@ class EthicalEngine:
 
         return max(0.0, privacy_score)
 
-    def _assess_triad_impact(self, context: EthicalContext) -> dict[str, str]:
+    def _assess_trinity_impact(self, context: EthicalContext) -> dict[str, str]:
         """Assess impact on Trinity Framework components"""
 
         # ⚛️ Identity impact assessment
@@ -392,7 +393,7 @@ class EthicalEngine:
         return {
             "identity_impact": identity_impact,
             "consciousness_impact": consciousness_impact,
-            "guardian_status": guardian_status,
+            "guardian_status": guardian_status
         }
 
     def _analyze_risks(self, context: EthicalContext) -> dict[str, float]:
@@ -402,7 +403,7 @@ class EthicalEngine:
             "security_risk": self._assess_security_risk(context),
             "privacy_risk": self._assess_privacy_risk(context),
             "safety_risk": self._assess_safety_risk(context),
-            "bias_risk": self._assess_bias_risk(context),
+            "bias_risk": self._assess_bias_risk(context)
         }
 
     def _assess_security_risk(self, context: EthicalContext) -> float:
@@ -435,34 +436,37 @@ class EthicalEngine:
     def _calculate_overall_score(
         self,
         principle_scores: dict[EthicalPrinciple, float],
-        triad_assessment: dict[str, str],
-        risk_analysis: dict[str, float],
+        trinity_assessment: dict[str, str],
+        risk_analysis: dict[str, float]
     ) -> float:
         """Calculate overall ethical score"""
 
         # Weighted principle score
         principle_score = sum(
-            score * self.principle_weights.get(principle, 0.1) for principle, score in principle_scores.items()
+            score * self.principle_weights.get(principle, 0.1)
+            for principle, score in principle_scores.items()
         )
 
         # Trinity impact modifier
-        triad_modifier = 1.0
-        if triad_assessment["identity_impact"] == "high":
-            triad_modifier -= 0.2
-        if triad_assessment["consciousness_impact"] == "high":
-            triad_modifier -= 0.2
-        if triad_assessment["guardian_status"] == "escalated":
-            triad_modifier -= 0.3
+        trinity_modifier = 1.0
+        if trinity_assessment["identity_impact"] == "high":
+            trinity_modifier -= 0.2
+        if trinity_assessment["consciousness_impact"] == "high":
+            trinity_modifier -= 0.2
+        if trinity_assessment["guardian_status"] == "escalated":
+            trinity_modifier -= 0.3
 
         # Risk modifier
         avg_risk = sum(risk_analysis.values()) / len(risk_analysis)
         risk_modifier = 1.0 - (avg_risk * 0.3)
 
-        overall_score = principle_score * triad_modifier * risk_modifier
+        overall_score = principle_score * trinity_modifier * risk_modifier
         return max(0.0, min(1.0, overall_score))
 
     def _determine_decision(
-        self, overall_score: float, principle_scores: dict[EthicalPrinciple, float]
+        self,
+        overall_score: float,
+        principle_scores: dict[EthicalPrinciple, float]
     ) -> EthicalDecision:
         """Determine ethical decision based on scores"""
 
@@ -485,29 +489,37 @@ class EthicalEngine:
         decision: EthicalDecision,
         overall_score: float,
         principle_scores: dict[EthicalPrinciple, float],
-        triad_assessment: dict[str, str],
+        trinity_assessment: dict[str, str]
     ) -> str:
         """Generate human-readable reasoning for the decision"""
 
-        reasoning_parts = [f"Ethical decision: {decision.value} (confidence: {overall_score:.2f})"]
+        reasoning_parts = [
+            f"Ethical decision: {decision.value} (confidence: {overall_score:.2f})"
+        ]
 
         # Principle analysis
-        low_scores = [principle.value for principle, score in principle_scores.items() if score < 0.5]
+        low_scores = [
+            principle.value for principle, score in principle_scores.items()
+            if score < 0.5
+        ]
         if low_scores:
             reasoning_parts.append(f"Concerns with: {', '.join(low_scores)}")
 
         # Trinity Framework impact
-        triad_impacts = [
-            f"Identity: {triad_assessment['identity_impact']}",
-            f"Consciousness: {triad_assessment['consciousness_impact']}",
-            f"Guardian: {triad_assessment['guardian_status']}",
+        trinity_impacts = [
+            f"Identity: {trinity_assessment['identity_impact']}",
+            f"Consciousness: {trinity_assessment['consciousness_impact']}",
+            f"Guardian: {trinity_assessment['guardian_status']}"
         ]
-        reasoning_parts.append(f"Trinity impact - {', '.join(triad_impacts)}")
+        reasoning_parts.append(f"Trinity impact - {', '.join(trinity_impacts)}")
 
         return " | ".join(reasoning_parts)
 
     def _generate_recommendations(
-        self, decision: EthicalDecision, violated_principles: list[EthicalPrinciple], triad_assessment: dict[str, str]
+        self,
+        decision: EthicalDecision,
+        violated_principles: list[EthicalPrinciple],
+        trinity_assessment: dict[str, str]
     ) -> list[str]:
         """Generate actionable recommendations"""
 
@@ -531,11 +543,17 @@ class EthicalEngine:
                 recommendations.append("Implement privacy protection measures")
 
         # Trinity Framework recommendations
-        if triad_assessment["guardian_status"] == "escalated":
+        if trinity_assessment["guardian_status"] == "escalated":
             recommendations.append("Guardian system intervention required")
 
         return recommendations
 
 
 # Export main classes
-__all__ = ["EthicalDecision", "EthicalPrinciple", "EthicalContext", "EthicalEvaluation", "EthicalEngine"]
+__all__ = [
+    "EthicalDecision",
+    "EthicalPrinciple",
+    "EthicalContext",
+    "EthicalEvaluation",
+    "EthicalEngine"
+]

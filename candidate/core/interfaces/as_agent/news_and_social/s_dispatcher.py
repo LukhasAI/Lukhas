@@ -7,10 +7,16 @@ Integration Date: 2025-05-31T07:55:30.492297
 import argparse
 import json
 import os
+
+# TODO: Replace this hack with proper Python packaging imports once
+# structure is finalized
+import sys
 from datetime import datetime, timezone
 from uuid import uuid4
 
-from ...voice.voice_agent import speak  # ΛTAG: import_cleanup
+from modules.voice.lukhas_voice_agent import speak
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
 # 📄 MODULE: lukhas_news_dispatcher.py
 # 🔎 PURPOSE: Dispatch symbolic cognition from queue into simulated publication stream

@@ -9,4 +9,4 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 # from lukhas.accepted.bio.optimizer import *
 
 __module__ = "bio.adapters"
-__triad__ = "⚛️🧠🛡️"
+__trinity__ = "⚛️🧠🛡️"

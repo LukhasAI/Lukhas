@@ -6,6 +6,8 @@ This module implements sophisticated MΛTRIZ signals for consciousness communica
 bio-symbolic adaptation, and inter-module coordination across the distributed
 consciousness architecture.
 """
+import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+
 import logging
 import time
 import uuid
@@ -274,12 +276,12 @@ class ConsciousnessSignal:
 
             # Trinity compliance validation
             if self.constellation_alignment:
-                triad_scores = [
+                trinity_scores = [
                     self.constellation_alignment.identity_auth_score,
                     self.constellation_alignment.consciousness_coherence,
                     self.constellation_alignment.guardian_compliance,
                 ]
-                if any(score < 0.0 or score > 1.0 for score in triad_scores):
+                if any(score < 0.0 or score > 1.0 for score in trinity_scores):
                     logger.warning(f"Signal {self.signal_id}: Trinity compliance scores out of bounds")
                     return False
 

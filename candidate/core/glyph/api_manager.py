@@ -51,8 +51,6 @@ from typing import Any  # ΛTRACE_CHANGE: Added Tuple
 from typing import Optional
 
 import structlog  # ΛTRACE_ADD
-
-from config.env import get_lukhas_config  # ΛTAG: config_import
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
@@ -365,16 +363,12 @@ class LUKHASAPIManager:
 
     @lukhas_tier_required(level=3)  # ΛTRACE_ADD
     def __init__(self):
-        # ΛTAG: config_path
-        self.storage_path: Path = get_lukhas_config().api_vault_path
-        config_log = logger.bind(
-            timestamp=datetime.now(timezone.utc).isoformat(),
-            config_source="env" if os.getenv("LUKHAS_API_VAULT_PATH") else "default",
-        )  # ΛTAG: config_path
-        config_log.debug(
-            "Resolved API vault storage path.",
-            storage_path=str(self.storage_path),
-        )
+        # ΛCONFIG_TODO: Hardcoded path, should be configurable.
+        self.storage_path: Path = Path(
+            os.getenv(
+                "LUKHAS_API_VAULT_PATH",
+                "/Users/A_G_I/Lukhas/ΛWebEcosystem/quantum-secure/enhanced-agi/api_vault",
+            ))
         try:
             self.storage_path.mkdir(
                 parents=True, exist_ok=True

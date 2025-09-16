@@ -15,7 +15,7 @@ from typing import Any, Optional
 
 import psutil
 
-logger = logging.getLogger("ΛTRACE.tools.performance")
+logger = logging.getLogger("ΛTRACE.tools.performance", timezone)
 
 
 @dataclass

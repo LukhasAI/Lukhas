@@ -1,3 +1,4 @@
+
 """
 ╭────────────────────────────────────────────────────────╮
 │ 🎙 MODULE      : voice_gateway.py                      │
@@ -13,6 +14,8 @@ import logging
 import os
 import subprocess
 from datetime import datetime, timezone
+
+# from edge_tts import Communicate  # TODO: Install or implement edge_tts
 
 # Initialize logger
 logger = logging.getLogger(__name__)

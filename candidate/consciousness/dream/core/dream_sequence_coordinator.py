@@ -30,7 +30,7 @@ class DreamSequenceCoordinator:
             "id": sequence_id,
             "data": sequence_data,
             "created_at": datetime.now(timezone.utc).isoformat(),
-            "triad_validated": True,
+            "trinity_validated": True
         }
 
         logger.info(f"🎬 Dream sequence created: {sequence_id}")
@@ -41,7 +41,11 @@ class DreamSequenceCoordinator:
         if sequence_id not in self.active_sequences:
             return {"error": "Sequence not found"}
 
-        return {"sequence_id": sequence_id, "flow_status": "coordinated", "triad_validated": True}
+        return {
+            "sequence_id": sequence_id,
+            "flow_status": "coordinated",
+            "trinity_validated": True
+        }
 
 
 __all__ = ["DreamSequenceCoordinator"]

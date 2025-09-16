@@ -20,7 +20,6 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 from candidate.core.common import get_logger
-from lukhas.tiers import GlobalTier, TierMappingError
 
 # Module imports
 from .bio_symbolic_awareness_adapter import BioSymbolicAwarenessAdapter
@@ -94,22 +93,6 @@ def lukhas_tier_required(level: int):
         return wrapper_sync
 
     return decorator
-
-
-# Human-readable comment: Maps local tier names to global LUKHAS tier constants.
-def map_local_tier_to_global(local_name: str) -> GlobalTier:
-    """Map local tier name to global tier constant."""
-    tier_map = {
-        "restricted": GlobalTier.PUBLIC,
-        "basic": GlobalTier.AUTHENTICATED,
-        "standard": GlobalTier.ELEVATED,
-        "elevated": GlobalTier.PRIVILEGED,
-        "advanced": GlobalTier.ADMIN,
-    }
-    global_tier = tier_map.get(local_name.lower())
-    if global_tier is None:
-        raise TierMappingError(f"Unknown local tier name: '{local_name}'")
-    return global_tier
 
 
 # Human-readable comment: Implements the Lukhas Awareness Protocol with
@@ -317,23 +300,6 @@ class LUKHASAwarenessProtocol:
             f"ΛTRACE: Determined internal tier for '{self.user_id}': '{determined_tier}' (Index: {tier_level_index})."
         )
         return determined_tier
-
-    # Human-readable comment: Returns the global LUKHAS tier based on the assigned internal tier.
-    def get_global_tier(self) -> GlobalTier:
-        """
-        Maps the assigned internal access tier to the global LUKHAS tier system.
-
-        Returns:
-            GlobalTier: The corresponding global tier enum member.
-
-        Raises:
-            TierMappingError: If the internal tier has not been set or is unknown.
-        """
-        if not self.access_tier:
-            raise TierMappingError("Access tier has not been determined yet. Call assess_awareness() first.")
-
-        self.instance_logger.debug(f"ΛTRACE: Mapping internal tier '{self.access_tier}' to global tier for '{self.user_id}'.")
-        return map_local_tier_to_global(self.access_tier)
 
     # Human-readable comment: Updates internal bio-metrics via the bio-adapter.
     @lukhas_tier_required(level=3)  # Example: Updating bio-metrics could be a privileged operation

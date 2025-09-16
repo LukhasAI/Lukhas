@@ -92,7 +92,7 @@ class ConsciousnessModuleEmitter:
         awareness_level: float = 0.7,
         reflection_depth: int = 1,
         bio_data: Optional[BioSymbolicData] = None,
-        triad_compliance: Optional[ConstellationAlignmentData] = None,
+        trinity_compliance: Optional[ConstellationAlignmentData] = None,
         target_modules: Optional[list[str]] = None,
         processing_hints: Optional[dict[str, Any]] = None,
         **kwargs,
@@ -108,7 +108,7 @@ class ConsciousnessModuleEmitter:
                 awareness_level=awareness_level,
                 reflection_depth=reflection_depth,
                 bio_symbolic_data=bio_data,
-                constellation_alignment=triad_compliance,
+                constellation_alignment=trinity_compliance,
                 target_modules=target_modules or [],
                 processing_hints=processing_hints or {},
                 **kwargs,
@@ -357,7 +357,7 @@ class IdentityEmitter(ConsciousnessModuleEmitter):
     ) -> Optional[ConsciousnessSignal]:
         """Emit identity authentication signal"""
 
-        triad_compliance = ConstellationAlignmentData(
+        trinity_compliance = ConstellationAlignmentData(
             identity_auth_score=auth_score,
             consciousness_coherence=identity_context.get("coherence", 0.8),
             guardian_compliance=0.95,
@@ -370,7 +370,7 @@ class IdentityEmitter(ConsciousnessModuleEmitter):
             signal_type=ConsciousnessSignalType.AWARENESS,
             awareness_level=auth_score,
             reflection_depth=1,
-            constellation_alignment=triad_compliance,
+            constellation_alignment=trinity_compliance,
             processing_hints=identity_context,
         )
 
@@ -386,7 +386,7 @@ class IdentityEmitter(ConsciousnessModuleEmitter):
             processing_hints={
                 "coherence_score": coherence_score,
                 "coherence_factors": coherence_factors,
-                "triad_component": "identity",
+                "trinity_component": "identity",
             },
         )
 
@@ -426,7 +426,7 @@ class GovernanceEmitter(ConsciousnessModuleEmitter):
     ) -> Optional[ConsciousnessSignal]:
         """Emit guardian compliance signal"""
 
-        triad_compliance = ConstellationAlignmentData(
+        trinity_compliance = ConstellationAlignmentData(
             identity_auth_score=0.9,
             consciousness_coherence=0.8,
             guardian_compliance=compliance_score,
@@ -441,7 +441,7 @@ class GovernanceEmitter(ConsciousnessModuleEmitter):
             signal_type=ConsciousnessSignalType.TRINITY_SYNC,
             awareness_level=min(1.0, 0.5 + compliance_score * 0.5),
             reflection_depth=3,
-            constellation_alignment=triad_compliance,
+            constellation_alignment=trinity_compliance,
             processing_hints={
                 "guardian_alert": len(violation_flags) > 0,
                 "urgency_level": urgency_level,

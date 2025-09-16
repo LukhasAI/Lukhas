@@ -434,7 +434,7 @@ class MatrizConsciousnessSystem:
 
         # Phase 4: Trinity compliance validation
         logger.info("📍 Phase 4: Trinity framework compliance validation")
-        compliance_results = self._demonstrate_triad_compliance()
+        compliance_results = self._demonstrate_trinity_compliance()
         demo_results["phases"]["constellation_alignment"] = compliance_results
 
         # Final system status
@@ -481,7 +481,7 @@ class MatrizConsciousnessSystem:
 
         return integration_results
 
-    def _demonstrate_triad_compliance(self) -> dict[str, Any]:
+    def _demonstrate_trinity_compliance(self) -> dict[str, Any]:
         """Demonstrate Trinity framework compliance system"""
 
         compliance_results = {

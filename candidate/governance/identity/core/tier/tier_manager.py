@@ -23,7 +23,6 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from pathlib import Path
 from typing import Optional
 
 logger = logging.getLogger("ΛTRACE.TierManager")
@@ -82,8 +81,6 @@ class LambdaTierManager:
 
         self.config = config or {}
         self.trace_logger = trace_logger
-        self.storage_adapter = self.config.get("storage_adapter")
-        self.storage_path = Path(self.config.get("tier_storage_path", "var/tier_state.json"))
         self.tier_rules = self._load_tier_permissions()
         self.user_tiers = {}
 
@@ -742,107 +739,17 @@ class LambdaTierManager:
 
     def _load_user_tier_data(self, user_id: str) -> Optional[dict]:
         """Load user tier data from persistent storage"""
-        if self.storage_adapter:
-            loader = getattr(self.storage_adapter, "load_user_tier", None)
-            if callable(loader):
-                record = loader(user_id)
-            elif hasattr(self.storage_adapter, "get"):
-                record = self.storage_adapter.get(user_id)
-            else:
-                record = None
-
-            if record:
-                # ΛTAG: tier_storage_load – adapter provided persistent record
-                return json.loads(json.dumps(record))  # defensive copy
-
-        if not self.storage_path.exists():
-            return None
-
-        try:
-            with self.storage_path.open("r", encoding="utf-8") as handle:
-                snapshot = json.load(handle)
-        except json.JSONDecodeError as exc:
-            logger.warning("ΛTRACE: Tier storage corrupted – %s", exc)
-            return None
-
-        record = snapshot.get(user_id)
-        if record:
-            return record
-
+        # TODO: Implement persistent storage loading
         return None
 
     def _persist_tier_change(self, user_id: str, old_tier: int, new_tier: int, validation_data: dict):
         """Persist tier change to storage"""
-        record = json.loads(json.dumps(self.user_tiers.get(user_id, {})))
-        requirements = self._get_tier_requirements(new_tier)
-        record.update(
-            {
-                "current_tier": new_tier,
-                "previous_tier": old_tier,
-                "last_updated": datetime.now(timezone.utc).isoformat(),
-                "validation_meta": {
-                    "inputs": validation_data,
-                    "score": self._calculate_validation_score(validation_data, requirements or {}),
-                },
-            }
-        )
-
-        if self.storage_adapter:
-            saver = getattr(self.storage_adapter, "save_user_tier", None)
-            if callable(saver):
-                saver(user_id, record)
-                # ΛTAG: tier_storage_save – persisted via adapter hook
-                return
-            if hasattr(self.storage_adapter, "__setitem__"):
-                self.storage_adapter[user_id] = record
-                return
-
-        self.storage_path.parent.mkdir(parents=True, exist_ok=True)
-
-        if self.storage_path.exists():
-            try:
-                with self.storage_path.open("r", encoding="utf-8") as handle:
-                    snapshot = json.load(handle)
-            except json.JSONDecodeError:
-                snapshot = {}
-        else:
-            snapshot = {}
-
-        snapshot[user_id] = record
-        with self.storage_path.open("w", encoding="utf-8") as handle:
-            json.dump(snapshot, handle, indent=2)
+        # TODO: Implement persistent storage
 
     def _calculate_validation_score(self, validation_data: dict, requirements: dict) -> float:
         """Calculate validation score for tier upgrade"""
-        if not validation_data:
-            return 0.0
-
-        weights = {
-            "evidence_strength": 0.35,
-            "security_checks": 0.25,
-            "human_review": 0.2,
-            "consistency": 0.2,
-        }
-
-        score = 0.0
-        evidence = float(validation_data.get("evidence_strength", 0.0))
-        security = 1.0 if validation_data.get("security_checks_passed", False) else 0.0
-        human = 1.0 if validation_data.get("human_review_documented", False) else 0.0
-        consistency = float(validation_data.get("consistency_score", 0.0))
-
-        score += evidence * weights["evidence_strength"]
-        score += security * weights["security_checks"]
-        score += human * weights["human_review"]
-        score += consistency * weights["consistency"]
-
-        required_entropy = requirements.get("min_entropy") if requirements else None
-        if required_entropy:
-            entropy_score = float(validation_data.get("entropy_score", 0.0))
-            if entropy_score < required_entropy:
-                score *= 0.7
-
-        # ΛTAG: tier_validation_score – normalized evaluation of tier progression
-        return max(0.0, min(1.0, score))
+        # TODO: Implement sophisticated scoring algorithm
+        return 1.0
 
 
 # Aliases for compatibility with identity system

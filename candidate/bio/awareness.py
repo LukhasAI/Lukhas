@@ -4,30 +4,12 @@ Consolidated from 4 variants
 Generated: 2025-08-12T19:38:03.084851
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
-from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Optional
-
-from candidate.utils.time import utc_now
+from typing import Any
 
 __module__ = "bio.awareness"
-__triad__ = "⚛️🧠🛡️"
-
-
-def _ensure_utc(timestamp: Optional[datetime] = None) -> datetime:
-    """Normalize timestamps to UTC.
-
-    The bio-awareness constellation exchanges data with other subsystems that
-    occasionally emit naive ``datetime`` objects.  The helper converts those to
-    UTC so downstream drift analysis remains deterministic.
-    """
-
-    candidate_timestamp = timestamp or utc_now()
-    if candidate_timestamp.tzinfo is None:
-        # ΛTAG: utc_enforcement
-        return candidate_timestamp.replace(tzinfo=timezone.utc)
-    return candidate_timestamp.astimezone(timezone.utc)
+__trinity__ = "⚛️🧠🛡️"
 
 
 @dataclass
@@ -42,17 +24,14 @@ class AwarenessState:
 class BioAwareness:
     """Bio-inspired awareness system"""
 
-    def __init__(self, *, initial_state: Optional[AwarenessState] = None, history_limit: int = 500):
+    def __init__(self):
         self.state = AwarenessState()
-        if initial_state is not None:
-            self.state = initial_state
         self.history = []
-        self.history_limit = max(history_limit, 1)
-        self.timestamp = _ensure_utc()
+        self.timestamp = datetime.now(timezone.utc)  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement
 
     def sense(self, input_data: Any) -> dict[str, Any]:
         """Process sensory input"""
-        self._append_history({"timestamp": _ensure_utc(), "event": "sense", "payload": input_data})
+        self.history.append(input_data)
         return {
             "sensed": True,
             "awareness_level": self.state.level,
@@ -71,37 +50,15 @@ class BioAwareness:
 class EnhancedSystemAwareness(BioAwareness):
     """Enhanced bio awareness with system integration"""
 
-    def __init__(
-        self,
-        *args: Any,
-        constellation_channels: Optional[Iterable[str]] = None,
-        context_defaults: Optional[dict[str, Any]] = None,
-        **kwargs: Any,
-    ):
-        """Allow callers to forward constellation metadata.
-
-        Args:
-            constellation_channels: Known signal lanes that the awareness node
-                should watch for.  Stored for downstream routing decisions.
-            context_defaults: Default context payload merged into subsequent
-                awareness updates.  Helpful when the caller only provides
-                partial context objects.
-        """
-
-        super().__init__(*args, **kwargs)
+    def __init__(self, *args, **kwargs):  # TODO[QUANTUM-BIO:specialist] - Args used for constellation flexibility
+        super().__init__()
         self.enhanced = True
-        self.constellation_channels = list(constellation_channels or [])
-        self.default_context = dict(context_defaults or {})
 
     def _update_awareness_state(
         self, stimulus=None, context=None
-    ):
+    ):  # TODO[QUANTUM-BIO:specialist] - Context for constellation integration
         """Update awareness state based on stimulus and context"""
         try:
-            merged_context: dict[str, Any] = {**self.default_context}
-            if isinstance(context, dict):
-                merged_context.update(context)
-
             if stimulus is not None:
                 # Adjust awareness level based on stimulus intensity
                 intensity = getattr(stimulus, "intensity", 0.5)
@@ -111,23 +68,18 @@ class EnhancedSystemAwareness(BioAwareness):
                 if hasattr(stimulus, "type"):
                     self.state.focus = stimulus.type
 
-            if "focus" in merged_context:
-                self.state.focus = str(merged_context["focus"])
-
-            if "delta" in merged_context:
-                self.adjust_awareness(float(merged_context["delta"]))
-
-            # Log state change
-            self._append_history(
-                {
-                    "timestamp": _ensure_utc(),
-                    "event": "state_update",
-                    "stimulus": str(stimulus) if stimulus is not None else None,
-                    "level": self.state.level,
-                    "focus": self.state.focus,
-                    "context": merged_context,
-                }
-            )
+                # Log state change
+                self.history.append(
+                    {
+                        "timestamp": datetime.now(
+                            timezone.utc
+                        ),  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement
+                        "event": "state_update",
+                        "stimulus": str(stimulus),
+                        "level": self.state.level,
+                        "focus": self.state.focus,
+                    }
+                )
 
             return True
         except Exception as e:
@@ -146,8 +98,9 @@ class EnhancedSystemAwareness(BioAwareness):
 
             # Check for stagnation (no recent updates)
             if self.history:
-                last_timestamp = _ensure_utc(self.history[-1]["timestamp"])
-                time_since_update = int((utc_now() - last_timestamp).total_seconds())
+                time_since_update = (
+                    datetime.now(timezone.utc) - self.history[-1]["timestamp"]
+                ).seconds  # TODO[QUANTUM-BIO:specialist] - UTC timezone consistency
                 if time_since_update > 300:  # 5 minutes
                     health_status["status"] = "stagnant"
                     health_status["warning"] = f"No updates for {time_since_update} seconds"
@@ -187,14 +140,14 @@ class EnhancedSystemAwareness(BioAwareness):
         """Handle monitoring errors gracefully"""
         try:
             error_entry = {
-                "timestamp": _ensure_utc(),
+                "timestamp": datetime.now(timezone.utc),
                 "event": "error",
                 "function": function_name,
                 "error": str(error),
                 "error_type": type(error).__name__,
             }
 
-            self._append_history(error_entry)
+            self.history.append(error_entry)
 
             # Update error metrics
             if hasattr(self, "_metrics"):
@@ -207,20 +160,6 @@ class EnhancedSystemAwareness(BioAwareness):
         except Exception:
             # If even error handling fails, just return False
             return False
-
-    def _append_history(self, entry: dict[str, Any]) -> None:
-        """Store history entries while enforcing deterministic limits."""
-
-        timestamp = entry.get("timestamp")
-        if timestamp is None or not isinstance(timestamp, datetime):
-            entry["timestamp"] = _ensure_utc()
-        else:
-            entry["timestamp"] = _ensure_utc(timestamp)
-
-        self.history.append(entry)
-        if len(self.history) > self.history_limit:
-            # ΛTAG: bio_history_compaction
-            del self.history[0 : len(self.history) - self.history_limit]
 
 
 class ProtonGradient:

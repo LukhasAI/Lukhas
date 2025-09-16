@@ -1193,18 +1193,18 @@ async def audit_security_violation(violation_type: str, details: str, risk_score
     )
 
 
-async def audit_triad_event(component: str, event_details: dict[str, Any], user_id: Optional[str] = None) -> str:
+async def audit_trinity_event(component: str, event_details: dict[str, Any], user_id: Optional[str] = None) -> str:
     """Audit Trinity Framework event"""
     audit_system = ComprehensiveAuditSystem()
 
     # Determine Trinity context based on component
-    triad_context = {}
+    trinity_context = {}
     if component == "identity":
-        triad_context["identity_context"] = event_details
+        trinity_context["identity_context"] = event_details
     elif component == "consciousness":
-        triad_context["consciousness_context"] = event_details
+        trinity_context["consciousness_context"] = event_details
     elif component == "guardian":
-        triad_context["guardian_context"] = event_details
+        trinity_context["guardian_context"] = event_details
 
     return await audit_system.log_event(
         event_type=AuditEventType.SYSTEM_EVENT,
@@ -1213,7 +1213,7 @@ async def audit_triad_event(component: str, event_details: dict[str, Any], user_
         level=AuditLevel.INFO,
         user_id=user_id,
         event_data=event_details,
-        **triad_context,
+        **trinity_context,
     )
 
 
@@ -1232,5 +1232,5 @@ __all__ = [
     "audit_data_access",
     "audit_login",
     "audit_security_violation",
-    "audit_triad_event",
+    "audit_trinity_event",
 ]

@@ -4,6 +4,7 @@ Environment Variable Validator
 Ensures all required environment variables are set with proper values.
 Provides secure defaults and validation for sensitive configuration.
 """
+import streamlit as st
 
 import logging
 import os
@@ -257,7 +258,7 @@ class EnvValidator:
                 lines.append("# OPTIONAL")
 
             if config.allowed_values:
-                lines.append(f"# Allowed values: {', '.join(map(str, config.allowed_values))}")
+                lines.append(f"# Allowed values: {', '.join(map(str, config.allowed_values)}")
             if config.min_length:
                 lines.append(f"# Minimum length: {config.min_length}")
             if config.min_value is not None:

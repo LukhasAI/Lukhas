@@ -53,9 +53,6 @@ class GmailAdapter(BaseServiceAdapter):
             token_data = await self._refresh_oauth_token(client_id, client_secret, refresh_token)
 
             # Store in vault (Agent 7 integration)
-            if "error" in token_data:
-                return token_data
-
             lid = credentials.get("lid")
             if lid:
                 self.oauth_tokens[lid] = {

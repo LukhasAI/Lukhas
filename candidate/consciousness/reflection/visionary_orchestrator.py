@@ -72,6 +72,10 @@ try:
     from candidate.core.logging import get_lukhas_logger
     from candidate.core.memory.memory_manager import MemoryManager
 
+    #     from system.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE
+    #     from system.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE
+    #     from system.CORE.emotion.emotional_resonance import EmotionalResonanceEngine  # TODO: Install or implement CORE
+    #     from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID
     # from system.CORE.qi.qi_processor import QIEngine  # TODO:
     # Install or implement CORE
 except ImportError as e:

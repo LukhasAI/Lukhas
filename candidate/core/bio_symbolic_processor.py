@@ -510,12 +510,12 @@ class BioSymbolicProcessor:
 
         # Trinity compliance affects coherence
         if signal.constellation_alignment:
-            triad_avg = (
+            trinity_avg = (
                 signal.constellation_alignment.identity_auth_score
                 + signal.constellation_alignment.consciousness_coherence
                 + signal.constellation_alignment.guardian_compliance
             ) / 3
-            enhanced_data.coherence_score = (enhanced_data.coherence_score + triad_avg) / 2
+            enhanced_data.coherence_score = (enhanced_data.coherence_score + trinity_avg) / 2
 
         # Update entropy based on system state
         if signal.signal_type == ConsciousnessSignalType.EVOLUTION:

@@ -241,7 +241,7 @@ class TelemetryCollector:
                 "adapter": self.adapter_name,
                 "latency_ms": latency_ms,
                 "success": success,
-                "triad_framework": "⚛️🧠🛡️",
+                "trinity_framework": "⚛️🧠🛡️",
                 "audit_entry_id": len(self.audit_trail),
                 "security_level": self._assess_security_level(action, context),
             }
@@ -419,7 +419,7 @@ class BaseServiceAdapter(ABC):
                     {
                         "type": "service_adapter",
                         "capabilities": list(self.supported_scopes.keys()),
-                        "triad_integration": True,
+                        "trinity_integration": True,
                     },
                 )
                 self.consciousness_active = True
@@ -502,9 +502,10 @@ class BaseServiceAdapter(ABC):
         """Authenticate with external service"""
         pass
 
+    @abstractmethod
     async def fetch_resource(self, lid: str, resource_id: str, capability_token: CapabilityToken) -> dict:
         """Fetch resource from external service"""
-        raise NotImplementedError("fetch_resource is not implemented in this adapter")
+        pass
 
     def get_health_status(self) -> dict:
         """⚛️🧠🛡️ Get adapter health status with Trinity Framework integration"""
@@ -513,7 +514,7 @@ class BaseServiceAdapter(ABC):
             "circuit_state": self.resilience.get_state(),
             "metrics": self.telemetry.get_metrics(),
             "dry_run_mode": self.dry_run_mode,
-            "triad_framework": {
+            "trinity_framework": {
                 "identity_active": self.identity_core is not None,
                 "consciousness_active": self.consciousness_active,
                 "guardian_active": self.guardian is not None,

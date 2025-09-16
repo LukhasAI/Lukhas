@@ -18,13 +18,13 @@ from candidate.orchestration.signals.modulator import PromptModulator
 from candidate.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 # Import core components
-from consciousness.reflection.openai_core_service import (  # MATRIZ Integration: OpenAI core service for Trinity Framework consciousness evolution and modulated reflection processing
+from consciousness.reflection.openai_core_service import (  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution
+from datetime import timezone
     ModelType,
     OpenAICapability,
     OpenAICoreService,
     OpenAIRequest,
-    OpenAIResponse,
-)
+    OpenAIResponse)
 
 logger = logging.getLogger(__name__)
 

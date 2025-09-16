@@ -27,8 +27,8 @@ except ModuleNotFoundError:  # pragma: no cover - structlog optional
     logger = logging.getLogger("creative_market")
 
 from ..symbolic.glyph_engine import evaluate_resonance, generate_glyph
-from ..symbolic_core.symbolic_glyph_hash import compute_glyph_hash
-from ..tagging.tagging_system import DeduplicationCache, SimpleTagResolver, Tag
+from ..symbolic.symbolic_glyph_hash import compute_glyph_hash
+from ..tagging import DeduplicationCache, SimpleTagResolver, Tag
 
 
 @dataclass
@@ -117,34 +117,7 @@ class CreativeMarket:
         logger.info("item_exported", item=item.item_id)
         return item
 
-    # ΛTAG: market_replay
-    def import_items(self) -> list[CreativeItem]:
-        """Import previously exported items for replay analysis."""
-        items: list[CreativeItem] = []
-        if not self.export_path.exists():
-            return items
-        with self.export_path.open("r", encoding="utf-8") as f:
-            for line in f:
-                try:
-                    data = json.loads(line)
-                except json.JSONDecodeError:
-                    logger.warning("replay_import_failed", line=line)
-                    continue
-                tag = self._create_tag(data["content"])
-                item = CreativeItem(
-                    data["item_id"],
-                    data["content"],
-                    data.get("item_type", "unknown"),
-                    tag,
-                    data.get("glyph", ""),
-                    data.get("symbolic_value", 0.0),
-                    data.get("reputation", 1.0),
-                    data.get("created_at", datetime.now(timezone.utc).isoformat()),
-                )
-                items.append(item)
-                self.reputation_store[item.item_id] = item.reputation
-        logger.info("market_replay_imported", count=len(items))
-        return items
+    # ✅ TODO: implement import logic for market replay
 
 
 __all__ = ["CreativeItem", "CreativeMarket"]

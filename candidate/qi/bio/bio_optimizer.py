@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-import logging
-
 log = logging.getLogger(__name__)
+import logging
 
 logger = logging.getLogger(__name__)
 
@@ -46,14 +45,12 @@ __tier__ = 2
 
 import asyncio
 import hashlib  # For caching key generation
-import inspect
 import json  # For caching key generation if complex dicts are used
-import re
 import time
 from dataclasses import asdict, dataclass, field  # Added asdict
 from datetime import datetime, timezone  # Standardized timestamping
 from pathlib import Path  # Not used in current code, but often useful
-from typing import Any, Callable, Optional  # Added Type
+from typing import Any, Optional  # Added Type
 
 import numpy as np
 import structlog  # Standardized logging
@@ -75,11 +72,8 @@ QILikeState = Any  # Placeholder
 QIConfig = Any  # Placeholder
 UnifiedQuantumSystem = Any  # Placeholder
 QIAwarenessSystem = Any  # Placeholder
-AwarenessQuantumConfig = Any  # Placeholder
-DreamQuantumConfig = Any  # Placeholder
 QIDreamAdapter = Any  # Placeholder
 QIBioCoordinator = Any  # Placeholder
-UnifiedIntegration = Any  # Placeholder
 
 try:
     from bio.symbolic.architectures import BioSymbolicOrchestrator as BioOrchestrator
@@ -90,35 +84,13 @@ try:
         QIConfig,
         QILikeState,
     )
-    from candidate.core.unified.integration import UnifiedIntegration  # type: ignore
+    from qi.qi_awareness_system import QIAwarenessSystem  # type: ignore
 
-    try:
-        from qi.qi_awareness_system import (  # type: ignore
-            AwarenessQuantumConfig,
-            QIAwarenessSystem,
-        )
-    except ImportError:
-        from candidate.consciousness.reflection.awareness_system import (  # type: ignore
-            AwarenessQuantumConfig,
-            QIAwarenessSystem,
-        )
-
-    # ΛTAG: qi_bio_import_bridge
-    from .bio_coordinator import QIBioCoordinator
-
-    try:
-        from qi.qi_dream_adapter import (  # type: ignore
-            DreamQuantumConfig,
-            QIDreamAdapter,
-        )
-    except ImportError:
-        from candidate.consciousness.reflection.qi_dream_adapter import (  # type: ignore
-            DreamQuantumConfig,
-            QIDreamAdapter,
-        )
-    from qi.qi_unified_system import (
-        UnifiedQuantumSystem,  # type: ignore  # MATRIZ Integration: UnifiedQuantumSystem for bio-inspired quantum optimization algorithms and Trinity Framework quantum consciousness coordination
-    )
+    # AIMPORT_TODO: Review this path for QIBioCoordinator. If it's part
+    # of lukhas.core, update path.
+    from qi.qi_bio_coordinator import QIBioCoordinator  # type: ignore
+    from qi.qi_dream_adapter import QIDreamAdapter  # type: ignore
+    from qi.qi_unified_system import UnifiedQuantumSystem  # type: ignore  # TODO[T4-UNUSED-IMPORT]: kept for bio-inspired/quantum systems development
 
     LUKHAS_CORE_COMPONENTS_AVAILABLE = True
     log.info("LUKHAS core components for QIBioOptimizationAdapter imported successfully.")
@@ -130,9 +102,6 @@ except ImportError as e:
         tip="Ensure LUKHAS project structure and PYTHONPATH are correctly set.",
     )
     LUKHAS_CORE_COMPONENTS_AVAILABLE = False
-    UnifiedIntegration = Any  # type: ignore
-    AwarenessQuantumConfig = Any  # type: ignore
-    DreamQuantumConfig = Any  # type: ignore
 
     # Mock classes for graceful fallback
     class MockBioOrchestrator:
@@ -190,10 +159,7 @@ except ImportError as e:
 
     class MockQuantumAwarenessSystem:
         def __init__(self, orchestrator: Any, integration: Any, config: Any, metrics_dir: Any):
-            self.orchestrator = orchestrator
-            self.integration = integration
-            self.config = config
-            self.metrics_dir = metrics_dir
+            pass
 
         async def process_quantum_awareness(self, data: Any) -> Any:
             return data
@@ -219,37 +185,6 @@ except ImportError as e:
         async def process_bio_quantum(self, data: Any, context: Any) -> Any:
             return {"output": data, "metadata": {"status": "mocked_bq_coord"}}
 
-    class MockUnifiedIntegration:
-        def __init__(self):
-            self._handlers: dict[str, Callable[..., Any]] = {}
-
-        def register_component(self, component_id: str, handler: Callable[..., Any]) -> None:
-            self._handlers[component_id] = handler
-
-        async def send_message(self, component_id: str, message: dict[str, Any]) -> None:
-            handler = self._handlers.get(component_id)
-            if handler is None:
-                log.warning(
-                    "MockUnifiedIntegration missing handler for component.",
-                    component_id=component_id,
-                )
-                return
-            result = handler(message)
-            if inspect.isawaitable(result):
-                await result
-
-    @dataclass
-    class MockAwarenessConfig:
-        coherence_threshold: float = 0.85
-        entanglement_threshold: float = 0.95
-        monitoring_frequency: float = 2.0
-
-    @dataclass
-    class MockDreamConfig:
-        coherence_threshold: float = 0.7
-        entanglement_strength: float = 0.5
-        dream_cycle_duration: int = 10
-
     if "BioOrchestrator" not in globals() or BioOrchestrator == Any:
         BioOrchestrator = MockBioOrchestrator  # type: ignore
     if "QIBioOscillator" not in globals() or QIBioOscillator == Any:
@@ -260,120 +195,10 @@ except ImportError as e:
         QIConfig = QIConfig  # type: ignore
     if "QIAwarenessSystem" not in globals() or QIAwarenessSystem == Any:
         QIAwarenessSystem = MockQuantumAwarenessSystem  # type: ignore
-    if "AwarenessQuantumConfig" not in globals() or AwarenessQuantumConfig == Any:
-        AwarenessQuantumConfig = MockAwarenessConfig  # type: ignore
     if "QIDreamAdapter" not in globals() or QIDreamAdapter == Any:
         QIDreamAdapter = MockQuantumDreamAdapter  # type: ignore
-    if "DreamQuantumConfig" not in globals() or DreamQuantumConfig == Any:
-        DreamQuantumConfig = MockDreamConfig  # type: ignore
-    if "UnifiedIntegration" not in globals() or UnifiedIntegration == Any:
-        UnifiedIntegration = MockUnifiedIntegration  # type: ignore
     if "QIBioCoordinator" not in globals() or QIBioCoordinator is Any:
         QIBioCoordinator = MockQIBioCoordinator  # type: ignore
-
-
-class _IntegrationStub:
-    """Fallback integration stub when UnifiedIntegration cannot be instantiated."""
-
-    def __init__(self) -> None:
-        self._handlers: dict[str, Callable[..., Any]] = {}
-
-    def register_component(self, component_id: str, handler: Callable[..., Any]) -> None:
-        self._handlers[component_id] = handler
-
-    def unregister_component(self, component_id: str) -> None:
-        self._handlers.pop(component_id, None)
-
-    async def send_message(self, component_id: str, message: dict[str, Any]) -> None:
-        handler = self._handlers.get(component_id)
-        if handler is None:
-            log.warning(
-                "Integration stub missing handler for component.",
-                component_id=component_id,
-            )
-            return
-        result = handler(message)
-        if inspect.isawaitable(result):
-            await result
-
-
-def reset_metabolic_baseline(context: dict) -> None:
-    """Resets the metabolic baseline in the given context."""
-    log.info("Action: Resetting metabolic baseline.", context_keys=list(context.keys()))
-    if "log" in context and isinstance(context["log"], list):
-        context["log"].append("Resetting metabolic baseline")
-
-
-def adjust_sensitivity(context: dict) -> None:
-    """Adjusts sensitivity parameters in the given context."""
-    log.info("Action: Adjusting sensitivity.", context_keys=list(context.keys()))
-    if "log" in context and isinstance(context["log"], list):
-        context["log"].append("Adjusting sensitivity")
-
-
-def switch_backup_sensor(context: dict) -> None:
-    """Switches to a backup sensor in the given context."""
-    log.info("Action: Switching to backup sensor.", context_keys=list(context.keys()))
-    if "log" in context and isinstance(context["log"], list):
-        context["log"].append("Switching to backup sensor")
-
-
-def interpolate_missing_data(context: dict) -> None:
-    """Interpolates missing data points in the given context."""
-    log.info("Action: Interpolating missing data.", context_keys=list(context.keys()))
-    if "log" in context and isinstance(context["log"], list):
-        context["log"].append("Interpolating missing data")
-
-
-def apply_smoothing_filter(context: dict) -> None:
-    """Applies a smoothing filter to the data in the given context."""
-    log.info("Action: Applying smoothing filter.", context_keys=list(context.keys()))
-    if "log" in context and isinstance(context["log"], list):
-        context["log"].append("Applying smoothing filter")
-
-
-def reduce_gain(context: dict) -> None:
-    """Reduces the gain of a parameter in the given context."""
-    log.info("Action: Reducing gain.", context_keys=list(context.keys()))
-    if "log" in context and isinstance(context["log"], list):
-        context["log"].append("Reducing gain")
-
-
-CORRECTIVE_STRATEGIES: dict[str, list[Callable[[dict], None]]] = {
-    "metabolic_drift": [reset_metabolic_baseline, adjust_sensitivity],
-    "sensor_loss": [switch_backup_sensor, interpolate_missing_data],
-    "parameter_instability": [apply_smoothing_filter, reduce_gain],
-}
-
-
-def handle_failed_target(target_type: str, context: dict) -> list[str]:
-    """Apply corrective actions for a failed optimization target."""
-    strategies = CORRECTIVE_STRATEGIES.get(target_type, [])
-    applied_actions: list[str] = []
-    log.info(
-        "Handling failed target.",
-        target_type=target_type,
-        strategies_to_apply=[s.__name__ for s in strategies],
-    )
-
-    for strategy in strategies:
-        try:
-            strategy(context)
-            applied_actions.append(strategy.__name__)
-            log.debug(
-                "Successfully applied corrective strategy.",
-                strategy=strategy.__name__,
-                target_type=target_type,
-            )
-        except Exception as e:
-            log.error(
-                "Error applying corrective strategy.",
-                strategy=strategy.__name__,
-                target_type=target_type,
-                error_message=str(e),
-                exc_info=True,
-            )
-    return applied_actions
 
 
 @dataclass
@@ -477,128 +302,6 @@ class QIBioOptimizationAdapter:
 
         self.log.info("QIBioOptimizationAdapter initialized.")
 
-    # ΛTAG: integration
-    def _create_awareness_integration(self) -> Any:
-        """Create the integration layer used by the awareness system."""
-        try:
-            integration = UnifiedIntegration()  # type: ignore[call-arg]
-            self.log.debug(
-                "UnifiedIntegration instance created for awareness system.",
-                registered_components=len(getattr(integration, "message_handlers", {})),
-            )
-            return integration
-        except Exception as exc:  # pragma: no cover - defensive fallback
-            self.log.error(
-                "Failed to instantiate UnifiedIntegration; using fallback stub.",
-                error_message=str(exc),
-            )
-            return _IntegrationStub()
-
-    # ΛTAG: consciousness_config
-    def _create_awareness_config(self) -> Any:
-        """Instantiate the awareness configuration object with safe defaults."""
-        try:
-            config = AwarenessQuantumConfig()  # type: ignore[call-arg]
-        except Exception as exc:  # pragma: no cover - defensive fallback
-            self.log.error(
-                "Failed to instantiate AwarenessQuantumConfig; using fallback configuration.",
-                error_message=str(exc),
-            )
-            config = self._fallback_awareness_config()
-        self.log.debug(
-            "Awareness configuration established.",
-            config_snapshot=self._serialize_config_snapshot(config),
-        )
-        return config
-
-    # ΛTAG: dream_config
-    def _create_dream_config(self) -> Any:
-        """Instantiate the dream configuration used by the dream adapter."""
-        try:
-            config = DreamQuantumConfig()  # type: ignore[call-arg]
-        except Exception as exc:  # pragma: no cover - defensive fallback
-            self.log.error(
-                "Failed to instantiate DreamQuantumConfig; using fallback configuration.",
-                error_message=str(exc),
-            )
-            config = self._fallback_dream_config()
-        self.log.debug(
-            "Dream configuration established.",
-            config_snapshot=self._serialize_config_snapshot(config),
-        )
-        return config
-
-    def _build_dream_adapter(self, dream_config: Any) -> QIDreamAdapter:
-        """Instantiate the dream adapter with signature awareness."""
-        adapter_kwargs: dict[str, Any] = {}
-        signature_parameters: list[str] = []
-        try:
-            signature = inspect.signature(QIDreamAdapter)
-            signature_parameters = list(signature.parameters.keys())
-        except (TypeError, ValueError):
-            signature = None
-
-        if signature:
-            if "orchestrator" in signature.parameters:
-                adapter_kwargs["orchestrator"] = self.bio_orchestrator
-            if "config" in signature.parameters:
-                adapter_kwargs["config"] = dream_config
-
-        if not adapter_kwargs:
-            adapter_kwargs = {"orchestrator": self.bio_orchestrator, "config": dream_config}
-
-        try:
-            adapter = QIDreamAdapter(**adapter_kwargs)  # type: ignore[arg-type]
-        except TypeError:  # pragma: no cover - defensive fallback
-            adapter = QIDreamAdapter(self.bio_orchestrator, dream_config)  # type: ignore
-
-        self.log.debug(
-            "Dream adapter instantiated.",
-            adapter_signature=signature_parameters,
-            kwargs_provided=sorted(adapter_kwargs.keys()),
-        )
-        return adapter
-
-    def _serialize_config_snapshot(self, config: Any) -> dict[str, Any]:
-        """Convert a configuration object into a logging-friendly snapshot."""
-        if config is None:
-            return {}
-        try:
-            return asdict(config)  # type: ignore[arg-type]
-        except TypeError:
-            if hasattr(config, "__dict__"):
-                snapshot: dict[str, Any] = {}
-                for key, value in vars(config).items():
-                    if key.startswith("_"):
-                        continue
-                    if callable(value):
-                        continue
-                    snapshot[key] = value
-                return snapshot
-        return {}
-
-    def _fallback_awareness_config(self) -> Any:
-        """Provide a conservative fallback awareness configuration."""
-        mock_cls = globals().get("MockAwarenessConfig")
-        if callable(mock_cls):
-            return mock_cls()  # type: ignore[call-arg]
-        return {
-            "coherence_threshold": getattr(self.config, "coherence_threshold", 0.85),
-            "entanglement_threshold": getattr(self.config, "entanglement_threshold", 0.95),
-            "monitoring_frequency": 2.0,
-        }
-
-    def _fallback_dream_config(self) -> Any:
-        """Provide a conservative fallback dream configuration."""
-        mock_cls = globals().get("MockDreamConfig")
-        if callable(mock_cls):
-            return mock_cls()  # type: ignore[call-arg]
-        return {
-            "coherence_threshold": 0.7,
-            "entanglement_strength": 0.5,
-            "dream_cycle_duration": 10,
-        }
-
     def _initialize_qi_bio_systems(self):
         """Initializes the core quantum and bio-computational components."""
         self.log.debug("Initializing internal quantum-bio systems...")
@@ -613,17 +316,13 @@ class QIBioOptimizationAdapter:
                 base_freq=self.config.base_frequency, qi_config=q_config
             )  # type: ignore
 
-            self.awareness_integration = self._create_awareness_integration()
-            self.awareness_config = self._create_awareness_config()
-            self.awareness_metrics_dir = Path("./qi_metrics_output")
             self.qi_awareness_system: QIAwarenessSystem = QIAwarenessSystem(
                 orchestrator=self.bio_orchestrator,
-                integration=self.awareness_integration,
-                config=self.awareness_config,
-                metrics_dir=self.awareness_metrics_dir,
-            )  # type: ignore
-            dream_config = self._create_dream_config()
-            self.qi_dream_adapter: QIDreamAdapter = self._build_dream_adapter(dream_config)
+                integration=None,
+                config=None,
+                metrics_dir=Path("./qi_metrics_output"),
+            )  # type: ignore # TODO: integration=None needs review
+            self.qi_dream_adapter: QIDreamAdapter = QIDreamAdapter(orchestrator=self.bio_orchestrator, config=None)  # type: ignore # TODO: config=None needs review
             self.bio_quantum_coordinator: QIBioCoordinator = QIBioCoordinator()  # type: ignore
 
             self.bio_orchestrator.register_oscillator(self.qi_bio_oscillator, "qi_bio_optimizer_adapter_oscillator")  # type: ignore
@@ -929,22 +628,13 @@ class QIBioOptimizationAdapter:
             "Applying corrective actions due to unmet targets.",
             failed_targets=failed_targets_details,
         )
-
-        context = {"log": [], "data": result_data}
-
-        for failed_target_str in failed_targets_details:
-            match = re.match(r"^\w+", failed_target_str)
-            if match:
-                target_type = match.group(0)
-                handle_failed_target(target_type, context)
-
+        # TODO: Implement specific corrective actions based on which targets failed.
+        #        This is a placeholder for more sophisticated correction logic.
         await asyncio.sleep(0.01)  # Simulate correction work
-
         result_data["corrections_attempted"] = True
         result_data["correction_details"] = {
             "reason": "Target metrics not met",
             "failed_targets_info": failed_targets_details,
-            "actions_taken": context.get("log", []),
         }
         return result_data
 

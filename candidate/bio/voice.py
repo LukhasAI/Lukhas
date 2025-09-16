@@ -7,7 +7,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 from datetime import datetime, timezone
 
 __module__ = "bio.voice"
-__triad__ = "⚛️🧠🛡️"
+__trinity__ = "⚛️🧠🛡️"
 
 
 class VoiceBioAdapter:

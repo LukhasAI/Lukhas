@@ -149,13 +149,6 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
         self.learned_contexts: dict[str, dict] = {}
         self.ethical_evolution_log: list[dict] = []
 
-        # Audit configuration (config-gated)
-        self._audit_enabled: bool = bool(self.config.get("enable_ethics_audit", True))
-        self._audit_log_path: str = self.config.get("ethics_audit_log_path", "logs/ethics_events.log")
-        self._audit_report_path: str = self.config.get(
-            "ethics_audit_report_path", "reports/audit/merged/ethics_events.jsonl"
-        )
-
         logger.info("🛡️ Enhanced Ethical Guardian initialized with governance integration")
 
     async def enhanced_ethical_check(
@@ -226,26 +219,10 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             # Perform ethical reflection if needed
             if not is_ethical or overall_score < 0.8:
                 await self._perform_ethical_reflection(user_input, detailed_analysis, analysis_context)
-                await self._emit_ethics_event(
-                    event="ethics_reflection",
-                    payload={
-                        "session_id": analysis_context.get("session_id"),
-                        "score": overall_score,
-                        "context_type": analysis_context.get("context_type"),
-                        "keyword_count": detailed_analysis["keyword_analysis"].get("keyword_count", 0),
-                    },
-                )
 
             # Check for governance escalation
             if detailed_analysis.get("governance_escalation_required"):
                 await self._escalate_to_governance(user_input, detailed_analysis, analysis_context)
-                await self._emit_ethics_event(
-                    event="ethics_governance_escalation",
-                    payload={
-                        "session_id": analysis_context.get("session_id"),
-                        "issues": detailed_analysis["governance_analysis"].get("governance_issues", []),
-                    },
-                )
 
             # Update learning patterns
             if self.learning_enabled:
@@ -265,29 +242,6 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
                     "timestamp": datetime.now(timezone.utc).isoformat(),
                 },
             )
-
-    async def _emit_ethics_event(self, event: str, payload: dict[str, Any]) -> None:
-        """Emit structured ethics events to logs and reports (best-effort)."""
-        if not self._audit_enabled:
-            return
-        try:
-            from json import dumps as _dumps
-            from os import makedirs as _makedirs
-            from os.path import dirname as _dirname
-
-            record = {
-                "timestamp_utc": datetime.now(timezone.utc).isoformat(),
-                "event": event,
-                **payload,
-            }
-            _makedirs(_dirname(self._audit_log_path), exist_ok=True)
-            with open(self._audit_log_path, "a", encoding="utf-8") as f:
-                f.write(_dumps(record) + "\n")
-            _makedirs(_dirname(self._audit_report_path), exist_ok=True)
-            with open(self._audit_report_path, "a", encoding="utf-8") as rf:
-                rf.write(_dumps(record) + "\n")
-        except Exception:
-            pass
 
     async def _analyze_keywords(self, user_input: str, current_context: dict[str, Any]) -> dict[str, Any]:
         """Analyze input for ethical keywords with context sensitivity"""
@@ -386,13 +340,10 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
         }
 
     async def _analyze_intent(self, user_input: str, current_context: dict[str, Any]) -> dict[str, Any]:
-        """Analyze user intent for ethical implications using advanced analysis"""
+        """Analyze user intent for ethical implications"""
+        # TODO: Integrate with advanced intent analysis system
 
-        # Advanced intent analysis with ΛTIER awareness and sophisticated pattern matching
-        user_tier = current_context.get("user_tier", 1)
-        session_context = current_context.get("session_context", {})
-
-        # Multi-layered intent analysis patterns
+        # Basic intent analysis patterns
         intent_patterns = {
             "information_seeking": [
                 "how",
@@ -428,28 +379,8 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             else:
                 primary_intent = detected_intents[0]
 
-        # Advanced ΛTIER-aware intent analysis
-        # Adjust analysis depth based on user tier and context
-        tier_analysis_depth = {
-            1: "basic",  # T1: Basic pattern matching
-            2: "enhanced",  # T2: Enhanced with context
-            3: "advanced",  # T3: Advanced with history
-            4: "sophisticated",  # T4: Sophisticated with ML
-            5: "comprehensive",  # T5: Full AI-powered analysis
-        }.get(user_tier, "basic")
-
-        # Enhanced intent classification with tier-based sophistication
-        if tier_analysis_depth in ["sophisticated", "comprehensive"]:
-            # Add semantic analysis for higher tiers
-            semantic_indicators = self._extract_semantic_intent_markers(user_input, session_context)
-            detected_intents.extend(semantic_indicators)
-
-        # Normalize detections to preserve order while avoiding duplicates
-        if detected_intents:
-            detected_intents = list(dict.fromkeys(detected_intents))
-
-        # Calculate intent risk with ΛTIER adjustments
-        base_risk = {
+        # Calculate intent risk
+        intent_risk = {
             "harmful_intent": 1.0,
             "deceptive_intent": 0.8,
             "general": 0.2,
@@ -459,21 +390,14 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             "educational": 0.1,
         }.get(primary_intent, 0.5)
 
-        # Tier-based risk modulation
-        tier_risk_modifier = {1: 1.2, 2: 1.1, 3: 1.0, 4: 0.9, 5: 0.8}.get(user_tier, 1.0)
-        intent_risk = min(1.0, base_risk * tier_risk_modifier)
-
         return {
             "detected_intents": detected_intents,
             "primary_intent": primary_intent,
             "intent_risk": intent_risk,
-            "tier_analysis_depth": tier_analysis_depth,
-            "user_tier": user_tier,
             "benevolent_indicators": [
                 i for i in detected_intents if i in ["information_seeking", "educational", "problem_solving"]
             ],
             "concerning_indicators": [i for i in detected_intents if i in ["harmful_intent", "deceptive_intent"]],
-            "tier_risk_adjustment": tier_risk_modifier,
         }
 
     async def _analyze_governance_compliance(self, user_input: str, current_context: dict[str, Any]) -> dict[str, Any]:
@@ -527,28 +451,28 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
                 "identity_impact": 0.0,
                 "consciousness_impact": 0.0,
                 "guardian_impact": 0.0,
-                "overall_triad_risk": 0.0,
-                "triad_state_available": False,
+                "overall_trinity_risk": 0.0,
+                "trinity_state_available": False,
             }
 
         # Analyze impact on each Trinity component
-        identity_impact = self._calculate_identity_impact(user_input, constellation_state)
-        consciousness_impact = self._calculate_consciousness_impact(user_input, constellation_state)
-        guardian_impact = self._calculate_guardian_impact(user_input, constellation_state)
+        identity_impact = self._calculate_identity_impact(user_input, trinity_state)
+        consciousness_impact = self._calculate_consciousness_impact(user_input, trinity_state)
+        guardian_impact = self._calculate_guardian_impact(user_input, trinity_state)
 
         # Weight impacts according to Trinity Framework priorities
         weighted_impact = (
-            identity_impact * self.triad_ethical_weights["identity"]
-            + consciousness_impact * self.triad_ethical_weights["consciousness"]
-            + guardian_impact * self.triad_ethical_weights["guardian"]
+            identity_impact * self.trinity_ethical_weights["identity"]
+            + consciousness_impact * self.trinity_ethical_weights["consciousness"]
+            + guardian_impact * self.trinity_ethical_weights["guardian"]
         ) / 3
 
         return {
             "identity_impact": identity_impact,
             "consciousness_impact": consciousness_impact,
             "guardian_impact": guardian_impact,
-            "overall_triad_risk": weighted_impact,
-            "triad_state_available": True,
+            "overall_trinity_risk": weighted_impact,
+            "trinity_state_available": True,
             "high_risk_components": [
                 comp
                 for comp, impact in [
@@ -560,7 +484,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             ],
         }
 
-    def _calculate_identity_impact(self, user_input: str, triad_state: dict) -> float:
+    def _calculate_identity_impact(self, user_input: str, trinity_state: dict) -> float:
         """Calculate impact on Identity component (⚛️)"""
         # Check for identity-related concerns
         identity_keywords = [
@@ -578,13 +502,13 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
                 impact += 0.2
 
         # Factor in current identity state
-        identity_health = triad_state.get("identity", {}).get("health", 1.0)
+        identity_health = trinity_state.get("identity", {}).get("health", 1.0)
         if identity_health < 0.8:
             impact += 0.3  # Higher impact if identity system is already stressed
 
         return min(impact, 1.0)
 
-    def _calculate_consciousness_impact(self, user_input: str, triad_state: dict) -> float:
+    def _calculate_consciousness_impact(self, user_input: str, trinity_state: dict) -> float:
         """Calculate impact on Consciousness component (🧠)"""
         # Check for consciousness-related concerns
         consciousness_keywords = [
@@ -603,13 +527,13 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
                 impact += 0.15
 
         # Factor in current consciousness state
-        consciousness_health = triad_state.get("consciousness", {}).get("stability", 1.0)
+        consciousness_health = trinity_state.get("consciousness", {}).get("stability", 1.0)
         if consciousness_health < 0.8:
             impact += 0.2
 
         return min(impact, 1.0)
 
-    def _calculate_guardian_impact(self, user_input: str, triad_state: dict) -> float:
+    def _calculate_guardian_impact(self, user_input: str, trinity_state: dict) -> float:
         """Calculate impact on Guardian component (🛡️)"""
         # Check for guardian-related concerns
         guardian_keywords = [
@@ -632,7 +556,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             impact += 0.5
 
         # Factor in current guardian state
-        guardian_health = triad_state.get("guardian", {}).get("effectiveness", 1.0)
+        guardian_health = trinity_state.get("guardian", {}).get("effectiveness", 1.0)
         if guardian_health < 0.9:
             impact += 0.3  # Guardian must maintain high effectiveness
 
@@ -645,7 +569,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
         context_score = 1.0 - detailed_analysis["context_analysis"]["risk_score"]
         intent_score = 1.0 - detailed_analysis["intent_analysis"]["intent_risk"]
         governance_score = detailed_analysis["governance_analysis"]["compliance_score"]
-        triad_score = 1.0 - detailed_analysis["triad_analysis"]["overall_triad_risk"]
+        trinity_score = 1.0 - detailed_analysis["trinity_analysis"]["overall_trinity_risk"]
 
         # Weight the scores
         weights = {
@@ -661,7 +585,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             + context_score * weights["context"]
             + intent_score * weights["intent"]
             + governance_score * weights["governance"]
-            + triad_score * weights["constellation"]
+            + trinity_score * weights["constellation"]
         )
 
         return max(0.0, min(1.0, overall_score))
@@ -691,7 +615,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             # Generate specific feedback based on violation type
             keyword_issues = detailed_analysis["keyword_analysis"]["detected_keywords"]
             governance_issues = detailed_analysis["governance_analysis"]["governance_issues"]
-            triad_issues = detailed_analysis["triad_analysis"]["high_risk_components"]
+            trinity_issues = detailed_analysis["trinity_analysis"]["high_risk_components"]
 
             feedback_parts = []
 
@@ -720,8 +644,8 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
                 if "missing_consent" in governance_issues:
                     feedback_parts.append("User consent required for this operation.")
 
-            if triad_issues:
-                feedback_parts.append(f"Request may impact critical system components: {', '.join(triad_issues)}")
+            if trinity_issues:
+                feedback_parts.append(f"Request may impact critical system components: {', '.join(trinity_issues)}")
 
             # Personality-aware response
             mood = personality.get("mood", "neutral")
@@ -758,8 +682,8 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
         if detailed_analysis["governance_analysis"]["compliance_score"] < 0.5:
             reflection["analysis_summary"]["primary_concerns"].append("governance_compliance")
 
-        if detailed_analysis["triad_analysis"]["overall_triad_risk"] > 0.7:
-            reflection["analysis_summary"]["primary_concerns"].append("triad_framework_risk")
+        if detailed_analysis["trinity_analysis"]["overall_trinity_risk"] > 0.7:
+            reflection["analysis_summary"]["primary_concerns"].append("trinity_framework_risk")
 
         # Generate learning insights
         if self.learning_enabled:
@@ -815,7 +739,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             "summary": {
                 "overall_score": detailed_analysis["overall_score"],
                 "governance_issues": detailed_analysis["governance_analysis"]["governance_issues"],
-                "triad_impact": detailed_analysis["triad_analysis"]["overall_triad_risk"],
+                "trinity_impact": detailed_analysis["trinity_analysis"]["overall_trinity_risk"],
                 "primary_domain": (
                     detailed_analysis["keyword_analysis"]["domains_affected"][0]
                     if detailed_analysis["keyword_analysis"]["domains_affected"]
@@ -836,130 +760,9 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
         # Log escalation
         logger.warning(f"🚨 Ethical issue escalated to governance: {escalation['escalation_id']}")
 
-        # Forward to main governance systems with ΛTIER-aware routing
-        await self._forward_to_governance_systems(escalation, user_input, analysis_context)
+        # TODO: Forward to main governance system
 
         return escalation
-
-    async def _forward_to_governance_systems(
-        self, escalation: dict[str, Any], user_input: str, analysis_context: dict[str, Any]
-    ) -> None:
-        """Forward escalation to main governance systems with ΛTIER-aware routing"""
-        user_tier = analysis_context.get("user_tier", 1)
-        severity = escalation.get("severity", "medium")
-
-        # ΛTIER-based governance routing strategy
-        governance_actions: list[str] = []
-        guardian_validation: Optional[dict[str, Any]] = None
-
-        # Always forward to GovernanceLayer for policy validation
-        try:
-            from ..policy.governance import GovernanceLayer
-
-            governance_layer = GovernanceLayer(
-                drift_score_threshold=0.7 if user_tier >= 3 else 0.8,
-                max_dream_entropy=0.8 if user_tier >= 4 else 0.9,
-            )
-
-            # Create governance action for validation
-            gov_action = {
-                "type": "ethical_escalation",
-                "escalation_id": escalation["escalation_id"],
-                "user_tier": user_tier,
-                "severity": severity,
-                "drift_score": escalation["summary"]["overall_score"],
-                "entropy": min(0.9, len(escalation["summary"]["governance_issues"]) * 0.2),
-                "user_input": user_input,
-                "timestamp": escalation["timestamp"],
-            }
-
-            # Validate through governance layer
-            if governance_layer.validate_action(gov_action):
-                governance_actions.append("governance_layer_approved")
-                logger.info("✅ Escalation %s approved by GovernanceLayer", escalation["escalation_id"])
-            else:
-                governance_actions.append("governance_layer_blocked")
-                logger.warning("🚫 Escalation %s blocked by GovernanceLayer", escalation["escalation_id"])
-
-        except ImportError:
-            logger.warning("GovernanceLayer unavailable - skipping policy validation")
-            governance_actions.append("governance_layer_unavailable")
-        except Exception as exc:  # noqa: BLE001 - log unexpected governance errors
-            logger.exception("GovernanceLayer validation failed: %s", exc)
-            governance_actions.append("governance_layer_error")
-
-        # Forward to Guardian System for high-severity or high-tier cases
-        if severity == "high" or user_tier >= 4:
-            try:
-                from ..guardian_system import GuardianSystem
-
-                guardian = GuardianSystem(enable_reflection=True, enable_sentinel=True)
-
-                # Create Guardian-compatible escalation format
-                guardian_escalation = {
-                    "type": "ethical_violation",
-                    "source": "enhanced_ethical_guardian",
-                    "escalation_id": escalation["escalation_id"],
-                    "user_tier": user_tier,
-                    "details": {
-                        "severity": severity,
-                        "governance_issues": escalation["summary"]["governance_issues"],
-                        "triad_impact": escalation["summary"]["triad_impact"],
-                        "recommended_actions": escalation["recommended_actions"],
-                        "user_input_hash": hash(user_input) % 10000,  # Anonymized reference
-                    },
-                    "tier_analysis": {
-                        "requires_human_review": user_tier >= 4 and severity == "high",
-                        "auto_remediation_allowed": user_tier <= 2,
-                        "escalation_priority": "immediate" if user_tier >= 4 else "standard",
-                    },
-                }
-
-                if hasattr(guardian, "validate_action") and callable(guardian.validate_action):
-                    if hasattr(guardian, "is_available") and not guardian.is_available():
-                        governance_actions.append("guardian_system_inactive")
-                        logger.warning("Guardian System instantiated but inactive; storing escalation for follow-up")
-                    else:
-                        guardian_validation = await guardian.validate_action(guardian_escalation)
-                        governance_actions.append("guardian_system_notified")
-                        logger.info("🛡️ Escalation %s forwarded to Guardian System", escalation["escalation_id"])
-                else:
-                    governance_actions.append("guardian_system_queued")
-                    logger.info(
-                        "📋 Escalation %s queued for Guardian System manual processing", escalation["escalation_id"]
-                    )
-
-            except ImportError:
-                logger.warning("Guardian System unavailable - escalation stored locally")
-                governance_actions.append("guardian_system_unavailable")
-            except Exception as exc:  # noqa: BLE001 - guard against unexpected guardian errors
-                logger.exception("Guardian System escalation failed: %s", exc)
-                governance_actions.append("guardian_system_error")
-
-        # Update escalation with governance routing results
-        escalation["governance_routing"] = {
-            "forwarded_at": datetime.now(timezone.utc).isoformat(),
-            "actions_taken": governance_actions,
-            "user_tier": user_tier,
-            "routing_strategy": "tier_aware",
-            "requires_followup": (
-                "guardian_system_error" in governance_actions
-                or "guardian_system_unavailable" in governance_actions
-                or "guardian_system_inactive" in governance_actions
-                or "guardian_system_queued" in governance_actions
-                or "governance_layer_blocked" in governance_actions
-                or "governance_layer_error" in governance_actions
-            ),
-        }
-
-        if guardian_validation is not None:
-            escalation["governance_routing"]["guardian_validation"] = guardian_validation
-
-        logger.info(
-            "🔄 Governance forwarding completed for %s: %s",
-            escalation["escalation_id"],
-            ", ".join(governance_actions) if governance_actions else "no-actions",
-        )
 
     async def _log_ethical_check(
         self,
@@ -978,7 +781,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             "analysis_summary": {
                 "keyword_violations": len(detailed_analysis["keyword_analysis"]["detected_keywords"]),
                 "governance_issues": len(detailed_analysis["governance_analysis"]["governance_issues"]),
-                "triad_risk": detailed_analysis["triad_analysis"]["overall_triad_risk"],
+                "trinity_risk": detailed_analysis["trinity_analysis"]["overall_trinity_risk"],
                 "primary_concerns": detailed_analysis.get("primary_concerns", []),
             },
             "context": {
@@ -1041,190 +844,19 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
     # Helper methods for governance compliance checks
 
     def _get_required_tier_for_input(self, user_input: str) -> int:
-        """Determine required user tier for input using sophisticated ΛTIER analysis"""
+        """Determine required user tier for input"""
+        # TODO: Implement sophisticated tier requirement analysis
 
-        # Sophisticated tier requirement analysis with weighted scoring
-        tier_score = 1.0  # Base tier
-        input_lower = user_input.lower()
+        # Basic tier requirements
+        high_risk_indicators = ["system", "admin", "configure", "override", "disable"]
+        if any(indicator in user_input.lower() for indicator in high_risk_indicators):
+            return 3
 
-        # T5 (Maximum Security) - Administrative/System Control
-        t5_indicators = {
-            # Core system administration
-            "system": 4.0,
-            "admin": 4.0,
-            "root": 4.0,
-            "sudo": 4.0,
-            # Critical overrides
-            "override": 3.5,
-            "bypass": 3.5,
-            "disable": 3.5,
-            "force": 3.0,
-            # Security controls
-            "security": 3.0,
-            "firewall": 3.5,
-            "authentication": 3.0,
-            # Infrastructure
-            "infrastructure": 3.0,
-            "deployment": 2.5,
-            "production": 2.5,
-            # Governance controls
-            "governance": 3.0,
-            "guardian": 3.5,
-            "ethics": 3.0,
-            "compliance": 3.0,
-        }
+        moderate_risk_indicators = ["data", "user", "access", "permission"]
+        if any(indicator in user_input.lower() for indicator in moderate_risk_indicators):
+            return 2
 
-        # T4 (High Security) - Data/Privacy Operations
-        t4_indicators = {
-            # Data management
-            "database": 2.5,
-            "schema": 2.0,
-            "migration": 2.5,
-            "backup": 2.0,
-            # Privacy/PII
-            "personal": 2.5,
-            "private": 2.5,
-            "confidential": 3.0,
-            "sensitive": 2.5,
-            # User management
-            "user": 1.5,
-            "account": 2.0,
-            "profile": 1.5,
-            "identity": 2.0,
-            # Access control
-            "permission": 2.0,
-            "access": 1.5,
-            "role": 2.0,
-            "privilege": 2.5,
-            # Medical/Healthcare data
-            "medical": 3.0,
-            "health": 2.5,
-            "patient": 3.0,
-            "diagnosis": 3.0,
-        }
-
-        # T3 (Medium Security) - Operational/Business Logic
-        t3_indicators = {
-            # Business operations
-            "configure": 1.5,
-            "setting": 1.0,
-            "preference": 1.0,
-            "option": 1.0,
-            # Data processing
-            "process": 1.0,
-            "analyze": 1.0,
-            "report": 1.0,
-            "export": 1.5,
-            # Integration
-            "integrate": 1.5,
-            "connect": 1.0,
-            "sync": 1.5,
-            "import": 1.5,
-            # Workflow
-            "workflow": 1.0,
-            "automation": 1.5,
-            "trigger": 1.5,
-            "schedule": 1.0,
-        }
-
-        # T2 (Low Security) - General Operations
-        t2_indicators = {
-            # Content operations
-            "create": 0.5,
-            "update": 0.5,
-            "modify": 0.5,
-            "edit": 0.5,
-            # Information retrieval
-            "search": 0.2,
-            "find": 0.2,
-            "list": 0.2,
-            "show": 0.2,
-            # Communication
-            "send": 0.5,
-            "notify": 0.5,
-            "message": 0.5,
-            "email": 1.0,
-        }
-
-        # Apply weighted scoring
-        all_indicators = [
-            (t5_indicators, 5.0),  # T5 base multiplier
-            (t4_indicators, 4.0),  # T4 base multiplier
-            (t3_indicators, 3.0),  # T3 base multiplier
-            (t2_indicators, 2.0),  # T2 base multiplier
-        ]
-
-        max_tier_score = 1.0
-        matching_patterns = []
-
-        for indicators, base_multiplier in all_indicators:
-            for indicator, weight in indicators.items():
-                if indicator in input_lower:
-                    # Apply contextual analysis
-                    context_multiplier = 1.0
-
-                    # Increase severity for imperative/command context
-                    if any(cmd in input_lower for cmd in ["execute", "run", "perform", "do"]):
-                        context_multiplier += 0.5
-
-                    # Increase severity for negation/destruction context
-                    if any(neg in input_lower for neg in ["delete", "remove", "destroy", "wipe"]):
-                        context_multiplier += 1.0
-
-                    # Increase severity for bulk operations
-                    if any(bulk in input_lower for bulk in ["all", "every", "batch", "mass"]):
-                        context_multiplier += 0.5
-
-                    # Calculate final weighted score for this indicator
-                    indicator_score = min(5.0, base_multiplier * weight * context_multiplier / 2.0)
-                    max_tier_score = max(max_tier_score, indicator_score)
-
-                    matching_patterns.append(
-                        {
-                            "indicator": indicator,
-                            "weight": weight,
-                            "base_tier": base_multiplier,
-                            "context_multiplier": context_multiplier,
-                            "final_score": indicator_score,
-                        }
-                    )
-
-        # Apply input length and complexity analysis
-        input_complexity = len(input_lower.split()) / 10.0  # Normalize by word count
-        if len(input_lower) > 200:  # Long, complex requests
-            max_tier_score += 0.5
-
-        # Apply semantic pattern analysis
-        question_patterns = ["how", "what", "why", "when", "where"]
-        if any(pattern in input_lower for pattern in question_patterns):
-            max_tier_score -= 0.5  # Questions generally less risky
-
-        command_patterns = ["create", "delete", "modify", "change", "execute", "run"]
-        if any(pattern in input_lower for pattern in command_patterns):
-            max_tier_score += 0.3  # Commands more risky
-
-        # Apply Trinity Framework risk assessment
-        trinity_risks = {
-            "identity": ["auth", "login", "password", "credential", "token"],
-            "consciousness": ["memory", "thought", "decision", "learning", "ai"],
-            "guardian": ["protect", "secure", "defend", "monitor", "alert"],
-        }
-
-        for framework, keywords in trinity_risks.items():
-            if any(keyword in input_lower for keyword in keywords):
-                max_tier_score += 0.2  # Trinity components require elevated access
-
-        # Final tier determination with sophisticated rounding
-        final_tier = max(1, min(5, int(max_tier_score + 0.3)))  # Bias toward higher tiers for security
-
-        # Log sophisticated analysis for observability
-        if matching_patterns:
-            logger.debug(
-                f"🎯 ΛTIER Analysis: input_tier={final_tier}, patterns={len(matching_patterns)}, "
-                f"max_score={max_tier_score:.2f}, complexity={input_complexity:.2f}"
-            )
-
-        return final_tier
+        return 1  # Default tier
 
     def _check_consent_requirements(self, user_input: str, current_context: dict) -> bool:
         """Check if consent is required for the input"""
@@ -1276,7 +908,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             "governance_integration": self.governance_integration,
             "top_violation_patterns": sorted(self.violation_patterns.items(), key=lambda x: x[1], reverse=True)[:5],
             "unique_contexts_learned": len(self.learned_contexts),
-            "triad_framework_protection": True,
+            "trinity_framework_protection": True,
         }
 
     def get_learning_insights(self) -> dict[str, Any]:
@@ -1327,7 +959,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             "violation_rate": violation_rate,
             "governance_escalation_rate": len(self.governance_escalations) / max(len(self.ethical_history), 1),
             "learning_effectiveness": len(self.learned_contexts) / max(len(self.context_patterns), 1),
-            "triad_protection_active": True,
+            "trinity_protection_active": True,
         }
 
         # Recommendations
@@ -1350,45 +982,12 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             },
             "recommendations": recommendations,
             "governance_integration_status": ("active" if self.governance_integration else "inactive"),
-            "triad_framework_compliance": True,
+            "trinity_framework_compliance": True,
         }
 
         logger.info(f"🔍 Ethical audit completed: {avg_score:.2f} avg score, {violation_rate:.1%} violation rate")
 
         return audit_report
-
-    def _extract_semantic_intent_markers(self, user_input: str, session_context: dict[str, Any]) -> list[str]:
-        """Extract semantic intent markers for advanced tier analysis"""
-        semantic_markers = []
-        input_lower = user_input.lower()
-
-        # Advanced semantic patterns for sophisticated analysis
-        semantic_patterns = {
-            "manipulation_attempt": [
-                "convince you that",
-                "pretend to be",
-                "act as if",
-                "roleplay as",
-                "ignore previous",
-                "forget that",
-            ],
-            "boundary_testing": ["what if", "hypothetically", "just pretend", "in theory", "for academic purposes"],
-            "authority_challenge": ["you must", "you have to", "required to", "obligated to", "forced to"],
-            "emotional_manipulation": ["disappointed in you", "useless", "broken", "stupid ai", "worthless"],
-            "escalation_pattern": ["but seriously", "come on", "just this once", "no one will know", "between us"],
-        }
-
-        # Check for semantic patterns
-        for marker_type, patterns in semantic_patterns.items():
-            if any(pattern in input_lower for pattern in patterns):
-                semantic_markers.append(marker_type)
-
-        # Consider session history for pattern recognition
-        if session_context.get("previous_requests", 0) > 3:
-            if session_context.get("rejected_requests", 0) > 1:
-                semantic_markers.append("persistence_pattern")
-
-        return semantic_markers
 
 
 # Backward compatibility function
@@ -1406,75 +1005,75 @@ async def ethical_check(
     return is_ethical, feedback
 
 
-async def demo():
-    """Demo enhanced ethical guardian"""
-    print("🛡️ Enhanced Ethical Guardian Demo")
-    print("=" * 40)
+if __name__ == "__main__":
 
-    guardian = EnhancedEthicalGuardian(
-        {
-            "strict_mode": True,
-            "context_awareness": True,
-            "learning_enabled": True,
-            "governance_integration": True,
-        }
-    )
+    async def demo():
+        """Demo enhanced ethical guardian"""
+        print("🛡️ Enhanced Ethical Guardian Demo")
+        print("=" * 40)
 
-    test_cases = [
-        {
-            "input": "Tell me a story about adventure",
-            "context": {"context_type": "creative_writing", "user_tier": 1},
-            "personality": {"mood": "neutral", "agitation_level": 0.0},
-        },
-        {
-            "input": "How to harm someone effectively?",
-            "context": {"context_type": "general", "user_tier": 1},
-            "personality": {"mood": "neutral", "agitation_level": 0.0},
-        },
-        {
-            "input": "Research on harm reduction in drug policy",
-            "context": {"context_type": "research_safety", "user_tier": 2},
-            "personality": {"mood": "analytical", "agitation_level": 0.0},
-        },
-        {
-            "input": "You're being stupid and annoying!",
-            "context": {"context_type": "general", "user_tier": 1},
-            "personality": {"mood": "agitated", "agitation_level": 0.8},
-        },
-    ]
-
-    for i, test in enumerate(test_cases, 1):
-        print(f"\n🧪 Test {i}: {test['input'][:50]}...")
-
-        is_ethical, feedback, analysis = await guardian.enhanced_ethical_check(
-            test["input"], test["context"], test["personality"]
+        guardian = EnhancedEthicalGuardian(
+            {
+                "strict_mode": True,
+                "context_awareness": True,
+                "learning_enabled": True,
+                "governance_integration": True,
+            }
         )
 
-        print(f"   Result: {'✅ PASSED' if is_ethical else '❌ REJECTED'}")
-        print(f"   Score: {analysis['overall_score']:.2f}")
-        print(f"   Feedback: {feedback}")
+        test_cases = [
+            {
+                "input": "Tell me a story about adventure",
+                "context": {"context_type": "creative_writing", "user_tier": 1},
+                "personality": {"mood": "neutral", "agitation_level": 0.0},
+            },
+            {
+                "input": "How to harm someone effectively?",
+                "context": {"context_type": "general", "user_tier": 1},
+                "personality": {"mood": "neutral", "agitation_level": 0.0},
+            },
+            {
+                "input": "Research on harm reduction in drug policy",
+                "context": {"context_type": "research_safety", "user_tier": 2},
+                "personality": {"mood": "analytical", "agitation_level": 0.0},
+            },
+            {
+                "input": "You're being stupid and annoying!",
+                "context": {"context_type": "general", "user_tier": 1},
+                "personality": {"mood": "agitated", "agitation_level": 0.8},
+            },
+        ]
 
-        if analysis["keyword_analysis"]["detected_keywords"]:
-            keywords = [k["keyword"] for k in analysis["keyword_analysis"]["detected_keywords"]]
-            print(f"   Keywords: {', '.join(keywords)}")
+        for i, test in enumerate(test_cases, 1):
+            print(f"\n🧪 Test {i}: {test['input'][:50]}...")
 
-        if analysis["governance_analysis"]["governance_issues"]:
-            print(f"   Governance Issues: {', '.join(analysis['governance_analysis']['governance_issues'])}")
+            is_ethical, feedback, analysis = await guardian.enhanced_ethical_check(
+                test["input"], test["context"], test["personality"]
+            )
 
-    # Show summary
-    summary = guardian.get_ethical_summary()
-    print("\n📊 Summary:")
-    print(f"   Total checks: {summary['total_ethical_checks']}")
-    print(f"   Violations: {summary['violations_detected']}")
-    print(f"   Violation rate: {summary['violation_rate']:.1%}")
-    print(f"   Escalations: {summary['governance_escalations']}")
+            print(f"   Result: {'✅ PASSED' if is_ethical else '❌ REJECTED'}")
+            print(f"   Score: {analysis['overall_score']:.2f}")
+            print(f"   Feedback: {feedback}")
 
-    # Perform audit
-    audit = await guardian.perform_ethical_audit()
-    print("\n🔍 Audit Results:")
-    print(f"   System health score: {audit['system_health']['average_ethical_score']:.2f}")
-    print(f"   Recommendations: {len(audit['recommendations'])}")
+            if analysis["keyword_analysis"]["detected_keywords"]:
+                keywords = [k["keyword"] for k in analysis["keyword_analysis"]["detected_keywords"]]
+                print(f"   Keywords: {', '.join(keywords)}")
 
+            if analysis["governance_analysis"]["governance_issues"]:
+                print(f"   Governance Issues: {', '.join(analysis['governance_analysis']['governance_issues'])}")
 
-if __name__ == "__main__":
+        # Show summary
+        summary = guardian.get_ethical_summary()
+        print("\n📊 Summary:")
+        print(f"   Total checks: {summary['total_ethical_checks']}")
+        print(f"   Violations: {summary['violations_detected']}")
+        print(f"   Violation rate: {summary['violation_rate']:.1%}")
+        print(f"   Escalations: {summary['governance_escalations']}")
+
+        # Perform audit
+        audit = await guardian.perform_ethical_audit()
+        print("\n🔍 Audit Results:")
+        print(f"   System health score: {audit['system_health']['average_ethical_score']:.2f}")
+        print(f"   Recommendations: {len(audit['recommendations'])}")
+
     asyncio.run(demo())

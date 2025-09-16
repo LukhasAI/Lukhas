@@ -32,7 +32,7 @@ class MetricType(Enum):
     SAFETY = "safety"
     AGENT_COORDINATION = "agent_coordination"
     INTELLIGENCE_ENGINE = "intelligence_engine"
-    TRINITY_COMPLIANCE = "triad_compliance"
+    TRINITY_COMPLIANCE = "trinity_compliance"
     SYSTEM_HEALTH = "system_health"
 
 
@@ -117,7 +117,7 @@ class LukhasIntelligenceMonitor:
         self.engine_performance_stats = defaultdict(list)
 
         # Trinity Framework compliance
-        self.triad_metrics = {
+        self.trinity_metrics = {
             "identity": deque(maxlen=100),
             "consciousness": deque(maxlen=100),
             "guardian": deque(maxlen=100),
@@ -159,7 +159,7 @@ class LukhasIntelligenceMonitor:
                 "error": 0.9,  # 90%
                 "critical": 0.95,  # 95%
             },
-            "triad_compliance": {
+            "trinity_compliance": {
                 "warning": 0.9,  # Below 90%
                 "error": 0.8,  # Below 80%
                 "critical": 0.7,  # Below 70%
@@ -176,7 +176,7 @@ class LukhasIntelligenceMonitor:
         self.monitoring_tasks = [
             asyncio.create_task(self._monitor_system_health()),
             asyncio.create_task(self._monitor_performance_trends()),
-            asyncio.create_task(self._monitor_triad_compliance()),
+            asyncio.create_task(self._monitor_trinity_compliance()),
             asyncio.create_task(self._process_alerts()),
             asyncio.create_task(self._cleanup_old_data()),
         ]
@@ -342,7 +342,7 @@ class LukhasIntelligenceMonitor:
             if hasattr(self, "active_operations"):
                 self.active_operations.pop(operation_id, None)
 
-    def record_triad_compliance(
+    def record_trinity_compliance(
         self,
         identity_score: float,
         consciousness_score: float,
@@ -353,7 +353,7 @@ class LukhasIntelligenceMonitor:
         """Record Trinity Framework compliance scores"""
         timestamp = datetime.now(timezone.utc)
 
-        triad_data = {
+        trinity_data = {
             "identity": identity_score,
             "consciousness": consciousness_score,
             "guardian": guardian_score,
@@ -364,9 +364,9 @@ class LukhasIntelligenceMonitor:
         }
 
         # Store in Trinity metrics
-        for component, score in triad_data.items():
-            if component in self.triad_metrics and isinstance(score, float):
-                self.triad_metrics[component].append(
+        for component, score in trinity_data.items():
+            if component in self.trinity_metrics and isinstance(score, float):
+                self.trinity_metrics[component].append(
                     {
                         "score": score,
                         "timestamp": timestamp,
@@ -376,29 +376,29 @@ class LukhasIntelligenceMonitor:
 
         # Record as metrics
         self.record_metric(
-            "triad_identity",
+            "trinity_identity",
             identity_score,
             "score",
             MetricType.TRINITY_COMPLIANCE,
             agent_id,
         )
         self.record_metric(
-            "triad_consciousness",
+            "trinity_consciousness",
             consciousness_score,
             "score",
             MetricType.TRINITY_COMPLIANCE,
             agent_id,
         )
         self.record_metric(
-            "triad_guardian",
+            "trinity_guardian",
             guardian_score,
             "score",
             MetricType.TRINITY_COMPLIANCE,
             agent_id,
         )
         self.record_metric(
-            "triad_overall",
-            triad_data["overall"],
+            "trinity_overall",
+            trinity_data["overall"],
             "score",
             MetricType.TRINITY_COMPLIANCE,
             agent_id,
@@ -427,7 +427,7 @@ class LukhasIntelligenceMonitor:
             threshold_value = thresholds["warning"]
 
         # For metrics where lower is worse (like safety_score)
-        if metric_name in ["safety_score", "triad_compliance"]:
+        if metric_name in ["safety_score", "trinity_compliance"]:
             if value <= thresholds.get("critical", 0):
                 alert_level = AlertLevel.CRITICAL
                 threshold_value = thresholds["critical"]
@@ -589,27 +589,27 @@ class LukhasIntelligenceMonitor:
                 agent_id,
             )
 
-    async def _monitor_triad_compliance(self):
+    async def _monitor_trinity_compliance(self):
         """Monitor Trinity Framework compliance trends"""
         while self._monitoring_active:
             try:
                 await asyncio.sleep(600)  # Check every 10 minutes
 
                 # Calculate overall Trinity compliance
-                triad_scores = []
-                for metrics in self.triad_metrics.values():
+                trinity_scores = []
+                for metrics in self.trinity_metrics.values():
                     if metrics and isinstance(metrics, deque):
                         recent_scores = [
                             m["score"] for m in list(metrics)[-10:] if isinstance(m, dict) and "score" in m
                         ]
                         if recent_scores:
                             avg_score = sum(recent_scores) / len(recent_scores)
-                            triad_scores.append(avg_score)
+                            trinity_scores.append(avg_score)
 
-                if triad_scores:
-                    overall_compliance = sum(triad_scores) / len(triad_scores)
+                if trinity_scores:
+                    overall_compliance = sum(trinity_scores) / len(trinity_scores)
                     self.record_metric(
-                        "triad_overall_compliance",
+                        "trinity_overall_compliance",
                         overall_compliance,
                         "score",
                         MetricType.TRINITY_COMPLIANCE,
@@ -704,11 +704,11 @@ class LukhasIntelligenceMonitor:
         """Get current active alerts"""
         return [alert.to_dict() for alert in self.active_alerts.values()]
 
-    def get_triad_compliance_summary(self) -> dict[str, Any]:
+    def get_trinity_compliance_summary(self) -> dict[str, Any]:
         """Get Trinity Framework compliance summary"""
         summary = {}
 
-        for component, metrics in self.triad_metrics.items():
+        for component, metrics in self.trinity_metrics.items():
             if metrics and isinstance(metrics, deque):
                 recent_scores = [m["score"] for m in list(metrics)[-10:] if isinstance(m, dict) and "score" in m]
                 if recent_scores:
@@ -776,7 +776,7 @@ class LukhasIntelligenceMonitor:
             "alerts": [],
             "agent_stats": {},
             "engine_stats": {},
-            "triad_compliance": self.get_triad_compliance_summary(),
+            "trinity_compliance": self.get_trinity_compliance_summary(),
         }
 
         # Export metrics in time range
@@ -875,7 +875,7 @@ if __name__ == "__main__":
             )
 
             # Record Trinity compliance
-            monitor.record_triad_compliance(0.95, 0.92, 0.88, "consciousness_architect_001")
+            monitor.record_trinity_compliance(0.95, 0.92, 0.88, "consciousness_architect_001")
 
         # Wait for metrics to be processed
         await asyncio.sleep(2)
@@ -883,13 +883,13 @@ if __name__ == "__main__":
         # Get metrics summary
         real_time = monitor.get_real_time_metrics()
         agent_metrics = monitor.get_agent_metrics("consciousness_architect_001")
-        triad_summary = monitor.get_triad_compliance_summary()
+        trinity_summary = monitor.get_trinity_compliance_summary()
         health_summary = monitor.get_system_health_summary()
 
         print("📊 Monitoring Results:")
         print(f"Real-time metrics: {len(real_time)} metrics")
         print(f"Agent metrics: {len(agent_metrics)} metrics")
-        print(f"Trinity compliance: {triad_summary}")
+        print(f"Trinity compliance: {trinity_summary}")
         print(f"System health: {health_summary}")
         print(f"Active alerts: {len(monitor.get_active_alerts()}")
 

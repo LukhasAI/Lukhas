@@ -19,8 +19,14 @@ def test_imports():
     try:
         # Critical alias
         from candidate.bridge.adapters.service_adapter_base import (
+            AdapterState,
             BaseServiceAdapter,
+            CapabilityToken,
+            DryRunPlanner,
+            ResilienceManager,
             ServiceAdapterBase,
+            TelemetryCollector,
+            with_resilience,
         )
 
         print("✅ All imports successful")
@@ -81,7 +87,7 @@ def test_health_status():
         print("✅ Health status retrieved successfully")
         print(f"   Service: {status['service']}")
         print(f"   Circuit State: {status['circuit_state']}")
-        print(f"   Trinity Framework Status: {status['triad_framework']}")
+        print(f"   Trinity Framework Status: {status['trinity_framework']}")
         return True
     except Exception as e:
         print(f"❌ Health status test failed: {e}")

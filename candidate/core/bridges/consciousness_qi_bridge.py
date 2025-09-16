@@ -255,11 +255,9 @@ class ConsciousnessQIBridge:
         """Get current timestamp"""
         from datetime import datetime, timezone
 
-        # ΛTAG: temporal_sync
-        timestamp = datetime.now(timezone.utc).isoformat(timespec="milliseconds")
-        if timestamp.endswith("+00:00"):
-            return timestamp.replace("+00:00", "Z")
-        return timestamp
+        return datetime.now(
+            timezone.utc
+        ).isoformat()  # TODO[TRINITY:specialist] UTC enforcement for consciousness bridge temporal sync
 
     async def health_check(self) -> dict[str, Any]:
         """Health check for the bridge"""

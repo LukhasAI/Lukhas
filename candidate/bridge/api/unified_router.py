@@ -41,7 +41,7 @@ router = APIRouter(prefix="/api/v1")
 if BRANDING_AVAILABLE:
     api_brand_context = BrandContext(
         voice_profile="identity",
-        triad_emphasis="balanced",
+        trinity_emphasis="balanced",
         compliance_level="standard",
         creative_mode=False,
         terminology_enforcement=True,
@@ -93,6 +93,8 @@ async def process_request(data: dict[str, Any]):
         request_type = data.get("type", "general")
 
         if request_type == "memory":
+
+
             return await memory_manager.process(data)
         elif request_type == "consciousness":
             from consciousness import consciousness_engine

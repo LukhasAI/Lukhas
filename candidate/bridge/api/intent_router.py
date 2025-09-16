@@ -212,7 +212,7 @@ class IntentRouter:
             IntentType.QUERY_MEMORY: self._handle_memory_query,
             IntentType.EXPLORE_CONSCIOUSNESS: self._handle_consciousness_exploration,
             IntentType.CHECK_DRIFT: self._handle_drift_check,
-            IntentType.ANALYZE_TRINITY: self._handle_triad_analysis,
+            IntentType.ANALYZE_TRINITY: self._handle_trinity_analysis,
             IntentType.REQUEST_INTERVENTION: self._handle_intervention_request,
             IntentType.SYSTEM_STATUS: self._handle_system_status,
             IntentType.SYMBOLIC_TRANSLATION: self._handle_symbolic_translation,
@@ -251,7 +251,7 @@ class IntentRouter:
             "message": "Checking system drift and Guardian status",
         }
 
-    def _handle_triad_analysis(self, intent: Intent) -> dict[str, Any]:
+    def _handle_trinity_analysis(self, intent: Intent) -> dict[str, Any]:
         """Handle Trinity Framework analysis."""
         return {
             "action": "analyze_trinity",

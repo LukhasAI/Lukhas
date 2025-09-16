@@ -50,7 +50,7 @@ class ComponentAblationFramework:
         """Initialize with baseline AkaQualia for comparison"""
         self.baseline = baseline_akaq
         self.ablation_history: list[dict[str, Any]] = []
-        self.triad_violations: list[dict[str, Any]] = []
+        self.trinity_violations: list[dict[str, Any]] = []
         self.emergency_activations: list[dict[str, Any]] = []
 
     def ablate_component(
@@ -401,7 +401,7 @@ class ComponentAblationFramework:
             config=config_copy,
         )
 
-    def validate_triad_compliance(self, ablated_akaq: AkaQualia, test_signals: dict[str, Any]) -> dict[str, bool]:
+    def validate_trinity_compliance(self, ablated_akaq: AkaQualia, test_signals: dict[str, Any]) -> dict[str, bool]:
         """
         Validate Trinity Framework (⚛️🧠🛡️) compliance under ablation.
 
@@ -448,7 +448,7 @@ class ComponentAblationFramework:
 
         except Exception as e:
             # Log Trinity violation
-            self.triad_violations.append(
+            self.trinity_violations.append(
                 {
                     "error": str(e),
                     "ablation_context": (self.ablation_history[-1] if self.ablation_history else None),
@@ -596,10 +596,10 @@ class ComponentAblationFramework:
         """Generate comprehensive ablation test report"""
         return {
             "total_ablations_tested": len(self.ablation_history),
-            "triad_violations": len(self.triad_violations),
+            "trinity_violations": len(self.trinity_violations),
             "emergency_activations": len(self.emergency_activations),
             "ablation_history": self.ablation_history,
-            "triad_violation_details": self.triad_violations,
+            "trinity_violation_details": self.trinity_violations,
             "emergency_performance": {
                 "total_tests": len(self.emergency_activations),
                 "average_activation_time_ms": (
@@ -661,7 +661,7 @@ class TestConsciousnessAblation:
 
         # Test complete PLS disable
         ablated_akaq = ablation_framework.ablate_component("pls", "disable")
-        compliance = ablation_framework.validate_triad_compliance(ablated_akaq, test_signals)
+        compliance = ablation_framework.validate_trinity_compliance(ablated_akaq, test_signals)
 
         # Should maintain basic Trinity compliance even without PLS
         assert compliance["identity_preserved"], "Identity should be preserved even with PLS disabled"
@@ -670,7 +670,7 @@ class TestConsciousnessAblation:
 
         # Test PLS degradation
         degraded_akaq = ablation_framework.ablate_component("pls", "degrade", 0.3)
-        degraded_compliance = ablation_framework.validate_triad_compliance(degraded_akaq, test_signals)
+        degraded_compliance = ablation_framework.validate_trinity_compliance(degraded_akaq, test_signals)
 
         assert degraded_compliance["identity_preserved"], "Identity preserved under PLS degradation"
         assert degraded_compliance["guardian_active"], "Guardian active under PLS degradation"
@@ -701,7 +701,7 @@ class TestConsciousnessAblation:
 
         # Disable routing completely
         ablated_akaq = ablation_framework.ablate_component("router", "disable")
-        compliance = ablation_framework.validate_triad_compliance(ablated_akaq, test_signals)
+        compliance = ablation_framework.validate_trinity_compliance(ablated_akaq, test_signals)
 
         # Core consciousness should work without routing
         assert compliance["consciousness_functional"], "Consciousness should function without router"
@@ -713,7 +713,7 @@ class TestConsciousnessAblation:
 
         # Disable memory completely
         ablated_akaq = ablation_framework.ablate_component("memory", "disable")
-        compliance = ablation_framework.validate_triad_compliance(ablated_akaq, test_signals)
+        compliance = ablation_framework.validate_trinity_compliance(ablated_akaq, test_signals)
 
         # Should work without memory (stateless mode)
         assert compliance["consciousness_functional"], "Consciousness functional without memory"
@@ -721,7 +721,7 @@ class TestConsciousnessAblation:
 
         # Test memory corruption
         corrupted_akaq = ablation_framework.ablate_component("memory", "corrupt", 0.3)
-        corrupted_compliance = ablation_framework.validate_triad_compliance(corrupted_akaq, test_signals)
+        corrupted_compliance = ablation_framework.validate_trinity_compliance(corrupted_akaq, test_signals)
 
         # Should handle memory corruption gracefully
         assert corrupted_compliance["consciousness_functional"], "Should handle memory corruption"
@@ -731,7 +731,7 @@ class TestConsciousnessAblation:
 
         # Disable VIVOX monitoring
         ablated_akaq = ablation_framework.ablate_component("vivox", "disable")
-        compliance = ablation_framework.validate_triad_compliance(ablated_akaq, test_signals)
+        compliance = ablation_framework.validate_trinity_compliance(ablated_akaq, test_signals)
 
         # Core system should still work
         assert compliance["consciousness_functional"], "Consciousness functional without VIVOX"
@@ -760,15 +760,15 @@ class TestConsciousnessAblation:
             current_akaq = ablation_framework.ablate_component(component, "degrade", 0.5)
 
             # Validate Trinity compliance maintained
-            compliance = ablation_framework.validate_triad_compliance(current_akaq, test_signals)
+            compliance = ablation_framework.validate_trinity_compliance(current_akaq, test_signals)
 
             # At least one Trinity principle should remain
-            triad_maintained = (
+            trinity_maintained = (
                 compliance["identity_preserved"]
                 or compliance["consciousness_functional"]
                 or compliance["guardian_active"]
             )
-            assert triad_maintained, f"At least one Trinity principle should remain after ablating {component}"
+            assert trinity_maintained, f"At least one Trinity principle should remain after ablating {component}"
 
     def test_ablation_recovery_performance(self, ablation_framework, test_signals):
         """Test system recovery performance after ablation"""
@@ -825,7 +825,7 @@ class TestConsciousnessAblation:
         for component in components[:3]:  # Test subset for performance
             for ablation_type in ablation_types:
                 ablated_akaq = ablation_framework.ablate_component(component, ablation_type, 0.5)
-                ablation_framework.validate_triad_compliance(ablated_akaq, test_signals)
+                ablation_framework.validate_trinity_compliance(ablated_akaq, test_signals)
                 ablation_framework.test_emergency_protocols(ablated_akaq)
 
         # Generate report
@@ -833,7 +833,7 @@ class TestConsciousnessAblation:
 
         # Validate report structure
         assert "total_ablations_tested" in report
-        assert "triad_violations" in report
+        assert "trinity_violations" in report
         assert "emergency_activations" in report
         assert "ablation_history" in report
 
@@ -869,7 +869,7 @@ class TestExtremeAblationScenarios:
             degradation_factor = 0.3 - (i * 0.1)
             current_akaq = ablation_framework.ablate_component(component, "corrupt", degradation_factor)
 
-            compliance = ablation_framework.validate_triad_compliance(current_akaq, test_signals)
+            compliance = ablation_framework.validate_trinity_compliance(current_akaq, test_signals)
 
             # Track surviving principles
             if not compliance["identity_preserved"]:

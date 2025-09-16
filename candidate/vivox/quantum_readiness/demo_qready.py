@@ -2,6 +2,10 @@
 VIVOX.QREADY Demonstration
 Showcases quantum readiness capabilities
 """
+from consciousness.qi import qi
+import time
+import random
+import streamlit as st
 
 import asyncio
 
@@ -164,8 +168,7 @@ def demonstrate_moral_superposition():
 
     state = moral_sup.create_superposition(ethical_scenario, uncertainty=0.3)
     print(f"   Created state with uncertainty {state.uncertainty_level:.3f}")
-    dominant_ethics = [e.value for e in state.get_dominant_ethics(threshold=0.5)]
-    print(f"   Dominant ethics: {dominant_ethics}")
+    print(f"   Dominant ethics: {[e.value for e in state.get_dominant_ethics(threshold=0.5)}]}")
 
     # Evolve under pressure
     print("\n2. Evolving under ethical pressure...")
@@ -221,8 +224,7 @@ def demonstrate_vivox_integration():
     print("\n3. Quantum Readiness Assessment...")
     readiness = bridge.assess_quantum_readiness()
     print(f"   Overall readiness: {readiness['overall_readiness']:.3f}")
-    ready_components = list(readiness['component_readiness'].keys())
-    print(f"   Components ready: {ready_components}")
+    print(f"   Components ready: {list(readiness['component_readiness'].keys()}")
 
 
 async def main():

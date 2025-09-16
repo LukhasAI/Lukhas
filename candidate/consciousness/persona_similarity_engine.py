@@ -53,7 +53,7 @@ class PersonaSimilarityEngine:
         self.fallback_persona = "The Stabilizer"
 
         # Trinity core for reference
-        self.triad_core = {"⚛️", "🧠", "🛡️"}
+        self.trinity_core = {"⚛️", "🧠", "🛡️"}
 
         # Load personas
         self._load_personas()
@@ -125,8 +125,8 @@ class PersonaSimilarityEngine:
                     all_features.add(f"threshold_{k}_{v}")
 
             # Trinity alignment
-            if any(g in self.triad_core for g in glyphs):
-                all_features.add("triad_aligned")
+            if any(g in self.trinity_core for g in glyphs):
+                all_features.add("trinity_aligned")
 
         # Create feature map
         self.feature_map = {feature: i for i, feature in enumerate(sorted(all_features))}
@@ -159,8 +159,8 @@ class PersonaSimilarityEngine:
                     if f"threshold_{k}_{v}" in self.feature_map:
                         embedding[self.feature_map[f"threshold_{k}_{v}"]] = 1.0
 
-            if any(g in self.triad_core for g in glyphs) and "triad_aligned" in self.feature_map:
-                embedding[self.feature_map["triad_aligned"]] = 1.0
+            if any(g in self.trinity_core for g in glyphs) and "trinity_aligned" in self.feature_map:
+                embedding[self.feature_map["trinity_aligned"]] = 1.0
 
             # Normalize embedding
             norm = np.linalg.norm(embedding)
@@ -194,7 +194,7 @@ class PersonaSimilarityEngine:
         glyphs = symbolic_trace.get("glyphs", [])
         drift_score = symbolic_trace.get("drift_score", 0.5)
         entropy = symbolic_trace.get("entropy", 0.5)
-        triad_coherence = symbolic_trace.get("triad_coherence", 0.5)
+        trinity_coherence = symbolic_trace.get("trinity_coherence", 0.5)
 
         # Add glyph features
         for glyph in glyphs:
@@ -228,8 +228,8 @@ class PersonaSimilarityEngine:
                 embedding[self.feature_map["emotion_arousal_high"]] = 0.7
 
         # Trinity alignment
-        if triad_coherence > 0.7 and "triad_aligned" in self.feature_map:
-            embedding[self.feature_map["triad_aligned"]] = 1.0
+        if trinity_coherence > 0.7 and "trinity_aligned" in self.feature_map:
+            embedding[self.feature_map["trinity_aligned"]] = 1.0
 
         # Normalize
         norm = np.linalg.norm(embedding)
@@ -243,7 +243,7 @@ class PersonaSimilarityEngine:
         Recommend the best matching persona for current symbolic state.
 
         Args:
-            symbolic_trace: Dictionary with glyphs, drift_score, entropy, triad_coherence
+            symbolic_trace: Dictionary with glyphs, drift_score, entropy, trinity_coherence
 
         Returns:
             PersonaMatch with top recommendation
@@ -357,10 +357,10 @@ class PersonaSimilarityEngine:
         alignment["entropy"] = 1.0 - abs(entropy - 0.5)  # Default to medium entropy
 
         # Trinity alignment
-        trinity = symbolic_trace.get("triad_coherence", 0.5)
+        trinity = symbolic_trace.get("trinity_coherence", 0.5)
         session_glyphs = set(symbolic_trace.get("glyphs", []))
-        triad_present = len(session_glyphs & self.triad_core) / 3
-        alignment["trinity"] = (trinity + triad_present) / 2
+        trinity_present = len(session_glyphs & self.trinity_core) / 3
+        alignment["trinity"] = (trinity + trinity_present) / 2
 
         return {k: round(v, 2) for k, v in alignment.items()}
 
@@ -421,7 +421,7 @@ class PersonaSimilarityEngine:
         # Average metrics
         avg_drift = np.mean([t.get("drift_score", 0.5) for t in recent_traces])
         avg_entropy = np.mean([t.get("entropy", 0.5) for t in recent_traces])
-        avg_trinity = np.mean([t.get("triad_coherence", 0.5) for t in recent_traces])
+        avg_trinity = np.mean([t.get("trinity_coherence", 0.5) for t in recent_traces])
 
         # Collect all recent glyphs
         all_glyphs = []
@@ -433,7 +433,7 @@ class PersonaSimilarityEngine:
             "glyphs": list(set(all_glyphs)),
             "drift_score": avg_drift,
             "entropy": avg_entropy,
-            "triad_coherence": avg_trinity,
+            "trinity_coherence": avg_trinity,
         }
 
         # Get best matches
@@ -500,7 +500,7 @@ class PersonaSimilarityEngine:
         # Detect collapse conditions
         drift = symbolic_trace.get("drift_score", 0.5)
         entropy = symbolic_trace.get("entropy", 0.5)
-        trinity = symbolic_trace.get("triad_coherence", 0.5)
+        trinity = symbolic_trace.get("trinity_coherence", 0.5)
 
         collapse_detected = False
         collapse_type = []
@@ -515,13 +515,13 @@ class PersonaSimilarityEngine:
 
         if trinity < 0.1:
             collapse_detected = True
-            collapse_type.append("triad_void")
+            collapse_type.append("trinity_void")
 
         if not collapse_detected:
             return {"fallback_needed": False, "current_state": "stable"}
 
         # Determine appropriate fallback
-        if "triad_void" in collapse_type:
+        if "trinity_void" in collapse_type:
             # Use Trinity Keeper for void recovery
             fallback = "The Trinity Keeper"
             stabilization = ["⚛️", "🧠", "🛡️", "🌿"]
@@ -557,7 +557,7 @@ class PersonaSimilarityEngine:
         if "entropy_overflow" in collapse_types:
             strategies.append("Introduce grounding glyphs and reduce complexity")
 
-        if "triad_void" in collapse_types:
+        if "trinity_void" in collapse_types:
             strategies.append("Restore Trinity Framework with core glyphs")
 
         return "; ".join(strategies) if strategies else "General stabilization protocol"
@@ -663,7 +663,7 @@ class PersonaSimilarityEngine:
                 "top_match": matches[0].__dict__ if matches else None,
                 "all_matches": [m.__dict__ for m in matches],
                 "embedding_features": list(self.feature_map.keys()),
-                "triad_alignment": any(g in self.triad_core for g in symbolic_trace.get("glyphs", [])),
+                "trinity_alignment": any(g in self.trinity_core for g in symbolic_trace.get("glyphs", [])),
             },
             "recommendations": {
                 "primary": (matches[0].persona_name if matches else self.fallback_persona),
@@ -699,7 +699,7 @@ class PersonaSimilarityEngine:
             "embeddings_created": len(self.persona_embeddings),
             "embedding_dimensions": embedding_dims,
             "fallback_persona": self.fallback_persona,
-            "triad_core": list(self.triad_core),
+            "trinity_core": list(self.trinity_core),
         }
 
 
@@ -716,7 +716,7 @@ if __name__ == "__main__":
         "glyphs": ["🧠", "⚛️", "🌟"],
         "drift_score": 0.3,
         "entropy": 0.4,
-        "triad_coherence": 0.8,
+        "trinity_coherence": 0.8,
     }
 
     print("\nTest trace:", test_trace)

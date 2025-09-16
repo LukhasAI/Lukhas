@@ -165,7 +165,7 @@ except ImportError as e:
     ALERTING_SYSTEM_AVAILABLE = False
 
 try:
-    from .triad_framework_monitor import (
+    from .trinity_framework_monitor import (
         APIPerformanceMetric,
         AuthenticationEvent,
         InteractionType,
@@ -200,7 +200,7 @@ class ObservabilityManager:
         self.consciousness_monitor: Optional[AwarenessMonitoringSystem] = None
         self.health_monitor: Optional[SystemHealthMonitor] = None
         self.alerting_system: Optional[ComprehensiveAlertingSystem] = None
-        self.triad_monitor: Optional[TrinityFrameworkMonitor] = None
+        self.trinity_monitor: Optional[TrinityFrameworkMonitor] = None
 
         # System state
         self.initialized = False
@@ -216,11 +216,11 @@ class ObservabilityManager:
         try:
             # Initialize Trinity Framework monitoring first (foundation)
             if TRINITY_MONITORING_AVAILABLE:
-                self.triad_monitor = TrinityFrameworkMonitor(self.config.get("triad_monitoring", {}))
-                initialization_results["triad_monitoring"] = True
+                self.trinity_monitor = TrinityFrameworkMonitor(self.config.get("trinity_monitoring", {}))
+                initialization_results["trinity_monitoring"] = True
                 logger.info("✅ Trinity Framework monitoring initialized")
             else:
-                initialization_results["triad_monitoring"] = False
+                initialization_results["trinity_monitoring"] = False
                 logger.warning("⚠️ Trinity Framework monitoring not available")
 
             # Initialize Guardian monitoring
@@ -276,7 +276,9 @@ class ObservabilityManager:
             successful_systems = sum(1 for success in initialization_results.values() if success)
             total_systems = len(initialization_results)
 
-            logger.info(f"🔍 Observability initialization complete: {successful_systems}/{total_systems} systems active")
+            logger.info(
+                f"🔍 Observability initialization complete: {successful_systems}/{total_systems} systems active"
+            )
 
             return initialization_results
 
@@ -297,7 +299,7 @@ class ObservabilityManager:
                 "consciousness_monitor": ("active" if self.consciousness_monitor else "not_available"),
                 "health_monitor": "active" if self.health_monitor else "not_available",
                 "alerting_system": ("active" if self.alerting_system else "not_available"),
-                "triad_monitor": ("active" if self.triad_monitor else "not_available"),
+                "trinity_monitor": ("active" if self.trinity_monitor else "not_available"),
             },
             "availability": {
                 "unified_dashboard": UNIFIED_DASHBOARD_AVAILABLE,
@@ -305,7 +307,7 @@ class ObservabilityManager:
                 "consciousness_monitoring": CONSCIOUSNESS_MONITORING_AVAILABLE,
                 "health_monitoring": HEALTH_MONITORING_AVAILABLE,
                 "alerting_system": ALERTING_SYSTEM_AVAILABLE,
-                "triad_monitoring": TRINITY_MONITORING_AVAILABLE,
+                "trinity_monitoring": TRINITY_MONITORING_AVAILABLE,
             },
         }
 

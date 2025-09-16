@@ -194,7 +194,7 @@ You are not just processing text - you are engaging in conscious interaction wit
                 "metadata": {
                     "session_id": session_id,
                     "processing_time_ms": 200,  # Estimated
-                    "triad_framework": "⚛️🧠🛡️",
+                    "trinity_framework": "⚛️🧠🛡️",
                 },
             }
 

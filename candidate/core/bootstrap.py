@@ -4,14 +4,15 @@ Professional initialization of all services and adapters
 """
 
 import logging
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any, Optional
 
 from candidate.orchestration.brain.unified_cognitive_orchestrator import UnifiedCognitiveOrchestrator
 from lukhas.core.adapters.module_service_adapter import register_service_adapters
 from lukhas.core.adapters.seven_agent_adapter import register_seven_agent_services
 from lukhas.core.container.service_container import ServiceContainer, get_container
-from lukhas.core.events.contracts import (  # MATRIZ Integration: Event contracts for consciousness state management and Trinity Framework event coordination
+from lukhas.core.events.contracts import (  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+from datetime import timezone
     ConsciousnessStateChanged,
     DreamGenerated,
     MemoryFoldCreated,

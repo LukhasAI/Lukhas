@@ -1,5 +1,6 @@
 """
 Enhanced Mailbox System for Actor Model
+Addresses TODO 35: Sequential Processing with Advanced Features
 
 This module implements sophisticated mailbox functionality including:
 - Priority queues for message ordering

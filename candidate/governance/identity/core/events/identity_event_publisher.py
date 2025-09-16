@@ -6,12 +6,13 @@ with enhanced tracking, correlation, and tier-based routing.
 """
 
 import logging
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any, Callable, Optional
 
 from candidate.core.event_bus import EventBus, get_global_event_bus
 
 from .identity_event_types import (  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution
+from datetime import timezone
     AuthenticationContext,
     IdentityEvent,
     IdentityEventPriority,

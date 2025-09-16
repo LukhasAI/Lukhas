@@ -16,18 +16,18 @@ from lukhas.api.tools import router as tools_router
 
 # --- app metadata ---
 app = FastAPI(
-    title="LUKHΛS  API",
-    version="1.0.0",
-    description="Governed tool loop, auditability, feedback LUT, and safety modes.",
-    contact={"name": "LUKHAS", "url": "https://lukhas.ai"},
-    license_info={"name": "Proprietary"},
+title="LUKHΛS  API",
+version="1.0.0",
+description="Governed tool loop, auditability, feedback LUT, and safety modes.",
+contact={"name": "LUKHAS", "url": "https://lukhas.ai"},
+license_info={"name": "Proprietary"},
 )
 
 
 # --- simple header-based API key (optional; keep public endpoints unguarded) ---
 def require_api_key(x_api_key: str | None = Header(default=None)):
-    required = os.getenv("LUKHAS_API_KEY", "")
-    if required and x_api_key != required:
+    os.getenv("LUKHAS_API_KEY", "")
+if required and x_api_key != required:
         raise HTTPException(status_code=401, detail="Unauthorized")
 
 

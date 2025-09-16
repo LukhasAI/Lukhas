@@ -27,8 +27,8 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 try:
-    import pytest  # MATRIZ Integration: Pytest testing framework for API orchestration system testing and expansion
-    import websockets  # MATRIZ Integration: WebSocket support for API orchestration real-time communication and testing
+    import pytest  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    import websockets  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
     from httpx import AsyncClient
 
     from candidate.bridge.api.orchestration_api_bridge import (

@@ -10,11 +10,9 @@
 import logging
 import os
 import sys
-import time
 from enum import Enum
 from pathlib import Path
-from typing import Any, Optional, Union  # Dict, Any, List not in signatures, but good for context
-from uuid import uuid4
+from typing import Optional  # Dict, Any, List not in signatures, but good for context
 
 # Initialize logger for ΛTRACE
 
@@ -26,54 +24,18 @@ from uuid import uuid4
 logger = logging.getLogger("ΛTRACE.core.lukhas_ai_interface")
 logger.info("ΛTRACE: Initializing lukhas_ai_interface module.")
 
-# --- Governance/Audit logging ---
-_AI_AUDIT_LOG_PATH = os.getenv("LUKHAS_AI_AUDIT_LOG_PATH", "logs/ai_interface_events.log")
-_AI_AUDIT_REPORT_PATH = os.getenv("LUKHAS_AI_AUDIT_REPORT_PATH", "reports/audit/merged/ai_interface_events.jsonl")
-
-
-def _write_audit_event(record: dict[str, Any]) -> None:
-    try:
-        from json import dumps as _dumps
-        from os import makedirs as _makedirs
-        from os.path import dirname as _dirname
-
-        _makedirs(_dirname(_AI_AUDIT_LOG_PATH), exist_ok=True)
-        with open(_AI_AUDIT_LOG_PATH, "a", encoding="utf-8") as f:
-            f.write(_dumps(record) + "\n")
-        # Also stream into the reports pipeline (best-effort)
-        _makedirs(_dirname(_AI_AUDIT_REPORT_PATH), exist_ok=True)
-        with open(_AI_AUDIT_REPORT_PATH, "a", encoding="utf-8") as rf:
-            rf.write(_dumps(record) + "\n")
-    except Exception:
-        # Best-effort audit logging; do not raise
-        pass
-
-
-def _prompt_meta(prompt: str) -> dict[str, Any]:
-    """Compute privacy-preserving metadata for the prompt.
-
-    - request_size: number of characters
-    - prompt_hash: sha256 over normalized whitespace, truncated
-    """
-    try:
-        import hashlib
-
-        # Normalize whitespace
-        normalized = " ".join(str(prompt).split())
-        digest = hashlib.sha256(normalized.encode("utf-8")).hexdigest()[:16]
-        return {"request_size": len(str(prompt)), "prompt_hash": digest}
-    except Exception:
-        return {"request_size": len(str(prompt)), "prompt_hash": "unknown"}
-
-
 # --- External Router Path Configuration ---
-# Prefer environment configuration; avoid hardcoded absolute defaults.
-DEFAULT_AI_ROUTER_PATH = os.getenv("LUKHAS_AI_ROUTER_PATH", "")
+# TODO: Consider a more robust way to manage this dependency, e.g.,
+# through a plugin system or service discovery.
+DEFAULT_AI_ROUTER_PATH = "/Users/A_G_I/Lukhas/Lukhas-ecosystem/ABot_beta/LukhasBot_beta"
 AI_ROUTER_PATH = os.getenv("LUKHAS_AI_ROUTER_PATH", DEFAULT_AI_ROUTER_PATH)
 
-if not AI_ROUTER_PATH:
-    logger.warning("ΛTRACE: LUKHAS_AI_ROUTER_PATH not set. AI interface may be non-functional until configured.")
-elif Path(AI_ROUTER_PATH).is_dir():
+if AI_ROUTER_PATH == DEFAULT_AI_ROUTER_PATH:
+    logger.warning(
+        f"ΛTRACE: Using default AI router path: '{DEFAULT_AI_ROUTER_PATH}'. Consider configuring LUKHAS_AI_ROUTER_PATH environment variable."
+    )
+
+if Path(AI_ROUTER_PATH).is_dir():
     # Modifying sys.path is generally discouraged, but might be necessary for
     # unmanaged external dependencies.
     logger.info(
@@ -172,9 +134,7 @@ class LukhusAI:
         task_type: LukhusAITaskType = LukhusAITaskType.GENERAL,
         model_preference: Optional[str] = None,  # Note: multiverse_route might not use this directly
         debug: bool = False,
-        *,
-        structured: bool = False,
-    ) -> Union[str, dict[str, Any]]:
+    ) -> str:
         """
         Generates an AI response by routing the prompt through `multiverse_route`.
         Args:
@@ -183,8 +143,8 @@ class LukhusAI:
             model_preference (Optional[str]): Preferred AI model (actual use depends on router).
             debug (bool): Flag to enable debug mode in the router.
         Returns:
-            Union[str, Dict[str, Any]]: String by default, or dict with keys
-            success, output, error, meta if structured=True.
+            str: The AI's response, or an error message if issues occur.
+        TODO: Consider returning a more structured object (e.g., a dataclass with success, data, error_code).
         """
         self.instance_logger.info(
             f"ΛTRACE: generate_response called. TaskType: {task_type.value}, "
@@ -194,13 +154,7 @@ class LukhusAI:
         if not self.router_available or multiverse_route is None:
             error_msg = f"[{self.component_name}] AI router is not available. Please check configuration and logs."
             self.instance_logger.error("ΛTRACE: " + error_msg)
-            if structured:
-                return {"success": False, "output": "", "error": error_msg, "meta": {"task_type": task_type.value}}
             return error_msg
-
-        # Trace + latency tracking
-        trace_id = uuid4().hex
-        start_ts = time.perf_counter()
 
         try:
             # Add component context to prompt for better routing or contextualization
@@ -230,117 +184,19 @@ class LukhusAI:
                 self.instance_logger.debug(
                     f"ΛTRACE: Full AI dict result: {result if debug else {'output_preview': response_content[:100] + '...'}}"
                 )
-                if structured:
-                    payload = {
-                        "success": True,
-                        "output": str(response_content),
-                        "error": None,
-                        "meta": {
-                            "task_type": task_type.value,
-                            "component": self.component_name,
-                            "latency_ms": (time.perf_counter() - start_ts) * 1000.0,
-                            "trace_id": trace_id,
-                            **_prompt_meta(prompt),
-                        },
-                    }
-                    _write_audit_event(
-                        {
-                            "component": self.component_name,
-                            "task_type": task_type.value,
-                            "success": True,
-                            "output_len": len(str(response_content)),
-                            "latency_ms": (time.perf_counter() - start_ts) * 1000.0,
-                            "trace_id": trace_id,
-                            **_prompt_meta(prompt),
-                        }
-                    )
-                    return payload
                 return str(response_content)  # Ensure string
             elif isinstance(result, str):
                 self.instance_logger.info(f"ΛTRACE: AI response received (direct string). Length: {len(result)}.")
                 self.instance_logger.debug(f"ΛTRACE: Full AI string result (first 100): {result[:100] + '...'}")
-                if structured:
-                    payload = {
-                        "success": True,
-                        "output": result,
-                        "error": None,
-                        "meta": {
-                            "task_type": task_type.value,
-                            "component": self.component_name,
-                            "latency_ms": (time.perf_counter() - start_ts) * 1000.0,
-                            "trace_id": trace_id,
-                            **_prompt_meta(prompt),
-                        },
-                    }
-                    _write_audit_event(
-                        {
-                            "component": self.component_name,
-                            "task_type": task_type.value,
-                            "success": True,
-                            "output_len": len(result),
-                            "latency_ms": (time.perf_counter() - start_ts) * 1000.0,
-                            "trace_id": trace_id,
-                            **_prompt_meta(prompt),
-                        }
-                    )
-                    return payload
                 return result
             else:
                 unexpected_type_msg = f"[{self.component_name}] AI router returned unexpected result type: {type(result)}. Content: {str(result)[:200]}"
                 self.instance_logger.error(f"ΛTRACE: {unexpected_type_msg}")
-                if structured:
-                    _write_audit_event(
-                        {
-                            "component": self.component_name,
-                            "task_type": task_type.value,
-                            "success": False,
-                            "error": unexpected_type_msg,
-                            "latency_ms": (time.perf_counter() - start_ts) * 1000.0,
-                            "trace_id": trace_id,
-                            **_prompt_meta(prompt),
-                        }
-                    )
-                    return {
-                        "success": False,
-                        "output": "",
-                        "error": unexpected_type_msg,
-                        "meta": {
-                            "task_type": task_type.value,
-                            "component": self.component_name,
-                            "latency_ms": (time.perf_counter() - start_ts) * 1000.0,
-                            "trace_id": trace_id,
-                            **_prompt_meta(prompt),
-                        },
-                    }
                 return unexpected_type_msg
 
         except Exception as e:
             error_msg = f"[{self.component_name}] AI Error during multiverse_route call: {type(e).__name__} - {e!s}"
             self.instance_logger.error(f"ΛTRACE: {error_msg}", exc_info=True)
-            if structured:
-                _write_audit_event(
-                    {
-                        "component": self.component_name,
-                        "task_type": task_type.value,
-                        "success": False,
-                        "error": error_msg,
-                        "latency_ms": (time.perf_counter() - start_ts) * 1000.0,
-                        "trace_id": trace_id,
-                        **_prompt_meta(prompt),
-                    }
-                )
-                return {
-                    "success": False,
-                    "output": "",
-                    "error": error_msg,
-                    "meta": {
-                        "task_type": task_type.value,
-                        "component": self.component_name,
-                        "latency_ms": (time.perf_counter() - start_ts) * 1000.0,
-                        "trace_id": trace_id,
-                        **_prompt_meta(prompt),
-                    },
-                }
             return error_msg
 
     # --- Specialized Helper Methods ---
@@ -406,65 +262,51 @@ class LukhusAI:
 # Human-readable comment: Quick access to code assistance.
 
 
-def ai_code(
-    prompt: str, language: str = "", component: str = "LukhusQuickAccess", *, structured: bool = False
-) -> Union[str, dict[str, Any]]:
+def ai_code(prompt: str, language: str = "", component: str = "LukhusQuickAccess") -> str:
     """Global convenience function for code assistance."""
     logger.debug(f"ΛTRACE: Global ai_code() called by component '{component}'.")
     ai_instance = LukhusAI(component)
-    return ai_instance.generate_response(
-        f"Programming Language: {language}\nRequest: {prompt}" if language else prompt,
-        LukhusAITaskType.CODE,
-        structured=structured,
-    )
+    return ai_instance.code_assistance(prompt, language)
 
 
 # Human-readable comment: Quick access to security auditing.
 
 
-def ai_audit(
-    prompt: str, component: str = "LukhusQuickAccess", *, structured: bool = False
-) -> Union[str, dict[str, Any]]:
+def ai_audit(prompt: str, component: str = "LukhusQuickAccess") -> str:
     """Global convenience function for security/ethical audits."""
     logger.debug(f"ΛTRACE: Global ai_audit() called by component '{component}'.")
     ai_instance = LukhusAI(component)
-    return ai_instance.generate_response(prompt, LukhusAITaskType.AUDIT, structured=structured)
+    return ai_instance.security_audit(prompt)
 
 
 # Human-readable comment: Quick access to documentation assistance.
 
 
-def ai_docs(
-    prompt: str, component: str = "LukhusQuickAccess", *, structured: bool = False
-) -> Union[str, dict[str, Any]]:
+def ai_docs(prompt: str, component: str = "LukhusQuickAccess") -> str:
     """Global convenience function for documentation assistance."""
     logger.debug(f"ΛTRACE: Global ai_docs() called by component '{component}'.")
     ai_instance = LukhusAI(component)
-    return ai_instance.generate_response(prompt, LukhusAITaskType.DOCUMENTATION, structured=structured)
+    return ai_instance.documentation_assist(prompt)
 
 
 # Human-readable comment: Quick access to general chat.
 
 
-def ai_chat(
-    message: str, component: str = "LukhusQuickAccess", *, structured: bool = False
-) -> Union[str, dict[str, Any]]:
+def ai_chat(message: str, component: str = "LukhusQuickAccess") -> str:
     """Global convenience function for general chat."""
     logger.debug(f"ΛTRACE: Global ai_chat() called by component '{component}'.")
     ai_instance = LukhusAI(component)
-    return ai_instance.generate_response(message, LukhusAITaskType.GENERAL, structured=structured)
+    return ai_instance.chat(message)
 
 
 # Human-readable comment: Quick access to web research.
 
 
-def ai_research(
-    prompt: str, component: str = "LukhusQuickAccess", *, structured: bool = False
-) -> Union[str, dict[str, Any]]:
+def ai_research(prompt: str, component: str = "LukhusQuickAccess") -> str:
     """Global convenience function for web research."""
     logger.debug(f"ΛTRACE: Global ai_research() called by component '{component}'.")
     ai_instance = LukhusAI(component)
-    return ai_instance.generate_response(prompt, LukhusAITaskType.WEB, structured=structured)
+    return ai_instance.web_research(prompt)
 
 
 # Human-readable comment: Example usage and testing block.

@@ -15,7 +15,8 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-from candidate.orchestration.agent_orchestrator.intelligence_bridge import (  # MATRIZ Integration: Intelligence bridge for multi-AI agent coordination and orchestration protocol management
+from candidate.orchestration.agent_orchestrator.intelligence_bridge import (  # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination
+from datetime import timezone
     AgentType,
     IntelligenceRequestType,
     LukhasAgentBridge,
@@ -47,13 +48,13 @@ class IntelligenceSymbolicMessage:
     processing_time: float
     timestamp: datetime
     symbolic_effects: list[str] = None
-    triad_compliance: dict[str, bool] = None
+    trinity_compliance: dict[str, bool] = None
 
     def __post_init__(self):
         if self.symbolic_effects is None:
             self.symbolic_effects = []
-        if self.triad_compliance is None:
-            self.triad_compliance = {
+        if self.trinity_compliance is None:
+            self.trinity_compliance = {
                 "identity": True,  # ⚛️ Identity preservation
                 "consciousness": True,  # 🧠 Consciousness enhancement
                 "guardian": True,  # 🛡️ Guardian protection
@@ -76,7 +77,7 @@ class LukhasIntelligenceOrchestrationAdapter:
             "total_operations": 0,
             "successful_operations": 0,
             "average_processing_time": 0.0,
-            "triad_compliance_rate": 1.0,
+            "trinity_compliance_rate": 1.0,
         }
         self._initialized = False
 
@@ -162,7 +163,7 @@ class LukhasIntelligenceOrchestrationAdapter:
                 "symbolic_effects": symbolic_effects,
                 "processing_time": symbolic_message.processing_time,
                 "confidence": symbolic_message.confidence,
-                "triad_compliance": symbolic_message.triad_compliance,
+                "trinity_compliance": symbolic_message.trinity_compliance,
             }
 
         except Exception as e:
@@ -228,7 +229,7 @@ class LukhasIntelligenceOrchestrationAdapter:
             "integration_metadata": {
                 "integration_timestamp": datetime.now(timezone.utc).isoformat(),
                 "orchestration_version": "1.0.0",
-                "triad_validated": True,
+                "trinity_validated": True,
             },
         }
 
@@ -394,7 +395,7 @@ class LukhasIntelligenceOrchestrationAdapter:
                     "intelligence_engine": message.intelligence_engine,
                     "confidence": message.confidence,
                     "processing_time": message.processing_time,
-                    "triad_compliance": message.triad_compliance,
+                    "trinity_compliance": message.trinity_compliance,
                 },
             }
 
@@ -442,10 +443,10 @@ class LukhasIntelligenceOrchestrationAdapter:
         self.performance_metrics["average_processing_time"] = new_avg
 
         # Update Trinity compliance rate
-        triad_compliant = all(message.triad_compliance.values())
-        current_compliance = self.performance_metrics["triad_compliance_rate"]
-        new_compliance = (current_compliance * (total_ops - 1) + (1.0 if triad_compliant else 0.0)) / total_ops
-        self.performance_metrics["triad_compliance_rate"] = new_compliance
+        trinity_compliant = all(message.trinity_compliance.values())
+        current_compliance = self.performance_metrics["trinity_compliance_rate"]
+        new_compliance = (current_compliance * (total_ops - 1) + (1.0 if trinity_compliant else 0.0)) / total_ops
+        self.performance_metrics["trinity_compliance_rate"] = new_compliance
 
     async def get_performance_metrics(self) -> dict[str, Any]:
         """Get current performance metrics"""
@@ -521,7 +522,7 @@ if __name__ == "__main__":
         print(f"Processing Time: {response['processing_time']:.3f}s")
         print(f"Confidence: {response['confidence']:.2f}")
         print(f"Symbolic Effects: {response['symbolic_effects']}")
-        print(f"Trinity Compliance: {response['triad_compliance']}")
+        print(f"Trinity Compliance: {response['trinity_compliance']}")
 
         # Get status
         status = await adapter.get_orchestration_status()

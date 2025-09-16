@@ -1,8 +1,4 @@
-import json
 import logging
-from datetime import datetime, timezone
-from pathlib import Path
-from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
@@ -23,12 +19,22 @@ Enhanced policy board with quantum voting and bio-inspired governance. (Original
 Combines prot1's policy system with prot2's quantum-inspired capabilities.
 """
 
+import json
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Optional
+
 # Initialize logger for ΛTRACE using structlog
 
-# ΛTAG: import_refactor
+# AIMPORT_TODO: Review deep relative imports for robustness.
+# Ensure these components are correctly packaged or accessible.
 try:
-    from candidate.bio.awareness import EnhancedSystemAwareness
-    from candidate.qi.processing.qi_engine import QIOscillator
+    from ...qi_processing.qi_engine import QIOscillator
+
+    # Assuming EnhancedSystemAwareness is in awareness.py based on previous
+    # file structure
+    from ..bio_awareness.awareness import EnhancedSystemAwareness
+
     logger.info("Successfully imported QIOscillator and EnhancedSystemAwareness.")
 except ImportError as e:
     logger.error(

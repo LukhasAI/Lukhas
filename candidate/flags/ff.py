@@ -15,8 +15,6 @@ _DEFAULT_FLAGS: dict[str, bool] = {
     "ADMIN_DASHBOARD": False,
     "adaptive_ai": True,
     "adaptive_signals": True,
-    # ΛTAG: qi_financial
-    "QI_FINANCIAL_EXPERIMENTAL": False,
 }
 
 # Override stack (LIFO) to support nested contexts

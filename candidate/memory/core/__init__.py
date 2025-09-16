@@ -1,13 +1,6 @@
 import logging
-from typing import TYPE_CHECKING
 
-from lukhas.utils.optional_import import optional_import
-
-if not TYPE_CHECKING:
-    _st = optional_import("streamlit")
-else:
-    import types as _types
-    _st = _types.SimpleNamespace()
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 """

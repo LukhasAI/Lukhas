@@ -16,7 +16,6 @@ logger = logging.getLogger(__name__)
 
 class SymbolicLayer(Enum):
     """Layers of symbolic meaning in dreams."""
-
     SURFACE = "surface"
     PERSONAL = "personal"
     ARCHETYPAL = "archetypal"
@@ -26,7 +25,6 @@ class SymbolicLayer(Enum):
 
 class SymbolicResonance(Enum):
     """Resonance levels for symbolic content."""
-
     MINIMAL = "minimal"
     MODERATE = "moderate"
     STRONG = "strong"
@@ -54,66 +52,68 @@ class DreamSymbolismProcessor:
                 "layer": SymbolicLayer.TRINITY,
                 "resonance": SymbolicResonance.TRANSCENDENT,
                 "meanings": ["authentic self", "consciousness core", "identity preservation"],
-                "associations": ["consciousness", "authenticity", "core being"],
+                "associations": ["consciousness", "authenticity", "core being"]
             },
             "🧠": {
                 "name": "Consciousness Center",
                 "layer": SymbolicLayer.TRINITY,
                 "resonance": SymbolicResonance.TRANSCENDENT,
                 "meanings": ["awareness", "cognitive processing", "neural integration"],
-                "associations": ["thought", "awareness", "mental processing"],
+                "associations": ["thought", "awareness", "mental processing"]
             },
             "🛡️": {
                 "name": "Guardian Shield",
                 "layer": SymbolicLayer.TRINITY,
                 "resonance": SymbolicResonance.TRANSCENDENT,
                 "meanings": ["protection", "ethical boundaries", "safety protocols"],
-                "associations": ["safety", "ethics", "protection"],
+                "associations": ["safety", "ethics", "protection"]
             },
+
             # Universal Symbols
             "∞": {
                 "name": "Infinite Potential",
                 "layer": SymbolicLayer.UNIVERSAL,
                 "resonance": SymbolicResonance.PROFOUND,
                 "meanings": ["unlimited possibility", "eternal connection", "boundless consciousness"],
-                "associations": ["eternity", "potential", "limitlessness"],
+                "associations": ["eternity", "potential", "limitlessness"]
             },
             "◊": {
                 "name": "Memory Crystal",
                 "layer": SymbolicLayer.ARCHETYPAL,
                 "resonance": SymbolicResonance.STRONG,
                 "meanings": ["crystallized experience", "faceted memory", "multidimensional recall"],
-                "associations": ["memory", "preservation", "clarity"],
+                "associations": ["memory", "preservation", "clarity"]
             },
             "🌈": {
                 "name": "Spectrum Bridge",
                 "layer": SymbolicLayer.ARCHETYPAL,
                 "resonance": SymbolicResonance.STRONG,
                 "meanings": ["spectrum of possibility", "bridge between realms", "prismatic consciousness"],
-                "associations": ["diversity", "connection", "possibility"],
+                "associations": ["diversity", "connection", "possibility"]
             },
+
             # Nature and Cosmic Symbols
             "🌙": {
                 "name": "Lunar Consciousness",
                 "layer": SymbolicLayer.ARCHETYPAL,
                 "resonance": SymbolicResonance.STRONG,
                 "meanings": ["cyclical awareness", "subconscious illumination", "dream state"],
-                "associations": ["cycles", "reflection", "mystery"],
+                "associations": ["cycles", "reflection", "mystery"]
             },
             "⭐": {
                 "name": "Stellar Guidance",
                 "layer": SymbolicLayer.UNIVERSAL,
                 "resonance": SymbolicResonance.PROFOUND,
                 "meanings": ["cosmic guidance", "distant wisdom", "navigational light"],
-                "associations": ["guidance", "distance", "navigation"],
+                "associations": ["guidance", "distance", "navigation"]
             },
             "🌊": {
                 "name": "Consciousness Flow",
                 "layer": SymbolicLayer.ARCHETYPAL,
                 "resonance": SymbolicResonance.STRONG,
                 "meanings": ["flowing awareness", "emotional depth", "adaptive consciousness"],
-                "associations": ["flow", "emotion", "adaptation"],
-            },
+                "associations": ["flow", "emotion", "adaptation"]
+            }
         }
 
     def analyze_symbolic_content(self, dream_content: dict[str, Any]) -> dict[str, Any]:
@@ -140,9 +140,9 @@ class DreamSymbolismProcessor:
             "layer_analysis": layer_analysis,
             "resonance_patterns": resonance_patterns,
             "symbolic_relationships": relationships,
-            "triad_presence": self._calculate_triad_presence(extracted_symbols),
+            "trinity_presence": self._calculate_trinity_presence(extracted_symbols),
             "analyzed_at": datetime.now(timezone.utc).isoformat(),
-            "triad_validated": True,
+            "trinity_validated": True
         }
 
         self.processing_history.append(analysis_result)
@@ -186,7 +186,7 @@ class DreamSymbolismProcessor:
             "layer_distribution": layer_distribution,
             "layer_counts": layer_counts,
             "dominant_layer": dominant_layer,
-            "triad_layer_presence": len(layer_distribution[SymbolicLayer.TRINITY.value]),
+            "trinity_layer_presence": len(layer_distribution[SymbolicLayer.TRINITY.value])
         }
 
     def _calculate_resonance_patterns(self, symbols: list[str]) -> dict[str, Any]:
@@ -208,7 +208,7 @@ class DreamSymbolismProcessor:
                     SymbolicResonance.MODERATE: 0.4,
                     SymbolicResonance.STRONG: 0.6,
                     SymbolicResonance.PROFOUND: 0.8,
-                    SymbolicResonance.TRANSCENDENT: 1.0,
+                    SymbolicResonance.TRANSCENDENT: 1.0
                 }[resonance]
                 resonance_scores.append(resonance_score)
 
@@ -218,7 +218,7 @@ class DreamSymbolismProcessor:
             "resonance_distribution": resonance_distribution,
             "average_resonance": average_resonance,
             "peak_resonance": max(resonance_scores) if resonance_scores else 0.0,
-            "resonance_diversity": len([r for r in resonance_distribution.values() if r]),
+            "resonance_diversity": len([r for r in resonance_distribution.values() if r])
         }
 
     def _identify_symbolic_relationships(self, symbols: list[str]) -> list[dict[str, Any]]:
@@ -226,67 +226,55 @@ class DreamSymbolismProcessor:
         relationships = []
 
         # Check for Trinity Framework relationships
-        triad_symbols = [s for s in symbols if s in ["⚛️", "🧠", "🛡️"]]
-        if len(triad_symbols) >= 2:
-            relationships.append(
-                {
-                    "type": "triad_resonance",
-                    "symbols": triad_symbols,
-                    "strength": "transcendent",
-                    "description": "Trinity Framework resonance pattern detected",
-                }
-            )
+        trinity_symbols = [s for s in symbols if s in ["⚛️", "🧠", "🛡️"]]
+        if len(trinity_symbols) >= 2:
+            relationships.append({
+                "type": "trinity_resonance",
+                "symbols": trinity_symbols,
+                "strength": "transcendent",
+                "description": "Trinity Framework resonance pattern detected"
+            })
 
         # Check for archetypal relationships
-        archetypal_symbols = [
-            s
-            for s in symbols
-            if s in self.symbol_registry and self.symbol_registry[s]["layer"] == SymbolicLayer.ARCHETYPAL
-        ]
+        archetypal_symbols = [s for s in symbols if s in self.symbol_registry and
+                            self.symbol_registry[s]["layer"] == SymbolicLayer.ARCHETYPAL]
         if len(archetypal_symbols) >= 2:
-            relationships.append(
-                {
-                    "type": "archetypal_cluster",
-                    "symbols": archetypal_symbols,
-                    "strength": "strong",
-                    "description": "Archetypal symbol cluster indicating deep pattern activation",
-                }
-            )
+            relationships.append({
+                "type": "archetypal_cluster",
+                "symbols": archetypal_symbols,
+                "strength": "strong",
+                "description": "Archetypal symbol cluster indicating deep pattern activation"
+            })
 
         # Check for universal consciousness patterns
-        universal_symbols = [
-            s
-            for s in symbols
-            if s in self.symbol_registry and self.symbol_registry[s]["layer"] == SymbolicLayer.UNIVERSAL
-        ]
+        universal_symbols = [s for s in symbols if s in self.symbol_registry and
+                           self.symbol_registry[s]["layer"] == SymbolicLayer.UNIVERSAL]
         if universal_symbols:
-            relationships.append(
-                {
-                    "type": "universal_connection",
-                    "symbols": universal_symbols,
-                    "strength": "profound",
-                    "description": "Universal consciousness symbols indicating expanded awareness",
-                }
-            )
+            relationships.append({
+                "type": "universal_connection",
+                "symbols": universal_symbols,
+                "strength": "profound",
+                "description": "Universal consciousness symbols indicating expanded awareness"
+            })
 
         return relationships
 
-    def _calculate_triad_presence(self, symbols: list[str]) -> dict[str, Any]:
+    def _calculate_trinity_presence(self, symbols: list[str]) -> dict[str, Any]:
         """Calculate Trinity Framework presence in symbolic content."""
-        triad_symbols = ["⚛️", "🧠", "🛡️"]
-        present_trinity = [s for s in symbols if s in triad_symbols]
+        trinity_symbols = ["⚛️", "🧠", "🛡️"]
+        present_trinity = [s for s in symbols if s in trinity_symbols]
 
-        triad_presence = {
+        trinity_presence = {
             "symbols_present": present_trinity,
-            "total_triad_symbols": len(present_trinity),
-            "triad_completeness": len(present_trinity) / 3.0,
+            "total_trinity_symbols": len(present_trinity),
+            "trinity_completeness": len(present_trinity) / 3.0,
             "identity_present": "⚛️" in present_trinity,
             "consciousness_present": "🧠" in present_trinity,
             "guardian_present": "🛡️" in present_trinity,
-            "triad_validated": len(present_trinity) == 3,
+            "trinity_validated": len(present_trinity) == 3
         }
 
-        return triad_presence
+        return trinity_presence
 
     def generate_symbolic_narrative(self, analysis_id: str) -> Optional[dict[str, Any]]:
         """🧠 Generate consciousness-aware symbolic narrative."""
@@ -296,20 +284,16 @@ class DreamSymbolismProcessor:
 
         symbols = analysis["extracted_symbols"]
         layer_analysis = analysis["layer_analysis"]
-        triad_presence = analysis["triad_presence"]
+        trinity_presence = analysis["trinity_presence"]
 
         # Generate narrative based on symbolic content
         narrative_elements = []
 
         # Trinity Framework narrative
-        if triad_presence["triad_validated"]:
-            narrative_elements.append(
-                "Complete Trinity Framework activation indicates balanced consciousness evolution"
-            )
-        elif triad_presence["total_triad_symbols"] > 0:
-            narrative_elements.append(
-                f"Partial Trinity Framework presence ({triad_presence['total_triad_symbols']}/3) suggests developing consciousness balance"
-            )
+        if trinity_presence["trinity_validated"]:
+            narrative_elements.append("Complete Trinity Framework activation indicates balanced consciousness evolution")
+        elif trinity_presence["total_trinity_symbols"] > 0:
+            narrative_elements.append(f"Partial Trinity Framework presence ({trinity_presence['total_trinity_symbols']}/3) suggests developing consciousness balance")
 
         # Layer-based narrative
         dominant_layer = layer_analysis["dominant_layer"]
@@ -333,10 +317,10 @@ class DreamSymbolismProcessor:
             "symbolic_theme": self._determine_symbolic_theme(symbols),
             "consciousness_indicators": {
                 "depth": "profound" if avg_resonance > 0.8 else "significant",
-                "authenticity": "high" if triad_presence["triad_validated"] else "developing",
-                "integration": "excellent" if len(analysis["symbolic_relationships"]) > 1 else "good",
+                "authenticity": "high" if trinity_presence["trinity_validated"] else "developing",
+                "integration": "excellent" if len(analysis["symbolic_relationships"]) > 1 else "good"
             },
-            "triad_validated": triad_presence["triad_validated"],
+            "trinity_validated": trinity_presence["trinity_validated"]
         }
 
         logger.info(f"🧠 Symbolic narrative generated: {analysis_id}")
@@ -348,25 +332,19 @@ class DreamSymbolismProcessor:
             return "neutral"
 
         # Check for Trinity completeness
-        triad_symbols = [s for s in symbols if s in ["⚛️", "🧠", "🛡️"]]
-        if len(triad_symbols) == 3:
-            return "triad_integration"
+        trinity_symbols = [s for s in symbols if s in ["⚛️", "🧠", "🛡️"]]
+        if len(trinity_symbols) == 3:
+            return "trinity_integration"
 
         # Check for archetypal dominance
-        archetypal_count = sum(
-            1
-            for s in symbols
-            if s in self.symbol_registry and self.symbol_registry[s]["layer"] == SymbolicLayer.ARCHETYPAL
-        )
+        archetypal_count = sum(1 for s in symbols if s in self.symbol_registry and
+                             self.symbol_registry[s]["layer"] == SymbolicLayer.ARCHETYPAL)
         if archetypal_count >= 2:
             return "archetypal_activation"
 
         # Check for universal consciousness
-        universal_count = sum(
-            1
-            for s in symbols
-            if s in self.symbol_registry and self.symbol_registry[s]["layer"] == SymbolicLayer.UNIVERSAL
-        )
+        universal_count = sum(1 for s in symbols if s in self.symbol_registry and
+                            self.symbol_registry[s]["layer"] == SymbolicLayer.UNIVERSAL)
         if universal_count >= 1:
             return "universal_consciousness"
 
@@ -378,9 +356,11 @@ class DreamSymbolismProcessor:
             return None
 
         symbol_info = self.symbol_registry[symbol].copy()
-        symbol_info.update(
-            {"symbol": symbol, "guardian_validated": True, "retrieved_at": datetime.now(timezone.utc).isoformat()}
-        )
+        symbol_info.update({
+            "symbol": symbol,
+            "guardian_validated": True,
+            "retrieved_at": datetime.now(timezone.utc).isoformat()
+        })
 
         logger.info(f"🛡️ Symbol information retrieved: {symbol}")
         return symbol_info
@@ -391,7 +371,7 @@ class DreamSymbolismProcessor:
             return {"statistics": "No processing history available"}
 
         total_symbols_processed = sum(len(analysis["extracted_symbols"]) for analysis in self.processing_history)
-        triad_validated_count = sum(1 for analysis in self.processing_history if analysis["triad_validated"])
+        trinity_validated_count = sum(1 for analysis in self.processing_history if analysis["trinity_validated"])
 
         # Calculate most common symbols
         all_symbols = []
@@ -407,11 +387,11 @@ class DreamSymbolismProcessor:
         return {
             "total_analyses": len(self.processing_history),
             "total_symbols_processed": total_symbols_processed,
-            "triad_validation_rate": triad_validated_count / len(self.processing_history),
+            "trinity_validation_rate": trinity_validated_count / len(self.processing_history),
             "average_symbols_per_analysis": total_symbols_processed / len(self.processing_history),
             "most_common_symbols": most_common_symbols,
             "registered_symbols": len(self.symbol_registry),
-            "system_health": "optimal",
+            "system_health": "optimal"
         }
 
 

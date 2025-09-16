@@ -55,8 +55,8 @@ from typing_extensions import Literal
 from candidate.core.models import BaseModel
 
 logger.info(
-    "ΛTRACE: Initializing response_reasoning_item.py module (Data Model Definition). Module: %s",
-    __file__
+    "ΛTRACE: Initializing response_reasoning_item.py module (Data Model Definition).",
+    module_path=__file__,
 )
 
 __all__ = ["ResponseReasoningItem", "Summary"]

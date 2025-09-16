@@ -39,16 +39,15 @@ import nacl.exceptions
 import nacl.signing
 import websockets
 
-from candidate.governance.identity.auth.constitutional_gatekeeper import get_constitutional_gatekeeper
-from candidate.governance.identity.auth.entropy_synchronizer import EntropySynchronizer
-from candidate.governance.identity.auth_utils.replay_protection import ReplayProtection
-from lukhas.governance.security.access_control import (
-    CCPACompliance,
-    ConsentManager,
-    DataRetentionManager,
-    GDPRCompliance,
-)
+from ..core.constitutional_gatekeeper import get_constitutional_gatekeeper
+from ..core.entropy_synchronizer import EntropySynchronizer
+from ..privacy.ccpa_compliance import CCPACompliance
+from ..privacy.consent_manager import ConsentManager
+from ..privacy.data_retention_manager import DataRetentionManager
 
+# 🛡️ Compliance Imports
+from ..privacy.gdpr_compliance import GDPRCompliance
+from ..utils.replay_protection import ReplayProtection
 from .audit_logger import AuditLogger
 from .pqc_crypto_engine import PQCCryptoEngine
 from .trust_scorer import LukhasTrustScorer
@@ -136,22 +135,14 @@ class AuthenticationServer:
         self.device_reliability: dict[str, list[float]] = {}
         # Store device public keys
         self.device_verify_keys: dict[str, nacl.signing.VerifyKey] = {}
-        self._initialized = False
-
-    async def initialize(self):
-        if self._initialized:
-            return
-        await self.audit_logger.start()
-        self._initialized = True
 
     async def start_server(self):
-        await self.initialize()
         logger.info(f"Starting LUKHAS Authentication Server on {self.host}:{self.port}")
 
         async def server_handler(websocket, path):
             await self.handle_client_connection(websocket, path)
 
-        self.server = await self._start_server(server_handler, self.host, self.port)
+        self.server = await websockets.serve(server_handler, self.host, self.port)
         logger.info("Server started and listening for connections.")
 
     async def handle_client_connection(self, websocket, path):
@@ -161,13 +152,13 @@ class AuthenticationServer:
                 client_info = json.loads(client_data)
             except Exception as e:
                 await websocket.send(json.dumps({"error": "Malformed handshake data"}))
-                await self.audit_logger.log_event(f"Malformed handshake: {e}", constitutional_tag=True)
+                self.audit_logger.log_event(f"Malformed handshake: {e}", constitutional_tag=True)
                 return
             user_id = client_info.get("user_id")
             device_public_key = client_info.get("device_public_key")
             if not user_id or not isinstance(user_id, str) or len(user_id) > 128:
                 await websocket.send(json.dumps({"error": "Invalid user ID"}))
-                await self.audit_logger.log_event(
+                self.audit_logger.log_event(
                     f"Rejected connection: invalid user_id {user_id}",
                     constitutional_tag=True,
                 )
@@ -185,10 +176,10 @@ class AuthenticationServer:
             else:
                 await websocket.send(json.dumps({"error": "Device public key required"}))
                 return
-            session_id = await self.create_authentication_session(user_id)
+            session_id = self.create_authentication_session(user_id)
             await websocket.send(json.dumps({"session_id": session_id}))
             entropy_sync = self.active_sessions[session_id]
-            last_entropy_time = self._get_time()
+            last_entropy_time = time.time()
             while True:
                 try:
                     message = await asyncio.wait_for(websocket.recv(), timeout=30)
@@ -197,11 +188,11 @@ class AuthenticationServer:
                         pong_waiter = await websocket.ping()
                         await asyncio.wait_for(pong_waiter, timeout=10)
                     except Exception:
-                        await self.expire_session(session_id)
+                        self.expire_session(session_id)
                         await websocket.send(json.dumps({"error": "Session expired: heartbeat lost"}))
                         break
-                    if self._get_time() - last_entropy_time > 120:
-                        await self.expire_session(session_id)
+                    if time.time() - last_entropy_time > 120:
+                        self.expire_session(session_id)
                         await websocket.send(json.dumps({"error": "Session expired due to inactivity"}))
                         break
                     continue
@@ -209,7 +200,7 @@ class AuthenticationServer:
                     message_data = json.loads(message)
                 except Exception as e:
                     await websocket.send(json.dumps({"error": "Malformed message"}))
-                    await self.audit_logger.log_event(f"Malformed message: {e}", constitutional_tag=True)
+                    self.audit_logger.log_event(f"Malformed message: {e}", constitutional_tag=True)
                     continue
                 if message_data.get("type") == "entropy_update":
                     raw_payload = message_data.get("payload")
@@ -225,7 +216,7 @@ class AuthenticationServer:
                         continue
                     if not self.verify_entropy_packet(raw_payload, signature_hex, device_id):
                         await websocket.send(json.dumps({"error": "Invalid entropy packet signature"}))
-                        await self.audit_logger.log_event(
+                        self.audit_logger.log_event(
                             f"Rejected entropy update: bad signature for device {device_id}",
                             constitutional_tag=True,
                         )
@@ -235,7 +226,7 @@ class AuthenticationServer:
                     if not device_id or not isinstance(device_id, str) or len(device_id) > 128:
                         await websocket.send(json.dumps({"error": "Invalid device ID"}))
                         logger.warning(f"Rejected entropy update: invalid device_id {device_id}")
-                        await self.audit_logger.log_event(
+                        self.audit_logger.log_event(
                             f"Rejected entropy update: invalid device_id {device_id}",
                             constitutional_tag=True,
                         )
@@ -243,18 +234,18 @@ class AuthenticationServer:
                     if not self.replay_protection.add_nonce(nonce, device_id=device_id):
                         await websocket.send(json.dumps({"error": "Replay detected for nonce"}))
                         logger.warning(f"Replay detected for nonce {nonce} from device {device_id}")
-                        await self.audit_logger.log_event(
+                        self.audit_logger.log_event(
                             f"Replay detected for nonce {nonce} from device {device_id}",
                             constitutional_tag=True,
                         )
                         continue
-                    now = self._get_time()
+                    now = time.time()
                     timestamps = self.device_entropy_timestamps.get(device_id, [])
                     timestamps = [t for t in timestamps if now - t < 10]
                     if len(timestamps) >= self.entropy_rate_limit:
                         await websocket.send(json.dumps({"error": "Rate limit exceeded for device"}))
                         logger.warning(f"Rate limit exceeded for device {device_id}")
-                        await self.audit_logger.log_event(
+                        self.audit_logger.log_event(
                             f"Rate limit exceeded for device {device_id}",
                             constitutional_tag=True,
                         )
@@ -265,11 +256,11 @@ class AuthenticationServer:
                         entropy_sync.update_entropy(device_id, entropy_value)
                     except Exception as e:
                         await websocket.send(json.dumps({"error": "Entropy update failed"}))
-                        await self.audit_logger.log_event(f"Entropy update failed: {e}", constitutional_tag=True)
+                        self.audit_logger.log_event(f"Entropy update failed: {e}", constitutional_tag=True)
                         continue
                     if not self.constitutional_gatekeeper.validate(entropy_sync.get_entropy_level()):
                         await websocket.send(json.dumps({"error": "Entropy validation failed"}))
-                        await self.audit_logger.log_event(
+                        self.audit_logger.log_event(
                             f"Entropy validation failed for session {session_id}",
                             constitutional_tag=True,
                         )
@@ -292,7 +283,7 @@ class AuthenticationServer:
                             "typing_rhythm": parsed_payload.get("typing_rhythm", []),
                             "mouse_movement_pattern": parsed_payload.get("mouse_movement", {}),
                             "current_session_duration": (
-                                self._get_time() - entropy_sync.session_start_time
+                                time.time() - entropy_sync.session_start_time
                                 if hasattr(entropy_sync, "session_start_time")
                                 else 0
                             ),
@@ -373,39 +364,39 @@ class AuthenticationServer:
                         # Continue with authentication even if trust scoring fails
                         # Trust scoring is enhancement, not critical path
 
-                    await self.audit_logger.log_event(
+                    self.audit_logger.log_event(
                         f"Entropy updated for session {session_id} by device {device_id}",
                         constitutional_tag=True,
                     )
-                    await self.track_entropy_reliability(device_id, entropy_value)
-                    self.active_sessions[session_id].last_active = self._get_time()
-                    last_entropy_time = self._get_time()
+                    self.track_entropy_reliability(device_id, entropy_value)
+                    self.active_sessions[session_id].last_active = time.time()
+                    last_entropy_time = time.time()
                 elif message_data.get("type") == "disconnect":
                     await websocket.send(json.dumps({"message": "Disconnected"}))
-                    await self.audit_logger.log_event(
+                    self.audit_logger.log_event(
                         f"Client requested disconnect for session {session_id}",
                         constitutional_tag=True,
                     )
                     break
                 else:
                     await websocket.send(json.dumps({"error": "Unknown message type"}))
-                    await self.audit_logger.log_event(
+                    self.audit_logger.log_event(
                         f"Unknown message type: {message_data.get('type')}",
                         constitutional_tag=True,
                     )
         except Exception as e:
             logger.error(f"Error handling client connection: {e}\n{traceback.format_exc()}")
-            await self.audit_logger.log_event(f"Exception in client connection: {e}", constitutional_tag=True)
+            self.audit_logger.log_event(f"Exception in client connection: {e}", constitutional_tag=True)
 
-    async def create_authentication_session(self, user_id: str) -> str:
-        session_id = self._generate_session_id(user_id)
-        entropy_sync = self._create_entropy_synchronizer(session_id)
-        entropy_sync.last_active = self._get_time()
+    def create_authentication_session(self, user_id: str) -> str:
+        session_id = hashlib.sha256(f"{user_id}{datetime.now(timezone.utc)}".encode()).hexdigest()
+        entropy_sync = EntropySynchronizer()
+        entropy_sync.last_active = time.time()
         self.active_sessions[session_id] = entropy_sync
-        await self.audit_logger.log_event(f"Session created for user {user_id} with session ID {session_id}")
+        self.audit_logger.log_event(f"Session created for user {user_id} with session ID {session_id}")
         return session_id
 
-    async def validate_authentication_request(self, session_data: dict[str, Any]) -> bool:
+    def validate_authentication_request(self, session_data: dict[str, Any]) -> bool:
         session_id = session_data.get("session_id")
         entropy_level = session_data.get("entropy_level")
         pqc_signature = session_data.get("pqc_signature")
@@ -418,7 +409,7 @@ class AuthenticationServer:
         if not self.crypto_engine.verify_signature(pqc_signature):
             logger.warning("PQC signature validation failed")
             return False
-        await self.audit_logger.log_event(f"Authentication request validated for session {session_id}")
+        self.audit_logger.log_event(f"Authentication request validated for session {session_id}")
         return True
 
     def verify_entropy_packet(self, payload: str, signature_hex: str, device_id: str) -> bool:
@@ -438,28 +429,28 @@ class AuthenticationServer:
             logger.warning(f"Signature verification failed for device {device_id}: {e}")
             return False
 
-    async def expire_sessions(self):
-        current_time = self._get_time()
+    def expire_sessions(self):
+        current_time = time.time()
         for session_id, session_data in list(self.active_sessions.items()):
             if hasattr(session_data, "last_active") and current_time - session_data.last_active > 3600:
                 del self.active_sessions[session_id]
-                await self.audit_logger.log_event(f"Session expired: {session_id}", constitutional_tag=True)
+                self.audit_logger.log_event(f"Session expired: {session_id}", constitutional_tag=True)
 
-    async def expire_session(self, session_id):
+    def expire_session(self, session_id):
         if session_id in self.active_sessions:
             try:
                 del self.active_sessions[session_id]
-                await self.audit_logger.log_event(f"Session expired: {session_id}", constitutional_tag=True)
+                self.audit_logger.log_event(f"Session expired: {session_id}", constitutional_tag=True)
             except Exception as e:
                 logger.error(f"Error expiring session {session_id}: {e}")
-                await self.audit_logger.log_event(f"Session expiry error: {e}", constitutional_tag=True)
+                self.audit_logger.log_event(f"Session expiry error: {e}", constitutional_tag=True)
 
-    async def track_entropy_reliability(self, device_id, entropy_value):
+    def track_entropy_reliability(self, device_id, entropy_value):
         if device_id not in self.device_reliability:
             self.device_reliability[device_id] = []
         self.device_reliability[device_id].append(entropy_value)
         average_reliability = sum(self.device_reliability[device_id]) / len(self.device_reliability[device_id])
-        await self.audit_logger.log_event(
+        self.audit_logger.log_event(
             f"Device {device_id} reliability: {average_reliability}",
             constitutional_tag=True,
         )
@@ -467,7 +458,7 @@ class AuthenticationServer:
             recent = self.device_reliability[device_id][-5:]
             if all(val < 0.5 for val in recent):
                 logger.critical(f"Device {device_id} reliability degraded: last 5 entropy values < 0.5")
-                await self.audit_logger.log_event(
+                self.audit_logger.log_event(
                     f"Device {device_id} reliability degraded: last 5 entropy values < 0.5",
                     constitutional_tag=True,
                 )
@@ -515,15 +506,15 @@ class AuthenticationServer:
         privacy_profile = UserPrivacyProfile(
             user_id=user_id,
             privacy_jurisdiction=jurisdiction,
-            last_consent_update=self._get_datetime_now(),
+            last_consent_update=datetime.now(timezone.utc),
         )
 
         # Set jurisdiction-specific defaults
         if jurisdiction == "EU":
             # GDPR requires explicit consent
             privacy_profile.gdpr_consents = {
-                "authentication": self._get_datetime_now(),
-                "session_management": self._get_datetime_now(),
+                "authentication": datetime.now(timezone.utc),
+                "session_management": datetime.now(timezone.utc),
             }
         elif jurisdiction == "US":
             # CCPA allows opt-out model
@@ -539,7 +530,7 @@ class AuthenticationServer:
             user_id=user_id,
             event_type="privacy_profile_created",
             details={"jurisdiction": jurisdiction},
-            timestamp=self._get_datetime_now(),
+            timestamp=datetime.now(timezone.utc),
         )
 
         return privacy_profile
@@ -553,18 +544,18 @@ class AuthenticationServer:
 
         # Update consent
         if granted:
-            profile.gdpr_consents[consent_type] = self._get_datetime_now()
+            profile.gdpr_consents[consent_type] = datetime.now(timezone.utc)
         else:
             profile.gdpr_consents.pop(consent_type, None)
 
-        profile.last_consent_update = self._get_datetime_now()
+        profile.last_consent_update = datetime.now(timezone.utc)
 
         # Audit trail
         consent_record = {
             "user_id": user_id,
             "consent_type": consent_type,
             "granted": granted,
-            "timestamp": self._get_datetime_now(),
+            "timestamp": datetime.now(timezone.utc),
             "method": "explicit",
             "ip_address": "masked_for_privacy",
             "session_id": f"auth_session_{user_id}",
@@ -576,7 +567,7 @@ class AuthenticationServer:
             user_id=user_id,
             consent_type=consent_type,
             granted=granted,
-            timestamp=self._get_datetime_now(),
+            timestamp=datetime.now(timezone.utc),
         )
 
         logger.info(f"Updated consent for user {user_id}: {consent_type} = {granted}")
@@ -587,7 +578,7 @@ class AuthenticationServer:
     ) -> dict[str, Any]:
         """Handle GDPR Data Subject Rights requests (Articles 15-22)"""
         request_id = str(uuid.uuid4())
-        timestamp = self._get_datetime_now()
+        timestamp = datetime.now(timezone.utc)
 
         # Log the request
         await self.audit_logger.log_data_subject_request(
@@ -658,7 +649,7 @@ class AuthenticationServer:
         if user_id in self.active_sessions:
             user_data["personal_data"]["active_sessions"] = {
                 "session_count": 1,
-                "last_activity": self._get_datetime_now().isoformat(),
+                "last_activity": datetime.now(timezone.utc).isoformat(),
             }
 
         # Processing information (GDPR Article 15(1))
@@ -691,15 +682,8 @@ class AuthenticationServer:
             "success": True,
             "request_id": request_id,
             "data": user_data,
-            "generated_at": self._get_datetime_now().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
         }
-
-    async def _handle_rectification_request(self, user_id: str, request_data: dict, request_id: str) -> dict:
-        # Placeholder for rectification logic
-        logger.info(f"Received rectification request for {user_id} with data {request_data}")
-        # In a real implementation, you would validate and update user data here
-        return {"success": True, "request_id": request_id, "message": "Rectification request acknowledged."}
-
 
     async def _handle_erasure_request(self, user_id: str, request_id: str) -> dict[str, Any]:
         """Handle GDPR Article 17 - Right to erasure ('right to be forgotten')"""
@@ -718,14 +702,9 @@ class AuthenticationServer:
                 erasure_results["privacy_profile"] = True
 
             # Terminate active sessions
-            # This is a simplified example. In a real system, you'd need to properly
-            # invalidate sessions associated with the user_id across all servers.
-            sessions_to_delete = [sid for sid, s in self.active_sessions.items() if hasattr(s, 'user_id') and s.user_id == user_id]
-            for sid in sessions_to_delete:
-                del self.active_sessions[sid]
-            if sessions_to_delete:
+            if user_id in self.active_sessions:
+                del self.active_sessions[user_id]
                 erasure_results["active_sessions"] = True
-
 
             # Remove device keys
             if user_id in self.device_verify_keys:
@@ -733,28 +712,27 @@ class AuthenticationServer:
                 erasure_results["device_keys"] = True
 
             # Anonymize consent records (keep for legal compliance)
-            anonymized_records_count = 0
+            anonymized_records = []
             for record in self.consent_audit_trail:
                 if record["user_id"] == user_id:
                     record["user_id"] = f"anonymized_{hashlib.sha256(user_id.encode()).hexdigest()[:8]}"
-                    anonymized_records_count += 1
-            if anonymized_records_count > 0:
-                 erasure_results["consent_records"] = True
+                    anonymized_records.append(record)
 
+            erasure_results["consent_records"] = True
 
             # Log erasure completion
             await self.audit_logger.log_data_erasure(
                 user_id=user_id,
                 request_id=request_id,
                 erasure_results=erasure_results,
-                timestamp=self._get_datetime_now(),
+                timestamp=datetime.now(timezone.utc),
             )
 
             return {
                 "success": True,
                 "request_id": request_id,
                 "erasure_results": erasure_results,
-                "completed_at": self._get_datetime_now().isoformat(),
+                "completed_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -772,7 +750,7 @@ class AuthenticationServer:
         # Format for portability (JSON format)
         portable_data = {
             "user_id": user_id,
-            "export_timestamp": self._get_datetime_now().isoformat(),
+            "export_timestamp": datetime.now(timezone.utc).isoformat(),
             "export_format": "JSON",
             "data": access_data["data"],
             "export_notes": [
@@ -787,30 +765,15 @@ class AuthenticationServer:
             "request_id": request_id,
             "portable_data": portable_data,
             "format": "JSON",
-            "generated_at": self._get_datetime_now().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
         }
-
-    async def _handle_objection_request(self, user_id: str, request_data: dict, request_id: str) -> dict:
-        # Placeholder for objection logic
-        logger.info(f"Received objection request for {user_id} with data {request_data}")
-        # In a real implementation, you would stop processing for specific purposes
-        return {"success": True, "request_id": request_id, "message": "Objection request acknowledged."}
-
-    async def _handle_consent_withdrawal(self, user_id: str, request_data: dict, request_id: str) -> dict:
-        consent_type = request_data.get("consent_type")
-        if not consent_type:
-            return {"success": False, "error": "consent_type is required."}
-
-        await self.update_user_consent(user_id, consent_type, False)
-        return {"success": True, "request_id": request_id, "message": f"Consent for {consent_type} withdrawn."}
-
 
     async def handle_ccpa_consumer_request(
         self, user_id: str, request_type: str, request_data: dict[str, Any]
     ) -> dict[str, Any]:
         """Handle CCPA/CPRA consumer privacy requests"""
         request_id = str(uuid.uuid4())
-        timestamp = self._get_datetime_now()
+        timestamp = datetime.now(timezone.utc)
 
         await self.audit_logger.log_ccpa_request(
             user_id=user_id,
@@ -855,32 +818,14 @@ class AuthenticationServer:
         profile = self.user_privacy_profiles[user_id]
         profile.ccpa_opt_outs["data_sale"] = True
         profile.ccpa_opt_outs["targeted_advertising"] = True
-        profile.last_consent_update = self._get_datetime_now()
+        profile.last_consent_update = datetime.now(timezone.utc)
 
         return {
             "success": True,
             "request_id": request_id,
             "message": "You have been opted out of data sale and targeted advertising",
-            "effective_date": self._get_datetime_now().isoformat(),
+            "effective_date": datetime.now(timezone.utc).isoformat(),
         }
-
-    async def _handle_ccpa_do_not_sell(self, user_id: str, request_id: str) -> dict[str, Any]:
-        """Handle CCPA Do Not Sell request"""
-        return await self._handle_ccpa_opt_out_sale(user_id, request_id)
-
-    async def _handle_ccpa_know_categories(self, user_id: str, request_id: str) -> dict[str, Any]:
-        """Handle CCPA Right to Know Categories"""
-        # This is a simplified version. A full implementation would need to
-        # map your collected data to the specific categories defined in CCPA.
-        categories = {
-            "identifiers": ["user_id", "session_id", "device_id"],
-            "personal_info_categories": ["signature (via NACL keys)"],
-            "internet_activity": ["entropy_updates", "interaction patterns"],
-            "geolocation_data": ["location (if provided by client)"],
-            "inferences": ["trust_score"],
-        }
-        return {"success": True, "request_id": request_id, "categories": categories}
-
 
     async def get_compliance_status(self, user_id: str) -> dict[str, Any]:
         """Get comprehensive compliance status for a user"""
@@ -927,7 +872,7 @@ class AuthenticationServer:
 
     async def _cleanup_expired_privacy_data(self):
         """Clean up privacy data that has exceeded retention periods"""
-        current_time = self._get_datetime_now()
+        current_time = datetime.now(timezone.utc)
 
         for user_id, profile in list(self.user_privacy_profiles.items()):
             # Check if data has exceeded retention period
@@ -936,33 +881,8 @@ class AuthenticationServer:
                     retention_end = profile.last_consent_update + timedelta(days=retention_days)
                     if current_time > retention_end:
                         logger.info(f"Auto-deleting expired data for user {user_id}, type {data_type}")
-                        await self._handle_erasure_request(user_id, f"auto_cleanup_{int(self._get_time())}")
+                        await self._handle_erasure_request(user_id, f"auto_cleanup_{int(time.time())}")
                         break
-
-    # ----------------------------------------------------------------
-    # TEST SEAM
-    # ----------------------------------------------------------------
-    def _get_time(self):
-        """TEST SEAM: Returns the current time."""
-        return time.time()
-
-    def _get_datetime_now(self):
-        """TEST SEAM: Returns the current datetime."""
-        return datetime.now(timezone.utc)
-
-    def _generate_session_id(self, user_id: str) -> str:
-        """TEST SEAM: Generates a session ID."""
-        return hashlib.sha256(f"{user_id}{self._get_datetime_now()}".encode()).hexdigest()
-
-    async def _start_server(self, handler, host, port):
-        """TEST SEAM: Starts the websocket server."""
-        self.server = await websockets.serve(handler, host, port)
-        return self.server
-
-    def _create_entropy_synchronizer(self, session_id: str) -> EntropySynchronizer:
-        """TEST SEAM: Creates an instance of EntropySynchronizer."""
-        return EntropySynchronizer(session_id=session_id)
-    # ----------------------------------------------------------------
 
 
 __all__ = [

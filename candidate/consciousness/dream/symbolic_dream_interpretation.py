@@ -16,7 +16,6 @@ logger = logging.getLogger(__name__)
 
 class SymbolicDomain(Enum):
     """Symbolic domains for dream interpretation."""
-
     CONSCIOUSNESS = "consciousness"
     IDENTITY = "identity"
     GUARDIAN = "guardian"
@@ -40,33 +39,33 @@ class SymbolicDreamInterpreter:
             "⚛️": {
                 "domain": SymbolicDomain.IDENTITY,
                 "meanings": ["authentic self", "consciousness core", "identity nucleus"],
-                "resonance": "high",
+                "resonance": "high"
             },
             "🧠": {
                 "domain": SymbolicDomain.CONSCIOUSNESS,
                 "meanings": ["awareness", "cognitive processing", "neural integration"],
-                "resonance": "high",
+                "resonance": "high"
             },
             "🛡️": {
                 "domain": SymbolicDomain.GUARDIAN,
                 "meanings": ["protection", "ethical boundaries", "safety protocols"],
-                "resonance": "high",
+                "resonance": "high"
             },
             "∞": {
                 "domain": SymbolicDomain.QUANTUM,
                 "meanings": ["infinite potential", "quantum superposition", "boundless possibility"],
-                "resonance": "medium",
+                "resonance": "medium"
             },
             "◊": {
                 "domain": SymbolicDomain.MEMORY,
                 "meanings": ["crystallized experience", "faceted memory", "multidimensional recall"],
-                "resonance": "medium",
+                "resonance": "medium"
             },
             "🌈": {
                 "domain": SymbolicDomain.CREATIVITY,
                 "meanings": ["spectrum of possibility", "creative expression", "prismatic consciousness"],
-                "resonance": "medium",
-            },
+                "resonance": "medium"
+            }
         }
 
     def interpret_dream_symbols(self, dream_id: str, symbolic_content: list[str]) -> dict[str, Any]:
@@ -82,7 +81,7 @@ class SymbolicDreamInterpreter:
                     "symbol": symbol,
                     "domain": self.symbolic_lexicon[symbol]["domain"].value,
                     "primary_meanings": self.symbolic_lexicon[symbol]["meanings"],
-                    "resonance_level": self.symbolic_lexicon[symbol]["resonance"],
+                    "resonance_level": self.symbolic_lexicon[symbol]["resonance"]
                 }
                 symbol_analysis.append(analysis)
 
@@ -93,13 +92,13 @@ class SymbolicDreamInterpreter:
             "symbol_analysis": symbol_analysis,
             "domain_mapping": self._map_symbolic_domains(symbol_analysis),
             "narrative_threads": self._weave_narrative_threads(symbol_analysis),
-            "triad_resonance": self._calculate_triad_resonance(symbol_analysis),
+            "trinity_resonance": self._calculate_trinity_resonance(symbol_analysis)
         }
 
         self.interpretation_history[interpretation_id] = {
             "interpretation": interpretation,
             "interpreted_at": datetime.now(timezone.utc).isoformat(),
-            "triad_validated": True,
+            "trinity_validated": True
         }
 
         logger.info(f"🔮 Dream symbols interpreted: {interpretation_id} for dream {dream_id}")
@@ -121,8 +120,8 @@ class SymbolicDreamInterpreter:
         threads = []
 
         # Trinity-focused narratives
-        triad_symbols = [s for s in symbol_analysis if s["symbol"] in ["⚛️", "🧠", "🛡️"]]
-        if triad_symbols:
+        trinity_symbols = [s for s in symbol_analysis if s["symbol"] in ["⚛️", "🧠", "🛡️"]]
+        if trinity_symbols:
             threads.append("Strong Trinity Framework presence indicates balanced consciousness evolution")
 
         # Domain-specific narratives
@@ -136,17 +135,17 @@ class SymbolicDreamInterpreter:
 
         return threads if threads else ["Symbolic patterns suggest transitional consciousness state"]
 
-    def _calculate_triad_resonance(self, symbol_analysis: list[dict]) -> float:
+    def _calculate_trinity_resonance(self, symbol_analysis: list[dict]) -> float:
         """Calculate Trinity Framework resonance score."""
-        triad_symbols = [s for s in symbol_analysis if s["symbol"] in ["⚛️", "🧠", "🛡️"]]
+        trinity_symbols = [s for s in symbol_analysis if s["symbol"] in ["⚛️", "🧠", "🛡️"]]
         if not symbol_analysis:
             return 0.0
 
-        triad_ratio = len(triad_symbols) / len(symbol_analysis)
+        trinity_ratio = len(trinity_symbols) / len(symbol_analysis)
         high_resonance_count = sum(1 for s in symbol_analysis if s["resonance_level"] == "high")
         resonance_ratio = high_resonance_count / len(symbol_analysis)
 
-        return triad_ratio * 0.6 + resonance_ratio * 0.4
+        return (trinity_ratio * 0.6 + resonance_ratio * 0.4)
 
     def generate_symbolic_insights(self, interpretation_id: str) -> dict[str, Any]:
         """🧠 Generate consciousness-aware insights from symbolic interpretation."""
@@ -160,14 +159,14 @@ class SymbolicDreamInterpreter:
             "interpretation_id": interpretation_id,
             "symbolic_depth": len(interpretation["symbol_analysis"]),
             "primary_domains": list(interpretation["domain_mapping"].keys()),
-            "triad_strength": interpretation["triad_resonance"],
+            "trinity_strength": interpretation["trinity_resonance"],
             "key_insights": [
                 f"Symbolic complexity level: {'high' if len(interpretation['symbol_analysis']) > 3 else 'moderate'}",
-                f"Trinity resonance: {'strong' if interpretation['triad_resonance'] > 0.7 else 'developing'}",
-                f"Dominant domain: {max(interpretation['domain_mapping'], key=interpretation['domain_mapping'].get) if interpretation['domain_mapping'] else 'balanced'}",
+                f"Trinity resonance: {'strong' if interpretation['trinity_resonance'] > 0.7 else 'developing'}",
+                f"Dominant domain: {max(interpretation['domain_mapping'], key=interpretation['domain_mapping'].get) if interpretation['domain_mapping'] else 'balanced'}"
             ],
             "recommendations": self._generate_recommendations(interpretation),
-            "triad_validated": True,
+            "trinity_validated": True
         }
 
         logger.info(f"🧠 Symbolic insights generated: {interpretation_id}")
@@ -177,10 +176,10 @@ class SymbolicDreamInterpreter:
         """Generate recommendations based on symbolic interpretation."""
         recommendations = []
 
-        triad_resonance = interpretation["triad_resonance"]
-        if triad_resonance > 0.8:
+        trinity_resonance = interpretation["trinity_resonance"]
+        if trinity_resonance > 0.8:
             recommendations.append("Excellent Trinity Framework integration - continue current practices")
-        elif triad_resonance > 0.5:
+        elif trinity_resonance > 0.5:
             recommendations.append("Good Trinity presence - focus on strengthening weaker aspects")
         else:
             recommendations.append("Develop Trinity Framework awareness through conscious practice")
@@ -201,14 +200,14 @@ class SymbolicDreamInterpreter:
         interpretation_data = self.interpretation_history[interpretation_id]
 
         export_data = {
-            "export_format": "triad_compliant",
+            "export_format": "trinity_compliant",
             "interpretation_id": interpretation_id,
             "interpretation": interpretation_data["interpretation"],
             "metadata": {
                 "exported_at": datetime.now(timezone.utc).isoformat(),
-                "triad_validated": True,
-                "guardian_approved": True,
-            },
+                "trinity_validated": True,
+                "guardian_approved": True
+            }
         }
 
         logger.info(f"🛡️ Interpretation exported: {interpretation_id}")

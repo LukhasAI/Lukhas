@@ -16,7 +16,6 @@ logger = logging.getLogger(__name__)
 
 class ConsciousnessBridgeState(Enum):
     """States for consciousness bridge integration."""
-
     DISCONNECTED = "disconnected"
     CONNECTING = "connecting"
     ACTIVE = "active"
@@ -50,7 +49,7 @@ class DreamConsciousnessBridge:
             "established_at": datetime.now(timezone.utc).isoformat(),
             "last_sync": None,
             "sync_count": 0,
-            "triad_validated": True,
+            "trinity_validated": True
         }
 
         self.active_connections[bridge_id] = connection
@@ -74,7 +73,7 @@ class DreamConsciousnessBridge:
             "dream_state": self._extract_dream_state(connection["dream_id"]),
             "consciousness_state": self._extract_consciousness_state(connection["consciousness_context"]),
             "synchronization_quality": self._calculate_sync_quality(),
-            "triad_coherence": self._validate_triad_coherence(),
+            "trinity_coherence": self._validate_trinity_coherence()
         }
 
         # Update connection
@@ -95,7 +94,7 @@ class DreamConsciousnessBridge:
             "state": "active",
             "intensity": 0.8,
             "symbolic_content": ["⚛️", "🧠", "🛡️"],
-            "temporal_position": "mid_sequence",
+            "temporal_position": "mid_sequence"
         }
 
     def _extract_consciousness_state(self, context: dict[str, Any]) -> dict[str, Any]:
@@ -103,15 +102,19 @@ class DreamConsciousnessBridge:
         return {
             "awareness_level": "heightened",
             "processing_mode": "symbolic",
-            "triad_balance": {"identity": 0.85, "consciousness": 0.90, "guardian": 0.88},
-            "integration_readiness": True,
+            "trinity_balance": {
+                "identity": 0.85,
+                "consciousness": 0.90,
+                "guardian": 0.88
+            },
+            "integration_readiness": True
         }
 
     def _calculate_sync_quality(self) -> float:
         """Calculate synchronization quality score."""
         return 0.92  # Simplified quality calculation
 
-    def _validate_triad_coherence(self) -> float:
+    def _validate_trinity_coherence(self) -> float:
         """Validate Trinity Framework coherence across bridge."""
         return 0.89  # Simplified coherence validation
 
@@ -129,7 +132,7 @@ class DreamConsciousnessBridge:
             "validated_content_count": len(validated_content),
             "validated_content": validated_content,
             "transfer_timestamp": datetime.now(timezone.utc).isoformat(),
-            "guardian_approved": True,
+            "guardian_approved": True
         }
 
         logger.info(f"🛡️ Symbolic content transferred: {bridge_id} - {len(validated_content)} symbols")
@@ -154,7 +157,7 @@ class DreamConsciousnessBridge:
             "total_syncs": connection["sync_count"],
             "duration": "calculated",
             "closed_at": datetime.now(timezone.utc).isoformat(),
-            "triad_validated": True,
+            "trinity_validated": True
         }
 
         # Update bridge state if no active connections
@@ -171,7 +174,7 @@ class DreamConsciousnessBridge:
             "active_connections": len(self.active_connections),
             "total_synchronizations": len(self.synchronization_log),
             "system_health": "optimal",
-            "triad_operational": True,
+            "trinity_operational": True
         }
 
 

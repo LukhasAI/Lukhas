@@ -82,6 +82,7 @@ try:
 
     # Conceptual
     # from ...AID.dream_engine.dream_replay import replay_dream_by_id,
+    # replay_recent_dreams # Conceptual  # TODO: Install or implement AID
     from ...LUKHAS_ID.backend.app.crypto import generate_collapse_hash  # Conceptual
     from ...MODULES.memoria.lukhas_replayer import LUKHASReplayer
 

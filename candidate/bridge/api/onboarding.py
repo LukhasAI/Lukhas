@@ -43,11 +43,7 @@ try:
     FASTAPI_AVAILABLE = True
 except ImportError:
     try:
-        from flask import (  # MATRIZ Integration: Flask framework for API expansion onboarding endpoints and Trinity Framework web service coordination
-            Blueprint,
-            jsonify,
-            request,
-        )
+        from flask import Blueprint, jsonify, request  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
 
         FLASK_AVAILABLE = True
         FASTAPI_AVAILABLE = False
@@ -725,11 +721,7 @@ if FASTAPI_AVAILABLE:
                     "features": tier_features.get("features", []),
                     "support_level": tier_features.get("support_level", "community"),
                 },
-                "personalized_recommendations": [
-                    "Explore the API documentation",
-                    "Try your first API request",
-                    "Join the LUKHAS community",
-                ],
+                "personalized_recommendations": self._get_personalized_recommendations(use_cases),
                 "next_steps": [
                     "Verify your email address",
                     "Explore the API documentation",

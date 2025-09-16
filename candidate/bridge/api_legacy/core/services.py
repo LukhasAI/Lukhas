@@ -7,7 +7,6 @@ Provides clean service interfaces for all API endpoints.
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from fastapi import HTTPException
 from hub.service_registry import get_service
 
 from candidate.core.common import get_logger

@@ -43,9 +43,7 @@ try:
     from .identity.matriz_consciousness_identity import consciousness_identity_manager
 
     # Core adapter
-    from .matriz_adapter import (
-        CoreMatrizAdapter,
-    )  # MATRIZ Integration: Core adapter for MATRIZ-R2 trace integration and consciousness technology demonstration
+    from .matriz_adapter import CoreMatrizAdapter  # TODO[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
 
     # Orchestration
     from .orchestration.matriz_consciousness_coordinator import consciousness_coordinator
@@ -592,7 +590,7 @@ class MatrizIntegratedConsciousnessDemo:
             "final_consciousness_state": final_consciousness_state,
             "final_system_status": final_status,
             "phase_results": self.demo_results,
-            "triad_framework_validation": {
+            "trinity_framework_validation": {
                 "identity": "✅ Consciousness identity persistence demonstrated",
                 "consciousness": "✅ Distributed consciousness network operational",
                 "guardian": "✅ Ethical governance and oversight active",

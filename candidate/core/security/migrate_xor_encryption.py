@@ -3,6 +3,7 @@
 Migration script to replace XOR encryption with proper cryptography
 Identifies and patches XOR usage across LUKHAS codebase
 """
+import streamlit as st
 
 import ast
 import re
@@ -186,7 +187,7 @@ class XORMigration:
     def generate_report(self, findings: list[tuple[str, int, str]]) -> str:
         """Generate migration report"""
         report = ["# XOR Encryption Migration Report\n"]
-        report.append(f"Total files with XOR encryption: {len({f[0] for f in findings})}")
+        report.append(f"Total files with XOR encryption: {len({f[0] for f in findings)})}")
         report.append(f"Total XOR usages found: {len(findings)}\n")
 
         report.append("## Files requiring migration:\n")
@@ -234,7 +235,7 @@ def main():
             print(f"  {file_path}:{line_num} - {line}")
 
         if len(findings) > 10:
-            print(f"  ... and {len(findings) - 10} more")
+            print(f"  ... and {len(findings)} - 10} more")
 
         if args.report:
             report = migration.generate_report(findings)

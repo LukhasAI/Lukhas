@@ -8,6 +8,8 @@ MEMORY - folds Submodule
 # Colony base for propagation
 from typing import Any
 
+import streamlit as st
+
 
 class FoldsColony:
     """Base colony for folds components"""

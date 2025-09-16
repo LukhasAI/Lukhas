@@ -29,7 +29,7 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 try:
-    import anthropic  # MATRIZ Integration: Anthropic Claude API client for consciousness technology reasoning and Constitutional AI integration
+    import anthropic  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
     from anthropic import AsyncAnthropic
 
     ANTHROPIC_AVAILABLE = True
@@ -791,7 +791,7 @@ LUKHAS_CLAUDE_TOOLS = {
                     "type": "string",
                     "description": "Content to validate",
                 },
-                "triad_aspect": {
+                "trinity_aspect": {
                     "type": "string",
                     "enum": ["identity", "consciousness", "guardian", "all"],
                     "description": "Trinity Framework aspect to validate against",

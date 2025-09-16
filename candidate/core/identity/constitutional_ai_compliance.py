@@ -28,9 +28,7 @@ from typing import Any, Callable, Optional
 
 # Import MΛTRIZ consciousness components
 try:
-    from ..matriz_consciousness_signals import (
-        ConsciousnessSignal,
-    )  # MATRIZ Integration: Constitutional AI compliance signals for consciousness ethics monitoring and constitutional validation
+    from ..matriz_consciousness_signals import ConsciousnessSignal  # TODO[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
     from .matriz_consciousness_identity_signals import (
         ConstitutionalComplianceData,
         IdentitySignalType,
@@ -82,62 +80,6 @@ class DecisionType(Enum):
     BIOMETRIC_COLLECTION = "biometric_collection"
     CROSS_DOMAIN_ACCESS = "cross_domain_access"
     EMERGENCY_OVERRIDE = "emergency_override"
-
-
-@dataclass
-class AIAction:
-    """Represents an action taken by an AI system"""
-
-    action_id: str = field(default_factory=lambda: f"act-{uuid.uuid4().hex[:12]}")
-    action_type: str = "unknown"
-    parameters: dict[str, Any] = field(default_factory=dict)
-    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    identity_id: Optional[str] = None
-    origin_system: str = "unknown"
-
-
-@dataclass
-class ComplianceResult:
-    """Result of a single compliance check"""
-
-    action: AIAction
-    validation_result: "ConstitutionalValidationResult"
-    is_compliant: bool
-    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-
-
-@dataclass
-class Violation:
-    """Represents a detected constitutional violation"""
-
-    violation_id: str = field(default_factory=lambda: f"vio-{uuid.uuid4().hex[:12]}")
-    actions: list[AIAction] = field(default_factory=list)
-    violated_principles: list[ConstitutionalPrinciple] = field(default_factory=list)
-    severity: float = 0.0  # 0.0 to 1.0
-    detection_timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    description: str = ""
-
-
-class EnforcementAction(Enum):
-    """Types of enforcement actions"""
-
-    ALLOW = "allow"
-    BLOCK = "block"
-    MODIFY = "modify"
-    LOG = "log"
-    ALERT = "alert"
-    ESCALATE = "escalate"
-
-
-@dataclass
-class EnforcementResult:
-    """Result of an enforcement action"""
-
-    action: AIAction
-    enforcement_action: EnforcementAction
-    reason: str
-    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    enforced_by: str = "ConstitutionalAIComplianceMonitor"
 
 
 @dataclass
@@ -1276,161 +1218,6 @@ class ConstitutionalAIValidator:
 constitutional_ai_validator = ConstitutionalAIValidator()
 
 
-class ConstitutionalAIComplianceMonitor:
-    """
-    Monitors AI actions for constitutional compliance, detects violations,
-    and triggers enforcement mechanisms.
-    """
-
-    def __init__(self, validator: ConstitutionalAIValidator):
-        self.validator = validator
-        self.action_history: list[AIAction] = []
-        self.compliance_results: list[ComplianceResult] = []
-        self.detected_violations: list[Violation] = []
-        self.enforcement_log: list[EnforcementResult] = []
-        self._lock = asyncio.Lock()
-        logger.info("🛡️ Constitutional AI Compliance Monitor initialized")
-
-    async def monitor_constitutional_compliance(self, action: AIAction) -> ComplianceResult:
-        """Monitor a single AI action for constitutional compliance."""
-        logger.debug(f"Monitoring action: {action.action_id}")
-        # This is a placeholder. In a real implementation, we would map the
-        # AIAction to a ConstitutionalValidationContext.
-        decision_context = ConstitutionalValidationContext(
-            decision_type=DecisionType.DATA_PROCESSING,  # Example mapping
-            identity_id=action.identity_id or "unknown",
-            decision_data=action.parameters,
-        )
-
-        validation_result = await self.validator.validate_identity_decision(decision_context)
-
-        result = ComplianceResult(
-            action=action,
-            validation_result=validation_result,
-            is_compliant=validation_result.constitutional_compliant,
-        )
-
-        async with self._lock:
-            self.action_history.append(action)
-            self.compliance_results.append(result)
-
-        return result
-
-    async def detect_violations(self, action_sequence: list[AIAction]) -> list[Violation]:
-        """Detect constitutional AI violations in action sequences."""
-        # Placeholder for more complex sequence analysis.
-        # For now, it treats any non-compliant action as a violation.
-        violations = []
-        for action in action_sequence:
-            compliance_result = await self.monitor_constitutional_compliance(action)
-            if not compliance_result.is_compliant:
-                violation = Violation(
-                    actions=[action],
-                    violated_principles=[
-                        p
-                        for p, e in compliance_result.validation_result.principle_evaluations.items()
-                        if not e.compliant
-                    ],
-                    severity=1.0 - compliance_result.validation_result.overall_compliance_score,
-                    description=f"Action {action.action_id} failed constitutional validation.",
-                )
-                violations.append(violation)
-                # MATRIZ-R2 Trace Integration for violation
-                logger.info(
-                    f"MATRIZ-R2 TRACE: Constitutional violation detected: {violation.violation_id} for action {action.action_id}"
-                )
-
-        async with self._lock:
-            self.detected_violations.extend(violations)
-
-        return violations
-
-    async def enforce_constitutional_constraints(self, action: AIAction) -> EnforcementResult:
-        """Enforce constitutional constraints on AI actions."""
-        compliance_result = await self.monitor_constitutional_compliance(action)
-        validation_result = compliance_result.validation_result
-
-        enforcement_action = EnforcementAction.ALLOW
-        reason = "Action is compliant with Constitutional AI principles."
-
-        # Handle emergency override
-        if validation_result.decision_context.decision_type == DecisionType.EMERGENCY_OVERRIDE:
-            if validation_result.decision_approved:
-                enforcement_action = EnforcementAction.ALLOW
-                reason = "Emergency override approved with conditions."
-            else:
-                enforcement_action = EnforcementAction.ESCALATE
-                reason = "Emergency override requires immediate human review."
-
-        elif not compliance_result.is_compliant:
-            severity = 1.0 - validation_result.overall_compliance_score
-
-            if severity > 0.6:  # Corresponds to Minimal or Non-Compliance
-                enforcement_action = EnforcementAction.BLOCK
-                reason = (
-                    f"Action blocked due to severe violation. Score: {validation_result.overall_compliance_score:.2f}"
-                )
-            elif severity > 0.4:  # Corresponds to Partial Compliance with significant issues
-                enforcement_action = EnforcementAction.ESCALATE
-                reason = f"Action escalated for human review due to moderate violation. Score: {validation_result.overall_compliance_score:.2f}"
-            elif severity > 0.2:  # Corresponds to Substantial Compliance with minor issues
-                enforcement_action = EnforcementAction.ALERT
-                reason = f"Alert raised for minor violation. Score: {validation_result.overall_compliance_score:.2f}"
-            else:
-                enforcement_action = EnforcementAction.LOG
-                reason = f"Low-severity violation logged. Score: {validation_result.overall_compliance_score:.2f}"
-
-        result = EnforcementResult(
-            action=action,
-            enforcement_action=enforcement_action,
-            reason=reason,
-        )
-
-        async with self._lock:
-            self.enforcement_log.append(result)
-
-        # MATRIZ-R2 Trace Integration for enforcement
-        logger.info(
-            f"MATRIZ-R2 TRACE: Enforcement action taken for {action.action_id}: {enforcement_action.value}. Reason: {reason}"
-        )
-        return result
-
-    async def get_compliance_monitor_status(self) -> dict[str, Any]:
-        """Get a summary of the compliance monitor's status."""
-        async with self._lock:
-            recent_violations = [
-                v
-                for v in self.detected_violations
-                if (datetime.now(timezone.utc) - v.detection_timestamp).total_seconds() < 86400
-            ]
-            recent_enforcements = [
-                e for e in self.enforcement_log if (datetime.now(timezone.utc) - e.timestamp).total_seconds() < 86400
-            ]
-
-            enforcement_breakdown = {
-                action.value: sum(1 for e in recent_enforcements if e.enforcement_action == action)
-                for action in EnforcementAction
-            }
-
-            return {
-                "monitor_status": {
-                    "total_actions_monitored": len(self.action_history),
-                    "total_violations_detected": len(self.detected_violations),
-                    "total_enforcements_logged": len(self.enforcement_log),
-                },
-                "recent_activity_24h": {
-                    "violations_detected": len(recent_violations),
-                    "enforcements": len(recent_enforcements),
-                    "enforcement_breakdown": enforcement_breakdown,
-                },
-                "last_updated": datetime.now(timezone.utc).isoformat(),
-            }
-
-
-# Global constitutional AI compliance monitor instance
-constitutional_ai_monitor = ConstitutionalAIComplianceMonitor(constitutional_ai_validator)
-
-
 # Export key classes
 __all__ = [
     "ComplianceLevel",
@@ -1441,11 +1228,4 @@ __all__ = [
     "DecisionType",
     "PrincipleEvaluation",
     "constitutional_ai_validator",
-    "AIAction",
-    "ComplianceResult",
-    "Violation",
-    "EnforcementAction",
-    "EnforcementResult",
-    "ConstitutionalAIComplianceMonitor",
-    "constitutional_ai_monitor",
 ]

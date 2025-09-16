@@ -1,5 +1,5 @@
 import logging
-
+import time
 logger = logging.getLogger(__name__)
 """
 ╔═══════════════════════════════════════════════════════════════════════════╗
@@ -68,6 +68,8 @@ except ImportError:
 
 # Security and reflection imports
 
+# import streamlit as st  # TODO: Install or implement streamlit
+
 # Add the current directory to the Python path for imports
 sys.path.insert(0, str(Path(__file__).parent))
 
@@ -95,67 +97,13 @@ except ImportError:
     print("⚠️ OpenAI not available for GPT features")
 
 # Streamlit support (optional)
-try:  # pragma: no cover - exercised when Streamlit is installed
+try:
     import streamlit as st
 
     STREAMLIT_AVAILABLE = True
-except ImportError:  # pragma: no cover - stub validated via unit tests
+except ImportError:
     STREAMLIT_AVAILABLE = False
-
-    class _SidebarFallback:
-        """Minimal deterministic fallback for Streamlit sidebar interactions."""
-
-        def checkbox(self, label: str, value: bool = False) -> bool:
-            logger.info("[NotionSync][sidebar] checkbox=%s default=%s", label, value)
-            return value
-
-        def selectbox(self, label: str, options: list[str], index: int = 0) -> Optional[str]:
-            try:
-                choice = options[index]
-            except (IndexError, TypeError):
-                choice = None
-            logger.info("[NotionSync][sidebar] selectbox=%s choice=%s", label, choice)
-            return choice
-
-        def button(self, label: str) -> bool:
-            logger.info("[NotionSync][sidebar] button=%s (fallback - always False)", label)
-            return False
-
-    class _StreamlitFallback:
-        """Fallback surface ensuring CLI mode functions without Streamlit."""
-
-        def __init__(self):
-            self.sidebar = _SidebarFallback()
-
-        # ΛTAG: streamlit_stub
-        def markdown(self, value: str) -> None:
-            logger.info("[NotionSync] markdown=%s", value.replace("\n", " | "))
-
-        def error(self, value: str) -> None:
-            logger.error("[NotionSync] %s", value)
-
-        def success(self, value: str) -> None:
-            logger.info("[NotionSync] %s", value)
-
-        def info(self, value: str) -> None:
-            logger.info("[NotionSync] %s", value)
-
-        def warning(self, value: str) -> None:
-            logger.warning("[NotionSync] %s", value)
-
-        def button(self, label: str) -> bool:
-            logger.info("[NotionSync] button=%s (fallback - always False)", label)
-            return False
-
-        def code(self, value: str) -> None:
-            logger.info("[NotionSync] code block emitted (%d chars)", len(value))
-
-        def text_input(self, label: str, value: str = "") -> str:
-            logger.info("[NotionSync] text_input=%s default=%s", label, value)
-            return value
-
-    st = _StreamlitFallback()
-    logger.warning("Streamlit not installed; Notion Sync UI running in CLI-safe fallback mode")
+    print("⚠️ Streamlit not available for UI features")
 
 
 # Logger setup
@@ -190,12 +138,11 @@ def make_code_block(content, lang="text"):
 
 def make_toggle_block(module_name, header_text, usage_text):
     """Create a Notion toggle block for module documentation."""
-    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
     return {
         "object": "block",
         "type": "toggle",
         "toggle": {
-            "rich_text": [{"type": "text", "text": {"content": f"📦 {module_name}.py"}}],
+            "rich_text": [{"type": "text", "text": {"content": f"📦 {module_name}.py"}],
             "children": [
                 make_code_block(header_text, lang="text"),
                 make_code_block(usage_text, lang="python"),
@@ -206,19 +153,20 @@ def make_toggle_block(module_name, header_text, usage_text):
                         "rich_text": [
                             {
                                 "type": "text",
-                                "text": {"content": f"🕒 Synced on {timestamp}"},
+                                "text": {
+                                    "content": f"🕒 Synced on {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'}"
+                                },
                             }
                         ]
                     },
                 },
             ],
         },
-    }
+    )}
 
 
 def make_flat_block(module_name, header_text, usage_text):
     """Create flat layout blocks for module documentation."""
-    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
     return [
         {
             "object": "block",
@@ -241,11 +189,11 @@ def make_flat_block(module_name, header_text, usage_text):
                 "rich_text": [
                     {
                         "type": "text",
-                        "text": {"content": f"🕒 Synced on {timestamp}"},
+                        "text": {"content": f"🕒 Synced on {datetime.datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'}"},
                     }
                 ]
             },
-        },
+        )},
     ]
 
 
@@ -255,14 +203,7 @@ def make_minimal_block(module_name, usage_text):
         {
             "object": "block",
             "type": "heading_3",
-            "heading_3": {
-                "rich_text": [
-                    {
-                        "type": "text",
-                        "text": {"content": f"{module_name}.py"},
-                    }
-                ]
-            },
+            "heading_3": {"rich_text": [{"type": "text", "text": {"content": f"{module_name}.py"}]},
         },
         make_code_block(usage_text, lang="python"),
     ]
@@ -355,6 +296,8 @@ def run_legacy_streamlit_mode():
     This consolidates the original notion_sync.py Streamlit features.
     """
     try:
+        #         import streamlit as st  # TODO: Install or implement streamlit
+
         # Load configuration
         config_path = Path("config.json")
         if config_path.exists():
@@ -862,7 +805,7 @@ Examples:
                 streamlit_cmd = [
                     sys.executable,
                     "-c",
-                    f"import sys; sys.path.insert(0, '{Path(__file__).parent}'); "
+                    f"import sys; sys.path.insert(0, '{Path(__file__}.parent)}'); "
                     "from notion_sync import run_legacy_streamlit_mode; "
                     "import streamlit as st; run_legacy_streamlit_mode()",
                 ]

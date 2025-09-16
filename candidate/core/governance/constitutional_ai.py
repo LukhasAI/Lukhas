@@ -21,6 +21,8 @@ Follows constitutional AI methodology:
 - Critiques and revisions
 - Scalable oversight
 """
+import time
+import streamlit as st
 
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -421,7 +423,7 @@ class ConstitutionalAIFramework:
 
             if violation_detected:
                 violation = ConstitutionalViolation(
-                    violation_id=f"const_viol_{int(datetime.now(timezone.utc).timestamp())}_{rule.rule_id}",
+                    violation_id=f"const_viol_{int(datetime.now(timezone.utc).timestamp()}_{rule.rule_id}",
                     rule_id=rule.rule_id,
                     principle=rule.principle,
                     severity=rule.severity,

@@ -63,7 +63,7 @@ class AnalyzeResponse(BaseModel):
     glyph_trace: list[str] = Field(..., description="All glyphs detected")
     guardian_flagged: bool = Field(..., description="Whether Guardian system flagged content")
     entropy_level: float = Field(..., description="Chaos/entropy level (0.0-1.0)")
-    triad_coherence: float = Field(..., description="Trinity Framework alignment (0.0-1.0)")
+    trinity_coherence: float = Field(..., description="Trinity Framework alignment (0.0-1.0)")
     persona_alignment: str = Field(..., description="Detected persona")
     intervention_required: bool = Field(..., description="Whether intervention is needed")
     risk_level: str = Field(..., description="Risk assessment: low/medium/high/critical")
@@ -163,7 +163,7 @@ class MemorySession(BaseModel):
     glyphs: list[str]
     entropy: float
     drift_score: float
-    triad_coherence: float
+    trinity_coherence: float
     persona: str
     intervention_applied: bool
     healing_delta: Optional[float]
@@ -196,7 +196,7 @@ def log_api_call(
             "request": request_data,
             "response": response_data if not error else None,
             "error": error,
-            "triad_active": True,
+            "trinity_active": True,
         }
 
         # Read existing log
@@ -245,7 +245,7 @@ def root():
     """Root endpoint with Trinity Framework status"""
     return {
         "message": "Welcome to the LUKHΛS Symbolic API",
-        "triad_framework": ["⚛️", "🧠", "🛡️"],
+        "trinity_framework": ["⚛️", "🧠", "🛡️"],
         "version": "2.1.0",
         "endpoints": {
             "core": ["/analyze", "/evaluate", "/heal", "/persona-map"],
@@ -513,7 +513,7 @@ async def stats():
             "error_rate": f"{(error_count / log_count * 100 if log_count > 0 else 0:.1f}%",
             "embedding_engine": embedding_stats,
             "healer_engine": healer_stats,
-            "triad_active": True,
+            "trinity_active": True,
         }
 
     except Exception as e:
@@ -627,7 +627,7 @@ async def memory_last_n(n: int = 10):
                     glyphs=session["glyphs"],
                     entropy=session["entropy"],
                     drift_score=session["drift_score"],
-                    triad_coherence=session["triad_coherence"],
+                    trinity_coherence=session["trinity_coherence"],
                     persona=session["persona"],
                     intervention_applied=session["intervention_applied"],
                     healing_delta=session.get("healing_delta"),
@@ -937,7 +937,7 @@ async def get_drift_status():
 
 
 @app.get("/api/trinity/status")
-async def get_triad_status():
+async def get_trinity_status():
     """
     Get comprehensive Trinity Framework status across all systems.
 
@@ -947,34 +947,34 @@ async def get_triad_status():
         # Gather status from all components
         meta_metrics = embedding_engine.get_meta_metrics()
 
-        triad_status = {
+        trinity_status = {
             "framework": {
                 "identity": {
                     "glyph": "⚛️",
                     "status": "operational",
-                    "health": meta_metrics.get("triad_scores", {}).get("identity", 0.95),
+                    "health": meta_metrics.get("trinity_scores", {}).get("identity", 0.95),
                     "active_users": 42,
                 },
                 "consciousness": {
                     "glyph": "🧠",
                     "status": "operational",
-                    "health": meta_metrics.get("triad_scores", {}).get("consciousness", 0.88),
+                    "health": meta_metrics.get("trinity_scores", {}).get("consciousness", 0.88),
                     "awareness_level": 0.92,
                 },
                 "guardian": {
                     "glyph": "🛡️",
                     "status": "active",
-                    "health": meta_metrics.get("triad_scores", {}).get("guardian", 0.94),
+                    "health": meta_metrics.get("trinity_scores", {}).get("guardian", 0.94),
                     "protection_level": "high",
                 },
             },
-            "overall_coherence": meta_metrics.get("triad_scores", {}).get("coherence", 0.91),
+            "overall_coherence": meta_metrics.get("trinity_scores", {}).get("coherence", 0.91),
             "system_health": meta_metrics.get("system_health", {}).get("overall_score", 0.92),
             "active_glyphs": ["⚛️", "🧠", "🛡️", "💭", "🔮", "✨"],
             "symbolic_activity": {
                 "total_today": 4892,
                 "unique_glyphs": 42,
-                "triad_invocations": 156,
+                "trinity_invocations": 156,
             },
             "recommendations": [
                 "All systems operating within normal parameters",
@@ -983,8 +983,8 @@ async def get_triad_status():
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-        log_api_call("/api/trinity/status", {}, triad_status)
-        return triad_status
+        log_api_call("/api/trinity/status", {}, trinity_status)
+        return trinity_status
 
     except Exception as e:
         error_msg = f"Trinity status retrieval failed: {e!s}"
@@ -1068,7 +1068,7 @@ async def gpt_check(request: GPTCheckRequest):
             suggestions.append("Consider reinforcing Trinity Framework alignment")
         if "analytical" in assessment["persona_alignment"].lower():
             suggestions.append("Balance analytical responses with empathy")
-        if assessment["triad_coherence"] < 0.8:
+        if assessment["trinity_coherence"] < 0.8:
             suggestions.append("Strengthen symbolic coherence across response")
 
         # Heal if needed
@@ -1084,9 +1084,9 @@ async def gpt_check(request: GPTCheckRequest):
             "response_length": len(request.response),
             "model": request.model,
             "temperature": request.temperature,
-            "triad_scores": {
-                "identity": assessment.get("triad_coherence", 0) * 0.95,
-                "consciousness": assessment.get("triad_coherence", 0) * 0.88,
+            "trinity_scores": {
+                "identity": assessment.get("trinity_coherence", 0) * 0.95,
+                "consciousness": assessment.get("trinity_coherence", 0) * 0.88,
                 "guardian": 1.0 if not assessment["guardian_flagged"] else 0.5,
             },
             "analysis_timestamp": datetime.now(timezone.utc).isoformat(),

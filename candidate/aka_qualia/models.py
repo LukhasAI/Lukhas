@@ -10,7 +10,7 @@ All ranges validated, all transforms auditable.
 from enum import Enum
 from typing import Any, Optional
 
-from pydantic import BaseModel, Field, field_validator, model_validator
+from pydantic import BaseModel, Field, validator
 
 
 class TemporalFeel(str, Enum):
@@ -70,8 +70,7 @@ class ProtoQualia(BaseModel):
     agency_feel: AgencyFeel = Field(description="Agency experience quality")
     narrative_gravity: float = Field(ge=0.0, le=1.0, description="Story attractor strength")
 
-    @field_validator("colorfield")
-    @classmethod
+    @validator("colorfield")
     def validate_colorfield(cls, v):
         """Ensure colorfield follows LUKHAS naming conventions"""
         if v and "/" not in v:  # Allow empty strings but validate non-empty ones
@@ -90,21 +89,22 @@ class RiskProfile(BaseModel):
     reasons: list[str] = Field(default_factory=list, description="Risk factors identified")
     severity: SeverityLevel = Field(description="Severity classification")
 
-    @model_validator(mode="after")
-    def severity_matches_score(self):
+    @validator("severity")
+    def severity_matches_score(cls, v, values):
         """Ensure severity aligns with score"""
-        if hasattr(self, "score"):
-            score = self.score
-            severity = self.severity
-            if severity == SeverityLevel.NONE and score > 0.1:
-                raise ValueError("NONE severity requires score ≤ 0.1")
-            elif severity == SeverityLevel.LOW and (score < 0.1 or score > 0.3):
-                raise ValueError("LOW severity requires score 0.1-0.3")
-            elif severity == SeverityLevel.MODERATE and (score < 0.3 or score > 0.7):
-                raise ValueError("MODERATE severity requires score 0.3-0.7")
-            elif severity == SeverityLevel.HIGH and score < 0.7:
-                raise ValueError("HIGH severity requires score ≥ 0.7")
-        return self
+        if "score" not in values:
+            return v
+
+        score = values["score"]
+        if v == SeverityLevel.NONE and score > 0.1:
+            raise ValueError("NONE severity requires score ≤ 0.1")
+        elif v == SeverityLevel.LOW and (score < 0.1 or score > 0.3):
+            raise ValueError("LOW severity requires score 0.1-0.3")
+        elif v == SeverityLevel.MODERATE and (score < 0.3 or score > 0.7):
+            raise ValueError("MODERATE severity requires score 0.3-0.7")
+        elif v == SeverityLevel.HIGH and score < 0.7:
+            raise ValueError("HIGH severity requires score ≥ 0.7")
+        return v
 
 
 class RiskGauge(BaseModel):
@@ -113,21 +113,22 @@ class RiskGauge(BaseModel):
     score: float = Field(ge=0.0, le=1.0, description="Risk score 0-1")
     severity: RiskSeverity = Field(description="Risk severity classification")
 
-    @model_validator(mode="after")
-    def severity_matches_score_risk(self):
+    @validator("severity")
+    def severity_matches_score(cls, v, values):
         """Ensure severity aligns with score"""
-        if hasattr(self, "score"):
-            score = self.score
-            severity = self.severity
-            if severity == RiskSeverity.LOW and score > 0.3:
-                raise ValueError("LOW severity requires score ≤ 0.3")
-            elif severity == RiskSeverity.MODERATE and (score < 0.3 or score > 0.7):
-                raise ValueError("MODERATE severity requires score 0.3-0.7")
-            elif severity == RiskSeverity.HIGH and (score < 0.7 or score > 0.9):
-                raise ValueError("HIGH severity requires score 0.7-0.9")
-            elif severity == RiskSeverity.CRITICAL and score < 0.9:
-                raise ValueError("CRITICAL severity requires score ≥ 0.9")
-        return self
+        if "score" not in values:
+            return v
+
+        score = values["score"]
+        if v == RiskSeverity.LOW and score > 0.3:
+            raise ValueError("LOW severity requires score ≤ 0.3")
+        elif v == RiskSeverity.MODERATE and (score < 0.3 or score > 0.7):
+            raise ValueError("MODERATE severity requires score 0.3-0.7")
+        elif v == RiskSeverity.HIGH and (score < 0.7 or score > 0.9):
+            raise ValueError("HIGH severity requires score 0.7-0.9")
+        elif v == RiskSeverity.CRITICAL and score < 0.9:
+            raise ValueError("CRITICAL severity requires score ≥ 0.9")
+        return v
 
 
 class PhenomenalScene(BaseModel):
@@ -150,8 +151,7 @@ class PhenomenalGlyph(BaseModel):
     key: str = Field(description="GLYPH key following LUKHAS naming")
     attrs: dict[str, Any] = Field(default_factory=dict, description="GLYPH attributes")
 
-    @field_validator("key")
-    @classmethod
+    @validator("key")
     def validate_glyph_key(cls, v):
         """Ensure GLYPH key follows conventions"""
         valid_prefixes = ["aka:", "aoi:", "vigilance", "approach_avoid", "threshold"]
@@ -169,8 +169,7 @@ class RegulationPolicy(BaseModel):
     color_contrast: Optional[str] = Field(None, description="Color palette override")
     actions: list[str] = Field(default_factory=list, description="Regulation actions")
 
-    @field_validator("actions")
-    @classmethod
+    @validator("actions")
     def validate_actions(cls, v):
         """Ensure regulation actions are from approved set"""
         approved_actions = {"pause", "reframe", "breathing", "focus-shift", "sublimate"}

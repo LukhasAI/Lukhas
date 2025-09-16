@@ -8,6 +8,8 @@ Hybrid component - exists in quantum superposition
 # Colony base for propagation
 from typing import Any
 
+import streamlit as st
+
 
 class AdaptersColony:
     """Base colony for adapters components"""

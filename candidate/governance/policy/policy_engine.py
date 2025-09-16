@@ -690,7 +690,7 @@ class PolicyEnforcementEngine:
         # Trinity Framework policies
         self.rule_engine.add_rule(
             PolicyRule(
-                rule_id="triad_001_drift_threshold",
+                rule_id="trinity_001_drift_threshold",
                 name="Trinity Drift Threshold",
                 description="Monitor and control Trinity Framework drift",
                 policy_type=PolicyType.TRINITY,
@@ -819,9 +819,9 @@ class PolicyEnforcementEngine:
         # Add Trinity Framework context if available
         enhanced.update(
             {
-                "triad_identity": context.get("identity_context", {}),  # ⚛️
-                "triad_consciousness": context.get("consciousness_context", {}),  # 🧠
-                "triad_guardian": context.get("guardian_context", {}),  # 🛡️
+                "trinity_identity": context.get("identity_context", {}),  # ⚛️
+                "trinity_consciousness": context.get("consciousness_context", {}),  # 🧠
+                "trinity_guardian": context.get("guardian_context", {}),  # 🛡️
             }
         )
 

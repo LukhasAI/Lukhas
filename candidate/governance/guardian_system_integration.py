@@ -285,17 +285,6 @@ class GuardianSystemIntegration:
         # Alert system
         self.alert_handlers: dict[GuardianAlertLevel, list[Callable]] = {level: [] for level in GuardianAlertLevel}
 
-        # Simple per-component circuit breakers (consent/drift/ethics)
-        self._breaker_cfg = {
-            "failure_threshold": int(self.config.get("breaker_failure_threshold", 2)),
-            "open_seconds": float(self.config.get("breaker_open_seconds", 30.0)),
-            "component_timeout_ms": int(self.config.get("component_timeout_ms", 150)),
-        }
-        now = datetime.now(timezone.utc)
-        self._breakers: dict[str, dict[str, Any]] = {
-            key: {"failures": 0, "state": "closed", "open_until": now} for key in ("consent", "drift", "ethics")
-        }
-
         # Initialize system
         asyncio.create_task(self._initialize_guardian_system())
 
@@ -415,17 +404,17 @@ class GuardianSystemIntegration:
             # Consent validation
             if request.require_consent and self.consent_ledger:
                 component_start_times["consent"] = time.time()
-                validation_tasks.append(("consent", self._run_component("consent", self._validate_consent, request)))
+                validation_tasks.append(("consent", self._validate_consent(request)))
 
             # Drift detection
             if request.require_drift_check and self.drift_detector:
                 component_start_times["drift"] = time.time()
-                validation_tasks.append(("drift", self._run_component("drift", self._validate_drift, request)))
+                validation_tasks.append(("drift", self._validate_drift(request)))
 
             # Ethics evaluation
             if request.require_ethics_check and self.ethics_engine:
                 component_start_times["ethics"] = time.time()
-                validation_tasks.append(("ethics", self._run_component("ethics", self._validate_ethics, request)))
+                validation_tasks.append(("ethics", self._validate_ethics(request)))
 
             # Execute validations in parallel with timeout
             timeout_seconds = request.max_validation_time_ms / 1000.0
@@ -561,56 +550,6 @@ class GuardianSystemIntegration:
         except Exception as e:
             logger.error(f"❌ Consent validation error: {e}")
             return {"status": "error", "error": str(e)}
-
-    async def _run_component(self, name: str, func: Callable, request: "GuardianValidationRequest") -> dict[str, Any]:
-        """Execute a component validation with per-component timeout and circuit breaker.
-
-        Returns a dict result; on timeout or breaker-open, returns a 'skipped' status with reason.
-        """
-        # Circuit check
-        if not self._breaker_allows(name):
-            return {"status": "skipped", "reason": "circuit_open"}
-        timeout = max(1, int(self._breaker_cfg.get("component_timeout_ms", 150))) / 1000.0
-        try:
-            result = await asyncio.wait_for(func(request), timeout=timeout)
-            self._record_success(name)
-            return result
-        except asyncio.TimeoutError:
-            self._record_failure(name, reason="timeout")
-            await self._trigger_alert(GuardianAlertLevel.WARNING, f"{name} validation timeout")
-            return {"status": "skipped", "reason": "timeout"}
-        except Exception as e:  # noqa: BLE001
-            self._record_failure(name, reason=str(e))
-            await self._trigger_alert(GuardianAlertLevel.WARNING, f"{name} validation error: {e!s}")
-            return {"status": "error", "error": str(e)}
-
-    def _breaker_allows(self, name: str) -> bool:
-        br = self._breakers.get(name, {})
-        if br.get("state") == "open":
-            return datetime.now(timezone.utc) >= br.get("open_until", datetime.now(timezone.utc))
-        return True
-
-    def _record_failure(self, name: str, reason: str = "") -> None:
-        br = self._breakers.setdefault(
-            name, {"failures": 0, "state": "closed", "open_until": datetime.now(timezone.utc)}
-        )
-        br["failures"] = br.get("failures", 0) + 1
-        threshold = int(self._breaker_cfg.get("failure_threshold", 2))
-        if br["failures"] >= threshold:
-            br["state"] = "open"
-            br["open_until"] = datetime.now(timezone.utc) + timedelta(
-                seconds=float(self._breaker_cfg.get("open_seconds", 30))
-            )
-            br["failures"] = 0
-            logger.warning(f"⚠️ Circuit opened for {name} due to repeated failures ({reason})")
-
-    def _record_success(self, name: str) -> None:
-        br = self._breakers.setdefault(
-            name, {"failures": 0, "state": "closed", "open_until": datetime.now(timezone.utc)}
-        )
-        br["failures"] = 0
-        if br.get("state") == "open" and datetime.now(timezone.utc) >= br.get("open_until", datetime.now(timezone.utc)):
-            br["state"] = "closed"
 
     async def _validate_drift(self, request: GuardianValidationRequest) -> dict[str, Any]:
         """Validate drift detection requirements"""

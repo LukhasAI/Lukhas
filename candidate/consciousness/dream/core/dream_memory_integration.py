@@ -30,7 +30,7 @@ class DreamMemoryIntegrator:
             "id": integration_id,
             "dream_data": dream_data,
             "integrated_at": datetime.now(timezone.utc).isoformat(),
-            "triad_validated": True,
+            "trinity_validated": True
         }
 
         logger.info(f"🧠 Dream memory integrated: {integration_id}")

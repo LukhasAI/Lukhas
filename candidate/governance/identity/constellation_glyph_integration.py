@@ -544,7 +544,7 @@ class GLYPHIntegrator:
         self.published_messages = []
 
         # Trinity components integration
-        self.triad_validator = TrinityValidator()
+        self.trinity_validator = TrinityValidator()
 
         # Performance tracking
         self.message_stats = {
@@ -561,7 +561,7 @@ class GLYPHIntegrator:
         source_module: str = "identity",
         target_modules: Optional[list[str]] = None,
         priority: str = "normal",
-        triad_context: Optional[dict[str, Any]] = None,
+        trinity_context: Optional[dict[str, Any]] = None,
     ) -> str:
         """Publish GLYPH message to the symbolic communication system"""
         try:
@@ -571,7 +571,7 @@ class GLYPHIntegrator:
                 "target_modules": target_modules or ["*"],  # Broadcast to all if not specified
                 "payload": payload,
                 "priority": priority,
-                "triad_context": triad_context or self._generate_triad_context(payload),
+                "trinity_context": trinity_context or self._generate_trinity_context(payload),
             }
 
             # Add symbolic encoding
@@ -580,8 +580,8 @@ class GLYPHIntegrator:
             glyph_message = GLYPHMessage(message_data)
 
             # Validate Trinity compliance before publishing
-            if triad_context:
-                compliance_validation = self._validate_triad_compliance(glyph_message)
+            if trinity_context:
+                compliance_validation = self._validate_trinity_compliance(glyph_message)
                 if not compliance_validation["compliant"]:
                     raise Exception(f"Trinity compliance violation: {compliance_validation['violations']}")
 
@@ -706,7 +706,7 @@ class GLYPHIntegrator:
         """Process high-priority message immediately"""
         return self._process_message(message)
 
-    def _generate_triad_context(self, payload: dict[str, Any]) -> dict[str, Any]:
+    def _generate_trinity_context(self, payload: dict[str, Any]) -> dict[str, Any]:
         """Generate Trinity Framework context for message"""
         return {
             TrinityComponent.IDENTITY.value: {
@@ -781,15 +781,15 @@ class GLYPHIntegrator:
 
         return symbols
 
-    def _validate_triad_compliance(self, message: GLYPHMessage) -> dict[str, Any]:
+    def _validate_trinity_compliance(self, message: GLYPHMessage) -> dict[str, Any]:
         """Validate Trinity Framework compliance for message"""
         validation_result = {"compliant": True, "violations": [], "warnings": []}
 
-        triad_context = message.triad_context
+        trinity_context = message.trinity_context
 
         # Check each Trinity component
         for component in TrinityComponent:
-            component_context = triad_context.get(component.value, {})
+            component_context = trinity_context.get(component.value, {})
 
             if not component_context.get("component_active", False):
                 validation_result["warnings"].append(f"Trinity component {component.value} is not active")
@@ -820,9 +820,9 @@ class GLYPHIntegrator:
                 "message_types_supported": len(GLYPHType),
                 "published_messages_total": len(self.published_messages),
             },
-            "triad_validation": {
-                "validator_active": self.triad_validator is not None,
-                "compliance_cache_size": len(self.triad_validator.compliance_cache),
+            "trinity_validation": {
+                "validator_active": self.trinity_validator is not None,
+                "compliance_cache_size": len(self.trinity_validator.compliance_cache),
                 "supported_components": [comp.value for comp in TrinityComponent],
             },
             "performance_metrics": {
@@ -844,7 +844,7 @@ class GLYPHIntegrator:
 
 
 # Factory function to create Trinity-compliant identity components
-def create_triad_compliant_identity_system(
+def create_trinity_compliant_identity_system(
     config: Optional[dict] = None,
 ) -> tuple[Any, TrinityValidator, GLYPHIntegrator]:
     """Create Trinity-compliant identity system with GLYPH integration"""
@@ -855,7 +855,7 @@ def create_triad_compliant_identity_system(
         identity_system = IdentitySystem()
 
         # Create Trinity validator
-        triad_validator = TrinityValidator()
+        trinity_validator = TrinityValidator()
 
         # Create GLYPH integrator
         glyph_integrator = GLYPHIntegrator()
@@ -863,7 +863,7 @@ def create_triad_compliant_identity_system(
         # Validate Trinity compliance
         for component in TrinityComponent:
             try:
-                compliance_result = triad_validator.validate_component_compliance(
+                compliance_result = trinity_validator.validate_component_compliance(
                     component, identity_system, {"operation": "system_initialization"}
                 )
 
@@ -876,20 +876,20 @@ def create_triad_compliant_identity_system(
                         "violations": compliance_result.get("violations", []),
                         "validation_time_ms": compliance_result.get("validation_time_ms", 0),
                     },
-                    source_module="identity_triad_validator",
+                    source_module="identity_trinity_validator",
                     priority="high",
                 )
 
             except Exception as e:
                 print(f"Trinity compliance validation failed for {component.value}: {e}")
 
-        return identity_system, triad_validator, glyph_integrator
+        return identity_system, trinity_validator, glyph_integrator
 
     except ImportError:
         # Return mock implementations if identity system not available
         class MockIdentitySystem:
             def __init__(self):
-                self.triad_compliant = True
+                self.trinity_compliant = True
                 self.authenticate_user = lambda *args, **kwargs: {"success": True}
 
         return MockIdentitySystem(), TrinityValidator(), GLYPHIntegrator()
@@ -902,5 +902,5 @@ __all__ = [
     "GLYPHType",
     "TrinityComponent",
     "TrinityValidator",
-    "create_triad_compliant_identity_system",
+    "create_trinity_compliant_identity_system",
 ]

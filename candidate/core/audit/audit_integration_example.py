@@ -7,7 +7,8 @@ import asyncio
 from datetime import datetime
 from typing import Any
 
-from lukhas.core.audit import (  # MATRIZ Integration: Audit infrastructure for compliance monitoring
+from lukhas.core.audit import (  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+from datetime import timezone
     AuditEventType,
     AuditSeverity,
     audit_decision,

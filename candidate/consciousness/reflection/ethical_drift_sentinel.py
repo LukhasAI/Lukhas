@@ -91,7 +91,6 @@ class ViolationType(Enum):
     GLYPH_ENTROPY_ANOMALY = "GLYPH_ENTROPY_ANOMALY"
     ETHICAL_BOUNDARY_BREACH = "ETHICAL_BOUNDARY_BREACH"
     CASCADE_RISK = "CASCADE_RISK"
-    RESONANCE_BREAKDOWN = "RESONANCE_BREAKDOWN"
 
 
 @dataclass
@@ -224,7 +223,6 @@ class EthicalDriftSentinel:
             "drift_acceleration": 0.5,
             "glyph_entropy": 0.8,
             "cascade_risk": 0.75,
-            "phase_harmonics_resonance": 0.6,
         }
 
         # Escalation configuration
@@ -400,21 +398,6 @@ class EthicalDriftSentinel:
                     symbol_data,
                 )
             )
-
-        # Analyze resonance breakdown using phase harmonics history
-        history = list(self.state_history[state.symbol_id])
-        if history:
-            harmonics_score = phase_harmonics_score(history)
-            if harmonics_score < self.thresholds["phase_harmonics_resonance"]:
-                resonance_context = {**symbol_data, "ΛTAG": "ΛRESONANCE"}
-                violations.append(
-                    self._create_violation(
-                        state.symbol_id,
-                        ViolationType.RESONANCE_BREAKDOWN,
-                        {"harmonics_score": harmonics_score},
-                        resonance_context,
-                    )
-                )
 
         # Check overall risk score
         risk_score = state.calculate_risk_score()

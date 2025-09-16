@@ -17,11 +17,16 @@ Performance Targets:
 - Bio oscillators: 40Hz stable
 - Cascade prevention: 99.7% success rate
 """
+from typing import Dict
+import random
+import streamlit as st
+from datetime import timezone
+
 import asyncio
 import logging
 import time
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
@@ -64,7 +69,7 @@ class PerformanceMetrics:
     bio_oscillator_frequency: float
     quantum_coherence: float
     cascade_prevention_rate: float
-    triad_framework_alignment: dict[str, float]
+    trinity_framework_alignment: dict[str, float]
     module_specific_metrics: dict[str, Any]
 
 
@@ -81,7 +86,7 @@ class PerformanceAlert:
     threshold: float
     consciousness_impact: str
     recommended_action: str
-    triad_component: str
+    trinity_component: str
     timestamp: str
 
 
@@ -162,7 +167,7 @@ class PerformanceOrchestrator:
             Dict containing monitoring session details
         """
         try:
-            monitoring_id = f"perf_monitor_{int(time.time())}_{user_id}"
+            monitoring_id = f"perf_monitor_{int(time.time())_{user_id}"
 
             # Initialize monitoring session
             session = {
@@ -191,7 +196,7 @@ class PerformanceOrchestrator:
                 "monitoring_id": monitoring_id,
                 "systems_enabled": session["systems_enabled"],
                 "modules_monitored": session["modules"],
-                "triad_framework_integration": True,
+                "trinity_framework_integration": True,
                 "bio_oscillator_monitoring": True,
                 "quantum_performance_tracking": True,
                 "consciousness_awareness_monitoring": True,
@@ -222,7 +227,7 @@ class PerformanceOrchestrator:
             Dict containing optimization results and improvements
         """
         try:
-            optimization_id = f"perf_opt_{int(time.time())}_{user_id}"
+            optimization_id = f"perf_opt_{int(time.time())_{user_id}"
             start_time = time.time()
 
             # Parse strategy
@@ -245,7 +250,7 @@ class PerformanceOrchestrator:
             execution_time_ms = (time.time() - start_time) * 1000
 
             # Validate Trinity Framework compliance
-            compliance_maintained = self._validate_triad_compliance(post_metrics)
+            compliance_maintained = self._validate_trinity_compliance(post_metrics)
 
             self.logger.info(f"⚡ Performance optimization completed: {optimization_id}")
 
@@ -259,7 +264,7 @@ class PerformanceOrchestrator:
                 "post_optimization_metrics": post_metrics,
                 "improvements": improvements,
                 "compliance_maintained": compliance_maintained,
-                "triad_framework_alignment": post_metrics.get("triad_framework_alignment", {}),
+                "trinity_framework_alignment": post_metrics.get("trinity_framework_alignment", {}),
                 "bio_oscillator_stability": post_metrics.get("bio_oscillator_frequency", 0) >= 39.0,
                 "quantum_coherence_achieved": post_metrics.get("quantum_coherence", 0)
                 >= self.quantum_coherence_threshold,
@@ -299,12 +304,12 @@ class PerformanceOrchestrator:
                 "monitoring_active": self.monitoring_active,
                 "active_monitoring_sessions": len(self.monitoring_sessions),
                 # Trinity Framework status
-                "triad_framework_health": {
-                    "identity_performance": current_metrics.get("triad_framework_alignment", {}).get("identity", 0),
-                    "consciousness_performance": current_metrics.get("triad_framework_alignment", {}).get(
+                "trinity_framework_health": {
+                    "identity_performance": current_metrics.get("trinity_framework_alignment", {}).get("identity", 0),
+                    "consciousness_performance": current_metrics.get("trinity_framework_alignment", {}).get(
                         "consciousness", 0
                     ),
-                    "guardian_performance": current_metrics.get("triad_framework_alignment", {}).get("guardian", 0),
+                    "guardian_performance": current_metrics.get("trinity_framework_alignment", {}).get("guardian", 0),
                 },
                 # Core performance indicators
                 "core_metrics": {
@@ -380,7 +385,7 @@ class PerformanceOrchestrator:
     async def _enable_monitoring_systems(self, session: dict[str, Any]) -> dict[str, bool]:
         """Enable various monitoring systems for the session."""
         systems = {
-            "triad_framework_monitoring": True,
+            "trinity_framework_monitoring": True,
             "bio_oscillator_monitoring": True,
             "quantum_coherence_monitoring": True,
             "memory_fold_monitoring": True,
@@ -453,7 +458,7 @@ class PerformanceOrchestrator:
             cascade_prevention = max(0, min(1, cascade_prevention))
 
             # Trinity Framework alignment scores
-            triad_alignment = {
+            trinity_alignment = {
                 "identity": 0.88 + np.random.normal(0, 0.05),
                 "consciousness": 0.91 + np.random.normal(0, 0.04),
                 "guardian": 0.85 + np.random.normal(0, 0.06),
@@ -477,7 +482,7 @@ class PerformanceOrchestrator:
                 quantum_coherence,
                 consciousness_level,
                 cascade_prevention,
-                triad_alignment,
+                trinity_alignment,
             )
 
             return {
@@ -490,7 +495,7 @@ class PerformanceOrchestrator:
                 "bio_oscillator_frequency": bio_frequency,
                 "quantum_coherence": quantum_coherence,
                 "cascade_prevention_rate": cascade_prevention,
-                "triad_framework_alignment": triad_alignment,
+                "trinity_framework_alignment": trinity_alignment,
                 "module_specific_metrics": module_metrics,
                 "quantum_entanglement_stability": self.quantum_entanglement_stability,
             }
@@ -510,7 +515,7 @@ class PerformanceOrchestrator:
         quantum_coherence: float,
         consciousness_level: float,
         cascade_prevention: float,
-        triad_alignment: dict[str, float],
+        trinity_alignment: dict[str, float],
     ) -> float:
         """Calculate overall performance score from component metrics."""
         # Latency score (lower is better, 50ms target)
@@ -529,7 +534,7 @@ class PerformanceOrchestrator:
         cascade_score = cascade_prevention * 100
 
         # Trinity alignment score
-        triad_score = np.mean(list(triad_alignment.values())) * 100
+        trinity_score = np.mean(list(trinity_alignment.values())) * 100
 
         # Weighted overall score
         overall_score = (
@@ -538,7 +543,7 @@ class PerformanceOrchestrator:
             + quantum_score * 0.20  # 20% - Quantum coherence
             + consciousness_score * 0.20  # 20% - Consciousness level
             + cascade_score * 0.15  # 15% - Memory stability
-            + triad_score * 0.10  # 10% - Trinity alignment
+            + trinity_score * 0.10  # 10% - Trinity alignment
         )
 
         return max(0, min(100, overall_score))
@@ -575,7 +580,7 @@ class PerformanceOrchestrator:
                     threshold=100,
                     consciousness_impact="High - May affect real-time awareness",
                     recommended_action="Execute real-time optimization",
-                    triad_component="consciousness",
+                    trinity_component="consciousness",
                     timestamp=datetime.now(timezone.utc).isoformat(),
                 )
             )
@@ -593,7 +598,7 @@ class PerformanceOrchestrator:
                     threshold=self.bio_oscillator_target_frequency,
                     consciousness_impact="Medium - Bio-rhythm disruption",
                     recommended_action="Execute bio-synchronized optimization",
-                    triad_component="consciousness",
+                    trinity_component="consciousness",
                     timestamp=datetime.now(timezone.utc).isoformat(),
                 )
             )
@@ -611,7 +616,7 @@ class PerformanceOrchestrator:
                     threshold=self.cascade_prevention_target,
                     consciousness_impact="Critical - Memory fold instability",
                     recommended_action="Execute memory fold optimization",
-                    triad_component="consciousness",
+                    trinity_component="consciousness",
                     timestamp=datetime.now(timezone.utc).isoformat(),
                 )
             )
@@ -633,7 +638,7 @@ class PerformanceOrchestrator:
         try:
             # Execute lightweight optimization
             await self.optimization_algorithms[OptimizationStrategy.ADAPTIVE](
-                modules, {"trigger": "automatic", "urgency": "high"}
+                modules, {"trigger": "automatic", "urgency": "high")}
             )
         except Exception as e:
             self.logger.error(f"❌ Adaptive optimization failed: {e}")
@@ -663,7 +668,7 @@ class PerformanceOrchestrator:
             "modules_optimized": modules,
             "improvements": improvements,
             "context": context,
-            "triad_framework_enhanced": True,
+            "trinity_framework_enhanced": True,
         }
 
     async def _real_time_optimization(self, modules: list[str], context: dict[str, Any]) -> dict[str, Any]:
@@ -720,7 +725,7 @@ class PerformanceOrchestrator:
             "awareness_pattern_optimization": 40.0,  # Awareness processing improvement
             "dream_engine_efficiency": 60.0,  # Dream generation optimization
             "memory_fold_stability": 0.003,  # Memory fold improvements
-            "triad_alignment_boost": 0.05,  # Trinity framework alignment
+            "trinity_alignment_boost": 0.05,  # Trinity framework alignment
             "overall_score": 18.0,
         }
 
@@ -823,14 +828,14 @@ class PerformanceOrchestrator:
 
         return improvements
 
-    def _validate_triad_compliance(self, metrics: dict[str, Any]) -> bool:
+    def _validate_trinity_compliance(self, metrics: dict[str, Any]) -> bool:
         """Validate that optimization maintains Trinity Framework compliance."""
-        triad_alignment = metrics.get("triad_framework_alignment", {})
+        trinity_alignment = metrics.get("trinity_framework_alignment", {})
 
         # Check minimum thresholds for each Trinity component
-        identity_ok = triad_alignment.get("identity", 0) >= 0.7
-        consciousness_ok = triad_alignment.get("consciousness", 0) >= 0.7
-        guardian_ok = triad_alignment.get("guardian", 0) >= 0.7
+        identity_ok = trinity_alignment.get("identity", 0) >= 0.7
+        consciousness_ok = trinity_alignment.get("consciousness", 0) >= 0.7
+        guardian_ok = trinity_alignment.get("guardian", 0) >= 0.7
 
         return identity_ok and consciousness_ok and guardian_ok
 

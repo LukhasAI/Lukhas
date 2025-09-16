@@ -5,6 +5,7 @@ Trinity Framework: ⚛️🧠🛡️
 Core system with integrated GLYPH-based Trinity Framework support
 and branding compliance for symbolic communication.
 """
+import streamlit as st
 
 # Import LUKHAS AI branding system for core operations
 try:
@@ -13,7 +14,7 @@ try:
         GUARDIAN_SYMBOL,
         IDENTITY_SYMBOL,
         TRINITY_FRAMEWORK,
-        get_triad_context,
+        get_trinity_context,
     )
 
     CORE_BRANDING_AVAILABLE = True
@@ -37,5 +38,5 @@ __all__ = [
     # Business modules
     "business",
     # Trinity Framework integration
-    "get_triad_context",
+    "get_trinity_context",
 ]

@@ -46,28 +46,20 @@ from typing import Any, Optional
 from candidate.core.common import get_logger
 
 # Import LUKHAS core components
-# ΛTAG: core_imports
+# Import lukhas core components
 try:
-    from .ethics_engine import EthicsEngine
-except Exception:  # pragma: no cover
+    # Try importing core components (currently not available)
+    pass
+    #     from ...CORE.ethics.ethics_engine import EthicsEngine  # TODO: Install or implement CORE
+    #     from ...CORE.memory.memory_manager import MemoryManager  # TODO: Install or implement CORE
+    # from ...CORE.integration.integration_layer import IntegrationLayer  #
+    # TODO: Install or implement CORE
+except ImportError:
+    # Fallback imports for standalone testing
     from unittest.mock import MagicMock
 
     EthicsEngine = MagicMock
-
-try:
-    from candidate.memory.systems.memory_learning.memory_manager import (
-        MemoryManager,
-    )
-except Exception:  # pragma: no cover
-    from unittest.mock import MagicMock
-
     MemoryManager = MagicMock
-
-try:
-    from candidate.core.integration.layer import IntegrationLayer
-except Exception:  # pragma: no cover
-    from unittest.mock import MagicMock
-
     IntegrationLayer = MagicMock
 
 logger = get_logger(__name__)

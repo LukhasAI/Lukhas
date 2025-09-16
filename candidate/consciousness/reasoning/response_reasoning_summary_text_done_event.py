@@ -43,17 +43,17 @@ content for a specific reasoning summary part.
 from typing_extensions import Literal
 
 # Initialize ΛTRACE logger for this module
-# Fixed: Using BaseModel from candidate.bridge.api.api
-# ΛAUTO_GEN_PATH: This relative import `from candidate.bridge.api.api import BaseModel` is likely from auto-generation.
+# AIMPORT_TODO: Verify the location of `_models.BaseModel`.
+# ΛAUTO_GEN_PATH: This relative import `from candidate.core.models import BaseModel` is likely from auto-generation.
 # See reasoning/README_reasoning_trace.md -> Auto-Gen Import Note
 # If `_models.BaseModel` is part of a core LUKHAS framework library, an absolute import
 # (e.g., `from core_framework.core.models import BaseModel`) would be more robust.
 # ΛCAUTION: Fragile import path can lead to runtime errors and maintenance issues.
-from candidate.bridge.api.api import BaseModel
+from candidate.core.models import BaseModel
 
 logger.info(
-    "ΛTRACE: Initializing response_reasoning_summary_text_done_event.py module (Data Model Definition). Module: %s",
-    __file__
+    "ΛTRACE: Initializing response_reasoning_summary_text_done_event.py module (Data Model Definition).",
+    module_path=__file__,
 )
 
 __all__ = ["ResponseReasoningSummaryTextDoneEvent"]

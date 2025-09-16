@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
+log = logging.getLogger(__name__)
 import logging
 
-log = logging.getLogger(__name__)
 logger = logging.getLogger(__name__)
 
 """
@@ -47,46 +47,16 @@ import asyncio
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional, Protocol, runtime_checkable
+from typing import Any, Optional
 
 import numpy as np
 
 # Initialize structlog logger for this module
 
-
-@runtime_checkable
-class CristaOptimizerProtocol(Protocol):
-    """Contract for adapters expected by :class:`CristaOptimizerAdapter`."""
-
-    async def get_topology_state(self) -> dict[str, Any]:
-        ...
-
-    async def optimize_atp_production(self, params: dict[str, Any]) -> dict[str, Any]:
-        ...
-
-    async def maximize_membrane_stability(self, params: dict[str, Any]) -> dict[str, Any]:
-        ...
-
-    async def find_dynamic_balance(self, params: dict[str, Any]) -> dict[str, Any]:
-        ...
-
-    async def apply_general_optimization(self, params: dict[str, Any]) -> dict[str, Any]:
-        ...
-
-    async def apply_quantum_directives(
-        self,
-        directives: dict[str, Any],
-        *,
-        orchestrator: Optional[Any] = None,
-    ) -> dict[str, Any]:
-        ...
-
-    def __getattr__(self, name: str) -> Any:
-        ...
-
-
-# ΛTAG: crista_optimizer_contract
-CristaOptimizerBase = CristaOptimizerProtocol
+# AIMPORT_TODO: Define or import the actual `CristaOptimizerBase` or similar type
+#               that `self.crista_optimizer` is expected to be.
+# from candidate.core.bio.crista_optimizer import CristaOptimizerBase # Conceptual import
+CristaOptimizerBase = Any  # Placeholder type
 
 
 class CristaeTopologyType(Enum):

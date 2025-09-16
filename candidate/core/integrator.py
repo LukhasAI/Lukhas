@@ -582,7 +582,7 @@ class EnhancedCoreIntegrator:
             "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             "priority": priority,
             "context_preservation": context_preservation,
-            "triad_framework": {
+            "trinity_framework": {
                 "identity_authenticated": True,
                 "consciousness_aware": True,
                 "guardian_approved": True,
@@ -689,7 +689,7 @@ class EnhancedCoreIntegrator:
                     "invocation_count": 0,
                     "last_invoked_utc": None,
                     "average_execution_time_ms": 0.0,
-                    "triad_framework_compliant": True,
+                    "trinity_framework_compliant": True,
                 }
 
                 # Check for duplicate subscriptions
@@ -762,7 +762,7 @@ class EnhancedCoreIntegrator:
                     "ΛTRACE_TRINITY_WORKFLOW",
                     event_id=event["id"],
                     event_type=event_type,
-                    triad_component=event_type.split(".")[1],
+                    trinity_component=event_type.split(".")[1],
                     step="framework_validation",
                     narrative="Processing Trinity Framework event for system coherence",
                 )
@@ -996,27 +996,3 @@ class EnhancedCoreIntegrator:
 # Related Components: Various 'CORE.*' modules (e.g., QIBioOscillator, BioOrchestrator, AccessController)
 # CreationDate: 2023-10-26 (Approx. by LUKHΛS Team) | LastModifiedDate: 2024-07-27 | Version: 1.1
 # --- End Standard Footer ---
-
-if __name__ == "__main__":
-    # This block allows for a basic integration check by running the module directly.
-    # It verifies that the EnhancedCoreIntegrator can be initialized without crashing,
-    # which is particularly useful given the fallback mechanisms for core components.
-    log.info("Running EnhancedCoreIntegrator in standalone mode for integration check.")
-    config = EnhancedCoreConfig()
-    try:
-        integrator = EnhancedCoreIntegrator(config)
-        status = integrator.get_system_status()
-        log.info(
-            "Integrator initialized successfully.",
-            status="OK",
-            core_components_loaded=status.get("core_modules_loaded_successfully"),
-            registered_components=status.get("registered_components_count"),
-        )
-        print("Integrator check complete. Status: OK")
-    except Exception as e:
-        log.error(
-            "Failed to initialize EnhancedCoreIntegrator during standalone check.",
-            error=str(e),
-            exc_info=True,
-        )
-        print(f"Integrator check failed. Error: {e}")

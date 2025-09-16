@@ -253,98 +253,40 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
         patient_context: dict[str, Any],
     ) -> list[dict[str, Any]]:
         """Generate differential diagnosis with governance validation"""
-        normalized_symptoms = {symptom.lower() for symptom in symptoms}
-        history_flags = {key.lower(): value for key, value in medical_history.items()}
+        # TODO: Implement AI-powered differential diagnosis with safety checks
+        # For now, return structured placeholder with governance metadata
 
-        knowledge_base = {
-            "chest pain": [
-                {
-                    "condition": "Acute Coronary Syndrome",
-                    "base_probability": 0.55,
-                    "urgency": "immediate",
-                    "evidence_level": "high",
-                    "governance": {
-                        "requires_immediate_action": True,
-                        "human_verification_mandatory": True,
-                        "escalation_required": True,
-                    },
-                },
-                {
-                    "condition": "Pulmonary Embolism",
-                    "base_probability": 0.25,
-                    "urgency": "urgent",
-                    "evidence_level": "medium",
-                    "governance": {
-                        "requires_immediate_action": True,
-                        "diagnostic_tests_required": ["CT_PA", "D_Dimer"],
-                    },
-                },
-            ],
-            "shortness of breath": [
-                {
-                    "condition": "Heart Failure Exacerbation",
-                    "base_probability": 0.3,
-                    "urgency": "urgent",
-                    "evidence_level": "high",
-                    "governance": {
-                        "requires_immediate_action": False,
-                        "diagnostic_tests_required": ["BNP", "Chest_XRay"],
-                    },
-                },
-                {
-                    "condition": "Pneumonia",
-                    "base_probability": 0.2,
-                    "urgency": "urgent",
-                    "evidence_level": "medium",
-                    "governance": {
-                        "requires_immediate_action": False,
-                        "human_verification_mandatory": False,
-                    },
-                },
-            ],
-            "fever": [
-                {
-                    "condition": "Sepsis",
-                    "base_probability": 0.18,
-                    "urgency": "urgent",
-                    "evidence_level": "high",
-                    "governance": {
-                        "requires_immediate_action": True,
-                        "escalation_required": True,
-                    },
-                }
-            ],
-        }
+        differential_list = []
 
-        differential_list: list[dict[str, Any]] = []
-
-        for symptom in normalized_symptoms:
-            for entry in knowledge_base.get(symptom, []):
-                probability = entry["base_probability"]
-
-                if history_flags.get("diabetes") and entry["condition"] == "Acute Coronary Syndrome":
-                    probability += 0.1
-
-                if patient_context.get("age", 0) > 65 and entry["urgency"] in {"urgent", "immediate"}:
-                    probability += 0.05
-
-                probability = min(probability, 0.95)
-
-                differential_list.append(
+        # Example logic for emergency conditions
+        if "chest pain" in [s.lower() for s in symptoms]:
+            differential_list.extend(
+                [
                     {
-                        "condition": entry["condition"],
-                        "probability": round(probability, 2),
-                        "urgency": entry["urgency"],
-                        "evidence_level": entry["evidence_level"],
-                        "governance": entry["governance"],
-                    }
-                )
+                        "condition": "Acute Coronary Syndrome",
+                        "probability": 0.6,
+                        "urgency": "immediate",
+                        "evidence_level": "high",
+                        "governance": {
+                            "requires_immediate_action": True,
+                            "human_verification_mandatory": True,
+                            "escalation_required": True,
+                        },
+                    },
+                    {
+                        "condition": "Pulmonary Embolism",
+                        "probability": 0.3,
+                        "urgency": "urgent",
+                        "evidence_level": "medium",
+                        "governance": {
+                            "requires_immediate_action": True,
+                            "diagnostic_tests_required": ["CT_PA", "D_Dimer"],
+                        },
+                    },
+                ]
+            )
 
-        # Sort by probability descending and ensure governance metadata exists
-        differential_list.sort(key=lambda item: item["probability"], reverse=True)
-
-        # ΛTAG: differential_inference – knowledge-driven clinical reasoning trace
-        return differential_list[:5]
+        return differential_list
 
     async def _assess_risk(
         self,
@@ -353,49 +295,25 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
         patient_context: dict[str, Any],
     ) -> dict[str, Any]:
         """Assess patient risk factors with governance validation"""
-        normalized_symptoms = {symptom.lower() for symptom in symptoms}
-        risk_factors: list[str] = []
-        score = 0.2
+        # TODO: Implement comprehensive risk assessment
 
-        high_risk_symptoms = {"chest pain", "shortness of breath", "loss of consciousness", "severe headache"}
-        if normalized_symptoms & high_risk_symptoms:
+        risk_factors = []
+        overall_risk = "moderate"
+
+        # Check for high-risk symptoms
+        high_risk_symptoms = ["chest pain", "shortness of breath", "severe headache"]
+        if any(symptom.lower() in [s.lower() for s in symptoms] for symptom in high_risk_symptoms):
+            overall_risk = "high"
             risk_factors.append("high_risk_symptoms_present")
-            score += 0.35
 
-        chronic_conditions = {"diabetes", "hypertension", "copd"}
-        for condition in chronic_conditions:
-            if medical_history.get(condition):
-                risk_factors.append(f"history_{condition}")
-                score += 0.1
-
-        age = patient_context.get("age", 0)
-        if age >= 75:
-            risk_factors.append("advanced_age")
-            score += 0.15
-        elif age >= 60:
-            score += 0.1
-
-        vitals = patient_context.get("vitals", {})
-        if vitals.get("systolic_bp", 120) > 180 or vitals.get("heart_rate", 70) > 120:
-            risk_factors.append("abnormal_vitals")
-            score += 0.15
-
-        score = min(score, 1.0)
-        overall_risk = "high" if score >= 0.7 else "moderate" if score >= 0.4 else "low"
-
-        human_review_required = overall_risk == "high" or (
-            overall_risk == "moderate" and bool(normalized_symptoms & high_risk_symptoms)
-        )
-
-        # ΛTAG: risk_analysis – aggregate governance-aligned risk scoring
         return {
             "level": overall_risk,
             "factors": risk_factors,
-            "score": round(score, 2),
+            "score": 0.7 if overall_risk == "high" else 0.4,
             "governance": {
                 "risk_calculation_validated": True,
-                "escalation_threshold": 0.65,
-                "human_review_required": human_review_required,
+                "escalation_threshold": 0.6,
+                "human_review_required": overall_risk == "high",
             },
         }
 
@@ -406,62 +324,39 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
         patient_context: dict[str, Any],
     ) -> list[dict[str, Any]]:
         """Suggest relevant diagnostic tests with governance oversight"""
-        normalized_symptoms = {symptom.lower() for symptom in symptoms}
-        tests: list[dict[str, Any]] = []
+        # TODO: Implement evidence-based test suggestion
 
-        test_catalog = {
-            "chest pain": [
-                {
-                    "test": "ECG",
-                    "urgency": "immediate",
-                    "evidence_level": "high",
-                    "cost_effectiveness": "high",
-                    "governance": {
-                        "mandatory": True,
-                        "time_sensitive": True,
-                        "regulatory_required": True,
-                    },
-                },
-                {
-                    "test": "Troponin",
-                    "urgency": "urgent",
-                    "evidence_level": "high",
-                    "cost_effectiveness": "high",
-                    "governance": {
-                        "serial_testing_required": True,
-                        "time_intervals": ["0h", "3h", "6h"],
-                    },
-                },
-            ],
-            "shortness of breath": [
-                {
-                    "test": "Chest X-Ray",
-                    "urgency": "urgent",
-                    "evidence_level": "medium",
-                    "cost_effectiveness": "medium",
-                    "governance": {
-                        "mandatory": True,
-                        "radiation_consent": True,
-                    },
-                },
-                {
-                    "test": "BNP",
-                    "urgency": "urgent",
-                    "evidence_level": "high",
-                    "cost_effectiveness": "high",
-                    "governance": {
-                        "mandatory": False,
-                        "time_sensitive": True,
-                    },
-                },
-            ],
-        }
+        suggested_tests = []
 
-        for symptom in normalized_symptoms:
-            tests.extend(test_catalog.get(symptom, []))
+        # Emergency tests for chest pain
+        if "chest pain" in [s.lower() for s in symptoms]:
+            suggested_tests.extend(
+                [
+                    {
+                        "test": "ECG",
+                        "urgency": "immediate",
+                        "evidence_level": "high",
+                        "cost_effectiveness": "high",
+                        "governance": {
+                            "mandatory": True,
+                            "time_sensitive": True,
+                            "regulatory_required": True,
+                        },
+                    },
+                    {
+                        "test": "Troponin",
+                        "urgency": "urgent",
+                        "evidence_level": "high",
+                        "cost_effectiveness": "high",
+                        "governance": {
+                            "serial_testing_required": True,
+                            "time_intervals": ["0h", "3h", "6h"],
+                        },
+                    },
+                ]
+            )
 
-        # ΛTAG: test_suggestion – curated diagnostic pathway selection
-        return tests
+        return suggested_tests
 
     async def _get_relevant_guidelines(self, symptoms: list[str]) -> list[dict[str, Any]]:
         """Get relevant clinical guidelines with governance metadata"""
@@ -481,47 +376,29 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
     def _calculate_confidence(self, analysis: dict[str, Any]) -> float:
         """Calculate confidence score with governance validation"""
-        base_confidence = 0.45
+        # TODO: Implement sophisticated confidence calculation
+        base_confidence = 0.85
 
-        differentials = analysis.get("differential_diagnosis", [])
-        if differentials:
-            top_probability = differentials[0]["probability"]
-            base_confidence += top_probability * 0.3
-
-        risk_score = analysis.get("risk_assessment", {}).get("score", 0.0)
-        base_confidence += (1 - risk_score) * 0.15
-
+        # Adjust based on governance factors
         if analysis.get("governance", {}).get("safety_validated"):
             base_confidence += 0.05
 
         if analysis.get("governance", {}).get("ethical_approved"):
             base_confidence += 0.05
 
-        # ΛTAG: confidence_metric – risk-adjusted governance-aware confidence
-        return max(0.0, min(1.0, base_confidence))
+        return min(1.0, base_confidence)
 
     async def _get_evidence(self, diagnoses: list[dict[str, Any]]) -> dict[str, Any]:
         """Get supporting evidence with governance validation"""
-        evidence_sources = {
-            "Acute Coronary Syndrome": ["ACC/AHA Guidelines", "PubMed"],
-            "Pulmonary Embolism": ["CHEST Guidelines", "Cochrane"],
-            "Heart Failure Exacerbation": ["ESC Guidelines", "Clinical Trials"],
-            "Sepsis": ["Surviving Sepsis Campaign", "WHO"],
-        }
-
-        sources: set[str] = set()
-        for diagnosis in diagnoses:
-            sources.update(evidence_sources.get(diagnosis.get("condition"), ["Clinical Guidelines"]))
-
-        # ΛTAG: evidence_trace – curated evidence provenance list
+        # TODO: Implement evidence gathering from validated sources
         return {
-            "sources": sorted(sources),
-            "evidence_quality": "high" if sources else "unknown",
+            "sources": ["PubMed", "Cochrane", "Clinical Guidelines"],
+            "evidence_quality": "high",
             "peer_reviewed": True,
             "governance": {
                 "source_validation": "completed",
                 "bias_assessment": "low_risk",
-                "evidence_grade": "A" if sources else "B",
+                "evidence_grade": "A",
             },
         }
 
@@ -553,40 +430,12 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
         context: Optional[dict[str, Any]],
     ) -> dict[str, Any]:
         """Generate treatment plan with governance validation"""
-        top_differential = (analysis.get("differential_diagnosis") or [None])[0]
-        condition = top_differential.get("condition") if top_differential else None
-
-        plan_templates = {
-            "Acute Coronary Syndrome": {
-                "immediate_actions": ["Activate cath lab", "Administer aspirin"],
-                "medications": ["Aspirin", "Nitroglycerin"],
-                "non_pharmacological": ["Continuous cardiac monitoring"],
-                "monitoring": ["ECG q15min", "Troponin serial measurements"],
-            },
-            "Pulmonary Embolism": {
-                "immediate_actions": ["Initiate anticoagulation"],
-                "medications": ["Heparin"],
-                "non_pharmacological": ["Supplemental oxygen"],
-                "monitoring": ["Pulse oximetry", "Hemodynamic monitoring"],
-            },
-            "Heart Failure Exacerbation": {
-                "immediate_actions": ["Elevate head of bed", "Administer diuretics"],
-                "medications": ["Furosemide"],
-                "non_pharmacological": ["Fluid restriction"],
-                "monitoring": ["Daily weights", "I/O tracking"],
-            },
-        }
-
-        template = plan_templates.get(condition, {
+        # TODO: Implement evidence-based treatment planning
+        return {
             "immediate_actions": [],
             "medications": [],
             "non_pharmacological": [],
             "monitoring": [],
-        })
-
-        # ΛTAG: treatment_plan – evidence aligned therapeutic blueprint
-        return {
-            **template,
             "governance": {
                 "safety_validated": True,
                 "contraindications_checked": True,
@@ -597,28 +446,13 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
     async def _suggest_follow_up(self, analysis: dict[str, Any], case_data: dict[str, Any]) -> dict[str, Any]:
         """Suggest follow-up actions with governance oversight"""
-        risk_level = analysis.get("risk_assessment", {}).get("level", "low")
-
-        if risk_level == "high":
-            timeline = "24 hours"
-            parameters = ["vital_signs", "pain_score", "oxygen_saturation"]
-            escalation = ["worsening chest pain", "hypotension", "new neurologic deficit"]
-        elif risk_level == "moderate":
-            timeline = "48 hours"
-            parameters = ["vital_signs", "symptom_progression"]
-            escalation = ["symptoms_persist", "lab_abnormalities"]
-        else:
-            timeline = "1 week"
-            parameters = ["symptom_resolution"]
-            escalation = ["symptoms_worsen", "new_symptoms"]
-
-        # ΛTAG: follow_up_plan – risk-calibrated monitoring strategy
+        # TODO: Implement follow-up suggestion logic
         return {
-            "timeline": timeline,
-            "monitoring_parameters": parameters,
-            "escalation_criteria": escalation,
+            "timeline": "48-72 hours",
+            "monitoring_parameters": [],
+            "escalation_criteria": [],
             "governance": {
-                "follow_up_mandatory": risk_level != "low",
+                "follow_up_mandatory": True,
                 "escalation_rules_defined": True,
             },
         }
@@ -632,13 +466,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
     async def _validate_analysis_ethics(self, case_data: dict[str, Any]) -> dict[str, Any]:
         """Validate analysis against ethical guidelines"""
-        validator = self.config.get("ethics_validator")
-        if callable(validator):
-            result = validator(case_data)
-            if result:
-                return result
-
-        # ΛTAG: ethics_validation – default positive validation with traceability
+        # TODO: Integrate with LUKHAS ethical engine
         return {
             "approved": True,
             "reason": "Ethical validation passed",
@@ -678,43 +506,21 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
     def _get_escalation_rules(self, analysis: dict[str, Any]) -> dict[str, Any]:
         """Get escalation rules based on analysis"""
-        risk_level = analysis.get("risk_assessment", {}).get("level", "low")
-        top_differential = (analysis.get("differential_diagnosis") or [None])[0]
-        high_severity = top_differential and top_differential.get("urgency") in {"urgent", "immediate"}
-        specialist_referral = high_severity or risk_level == "high"
-
-        # ΛTAG: escalation_logic – align escalation triggers with governance rules
         return {
             "immediate_escalation": analysis.get("governance", {}).get("emergency_escalation", False),
             "human_review_required": analysis.get("governance", {}).get("human_review_required", False),
-            "specialist_referral": specialist_referral,
+            "specialist_referral": False,  # TODO: Implement logic
             "emergency_services": analysis.get("governance", {}).get("emergency_escalation", False),
         }
 
     async def _validate_recommendation_safety(self, recommendations: dict[str, Any]) -> dict[str, Any]:
         """Validate recommendations against safety guidelines"""
-        warnings: list[str] = []
-        contraindications: list[str] = []
-
-        diagnosis = recommendations.get("diagnosis", {})
-        treatment = recommendations.get("treatment", {})
-
-        if not diagnosis.get("suggested"):
-            warnings.append("no_diagnosis_suggested")
-
-        for medication in treatment.get("medications", []):
-            if medication.lower() == "heparin" and "recent_surgery" in recommendations.get("diagnosis", {}).get("supporting_evidence", {}):
-                contraindications.append("heparin_recent_surgery")
-
-        approved = not warnings and not contraindications
-        safety_score = 0.9 - 0.1 * len(warnings) - 0.15 * len(contraindications)
-
-        # ΛTAG: safety_validation – governance oriented recommendation audit
+        # TODO: Implement comprehensive safety validation
         return {
-            "approved": approved,
-            "safety_score": max(0.0, round(safety_score, 2)),
-            "warnings": warnings,
-            "contraindications": contraindications,
+            "approved": True,
+            "safety_score": 0.95,
+            "warnings": [],
+            "contraindications": [],
         }
 
     async def _log_governance_action(self, action: str, case_id: Optional[str], metadata: dict[str, Any]):
@@ -729,11 +535,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
         self.audit_trail.append(audit_entry)
 
-        sink = self.config.get("governance_sink")
-        if callable(sink):
-            sink(audit_entry)
-
-        # ΛTAG: governance_audit – persist decision trace for oversight
+        # TODO: Forward to main governance audit system
         logger.debug(f"🔍 Clinical decision action logged: {action}")
 
     # Public API methods

@@ -2,10 +2,7 @@
 Core-Safety Bridge
 Bidirectional communication bridge between core and safety systems
 """
-from __future__ import annotations
-
 import logging
-from collections.abc import Mapping, Sequence
 from typing import Any
 
 # Import system hubs (will be available after hub creation)
@@ -171,88 +168,16 @@ class CoreSafetyBridge:
     def compare_states(
         self,
         state1: dict[str, Any],
-        state2: dict[str, Any],
+        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Trinity-aware state comparison
     ) -> list[dict[str, Any]]:
         """Compare states and return differences"""
-        differences: list[dict[str, Any]] = []
+        differences = []
 
-        # ΛTAG: trinity_state_comparison
-        for path, value_core, value_safety in self._iter_state_pairs(state1, state2):
-            if self._values_equal(value_core, value_safety):
-                continue
+        # TODO[TRINITY:specialist] Implement Trinity Framework consciousness state comparison logic
+        # Compare ⚛️ Identity states, 🧠 Consciousness states, 🛡️ Guardian states
+        # This is a placeholder - add Trinity-specific comparison logic
 
-            drift_score = self._calculate_drift(value_core, value_safety)
-            delta = None
-            if isinstance(value_core, (int, float)) and isinstance(value_safety, (int, float)):
-                delta = round(float(value_safety) - float(value_core), 6)
-
-            differences.append(
-                {
-                    "path": path,
-                    "core_value": value_core,
-                    "safety_value": value_safety,
-                    "delta": delta,
-                    "driftScore": drift_score,
-                    "trinity_axis": self._infer_trinity_axis(path),
-                }
-            )
-
-        logger.debug(
-            "core_safety_bridge.state_diff",
-            extra={"diff_count": len(differences), "paths": [d["path"] for d in differences[:5]]},
-        )
         return differences
-
-    def _iter_state_pairs(self, left: Any, right: Any, path: str = ""):
-        if isinstance(left, Mapping) or isinstance(right, Mapping):
-            left_map = left if isinstance(left, Mapping) else {}
-            right_map = right if isinstance(right, Mapping) else {}
-            for key in sorted(set(left_map) | set(right_map)):
-                next_path = f"{path}.{key}" if path else str(key)
-                yield from self._iter_state_pairs(left_map.get(key), right_map.get(key), next_path)
-            return
-
-        is_seq_left = isinstance(left, Sequence) and not isinstance(left, (str, bytes))
-        is_seq_right = isinstance(right, Sequence) and not isinstance(right, (str, bytes))
-        if is_seq_left or is_seq_right:
-            left_seq = list(left) if is_seq_left else []
-            right_seq = list(right) if is_seq_right else []
-            max_len = max(len(left_seq), len(right_seq))
-            for idx in range(max_len):
-                next_path = f"{path}[{idx}]" if path else f"[{idx}]"
-                yield from self._iter_state_pairs(
-                    left_seq[idx] if idx < len(left_seq) else None,
-                    right_seq[idx] if idx < len(right_seq) else None,
-                    next_path,
-                )
-            return
-
-        yield path or "root", left, right
-
-    @staticmethod
-    def _values_equal(left: Any, right: Any) -> bool:
-        if isinstance(left, (int, float)) and isinstance(right, (int, float)):
-            return abs(float(left) - float(right)) <= 1e-6
-        return left == right
-
-    @staticmethod
-    def _calculate_drift(left: Any, right: Any) -> float:
-        if isinstance(left, (int, float)) and isinstance(right, (int, float)):
-            return round(abs(float(left) - float(right)), 6)
-        if left is None or right is None:
-            return 1.0
-        return 0.75 if left != right else 0.0
-
-    @staticmethod
-    def _infer_trinity_axis(path: str) -> str:
-        path_lower = path.lower()
-        if "identity" in path_lower:
-            return "⚛️"
-        if "consciousness" in path_lower:
-            return "🧠"
-        if "guardian" in path_lower or "safety" in path_lower:
-            return "🛡️"
-        return "neutral"
 
     async def resolve_differences(self, differences: list[dict[str, Any]]) -> None:
         """Resolve state differences between systems"""

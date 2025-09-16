@@ -46,7 +46,7 @@ PACKAGE_INFO = {
     "name": "lukhas-candidate",
     "version": __version__,
     "description": __description__,
-    "triad_framework": True,
+    "trinity_framework": True,
     "consciousness_aware": True,
     "agent_army_compatible": True,
 }

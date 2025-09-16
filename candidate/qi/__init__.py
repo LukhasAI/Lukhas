@@ -14,14 +14,14 @@ import streamlit as st
 
 from consciousness.qi import qi
 
+warnings.warn(
+    "Import 'qim' is deprecated. Please update to 'lukhas.candidate.qim' and enable feature flag",
+    DeprecationWarning,
+    stacklevel=2,
+)
+
 # Check if feature flag is enabled
 flag_name = "QIM_SANDBOX"
 if os.getenv(flag_name, "false").lower() == "true":
     with contextlib.suppress(ImportError):
         from lukhas.candidate.qim import *
-else:
-    warnings.warn(
-        "Import 'qim' is deprecated. Please update to 'lukhas.candidate.qim' and enable feature flag",
-        DeprecationWarning,
-        stacklevel=2,
-    )

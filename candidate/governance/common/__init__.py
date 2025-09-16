@@ -5,11 +5,11 @@ from typing import Optional
 
 class GlyphIntegrationMixin:
     """
-    import streamlit as st
-        Mixin class for integrating with LUKHAS GLYPH system
+import streamlit as st
+    Mixin class for integrating with LUKHAS GLYPH system
 
-        Provides common functionality for governance components to
-        interact with the symbolic processing and Trinity Framework.
+    Provides common functionality for governance components to
+    interact with the symbolic processing and Trinity Framework.
     """
 
     def __init__(self):
@@ -17,7 +17,7 @@ class GlyphIntegrationMixin:
         self.glyph_enabled = True
         self.symbolic_patterns = {}
 
-    def get_triad_pattern(self, component: str) -> list:
+    def get_trinity_pattern(self, component: str) -> list:
         """Get Trinity Framework symbolic pattern"""
         patterns = {
             "identity": ["⚛️", "🔑", "👤"],

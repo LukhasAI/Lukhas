@@ -19,6 +19,7 @@ Integration Date: 2025-05-31T07:55:28.196509
 
 import json
 
+# import streamlit as st  # TODO: Install or implement streamlit
 from dna_link import LucasDNALink
 
 st.sidebar.title("⚙️ Settings & Compliance")
@@ -125,7 +126,7 @@ if "result" in locals() and result:
     )
 
     if save_memory:
-        import hashlib  # MATRIZ Integration: Hashlib for symbolic message cryptographic fingerprinting and Trinity Framework message integrity validation
+        import hashlib  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 
         memory_entry = {
             "type": (

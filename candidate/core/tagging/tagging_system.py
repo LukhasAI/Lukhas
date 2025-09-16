@@ -50,7 +50,7 @@ class SimpleTagResolver(TagResolver):
     def resolve_tag(self, data: Any) -> Tag:
         payload = str(data).encode()
         fingerprint = hashlib.new(self.schema.fingerprint_algorithm, payload).hexdigest()
-        vector_bytes = hashlib.sha256(payload).digest()  # Fixed: get digest and use payload
+        vector_bytes = hashlib.sha256()  #  Changed from MD5 for securitypayload.digest()  # stable 16-byte vector
         vector = [b / 255 for b in vector_bytes]
         tag_id = fingerprint[:8]
         return Tag(id=tag_id, vector=vector, semantic_fingerprint=fingerprint)

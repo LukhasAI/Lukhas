@@ -19,8 +19,6 @@ TODO[T4-AUDIT]:triage - Large legacy symbolic processing system. Need migration 
 import hashlib
 import random
 import time
-from dataclasses import dataclass
-from typing import Any, Optional
 
 import torch
 import torch.nn as nn
@@ -158,53 +156,6 @@ class MitochondrialConductor:
     def perform(self, input_score):
         topology = self._calculate_cristae_topology(input_score)
         return self._synchronize([self._route_to_instrument(n).play(n) for n in topology])
-
-
-@dataclass
-class MigrationDecision:
-    """Decision data structure for the mito-QI migration triage."""
-
-    preserve: bool
-    rationale: str
-    actions: list[str]
-    driftScore: float
-    affect_delta: float
-    collapseHash: str
-
-
-def evaluate_mito_qi_migration(metrics: Optional[dict[str, Any]] = None) -> MigrationDecision:
-    """Evaluate whether to migrate or preserve the mito-QI attention module."""
-
-    metrics = metrics or {}
-    drift_score = float(metrics.get("driftScore", 0.35))
-    affect_delta = float(metrics.get("affect_delta", 0.0))
-    preserve = drift_score < 0.4 and affect_delta <= 0.2
-    collapse_hash = hashlib.sha256(str(metrics).encode()).hexdigest()[:12]
-
-    if preserve:
-        rationale = "Legacy dynamics stable; prioritize preservation with incremental hardening."
-        actions = [
-            "Catalog current torch module weights for archival",
-            "Introduce guard rails on CristaGate threshold tuning",
-            "Schedule quarterly review of quantum filter behaviour",
-        ]
-    else:
-        rationale = "Observed drift exceeds guard band; initiate migration to modular pipeline."
-        actions = [
-            "Spin up transitional adapter projecting to RespiModule",
-            "Export ATPAllocator state snapshots for regression tests",
-            "Route orchestration metrics to Guardian oversight for validation",
-        ]
-
-    # ΛTAG: mito_strategy
-    return MigrationDecision(
-        preserve=preserve,
-        rationale=rationale,
-        actions=actions,
-        driftScore=drift_score,
-        affect_delta=affect_delta,
-        collapseHash=collapse_hash,
-    )
 
 
 # ──────────────────────────────────────────────────────────────────────────────

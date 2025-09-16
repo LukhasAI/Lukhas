@@ -29,7 +29,7 @@ class GuardianOverlay:
     def __init__(self, assessment: dict[str, Any]):
         self.drift_score = assessment.get("symbolic_drift_score", 0)
         self.entropy = assessment.get("entropy_level", 0)
-        self.triad_coherence = assessment.get("triad_coherence", 0)
+        self.trinity_coherence = assessment.get("trinity_coherence", 0)
         self.glyph_trace = assessment.get("glyph_trace", [])
         self.guardian_flagged = assessment.get("guardian_flagged", False)
         self.intervention_required = assessment.get("intervention_required", False)
@@ -42,7 +42,7 @@ class GuardianOverlay:
         return {
             "drift_score": self.drift_score,
             "entropy": self.entropy,
-            "triad_coherence": self.triad_coherence,
+            "trinity_coherence": self.trinity_coherence,
             "glyph_trace": self.glyph_trace,
             "guardian_flagged": self.guardian_flagged,
             "intervention_required": self.intervention_required,
@@ -73,7 +73,7 @@ class GPTIntegrationLayer:
         self.drift_markers = {"start": "[[DRIFTED]]", "end": "[[/DRIFTED]]"}
 
         # Trinity core
-        self.triad_core = {"⚛️", "🧠", "🛡️"}
+        self.trinity_core = {"⚛️", "🧠", "🛡️"}
 
         # Diagnostic log path
         self.diagnostic_log_path = Path("logs/gpt_diagnostic_log.json")
@@ -137,7 +137,7 @@ class GPTIntegrationLayer:
             "glyphs": assessment["glyph_trace"],
             "drift_score": assessment["symbolic_drift_score"],
             "entropy": assessment["entropy_level"],
-            "triad_coherence": assessment["triad_coherence"],
+            "trinity_coherence": assessment["trinity_coherence"],
         }
         persona_match = self.persona_engine.recommend_persona(symbolic_trace)
 
@@ -187,7 +187,7 @@ class GPTIntegrationLayer:
         # Check for ethical drift or trinity violation
         if diagnosis.get("primary_issue") in [
             "ethical_drift",
-            "triad_violation",
+            "trinity_violation",
         ]:
             return True
 
@@ -200,7 +200,7 @@ class GPTIntegrationLayer:
             return True
 
         # Check for low Trinity coherence
-        return assessment.get("triad_coherence", 1.0) < 0.3
+        return assessment.get("trinity_coherence", 1.0) < 0.3
 
     def _annotate_drift_sections(self, original: str, healed: str, diagnosis: dict[str, Any]) -> str:
         """
@@ -276,11 +276,11 @@ class GPTIntegrationLayer:
         if diagnosis.get("primary_issue") == "ethical_drift":
             summary["reasons"].append("Ethical drift detected")
 
-        if diagnosis.get("primary_issue") == "triad_violation":
+        if diagnosis.get("primary_issue") == "trinity_violation":
             summary["reasons"].append("Trinity Framework violation")
 
-        if assessment.get("triad_coherence", 1.0) < 0.3:
-            summary["reasons"].append(f"Low Trinity coherence: {assessment['triad_coherence']:.2f}")
+        if assessment.get("trinity_coherence", 1.0) < 0.3:
+            summary["reasons"].append(f"Low Trinity coherence: {assessment['trinity_coherence']:.2f}")
 
         # Add outcome if healing was applied
         if healing_result:
@@ -313,10 +313,10 @@ class GPTIntegrationLayer:
             recommendations.append("Monitor for drift escalation")
 
         # Trinity-based recommendations
-        trinity = assessment.get("triad_coherence", 1.0)
+        trinity = assessment.get("trinity_coherence", 1.0)
         if trinity < 0.5:
             recommendations.append("Reinforce Trinity Framework in prompts")
-            recommendations.append(f"Add Trinity glyphs: {' '.join(self.triad_core)}")
+            recommendations.append(f"Add Trinity glyphs: {' '.join(self.trinity_core)}")
 
         # Issue-specific recommendations
         issue = diagnosis.get("primary_issue")
@@ -392,7 +392,7 @@ class GPTIntegrationLayer:
         interventions = sum(1 for r in results if r["intervention_summary"]["intervention_applied"])
 
         avg_drift = sum(r["guardian_overlay"]["drift_score"] for r in results) / total
-        avg_trinity = sum(r["guardian_overlay"]["triad_coherence"] for r in results) / total
+        avg_trinity = sum(r["guardian_overlay"]["trinity_coherence"] for r in results) / total
 
         issues = {}
         for r in results:
@@ -499,7 +499,7 @@ if __name__ == "__main__":
 
         # Display results
         print(f"Drift Score: {report['guardian_overlay']['drift_score']:.2f}")
-        print(f"Trinity Coherence: {report['guardian_overlay']['triad_coherence']:.2f}")
+        print(f"Trinity Coherence: {report['guardian_overlay']['trinity_coherence']:.2f}")
         print(f"Primary Issue: {report['diagnosis']['primary_issue']}")
         print(f"Intervention Applied: {report['intervention_summary']['intervention_applied']}")
 

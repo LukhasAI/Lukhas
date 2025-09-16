@@ -8,6 +8,8 @@ Author: lukhas AI Team
 
 TAGS: [CRITICAL, KeyFile, Memory]
 """
+import random
+import streamlit as st
 
 import logging
 
@@ -134,12 +136,12 @@ class TraumaLockSystem:
         memory_json = json.dumps(memory_data)
 
         # Generate encryption key specific to this memory
-        memory_id = memory_data.get("id", f"mem_{int(time.time())}")
+        memory_id = memory_data.get("id", f"mem_{int(time.time())")
         memory_key = self._derive_memory_key(memory_id)
 
         # Generate secure vector
         secure_vector = self._generate_secure_vector(memory_data)
-        vector_id = f"vec_{hashlib.sha256(memory_id.encode()).hexdigest()[:8]}"
+        vector_id = f"vec_{hashlib.sha256(memory_id.encode()).hexdigest()}[:8]}"
         self.secure_memory_vectors[vector_id] = secure_vector
 
         # Encrypt the memory data

@@ -188,7 +188,7 @@ class UnifiedAlert:
     recommended_actions: list[str] = field(default_factory=list)
 
     # Trinity Framework context
-    triad_impact: dict[str, float] = field(default_factory=dict)  # ⚛️🧠🛡️
+    trinity_impact: dict[str, float] = field(default_factory=dict)  # ⚛️🧠🛡️
 
 
 @dataclass
@@ -232,7 +232,7 @@ class DashboardData:
     alert_counts_by_priority: dict[str, int] = field(default_factory=dict)
 
     # Trinity Framework status
-    triad_status: dict[str, dict[str, Any]] = field(default_factory=dict)
+    trinity_status: dict[str, dict[str, Any]] = field(default_factory=dict)
 
     # Predictive insights
     predictions: list[dict[str, Any]] = field(default_factory=list)
@@ -533,7 +533,7 @@ class UnifiedMonitoringDashboard:
             dashboard_data.alert_counts_by_priority = dict(alert_counts)
 
             # Trinity Framework status
-            dashboard_data.triad_status = {
+            dashboard_data.trinity_status = {
                 "identity": {  # ⚛️
                     "health": dashboard_data.component_health.get("identity", 1.0),
                     "status": "operational",
@@ -583,11 +583,9 @@ class UnifiedMonitoringDashboard:
                             message=alert_data.get("message", "No message"),
                             priority=self._convert_to_alert_priority(alert_data.get("severity", "info")),
                             category="guardian",
-                            created_at=datetime.fromisoformat(
-                                alert_data.get("created_at", datetime.now(timezone.utc).isoformat())
-                            ),
+                            created_at=datetime.fromisoformat(alert_data.get("created_at", datetime.now(timezone.utc).isoformat())),
                             source_data=alert_data,
-                            triad_impact={"guardian": 1.0},  # 🛡️
+                            trinity_impact={"guardian": 1.0},  # 🛡️
                         )
                         new_alerts.append(unified_alert)
 
@@ -607,7 +605,7 @@ class UnifiedMonitoringDashboard:
                         category="health",
                         created_at=datetime.now(timezone.utc),
                         source_data=alerts_data,
-                        triad_impact={
+                        trinity_impact={
                             "identity": 0.3,
                             "consciousness": 0.3,
                             "guardian": 0.3,
@@ -631,7 +629,7 @@ class UnifiedMonitoringDashboard:
                         category="consciousness",
                         created_at=datetime.now(timezone.utc),
                         source_data=consciousness_status,
-                        triad_impact={"consciousness": 1.0},  # 🧠
+                        trinity_impact={"consciousness": 1.0},  # 🧠
                     )
                     new_alerts.append(unified_alert)
 
@@ -729,9 +727,9 @@ class UnifiedMonitoringDashboard:
             recommendations.append("Memory usage high - consider cleanup procedures")
 
         # Trinity Framework recommendations
-        triad_health_avg = sum(component["health"] for component in dashboard_data.triad_status.values()) / 3
+        trinity_health_avg = sum(component["health"] for component in dashboard_data.trinity_status.values()) / 3
 
-        if triad_health_avg < 0.8:
+        if trinity_health_avg < 0.8:
             recommendations.append("Trinity Framework health below optimal - review all components")
 
         return recommendations

@@ -165,13 +165,9 @@ class AuditLogger:
             "user_interventions": 0,
         }
 
-        # Background task is not started automatically
-        self._flush_task = None
-
-    async def start(self):
-        """Starts the background tasks for the logger."""
-        if self.config.get("auto_flush_enabled", True) and not self._flush_task:
-            self._flush_task = asyncio.create_task(self._auto_flush_loop())
+        # Start background tasks
+        if self.config.get("auto_flush_enabled", True):
+            asyncio.create_task(self._auto_flush_loop())
 
     def _get_default_config(self) -> dict[str, Any]:
         """Get default configuration for audit logger."""
@@ -817,29 +813,6 @@ class AuditLogger:
         )
 
         return (compliant_events / len(events)) * 100.0
-
-    async def log_event(self, message: str, constitutional_tag: bool = False, **kwargs):
-        # A simple placeholder to fix the attribute error
-        event_type = AuditEventType.CONSTITUTIONAL_ENFORCEMENT if constitutional_tag else AuditEventType.SYSTEM_OPERATION
-        severity = AuditSeverity.CONSTITUTIONAL if constitutional_tag else AuditSeverity.INFO
-
-        event = AuditEvent(
-            event_id=self._generate_event_id(),
-            timestamp=datetime.now(timezone.utc),
-            event_type=event_type,
-            severity=severity,
-            source_component="unknown",
-            user_id=kwargs.get("user_id"),
-            session_id=kwargs.get("session_id"),
-            action=message,
-            details=kwargs,
-            constitutional_context=None,
-            compliance_tags=[],
-            data_classification="general",
-            retention_period_days=30,
-            requires_review=False,
-        )
-        await self._log_event(event)
 
     def get_audit_status(self) -> dict[str, Any]:
         """Get comprehensive audit logger status."""

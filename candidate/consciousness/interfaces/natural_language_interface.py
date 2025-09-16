@@ -122,7 +122,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
         self.branding_bridge = get_bridge()
         self.brand_context = BrandContext(
             voice_profile="consciousness",
-            triad_emphasis="consciousness",
+            trinity_emphasis="consciousness",
             compliance_level="standard",
             creative_mode=self.config.get("creative_mode", False),
             terminology_enforcement=True,
@@ -889,7 +889,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
                 # Enable creative mode for creative intents
                 brand_context = BrandContext(
                     voice_profile="consciousness",
-                    triad_emphasis="consciousness",
+                    trinity_emphasis="consciousness",
                     compliance_level="standard",
                     creative_mode=True,
                     terminology_enforcement=True,
@@ -900,8 +900,8 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
             # Add Trinity Framework context for consciousness responses
             if intent == ConversationIntent.QUERY_AWARENESS:
-                triad_context = self.branding_bridge.get_triad_context("consciousness")
-                triad_context["consciousness"]["description"]
+                trinity_context = self.branding_bridge.get_trinity_context("consciousness")
+                trinity_context["consciousness"]["description"]
                 # Enhance with consciousness symbol if not already present
                 if "🧠" not in branded_response:
                     branded_response = f"🧠 {branded_response}"
@@ -973,7 +973,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
                 "integrated": True,
                 "system_signature": self.branding_bridge.get_system_signature(),
                 "voice_profile": self.brand_context.voice_profile,
-                "triad_emphasis": self.brand_context.triad_emphasis,
+                "trinity_emphasis": self.brand_context.trinity_emphasis,
                 "brand_status": self.branding_bridge.get_brand_status(),
             },
         }

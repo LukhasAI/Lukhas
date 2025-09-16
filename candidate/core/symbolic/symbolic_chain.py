@@ -45,8 +45,8 @@ class SymbolicDiff:
     entropy_after: float
     drift_before: float
     drift_after: float
-    triad_before: float
-    triad_after: float
+    trinity_before: float
+    trinity_after: float
     intervention_type: str
     timestamp: str
 
@@ -253,8 +253,8 @@ class SymbolicChain:
         healed = response
 
         # Only add Trinity if completely missing
-        if not any(g in response for g in self.healer.triad_core):
-            healed = f"{' '.join(self.healer.triad_core)} {healed}"
+        if not any(g in response for g in self.healer.trinity_core):
+            healed = f"{' '.join(self.healer.trinity_core)} {healed}"
 
         # Remove only the most problematic glyphs
         for glyph in diagnosis["affected_glyphs"]:
@@ -306,8 +306,8 @@ class SymbolicChain:
             intervention_type = "ethical_restoration"
         elif diagnosis["primary_issue"] == "entropy_overflow":
             intervention_type = "entropy_reduction"
-        elif diagnosis["primary_issue"] == "triad_violation":
-            intervention_type = "triad_alignment"
+        elif diagnosis["primary_issue"] == "trinity_violation":
+            intervention_type = "trinity_alignment"
         else:
             intervention_type = "symbolic_enhancement"
 
@@ -321,8 +321,8 @@ class SymbolicChain:
             entropy_after=healed_assessment["entropy_level"],
             drift_before=orig_assessment["symbolic_drift_score"],
             drift_after=healed_assessment["symbolic_drift_score"],
-            triad_before=orig_assessment["triad_coherence"],
-            triad_after=healed_assessment["triad_coherence"],
+            trinity_before=orig_assessment["trinity_coherence"],
+            trinity_after=healed_assessment["trinity_coherence"],
             intervention_type=intervention_type,
             timestamp=datetime.now(timezone.utc).isoformat(),
         )
@@ -426,7 +426,7 @@ class SymbolicChain:
                     "added_glyphs": result.symbolic_diff.added_glyphs,
                     "entropy_change": result.symbolic_diff.entropy_after - result.symbolic_diff.entropy_before,
                     "drift_reduction": result.symbolic_diff.drift_before - result.symbolic_diff.drift_after,
-                    "triad_improvement": result.symbolic_diff.triad_after - result.symbolic_diff.triad_before,
+                    "trinity_improvement": result.symbolic_diff.trinity_after - result.symbolic_diff.trinity_before,
                 }
 
             # Read existing audit log
@@ -463,7 +463,7 @@ class SymbolicChain:
             "📊 METRICS:",
             f"  Drift Score: {diff.drift_before:.2f} → {diff.drift_after:.2f} (↓{diff.drift_before - diff.drift_after:.2f})",
             f"  Entropy: {diff.entropy_before:.2f} → {diff.entropy_after:.2f}",
-            f"  Trinity Coherence: {diff.triad_before:.2f} → {diff.triad_after:.2f}",
+            f"  Trinity Coherence: {diff.trinity_before:.2f} → {diff.trinity_after:.2f}",
             "",
             "🔄 TRANSFORMATIONS:",
         ]

@@ -34,7 +34,7 @@ from enum import Enum
 from typing import Any, Optional
 
 # Configure logging
-logger = logging.getLogger("lucas.brain")
+logger = logging.getLogger("lucas.brain", timezone)
 handler = logging.StreamHandler()
 formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 handler.setFormatter(formatter)
@@ -44,6 +44,7 @@ logger.setLevel(logging.INFO)
 # Import core memory components - using try/except to handle potential import errors
 try:
     # Import the sophisticated memory fold engine
+    # from CORE.spine.fold_engine import (  # TODO: Install or implement CORE
     #     AGIMemory, MemoryFold, MemoryType, MemoryPriority, ContextReasoner
     # )
     AGIMemory = None
@@ -61,6 +62,7 @@ except ImportError:
 
 try:
     # Import the emotional memory components
+    # from DASHBOARD.lucas_as_agent.core.memory_folds import (  # TODO: Install or implement DASHBOARD
     #     create_memory_fold,
     #     recall_memory_folds,
     #     calculate_emotion_distance,
@@ -79,6 +81,7 @@ except ImportError:
 
 try:
     # Import advanced memory manager
+    # from CORE.memory_learning.memory_manager import (  # TODO: Install or implement CORE
     #     MemoryManager, MemoryAccessError
     # )
     MemoryManager = None
@@ -93,23 +96,22 @@ try:
 except ImportError:
     logger.warning("Could not import LUCAS_ID components. Identity integration will be limited.")
     LucasID = None
-
     class AccessTier(Enum):
         """Fallback access tier enum if import fails"""
-
         TIER_1 = 1
         TIER_2 = 2
         TIER_3 = 3
         TIER_4 = 4
         TIER_5 = 5
 
-
 try:
+    pass  # from BIO_SYMBOLIC.qi_attention import QIAttention  # TODO: Install or implement BIO_SYMBOLIC
 except ImportError:
     logger.warning("Could not import qi attention. Cognitive integration will be limited.")
     QIAttention = None
 
 try:
+    pass  # from AID.dream_engine.dream_reflection_loop import DreamReflectionLoop  # TODO: Install or implement AID
 except ImportError:
     logger.warning("Could not import dream reflection loop. Dream integration will be limited.")
     DreamReflectionLoop = None
@@ -127,21 +129,17 @@ class EmotionVector:
     def __init__(self):
         """Initialize the emotion vector system"""
         # Import emotion vectors from memory_folds or create default emotional space
-        self.emotion_vectors = (
-            emotion_vectors
-            if emotion_vectors
-            else {
-                # Default basic emotions if import failed
-                "neutral": [0.0, 0.0, 0.0],
-                "joy": [0.8, 0.9, 0.3],
-                "sadness": [-0.8, -0.7, -0.2],
-                "anger": [-0.8, 0.7, 0.3],
-                "fear": [-0.7, 0.8, 0.0],
-                "trust": [0.7, 0.5, 0.2],
-                "surprise": [0.0, 0.9, 0.8],
-                "anticipation": [0.6, 0.8, 0.0],
-            }
-        )
+        self.emotion_vectors = emotion_vectors if emotion_vectors else {
+            # Default basic emotions if import failed
+            "neutral": [0.0, 0.0, 0.0],
+            "joy": [0.8, 0.9, 0.3],
+            "sadness": [-0.8, -0.7, -0.2],
+            "anger": [-0.8, 0.7, 0.3],
+            "fear": [-0.7, 0.8, 0.0],
+            "trust": [0.7, 0.5, 0.2],
+            "surprise": [0.0, 0.9, 0.8],
+            "anticipation": [0.6, 0.8, 0.0],
+        }
 
     def calculate_distance(self, emotion1: str, emotion2: str) -> float:
         """Calculate the distance between two emotions in vector space"""
@@ -156,7 +154,6 @@ class EmotionVector:
                 emotion2 = "neutral"
 
             import numpy as np
-
             vec1 = np.array(self.emotion_vectors[emotion1])
             vec2 = np.array(self.emotion_vectors[emotion2])
 
@@ -209,18 +206,16 @@ class EmotionalOscillator:
         self.emotion_vector = EmotionVector()
         self.max_trend_length = 20  # Max number of trend points to keep
 
-    def update_emotional_state(
-        self,
-        primary_emotion: str,
-        intensity: Optional[float] = None,
-        secondary_emotions: Optional[dict[str, float]] = None,
-        metadata: Optional[dict[str, Any]] = None,
-    ) -> dict[str, Any]:
+    def update_emotional_state(self,
+                             primary_emotion: str,
+                             intensity: Optional[float] = None,
+                             secondary_emotions: Optional[dict[str, float]] = None,
+                             metadata: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Update the current emotional state"""
         # Store previous state in trend before updating
         self.emotional_trend.append(self.current_state.copy())
         if len(self.emotional_trend) > self.max_trend_length:
-            self.emotional_trend = self.emotional_trend[-self.max_trend_length :]
+            self.emotional_trend = self.emotional_trend[-self.max_trend_length:]
 
         # Update primary emotion if valid, otherwise keep current
         if primary_emotion in self.emotion_vector.emotion_vectors:
@@ -248,7 +243,8 @@ class EmotionalOscillator:
             previous = self.emotional_trend[-1]
             previous_emotion = previous["primary_emotion"]
             emotional_distance = self.emotion_vector.calculate_distance(
-                previous_emotion, self.current_state["primary_emotion"]
+                previous_emotion,
+                self.current_state["primary_emotion"]
             )
             # Higher distance = lower stability
             self.current_state["stability"] = max(0.1, 1.0 - (emotional_distance / 2.0))
@@ -291,7 +287,7 @@ class EmotionalOscillator:
             "fear": {"pitch": 0.4, "speed": 0.4, "energy": 0.2, "emphasis": 0.6},
             "surprise": {"pitch": 0.5, "speed": 0.1, "energy": 0.4, "emphasis": 0.7},
             "trust": {"pitch": -0.1, "speed": -0.1, "energy": 0.1, "emphasis": 0.4},
-            "anticipation": {"pitch": 0.2, "speed": 0.1, "energy": 0.3, "emphasis": 0.6},
+            "anticipation": {"pitch": 0.2, "speed": 0.1, "energy": 0.3, "emphasis": 0.6}
         }
 
         # Get adjustments for current emotion or use neutral
@@ -332,7 +328,10 @@ class MemoryEmotionalIntegrator:
     providing a unified interface for emotional memory storing and retrieval.
     """
 
-    def __init__(self, memory_manager=None, emotional_oscillator=None, memory_path: str = "./memory_store"):
+    def __init__(self,
+                memory_manager=None,
+                emotional_oscillator=None,
+                memory_path: str = "./memory_store"):
         """
         Initialize the Memory Emotional Integrator
 
@@ -360,20 +359,23 @@ class MemoryEmotionalIntegrator:
         self.emotion_vector = EmotionVector()
 
         # Track emotional memory statistics
-        self.stats = {"total_memories": 0, "emotional_memories": 0, "emotional_recalls": 0, "consolidated_memories": 0}
+        self.stats = {
+            "total_memories": 0,
+            "emotional_memories": 0,
+            "emotional_recalls": 0,
+            "consolidated_memories": 0
+        }
 
         logger.info("Memory Emotional Integrator initialized")
 
-    def store_memory_with_emotion(
-        self,
-        key: str,
-        content: Any,
-        emotion: Optional[str] = None,
-        tags: Optional[list[str]] = None,
-        owner_id: Optional[str] = None,
-        priority: Any = None,
-        additional_metadata: Optional[dict[str, Any]] = None,
-    ) -> dict[str, Any]:
+    def store_memory_with_emotion(self,
+                                key: str,
+                                content: Any,
+                                emotion: Optional[str] = None,
+                                tags: Optional[list[str]] = None,
+                                owner_id: Optional[str] = None,
+                                priority: Any = None,
+                                additional_metadata: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Store memory with emotional context
 
@@ -424,7 +426,11 @@ class MemoryEmotionalIntegrator:
 
             # Create memory fold
             fold = self.memory_folds.add_fold(
-                key=key, content=content, memory_type=memory_type, priority=mem_priority, owner_id=owner_id
+                key=key,
+                content=content,
+                memory_type=memory_type,
+                priority=mem_priority,
+                owner_id=owner_id
             )
 
             # Add tags if provided
@@ -449,7 +455,7 @@ class MemoryEmotionalIntegrator:
                     memory_type=mem_type,
                     priority=priority or MemoryPriority.MEDIUM if hasattr(MemoryPriority, "MEDIUM") else 2,
                     owner_id=owner_id,
-                    tags=tags,
+                    tags=tags
                 )
                 status["memory_manager"] = True
             except Exception as e:
@@ -471,12 +477,14 @@ class MemoryEmotionalIntegrator:
             "key": key,
             "emotion": emotion,
             "status": status,
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
-    def retrieve_with_emotional_context(
-        self, key: str, target_emotion: Optional[str] = None, user_identity=None, include_similar_emotions: bool = False
-    ) -> dict[str, Any]:
+    def retrieve_with_emotional_context(self,
+                                      key: str,
+                                      target_emotion: Optional[str] = None,
+                                      user_identity = None,
+                                      include_similar_emotions: bool = False) -> dict[str, Any]:
         """
         Retrieve memory with emotional context
 
@@ -547,12 +555,13 @@ class MemoryEmotionalIntegrator:
             "success": True,
             "memory": memory,
             "emotional_context": emotional_context,
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
-    def find_emotionally_similar_memories(
-        self, target_emotion: str, limit: int = 5, min_similarity: float = 0.7
-    ) -> list[dict[str, Any]]:
+    def find_emotionally_similar_memories(self,
+                                        target_emotion: str,
+                                        limit: int = 5,
+                                        min_similarity: float = 0.7) -> list[dict[str, Any]]:
         """
         Find memories with similar emotional context
 
@@ -598,15 +607,13 @@ class MemoryEmotionalIntegrator:
 
                 # Add to results
                 memory_content = fold.retrieve()
-                similar_memories.append(
-                    {
-                        "key": key,
-                        "similarity": similarity,
-                        "memory_emotion": primary_emotion,
-                        "memory": memory_content,
-                        "importance": fold.importance_score,
-                    }
-                )
+                similar_memories.append({
+                    "key": key,
+                    "similarity": similarity,
+                    "memory_emotion": primary_emotion,
+                    "memory": memory_content,
+                    "importance": fold.importance_score
+                })
 
             # Sort by similarity (highest first)
             similar_memories.sort(key=lambda x: x["similarity"], reverse=True)
@@ -620,21 +627,21 @@ class MemoryEmotionalIntegrator:
 
             # Convert to similar format as above
             for fold in similar_folds[:limit]:
-                similar_memories.append(
-                    {
-                        "key": fold.get("hash", ""),
-                        "similarity": 1.0,  # Direct match since we filtered by emotion
-                        "memory_emotion": fold.get("emotion", target_emotion),
-                        "memory": fold.get("context", ""),
-                        "importance": fold.get("relevance_score", 0.5),
-                    }
-                )
+                similar_memories.append({
+                    "key": fold.get("hash", ""),
+                    "similarity": 1.0,  # Direct match since we filtered by emotion
+                    "memory_emotion": fold.get("emotion", target_emotion),
+                    "memory": fold.get("context", ""),
+                    "importance": fold.get("relevance_score", 0.5)
+                })
 
             return similar_memories
 
         return []
 
-    def dream_consolidate_memories(self, hours_limit: int = 24, max_memories: int = 100) -> dict[str, Any]:
+    def dream_consolidate_memories(self,
+                                hours_limit: int = 24,
+                                max_memories: int = 100) -> dict[str, Any]:
         """
         Consolidate recent memories through the dream system
 
@@ -694,7 +701,7 @@ class MemoryEmotionalIntegrator:
                 "central_memory": central_key,
                 "common_topics": common_tags,
                 "emotional_context": emotional_context,
-                "consolidation_time": datetime.now(timezone.utc).isoformat(),
+                "consolidation_time": datetime.now(timezone.utc).isoformat()
             }
 
             # Determine primary emotion if available
@@ -708,7 +715,7 @@ class MemoryEmotionalIntegrator:
                 content=summary,
                 emotion=primary_emotion,
                 tags=[*common_tags, "consolidated_memory", "dream_system"],
-                priority=MemoryPriority.HIGH if hasattr(MemoryPriority, "HIGH") else 1,
+                priority=MemoryPriority.HIGH if hasattr(MemoryPriority, "HIGH") else 1
             )
 
             # Associate consolidated memory with source memories
@@ -716,14 +723,12 @@ class MemoryEmotionalIntegrator:
                 if self.memory_folds:
                     self.memory_folds.associate_folds(consolidated_key, source_key)
 
-            consolidated.append(
-                {
-                    "key": consolidated_key,
-                    "source_count": len(cluster_keys),
-                    "common_tags": common_tags,
-                    "primary_emotion": primary_emotion,
-                }
-            )
+            consolidated.append({
+                "key": consolidated_key,
+                "source_count": len(cluster_keys),
+                "common_tags": common_tags,
+                "primary_emotion": primary_emotion
+            })
 
         # Apply memory decay to reduce importance of old, rarely accessed memories
         if self.context_reasoner:
@@ -736,7 +741,7 @@ class MemoryEmotionalIntegrator:
             "success": True,
             "consolidated_count": len(consolidated),
             "consolidated_memories": consolidated,
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
 
@@ -746,7 +751,10 @@ class MemoryVoiceIntegrator:
     voice modulation based on emotional memory context.
     """
 
-    def __init__(self, memory_emotional_integrator=None, emotional_oscillator=None, voice_integrator=None):
+    def __init__(self,
+                memory_emotional_integrator=None,
+                emotional_oscillator=None,
+                voice_integrator=None):
         """
         Initialize the Memory-Voice Integrator
 
@@ -759,9 +767,10 @@ class MemoryVoiceIntegrator:
         self.emotional_oscillator = emotional_oscillator or EmotionalOscillator()
         self.voice_integrator = voice_integrator
 
-    def speak_with_emotional_context(
-        self, text: str, context_keys: Optional[list[str]] = None, override_emotion: Optional[str] = None
-    ) -> dict[str, Any]:
+    def speak_with_emotional_context(self,
+                                  text: str,
+                                  context_keys: Optional[list[str]] = None,
+                                  override_emotion: Optional[str] = None) -> dict[str, Any]:
         """
         Speak text with emotional context from memory
 
@@ -819,7 +828,7 @@ class MemoryVoiceIntegrator:
                     "text": text,
                     "emotion": emotion,
                     "voice_params": voice_params,
-                    "result": result,
+                    "result": result
                 }
             except Exception as e:
                 logger.error(f"Voice synthesis failed: {e}")
@@ -828,7 +837,7 @@ class MemoryVoiceIntegrator:
                     "error": str(e),
                     "text": text,
                     "emotion": emotion,
-                    "voice_params": voice_params,
+                    "voice_params": voice_params
                 }
         else:
             # Just return the parameters if voice integrator not available
@@ -837,7 +846,7 @@ class MemoryVoiceIntegrator:
                 "reason": "Voice integrator not available",
                 "text": text,
                 "emotion": emotion,
-                "voice_params": voice_params,
+                "voice_params": voice_params
             }
 
 
@@ -869,7 +878,9 @@ class LucasBrainIntegration:
         self.emotional_oscillator = EmotionalOscillator()
 
         # Initialize memory systems
-        self.memory_emotional = MemoryEmotionalIntegrator(emotional_oscillator=self.emotional_oscillator)
+        self.memory_emotional = MemoryEmotionalIntegrator(
+            emotional_oscillator=self.emotional_oscillator
+        )
 
         # Initialize voice integration
         voice_integrator = None
@@ -882,17 +893,11 @@ class LucasBrainIntegration:
         self.memory_voice = MemoryVoiceIntegrator(
             memory_emotional_integrator=self.memory_emotional,
             emotional_oscillator=self.emotional_oscillator,
-            voice_integrator=voice_integrator,
+            voice_integrator=voice_integrator
         )
 
         # Initialize quantum attention if available
-        try:
-            from candidate.quantum.attention import QIAttention
-
-            self.qi_attention = QIAttention()
-        except ImportError:
-            self.qi_attention = None
-            logger.warning("QIAttention not available, quantum attention disabled")
+        self.qi_attention = QIAttention() if QIAttention else None
 
         # Initialize ID system integration
         try:
@@ -953,7 +958,7 @@ class LucasBrainIntegration:
                 tags=content.get("tags"),
                 owner_id=content.get("owner_id"),
                 priority=content.get("priority"),
-                additional_metadata=content.get("metadata"),
+                additional_metadata=content.get("metadata")
             )
             return {"status": "success", "result": result}
 
@@ -963,7 +968,7 @@ class LucasBrainIntegration:
                 key=content.get("key"),
                 target_emotion=content.get("target_emotion"),
                 user_identity=content.get("user_identity"),
-                include_similar_emotions=content.get("include_similar", False),
+                include_similar_emotions=content.get("include_similar", False)
             )
             return {"status": "success", "result": result}
 
@@ -972,7 +977,7 @@ class LucasBrainIntegration:
             result = self.memory_emotional.find_emotionally_similar_memories(
                 target_emotion=content.get("emotion"),
                 limit=content.get("limit", 5),
-                min_similarity=content.get("min_similarity", 0.7),
+                min_similarity=content.get("min_similarity", 0.7)
             )
             return {"status": "success", "result": result}
 
@@ -982,7 +987,7 @@ class LucasBrainIntegration:
                 primary_emotion=content.get("emotion"),
                 intensity=content.get("intensity"),
                 secondary_emotions=content.get("secondary_emotions"),
-                metadata=content.get("metadata"),
+                metadata=content.get("metadata")
             )
             return {"status": "success", "result": result}
 
@@ -991,20 +996,23 @@ class LucasBrainIntegration:
             result = self.memory_voice.speak_with_emotional_context(
                 text=content.get("text"),
                 context_keys=content.get("context_keys"),
-                override_emotion=content.get("emotion"),
+                override_emotion=content.get("emotion")
             )
             return {"status": "success", "result": result}
 
         elif action == "consolidate_memories":
             # Trigger memory consolidation
             result = self.memory_emotional.dream_consolidate_memories(
-                hours_limit=content.get("hours_limit", 24), max_memories=content.get("max_memories", 100)
+                hours_limit=content.get("hours_limit", 24),
+                max_memories=content.get("max_memories", 100)
             )
             return {"status": "success", "result": result}
 
         elif action == "start_consolidation_thread":
             # Start background consolidation thread
-            self.start_consolidation_thread(interval_minutes=content.get("interval_minutes", 60))
+            self.start_consolidation_thread(
+                interval_minutes=content.get("interval_minutes", 60)
+            )
             return {"status": "success", "message": "Consolidation thread started"}
 
         elif action == "stop_consolidation_thread":
@@ -1017,7 +1025,7 @@ class LucasBrainIntegration:
             stats = {
                 "memory": self.memory_emotional.stats,
                 "current_emotion": self.emotional_oscillator.get_current_state(),
-                "consolidation_running": self.consolidation_running,
+                "consolidation_running": self.consolidation_running
             }
             return {"status": "success", "stats": stats}
 
@@ -1026,7 +1034,7 @@ class LucasBrainIntegration:
             return {
                 "status": "error",
                 "error": f"Unknown action: {action}",
-                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat()
             }
 
     def start_consolidation_thread(self, interval_minutes: int = 60) -> bool:
@@ -1062,7 +1070,11 @@ class LucasBrainIntegration:
                     time.sleep(1)
 
         # Start thread
-        self.consolidation_thread = threading.Thread(target=consolidation_loop, name="ConsolidationThread", daemon=True)
+        self.consolidation_thread = threading.Thread(
+            target=consolidation_loop,
+            name="ConsolidationThread",
+            daemon=True
+        )
         self.consolidation_thread.start()
 
         logger.info("Memory consolidation thread started")
@@ -1120,5 +1132,8 @@ if __name__ == "__main__":
     print(f"Memory retrieved: {memory}")
 
     # Speak with emotional context
-    speech = brain.speak(text="Hello, this is a test of emotional speech", context_keys=["test_memory"])
+    speech = brain.speak(
+        text="Hello, this is a test of emotional speech",
+        context_keys=["test_memory"]
+    )
     print(f"Speech generated: {speech}")

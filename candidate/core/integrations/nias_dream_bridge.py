@@ -5,7 +5,6 @@ Connects NIAS symbolic message processing with Dream quantum states.
 Enables consent-aware dream injection and quantum consciousness integration.
 """
 import asyncio
-import inspect
 import json
 import logging
 from dataclasses import dataclass
@@ -38,7 +37,6 @@ class DreamMessage:
     injection_mode: DreamInjectionMode
     priority: float = 0.5
     created_at: datetime = None
-    user_context: Optional[dict[str, Any]] = None
 
     def __post_init__(self):
         if self.created_at is None:
@@ -112,7 +110,6 @@ class NIASDreamBridge:
                 emotional_context=dream_analysis["emotional_context"],
                 injection_mode=DreamInjectionMode(dream_analysis["mode"]),
                 priority=dream_analysis["priority"],
-                user_context=user_context,
             )
 
             # Add to dream queue
@@ -259,84 +256,14 @@ class NIASDreamBridge:
                 await asyncio.sleep(30)  # Longer sleep on error
 
     async def _is_dream_ready(self, dream_msg: DreamMessage) -> bool:
-        """Check if conditions are right for dream injection."""
-
-        if not self.dream_adapter:
-            logger.debug("Dream adapter unavailable; deferring dream injection")
-            return False
-
-        readiness_evidence: list[bool] = []
-        adapter = self.dream_adapter
-        state_id = None
-
-        if dream_msg.user_context:
-            state_id = dream_msg.user_context.get("dream_state_id") or dream_msg.user_context.get("state_id")
-
-        if not state_id:
-            original_ctx = dream_msg.original_message.get("context", {})
-            if isinstance(original_ctx, dict):
-                state_id = original_ctx.get("dream_state_id") or original_ctx.get("state_id")
-            state_id = state_id or dream_msg.original_message.get("dream_state_id")
-
-        async def _maybe_call(func, *args, **kwargs):
-            result = func(*args, **kwargs)
-            if inspect.isawaitable(result):
-                result = await result
-            return result
-
-        if state_id and hasattr(adapter, "get_dream_state_info"):
-            try:
-                state_info = await _maybe_call(adapter.get_dream_state_info, state_id)
-            except Exception as exc:  # pragma: no cover - defensive logging
-                logger.warning("Dream adapter state info failed: %s", exc)
-                state_info = None
-
-            if state_info:
-                current_state = state_info.get("current_state") or state_info.get("state")
-                readiness_evidence.append(current_state in {"active", "lucid", "forming"})
-                logger.debug("Dream state info retrieved", extra={"state_id": state_id, "state": current_state})
-
-        if state_id and hasattr(adapter, "monitor_dream_state_health"):
-            try:
-                health_report = await _maybe_call(adapter.monitor_dream_state_health, state_id)
-            except Exception as exc:  # pragma: no cover
-                logger.warning("Dream adapter health check failed: %s", exc)
-                health_report = None
-
-            if isinstance(health_report, dict):
-                readiness_evidence.append(health_report.get("health_status") in {"excellent", "good"})
-                readiness_evidence.append(bool(health_report.get("triad_compliance", False)))
-
-        if hasattr(adapter, "get_quantum_metrics"):
-            try:
-                quantum_metrics = await _maybe_call(adapter.get_quantum_metrics)
-            except Exception as exc:  # pragma: no cover
-                logger.warning("Quantum metric retrieval failed: %s", exc)
-                quantum_metrics = None
-
-            if isinstance(quantum_metrics, dict):
-                coherence = quantum_metrics.get("current_coherence")
-                threshold = quantum_metrics.get("config", {}).get("coherence_threshold", 0.6)
-                if isinstance(coherence, (int, float)):
-                    readiness_evidence.append(coherence >= threshold * 0.75)
-                    logger.debug(
-                        "Dream coherence metrics", extra={"coherence": coherence, "threshold": threshold}
-                    )
-
-        if hasattr(adapter, "active"):
-            readiness_evidence.append(bool(getattr(adapter, "active")))
-
-        if readiness_evidence:
-            readiness_score = sum(1 for flag in readiness_evidence if flag) / len(readiness_evidence)
-            logger.debug(
-                "Dream readiness evaluation", extra={"score": readiness_score, "evidence_count": len(readiness_evidence)}
-            )
-            return readiness_score >= 0.5
-
-        # ΛTAG: dream_readiness_fallback
+        """Check if conditions are right for dream injection"""
+        # TODO: Check actual dream state from dream adapter
+        # For now, simple time-based check
         age = (datetime.now(timezone.utc) - dream_msg.created_at).total_seconds()
-        min_age = 60 * (1 - dream_msg.priority)
-        logger.debug("Fallback readiness check", extra={"age": age, "min_age": min_age})
+
+        # High priority messages can be injected sooner
+        min_age = 60 * (1 - dream_msg.priority)  # 0-60 seconds based on priority
+
         return age >= min_age
 
     async def _inject_into_dream(self, dream_msg: DreamMessage) -> None:

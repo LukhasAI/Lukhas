@@ -4,7 +4,7 @@ Provides integration wrapper for connecting the multimodal memory support to the
 """
 
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional, Union
 
@@ -12,7 +12,8 @@ import numpy as np
 
 from candidate.core.common import get_logger
 
-from .multimodal_memory_support import (  # MATRIZ Integration: Core multimodal memory support for consciousness technology cross-modal processing
+from .multimodal_memory_support import (  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+from datetime import timezone
     AudioProcessor,
     ImageProcessor,
     ModalityType,

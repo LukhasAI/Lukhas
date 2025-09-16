@@ -13,7 +13,7 @@ Trinity Framework Integration: ⚛️🧠🛡️
 
 Usage:
     from lukhas.branding_bridge import (
-        get_brand_voice, validate_output, get_triad_context,
+        get_brand_voice, validate_output, get_trinity_context,
         initialize_branding, get_system_signature
     )
 """
@@ -91,7 +91,7 @@ def _get_system_signature() -> str:
     return f"{SYSTEM_NAME} {TRINITY_FRAMEWORK} v{SYSTEM_VERSION}"
 
 
-def get_triad_description() -> dict[str, Any]:
+def get_trinity_description() -> dict[str, Any]:
     """Get comprehensive Trinity Framework description"""
     return {
         "framework": TRINITY_FRAMEWORK,
@@ -151,9 +151,7 @@ BRANDING_AVAILABLE = True
 # Advanced branding components with graceful fallbacks
 try:
     from branding.adapters.voice_adapter import BrandVoiceAdapter
-    from branding.enforcement.real_time_validator import (
-        RealTimeBrandValidator,
-    )  # MATRIZ Integration: Real-time brand validator for MATRIZ-powered brand compliance monitoring and validation enforcement
+    from branding.enforcement.real_time_validator import RealTimeBrandValidator  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
     from branding.intelligence.brand_monitor import (
         BrandIntelligenceMonitor as BrandMonitor,
     )
@@ -179,7 +177,7 @@ class BrandContext:
     """Brand context for LUKHAS operations"""
 
     voice_profile: str = "consciousness"
-    triad_emphasis: str = "balanced"  # consciousness, identity, guardian, balanced
+    trinity_emphasis: str = "balanced"  # consciousness, identity, guardian, balanced
     compliance_level: str = "standard"  # strict, standard, lenient
     creative_mode: bool = False
     terminology_enforcement: bool = True
@@ -250,7 +248,7 @@ class LUKHASBrandingBridge:
             return _get_system_signature()
         return f"{SYSTEM_NAME} {TRINITY_FRAMEWORK} v{SYSTEM_VERSION}"
 
-    def get_triad_context(self, emphasis: str = "balanced") -> dict[str, Any]:
+    def get_trinity_context(self, emphasis: str = "balanced") -> dict[str, Any]:
         """Get Trinity Framework context for operations"""
         context = {
             "framework": TRINITY_FRAMEWORK,
@@ -272,7 +270,7 @@ class LUKHASBrandingBridge:
         }
 
         if BRANDING_AVAILABLE:
-            context.update(get_triad_description())
+            context.update(get_trinity_description())
 
         return context
 
@@ -372,7 +370,7 @@ class LUKHASBrandingBridge:
                 logger.warning(f"Wordsmith generation error: {e}")
 
         # Fallback to prompt with Trinity context
-        trinity = self.get_triad_context(context.triad_emphasis)
+        trinity = self.get_trinity_context(context.trinity_emphasis)
         return f"{prompt}\n\nIntegrating {trinity['framework']} principles: {trinity['identity']['description']}, {trinity['consciousness']['description']}, {trinity['guardian']['description']}"
 
     def monitor_brand_drift(self, content: str) -> dict[str, Any]:
@@ -404,7 +402,7 @@ class LUKHASBrandingBridge:
             "advanced_branding": ADVANCED_BRANDING_AVAILABLE,
             "creative_branding": CREATIVE_BRANDING_AVAILABLE,
             "system_name": SYSTEM_NAME,
-            "triad_framework": TRINITY_FRAMEWORK,
+            "trinity_framework": TRINITY_FRAMEWORK,
             "components": {
                 "voice_adapter": self.voice_adapter is not None,
                 "validator": self.validator is not None,
@@ -441,9 +439,9 @@ def get_system_signature() -> str:
     return get_bridge().get_system_signature()
 
 
-def get_triad_context(emphasis: str = "balanced") -> dict[str, Any]:
+def get_trinity_context(emphasis: str = "balanced") -> dict[str, Any]:
     """Get Trinity Framework context"""
-    return get_bridge().get_triad_context(emphasis)
+    return get_bridge().get_trinity_context(emphasis)
 
 
 def validate_output(text: str, context: Optional[BrandContext] = None) -> dict[str, Any]:
@@ -492,7 +490,7 @@ __all__ = [
     "get_brand_voice",
     "get_bridge",
     "get_system_signature",
-    "get_triad_context",
+    "get_trinity_context",
     "initialize_branding",
     "monitor_brand_drift",
     "normalize_output_text",

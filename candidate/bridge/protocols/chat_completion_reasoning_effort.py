@@ -39,8 +39,16 @@ for use in the context of chat completions. This promotes clarity and allows
 for future specialization if chat completion effort tracking requires unique features.
 """
 
-# Fixed: Using local reasoning_effort module in same directory
-from .reasoning_effort import ReasoningEffort
+# AIMPORT_TODO: Verify the package structure for `shared.reasoning_effort`.
+# The current relative import `..shared.reasoning_effort` assumes a specific package hierarchy.
+# If `shared` is intended as a globally available package, an absolute import path should be used.
+# ΛCAUTION: Relative imports like this can make the module less portable and more dependent on
+# the exact directory layout. If `shared` is moved or the execution context changes, this import may fail.
+# Consider making `shared` an installable part of the LUKHAS framework or using absolute paths
+# if it's within the same top-level package.
+# Example of absolute import:
+# from core_framework.shared.reasoning_effort import ReasoningEffort
+from ..shared.reasoning_effort import ReasoningEffort
 
 # Initialize ΛTRACE logger for this module using structlog
 logger.info(

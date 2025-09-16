@@ -5,12 +5,8 @@ Core task orchestration system for the LUKHAS symbolic AI ecosystem.
 Manages agent coordination, workflow execution, and task queue processing.
 """
 import asyncio
-import importlib
-import json
 import logging
-import re
 import uuid
-from collections import Counter
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
@@ -102,7 +98,6 @@ class LukhλsTaskManager:
         self.agents: dict[str, Agent] = {}
         self.task_handlers: dict[str, Callable] = {}
         self.running_tasks: dict[str, asyncio.Task] = {}
-        self.config_data: dict[str, Any] = {}
 
         self._load_config()
         self._setup_default_queues()
@@ -111,33 +106,12 @@ class LukhλsTaskManager:
 
     def _load_config(self) -> None:
         """Load task manager configuration."""
+        # TODO: Implement config loading
+        # - Load queue configurations
+        # - Load agent definitions
+        # - Load workflow templates
+        # - Load scheduling rules
         logger.info("📋 Loading task manager configuration...")
-        self.config_data = {"queues": {}, "agents": {}, "workflows": {}, "scheduling": {}}
-
-        if not self.config_path.exists():
-            logger.warning("Task manager config not found at %s – using defaults", self.config_path)
-            return
-
-        try:
-            config_json = self.config_path.read_text(encoding="utf-8")
-            loaded = json.loads(config_json)
-        except (OSError, json.JSONDecodeError) as exc:
-            logger.error("Failed to load task manager config: %s", exc)
-            self.config_data["load_error"] = str(exc)
-            return
-
-        for key in ("queues", "agents", "workflows", "scheduling", "handlers"):
-            if key in loaded and isinstance(loaded[key], dict):
-                self.config_data[key] = loaded[key]
-
-        logger.info(
-            "Task manager configuration loaded",
-            extra={
-                "queue_count": len(self.config_data.get("queues", {})),
-                "agent_count": len(self.config_data.get("agents", {})),
-                "workflow_count": len(self.config_data.get("workflows", {})),
-            },
-        )
 
     def _setup_default_queues(self) -> None:
         """Setup default task queues for LUKHAS operations."""
@@ -175,16 +149,7 @@ class LukhλsTaskManager:
         }
 
         for queue_id, queue in default_queues.items():
-            if queue_id not in self.queues:
-                self.add_queue(queue_id, queue)
-
-        for queue_id, cfg in self.config_data.get("queues", {}).items():
-            queue = self.queues.get(queue_id, TaskQueue(name=cfg.get("name", queue_id)))
-            queue.max_concurrent = int(cfg.get("max_concurrent", queue.max_concurrent))
-            queue.auto_start = bool(cfg.get("auto_start", queue.auto_start))
-            queue.persistent = bool(cfg.get("persistent", queue.persistent))
-            self.queues[queue_id] = queue
-            logger.info("⚙️ Configured queue override", extra={"queue_id": queue_id, "config": cfg})
+            self.add_queue(queue_id, queue)
 
     def _setup_default_agents(self) -> None:
         """Setup default agents for task execution."""
@@ -238,131 +203,36 @@ class LukhλsTaskManager:
         }
 
         for agent_id, agent in default_agents.items():
-            if agent_id not in self.agents:
-                self.register_agent(agent_id, agent)
-
-        for agent_id, cfg in self.config_data.get("agents", {}).items():
-            agent = self.agents.get(
-                agent_id,
-                Agent(
-                    id=agent_id,
-                    name=cfg.get("name", agent_id.title()),
-                    capabilities=list(cfg.get("capabilities", [])),
-                ),
-            )
-            agent.capabilities = list(cfg.get("capabilities", agent.capabilities))
-            agent.max_concurrent_tasks = int(cfg.get("max_concurrent_tasks", agent.max_concurrent_tasks))
-            self.agents[agent_id] = agent
-            logger.info("🤖 Agent override applied", extra={"agent_id": agent_id, "capabilities": agent.capabilities})
+            self.register_agent(agent_id, agent)
 
     def _register_task_handlers(self) -> None:
         """Register task handler functions."""
-        async def _load_text(path: Path) -> str:
-            return await asyncio.to_thread(path.read_text, encoding="utf-8")
+        # TODO: Register actual task handler functions
+        # - Symbol validation handlers
+        # - Design system handlers
+        # - File processing handlers
+        # - Integration handlers
 
         async def symbol_validation_handler(task: Task) -> Any:
             """Handle symbol validation tasks."""
-
-            logger.info("🔍 Executing symbol validation", extra={"task": task.id, "agent": task.agent_id})
-            params = task.parameters or {}
-            symbols: list[str] = []
-
-            if "symbols" in params and isinstance(params["symbols"], list):
-                symbols.extend(str(sym) for sym in params["symbols"])
-
-            document = params.get("document")
-            if isinstance(document, str):
-                if Path(document).exists():
-                    content = await _load_text(Path(document))
-                else:
-                    content = document
-                symbols.extend(re.findall(r"#[ΛA-Z][A-Z0-9_]+", content))
-
-            extracted = [sym.strip("# ") for sym in symbols if sym]
-            if not extracted:
-                return {"valid_symbols": [], "invalid_symbols": [], "duplicates": [], "driftScore": 0.0}
-
-            counter = Counter(extracted)
-            valid_pattern = re.compile(r"^[A-Z][A-Z0-9_]*$")
-            valid = [sym for sym in extracted if valid_pattern.match(sym)]
-            invalid = sorted({sym for sym in extracted if not valid_pattern.match(sym)})
-            duplicates = sorted({sym for sym, count in counter.items() if count > 1})
-
-            drift_score = max(0.0, 1.0 - (len(invalid) / len(extracted)))
-
-            result = {
-                "valid_symbols": sorted(set(valid)),
-                "invalid_symbols": invalid,
-                "duplicates": duplicates,
-                "metrics": {
-                    "total": len(extracted),
-                    "unique": len(set(extracted)),
-                    "invalid_ratio": len(invalid) / len(extracted),
-                },
-                "driftScore": drift_score,
-            }
-
-            logger.debug("Symbol validation result", extra=result)
-            return result
+            logger.info(f"🔍 Executing symbol validation: {task.name}")
+            # TODO: Implement actual symbol validation
+            await asyncio.sleep(1)  # Simulate work
+            return {"symbols_checked": 100, "issues_found": 0}
 
         async def design_system_handler(task: Task) -> Any:
             """Handle design system tasks."""
-
-            logger.info("🎨 Executing design system task", extra={"task": task.id})
-            params = task.parameters or {}
-            root = Path(params.get("design_root", "design-system"))
-            asset_counts = {"json": 0, "yaml": 0, "svg": 0, "md": 0}
-            latest_update = None
-
-            if root.exists():
-                for path in root.rglob("*"):
-                    if not path.is_file():
-                        continue
-                    suffix = path.suffix.lower()
-                    if suffix in {".json", ".yaml", ".yml", ".svg", ".md"}:
-                        key = "yaml" if suffix in {".yaml", ".yml"} else suffix.lstrip(".")
-                        asset_counts[key] = asset_counts.get(key, 0) + 1
-                        timestamp = path.stat().st_mtime
-                        latest_update = max(latest_update or timestamp, timestamp)
-
-            affect_delta = float(params.get("affect_delta", 0.0))
-            operations = params.get("operations", [])
-            result = {
-                "asset_counts": asset_counts,
-                "latest_update": datetime.fromtimestamp(latest_update, tz=timezone.utc).isoformat()
-                if latest_update
-                else None,
-                "operations": operations,
-                "affect_delta": affect_delta,
-            }
-
-            logger.debug("Design system summary", extra=result)
-            return result
+            logger.info(f"🎨 Executing design system task: {task.name}")
+            # TODO: Implement actual design system operations
+            await asyncio.sleep(2)  # Simulate work
+            return {"assets_processed": 25, "tokens_updated": 5}
 
         async def file_processing_handler(task: Task) -> Any:
             """Handle file processing tasks."""
-
-            logger.info("📁 Executing file processing", extra={"task": task.id})
-            params = task.parameters or {}
-            paths = [Path(p) for p in params.get("paths", []) if isinstance(p, str)]
-            processed = []
-            total_size = 0
-
-            for path in paths:
-                entry = {"path": str(path), "exists": path.exists(), "size": 0}
-                if path.exists() and path.is_file():
-                    entry["size"] = path.stat().st_size
-                    total_size += entry["size"]
-                processed.append(entry)
-
-            result = {
-                "processed": processed,
-                "total_size": total_size,
-                "cleanup_completed": all(item["exists"] for item in processed),
-            }
-
-            logger.debug("File processing result", extra=result)
-            return result
+            logger.info(f"📁 Executing file processing: {task.name}")
+            # TODO: Implement actual file operations
+            await asyncio.sleep(1.5)  # Simulate work
+            return {"files_processed": 50, "cleanup_completed": True}
 
         self.task_handlers.update(
             {
@@ -371,24 +241,6 @@ class LukhλsTaskManager:
                 "file_processing": file_processing_handler,
             }
         )
-
-        for handler_id, dotted_path in self.config_data.get("handlers", {}).items():
-            try:
-                module_name, func_name = dotted_path.rsplit(":", 1)
-                module = importlib.import_module(module_name)
-                handler = getattr(module, func_name)
-            except (ValueError, ImportError, AttributeError) as exc:
-                logger.error("Failed to load custom handler %s: %s", handler_id, exc)
-                continue
-
-            if asyncio.iscoroutinefunction(handler):
-                self.task_handlers[handler_id] = handler
-            else:
-                async def _wrapper(task: Task, func=handler):
-                    return await asyncio.to_thread(func, task)
-
-                self.task_handlers[handler_id] = _wrapper
-
 
     def add_queue(self, queue_id: str, queue: TaskQueue) -> None:
         """Add a task queue to the manager."""

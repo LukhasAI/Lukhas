@@ -26,12 +26,13 @@ Features:
 #TAG:constellation
 """
 
+import asyncio
 import hashlib
 import json
 import logging
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
@@ -241,23 +242,10 @@ class AdvancedConsentManager:
             "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
-        # Initialize standard purposes - deferred to avoid event loop issues
-        self._purposes_initialized = False
-
-        # Audit configuration (config-gated)
-        self._audit_enabled: bool = bool(self.config.get("enable_consent_audit", True))
-        self._audit_log_path: str = self.config.get("consent_audit_log_path", "logs/consent_events.log")
-        self._audit_report_path: str = self.config.get(
-            "consent_audit_report_path", "reports/audit/merged/consent_events.jsonl"
-        )
+        # Initialize standard purposes
+        asyncio.create_task(self._initialize_standard_purposes())
 
         logger.info("📋 Advanced Consent Manager initialized with GDPR compliance")
-
-    async def initialize(self):
-        """Initialize the consent manager with standard purposes"""
-        if not self._purposes_initialized:
-            await self._initialize_standard_purposes()
-            self._purposes_initialized = True
 
     async def _initialize_standard_purposes(self):
         """Initialize standard data processing purposes"""
@@ -328,11 +316,6 @@ class AdvancedConsentManager:
         Returns:
             Dictionary of consent records keyed by purpose_id
         """
-        # Ensure purposes are initialized
-        if not self._purposes_initialized:
-            await self._initialize_standard_purposes()
-            self._purposes_initialized = True
-
         context = context or {}
         consent_records = {}
 
@@ -373,18 +356,6 @@ class AdvancedConsentManager:
                     self.consent_receipts[receipt.receipt_id] = receipt
 
                 logger.info(f"✅ Consent record created: {consent_record.consent_id} for purpose {purpose_id}")
-
-                # Emit audit event
-                await self._emit_audit_event(
-                    event="consent_created",
-                    payload={
-                        "user_id": user_id,
-                        "purpose_id": purpose_id,
-                        "consent_id": consent_record.consent_id,
-                        "status": consent_record.status.value,
-                        "method": method.value,
-                    },
-                )
 
             # Update metrics
             await self._update_metrics()
@@ -452,19 +423,6 @@ class AdvancedConsentManager:
 
                 # Trigger data processing updates (stop processing based on withdrawn consent)
                 await self._trigger_data_processing_updates(user_id, consents_to_withdraw)
-
-                # Emit audit events per withdrawn consent
-                for c in consents_to_withdraw:
-                    await self._emit_audit_event(
-                        event="consent_withdrawn",
-                        payload={
-                            "user_id": user_id,
-                            "purpose_id": c.purpose.purpose_id,
-                            "consent_id": c.consent_id,
-                            "method": method.value,
-                            "reason": reason,
-                        },
-                    )
 
             logger.info(f"✅ Withdrawn {withdrawals} consent(s) for user {user_id}")
             return True
@@ -648,8 +606,7 @@ class AdvancedConsentManager:
             validation_issues.append("Consent indication is ambiguous")
 
         # Method-specific validation
-        # Note: IMPLICIT is a ConsentType, not ConsentMethod
-        if hasattr(consent_record, "consent_type") and consent_record.consent_type == ConsentType.IMPLICIT:
+        if consent_record.method == ConsentMethod.IMPLICIT:
             validation_issues.append("Implicit consent not suitable for GDPR Article 7")
 
         return {
@@ -702,30 +659,6 @@ class AdvancedConsentManager:
         }
 
         return hashlib.sha256(json.dumps(hash_data, sort_keys=True).encode()).hexdigest()
-
-    async def _emit_audit_event(self, event: str, payload: dict[str, Any]) -> None:
-        """Emit a structured consent audit event to logs and reports (best-effort)."""
-        if not self._audit_enabled:
-            return
-        try:
-            from json import dumps as _dumps
-            from os import makedirs as _makedirs
-            from os.path import dirname as _dirname
-
-            record = {
-                "timestamp_utc": datetime.now(timezone.utc).isoformat(),
-                "event": event,
-                **payload,
-            }
-            _makedirs(_dirname(self._audit_log_path), exist_ok=True)
-            with open(self._audit_log_path, "a", encoding="utf-8") as f:
-                f.write(_dumps(record) + "\n")
-            _makedirs(_dirname(self._audit_report_path), exist_ok=True)
-            with open(self._audit_report_path, "a", encoding="utf-8") as rf:
-                rf.write(_dumps(record) + "\n")
-        except Exception:
-            # Do not raise audit errors
-            pass
 
     async def _get_active_consent(self, user_id: str, purpose_id: str) -> Optional[ConsentRecord]:
         """Get active consent record for user and purpose"""

@@ -1,6 +1,8 @@
 import logging
 from datetime import timezone
-
+import streamlit as st
+import random
+from typing import List
 logger = logging.getLogger(__name__)
 """
 VIVOX.QREADY - Qubit Collapse Engine
@@ -389,7 +391,7 @@ class QubitCollapseEngine:
         prob_dist /= np.linalg.norm(prob_dist)
 
         return CollapseField(
-            field_id=f"field_{hashlib.sha256(str(constraints).encode()).hexdigest()[:8]}",
+            field_id=f"field_{hashlib.sha256(str(constraints).encode()).hexdigest()}[:8]}",
             ethical_dimensions=ethical_dims,
             probability_distribution=prob_dist,
             convergence_strength=constraints.get("convergence_strength", 0.5),

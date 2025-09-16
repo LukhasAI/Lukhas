@@ -267,7 +267,7 @@ class WebAuthnManager:
                     "device_type": credential.device_type,
                     "verification_time_ms": verification_time,
                     "guardian_approved": True,
-                    "triad_compliant": True,
+                    "trinity_compliant": True,
                 }
 
             except (json.JSONDecodeError, ValueError) as e:
@@ -437,7 +437,7 @@ class WebAuthnManager:
                     "sign_count": credential.sign_count,
                     "verification_time_ms": verification_time,
                     "guardian_approved": True,
-                    "triad_compliant": True,
+                    "trinity_compliant": True,
                     "authentication_method": "webauthn_fido2",
                 }
 
@@ -623,7 +623,7 @@ class WebAuthnManager:
                     },
                     "tier_distribution": self._get_tier_distribution(),
                     "device_type_distribution": self._get_device_type_distribution(),
-                    "triad_compliance": {
+                    "trinity_compliance": {
                         "⚛️_identity": "INTEGRATED",
                         "🧠_consciousness": "MONITORED",
                         "🛡️_guardian": "PROTECTED",

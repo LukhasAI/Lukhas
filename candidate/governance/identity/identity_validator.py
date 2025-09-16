@@ -229,7 +229,7 @@ class AdvancedIdentityValidator:
             validation.risk_level = await self._assess_identity_risk(validation, identity_data, context)
 
             # Trinity Framework integration
-            await self._integrate_triad_framework(validation, identity_data, context)
+            await self._integrate_trinity_framework(validation, identity_data, context)
 
             # Determine final validation result
             validation.is_valid = await self._determine_validation_result(validation)
@@ -490,7 +490,7 @@ class AdvancedIdentityValidator:
         else:
             return IdentityRisk.LOW
 
-    async def _integrate_triad_framework(
+    async def _integrate_trinity_framework(
         self,
         validation: IdentityValidation,
         identity_data: dict[str, Any],

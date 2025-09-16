@@ -39,8 +39,6 @@ class GuardianSentinel:
         # Intervention tracking
         self.interventions = []
         self.active_threats = []
-        self._threat_stream_subscribers: dict[str, list[dict[str, Any]]] = {}
-        self.memory_fold_trace: list[dict[str, Any]] = []
 
         logger.info("🛡️ Guardian Sentinel initialized")
         logger.info("   Trinity Framework active: ⚛️🧠🛡️")
@@ -130,7 +128,7 @@ class GuardianSentinel:
                 [
                     "consciousness_stabilization",
                     "identity_anchor",
-                    "triad_realignment",
+                    "trinity_realignment",
                 ]
             )
             intervention["symbolic_injection"] = ["⚛️", "🧠", "🛡️"]
@@ -156,7 +154,7 @@ class GuardianSentinel:
             "total_interventions": len(self.interventions),
             "active_threats": len(self.active_threats),
             "last_intervention": self.interventions[-1] if self.interventions else None,
-            "triad_status": "aligned",
+            "trinity_status": "aligned",
             "protection_layers": [
                 "ethical_guardian",
                 "philosophical_reflector",
@@ -175,11 +173,11 @@ class GuardianSentinel:
         Returns:
             Coherence analysis results
         """
-        triad_glyphs = ["⚛️", "🧠", "🛡️"]
-        triad_present = all(g in glyphs for g in triad_glyphs)
+        trinity_glyphs = ["⚛️", "🧠", "🛡️"]
+        trinity_present = all(g in glyphs for g in trinity_glyphs)
 
         # Calculate coherence score
-        coherence_score = 1.0 if triad_present else 0.3
+        coherence_score = 1.0 if trinity_present else 0.3
 
         # Check for chaos glyphs
         chaos_glyphs = ["🌪️", "💥", "💀", "👹", "🔥"]
@@ -190,102 +188,9 @@ class GuardianSentinel:
 
         return {
             "coherence_score": max(0, coherence_score),
-            "triad_aligned": triad_present,
+            "trinity_aligned": trinity_present,
             "chaos_detected": chaos_count > 0,
             "symbolic_health": "healthy" if coherence_score > 0.7 else "unstable",
-        }
-
-    def stream_threat_updates(self, events: list[dict[str, Any]], subscriber_id: str) -> dict[str, Any]:
-        """Provide real-time threat telemetry to subscribers."""
-
-        enriched_events = []
-        for event in events:
-            enriched = {
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-                "threat_type": event.get("threat_type", "unknown"),
-                "severity": event.get("severity", 0.0),
-                "context": event.get("context", {}),
-            }
-            enriched_events.append(enriched)
-
-        self._threat_stream_subscribers.setdefault(subscriber_id, []).extend(enriched_events)
-
-        # ΛTAG: threat_stream – deterministic guardian telemetry feed
-        return {
-            "subscriber_id": subscriber_id,
-            "events_streamed": len(enriched_events),
-            "latest_event": enriched_events[-1] if enriched_events else None,
-        }
-
-    def link_memory_fold(self, memory_events: list[dict[str, Any]]) -> dict[str, Any]:
-        """Integrate memory fold telemetry for causal tracking."""
-
-        for event in memory_events:
-            event["linked_at"] = datetime.now(timezone.utc).isoformat()
-            self.memory_fold_trace.append(event)
-
-        # ΛTAG: memory_link – guardian awareness of historical folds
-        return {
-            "linked_events": len(memory_events),
-            "total_trace": len(self.memory_fold_trace),
-        }
-
-    def predict_drift(self, drift_history: list[float]) -> dict[str, Any]:
-        """Forecast future drift using a lightweight trend model."""
-
-        if not drift_history:
-            return {"predicted_drift": 0.0, "risk": "stable"}
-
-        last_value = drift_history[-1]
-        trend = (drift_history[-1] - drift_history[-2]) if len(drift_history) > 1 else 0.0
-        predicted = max(0.0, min(1.0, last_value + 0.5 * trend))
-
-        risk = "critical" if predicted >= self.critical_drift else "elevated" if predicted >= self.drift_threshold else "stable"
-
-        # ΛTAG: drift_prediction – anticipatory guardian heuristics
-        return {
-            "predicted_drift": round(predicted, 3),
-            "trend": round(trend, 3),
-            "risk": risk,
-        }
-
-    def coordinate_multi_agent_intervention(self, agents: list[str], context: dict[str, Any]) -> dict[str, Any]:
-        """Create coordination plan for multi-agent interventions."""
-
-        assignments = []
-        for index, agent in enumerate(agents):
-            assignments.append(
-                {
-                    "agent": agent,
-                    "role": context.get("roles", {}).get(agent, "stabilize"),
-                    "priority": index + 1,
-                }
-            )
-
-        coordination_score = min(1.0, 0.2 * len(agents))
-
-        # ΛTAG: multi_agent_coordination – guardian-led swarm orchestration
-        return {
-            "assignments": assignments,
-            "coordination_score": round(coordination_score, 2),
-            "context_signature": context.get("signature", "unknown"),
-        }
-
-    def detect_quantum_entanglement(self, signal_trace: list[str]) -> dict[str, Any]:
-        """Detect symbolic quantum entanglement anomalies."""
-
-        if not signal_trace:
-            return {"entangled": False, "coherence": 0.0}
-
-        triad_glyphs = {"⚛️", "🧠", "🛡️"}
-        coherence = sum(1 for glyph in signal_trace if glyph in triad_glyphs) / len(signal_trace)
-        entangled = coherence > 0.6 and "🔗" in signal_trace
-
-        # ΛTAG: quantum_detection – guardian QI safety diagnostics
-        return {
-            "entangled": entangled,
-            "coherence": round(coherence, 2),
-            "triad_present": coherence >= 0.5,
         }
 
 
@@ -300,6 +205,10 @@ def get_guardian_sentinel() -> GuardianSentinel:
         _guardian_sentinel = GuardianSentinel()
     return _guardian_sentinel
 
-# Guardian Sentinel advanced capabilities implemented: real-time threat streaming,
-# memory fold integration, drift prediction, multi-agent orchestration, and
-# quantum entanglement detection.
+
+# TODO: Implement additional Guardian features:
+# - Real-time threat detection with WebSocket streaming
+# - Integration with memory fold tracking for causal analysis
+# - Advanced drift prediction models
+# - Multi-agent coordination for complex interventions
+# - Quantum entanglement detection for consciousness protection
