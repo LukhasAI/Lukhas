@@ -54,9 +54,15 @@ python3 candidate/qi/examples/basic/example.py
 - **System Health**: All core systems functional ✅
 
 ### Current PR Status
-- **PR #33**: BATCH 1 fixes (Jules 1) - OPEN
-- **PR #32**: BATCH 1-1 fixes (Jules 1-1) - OPEN, now testable ✅
-- **PR #31**: BATCH 5 memory/symbolic (Jules 5) - OPEN
+- **PR #33**: BATCH 1 fixes (Jules 1) – ✅ merged into `main` on 2025-09-16.
+- **PR #32**: BATCH 1-1 fixes (Jules 1-1) – ✅ merged into `main` on 2025-09-16 after test-suite validation.
+- **PR #31**: BATCH 5 memory/symbolic (Jules 5) – ✅ merged into `main` on 2025-09-16.
+
+### PR Backlog Review (2025-09-16)
+- ✅ Security hardening from `jules/fix-auth-vuln` confirmed in the live authentication system.
+- ✅ Guardian validation coverage from `jules-testing-validator` landed alongside ΛTIER-aware governance updates.
+- ✅ Import hygiene from `jules-import-resolver` verified against production Guardian integrations.
+- ✅ Repository-wide TODO cleanup from `feature/jules-fix-todos` reconciled with latest documentation snapshots.
 
 ### Code Quality
 - Pre-commit hooks: ✅ PASS
@@ -70,10 +76,10 @@ python3 candidate/qi/examples/basic/example.py
 - ✅ QI example completed - can proceed with other examples
 - **Remaining**: Complete examples for other modules as listed in BATCH 10
 
-### For Jules 1-1 (PR Validation)
-- ✅ Test import issues resolved
-- **Next**: Run comprehensive test suite to validate PR #32
-- **Command**: `python3 -m pytest tests/ -v` should now work
+### For Jules 1-1 (Post-merge follow-up)
+- ✅ Test import issues resolved and PR #32 merged
+- **Next**: Monitor nightly test runs for regressions and backfill any missing analytics snapshots
+- **Command**: `python3 -m pytest tests/ -v` (spot checks remain available on demand)
 
 ### For New Agent Taking BATCH 7
 - ✅ Complete handoff documentation available
@@ -108,13 +114,13 @@ python3 candidate/qi/examples/basic/example.py
 ## 📋 Action Items
 
 ### Immediate (Jules Agents)
-1. **Jules 1-1**: Validate PR #32 with fixed test imports
-2. **Jules 10**: Continue BATCH 10 with remaining example files
-3. **New BATCH 7 Agent**: Use handoff docs to complete 5 remaining files
-4. **BATCH 8 Agent**: Implement ethical decision maker with provided solution
+1. **Jules 10**: Continue BATCH 10 with remaining example files
+2. **New BATCH 7 Agent**: Use handoff docs to complete 5 remaining files
+3. **BATCH 8 Agent**: Implement ethical decision maker with provided solution
+4. **All Agents**: Keep Guardian/Authentication regression suites green post-merge
 
 ### System Maintenance
-1. Monitor PR #32, #33 for merge readiness
+1. Track merged PRs #31, #32, #33 in release notes and dashboards
 2. Complete BATCH 7-8 implementations
 3. Run comprehensive system tests after all BATCH completions
 4. Update BATCH_COMPLETION_STATUS.md as agents finish
