@@ -3,7 +3,7 @@
 T4-Compliant Progress Generator
 PLANNING_TODO.md Section 6 & 9 Implementation
 
-Generates progress.json rollup metrics and daily reports for TODO coordination system.
+Generates progress.json rollup metrics and daily reports for the task coordination system.
 Implements synchronization and source of truth as specified in PLANNING_TODO.md.
 """
 
@@ -21,7 +21,7 @@ class ProgressGenerator:
         self.batches = self._load_batches()
 
     def _load_manifest(self) -> Dict[str, Any]:
-        """Load the TODO manifest"""
+        """Load the manifest describing tracked tasks."""
         manifest_files = list(self.run_dir.glob("manifest*.json"))
         if not manifest_files:
             raise FileNotFoundError("No manifest.json found in run directory")
@@ -49,7 +49,7 @@ class ProgressGenerator:
         return batches
 
     def generate_progress_json(self) -> Dict[str, Any]:
-        """Generate progress.json as specified in PLANNING_TODO.md Section 9"""
+        """Generate progress.json as specified in PLANNING_TODO.md Section 9."""
         stats = self.manifest.get("stats", {})
 
         # Count by priority and status
@@ -138,20 +138,20 @@ class ProgressGenerator:
         return progress_data
 
     def generate_daily_report(self, progress_data: Dict[str, Any]) -> str:
-        """Generate daily report as specified in PLANNING_TODO.md Section 9"""
+        """Generate daily report as specified in PLANNING_TODO.md Section 9."""
         date = progress_data["date"]
         summary = progress_data["summary"]
 
-        report = f"""# LUKHAS AI TODO Management Daily Report
+        report = f"""# LUKHAS AI Task Management Daily Report
 
 **Date**: {date}
 **Run ID**: {progress_data["run_id"]}
-**System**: T4-Compliant Evidence-Based TODO Coordination
+**System**: T4-Compliant Evidence-Based Task Coordination
 
 ## 📊 Summary Statistics
 
 ### Ground Truth Status
-- **Total TODOs**: {summary["total_todos"]:,} (verified via manifest)
+- **Total tracked tasks**: {summary["total_todos"]:,} (verified via manifest)
 - **Assigned**: {summary["total_assigned"]} ({summary["total_assigned"]/summary["total_todos"]*100:.1f}%)
 - **Completed**: {summary["total_done"]} (evidence-verified, {summary["completion_rate"]:.1f}%)
 - **In Progress**: {summary["total_wip"]} ({summary["total_wip"]/max(summary["total_assigned"],1)*100:.1f}%)
@@ -162,7 +162,7 @@ class ProgressGenerator:
 
         for priority, counts in progress_data["counts"].items():
             if counts["total"] > 0:
-                report += f"- **{priority.upper()}**: {counts['total']} TODOs ({counts['total']/summary['total_todos']*100:.1f}%) - "
+                report += f"- **{priority.upper()}**: {counts['total']} tasks ({counts['total']/summary['total_todos']*100:.1f}%) - "
                 report += f"{counts['done']} done, {counts['wip']} in progress, {counts['open']} open\n"
 
         report += f"""
@@ -210,9 +210,9 @@ class ProgressGenerator:
 4. **Progress Tracking**: Update manifest.json with completion evidence
 
 ### Week 1 Goals
-- Complete critical TODOs with evidence verification
+- Complete critical tasks with evidence verification
 - Maintain batch discipline and atomic commits
-- Achieve 25+ TODOs completed per active batch
+- Achieve 25+ tasks completed per active batch
 - Establish daily reporting rhythm
 
 ---
@@ -220,7 +220,7 @@ class ProgressGenerator:
 **Report Generated**: {datetime.now().isoformat()}Z
 **Next Report**: {(datetime.now().replace(hour=9, minute=0, second=0, microsecond=0) +
                   (timedelta(days=1) if datetime.now().hour >= 9 else timedelta(days=0))).isoformat()}Z
-**System Status**: ✅ Active TODO allocation system ready for execution
+**System Status**: ✅ Active task allocation system ready for execution
 """
 
         return report

@@ -10,6 +10,8 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
+from importlib import import_module
+from importlib.util import find_spec
 from typing import Any, Optional
 
 # Import dream vocabulary for symbolic representation
@@ -21,12 +23,27 @@ except ImportError:
     DREAM_VOCAB_AVAILABLE = False
 
 # Try to import consciousness wrapper for integration
-try:
-    from lukhas.consciousness.consciousness_wrapper import ConsciousnessWrapper  # noqa: F401  # TODO: lukhas.consciousness.conscious...
+def _load_consciousness_wrapper() -> tuple[bool, Optional[type]]:
+    """Lazily import the consciousness wrapper when available.
 
-    CONSCIOUSNESS_AVAILABLE = True
-except ImportError:
-    CONSCIOUSNESS_AVAILABLE = False
+    The reasoning engine can operate without the wrapper, but when the
+    integration module exists we expose its type for callers so they can
+    supply an instance.  Using ``find_spec`` avoids import side effects during
+    environments where the consciousness lane is not present.
+    """
+
+    if find_spec("lukhas.consciousness.consciousness_wrapper") is None:
+        return False, None
+
+    try:
+        module = import_module("lukhas.consciousness.consciousness_wrapper")
+        wrapper = getattr(module, "ConsciousnessWrapper")
+        return True, wrapper
+    except Exception:  # pragma: no cover - optional dependency
+        return False, None
+
+
+CONSCIOUSNESS_AVAILABLE, ConsciousnessWrapper = _load_consciousness_wrapper()
 
 logger = logging.getLogger(__name__)
 
@@ -89,7 +106,16 @@ class ChainOfThought:
             consciousness_wrapper: Optional consciousness system integration
         """
         self.enable_dreams = enable_dreams and DREAM_VOCAB_AVAILABLE
-        self.consciousness = consciousness_wrapper
+        if consciousness_wrapper is not None:
+            self.consciousness = consciousness_wrapper
+        elif CONSCIOUSNESS_AVAILABLE and ConsciousnessWrapper is not None:
+            try:
+                # ΛTAG: consciousness_autoload
+                self.consciousness = ConsciousnessWrapper()
+            except Exception:  # pragma: no cover - optional dependency safeguard
+                self.consciousness = None
+        else:
+            self.consciousness = None
 
         if self.enable_dreams:
             self.dream_vocab = DreamVocabulary()
