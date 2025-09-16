@@ -1,12 +1,9 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 import asyncio
 import json
 import logging
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
+from typing import Any
 
 from lukhas.core.common import get_logger
 
@@ -43,6 +40,40 @@ try:
 except ImportError as e:
     logger.critical(f"Failed to import required components: {e}")
     sys.exit(1)
+
+# Identity manager fallback stack
+try:
+    from AID.service.identity_manager import IdentityManager as _LegacyIdentityManager
+except ImportError:
+    try:
+        from governance.identity.core.id_service import IdentityManager as _LegacyIdentityManager
+    except ImportError:
+
+        class IdentityManager:
+            """Minimal fallback identity manager for legacy security engine."""
+
+            # ΛTAG: identity_fallback
+            def __init__(self) -> None:
+                self._identities: dict[str, dict[str, Any]] = {}
+                logger.warning("IdentityManager fallback engaged for legacy security engine")
+
+            async def get_user_identity(self, user_id: str) -> dict[str, Any]:
+                """Return or provision a lightweight identity profile."""
+
+                profile = self._identities.setdefault(
+                    user_id,
+                    {
+                        "user_id": user_id,
+                        "tier": "T1",
+                        "consent": {"created_at": datetime.now(timezone.utc).isoformat()},
+                    },
+                )
+                return profile
+
+    else:
+        IdentityManager = _LegacyIdentityManager
+else:
+    IdentityManager = _LegacyIdentityManager
 
 
 class MainNodeSecurityEngine:
@@ -376,6 +407,10 @@ class MainNodeSecurityEngine:
 
         except Exception as e:
             logger.error(f"Error saving system state: {e}")
+
+
+# ΛTAG: legacy_alias
+AdaptiveAGISystem = MainNodeSecurityEngine
 
 
 async def main():

@@ -2,7 +2,31 @@
 Unified Security Engine for LUKHAS AGI
 """
 
-from .secure_utils import sanitize_input
+import html
+import re
+
+
+def sanitize_input(text: str) -> str:
+    """Basic input sanitization function."""
+    if not isinstance(text, str):
+        return str(text)
+
+    # HTML escape
+    sanitized = html.escape(text)
+
+    # Remove potentially dangerous patterns
+    dangerous_patterns = [
+        r"<script[^>]*>.*?</script>",
+        r"javascript:",
+        r"on\w+\s*=",
+        r"eval\s*\(",
+        r"exec\s*\(",
+    ]
+
+    for pattern in dangerous_patterns:
+        sanitized = re.sub(pattern, "", sanitized, flags=re.IGNORECASE | re.DOTALL)
+
+    return sanitized
 
 
 class SecurityEngine:

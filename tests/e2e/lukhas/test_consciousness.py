@@ -15,7 +15,16 @@ import time
 from unittest.mock import patch
 
 import pytest
-from lukhas.governance.identity.connector import SecurityError
+
+try:
+    from lukhas.governance.identity.connector import SecurityError
+except ImportError:
+
+    class SecurityError(Exception):
+        """Fallback security validation error for consciousness tests."""
+
+        # ΛTAG: security_fallback
+        pass
 
 from lukhas.consciousness import (
     AwarenessLevel,
