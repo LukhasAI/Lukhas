@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from importlib import import_module
+from importlib.util import find_spec
 import logging
 from statistics import mean
 from typing import Any, Optional
@@ -12,41 +13,65 @@ logger = logging.getLogger(__name__)
 
 def _safe_import(module_path: str, attr: str):
     try:
-        return getattr(import_module(module_path), attr)
-    except Exception:
+        module = import_module(module_path)
+        return getattr(module, attr)
+    except Exception:  # pragma: no cover - dynamic import fallback
         return None
 
 
+def _import_first(paths: list[tuple[str, str]]) -> Optional[Any]:
+    """Attempt to import the first available attribute from provided paths."""
+
+    for module_path, attr in paths:
+        if find_spec(module_path) is None:
+            continue
+        component = _safe_import(module_path, attr)
+        if component is not None:
+            return component
+    return None
+
+
 # ΛTAG: dynamic_import
-BaseColony = _safe_import("lukhas.core.colonies.base_colony", "BaseColony") or _safe_import(
-    "candidate.core.colonies.base_colony", "BaseColony"
+BaseColony = _import_first(
+    [
+        ("lukhas.core.colonies.base_colony", "BaseColony"),
+        ("candidate.core.colonies.base_colony", "BaseColony"),
+    ]
 )
-TagScope = _safe_import("lukhas.core.symbolism.tags", "TagScope") or _safe_import(
-    "candidate.core.symbolism.tags", "TagScope"
+TagScope = _import_first(
+    [
+        ("lukhas.core.symbolism.tags", "TagScope"),
+        ("candidate.core.symbolism.tags", "TagScope"),
+    ]
 )
 
 if BaseColony is None or TagScope is None:
-    logger.warning(
-        "GLYPH consciousness communication: Using BaseColony and TagScope stubs for development"
-    )
+    logger.warning("GLYPH consciousness communication: Using BaseColony and TagScope stubs for development")
 
+    @dataclass
     class BaseColony:
         """Temporary BaseColony stub for GLYPH consciousness development"""
 
-        def __init__(self, colony_id: str, capabilities: Optional[list[str]] = None):
-            self.colony_id = colony_id
-            self.capabilities = capabilities or []
-            self.agents = {}
+        colony_id: str
+        capabilities: Optional[list[str]] = None
 
-    class TagScope:
+        def __post_init__(self) -> None:
+            self.capabilities = list(self.capabilities or [])
+            self.agents: dict[str, Any] = {}
+
+    class TagScope:  # type: ignore[override]
         """Temporary TagScope stub for GLYPH consciousness development"""
 
         GLOBAL = "global"
         LOCAL = "local"
 
 
-SymbolicVocabulary = _safe_import(
-    "candidate.core.symbolic_legacy.vocabularies", "SymbolicVocabulary"
+SymbolicVocabulary = _import_first(
+    [
+        ("symbolic.vocabularies", "SymbolicVocabulary"),
+        ("candidate.core.symbolic_legacy.vocabularies", "SymbolicVocabulary"),
+        ("candidate.core.symbolic.symbolic_language", "SymbolicVocabulary"),
+    ]
 )
 if SymbolicVocabulary is None:
     # Stub implementation for development
@@ -56,27 +81,26 @@ if SymbolicVocabulary is None:
         def __init__(self):
             self.vocabulary = {}
 
+        def register(self, key: str, value: Any) -> None:
+            self.vocabulary[key] = value
 
-Tag = _safe_import("lukhas.core.symbolism.tags", "Tag")
+
+Tag = _import_first(
+    [
+        ("lukhas.core.symbolism.tags", "Tag"),
+        ("candidate.core.symbolism.tags", "Tag"),
+    ]
+)
 if Tag is None:
 
     class Tag:
         """Temporary Tag implementation for GLYPH consciousness communication"""
 
-        def __init__(self, name: str, value: Any = None, scope: str = "local"):
-            self.name = name
-            self.key = name  # compatibility bridge
+        def __init__(self, key: str, value: Any, scope: str, confidence: float = 1.0):
+            self.key = key
             self.value = value
             self.scope = scope
-
-        @property
-        def confidence(self) -> float:
-            if isinstance(self.value, dict) and "confidence" in self.value:
-                try:
-                    return float(self.value["confidence"])
-                except (TypeError, ValueError):
-                    return 1.0
-            return 1.0
+            self.confidence = confidence
 
 
 ConsensusResult = _safe_import("lukhas.core.colonies", "ConsensusResult")
@@ -128,6 +152,15 @@ def _clamp(value: float, lower: float = 0.0, upper: float = 1.0) -> float:
     return max(lower, min(upper, value))
 
 
+@dataclass
+class ConsciousnessNode:
+    """Fallback consciousness node for mesh formation."""
+
+    node_id: str
+    consciousness_type: str
+    metadata: dict[str, Any]
+
+
 class SymbolicReasoningColony(BaseColony):
     """Colony for symbolic reasoning and belief propagation."""
 
@@ -149,7 +182,7 @@ class SymbolicReasoningColony(BaseColony):
         intensity = normalized_task["intensity"]
         affect_delta = normalized_task["affect_delta"]
 
-        agent_results: dict[str, dict[str, float | str]] = {}
+        agent_results: dict[str, dict[str, Any]] = {}
         confidences: list[float] = []
 
         for agent_id, mesh_agent in self._mesh_agents.items():
@@ -172,7 +205,27 @@ class SymbolicReasoningColony(BaseColony):
             "confidence": aggregate_confidence,
             "mesh_connectivity": mesh_connectivity,
         }
-        tag = Tag(concept, value=tag_payload, scope=self._global_scope_value())
+        try:
+            # Try to create tag with different constructor signatures
+            tag = Tag(concept, tag_payload, self._global_scope_value())
+        except TypeError:
+            try:
+                tag = Tag(key=concept, value=tag_payload, scope=self._global_scope_value())
+            except TypeError:
+                try:
+                    tag = Tag(concept, value=tag_payload, scope=self._global_scope_value())
+                except TypeError:
+                    # Use our fallback stub
+                    tag = type(
+                        "Tag",
+                        (),
+                        {
+                            "key": concept,
+                            "value": tag_payload,
+                            "scope": self._global_scope_value(),
+                            "confidence": aggregate_confidence,
+                        },
+                    )()
 
         self._synchronize_vocabulary(concept, aggregate_confidence)
         self._update_belief_network(concept, agent_results)
@@ -274,12 +327,13 @@ class SymbolicReasoningColony(BaseColony):
             seed_agent = next(iter(self.agents.keys()))
             belief_states[seed_agent] = initial_belief["strength"]
             belief_tag = Tag(
-                initial_belief["concept"],
+                key=initial_belief["concept"],
                 value={
                     "value": initial_belief["value"],
                     "confidence": initial_belief["strength"],
                 },
                 scope=self._global_scope_value(),
+                confidence=initial_belief["strength"],
             )
         else:
             belief_tag = None
@@ -426,7 +480,7 @@ class SymbolicReasoningColony(BaseColony):
             entry["last_colony"] = self.colony_id
 
     # ΛTAG: belief_network
-    def _update_belief_network(self, concept: str, agent_results: dict[str, dict[str, float | str]]) -> None:
+    def _update_belief_network(self, concept: str, agent_results: dict[str, dict[str, Any]]) -> None:
         """Update the internal belief network with latest agent feedback."""
 
         self.belief_network.add_node(concept, last_update=len(self.propagation_history))
@@ -446,7 +500,7 @@ class SymbolicReasoningColony(BaseColony):
         return float(nx.average_clustering(self.mesh_graph))
 
     def _global_scope_value(self) -> str:
-        tag_scope_attr = getattr(TagScope, "GLOBAL")
+        tag_scope_attr = getattr(TagScope, "GLOBAL", "global")
         return getattr(tag_scope_attr, "value", tag_scope_attr)
 
     # ΛTAG: consensus_logic
