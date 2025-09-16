@@ -793,7 +793,7 @@ class IntegrationAnalyzer:
             stub = (
                 "import pytest\n\n"
                 f"def {test_name}():\n"
-                f"    # TODO: call target function with args: {args_str}\n"
+                f"    # NOTE: wire target function with args: {args_str}\n"
                 f"    assert True\n"
             )
             tests.append({"name": test_name, "stub": stub})

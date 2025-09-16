@@ -5,7 +5,7 @@ T4 unused-imports policy enforcer.
 - Scans for Ruff F401 (unused imports) in selected roots (default: lukhas, MATRIZ)
 - Skips noisy trees (candidate, archive, quarantine, .venv, node_modules, reports, .git)
 - If a F401 is found, the tool:
-  * adds an inline T4 unused-import tag (idempotent) such as "# TODO[T4-UNUSED-IMPORT]: <reason>"
+  * adds an inline T4 unused-import annotation (idempotent) such as "# TODO[T4-UNUSED-IMPORT]: <reason>"
   * ensures a small header block exists at top of file once
   * logs each action to reports/todos/unused_imports.jsonl
 - --strict: exits non-zero if any F401 remain unannotated (for CI fail)
@@ -36,8 +36,8 @@ HEADER_BLOCK = (
     "# ---\n"
 )
 
-TODO_TAG = "TODO[T4-UNUSED-IMPORT]"
-INLINE_RE = re.compile(rf"#\s*{re.escape(TODO_TAG)}")
+UNUSED_IMPORT_TAG = "TODO[T4-UNUSED-IMPORT]"
+INLINE_RE = re.compile(rf"#\s*{re.escape(UNUSED_IMPORT_TAG)}")
 IMPORT_RE = re.compile(r"^\s*(from\s+\S+\s+import\s+.+|import\s+\S+.*)$")
 
 
@@ -77,7 +77,7 @@ def path_is_skipped(p: Path) -> bool:
 
 
 def ensure_header(text: str) -> str:
-    return text if TODO_TAG in text else (HEADER_BLOCK + text)
+    return text if UNUSED_IMPORT_TAG in text else (HEADER_BLOCK + text)
 
 
 def annotate_line(text: str, line_no: int, reason: str):
@@ -90,7 +90,7 @@ def annotate_line(text: str, line_no: int, reason: str):
         return text, False
     if not IMPORT_RE.match(line):
         return text, False
-    lines[idx] = f"{line}  # {TODO_TAG}: {reason}"
+    lines[idx] = f"{line}  # {UNUSED_IMPORT_TAG}: {reason}"
     new_text = "\n".join(lines)
     if not text.endswith("\n"):
         new_text += "\n"
@@ -98,10 +98,10 @@ def annotate_line(text: str, line_no: int, reason: str):
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Annotate or enforce TODOs for unused imports (F401).")
+    ap = argparse.ArgumentParser(description="Annotate or enforce tracking tags for unused imports (F401).")
     ap.add_argument("--paths", nargs="+", default=DEFAULT_ROOTS, help="Roots to scan (default: lukhas MATRIZ).")
     ap.add_argument(
-        "--reason", default="kept pending MATRIZ wiring (document or remove)", help="Reason appended to the TODO tag."
+        "--reason", default="kept pending MATRIZ wiring (document or remove)", help="Reason appended to the tracking tag."
     )
     ap.add_argument("--strict", action="store_true", help="Exit non-zero if any F401 remain unannotated.")
     ap.add_argument("--dry-run", action="store_true", help="Do not write changes; only print actions.")
@@ -165,7 +165,7 @@ def main():
         if changed:
             new_code = ensure_header(new_code)
             if args.dry_run:
-                print(f"[DRY-RUN] Would annotate {file_path}:{line} -> {TODO_TAG}")
+                print(f"[DRY-RUN] Would annotate {file_path}:{line} -> {UNUSED_IMPORT_TAG}")
             else:
                 file_path.write_text(new_code, encoding="utf-8")
             edits += 1

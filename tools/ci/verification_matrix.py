@@ -122,7 +122,7 @@ class VerificationMatrix:
         }
 
     def verify_todo(self, todo: Dict[str, Any]) -> Dict[str, Any]:
-        """Verify a TODO against appropriate verification matrix"""
+        """Verify a manifest task against the appropriate verification matrix."""
         module = todo.get("module", "").lower()
         risk = todo.get("risk", "medium")
         todo_type = todo.get("est", {}).get("type", "unknown")
@@ -147,7 +147,7 @@ class VerificationMatrix:
         }
 
     def _categorize_todo(self, todo: Dict[str, Any]) -> Optional[str]:
-        """Categorize TODO based on module and content"""
+        """Categorize a task based on module and content."""
         module = todo.get("module", "").lower()
         title = todo.get("title", "").lower()
         file_path = todo.get("file", "").lower()
@@ -161,7 +161,7 @@ class VerificationMatrix:
         return None
 
     def _create_basic_verification(self, todo: Dict[str, Any]) -> Dict[str, Any]:
-        """Create basic verification for uncategorized TODOs"""
+        """Create basic verification for uncategorized tasks."""
         return {
             "todo_id": todo.get("task_id", "unknown"),
             "verification_category": "basic",
@@ -172,7 +172,7 @@ class VerificationMatrix:
                 "Documentation updated if applicable",
             ],
             "acceptance_criteria": [
-                "Implementation matches TODO description",
+                "Implementation matches task description",
                 "No breaking changes introduced",
                 "Code follows project style guidelines",
             ],
@@ -183,7 +183,7 @@ class VerificationMatrix:
 
     def _generate_acceptance_criteria(self, todo: Dict[str, Any], rules: Dict[str, Any]) -> List[str]:
         """Generate acceptance criteria based on verification rules"""
-        criteria = ["Implementation completes the TODO requirements", "All verification requirements satisfied"]
+        criteria = ["Implementation completes the recorded task requirements", "All verification requirements satisfied"]
 
         if rules.get("requires_integration_test"):
             criteria.append("Integration tests pass with live components")
@@ -277,7 +277,7 @@ class VerificationMatrix:
         return evidence
 
     def generate_verification_report(self, todos: List[Dict[str, Any]]) -> Dict[str, Any]:
-        """Generate comprehensive verification report for all TODOs"""
+        """Generate comprehensive verification report for all tracked tasks."""
         verifications = [self.verify_todo(todo) for todo in todos]
 
         # Count by category and risk level
@@ -342,7 +342,7 @@ def main():
         json.dump(report, f, indent=2)
 
     print(f"✅ Generated verification matrix: {output_file}")
-    print(f"📊 Summary: {report['total_todos']} TODOs, {report['high_risk_count']} high-risk")
+    print(f"📊 Summary: {report['total_todos']} tracked tasks, {report['high_risk_count']} high-risk")
     print(
         f"🛡️ Safety: {report['summary']['claude_review_required']} need review, "
         f"{report['summary']['feature_flag_required']} need feature flags"
