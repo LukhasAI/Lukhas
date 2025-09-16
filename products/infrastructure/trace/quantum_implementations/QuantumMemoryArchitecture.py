@@ -18,65 +18,139 @@
 └────────────────────────────────────────────────────────────────────────────
 """
 
-from dataclasses import dataclass
+from __future__ import annotations
+
+import logging
+from dataclasses import dataclass, field
 from typing import Any, Optional
 
 import numpy as np
-try:
+
+logger = logging.getLogger(__name__)
+
+try:  # pragma: no cover - exercised indirectly via fallback tests
     from qiskit import QuantumCircuit, QuantumRegister
-except ImportError:  # pragma: no cover - qiskit is optional in this environment
+except Exception:  # noqa: BLE001 - qiskit is optional in this lane
 
-    class QuantumRegister:
-        """Lightweight fallback quantum register."""
+    class QuantumRegister(list):  # type: ignore[misc]
+        """Lightweight stand-in for qiskit's QuantumRegister."""
 
-        # ΛTAG: quantum_memory, register_fallback
-
-        def __init__(self, capacity_qubits: int, name: str = "q") -> None:
-            self.size = capacity_qubits
+        def __init__(self, size: int, name: str):
+            super().__init__(range(size))
+            self.size = size
             self.name = name
 
-        def __len__(self) -> int:
-            return self.size
+        def __repr__(self) -> str:  # pragma: no cover - debugging helper
+            return f"QuantumRegister(name={self.name!r}, size={self.size})"
 
-        def __iter__(self):
-            return iter(range(self.size))
+    class QuantumCircuit:  # type: ignore[misc]
+        """Simplified circuit recorder for deterministic fallbacks."""
 
-        def __getitem__(self, item):
-            qubits = list(range(self.size))
-            return qubits[item]
+        def __init__(self, *registers: QuantumRegister):
+            self.registers = list(registers)
+            self.operations: list[tuple[str, Any]] = []
 
+        def h(self, register: QuantumRegister) -> None:
+            self.operations.append(("H", list(register)))
 
-    class QuantumCircuit:
-        """Fallback circuit capturing intended operations."""
+        def append(self, operation: Any, qubits: list[int]) -> None:
+            self.operations.append(("APPEND", operation, list(qubits)))
 
-        def __init__(self, *registers) -> None:
-            self.registers = registers
-            self.operations = []
+        def mcp(self, angle: float, controls: list[int], target: int) -> None:
+            self.operations.append(("MCP", angle, list(controls), target))
 
-        def h(self, register) -> None:
-            self.operations.append(("h", list(register) if hasattr(register, "__iter__") else register))
-
-        def append(self, operation, qubits) -> None:
-            self.operations.append(("append", operation, list(qubits) if hasattr(qubits, "__iter__") else qubits))
-
-        def mcp(self, *args, **kwargs) -> None:
-            self.operations.append(("mcp", args, kwargs))
+        def measure_all(self) -> None:
+            self.operations.append(("MEASURE_ALL",))
 
 
 @dataclass
-class QuantumState:  # pragma: no cover - fallback placeholder
-    label: str = "fallback"
+class QuantumState:
+    """Deterministic representation of a quantum-inspired state."""
+
+    amplitudes: np.ndarray
+    associations: tuple[str, ...] = tuple()
+    label: Optional[str] = None
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+    def normalized(self) -> "QuantumState":
+        norm = np.linalg.norm(self.amplitudes)
+        if not norm:
+            return QuantumState(np.zeros_like(self.amplitudes), self.associations, self.label, dict(self.metadata))
+        normalised = self.amplitudes / norm
+        return QuantumState(normalised, self.associations, self.label, dict(self.metadata))
+
+    def with_associations(self, associations: list[str]) -> "QuantumState":
+        return QuantumState(self.amplitudes, tuple(sorted(set(associations))), self.label, dict(self.metadata))
 
 
 @dataclass
-class QuantumQuery:  # pragma: no cover - fallback placeholder
-    pattern: str = ""
+class QuantumQuery:
+    """Symbolic quantum query description for associative recall."""
+
+    associations: tuple[str, ...]
+    max_results: int = 3
+    min_confidence: float = 0.35
+
+    def match_score(self, state: QuantumState) -> float:
+        if not self.associations:
+            return 0.0
+        overlap = len(set(self.associations).intersection(state.associations))
+        return overlap / len(self.associations)
 
 
 @dataclass
-class QuantumMemory:  # pragma: no cover - fallback placeholder
-    identifier: str
-    metadata: dict[str, Any]
+class QuantumMemory:
+    """Stored associative memory result."""
+
+    memory_id: str
+    confidence: float
+    associations: tuple[str, ...]
+    collapse_hash: str
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "memory_id": self.memory_id,
+            "confidence": self.confidence,
+            "associations": self.associations,
+            "collapse_hash": self.collapse_hash,
+        }
+
+
+class SurfaceCodeErrorCorrection:
+    """Minimal deterministic surface code helper."""
+
+    def __init__(self, physical_qubits_per_logical: int = 17) -> None:
+        self.physical_qubits_per_logical = physical_qubits_per_logical
+
+    async def encode(self, state: QuantumState) -> QuantumState:
+        """Return a state annotated with error-correction metadata."""
+
+        metadata = dict(state.metadata)
+        metadata.update({"encoded": True, "physical_qubits_per_logical": self.physical_qubits_per_logical})
+        return QuantumState(state.amplitudes, state.associations, state.label, metadata)
+
+    async def decode(self, state: QuantumState) -> QuantumState:
+        metadata = dict(state.metadata)
+        metadata["decoded"] = True
+        return QuantumState(state.amplitudes, state.associations, state.label, metadata)
+
+
+class DecoherenceMitigation:
+    """Simple decoherence mitigation strategy tracker."""
+
+    def __init__(self, strategy: str = "dynamical_decoupling") -> None:
+        self.strategy = strategy
+        self._stabilization_events: list[dict[str, Any]] = []
+
+    async def stabilize(self, state: QuantumState) -> QuantumState:
+        self._stabilization_events.append(
+            {
+                "strategy": self.strategy,
+                "associations": state.associations,
+                "ΛTAG": "ΛDECOHERENCE_STABILIZED",
+            }
+        )
+        return state
 
 
 class QIAssociativeMemoryBank:
@@ -89,38 +163,15 @@ class QIAssociativeMemoryBank:
         self.memory_register = QuantumRegister(capacity_qubits, "memory")
         self.query_register = QuantumRegister(capacity_qubits, "query")
         self.oracle_circuits: dict[str, QuantumCircuit] = {}
+        self.memory_store: dict[str, QuantumState] = {}
 
         # Quantum error correction
-        try:
-            from quantum.error_correction import SurfaceCodeErrorCorrection  # type: ignore[import-not-found]
-        except ImportError:  # pragma: no cover - fallback stub
-
-            class SurfaceCodeErrorCorrection:  # type: ignore[override]
-                def __init__(self, *_, **__):
-                    pass
-
-                async def encode(self, state):
-                    return state
-
         self.error_correction = SurfaceCodeErrorCorrection(physical_qubits_per_logical=17)
 
         # Decoherence mitigation
-        try:
-            from quantum.decoherence import DecoherenceMitigation  # type: ignore[import-not-found]
-        except ImportError:  # pragma: no cover - fallback stub
-
-            class DecoherenceMitigation:  # type: ignore[override]
-                def __init__(self, *_, **__):
-                    pass
-
-                async def stabilize(self, state):
-                    return state
-
         self.decoherence_mitigator = DecoherenceMitigation(strategy="dynamical_decoupling")
 
-    async def store_quantum_state(
-        self, memory_id: str, quantum_state: QuantumState, associations: list[str]  # noqa: F821
-    ):
+    async def store_quantum_state(self, memory_id: str, quantum_state: QuantumState, associations: list[str]) -> None:
         """
         Store information in quantum superposition
         """
@@ -137,11 +188,23 @@ class QIAssociativeMemoryBank:
         # 4. Maintain coherence with active stabilization
         await self.decoherence_mitigator.stabilize(protected_state)
 
+        # 5. Persist state
+        self.memory_store[memory_id] = protected_state
+        logger.info(
+            "Quantum memory stored",
+            extra={
+                "ΛTAG": "ΛMEMORY_STORE",
+                "memory_id": memory_id,
+                "associations": list(protected_state.associations),
+                "driftScore": float(np.linalg.norm(protected_state.amplitudes)),
+            },
+        )
+
     async def quantum_associative_recall(
         self,
-        query: QuantumQuery,  # noqa: F821  # TODO: QuantumQuery
-        num_iterations: Optional[int] = None,  # noqa: F821  # TODO: QuantumQuery
-    ) -> list[QuantumMemory]:  # noqa: F821  # TODO: QuantumMemory
+        query: QuantumQuery,
+        num_iterations: Optional[int] = None,
+    ) -> list[QuantumMemory]:
         """
         Retrieve memories using quantum parallelism
         """
@@ -161,10 +224,19 @@ class QIAssociativeMemoryBank:
             circuit.append(self._diffusion_operator(), self.memory_register[:])
 
         # 4. Measure with error mitigation
-        results = await self._measure_with_mitigation(circuit)
+        results = await self._measure_with_mitigation(circuit, query)
 
         # 5. Post-process to extract memories
-        return self._extract_memories(results, query)
+        memories = self._extract_memories(results, query)
+        logger.info(
+            "Quantum recall completed",
+            extra={
+                "ΛTAG": "ΛMEMORY_RECALL",
+                "query_associations": list(query.associations),
+                "results": [memory.as_dict() for memory in memories],
+            },
+        )
+        return memories
 
     def _create_grover_oracle(self, memory_id: str, associations: list[str]) -> QuantumCircuit:
         """
@@ -181,3 +253,79 @@ class QIAssociativeMemoryBank:
             oracle.mcp(np.pi, control_qubits, self.memory_register[-1])
 
         return oracle
+
+    async def _encode_to_quantum(
+        self, memory_id: str, quantum_state: QuantumState, associations: list[str]
+    ) -> QuantumState:
+        """Normalize and annotate states with associations."""
+
+        normalized_state = quantum_state.normalized().with_associations(associations)
+        metadata = dict(normalized_state.metadata)
+        metadata.update(
+            {
+                "memory_id": memory_id,
+                "associations": list(normalized_state.associations),
+                "ΛTAG": "ΛENCODED_STATE",
+            }
+        )
+        return QuantumState(
+            normalized_state.amplitudes, normalized_state.associations, normalized_state.label, metadata
+        )
+
+    def _build_query_oracle(self, query: QuantumQuery) -> dict[str, Any]:
+        """Represent a query oracle structure for deterministic evaluation."""
+
+        return {
+            "associations": query.associations,
+            "max_results": query.max_results,
+            "ΛTAG": "ΛQUERY_ORACLE",
+        }
+
+    def _diffusion_operator(self) -> dict[str, Any]:
+        """Symbolic diffusion operator marker."""
+
+        return {"operation": "diffusion", "ΛTAG": "ΛDIFFUSE"}
+
+    async def _measure_with_mitigation(self, circuit: QuantumCircuit, query: QuantumQuery) -> dict[str, float]:
+        """Compute deterministic probabilities using association similarity."""
+
+        del circuit  # Circuit is recorded for audit trails only
+        scores: dict[str, float] = {}
+        for memory_id, state in self.memory_store.items():
+            score = query.match_score(state)
+            if score > 0:
+                scores[memory_id] = score
+        return scores
+
+    def _extract_memories(self, results: dict[str, float], query: QuantumQuery) -> list[QuantumMemory]:
+        """Convert measurement ratios into QuantumMemory objects."""
+
+        extracted: list[QuantumMemory] = []
+        if not results:
+            return extracted
+
+        total = sum(results.values()) or 1.0
+        for memory_id, confidence in sorted(results.items(), key=lambda item: item[1], reverse=True):
+            if confidence < query.min_confidence:
+                continue
+            state = self.memory_store[memory_id]
+            collapse_hash = self._hash_to_quantum_pattern(memory_id, list(state.associations))
+            extracted.append(
+                QuantumMemory(
+                    memory_id=memory_id,
+                    confidence=confidence / total,
+                    associations=state.associations,
+                    collapse_hash=collapse_hash,
+                )
+            )
+            if len(extracted) >= query.max_results:
+                break
+        return extracted
+
+    def _hash_to_quantum_pattern(self, memory_id: str, associations: list[str]) -> str:
+        """Create deterministic hash-based pattern representation."""
+
+        encoded = "|".join([memory_id, *sorted(associations)])
+        numeric = sum(ord(ch) for ch in encoded)
+        pattern_bits = bin(numeric % (2 ** len(self.memory_register)))[2:]
+        return pattern_bits.zfill(len(self.memory_register))

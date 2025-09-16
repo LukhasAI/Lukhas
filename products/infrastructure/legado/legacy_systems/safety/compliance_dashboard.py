@@ -13,86 +13,109 @@ Integration Date: 2025-05-31T07:55:27.745437
 import json
 import logging
 import os
+import warnings
 from pathlib import Path
+from typing import Any, Iterable, Sequence
+
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 import pandas as pd
 
+try:  # pragma: no cover - optional integration
+    from lukhas.core.interfaces.voice.core.sayit import (
+        trace_tools,  # assuming trace_tools.py is importable
+    )
+except Exception:  # noqa: BLE001 - fallback when integration not present
 
-try:
-    import streamlit as st
-except ImportError:  # pragma: no cover - executed when Streamlit missing
-    logger = logging.getLogger(__name__)
+    class _TraceToolsFallback:
+        """Minimal analytics fallback for environments without voice interfaces."""
 
-    class _StreamlitColumnStub:
-        """Minimal column stub mirroring the subset of Streamlit we rely on."""
+        @staticmethod
+        def get_summary_stats(frame: pd.DataFrame) -> dict[str, Any]:
+            return {
+                "row_count": len(frame.index),
+                "columns": list(frame.columns),
+                "ΛTAG": "ΛTRACE_FALLBACK",
+            }
 
-        def image(self, *_args, **_kwargs):
-            return None
+    trace_tools = _TraceToolsFallback()
 
-        def warning(self, *_args, **_kwargs):
-            return None
+logger = logging.getLogger(__name__)
 
-    class _StreamlitStub:
-        """Fallback that keeps dashboards functional in environments without Streamlit."""
+try:  # pragma: no cover - exercised in environments with streamlit available
+    import streamlit as st  # type: ignore
 
-        # ΛTAG: streamlit_fallback
+    STREAMLIT_AVAILABLE = True
+except Exception:  # noqa: BLE001 - optional dependency fallback
+    STREAMLIT_AVAILABLE = False
+
+    class _StreamlitFallback:
+        """Deterministic fallback that records dashboard intent via logging."""
+
         def __init__(self) -> None:
-            self.session_state: dict[str, object] = {}
+            self._state: dict[str, Any] = {}
 
-        def set_page_config(self, *_args, **_kwargs):
-            return None
+        def set_page_config(self, **kwargs: Any) -> None:
+            self._state["page_config"] = kwargs
+            logger.info("Streamlit fallback set_page_config", extra={"ΛTAG": "ΛSTREAMLIT_FALLBACK", "config": kwargs})
 
-        def title(self, *_args, **_kwargs):
-            return None
+        def title(self, text: str) -> None:
+            logger.info("Streamlit fallback title", extra={"ΛTAG": "ΛSTREAMLIT_FALLBACK", "title": text})
 
-        def markdown(self, *_args, **_kwargs):
-            return None
+        def warning(self, text: str) -> None:
+            logger.warning("Streamlit fallback warning", extra={"ΛTAG": "ΛSTREAMLIT_FALLBACK", "warning": text})
 
-        def divider(self):
-            return None
+        def markdown(self, text: str) -> None:
+            logger.info("Streamlit fallback markdown", extra={"ΛTAG": "ΛSTREAMLIT_FALLBACK", "markdown": text})
 
-        def columns(self, count: int):
-            return [_StreamlitColumnStub() for _ in range(count)]
+        def code(self, code_text: str, language: str = "") -> None:
+            logger.info(
+                "Streamlit fallback code",
+                extra={"ΛTAG": "ΛSTREAMLIT_FALLBACK", "code": code_text, "language": language},
+            )
 
-        def error(self, *_args, **_kwargs):
-            return None
+        def caption(self, text: str) -> None:
+            logger.info("Streamlit fallback caption", extra={"ΛTAG": "ΛSTREAMLIT_FALLBACK", "caption": text})
 
-        def warning(self, *_args, **_kwargs):
-            return None
+        def multiselect(self, label: str, options: Sequence[str], default: Iterable[str] | None = None) -> list[str]:
+            selected = list(default if default is not None else options)
+            logger.info(
+                "Streamlit fallback multiselect",
+                extra={
+                    "ΛTAG": "ΛSTREAMLIT_FALLBACK",
+                    "label": label,
+                    "options": list(options),
+                    "selected": selected,
+                },
+            )
+            return selected
 
-        def info(self, *_args, **_kwargs):
-            return None
+        def dataframe(self, data: Any) -> None:
+            logger.info(
+                "Streamlit fallback dataframe",
+                extra={"ΛTAG": "ΛSTREAMLIT_FALLBACK", "rows": getattr(data, "shape", None)},
+            )
 
-        def code(self, *_args, **_kwargs):
-            return None
+        def json(self, value: Any) -> None:
+            logger.info(
+                "Streamlit fallback json",
+                extra={
+                    "ΛTAG": "ΛSTREAMLIT_FALLBACK",
+                    "json_keys": list(value.keys()) if isinstance(value, dict) else None,
+                },
+            )
 
-        def caption(self, *_args, **_kwargs):
-            return None
-
-        def multiselect(self, _label, options, default=None):
-            return list(default) if default is not None else list(options)
-
-        def dataframe(self, *_args, **_kwargs):
-            return None
-
-        def json(self, *_args, **_kwargs):
-            return None
-
-        def button(self, *_args, **_kwargs):
+        def button(self, label: str) -> bool:
+            logger.info("Streamlit fallback button", extra={"ΛTAG": "ΛSTREAMLIT_FALLBACK", "label": label})
             return False
 
-        def checkbox(self, *_args, **_kwargs):
-            return False
+        def error(self, text: str) -> None:
+            logger.error("Streamlit fallback error", extra={"ΛTAG": "ΛSTREAMLIT_FALLBACK", "error": text})
 
-        def success(self, *_args, **_kwargs):
-            return None
+        def info(self, text: str) -> None:
+            logger.info("Streamlit fallback info", extra={"ΛTAG": "ΛSTREAMLIT_FALLBACK", "info": text})
 
-    st = _StreamlitStub()
-    logger.warning("Streamlit not installed; using dashboard stub for compliance visualisation")
-
-from lukhas.core.interfaces.voice.core.sayit import (
-    trace_tools,  # assuming trace_tools.py is importable
-)
+    st = _StreamlitFallback()
 
 LOG_PATH = "logs/emergency_log.jsonl"
 
