@@ -1,4 +1,3 @@
-
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: tier_visualizer.py
@@ -13,9 +12,6 @@ Integration Date: 2025-05-31T07:55:31.353251
 │       Author: Gonzo R.D.M & GPT-4o · Linked to core/utils/ethics_manifest   │
 ╰──────────────────────────────────────────────────────────────────────────────╯
 """
-
-# import streamlit as st  # TODO: Install or implement streamlit
-
 
 import json
 

@@ -1,5 +1,6 @@
 import logging
 import time
+
 logger = logging.getLogger(__name__)
 """
 ╔═══════════════════════════════════════════════════════════════════════════╗
@@ -190,7 +191,7 @@ def make_code_block(content, lang="text"):
 
 def make_toggle_block(module_name, header_text, usage_text):
     """Create a Notion toggle block for module documentation."""
-    timestamp = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
+    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
     return {
         "object": "block",
         "type": "toggle",
@@ -216,10 +217,9 @@ def make_toggle_block(module_name, header_text, usage_text):
     }
 
 
-
 def make_flat_block(module_name, header_text, usage_text):
     """Create flat layout blocks for module documentation."""
-    timestamp = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
+    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
     return [
         {
             "object": "block",
@@ -250,7 +250,6 @@ def make_flat_block(module_name, header_text, usage_text):
     ]
 
 
-
 def make_minimal_block(module_name, usage_text):
     """Create minimal layout blocks for module documentation."""
     return [
@@ -268,7 +267,6 @@ def make_minimal_block(module_name, usage_text):
         },
         make_code_block(usage_text, lang="python"),
     ]
-
 
 
 def generate_summary(text):
@@ -358,8 +356,6 @@ def run_legacy_streamlit_mode():
     This consolidates the original notion_sync.py Streamlit features.
     """
     try:
-        #         import streamlit as st  # TODO: Install or implement streamlit
-
         # Load configuration
         config_path = Path("config.json")
         if config_path.exists():

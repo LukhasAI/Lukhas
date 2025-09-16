@@ -32,9 +32,6 @@ from candidate.core.common import get_logger
     MediaFileStorageError,
 )
 # from streamlit.runtime.stats import CacheStat, CacheStatsProvider,
-# group_stats  # TODO: Install or implement streamlit
-
-
 # Mimetype -> filename extension map for the `get_extension_for_mimetype`
 # function. We use Python's `mimetypes.guess_extension` for most mimetypes,
 # but (as of Python 3.9) `mimetypes.guess_extension("audio/wav")` returns None,

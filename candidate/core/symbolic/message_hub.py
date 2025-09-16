@@ -19,7 +19,6 @@ Integration Date: 2025-05-31T07:55:28.196509
 
 import json
 
-# import streamlit as st  # TODO: Install or implement streamlit
 from dna_link import LucasDNALink
 
 st.sidebar.title("⚙️ Settings & Compliance")
