@@ -1,0 +1,115 @@
+# LUKHAS AI Platform - AI Development Tools Configuration
+# Universal configuration for any AI coding assistant or development tool
+
+project:
+  name: "LUKHAS AI Platform"
+  description: "Consciousness-Aware AI Development Platform with Trinity Framework"
+  architecture: "Trinity Framework (⚛️ Identity + 🧠 Consciousness + 🛡️ Guardian)"
+
+context_files:
+  # Vendor-neutral context files (recommended for all AI tools)
+  preferred_format: "lukhas_context.md"
+
+  # Primary context locations
+  master_overview: "lukhas_context.md"
+  development_hub: "candidate/lukhas_context.md"
+  production_layer: "lukhas/lukhas_context.md"
+  cognitive_engine: "matriz/lukhas_context.md"
+
+  # Trinity Framework contexts
+  identity_systems:
+    - "identity/lukhas_context.md"
+    - "candidate/core/identity/lukhas_context.md"
+    - "lukhas/identity/lukhas_context.md"
+
+  consciousness_systems:
+    - "consciousness/lukhas_context.md"
+    - "candidate/consciousness/lukhas_context.md"
+    - "lukhas/consciousness/lukhas_context.md"
+
+  guardian_systems:
+    - "ethics/lukhas_context.md"
+    - "governance/lukhas_context.md"
+    - "ethics/guardian/lukhas_context.md"
+
+  # Specialized domains
+  memory_systems:
+    - "memory/lukhas_context.md"
+    - "candidate/memory/lukhas_context.md"
+    - "lukhas/memory/lukhas_context.md"
+
+  bio_quantum:
+    - "bio/lukhas_context.md"
+    - "quantum/lukhas_context.md"
+
+  products_deployment:
+    - "products/lukhas_context.md"
+    - "products/enterprise/lukhas_context.md"
+    - "products/experience/lukhas_context.md"
+
+# Claude Desktop compatibility (fallback)
+claude_compatibility:
+  claude_me_files: "Available in parallel with lukhas_context.md"
+  identical_content: true
+  use_case: "Claude Desktop optimization"
+
+# Development workflow guidance
+workflow:
+  context_first: "Always read relevant lukhas_context.md before editing files"
+  sync_maintenance: "Use scripts/sync_context_files.sh for updates"
+
+  # Essential commands
+  setup: "make bootstrap"
+  development: "make dev"
+  testing: "make test"
+  linting: "make lint-unused"
+
+  # Context management
+  sync_check: "./scripts/sync_context_files.sh --check-status"
+  sync_all: "./scripts/sync_context_files.sh --bidirectional"
+  maintenance: "./scripts/maintain_context_files.sh"
+
+# Architecture principles
+architecture:
+  lane_isolation: true
+  import_boundaries: "Defined in ops/matriz.yaml"
+  trinity_alignment: "All code should reflect ⚛️🧠🛡️ framework"
+
+  # Key domains
+  candidate_lane: "Development workspace (2,877 files)"
+  lukhas_lane: "Integration layer (148 files)"
+  matriz_engine: "Cognitive DNA processing"
+  products_lane: "Production deployment (4,093 files)"
+
+# AI tool optimization
+ai_guidance:
+  context_priority:
+    1: "Read lukhas_context.md in target directory"
+    2: "Understand Trinity Framework alignment"
+    3: "Check lane isolation rules"
+    4: "Apply consciousness-aware patterns"
+
+  naming_conventions:
+    adapters: "*_adapter.py"
+    hubs: "*_hub.py"
+    tests: "test_*.py"
+    demos: "demo_*.py"
+
+  patterns_to_recognize:
+    - "Symbolic vocabulary usage"
+    - "Bio-inspired design patterns"
+    - "Consciousness integration points"
+    - "Guardian system compliance"
+    - "Lambda ID authentication flows"
+
+# Documentation strategy
+documentation:
+  dual_format: "lukhas_context.md + claude.me in each directory"
+  vendor_neutral: "lukhas_context.md (recommended)"
+  claude_optimized: "claude.me (compatibility)"
+  sync_required: "Keep both formats synchronized"
+
+  key_files:
+    - ".github/copilot-instructions.md (AI agent guidance)"
+    - "AGENTS.md (Multi-agent coordination)"
+    - "docs/CONTEXT_FILES.md (Context system documentation)"
