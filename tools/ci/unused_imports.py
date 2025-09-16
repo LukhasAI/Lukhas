@@ -101,7 +101,9 @@ def main():
     ap = argparse.ArgumentParser(description="Annotate or enforce tracking tags for unused imports (F401).")
     ap.add_argument("--paths", nargs="+", default=DEFAULT_ROOTS, help="Roots to scan (default: lukhas MATRIZ).")
     ap.add_argument(
-        "--reason", default="kept pending MATRIZ wiring (document or remove)", help="Reason appended to the tracking tag."
+        "--reason",
+        default="kept pending MATRIZ wiring (document or remove)",
+        help="Reason appended to the tracking tag.",
     )
     ap.add_argument("--strict", action="store_true", help="Exit non-zero if any F401 remain unannotated.")
     ap.add_argument("--dry-run", action="store_true", help="Do not write changes; only print actions.")

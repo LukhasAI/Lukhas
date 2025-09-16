@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from datetime import timezone
 
 """
@@ -24,7 +26,6 @@ Design Notes
 - External tools (git, semgrep) are optional. The analyzer gracefully degrades.
 
 """
-from __future__ import annotations
 
 import ast
 import datetime as _dt
@@ -38,7 +39,7 @@ import sys
 import textwrap
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 try:
     import numpy as np
@@ -120,7 +121,7 @@ class FunctionSig:
     lineno: int
     end_lineno: int
     source: str
-    docstring: str | None
+    docstring: Optional[str]
 
 
 @dataclass
@@ -193,7 +194,7 @@ class EmbeddingAdapter:
         self,
         provider: str = "openai",
         model: str = "text-embedding-3-small",
-        dimensions: int | None = None,
+        dimensions: Optional[int] = None,
     ) -> None:
         self.provider = provider
         self.model = model
@@ -391,11 +392,11 @@ class IntegrationAnalyzer:
 
     def __init__(
         self,
-        audit: Audit | None = None,
-        embedder: EmbeddingAdapter | None = None,
-        reasoner: ReasonerAdapter | None = None,
+        audit: Optional[Audit] = None,
+        embedder: Optional[EmbeddingAdapter] = None,
+        reasoner: Optional[ReasonerAdapter] = None,
         confidence_threshold: float = 0.75,
-        style_prefs: dict[str, Any] | None = None,
+        style_prefs: Optional[dict[str, Any]] = None,
     ) -> None:
         self.audit = audit or Audit()
         self.embedder = embedder or EmbeddingAdapter()
@@ -611,7 +612,9 @@ class IntegrationAnalyzer:
                 r"^(get|set|process|validate|compute|update|create)",
                 func.name,
                 re.IGNORECASE,
-            ).group(1)  # type: ignore
+            ).group(
+                1
+            )  # type: ignore
             verb_pattern = f"{verb.lower()} + noun"
         domain = self._infer_domain(func.name)
         preferred = func.name
@@ -896,7 +899,7 @@ jobs:
         self,
         orphan_view: ModuleView,
         lukhas_context: str,
-        model_override: str | None = None,
+        model_override: Optional[str] = None,
     ) -> dict[str, list[SWOTEntry]]:
         sys_prompt = (
             "You are an expert software integration analyst for the LUKHAS symbolic AGI project. "
@@ -974,14 +977,14 @@ jobs:
         self,
         orphan_path: Path,
         lukhas_root: Path,
-        module_name: str | None = None,
+        module_name: Optional[str] = None,
         use_openai: bool = True,
-        model_versions: dict[str, str] | None = None,
+        model_versions: Optional[dict[str, str]] = None,
         cheap_first: bool = False,
-        cascade_models: list[str] | None = None,
+        cascade_models: Optional[list[str]] = None,
         extra_info: bool = False,
-        simulate_out: Path | None = None,
-        naming_map_out: Path | None = None,
+        simulate_out: Optional[Path] = None,
+        naming_map_out: Optional[Path] = None,
         context_lines: int = 3,
     ) -> dict[str, Any]:
         self.audit.log(
@@ -1230,7 +1233,7 @@ jobs:
 # -----------------------------
 
 
-def shutil_which(cmd: str) -> str | None:
+def shutil_which(cmd: str) -> Optional[str]:
     from shutil import which
 
     return which(cmd)

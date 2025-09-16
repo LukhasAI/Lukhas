@@ -183,7 +183,10 @@ class VerificationMatrix:
 
     def _generate_acceptance_criteria(self, todo: Dict[str, Any], rules: Dict[str, Any]) -> List[str]:
         """Generate acceptance criteria based on verification rules"""
-        criteria = ["Implementation completes the recorded task requirements", "All verification requirements satisfied"]
+        criteria = [
+            "Implementation completes the recorded task requirements",
+            "All verification requirements satisfied",
+        ]
 
         if rules.get("requires_integration_test"):
             criteria.append("Integration tests pass with live components")
