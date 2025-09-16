@@ -168,6 +168,12 @@ class LUKHASConfig:
         return self.config.get("OPENAI_API_KEY", "", required=self.is_production)
 
     @property
+    def openai_org_id(self) -> str:
+        """OpenAI organization identifier for workspace scoping"""
+        # ΛTAG: config_openai
+        return self.config.get("OPENAI_ORG_ID", "")
+
+    @property
     def anthropic_api_key(self) -> str:
         """Anthropic API key for Claude integration"""
         return self.config.get("ANTHROPIC_API_KEY", "", required=False)

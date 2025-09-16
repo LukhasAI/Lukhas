@@ -136,12 +136,12 @@ class UnifiedOpenAIClient:
         # Use centralized config if available, fallback to os.getenv
         if _config:
             self.api_key = api_key or _config.openai_api_key
-            self.organization = organization or os.getenv(
-                "OPENAI_ORG_ID"
-            )  # TODO[T4-AUDIT]: Add organization to centralized config
+            org_candidate = organization or _config.openai_org_id
         else:
             self.api_key = api_key or os.getenv("OPENAI_API_KEY")
-            self.organization = organization or os.getenv("OPENAI_ORG_ID")
+            org_candidate = organization or os.getenv("OPENAI_ORG_ID")
+
+        self.organization = org_candidate or None
         self.base_url = base_url
         self.default_model = default_model
         self.max_retries = max_retries
