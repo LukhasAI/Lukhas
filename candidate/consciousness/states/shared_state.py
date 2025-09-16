@@ -76,20 +76,19 @@ MODULE_NAME = "shared_state"
 
 
 # Identity integration
-# AIMPORT_TODO: Review robustness of importing IdentityClient from candidate.core.lukhas_id.
-# Consider if it should be part of a shared, installable library or if current path assumptions are stable.
+# Fixed: Using IdentityClient from candidate.governance.identity.interface
 # ΛNOTE: The system attempts to use IdentityClient. If unavailable, it
 # falls back, limiting identity-based features.
 identity_available = False
 IdentityClient = None  # Placeholder
 try:
-    from candidate.core.identity.vault.lukhas_id import IdentityClient  # type: ignore
+    from candidate.governance.identity.interface import IdentityClient
 
     identity_available = True
-    logger.info("IdentityClient imported successfully from candidate.core.lukhas_id.")
+    logger.info("IdentityClient imported successfully from candidate.governance.identity.interface.")
 except ImportError as e:
     logger.warning(
-        "Failed to import IdentityClient from candidate.core.lukhas_id. Identity features will be limited.",
+        "Failed to import IdentityClient from candidate.governance.identity.interface. Identity features will be limited.",
         error=str(e),
     )
 

@@ -1,12 +1,9 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 import asyncio
 import json
 import logging
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
+from typing import Any
 
 from lukhas.core.common import get_logger
 
@@ -29,8 +26,7 @@ try:
     from backend.core.neuro_symbolic_engine import NeuroSymbolicEngine
     from backend.learning.meta_learning import MetaLearningSystem
 
-    # from AID.service.identity_manager import IdentityManager  # TODO:
-    # Install or implement AID
+    from governance.identity.core.id_service import IdentityManager
     from backend.security.privacy_manager import PrivacyManager
     from frontend.interface.adaptive_interface_generator import (
         AdaptiveInterfaceGenerator,
@@ -44,6 +40,40 @@ try:
 except ImportError as e:
     logger.critical(f"Failed to import required components: {e}")
     sys.exit(1)
+
+# Identity manager fallback stack
+try:
+    from AID.service.identity_manager import IdentityManager as _LegacyIdentityManager
+except ImportError:
+    try:
+        from governance.identity.core.id_service import IdentityManager as _LegacyIdentityManager
+    except ImportError:
+
+        class IdentityManager:
+            """Minimal fallback identity manager for legacy security engine."""
+
+            # ΛTAG: identity_fallback
+            def __init__(self) -> None:
+                self._identities: dict[str, dict[str, Any]] = {}
+                logger.warning("IdentityManager fallback engaged for legacy security engine")
+
+            async def get_user_identity(self, user_id: str) -> dict[str, Any]:
+                """Return or provision a lightweight identity profile."""
+
+                profile = self._identities.setdefault(
+                    user_id,
+                    {
+                        "user_id": user_id,
+                        "tier": "T1",
+                        "consent": {"created_at": datetime.now(timezone.utc).isoformat()},
+                    },
+                )
+                return profile
+
+    else:
+        IdentityManager = _LegacyIdentityManager
+else:
+    IdentityManager = _LegacyIdentityManager
 
 
 class MainNodeSecurityEngine:
@@ -82,7 +112,7 @@ class MainNodeSecurityEngine:
         # Backend
         self.meta_learning = MetaLearningSystem()
         self.neuro_symbolic_engine = NeuroSymbolicEngine()
-        self.identity_manager = IdentityManager()  # noqa: F821  # TODO: IdentityManager
+        self.identity_manager = IdentityManager()
         self.privacy_manager = PrivacyManager()
 
         # Register event handlers
@@ -379,12 +409,16 @@ class MainNodeSecurityEngine:
             logger.error(f"Error saving system state: {e}")
 
 
+# ΛTAG: legacy_alias
+AdaptiveAGISystem = MainNodeSecurityEngine
+
+
 async def main():
     """Main entry point for the application"""
     logger.info("Adaptive AI Interface starting up...")
 
     # Create and start the system
-    system = AdaptiveAGISystem()  # noqa: F821  # TODO: AdaptiveAGISystem
+    system = MainNodeSecurityEngine()
 
     try:
         await system.start()

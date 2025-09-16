@@ -10,7 +10,7 @@ import streamlit as st
 
 from consciousness.qi import qi
 
-from .animation_engine import TemporalAuthenticator
+from .animation_engine import TemporalAnimationEngine
 from .circular_engine import CircularQREngine
 from .consciousness_layer import ConsciousnessAwareProcessor
 from .lukhas_bridge import LambdaIdIntegration
@@ -32,7 +32,7 @@ __all__ = [
     "HolographicQRProjector",
     "LambdaIdIntegration",
     "QIResonanceGlyph",
-    "TemporalAuthenticator",
+    "TemporalAnimationEngine",
     "TrueQuantumRandomness",
 ]
 

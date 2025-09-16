@@ -22,12 +22,13 @@ from typing import Any, Optional
 
 try:
     from cryptography.fernet import Fernet
-    from cryptography.hazmat.primitives import hashes  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+    from cryptography.hazmat.primitives import hashes
     from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 except ImportError:
     # Fallback to basic encryption if cryptography not available
     Fernet = None
     PBKDF2HMAC = None
+    hashes = None
 
 
 class DeviceTrustScore:
@@ -515,7 +516,16 @@ class CrossDeviceTokenManager:
         fingerprint_data = (
             f"{device_data.get('device_id')}|{device_data.get('device_type')}|{device_data.get('os_version')}"
         )
-        return hashlib.sha256(fingerprint_data.encode()).hexdigest()[:16]
+
+        if hashes is not None:
+            digest = hashes.Hash(hashes.SHA256())
+            digest.update(fingerprint_data.encode())
+            fingerprint = digest.finalize().hex()
+        else:
+            fingerprint = hashlib.sha256(fingerprint_data.encode()).hexdigest()
+
+        # ΛTAG: device_fingerprint – consistent fingerprinting for guardian audit
+        return fingerprint[:16]
 
     def _constitutional_validation(self, user_id: str, device_id: str, device_data: dict) -> bool:
         """🛡️ Guardian constitutional validation"""

@@ -6,7 +6,7 @@ Track and analyze development decisions with context and rationale
 
 import re
 import subprocess
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
 
 from .journal_engine import JournalEngine, JournalEntry
@@ -32,7 +32,7 @@ class Decision:
         self.expected_outcome = expected_outcome
         self.files_affected = files_affected
         self.commit_hash = commit_hash
-        self.timestamp = datetime.now(timezone.utc)  # noqa: F821  # TODO: timezone
+        self.timestamp = datetime.now(timezone.utc)
         self.outcome = None  # To be filled later
         self.lessons_learned = None  # To be filled later
 
@@ -366,8 +366,8 @@ Was this the right decision? Why or why not?
     def analyze_decision_patterns(self, days: int = 30) -> dict[str, Any]:
         """Analyze patterns in recent decisions"""
         # Get recent decisions
-        start_date = datetime.now(timezone.utc) - timedelta(days=days)  # noqa: F821  # TODO: timezone
-        decisions = self.journal.search(type="decision", date_range=(start_date, datetime.now(timezone.utc)))  # noqa: F821  # TODO: timezone
+        start_date = datetime.now(timezone.utc) - timedelta(days=days)
+        decisions = self.journal.search(type="decision", date_range=(start_date, datetime.now(timezone.utc)))
 
         analysis = {
             "total_decisions": len(decisions),

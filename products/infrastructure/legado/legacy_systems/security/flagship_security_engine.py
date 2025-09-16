@@ -224,9 +224,13 @@ class LukhasFlagshipSecurityEngine:
         logger.info("🏁 Lukhas AI Flagship System shutdown complete")
 
 
+# ΛTAG: legacy_alias
+LucasFlagshipSystem = LukhasFlagshipSecurityEngine
+
+
 async def main():
     """Main entry point for Lukhas AI Flagship System."""
-    system = LucasFlagshipSystem()  # noqa: F821  # TODO: LucasFlagshipSystem
+    system = LukhasFlagshipSecurityEngine()
 
     try:
         await system.initialize()
