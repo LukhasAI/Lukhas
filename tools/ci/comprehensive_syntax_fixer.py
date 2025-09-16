@@ -13,7 +13,7 @@ identified in the LUKHAS codebase with consciousness-aware healing.
 import re
 import subprocess
 from pathlib import Path
-from typing import List, Dict, Tuple, Set  # noqa: F401  # TODO: typing.Tuple
+from typing import Dict, List
 import logging
 
 # Setup logging

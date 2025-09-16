@@ -7,12 +7,14 @@ Consolidates all domain vocabularies from scattered implementations.
 
 import json
 import logging
+import time
 from dataclasses import dataclass, field
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
 
-from universal_language.core import Concept, Symbol, SymbolicDomain
-from universal_language.glyph import get_glyph_engine
+from .core import Concept, ConceptType, Symbol, SymbolicDomain
+from ..glyph import get_glyph_engine
 
 logger = logging.getLogger(__name__)
 
@@ -527,19 +529,121 @@ class UnifiedVocabulary:
         return export_data
 
     def import_vocabulary(self, data: dict[str, Any]) -> bool:
-        """Import vocabulary data"""
+        """Import vocabulary data with consciousness-aware processing"""
+
+        # ΛTAG: vocabulary_import
         try:
-            # Import domain vocabularies
-            if "domains" in data:
-                for _domain_name, _domain_data in data["domains"].items():
-                    # TODO: Implement import logic
-                    pass
+            domains_data = data.get("domains", {})
+            for domain_name, domain_payload in domains_data.items():
+                try:
+                    # Support both enum access patterns for consciousness integration
+                    try:
+                        domain = SymbolicDomain[domain_name.upper()]
+                    except KeyError:
+                        domain = SymbolicDomain(domain_name)
+                except (KeyError, ValueError):
+                    logger.warning(f"Unknown domain '{domain_name}' in import payload")
+                    continue
+
+                vocab = self.manager.get_vocabulary(domain)
+                if not vocab:
+                    vocab = DomainVocabulary(domain=domain)
+                    self.manager.vocabularies[domain] = vocab
+
+                # Symbols - use enhanced deserialization for consciousness metadata
+                for symbol_payload in domain_payload.get("symbols", []):
+                    symbol = self._deserialize_symbol(symbol_payload, domain)
+                    vocab.add_symbol(symbol)
+                    self.manager.global_index[symbol.id] = domain
+                    if symbol.glyph:
+                        self.glyph_engine.register_custom_glyph(symbol.glyph, symbol.name)
+
+                # Concepts - enhanced processing with consciousness validation
+                for concept_payload in domain_payload.get("concepts", []):
+                    concept = self._deserialize_concept(concept_payload, domain)
+                    if concept:
+                        vocab.add_concept(concept)
+
+                # Update aliases and metadata for consciousness context
+                vocab.aliases.update(domain_payload.get("aliases", {}))
+                vocab.metadata.update(domain_payload.get("metadata", {}))
 
             logger.info("Vocabulary import completed")
             return True
         except Exception as e:
             logger.error(f"Failed to import vocabulary: {e}")
             return False
+
+    def _deserialize_symbol(self, payload: dict[str, Any], default_domain: SymbolicDomain) -> Symbol:
+        domain_value = payload.get("domain", default_domain.value)
+        try:
+            symbol_domain = SymbolicDomain(domain_value.upper())
+        except (KeyError, AttributeError, ValueError):
+            symbol_domain = default_domain
+
+        symbol = Symbol(
+            id=payload.get("id", ""),
+            domain=symbol_domain,
+            name=payload.get("name", ""),
+            value=payload.get("value"),
+            glyph=payload.get("glyph"),
+            entropy_bits=payload.get("entropy_bits", 0.0),
+            attributes=payload.get("attributes", {}),
+            relationships=payload.get("relationships", []),
+            metadata=payload.get("metadata", {}),
+            usage_count=payload.get("usage_count", 0),
+            confidence=payload.get("confidence", 1.0),
+        )
+
+        created_at = payload.get("created_at")
+        if created_at:
+            try:
+                symbol.created_at = datetime.fromisoformat(created_at)
+            except (ValueError, TypeError):
+                pass
+        return symbol
+
+    def _deserialize_concept(self, payload: dict[str, Any], fallback_domain: SymbolicDomain) -> Optional[Concept]:
+        try:
+            concept_type = ConceptType(payload.get("concept_type", "atomic"))
+        except ValueError:
+            concept_type = ConceptType.ABSTRACT
+
+        symbol_entries = payload.get("symbols", [])
+        symbols: list[Symbol] = []
+        for entry in symbol_entries:
+            resolved = self._resolve_symbol_reference(entry, fallback_domain)
+            if resolved:
+                symbols.append(resolved)
+
+        concept = Concept(
+            concept_id=payload.get("concept_id", ""),
+            concept_type=concept_type,
+            meaning=payload.get("meaning", ""),
+            symbols=symbols,
+            entropy_total=payload.get("entropy_total", 0.0),
+            cultural_validations=payload.get("cultural_validations", {}),
+            creation_time=payload.get("creation_time", time.time()),
+            usage_count=payload.get("usage_count", 0),
+            parent_concepts=payload.get("parent_concepts", []),
+            child_concepts=payload.get("child_concepts", []),
+        )
+        return concept
+
+    def _resolve_symbol_reference(self, payload: dict[str, Any], fallback_domain: SymbolicDomain) -> Optional[Symbol]:
+        symbol_id = payload.get("id")
+        if symbol_id:
+            for vocab in self.manager.vocabularies.values():
+                if symbol_id in vocab.symbols:
+                    return vocab.symbols[symbol_id]
+
+        name = payload.get("name")
+        if name:
+            symbol = self.manager.find_symbol(name)
+            if symbol:
+                return symbol
+
+        return self._deserialize_symbol(payload, fallback_domain)
 
 
 # Singleton instance

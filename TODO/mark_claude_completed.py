@@ -56,15 +56,12 @@ def mark_todos_completed():
             file_pattern = re.escape(file_line)
 
             # Look for the TODO entry
-            pattern = rf"- \*\*File\*\*: `{file_pattern}`\s*\n- \*\*Priority\*\*: \w+\s*\n- \*\*Status\*\*: Open"
-
-            replacement = rf"- **File**: `{file_line}`\n- **Priority**: \g<priority>\n- **Status**: ✅ COMPLETED by Claude ({completion_note})"
-
-            # Use a more flexible pattern
             flexible_pattern = (
-                rf"(- \*\*File\*\*: `{file_pattern}`\s*\n- \*\*Priority\*\*: (\w+)\s*\n)- \*\*Status\*\*: Open"
+                rf"(?P<header>- \*\*File\*\*: `{file_pattern}`\s*\n- \*\*Priority\*\*: (?P<priority>\w+)\s*\n)- \*\*Status\*\*: Open"
             )
-            flexible_replacement = rf"\1- **Status**: ✅ COMPLETED by Claude ({completion_note})"
+            flexible_replacement = (
+                rf"\g<header>- **Status**: ✅ COMPLETED by Claude ({completion_note})"
+            )  # ΛTAG: todo_marking_precision
 
             if re.search(flexible_pattern, content):
                 content = re.sub(flexible_pattern, flexible_replacement, content)

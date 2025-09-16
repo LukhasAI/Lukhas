@@ -6,7 +6,7 @@
 import pytest
 from unittest.mock import AsyncMock, patch, MagicMock
 
-from candidate.bridge.adapters.dropbox_adapter import DropboxAdapter, DropboxContextIntegration
+from candidate.bridge.external_adapters.dropbox_adapter import DropboxAdapter, DropboxContextIntegration
 from candidate.bridge.adapters.service_adapter_base import CapabilityToken
 
 

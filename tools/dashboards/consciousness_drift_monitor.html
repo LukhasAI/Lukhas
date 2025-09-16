@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Consciousness Drift Monitor</title>
+</head>
+<body>
+  <!-- ΛTAG: affect_delta -->
+  <div id="affect-delta">0</div>
+  <script type="module">
+    import { initializeConsciousnessDriftMonitor } from './consciousness_drift_monitor.js';
+    // TODO: Replace with actual WebSocket endpoint
+    initializeConsciousnessDriftMonitor('ws://localhost:8080/affect_delta');
+  </script>
+</body>
+</html>

@@ -101,6 +101,30 @@ class TestOAuthManagerUnit:
         assert creds is None
 
     @pytest.mark.asyncio
+    async def test_retry_with_backoff(self, manager: OAuthManager, monkeypatch, mocker):
+        """Tests the retry mechanism with exponential backoff."""
+        import asyncio
+
+        mock_sleep = mocker.AsyncMock()
+        monkeypatch.setattr(asyncio, "sleep", mock_sleep)
+
+        mock_func = mocker.AsyncMock(side_effect=Exception("Test failure"))
+
+        manager.config["max_retries"] = 2
+        manager.config["retry_base_delay"] = 0.1
+
+        with pytest.raises(Exception, match="Test failure"):
+            async with manager._with_retry_and_circuit_breaker(OAuthProvider.GOOGLE, "test_op") as cb:
+                await cb.call(mock_func)
+
+        assert mock_func.call_count == 3  # 1 initial + 2 retries
+        assert mock_sleep.call_count == 2
+
+        # Check backoff delays (with jitter)
+        assert 0.1 <= mock_sleep.call_args_list[0].args[0] < 1.1 # 0.1 * 2**0 + jitter
+        assert 0.2 <= mock_sleep.call_args_list[1].args[0] < 1.2 # 0.1 * 2**1 + jitter
+
+    @pytest.mark.asyncio
     async def test_store_credentials_rate_limit(self, manager: OAuthManager):
         """Tests rate limiting when storing credentials."""
         manager.max_attempts_per_hour = 0

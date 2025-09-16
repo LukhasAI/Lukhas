@@ -10,6 +10,7 @@ Commercial Version - Ready for Enterprise Deployment
 import asyncio
 import hashlib
 import logging
+import re
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
@@ -706,8 +707,6 @@ class DΛST:
         current_hour = current_time.hour
         if "time >=" in condition and "time <=" in condition:
             # Parse time range (simplified)
-            import re
-
             times = re.findall(r"time [><=]+ (\d{2}):(\d{2})", condition)
             if len(times) >= 2:
                 start_hour, start_min = map(int, times[0])
@@ -773,8 +772,8 @@ class DΛST:
 
                 # Remove old, low-confidence symbols
                 if "symbol_age" in rule.condition and "confidence" in rule.condition:
-                    age_match = re.search(r"symbol_age >= (\d+) hours", rule.condition)  # noqa: F821  # TODO: re
-                    conf_match = re.search(r"confidence <= ([\d.]+)", rule.condition)  # noqa: F821  # TODO: re
+                    age_match = re.search(r"symbol_age >= (\d+) hours", rule.condition)
+                    conf_match = re.search(r"confidence <= ([\d.]+)", rule.condition)
 
                     if age_match and conf_match:
                         age_threshold_hours = int(age_match.group(1))
