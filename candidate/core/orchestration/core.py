@@ -28,7 +28,7 @@
 ║ INTEGRATION NOTES:
 ║ • Requires MemoryManager, DreamEngine, EthicsCore components
 ║ • BioAwarenessSystem integration for consciousness simulation
-║ • TODO: ModuleRegistry implementation pending
+║ • ModuleRegistry: Available at candidate/core/module_registry.py
 ║ • Import paths may need updates per CODEX_ENHANCEMENT_PLAN.md
 ║
 ║ SYMBOLIC TAGS: ΛCORE, ΛORCHESTRATION, ΛCONSCIOUSNESS
