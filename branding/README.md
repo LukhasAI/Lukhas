@@ -49,6 +49,9 @@ This is the **Elite Brand Intelligence System** that transforms branding from re
 #### **⚡ [LUKHAS_PERFORMANCE_METRICS.md](LUKHAS_PERFORMANCE_METRICS.md)** *(Coming Soon)*
 **KPIs and monitoring** - Success metrics, analytics, and optimization
 
+#### **🗂️ [products/T4_TODO_AUTOMATION.md](products/T4_TODO_AUTOMATION.md)**
+**T4 TODO Automation Suite** - Product brief covering manifest orchestration, batch governance, and compliance tooling
+
 ---
 
 ## 🏗️ **Elite Brand System Architecture**
