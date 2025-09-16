@@ -146,11 +146,144 @@ class AwarenessEngine:
 
     # Human-readable comment: Internal method to set up the core consciousness system.
     async def _setup_consciousness_system(self):
-        """Placeholder for setting up the core consciousness system."""
-        self.instance_logger.debug("ΛTRACE: Internal: Setting up core consciousness system (placeholder).")
-        # TODO: Implement actual consciousness-specific setup logic here.
-        await asyncio.sleep(0.01)  # Simulate async setup operation
+        """Setup the core consciousness system components."""
+        self.instance_logger.debug("ΛTRACE: Internal: Setting up core consciousness system.")
+
+        # Initialize consciousness state tracking
+        self.consciousness_state = {
+            "awareness_level": 0.0,
+            "attention_focus": [],
+            "symbolic_context": {},
+            "temporal_coherence": 0.0,
+            "integration_status": "initializing"
+        }
+
+        # Setup consciousness monitoring subsystems
+        try:
+            # Initialize awareness monitoring
+            self.awareness_monitor = {
+                "active_streams": [],
+                "focus_intensity": 0.5,
+                "attention_distribution": {},
+                "symbolic_resonance": 0.0
+            }
+
+            # Setup symbolic integration layer
+            self.symbolic_integrator = {
+                "pattern_cache": {},
+                "active_patterns": set(),
+                "coherence_threshold": 0.75,
+                "integration_buffer": []
+            }
+
+            # Initialize temporal coherence tracking
+            self.temporal_coherence = {
+                "short_term_memory": [],
+                "long_term_patterns": {},
+                "coherence_score": 0.0,
+                "last_update": datetime.now(timezone.utc)
+            }
+
+            # Setup consciousness feedback loops
+            self.feedback_loops = {
+                "awareness_feedback": {"enabled": True, "sensitivity": 0.8},
+                "symbolic_feedback": {"enabled": True, "resonance_threshold": 0.6},
+                "temporal_feedback": {"enabled": True, "coherence_window": 60}  # seconds
+            }
+
+            # Initialize consciousness validation system
+            self.validation_system = {
+                "coherence_validator": self._validate_consciousness_coherence,
+                "integration_validator": self._validate_symbolic_integration,
+                "temporal_validator": self._validate_temporal_coherence
+            }
+
+            # Setup consciousness metrics collection
+            self.consciousness_metrics = {
+                "awareness_events": 0,
+                "symbolic_integrations": 0,
+                "coherence_violations": 0,
+                "successful_processes": 0,
+                "last_reset": datetime.now(timezone.utc)
+            }
+
+            self.consciousness_state["integration_status"] = "initialized"
+            self.instance_logger.info("ΛTRACE: Consciousness system components initialized successfully")
+
+        except Exception as e:
+            self.consciousness_state["integration_status"] = "failed"
+            self.instance_logger.error(f"ΛTRACE: Consciousness system setup failed: {e}")
+            raise
+
+        # Perform initial consciousness calibration
+        await self._calibrate_consciousness_baseline()
+
         self.instance_logger.debug("ΛTRACE: Internal: Core consciousness system setup complete.")
+
+    async def _calibrate_consciousness_baseline(self):
+        """Calibrate baseline consciousness parameters."""
+        try:
+            # Establish baseline awareness level
+            baseline_awareness = 0.5  # Default neutral awareness
+
+            # Calibrate attention focus parameters
+            self.awareness_monitor["focus_intensity"] = baseline_awareness
+            self.symbolic_integrator["coherence_threshold"] = 0.75
+
+            # Set temporal coherence baseline
+            self.temporal_coherence["coherence_score"] = baseline_awareness
+
+            # Update consciousness state
+            self.consciousness_state.update({
+                "awareness_level": baseline_awareness,
+                "temporal_coherence": baseline_awareness,
+                "integration_status": "calibrated"
+            })
+
+            self.instance_logger.debug("ΛTRACE: Consciousness baseline calibration complete")
+
+        except Exception as e:
+            self.instance_logger.error(f"ΛTRACE: Consciousness calibration failed: {e}")
+
+    def _validate_consciousness_coherence(self, state: dict) -> bool:
+        """Validate consciousness state coherence."""
+        try:
+            awareness = state.get("awareness_level", 0.0)
+            temporal = state.get("temporal_coherence", 0.0)
+
+            # Check coherence thresholds
+            coherence_valid = abs(awareness - temporal) < 0.3
+            level_valid = 0.0 <= awareness <= 1.0 and 0.0 <= temporal <= 1.0
+
+            return coherence_valid and level_valid
+
+        except Exception:
+            return False
+
+    def _validate_symbolic_integration(self, patterns: set) -> bool:
+        """Validate symbolic pattern integration."""
+        try:
+            # Check pattern coherence and size limits
+            return len(patterns) <= 100  # Prevent pattern overflow
+
+        except Exception:
+            return False
+
+    def _validate_temporal_coherence(self, coherence_data: dict) -> bool:
+        """Validate temporal coherence state."""
+        try:
+            score = coherence_data.get("coherence_score", 0.0)
+            last_update = coherence_data.get("last_update")
+
+            # Check temporal validity
+            if last_update:
+                time_diff = (datetime.now(timezone.utc) - last_update).total_seconds()
+                return 0.0 <= score <= 1.0 and time_diff < 300  # 5 minute validity
+
+            return 0.0 <= score <= 1.0
+
+        except Exception:
+            return False
 
     # Human-readable comment: Processes input data through the awareness engine.
     @lukhas_tier_required(level=3)

@@ -104,10 +104,78 @@ class BridgeTraceLogger:
 
     def _setup_file_logging(self):
         """Setup file-based trace logging"""
-        # PLACEHOLDER: Implement file logging setup
-        # TODO: Configure file rotation
-        # TODO: Setup JSON formatting
-        # TODO: Implement log compression
+        import logging.handlers
+        import json
+        from pathlib import Path
+
+        # Create logs directory
+        log_dir = Path("logs/traces")
+        log_dir.mkdir(parents=True, exist_ok=True)
+
+        # Configure file rotation (10MB max, keep 5 files)
+        file_handler = logging.handlers.RotatingFileHandler(
+            log_dir / "bridge_traces.log",
+            maxBytes=10 * 1024 * 1024,  # 10MB
+            backupCount=5
+        )
+
+        # Setup JSON formatting
+        class JSONFormatter(logging.Formatter):
+            def format(self, record):
+                log_entry = {
+                    "timestamp": self.formatTime(record),
+                    "level": record.levelname,
+                    "logger": record.name,
+                    "message": record.getMessage(),
+                    "module": record.module,
+                    "function": record.funcName,
+                    "line": record.lineno
+                }
+
+                # Add extra fields if present
+                if hasattr(record, 'trace_id'):
+                    log_entry['trace_id'] = record.trace_id
+                if hasattr(record, 'category'):
+                    log_entry['category'] = record.category
+                if hasattr(record, 'metadata'):
+                    log_entry['metadata'] = record.metadata
+
+                return json.dumps(log_entry, ensure_ascii=False)
+
+        file_handler.setFormatter(JSONFormatter())
+        file_handler.setLevel(logging.DEBUG)
+
+        # Add handler to logger
+        logger.addHandler(file_handler)
+
+        # Configure compression for rotated files
+        def compress_rotated_file(source, dest):
+            """Compress rotated log files to save space"""
+            try:
+                import gzip
+                import shutil
+                with open(source, 'rb') as f_in:
+                    with gzip.open(f"{dest}.gz", 'wb') as f_out:
+                        shutil.copyfileobj(f_in, f_out)
+                Path(source).unlink()  # Remove uncompressed file
+            except Exception as e:
+                logger.warning(f"Failed to compress log file {source}: {e}")
+
+        # Override the doRollover method to include compression
+        original_doRollover = file_handler.doRollover
+        def compressed_rollover():
+            original_doRollover()
+            # Compress the rolled-over file
+            for i in range(1, file_handler.backupCount + 1):
+                backup_file = f"{file_handler.baseFilename}.{i}"
+                if Path(backup_file).exists() and not backup_file.endswith('.gz'):
+                    compress_rotated_file(backup_file, backup_file)
+                    break
+
+        file_handler.doRollover = compressed_rollover
+
+        self.file_handler = file_handler
+        logger.info("File logging configured with JSON formatting and compression")
 
     def log_bridge_event(
         self,
@@ -233,14 +301,81 @@ class BridgeTraceLogger:
         Returns:
             Dict: Trace summary statistics and recent events
         """
-        # PLACEHOLDER: Implement trace summary generation
         logger.debug("Generating bridge trace summary")
 
-        # TODO: Aggregate trace statistics
-        # TODO: Identify trace patterns
-        # TODO: Generate summary report
+        # Aggregate trace statistics
+        total_events = len(self._event_history)
+        if not self._event_history:
+            return {
+                "total_events": 0,
+                "categories": {},
+                "levels": {},
+                "components": {},
+                "recent_events": [],
+                "patterns": {},
+                "time_range": None
+            }
 
-        return {"total_events": len(self.trace_events), "placeholder": True}
+        # Category breakdown
+        category_counts = {}
+        level_counts = {}
+        component_counts = {}
+
+        # Time-based patterns
+        hourly_distribution = {}
+        recent_events = self._event_history[-10:]  # Last 10 events
+
+        for event in self._event_history:
+            # Count categories
+            category = event.get("category", "unknown")
+            category_counts[category] = category_counts.get(category, 0) + 1
+
+            # Count levels
+            level = event.get("level", "unknown")
+            level_counts[level] = level_counts.get(level, 0) + 1
+
+            # Count components
+            component = event.get("component", "unknown")
+            component_counts[component] = component_counts.get(component, 0) + 1
+
+            # Time distribution (by hour)
+            try:
+                from datetime import datetime
+                timestamp = event.get("timestamp", "")
+                if timestamp:
+                    dt = datetime.fromisoformat(timestamp.replace('Z', '+00:00'))
+                    hour = dt.hour
+                    hourly_distribution[hour] = hourly_distribution.get(hour, 0) + 1
+            except Exception:
+                pass
+
+        # Identify trace patterns
+        patterns = {
+            "most_active_category": max(category_counts.items(), key=lambda x: x[1]) if category_counts else None,
+            "most_active_component": max(component_counts.items(), key=lambda x: x[1]) if component_counts else None,
+            "peak_hour": max(hourly_distribution.items(), key=lambda x: x[1]) if hourly_distribution else None,
+            "error_rate": level_counts.get("ERROR", 0) / total_events if total_events > 0 else 0,
+            "warning_rate": level_counts.get("WARNING", 0) / total_events if total_events > 0 else 0
+        }
+
+        # Time range
+        time_range = None
+        if self._event_history:
+            first_event = self._event_history[0].get("timestamp")
+            last_event = self._event_history[-1].get("timestamp")
+            if first_event and last_event:
+                time_range = {"start": first_event, "end": last_event}
+
+        return {
+            "total_events": total_events,
+            "categories": category_counts,
+            "levels": level_counts,
+            "components": component_counts,
+            "recent_events": recent_events,
+            "patterns": patterns,
+            "time_range": time_range,
+            "hourly_distribution": hourly_distribution
+        }
 
     def export_trace_data(self, format_type: str = "json") -> str:
         """
@@ -252,15 +387,78 @@ class BridgeTraceLogger:
         Returns:
             str: Exported trace data
         """
-        # PLACEHOLDER: Implement trace data export
         logger.info("Exporting trace data in format: %s", format_type)
 
         if format_type == "json":
-            # TODO: Implement JSON export
-            return json.dumps({"placeholder": True}, indent=2)
+            # Implement JSON export
+            export_data = {
+                "metadata": {
+                    "export_timestamp": datetime.now(timezone.utc).isoformat(),
+                    "total_events": len(self._event_history),
+                    "format": "json"
+                },
+                "summary": self.get_trace_summary(),
+                "events": self._event_history
+            }
+            return json.dumps(export_data, indent=2, ensure_ascii=False)
 
-        # TODO: Implement other export formats
-        return "Trace data export - PLACEHOLDER"
+        elif format_type == "csv":
+            # Implement CSV export
+            import csv
+            import io
+
+            output = io.StringIO()
+            if not self._event_history:
+                return "event_id,timestamp,category,level,component,message\n"
+
+            fieldnames = ["event_id", "timestamp", "category", "level", "component", "message", "metadata"]
+            writer = csv.DictWriter(output, fieldnames=fieldnames)
+            writer.writeheader()
+
+            for event in self._event_history:
+                row = {
+                    "event_id": event.get("event_id", ""),
+                    "timestamp": event.get("timestamp", ""),
+                    "category": event.get("category", ""),
+                    "level": event.get("level", ""),
+                    "component": event.get("component", ""),
+                    "message": event.get("message", ""),
+                    "metadata": json.dumps(event.get("metadata", {}))
+                }
+                writer.writerow(row)
+
+            return output.getvalue()
+
+        elif format_type == "summary":
+            # Implement summary export
+            summary = self.get_trace_summary()
+            summary_text = f"""
+Bridge Trace Summary Report
+===========================
+Generated: {datetime.now(timezone.utc).isoformat()}
+
+Statistics:
+- Total Events: {summary['total_events']}
+- Categories: {len(summary['categories'])}
+- Components: {len(summary['components'])}
+
+Top Categories:
+"""
+            for category, count in sorted(summary['categories'].items(), key=lambda x: x[1], reverse=True)[:5]:
+                summary_text += f"  - {category}: {count} events\n"
+
+            if summary['patterns']['most_active_component']:
+                component, count = summary['patterns']['most_active_component']
+                summary_text += f"\nMost Active Component: {component} ({count} events)\n"
+
+            if summary['patterns']['error_rate'] > 0:
+                summary_text += f"Error Rate: {summary['patterns']['error_rate']:.2%}\n"
+
+            return summary_text
+
+        else:
+            logger.warning("Unsupported export format: %s", format_type)
+            return f"Unsupported export format: {format_type}"
 
 
 def log_symbolic_event(origin: str, target: str, trace_id: str) -> None:
