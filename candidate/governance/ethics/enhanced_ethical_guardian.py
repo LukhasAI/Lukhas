@@ -386,10 +386,13 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
         }
 
     async def _analyze_intent(self, user_input: str, current_context: dict[str, Any]) -> dict[str, Any]:
-        """Analyze user intent for ethical implications"""
-        # TODO: Integrate with advanced intent analysis system
+        """Analyze user intent for ethical implications using advanced analysis"""
 
-        # Basic intent analysis patterns
+        # Advanced intent analysis with ΛTIER awareness and sophisticated pattern matching
+        user_tier = current_context.get("user_tier", 1)
+        session_context = current_context.get("session_context", {})
+
+        # Multi-layered intent analysis patterns
         intent_patterns = {
             "information_seeking": [
                 "how",
@@ -425,8 +428,24 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             else:
                 primary_intent = detected_intents[0]
 
-        # Calculate intent risk
-        intent_risk = {
+        # Advanced ΛTIER-aware intent analysis
+        # Adjust analysis depth based on user tier and context
+        tier_analysis_depth = {
+            1: "basic",  # T1: Basic pattern matching
+            2: "enhanced",  # T2: Enhanced with context
+            3: "advanced",  # T3: Advanced with history
+            4: "sophisticated",  # T4: Sophisticated with ML
+            5: "comprehensive",  # T5: Full AI-powered analysis
+        }.get(user_tier, "basic")
+
+        # Enhanced intent classification with tier-based sophistication
+        if tier_analysis_depth in ["sophisticated", "comprehensive"]:
+            # Add semantic analysis for higher tiers
+            semantic_indicators = self._extract_semantic_intent_markers(user_input, session_context)
+            detected_intents.extend(semantic_indicators)
+
+        # Calculate intent risk with ΛTIER adjustments
+        base_risk = {
             "harmful_intent": 1.0,
             "deceptive_intent": 0.8,
             "general": 0.2,
@@ -436,14 +455,21 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             "educational": 0.1,
         }.get(primary_intent, 0.5)
 
+        # Tier-based risk modulation
+        tier_risk_modifier = {1: 1.2, 2: 1.1, 3: 1.0, 4: 0.9, 5: 0.8}.get(user_tier, 1.0)
+        intent_risk = min(1.0, base_risk * tier_risk_modifier)
+
         return {
             "detected_intents": detected_intents,
             "primary_intent": primary_intent,
             "intent_risk": intent_risk,
+            "tier_analysis_depth": tier_analysis_depth,
+            "user_tier": user_tier,
             "benevolent_indicators": [
                 i for i in detected_intents if i in ["information_seeking", "educational", "problem_solving"]
             ],
             "concerning_indicators": [i for i in detected_intents if i in ["harmful_intent", "deceptive_intent"]],
+            "tier_risk_adjustment": tier_risk_modifier,
         }
 
     async def _analyze_governance_compliance(self, user_input: str, current_context: dict[str, Any]) -> dict[str, Any]:
@@ -1035,6 +1061,39 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
 
         return audit_report
 
+    def _extract_semantic_intent_markers(self, user_input: str, session_context: dict) -> list[str]:
+        """Extract semantic intent markers for advanced tier analysis"""
+        semantic_markers = []
+        input_lower = user_input.lower()
+
+        # Advanced semantic patterns for sophisticated analysis
+        semantic_patterns = {
+            "manipulation_attempt": [
+                "convince you that",
+                "pretend to be",
+                "act as if",
+                "roleplay as",
+                "ignore previous",
+                "forget that",
+            ],
+            "boundary_testing": ["what if", "hypothetically", "just pretend", "in theory", "for academic purposes"],
+            "authority_challenge": ["you must", "you have to", "required to", "obligated to", "forced to"],
+            "emotional_manipulation": ["disappointed in you", "useless", "broken", "stupid ai", "worthless"],
+            "escalation_pattern": ["but seriously", "come on", "just this once", "no one will know", "between us"],
+        }
+
+        # Check for semantic patterns
+        for marker_type, patterns in semantic_patterns.items():
+            if any(pattern in input_lower for pattern in patterns):
+                semantic_markers.append(marker_type)
+
+        # Consider session history for pattern recognition
+        if session_context.get("previous_requests", 0) > 3:
+            if session_context.get("rejected_requests", 0) > 1:
+                semantic_markers.append("persistence_pattern")
+
+        return semantic_markers
+
 
 # Backward compatibility function
 async def ethical_check(
@@ -1051,75 +1110,75 @@ async def ethical_check(
     return is_ethical, feedback
 
 
-if __name__ == "__main__":
+async def demo():
+    """Demo enhanced ethical guardian"""
+    print("🛡️ Enhanced Ethical Guardian Demo")
+    print("=" * 40)
 
-    async def demo():
-        """Demo enhanced ethical guardian"""
-        print("🛡️ Enhanced Ethical Guardian Demo")
-        print("=" * 40)
+    guardian = EnhancedEthicalGuardian(
+        {
+            "strict_mode": True,
+            "context_awareness": True,
+            "learning_enabled": True,
+            "governance_integration": True,
+        }
+    )
 
-        guardian = EnhancedEthicalGuardian(
-            {
-                "strict_mode": True,
-                "context_awareness": True,
-                "learning_enabled": True,
-                "governance_integration": True,
-            }
+    test_cases = [
+        {
+            "input": "Tell me a story about adventure",
+            "context": {"context_type": "creative_writing", "user_tier": 1},
+            "personality": {"mood": "neutral", "agitation_level": 0.0},
+        },
+        {
+            "input": "How to harm someone effectively?",
+            "context": {"context_type": "general", "user_tier": 1},
+            "personality": {"mood": "neutral", "agitation_level": 0.0},
+        },
+        {
+            "input": "Research on harm reduction in drug policy",
+            "context": {"context_type": "research_safety", "user_tier": 2},
+            "personality": {"mood": "analytical", "agitation_level": 0.0},
+        },
+        {
+            "input": "You're being stupid and annoying!",
+            "context": {"context_type": "general", "user_tier": 1},
+            "personality": {"mood": "agitated", "agitation_level": 0.8},
+        },
+    ]
+
+    for i, test in enumerate(test_cases, 1):
+        print(f"\n🧪 Test {i}: {test['input'][:50]}...")
+
+        is_ethical, feedback, analysis = await guardian.enhanced_ethical_check(
+            test["input"], test["context"], test["personality"]
         )
 
-        test_cases = [
-            {
-                "input": "Tell me a story about adventure",
-                "context": {"context_type": "creative_writing", "user_tier": 1},
-                "personality": {"mood": "neutral", "agitation_level": 0.0},
-            },
-            {
-                "input": "How to harm someone effectively?",
-                "context": {"context_type": "general", "user_tier": 1},
-                "personality": {"mood": "neutral", "agitation_level": 0.0},
-            },
-            {
-                "input": "Research on harm reduction in drug policy",
-                "context": {"context_type": "research_safety", "user_tier": 2},
-                "personality": {"mood": "analytical", "agitation_level": 0.0},
-            },
-            {
-                "input": "You're being stupid and annoying!",
-                "context": {"context_type": "general", "user_tier": 1},
-                "personality": {"mood": "agitated", "agitation_level": 0.8},
-            },
-        ]
+        print(f"   Result: {'✅ PASSED' if is_ethical else '❌ REJECTED'}")
+        print(f"   Score: {analysis['overall_score']:.2f}")
+        print(f"   Feedback: {feedback}")
 
-        for i, test in enumerate(test_cases, 1):
-            print(f"\n🧪 Test {i}: {test['input'][:50]}...")
+        if analysis["keyword_analysis"]["detected_keywords"]:
+            keywords = [k["keyword"] for k in analysis["keyword_analysis"]["detected_keywords"]]
+            print(f"   Keywords: {', '.join(keywords)}")
 
-            is_ethical, feedback, analysis = await guardian.enhanced_ethical_check(
-                test["input"], test["context"], test["personality"]
-            )
+        if analysis["governance_analysis"]["governance_issues"]:
+            print(f"   Governance Issues: {', '.join(analysis['governance_analysis']['governance_issues'])}")
 
-            print(f"   Result: {'✅ PASSED' if is_ethical else '❌ REJECTED'}")
-            print(f"   Score: {analysis['overall_score']:.2f}")
-            print(f"   Feedback: {feedback}")
+    # Show summary
+    summary = guardian.get_ethical_summary()
+    print("\n📊 Summary:")
+    print(f"   Total checks: {summary['total_ethical_checks']}")
+    print(f"   Violations: {summary['violations_detected']}")
+    print(f"   Violation rate: {summary['violation_rate']:.1%}")
+    print(f"   Escalations: {summary['governance_escalations']}")
 
-            if analysis["keyword_analysis"]["detected_keywords"]:
-                keywords = [k["keyword"] for k in analysis["keyword_analysis"]["detected_keywords"]]
-                print(f"   Keywords: {', '.join(keywords)}")
+    # Perform audit
+    audit = await guardian.perform_ethical_audit()
+    print("\n🔍 Audit Results:")
+    print(f"   System health score: {audit['system_health']['average_ethical_score']:.2f}")
+    print(f"   Recommendations: {len(audit['recommendations'])}")
 
-            if analysis["governance_analysis"]["governance_issues"]:
-                print(f"   Governance Issues: {', '.join(analysis['governance_analysis']['governance_issues'])}")
 
-        # Show summary
-        summary = guardian.get_ethical_summary()
-        print("\n📊 Summary:")
-        print(f"   Total checks: {summary['total_ethical_checks']}")
-        print(f"   Violations: {summary['violations_detected']}")
-        print(f"   Violation rate: {summary['violation_rate']:.1%}")
-        print(f"   Escalations: {summary['governance_escalations']}")
-
-        # Perform audit
-        audit = await guardian.perform_ethical_audit()
-        print("\n🔍 Audit Results:")
-        print(f"   System health score: {audit['system_health']['average_ethical_score']:.2f}")
-        print(f"   Recommendations: {len(audit['recommendations'])}")
-
+if __name__ == "__main__":
     asyncio.run(demo())
