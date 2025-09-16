@@ -5,6 +5,7 @@ Specialized voice processing for elderly Andalusian Spanish speakers
 """
 
 import asyncio
+import importlib
 import json
 import logging
 import re
@@ -119,7 +120,9 @@ class AndaluzVoiceEngine:
             # Import voice libraries
             import pygame
             import speech_recognition as sr
-            from gtts import gTTS  # noqa: F401  # TODO: gtts.gTTS; consider using impo...
+
+            gtts_module = importlib.import_module("gtts")
+            gTTS = getattr(gtts_module, "gTTS")
 
             # Initialize speech recognizer
             self.recognizer = sr.Recognizer()

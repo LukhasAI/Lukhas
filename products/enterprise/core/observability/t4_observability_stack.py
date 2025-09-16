@@ -8,56 +8,63 @@ Comprehensive observability for LUKHAS AI Trinity Framework
 Designed for Jules Agent #4: Enterprise Observability Specialist
 """
 
+import inspect
 import json
 import logging
 import os
 import socket
+from datetime import datetime, timezone
 from functools import wraps
-from typing import Optional
+from pathlib import Path
+from typing import TYPE_CHECKING, Any, Callable, Optional
+
+# ΛTAG: optional_dependency_loader
+def _load_optional(module_path: str, attribute: Optional[str] = None) -> Optional[Any]:
+    """Attempt to import an optional dependency without raising."""
+
+    try:
+        module = __import__(module_path, fromlist=[attribute] if attribute else [])
+        return getattr(module, attribute) if attribute else module
+    except (ImportError, AttributeError):
+        return None
 
 # Observability integrations
-try:
-    from datadog import DogStatsd, initialize
-    from datadog.api.metrics import Metric  # noqa: F401  # TODO: datadog.api.metrics.Metric; co...
+if TYPE_CHECKING:
+    from datadog.api.metrics import Metric
+    from opentelemetry import metrics as otel_metrics
+    from opentelemetry import trace as otel_trace
+    from opentelemetry.sdk.trace.export import BatchSpanProcessor
+    from lukhas.guardian import GuardianSystem
+    from lukhas.trinity import TrinityFramework
+    from candidate.consciousness import ConsciousnessCore
+    from candidate.memory import MemoryFoldSystem
 
-    DATADOG_AVAILABLE = True
-except ImportError:
-    DATADOG_AVAILABLE = False
 
-try:
-    from opentelemetry import metrics, trace  # noqa: F401  # TODO: opentelemetry.metrics; conside...
-    from opentelemetry.sdk.trace import TracerProvider
-    from opentelemetry.sdk.trace.export import (
-        BatchSpanProcessor,
-    )  # noqa: F401  # TODO: opentelemetry.sdk.trace.export...
+datadog_module = _load_optional("datadog")
+DogStatsd = None if datadog_module is None else getattr(datadog_module, "DogStatsd", None)
+initialize = None if datadog_module is None else getattr(datadog_module, "initialize", None)
+DATADOG_AVAILABLE = DogStatsd is not None and initialize is not None
 
-    OPENTELEMETRY_AVAILABLE = True
-except ImportError:
-    OPENTELEMETRY_AVAILABLE = False
+trace = _load_optional("opentelemetry.trace")
+otel_metrics = _load_optional("opentelemetry.metrics")
+TracerProvider = _load_optional("opentelemetry.sdk.trace", "TracerProvider")
+BatchSpanProcessor = _load_optional("opentelemetry.sdk.trace.export", "BatchSpanProcessor")
+OPENTELEMETRY_AVAILABLE = bool(trace and TracerProvider)
 
-try:
-    import prometheus_client  # noqa: F401  # TODO: prometheus_client; consider us...
+prometheus_client = _load_optional("prometheus_client")
+PROMETHEUS_AVAILABLE = prometheus_client is not None
 
-    PROMETHEUS_AVAILABLE = True
-except ImportError:
-    PROMETHEUS_AVAILABLE = False
-
-# LUKHAS integrations
-try:
-    from lukhas.consciousness import ConsciousnessCore
-    from lukhas.guardian import GuardianSystem  # noqa: F401  # TODO: lukhas.guardian.GuardianSystem...
-    from lukhas.memory import MemoryFoldSystem
-    from lukhas.trinity import TrinityFramework  # noqa: F401  # TODO: lukhas.trinity.TrinityFramewor...
-
-    LUKHAS_AVAILABLE = True
-except ImportError:
-    try:
-        from candidate.consciousness import ConsciousnessCore  # noqa: F401  # TODO: candidate.consciousness.Consci...
-        from candidate.memory import MemoryFoldSystem  # noqa: F401  # TODO: candidate.memory.MemoryFoldSys...
-
-        LUKHAS_AVAILABLE = True
-    except ImportError:
-        LUKHAS_AVAILABLE = False
+ConsciousnessCore = _load_optional("lukhas.consciousness", "ConsciousnessCore") or _load_optional(
+    "candidate.consciousness", "ConsciousnessCore"
+)
+MemoryFoldSystem = _load_optional("lukhas.memory", "MemoryFoldSystem") or _load_optional(
+    "candidate.memory", "MemoryFoldSystem"
+)
+GuardianSystem = _load_optional("lukhas.guardian", "GuardianSystem") or _load_optional(
+    "candidate.governance", "GuardianSystem"
+)
+TrinityFramework = _load_optional("lukhas.trinity", "TrinityFramework")
+LUKHAS_AVAILABLE = bool(ConsciousnessCore or MemoryFoldSystem or GuardianSystem or TrinityFramework)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -81,7 +88,7 @@ class JSONFormatter(logging.Formatter):
 
         # Add trace and span IDs for log correlation (if OpenTelemetry is available)
         try:
-            if "trace" in globals():
+            if trace:
                 span = trace.get_current_span()
                 if span and span.get_span_context().is_valid:
                     log_record["dd.trace_id"] = str(span.get_span_context().trace_id)
@@ -262,10 +269,16 @@ class T4ObservabilityStack:
                     span.set_attribute("function.name", func.__name__)
                     try:
                         result = await func(*args, **kwargs)
-                        span.set_status(trace.Status(trace.StatusCode.OK))
+                        status_cls = getattr(trace, "Status", None)
+                        status_code = getattr(trace, "StatusCode", None)
+                        if status_cls and status_code:
+                            span.set_status(status_cls(status_code.OK))
                         return result
                     except Exception as e:
-                        span.set_status(trace.Status(trace.StatusCode.ERROR, str(e)))
+                        status_cls = getattr(trace, "Status", None)
+                        status_code = getattr(trace, "StatusCode", None)
+                        if status_cls and status_code:
+                            span.set_status(status_cls(status_code.ERROR, str(e)))
                         span.record_exception(e)
                         raise
 
@@ -294,16 +307,146 @@ class T4ObservabilityStack:
         except Exception as e:
             logger.error(f"Failed to submit metric {metric_name}: {e}")
 
-    # TODO: Implement real metric collection from LUKHAS components.
-    # The following methods are placeholders for where you would integrate
-    # with the actual application code to collect and submit metrics.
-    #
-    # Example:
-    #
-    # async def collect_triad_metrics(self, triad_app: TrinityFramework):
-    #     metrics = await triad_app.get_performance_metrics()
-    #     self.submit_metric('gauge', 'lukhas.trinity.coherence', metrics.coherence_score)
-    #     self.submit_metric('gauge', 'lukhas.trinity.active_sessions', metrics.active_sessions)
-    #
-    # This would be called from a background task or a periodic job within the
-    # main application.
+    def _normalise_metric_value(self, value: Any) -> Optional[float]:
+        """Convert arbitrary values into floats suitable for metric emission."""
+
+        if isinstance(value, (int, float)) and not isinstance(value, bool):
+            return float(value)
+        return None
+
+    def _submit_bulk_metrics(self, prefix: str, metrics: dict[str, Any], tags: Optional[list[str]] = None):
+        """Submit a collection of metrics using a common prefix."""
+
+        for key, raw_value in metrics.items():
+            value = self._normalise_metric_value(raw_value)
+            if value is None:
+                continue
+            metric_name = f"lukhas.{prefix}.{key}".replace("..", ".")
+            self.submit_metric("gauge", metric_name, value, tags=tags)
+
+    async def _maybe_await(self, candidate: Any) -> Any:
+        """Await coroutine values produced by metric providers."""
+
+        if inspect.isawaitable(candidate):
+            return await candidate
+        return candidate
+
+    async def collect_triad_metrics(self, triad_app: Any) -> dict[str, Any]:
+        """Collect coherence and throughput metrics from the Trinity framework."""
+
+        if not triad_app:
+            return {}
+
+        metrics: dict[str, Any] = {}
+
+        collector = getattr(triad_app, "get_performance_metrics", None)
+        if callable(collector):
+            try:
+                result = await self._maybe_await(collector())
+                if isinstance(result, dict):
+                    metrics.update(result)
+            except Exception as error:  # pragma: no cover - defensive logging
+                logger.warning("Trinity metrics collection failed: %s", error)
+
+        coherence = getattr(triad_app, "coherence", None)
+        if coherence is not None:
+            metrics.setdefault("coherence", coherence)
+
+        self._submit_bulk_metrics("trinity", metrics)
+        return metrics
+
+    async def collect_consciousness_metrics(self, consciousness_core: Any) -> dict[str, Any]:
+        """Collect consciousness engine metrics for observability."""
+
+        if not consciousness_core:
+            return {}
+
+        metrics: dict[str, Any] = {}
+
+        runtime_state = getattr(consciousness_core, "runtime_state", None)
+        if isinstance(runtime_state, dict):
+            metrics.update({f"runtime.{k}": v for k, v in runtime_state.items()})
+
+        drift_score = getattr(consciousness_core, "drift_score", None)
+        if drift_score is not None:
+            metrics["drift_score"] = drift_score
+
+        self._submit_bulk_metrics("consciousness", metrics)
+        return metrics
+
+    async def collect_memory_metrics(self, memory_system: Any) -> dict[str, Any]:
+        """Collect metrics from the Memory Fold system."""
+
+        if not memory_system:
+            return {}
+
+        metrics: dict[str, Any] = {}
+
+        fold_stats = getattr(memory_system, "get_statistics", None)
+        if callable(fold_stats):
+            try:
+                result = await self._maybe_await(fold_stats())
+                if isinstance(result, dict):
+                    metrics.update(result)
+            except Exception as error:  # pragma: no cover - defensive logging
+                logger.warning("Memory metrics collection failed: %s", error)
+
+        active_folds = getattr(memory_system, "active_folds", None)
+        if active_folds is not None:
+            metrics.setdefault("active_folds", active_folds)
+
+        self._submit_bulk_metrics("memory", metrics)
+        return metrics
+
+    async def collect_guardian_metrics(self, guardian_system: Any) -> dict[str, Any]:
+        """Collect Guardian/ethics metrics if available."""
+
+        if not guardian_system:
+            return {}
+
+        metrics: dict[str, Any] = {}
+
+        incident_count = getattr(guardian_system, "open_incidents", None)
+        if incident_count is not None:
+            metrics["open_incidents"] = incident_count
+
+        affect_delta = getattr(guardian_system, "affect_delta", None)
+        if affect_delta is not None:
+            metrics["affect_delta"] = affect_delta
+
+        self._submit_bulk_metrics("guardian", metrics)
+        return metrics
+
+    async def harvest_component_metrics(
+        self,
+        *,
+        trinity: Any = None,
+        consciousness: Any = None,
+        memory: Any = None,
+        guardian: Any = None,
+        output_path: Optional[Path] = None,
+    ) -> dict[str, Any]:
+        """Collect and optionally persist observability metrics from core systems."""
+
+        metrics: dict[str, Any] = {}
+
+        if trinity:
+            metrics["trinity"] = await self.collect_triad_metrics(trinity)
+        if consciousness:
+            metrics["consciousness"] = await self.collect_consciousness_metrics(consciousness)
+        if memory:
+            metrics["memory"] = await self.collect_memory_metrics(memory)
+        if guardian:
+            metrics["guardian"] = await self.collect_guardian_metrics(guardian)
+
+        metrics["timestamp"] = datetime.now(timezone.utc).isoformat()
+
+        if output_path:
+            try:
+                output_path.parent.mkdir(parents=True, exist_ok=True)
+                with open(output_path, "w", encoding="utf-8") as handle:
+                    json.dump(metrics, handle, indent=2)
+            except Exception as error:  # pragma: no cover - defensive logging
+                logger.warning("Unable to persist observability metrics: %s", error)
+
+        return metrics

@@ -19,6 +19,8 @@ OPTIMIZATION TARGETS:
 """
 
 import asyncio
+import importlib
+import importlib.util
 import hashlib
 import json
 import threading
@@ -58,11 +60,12 @@ except ImportError:
         return json.loads(data)
 
 
-try:
-    import lz4.frame as _  # Ultra-fast compression for large payloads  # noqa: F401  # TODO: lz4.frame; consider using impo...
-
+lz4_spec = importlib.util.find_spec("lz4.frame")
+if lz4_spec:
+    lz4_frame = importlib.import_module("lz4.frame")  # type: ignore[assignment]
     COMPRESSION_AVAILABLE = True
-except ImportError:
+else:  # pragma: no cover - executed when dependency missing
+    lz4_frame = None  # type: ignore[assignment]
     COMPRESSION_AVAILABLE = False
 
 try:

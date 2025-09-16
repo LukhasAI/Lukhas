@@ -11,6 +11,8 @@ RESEARCH VALIDATION: Priority #4 Consciousness Algorithms Analysis
 Performance: 94% emotional state classification accuracy
 """
 
+import importlib
+import importlib.util
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -24,13 +26,9 @@ from candidate.voice.voice_modulator import LucasVoiceSystem, VoiceModulator
 from ..voice_profiling import VoiceProfileManager
 
 # RESEARCH INTEGRATION: Speech Emotion Recognition components
-try:
-    import torch  # noqa: F401  # TODO: torch; consider using importli...
-    import torchaudio  # noqa: F401  # TODO: torchaudio; consider using imp...
-
-    TORCH_AVAILABLE = True
-except ImportError:
-    TORCH_AVAILABLE = False
+torch = importlib.import_module("torch") if importlib.util.find_spec("torch") else None
+torchaudio = importlib.import_module("torchaudio") if importlib.util.find_spec("torchaudio") else None
+TORCH_AVAILABLE = torch is not None and torchaudio is not None
 
 
 @dataclass

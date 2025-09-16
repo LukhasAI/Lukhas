@@ -6,6 +6,7 @@ enabling seamless consciousness-aware authentication across the Lambda product s
 """
 
 import hashlib
+import importlib
 import json
 import logging
 import time
@@ -14,27 +15,25 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
-# Import LUKHAS ecosystem components
-try:
-    # TODO: Fix import paths - lambda directory doesn't exist
-    # from products.lambda.NIΛS.emotional_filter import EmotionalFilter
-    # from products.lambda.WΛLLET.qi_identity_core import (
-    #     QIIdentityCore)
-    # from products.lambda.ΛSYMBOLIC.authentication.psi_protocol import (
-    #     PsiProtocol,
-    # )
-    # from products.lambda.ΛSYMBOLIC.core.lambda_id_protocol import (
-    #     LambdaIdProtocol,
-    # )
-    EmotionalFilter = object  # Placeholder
-    QIIdentityCore = object  # Placeholder
-    PsiProtocol = object  # Placeholder
-    LambdaIdProtocol = object  # Placeholder
 
-    LUKHAS_IMPORTS_AVAILABLE = True
-except ImportError:
-    # Graceful fallback for development
-    LUKHAS_IMPORTS_AVAILABLE = False
+def _load_optional(module: str, attribute: str) -> Optional[type]:
+    try:
+        module_obj = importlib.import_module(module)
+        return getattr(module_obj, attribute)
+    except (ImportError, AttributeError):
+        return None
+
+
+EmotionalFilter = _load_optional("products.communication.nias.emotional_filter", "EmotionalFilter")
+QIIdentityCore = _load_optional("products.security.wallet.qi_identity_core", "QIIdentityCore")
+PsiProtocol = _load_optional("products.security.lambda_symbolic.psi_protocol", "PsiProtocol")
+LambdaIdProtocol = _load_optional("products.security.lambda_symbolic.lambda_id_protocol", "LambdaIdProtocol")
+
+LUKHAS_IMPORTS_AVAILABLE = all(
+    component is not None for component in (EmotionalFilter, QIIdentityCore, PsiProtocol, LambdaIdProtocol)
+)
+
+if not LUKHAS_IMPORTS_AVAILABLE:
     logging.warning("LUKHAS ecosystem imports not available - using mock implementations")
 
 logger = logging.getLogger(__name__)
