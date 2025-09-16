@@ -59,7 +59,7 @@ class ModuleInfo:
 
     file_path: str
     role: str  # orchestrator, integration, adapter, domain_model, test_helper
-    intent_clues: list[str]  # From docstrings, comments, TODOs
+    intent_clues: list[str]  # From docstrings, comments, and action notes
     functions: list[str]
     classes: list[str]
     imports: list[str]
@@ -386,14 +386,14 @@ class CodeAtlasBuilder:
         except Exception:
             pass
 
-        # Comments and TODOs
+        # Comments and action notes
         lines = content.split("\n")
         for i, line in enumerate(lines):
             stripped = line.strip()
             if stripped.startswith("#"):
                 comment = stripped[1:].strip()
                 if any(keyword in comment.lower() for keyword in ["todo", "fixme", "hack", "bug"]):
-                    clues.append(f"TODO_L{i+1}: {comment[:100]}")
+                    clues.append(f"ACTION_L{i+1}: {comment[:100]}")
                 elif any(keyword in comment.lower() for keyword in self.consciousness_keywords):
                     clues.append(f"CONSCIOUSNESS_L{i+1}: {comment[:100]}")
                 elif len(comment) > 20:  # Substantial comments

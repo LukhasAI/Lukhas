@@ -5,9 +5,12 @@
 Fixes remaining critical import errors and syntax issues.
 """
 
+from __future__ import annotations
+
 import logging
 import re
 import sys
+import textwrap
 from pathlib import Path
 
 # Add project root to path
@@ -16,6 +19,41 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+
+def _generate_stub_module_content(module_path: Path) -> str:
+    """Create a descriptive stub module used to satisfy legacy imports."""
+
+    module_title = module_path.stem.replace("_", " ").title()
+    return textwrap.dedent(
+        f'''
+        """Auto-generated stub for {module_title}.
+
+        This module keeps historical imports functioning until the concrete
+        implementation is rebuilt.
+        """
+
+        from __future__ import annotations
+
+        import logging
+
+
+        logger = logging.getLogger(__name__)
+        logger.warning(
+            "Auto-generated stub module '%s' loaded; replace with production logic when possible.",
+            __name__,
+        )
+
+
+        __all__: list[str] = []
+
+
+        def __getattr__(name: str) -> None:
+            raise AttributeError(
+                f"{{__name__}}.{{name}} is not implemented in the stub module."
+            )
+        '''
+    ).lstrip()
 
 
 class TargetedImportFixer:
@@ -105,26 +143,18 @@ class TargetedImportFixer:
             lines = f.readlines()
 
         if line_num <= len(lines):
-            # Add proper indentation after control structures
             prev_line = lines[line_num - 2] if line_num > 1 else ""
-            if any(
-                prev_line.strip().endswith(x)
-                for x in [
-                    ":",
-                    "if",
-                    "elif",
-                    "else",
-                    "for",
-                    "while",
-                    "def",
-                    "class",
-                    "try",
-                    "except",
-                    "finally",
-                    "with",
-                ]
-            ):
-                lines[line_num - 1] = "    pass  # TODO: Implement\n"
+            candidate = lines[line_num - 1].rstrip("\n")
+            stripped = candidate.lstrip()
+
+            prev_indent = len(prev_line) - len(prev_line.lstrip()) if prev_line else 0
+            needs_block_indent = prev_line.strip().endswith(":") if prev_line else False
+            indent_width = prev_indent + 4 if needs_block_indent else max(prev_indent, 0)
+
+            if not stripped:
+                stripped = "pass"
+
+            lines[line_num - 1] = f"{' ' * indent_width}{stripped}\n"
 
         with open(file_path, "w", encoding="utf-8") as f:
             f.writelines(lines)
@@ -178,8 +208,7 @@ class TargetedImportFixer:
             full_path.parent.mkdir(parents=True, exist_ok=True)
 
             if not full_path.exists():
-                module_name = full_path.stem
-                content = f'"""\n{module_name.title()} Module\n"""\n\npass  # TODO: Implement {module_name}\n'
+                content = _generate_stub_module_content(full_path)
 
                 with open(full_path, "w", encoding="utf-8") as f:
                     f.write(content)

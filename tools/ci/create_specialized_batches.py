@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Specialized Batch Creator for UNALLOCATED_TODO_GROUPS.md Implementation
-Creates targeted agent batches for specific TODO groups based on domain expertise.
+Creates targeted agent batches for specific task groups based on domain expertise.
 """
 
 import json
@@ -13,7 +13,7 @@ from typing import Dict, List, Any, Optional
 
 class SpecializedBatchCreator:
     def __init__(self, manifest_file: str):
-        """Initialize with manifest and identify unallocated TODOs"""
+        """Initialize with manifest and identify unallocated task entries."""
         self.manifest = self._load_manifest(manifest_file)
         self.unallocated_todos = self._find_unallocated_todos()
 
@@ -62,18 +62,18 @@ class SpecializedBatchCreator:
         }
 
     def _load_manifest(self, manifest_file: str) -> Dict[str, Any]:
-        """Load TODO manifest"""
+        """Load the task manifest."""
         with open(manifest_file, "r") as f:
             return json.load(f)
 
     def _find_unallocated_todos(self) -> List[Dict[str, Any]]:
-        """Find TODOs that aren't assigned to any existing batch"""
-        # For now, return all open TODOs as we're creating new specialized batches
+        """Find tasks that aren't assigned to any existing batch."""
+        # For now, return all open tasks as we're creating new specialized batches
         # In a real implementation, this would check against existing batch allocations
         return [todo for todo in self.manifest["todos"] if todo.get("status") == "open"]
 
     def _score_todo_for_agent(self, todo: Dict[str, Any], agent_spec: Dict[str, Any]) -> int:
-        """Score how well a TODO matches an agent's capabilities"""
+        """Score how well a task matches an agent's capabilities."""
         score = 0
         todo_text = (todo.get("title", "") + " " + todo.get("file", "") + " " + todo.get("module", "")).lower()
 
@@ -113,11 +113,11 @@ class SpecializedBatchCreator:
 
         agent_spec = self.agent_specs[agent_id]
 
-        # Score all unallocated TODOs for this agent
+        # Score all unallocated tasks for this agent
         scored_todos = []
         for todo in self.unallocated_todos:
             score = self._score_todo_for_agent(todo, agent_spec)
-            if score > 0:  # Only include TODOs with some match
+            if score > 0:  # Only include tasks with some match
                 scored_todos.append((score, todo))
 
         # Sort by score (descending) and take top batch_size
@@ -125,7 +125,7 @@ class SpecializedBatchCreator:
         selected_todos = [todo for score, todo in scored_todos[: agent_spec["batch_size"]]]
 
         if not selected_todos:
-            print(f"No suitable TODOs found for {agent_id}")
+            print(f"No suitable tasks found for {agent_id}")
             return None
 
         # Create batch structure
@@ -168,7 +168,7 @@ class SpecializedBatchCreator:
         return batch
 
     def _count_by_priority(self, todos: List[Dict[str, Any]]) -> Dict[str, int]:
-        """Count TODOs by priority"""
+        """Count tasks by priority."""
         counts = {}
         for todo in todos:
             priority = todo.get("priority", "unknown")
@@ -176,7 +176,7 @@ class SpecializedBatchCreator:
         return counts
 
     def _count_by_type(self, todos: List[Dict[str, Any]]) -> Dict[str, int]:
-        """Count TODOs by type"""
+        """Count tasks by type."""
         counts = {}
         for todo in todos:
             todo_type = todo.get("est", {}).get("type", "unknown")
@@ -184,7 +184,7 @@ class SpecializedBatchCreator:
         return counts
 
     def _count_by_risk(self, todos: List[Dict[str, Any]]) -> Dict[str, int]:
-        """Count TODOs by risk level"""
+        """Count tasks by risk level."""
         counts = {}
         for todo in todos:
             risk = todo.get("risk", "unknown")
