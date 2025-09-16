@@ -317,3 +317,15 @@ reports/dashboard/*.json
 
 # Generated TODO manifests (large files)
 .lukhas_runs/*/manifest.json
+
+# AI Tools cache and temporary files
+.codex/cache/
+.cursor/cache/
+.ai-cache/
+*.ai-temp
+.tabnine/
+.blackbox/
+.copilot-cache/
+
+# Large export files (keep compressed versions)
+exports/LUKHAS_CONTEXT_PACK_FOR_CHATGPT.md

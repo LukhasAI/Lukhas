@@ -12,6 +12,8 @@ import random
 from dataclasses import dataclass
 from typing import Any, Optional
 
+from candidate.flags.ff import Flags
+
 # ΛTAG: logging, deterministic
 logger = logging.getLogger(__name__)
 
@@ -39,17 +41,21 @@ def _normalize_metric(
 
 # --- Dataclasses for Typed Responses ---
 
+
 @dataclass
 class ConsciousnessExchange:
     """Represents the result of a consciousness-based value calculation."""
+
     consciousness_tokens_earned: float
     abundance_multiplier: float
     gift_economy_credits: float
     collective_wealth_increase: float
 
+
 @dataclass
 class ExchangeProposal:
     """Represents a proposed exchange based on consciousness value."""
+
     exchange_type: str
     proposal: str
     financial_requirement: Optional[float] = None
@@ -60,8 +66,10 @@ class ExchangeProposal:
 
 # --- Deterministic Helper Classes ---
 
+
 class ConsciousnessBlockchain:
     """Placeholder for a consciousness-based transaction ledger."""
+
     def record_transaction(self, transaction: dict[str, Any]):
         """Records a transaction in the consciousness ledger."""
         print(f"Recording transaction on consciousness blockchain: {transaction}")
@@ -69,24 +77,17 @@ class ConsciousnessBlockchain:
 
 class AbundanceCalculator:
     """Calculates abundance impact deterministically."""
+
     def __init__(self, rng: random.Random):
         self.rng = rng
 
-    async def calculate_abundance_impact(
-        self, contribution: dict[str, Any]
-    ) -> float:
+    async def calculate_abundance_impact(self, contribution: dict[str, Any]) -> float:
         """Calculates abundance impact based on contribution and deterministic randomness."""
         base = self.rng.uniform(1.0, 2.0)
         impact = _normalize_metric(contribution.get("impact"))
-        collective = _normalize_metric(
-            contribution.get("collective_benefit"), default=impact, minimum=0.0, maximum=5.0
-        )
-        awareness = _normalize_metric(
-            contribution.get("awareness_level"), default=1.0, minimum=0.0, maximum=5.0
-        )
-        intention = _normalize_metric(
-            contribution.get("intention_purity"), default=1.0, minimum=0.0, maximum=5.0
-        )
+        collective = _normalize_metric(contribution.get("collective_benefit"), default=impact, minimum=0.0, maximum=5.0)
+        awareness = _normalize_metric(contribution.get("awareness_level"), default=1.0, minimum=0.0, maximum=5.0)
+        intention = _normalize_metric(contribution.get("intention_purity"), default=1.0, minimum=0.0, maximum=5.0)
 
         # ΛTAG: quantum_abundance
         composite = (impact * 0.4) + (collective * 0.3) + (awareness * 0.2) + (intention * 0.1)
@@ -107,16 +108,13 @@ class AbundanceCalculator:
 
 class ConsciousnessTokenProtocol:
     """Issues consciousness tokens deterministically."""
+
     def __init__(self, rng: random.Random):
         self.rng = rng
 
-    def issue_tokens(
-        self, amount: float
-    ) -> str:
+    def issue_tokens(self, amount: float) -> str:
         """Issues a deterministic token based on a seeded random generator."""
-        normalized_amount = _normalize_metric(
-            amount, default=0.0, minimum=0.0, maximum=1_000_000.0
-        )
+        normalized_amount = _normalize_metric(amount, default=0.0, minimum=0.0, maximum=1_000_000.0)
         quantized = int(round(normalized_amount * 1000))
         entropy = self.rng.random()
         fingerprint = hashlib.sha256(f"{quantized}:{entropy:.8f}".encode("utf-8")).hexdigest()
@@ -137,23 +135,16 @@ class ConsciousnessTokenProtocol:
 
 class GiftEconomyEngine:
     """Calculates gift economy value deterministically."""
+
     def __init__(self, rng: random.Random):
         self.rng = rng
 
-    async def calculate_gift_value(
-        self, contribution: dict[str, Any]
-    ) -> float:
+    async def calculate_gift_value(self, contribution: dict[str, Any]) -> float:
         """Calculates gift value based on contribution magnitude and deterministic randomness."""
         base = self.rng.uniform(10, 100)
-        contribution_value = _normalize_metric(
-            contribution.get("value"), default=1.0, minimum=0.1, maximum=10.0
-        )
-        love_index = _normalize_metric(
-            contribution.get("love_index"), default=0.5, minimum=0.0, maximum=1.0
-        )
-        reciprocity = _normalize_metric(
-            contribution.get("reciprocity"), default=0.5, minimum=0.0, maximum=1.0
-        )
+        contribution_value = _normalize_metric(contribution.get("value"), default=1.0, minimum=0.1, maximum=10.0)
+        love_index = _normalize_metric(contribution.get("love_index"), default=0.5, minimum=0.0, maximum=1.0)
+        reciprocity = _normalize_metric(contribution.get("reciprocity"), default=0.5, minimum=0.0, maximum=1.0)
         community_alignment = _normalize_metric(
             contribution.get("community_alignment"), default=0.5, minimum=0.0, maximum=1.0
         )
@@ -178,12 +169,15 @@ class GiftEconomyEngine:
 
 # --- Main Engine ---
 
+
 class QuantumFinancialConsciousnessEngine:
     """
     Transcends traditional monetary exchange using deterministic, seeded operations.
     """
 
     # ΛTAG: quantum, financial, economy
+
+    FEATURE_FLAG = "QI_FINANCIAL_EXPERIMENTAL"  # ΛTAG: wallet, qi_bridge
 
     def __init__(self, seed: int = 42):
         """
@@ -198,17 +192,20 @@ class QuantumFinancialConsciousnessEngine:
     async def calculate_consciousness_exchange_rate(
         self,
         user_id: str,
-        consciousness_contribution: dict[
-            str, Any
-        ],
+        consciousness_contribution: dict[str, Any],
     ) -> ConsciousnessExchange:
         """
         Calculates value in consciousness rather than money, returning a typed dataclass.
         """
-        profile_vector = self._derive_profile_vector(user_id, consciousness_contribution)
-        abundance_multiplier = await self.abundance_metrics.calculate_abundance_impact(
-            consciousness_contribution
+        if not Flags.is_enabled(self.FEATURE_FLAG):
+            raise RuntimeError("QI financial features require experimental flag")
+
+        self.blockchain_consciousness.record_transaction(
+            {"user_id": user_id, "contribution": consciousness_contribution}
         )
+
+        profile_vector = self._derive_profile_vector(user_id, consciousness_contribution)
+        abundance_multiplier = await self.abundance_metrics.calculate_abundance_impact(consciousness_contribution)
         gift_credits = await self.gift_economy.calculate_gift_value(consciousness_contribution)
 
         # ΛTAG: quantum_exchange_rate
@@ -243,13 +240,14 @@ class QuantumFinancialConsciousnessEngine:
     async def propose_consciousness_based_exchange(
         self,
         user_consciousness_profile: dict[str, Any],
-        product_consciousness_value: dict[
-            str, Any
-        ],
+        product_consciousness_value: dict[str, Any],
     ) -> ExchangeProposal:
         """
         Proposes an exchange based on consciousness value, returning a typed dataclass.
         """
+        if not Flags.is_enabled(self.FEATURE_FLAG):
+            raise RuntimeError("QI financial features require experimental flag")
+
         stress_level = _normalize_metric(
             user_consciousness_profile.get("financial_stress"), default=0.0, minimum=0.0, maximum=1.0
         )
@@ -257,12 +255,8 @@ class QuantumFinancialConsciousnessEngine:
             user_consciousness_profile.get("abundance_consciousness"), default=0.5, minimum=0.0, maximum=1.0
         )
 
-        depth = _normalize_metric(
-            product_consciousness_value.get("depth"), default=0.5, minimum=0.0, maximum=1.0
-        )
-        rarity = _normalize_metric(
-            product_consciousness_value.get("rarity"), default=0.5, minimum=0.0, maximum=1.0
-        )
+        depth = _normalize_metric(product_consciousness_value.get("depth"), default=0.5, minimum=0.0, maximum=1.0)
+        rarity = _normalize_metric(product_consciousness_value.get("rarity"), default=0.5, minimum=0.0, maximum=1.0)
         mission_alignment = _normalize_metric(
             product_consciousness_value.get("mission_alignment"), default=0.5, minimum=0.0, maximum=1.0
         )
@@ -308,26 +302,18 @@ class QuantumFinancialConsciousnessEngine:
             growth_investment_framing=True,
         )
 
-    def _derive_profile_vector(
-        self, user_id: str, contribution: dict[str, Any]
-    ) -> dict[str, float | str]:
+    def _derive_profile_vector(self, user_id: str, contribution: dict[str, Any]) -> dict[str, float | str]:
         """Generate a deterministic signature describing user contribution resonance."""
 
         user_hash = hashlib.sha256(user_id.encode("utf-8")).hexdigest()[:12]
         contribution_score = _normalize_metric(
             contribution.get("contribution_score"), default=1.0, minimum=0.1, maximum=5.0
         )
-        creativity = _normalize_metric(
-            contribution.get("creative_output"), default=1.0, minimum=0.0, maximum=5.0
-        )
-        service = _normalize_metric(
-            contribution.get("service_level"), default=1.0, minimum=0.0, maximum=5.0
-        )
+        creativity = _normalize_metric(contribution.get("creative_output"), default=1.0, minimum=0.0, maximum=5.0)
+        service = _normalize_metric(contribution.get("service_level"), default=1.0, minimum=0.0, maximum=5.0)
         coherence = (contribution_score * 0.5) + (creativity * 0.3) + (service * 0.2)
 
-        alignment = _normalize_metric(
-            contribution.get("collective_alignment"), default=0.5, minimum=0.0, maximum=1.0
-        )
+        alignment = _normalize_metric(contribution.get("collective_alignment"), default=0.5, minimum=0.0, maximum=1.0)
 
         profile_vector = {
             "user_hash": user_hash,

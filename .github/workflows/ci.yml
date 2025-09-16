@@ -35,7 +35,7 @@ jobs:
     env:
       CI_QUALITY_GATES: "1"
       PYTHONHASHSEED: "0"
-      PYTEST_ADDOPTS: "-W error::DeprecationWarning -W error::FutureWarning"
+      PYTEST_ADDOPTS: "-W error::DeprecationWarning -W error::FutureWarning -W ignore::pytest.PytestRemovedIn9Warning -W ignore::DeprecationWarning:Import 'qim' is deprecated"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

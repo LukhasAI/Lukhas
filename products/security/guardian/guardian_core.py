@@ -351,7 +351,7 @@ class LambdaGuardianEngine:
 
             # Medical and emergency systems with Lambda enhancement
             if enable_all or self.config["medical"]["ocr_enabled"]:
-                self.medical_ocr = MockMedicationOCR(cache_dir=self.data_dir / "ocr_cache")  # noqa: F821  # TODO: MockMedicationOCR
+                self.medical_ocr = MockMedicalOCR(cache_dir=self.data_dir / "ocr_cache")
                 self.subsystems["λ_medical_ocr"] = self.medical_ocr
                 logger.info("💊 ΛMedical OCR initialized")
 

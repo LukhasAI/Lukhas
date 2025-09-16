@@ -60,6 +60,61 @@ except ImportError:
 
     logger = logging.getLogger(__name__)
 
+    # Fallback definitions for missing imports
+    class ViolationSeverity(Enum):
+        LOW = "low"
+        MEDIUM = "medium"
+        HIGH = "high"
+        CRITICAL = "critical"
+
+    class ConstitutionalPrinciple(Enum):
+        HUMAN_AUTONOMY = "human_autonomy"
+        NON_MALEFICENCE = "non_maleficence"
+        TRUTHFULNESS = "truthfulness"
+        FAIRNESS = "fairness"
+
+    class DriftSeverity(Enum):
+        LOW = "low"
+        MEDIUM = "medium"
+        HIGH = "high"
+        CRITICAL = "critical"
+
+    class DriftType(Enum):
+        BEHAVIORAL = "behavioral"
+        OUTPUT = "output"
+        PERFORMANCE = "performance"
+
+    class DecisionType(Enum):
+        CONTENT_FILTER = "content_filter"
+        CAPABILITY_CONTROL = "capability_control"
+        ACCESS_CONTROL = "access_control"
+
+    class SafetyLevel(Enum):
+        SAFE = "safe"
+        CAUTION = "caution"
+        WARNING = "warning"
+        DANGER = "danger"
+
+    class DecisionContext:
+        def __init__(self, **kwargs):
+            for k, v in kwargs.items():
+                setattr(self, k, v)
+
+    # Mock classes for missing dependencies
+    class AdvancedDriftDetector:
+        def __init__(self, *args, **kwargs):
+            pass
+
+    class ConstitutionalAIFramework:
+        def __init__(self, *args, **kwargs):
+            pass
+
+    def get_constitutional_framework():
+        return ConstitutionalAIFramework()
+
+    def get_security_logger(name):
+        return logging.getLogger(name)
+
     # Mock imports for testing
     class ConstitutionalAIFramework:
         pass
@@ -136,24 +191,18 @@ class GuardianDecision:
     allowed: bool
     confidence: float
     safety_level: SafetyLevel
-
-    # Constitutional analysis
     constitutional_compliant: bool
     constitutional_score: float
-    violated_principles: list[ConstitutionalPrinciple] = field(default_factory=list)
-
-    # Drift analysis
     drift_score: float
     drift_severity: DriftSeverity
-    drift_factors: list[str] = field(default_factory=list)
-
-    # Safety analysis
-    safety_violations: list[SafetyViolation] = field(default_factory=list)
-    risk_factors: list[str] = field(default_factory=list)
-
-    # Decision context
     timestamp: datetime
     processing_time_ms: float
+
+    # Optional fields with defaults
+    violated_principles: list[ConstitutionalPrinciple] = field(default_factory=list)
+    drift_factors: list[str] = field(default_factory=list)
+    safety_violations: list[SafetyViolation] = field(default_factory=list)
+    risk_factors: list[str] = field(default_factory=list)
     context: dict[str, Any] = field(default_factory=dict)
 
     # Human explanation

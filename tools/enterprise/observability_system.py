@@ -159,16 +159,8 @@ class AnomalyDetector:
 
         self.baselines[metric_name] = MetricBaseline(
             metric_name=metric_name,
-            hourly_patterns={
-                h: (hourly["mean"][h], hourly["std"][h])
-                for h in range(24)
-                if h in hourly["mean"]
-            },
-            weekly_patterns={
-                d: (weekly["mean"][d], weekly["std"][d])
-                for d in range(7)
-                if d in weekly["mean"]
-            },
+            hourly_patterns={h: (hourly["mean"][h], hourly["std"][h]) for h in range(24) if h in hourly["mean"]},
+            weekly_patterns={d: (weekly["mean"][d], weekly["std"][d]) for d in range(7) if d in weekly["mean"]},
         )
 
     def detect_anomaly(
@@ -184,9 +176,7 @@ class AnomalyDetector:
 
         try:
             # Add to feature buffer
-            self.feature_buffers[metric_name].append(
-                {"value": value, "timestamp": timestamp}
-            )
+            self.feature_buffers[metric_name].append({"value": value, "timestamp": timestamp})
 
             # Need enough data for features
             if len(self.feature_buffers[metric_name]) < 5:
@@ -209,9 +199,7 @@ class AnomalyDetector:
             # Generate explanation if anomaly
             explanation = None
             if is_anomaly:
-                explanation = self._generate_explanation(
-                    metric_name, value, timestamp, anomaly_score
-                )
+                explanation = self._generate_explanation(metric_name, value, timestamp, anomaly_score)
 
             return is_anomaly, abs(anomaly_score), explanation
 
@@ -219,9 +207,7 @@ class AnomalyDetector:
             logger.error("anomaly_detection_failed", metric=metric_name, error=str(e))
             return False, 0.0, None
 
-    def _generate_explanation(
-        self, metric_name: str, value: float, timestamp: datetime, anomaly_score: float
-    ) -> str:
+    def _generate_explanation(self, metric_name: str, value: float, timestamp: datetime, anomaly_score: float) -> str:
         """Generate human-readable explanation for anomaly"""
         explanations = []
 
@@ -236,36 +222,26 @@ class AnomalyDetector:
                 mean, std = baseline.hourly_patterns[hour]
                 z_score = (value - mean) / (std + 1e-6)
                 if abs(z_score) > 3:
-                    explanations.append(
-                        f"Value deviates {abs(z_score):.1f} standard deviations from hourly average"
-                    )
+                    explanations.append(f"Value deviates {abs(z_score):.1f} standard deviations from hourly average")
 
             # Check weekly pattern
             if dow in baseline.weekly_patterns:
                 mean, std = baseline.weekly_patterns[dow]
                 z_score = (value - mean) / (std + 1e-6)
                 if abs(z_score) > 3:
-                    explanations.append(
-                        f"Value deviates {abs(z_score):.1f} standard deviations from weekly average"
-                    )
+                    explanations.append(f"Value deviates {abs(z_score):.1f} standard deviations from weekly average")
 
         # Check recent trend
         if len(self.feature_buffers[metric_name]) > 10:
-            recent_values = [
-                x["value"] for x in list(self.feature_buffers[metric_name])[-10:]
-            ]
+            recent_values = [x["value"] for x in list(self.feature_buffers[metric_name])[-10:]]
             recent_mean = np.mean(recent_values)
             if value > recent_mean * 2:
                 explanations.append(f"Value is {value/recent_mean:.1f}x recent average")
             elif value < recent_mean * 0.5:
-                explanations.append(
-                    f"Value is {value/recent_mean:.1%} of recent average"
-                )
+                explanations.append(f"Value is {value/recent_mean:.1%} of recent average")
 
         if not explanations:
-            explanations.append(
-                f"Statistical anomaly detected (score: {abs(anomaly_score):.2f})"
-            )
+            explanations.append(f"Statistical anomaly detected (score: {abs(anomaly_score):.2f})")
 
         return " | ".join(explanations)
 
@@ -282,9 +258,7 @@ class ObservabilitySystem:
 
     def __init__(self, config: dict[str, Any]):
         self.config = config
-        self.anomaly_detector = AnomalyDetector(
-            contamination=config.get("anomaly_contamination", 0.1)
-        )
+        self.anomaly_detector = AnomalyDetector(contamination=config.get("anomaly_contamination", 0.1))
 
         # Alert rules
         self.alert_rules: dict[str, AlertRule] = {}
@@ -296,9 +270,7 @@ class ObservabilitySystem:
         # Prometheus connection
         self.prom_client = None
         if "prometheus_url" in config:
-            self.prom_client = PrometheusConnect(
-                url=config["prometheus_url"], disable_ssl=True
-            )
+            self.prom_client = PrometheusConnect(url=config["prometheus_url"], disable_ssl=True)
 
         # Notification handlers
         self.notification_handlers: dict[str, Callable] = {}
@@ -499,11 +471,24 @@ class ObservabilitySystem:
                 else:
                     severity = SeverityLevel.INFO
 
+                # Calculate expected value from baseline
+                expected_value = 0.0
+                if metric_name in self.anomaly_detector.baselines:
+                    baseline = self.anomaly_detector.baselines[metric_name]
+                    hour = latest["timestamp"].hour
+                    dow = latest["timestamp"].weekday()
+
+                    # Use hourly pattern if available, otherwise weekly pattern
+                    if hour in baseline.hourly_patterns:
+                        expected_value = baseline.hourly_patterns[hour][0]  # mean value
+                    elif dow in baseline.weekly_patterns:
+                        expected_value = baseline.weekly_patterns[dow][0]  # mean value
+
                 anomaly = MetricAnomaly(
                     metric_name=metric_name,
                     timestamp=latest["timestamp"],
                     actual_value=latest["value"],
-                    expected_value=0,  # TODO: Calculate from baseline
+                    expected_value=expected_value,
                     deviation_score=score,
                     severity=severity,
                     context=latest.get("labels", {}),
@@ -511,9 +496,7 @@ class ObservabilitySystem:
                 )
 
                 # Detect correlations
-                anomaly.correlated_metrics = await self._find_correlated_anomalies(
-                    anomaly
-                )
+                anomaly.correlated_metrics = await self._find_correlated_anomalies(anomaly)
 
                 # Suggest actions
                 anomaly.suggested_actions = self._suggest_actions(anomaly)
@@ -571,9 +554,7 @@ class ObservabilitySystem:
 
         # Generic suggestions based on patterns
         if anomaly.actual_value > 0 and len(anomaly.correlated_metrics) > 3:
-            actions.append(
-                "Multiple correlated anomalies detected - check for system-wide issues"
-            )
+            actions.append("Multiple correlated anomalies detected - check for system-wide issues")
 
         if anomaly.severity == SeverityLevel.CRITICAL:
             actions.append("IMMEDIATE ACTION REQUIRED - Engage incident response team")
@@ -627,9 +608,7 @@ class ObservabilitySystem:
 
             try:
                 # Get metric values for duration
-                values = self._get_metric_values_for_duration(
-                    rule.metric_query, rule.duration
-                )
+                values = self._get_metric_values_for_duration(rule.metric_query, rule.duration)
 
                 if not values:
                     continue
@@ -645,9 +624,7 @@ class ObservabilitySystem:
             except Exception as e:
                 logger.error("rule_evaluation_failed", rule=rule_name, error=str(e))
 
-    def _get_metric_values_for_duration(
-        self, metric_query: str, duration: str
-    ) -> list[float]:
+    def _get_metric_values_for_duration(self, metric_query: str, duration: str) -> list[float]:
         """Get metric values for specified duration"""
         # Parse duration (e.g., "5m" -> 5 minutes)
         if duration.endswith("m"):
@@ -703,9 +680,7 @@ class ObservabilitySystem:
                 timestamp=datetime.now(timezone.utc),
                 actual_value=values[-1] if values else 0,
                 expected_value=rule.threshold,
-                deviation_score=(
-                    abs(values[-1] - rule.threshold) / rule.threshold if values else 0
-                ),
+                deviation_score=(abs(values[-1] - rule.threshold) / rule.threshold if values else 0),
                 severity=rule.severity,
                 context={"rule": rule.name},
             )
@@ -774,11 +749,7 @@ async def slack_notification_handler(anomaly: MetricAnomaly, rule: AlertRule):
         "text": f"🚨 Alert: {rule.name}",
         "attachments": [
             {
-                "color": (
-                    "danger"
-                    if anomaly.severity == SeverityLevel.CRITICAL
-                    else "warning"
-                ),
+                "color": ("danger" if anomaly.severity == SeverityLevel.CRITICAL else "warning"),
                 "fields": [
                     {"title": "Metric", "value": anomaly.metric_name, "short": True},
                     {
@@ -812,9 +783,7 @@ async def slack_notification_handler(anomaly: MetricAnomaly, rule: AlertRule):
         message["attachments"][0]["fields"].append(
             {
                 "title": "Suggested Actions",
-                "value": "\n".join(
-                    f"• {action}" for action in anomaly.suggested_actions
-                ),
+                "value": "\n".join(f"• {action}" for action in anomaly.suggested_actions),
                 "short": False,
             }
         )

@@ -26,9 +26,13 @@ class FeedbackTriage:
         task = fc.get("context", {}).get("task", "")
         jurisdiction = fc.get("context", {}).get("jurisdiction", "")
         return f"{session}:{task}:{jurisdiction}"
-        deduped = []
 
-        for fc in feedback:  # noqa: F821  # TODO: feedback
+    def deduplicate(self, feedback: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        """Remove duplicate feedback entries within time window."""
+        deduped = []
+        seen = {}
+
+        for fc in feedback:
             key = self._dedup_key(fc)
             ts_str = fc.get("ts", "")
 
@@ -37,12 +41,12 @@ class FeedbackTriage:
             except:
                 ts = datetime.now(timezone.utc)
 
-            if key in seen:  # noqa: F821  # TODO: seen
-                last_ts = seen[key]  # noqa: F821  # TODO: seen
+            if key in seen:
+                last_ts = seen[key]
                 if (ts - last_ts).total_seconds() < self.dedup_window_minutes * 60:
                     continue  # Skip duplicate
 
-            seen[key] = ts  # noqa: F821  # TODO: seen
+            seen[key] = ts
             deduped.append(fc)
 
         return deduped

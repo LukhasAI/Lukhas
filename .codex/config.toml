@@ -1,0 +1,103 @@
+# LUKHAS AI Project Configuration for Codex and Similar AI Tools
+# Ensures optimal context file discovery and usage
+
+[project]
+name = "LUKHAS AI Platform"
+description = "Consciousness-Aware AI Development Platform with Trinity Framework"
+version = "2025.09.16"
+
+[context]
+# Primary context files (vendor-neutral format)
+context_files = [
+    "lukhas_context.md",
+    "README.md",
+    "AGENTS.md",
+    ".github/copilot-instructions.md"
+]
+
+# Context file patterns for automatic discovery
+context_patterns = [
+    "**/lukhas_context.md",
+    "**/claude.me",
+    "**/README.md"
+]
+
+# Preferred context format for non-Claude tools
+preferred_context_format = "lukhas_context.md"
+
+# Fallback to claude.me if lukhas_context.md not found
+fallback_context_format = "claude.me"
+
+[architecture]
+# Trinity Framework guidance
+trinity_framework = "⚛️ Identity + 🧠 Consciousness + 🛡️ Guardian"
+primary_domains = [
+    "candidate/",     # Development workspace (2,877 files)
+    "lukhas/",        # Integration layer (148 files)
+    "matriz/",        # Cognitive DNA processing
+    "products/",      # Production deployment
+    "core/",          # Core symbolic logic
+    "ethics/",        # Guardian systems
+    "consciousness/", # Research foundations
+    "identity/",      # Lambda ID system
+    "memory/",        # Memory architecture
+    "governance/"     # Governance frameworks
+]
+
+[development]
+# Lane-based architecture rules
+lane_isolation = true
+import_boundaries = "ops/matriz.yaml"
+primary_development_lane = "candidate/"
+production_lane = "lukhas/"
+
+# Essential workflows
+setup_command = "make bootstrap"
+dev_command = "make dev"
+test_command = "make test"
+lint_command = "make lint-unused"
+
+[ai_guidance]
+# AI tool instructions
+read_context_first = true
+context_file_priority = [
+    "lukhas_context.md",  # Vendor-neutral (preferred)
+    "claude.me"           # Claude Desktop compatibility
+]
+
+# Key patterns to understand
+consciousness_patterns = true
+trinity_framework_alignment = true
+symbolic_vocabulary = true
+bio_inspired_design = true
+
+# Important file naming conventions
+adapter_suffix = "_adapter.py"
+hub_suffix = "_hub.py"
+test_prefix = "test_"
+demo_prefix = "demo_"
+
+[tools]
+# Integration with LUKHAS tools
+sync_context_script = "scripts/sync_context_files.sh"
+maintenance_script = "scripts/maintain_context_files.sh"
+validation_script = "scripts/validate_context_files.sh"
+
+# VS Code tasks
+vscode_tasks_available = true
+sync_task = "🔄 Sync Context Files"
+status_task = "🔍 Check Context File Sync Status"
+maintenance_task = "🛠️ Context Files Maintenance"
+
+[documentation]
+# Documentation strategy
+dual_format_context = true
+vendor_neutral_docs = "lukhas_context.md"
+claude_optimized_docs = "claude.me"
+sync_required = true
+
+# Key documentation files
+master_overview = "lukhas_context.md"
+copilot_instructions = ".github/copilot-instructions.md"
+agents_guide = "AGENTS.md"
+context_system_docs = "docs/CONTEXT_FILES.md"

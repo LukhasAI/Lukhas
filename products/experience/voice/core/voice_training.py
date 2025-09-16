@@ -367,7 +367,7 @@ class LUKHASVoiceTrainer:
                 data=audio_data,
                 sample_rate=sample_rate,
                 channels=1,
-                format=AudioFormat.FLOAT_32,  # noqa: F821  # TODO: AudioFormat
+                format=AudioFormat.FLOAT_32,
             )
 
             # Convert to bytes for analytics
