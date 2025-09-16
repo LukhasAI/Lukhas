@@ -16,7 +16,7 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger("Lambda.DΛST", timezone)
+logger = logging.getLogger("Lambda.DΛST")
 
 
 class SymbolCategory(Enum):
