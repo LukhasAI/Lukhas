@@ -9,7 +9,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Iterable
+from typing import Iterable, Optional
 
 # Repository configuration
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -37,7 +37,7 @@ class TODORecord:
         return parts[0] if parts else "root"
 
 
-def load_exclusions(repo_path: Path | None = None) -> list[str]:
+def load_exclusions(repo_path: Optional[Path] = None) -> list[str]:
     """Load TODO entries using ripgrep with standardized exclusions."""
 
     repo = Path(repo_path or REPO_ROOT)
@@ -260,8 +260,8 @@ def extract_todo_context(line: str) -> tuple[str, str, str]:
 
 
 def categorize_todos(
-    todo_lines: Iterable[str] | None = None,
-    repo_path: Path | None = None,
+    todo_lines: Optional[Iterable[str]] = None,
+    repo_path: Optional[Path] = None,
 ) -> dict[str, list[TODORecord]]:
     """Categorize TODO entries and return priority buckets."""
 
@@ -301,8 +301,8 @@ def categorize_todos(
 
 def generate_priority_files(
     categories: dict[str, list[TODORecord]],
-    repo_path: Path | None = None,
-    updated_at: datetime | None = None,
+    repo_path: Optional[Path] = None,
+    updated_at: Optional[datetime] = None,
 ) -> dict[str, Path]:
     """Generate markdown files for each priority level."""
 
@@ -370,7 +370,7 @@ def generate_priority_files(
     return generated_paths
 
 
-def _determine_trinity_aspect(text: str) -> str | None:
+def _determine_trinity_aspect(text: str) -> Optional[str]:
     """Identify which Trinity aspect the TODO belongs to."""
 
     # ΛTAG: trinity_aspect_detection
