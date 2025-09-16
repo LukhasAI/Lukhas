@@ -23,7 +23,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from functools import wraps
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Optional, Union
 
 import structlog
 
@@ -692,6 +692,100 @@ def symbolic_access_test():
 
 if __name__ == "__main__":
     symbolic_access_test()
+
+
+# Tier Conversion Utilities (Trinity Framework Unification)
+# These functions provide seamless conversion between LAMBDA_TIER_X strings 
+# and the unified 0-5 integer tier system used throughout LUKHAS
+
+LAMBDA_TIER_MAP = {
+    "LAMBDA_TIER_0": TierLevel.PUBLIC,
+    "LAMBDA_TIER_1": TierLevel.AUTHENTICATED, 
+    "LAMBDA_TIER_2": TierLevel.ELEVATED,
+    "LAMBDA_TIER_3": TierLevel.PRIVILEGED,
+    "LAMBDA_TIER_4": TierLevel.ADMIN,
+    "LAMBDA_TIER_5": TierLevel.SYSTEM,
+}
+
+TIER_TO_LAMBDA_MAP = {v: k for k, v in LAMBDA_TIER_MAP.items()}
+
+def lambda_tier_to_int(lambda_tier: str) -> int:
+    """
+    Convert LAMBDA_TIER_X string to integer (0-5).
+    
+    Args:
+        lambda_tier: String like "LAMBDA_TIER_1", "LAMBDA_TIER_2", etc.
+        
+    Returns:
+        Integer tier level (0-5)
+        
+    Raises:
+        ValueError: If lambda_tier is not a valid LAMBDA_TIER_X string
+    """
+    if lambda_tier not in LAMBDA_TIER_MAP:
+        raise ValueError(f"Invalid lambda tier: {lambda_tier}. Must be LAMBDA_TIER_0 through LAMBDA_TIER_5")
+    return LAMBDA_TIER_MAP[lambda_tier].value
+
+def int_to_lambda_tier(tier_int: int) -> str:
+    """
+    Convert integer tier (0-5) to LAMBDA_TIER_X string.
+    
+    Args:
+        tier_int: Integer tier level (0-5)
+        
+    Returns:
+        String like "LAMBDA_TIER_1", "LAMBDA_TIER_2", etc.
+        
+    Raises:
+        ValueError: If tier_int is not in valid range 0-5
+    """
+    if not (0 <= tier_int <= 5):
+        raise ValueError(f"Invalid tier integer: {tier_int}. Must be 0-5")
+    tier_level = TierLevel(tier_int)
+    return TIER_TO_LAMBDA_MAP[tier_level]
+
+def normalize_tier(tier: Union[str, int, TierLevel]) -> TierLevel:
+    """
+    Normalize any tier representation to TierLevel enum.
+    
+    Args:
+        tier: Can be "LAMBDA_TIER_X" string, integer 0-5, or TierLevel enum
+        
+    Returns:
+        TierLevel enum value
+        
+    Raises:
+        ValueError: If tier cannot be converted to valid TierLevel
+    """
+    if isinstance(tier, TierLevel):
+        return tier
+    elif isinstance(tier, str):
+        if tier in LAMBDA_TIER_MAP:
+            return LAMBDA_TIER_MAP[tier]
+        else:
+            raise ValueError(f"Invalid lambda tier string: {tier}")
+    elif isinstance(tier, int):
+        if 0 <= tier <= 5:
+            return TierLevel(tier)
+        else:
+            raise ValueError(f"Invalid tier integer: {tier}. Must be 0-5")
+    else:
+        raise ValueError(f"Invalid tier type: {type(tier)}. Must be str, int, or TierLevel")
+
+def tier_meets_requirement(user_tier: Union[str, int, TierLevel], required_tier: Union[str, int, TierLevel]) -> bool:
+    """
+    Check if user tier meets the required tier level.
+    
+    Args:
+        user_tier: User's current tier (any format)
+        required_tier: Required minimum tier (any format)
+        
+    Returns:
+        True if user tier >= required tier
+    """
+    user_level = normalize_tier(user_tier)
+    required_level = normalize_tier(required_tier)
+    return user_level.value >= required_level.value
 
 
 # Minimal stub for test compatibility

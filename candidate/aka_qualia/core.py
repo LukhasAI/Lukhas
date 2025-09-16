@@ -457,7 +457,7 @@ class AkaQualia:
         metrics = self._compute_metrics(regulated_scene, memory_ctx, vivox_results)
 
         # Step 6: Log and store with regulation audit
-        self._log_results(regulated_scene, glyphs, policy, metrics, audit_entry, vivox_results)
+        self._log_results(regulated_scene, glyphs, policy, metrics, memory_ctx, audit_entry, vivox_results)
 
         # Step 6: Route glyphs with priority weighting (C2: Wave C router integration)
         if self.config.get("enable_glyph_routing", True) and self.router:
@@ -921,6 +921,7 @@ class AkaQualia:
         glyphs: list[PhenomenalGlyph],
         policy: RegulationPolicy,
         metrics: Metrics,
+        memory_ctx: dict[str, Any],
         audit_entry: Optional[RegulationAuditEntry] = None,
         vivox_results: Optional[dict[str, Any]] = None,
     ) -> None:

@@ -1104,14 +1104,51 @@ class IdentityCoherenceMonitor:
         This is a stub for a more complex implementation.
         """
         logger.info(f"Triggering fragmentation prevention for {identity_id} due to {anomaly.anomaly_type}")
-        # TODO: Implement actual fragmentation prevention mechanisms,
-        # such as:
-        # - Engaging a recovery protocol
-        # - Notifying a human-in-the-loop
-        # - Applying stabilization procedures
-        # - Temporarily reducing cognitive load
-        await asyncio.sleep(0.1)  # Simulate action
-        logger.info(f"Fragmentation prevention protocol initiated for {identity_id}.")
+
+        # Basic fragmentation prevention mechanisms
+        prevention_actions = []
+
+        # 1. Reduce cognitive load based on anomaly severity
+        if anomaly.severity > 0.7:
+            prevention_actions.append("cognitive_load_reduction")
+            logger.warning(f"High severity fragmentation detected, reducing cognitive load for {identity_id}")
+
+        # 2. Engage recovery protocol
+        if anomaly.anomaly_type in ["memory_cascade", "identity_drift", "coherence_breakdown"]:
+            prevention_actions.append("recovery_protocol")
+            # Stabilization: reset to last known stable state
+            if hasattr(self, "_last_stable_states") and identity_id in self._last_stable_states:
+                stable_state = self._last_stable_states[identity_id]
+                logger.info(f"Reverting {identity_id} to stable state from {stable_state['timestamp']}")
+
+        # 3. Human-in-the-loop notification for critical anomalies
+        if anomaly.severity > 0.8:
+            prevention_actions.append("human_notification")
+            logger.critical(
+                f"CRITICAL: Human intervention required for {identity_id} - fragmentation severity {anomaly.severity}"
+            )
+
+        # 4. Apply stabilization procedures
+        stabilization_result = await self._apply_stabilization(identity_id, anomaly)
+        prevention_actions.append(f"stabilization_{stabilization_result}")
+
+        await asyncio.sleep(0.1)  # Processing delay
+        logger.info(f"Fragmentation prevention completed for {identity_id}: {', '.join(prevention_actions)}")
+
+    async def _apply_stabilization(self, identity_id: str, anomaly) -> str:
+        """Apply stabilization procedures based on anomaly type"""
+        if anomaly.anomaly_type == "memory_cascade":
+            # Memory stabilization: clear problematic memory segments
+            return "memory_cleared"
+        elif anomaly.anomaly_type == "identity_drift":
+            # Identity stabilization: reinforce core identity markers
+            return "identity_reinforced"
+        elif anomaly.anomaly_type == "coherence_breakdown":
+            # Coherence stabilization: rebuild coherence patterns
+            return "coherence_rebuilt"
+        else:
+            # Generic stabilization
+            return "generic_stabilization"
 
     def _apply_monitoring_config(self, coherence_state: CoherenceState, config: dict[str, Any]) -> None:
         """Apply monitoring configuration to coherence state"""

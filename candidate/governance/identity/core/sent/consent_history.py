@@ -122,8 +122,33 @@ class ConsentHistoryManager:
 
     def generate_consent_proof(self, user_id: str, scope: str, timestamp: Optional[str] = None) -> dict:
         """Generate cryptographic proof of consent status"""
-        # TODO: Implement zero-knowledge proof generation
-        # This will allow proving consent without revealing full scope details
+        import hashlib
+        import json
+        from datetime import datetime, timezone
+
+        # Basic proof structure (placeholder for full ZK implementation)
+        proof_timestamp = timestamp or datetime.now(timezone.utc).isoformat()
+
+        # Create proof components
+        user_hash = hashlib.sha256(user_id.encode()).hexdigest()[:16]
+        scope_hash = hashlib.sha256(scope.encode()).hexdigest()[:16]
+        proof_data = {
+            "user_id": user_hash,  # Hashed for privacy
+            "scope": scope_hash,  # Hashed for privacy
+            "timestamp": proof_timestamp,
+            "consent_exists": user_id in self.consent_history,
+            "proof_version": "v1.0-basic",
+        }
+
+        # Generate proof signature (simplified)
+        proof_content = json.dumps(proof_data, sort_keys=True)
+        proof_signature = hashlib.sha256(proof_content.encode()).hexdigest()
+
+        return {
+            **proof_data,
+            "proof_signature": proof_signature,
+            "verification": "basic-hash-proof",  # Would be ZK proof in production
+        }
 
     def get_symbolic_consent_history(self, user_id: str) -> str:
         """Generate symbolic representation of consent history"""

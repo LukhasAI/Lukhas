@@ -45,9 +45,35 @@ TODO/
 
 ## 📊 Current Status
 
-- **Total TODOs**: 744 (excluding virtual environment contamination)
-- **Last Updated**: September 12, 2025
+- **Total TODOs**: 777 (excluding virtual environment contamination)
+- **Last Updated**: September 16, 2025
 - **Extraction Method**: Clean search excluding .venv, cache, and build directories
+
+### Priority Breakdown
+
+| Priority | Count | Percentage | Focus Areas |
+|----------|-------|------------|-------------|
+| 🚨 **CRITICAL** | **35** | 4.5% | Security, consciousness safety, blocking issues |
+| ⭐ **HIGH** | **343** | 44.1% | Core functionality, Trinity Framework, agent coordination |
+| 📋 **MED** | **245** | 31.5% | Feature enhancements, optimization |
+| 🔧 **LOW** | **154** | 19.8% | Documentation, cleanup, minor improvements |
+
+### Critical Items by Module (35 items requiring immediate attention)
+
+**Top Priority Modules:**
+- **candidate/**: 21 TODOs - Core system issues including framework integration fixes, identity & consent management gaps
+- **products/**: 5 TODOs - Production deployment blockers
+- **tests/**: 4 TODOs - Security compliance test gaps
+- **quarantine/**: 2 TODOs - Syntax validation issues
+- **memory/**: 1 TODO - Identity registry integration
+- **branding/**: 1 TODO - Security specialist integration
+
+### Trinity Framework Alignment
+
+**Critical TODOs by Trinity Aspect:**
+- ⚛️ **Identity**: 8 items (rate limiting, tier validation, consent management)
+- 🧠 **Consciousness**: 4 items (framework evolution, coherence monitoring)
+- 🛡️ **Guardian**: 6 items (security boundaries, compliance verification)
 
 ## 🔄 Maintenance
 
@@ -122,6 +148,24 @@ clean_grep "TODO" --include="*.py" -n -A2 -B2
 
 ---
 
-**Last Generated**: September 12, 2025
+**Last Generated**: September 16, 2025
 **System**: LUKHAS AI Consciousness Development Platform
 **Framework**: Constellation (Triad subset: ⚛️🧠🛡️)
+
+## 🚨 Immediate Action Plan
+
+**Week 1 (CRITICAL - 35 items):**
+1. Fix 19 F821 undefined name errors in framework integration
+2. Implement identity verification for guardian compliance
+3. Address security vulnerabilities and regressions
+4. Complete consent management tier-based validation
+5. Fix consciousness coherence monitoring gaps
+
+**Week 2-4 (HIGH Priority):**
+- Focus on candidate/ module (267 TODOs - 77.8% of HIGH priority)
+- Enterprise products features (24 TODOs)
+- Test coverage improvements (13 TODOs)
+
+**Month 2 (MED/LOW Priority - 399 items):**
+- Feature enhancements and optimization
+- Documentation and cleanup tasks

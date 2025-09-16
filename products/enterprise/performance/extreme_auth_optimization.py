@@ -38,8 +38,7 @@ class LukhosAuthPerformanceResolver:
         
         # Attempt 1: Enterprise Core (Full-featured, production-grade)
         try:
-            from enterprise.core.performance.extreme_auth_optimization import *
-            
+            from enterprise.core.performance import extreme_auth_optimization as core_impl
             self.implementation_source = "enterprise_core"
             self.performance_tier = "extreme"
             self.capabilities = {
@@ -50,34 +49,54 @@ class LukhosAuthPerformanceResolver:
                 "production_ready": True
             }
             logger.info("✅ Agent Integration: Using enterprise/core/performance (EXTREME TIER)")
-            return True
-            
+            return core_impl
         except ImportError as e:
             logger.debug(f"Enterprise core implementation not available: {e}")
         
-        # Attempt 2: Products Enterprise Core (Production-ready)
+        # Attempt 2: Products Enterprise (Production fallback)
         try:
-            from products.enterprise.core.performance.extreme_auth_optimization import *
-            
-            self.implementation_source = "products_enterprise_core"
+            from products.enterprise.core.performance import extreme_auth_optimization as prod_impl
+            self.implementation_source = "products_enterprise"
             self.performance_tier = "production"
             self.capabilities = {
                 "async_io": True,
                 "memory_optimization": True,
-                "cache_layers": True,
-                "sub_50ms_target": True,
+                "cache_layers": False,
+                "sub_25ms_target": False,
                 "production_ready": True
             }
-            logger.info("✅ Agent Integration: Using products/enterprise/core/performance (PRODUCTION TIER)")
-            return True
-            
+            logger.info("✅ Agent Integration: Using products/enterprise (PRODUCTION TIER)")
+            return prod_impl
         except ImportError as e:
-            logger.debug(f"Products enterprise core implementation not available: {e}")
+            logger.debug(f"Products enterprise implementation not available: {e}")
         
-        # Fallback: Compatibility stub with basic functionality
-        logger.warning("⚠️  Agent Integration: Using compatibility stub - performance will be degraded")
-        self._create_compatibility_stub()
-        return False
+        # Emergency fallback: Minimal compatibility implementation
+        logger.warning("Using minimal compatibility implementation - performance degraded")
+        return self._create_minimal_implementation()
+    
+    def _create_minimal_implementation(self):
+        """Create a minimal compatibility implementation"""
+        self.implementation_source = "minimal_fallback"
+        self.performance_tier = "basic"
+        self.capabilities = {
+            "async_io": False,
+            "memory_optimization": False,
+            "cache_layers": False,
+            "sub_25ms_target": False,
+            "production_ready": False
+        }
+        
+        # Return a minimal implementation object
+        class MinimalAuthOptimization:
+            def __init__(self):
+                self.version = "minimal-fallback"
+                
+            def optimize_auth_flow(self, *args, **kwargs):
+                """Basic pass-through implementation"""
+                return args[0] if args else None
+                
+        logger.info("⚠️ Agent Integration: Using minimal fallback implementation")
+        return MinimalAuthOptimization()
     
     def _create_compatibility_stub(self):
         """Create minimal compatibility stub when real implementations unavailable"""

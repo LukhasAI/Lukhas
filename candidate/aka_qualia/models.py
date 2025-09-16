@@ -128,7 +128,6 @@ class RiskGauge(BaseModel):
             elif severity == RiskSeverity.CRITICAL and score < 0.9:
                 raise ValueError("CRITICAL severity requires score ≥ 0.9")
         return self
-        return v
 
 
 class PhenomenalScene(BaseModel):

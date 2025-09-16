@@ -18,6 +18,7 @@ import time
 
 import pytest
 
+from candidate.aka_qualia.memory_sql import SqlMemory
 from candidate.aka_qualia.tests.conftest import create_test_glyph, create_test_scene
 
 
@@ -323,8 +324,8 @@ class TestPrivacyHashing:
         test_subject = "Same Subject Different Salt"
 
         # Create two memory clients with different salts
-        memory1 = sql_memory.SqlMemory(sqlite_engine, "salt_1", is_prod=True)
-        memory2 = sql_memory.SqlMemory(sqlite_engine, "salt_2", is_prod=True)
+        memory1 = SqlMemory(sqlite_engine, "salt_1", is_prod=True)
+        memory2 = SqlMemory(sqlite_engine, "salt_2", is_prod=True)
 
         hash1 = memory1._hash_safe(test_subject)
         hash2 = memory2._hash_safe(test_subject)
