@@ -167,7 +167,7 @@ class PerformanceOrchestrator:
             Dict containing monitoring session details
         """
         try:
-            monitoring_id = f"perf_monitor_{int(time.time())_{user_id}"
+            monitoring_id = f"perf_monitor_{int(time.time())}_{user_id}"
 
             # Initialize monitoring session
             session = {
@@ -227,7 +227,7 @@ class PerformanceOrchestrator:
             Dict containing optimization results and improvements
         """
         try:
-            optimization_id = f"perf_opt_{int(time.time())_{user_id}"
+            optimization_id = f"perf_opt_{int(time.time())}_{user_id}"
             start_time = time.time()
 
             # Parse strategy
