@@ -6,13 +6,10 @@ Resolves conflicts and manages policy registration for the Golden Trio.
 import logging
 from typing import Any
 
-
 try:
-    from ethics.core import get_shared_ethics_engine  # type: ignore[attr-defined]
+    from ethics.core import get_shared_ethics_engine  # ΛTAG: ethics_bridge
 except (ImportError, AttributeError):  # pragma: no cover - fallback when namespace missing
     from candidate.governance.ethics.shared_ethics_engine import get_shared_ethics_engine
-
-
 from symbolic.core import SymbolicVocabulary, get_symbolic_vocabulary
 
 logger = logging.getLogger(__name__)
