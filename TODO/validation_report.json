@@ -1,0 +1,387 @@
+{
+  "timestamp": "2025-09-16 13:57:42",
+  "validation_summary": {
+    "status": "ANALYSIS_COMPLETE",
+    "discrepancies_found": false,
+    "requires_reorganization": true,
+    "priority_action": "IMMEDIATE_REORGANIZATION_NEEDED"
+  },
+  "current_todo_state": {
+    "total_count": 828,
+    "directory_breakdown": {
+      "root": 9,
+      "bio": 1,
+      "TODO": 60,
+      "branding": 39,
+      "memory": 3,
+      "emotion": 1,
+      "products": 41,
+      "rl": 14,
+      "tools": 191,
+      "agi_core": 1,
+      "candidate": 355,
+      "tests": 24,
+      "quarantine": 73,
+      "mcp_servers": 2,
+      "diagnostics": 1,
+      "ethics": 1,
+      "lukhas": 8,
+      "scripts": 4
+    },
+    "priority_distribution": {
+      "CRITICAL": 9,
+      "HIGH": 85,
+      "MED": 10,
+      "LOW": 724
+    },
+    "sample_todos": [
+      "fix_syntax_errors_v2.py:4:Handles more complex patterns and TODO marker issues.",
+      "fix_syntax_errors_v2.py:64:    \"\"\"Fix TODO markers that break syntax.\"\"\"",
+      "fix_syntax_errors_v2.py:65:    # Remove TODO markers at the beginning of files",
+      "fix_syntax_errors_v2.py:70:        # Skip TODO markers that aren't valid Python",
+      "fix_syntax_errors_v2.py:71:        if line.strip().startswith(\"TODO[\") and \":\" in line and i < 5:",
+      "bio/symbolic/__init__.py:6:TODO[T4-AUDIT]:triage - Deep bio hierarchy with unclear integration path. Need architecture analysis.",
+      "TODO/mark_claude_completed.py:3:Mark Claude's completed TODOs in the priority files",
+      "TODO/mark_claude_completed.py:9:# Claude's completed TODOs (69 total)",
+      "TODO/mark_claude_completed.py:10:COMPLETED_TODOS = {",
+      "TODO/mark_claude_completed.py:39:    \"\"\"Mark TODOs as completed in the priority files\"\"\""
+    ]
+  },
+  "documented_counts": {
+    "TODO/critical_todos.md": {
+      "file_exists": true,
+      "found_counts": [
+        "150",
+        "2",
+        "95",
+        "1",
+        "35",
+        "3",
+        "14",
+        "2",
+        "95",
+        "1",
+        "35",
+        "3",
+        "14",
+        "150"
+      ],
+      "last_modified": 1757872608.3953648
+    },
+    "TODO/high_todos.md": {
+      "file_exists": true,
+      "found_counts": [
+        "687",
+        "1",
+        "1",
+        "1",
+        "1",
+        "13",
+        "409",
+        "1",
+        "1",
+        "14",
+        "1",
+        "1",
+        "2",
+        "198",
+        "22",
+        "1",
+        "1",
+        "13",
+        "6",
+        "1",
+        "1",
+        "1",
+        "1",
+        "13",
+        "409",
+        "1",
+        "1",
+        "14",
+        "1",
+        "1",
+        "2",
+        "198",
+        "22",
+        "1",
+        "1",
+        "13",
+        "6",
+        "687"
+      ],
+      "last_modified": 1757890075.6827145
+    },
+    "TODO/med_todos.md": {
+      "file_exists": true,
+      "found_counts": [
+        "159",
+        "24",
+        "41",
+        "60",
+        "2",
+        "1",
+        "3",
+        "5",
+        "2",
+        "1",
+        "1",
+        "1",
+        "2",
+        "14",
+        "1",
+        "1",
+        "24",
+        "41",
+        "60",
+        "2",
+        "1",
+        "3",
+        "5",
+        "2",
+        "1",
+        "1",
+        "1",
+        "2",
+        "14",
+        "1",
+        "1",
+        "159"
+      ],
+      "last_modified": 1757890075.6830409
+    },
+    "TODO/low_todos.md": {
+      "file_exists": true,
+      "found_counts": [
+        "119",
+        "5",
+        "2",
+        "3",
+        "11",
+        "3",
+        "2",
+        "93",
+        "5",
+        "2",
+        "3",
+        "11",
+        "3",
+        "2",
+        "93",
+        "119"
+      ],
+      "last_modified": 1757892758.242078
+    },
+    "TODO/COMPLETION_STATUS.md": {
+      "file_exists": true,
+      "found_counts": [
+        "100",
+        "100",
+        "2",
+        "100",
+        "2",
+        "100",
+        "100",
+        [
+          "2",
+          "100"
+        ],
+        [
+          "100",
+          "100"
+        ]
+      ],
+      "last_modified": 1757893933.3784306
+    },
+    "TODO/SUMMARY.md": {
+      "file_exists": true,
+      "found_counts": [
+        "149",
+        "687",
+        "159",
+        "119",
+        "150",
+        "687",
+        "159",
+        "119",
+        "100",
+        "504",
+        "233",
+        "15",
+        "20",
+        "14",
+        "744",
+        [
+          "69",
+          "100"
+        ]
+      ],
+      "last_modified": 1757892005.1757512
+    }
+  },
+  "completion_evidence": {
+    "COMPLETED": {
+      "count": 89,
+      "examples": [
+        "system/common/event_adapters.py:77:        event_bus.subscribe(EventTypes.TASK_COMPLETED, self._on_task_completed)",
+        "system/common/event_bus.py:174:    TASK_COMPLETED = \"orchestration.task_completed\"",
+        "tools/extreme_performance_validator.py:189:        print(f\"\\n\ud83c\udfc1 VALIDATION COMPLETED in {time.time() - self.validation_start_time:.1f}s\")",
+        "recovered_components/tools/non_core_module_analysis.py:19:    print(\"\\n1. \ud83d\udd04 QUANTUM \u2192 QI MIGRATION COMPLETED:\")",
+        "TODO/mark_claude_completed.py:10:COMPLETED_TODOS = {"
+      ]
+    },
+    "CLAUDE.*COMPLETED": {
+      "count": 2,
+      "examples": [
+        "TODO/scripts/validate_todo_status.py:144:            \"CLAUDE.*COMPLETED\", ",
+        "TODO/scripts/validate_todo_status.py:251:                    \"claude_specific_evidence\": completion_evidence.get(\"CLAUDE.*COMPLETED\", {}).get(\"count\", 0)"
+      ]
+    },
+    "DONE": {
+      "count": 8,
+      "examples": [
+        "TODO/scripts/validate_todo_status.py:145:            \"DONE\",",
+        "branding/vocabularies/vocabulary_template.py:44:        \"symbol\": \"DONE\u25ca\",",
+        "symbolic/vocabularies/vocabulary_template.py:44:        \"symbol\": \"DONE\u25ca\",",
+        "candidate/core/integrator.py:18:# \u039bTAGS: [CoreIntegrator, SystemBus, ComponentManagement, QIBiological, SecurityIntegration, \u039bTRACE_DONE]",
+        "candidate/bridge/integration_bridge.py:20:# \u039bTAGS: [Framework, Integration, PluginManagement, Adapter, Bridge, CoreRegistry, \u039bTRACE_DONE]"
+      ]
+    },
+    "FIXED": {
+      "count": 49,
+      "examples": [
+        "TODO/scripts/validate_todo_status.py:146:            \"FIXED\",",
+        "tools/automation/pytest_class_fixer.py:361:        print(\"\\n\u2705 FIXED FILES:\")",
+        "tools/scripts/aggressive_syntax_fixer.py:81:                    lines[error[\"line\"] - 1] = \"# SYNTAX_ERROR_FIXED: \" + lines[error[\"line\"] - 1]",
+        "tools/scripts/aggressive_syntax_fixer.py:245:            print(\" [FIXED]\")",
+        "scripts/consciousness_validation.py:58:    # Test Symbolic Context - FIXED!"
+      ]
+    },
+    "RESOLVED": {
+      "count": 11,
+      "examples": [
+        "TODO/scripts/validate_todo_status.py:147:            \"RESOLVED\"",
+        "candidate/governance/security/threat_detection.py:108:    RESOLVED = \"resolved\"",
+        "candidate/governance/security/threat_detection.py:1296:                    threat.status = ThreatStatus.RESOLVED",
+        "candidate/governance/identity/constellation_glyph_integration.py:59:    NAMESPACE_RESOLVED = \"namespace.resolved\"",
+        "candidate/governance/identity/constellation_glyph_integration.py:748:            GLYPHType.NAMESPACE_RESOLVED: \"\ud83c\udf10\","
+      ]
+    }
+  },
+  "jules_assignments": {
+    "assignment_files": [
+      {
+        "file": "Jules-03-consciousness-namespace-isolation.md",
+        "lines": 70,
+        "todos_mentioned": 0,
+        "size": "medium"
+      },
+      {
+        "file": "Jules-08-bio-architecture-analysis.md",
+        "lines": 70,
+        "todos_mentioned": 0,
+        "size": "medium"
+      },
+      {
+        "file": "Jules-07-identity-manager-infrastructure.md",
+        "lines": 70,
+        "todos_mentioned": 0,
+        "size": "medium"
+      },
+      {
+        "file": "Jules-07-utc-enforcement-and-legacy-glue.md",
+        "lines": 40,
+        "todos_mentioned": 0,
+        "size": "small"
+      },
+      {
+        "file": "Jules-05-bio-optimizer-corrections.md",
+        "lines": 61,
+        "todos_mentioned": 0,
+        "size": "medium"
+      },
+      {
+        "file": "Jules-04-identity-consolidation.md",
+        "lines": 59,
+        "todos_mentioned": 0,
+        "size": "medium"
+      },
+      {
+        "file": "Jules-01-F821-sweep.md",
+        "lines": 44,
+        "todos_mentioned": 4,
+        "size": "small"
+      },
+      {
+        "file": "Jules-03-ethics-tiers-mapping.md",
+        "lines": 51,
+        "todos_mentioned": 0,
+        "size": "medium"
+      },
+      {
+        "file": "Jules-10-mcp-operational-support.md",
+        "lines": 72,
+        "todos_mentioned": 0,
+        "size": "medium"
+      },
+      {
+        "file": "Jules-02-matriz-consciousness-signals.md",
+        "lines": 67,
+        "todos_mentioned": 0,
+        "size": "medium"
+      },
+      {
+        "file": "Jules-09-api-expansion-strategy.md",
+        "lines": 73,
+        "todos_mentioned": 0,
+        "size": "medium"
+      },
+      {
+        "file": "Jules-02-trace-audit-chain.md",
+        "lines": 53,
+        "todos_mentioned": 1,
+        "size": "medium"
+      },
+      {
+        "file": "Jules-06-pqc-signer-triage.md",
+        "lines": 64,
+        "todos_mentioned": 0,
+        "size": "medium"
+      },
+      {
+        "file": "Jules-06-framework-integration-fixes.md",
+        "lines": 71,
+        "todos_mentioned": 0,
+        "size": "medium"
+      },
+      {
+        "file": "Jules-05-consciousness-coherence-monitor.md",
+        "lines": 70,
+        "todos_mentioned": 0,
+        "size": "medium"
+      },
+      {
+        "file": "Jules-01-consciousness-authority-builder.md",
+        "lines": 64,
+        "todos_mentioned": 0,
+        "size": "medium"
+      },
+      {
+        "file": "Jules-04-constitutional-ai-compliance.md",
+        "lines": 70,
+        "todos_mentioned": 0,
+        "size": "medium"
+      }
+    ],
+    "total_assignments": 17,
+    "estimated_workload": {}
+  },
+  "discrepancy_analysis": {
+    "actual_todo_count": 828,
+    "documented_claims": {},
+    "evidence_verification": {
+      "completion_markers_found": 159,
+      "claude_specific_evidence": 2
+    }
+  }
+}

@@ -8,6 +8,17 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 __module__ = "bio.quantum"
 __triad__ = "⚛️🧠🛡️"
+from datetime import timezone
+from typing import Any, Dict
+
+from candidate.utils.time import utc_now
+
+
+def _utc_iso_timestamp() -> str:
+    """Return an ISO formatted UTC timestamp."""
+
+    # ΛTAG: utc_enforcement
+    return utc_now().astimezone(timezone.utc).isoformat()
 
 
 class VoiceQIConfig:
@@ -22,7 +33,7 @@ class QIVoiceEnhancer:
     def __init__(self, *args, **kwargs):
         pass
 
-    def _enhance_voice_methods(self, voice_data, enhancement_level=0.5):
+    def _enhance_voice_methods(self, voice_data: Any, enhancement_level: float = 0.5) -> Dict[str, Any]:
         """Enhance voice using quantum-inspired bio-processing"""
         try:
             enhanced_voice = {
@@ -57,7 +68,7 @@ class QIVoiceEnhancer:
 
             return enhanced_voice
 
-        except Exception as e:
+        except Exception as e:  # pragma: no cover - diagnostic safeguard
             return {
                 "error": str(e),
                 "original_data": voice_data,
@@ -83,19 +94,15 @@ class NeuroplasticityModulator:
     pass
 
 
-def __validate_module__():
+def __validate_module__() -> Dict[str, Any]:
     """Bio quantum function - __validate_module__"""
-    from datetime import timezone
-    from candidate.utils.time import utc_now
-
     """
     Bio-QI Module Validation
     Tests all quantum-inspired bio-processing components
     """
 
     validation_results = {
-        # ΛTAG: utc_enforcement
-        "validation_timestamp": utc_now().replace(tzinfo=timezone.utc).isoformat(),
+        "validation_timestamp": _utc_iso_timestamp(),
         "module_status": "operational",
         "components_tested": [],
         "test_results": {},

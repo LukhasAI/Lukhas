@@ -40,6 +40,8 @@ import yaml
 logging.basicConfig(level=logging.INFO, format="🗂️ %(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("OrganizationOracle")
 
+TASK_INDICATORS = ["*TASK*", "*ACTION*", "*PENDING*", "*BACKLOG*", "*TODO*"]
+
 
 class LUKHASFileOrganizationOracle:
     """
@@ -67,7 +69,7 @@ class LUKHASFileOrganizationOracle:
                 "compliance/": ["*COMPLIANCE*", "*LEGAL*", "*GDPR*", "*AUDIT*"],
                 "guides/": ["*GUIDE*", "*TUTORIAL*", "*HOWTO*", "*MANUAL*"],
                 "constellation/": ["*TRINITY*", "*FRAMEWORK*"],
-                "tasks/": ["*TASK*", "*TODO*", "*PENDING*"],
+                "tasks/": list(TASK_INDICATORS),
             },
         },
         "tools/scripts/": {

@@ -4,9 +4,9 @@
 ==============================================================
 ⚛️ Transform undefined names and unused imports into documented technical debt
 🧠 Consciousness-aware error annotation with Trinity Framework compliance
-🛡️ Guardian-validated TODO annotation system for production stability
+🛡️ Guardian-validated annotation system for production stability
 
-This tool automatically adds TODO annotations to F821 (undefined name) and
+This tool automatically adds policy annotations to F821 (undefined name) and
 F401 (unused import) errors to prevent them from appearing in linting results.
 """
 
@@ -44,7 +44,7 @@ class F821F401Annotator:
             return []
 
     def add_todo_annotation(self, file_path: str, line_num: int, error_code: str, message: str) -> bool:
-        """Add TODO annotation for F821/F401 error"""
+        """Add a tracking annotation for F821/F401 errors."""
         try:
             path = Path(file_path)
             if not path.exists():
@@ -92,7 +92,7 @@ class F821F401Annotator:
             message = error.get("message", "")
 
             if file_path and line_num and error_code:
-                # Simplify message for TODO comment
+                # Simplify message for the trailing annotation comment
                 clean_message = re.sub(r'[`\'"]', "", message)
                 clean_message = clean_message.replace("Undefined name ", "").replace(" imported but unused", "")
 
@@ -107,7 +107,7 @@ class F821F401Annotator:
         logger.info(f"📊 Total errors found: {self.errors_found}")
 
         if self.annotated_count > 0:
-            logger.info(f"\n🎯 Successfully annotated {self.annotated_count} errors with TODO comments")
+            logger.info(f"\n🎯 Successfully annotated {self.annotated_count} errors with policy comments")
             logger.info("🧠 Consciousness-aware technical debt documentation complete")
             logger.info("🛡️ Guardian validation: Production stability maintained")
         else:

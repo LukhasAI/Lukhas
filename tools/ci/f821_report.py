@@ -148,11 +148,11 @@ def main():
             except Exception:
                 continue
             ln = it["line"]
-            tag = f"# TODO[T4-F821:{it['class']}]: {it['message']}"
+            annotation = f"# TODO[T4-F821:{it['class']}]: {it['message']}"
             if 1 <= ln <= len(lines):
-                # idempotent: don't duplicate the tag
-                if tag not in lines[ln - 1]:
-                    lines[ln - 1] = lines[ln - 1] + "  " + tag
+                # idempotent: don't duplicate the annotation
+                if annotation not in lines[ln - 1]:
+                    lines[ln - 1] = lines[ln - 1] + "  " + annotation
                     try:
                         with open(p, "w", encoding="utf-8") as w:
                             w.write("\n".join(lines) + "\n")
