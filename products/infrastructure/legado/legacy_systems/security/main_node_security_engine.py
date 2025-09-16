@@ -29,8 +29,7 @@ try:
     from backend.core.neuro_symbolic_engine import NeuroSymbolicEngine
     from backend.learning.meta_learning import MetaLearningSystem
 
-    # from AID.service.identity_manager import IdentityManager  # TODO:
-    # Install or implement AID
+    from governance.identity.core.id_service import IdentityManager
     from backend.security.privacy_manager import PrivacyManager
     from frontend.interface.adaptive_interface_generator import (
         AdaptiveInterfaceGenerator,
@@ -82,7 +81,7 @@ class MainNodeSecurityEngine:
         # Backend
         self.meta_learning = MetaLearningSystem()
         self.neuro_symbolic_engine = NeuroSymbolicEngine()
-        self.identity_manager = IdentityManager()  # noqa: F821  # TODO: IdentityManager
+        self.identity_manager = IdentityManager()
         self.privacy_manager = PrivacyManager()
 
         # Register event handlers
@@ -384,7 +383,7 @@ async def main():
     logger.info("Adaptive AI Interface starting up...")
 
     # Create and start the system
-    system = AdaptiveAGISystem()  # noqa: F821  # TODO: AdaptiveAGISystem
+    system = MainNodeSecurityEngine()
 
     try:
         await system.start()
