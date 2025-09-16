@@ -14,9 +14,22 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Import modular components
-from .parsers import CodeParser, CSVParser, DataParser, MarkdownParser, PDFParser, TextParser
-from .renderers import Web2DRenderer, XRRenderer
-from .symbols import GlyphSymbol, SymbolGenerator
+try:
+    from .parsers import CodeParser, CSVParser, DataParser, MarkdownParser, PDFParser, TextParser
+    from .renderers import Web2DRenderer, XRRenderer
+    from .symbols import GlyphSymbol, SymbolGenerator
+except ImportError:
+    # Fallback for when module is imported outside package context
+    from products.intelligence.lens.parsers import (
+        CodeParser,
+        CSVParser,
+        DataParser,
+        MarkdownParser,
+        PDFParser,
+        TextParser,
+    )
+    from products.intelligence.lens.renderers import Web2DRenderer, XRRenderer
+    from products.intelligence.lens.symbols import GlyphSymbol, SymbolGenerator
 
 
 @dataclass
