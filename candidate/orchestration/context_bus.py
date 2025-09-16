@@ -25,6 +25,9 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
 
 # Import Agent 3's adapters
 from candidate.core.identity.lambda_id_core import LukhasIdentityService
+from candidate.bridge.adapters.gmail_adapter import GmailAdapter, GmailContextIntegration
+from candidate.bridge.adapters.drive_adapter import DriveAdapter, DriveContextIntegration
+from candidate.bridge.adapters.dropbox_adapter import DropboxAdapter, DropboxContextIntegration
 
 # Import Agent 2's consent and policy
 from lukhas.governance.consent_ledger.ledger_v1 import (
@@ -189,16 +192,15 @@ class ContextBusOrchestrator:
         self.consent_ledger = ConsentLedgerV1()
         self.policy_engine = PolicyEngine(self.consent_ledger)
 
-        # Adapters from Agent 3
-        # TODO: GmailAdapter, DriveAdapter, DropboxAdapter are abstract; use concrete implementations or mocks for instantiation
-        self.gmail_adapter = None  # GmailAdapter()
-        self.drive_adapter = None  # DriveAdapter()
-        self.dropbox_adapter = None  # DropboxAdapter()
+        # Adapters from Agent 3 - Now using concrete implementations
+        self.gmail_adapter = GmailAdapter()
+        self.drive_adapter = DriveAdapter()
+        self.dropbox_adapter = DropboxAdapter()
 
-        # Context integrations (set to None for demo)
-        self.gmail_integration = None  # GmailContextIntegration(self.gmail_adapter)
-        self.drive_integration = None  # DriveContextIntegration(self.drive_adapter)
-        self.dropbox_integration = None  # DropboxContextIntegration(self.dropbox_adapter)
+        # Context integrations for workflow orchestration
+        self.gmail_integration = GmailContextIntegration(self.gmail_adapter)
+        self.drive_integration = DriveContextIntegration(self.drive_adapter)
+        self.dropbox_integration = DropboxContextIntegration(self.dropbox_adapter)
 
         # Opus 4 model allocation strategy
         # This can be set via config/env in production
@@ -537,8 +539,7 @@ class WorkflowPipelines:
             WorkflowStep(
                 step_id="auth_check",
                 name="Verify Authentication",
-                # TODO: validate_access is not implemented on LukhasIdentityService; replace with actual method
-                handler=lambda lid, ctx: True,
+                handler=lambda lid, ctx: orchestrator.identity_service.validate_access(lid, action="authenticate"),
                 required_scopes=["authenticate"],
                 requires_policy_check=True,
             ),

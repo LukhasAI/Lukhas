@@ -105,8 +105,8 @@ try:
 except (ImportError, AttributeError):
     BioCore = None
 
-# TODO: Create or find existing ModuleRegistry and uncomment.
-# from .module_registry import ModuleRegistry
+# ModuleRegistry is implemented and available
+from candidate.core.module_registry import ModuleRegistry
 
 logger = logging.getLogger(__name__)
 
@@ -128,7 +128,7 @@ class OrchestrationCore:
         self.is_running = False
 
         # Core system components
-        # self.module_registry = ModuleRegistry() #TODO: See above
+        self.module_registry = ModuleRegistry()
         self.memory_manager = None
         self.bio_core = None
         self.dream_engine = None
@@ -343,10 +343,17 @@ class OrchestrationCore:
         }
 
         for name, module in core_modules.items():
-            # await self.module_registry.register_module(name, module) #TODO: See above
+            self.module_registry.register_module(
+                module_id=name,
+                module_instance=module,
+                name=name,
+                version="1.0.0",
+                path=f"brain.orchestration.core.{name}",
+                min_tier=1  # Visitor tier for core modules
+            )
             self.active_modules[name] = module
 
-        logger.info(f"Registered {len(core_modules)} core modules (ModuleRegistry part N/A for now)")
+        logger.info(f"Registered {len(core_modules)} core modules in ModuleRegistry")
 
     async def _initiate_consciousness_loop(self):
         """Start the main consciousness simulation loop."""

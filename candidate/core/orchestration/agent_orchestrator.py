@@ -229,7 +229,9 @@ class AgentOrchestrator:
 
             if active_agent_tasks:
                 self._logger.warning(f"Agent {agent_id} has {len(active_agent_tasks)} active tasks")
-                # TODO: Reassign or cancel tasks
+
+                # Handle active tasks through reassignment or cancellation
+                await self._handle_agent_task_reassignment(agent_id, active_agent_tasks)
 
             # Shutdown agent
             await agent.shutdown()
@@ -613,6 +615,127 @@ class AgentOrchestrator:
             status = plugin.status.name
             counts[status] = counts.get(status, 0) + 1
         return counts
+
+    async def _handle_agent_task_reassignment(self, failing_agent_id: str, task_ids: list[str]) -> None:
+        """
+        Handle reassignment or cancellation of tasks when an agent becomes unavailable.
+
+        Args:
+            failing_agent_id: ID of the agent that is being unregistered
+            task_ids: List of task IDs currently assigned to the failing agent
+        """
+        self._logger.info(f"Handling task reassignment for {len(task_ids)} tasks from agent {failing_agent_id}")
+
+        for task_id in task_ids:
+            try:
+                # Get task details
+                if task_id not in self.active_tasks:
+                    self._logger.warning(f"Task {task_id} not found in active tasks")
+                    continue
+
+                task_def, _ = self.active_tasks[task_id]
+
+                # Try to find an alternative agent with required capabilities
+                suitable_agent = await self._find_suitable_agent_for_task(task_def, exclude_agent=failing_agent_id)
+
+                if suitable_agent:
+                    # Reassign task to new agent
+                    self._logger.info(f"Reassigning task {task_id} from {failing_agent_id} to {suitable_agent}")
+
+                    # Update active tasks registry
+                    self.active_tasks[task_id] = (task_def, suitable_agent)
+
+                    # Create reassignment task
+                    await self._execute_agent_task(self.agents[suitable_agent], task_def)
+
+                    # Log successful reassignment
+                    self._logger.info(f"Successfully reassigned task {task_id} to agent {suitable_agent}")
+
+                else:
+                    # No suitable agent found - cancel task and notify
+                    self._logger.warning(f"No suitable agent found for task {task_id} - cancelling task")
+
+                    # Create cancellation result
+                    cancelled_result = TaskResult(
+                        task_id=task_id,
+                        agent_id=failing_agent_id,
+                        success=False,
+                        result_data={"error": "Task cancelled due to agent unavailability", "reason": "no_suitable_agent"},
+                        execution_time=0.0,
+                        timestamp=datetime.now(timezone.utc),
+                    )
+
+                    # Store result and remove from active tasks
+                    self.task_results[task_id] = cancelled_result
+                    del self.active_tasks[task_id]
+
+                    # Send cancellation notification through protocol
+                    cancellation_message = self.protocol.create_message(
+                        message_type=MessageType.ERROR,
+                        content={"task_id": task_id, "error": "Task cancelled due to agent failure", "agent_id": failing_agent_id},
+                        priority=Priority.HIGH,
+                    )
+
+                    # In a full implementation, this would notify task submitters
+                    self._logger.warning(f"Task {task_id} cancelled due to agent failure: {failing_agent_id}")
+
+            except Exception as e:
+                self._logger.error(f"Error during task reassignment for task {task_id}: {e}", exc_info=True)
+                # Ensure task is removed from active tasks even on error
+                if task_id in self.active_tasks:
+                    del self.active_tasks[task_id]
+
+    async def _find_suitable_agent_for_task(
+        self, task_def: TaskDefinition, exclude_agent: Optional[str] = None
+    ) -> Optional[str]:
+        """
+        Find a suitable agent for a given task, optionally excluding a specific agent.
+
+        Args:
+            task_def: Task definition requiring assignment
+            exclude_agent: Agent ID to exclude from consideration
+
+        Returns:
+            str: Agent ID if suitable agent found, None otherwise
+        """
+        suitable_agents = []
+
+        # Check each registered agent
+        for agent_id, agent in self.agents.items():
+            if exclude_agent and agent_id == exclude_agent:
+                continue
+
+            # Skip if agent is not in a good state
+            if agent.status not in [AgentStatus.IDLE, AgentStatus.BUSY]:
+                continue
+
+            # Check if agent has required capabilities
+            agent_caps = set()
+            for capability, agent_set in self.agent_capabilities.items():
+                if agent_id in agent_set:
+                    agent_caps.add(capability)
+
+            # Check if task requirements match agent capabilities
+            task_requirements = getattr(task_def, "required_capabilities", set())
+            if task_requirements and not task_requirements.issubset(agent_caps):
+                continue
+
+            # Check current load
+            current_tasks = sum(1 for _, assigned_agent in self.active_tasks.values() if assigned_agent == agent_id)
+            max_tasks = self.config["max_concurrent_tasks_per_agent"]
+
+            if current_tasks >= max_tasks:
+                continue
+
+            # Agent is suitable
+            suitable_agents.append((agent_id, current_tasks))
+
+        if not suitable_agents:
+            return None
+
+        # Return agent with lowest current load
+        suitable_agents.sort(key=lambda x: x[1])
+        return suitable_agents[0][0]
 
     async def shutdown(self) -> None:
         """Gracefully shutdown the orchestrator"""

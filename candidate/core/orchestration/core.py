@@ -90,11 +90,8 @@ try:
 except ImportError:
     ComplianceEngine = None
 
-# Module Registry - Create fallback if needed
-try:
-    from candidate.core.module_registry import ModuleRegistry
-except ImportError:
-    ModuleRegistry = None
+# Module Registry - Import the fully implemented registry
+from candidate.core.module_registry import ModuleRegistry
 
 # Bio Core - Use candidate.bio.core directly to avoid circular imports
 try:
@@ -123,7 +120,7 @@ class OrchestrationCore:
         self.is_running = False
 
         # Core system components
-        self.module_registry = ModuleRegistry() if ModuleRegistry else None
+        self.module_registry = ModuleRegistry()
         self.memory_manager = None
         self.bio_core = None
         self.dream_engine = None
@@ -338,10 +335,17 @@ class OrchestrationCore:
         }
 
         for name, module in core_modules.items():
-            # await self.module_registry.register_module(name, module) #TODO: See above
+            self.module_registry.register_module(
+                module_id=name,
+                module_instance=module,
+                name=name,
+                version="1.0.0",
+                path=f"orchestration.core.{name}",
+                min_tier=1  # Visitor tier for core modules
+            )
             self.active_modules[name] = module
 
-        logger.info(f"Registered {len(core_modules)} core modules (ModuleRegistry part N/A for now)")
+        logger.info(f"Registered {len(core_modules)} core modules in ModuleRegistry")
 
     async def _initiate_consciousness_loop(self):
         """Start the main consciousness simulation loop."""
