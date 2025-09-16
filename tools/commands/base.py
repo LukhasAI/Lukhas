@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import asyncio
 import logging
-from typing import Awaitable, Callable, Dict, Iterable
+from typing import Awaitable, Callable, Dict, Iterable, Union
 
-CommandHandler = Callable[[list[str]], Awaitable[bool] | bool]
+CommandHandler = Callable[[list[str]], Union[Awaitable[bool], bool]]
 
 __all__ = ["BaseCommand", "CommandExecutionError", "CommandHandler"]
 
