@@ -3,19 +3,50 @@
 
 from __future__ import annotations
 
+import logging
 import re
 import subprocess
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Iterable, Optional
+from typing import Iterable, List, Optional
 
 # Repository configuration
 REPO_ROOT = Path(__file__).resolve().parents[2]
+
 # ΛTAG: todo_scan_exclusions
 EXCLUDE_TOKENS = (".venv/", "venv/", "__pycache__/", ".git/", "node_modules/", "dist/", "build/")
 PRIORITIES = ("CRITICAL", "HIGH", "MED", "LOW")
+
+# ΛTAG: todo_scan_constants
+_EXCLUDED_DIR_NAMES = {
+    ".venv",
+    "venv",
+    "env",
+    ".virtualenv",
+    "virtualenv",
+    ".conda",
+    "conda-env",
+    "python-env",
+    "site-packages",
+    "lib",
+    "__pycache__",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".ruff_cache",
+    "node_modules",
+    ".git",
+    "build",
+    "dist",
+    "archive",
+    "quarantine",
+    "backup",
+}
+
+_EXCLUDED_DIR_SUBSTRINGS = {"_venv", "venv-", "-venv", "lib/python"}
+
+logger = logging.getLogger("ΛTRACE.todo.categorize")
 
 
 @dataclass(frozen=True)
@@ -31,16 +62,83 @@ class TODORecord:
     @property
     def module(self) -> str:
         """Return the top-level module for grouping."""
-
         # ΛTAG: todo_module_detection
         parts = [part for part in Path(self.file).parts if part not in {".", ""}]
         return parts[0] if parts else "root"
 
 
-def load_exclusions(repo_path: Optional[Path] = None) -> list[str]:
-    """Load TODO entries using ripgrep with standardized exclusions."""
+@dataclass(frozen=True)
+class TodoEntry:
+    """Lightweight representation of a TODO match for internal processing."""
 
+    file_path: Path
+    line_number: int
+    raw_text: str
+
+    # ΛTAG: todo_entry_format
+    def to_output_line(self, project_root: Path) -> str:
+        relative_path = self.file_path.relative_to(project_root)
+        return f"./{relative_path}:{self.line_number}:{self.raw_text}"
+
+
+def find_project_root(start_path: Optional[Path] = None) -> Path:
+    """Locate the project root by walking upward until pyproject.toml or .git is found."""
+    # ΛTAG: project_root_discovery
+    start = start_path or Path(__file__).resolve()
+    if start.is_file():
+        current = start.parent
+    else:
+        current = start
+
+    for parent in [current, *current.parents]:
+        if (parent / "pyproject.toml").exists() or (parent / ".git").is_dir():
+            return parent
+
+    return current
+
+
+def _is_path_excluded(path: Path) -> bool:
+    """Check whether a file lives inside a directory that should be excluded."""
+    # ΛTAG: todo_scan_filter
+    parts = path.parts[:-1]  # Only inspect directory segments
+    for part in parts:
+        if part in _EXCLUDED_DIR_NAMES:
+            return True
+        if any(token in part for token in _EXCLUDED_DIR_SUBSTRINGS):
+            return True
+
+    joined = "/".join(parts)
+    return any(token in joined for token in _EXCLUDED_DIR_SUBSTRINGS)
+
+
+def _iter_python_files(project_root: Path) -> Iterable[Path]:
+    """Yield Python files within the repository excluding virtual environments and build artifacts."""
+    for path in project_root.rglob("*.py"):
+        if _is_path_excluded(path):
+            continue
+        yield path
+
+
+def _scan_file_for_todos(py_file: Path) -> Iterable[TodoEntry]:
+    """Scan a Python file for TODO markers and yield entries."""
+    try:
+        with py_file.open("r", encoding="utf-8", errors="ignore") as handle:
+            for index, raw_line in enumerate(handle, start=1):
+                if "TODO" not in raw_line:
+                    continue
+                if "# noqa" in raw_line and "TODO" in raw_line:
+                    # ΛTAG: todo_scan_skip_noqa
+                    continue
+                yield TodoEntry(py_file, index, raw_line.rstrip())
+    except OSError as exc:  # pragma: no cover - guarded but we log for observability
+        logger.debug("Skipping file due to read error", extra={"file": str(py_file), "error": str(exc)})
+
+
+def load_exclusions(repo_path: Optional[Path] = None) -> list[str]:
+    """Load TODO entries using ripgrep with fallback to Python scanner."""
     repo = Path(repo_path or REPO_ROOT)
+
+    # Try ripgrep first
     command = [
         "rg",
         "--no-heading",
@@ -53,22 +151,34 @@ def load_exclusions(repo_path: Optional[Path] = None) -> list[str]:
 
     try:
         result = subprocess.run(command, cwd=repo, capture_output=True, text=True, check=False)
+        if result.returncode in {0, 1}:  # 0=matches, 1=no matches
+            lines = result.stdout.strip().split("\n") if result.stdout.strip() else []
+            return [line for line in lines if not _contains_excluded_token(line)]
     except FileNotFoundError:
-        print("⚠️  ripgrep not available. Falling back to Python scanner.")
-        return _scan_python_files(repo)
+        pass  # Fall through to Python scanner
 
-    if result.returncode not in {0, 1}:  # 1 indicates no matches
-        print(f"⚠️  ripgrep returned unexpected code {result.returncode}. Using fallback scanner.")
-        return _scan_python_files(repo)
+    # Fallback to Python scanner using more comprehensive exclusion logic
+    return _scan_python_files_comprehensive(repo)
 
-    lines = result.stdout.strip().split("\n") if result.stdout.strip() else []
-    return [line for line in lines if not _contains_excluded_token(line)]
+
+def _scan_python_files_comprehensive(repo: Path) -> list[str]:
+    """Comprehensive Python scanner using enhanced exclusion logic."""
+    # ΛTAG: todo_scan_fallback
+    root = find_project_root(repo)
+    entries: List[TodoEntry] = []
+
+    for py_file in _iter_python_files(root):
+        entries.extend(_scan_file_for_todos(py_file))
+
+    # Sort deterministically by file path then line number for reproducible output
+    # ΛTAG: todo_scan_sort
+    entries.sort(key=lambda entry: (str(entry.file_path.relative_to(root)), entry.line_number))
+    return [entry.to_output_line(root) for entry in entries]
 
 
 def _scan_python_files(repo: Path) -> list[str]:
-    """Fallback scanner when ripgrep is unavailable."""
-
-    # ΛTAG: todo_scan_fallback
+    """Simple fallback scanner for backwards compatibility."""
+    # ΛTAG: todo_scan_fallback_simple
     todo_lines: list[str] = []
     excluded = {token.strip("/") for token in EXCLUDE_TOKENS}
 
@@ -91,7 +201,6 @@ def _scan_python_files(repo: Path) -> list[str]:
 
 def _contains_excluded_token(line: str) -> bool:
     """Return True if the path contains an excluded token."""
-
     return any(token in line for token in EXCLUDE_TOKENS)
 
 
@@ -367,6 +476,10 @@ def generate_priority_files(
         print(f"✅ Generated {filepath}")
         generated_paths[priority] = filepath
 
+        # ΛTAG: todo_legacy_mirror - Keep legacy compatibility
+        legacy_path = base_path / f"{priority.lower()}_todos.md"
+        legacy_path.write_text(filepath.read_text(encoding="utf-8"), encoding="utf-8")
+
     return generated_paths
 
 
@@ -406,10 +519,12 @@ def main() -> None:
     total = sum(len(entries) for entries in categories.values())
 
     if total:
-        print("\n Generating priority files...")
-        generate_priority_files(categories, repo_path=repo_root)
+        print("\n📝 Generating priority files...")
+        generated = generate_priority_files(categories, repo_path=repo_root)
         print("\n✅ TODO categorization complete!")
-        print("📂 Check TODO/CRITICAL/, TODO/HIGH/, TODO/MED/, TODO/LOW/ directories")
+        print("📂 Generated files:")
+        for priority, path in generated.items():
+            print(f"   • {priority}: {path}")
     else:
         print("❌ No TODOs to categorize")
 
