@@ -1,6 +1,10 @@
 """Tests for :mod:`memory.memory_event` factory."""
 
-import os, sys
+import os
+import sys
+
+import pytest
+
 if "memory" in sys.modules:
     del sys.modules["memory"]
 
@@ -10,11 +14,31 @@ from memory.memory_event import MemoryEventFactory
 
 
 # ΛTAG: memory_event
-def test_memory_event_factory_creates_event(caplog):
+def test_memory_event_factory_creates_event_with_metrics(caplog):
     factory = MemoryEventFactory()
-    with caplog.at_level("DEBUG"):
-        event = factory.create({"value": 1}, {"source": "test"})
-    assert event.data["value"] == 1
+    data = {"emotional_signature": {"valence": 0.8, "arousal": 0.6}}
+    metadata = {"source": "test"}
+
+    with caplog.at_level("INFO"):
+        event = factory.create(data, metadata)
+
+    assert event.data["emotional_signature"]["valence"] == 0.8
     assert event.metadata["source"] == "test"
-    assert "Creating MemoryEvent" in caplog.text
+    metrics = event.metadata["metrics"]
+    assert metrics["affect_delta"] >= 0.0
+    assert metrics["driftScore"] >= 0.0
+    assert "timestamp_utc" in event.metadata
+    assert "MemoryEvent_created" in caplog.text
+
+
+def test_memory_event_factory_tracks_drift_history():
+    factory = MemoryEventFactory()
+
+    first_event = factory.create({"affect_delta": 0.2}, {})
+    assert first_event.metadata["metrics"]["driftScore"] == pytest.approx(0.2)
+
+    second_event = factory.create({"affect_delta": 0.8}, {})
+    drift_score = second_event.metadata["metrics"]["driftScore"]
+    assert drift_score == pytest.approx(0.6)
+    assert second_event.metadata["metrics"]["driftTrend"] == pytest.approx((0.2 + 0.6) / 2)
 
