@@ -14,9 +14,10 @@ Integration Date: 2025-05-31T07:55:27.747593
 #     /tools, /docs, /governance, /assets, /visuals, and /voice.
 # ════════════════════════════════════════════════════════════════════════
 
-import streamlit as st
 import base64
 from pathlib import Path
+
+import streamlit as st
 
 st.set_page_config(page_title="Lukhas Compliance Visual Dashboard", layout="wide")
 st.title("🛡️ Lukhas AGI — Visual Compliance Review Dashboard")

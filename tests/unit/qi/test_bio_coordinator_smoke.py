@@ -2,7 +2,6 @@ import pytest
 
 from candidate.qi.bio.bio_coordinator import QIBioCoordinator
 
-
 pytestmark = pytest.mark.asyncio
 
 

@@ -1,6 +1,15 @@
-import pytest
-from candidate.orchestration.multi_model_orchestration import MultiModelOrchestrator, ModelProvider, ConsensusStrategy, OrchestrationPipeline, OrchestrationMode
 import asyncio
+
+import pytest
+
+from candidate.orchestration.multi_model_orchestration import (
+    ConsensusStrategy,
+    ModelProvider,
+    MultiModelOrchestrator,
+    OrchestrationMode,
+    OrchestrationPipeline,
+)
+
 
 class MockContextBus:
     """A mock context bus that has a no-op emit method."""

@@ -3,17 +3,19 @@
 # module_uid: candidate.aka_qualia.metrics
 # criticality: P1
 
-import pytest
 import math
+
+import pytest
+
 from candidate.aka_qualia.metrics import AkaQualiaMetrics, MetricsConfig
 from candidate.aka_qualia.models import (
-    ProtoQualia,
-    PhenomenalScene,
-    TemporalFeel,
     AgencyFeel,
+    Metrics,
+    PhenomenalScene,
+    ProtoQualia,
     RiskProfile,
     SeverityLevel,
-    Metrics,
+    TemporalFeel,
 )
 
 # --- Test Fixtures and Helpers ---

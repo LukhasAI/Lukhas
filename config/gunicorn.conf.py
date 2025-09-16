@@ -4,6 +4,8 @@
 import multiprocessing
 import os
 
+import psutil
+
 # Server socket
 bind = "0.0.0.0:8000"
 backlog = 2048
@@ -106,7 +108,7 @@ def pre_request(worker, req):
     worker.log.debug(f"🔍 Processing: {req.method} {req.path}")
 
 
-def post_request(worker, req, environ, resp):
+def post_request(worker, req, _environ, resp):
     """Called after a worker processes the request."""
     # Enhanced logging for Trinity Framework analytics
     worker.log.debug(f"✅ Completed: {req.method} {req.path} -> {resp.status}")
@@ -150,7 +152,6 @@ elif os.getenv("LUKHAS_ENVIRONMENT") == "production":
     worker_tmp_dir = "/dev/shm"  # Use RAM for temporary files
 
 # Performance tuning based on available memory
-import psutil
 
 memory_gb = psutil.virtual_memory().total / (1024**3)
 

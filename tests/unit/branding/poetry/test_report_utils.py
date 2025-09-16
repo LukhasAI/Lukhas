@@ -1,10 +1,10 @@
 """Tests for branding.poetry.report_utils."""
 
-from collections import Counter
-from pathlib import Path
 import importlib.util
 import sys
 import types
+from collections import Counter
+from pathlib import Path
 
 import pytest
 

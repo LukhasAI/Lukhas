@@ -1,5 +1,9 @@
 # tests/integration/adapters/conftest.py
-import sys, types, pytest
+import sys
+import types
+
+import pytest
+
 
 def _stub(modname, **attrs):
     if modname not in sys.modules:

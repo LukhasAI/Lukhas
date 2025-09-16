@@ -5,8 +5,8 @@ Generates a JSON report and exits successfully to prevent workflow failures
 caused by missing script. Can be expanded to run real syntax checks.
 """
 import json
-from pathlib import Path
 from datetime import datetime, timezone
+from pathlib import Path
 
 
 def main() -> None:

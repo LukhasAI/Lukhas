@@ -29,6 +29,7 @@ except ImportError:
 from .consent_manager import AIGenerationType
 from .vendor_portal import DreamSeed, DreamSeedType
 
+
 class DreamMood(Enum):
     """Emotional moods for dream generation"""
 

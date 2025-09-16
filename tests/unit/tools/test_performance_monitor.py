@@ -3,19 +3,20 @@
 # module_uid: candidate.tools.performance_monitor
 # criticality: P1
 
-import pytest
 import asyncio
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
+import pytest
 
 # Mark all tests in this file as asyncio
 pytestmark = pytest.mark.asyncio
 
 from candidate.tools.performance_monitor import (
+    PerformanceAnalyzer,
+    PerformanceMonitor,
+    PerformanceOptimizer,
     SystemMetricsCollector,
     ToolExecutionMetricsCollector,
-    PerformanceAnalyzer,
-    PerformanceOptimizer,
-    PerformanceMonitor,
 )
 
 # --- Fixtures ---

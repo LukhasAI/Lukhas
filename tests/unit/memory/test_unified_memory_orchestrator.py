@@ -4,7 +4,8 @@
 # criticality: P0
 
 import pytest
-from candidate.memory.core.unified_memory_orchestrator import UnifiedMemoryOrchestrator, MemoryType, SleepStage
+
+from candidate.memory.core.unified_memory_orchestrator import MemoryType, SleepStage, UnifiedMemoryOrchestrator
 
 
 @pytest.fixture

@@ -25,13 +25,14 @@ import time
 from typing import Optional
 
 import pytest
-from hypothesis import given, strategies as st, settings, assume
+from hypothesis import assume, given, settings
+from hypothesis import strategies as st
 
 from candidate.bridge.external_adapters.oauth_manager import (
-    OAuthManager,
-    OAuthProvider,
     CircuitBreaker,
     CircuitBreakerState,
+    OAuthManager,
+    OAuthProvider,
 )
 
 # Configure Hypothesis for aggressive testing
@@ -517,8 +518,9 @@ class TestOAuthManagerPerformanceRegression:
         """
         Performance Test: Memory usage should remain bounded under load
         """
-        import psutil
         import os
+
+        import psutil
 
         process = psutil.Process(os.getpid())
         initial_memory = process.memory_info().rss / 1024 / 1024  # MB

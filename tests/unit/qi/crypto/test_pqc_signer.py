@@ -1,6 +1,7 @@
-import pytest
-import sys
 import importlib
+import sys
+
+import pytest
 
 
 @pytest.fixture(autouse=True)

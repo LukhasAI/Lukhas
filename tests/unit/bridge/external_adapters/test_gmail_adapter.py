@@ -3,8 +3,9 @@
 # module_uid: candidate.bridge.external_adapters.gmail_adapter
 # criticality: P2
 
+from unittest.mock import AsyncMock, MagicMock, patch
+
 import pytest
-from unittest.mock import AsyncMock, patch, MagicMock
 
 from candidate.bridge.external_adapters.gmail_adapter import GmailAdapter, GmailMessage
 from candidate.bridge.external_adapters.oauth_manager import OAuthManager

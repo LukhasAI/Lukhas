@@ -14,13 +14,12 @@ import hashlib
 import hmac
 import json
 import secrets
-
-import numpy as np
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
+import numpy as np
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 

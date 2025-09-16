@@ -8,7 +8,6 @@ from candidate.governance.consent.consent_manager import (
     ConsentMethod,
 )
 
-
 pytestmark = pytest.mark.asyncio
 
 

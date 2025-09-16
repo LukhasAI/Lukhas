@@ -19,9 +19,9 @@ OPTIMIZATION TARGETS:
 """
 
 import asyncio
+import hashlib
 import importlib
 import importlib.util
-import hashlib
 import json
 import threading
 import time

@@ -41,8 +41,6 @@ of OWNING HUMAN IDENTITY IN THE DIGITAL AGE.
 - Government contracts: $500B over 10 years
 """
 
-from datetime import timezone
-
 import hashlib
 import json
 import logging
@@ -50,7 +48,7 @@ import secrets
 import time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 

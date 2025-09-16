@@ -22,11 +22,11 @@ from candidate.core.common.glyph import GLYPHSymbol, create_glyph
 from candidate.core.common.logger import get_logger
 from candidate.governance.guardian import GuardianValidator
 from candidate.voice.audio_processing import AudioBuffer
+from candidate.voice.speech_recognition import LUKHASSpeechRecognitionService
+from candidate.voice.voice_analytics import LUKHASVoiceAnalytics
 
 # ΛTAG: voice_audioformat
 from .audio_processing import AudioFormat
-from candidate.voice.speech_recognition import LUKHASSpeechRecognitionService
-from candidate.voice.voice_analytics import LUKHASVoiceAnalytics
 
 logger = get_logger(__name__)
 

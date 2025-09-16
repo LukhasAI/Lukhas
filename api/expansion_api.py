@@ -4,7 +4,8 @@ LUKHAS API Expansion
 This module provides the FastAPI application for the LUKHAS API expansion.
 """
 
-from fastapi import FastAPI, Depends
+from fastapi import Depends, FastAPI
+
 from api import models
 
 app = FastAPI(

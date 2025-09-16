@@ -2,17 +2,18 @@
 # tier: tier2
 # module_uid: candidate.governance.guardian_system_integration
 # criticality: P0
-import pytest
 import asyncio
-from unittest.mock import patch, MagicMock, AsyncMock
+from datetime import datetime, timezone
+from unittest.mock import AsyncMock, MagicMock, patch
+
+import pytest
 
 from candidate.governance.guardian_system_integration import (
+    GuardianStatus,
     GuardianSystemIntegration,
     GuardianValidationRequest,
     ValidationResult,
-    GuardianStatus,
 )
-from datetime import datetime, timezone
 
 
 async def create_initialized_guardian():

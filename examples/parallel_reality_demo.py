@@ -7,12 +7,11 @@ Demonstrates the enhanced dream parallel reality simulation capabilities.
 
 import asyncio
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
-from datetime import timezone
-from lukhas.core.common import get_logger
 from lukhas.consciousness.dream.parallel_reality_simulator import ParallelRealitySimulator, RealityType
+from lukhas.core.common import get_logger
 
 logger = get_logger(__name__)
 

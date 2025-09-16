@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-import os, sys, json, subprocess, argparse, re
+import argparse
+import json
+import os
+import re
+import subprocess
+import sys
 from collections import defaultdict
 
 os.environ["TZ"] = "UTC"

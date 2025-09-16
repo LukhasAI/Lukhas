@@ -7,7 +7,6 @@ import re
 from collections import Counter
 from collections.abc import Mapping
 
-
 # ΛTAG: text_tokenization
 _TOKEN_PATTERN = re.compile(r"\b[\w\-']+\b")
 

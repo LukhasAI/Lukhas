@@ -1,7 +1,12 @@
 import pytest
 
 from candidate.consciousness.reflection import ethical_drift_sentinel as sentinel_module
-from candidate.consciousness.reflection.ethical_drift_sentinel import EthicalDriftSentinel, EthicalState, ViolationType, phase_harmonics_score
+from candidate.consciousness.reflection.ethical_drift_sentinel import (
+    EthicalDriftSentinel,
+    EthicalState,
+    ViolationType,
+    phase_harmonics_score,
+)
 
 
 class _TestLogger:

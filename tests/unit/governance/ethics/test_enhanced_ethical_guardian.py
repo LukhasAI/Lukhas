@@ -4,6 +4,7 @@
 # criticality: P1
 import pytest
 import yaml
+
 from candidate.governance.ethics.enhanced_ethical_guardian import EnhancedEthicalGuardian
 
 

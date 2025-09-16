@@ -3,10 +3,11 @@ Integration tests for the LUKHAS Bio-Symbolic Architecture and its integration
 with the consciousness system.
 """
 
-import pytest
 from unittest.mock import patch
 
-from lukhas.bio.core.architecture_analyzer import BioSymbolicArchitectureAnalyzer, Architecture, SymbolicData
+import pytest
+
+from lukhas.bio.core.architecture_analyzer import Architecture, BioSymbolicArchitectureAnalyzer, SymbolicData
 from lukhas.bio.core.bio_symbolic import BioSymbolic, BioSymbolicOrchestrator, SymbolicGlyph
 
 

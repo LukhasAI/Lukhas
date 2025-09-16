@@ -10,10 +10,9 @@ from typing import Any
 from analysis_tools.audit_decision_embedding_engine import DecisionAuditEngine
 
 from candidate.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
-
-from products.communication.abas_candidate.core.abas_engine import ABASEngine  # ΛTAG: abas_core_integration
 from ethics.core.shared_ethics_engine import SharedEthicsEngine
 from ethics.seedra.seedra_core import SEEDRACore
+from products.communication.abas_candidate.core.abas_engine import ABASEngine  # ΛTAG: abas_core_integration
 
 logger = logging.getLogger(__name__)
 

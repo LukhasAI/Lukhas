@@ -27,7 +27,10 @@ except Exception:
 
 # Import workspace components
 try:
-    from lukhas.qi.consciousness_integration import QIConsciousnessProcessor, QIState  # noqa: F401  # TODO: lukhas.qi.consciousness_integr...
+    from lukhas.qi.consciousness_integration import (  # noqa: F401  # TODO: lukhas.qi.consciousness_integr...
+        QIConsciousnessProcessor,
+        QIState,
+    )
     from qi import QICoherence, QIProcessor  # noqa: F401  # TODO: qi.QICoherence; consider using...
 
     QUANTUM_CONSCIOUSNESS_AVAILABLE = True

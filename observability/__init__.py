@@ -8,8 +8,8 @@ Central imports for observability and monitoring functionality.
 # Import from candidate.aka_qualia.observability for backward compatibility
 try:
     from candidate.aka_qualia.observability import (
-        AkaqMetrics,
         CONTENT_TYPE_LATEST,
+        AkaqMetrics,
         get_observability,
         measure_scene_processing,
         record_glyph_mapped,

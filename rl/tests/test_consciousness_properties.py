@@ -9,9 +9,9 @@ Inspired by the top 0.001% engineering practices for mission-critical systems.
 """
 
 import importlib
-from importlib.util import find_spec
 from dataclasses import dataclass
 from enum import Enum
+from importlib.util import find_spec
 from typing import TYPE_CHECKING, Any, Optional
 
 import numpy as np

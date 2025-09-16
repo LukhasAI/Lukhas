@@ -7,12 +7,12 @@ Monitors test timing and performance budgets.
 Auto-issues on >2x timing drift and flake detection.
 """
 
-import json
-import time
 import argparse
+import json
 import statistics
+import time
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 
 class FlakeSentinel:

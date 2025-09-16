@@ -3,8 +3,9 @@
 # module_uid: candidate.bridge.adapters
 # criticality: P1
 
+from unittest.mock import AsyncMock, MagicMock, patch
+
 import pytest
-from unittest.mock import AsyncMock, patch, MagicMock
 
 from candidate.bridge.adapters.gmail_adapter import GmailAdapter, GmailContextIntegration
 from candidate.bridge.adapters.service_adapter_base import CapabilityToken

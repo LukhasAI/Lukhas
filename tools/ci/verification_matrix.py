@@ -8,7 +8,7 @@ and safety protocols as specified in PLANNING_TODO.md Section 8.
 """
 
 import json
-from typing import Dict, List, Any, Optional
+from typing import Any, Dict, List, Optional
 
 
 class VerificationMatrix:

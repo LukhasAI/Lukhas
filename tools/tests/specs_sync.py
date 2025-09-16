@@ -7,11 +7,12 @@ Generates spec stubs from LUKHAS_ARCHITECTURE_MASTER.json.
 JSON-driven test specification creation.
 """
 
-import json
-import yaml
 import argparse
+import json
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any, Dict
+
+import yaml
 
 
 def load_architecture_master(arch_path: Path) -> Dict[str, Any]:

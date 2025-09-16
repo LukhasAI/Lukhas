@@ -1,5 +1,12 @@
 import pytest
-from lukhas.governance.ethics.constitutional_ai import ConstitutionalFramework, ConstitutionalPrinciple, SafetyLevel, SafetyMonitor
+
+from lukhas.governance.ethics.constitutional_ai import (
+    ConstitutionalFramework,
+    ConstitutionalPrinciple,
+    SafetyLevel,
+    SafetyMonitor,
+)
+
 
 @pytest.fixture
 def framework():

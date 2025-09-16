@@ -3,12 +3,14 @@
 # module_uid: candidate.governance.consent.consent_manager
 # criticality: P1
 
+from datetime import datetime, timedelta, timezone
+
 import pytest
-from datetime import datetime, timezone, timedelta
+
 from candidate.governance.consent.consent_manager import (
     AdvancedConsentManager,
-    ConsentStatus,
     ConsentMethod,
+    ConsentStatus,
     DataCategory,
 )
 

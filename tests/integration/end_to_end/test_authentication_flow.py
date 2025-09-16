@@ -3,9 +3,10 @@
 # module_uid: integration.end_to_end.authentication_flow
 # criticality: P1
 
+import os
+
 import pytest
 import requests
-import os
 
 # Assuming the API is running on localhost:8000
 BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8000")

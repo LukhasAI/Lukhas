@@ -5,11 +5,11 @@ Tracks efficiency gains from T4 system and Makefile improvements
 """
 
 import json
-import time
 import subprocess
-from pathlib import Path
+import time
 from datetime import datetime
-from typing import Dict, Any
+from pathlib import Path
+from typing import Any, Dict
 
 
 class BuildMetricsCollector:

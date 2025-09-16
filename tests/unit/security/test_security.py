@@ -4,7 +4,9 @@
 # criticality: P1
 
 import pytest
+
 from candidate.bridge.api.validation import SecurityValidator, ValidationErrorType
+
 
 @pytest.mark.tier3
 @pytest.mark.security

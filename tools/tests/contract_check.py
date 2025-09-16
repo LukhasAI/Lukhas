@@ -7,9 +7,9 @@ Refuses new tests where package lacks CONTRACT.md and matching spec.
 Contract-first approach enforcement.
 """
 
-import sys
 import argparse
 import subprocess
+import sys
 from pathlib import Path
 from typing import Set
 

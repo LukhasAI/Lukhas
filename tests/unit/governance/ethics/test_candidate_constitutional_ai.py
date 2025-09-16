@@ -1,5 +1,14 @@
 import pytest
-from candidate.governance.ethics.constitutional_ai import ConstitutionalFramework, ConstitutionalRule, EthicalPrinciple, SafetyMonitor, EthicalDecisionMaker, SafetyLevel
+
+from candidate.governance.ethics.constitutional_ai import (
+    ConstitutionalFramework,
+    ConstitutionalRule,
+    EthicalDecisionMaker,
+    EthicalPrinciple,
+    SafetyLevel,
+    SafetyMonitor,
+)
+
 
 @pytest.fixture
 def candidate_framework():

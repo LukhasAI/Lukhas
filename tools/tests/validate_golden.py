@@ -7,12 +7,13 @@ Validates golden JSON artifacts against schemas.
 Ensures golden test integrity and consistency.
 """
 
-import json
-import jsonschema
 import argparse
+import json
 import sys
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Any, Dict, List
+
+import jsonschema
 
 
 def load_golden_schema(schema_path: Path) -> Dict[str, Any]:

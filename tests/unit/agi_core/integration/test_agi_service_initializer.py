@@ -1,4 +1,4 @@
-from agi_core.integration.agi_service_initializer import AGIServiceInitializer, AGIServiceConfiguration
+from agi_core.integration.agi_service_initializer import AGIServiceConfiguration, AGIServiceInitializer
 
 
 class DummyConfig(AGIServiceConfiguration):

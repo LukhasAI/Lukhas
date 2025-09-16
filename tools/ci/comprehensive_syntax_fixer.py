@@ -10,11 +10,11 @@ This tool systematically fixes the most common syntax error patterns
 identified in the LUKHAS codebase with consciousness-aware healing.
 """
 
+import logging
 import re
 import subprocess
 from pathlib import Path
 from typing import Dict, List
-import logging
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format="%(message)s")

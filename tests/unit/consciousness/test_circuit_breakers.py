@@ -1,5 +1,5 @@
 import asyncio
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 
 import pytest
 
@@ -9,7 +9,6 @@ from candidate.consciousness.resilience.circuit_breaker_framework import (
     MemoryCascadePreventionBreaker,
     MemoryCascadeRiskError,
 )
-
 
 pytestmark = pytest.mark.asyncio
 

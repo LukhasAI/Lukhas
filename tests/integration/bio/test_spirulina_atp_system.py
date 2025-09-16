@@ -3,8 +3,9 @@
 # module_uid: candidate.bio.energy.spirulina_atp_system
 # criticality: P2
 
-import pytest
 from unittest.mock import AsyncMock, patch
+
+import pytest
 
 from candidate.bio.energy.spirulina_atp_system import (
     SpirulinaATPHybridSystem,

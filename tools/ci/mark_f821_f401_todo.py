@@ -10,12 +10,12 @@ This tool automatically adds policy annotations to F821 (undefined name) and
 F401 (unused import) errors to prevent them from appearing in linting results.
 """
 
-import subprocess
 import json
+import logging
 import re
+import subprocess
 from pathlib import Path
 from typing import Dict, List
-import logging
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format="%(message)s")

@@ -13,8 +13,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
 
-from .core import Concept, ConceptType, Symbol, SymbolicDomain
 from ..glyph import get_glyph_engine
+from .core import Concept, ConceptType, Symbol, SymbolicDomain
 
 logger = logging.getLogger(__name__)
 

@@ -3,12 +3,13 @@
 # module_uid: system.integration.system_lifecycle
 # criticality: P2
 
-import pytest
+import os
 import shutil
 import subprocess
 import time
+
+import pytest
 import requests
-import os
 
 DOCKER_COMPOSE_FILE = "deployment/docker/docker-compose.yml"
 BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8000")

@@ -3,10 +3,12 @@
 # module_uid: candidate.memory.folds.fold_engine
 # criticality: P0
 
-import pytest
 from datetime import datetime, timedelta, timezone
-from candidate.memory.folds.fold_engine import MemoryFold, MemoryType, MemoryPriority
+
+import pytest
+
 from candidate.memory.fakes.agimemory_fake import AGIMemoryFake
+from candidate.memory.folds.fold_engine import MemoryFold, MemoryPriority, MemoryType
 
 
 @pytest.mark.tier1

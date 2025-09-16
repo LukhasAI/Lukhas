@@ -1,10 +1,12 @@
 # tests/unit/security/test_secure_random.py
 
 import pytest
+
 from lukhas.security.secure_random import (
     get_quantum_random_bytes,
     get_quantum_random_int,
 )
+
 
 @pytest.mark.tier3
 class TestQuantumEntropyStub:

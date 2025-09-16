@@ -5,8 +5,8 @@ import json
 from datetime import datetime, timezone
 from unittest.mock import AsyncMock, MagicMock
 
-import pytest
 import nacl.encoding
+import pytest
 from nacl.signing import SigningKey
 
 from candidate.governance.identity.auth_backend.authentication_server import (

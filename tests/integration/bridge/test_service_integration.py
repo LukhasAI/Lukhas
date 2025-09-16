@@ -3,11 +3,13 @@
 # module_uid: candidate.bridge.service_discovery
 # criticality: P1
 
-import pytest
 import asyncio
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from candidate.bridge.adapters.service_adapter_base import ResilienceManager, with_resilience, AdapterState
+import pytest
+
+from candidate.bridge.adapters.service_adapter_base import AdapterState, ResilienceManager, with_resilience
+
 
 @pytest.mark.tier3
 @pytest.mark.integration

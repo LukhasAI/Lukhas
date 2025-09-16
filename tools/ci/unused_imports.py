@@ -14,6 +14,7 @@ T4 unused-imports policy enforcer.
 """
 
 from __future__ import annotations
+
 import argparse
 import json
 import re

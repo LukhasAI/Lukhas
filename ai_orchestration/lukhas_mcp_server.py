@@ -27,11 +27,11 @@ from mcp.types import (
 # LUKHAS consciousness imports
 sys.path.append(".")
 try:
+    from ai_orchestration.mcp_operational_support import LUKHASMCPOperationalSupport, MCPServerContext, SupportIncident
     from branding.trinity.triad_validator import TrinityFrameworkValidator
     from lukhas.consciousness.awareness_engine import ConsciousnessAwarenessEngine
     from lukhas.governance.guardian_system.guardian_validator import GuardianValidator
     from lukhas.memory.fold_system import MemoryFoldSystem
-    from ai_orchestration.mcp_operational_support import LUKHASMCPOperationalSupport, MCPServerContext, SupportIncident
 except ImportError as e:
     logging.warning(f"Could not import LUKHAS modules: {e}")
 

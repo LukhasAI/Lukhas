@@ -21,8 +21,8 @@ project_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(project_root))
 
 try:
-    from tools.monitoring.production_alerting_system import ProductionAlertingSystem, SystemMetrics
     from products.enterprise.core.observability.t4_observability_stack import T4ObservabilityStack
+    from tools.monitoring.production_alerting_system import ProductionAlertingSystem, SystemMetrics
 except ImportError as e:
     logging.error(f"Failed to import required modules: {e}")
     sys.exit(1)

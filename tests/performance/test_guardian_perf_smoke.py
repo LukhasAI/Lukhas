@@ -7,7 +7,6 @@ from candidate.governance.guardian_system_integration import (
     GuardianValidationRequest,
 )
 
-
 pytestmark = pytest.mark.asyncio
 
 

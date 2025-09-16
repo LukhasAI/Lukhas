@@ -4,15 +4,15 @@ Performance Analyzer for LUKHAS AI - 0.001% Engineering Standards
 Statistical regression detection with consciousness-aware thresholds
 """
 
-import json
-import sys
 import argparse
-from pathlib import Path
-from typing import Dict, List, Any, Optional
-from dataclasses import dataclass
-from datetime import datetime, timezone
+import json
 import statistics
 import subprocess
+import sys
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 
 @dataclass

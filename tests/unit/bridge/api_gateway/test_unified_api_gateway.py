@@ -3,9 +3,10 @@
 # module_uid: candidate.bridge.api_gateway.unified_api_gateway
 # criticality: P2
 
+from unittest.mock import AsyncMock, MagicMock
+
 import pytest
 from fastapi.testclient import TestClient
-from unittest.mock import AsyncMock, MagicMock
 
 from candidate.bridge.api_gateway.unified_api_gateway import UnifiedAPIGateway
 

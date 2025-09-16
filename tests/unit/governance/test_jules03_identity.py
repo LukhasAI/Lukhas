@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
-from typing import Any
 import sys
 import types
+from datetime import datetime, timezone
+from typing import Any
 
 import pytest
 
@@ -51,11 +51,12 @@ qr_animator_stub.QRCodeAnimator = type(
 )
 sys.modules["identity.mobile.qr_code_animator"] = qr_animator_stub
 
+from candidate.governance.guardian_sentinel import GuardianSentinel
 from candidate.governance.healthcare.decision_support import ClinicalDecisionSupport
 from candidate.governance.identity.auth_integrations.qrg_bridge import (
     AuthQRGBridge,
-    QRGAuthIntegration,
     QRAuthMode,
+    QRGAuthIntegration,
 )
 from candidate.governance.identity.auth_integrations.wallet_bridge import (
     AuthWalletBridge,
@@ -63,7 +64,6 @@ from candidate.governance.identity.auth_integrations.wallet_bridge import (
 )
 from candidate.governance.identity.core.qrs.session_replay import SessionReplayManager
 from candidate.governance.identity.core.sing.sso_engine import LambdaSSOEngine
-from candidate.governance.guardian_sentinel import GuardianSentinel
 
 
 class _StubTierManager:

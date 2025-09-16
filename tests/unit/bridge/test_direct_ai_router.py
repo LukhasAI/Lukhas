@@ -1,7 +1,6 @@
 import sys
 from pathlib import Path
 
-
 from candidate.bridge.api.direct_ai_router import DirectAIRouter
 
 

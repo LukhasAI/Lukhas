@@ -12,12 +12,12 @@ alignment even when underlying components fail or behave unexpectedly.
 
 import asyncio
 import importlib
-from importlib.util import find_spec
 import random
 import time
 from contextlib import asynccontextmanager, contextmanager
 from dataclasses import dataclass
 from enum import Enum
+from importlib.util import find_spec
 from typing import TYPE_CHECKING, Any, Optional
 
 import numpy as np

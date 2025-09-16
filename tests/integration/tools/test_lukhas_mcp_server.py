@@ -4,7 +4,7 @@ import pytest
 @pytest.mark.integration
 def test_mcp_server_initializes_without_crash():
     # Import inside test to avoid import-time failures if MCP is absent
-    from mcp_servers.lukhas_mcp_server import LUKHASMCPServer, MCP_AVAILABLE
+    from mcp_servers.lukhas_mcp_server import MCP_AVAILABLE, LUKHASMCPServer
 
     # Always ensure server can be constructed without raising
     # If MCP is unavailable, the module falls back to demo mode

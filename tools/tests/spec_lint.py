@@ -7,9 +7,9 @@ Enforces that all tests have proper markers and ownership.
 Rejects unmarked tests (ownership required).
 """
 
+import argparse
 import ast
 import sys
-import argparse
 from pathlib import Path
 from typing import List
 

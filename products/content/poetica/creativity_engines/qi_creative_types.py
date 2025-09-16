@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import logging
 from typing import Any, Optional
+
 try:
     from quantum.creative import QuantumCreativeComponent
 except ImportError:  # pragma: no cover - optional dependency

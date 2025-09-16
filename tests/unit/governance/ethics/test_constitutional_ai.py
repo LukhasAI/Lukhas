@@ -3,10 +3,11 @@
 # module_uid: lukhas.governance.ethics.constitutional_ai
 # criticality: P1
 import pytest
+
 from lukhas.governance.ethics.constitutional_ai import (
     ConstitutionalFramework,
-    SafetyLevel,
     ConstitutionalPrinciple,
+    SafetyLevel,
     SafetyMonitor,
 )
 

@@ -12,8 +12,7 @@ import os
 import re
 import subprocess
 import sys
-from pathlib import Path
-from typing import List, Tuple, Optional
+from typing import List, Optional
 
 
 def has_syntax_error(file_path: str) -> bool:

@@ -7,14 +7,13 @@ from candidate.governance.guardian_system_integration import (
     GuardianValidationRequest,
 )
 
-
 pytestmark = pytest.mark.asyncio
 
 
 async def test_guardian_perf_immediate_skip_when_circuit_open():
     gi = GuardianSystemIntegration({})
     # Open circuit for ethics to force immediate skip
-    from datetime import datetime, timezone, timedelta
+    from datetime import datetime, timedelta, timezone
 
     br = gi._breakers["ethics"]
     br["state"] = "open"

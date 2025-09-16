@@ -23,10 +23,10 @@ Usage:
 
 import argparse
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
-import re
 
 # Repository structure
 REPO = Path(__file__).resolve().parents[2]

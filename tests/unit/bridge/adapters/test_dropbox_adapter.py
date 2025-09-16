@@ -3,11 +3,12 @@
 # module_uid: candidate.bridge.adapters
 # criticality: P1
 
-import pytest
-from unittest.mock import AsyncMock, patch, MagicMock
+from unittest.mock import AsyncMock, MagicMock, patch
 
-from candidate.bridge.external_adapters.dropbox_adapter import DropboxAdapter, DropboxContextIntegration
+import pytest
+
 from candidate.bridge.adapters.service_adapter_base import CapabilityToken
+from candidate.bridge.external_adapters.dropbox_adapter import DropboxAdapter, DropboxContextIntegration
 
 
 @pytest.mark.tier3

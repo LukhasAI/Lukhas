@@ -5,14 +5,14 @@ Implements tiered testing strategy with risk-based test selection
 """
 
 import json
+import subprocess
 import sys
 import time
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from enum import Enum
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
-from dataclasses import dataclass
-from enum import Enum
-import subprocess
-from datetime import datetime, timezone
 
 
 class TestTier(Enum):

@@ -1,8 +1,8 @@
 """Tests for API vault path configuration handling."""
 
+import sys
 from importlib import util
 from pathlib import Path
-import sys
 from types import ModuleType
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]

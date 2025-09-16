@@ -18,6 +18,7 @@ clear message; creates the CSV with header if absent.
 """
 
 from __future__ import annotations
+
 import csv
 import datetime as _dt
 import json

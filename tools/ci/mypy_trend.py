@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-import os, sys, subprocess, datetime, csv, re
+import csv
+import datetime
+import os
+import re
+import subprocess
+import sys
 
 SRC = "reports/audit/types/mypy.txt"
 DST = "reports/audit/types/trends.csv"

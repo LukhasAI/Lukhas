@@ -94,9 +94,9 @@ class EnvironmentConfig:
         value = self.get(key, default, required)
         try:
             return int(value)
-        except (ValueError, TypeError):
+        except (ValueError, TypeError) as e:
             if required:
-                raise ValueError(f"Environment variable '{key}' must be an integer, got: {value}")
+                raise ValueError(f"Environment variable '{key}' must be an integer, got: {value}") from e
             return default
 
     def get_float(self, key: str, default: float = 0.0, required: bool = False) -> float:
@@ -104,9 +104,9 @@ class EnvironmentConfig:
         value = self.get(key, default, required)
         try:
             return float(value)
-        except (ValueError, TypeError):
+        except (ValueError, TypeError) as e:
             if required:
-                raise ValueError(f"Environment variable '{key}' must be a float, got: {value}")
+                raise ValueError(f"Environment variable '{key}' must be a float, got: {value}") from e
             return default
 
     def get_list(
@@ -124,10 +124,10 @@ class EnvironmentConfig:
 
     def validate_required(self) -> None:
         """Validate all required environment variables are set"""
-        missing = []
-        for var in self._required_vars:
-            if not os.environ.get(var) and var not in self._yaml_config:
-                missing.append(var)
+        missing = [
+            var for var in self._required_vars
+            if not os.environ.get(var) and var not in self._yaml_config
+        ]
 
         if missing:
             raise ValueError(f"Missing required environment variables: {', '.join(missing)}")

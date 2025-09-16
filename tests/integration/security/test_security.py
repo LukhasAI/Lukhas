@@ -3,10 +3,13 @@
 # module_uid: candidate.bridge.authentication
 # criticality: P1
 
-import pytest
-from candidate.bridge.api.validation import AuthenticationValidator, ValidationErrorType
-import jwt
 from datetime import datetime, timedelta, timezone
+
+import jwt
+import pytest
+
+from candidate.bridge.api.validation import AuthenticationValidator, ValidationErrorType
+
 
 @pytest.mark.asyncio
 @pytest.mark.tier3

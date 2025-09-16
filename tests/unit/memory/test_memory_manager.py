@@ -3,11 +3,13 @@
 # module_uid: candidate.memory.systems.memory_manager
 # criticality: P1
 
-import pytest
 from unittest.mock import AsyncMock
-from candidate.memory.systems.memory_manager import AdvancedMemoryManager
-from candidate.memory.folds.fold_engine import MemoryType
+
+import pytest
+
 from candidate.memory.fakes.agimemory_fake import AGIMemoryFake
+from candidate.memory.folds.fold_engine import MemoryType
+from candidate.memory.systems.memory_manager import AdvancedMemoryManager
 
 
 @pytest.fixture

@@ -10,12 +10,12 @@ Locks batch files to prevent duplicate task assignment:
 """
 
 import argparse
-import json
 import hashlib
+import json
 import re
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Any, Set
+from typing import Any, Dict, List, Set
 
 
 class BatchLocker:

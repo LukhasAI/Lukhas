@@ -1,7 +1,8 @@
+import importlib.util
 import sys
 import types
+
 import pytest
-import importlib.util
 
 
 def _ensure_stub(modname: str, attrs: dict):

@@ -18,6 +18,7 @@ from functools import wraps
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Optional
 
+
 # ΛTAG: optional_dependency_loader
 def _load_optional(module_path: str, attribute: Optional[str] = None) -> Optional[Any]:
     """Attempt to import an optional dependency without raising."""
@@ -32,10 +33,11 @@ def _load_optional(module_path: str, attribute: Optional[str] = None) -> Optiona
 if TYPE_CHECKING:
     from opentelemetry import metrics as otel_metrics
     from opentelemetry.sdk.trace.export import BatchSpanProcessor
-    from lukhas.guardian import GuardianSystem
-    from lukhas.trinity import TrinityFramework
+
     from candidate.consciousness import ConsciousnessCore
     from candidate.memory import MemoryFoldSystem
+    from lukhas.guardian import GuardianSystem
+    from lukhas.trinity import TrinityFramework
 
 
 datadog_module = _load_optional("datadog")

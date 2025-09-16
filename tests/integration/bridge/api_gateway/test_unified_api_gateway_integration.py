@@ -3,11 +3,12 @@
 # module_uid: candidate.bridge.api_gateway.unified_api_gateway
 # criticality: P2
 
+import time
+from unittest.mock import AsyncMock, MagicMock
+
+import jwt
 import pytest
 from fastapi.testclient import TestClient
-from unittest.mock import AsyncMock, MagicMock
-import jwt
-import time
 
 from candidate.bridge.api_gateway.unified_api_gateway import UnifiedAPIGateway
 

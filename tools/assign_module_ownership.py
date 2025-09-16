@@ -15,7 +15,6 @@ from pathlib import Path
 
 import yaml
 
-
 IGNORED_AUTHOR_TOKENS = {"TODO", "FIXME", "NONE", "UNKNOWN"}
 
 

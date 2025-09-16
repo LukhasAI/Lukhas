@@ -3,10 +3,11 @@
 # module_uid: integration.end_to_end.consciousness_memory
 # criticality: P1
 
-import pytest
-import requests
 import os
 import uuid
+
+import pytest
+import requests
 
 # Assuming the API is running on localhost:8000
 BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8000")

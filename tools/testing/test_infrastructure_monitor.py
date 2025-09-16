@@ -18,18 +18,17 @@ Features:
 import json
 import logging
 import os
-import sys
-import time
-import psutil
 import signal
-import threading
-from dataclasses import dataclass, asdict
-from datetime import datetime, timezone, timedelta
-from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Any
-from enum import Enum
 import subprocess
-import tempfile
+import threading
+import time
+from dataclasses import asdict, dataclass
+from datetime import datetime, timedelta, timezone
+from enum import Enum
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
+import psutil
 
 # Configure logging
 logging.basicConfig(
@@ -299,8 +298,8 @@ class TestInfrastructureMonitor:
     def _check_dependencies(self) -> bool:
         """Check if test dependencies are available"""
         try:
-            import pytest
             import coverage
+            import pytest
             return True
         except ImportError:
             return False

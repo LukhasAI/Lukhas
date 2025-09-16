@@ -13,7 +13,6 @@ import re  # ΛTAG: regex
 from typing import Any, Optional
 
 # ΛTAG: cultural_regex
-
 from ..spine.accent_adapter import AccentAdapter
 from ..spine.emotion_mapper_alt import LUKHAS
 

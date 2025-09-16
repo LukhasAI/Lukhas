@@ -11,10 +11,11 @@ Splits tracked tasks from manifest into agent-specific batches following exact P
 
 import argparse
 import json
-import yaml
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Any, Dict, List, Optional
+
+import yaml
 
 
 class T4BatchSplitter:

@@ -3,11 +3,12 @@
 # module_uid: candidate.core.identity.matriz_consciousness_identity_signals
 # criticality: P0
 
-import pytest
+import sys
 import time
 from dataclasses import dataclass, field
-import sys
 from pathlib import Path
+
+import pytest
 
 # Add the project root to the path to allow for absolute imports
 project_root = Path(__file__).resolve().parents[3]
@@ -15,11 +16,12 @@ sys.path.insert(0, str(project_root))
 
 from candidate.core.identity.matriz_consciousness_identity_signals import (
     ConsciousnessIdentitySignalProcessor,
-    ProcessedBatch,
-    ValidationResult,
     CorrelationMatrix,
     IdentitySignalType,
+    ProcessedBatch,
+    ValidationResult,
 )
+
 
 # Mock ConsciousnessSignal for testing purposes
 @dataclass
@@ -38,6 +40,7 @@ class MockConsciousnessSignal:
 
 # Patch the ConsciousnessSignal in the module with our mock
 import candidate.core.identity.matriz_consciousness_identity_signals
+
 candidate.core.identity.matriz_consciousness_identity_signals.ConsciousnessSignal = MockConsciousnessSignal
 
 

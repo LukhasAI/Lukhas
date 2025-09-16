@@ -15,9 +15,6 @@ import pytest
 
 # Test imports with graceful fallback
 try:
-    from candidate.core.matriz_integrated_demonstration import run_matriz_demonstration
-    from candidate.core.symbolic_core.matriz_symbolic_consciousness import symbolic_consciousness_processor
-
     from candidate.core.consciousness.matriz_consciousness_state import (
         ConsciousnessState,
         ConsciousnessType,
@@ -27,7 +24,9 @@ try:
     )
     from candidate.core.governance.matriz_consciousness_governance import consciousness_governance_system
     from candidate.core.identity.matriz_consciousness_identity import consciousness_identity_manager
+    from candidate.core.matriz_integrated_demonstration import run_matriz_demonstration
     from candidate.core.orchestration.matriz_consciousness_coordinator import consciousness_coordinator
+    from candidate.core.symbolic_core.matriz_symbolic_consciousness import symbolic_consciousness_processor
 
     COMPONENTS_AVAILABLE = True
 except ImportError as e:

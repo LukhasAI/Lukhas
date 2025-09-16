@@ -11,12 +11,11 @@ A working integration that uses available components and provides fallbacks for 
 from datetime import datetime
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
-
 # Import available ethics components
 from ethics.meta_ethics_governor import MetaEthicsGovernor
 from ethics.seedra.seedra_core import SEEDRACore
 from ethics.self_reflective_debugger import EnhancedSelfReflectiveDebugger
+from lukhas.core.common import get_logger
 
 logger = get_logger(__name__)
 

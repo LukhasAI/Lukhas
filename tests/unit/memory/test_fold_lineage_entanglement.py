@@ -1,8 +1,7 @@
 """Unit tests for fold lineage entanglement detection."""
 
-from pathlib import Path
 import sys
-
+from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 PACKAGE_DIR = REPO_ROOT / "memory"

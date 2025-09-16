@@ -1,7 +1,7 @@
 import os
 import sys
-import pytest
 
+import pytest
 from fastapi.testclient import TestClient
 
 # Ensure repo root is on sys.path so we can import the api module reliably

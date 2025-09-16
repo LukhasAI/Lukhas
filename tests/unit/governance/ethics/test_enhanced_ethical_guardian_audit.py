@@ -5,7 +5,6 @@ import pytest
 
 from candidate.governance.ethics.enhanced_ethical_guardian import EnhancedEthicalGuardian
 
-
 pytestmark = pytest.mark.asyncio
 
 

@@ -25,14 +25,14 @@ try:
     # Backend components
     from backend.core.neuro_symbolic_engine import NeuroSymbolicEngine
     from backend.learning.meta_learning import MetaLearningSystem
-
-    from governance.identity.core.id_service import IdentityManager
     from backend.security.privacy_manager import PrivacyManager
     from frontend.interface.adaptive_interface_generator import (
         AdaptiveInterfaceGenerator,
     )
     from frontend.multimodal.image_generator import AdaptiveImageGenerator
     from voice.speech_processor import SpeechProcessor
+
+    from governance.identity.core.id_service import IdentityManager
 
     # Utils and config
     from lukhas.core.orchestration.brain.config.settings import load_settings

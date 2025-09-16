@@ -11,6 +11,7 @@ This tool is for internal research and debugging purposes.
 import sys
 from collections import Counter
 
+
 def visualize_entropy(data: bytes):
     """
     Prints a simple histogram of the byte distribution of the input data.

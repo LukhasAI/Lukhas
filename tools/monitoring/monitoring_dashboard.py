@@ -14,22 +14,19 @@ Features:
 """
 
 import asyncio
-import json
 import sqlite3
 from datetime import datetime, timedelta, timezone
-from pathlib import Path
 from typing import Any, Dict, List
 
 try:
+    import uvicorn
     from fastapi import FastAPI, HTTPException, Request
     from fastapi.responses import HTMLResponse, JSONResponse
     from fastapi.staticfiles import StaticFiles
-    import uvicorn
     FASTAPI_AVAILABLE = True
 except ImportError:
     FASTAPI_AVAILABLE = False
 
-from tools.monitoring.production_alerting_system import ProductionAlertingSystem
 from tools.monitoring.t4_monitoring_integration import T4MonitoringIntegration
 
 

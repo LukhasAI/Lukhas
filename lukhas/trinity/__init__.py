@@ -3,6 +3,7 @@ Legacy Trinity namespace (back-compat).
 Maps to Constellation.Triad during migration.
 """
 from __future__ import annotations
-from lukhas.constellation.triad import Identity, Consciousness, Guardian
+
+from lukhas.constellation.triad import Consciousness, Guardian, Identity
 
 __all__ = ["Identity", "Consciousness", "Guardian"]

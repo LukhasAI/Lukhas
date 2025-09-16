@@ -104,7 +104,11 @@ except Exception:
 
 # Import workspace components
 try:
-    from agi_controller import AGIController, ConsciousnessLevel, ModuleStatus  # noqa: F401  # TODO: agi_controller.ModuleStatus; c...
+    from agi_controller import (  # noqa: F401  # TODO: agi_controller.ModuleStatus; c...
+        AGIController,
+        ConsciousnessLevel,
+        ModuleStatus,
+    )
     from compliance_engine import ComplianceEngine
 
     WORKSPACE_AGI_AVAILABLE = True

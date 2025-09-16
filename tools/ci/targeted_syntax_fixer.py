@@ -7,8 +7,8 @@ More conservative approach to fixing only clear syntax errors.
 """
 
 import json
-import subprocess
 import re
+import subprocess
 from pathlib import Path
 from typing import Dict, List
 

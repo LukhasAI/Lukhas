@@ -3,19 +3,20 @@
 # module_uid: lukhas.core.distributed_tracing
 # criticality: P1
 
-import pytest
 import time
 import uuid
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
+import pytest
 
 from lukhas.core.distributed_tracing import (
-    TraceSpan,
-    TraceContext,
-    TraceCollector,
-    DistributedTracer,
     AIAgentTracer,
-    StateSnapshotter,
+    DistributedTracer,
     EventReplayer,
+    StateSnapshotter,
+    TraceCollector,
+    TraceContext,
+    TraceSpan,
 )
 
 # --- Fixtures ---

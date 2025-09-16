@@ -13,7 +13,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional, List
+from typing import Any, List, Optional
 
 from lukhas.core.common.logger import get_logger
 

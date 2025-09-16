@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-import sys, os, re
+import os
+import re
+import sys
 from collections import Counter, defaultdict
 
 IN = sys.argv[1] if len(sys.argv) > 1 else "reports/audit/types/mypy.txt"

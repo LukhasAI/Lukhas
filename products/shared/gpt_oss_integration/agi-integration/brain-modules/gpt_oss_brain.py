@@ -6,8 +6,6 @@ This module creates a GPT-OSS-powered brain that can work alongside
 Dreams, Memory, and Learning brains in the MultiBrainSymphony orchestrator.
 """
 
-from datetime import timezone
-
 import asyncio
 import hashlib
 import json
@@ -16,7 +14,7 @@ import logging
 # Import base classes from MultiBrainSymphony
 import sys
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 

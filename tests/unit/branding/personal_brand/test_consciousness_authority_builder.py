@@ -1,10 +1,12 @@
 import unittest
 from unittest.mock import Mock
+
 from branding.personal_brand.consciousness_authority_builder import (
-    ConsciousnessAuthorityBuilder,
     AuthorityScore,
+    ConsciousnessAuthorityBuilder,
     Strategy,
 )
+
 
 class TestConsciousnessAuthorityBuilder(unittest.TestCase):
 

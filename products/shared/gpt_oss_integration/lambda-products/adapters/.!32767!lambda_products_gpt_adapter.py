@@ -9,8 +9,6 @@ This adapter enables Lambda Products to leverage GPT-OSS for enhanced:
 - Data Analytics & Strategic Thinking (DΛST)
 """
 
-from datetime import timezone
-
 import asyncio
 import hashlib
 import logging
@@ -19,7 +17,7 @@ import logging
 import sys
 import time
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum, auto
 from pathlib import Path
 from typing import Any, Optional
