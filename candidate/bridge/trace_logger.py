@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
+import gzip
 import logging
+import shutil
 from datetime import datetime, timezone
+from logging.handlers import RotatingFileHandler
+from pathlib import Path
 
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -46,6 +50,31 @@ from typing import Any, Optional
 
 # ΛTRACE injection point
 logger = logging.getLogger("bridge.trace_logger")
+
+
+class JSONTraceFormatter(logging.Formatter):
+    """Formatter that emits structured JSON trace records."""
+
+    def format(self, record: logging.LogRecord) -> str:  # noqa: D401 - simple override
+        payload: dict[str, Any] = {}
+        structured = getattr(record, "bridge_event", None)
+
+        if isinstance(structured, dict):
+            payload.update(structured)
+        else:
+            payload["message"] = record.getMessage()
+
+        payload.setdefault(
+            "timestamp",
+            datetime.fromtimestamp(record.created, tz=timezone.utc).isoformat(),
+        )
+        payload.setdefault("logger", record.name)
+        payload.setdefault("level", record.levelname.lower())
+
+        if record.exc_info:
+            payload["exception"] = self.formatException(record.exc_info)
+
+        return json.dumps(payload, ensure_ascii=False)
 
 
 class TraceLevel(Enum):
@@ -104,10 +133,39 @@ class BridgeTraceLogger:
 
     def _setup_file_logging(self):
         """Setup file-based trace logging"""
-        # PLACEHOLDER: Implement file logging setup
-        # TODO: Configure file rotation
-        # TODO: Setup JSON formatting
-        # TODO: Implement log compression
+        log_path = Path(self.log_file)
+        log_path.parent.mkdir(parents=True, exist_ok=True)
+
+        for existing in logger.handlers:
+            if getattr(existing, "__bridge_trace__", False) and getattr(existing, "baseFilename", None) == str(
+                log_path
+            ):
+                self._file_handler = existing  # type: ignore[attr-defined]
+                return
+
+        handler = RotatingFileHandler(str(log_path), maxBytes=1_000_000, backupCount=5, encoding="utf-8")
+        handler.setFormatter(JSONTraceFormatter())
+        handler.namer = self._rotated_file_namer
+        handler.rotator = self._compress_rotated_file
+        handler.__bridge_trace__ = True  # type: ignore[attr-defined]
+
+        logger.addHandler(handler)
+        logger.setLevel(logging.INFO)
+        logger.propagate = False
+
+        self._file_handler = handler  # type: ignore[attr-defined]
+
+    @staticmethod
+    def _rotated_file_namer(default_name: str) -> str:
+        """Ensure rotated files end with .gz for compressed archives."""
+        return f"{default_name}.gz"
+
+    @staticmethod
+    def _compress_rotated_file(source: str, dest: str) -> None:
+        """Compress rotated log files with gzip for compact storage."""
+        with open(source, "rb") as src, gzip.open(dest, "wb") as target:
+            shutil.copyfileobj(src, target)
+        Path(source).unlink(missing_ok=True)
 
     def log_bridge_event(
         self,
@@ -138,17 +196,18 @@ class BridgeTraceLogger:
             metadata = {}
 
         # Structured event logging implementation
-        timestamp = datetime.now(timezone.utc).isoformat()
+        event_timestamp = datetime.now(timezone.utc)
 
         # Create structured event data
+        metadata_payload = dict(metadata)
         event_data = {
             "event_id": event_id,
-            "timestamp": timestamp,
+            "timestamp": event_timestamp.isoformat(),
             "category": category.value,
             "level": level.value,
             "component": component,
             "message": message,
-            "metadata": metadata,
+            "metadata": metadata_payload,
         }
 
         # Add correlation data if available
@@ -165,12 +224,26 @@ class BridgeTraceLogger:
         if len(self._event_history) > 1000:
             self._event_history = self._event_history[-1000:]
 
-        # Structured logging with all event data
-        logger.info(
-            "Bridge event: %(event_id)s [%(category)s/%(level)s] %(component)s: %(message)s",
-            event_data,
-            extra={"structured_data": event_data},
+        # Persist the latest representation for summary queries
+        self.trace_events[event_id] = BridgeTraceEvent(
+            event_id=event_id,
+            timestamp=event_timestamp,
+            category=category,
+            level=level,
+            component=component,
+            message=message,
+            metadata=metadata_payload,
         )
+
+        # Structured logging with all event data
+        level_mapping = {
+            TraceLevel.DEBUG: logging.DEBUG,
+            TraceLevel.INFO: logging.INFO,
+            TraceLevel.WARNING: logging.WARNING,
+            TraceLevel.ERROR: logging.ERROR,
+            TraceLevel.CRITICAL: logging.CRITICAL,
+        }
+        logger.log(level_mapping[level], event_data, extra={"bridge_event": event_data})
 
         return event_id
 

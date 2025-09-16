@@ -1,4 +1,4 @@
-from datetime import timezone
+from __future__ import annotations
 
 """
 ML-Powered Integration Analyzer for LUKHΛS
@@ -24,7 +24,7 @@ Design Notes
 - External tools (git, semgrep) are optional. The analyzer gracefully degrades.
 
 """
-from __future__ import annotations
+from datetime import timezone
 
 import ast
 import datetime as _dt
@@ -743,7 +743,7 @@ class IntegrationAnalyzer:
         for f in orphan_view.functions:
             snake = camel_to_snake(f.name)
             test_name = f"test_{snake}"
-            stub = f"import pytest\n\ndef {test_name}():\n    # TODO: Implement test for {f.name}\n    assert True\n"
+            stub = "import pytest\n\n" f"def {test_name}():\n" f'    pytest.skip("Add assertions for {f.name}")\n'
             tests.append({"name": test_name, "stub": stub})
         return tests
 

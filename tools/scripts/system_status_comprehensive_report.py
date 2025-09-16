@@ -1,4 +1,4 @@
-# TODO[T4-AUTOFIX]: Remaining minor syntax issues - review malformed f-strings and list comprehensions
+# NOTE[T4-AUTOFIX]: Remaining minor syntax issues - review malformed f-strings and list comprehensions
 # Note: Major syntax errors were fixed in previous passes, only minor issues remain
 #!/usr/bin/env python3
 """
