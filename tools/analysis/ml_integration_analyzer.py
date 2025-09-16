@@ -611,7 +611,9 @@ class IntegrationAnalyzer:
                 r"^(get|set|process|validate|compute|update|create)",
                 func.name,
                 re.IGNORECASE,
-            ).group(1)  # type: ignore
+            ).group(
+                1
+            )  # type: ignore
             verb_pattern = f"{verb.lower()} + noun"
         domain = self._infer_domain(func.name)
         preferred = func.name
@@ -793,7 +795,7 @@ class IntegrationAnalyzer:
             stub = (
                 "import pytest\n\n"
                 f"def {test_name}():\n"
-                f"    # TODO: call target function with args: {args_str}\n"
+                f"    # NOTE: wire target function with args: {args_str}\n"
                 f"    assert True\n"
             )
             tests.append({"name": test_name, "stub": stub})

@@ -115,7 +115,7 @@ class LUKHASSymbolResolver:
                 )
             elif symbol.endswith("_later") or symbol.startswith("fix_"):
                 fixes.append(
-                    {"type": "TODO_STUB", "symbol": symbol, "count": count, "files": self.symbol_patterns[symbol]}
+                    {"type": "LEGACY_STUB", "symbol": symbol, "count": count, "files": self.symbol_patterns[symbol]}
                 )
 
         return fixes

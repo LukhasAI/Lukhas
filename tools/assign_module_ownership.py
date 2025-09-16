@@ -16,6 +16,9 @@ from pathlib import Path
 import yaml
 
 
+IGNORED_AUTHOR_TOKENS = {"TODO", "FIXME", "NONE", "UNKNOWN"}
+
+
 class OwnershipAssigner:
     """Assigns ownership to modules based on analysis"""
 
@@ -63,8 +66,9 @@ class OwnershipAssigner:
         for pattern in patterns:
             matches = re.findall(pattern, content, re.IGNORECASE)
             for match in matches:
-                if match not in ["TODO", "FIXME", "None", "Unknown"]:
-                    authors.add(f"@{match.replace('@', '')}")
+                candidate = match.strip()
+                if candidate.upper() not in IGNORED_AUTHOR_TOKENS:
+                    authors.add(f"@{candidate.replace('@', '')}")
 
         return authors
 

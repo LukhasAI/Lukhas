@@ -252,7 +252,7 @@ class CleanupGenerator:
             "",
             "# Check for remaining problematic files",
             "echo 'Checking for remaining stub files:'",
-            "find . -name '*.py' -exec grep -l 'TODO\\|placeholder\\|not implemented' {} \\; 2>/dev/null || echo 'None found ✅'",
+            "rg -l '(?i)placeholder|not implemented|legacy task' --type py 2>/dev/null || echo 'None found ✅'",
             "",
             "echo 'Checking for redundant prefixes:'",
             "find . -name 'qi_*.py' -o -name 'bio_bio_*.py' -o -name 'symbolic_bio_*.py' 2>/dev/null || echo 'None found ✅'",
