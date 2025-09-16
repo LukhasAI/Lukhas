@@ -25,13 +25,66 @@ from typing import Final, NamedTuple
 
 from candidate.core.common import get_logger
 
-# from streamlit.runtime.media_file_storage import (  # TODO: Install or
-# implement streamlit
-    MediaFileKind,
-    MediaFileStorage,
-    MediaFileStorageError,
-)
-# from streamlit.runtime.stats import CacheStat, CacheStatsProvider,
+# MATRIZ integration - Streamlit media file storage with fallback implementation
+try:
+    from streamlit.runtime.media_file_storage import (
+        MediaFileKind,
+        MediaFileStorage,
+        MediaFileStorageError,
+    )
+except ImportError:
+    # Fallback implementation for MediaFileStorage components
+    from enum import Enum
+
+    class MediaFileKind(Enum):
+        """Media file type enumeration."""
+        IMAGE = "image"
+        VIDEO = "video"
+        AUDIO = "audio"
+
+    class MediaFileStorageError(Exception):
+        """Media file storage error."""
+        pass
+
+    class MediaFileStorage:
+        """Fallback media file storage implementation."""
+        def __init__(self):
+            pass
+
+
+# Streamlit statistics integration (grouped cache metrics)
+try:
+    from streamlit.runtime.stats import CacheStat, CacheStatsProvider, group_stats
+except ImportError:
+    from collections import OrderedDict
+    from dataclasses import dataclass
+
+    @dataclass
+    class CacheStat:
+        """Minimal cache stat representation for fallback environments."""
+
+        category_name: str
+        cache_name: str
+        byte_length: int
+
+    class CacheStatsProvider:
+        """Fallback CacheStatsProvider providing an interface contract."""
+
+        def get_stats(self) -> list["CacheStat"]:  # pragma: no cover - interface stub
+            raise NotImplementedError("Cache statistics not available without Streamlit.")
+
+    def group_stats(stats: list["CacheStat"]) -> list["CacheStat"]:
+        """Aggregate cache stats by category/cache pair in fallback mode."""
+
+        aggregated: OrderedDict[tuple[str, str], int] = OrderedDict()
+        for stat in stats:
+            key = (stat.category_name, stat.cache_name)
+            aggregated[key] = aggregated.get(key, 0) + int(stat.byte_length)
+
+        return [
+            CacheStat(category_name=category, cache_name=cache, byte_length=byte_length)
+            for (category, cache), byte_length in aggregated.items()
+        ]
 # Mimetype -> filename extension map for the `get_extension_for_mimetype`
 # function. We use Python's `mimetypes.guess_extension` for most mimetypes,
 # but (as of Python 3.9) `mimetypes.guess_extension("audio/wav")` returns None,
@@ -42,7 +95,10 @@ PREFERRED_MIMETYPE_EXTENSION_MAP: Final = {
 }
 
 
-def _calculate_file_id(data: bytes, mimetype: str, filename: str | None=None) -> str:
+_LOGGER = get_logger(__name__)
+
+
+def _calculate_file_id(data: bytes, mimetype: str, filename: str | None = None) -> str:
     """Hash data, mimetype, and an optional filename to generate a stable file ID.
 
     Parameters
@@ -83,7 +139,7 @@ class MemoryFile(NamedTuple):
     kind: MediaFileKind
     filename: str | None
 
-    @ property
+    @property
     def content_size(self) -> int:
         return len(self.content)
 
@@ -101,7 +157,7 @@ class MemoryMediaFileStorage(MediaFileStorage, CacheStatsProvider):
         self._files_by_id: dict[str, MemoryFile] = {}
         self._media_endpoint = media_endpoint
 
-    def load_and_get_id(:
+    def load_and_get_id(
         self,
         path_or_data: str | bytes,
         mimetype: str,
@@ -112,8 +168,8 @@ class MemoryMediaFileStorage(MediaFileStorage, CacheStatsProvider):
         file_data: bytes
         file_data = (
             self._read_file(path_or_data)
-            if isinstance(path_or_data, str):
-            else path_or_data:
+            if isinstance(path_or_data, str)
+            else path_or_data
         )
 
         # Because our file_ids are stable, if we already have a file with the
@@ -177,6 +233,6 @@ class MemoryMediaFileStorage(MediaFileStorage, CacheStatsProvider):
                 cache_name="",
                 byte_length=len(file.content),
             )
-            for _, file in files_by_id.items():
+            for _, file in files_by_id.items()
         ]
         return group_stats(stats)

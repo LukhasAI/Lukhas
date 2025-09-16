@@ -30,10 +30,8 @@ from typing import Any, Optional  # Union and Tuple are not used, can be removed
 
 # TRACE: Initialize logger for learning phase
 
-# Add parent directory to path for identity interface
-# AIMPORT_TODO: This sys.path manipulation is generally discouraged.
-# Prefer absolute imports or proper packaging.
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # Use abspath for robustness
+# MATRIZ integration documented - using proper relative imports instead of sys.path manipulation
+# Identity interface imports resolved to proper module paths
 
 try:
     from identity.interface import IdentityClient  # NOTE: Using proper module path.
@@ -308,11 +306,11 @@ class LearningService:
                 "context": adaptation_context,
                 "targets": behavior_targets,
                 "strategy": adaptation_strategy,
-                "success_rate": adaptation_results.get("success_rate", 0.0},
-            )}
+                "success_rate": adaptation_results.get("success_rate", 0.0),
+            }
             self.knowledge_base["adaptation_history"].append(adaptation_record)
 
-            adaptation_id = f"adapt_{datetime.now(timezone.utc)}.strftime('%Y%m%d_%H%M%S%f'}_{user_id}"
+            adaptation_id = f"adapt_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S%f')}_{user_id}"
 
             self.identity_client.log_activity(
                 "behavior_adapted",
@@ -337,10 +335,10 @@ class LearningService:
                 "adaptation_results": adaptation_results,
                 "behavior_targets": behavior_targets,
                 "adaptation_strategy": adaptation_strategy,
-                "adapted_at": datetime.now(timezone.utc).isoformat(},
+                "adapted_at": datetime.now(timezone.utc).isoformat(),
             }
         except Exception as e:
-            error_msg = f"Behavior adaptation error: {e!s)}"
+            error_msg = f"Behavior adaptation error: {e!s}"
             # TRACE: Behavior adaptation error.
             logger.error(
                 "behavior_adaptation_error",
@@ -415,7 +413,7 @@ class LearningService:
             synthesis_results = self._synthesize_knowledge_sources(knowledge_sources, synthesis_method)
             self._update_knowledge_graph(synthesis_results)  # NOTE: Updates internal knowledge graph.
 
-            synthesis_id = f"synthesis_{datetime.now(timezone.utc)}.strftime('%Y%m%d_%H%M%S%f'}_{user_id}"
+            synthesis_id = f"synthesis_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S%f')}_{user_id}"
 
             self.identity_client.log_activity(
                 "knowledge_synthesized",
@@ -455,10 +453,10 @@ class LearningService:
                 "synthesis_error",
                 user_id,
                 {
-                    "source_count": len(knowledge_sources},
+                    "source_count": len(knowledge_sources),
                     "synthesis_method": synthesis_method,
                     "error": error_msg,
-                )},
+                },
             )
             return {"success": False, "error": error_msg}
 
@@ -517,7 +515,7 @@ class LearningService:
         try:
             transfer_results = self._process_transfer_learning(source_domain, target_domain, knowledge_to_transfer)
 
-            transfer_id = f"transfer_{datetime.now(timezone.utc)}.strftime('%Y%m%d_%H%M%S%f\'}_{user_id}"
+            transfer_id = f"transfer_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S%f')}_{user_id}"
 
             self.identity_client.log_activity(
                 "transfer_learning_completed",
@@ -539,7 +537,7 @@ class LearningService:
                 "transfer_results": transfer_results,
                 "source_domain": source_domain,
                 "target_domain": target_domain,
-                "transferred_at": datetime.now(timezone.utc).isoformat()},
+                "transferred_at": datetime.now(timezone.utc).isoformat(),
             }
         except Exception as e:
             error_msg = f"Transfer learning error: {e!s}"

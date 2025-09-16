@@ -37,6 +37,7 @@
 """
 import asyncio
 import logging
+import math
 from datetime import datetime, timezone
 from typing import Any, Optional  # List not used in signatures but kept
 
@@ -112,6 +113,8 @@ class AwarenessEngine:
         self.config = config or {}
         self.is_initialized: bool = False
         self.status: str = "inactive"
+        self.last_validation_timestamp: Optional[str] = None
+        self.last_validation_snapshot: Optional[dict[str, Any]] = None
         self.instance_logger.debug(
             f"ΛTRACE: AwarenessEngine initialized with config: {self.config}, Status: {self.status}"
         )
@@ -301,11 +304,80 @@ class AwarenessEngine:
 
     # Human-readable comment: Internal method to perform component-specific validation.
     async def _perform_internal_validation(self) -> bool:
-        """Perform component-specific validation checks (Placeholder)."""
-        self.instance_logger.debug("ΛTRACE: Internal: Performing internal validation checks (placeholder).")
-        # TODO: Implement actual validation logic (e.g., check dependencies,
-        # internal state consistency).
-        return True  # Placeholder
+        """Perform component-specific validation for metrics and dependencies."""
+        self.instance_logger.debug("ΛTRACE: Internal: Performing internal validation checks.")
+
+        if not self.is_initialized:
+            self.instance_logger.warning("ΛTRACE: Internal validation failed - component not initialized.")
+            return False
+
+        # Validate core metrics tracked during setup.
+        metrics_to_check = {
+            "drift_score": getattr(self, "drift_score", None),
+            "affect_delta": getattr(self, "affect_delta", None),
+        }
+
+        normalized_metrics: dict[str, float] = {}
+        for metric_name, raw_value in metrics_to_check.items():
+            if raw_value is None:
+                self.instance_logger.error(
+                    "ΛTRACE: Internal validation failed - missing metric.",
+                    extra={"metric": metric_name},
+                )
+                return False
+
+            try:
+                metric_value = float(raw_value)
+            except (TypeError, ValueError):
+                self.instance_logger.error(
+                    "ΛTRACE: Internal validation failed - metric not numeric.",
+                    extra={"metric": metric_name, "value": raw_value},
+                )
+                return False
+
+            if not math.isfinite(metric_value):
+                self.instance_logger.error(
+                    "ΛTRACE: Internal validation failed - metric not finite.",
+                    extra={"metric": metric_name, "value": raw_value},
+                )
+                return False
+
+            normalized_metrics[metric_name] = metric_value
+
+        if self.status != "active":
+            self.instance_logger.warning(
+                "ΛTRACE: Internal validation failed - component not active.",
+                extra={"status": self.status},
+            )
+            return False
+
+        dependencies_config = self.config.get("dependencies")
+        if isinstance(dependencies_config, dict):
+            failing_dependencies = [
+                name
+                for name, status in dependencies_config.items()
+                if not (status is True or (isinstance(status, str) and status.lower() == "healthy"))
+            ]
+            if failing_dependencies:
+                self.instance_logger.error(
+                    "ΛTRACE: Internal validation failed - dependency check.",
+                    extra={"failed_dependencies": failing_dependencies},
+                )
+                return False
+
+        timestamp = datetime.now(timezone.utc).isoformat()
+        self.last_validation_timestamp = timestamp
+        self.last_validation_snapshot = {
+            "metrics": normalized_metrics,
+            "dependencies_checked": list(dependencies_config.keys()) if isinstance(dependencies_config, dict) else [],
+            "timestamp": timestamp,
+        }
+
+        self.instance_logger.debug(
+            "ΛTRACE: Internal validation checks passed.",
+            extra={"metrics": normalized_metrics},
+        )
+        return True
 
     # Human-readable comment: Retrieves the current status of the component.
     @lukhas_tier_required(level=0)  # Basic status check
