@@ -34,7 +34,7 @@ transformers==4.55.3  # AI model security
 torch==2.8.0  # ML framework
 numpy==2.2.6  # Numerical computing
 scipy==1.15.3  # Scientific computing
-huggingface_hub==0.34.4  # Model hub security
+huggingface_hub==0.34.5  # Model hub security
 
 # Data Processing
 pandas==2.3.2  # Data analysis security
