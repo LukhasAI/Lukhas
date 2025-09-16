@@ -5,6 +5,8 @@ logger = logging.getLogger(__name__)
 # Target: 35% coverage by focusing on modules that consistently import and test well
 
 import contextlib
+import time
+import uuid
 from datetime import datetime, timezone
 
 import pytest
@@ -14,66 +16,56 @@ def test_core_common_comprehensive():
     """Test comprehensive coverage for core common modules that import successfully."""
     # Test logger module
     try:
-        from lukhas.core.common.logger import (
-            configure_logging,
-            get_logger,
-            setup_logging,
-        )  # noqa: F401  # TODO: lukhas.core.common.logger.conf...
+        from lukhas.core.common.logger import configure_logging, get_logger, get_module_logger
 
-        # Test logging setup scenarios
         logging_scenarios = [
-            {"level": "INFO", "format": "json"},
-            {"level": "DEBUG", "output": "console"},
-            {"level": "ERROR", "file": "test.log"},
-            {"level": "WARNING", "consciousness_aware": True},
+            {"level": "INFO", "format_type": "standard"},
+            {"level": "DEBUG", "format_type": "detailed", "json_output": False},
+            {"level": "WARNING", "json_output": True},
         ]
 
         for scenario in logging_scenarios:
-            try:
-                if callable(setup_logging):
-                    logger = setup_logging(**scenario)
-                    assert logger is not None or logger is None
+            with contextlib.suppress(Exception):
+                configure_logging(
+                    level=scenario.get("level", "INFO"),
+                    format_type=scenario.get("format_type", "standard"),
+                    json_output=scenario.get("json_output", False),
+                )
 
-                if callable(get_logger):
-                    logger = get_logger("test_logger")
-                    assert logger is not None or logger is None
+                logger_instance = get_logger("test_logger")
+                assert hasattr(logger_instance, "info")
 
-            except Exception:
-                pass  # Expected without full logging infrastructure
+                module_logger = get_module_logger("lukhas.tests.high_impact")
+                assert hasattr(module_logger, "info")
 
     except ImportError:
         pass
 
     # Test GLYPH module
     try:
-        from lukhas.core.common.glyph import (
-            GLYPH,
-            GlyphProcessor,
-            SymbolicToken,
-        )  # noqa: F401  # TODO: lukhas.core.common.glyph.Symbo...
+        from lukhas.core.common.glyph import GLYPHContext, GLYPHSymbol, GLYPHToken
 
-        # Test GLYPH processing scenarios
         glyph_scenarios = [
-            {"symbol": "🤖", "meaning": "AI_PROCESSING", "context": "consciousness"},
-            {"symbol": "🧠", "meaning": "MEMORY_ACCESS", "context": "triad_framework"},
-            {"symbol": "⚛️", "meaning": "QUANTUM_STATE", "context": "qi_processing"},
-            {"symbol": "🛡️", "meaning": "GUARDIAN_ACTIVE", "context": "security"},
+            {"symbol": GLYPHSymbol.TRUST, "context": "consciousness"},
+            {"symbol": GLYPHSymbol.REMEMBER, "context": "memory"},
+            {"symbol": GLYPHSymbol.PROTECT, "context": "guardian"},
+            {"symbol": GLYPHSymbol.CREATE, "context": "creative"},
         ]
 
         for scenario in glyph_scenarios:
-            try:
-                if callable(GLYPH):
-                    glyph = GLYPH(scenario["symbol"], scenario["meaning"])
-                    assert glyph is not None or glyph is None
+            token = GLYPHToken(
+                symbol=scenario["symbol"],
+                source="tests.e2e.high_impact",
+                target="lukhas.core",
+                metadata={"context": scenario["context"]},
+                context=GLYPHContext(module_trace=[scenario["context"]]),
+            )
 
-                if callable(GlyphProcessor):
-                    processor = GlyphProcessor()
-                    if hasattr(processor, "process"):
-                        result = processor.process(scenario)
-                        assert result is not None or result is None
+            serialized = token.to_dict()
+            restored = GLYPHToken.from_dict(serialized)
 
-            except Exception:
-                pass
+            assert restored.to_dict()["context"]["module_trace"][0] == scenario["context"]
+            assert restored.symbol == scenario["symbol"]
 
     except ImportError:
         pass
@@ -350,69 +342,43 @@ def test_efficient_communication_comprehensive():
     """Test comprehensive coverage for efficient communication."""
     try:
         from lukhas.core.efficient_communication import (
-            CommunicationChannel,
-            MessageBus,
+            CommunicationMode,
+            EfficientCommunicationFabric,
+            Message,
+            MessagePriority,
             MessageRouter,
-        )  # noqa: F401  # TODO: lukhas.core.efficient_communic...
+        )
 
-        # Test message bus functionality
-        try:
-            if callable(MessageBus):
-                bus = MessageBus()
+        router = MessageRouter()
 
-                # Test message scenarios
-                message_scenarios = [
-                    {"topic": "consciousness", "data": {"awareness": "high"}},
-                    {"topic": "memory", "data": {"fold_id": "f001"}},
-                    {"topic": "guardian", "data": {"alert": "drift_detected"}},
-                    {"topic": "qi", "data": {"coherence": 0.95}},
-                ]
+        small_message = Message(
+            message_id="msg-small",
+            source="node_a",
+            destination="node_b",
+            message_type="status",
+            payload={"status": "ok"},
+            priority=MessagePriority.NORMAL,
+            mode=CommunicationMode.EVENT_BUS,
+            timestamp=time.time(),
+        )
+        assert router.select_communication_mode(small_message) == CommunicationMode.EVENT_BUS
 
-                for scenario in message_scenarios:
-                    try:
-                        if hasattr(bus, "publish"):
-                            bus.publish(scenario["topic"], scenario["data"])
+        large_message = Message(
+            message_id="msg-large",
+            source="node_a",
+            destination="node_b",
+            message_type="bulk",
+            payload={"blob": "x" * 12000},
+            priority=MessagePriority.LOW,
+            mode=CommunicationMode.EVENT_BUS,
+            timestamp=time.time(),
+        )
+        assert router.select_communication_mode(large_message) == CommunicationMode.P2P_DIRECT
 
-                        if hasattr(bus, "subscribe"):
-
-                            def handler(message):
-                                return message
-
-                            bus.subscribe(scenario["topic"], handler)
-
-                    except Exception:
-                        pass
-
-        except Exception:
-            pass
-
-        # Test communication channel
-        try:
-            if callable(CommunicationChannel):
-                channel = CommunicationChannel("test_channel")
-
-                channel_operations = [
-                    {"operation": "send", "data": "test_message"},
-                    {"operation": "receive", "timeout": 1.0},
-                    {"operation": "close", "graceful": True},
-                ]
-
-                for op in channel_operations:
-                    try:
-                        if hasattr(channel, op["operation"]):
-                            method = getattr(channel, op["operation"])
-                            if op["operation"] == "send":
-                                method(op["data"])
-                            elif op["operation"] == "receive":
-                                result = method(op.get("timeout"))
-                                assert result is not None or result is None
-                            else:
-                                method()
-                    except Exception:
-                        pass
-
-        except Exception:
-            pass
+        fabric = EfficientCommunicationFabric("node_a")
+        path = router.find_optimal_path("node_a", "node_b")
+        assert path == ["node_a", "node_b"]
+        assert fabric.router is not None
 
     except ImportError:
         pytest.skip("Efficient communication not available")
@@ -421,70 +387,43 @@ def test_efficient_communication_comprehensive():
 def test_event_sourcing_comprehensive():
     """Test comprehensive coverage for event sourcing system."""
     try:
-        from lukhas.core.event_sourcing import (
-            Event,
-            EventHandler,
-            EventSourcedEntity,
-            EventStore,
-        )  # noqa: F401  # TODO: lukhas.core.event_sourcing.Eve...
+        from lukhas.core.event_sourcing import Event, EventReplayService, EventStore
 
-        # Test event creation and storage
+        store = EventStore(":memory:")
+
         event_scenarios = [
             {
                 "event_type": "ConsciousnessAwakened",
                 "data": {"consciousness_id": "c001", "awareness_level": 0.9},
-                "timestamp": datetime.now(timezone.utc),
             },
             {
                 "event_type": "MemoryFoldCreated",
                 "data": {"fold_id": "f001", "emotional_context": 0.8},
-                "timestamp": datetime.now(timezone.utc),
             },
             {
                 "event_type": "GuardianAlertTriggered",
                 "data": {"drift_score": 0.2, "threshold": 0.15},
-                "timestamp": datetime.now(timezone.utc),
             },
         ]
 
-        try:
-            if callable(EventStore):
-                store = EventStore()
+        for index, scenario in enumerate(event_scenarios, start=1):
+            event = Event(
+                event_id=str(uuid.uuid4()),
+                event_type=scenario["event_type"],
+                aggregate_id="test_aggregate",
+                data=scenario["data"],
+                metadata={"source": "test"},
+                timestamp=time.time(),
+                version=index,
+            )
+            assert store.append_event(event)
 
-                for scenario in event_scenarios:
-                    try:
-                        if callable(Event):
-                            event = Event(scenario["event_type"], scenario["data"], scenario["timestamp"])
-                            assert event is not None
+        events = store.get_events_for_aggregate("test_aggregate")
+        assert len(events) == len(event_scenarios)
 
-                        if hasattr(store, "append"):
-                            store.append(event if "event" in locals() else scenario)
-
-                        if hasattr(store, "get_events"):
-                            events = store.get_events()
-                            assert isinstance(events, (list, tuple, type(None)))
-
-                    except Exception:
-                        pass
-
-        except Exception:
-            pass
-
-        # Test event handlers
-        try:
-            if callable(EventHandler):
-                handler = EventHandler()
-
-                for scenario in event_scenarios:
-                    try:
-                        if hasattr(handler, "handle"):
-                            handler.handle(scenario["event_type"], scenario["data"])
-
-                    except Exception:
-                        pass
-
-        except Exception:
-            pass
+        replay_service = EventReplayService(store)
+        analysis = replay_service.analyze_agent_behavior("test_aggregate")
+        assert analysis["total_events"] == len(event_scenarios)
 
     except ImportError:
         pytest.skip("Event sourcing not available")

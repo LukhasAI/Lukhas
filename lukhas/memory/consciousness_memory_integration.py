@@ -40,7 +40,7 @@ from typing import Any, Optional
 try:
     from lukhas.async_manager import TaskPriority, get_consciousness_manager
     from lukhas.consciousness.registry import ComponentType, get_consciousness_registry
-    from lukhas.consciousness.triad_integration import get_triad_integrator
+    from lukhas.consciousness.trinity_integration import get_triad_integrator
     from lukhas.core.common.config import get_config
 except ImportError:
     # Graceful fallback for development
