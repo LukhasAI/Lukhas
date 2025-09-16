@@ -4,24 +4,131 @@ categorize_todos.py - Categorize LUKHAS TODOs by priority
 Processes the extracted TODO list and sorts into CRITICAL/HIGH/MED/LOW
 """
 
+from __future__ import annotations
+
+import logging
 import re
 from collections import defaultdict
+from dataclasses import dataclass
 from pathlib import Path
+from typing import Dict, Iterable, List, Optional
+
+# ΛTAG: todo_scan_constants
+_EXCLUDED_DIR_NAMES = {
+    ".venv",
+    "venv",
+    "env",
+    ".virtualenv",
+    "virtualenv",
+    ".conda",
+    "conda-env",
+    "python-env",
+    "site-packages",
+    "lib",
+    "__pycache__",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".ruff_cache",
+    "node_modules",
+    ".git",
+    "build",
+    "dist",
+    "archive",
+    "quarantine",
+    "backup",
+}
+
+_EXCLUDED_DIR_SUBSTRINGS = {"_venv", "venv-", "-venv", "lib/python"}
 
 
-def load_exclusions():
-    """Load standardized exclusions and get clean TODO list"""
-    import subprocess
+logger = logging.getLogger("ΛTRACE.todo.categorize")
 
-    # Use our clean search to get accurate TODO list
-    cmd = """
-    cd /Users/agi_dev/LOCAL-REPOS/Lukhas
-    source tools/search/standardized_exclusions.sh
-    clean_grep "TODO" --include="*.py" -n
-    """
 
-    result = subprocess.run(cmd, shell=True, capture_output=True, text=True, executable="/bin/bash")
-    return result.stdout.strip().split("\n") if result.stdout.strip() else []
+@dataclass(frozen=True)
+class TodoEntry:
+    """Lightweight representation of a TODO match."""
+
+    file_path: Path
+    line_number: int
+    raw_text: str
+
+    # ΛTAG: todo_entry_format
+    def to_output_line(self, project_root: Path) -> str:
+        relative_path = self.file_path.relative_to(project_root)
+        return f"./{relative_path}:{self.line_number}:{self.raw_text}"
+
+
+def find_project_root(start_path: Optional[Path] = None) -> Path:
+    """Locate the project root by walking upward until pyproject.toml or .git is found."""
+
+    # ΛTAG: project_root_discovery
+    start = start_path or Path(__file__).resolve()
+    if start.is_file():
+        current = start.parent
+    else:
+        current = start
+
+    for parent in [current, *current.parents]:
+        if (parent / "pyproject.toml").exists() or (parent / ".git").is_dir():
+            return parent
+
+    return current
+
+
+def _is_path_excluded(path: Path) -> bool:
+    """Check whether a file lives inside a directory that should be excluded."""
+
+    # ΛTAG: todo_scan_filter
+    parts = path.parts[:-1]  # Only inspect directory segments
+    for part in parts:
+        if part in _EXCLUDED_DIR_NAMES:
+            return True
+        if any(token in part for token in _EXCLUDED_DIR_SUBSTRINGS):
+            return True
+
+    joined = "/".join(parts)
+    return any(token in joined for token in _EXCLUDED_DIR_SUBSTRINGS)
+
+
+def _iter_python_files(project_root: Path) -> Iterable[Path]:
+    """Yield Python files within the repository excluding virtual environments and build artifacts."""
+
+    for path in project_root.rglob("*.py"):
+        if _is_path_excluded(path):
+            continue
+        yield path
+
+
+def _scan_file_for_todos(py_file: Path) -> Iterable[TodoEntry]:
+    """Scan a Python file for TODO markers and yield entries."""
+
+    try:
+        with py_file.open("r", encoding="utf-8", errors="ignore") as handle:
+            for index, raw_line in enumerate(handle, start=1):
+                if "TODO" not in raw_line:
+                    continue
+                if "# noqa" in raw_line and "TODO" in raw_line:
+                    # ΛTAG: todo_scan_skip_noqa
+                    continue
+                yield TodoEntry(py_file, index, raw_line.rstrip())
+    except OSError as exc:  # pragma: no cover - guarded but we log for observability
+        logger.debug("Skipping file due to read error", extra={"file": str(py_file), "error": str(exc)})
+
+
+def load_exclusions(project_root: Optional[Path] = None) -> List[str]:
+    """Load standardized exclusions and get clean TODO list."""
+
+    root = find_project_root(project_root)
+
+    entries: List[TodoEntry] = []
+    for py_file in _iter_python_files(root):
+        entries.extend(_scan_file_for_todos(py_file))
+
+    # Sort deterministically by file path then line number for reproducible output
+    # ΛTAG: todo_scan_sort
+    entries.sort(key=lambda entry: (str(entry.file_path.relative_to(root)), entry.line_number))
+
+    return [entry.to_output_line(root) for entry in entries]
 
 
 def classify_priority(todo_line, file_path, context=""):
@@ -225,9 +332,12 @@ def categorize_todos():
     return categories
 
 
-def generate_priority_files(categories):
-    """Generate markdown files for each priority level"""
-    base_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/TODO")
+def generate_priority_files(categories: Dict[str, List[Dict[str, str]]], output_base: Optional[Path] = None) -> List[Path]:
+    """Generate markdown files for each priority level."""
+
+    project_root = find_project_root(output_base)
+    base_path = (output_base or (project_root / "TODO")).resolve()
+    base_path.mkdir(parents=True, exist_ok=True)
 
     priority_info = {
         "CRITICAL": {"emoji": "🚨", "description": "Security, consciousness safety, blocking issues"},
@@ -236,13 +346,17 @@ def generate_priority_files(categories):
         "LOW": {"emoji": "🔧", "description": "Cleanup, refactoring, nice-to-have features"},
     }
 
+    generated_files: List[Path] = []
+
     for priority, todos in categories.items():
         if not todos:
             continue
 
         info = priority_info[priority]
         filename = f"{priority.lower()}_todos.md"
-        filepath = base_path / priority / filename
+        priority_dir = base_path / priority
+        priority_dir.mkdir(parents=True, exist_ok=True)
+        filepath = priority_dir / filename
 
         # Group by module for better organization
         by_module = defaultdict(list)
@@ -250,7 +364,7 @@ def generate_priority_files(categories):
             module = todo["file"].split("/")[1] if "/" in todo["file"] else "root"
             by_module[module].append(todo)
 
-        with open(filepath, "w") as f:
+        with open(filepath, "w", encoding="utf-8") as f:
             f.write(f"# {info['emoji']} {priority} Priority TODOs\n\n")
             f.write(f"**{info['description']}**\n\n")
             f.write(f"**Count**: {len(todos)} TODOs\n")
@@ -286,6 +400,13 @@ def generate_priority_files(categories):
 
         print(f"✅ Generated {filepath}")
 
+        # ΛTAG: todo_legacy_mirror
+        legacy_path = base_path / f"{priority.lower()}_todos.md"
+        legacy_path.write_text(filepath.read_text(encoding="utf-8"), encoding="utf-8")
+        generated_files.extend([filepath, legacy_path])
+
+    return generated_files
+
 
 if __name__ == "__main__":
     print("🎯 LUKHAS TODO Categorization System")
@@ -294,8 +415,10 @@ if __name__ == "__main__":
     categories = categorize_todos()
     if categories:
         print("\n📝 Generating priority files...")
-        generate_priority_files(categories)
+        generated = generate_priority_files(categories)
         print("\n✅ TODO categorization complete!")
-        print("📂 Check TODO/CRITICAL/, TODO/HIGH/, TODO/MED/, TODO/LOW/ directories")
+        print("📂 Generated files:")
+        for path in generated:
+            print(f"   • {path}")
     else:
         print("❌ No TODOs to categorize")
