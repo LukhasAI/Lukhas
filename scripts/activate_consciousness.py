@@ -175,7 +175,7 @@ class ConsciousnessActivationCLI:
             from lukhas.consciousness.activation_orchestrator import (
                 ActivationConfig,
                 ConsciousnessActivationOrchestrator,
-                activate_lukhas_consciousness,  # noqa: F401  # TODO: lukhas.consciousness.activatio...
+                activate_lukhas_consciousness,  # noqa: F401  # Core activation function for consciousness orchestration
             )
         except ImportError as e:
             print_error_message(f"Failed to import consciousness modules: {e}")

@@ -1,5 +1,7 @@
 import logging
 
+import structlog
+
 logger = logging.getLogger(__name__)
 """
 ΛTRACE: lukhas_config.py
@@ -13,8 +15,6 @@ Original: lukhas_config.py
 Advanced: lukhas_config.py
 Integration Date: 2025-05-31T07:55:30.359609
 """
-
-import structlog
 
 # Configure structured logging
 logger = structlog.get_logger(__name__)

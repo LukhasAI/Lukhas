@@ -16,7 +16,7 @@ import socket
 from datetime import datetime, timezone
 from functools import wraps
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Callable, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 # ΛTAG: optional_dependency_loader
 def _load_optional(module_path: str, attribute: Optional[str] = None) -> Optional[Any]:
@@ -30,9 +30,7 @@ def _load_optional(module_path: str, attribute: Optional[str] = None) -> Optiona
 
 # Observability integrations
 if TYPE_CHECKING:
-    from datadog.api.metrics import Metric
     from opentelemetry import metrics as otel_metrics
-    from opentelemetry import trace as otel_trace
     from opentelemetry.sdk.trace.export import BatchSpanProcessor
     from lukhas.guardian import GuardianSystem
     from lukhas.trinity import TrinityFramework

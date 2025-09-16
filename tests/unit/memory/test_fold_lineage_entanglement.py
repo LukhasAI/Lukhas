@@ -1,20 +1,34 @@
 """Unit tests for fold lineage entanglement detection."""
 
-import os
+from pathlib import Path
 import sys
 
-from pathlib import Path
 
-import pytest
+REPO_ROOT = Path(__file__).resolve().parents[3]
+PACKAGE_DIR = REPO_ROOT / "memory"
 
-import memory.fold_lineage_tracker as flt_module
+import importlib.util  # noqa: E402
 
-if "memory" in sys.modules:
-    del sys.modules["memory"]
+package_spec = importlib.util.spec_from_file_location(
+    "memory", PACKAGE_DIR / "__init__.py", submodule_search_locations=[str(PACKAGE_DIR)]
+)
+memory_pkg = sys.modules.get("memory")
+if memory_pkg is None:
+    memory_pkg = importlib.util.module_from_spec(package_spec)
+    sys.modules["memory"] = memory_pkg
+    if package_spec.loader is not None:
+        package_spec.loader.exec_module(memory_pkg)
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..")))
+flt_spec = importlib.util.spec_from_file_location(
+    "memory.fold_lineage_tracker", PACKAGE_DIR / "fold_lineage_tracker.py"
+)
+flt_module = importlib.util.module_from_spec(flt_spec)
+sys.modules["memory.fold_lineage_tracker"] = flt_module
+if flt_spec.loader is not None:
+    flt_spec.loader.exec_module(flt_module)
 
-from memory.fold_lineage_tracker import CausationType, FoldLineageTracker
+
+from memory.fold_lineage_tracker import CausationType, FoldLineageTracker  # noqa: E402
 
 
 # ΛTAG: fold_lineage
@@ -25,9 +39,9 @@ def _configure_tracker_paths(tracker: FoldLineageTracker, tmp_path: Path) -> Non
 
         flt_module.logger.bind = _bind_logger.__get__(flt_module.logger, type(flt_module.logger))  # type: ignore[attr-defined]
 
-    tracker.lineage_log_path = str(tmp_path / "lineage.jsonl")
-    tracker.causal_map_path = str(tmp_path / "analysis.jsonl")
-    tracker.lineage_graph_path = str(tmp_path / "graph.jsonl")
+    tracker.lineage_log_path = tmp_path / "lineage.jsonl"
+    tracker.causal_map_path = tmp_path / "analysis.jsonl"
+    tracker.lineage_graph_path = tmp_path / "graph.jsonl"
 
 
 def test_entanglement_detection_correlates_with_dreams(tmp_path):
@@ -63,4 +77,3 @@ def test_entanglement_detection_correlates_with_dreams(tmp_path):
     assert entanglement["entangled_links"] == 1
     assert entanglement["dream_correlations"][0]["dream_id"] == "alpha"
     assert set(entanglement["dream_correlations"][0]["folds"]) == {"root-fold", "child-fold"}
-

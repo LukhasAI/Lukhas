@@ -16,15 +16,15 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+import logging
+import os
+from typing import Any, Optional
+
 """Fallback configuration system for LUKHAS when primary config fails.
 
 This provides a minimal, dependency-free configuration system that can
 be used if the main pydantic-based config system fails.
 """
-
-import logging
-import os
-from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 

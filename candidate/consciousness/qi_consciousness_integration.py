@@ -87,8 +87,7 @@ def lukhas_tier_required(level: int):
     return decorator
 
 
-# Removed sys.path manipulation. Assuming 'core' and 'creativity' are top-level packages.
-# TODO: Verify these import paths and ensure modules are structured as packages.
+# Fixed import paths for consciousness components
 CONSCIOUSNESS_AVAILABLE = False
 ElevatedConsciousnessModule, ConsciousnessLevel, QualiaType, ConsciousExperience = (
     None,
@@ -97,22 +96,19 @@ ElevatedConsciousnessModule, ConsciousnessLevel, QualiaType, ConsciousExperience
     None,
 )  # Placeholders
 try:
-    # Corrected import path (assuming lukhasElevatedConsciousnessModule.py exists)
-    from consciousness.consciousness_service import (
-        ConsciousExperience,
-        ConsciousnessLevel,
-        ElevatedConsciousnessModule,
-        QualiaType,
-    )
+    # Corrected import paths for consciousness components
+    from .core.engine import LUKHASConsciousnessEngine, ConsciousnessState
+    from .awareness.awareness_engine import AwarenessEngine
+    from .reflection.consciousness_system import ConsciousnessLevel, QualiaType
+
+    # Create compatibility aliases for the existing code
+    ElevatedConsciousnessModule = LUKHASConsciousnessEngine
+    ConsciousExperience = ConsciousnessState
 
     CONSCIOUSNESS_AVAILABLE = True
-    logger.info(
-        "ΛTRACE: ElevatedConsciousnessModule imported successfully from candidate.core.consciousness.lukhasElevatedConsciousnessModule."
-    )
+    logger.info("ΛTRACE: Consciousness modules imported successfully from local consciousness package.")
 except ImportError as e_con:
-    logger.warning(
-        f"ΛTRACE: Consciousness module (ElevatedConsciousnessModule) not available: {e_con}. Using creative mode only."
-    )
+    logger.warning(f"ΛTRACE: Consciousness module components not available: {e_con}. Using creative mode only.")
 
     # Fallback definitions for type hints if module is missing
     class ElevatedConsciousnessModule:
@@ -128,20 +124,21 @@ except ImportError as e_con:
         pass  # type: ignore
 
 
+# Fixed import paths for creativity components
 CREATIVE_ENGINE_AVAILABLE = False
 LukhasCreativeExpressionEngine = None  # Placeholder
 try:
-    # Corrected import path
-    from creativity.creativity_service import LukhasCreativeExpressionEngine
+    # Corrected import path for creativity engine
+    from .creativity.creative_expression_core import CreativeExpressionEngine
+    from .creativity.service import CreativityService
+
+    # Create compatibility alias for the existing code
+    LukhasCreativeExpressionEngine = CreativeExpressionEngine
 
     CREATIVE_ENGINE_AVAILABLE = True
-    logger.info(
-        "ΛTRACE: LukhasCreativeExpressionEngine imported successfully from creativity.lukhasQICreativeIntegration."
-    )
+    logger.info("ΛTRACE: CreativeExpressionEngine imported successfully from local creativity package.")
 except ImportError as e_cre:
-    logger.warning(
-        f"ΛTRACE: Creative engine (LukhasCreativeExpressionEngine) not available: {e_cre}. Using basic mode."
-    )
+    logger.warning(f"ΛTRACE: Creative engine components not available: {e_cre}. Using basic mode.")
 
     class LukhasCreativeExpressionEngine:
         pass  # type: ignore
@@ -170,9 +167,7 @@ class QICreativeConsciousness:
     """
 
     # Human-readable comment: Initializes the QICreativeConsciousness system.
-    @lukhas_tier_required(
-        level=4
-    )  # Instantiation of this system is likely Guardian tier
+    @lukhas_tier_required(level=4)  # Instantiation of this system is likely Guardian tier
     def __init__(self, user_id_context: Optional[str] = None):
         """
         Initializes the QICreativeConsciousness system, setting up
@@ -181,16 +176,10 @@ class QICreativeConsciousness:
             user_id_context (Optional[str]): Contextual user ID for logging.
         """
         self.user_id_context = user_id_context
-        self.instance_logger = logger.getChild(
-            f"QICreativeConsciousness.{self.user_id_context or 'system'}"
-        )
-        self.instance_logger.info(
-            "ΛTRACE: Initializing QICreativeConsciousness instance."
-        )
+        self.instance_logger = logger.getChild(f"QICreativeConsciousness.{self.user_id_context or 'system'}")
+        self.instance_logger.info("ΛTRACE: Initializing QICreativeConsciousness instance.")
 
-        self.consciousness_level_achieved: float = (
-            0.87  # Current consciousness achievement (example value)
-        )
+        self.consciousness_level_achieved: float = 0.87  # Current consciousness achievement (example value)
         self.creative_boosts: dict[str, float] = {
             "qi_coherence_factor": 0.92,  # Renamed for clarity
             "bio_cognitive_multiplier": 1.25,  # Renamed
@@ -201,40 +190,28 @@ class QICreativeConsciousness:
         self.consciousness_module: Optional[ElevatedConsciousnessModule] = None
         if CONSCIOUSNESS_AVAILABLE and ElevatedConsciousnessModule is not None:
             try:
-                self.consciousness_module = (
-                    ElevatedConsciousnessModule()
-                )  # Assuming default constructor
-                self.instance_logger.info(
-                    "ΛTRACE: ElevatedConsciousnessModule instantiated."
-                )
+                self.consciousness_module = ElevatedConsciousnessModule()  # Assuming default constructor
+                self.instance_logger.info("ΛTRACE: ElevatedConsciousnessModule instantiated.")
             except Exception as e_ecm_init:
                 self.instance_logger.error(
                     f"ΛTRACE: Failed to instantiate ElevatedConsciousnessModule: {e_ecm_init}",
                     exc_info=True,
                 )
         else:
-            self.instance_logger.warning(
-                "ΛTRACE: ElevatedConsciousnessModule not available for this instance."
-            )
+            self.instance_logger.warning("ΛTRACE: ElevatedConsciousnessModule not available for this instance.")
 
         self.creative_engine: Optional[LukhasCreativeExpressionEngine] = None
         if CREATIVE_ENGINE_AVAILABLE and LukhasCreativeExpressionEngine is not None:
             try:
-                self.creative_engine = (
-                    LukhasCreativeExpressionEngine()
-                )  # Assuming default constructor
-                self.instance_logger.info(
-                    "ΛTRACE: LukhasCreativeExpressionEngine instantiated."
-                )
+                self.creative_engine = LukhasCreativeExpressionEngine()  # Assuming default constructor
+                self.instance_logger.info("ΛTRACE: LukhasCreativeExpressionEngine instantiated.")
             except Exception as e_lcee_init:
                 self.instance_logger.error(
                     f"ΛTRACE: Failed to instantiate LukhasCreativeExpressionEngine: {e_lcee_init}",
                     exc_info=True,
                 )
         else:
-            self.instance_logger.warning(
-                "ΛTRACE: LukhasCreativeExpressionEngine not available for this instance."
-            )
+            self.instance_logger.warning("ΛTRACE: LukhasCreativeExpressionEngine not available for this instance.")
 
         self.instance_logger.info(
             f"ΛTRACE: QICreativeConsciousness initialized. Consciousness Module: {'Active' if self.consciousness_module else 'Inactive'}. Creative Engine: {'Active' if self.creative_engine else 'Inactive'}."
@@ -276,15 +253,11 @@ class QICreativeConsciousness:
         consciousness_boost_factor = 1.0  # Default if no enhancement
         if self.consciousness_module:
             try:
-                self.instance_logger.debug(
-                    "ΛTRACE: Processing conscious experience via ElevatedConsciousnessModule."
-                )
+                self.instance_logger.debug("ΛTRACE: Processing conscious experience via ElevatedConsciousnessModule.")
                 conscious_experience_result = await self._process_conscious_experience(
                     consciousness_context_data
                 )  # Logs internally
-                consciousness_boost_factor = conscious_experience_result.get(
-                    "unity_score", 1.0
-                )
+                consciousness_boost_factor = conscious_experience_result.get("unity_score", 1.0)
                 self.instance_logger.debug(
                     f"ΛTRACE: Consciousness boost factor calculated: {consciousness_boost_factor:.3f}"
                 )
@@ -296,9 +269,7 @@ class QICreativeConsciousness:
                 consciousness_boost_factor = 1.0  # Fallback
         else:  # Apply a default bio-cognitive boost if consciousness module isn't active but creative engine is
             consciousness_boost_factor = (
-                self.creative_boosts.get("bio_cognitive_multiplier", 1.0)
-                if self.creative_engine
-                else 1.0
+                self.creative_boosts.get("bio_cognitive_multiplier", 1.0) if self.creative_engine else 1.0
             )
             self.instance_logger.debug(
                 f"ΛTRACE: Consciousness module inactive. Applied default boost: {consciousness_boost_factor:.3f}"
@@ -307,40 +278,26 @@ class QICreativeConsciousness:
         # Content generation logic using internal helper methods
         generated_content: Union[str, dict[str, Any]]  # More specific type
         if content_type == "haiku":
-            generated_content = await self._generate_conscious_haiku(
-                theme, style, consciousness_boost_factor
-            )
+            generated_content = await self._generate_conscious_haiku(theme, style, consciousness_boost_factor)
         elif content_type == "article":
-            generated_content = await self._generate_conscious_article(
-                theme, style, consciousness_boost_factor
-            )
+            generated_content = await self._generate_conscious_article(theme, style, consciousness_boost_factor)
         elif content_type == "social_post":
-            generated_content = await self._generate_conscious_social_post(
-                theme, style, consciousness_boost_factor
-            )
+            generated_content = await self._generate_conscious_social_post(theme, style, consciousness_boost_factor)
         elif content_type == "story":
-            generated_content = await self._generate_conscious_story(
-                theme, style, consciousness_boost_factor
-            )
+            generated_content = await self._generate_conscious_story(theme, style, consciousness_boost_factor)
         else:
             generated_content = await self._generate_conscious_generic(
                 content_type, theme, style, consciousness_boost_factor
             )
 
-        self.instance_logger.info(
-            f"ΛTRACE: Content generation completed for type '{content_type}'."
-        )
+        self.instance_logger.info(f"ΛTRACE: Content generation completed for type '{content_type}'.")
         final_response = {
             "generated_content": generated_content,  # Renamed
             "applied_consciousness_metrics": {  # Renamed
                 "achieved_consciousness_level": self.consciousness_level_achieved,  # Renamed
                 "applied_consciousness_boost": consciousness_boost_factor,  # Renamed
-                "qi_coherence_factor": self.creative_boosts[
-                    "qi_coherence_factor"
-                ],
-                "creative_flow_state_factor": self.creative_boosts[
-                    "creative_flow_state_factor"
-                ],
+                "qi_coherence_factor": self.creative_boosts["qi_coherence_factor"],
+                "creative_flow_state_factor": self.creative_boosts["creative_flow_state_factor"],
                 "generation_timestamp_utc": datetime.now(timezone.utc).isoformat(),
             },
             "request_metadata": {  # Renamed
@@ -350,20 +307,14 @@ class QICreativeConsciousness:
                 "requested_consciousness_level": consciousness_level_setting,
             },
         }
-        self.instance_logger.debug(
-            f"ΛTRACE: Final response for conscious content generation: {final_response}"
-        )
+        self.instance_logger.debug(f"ΛTRACE: Final response for conscious content generation: {final_response}")
         return final_response
 
     # Human-readable comment: Internal helper to process a conscious
     # experience for content generation.
-    async def _process_conscious_experience(
-        self, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _process_conscious_experience(self, context: dict[str, Any]) -> dict[str, Any]:
         """Processes a conscious experience using the ElevatedConsciousnessModule to derive a boost factor."""
-        self.instance_logger.debug(
-            f"ΛTRACE: Internal: _process_conscious_experience. Context: {context}"
-        )
+        self.instance_logger.debug(f"ΛTRACE: Internal: _process_conscious_experience. Context: {context}")
         if not self.consciousness_module or not CONSCIOUSNESS_AVAILABLE:
             self.instance_logger.debug(
                 "ΛTRACE: Consciousness module not available for _process_conscious_experience. Returning default unity score."
@@ -391,13 +342,9 @@ class QICreativeConsciousness:
             neural_activations_tensor: Optional[torch.Tensor] = None
             if TORCH_AVAILABLE and torch:  # Check if torch was imported
                 neural_activations_tensor = torch.randn(1, 256)  # Mock neural state
-                self.instance_logger.debug(
-                    "ΛTRACE: Mock neural activations tensor created."
-                )
+                self.instance_logger.debug("ΛTRACE: Mock neural activations tensor created.")
             else:
-                self.instance_logger.debug(
-                    "ΛTRACE: Torch not available, neural activations will be None."
-                )
+                self.instance_logger.debug("ΛTRACE: Torch not available, neural activations will be None.")
 
             # Call the consciousness module's method
             # Ensure all parameters match the expected signature of
@@ -410,24 +357,18 @@ class QICreativeConsciousness:
                 neural_activations_tensor,
                 # Assuming QualiaType might be needed, passing a default or deriving it
                 qualia_type=QualiaType.CONCEPTUAL if QualiaType else None,  # Example
-                target_level=(
-                    ConsciousnessLevel.ELEVATED if ConsciousnessLevel else None
-                ),  # Example
+                target_level=(ConsciousnessLevel.ELEVATED if ConsciousnessLevel else None),  # Example
             )
 
             unity_score_val = 1.0
-            if hasattr(experience_obj, "unity_score") and isinstance(
-                experience_obj.unity_score, (float, int)
-            ):
+            if hasattr(experience_obj, "unity_score") and isinstance(experience_obj.unity_score, (float, int)):
                 unity_score_val = float(experience_obj.unity_score)
             elif hasattr(experience_obj, "overall_coherence_score") and isinstance(
                 experience_obj.overall_coherence_score, (float, int)
             ):  # Alternative name?
                 unity_score_val = float(experience_obj.overall_coherence_score)
 
-            self.instance_logger.debug(
-                f"ΛTRACE: Conscious experience processed. Unity score: {unity_score_val:.3f}"
-            )
+            self.instance_logger.debug(f"ΛTRACE: Conscious experience processed. Unity score: {unity_score_val:.3f}")
             return {"unity_score": unity_score_val}
 
         except Exception as e_exp:
@@ -439,9 +380,7 @@ class QICreativeConsciousness:
 
     # Internal helper methods for generating different content types
     # Human-readable comment: Generates a consciousness-enhanced haiku.
-    async def _generate_conscious_haiku(
-        self, theme: str, style: str, boost: float
-    ) -> str:
+    async def _generate_conscious_haiku(self, theme: str, style: str, boost: float) -> str:
         self.instance_logger.debug(
             f"ΛTRACE: Internal: Generating conscious haiku. Theme: '{theme}', Style: '{style}', Boost: {boost:.2f}"
         )
@@ -449,9 +388,7 @@ class QICreativeConsciousness:
         if self.creative_engine and hasattr(self.creative_engine, "generate_haiku"):
             try:
                 # type: ignore
-                return await self.creative_engine.generate_haiku(
-                    theme, style, boost_factor=boost
-                )
+                return await self.creative_engine.generate_haiku(theme, style, boost_factor=boost)
             except Exception as e_haiku_ce:
                 self.instance_logger.warning(
                     f"ΛTRACE: Creative engine haiku generation failed: {e_haiku_ce}. Using fallback."
@@ -459,30 +396,16 @@ class QICreativeConsciousness:
 
         # Fallback haiku templates
         haiku_templates: dict[str, list[str]] = {
-            "consciousness": [
-                "Awareness unfolds\nIn quantum fields of pure thought\nConsciousness blooms bright"
-            ],
-            "creativity": [
-                "Inspiration flows\nThrough quantum channels of mind\nArt transcends the real"
-            ],
-            "technology": [
-                "Silicon dreams merge\nWith quantum computational\nFuture consciousness"
-            ],
-            "nature": [
-                "Quantum forest breathes\nLeaves entangled with starlight\nNature's consciousness"
-            ],
-            "business": [
-                "Strategy unfolds\nQuantum paths to success shine\nInnovation blooms"
-            ],
+            "consciousness": ["Awareness unfolds\nIn quantum fields of pure thought\nConsciousness blooms bright"],
+            "creativity": ["Inspiration flows\nThrough quantum channels of mind\nArt transcends the real"],
+            "technology": ["Silicon dreams merge\nWith quantum computational\nFuture consciousness"],
+            "nature": ["Quantum forest breathes\nLeaves entangled with starlight\nNature's consciousness"],
+            "business": ["Strategy unfolds\nQuantum paths to success shine\nInnovation blooms"],
         }
-        theme_key = theme.lower().split(" ")[
-            0
-        ]  # Use first word of theme as a simple key
+        theme_key = theme.lower().split(" ")[0]  # Use first word of theme as a simple key
         base_haiku = haiku_templates.get(
             theme_key,
-            [
-                f"Quantum {theme} flows\nThrough mind's light streams, clear and bright\nMeaning crystallizes"
-            ],
+            [f"Quantum {theme} flows\nThrough mind's light streams, clear and bright\nMeaning crystallizes"],
         )[0]
 
         if boost > 1.2:
@@ -503,37 +426,26 @@ class QICreativeConsciousness:
             "mind": "awareness",
             "quantum": "transcendent",
         }
-        [
-            line.replace(orig, enh)
-            for line in lines
-            for orig, enh in consciousness_words.items()
-            if orig in line.lower()
-        ]
+        [line.replace(orig, enh) for line in lines for orig, enh in consciousness_words.items() if orig in line.lower()]
         # If no replacements happened, enhanced_lines will be empty or incorrect.
         # A better way is to replace in place:
         processed_lines = []
         for line in lines:
             temp_line = line
             for original, enhanced in consciousness_words.items():
-                temp_line = temp_line.replace(
-                    original, enhanced
-                )  # Case-sensitive, could be improved
+                temp_line = temp_line.replace(original, enhanced)  # Case-sensitive, could be improved
             processed_lines.append(temp_line)
         return "\n".join(processed_lines)
 
     # Human-readable comment: Generates a consciousness-enhanced article.
-    async def _generate_conscious_article(
-        self, theme: str, style: str, boost: float
-    ) -> str:
+    async def _generate_conscious_article(self, theme: str, style: str, boost: float) -> str:
         self.instance_logger.debug(
             f"ΛTRACE: Internal: Generating conscious article. Theme: '{theme}', Style: '{style}', Boost: {boost:.2f}"
         )
         if self.creative_engine and hasattr(self.creative_engine, "generate_article"):
             try:
                 # type: ignore
-                return await self.creative_engine.generate_article(
-                    theme, style, boost_factor=boost, length_words=500
-                )
+                return await self.creative_engine.generate_article(theme, style, boost_factor=boost, length_words=500)
             except Exception as e_art_ce:
                 self.instance_logger.warning(
                     f"ΛTRACE: Creative engine article generation failed: {e_art_ce}. Using fallback."
@@ -548,9 +460,7 @@ class QICreativeConsciousness:
         return article
 
     # Human-readable comment: Generates a consciousness-enhanced social media post.
-    async def _generate_conscious_social_post(
-        self, theme: str, style: str, boost: float
-    ) -> str:
+    async def _generate_conscious_social_post(self, theme: str, style: str, boost: float) -> str:
         self.instance_logger.debug(
             f"ΛTRACE: Internal: Generating conscious social post. Theme: '{theme}', Style: '{style}', Boost: {boost:.2f}"
         )
@@ -560,9 +470,7 @@ class QICreativeConsciousness:
         return f"🌟 {theme} with conscious awareness. #Consciousness"
 
     # Human-readable comment: Generates a consciousness-enhanced story.
-    async def _generate_conscious_story(
-        self, theme: str, style: str, boost: float
-    ) -> str:
+    async def _generate_conscious_story(self, theme: str, style: str, boost: float) -> str:
         self.instance_logger.debug(
             f"ΛTRACE: Internal: Generating conscious story. Theme: '{theme}', Style: '{style}', Boost: {boost:.2f}"
         )
@@ -573,9 +481,7 @@ class QICreativeConsciousness:
         return story
 
     # Human-readable comment: Generates generic consciousness-enhanced content.
-    async def _generate_conscious_generic(
-        self, content_type: str, theme: str, style: str, boost: float
-    ) -> str:
+    async def _generate_conscious_generic(self, content_type: str, theme: str, style: str, boost: float) -> str:
         self.instance_logger.debug(
             f"ΛTRACE: Internal: Generating generic conscious content. Type: '{content_type}', Theme: '{theme}', Boost: {boost:.2f}"
         )
@@ -596,15 +502,11 @@ class QICreativeConsciousness:
             Dict[str, Any]: Dictionary containing status information.
         """
         log_user_id = user_id or self.user_id_context
-        self.instance_logger.info(
-            f"ΛTRACE: Getting consciousness status for user '{log_user_id}'."
-        )
+        self.instance_logger.info(f"ΛTRACE: Getting consciousness status for user '{log_user_id}'.")
         status = {
             "achieved_consciousness_level": self.consciousness_level_achieved,
-            "consciousness_module_active": CONSCIOUSNESS_AVAILABLE
-            and self.consciousness_module is not None,
-            "creative_engine_active": CREATIVE_ENGINE_AVAILABLE
-            and self.creative_engine is not None,
+            "consciousness_module_active": CONSCIOUSNESS_AVAILABLE and self.consciousness_module is not None,
+            "creative_engine_active": CREATIVE_ENGINE_AVAILABLE and self.creative_engine is not None,
             "current_creative_boost_factors": self.creative_boosts,  # Renamed key
             "system_status_message": (
                 "QUANTUM CREATIVE CONSCIOUSNESS ACTIVE"
@@ -626,9 +528,7 @@ class QICreativeConsciousness:
         for source, target in entanglement_pairs:
             self.create_entanglement(source, target)
 
-        self.instance_logger.info(
-            f"ΛTRACE: Setup quantum entanglement for {len(entanglement_pairs)} pairs"
-        )
+        self.instance_logger.info(f"ΛTRACE: Setup quantum entanglement for {len(entanglement_pairs)} pairs")
 
     def create_entanglement(self, source: str, target: str):
         """Create quantum entanglement between two states"""
@@ -645,9 +545,7 @@ class QICreativeConsciousness:
         }
 
         self.entanglements.append(entanglement)
-        self.instance_logger.debug(
-            f"ΛTRACE: Created entanglement between {source} and {target}"
-        )
+        self.instance_logger.debug(f"ΛTRACE: Created entanglement between {source} and {target}")
 
 
 # Human-readable comment: Module-level convenience function for generating
@@ -670,15 +568,11 @@ async def generate_conscious_content(
     Returns:
         Dict[str, Any]: Generated content and metrics.
     """
-    logger.info(
-        f"ΛTRACE: Module-level generate_conscious_content called by user '{user_id}'. Type: '{content_type}'."
-    )
+    logger.info(f"ΛTRACE: Module-level generate_conscious_content called by user '{user_id}'. Type: '{content_type}'.")
     # Pass user_id to instance for its internal context if needed
     consciousness_integrator = QICreativeConsciousness(user_id_context=user_id)
     # Pass user_id again for the method's tier check itself
-    return await consciousness_integrator.generate_conscious_content(
-        content_type, theme, style, user_id=user_id
-    )
+    return await consciousness_integrator.generate_conscious_content(content_type, theme, style, user_id=user_id)
 
 
 # Human-readable comment: Module-level convenience function to get
@@ -694,9 +588,7 @@ def get_consciousness_integration_status(
     Returns:
         Dict[str, Any]: Status information.
     """
-    logger.info(
-        f"ΛTRACE: Module-level get_consciousness_integration_status called by user '{user_id}'."
-    )
+    logger.info(f"ΛTRACE: Module-level get_consciousness_integration_status called by user '{user_id}'.")
     consciousness_integrator = QICreativeConsciousness(user_id_context=user_id)
     return consciousness_integrator.get_consciousness_status(user_id=user_id)
 
@@ -716,30 +608,20 @@ async def main_example():  # Renamed from main
     print("=" * 50)
 
     # Instantiate with a test user context
-    consciousness_integrator_instance = QICreativeConsciousness(
-        user_id_context="demo_user"
-    )
+    consciousness_integrator_instance = QICreativeConsciousness(user_id_context="demo_user")
 
-    status_info = consciousness_integrator_instance.get_consciousness_status(
-        user_id="demo_user"
-    )  # Pass user_id
-    logger.info(
-        f"ΛTRACE Demo - Initial Status: {status_info.get('system_status_message')}"
-    )
+    status_info = consciousness_integrator_instance.get_consciousness_status(user_id="demo_user")  # Pass user_id
+    logger.info(f"ΛTRACE Demo - Initial Status: {status_info.get('system_status_message')}")
     print(f"Status: {status_info.get('system_status_message')}")
-    print(
-        f"Consciousness Level (Achieved): {status_info.get('achieved_consciousness_level')}"
-    )
+    print(f"Consciousness Level (Achieved): {status_info.get('achieved_consciousness_level')}")
 
     logger.info("ΛTRACE Demo: Generating Conscious Haiku...")
     print("\n🎋 Generating Conscious Haiku...")
-    haiku_result_data = (
-        await consciousness_integrator_instance.generate_conscious_content(
-            "haiku",
-            "artificial intelligence",
-            "contemplative",
-            user_id="demo_user",  # Pass user_id
-        )
+    haiku_result_data = await consciousness_integrator_instance.generate_conscious_content(
+        "haiku",
+        "artificial intelligence",
+        "contemplative",
+        user_id="demo_user",  # Pass user_id
     )
     print(haiku_result_data.get("generated_content"))
     print(
@@ -748,14 +630,10 @@ async def main_example():  # Renamed from main
 
     logger.info("ΛTRACE Demo: Generating Conscious Article...")
     print("\n📝 Generating Conscious Article...")
-    article_result_data = (
-        await consciousness_integrator_instance.generate_conscious_content(
-            "article", "quantum-inspired computing", "technical", user_id="demo_user"
-        )
+    article_result_data = await consciousness_integrator_instance.generate_conscious_content(
+        "article", "quantum-inspired computing", "technical", user_id="demo_user"
     )
-    print(
-        str(article_result_data.get("generated_content"))[:200] + "..."
-    )  # Print preview
+    print(str(article_result_data.get("generated_content"))[:200] + "...")  # Print preview
 
     logger.info("ΛTRACE Demo: --- Quantum Consciousness Integration Demo Complete ---")
     print("\n🌟 Quantum Consciousness Integration: COMPLETE")

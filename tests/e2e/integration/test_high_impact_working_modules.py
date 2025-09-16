@@ -7,7 +7,6 @@ logger = logging.getLogger(__name__)
 import contextlib
 import time
 import uuid
-from datetime import datetime, timezone
 
 import pytest
 

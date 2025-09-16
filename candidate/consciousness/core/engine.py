@@ -202,17 +202,11 @@ class ConsciousnessPattern:
             f"ΛTRACE: Analyzing interaction for consciousness patterns. User: '{user_id}'. Data keys: {list(interaction_data.keys())}"
         )
 
-        # TODO: Ensure interaction_data contains expected keys like 'timestamps', 'symbols', 'actions', 'pressure_patterns', 'velocity_patterns'.
-        # Add default values or error handling if keys are missing.
-        default_interaction_data = {
-            "timestamps": [],
-            "symbols": [],
-            "actions": [],
-            "pressure_patterns": [],
-            "velocity_patterns": [],
-        }
-        # Merge provided data with defaults to ensure keys exist
-        merged_data = {**default_interaction_data, **interaction_data}
+        # Validate and ensure interaction_data contains expected keys for consciousness analysis
+        validated_data = self._validate_and_prepare_interaction_data(interaction_data)
+
+        # Use validated data for consciousness pattern analysis
+        merged_data = validated_data
 
         patterns = {
             "temporal_coherence_score": self._analyze_temporal_patterns(merged_data),  # Renamed, logs internally
@@ -380,6 +374,224 @@ class ConsciousnessPattern:
         signature_hash = hashlib.sha256(data_to_hash.encode("utf-8")).hexdigest()[:16]  # Truncate for brevity
         self.instance_logger.debug(f"ΛTRACE: Consciousness signature generated: '{signature_hash}'.")
         return signature_hash
+
+    def _validate_and_prepare_interaction_data(self, interaction_data: dict[str, Any]) -> dict[str, Any]:
+        """
+        Validate and prepare interaction data for consciousness analysis.
+
+        This method ensures that all required keys are present with appropriate data types
+        and provides fallback values for missing or invalid data.
+
+        Args:
+            interaction_data: Raw interaction data dictionary
+
+        Returns:
+            Dict[str, Any]: Validated and prepared interaction data
+        """
+        self.instance_logger.debug("ΛTRACE: Validating and preparing interaction data for consciousness analysis")
+
+        # Define expected schema with data type validation and default values
+        expected_schema = {
+            "timestamps": {
+                "type": list,
+                "default": [],
+                "validator": lambda x: all(isinstance(t, (int, float)) and t >= 0 for t in x),
+                "description": "List of numeric timestamps in chronological order",
+            },
+            "symbols": {
+                "type": list,
+                "default": [],
+                "validator": lambda x: all(isinstance(s, str) for s in x),
+                "description": "List of symbolic representations or tokens",
+            },
+            "actions": {
+                "type": list,
+                "default": [],
+                "validator": lambda x: all(isinstance(a, (str, dict)) for a in x),
+                "description": "List of user actions (strings or structured dicts)",
+            },
+            "pressure_patterns": {
+                "type": list,
+                "default": [],
+                "validator": lambda x: all(isinstance(p, (int, float)) and 0 <= p <= 1 for p in x),
+                "description": "List of pressure values normalized between 0-1",
+            },
+            "velocity_patterns": {
+                "type": list,
+                "default": [],
+                "validator": lambda x: all(isinstance(v, (int, float)) and v >= 0 for v in x),
+                "description": "List of velocity measurements (non-negative)",
+            },
+            "interaction_type": {
+                "type": str,
+                "default": "general",
+                "validator": lambda x: isinstance(x, str) and len(x.strip()) > 0,
+                "description": "Type of interaction (e.g., 'typing', 'gesture', 'voice')",
+            },
+            "session_id": {
+                "type": str,
+                "default": f"session_{int(time.time())}",
+                "validator": lambda x: isinstance(x, str) and len(x.strip()) > 0,
+                "description": "Unique session identifier",
+            },
+            "context_metadata": {
+                "type": dict,
+                "default": {},
+                "validator": lambda x: isinstance(x, dict),
+                "description": "Additional contextual metadata",
+            },
+        }
+
+        validated_data = {}
+        validation_warnings = []
+        validation_errors = []
+
+        # Process each expected field
+        for field_name, schema in expected_schema.items():
+            try:
+                raw_value = interaction_data.get(field_name)
+
+                # Check if field is present
+                if raw_value is None:
+                    validated_data[field_name] = schema["default"]
+                    if field_name in ["timestamps", "symbols", "actions"]:  # Core fields
+                        validation_warnings.append(f"Missing core field '{field_name}', using default")
+                    continue
+
+                # Validate data type
+                if not isinstance(raw_value, schema["type"]):
+                    validated_data[field_name] = schema["default"]
+                    validation_errors.append(
+                        f"Field '{field_name}' has incorrect type {type(raw_value)}, "
+                        f"expected {schema['type']}. Using default."
+                    )
+                    continue
+
+                # Apply custom validator if present
+                if "validator" in schema:
+                    try:
+                        if not schema["validator"](raw_value):
+                            validated_data[field_name] = schema["default"]
+                            validation_errors.append(
+                                f"Field '{field_name}' failed validation: {schema['description']}. Using default."
+                            )
+                            continue
+                    except Exception as e:
+                        validated_data[field_name] = schema["default"]
+                        validation_errors.append(f"Field '{field_name}' validation error: {str(e)}. Using default.")
+                        continue
+
+                # Value is valid, use it
+                validated_data[field_name] = raw_value
+
+            except Exception as e:
+                validated_data[field_name] = schema["default"]
+                validation_errors.append(f"Unexpected error processing field '{field_name}': {str(e)}")
+
+        # Apply data coherence validation
+        validated_data = self._apply_data_coherence_validation(validated_data, validation_warnings)
+
+        # Log validation results
+        if validation_errors:
+            self.instance_logger.warning(f"ΛTRACE: Interaction data validation errors: {validation_errors}")
+
+        if validation_warnings:
+            self.instance_logger.debug(f"ΛTRACE: Interaction data validation warnings: {validation_warnings}")
+
+        # Add validation metadata
+        validated_data["_validation_metadata"] = {
+            "validation_timestamp": datetime.now(timezone.utc).isoformat(),
+            "validation_errors": validation_errors,
+            "validation_warnings": validation_warnings,
+            "original_keys": list(interaction_data.keys()),
+            "validated_keys": list(validated_data.keys()),
+            "coherence_score": self._calculate_data_coherence_score(validated_data),
+        }
+
+        self.instance_logger.info(
+            f"ΛTRACE: Interaction data validation complete. "
+            f"Original fields: {len(interaction_data)}, "
+            f"Validated fields: {len(validated_data) - 1}, "  # -1 for metadata
+            f"Errors: {len(validation_errors)}, "
+            f"Warnings: {len(validation_warnings)}"
+        )
+
+        return validated_data
+
+    def _apply_data_coherence_validation(self, data: dict[str, Any], warnings: list) -> dict[str, Any]:
+        """Apply coherence validation across related data fields"""
+
+        # Timestamp coherence validation
+        timestamps = data.get("timestamps", [])
+        if len(timestamps) > 1:
+            # Check for chronological order
+            if not all(timestamps[i] <= timestamps[i + 1] for i in range(len(timestamps) - 1)):
+                warnings.append("Timestamps are not in chronological order, sorting applied")
+                data["timestamps"] = sorted(timestamps)
+
+            # Check for reasonable time intervals
+            intervals = [timestamps[i + 1] - timestamps[i] for i in range(len(timestamps) - 1)]
+            if any(interval > 3600 for interval in intervals):  # 1 hour gaps
+                warnings.append("Large time gaps detected in timestamps (>1 hour)")
+
+        # Cross-field length coherence
+        list_fields = ["timestamps", "symbols", "actions", "pressure_patterns", "velocity_patterns"]
+        field_lengths = {field: len(data.get(field, [])) for field in list_fields}
+
+        # Find the most common length
+        if field_lengths and max(field_lengths.values()) > 0:
+            # Allow length variance of up to 2 elements
+            max_length = max(field_lengths.values())
+            for field, length in field_lengths.items():
+                if length > 0 and abs(length - max_length) > 2:
+                    warnings.append(f"Field '{field}' length ({length}) significantly differs from others")
+
+        # Pressure pattern validation (should be normalized 0-1)
+        pressure_patterns = data.get("pressure_patterns", [])
+        if pressure_patterns:
+            if any(p < 0 or p > 1 for p in pressure_patterns):
+                warnings.append("Pressure patterns contain values outside 0-1 range")
+                # Normalize pressure patterns
+                data["pressure_patterns"] = [max(0, min(1, p)) for p in pressure_patterns]
+
+        return data
+
+    def _calculate_data_coherence_score(self, data: dict[str, Any]) -> float:
+        """Calculate a coherence score for the validated data"""
+        try:
+            score = 0.0
+            factors = 0
+
+            # Temporal coherence
+            timestamps = data.get("timestamps", [])
+            if len(timestamps) > 1:
+                # Check chronological consistency
+                is_ordered = all(timestamps[i] <= timestamps[i + 1] for i in range(len(timestamps) - 1))
+                score += 1.0 if is_ordered else 0.5
+                factors += 1
+
+            # Data completeness
+            core_fields = ["timestamps", "symbols", "actions"]
+            completeness = sum(1 for field in core_fields if data.get(field))
+            score += completeness / len(core_fields)
+            factors += 1
+
+            # Cross-field consistency
+            list_fields = ["timestamps", "symbols", "actions", "pressure_patterns", "velocity_patterns"]
+            non_empty_lengths = [len(data.get(field, [])) for field in list_fields if data.get(field)]
+            if len(non_empty_lengths) > 1:
+                max_len = max(non_empty_lengths)
+                min_len = min(non_empty_lengths)
+                consistency = 1.0 - (max_len - min_len) / max(max_len, 1)
+                score += consistency
+                factors += 1
+
+            # Return normalized score
+            return score / max(factors, 1)
+
+        except Exception as e:
+            self.instance_logger.error(f"ΛTRACE: Error calculating data coherence score: {e}")
+            return 0.5  # Default moderate coherence
 
 
 # --- End of Chunk 1 ---

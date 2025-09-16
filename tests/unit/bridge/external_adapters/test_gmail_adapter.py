@@ -7,7 +7,7 @@ import pytest
 from unittest.mock import AsyncMock, patch, MagicMock
 
 from candidate.bridge.external_adapters.gmail_adapter import GmailAdapter, GmailMessage
-from candidate.bridge.external_adapters.oauth_manager import OAuthManager, OAuthProvider
+from candidate.bridge.external_adapters.oauth_manager import OAuthManager
 
 
 @pytest.mark.tier3

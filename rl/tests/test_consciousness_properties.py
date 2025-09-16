@@ -40,11 +40,7 @@ if TYPE_CHECKING:  # pragma: no cover
     from rl import (  # type: ignore
         ConsciousnessBuffer,
         ConsciousnessEnvironment,
-        ConsciousnessMetaLearning,
         ConsciousnessRewards,
-        ConsciousnessState,
-        MatrizNode,
-        MultiAgentCoordination,
         PolicyNetwork,
         ValueNetwork,
     )

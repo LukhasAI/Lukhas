@@ -10,7 +10,7 @@ import json
 import logging
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -69,7 +69,7 @@ class LUKHASSettings:
     privacy: PrivacyConfig = field(default_factory=PrivacyConfig)
     interface: InterfaceConfig = field(default_factory=InterfaceConfig)
     engine: EngineConfig = field(default_factory=EngineConfig)
-    raw_config: Dict[str, Any] = field(default_factory=dict)
+    raw_config: dict[str, Any] = field(default_factory=dict)
 
     def get(self, key: str, default: Any = None) -> Any:
         """Get a configuration value with dot notation support."""

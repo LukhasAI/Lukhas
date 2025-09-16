@@ -34,15 +34,7 @@ RL_COMPONENT_NAMES = (
 )
 
 if TYPE_CHECKING:  # pragma: no cover - imported for type checking only
-    from rl import (  # type: ignore
-        ConsciousnessBuffer,
-        ConsciousnessEnvironment,
-        ConsciousnessMetaLearning,
-        ConsciousnessRewards,
-        MultiAgentCoordination,
-        PolicyNetwork,
-        ValueNetwork,
-    )
+    pass
 
 
 # ΛTAG: rl_dependency_check

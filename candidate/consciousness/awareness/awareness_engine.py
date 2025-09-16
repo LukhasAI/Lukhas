@@ -39,11 +39,72 @@ import asyncio
 import logging
 import math
 from datetime import datetime, timezone
-from typing import Any, Optional  # List not used in signatures but kept
+from typing import Any, Optional, Dict, List
+from dataclasses import dataclass, field
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.awareness_engine")
 logger.info("ΛTRACE: Initializing awareness_engine module.")
+
+
+# Memory and emotion subsystem integration
+try:
+    from candidate.memory.core import MemoryCore, MemoryType
+    from candidate.memory.fold_manager import FoldManager
+
+    MEMORY_AVAILABLE = True
+except ImportError:
+    MEMORY_AVAILABLE = False
+    MemoryCore = None
+    MemoryType = None
+    FoldManager = None
+
+try:
+    from candidate.emotion.core import EmotionCore, EmotionalState
+    from candidate.emotion.vad_processor import VADProcessor
+
+    EMOTION_AVAILABLE = True
+except ImportError:
+    EMOTION_AVAILABLE = False
+    EmotionCore = None
+    EmotionalState = None
+    VADProcessor = None
+
+
+@dataclass
+class MemoryIntegrationState:
+    """State tracking for memory integration in awareness"""
+
+    fold_count: int = 0
+    active_memories: List[str] = field(default_factory=list)
+    memory_coherence: float = 0.0
+    last_memory_update: Optional[datetime] = None
+    cascade_prevention_active: bool = True
+    fold_overflow_risk: float = 0.0  # Risk of exceeding 1000-fold limit
+
+
+@dataclass
+class EmotionIntegrationState:
+    """State tracking for emotion integration in awareness"""
+
+    valence: float = 0.0  # -1.0 to 1.0
+    arousal: float = 0.0  # 0.0 to 1.0
+    dominance: float = 0.0  # 0.0 to 1.0
+    emotional_coherence: float = 0.0
+    mood_stability: float = 0.0
+    last_emotion_update: Optional[datetime] = None
+
+
+@dataclass
+class ConsciousnessIntegrationMetrics:
+    """Comprehensive metrics for consciousness integration"""
+
+    memory_integration: MemoryIntegrationState = field(default_factory=MemoryIntegrationState)
+    emotion_integration: EmotionIntegrationState = field(default_factory=EmotionIntegrationState)
+    overall_coherence: float = 0.0
+    integration_stability: float = 0.0
+    consciousness_depth: float = 0.0
+    temporal_continuity: float = 0.0
 
 
 # Placeholder for the tier decorator
@@ -115,6 +176,18 @@ class AwarenessEngine:
         self.status: str = "inactive"
         self.last_validation_timestamp: Optional[str] = None
         self.last_validation_snapshot: Optional[dict[str, Any]] = None
+
+        # Initialize consciousness integration metrics
+        self.integration_metrics = ConsciousnessIntegrationMetrics()
+
+        # Memory subsystem integration
+        self.memory_core: Optional[MemoryCore] = None
+        self.fold_manager: Optional[FoldManager] = None
+
+        # Emotion subsystem integration
+        self.emotion_core: Optional[EmotionCore] = None
+        self.vad_processor: Optional[VADProcessor] = None
+
         self.instance_logger.debug(
             f"ΛTRACE: AwarenessEngine initialized with config: {self.config}, Status: {self.status}"
         )
@@ -161,9 +234,18 @@ class AwarenessEngine:
             extra={"driftScore": self.drift_score, "affect_delta": self.affect_delta},
         )
 
-        # TODO: Integrate memory and emotion subsystems for full consciousness setup.
-        await asyncio.sleep(0.01)  # Simulate async setup operation
-        self.instance_logger.debug("ΛTRACE: Internal: Core consciousness system setup complete.")
+        # Initialize memory subsystem
+        await self._initialize_memory_subsystem()
+
+        # Initialize emotion subsystem
+        await self._initialize_emotion_subsystem()
+
+        # Establish integration synchronization
+        await self._synchronize_subsystems()
+
+        self.instance_logger.debug(
+            "ΛTRACE: Internal: Core consciousness system setup complete with memory and emotion integration."
+        )
 
     # Human-readable comment: Processes input data through the awareness engine.
     @lukhas_tier_required(level=3)
@@ -379,6 +461,168 @@ class AwarenessEngine:
         )
         return True
 
+    async def _initialize_memory_subsystem(self):
+        """Initialize memory subsystem integration"""
+        self.instance_logger.debug("ΛTRACE: Initializing memory subsystem integration")
+
+        if MEMORY_AVAILABLE:
+            try:
+                # Initialize memory core with consciousness-specific config
+                memory_config = self.config.get("memory", {})
+                memory_config.update(
+                    {
+                        "max_folds": 1000,  # Consciousness fold limit
+                        "cascade_prevention": True,
+                        "consciousness_integration": True,
+                        "user_context": self.user_id_context,
+                    }
+                )
+
+                self.memory_core = MemoryCore(config=memory_config)
+                await self.memory_core.initialize()
+
+                # Initialize fold manager for consciousness-specific memory operations
+                fold_config = memory_config.get("fold_config", {})
+                self.fold_manager = FoldManager(max_folds=1000, cascade_prevention_rate=0.997, **fold_config)
+
+                # Update integration metrics
+                self.integration_metrics.memory_integration.last_memory_update = datetime.now(timezone.utc)
+                self.integration_metrics.memory_integration.cascade_prevention_active = True
+                self.integration_metrics.memory_integration.memory_coherence = 1.0
+
+                self.instance_logger.info("ΛTRACE: Memory subsystem integration successful")
+
+            except Exception as e:
+                self.instance_logger.error(f"ΛTRACE: Memory subsystem initialization failed: {e}")
+                self.integration_metrics.memory_integration.memory_coherence = 0.0
+
+        else:
+            self.instance_logger.warning("ΛTRACE: Memory subsystem not available - using fallback mode")
+            self.integration_metrics.memory_integration.memory_coherence = 0.5  # Partial coherence
+
+    async def _initialize_emotion_subsystem(self):
+        """Initialize emotion subsystem integration"""
+        self.instance_logger.debug("ΛTRACE: Initializing emotion subsystem integration")
+
+        if EMOTION_AVAILABLE:
+            try:
+                # Initialize emotion core with VAD (Valence, Arousal, Dominance) processing
+                emotion_config = self.config.get("emotion", {})
+                emotion_config.update(
+                    {"vad_processing": True, "consciousness_integration": True, "user_context": self.user_id_context}
+                )
+
+                self.emotion_core = EmotionCore(config=emotion_config)
+                await self.emotion_core.initialize()
+
+                # Initialize VAD processor for emotional context
+                vad_config = emotion_config.get("vad_config", {})
+                self.vad_processor = VADProcessor(**vad_config)
+
+                # Set initial emotional state to neutral
+                self.integration_metrics.emotion_integration.valence = 0.0
+                self.integration_metrics.emotion_integration.arousal = 0.3  # Slight alertness
+                self.integration_metrics.emotion_integration.dominance = 0.5  # Balanced control
+                self.integration_metrics.emotion_integration.last_emotion_update = datetime.now(timezone.utc)
+                self.integration_metrics.emotion_integration.emotional_coherence = 1.0
+
+                self.instance_logger.info("ΛTRACE: Emotion subsystem integration successful")
+
+            except Exception as e:
+                self.instance_logger.error(f"ΛTRACE: Emotion subsystem initialization failed: {e}")
+                self.integration_metrics.emotion_integration.emotional_coherence = 0.0
+
+        else:
+            self.instance_logger.warning("ΛTRACE: Emotion subsystem not available - using fallback mode")
+            self.integration_metrics.emotion_integration.emotional_coherence = 0.5  # Partial coherence
+
+    async def _synchronize_subsystems(self):
+        """Synchronize memory and emotion subsystems for integrated consciousness"""
+        self.instance_logger.debug("ΛTRACE: Synchronizing memory and emotion subsystems")
+
+        try:
+            # Calculate memory-emotion coupling coherence
+            memory_coherence = self.integration_metrics.memory_integration.memory_coherence
+            emotion_coherence = self.integration_metrics.emotion_integration.emotional_coherence
+
+            # Integrate memory and emotion for overall consciousness coherence
+            if memory_coherence > 0 and emotion_coherence > 0:
+                # Strong coupling between memory and emotion
+                self.integration_metrics.overall_coherence = memory_coherence * 0.6 + emotion_coherence * 0.4
+
+                # Calculate consciousness depth based on integration
+                self.integration_metrics.consciousness_depth = min(
+                    1.0, self.integration_metrics.overall_coherence * 1.2
+                )
+
+                # Temporal continuity based on recent updates
+                memory_time = self.integration_metrics.memory_integration.last_memory_update
+                emotion_time = self.integration_metrics.emotion_integration.last_emotion_update
+
+                if memory_time and emotion_time:
+                    time_diff = abs((memory_time - emotion_time).total_seconds())
+                    # Better continuity with closer timestamps
+                    self.integration_metrics.temporal_continuity = max(
+                        0.0, 1.0 - (time_diff / 60.0)  # 1 minute normalization
+                    )
+
+                # Integration stability
+                self.integration_metrics.integration_stability = (
+                    self.integration_metrics.overall_coherence * self.integration_metrics.temporal_continuity
+                )
+
+            else:
+                # Fallback coherence for partial systems
+                self.integration_metrics.overall_coherence = max(memory_coherence, emotion_coherence) * 0.7
+                self.integration_metrics.consciousness_depth = 0.3  # Reduced depth
+                self.integration_metrics.integration_stability = 0.5
+
+            self.instance_logger.info(
+                f"ΛTRACE: Subsystem synchronization complete - "
+                f"coherence: {self.integration_metrics.overall_coherence:.3f}, "
+                f"depth: {self.integration_metrics.consciousness_depth:.3f}, "
+                f"stability: {self.integration_metrics.integration_stability:.3f}"
+            )
+
+        except Exception as e:
+            self.instance_logger.error(f"ΛTRACE: Subsystem synchronization failed: {e}")
+            self.integration_metrics.overall_coherence = 0.3  # Emergency coherence
+            self.integration_metrics.integration_stability = 0.2
+
+    def get_integration_status(self) -> Dict[str, Any]:
+        """Get comprehensive status of consciousness integration"""
+        return {
+            "memory_integration": {
+                "available": MEMORY_AVAILABLE,
+                "initialized": self.memory_core is not None,
+                "fold_count": self.integration_metrics.memory_integration.fold_count,
+                "memory_coherence": self.integration_metrics.memory_integration.memory_coherence,
+                "overflow_risk": self.integration_metrics.memory_integration.fold_overflow_risk,
+                "cascade_prevention": self.integration_metrics.memory_integration.cascade_prevention_active,
+                "last_update": self.integration_metrics.memory_integration.last_memory_update.isoformat()
+                if self.integration_metrics.memory_integration.last_memory_update
+                else None,
+            },
+            "emotion_integration": {
+                "available": EMOTION_AVAILABLE,
+                "initialized": self.emotion_core is not None,
+                "valence": self.integration_metrics.emotion_integration.valence,
+                "arousal": self.integration_metrics.emotion_integration.arousal,
+                "dominance": self.integration_metrics.emotion_integration.dominance,
+                "emotional_coherence": self.integration_metrics.emotion_integration.emotional_coherence,
+                "mood_stability": self.integration_metrics.emotion_integration.mood_stability,
+                "last_update": self.integration_metrics.emotion_integration.last_emotion_update.isoformat()
+                if self.integration_metrics.emotion_integration.last_emotion_update
+                else None,
+            },
+            "consciousness_integration": {
+                "overall_coherence": self.integration_metrics.overall_coherence,
+                "consciousness_depth": self.integration_metrics.consciousness_depth,
+                "integration_stability": self.integration_metrics.integration_stability,
+                "temporal_continuity": self.integration_metrics.temporal_continuity,
+            },
+        }
+
     # Human-readable comment: Retrieves the current status of the component.
     @lukhas_tier_required(level=0)  # Basic status check
     def get_status(self, user_id: Optional[str] = None) -> dict[str, Any]:  # Made sync as it reads attributes
@@ -397,6 +641,7 @@ class AwarenessEngine:
             "current_status": self.status,  # Renamed
             "is_initialized": self.is_initialized,
             "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+            "consciousness_integration": self.get_integration_status(),
         }
 
     # Human-readable comment: Gracefully shuts down the component.

@@ -66,7 +66,8 @@ from collections import defaultdict, deque
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from pathlib import Path
+from typing import Any, Optional, Union
 
 # Configure logger
 logger = logging.getLogger(__name__)
@@ -76,6 +77,46 @@ DREAM_EVENT_PATTERN = re.compile(r"dream[:_\-]?([A-Za-z0-9-]+)")
 # JULES05_NOTE: Loop-safe guard added
 MAX_DRIFT_RATE = 0.85
 MAX_RECURSION_DEPTH = 10
+
+_DEFAULT_LOG_SUBDIR = Path("logs") / "fold"
+_LINEAGE_FILENAME = "fold_lineage_log.jsonl"
+_CAUSAL_FILENAME = "fold_cause_map.jsonl"
+_GRAPH_FILENAME = "lineage_graph.jsonl"
+
+
+def _find_repo_root(start_path: Path) -> Path:
+    """Locate the repository root by walking parents until `.git` is found."""
+
+    for parent in start_path.parents:
+        if (parent / ".git").exists():
+            return parent
+    return start_path.parent
+
+
+def _resolve_log_directory(override: Optional[str]) -> Path:
+    """Resolve the directory used for lineage tracker logs."""
+
+    if override:
+        return Path(override).expanduser().resolve()
+
+    env_override = os.getenv("LUKHAS_LOG_ROOT")
+    if env_override:
+        return Path(env_override).expanduser().resolve() / "fold"
+
+    env_root = os.getenv("LUKHAS_ROOT")
+    if env_root:
+        return Path(env_root).expanduser().resolve() / _DEFAULT_LOG_SUBDIR
+
+    repo_root = _find_repo_root(Path(__file__).resolve())
+    return (repo_root / _DEFAULT_LOG_SUBDIR).resolve()
+
+
+def _coerce_path(value: Optional[Union[str, Path]], *, default: Path) -> Path:
+    """Convert a value to Path if provided, otherwise return default."""
+
+    if value is None:
+        return default
+    return Path(value).expanduser().resolve()
 
 
 class CausationType(Enum):
@@ -142,10 +183,17 @@ class FoldLineageTracker:
     enabling comprehensive genealogy analysis and evolution patterns.
     """
 
-    def __init__(self, max_drift_rate: float = MAX_DRIFT_RATE):  # JULES05_NOTE: Loop-safe guard added
-        self.lineage_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/fold_lineage_log.jsonl"
-        self.causal_map_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/fold_cause_map.jsonl"
-        self.lineage_graph_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/lineage_graph.jsonl"
+    def __init__(
+        self,
+        max_drift_rate: float = MAX_DRIFT_RATE,  # JULES05_NOTE: Loop-safe guard added
+        log_directory: Optional[Union[str, Path]] = None,
+    ):
+        log_dir = _resolve_log_directory(str(log_directory) if isinstance(log_directory, Path) else log_directory)
+
+        self.log_directory: Path = log_dir
+        self.lineage_log_path: Path = log_dir / _LINEAGE_FILENAME
+        self.causal_map_path: Path = log_dir / _CAUSAL_FILENAME
+        self.lineage_graph_path: Path = log_dir / _GRAPH_FILENAME
         self.max_drift_rate = max_drift_rate  # JULES05_NOTE: Loop-safe guard added
 
         # In-memory lineage graph for fast queries
@@ -730,8 +778,9 @@ class FoldLineageTracker:
     def _load_existing_lineage(self):
         """Load existing lineage data from persistent storage."""
         try:
-            if os.path.exists(self.lineage_log_path):
-                with open(self.lineage_log_path, encoding="utf-8") as f:
+            lineage_path = Path(self.lineage_log_path)
+            if lineage_path.exists():
+                with lineage_path.open(encoding="utf-8") as f:
                     for line in f:
                         try:
                             data = json.loads(line.strip())
@@ -749,11 +798,12 @@ class FoldLineageTracker:
     def _log_causation_event(self, causal_link: CausalLink):
         """Log a causation event to persistent storage."""
         try:
-            os.makedirs(os.path.dirname(self.lineage_log_path), exist_ok=True)
+            path = Path(self.lineage_log_path)
+            path.parent.mkdir(parents=True, exist_ok=True)
             entry = {"event_type": "causal_link", **asdict(causal_link)}
             entry["causation_type"] = causal_link.causation_type.value  # Convert enum to string
 
-            with open(self.lineage_log_path, "a", encoding="utf-8") as f:
+            with path.open("a", encoding="utf-8") as f:
                 f.write(json.dumps(entry) + "\n")
         except Exception as e:
             logger.error("CausationLog_failed", error=str(e))
@@ -761,10 +811,11 @@ class FoldLineageTracker:
     def _log_fold_state(self, node: FoldLineageNode):
         """Log fold state to persistent storage."""
         try:
-            os.makedirs(os.path.dirname(self.lineage_log_path), exist_ok=True)
+            path = Path(self.lineage_log_path)
+            path.parent.mkdir(parents=True, exist_ok=True)
             entry = {"event_type": "fold_state", **asdict(node)}
 
-            with open(self.lineage_log_path, "a", encoding="utf-8") as f:
+            with path.open("a", encoding="utf-8") as f:
                 f.write(json.dumps(entry) + "\n")
         except Exception as e:
             logger.error("FoldStateLog_failed", error=str(e))
@@ -789,8 +840,9 @@ class FoldLineageTracker:
     def _store_lineage_analysis(self, analysis: dict[str, Any]):
         """Store lineage analysis results."""
         try:
-            os.makedirs(os.path.dirname(self.causal_map_path), exist_ok=True)
-            with open(self.causal_map_path, "a", encoding="utf-8") as f:
+            path = Path(self.causal_map_path)
+            path.parent.mkdir(parents=True, exist_ok=True)
+            with path.open("a", encoding="utf-8") as f:
                 f.write(json.dumps(analysis) + "\n")
         except Exception as e:
             logger.error("LineageAnalysisStore_failed", error=str(e))
@@ -798,8 +850,9 @@ class FoldLineageTracker:
     def _store_lineage_graph(self, graph_data: dict[str, Any]):
         """Store lineage graph data."""
         try:
-            os.makedirs(os.path.dirname(self.lineage_graph_path), exist_ok=True)
-            with open(self.lineage_graph_path, "a", encoding="utf-8") as f:
+            path = Path(self.lineage_graph_path)
+            path.parent.mkdir(parents=True, exist_ok=True)
+            with path.open("a", encoding="utf-8") as f:
                 f.write(json.dumps(graph_data) + "\n")
         except Exception as e:
             logger.error("LineageGraphStore_failed", error=str(e))
@@ -1121,9 +1174,15 @@ def create_enhanced_lineage_tracker(
     if config:
         # Apply custom configuration
         if "log_paths" in config:
-            tracker.lineage_log_path = config["log_paths"].get("lineage", tracker.lineage_log_path)
-            tracker.causal_map_path = config["log_paths"].get("causal", tracker.causal_map_path)
-            tracker.lineage_graph_path = config["log_paths"].get("graph", tracker.lineage_graph_path)
+            tracker.lineage_log_path = _coerce_path(
+                config["log_paths"].get("lineage"), default=tracker.lineage_log_path
+            )
+            tracker.causal_map_path = _coerce_path(
+                config["log_paths"].get("causal"), default=tracker.causal_map_path
+            )
+            tracker.lineage_graph_path = _coerce_path(
+                config["log_paths"].get("graph"), default=tracker.lineage_graph_path
+            )
 
     return tracker
 

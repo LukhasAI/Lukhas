@@ -29,7 +29,6 @@ from .secure_random import (
     gauss,
     normalvariate,
     randint,
-    random,
     randrange,
     sample,
     secure_bytes,

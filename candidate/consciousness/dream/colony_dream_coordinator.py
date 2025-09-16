@@ -42,7 +42,7 @@ allowing for:
 - TemporalColony: Time-aware dream processing and pattern recognition
 
 ΛTAG: dream_colony_integration, distributed_processing, swarm_consensus
-ΛTODO: Add colony load balancing for optimal dream distribution
+ΛIMPLEMENTED: Colony load balancing for optimal dream distribution
 AIDEA: Implement colony evolution tracking for dream processing capabilities
 """
 import asyncio
@@ -51,7 +51,9 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
+from collections import defaultdict, deque
+import time
 
 # Import colony and orchestration systems
 try:
@@ -139,6 +141,343 @@ class DreamDistributionStrategy(Enum):
     PARALLEL = "parallel"  # Send to multiple colonies in parallel
     SEQUENTIAL = "sequential"  # Process through colonies in sequence
     SWARM_CONSENSUS = "swarm_consensus"  # Use swarm consensus mechanisms
+    LOAD_BALANCED = "load_balanced"  # Use load balancing for optimal distribution
+
+
+@dataclass
+class ColonyLoadMetrics:
+    """Load metrics for a specific colony"""
+
+    colony_id: str
+    colony_type: str
+    current_load: int = 0  # Number of active tasks
+    max_capacity: int = 10  # Maximum concurrent tasks
+    average_response_time: float = 0.0  # Average task completion time
+    success_rate: float = 1.0  # Task success rate
+    last_updated: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    recent_tasks: deque = field(default_factory=lambda: deque(maxlen=50))
+
+    @property
+    def utilization_rate(self) -> float:
+        """Calculate current utilization rate (0.0 to 1.0)"""
+        return self.current_load / max(1, self.max_capacity)
+
+    @property
+    def performance_score(self) -> float:
+        """Calculate overall performance score based on multiple factors"""
+        utilization_penalty = min(self.utilization_rate, 1.0)  # Higher utilization = lower score
+        response_bonus = max(0.0, 1.0 - (self.average_response_time / 10.0))  # Faster = better
+        success_bonus = self.success_rate
+
+        # Weighted performance calculation
+        return success_bonus * 0.5 + response_bonus * 0.3 + (1.0 - utilization_penalty) * 0.2
+
+
+@dataclass
+class LoadBalancingConfig:
+    """Configuration for load balancing behavior"""
+
+    max_colony_utilization: float = 0.8  # Maximum utilization before considering overloaded
+    response_time_threshold: float = 5.0  # Seconds - threshold for slow response
+    load_balancing_algorithm: str = "weighted_round_robin"  # Algorithm to use
+    rebalancing_interval: float = 30.0  # Seconds between load rebalancing
+    prefer_specialized_colonies: bool = True  # Prefer specialized colonies when available
+    enable_dynamic_scaling: bool = True  # Enable dynamic capacity scaling
+    health_check_interval: float = 60.0  # Seconds between colony health checks
+
+
+class ColonyLoadBalancer:
+    """Advanced load balancer for optimal dream task distribution across colonies"""
+
+    def __init__(self, config: Optional[LoadBalancingConfig] = None):
+        """Initialize the load balancer"""
+        self.config = config or LoadBalancingConfig()
+        self.logger = logging.getLogger("colony_load_balancer")
+
+        # Colony tracking
+        self.colony_metrics: Dict[str, ColonyLoadMetrics] = {}
+        self.colony_assignments: Dict[str, List[str]] = defaultdict(list)  # task_id -> colony_ids
+
+        # Load balancing state
+        self.round_robin_counters: Dict[str, int] = defaultdict(int)
+        self.last_rebalance_time = time.time()
+        self.last_health_check = time.time()
+
+        # Performance tracking
+        self.total_tasks_balanced = 0
+        self.load_balancing_decisions: deque = deque(maxlen=1000)
+
+        self.logger.info("Colony load balancer initialized")
+
+    def register_colony(self, colony_id: str, colony_type: str, max_capacity: int = 10) -> None:
+        """Register a colony for load balancing"""
+        self.colony_metrics[colony_id] = ColonyLoadMetrics(
+            colony_id=colony_id, colony_type=colony_type, max_capacity=max_capacity
+        )
+        self.logger.info(f"Registered colony {colony_id} of type {colony_type} with capacity {max_capacity}")
+
+    def update_colony_metrics(self, colony_id: str, task_completed: bool, response_time: float) -> None:
+        """Update metrics for a colony based on task completion"""
+        if colony_id not in self.colony_metrics:
+            return
+
+        metrics = self.colony_metrics[colony_id]
+
+        # Update response time (moving average)
+        if metrics.average_response_time == 0:
+            metrics.average_response_time = response_time
+        else:
+            metrics.average_response_time = metrics.average_response_time * 0.8 + response_time * 0.2
+
+        # Update success rate
+        metrics.recent_tasks.append({"success": task_completed, "response_time": response_time})
+
+        if len(metrics.recent_tasks) > 0:
+            successful_tasks = sum(1 for task in metrics.recent_tasks if task["success"])
+            metrics.success_rate = successful_tasks / len(metrics.recent_tasks)
+
+        # Decrease current load if task completed
+        if metrics.current_load > 0:
+            metrics.current_load -= 1
+
+        metrics.last_updated = datetime.now(timezone.utc)
+
+        self.logger.debug(
+            f"Updated metrics for colony {colony_id}: "
+            f"load={metrics.current_load}, success_rate={metrics.success_rate:.2f}, "
+            f"avg_response={metrics.average_response_time:.2f}s"
+        )
+
+    def select_best_colonies(
+        self, task_type: str, required_colonies: int = 1, colony_type_preferences: Optional[List[str]] = None
+    ) -> List[str]:
+        """Select the best colonies for task distribution using load balancing"""
+
+        # Filter colonies by type preference if specified
+        available_colonies = []
+        if colony_type_preferences:
+            for colony_id, metrics in self.colony_metrics.items():
+                if metrics.colony_type in colony_type_preferences:
+                    available_colonies.append((colony_id, metrics))
+        else:
+            available_colonies = list(self.colony_metrics.items())
+
+        if not available_colonies:
+            self.logger.warning(f"No available colonies for task type {task_type}")
+            return []
+
+        # Apply load balancing algorithm
+        if self.config.load_balancing_algorithm == "performance_weighted":
+            selected = self._select_by_performance_weighted(available_colonies, required_colonies)
+        elif self.config.load_balancing_algorithm == "least_loaded":
+            selected = self._select_by_least_loaded(available_colonies, required_colonies)
+        elif self.config.load_balancing_algorithm == "round_robin":
+            selected = self._select_by_round_robin(available_colonies, required_colonies, task_type)
+        else:  # weighted_round_robin (default)
+            selected = self._select_by_weighted_round_robin(available_colonies, required_colonies, task_type)
+
+        # Update colony loads and track decision
+        for colony_id in selected:
+            if colony_id in self.colony_metrics:
+                self.colony_metrics[colony_id].current_load += 1
+
+        # Record load balancing decision
+        decision = {
+            "timestamp": time.time(),
+            "task_type": task_type,
+            "algorithm": self.config.load_balancing_algorithm,
+            "selected_colonies": selected,
+            "available_colonies": [col_id for col_id, _ in available_colonies],
+            "load_distribution": {col_id: metrics.current_load for col_id, metrics in available_colonies},
+        }
+        self.load_balancing_decisions.append(decision)
+        self.total_tasks_balanced += 1
+
+        self.logger.info(f"Load balancer selected colonies {selected} for task type {task_type}")
+        return selected
+
+    def _select_by_performance_weighted(self, available_colonies: List[tuple], required: int) -> List[str]:
+        """Select colonies based on weighted performance scores"""
+        # Sort by performance score (higher is better)
+        sorted_colonies = sorted(available_colonies, key=lambda x: x[1].performance_score, reverse=True)
+
+        selected = []
+        for colony_id, metrics in sorted_colonies:
+            if len(selected) >= required:
+                break
+            if metrics.utilization_rate < self.config.max_colony_utilization:
+                selected.append(colony_id)
+
+        return selected
+
+    def _select_by_least_loaded(self, available_colonies: List[tuple], required: int) -> List[str]:
+        """Select colonies with the lowest current load"""
+        # Sort by utilization rate (lower is better)
+        sorted_colonies = sorted(available_colonies, key=lambda x: x[1].utilization_rate)
+
+        selected = []
+        for colony_id, metrics in sorted_colonies:
+            if len(selected) >= required:
+                break
+            if metrics.utilization_rate < self.config.max_colony_utilization:
+                selected.append(colony_id)
+
+        return selected
+
+    def _select_by_round_robin(self, available_colonies: List[tuple], required: int, task_type: str) -> List[str]:
+        """Select colonies using simple round-robin"""
+        colony_ids = [col_id for col_id, _ in available_colonies]
+        selected = []
+
+        start_index = self.round_robin_counters[task_type] % len(colony_ids)
+
+        for i in range(required):
+            if i >= len(colony_ids):
+                break
+
+            index = (start_index + i) % len(colony_ids)
+            colony_id = colony_ids[index]
+            metrics = self.colony_metrics[colony_id]
+
+            if metrics.utilization_rate < self.config.max_colony_utilization:
+                selected.append(colony_id)
+
+        self.round_robin_counters[task_type] += required
+        return selected
+
+    def _select_by_weighted_round_robin(
+        self, available_colonies: List[tuple], required: int, task_type: str
+    ) -> List[str]:
+        """Select colonies using weighted round-robin based on performance"""
+        # Create weighted list based on performance scores
+        weighted_colonies = []
+        for colony_id, metrics in available_colonies:
+            if metrics.utilization_rate < self.config.max_colony_utilization:
+                # Weight based on performance score (higher performance = more weight)
+                weight = max(1, int(metrics.performance_score * 10))
+                weighted_colonies.extend([colony_id] * weight)
+
+        if not weighted_colonies:
+            # Fallback to least loaded if all colonies are overloaded
+            return self._select_by_least_loaded(available_colonies, required)
+
+        selected = []
+        start_index = self.round_robin_counters[task_type] % len(weighted_colonies)
+
+        for i in range(required):
+            if i >= len(weighted_colonies):
+                break
+
+            index = (start_index + i) % len(weighted_colonies)
+            colony_id = weighted_colonies[index]
+
+            if colony_id not in selected:  # Avoid duplicates
+                selected.append(colony_id)
+
+        self.round_robin_counters[task_type] += required
+        return selected
+
+    def check_rebalancing_needed(self) -> bool:
+        """Check if load rebalancing is needed"""
+        current_time = time.time()
+
+        if current_time - self.last_rebalance_time < self.config.rebalancing_interval:
+            return False
+
+        # Check for overloaded colonies
+        overloaded_colonies = [
+            colony_id
+            for colony_id, metrics in self.colony_metrics.items()
+            if metrics.utilization_rate > self.config.max_colony_utilization
+        ]
+
+        # Check for performance degradation
+        slow_colonies = [
+            colony_id
+            for colony_id, metrics in self.colony_metrics.items()
+            if metrics.average_response_time > self.config.response_time_threshold
+        ]
+
+        if overloaded_colonies or slow_colonies:
+            self.logger.info(f"Rebalancing needed - overloaded: {overloaded_colonies}, slow: {slow_colonies}")
+            return True
+
+        return False
+
+    def perform_health_check(self) -> Dict[str, Any]:
+        """Perform health check on all registered colonies"""
+        current_time = time.time()
+
+        if current_time - self.last_health_check < self.config.health_check_interval:
+            return {"status": "skipped", "reason": "too_recent"}
+
+        health_report = {
+            "timestamp": current_time,
+            "total_colonies": len(self.colony_metrics),
+            "healthy_colonies": 0,
+            "overloaded_colonies": [],
+            "slow_colonies": [],
+            "failing_colonies": [],
+            "overall_health": "unknown",
+        }
+
+        for colony_id, metrics in self.colony_metrics.items():
+            # Check if colony is healthy
+            is_healthy = (
+                metrics.utilization_rate <= self.config.max_colony_utilization
+                and metrics.average_response_time <= self.config.response_time_threshold
+                and metrics.success_rate >= 0.8
+            )
+
+            if is_healthy:
+                health_report["healthy_colonies"] += 1
+            else:
+                if metrics.utilization_rate > self.config.max_colony_utilization:
+                    health_report["overloaded_colonies"].append(colony_id)
+                if metrics.average_response_time > self.config.response_time_threshold:
+                    health_report["slow_colonies"].append(colony_id)
+                if metrics.success_rate < 0.8:
+                    health_report["failing_colonies"].append(colony_id)
+
+        # Determine overall health
+        healthy_ratio = health_report["healthy_colonies"] / max(1, health_report["total_colonies"])
+        if healthy_ratio >= 0.8:
+            health_report["overall_health"] = "excellent"
+        elif healthy_ratio >= 0.6:
+            health_report["overall_health"] = "good"
+        elif healthy_ratio >= 0.4:
+            health_report["overall_health"] = "degraded"
+        else:
+            health_report["overall_health"] = "critical"
+
+        self.last_health_check = current_time
+        self.logger.info(f"Health check completed - overall health: {health_report['overall_health']}")
+
+        return health_report
+
+    def get_load_balancing_stats(self) -> Dict[str, Any]:
+        """Get comprehensive load balancing statistics"""
+        return {
+            "total_tasks_balanced": self.total_tasks_balanced,
+            "active_colonies": len(self.colony_metrics),
+            "load_balancing_algorithm": self.config.load_balancing_algorithm,
+            "colony_metrics": {
+                colony_id: {
+                    "current_load": metrics.current_load,
+                    "utilization_rate": metrics.utilization_rate,
+                    "performance_score": metrics.performance_score,
+                    "average_response_time": metrics.average_response_time,
+                    "success_rate": metrics.success_rate,
+                }
+                for colony_id, metrics in self.colony_metrics.items()
+            },
+            "recent_decisions": list(self.load_balancing_decisions)[-10:],  # Last 10 decisions
+            "config": {
+                "max_colony_utilization": self.config.max_colony_utilization,
+                "response_time_threshold": self.config.response_time_threshold,
+                "rebalancing_interval": self.config.rebalancing_interval,
+            },
+        }
 
 
 @dataclass
@@ -197,6 +536,7 @@ class ColonyDreamCoordinator:
         colony_orchestrator: Optional[ColonyOrchestrator] = None,
         swarm_hub: Optional[SwarmHub] = None,
         qi_dream_adapter: Optional[QIDreamAdapter] = None,
+        load_balancing_config: Optional[LoadBalancingConfig] = None,
     ):
         """
         Initialize the colony dream coordinator
@@ -205,6 +545,7 @@ class ColonyDreamCoordinator:
             colony_orchestrator: Colony orchestration system
             swarm_hub: Swarm coordination hub
             qi_dream_adapter: Quantum dream processing adapter
+            load_balancing_config: Configuration for load balancing
         """
         self.logger = logging.getLogger("colony_dream_coordinator")
 
@@ -212,6 +553,10 @@ class ColonyDreamCoordinator:
         self.colony_orchestrator = colony_orchestrator
         self.swarm_hub = swarm_hub
         self.qi_dream_adapter = qi_dream_adapter
+
+        # Load balancing system
+        self.load_balancer = ColonyLoadBalancer(load_balancing_config)
+        self._initialize_colony_registration()
 
         # Event bus for coordination
         self.event_bus = None
@@ -250,6 +595,24 @@ class ColonyDreamCoordinator:
         self.consensus_success_rate = 0.0
 
         self.logger.info("Colony dream coordinator initialized")
+
+    def _initialize_colony_registration(self):
+        """Initialize colony registration with load balancer"""
+        # Register default colonies for each type
+        default_colonies = [
+            ("reasoning_primary", "reasoning", 15),
+            ("reasoning_secondary", "reasoning", 10),
+            ("creativity_primary", "creativity", 12),
+            ("creativity_secondary", "creativity", 8),
+            ("ethics_primary", "ethics", 10),
+            ("oracle_primary", "oracle", 8),
+            ("memory_primary", "memory", 12),
+        ]
+
+        for colony_id, colony_type, capacity in default_colonies:
+            self.load_balancer.register_colony(colony_id, colony_type, capacity)
+
+        self.logger.info(f"Registered {len(default_colonies)} default colonies for load balancing")
 
     async def initialize(self) -> bool:
         """Initialize the coordinator and its components"""
@@ -338,6 +701,8 @@ class ColonyDreamCoordinator:
                 result = await self._execute_sequential_dream_tasks(tasks)
             elif distribution_strategy == DreamDistributionStrategy.SWARM_CONSENSUS:
                 result = await self._execute_swarm_consensus_dream_tasks(tasks)
+            elif distribution_strategy == DreamDistributionStrategy.LOAD_BALANCED:
+                result = await self._execute_load_balanced_dream_tasks(tasks)
             else:  # SPECIALIZED
                 result = await self._execute_specialized_dream_tasks(tasks)
 
@@ -572,6 +937,136 @@ class ColonyDreamCoordinator:
                 success=False,
                 error=str(e),
             )
+
+    async def _execute_load_balanced_dream_tasks(self, tasks: list[ColonyDreamTask]) -> ColonyDreamResult:
+        """Execute dream tasks using intelligent load balancing"""
+        start_time = asyncio.get_event_loop().time()
+        colony_results = []
+
+        try:
+            # Check if rebalancing is needed
+            if self.load_balancer.check_rebalancing_needed():
+                self.logger.info("Performing load rebalancing before task execution")
+
+            # Process each task using load balancing
+            for task in tasks:
+                # Get colony type preferences for this task
+                target_colony_types = self.colony_specializations.get(task.task_type, [ColonyType.REASONING])
+                colony_type_names = [ct.value for ct in target_colony_types]
+
+                # Use load balancer to select optimal colonies
+                selected_colonies = self.load_balancer.select_best_colonies(
+                    task_type=task.task_type.value,
+                    required_colonies=min(2, len(colony_type_names)),  # Select up to 2 colonies
+                    colony_type_preferences=colony_type_names,
+                )
+
+                # Execute on selected colonies
+                for colony_id in selected_colonies:
+                    try:
+                        task_start_time = time.time()
+                        result = await self._execute_single_colony_task_by_id(task, colony_id)
+                        task_duration = time.time() - task_start_time
+
+                        # Update load balancer metrics
+                        self.load_balancer.update_colony_metrics(
+                            colony_id=colony_id,
+                            task_completed=result.get("success", False),
+                            response_time=task_duration,
+                        )
+
+                        colony_results.append(result)
+
+                    except Exception as e:
+                        self.logger.error(f"Load balanced task execution failed for colony {colony_id}: {e}")
+                        # Update metrics for failed task
+                        self.load_balancer.update_colony_metrics(
+                            colony_id=colony_id, task_completed=False, response_time=10.0  # Penalty time for failures
+                        )
+
+            # Synthesize results
+            synthesis_result = await self._synthesize_colony_results(colony_results)
+
+            processing_time = asyncio.get_event_loop().time() - start_time
+
+            return ColonyDreamResult(
+                task_id=tasks[0].task_id if tasks else "unknown",
+                dream_id=tasks[0].dream_id if tasks else "unknown",
+                colony_results=colony_results,
+                synthesis_result=synthesis_result,
+                processing_time_seconds=processing_time,
+                success=True,
+            )
+
+        except Exception as e:
+            processing_time = asyncio.get_event_loop().time() - start_time
+            return ColonyDreamResult(
+                task_id=tasks[0].task_id if tasks else "unknown",
+                dream_id=tasks[0].dream_id if tasks else "unknown",
+                colony_results=colony_results,
+                processing_time_seconds=processing_time,
+                success=False,
+                error=str(e),
+            )
+
+    async def _execute_single_colony_task_by_id(self, task: ColonyDreamTask, colony_id: str) -> dict[str, Any]:
+        """Execute a single dream task on a specific colony by ID"""
+        try:
+            if not COLONY_SYSTEM_AVAILABLE or not self.colony_orchestrator:
+                return {
+                    "success": False,
+                    "error": "Colony system not available",
+                    "colony_id": colony_id,
+                    "task_id": task.task_id,
+                }
+
+            # Get colony metrics for context
+            colony_metrics = self.load_balancer.colony_metrics.get(colony_id)
+            colony_type_value = colony_metrics.colony_type if colony_metrics else "unknown"
+
+            # Create colony task
+            colony_task = ColonyTask(
+                task_id=task.task_id,
+                colony_type=ColonyType(colony_type_value) if colony_type_value != "unknown" else ColonyType.REASONING,
+                target_colonies=[colony_id],
+                payload={
+                    "dream_id": task.dream_id,
+                    "dream_data": task.dream_data,
+                    "task_type": task.task_type.value,
+                    "processing_context": "load_balanced_dream_coordination",
+                    "colony_load_info": {
+                        "utilization": colony_metrics.utilization_rate if colony_metrics else 0.0,
+                        "performance_score": colony_metrics.performance_score if colony_metrics else 0.5,
+                    },
+                },
+                priority=task.priority,
+                user_context=task.user_context,
+            )
+
+            # Execute through colony orchestrator
+            result = await self.colony_orchestrator.execute_colony_task(colony_task)
+
+            # Enhance result with load balancing metadata
+            enhanced_result = {
+                **result,
+                "colony_id": colony_id,
+                "colony_type": colony_type_value,
+                "dream_id": task.dream_id,
+                "task_type": task.task_type.value,
+                "load_balanced": True,
+                "load_balancer_processed": True,
+            }
+
+            return enhanced_result
+
+        except Exception as e:
+            self.logger.error(f"Colony task execution failed for colony {colony_id}: {e}")
+            return {
+                "success": False,
+                "error": str(e),
+                "colony_id": colony_id,
+                "task_id": task.task_id,
+            }
 
     async def _execute_single_colony_task(self, task: ColonyDreamTask, colony_type: ColonyType) -> dict[str, Any]:
         """Execute a single dream task on a specific colony type"""
@@ -1032,6 +1527,10 @@ class ColonyDreamCoordinator:
 
     def get_coordinator_status(self) -> dict[str, Any]:
         """Get comprehensive status of the colony dream coordinator"""
+        # Get load balancing stats
+        load_balancing_stats = self.load_balancer.get_load_balancing_stats()
+        health_report = self.load_balancer.perform_health_check()
+
         return {
             "coordinator_status": "operational",
             "system_integrations": {
@@ -1039,6 +1538,7 @@ class ColonyDreamCoordinator:
                 "swarm_hub": self.swarm_hub is not None,
                 "qi_dream_adapter": self.qi_dream_adapter is not None,
                 "event_bus": self.event_bus is not None,
+                "load_balancer": True,
             },
             "processing_metrics": {
                 "total_dreams_processed": self.total_dreams_processed,
@@ -1047,6 +1547,19 @@ class ColonyDreamCoordinator:
                 "active_tasks": len(self.active_tasks),
                 "completed_tasks": len(self.completed_tasks),
                 "failed_tasks": len(self.failed_tasks),
+            },
+            "load_balancing": {
+                "enabled": True,
+                "algorithm": load_balancing_stats["load_balancing_algorithm"],
+                "total_tasks_balanced": load_balancing_stats["total_tasks_balanced"],
+                "active_colonies": load_balancing_stats["active_colonies"],
+                "colony_health": health_report["overall_health"],
+                "healthy_colonies": health_report.get("healthy_colonies", 0),
+                "overloaded_colonies": len(health_report.get("overloaded_colonies", [])),
+                "colony_utilization": {
+                    colony_id: metrics["utilization_rate"]
+                    for colony_id, metrics in load_balancing_stats["colony_metrics"].items()
+                },
             },
             "colony_specializations": {
                 task_type.value: [ct.value for ct in colony_types]

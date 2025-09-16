@@ -28,7 +28,6 @@
 """
 
 import os
-import random
 import secrets
 import string
 from collections.abc import Sequence
