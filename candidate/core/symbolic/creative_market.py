@@ -27,8 +27,8 @@ except ModuleNotFoundError:  # pragma: no cover - structlog optional
     logger = logging.getLogger("creative_market")
 
 from ..symbolic.glyph_engine import evaluate_resonance, generate_glyph
-from ..symbolic.symbolic_glyph_hash import compute_glyph_hash
-from ..tagging import DeduplicationCache, SimpleTagResolver, Tag
+from ..symbolic_core.symbolic_glyph_hash import compute_glyph_hash
+from ..tagging.tagging_system import DeduplicationCache, SimpleTagResolver, Tag
 
 
 @dataclass
