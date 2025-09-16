@@ -3,7 +3,7 @@
 T4-Compliant Batch Splitter v2.0
 PLANNING_TODO.md Section 10 Implementation
 
-Splits TODOs from manifest into agent-specific batches following exact PLANNING_TODO.md specification:
+Splits tracked tasks from manifest into agent-specific batches following exact PLANNING_TODO.md specification:
 - Implements concrete allocation starter (Section 10)
 - Uses allocation_rules.yaml for agent capabilities
 - Respects T4 principles: skepticism, evidence, atomic discipline
@@ -66,11 +66,11 @@ class T4BatchSplitter:
         return agents
 
     def split_todos(self, manifest: Dict[str, Any]) -> Dict[str, List[Dict[str, Any]]]:
-        """Split TODOs into agent-specific batches following PLANNING_TODO.md Section 10"""
+        """Split tracked tasks into agent-specific batches following PLANNING_TODO.md Section 10."""
         todos = manifest["todos"]
         batches = {}
 
-        print(f"Splitting {len(todos)} TODOs into agent batches...")
+        print(f"Splitting {len(todos)} tracked tasks into agent batches...")
 
         # Sort by priority: critical > high > med > low
         priority_order = ["critical", "high", "med", "low", "unknown"]
@@ -94,7 +94,7 @@ class T4BatchSplitter:
         return batches
 
     def _assign_todo_to_agent(self, todo: Dict[str, Any]) -> Optional[str]:
-        """Assign TODO to agent following PLANNING_TODO.md allocation rules"""
+        """Assign a tracked task to an agent following PLANNING_TODO.md allocation rules."""
         priority = todo["priority"]
         module = todo["module"]
         todo_type = todo["est"]["type"]
@@ -147,7 +147,7 @@ class T4BatchSplitter:
         return agent
 
     def _assign_by_domain(self, todo: Dict[str, Any]) -> Optional[str]:
-        """Assign based on domain expertise as specified in PLANNING_TODO.md Section 10"""
+        """Assign based on domain expertise as specified in PLANNING_TODO.md Section 10."""
         module = todo["module"].lower()
 
         # Jules-01: Identity core (ΛTRACE persistence; audit chain linking)

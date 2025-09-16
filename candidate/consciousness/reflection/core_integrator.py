@@ -367,7 +367,9 @@ class LUKHASCoreIntegrator:
         }
         default_config = {
             "project_root": str(project_root),
-            "component_paths": {name: str(project_root / rel_path) for name, rel_path in default_component_rel_paths.items()},
+            "component_paths": {
+                name: str(project_root / rel_path) for name, rel_path in default_component_rel_paths.items()
+            },
             "logging": {
                 "level": "INFO",
                 "trace_enabled": True,

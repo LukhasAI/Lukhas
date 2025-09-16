@@ -1,0 +1,39 @@
+{
+  "agent_name": "Jules-MEDIUM",
+  "batch_id": "BATCH-JULES-MEDIUM-001",
+  "priority": "MEDIUM",
+  "task_count": 16,
+  "estimated_hours": 36,
+  "deadline": "96 hours from assignment",
+  "description": "Medium priority feature enhancements and optimizations",
+  "focus_areas": [
+    "product features",
+    "documentation improvements",
+    "optimization"
+  ],
+  "todos": [
+    "TODO/scripts/validate_todo_status.py-8-Features:",
+    "tools/extreme_performance_validator.py:40:        ExtremeAuthPerformanceOptimizer,  # noqa: F401  # TODO: enterprise.performance.extreme...",
+    "tools/scripts/enhance_modules_simple.py:99:    # TODO: Add example",
+    "quarantine/damaged/enhance_all_modules.py:186:                        # TODO: Add actual usage example",
+    "quarantine/damaged/enhance_all_modules.py:381:        # TODO: Add actual setup",
+    "quarantine/damaged/enhance_all_modules.py:417:    # TODO: Add actual usage examples",
+    "quarantine/damaged/enhance_all_modules.py:462:        # TODO: Implement actual stress response",
+    "quarantine/damaged/enhance_all_modules.py:470:        # TODO: Add actual hybrid component demo",
+    "quarantine/damaged/enhance_all_modules.py:586:    # TODO: Add basic usage example",
+    "quarantine/damaged/enhance_all_modules.py:730:        # TODO: Implement propagation",
+    "candidate/qi/bio/bio_optimizer.py:65:# AIMPORT_TODO: Verify these import paths against the actual LUKHAS project structure.",
+    "candidate/consciousness/dream/immersive_ingestion.py:56:# TODO: integrate quantum features and emotional resonance tracking",
+    "candidate/governance/integration/policy_board.py:375:#                    Relies on `QIOscillator` and `EnhancedSystemAwareness` (#AIMPORT_TODO).",
+    "candidate/consciousness/systems/lambda_mirror.py:54:TODO: Implement quantum-coherent reflection states for enhanced self-awareness",
+    "candidate/governance/ethics/enhanced_ethical_guardian.py:1045:        # TODO: Implement sophisticated tier requirement analysis",
+    "candidate/consciousness/meta_cognitive/meta_cognitive.py:30:# AIMPORT_TODO: Review relative import paths for robustness, especially for `EnhancedDASTOrchestrator`."
+  ],
+  "success_criteria": [
+    "Feature enhancements completed",
+    "Documentation updated",
+    "Optimization targets met"
+  ],
+  "risk_level": "MEDIUM",
+  "review_required": false
+}

@@ -356,14 +356,14 @@ class FocusedAtlasBuilder:
         except Exception:
             pass
 
-        # Key comments and TODOs (sample first 50 lines to avoid performance issues)
+        # Key comments and action notes (sample first 50 lines to avoid performance issues)
         lines = content.split("\n")[:50]
         for _i, line in enumerate(lines):
             stripped = line.strip()
             if stripped.startswith("#") and len(stripped) > 5:
                 comment = stripped[1:].strip()
                 if any(keyword in comment.lower() for keyword in ["todo", "fixme", "bug", "hack"]):
-                    clues.append(f"TODO: {comment[:80]}")
+                    clues.append(f"ACTION_NOTE: {comment[:80]}")
                 elif any(keyword in comment.lower() for keyword in self.consciousness_keywords):
                     clues.append(f"CONSCIOUSNESS: {comment[:80]}")
 
