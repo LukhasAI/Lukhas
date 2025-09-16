@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 Tools Command Infrastructure
 ============================
@@ -9,12 +6,28 @@ Provides a foundation for CLI tools, scripts, and automation workflows.
 """
 
 import argparse
+import logging
 import sys
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Optional
 
-from .utils import get_git_status, get_logger, get_system_info
+# Use absolute imports instead of relative imports
+try:
+    from tools.utils import get_git_status, get_logger, get_system_info
+except ImportError:
+    # Fallback implementations if utils not available
+    def get_logger(name: str):
+        return logging.getLogger(name)
+
+    def get_git_status():
+        return {"status": "unknown"}
+
+    def get_system_info():
+        return {"system": "unknown"}
+
+
+logger = logging.getLogger(__name__)
 
 
 class BaseCommand(ABC):
