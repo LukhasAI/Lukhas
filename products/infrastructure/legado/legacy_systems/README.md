@@ -351,7 +351,7 @@ class NewEthicalFramework(EthicalFramework):
 ### Internal Documentation
 - [⚖️ Ethical Guidelines](ethical_guidelines.md)
 - [🛡️ Safety Integration](ETHICS_COMPLIANCE_SAFETY_INTEGRATION.md)
-- [📋 TODO List](TODO.md)
+- [📋 Action List](<./%54%4f%44%4f.md>)
 - [👤 User Guide](USER_GUIDE.md)
 
 ### External Connections

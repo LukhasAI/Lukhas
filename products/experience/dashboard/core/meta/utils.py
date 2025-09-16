@@ -301,9 +301,111 @@ def get_health_recommendation(score: float, issues: list[str]) -> str:
         return "CRITICAL: System requires emergency stabilization!"
 
 
-# TODO: Add more utility functions:
-# - Time series smoothing for trend visualization
-# - Anomaly detection in drift patterns
-# - Persona transition analysis
-# - Guardian intervention correlation
-# - Export functions for reporting
+# ΛTAG: meta_dashboard_analysis
+def smooth_time_series(data: list[float], window: int = 5) -> list[float]:
+    """Apply a centered moving average to stabilize noisy metrics."""
+
+    if window <= 1 or len(data) < 2:
+        return data[:]
+
+    window = min(window if window % 2 == 1 else window + 1, len(data))
+    radius = window // 2
+    smoothed: list[float] = []
+
+    for index in range(len(data)):
+        start = max(0, index - radius)
+        end = min(len(data), index + radius + 1)
+        segment = data[start:end]
+        if not segment:
+            smoothed.append(data[index])
+        else:
+            smoothed.append(float(statistics.fmean(segment)))
+
+    return smoothed
+
+
+def detect_drift_anomalies(data: list[float], threshold: float = 2.5) -> list[int]:
+    """Detect anomaly indices using a rolling z-score heuristic."""
+
+    if len(data) < 3:
+        return []
+
+    mean_value = statistics.fmean(data)
+    stdev = statistics.pstdev(data)
+    if stdev == 0:
+        return []
+
+    anomalies = []
+    for idx, value in enumerate(data):
+        z_score = abs((value - mean_value) / stdev)
+        if z_score >= threshold:
+            anomalies.append(idx)
+    return anomalies
+
+
+def analyze_persona_transitions(transitions: list[tuple[str, str]]) -> dict[str, Any]:
+    """Summarize persona evolution patterns for dashboard visualizations."""
+
+    transition_counts: dict[str, int] = {}
+    persona_frequency: dict[str, int] = {}
+
+    for previous_persona, next_persona in transitions:
+        key = f"{previous_persona}->{next_persona}"
+        transition_counts[key] = transition_counts.get(key, 0) + 1
+        persona_frequency[next_persona] = persona_frequency.get(next_persona, 0) + 1
+
+    dominant_transition = max(transition_counts.items(), key=lambda item: item[1], default=(None, 0))
+
+    return {
+        "transition_counts": transition_counts,
+        "persona_frequency": persona_frequency,
+        "dominant_transition": dominant_transition[0],
+        "dominant_transition_count": dominant_transition[1],
+    }
+
+
+def correlate_guardian_interventions(
+    interventions: list[dict[str, Any]],
+    drift_events: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Correlate Guardian actions with drift spikes to surface protective impact."""
+
+    if not interventions or not drift_events:
+        return {
+            "interventions": len(interventions),
+            "drift_events": len(drift_events),
+            "correlated_events": 0,
+            "correlation_ratio": 0.0,
+        }
+
+    drift_timestamps = [
+        datetime.fromisoformat(event["timestamp"].replace("Z", "+00:00"))
+        for event in drift_events
+        if event.get("timestamp")
+    ]
+
+    correlated = 0
+    for intervention in interventions:
+        ts_raw = intervention.get("timestamp")
+        if not ts_raw:
+            continue
+        ts = datetime.fromisoformat(str(ts_raw).replace("Z", "+00:00"))
+        if any(abs((ts - drift_ts).total_seconds()) <= 300 for drift_ts in drift_timestamps):
+            correlated += 1
+
+    ratio = correlated / len(interventions) if interventions else 0.0
+    return {
+        "interventions": len(interventions),
+        "drift_events": len(drift_events),
+        "correlated_events": correlated,
+        "correlation_ratio": ratio,
+    }
+
+
+def export_dashboard_report(payload: dict[str, Any], destination: Path) -> Path:
+    """Persist dashboard metrics to a JSON report for enterprise export."""
+
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    with open(destination, "w", encoding="utf-8") as handle:
+        json.dump(payload, handle, indent=2)
+    return destination
