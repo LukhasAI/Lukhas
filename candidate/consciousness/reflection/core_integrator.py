@@ -10,13 +10,18 @@
 # ΛTASK_ID: 191
 # ΛCOMMIT_WINDOW: pre-audit
 # ΛAPPROVED_BY: Human Overseer (GRDM)
+import inspect
 import json
 import logging
+import os
 import time
 from datetime import datetime, timezone
 from enum import Enum
+from importlib import import_module, util
 from pathlib import Path  # Added Path
 from typing import Any, Callable, Optional  # Added Union
+
+from lukhas.tiers import GlobalTier, TierMappingError
 
 # Initialize logger for ΛTRACE
 
@@ -29,40 +34,177 @@ from typing import Any, Callable, Optional  # Added Union
 logger = logging.getLogger("ΛTRACE.core.advanced.brain.lukhas_core_integrator")
 logger.info("ΛTRACE: Initializing lukhas_core_integrator module.")
 
+# ΛTAG: integration_loader
 # TODO: Refactor path-based import to standard package imports if possible.
-# Attempt to import brain integration
+# Attempt to import brain integration using standardized loader
 BRAIN_INTEGRATION_AVAILABLE = False
-LUKHASBrainIntegration = None  # Placeholder
-try:
-    from candidate.orchestration.brain.integration.brain_integration import (
-        LUKHASBrainIntegration,
+LUKHASBrainIntegration: Optional[Any] = None
+_BRAIN_INTEGRATION_FACTORY: Optional[Callable[[Any, dict[str, Any]], Any]] = None
+
+_BRAIN_INTEGRATION_SOURCES: tuple[tuple[str, tuple[str, ...]], ...] = (
+    (
+        "candidate.core.orchestration.brain.integration.brain_integration",
+        ("LUKHASBrainIntegration", "EnhancedBrainIntegration", "create_enhanced_brain_integration"),
+    ),
+    (
+        "candidate.core.orchestration.brain.brain_integration",
+        ("LUKHASBrainIntegration", "EnhancedBrainIntegration", "create_enhanced_brain_integration"),
+    ),
+    (
+        "candidate.consciousness.reflection.brain_integration",
+        ("LUKHASBrainIntegration", "LucasBrainIntegration"),
+    ),
+)
+
+
+def _create_integration_factory(candidate: Callable[..., Any]) -> Optional[Callable[[Any, dict[str, Any]], Any]]:
+    """Create a factory callable that normalizes constructor signatures."""
+
+    signature = inspect.signature(candidate)
+
+    def factory(core_integrator: Any, config: dict[str, Any]) -> Any:
+        bound_arguments: dict[str, Any] = {}
+        for name, parameter in signature.parameters.items():
+            if name in {"self", "cls"}:
+                continue
+            if parameter.kind in {
+                inspect.Parameter.VAR_POSITIONAL,
+                inspect.Parameter.VAR_KEYWORD,
+            }:
+                continue
+            if name in {"core_integrator", "integrator", "core", "integrator_ref"}:
+                bound_arguments[name] = core_integrator
+                continue
+            if name in {"config", "config_data", "brain_config", "settings"}:
+                bound_arguments[name] = config
+                continue
+            if parameter.default is inspect._empty:
+                raise TypeError(f"Unsupported parameter '{name}' for brain integration factory.")
+
+        return candidate(**bound_arguments)
+
+    return factory
+
+
+def _initialize_brain_integration_factory() -> None:
+    """Resolve available brain integration implementation using canonical modules."""
+
+    global BRAIN_INTEGRATION_AVAILABLE, LUKHASBrainIntegration, _BRAIN_INTEGRATION_FACTORY
+
+    for module_path, attribute_candidates in _BRAIN_INTEGRATION_SOURCES:
+        spec = util.find_spec(module_path)
+        if spec is None:
+            logger.debug(f"ΛTRACE: Brain integration module '{module_path}' not found during resolution.")
+            continue
+
+        try:
+            module = import_module(module_path)
+        except Exception as import_error:  # noqa: BLE001 - log unexpected loader failures
+            logger.error(
+                f"ΛTRACE: Error importing brain integration module '{module_path}': {import_error}",
+                exc_info=True,
+            )
+            continue
+
+        for attr_name in attribute_candidates:
+            candidate_attr = getattr(module, attr_name, None)
+            if candidate_attr is None:
+                continue
+
+            try:
+                _BRAIN_INTEGRATION_FACTORY = _create_integration_factory(candidate_attr)
+            except TypeError as factory_error:
+                logger.debug(
+                    "ΛTRACE: Candidate '%s.%s' is incompatible with integrator factory: %s",
+                    module_path,
+                    attr_name,
+                    factory_error,
+                )
+                continue
+
+            if _BRAIN_INTEGRATION_FACTORY:
+                LUKHASBrainIntegration = candidate_attr
+                BRAIN_INTEGRATION_AVAILABLE = True
+                logger.info(
+                    "ΛTRACE: Brain Integration module resolved via '%s.%s'.",
+                    module_path,
+                    attr_name,
+                )
+                return
+
+        logger.debug(
+            "ΛTRACE: No compatible integration attributes found in '%s'.",
+            module_path,
+        )
+
+    logger.warning(
+        "ΛTRACE: No compatible brain integration implementation could be resolved. Advanced memory functions might be limited."
     )
 
-    BRAIN_INTEGRATION_AVAILABLE = True
-    logger.info("ΛTRACE: Brain Integration module (LUKHASBrainIntegration) loaded successfully via CORE path.")
-except ImportError:
-    logger.warning(
-        "ΛTRACE: Could not import LUKHASBrainIntegration from candidate.core.brain_integration. Advanced memory functions might be limited."
-    )
-except Exception as e_brain_import:  # Catch other potential errors during this import
-    logger.error(
-        f"ΛTRACE: Unexpected error importing LUKHASBrainIntegration: {e_brain_import}",
-        exc_info=True,
-    )
+
+_initialize_brain_integration_factory()
 
 
 # TODO: Reconcile this AccessTier with the global LUKHAS Tier System (0-5, Free-Transcendent).
-# This enum might be for internal resource access control within the integrator's context.
-# Human-readable comment: Defines internal access tier levels for the
-# Lukhas Awareness Protocol.
+# ΛTAG: tier_mapping
+# This enum now mirrors the canonical tier definitions from lukhas.tiers.
 class AccessTier(Enum):
-    """Access tier levels for Lukhas Awareness Protocol within this integrator."""
+    """Access tier levels aligned with the global LUKHAS tier system."""
 
-    RESTRICTED = 0
-    BASIC = 1
-    STANDARD = 2
-    ENHANCED = 3
-    FULL = 4
+    PUBLIC = GlobalTier.PUBLIC.value
+    AUTHENTICATED = GlobalTier.AUTHENTICATED.value
+    ELEVATED = GlobalTier.ELEVATED.value
+    PRIVILEGED = GlobalTier.PRIVILEGED.value
+    ADMIN = GlobalTier.ADMIN.value
+    SYSTEM = GlobalTier.SYSTEM.value
+
+    @property
+    def global_tier(self) -> GlobalTier:
+        """Return the canonical GlobalTier representation."""
+
+        return GlobalTier(self.value)
+
+
+# ΛTAG: tier_mapping
+_ACCESS_TIER_ALIASES: dict[str, AccessTier] = {
+    "PUBLIC": AccessTier.PUBLIC,
+    "FREE": AccessTier.PUBLIC,
+    "GUEST": AccessTier.PUBLIC,
+    "RESTRICTED": AccessTier.PUBLIC,
+    "AUTHENTICATED": AccessTier.AUTHENTICATED,
+    "BASIC": AccessTier.AUTHENTICATED,
+    "STANDARD": AccessTier.ELEVATED,
+    "ELEVATED": AccessTier.ELEVATED,
+    "ENHANCED": AccessTier.PRIVILEGED,
+    "ADVANCED": AccessTier.PRIVILEGED,
+    "PRIVILEGED": AccessTier.PRIVILEGED,
+    "FULL": AccessTier.ADMIN,
+    "ADMIN": AccessTier.ADMIN,
+    "TRANSCENDENT": AccessTier.SYSTEM,
+    "SYSTEM": AccessTier.SYSTEM,
+    "FREE_TRANSCENDENT": AccessTier.SYSTEM,
+    "FREE-TRANSCENDENT": AccessTier.SYSTEM,
+}
+
+
+def resolve_access_tier(tier_name: str) -> AccessTier:
+    """Resolve a tier name or alias to the standardized AccessTier enum."""
+
+    if not tier_name:
+        raise TierMappingError("Access tier name cannot be empty.")
+
+    normalized = tier_name.strip().replace("-", "_").replace(" ", "_").upper()
+    resolved_tier = _ACCESS_TIER_ALIASES.get(normalized)
+    if resolved_tier is None:
+        raise TierMappingError(f"Unknown access tier alias: '{tier_name}'.")
+
+    logger.debug(
+        "ΛTRACE: Resolved access tier alias '%s' to '%s' (Global: %s).",
+        tier_name,
+        resolved_tier.name,
+        resolved_tier.global_tier.name,
+    )
+    return resolved_tier
 
 
 logger.debug(f"ΛTRACE: Internal AccessTier Enum defined: {[tier.name for tier in AccessTier]}.")
@@ -121,7 +263,10 @@ class LUKHASCoreIntegrator:
         self.instance_logger = logger.getChild("LUKHASCoreIntegratorInstance")  # Instance-specific logger
         self.instance_logger.info("ΛTRACE: Initializing LUKHASCoreIntegrator instance.")
 
-        self.config = self._load_config(config_path)  # Logs internally
+        self.project_root = self._resolve_project_root(config_path)
+        self.instance_logger.debug(f"ΛTRACE: Project root resolved to '{self.project_root}'.")
+
+        self.config = self._load_config(config_path, self.project_root)  # Logs internally
 
         self.components: dict[str, Any] = {}
         self.message_handlers: dict[str, Callable] = {}
@@ -133,14 +278,20 @@ class LUKHASCoreIntegrator:
         # ΛDRIFT_POINT
         # Initialize internal access tier based on config or default
         try:
-            default_tier_name_str = self.config.get("security", {}).get("default_access_tier", "RESTRICTED")
-            self.current_access_tier: AccessTier = AccessTier[default_tier_name_str.upper()]
-        except KeyError:
+            default_tier_name_str = self.config.get("security", {}).get("default_access_tier", "PUBLIC")
+            self.current_access_tier = resolve_access_tier(default_tier_name_str)
+        except TierMappingError as tier_error:
             self.instance_logger.warning(
-                f"ΛTRACE: Invalid default_access_tier '{default_tier_name_str}' in config. Defaulting to RESTRICTED."
+                "ΛTRACE: %s Defaulting access tier to PUBLIC.",
+                tier_error,
             )
-            self.current_access_tier = AccessTier.RESTRICTED
-        self.instance_logger.debug(f"ΛTRACE: Initial internal access tier set to {self.current_access_tier.name}.")
+            self.current_access_tier = AccessTier.PUBLIC
+        self.current_global_tier = self.current_access_tier.global_tier
+        self.instance_logger.debug(
+            "ΛTRACE: Initial internal access tier set to %s (Global: %s).",
+            self.current_access_tier.name,
+            self.current_global_tier.name,
+        )
 
         self.system_state: dict[str, Any] = {
             "started": time.time(),
@@ -151,40 +302,79 @@ class LUKHASCoreIntegrator:
 
         # AIDENTITY
         self.brain: Optional[Any] = None  # Placeholder for brain integration instance
-        if BRAIN_INTEGRATION_AVAILABLE and LUKHASBrainIntegration:
+        if BRAIN_INTEGRATION_AVAILABLE and _BRAIN_INTEGRATION_FACTORY:
             try:
                 self.instance_logger.info("ΛTRACE: Initializing Brain Integration module (LUKHASBrainIntegration)...")
                 brain_config_data = self.config.get("brain_config", {})
-                self.brain = LUKHASBrainIntegration(self, brain_config_data)  # Pass self (integrator) and config
+                self.brain = _BRAIN_INTEGRATION_FACTORY(self, brain_config_data)
                 self.instance_logger.info("ΛTRACE: LUKHASBrainIntegration module initialized successfully.")
             except Exception as e:
                 self.instance_logger.error(
                     f"ΛTRACE: Failed to initialize LUKHASBrainIntegration: {e}",
                     exc_info=True,
                 )
+        elif BRAIN_INTEGRATION_AVAILABLE:
+            self.instance_logger.warning(
+                "ΛTRACE: Brain integration module resolved but no compatible factory was generated."
+            )
 
         self.instance_logger.info("ΛTRACE: LUKHASCoreIntegrator instance fully initialized.")
 
+    # Human-readable comment: Resolve the operative project root for configuration.
+    def _resolve_project_root(self, config_path: Optional[str]) -> Path:
+        """Resolve the effective project root path with environment overrides."""
+
+        env_root = os.getenv("LUKHAS_PROJECT_ROOT")
+        if env_root:
+            candidate_root = Path(env_root).expanduser()
+            if candidate_root.exists():
+                return candidate_root.resolve()
+            self.instance_logger.warning(
+                "ΛTRACE: Environment project root '%s' does not exist. Ignoring override.",
+                candidate_root,
+            )
+
+        if config_path:
+            config_file = Path(config_path).expanduser()
+            if not config_file.is_absolute():
+                relative_candidate = Path(__file__).resolve().parents[3] / config_file
+                if relative_candidate.exists():
+                    return relative_candidate.parent
+            if config_file.exists():
+                return config_file.resolve().parent
+
+        try:
+            return Path(__file__).resolve().parents[3]
+        except IndexError:
+            return Path(__file__).resolve().parent
+
     # Human-readable comment: Loads configuration from a file or uses defaults.
-    def _load_config(self, config_path: Optional[str]) -> dict[str, Any]:
+    def _load_config(self, config_path: Optional[str], project_root: Path) -> dict[str, Any]:
         """Load configuration from file or use defaults."""
-        self.instance_logger.debug(f"ΛTRACE: Loading configuration. Provided path: '{config_path}'.")
+
+        self.instance_logger.debug(
+            "ΛTRACE: Loading configuration. Provided path: '%s'. Project root: '%s'.",
+            config_path,
+            project_root,
+        )
         # TODO: Make default paths relative to a configurable project root or use
         # package resources.
+        default_component_rel_paths = {
+            "voice": Path("VOICE/voice_processor.py"),
+            "awareness": Path("AWARENESS/awareness_protocol.py"),
+            "node_manager": Path("NODES/node_manager.py"),
+            "brain": Path("CORE/brain_integration.py"),
+        }
         default_config = {
-            "component_paths": {
-                "voice": "VOICE/voice_processor.py",
-                "awareness": "AWARENESS/awareness_protocol.py",
-                "node_manager": "NODES/node_manager.py",
-                "brain": "CORE/brain_integration.py",
-            },
+            "project_root": str(project_root),
+            "component_paths": {name: str(project_root / rel_path) for name, rel_path in default_component_rel_paths.items()},
             "logging": {
                 "level": "INFO",
                 "trace_enabled": True,
-                "trace_path": "logs/symbolic_trace.jsonl",
+                "trace_path": str(project_root / "logs" / "symbolic_trace.jsonl"),
             },
             "security": {
-                "default_access_tier": "RESTRICTED",
+                "default_access_tier": "PUBLIC",
                 "tier_escalation_timeout": 300,
                 "symbolic_trace_retention": 7,
             },
@@ -192,38 +382,60 @@ class LUKHASCoreIntegrator:
                 "memory_consolidation_enabled": True,
                 "emotion_mapping_enabled": True,
                 "consolidation_interval_minutes": 60,
-                "memory_path": "./memory_store",
+                "memory_path": str(project_root / "memory_store"),
             },
         }
 
-        loaded_config = default_config.copy()
+        loaded_config = json.loads(json.dumps(default_config))
 
         if config_path:
-            config_file = Path(config_path)
-            if config_file.exists() and config_file.is_file():
-                try:
-                    with open(config_file, encoding="utf-8") as f:
-                        user_config = json.load(f)
+            config_candidates = []
+            config_file = Path(config_path).expanduser()
+            if config_file.is_absolute():
+                config_candidates.append(config_file)
+            else:
+                config_candidates.append(project_root / config_file)
+                config_candidates.append(config_file.resolve())
 
-                    for key, value in user_config.items():
-                        if isinstance(value, dict) and isinstance(loaded_config.get(key), dict):
-                            loaded_config[key].update(value)
-                        else:
-                            loaded_config[key] = value
-                    self.instance_logger.info(f"ΛTRACE: Configuration loaded successfully from {config_file}.")
-                except json.JSONDecodeError as e_json:
-                    self.instance_logger.error(
-                        f"ΛTRACE: Error decoding JSON from config file {config_file}: {e_json}. Using default configuration.",
-                        exc_info=True,
-                    )
-                except Exception as e_load:
-                    self.instance_logger.error(
-                        f"ΛTRACE: Error loading config from {config_file}: {e_load}. Using default configuration.",
-                        exc_info=True,
+            for candidate_path in config_candidates:
+                if candidate_path.exists() and candidate_path.is_file():
+                    try:
+                        with open(candidate_path, encoding="utf-8") as f:
+                            user_config = json.load(f)
+
+                        for key, value in user_config.items():
+                            if isinstance(value, dict) and isinstance(loaded_config.get(key), dict):
+                                loaded_config[key].update(value)
+                            else:
+                                loaded_config[key] = value
+                        self.instance_logger.info(
+                            "ΛTRACE: Configuration loaded successfully from %s.",
+                            candidate_path,
+                        )
+                        break
+                    except json.JSONDecodeError as e_json:
+                        self.instance_logger.error(
+                            "ΛTRACE: Error decoding JSON from config file %s: %s. Using default configuration.",
+                            candidate_path,
+                            e_json,
+                            exc_info=True,
+                        )
+                    except Exception as e_load:  # noqa: BLE001 - log unexpected loading errors
+                        self.instance_logger.error(
+                            "ΛTRACE: Error loading config from %s: %s. Using default configuration.",
+                            candidate_path,
+                            e_load,
+                            exc_info=True,
+                        )
+                else:
+                    self.instance_logger.debug(
+                        "ΛTRACE: Candidate config path '%s' is unavailable.",
+                        candidate_path,
                     )
             else:
-                self.instance_logger.warning(
-                    f"ΛTRACE: Config file not found at {config_path}. Using default configuration."
+                self.instance_logger.info(
+                    "ΛTRACE: Config path '%s' did not resolve to a readable file. Using defaults.",
+                    config_path,
                 )
         else:
             self.instance_logger.info("ΛTRACE: No config path provided. Using default configuration.")
