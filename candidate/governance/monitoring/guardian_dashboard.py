@@ -15,6 +15,7 @@ import sys
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
@@ -413,8 +414,124 @@ class GuardianDashboard(GlyphIntegrationMixin):
 
     def _validate_emergency_manifest(self):
         """Validate emergency manifest against governance requirements"""
-        # TODO: Implement governance validation
-        pass
+        validation_errors = []
+        validation_warnings = []
+
+        if not self.emergency_manifest:
+            validation_errors.append("Emergency manifest is None or empty")
+            return False
+
+        # Validate emergency levels structure
+        emergency_levels = self.emergency_manifest.get("emergency_levels", {})
+        if not emergency_levels:
+            validation_errors.append("Missing emergency_levels section")
+        else:
+            required_levels = ["level_1_minor", "level_2_moderate", "level_3_severe"]
+            for level in required_levels:
+                if level not in emergency_levels:
+                    validation_errors.append(f"Missing required emergency level: {level}")
+                else:
+                    level_config = emergency_levels[level]
+
+                    # Validate approval authorities
+                    if "approval_authorities" not in level_config:
+                        validation_errors.append(f"Missing approval_authorities for {level}")
+                    elif not isinstance(level_config["approval_authorities"], list):
+                        validation_errors.append(f"approval_authorities must be a list for {level}")
+                    elif not level_config["approval_authorities"]:
+                        validation_errors.append(f"approval_authorities cannot be empty for {level}")
+
+                    # Validate response time
+                    if "response_time" not in level_config:
+                        validation_errors.append(f"Missing response_time for {level}")
+                    elif not isinstance(level_config["response_time"], (int, float)):
+                        validation_errors.append(f"response_time must be numeric for {level}")
+                    elif level_config["response_time"] <= 0:
+                        validation_errors.append(f"response_time must be positive for {level}")
+
+                    # Validate symbolic pattern
+                    if "symbolic_pattern" not in level_config:
+                        validation_warnings.append(f"Missing symbolic_pattern for {level}")
+                    elif not isinstance(level_config["symbolic_pattern"], list):
+                        validation_warnings.append(f"symbolic_pattern should be a list for {level}")
+
+        # Validate trigger conditions
+        trigger_conditions = self.emergency_manifest.get("trigger_conditions", {})
+        if not trigger_conditions:
+            validation_warnings.append("No trigger conditions defined")
+        else:
+            for condition_name, condition_config in trigger_conditions.items():
+                if not isinstance(condition_config, dict):
+                    validation_errors.append(f"Trigger condition '{condition_name}' must be a dictionary")
+                    continue
+
+                # Validate description
+                if "description" not in condition_config:
+                    validation_warnings.append(f"Missing description for trigger condition: {condition_name}")
+
+                # Validate emergency level reference
+                if "emergency_level" not in condition_config:
+                    validation_errors.append(f"Missing emergency_level for trigger condition: {condition_name}")
+                elif condition_config["emergency_level"] not in emergency_levels:
+                    validation_errors.append(
+                        f"Invalid emergency_level reference in condition '{condition_name}': {condition_config['emergency_level']}"
+                    )
+
+                # Validate symbolic sequence
+                if "symbolic_sequence" in condition_config:
+                    if not isinstance(condition_config["symbolic_sequence"], list):
+                        validation_warnings.append(
+                            f"symbolic_sequence should be a list for condition: {condition_name}"
+                        )
+
+        # Validate governance compliance requirements
+        required_authorities = ["system_guardian", "human_overseer", "ethics_board"]
+        all_authorities = set()
+        for level_config in emergency_levels.values():
+            if "approval_authorities" in level_config:
+                all_authorities.update(level_config["approval_authorities"])
+
+        # Check for proper escalation hierarchy
+        if "level_3_severe" in emergency_levels:
+            severe_authorities = emergency_levels["level_3_severe"].get("approval_authorities", [])
+            if "human_overseer" not in severe_authorities and "ethics_board" not in severe_authorities:
+                validation_errors.append("Level 3 (severe) emergencies must require human oversight")
+
+        # Validate response time hierarchy (more severe = faster response)
+        response_times = {}
+        for level, config in emergency_levels.items():
+            if "response_time" in config:
+                response_times[level] = config["response_time"]
+
+        if "level_1_minor" in response_times and "level_3_severe" in response_times:
+            if response_times["level_3_severe"] >= response_times["level_1_minor"]:
+                validation_warnings.append("Severe emergencies should have faster response times than minor ones")
+
+        # Log validation results
+        if validation_errors:
+            print(f"❌ Emergency manifest validation failed with {len(validation_errors)} errors:")
+            for error in validation_errors:
+                print(f"   • {error}")
+
+        if validation_warnings:
+            print(f"⚠️ Emergency manifest validation completed with {len(validation_warnings)} warnings:")
+            for warning in validation_warnings:
+                print(f"   • {warning}")
+
+        if not validation_errors and not validation_warnings:
+            print("✅ Emergency manifest validation passed - full governance compliance")
+        elif not validation_errors:
+            print("✅ Emergency manifest validation passed with warnings")
+
+        # Store validation results for audit purposes
+        self.last_validation_result = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "errors": validation_errors,
+            "warnings": validation_warnings,
+            "passed": len(validation_errors) == 0,
+        }
+
+        return len(validation_errors) == 0
 
     def _create_default_manifest(self):
         """Create default emergency manifest with governance structure"""
@@ -642,7 +759,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
 
     async def _generate_governance_threat(self, issue_type: str):
         """Generate governance-specific threat"""
-        threat_id = f"GOV-{int(time.time())"
+        threat_id = f"GOV-{int(time.time())}"
 
         threat = ThreatEvent(
             id=threat_id,
