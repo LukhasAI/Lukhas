@@ -1,0 +1,394 @@
+name: dream-expand-bench
+on:
+  workflow_dispatch:
+    inputs:
+      include_synth:
+        description: "Include synthetic adversarial cases"
+        required: false
+        default: "0"
+        type: choice
+        options:
+          - "0"
+          - "1"
+      sweep:
+        description: "Run parameter grid sweep"
+        required: false
+        default: "1"
+        type: choice
+        options:
+          - "0"
+          - "1"
+      enable_expand_features:
+        description: "Enable EXPAND features for testing (CAUTION)"
+        required: false
+        default: "0"
+        type: choice
+        options:
+          - "0"
+          - "1"
+      dashboard:
+        description: "Generate full HTML dashboard"
+        required: false
+        default: "1"
+        type: choice
+        options:
+          - "0"
+          - "1"
+
+concurrency:
+  group: dream-expand-bench-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  bench:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      LUKHAS_DETERMINISTIC: "1"
+      LUKHAS_PURE_SELECTION: "1"
+      LUKHAS_BENCH_INCLUDE_EXTRA: "1"
+      LUKHAS_BENCH_INCLUDE_SYNTH: "${{ inputs.include_synth }}"
+      PYTHONHASHSEED: "42"
+      LUKHAS_BENCH_SEED: "42"
+      # EXPAND features remain OFF unless explicitly enabled
+      LUKHAS_NOISE_LEVEL: "off"
+      LUKHAS_DREAM_RESONANCE: "0"
+      LUKHAS_MULTI_AGENT: "0"
+      LUKHAS_STRATEGY_EVOLVE: "0"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest numpy matplotlib seaborn
+          # Full dependencies for comprehensive benchmarking
+
+      - name: Environment setup and validation
+        run: |
+          echo "🔧 Setting up benchmark environment..."
+
+          # Conditional EXPAND feature enablement (if requested)
+          if [ "${{ inputs.enable_expand_features }}" = "1" ]; then
+            echo "⚠️  CAUTION: Enabling EXPAND features for testing"
+            echo "LUKHAS_NOISE_LEVEL=low" >> $GITHUB_ENV
+            echo "LUKHAS_DREAM_RESONANCE=1" >> $GITHUB_ENV
+            echo "LUKHAS_RESONANCE_DECAY=0.9" >> $GITHUB_ENV
+            echo "LUKHAS_MULTI_AGENT=1" >> $GITHUB_ENV
+            echo "LUKHAS_MESH_AGGREGATION=mean" >> $GITHUB_ENV
+            # Note: LUKHAS_STRATEGY_EVOLVE stays off (too resource intensive for CI)
+          else
+            echo "🛡️  EXPAND features remain disabled (safe mode)"
+          fi
+
+          # Validate environment
+          python -c "
+          import os
+          print('Environment validation:')
+          for key in ['LUKHAS_DETERMINISTIC', 'LUKHAS_PURE_SELECTION', 'LUKHAS_BENCH_SEED']:
+              print(f'  {key}={os.getenv(key)}')
+
+          expand_features = ['LUKHAS_NOISE_LEVEL', 'LUKHAS_DREAM_RESONANCE', 'LUKHAS_MULTI_AGENT']
+          for feature in expand_features:
+              value = os.getenv(feature, 'NOT_SET')
+              enabled = value not in ['off', '0', 'NOT_SET']
+              status = '🟡 ENABLED' if enabled else '🟢 DISABLED'
+              print(f'  {feature}={value} {status}')
+          "
+
+      - name: Generate synthetic corpus (if requested)
+        if: ${{ inputs.include_synth == '1' }}
+        run: |
+          echo "🎲 Generating synthetic adversarial corpus..."
+          python -m benchmarks.dream.synthetic 50 42 benchmarks/dream/synthetic_corpus.json
+
+          echo "Synthetic corpus summary:"
+          python -c "
+          import json
+          with open('benchmarks/dream/synthetic_corpus.json') as f:
+              corpus = json.load(f)
+
+          difficulties = {}
+          for case in corpus:
+              diff = case['difficulty']
+              difficulties[diff] = difficulties.get(diff, 0) + 1
+
+          for diff, count in difficulties.items():
+              print(f'  {diff}: {count} cases')
+
+          print(f'Total synthetic cases: {len(corpus)}')
+          "
+
+      - name: Baseline benchmark run
+        run: |
+          echo "📊 Running baseline benchmark..."
+          python -m benchmarks.dream.run --out benchmarks/dream/baseline_results.jsonl
+
+          echo "📈 Generating baseline scores..."
+          python -m benchmarks.dream.score benchmarks/dream/baseline_results.jsonl
+
+          # Quick validation
+          python -c "
+          import json
+          results = []
+          with open('benchmarks/dream/baseline_results.jsonl') as f:
+              for line in f:
+                  if line.strip():
+                      results.append(json.loads(line))
+
+          print(f'Baseline benchmark: {len(results)} configurations tested')
+
+          accuracies = [r.get('accuracy', 0) for r in results]
+          if accuracies:
+              avg_acc = sum(accuracies) / len(accuracies)
+              print(f'Average accuracy: {avg_acc:.3f}')
+          "
+
+      - name: Parameter sweep (if requested)
+        if: ${{ inputs.sweep == '1' }}
+        run: |
+          echo "🔄 Running parameter grid sweep..."
+          python -m benchmarks.dream.run --sweep --out benchmarks/dream/sweep_results.jsonl
+
+          echo "📈 Scoring sweep results..."
+          python -m benchmarks.dream.score benchmarks/dream/sweep_results.jsonl benchmarks/dream/sweep_summary.json
+
+          # Sweep analysis
+          python -c "
+          import json
+          results = []
+          with open('benchmarks/dream/sweep_results.jsonl') as f:
+              for line in f:
+                  if line.strip():
+                      results.append(json.loads(line))
+
+          print(f'Parameter sweep: {len(results)} configurations tested')
+
+          # Find best configuration
+          if results:
+              best = max(results, key=lambda r: r.get('accuracy', 0))
+              print(f'Best configuration:')
+              print(f'  Strategy: {best.get(\"strategy\", \"unknown\")}')
+              print(f'  Objective: {best.get(\"use_objective\", \"unknown\")}')
+              print(f'  Accuracy: {best.get(\"accuracy\", 0):.3f}')
+          "
+
+      - name: Advanced analysis suite
+        run: |
+          echo "🔬 Running advanced analysis suite..."
+
+          # Stability analysis
+          echo "  📊 Stability testing..."
+          python -c "
+          from benchmarks.dream.stability import run_stability_test, print_stability_summary
+          import os
+
+          # Run with limited seeds for CI
+          os.environ['LUKHAS_CI_MODE'] = '1'
+
+          try:
+              report_path = run_stability_test('benchmarks/dream/stability_ci')
+              print_stability_summary(report_path)
+              print('✓ Stability analysis completed')
+          except Exception as e:
+              print(f'⚠️  Stability analysis failed: {e}')
+              print('  This is non-critical for CI')
+          "
+
+          # Taxonomy analysis
+          echo "  🏷️  Error taxonomy analysis..."
+          python -c "
+          from benchmarks.dream.taxonomy import load_and_analyze, generate_taxonomy_report
+
+          try:
+              analysis = load_and_analyze('benchmarks/dream/baseline_results.jsonl')
+              generate_taxonomy_report(analysis, 'benchmarks/dream/taxonomy_analysis.json')
+
+              print(f'Taxonomy analysis:')
+              print(f'  Total results: {analysis[\"total_results\"]}')
+              print(f'  Error rate: {analysis[\"error_rate\"]:.1%}')
+              print(f'  Classification coverage: {analysis[\"classification_coverage\"]:.1%}')
+              print('✓ Taxonomy analysis completed')
+          except Exception as e:
+              print(f'⚠️  Taxonomy analysis failed: {e}')
+          "
+
+          # Config chooser
+          echo "  ⚙️  Configuration recommendations..."
+          python -c "
+          from benchmarks.dream.chooser import load_and_recommend
+
+          try:
+              recommendation = load_and_recommend(
+                  'benchmarks/dream/baseline_results.jsonl',
+                  'production',
+                  'accuracy'
+              )
+
+              if 'error' not in recommendation:
+                  print(f'Production recommendation:')
+                  print(f'  Config: {recommendation[\"recommended_config\"]}')
+                  print(f'  Profile: {recommendation[\"recommended_profile\"]}')
+                  print(f'  Confidence: {recommendation[\"confidence_score\"]:.1%}')
+                  print('✓ Configuration analysis completed')
+              else:
+                  print(f'⚠️  Config analysis error: {recommendation[\"error\"]}')
+          except Exception as e:
+              print(f'⚠️  Config analysis failed: {e}')
+          "
+
+      - name: Conflict scenario validation
+        run: |
+          echo "⚔️  Running conflict scenario validation..."
+          python -c "
+          from benchmarks.dream.conflict import get_conflict_corpus, run_conflict_validation
+
+          # Validate corpus structure
+          validation = run_conflict_validation()
+          print(f'Conflict corpus validation:')
+          print(f'  Total cases: {validation[\"total_cases\"]}')
+          print(f'  Valid cases: {validation[\"valid_cases\"]}')
+          print(f'  Overall valid: {validation[\"overall_valid\"]}')
+
+          if not validation['overall_valid']:
+              print('⚠️  Conflict corpus has validation issues')
+              for case_id, errors in validation['validation_errors'].items():
+                  print(f'    {case_id}: {errors}')
+          else:
+              print('✓ All conflict cases valid')
+          "
+
+      - name: Archetypal analysis
+        run: |
+          echo "🏛️  Running archetypal analysis..."
+          python -c "
+          from benchmarks.dream.archetypes import (
+              create_archetypal_test_case, analyze_snapshot_archetypes,
+              suggest_archetypal_balance, ARCHETYPES
+          )
+
+          # Generate test snapshots for each archetype
+          test_snapshots = []
+          for archetype_name in list(ARCHETYPES.keys())[:5]:  # First 5 for speed
+              test_case = create_archetypal_test_case(archetype_name, intensity=0.8)
+              test_snapshots.append(test_case)
+
+          # Analyze archetypal distribution
+          analysis = analyze_snapshot_archetypes(test_snapshots)
+
+          print(f'Archetypal analysis:')
+          print(f'  Total snapshots: {analysis[\"total_snapshots\"]}')
+          print(f'  Diversity index: {analysis[\"diversity_index\"]:.3f}')
+
+          # Get balance suggestions
+          suggestions = suggest_archetypal_balance(analysis, 'balanced')
+          print(f'  Balance score: {suggestions[\"overall_balance_score\"]:.3f}')
+          print(f'  Recommendations: {len(suggestions[\"recommendations\"])}')
+
+          print('✓ Archetypal analysis completed')
+          "
+
+      - name: Generate dashboard (if requested)
+        if: ${{ inputs.dashboard == '1' }}
+        run: |
+          echo "📊 Generating comprehensive dashboard..."
+          python -c "
+          from benchmarks.dream.dashboard import generate_dashboard
+
+          try:
+              # Generate dashboard from baseline results
+              dashboard_path = generate_dashboard(
+                  'benchmarks/dream/baseline_results.jsonl',
+                  'benchmarks/dream/comprehensive_dashboard.html'
+              )
+              print(f'✓ Dashboard generated: {dashboard_path}')
+          except ImportError:
+              print('⚠️  Dashboard generation skipped (matplotlib not available)')
+              # Create minimal HTML report instead
+              with open('benchmarks/dream/minimal_report.html', 'w') as f:
+                  f.write('''
+          <!DOCTYPE html>
+          <html><head><title>Dream Benchmark Report</title></head>
+          <body>
+              <h1>Dream Benchmark Report</h1>
+              <p>Comprehensive benchmark completed. See artifacts for detailed results.</p>
+              <p>Generated on: {}</p>
+          </body></html>
+                  '''.strip().format($(date)))
+              print('✓ Minimal report generated')
+          except Exception as e:
+              print(f'⚠️  Dashboard generation failed: {e}')
+          "
+
+      - name: Benchmark summary
+        run: |
+          echo "📋 Benchmark Summary"
+          echo "==================="
+
+          # Count artifacts
+          result_files=$(find benchmarks/dream -name "*.jsonl" | wc -l)
+          summary_files=$(find benchmarks/dream -name "*.json" | wc -l)
+          html_files=$(find benchmarks/dream -name "*.html" | wc -l)
+
+          echo "Artifacts generated:"
+          echo "  Result files (.jsonl): $result_files"
+          echo "  Summary files (.json): $summary_files"
+          echo "  HTML reports (.html): $html_files"
+
+          # Final validation
+          python -c "
+          import os
+          import glob
+
+          print()
+          print('Final validation:')
+
+          # Check that baseline results exist
+          baseline_exists = os.path.exists('benchmarks/dream/baseline_results.jsonl')
+          print(f'  Baseline results: {'✓' if baseline_exists else '✗'}')
+
+          # Check for any error files
+          error_files = glob.glob('benchmarks/dream/*error*')
+          print(f'  Error files: {len(error_files)} found')
+
+          # Environment safety check
+          expand_enabled = []
+          for var in ['LUKHAS_NOISE_LEVEL', 'LUKHAS_DREAM_RESONANCE', 'LUKHAS_MULTI_AGENT']:
+              value = os.getenv(var, 'NOT_SET')
+              if value not in ['off', '0', 'NOT_SET']:
+                  expand_enabled.append(f'{var}={value}')
+
+          if expand_enabled:
+              print(f'  ⚠️  EXPAND features enabled: {expand_enabled}')
+          else:
+              print(f'  🛡️  All EXPAND features disabled (safe)')
+
+          print()
+          print('🎉 Comprehensive benchmark completed!')
+          "
+
+      - name: Upload comprehensive artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dream-expand-bench-artifacts-${{ github.run_number }}
+          path: |
+            benchmarks/dream/*.json
+            benchmarks/dream/*.jsonl
+            benchmarks/dream/*.png
+            benchmarks/dream/*.html
+            benchmarks/dream/stability_ci/
+          retention-days: 30
+
+      - name: Upload summary report
+        uses: actions/upload-artifact@v4
+        with:
+          name: dream-expand-summary-${{ github.run_number }}
+          path: |
+            benchmarks/dream/summary.json
+            benchmarks/dream/baseline_results.jsonl
+            benchmarks/dream/*dashboard*.html
+            benchmarks/dream/*report*.html
+          retention-days: 90
