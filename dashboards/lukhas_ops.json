@@ -90,6 +90,115 @@
         { "refId": "A", "expr": "rate(lukhas_breakthrough_flags_total[5m]) * 60" }
       ],
       "options": { "legend": { "displayMode": "table", "placement": "bottom" } }
+    },
+    {
+      "type": "timeseries",
+      "title": "Policy Denials / min",
+      "id": 5,
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 },
+      "fieldConfig": {
+        "defaults": { "unit": "1/min", "color": { "mode": "palette-classic" } },
+        "overrides": []
+      },
+      "targets": [
+        { "refId": "A", "expr": "rate(lukhas_replay_policy_denials_total{lane=~\"$lane\"}[5m]) * 60" }
+      ],
+      "options": {
+        "legend": { "displayMode": "table", "placement": "bottom", "values": ["last"] },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          { "color": "green", "value": 0.0 },
+          { "color": "yellow", "value": 5.0 },
+          { "color": "red", "value": 20.0 }
+        ]
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Promotion Success Rate",
+      "id": 6,
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 16 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1,
+          "color": { "mode": "palette-classic" }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(lukhas_promotion_success_total{target_lane=~\"$lane\"}[5m]) / (rate(lukhas_promotion_attempts_total{target_lane=~\"$lane\"}[5m]) + 0.001)"
+        }
+      ],
+      "options": {
+        "legend": { "displayMode": "table", "placement": "bottom", "values": ["last", "mean"] },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          { "color": "red", "value": 0.0 },
+          { "color": "yellow", "value": 0.7 },
+          { "color": "green", "value": 0.9 }
+        ]
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Memory Sync Operations & Budget Utilization",
+      "id": 7,
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 24 },
+      "fieldConfig": {
+        "defaults": { "color": { "mode": "palette-classic" } },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "Operations/min" },
+            "properties": [
+              { "id": "unit", "value": "1/min" },
+              { "id": "custom.axisPlacement", "value": "left" }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Budget Utilization" },
+            "properties": [
+              { "id": "unit", "value": "percentunit" },
+              { "id": "min", "value": 0 },
+              { "id": "max", "value": 1 },
+              { "id": "custom.axisPlacement", "value": "right" }
+            ]
+          }
+        ]
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(lukhas_memory_sync_ops_total{source_lane=~\"$lane\"}[5m]) * 60",
+          "legendFormat": "Operations/min - {{source_lane}}→{{target_lane}}"
+        },
+        {
+          "refId": "B",
+          "expr": "lukhas_memory_budget_utilization{lane=~\"$lane\"}",
+          "legendFormat": "Budget Utilization - {{lane}}"
+        }
+      ],
+      "options": {
+        "legend": { "displayMode": "table", "placement": "bottom", "values": ["last", "mean"] },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          { "color": "green", "value": 0.0 },
+          { "color": "yellow", "value": 0.8 },
+          { "color": "red", "value": 0.95 }
+        ]
+      }
     }
   ]
 }
