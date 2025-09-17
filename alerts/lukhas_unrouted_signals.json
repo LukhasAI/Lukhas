@@ -1,0 +1,68 @@
+{
+  "alert": {
+    "id": "lukhas-unrouted-signals",
+    "uid": "lukhas_unrouted_001",
+    "title": "LUKHAS Unrouted Signals Alert",
+    "condition": "C",
+    "data": [
+      {
+        "refId": "A",
+        "queryType": "",
+        "relativeTimeRange": {
+          "from": 300,
+          "to": 0
+        },
+        "model": {
+          "expr": "rate(lukhas_router_no_rule_total[5m])",
+          "interval": "",
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        },
+        "datasourceUid": "prometheus"
+      },
+      {
+        "refId": "C",
+        "queryType": "",
+        "relativeTimeRange": {
+          "from": 0,
+          "to": 0
+        },
+        "model": {
+          "conditions": [
+            {
+              "evaluator": {
+                "params": [0],
+                "type": "gt"
+              },
+              "operator": {
+                "type": "and"
+              },
+              "query": {
+                "params": ["A"]
+              },
+              "reducer": {
+                "type": "last"
+              },
+              "type": "query"
+            }
+          ],
+          "refId": "C"
+        }
+      }
+    ],
+    "intervalSeconds": 60,
+    "noDataState": "NoData",
+    "execErrState": "Alerting",
+    "for": "5m",
+    "annotations": {
+      "description": "LUKHAS router has unrouted signals rate > 0 for 5 minutes. This indicates signal routing failures that could degrade consciousness system performance.",
+      "runbook_url": "https://docs.lukhas.ai/ops/alerts/unrouted-signals",
+      "summary": "Unrouted signals detected in LUKHAS consciousness router"
+    },
+    "labels": {
+      "severity": "warning",
+      "component": "consciousness-router",
+      "team": "lukhas-core"
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "version": "1.0",
+  "last_updated": "2025-09-17T02:00:00Z",
+  "test_budgets": {
+    "unit_contracts": {
+      "p95_baseline": 1.5,
+      "max_single_test": 0.5,
+      "suite_budget": 60.0
+    },
+    "capability_suite": {
+      "p95_baseline": 40.0,
+      "max_single_test": 15.0,
+      "suite_budget": 120.0
+    },
+    "e2e_smoke": {
+      "p95_baseline": 12.0,
+      "max_single_test": 8.0,
+      "suite_budget": 60.0
+    }
+  },
+  "individual_test_budgets": {
+    "test_router_performance_under_load": {
+      "p95_baseline": 10.5,
+      "max_duration": 15.0
+    },
+    "test_no_unrouted_during_demonstration": {
+      "p95_baseline": 5.5,
+      "max_duration": 8.0
+    },
+    "test_burst_emission_backpressure": {
+      "p95_baseline": 5.2,
+      "max_duration": 8.0
+    },
+    "test_no_unrouted_during_cycle": {
+      "p95_baseline": 5.1,
+      "max_duration": 8.0
+    },
+    "test_network_coherence_emergence_distributed": {
+      "p95_baseline": 5.5,
+      "max_duration": 8.0
+    },
+    "test_signal_cascade_prevention_real_network": {
+      "p95_baseline": 5.1,
+      "max_duration": 8.0
+    }
+  },
+  "coherence_thresholds": {
+    "median_min": 0.75,
+    "p10_min": 0.70,
+    "window_size": 10
+  },
+  "unrouted_signals": {
+    "startup_max": 0,
+    "runtime_max": 0,
+    "shutdown_max": 0
+  }
+}

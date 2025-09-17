@@ -18,11 +18,46 @@ Each Jules agent MUST follow this standardized workflow for every assigned modul
    - Use T4 markers (`tier1`, `tier2`, etc).
    - Annotate edge cases and goldens.
 
-4. **Local Validation**  
+4. **Local Validation**
    ```bash
    pytest -m tier1 --tb=short
    pytest --cov=lukhas --cov-report=term-missing
    ```
+
+## 🛡️ Strict Mode Environment Variables
+
+LUKHAS uses strict validation modes for production safety. Configure appropriately:
+
+### CI/Release Environment (Always Enabled)
+- `LUKHAS_STRICT_EMIT=1` - Enforces strict signal emission validation
+- `LUKHAS_LANE=experimental` - Default lane for testing (override with `CI_RELEASE=1`)
+- `DISPATCH_ENABLED=false` - Requires explicit activation
+- `LEARNING_ENABLED=false` - Requires explicit activation
+
+### Local Development (Optional)
+```bash
+# Recommended for development - catches issues early
+export LUKHAS_STRICT_EMIT=1
+
+# For debugging/prototyping only - disable strict mode
+export LUKHAS_STRICT_EMIT=0
+
+# Set deterministic seed for reproducible results
+export LUKHAS_RNG_SEED=42
+export PYTHONHASHSEED=0
+export TZ=UTC
+```
+
+### Performance Testing
+```bash
+# Standard stress test duration
+export LUKHAS_STRESS_DURATION=1.0
+
+# Extended soak testing (CI release promotion)
+export LUKHAS_STRESS_DURATION=30.0
+```
+
+**⚠️ Important:** Strict mode prevents many runtime errors but may slow development. Use `LUKHAS_STRICT_EMIT=0` locally if encountering validation friction during prototyping.
 
 5. **Commit with Branding**  
    - Follow [`commit_standard_format.yaml`](commit_standard_format.yaml).  

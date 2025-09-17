@@ -1,0 +1,69 @@
+{
+  "alert": {
+    "id": "lukhas-drift-ema",
+    "uid": "lukhas_drift_001",
+    "title": "LUKHAS Drift EMA Alert",
+    "condition": "C",
+    "data": [
+      {
+        "refId": "A",
+        "queryType": "",
+        "relativeTimeRange": {
+          "from": 120,
+          "to": 0
+        },
+        "model": {
+          "expr": "lukhas_drift_ema{lane=\"prod\"}",
+          "interval": "",
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        },
+        "datasourceUid": "prometheus"
+      },
+      {
+        "refId": "C",
+        "queryType": "",
+        "relativeTimeRange": {
+          "from": 0,
+          "to": 0
+        },
+        "model": {
+          "conditions": [
+            {
+              "evaluator": {
+                "params": [0.35],
+                "type": "gt"
+              },
+              "operator": {
+                "type": "and"
+              },
+              "query": {
+                "params": ["A"]
+              },
+              "reducer": {
+                "type": "last"
+              },
+              "type": "query"
+            }
+          ],
+          "refId": "C"
+        }
+      }
+    ],
+    "intervalSeconds": 30,
+    "noDataState": "NoData",
+    "execErrState": "Alerting",
+    "for": "2m",
+    "annotations": {
+      "description": "LUKHAS drift EMA in production lane has exceeded 0.35 threshold for 2 minutes. This indicates potential consciousness system instability or performance degradation.",
+      "runbook_url": "https://docs.lukhas.ai/ops/alerts/drift-ema",
+      "summary": "High drift EMA detected in LUKHAS production lane"
+    },
+    "labels": {
+      "severity": "critical",
+      "component": "consciousness-core",
+      "team": "lukhas-core",
+      "lane": "production"
+    }
+  }
+}

@@ -7,12 +7,20 @@ on:
     branches: [ main, trunk, develop ]
 
 env:
+  # Hermetic determinism for reproducible results
   PYTHONHASHSEED: "0"
+  TZ: "UTC"
+  LUKHAS_RNG_SEED: "42"
   PIP_DISABLE_PIP_VERSION_CHECK: "1"
   PIP_NO_PYTHON_VERSION_WARNING: "1"
   # strict emitter & short stress run for CI
   LUKHAS_STRICT_EMIT: "1"
   LUKHAS_STRESS_DURATION: "1.0"
+  # lane canary by default unless CI_RELEASE=1
+  LUKHAS_LANE: "experimental"
+  # feature flags default-false check
+  DISPATCH_ENABLED: "false"
+  LEARNING_ENABLED: "false"
   # make pytest discover our config and markers
   PYTEST_ADDOPTS: "-q"
 
@@ -45,7 +53,10 @@ jobs:
           # Install project with dev dependencies
           pip install -e .[dev]
           # Ensure additional test dependencies
-          pip install pytest-asyncio pytest-json-report
+          pip install pytest-asyncio pytest-json-report pytest-rerunfailures
+
+          # Generate requirements.lock for toolchain pinning
+          pip freeze > requirements-${{ matrix.python-version }}.lock
 
       - name: Show pytest & env
         run: |
@@ -58,6 +69,19 @@ jobs:
       - name: Run audit (collection must be clean)
         run: |
           if [ -f scripts/audit_tests.py ]; then python scripts/audit_tests.py; else echo "No audit script found"; fi
+
+      - name: Flake radar (catch intermittent failures)
+        run: |
+          echo "Running flake detection with rerun failures..."
+          pytest tests/unit/metrics/ tests/capabilities/ -q -x --maxfail=1 -ra --reruns=1 --reruns-delay=1 -k 'not slow' | tee /tmp/flake_radar.log
+
+          # Fail if any rerun was needed (treat as flaky)
+          if grep -q "RERUN" /tmp/flake_radar.log; then
+            echo "❌ Flaky test detected - rerun was needed"
+            grep "RERUN" /tmp/flake_radar.log
+            exit 1
+          fi
+          echo "✅ No flaky tests detected"
 
       - name: T4 unit contracts
         run: |
@@ -159,4 +183,22 @@ PY
           grep -Eq "network_coherence[:=]\s*(0\.7[0-9]*|0\.[89]|1(\.0+)?)" "$LOG" || {
             echo "❌ Coherence never reached ≥0.70"; exit 1; }
 
+          # Run performance budget checks
+          python scripts/check_perf_budgets.py
+
+          # Validate alert configurations
+          python scripts/validate_alerts.py
+
           echo "✅ T4 Hardening validation complete for Python ${{ matrix.python-version }}"
+
+      - name: Upload T4 artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: t4-artifacts-${{ matrix.python-version }}
+          path: |
+            /tmp/t4_success.log
+            /tmp/flake_radar.log
+            reports/pytest-*.json
+            requirements-${{ matrix.python-version }}.lock
+          if-no-files-found: ignore
