@@ -371,7 +371,23 @@ class ConsciousnessStream:
             "avg_tick_processing_ms": statistics.mean(self._tick_processing_times) if self._tick_processing_times else 0.0,
             # Backpressure metrics
             "backpressure_enabled": self.enable_backpressure,
-            "backpressure_stats": self.backpressure_ring.get_backpressure_stats() if self.backpressure_ring else None
+            "backpressure_stats": (
+                self.backpressure_ring.get_backpressure_stats()
+                if self.backpressure_ring
+                else {
+                    "capacity": 0,
+                    "current_size": 0,
+                    "utilization": 0.0,
+                    "pressure_threshold": 0.0,
+                    "total_pushes": 0,
+                    "total_drops": 0,
+                    "drop_rate": 0.0,
+                    "decimation_events": 0,
+                    "decimation_factor": 0,
+                    "decimation_strategy": "disabled",
+                    "last_decimation_utilization": 0.0,
+                }
+            )
         }
 
     def get_recent_events(self, limit: int = 100) -> List[Event]:

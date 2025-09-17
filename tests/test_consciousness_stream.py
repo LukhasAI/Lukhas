@@ -329,7 +329,7 @@ class TestConsciousnessStream:
 
         # Verify backpressure is disabled
         assert metrics["backpressure_enabled"] is False
-        assert metrics["backpressure_stats"] is None
+        assert metrics["backpressure_stats"]["decimation_strategy"] == "disabled"
         assert stream.backpressure_ring is None
 
     def test_decimation_strategies(self):
