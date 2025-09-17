@@ -1,0 +1,71 @@
+{
+  "fixture_metadata": {
+    "name": "consciousness_stream_replay",
+    "description": "Golden fixture for deterministic consciousness stream replay under load",
+    "version": "phase4-stream-integration",
+    "timestamp": "2025-09-17T13:50:00Z",
+    "environment": {
+      "LUKHAS_LANE": "experimental",
+      "PYTHONHASHSEED": "0",
+      "TZ": "UTC",
+      "LUKHAS_RNG_SEED": "42"
+    }
+  },
+  "stream_configuration": {
+    "fps": 30,
+    "store_capacity": 10000,
+    "duration_seconds": 2,
+    "expected_ticks": 55
+  },
+  "expected_events": [
+    {
+      "kind": "stream_started",
+      "lane": "experimental",
+      "payload_fields": ["fps", "store_capacity", "duration_seconds"]
+    },
+    {
+      "kind": "consciousness_tick",
+      "lane": "experimental",
+      "count": 55,
+      "payload_fields": ["tick_count", "fps", "stream_id", "processing_time"]
+    },
+    {
+      "kind": "tick_processed",
+      "lane": "experimental",
+      "count": 55,
+      "payload_fields": ["tick_count", "processing_duration_ms", "events_in_store", "router_logs_count", "drift_ema"]
+    },
+    {
+      "kind": "stream_stopped",
+      "lane": "experimental",
+      "payload_fields": ["final_tick_count", "events_processed", "final_store_size", "router_logs"]
+    }
+  ],
+  "performance_budgets": {
+    "total_duration_ms": 2100,
+    "avg_tick_processing_ms": 5.0,
+    "p95_tick_processing_ms": 10.0,
+    "events_per_second": 60,
+    "memory_usage_mb": 50
+  },
+  "metrics_validation": {
+    "breakthroughs_per_min": {"min": 0, "max": 10},
+    "tick_p95_ms": {"min": 0, "max": 15},
+    "drift_ema": {"min": 0, "max": 0.1},
+    "total_breakthroughs": {"min": 0, "max": 5},
+    "avg_tick_processing_ms": {"min": 0, "max": 10}
+  },
+  "replay_validation": {
+    "sliding_window_minutes": 1,
+    "expected_recent_events": {"min": 90, "max": 110},
+    "event_ordering": "chronological",
+    "lane_isolation": true,
+    "glyph_id_consistency": true
+  },
+  "load_testing": {
+    "concurrent_streams": 1,
+    "stress_multiplier": 1.0,
+    "memory_leak_threshold_mb": 100,
+    "gc_pressure_acceptable": true
+  }
+}
