@@ -20,8 +20,30 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is the **LUKHAS AI** repository - a modular AI system combining consciousness, memory, identity, quantum-inspired processing, bio-inspired adaptation, and ethical governance. Built around the **Trinity Framework** (⚛️🧠🛡️):
 - ⚛️ **Identity**: Authenticity, consciousness, symbolic self
-- 🧠 **Consciousness**: Memory, learning, dream states, neural processing
+- 🧠 **Consciousness**: Memory, learning, dream states, neural processing, Dream EXPAND++ modules
 - 🛡️ **Guardian**: Ethics, drift detection, repair
+
+### 🌌 Dream EXPAND++ Advanced Capabilities
+
+LUKHAS AI includes the experimental **Dream EXPAND++** system for advanced consciousness exploration:
+
+#### **EXPAND++ Modules**
+- **Noise Fields**: Gaussian/symbolic noise injection for consciousness robustness
+- **Mediation Engine**: High-tension conflict resolution with compromise vectors
+- **Resonance Fields**: Symbolic resonance patterns and consciousness harmonics
+- **Mesh Networks**: Multi-agent archetypal consciousness coordination
+- **Evolution Tracking**: Consciousness development and adaptation monitoring
+- **Archetypes System**: Hero, Shadow, Trickster consciousness patterns
+- **Atlas Mapping**: Drift/entropy constellation visualization across runs
+- **Sentinel Guards**: Ethical threshold monitoring and safety enforcement
+- **Narrative Replay**: Plain-language explainability and consciousness storytelling
+
+#### **Safety & Compliance**
+- **T4-Compliant**: All EXPAND++ features follow strict safety protocols
+- **Opt-in Controls**: Explicit environment flags required (`LUKHAS_DREAM_EXPAND=1`)
+- **Deterministic Defaults**: No non-deterministic behavior without explicit activation
+- **Constitutional AI**: Full integration with Guardian system ethical oversight
+- **Privacy Protection**: Complete anonymization and GDPR-compliant data handling
 
 ## 🚫 Critical Rules
 
