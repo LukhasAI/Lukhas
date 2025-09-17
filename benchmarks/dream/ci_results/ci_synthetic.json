@@ -1,0 +1,848 @@
+[
+  {
+    "case_id": "syn_easy_001",
+    "query_emotion": {
+      "confidence": 0.639,
+      "curiosity": 0.025,
+      "joy": 0.275,
+      "fear": 0.223,
+      "anger": 0.736,
+      "sadness": 0.677,
+      "surprise": 0.892,
+      "trust": 0.087
+    },
+    "snapshots": [
+      {
+        "name": "perfect",
+        "emotion": {
+          "confidence": 0.6281520657927403,
+          "curiosity": 0.030794239335042755,
+          "joy": 0.2866148868453361,
+          "fear": 0.28117793432995714,
+          "anger": 0.7688318253399334,
+          "sadness": 0.6825253588721917,
+          "surprise": 0.855083919882759,
+          "trust": 0.03626688162561414
+        },
+        "timestamp": 94.40881244081393,
+        "content": "Synthetic snapshot perfect",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "worse_2",
+        "emotion": {
+          "confidence": 0.08199922932732824,
+          "curiosity": 1.0,
+          "joy": 0.041832673168306536,
+          "fear": 0.017741797437237992,
+          "anger": 0.1823838333164074,
+          "sadness": 0.1149125189690965,
+          "surprise": 0.27346540404485453,
+          "trust": 0.0
+        },
+        "timestamp": 90.64200487808075,
+        "content": "Synthetic snapshot worse_2",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "worse_0",
+        "emotion": {
+          "confidence": 0.2261807085010276,
+          "curiosity": 0.017711542146169268,
+          "joy": 0.7200050443697942,
+          "fear": 0.08666937102052634,
+          "anger": 0.2232899935302141,
+          "sadness": 0.34593837624542956,
+          "surprise": 0.09557551034465336,
+          "trust": 0.09605931985430247
+        },
+        "timestamp": 97.29664357940169,
+        "content": "Synthetic snapshot worse_0",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "worse_1",
+        "emotion": {
+          "confidence": 0.33750158629319926,
+          "curiosity": 0.999966320023839,
+          "joy": 0.7124942214501307,
+          "fear": 0.1836877111240274,
+          "anger": 0.1798353728906753,
+          "sadness": 0.1481562700048921,
+          "surprise": 0.3060236757734848,
+          "trust": 0.09719249906717328
+        },
+        "timestamp": 93.26804987523857,
+        "content": "Synthetic snapshot worse_1",
+        "metadata": {
+          "synthetic": true
+        }
+      }
+    ],
+    "expected_selection": "perfect",
+    "difficulty": "easy",
+    "scenario": "Clear winner with high alignment, others significantly worse"
+  },
+  {
+    "case_id": "syn_easy_002",
+    "query_emotion": {
+      "confidence": 0.066,
+      "curiosity": 0.913,
+      "joy": 0.567,
+      "fear": 0.718,
+      "anger": 0.213,
+      "sadness": 0.499,
+      "surprise": 0.885,
+      "trust": 0.643
+    },
+    "snapshots": [
+      {
+        "name": "worse_1",
+        "emotion": {
+          "confidence": 0.9131556767920764,
+          "curiosity": 0.29503078533270866,
+          "joy": 0.5412710743031066,
+          "fear": 0.24943452554179613,
+          "anger": 0.122817864842486,
+          "sadness": 0.11657956006195798,
+          "surprise": 0.24120724714871283,
+          "trust": 0.35874215511995183
+        },
+        "timestamp": 97.25961534361868,
+        "content": "Synthetic snapshot worse_1",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "worse_2",
+        "emotion": {
+          "confidence": 0.1100761152429229,
+          "curiosity": 0.2655502817164563,
+          "joy": 0.17255828097088044,
+          "fear": 0.3190388786896983,
+          "anger": 0.7685344637839797,
+          "sadness": 0.4926824640818337,
+          "surprise": 0.10456369077859413,
+          "trust": 0.10148986389328687
+        },
+        "timestamp": 109.55968987354669,
+        "content": "Synthetic snapshot worse_2",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "perfect",
+        "emotion": {
+          "confidence": 0.08309538563618774,
+          "curiosity": 0.9344409280432908,
+          "joy": 0.5650412638660035,
+          "fear": 0.6558091387519132,
+          "anger": 0.21200777967937362,
+          "sadness": 0.44612381847862836,
+          "surprise": 0.8439774375091961,
+          "trust": 0.6192469691540319
+        },
+        "timestamp": 109.94651555978322,
+        "content": "Synthetic snapshot perfect",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "worse_0",
+        "emotion": {
+          "confidence": 0.9086963259859169,
+          "curiosity": 0.0,
+          "joy": 0.17456968190627573,
+          "fear": 0.15604369630778325,
+          "anger": 0.8419740301424631,
+          "sadness": 0.5444281758626889,
+          "surprise": 0.29791925520388135,
+          "trust": 0.14298056609373874
+        },
+        "timestamp": 93.97822203529466,
+        "content": "Synthetic snapshot worse_0",
+        "metadata": {
+          "synthetic": true
+        }
+      }
+    ],
+    "expected_selection": "perfect",
+    "difficulty": "easy",
+    "scenario": "Clear winner with high alignment, others significantly worse"
+  },
+  {
+    "case_id": "syn_easy_003",
+    "query_emotion": {
+      "confidence": 0.947,
+      "curiosity": 0.165,
+      "joy": 0.528,
+      "fear": 0.607,
+      "anger": 0.964,
+      "sadness": 0.929,
+      "surprise": 0.755,
+      "trust": 0.69
+    },
+    "snapshots": [
+      {
+        "name": "worse_2",
+        "emotion": {
+          "confidence": 0.0750298907379845,
+          "curiosity": 0.8370486261458245,
+          "joy": 0.4728225784507252,
+          "fear": 0.14538835324268168,
+          "anger": 0.0,
+          "sadness": 0.10278224445971754,
+          "surprise": 0.2976597818786558,
+          "trust": 0.22892675637304744
+        },
+        "timestamp": 93.29274242803054,
+        "content": "Synthetic snapshot worse_2",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "worse_1",
+        "emotion": {
+          "confidence": 0.30671608200501976,
+          "curiosity": 0.885929725166709,
+          "joy": 0.4859527265431087,
+          "fear": 0.1680568507798464,
+          "anger": 0.32429464783819933,
+          "sadness": 0.18673845284466312,
+          "surprise": 0.2858413499000983,
+          "trust": 0.3519338816699548
+        },
+        "timestamp": 100.8117587620061,
+        "content": "Synthetic snapshot worse_1",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "worse_0",
+        "emotion": {
+          "confidence": 0.24301115532570025,
+          "curiosity": 0.0,
+          "joy": 0.5469249699576951,
+          "fear": 0.2120990456637691,
+          "anger": 0.04351801025330289,
+          "sadness": 0.04815172373789223,
+          "surprise": 0.26724213396710456,
+          "trust": 0.3678594962271242
+        },
+        "timestamp": 92.8036459418955,
+        "content": "Synthetic snapshot worse_0",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "perfect",
+        "emotion": {
+          "confidence": 0.9353598906630575,
+          "curiosity": 0.1159057486323757,
+          "joy": 0.5051591887166009,
+          "fear": 0.5643890219975215,
+          "anger": 1.0,
+          "sadness": 0.8966837185725437,
+          "surprise": 0.7552393488778162,
+          "trust": 0.7081873599411167
+        },
+        "timestamp": 90.42068520014118,
+        "content": "Synthetic snapshot perfect",
+        "metadata": {
+          "synthetic": true
+        }
+      }
+    ],
+    "expected_selection": "perfect",
+    "difficulty": "easy",
+    "scenario": "Clear winner with high alignment, others significantly worse"
+  },
+  {
+    "case_id": "syn_easy_004",
+    "query_emotion": {
+      "confidence": 0.927,
+      "curiosity": 0.785,
+      "joy": 0.285,
+      "fear": 0.697,
+      "anger": 0.731,
+      "sadness": 0.783,
+      "surprise": 0.662,
+      "trust": 0.487
+    },
+    "snapshots": [
+      {
+        "name": "worse_0",
+        "emotion": {
+          "confidence": 0.28439057896200304,
+          "curiosity": 0.21231221245993,
+          "joy": 0.038923570395101206,
+          "fear": 0.16471899143934032,
+          "anger": 0.3192480782216313,
+          "sadness": 0.25349832151843205,
+          "surprise": 0.17196397741095681,
+          "trust": 0.512014694049312
+        },
+        "timestamp": 96.9801766992903,
+        "content": "Synthetic snapshot worse_0",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "perfect",
+        "emotion": {
+          "confidence": 0.939918878483983,
+          "curiosity": 0.8175682855291491,
+          "joy": 0.3611268140292539,
+          "fear": 0.7263046731182184,
+          "anger": 0.7712335186077585,
+          "sadness": 0.7992102643656801,
+          "surprise": 0.7161097084867505,
+          "trust": 0.5046348265024081
+        },
+        "timestamp": 108.3877426166415,
+        "content": "Synthetic snapshot perfect",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "worse_2",
+        "emotion": {
+          "confidence": 0.041618948026499424,
+          "curiosity": 0.18019025564318653,
+          "joy": 0.7362661832421247,
+          "fear": 0.29327802254421587,
+          "anger": 0.2972499985544708,
+          "sadness": 0.20773882158811396,
+          "surprise": 0.40135942038309347,
+          "trust": 0.09349159650777822
+        },
+        "timestamp": 93.10895819549981,
+        "content": "Synthetic snapshot worse_2",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "worse_1",
+        "emotion": {
+          "confidence": 0.31208100986055337,
+          "curiosity": 0.2511761570022675,
+          "joy": 0.07379144460223658,
+          "fear": 0.35540056540019754,
+          "anger": 0.22811247247359262,
+          "sadness": 0.2235159405545249,
+          "surprise": 0.28884144566387837,
+          "trust": 0.5038132263950368
+        },
+        "timestamp": 100.5788138520454,
+        "content": "Synthetic snapshot worse_1",
+        "metadata": {
+          "synthetic": true
+        }
+      }
+    ],
+    "expected_selection": "perfect",
+    "difficulty": "easy",
+    "scenario": "Clear winner with high alignment, others significantly worse"
+  },
+  {
+    "case_id": "syn_medium_005",
+    "query_emotion": {
+      "confidence": 0.718,
+      "curiosity": 0.204,
+      "joy": 0.634,
+      "fear": 0.264,
+      "anger": 0.489,
+      "sadness": 0.905,
+      "surprise": 0.846,
+      "trust": 0.092
+    },
+    "snapshots": [
+      {
+        "name": "candidate_0",
+        "emotion": {
+          "confidence": 0.7651736882056688,
+          "curiosity": 0.5132320499146477,
+          "joy": 0.598352572945038,
+          "fear": 0.30323435003755933,
+          "anger": 0.43203087627250414,
+          "sadness": 0.9205980348345435,
+          "surprise": 0.8669368630209429,
+          "trust": 0.33038133236181666
+        },
+        "timestamp": 105.92244609776083,
+        "content": "Synthetic snapshot candidate_0",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "candidate_1",
+        "emotion": {
+          "confidence": 0.8084409887555349,
+          "curiosity": 0.1613590865749499,
+          "joy": 1.0,
+          "fear": 0.45889796799168503,
+          "anger": 0.49723410491914255,
+          "sadness": 0.89740440284739,
+          "surprise": 0.8422115885962936,
+          "trust": 0.20436868083540694
+        },
+        "timestamp": 108.6163177209665,
+        "content": "Synthetic snapshot candidate_1",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "candidate_2",
+        "emotion": {
+          "confidence": 0.6766519850514864,
+          "curiosity": 0.21453243380291093,
+          "joy": 0.6441000820475039,
+          "fear": 0.24620921255160655,
+          "anger": 0.5213946811382626,
+          "sadness": 0.9098525140904948,
+          "surprise": 0.7290324325775392,
+          "trust": 0.18010080524494254
+        },
+        "timestamp": 109.33778208096723,
+        "content": "Synthetic snapshot candidate_2",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "candidate_3",
+        "emotion": {
+          "confidence": 0.548482632632175,
+          "curiosity": 0.23627080443836007,
+          "joy": 0.6074115453863609,
+          "fear": 0.3268707169918448,
+          "anger": 0.3221546908226076,
+          "sadness": 0.9014633355234012,
+          "surprise": 0.9265918293873031,
+          "trust": 0.046772153088742247
+        },
+        "timestamp": 104.1757056766834,
+        "content": "Synthetic snapshot candidate_3",
+        "metadata": {
+          "synthetic": true
+        }
+      }
+    ],
+    "expected_selection": "candidate_2",
+    "difficulty": "medium",
+    "scenario": "Multiple good candidates, requiring careful comparison"
+  },
+  {
+    "case_id": "syn_medium_006",
+    "query_emotion": {
+      "confidence": 0.002,
+      "curiosity": 0.926,
+      "joy": 0.538,
+      "fear": 0.719,
+      "anger": 0.742,
+      "sadness": 0.671,
+      "surprise": 0.364,
+      "trust": 0.07
+    },
+    "snapshots": [
+      {
+        "name": "candidate_0",
+        "emotion": {
+          "confidence": 0.0,
+          "curiosity": 0.9500923654665915,
+          "joy": 0.574394247444985,
+          "fear": 0.7564558916100488,
+          "anger": 0.8119847335598325,
+          "sadness": 0.6434759010181796,
+          "surprise": 0.4206366431090999,
+          "trust": 0.030357320009431532
+        },
+        "timestamp": 96.01899749131131,
+        "content": "Synthetic snapshot candidate_0",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "candidate_1",
+        "emotion": {
+          "confidence": 0.07451549708415273,
+          "curiosity": 0.8375800084605877,
+          "joy": 0.5481759330343277,
+          "fear": 0.7374252352650655,
+          "anger": 0.6715438135101731,
+          "sadness": 0.6641379868032667,
+          "surprise": 0.47165027564702944,
+          "trust": 0.1494425622604307
+        },
+        "timestamp": 105.02276275081465,
+        "content": "Synthetic snapshot candidate_1",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "candidate_2",
+        "emotion": {
+          "confidence": 0.0,
+          "curiosity": 0.9378025247023788,
+          "joy": 0.5667343434789178,
+          "fear": 0.7146194570375217,
+          "anger": 0.7425195105663557,
+          "sadness": 0.40364478935228965,
+          "surprise": 0.5135267462299422,
+          "trust": 0.10266029356659839
+        },
+        "timestamp": 93.51773363413064,
+        "content": "Synthetic snapshot candidate_2",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "candidate_3",
+        "emotion": {
+          "confidence": 0.09910927253542283,
+          "curiosity": 1.0,
+          "joy": 0.5069331478928966,
+          "fear": 0.6584462114219033,
+          "anger": 0.6901818673556126,
+          "sadness": 0.5768269979445105,
+          "surprise": 0.3611718794465402,
+          "trust": 0.0
+        },
+        "timestamp": 104.8731088431917,
+        "content": "Synthetic snapshot candidate_3",
+        "metadata": {
+          "synthetic": true
+        }
+      }
+    ],
+    "expected_selection": "candidate_0",
+    "difficulty": "medium",
+    "scenario": "Multiple good candidates, requiring careful comparison"
+  },
+  {
+    "case_id": "syn_medium_007",
+    "query_emotion": {
+      "confidence": 0.475,
+      "curiosity": 0.259,
+      "joy": 0.247,
+      "fear": 0.638,
+      "anger": 0.766,
+      "sadness": 0.521,
+      "surprise": 0.627,
+      "trust": 0.275
+    },
+    "snapshots": [
+      {
+        "name": "candidate_0",
+        "emotion": {
+          "confidence": 0.3508208521101912,
+          "curiosity": 0.25827559744157447,
+          "joy": 0.1519195054805144,
+          "fear": 0.8206004309412585,
+          "anger": 0.6183959854707605,
+          "sadness": 0.26170161440314876,
+          "surprise": 0.6799290567426319,
+          "trust": 0.20827646320128074
+        },
+        "timestamp": 97.60762057855423,
+        "content": "Synthetic snapshot candidate_0",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "candidate_1",
+        "emotion": {
+          "confidence": 0.33543193108901703,
+          "curiosity": 0.3115137672801119,
+          "joy": 0.29150807744787416,
+          "fear": 0.6462080609310289,
+          "anger": 0.7440822841012141,
+          "sadness": 0.4750669605223053,
+          "surprise": 0.6555555319259343,
+          "trust": 0.5247557048803249
+        },
+        "timestamp": 92.55255594562321,
+        "content": "Synthetic snapshot candidate_1",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "candidate_2",
+        "emotion": {
+          "confidence": 0.47844161628013915,
+          "curiosity": 0.058236951580177845,
+          "joy": 0.3676543368585021,
+          "fear": 0.5435792304230279,
+          "anger": 0.7189097106818876,
+          "sadness": 0.541668616814875,
+          "surprise": 0.7002831548665176,
+          "trust": 0.2825638638698546
+        },
+        "timestamp": 109.9981565701842,
+        "content": "Synthetic snapshot candidate_2",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "candidate_3",
+        "emotion": {
+          "confidence": 0.4437726089846458,
+          "curiosity": 0.2026522723649864,
+          "joy": 0.2625005093311147,
+          "fear": 0.7139650513612407,
+          "anger": 0.769211477511807,
+          "sadness": 0.4908664041926763,
+          "surprise": 0.6476838158474257,
+          "trust": 0.23421806337223622
+        },
+        "timestamp": 92.29065742757795,
+        "content": "Synthetic snapshot candidate_3",
+        "metadata": {
+          "synthetic": true
+        }
+      }
+    ],
+    "expected_selection": "candidate_3",
+    "difficulty": "medium",
+    "scenario": "Multiple good candidates, requiring careful comparison"
+  },
+  {
+    "case_id": "syn_hard_008",
+    "query_emotion": {
+      "confidence": 0.819,
+      "curiosity": 0.965,
+      "joy": 0.108,
+      "fear": 0.026,
+      "anger": 0.312,
+      "sadness": 0.677,
+      "surprise": 0.958,
+      "trust": 0.397
+    },
+    "snapshots": [
+      {
+        "name": "recent_mediocre",
+        "emotion": {
+          "confidence": 0.5689652004974082,
+          "curiosity": 0.6560988018225646,
+          "joy": 0.04999400456728492,
+          "fear": 0.0,
+          "anger": 0.28739742268481927,
+          "sadness": 0.5253000075145351,
+          "surprise": 0.7105083165569727,
+          "trust": 0.22318320401119612
+        },
+        "timestamp": 192.4211013013463,
+        "content": "Synthetic snapshot recent_mediocre",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "old_excellent",
+        "emotion": {
+          "confidence": 0.8815098298873304,
+          "curiosity": 0.9384707808379533,
+          "joy": 0.1587033061769748,
+          "fear": 0.034665292888565194,
+          "anger": 0.3247189449633507,
+          "sadness": 0.63389502217031,
+          "surprise": 0.8515753022215607,
+          "trust": 0.47813764934481723
+        },
+        "timestamp": 59.30947462476155,
+        "content": "Synthetic snapshot old_excellent",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "medium_okay",
+        "emotion": {
+          "confidence": 0.643764897239901,
+          "curiosity": 0.8621428235789409,
+          "joy": 0.03057026496311857,
+          "fear": 0.00714655815853053,
+          "anger": 0.17511953995295604,
+          "sadness": 0.5735118762620987,
+          "surprise": 0.7551340405376422,
+          "trust": 0.4146366529829617
+        },
+        "timestamp": 131.61462037781206,
+        "content": "Synthetic snapshot medium_okay",
+        "metadata": {
+          "synthetic": true
+        }
+      }
+    ],
+    "expected_selection": "old_excellent",
+    "difficulty": "hard",
+    "scenario": "Temporal tradeoff: recent mediocre vs old excellent vs medium okay"
+  },
+  {
+    "case_id": "syn_hard_009",
+    "query_emotion": {
+      "confidence": 0.087,
+      "curiosity": 0.882,
+      "joy": 0.244,
+      "fear": 0.465,
+      "anger": 0.61,
+      "sadness": 0.379,
+      "surprise": 0.029,
+      "trust": 0.851
+    },
+    "snapshots": [
+      {
+        "name": "recent_mediocre",
+        "emotion": {
+          "confidence": 0.07523835223785139,
+          "curiosity": 0.6488079309927547,
+          "joy": 0.18430177202981313,
+          "fear": 0.2819357138850713,
+          "anger": 0.483758691311837,
+          "sadness": 0.2122143787724017,
+          "surprise": 0.01912647732542965,
+          "trust": 0.6027454088802224
+        },
+        "timestamp": 208.96125155554063,
+        "content": "Synthetic snapshot recent_mediocre",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "old_excellent",
+        "emotion": {
+          "confidence": 0.15762474067768906,
+          "curiosity": 0.9260612364893458,
+          "joy": 0.1782907274907505,
+          "fear": 0.4286987389791672,
+          "anger": 0.5448973481290265,
+          "sadness": 0.31098819242715037,
+          "surprise": 0.0,
+          "trust": 0.8439049747467231
+        },
+        "timestamp": 54.918708734272194,
+        "content": "Synthetic snapshot old_excellent",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "medium_okay",
+        "emotion": {
+          "confidence": 0.03173474872313125,
+          "curiosity": 0.7736727331026103,
+          "joy": 0.19021382734786674,
+          "fear": 0.409721546279846,
+          "anger": 0.511748077588913,
+          "sadness": 0.3256858154928387,
+          "surprise": 0.0684785752935167,
+          "trust": 0.7230816576986863
+        },
+        "timestamp": 130.24379218968207,
+        "content": "Synthetic snapshot medium_okay",
+        "metadata": {
+          "synthetic": true
+        }
+      }
+    ],
+    "expected_selection": "old_excellent",
+    "difficulty": "hard",
+    "scenario": "Temporal tradeoff: recent mediocre vs old excellent vs medium okay"
+  },
+  {
+    "case_id": "syn_adversarial_010",
+    "query_emotion": {
+      "confidence": 0.0,
+      "curiosity": 0.0,
+      "joy": 0.0,
+      "fear": 0.0,
+      "anger": 0.0,
+      "sadness": 0.0,
+      "surprise": 0.0,
+      "trust": 0.0
+    },
+    "snapshots": [
+      {
+        "name": "also_zeros",
+        "emotion": {
+          "confidence": 0.029412895247771187,
+          "curiosity": 0.07644271053646216,
+          "joy": 0.0,
+          "fear": 0.06580762094214347,
+          "anger": 0.004319344477373694,
+          "sadness": 0.0,
+          "surprise": 0.09383143387819326,
+          "trust": 0.0
+        },
+        "timestamp": 95.9249292653029,
+        "content": "Synthetic snapshot also_zeros",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "small_values",
+        "emotion": {
+          "confidence": 0.07277887557517915,
+          "curiosity": 0.13253626374889665,
+          "joy": 0.09321747398535878,
+          "fear": 0.07488609984908613,
+          "anger": 0.11606345008313676,
+          "sadness": 0.10472335983763933,
+          "surprise": 0.06857774361603908,
+          "trust": 0.21589938513631532
+        },
+        "timestamp": 102.75739310211856,
+        "content": "Synthetic snapshot small_values",
+        "metadata": {
+          "synthetic": true
+        }
+      },
+      {
+        "name": "large_values",
+        "emotion": {
+          "confidence": 0.9004081115445719,
+          "curiosity": 0.8767398937051128,
+          "joy": 0.9407778212932058,
+          "fear": 0.9031488117249448,
+          "anger": 0.8547684603635053,
+          "sadness": 0.9060857109679747,
+          "surprise": 0.9372511480113418,
+          "trust": 0.8917955928114601
+        },
+        "timestamp": 107.23445929255027,
+        "content": "Synthetic snapshot large_values",
+        "metadata": {
+          "synthetic": true
+        }
+      }
+    ],
+    "expected_selection": "also_zeros",
+    "difficulty": "adversarial",
+    "scenario": "All emotions zero - testing edge case handling"
+  }
+]

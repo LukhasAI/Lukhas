@@ -1,0 +1,42 @@
+{
+  "ci_suite": "dream_phase_next",
+  "total_tests": 4,
+  "passed": 3,
+  "failed": 1,
+  "success_rate": 0.75,
+  "total_duration_seconds": 0.12708806991577148,
+  "overall_success": false,
+  "test_results": [
+    {
+      "test": "benchmark_validation",
+      "success": false,
+      "stdout": "",
+      "stderr": "/Library/Developer/CommandLineTools/usr/bin/python3: No module named benchmarks.dream.run\n",
+      "exit_code": 1
+    },
+    {
+      "test": "config_validation",
+      "success": true,
+      "validation_result": {
+        "valid": true,
+        "issues": [],
+        "warnings": []
+      }
+    },
+    {
+      "test": "synthetic_generation",
+      "success": true,
+      "stdout": "Generated 10 synthetic test cases:\n  Easy: 4\n  Medium: 3\n  Hard: 2\n  Adversarial: 1\n  Saved to: benchmarks/dream/ci_results/ci_synthetic.json\n",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "test": "taxonomy_test",
+      "success": true,
+      "stdout": "Taxonomy analysis complete:\n  Total results: 3\n  Error rate: 100.0%\n  Classification coverage: 100.0%\n  Report saved: benchmarks/dream/ci_results/ci_taxonomy.json\n",
+      "stderr": "",
+      "exit_code": 0
+    }
+  ],
+  "timestamp": 1758140878.223116
+}

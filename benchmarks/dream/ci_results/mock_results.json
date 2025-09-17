@@ -1,0 +1,14 @@
+[
+  {
+    "accuracy": 0.9,
+    "error": ""
+  },
+  {
+    "accuracy": 0.3,
+    "error": "low alignment scores"
+  },
+  {
+    "accuracy": 0.8,
+    "error": ""
+  }
+]

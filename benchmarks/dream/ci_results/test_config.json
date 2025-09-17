@@ -1,0 +1,7 @@
+{
+  "strategy": "overlap",
+  "use_objective": "1",
+  "alignment_threshold": 0.5,
+  "drift_threshold": 0.3,
+  "confidence_threshold": 0.7
+}

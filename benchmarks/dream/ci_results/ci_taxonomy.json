@@ -1,0 +1,148 @@
+{
+  "taxonomy_analysis": {
+    "total_results": 3,
+    "total_errors": 3,
+    "error_rate": 1.0,
+    "error_distribution": {
+      "no_snapshots": 3,
+      "all_filtered_stale": 0,
+      "low_alignment_scores": 0,
+      "high_drift_detected": 0,
+      "selection_timeout": 0,
+      "emotion_validation_failed": 0,
+      "strategy_execution_failed": 0,
+      "determinism_violation": 0,
+      "memory_exhausted": 0,
+      "invalid_configuration": 0
+    },
+    "severity_distribution": {
+      "critical": 3,
+      "high": 0,
+      "medium": 0,
+      "low": 0
+    },
+    "unclassified_errors": 0,
+    "classification_coverage": 1.0
+  },
+  "error_patterns": [
+    {
+      "type": "no_snapshots",
+      "severity": "critical",
+      "symptoms": [
+        "empty snapshot list",
+        "no candidates available"
+      ],
+      "mitigation": "Check memory subsystem, verify snapshot generation pipeline",
+      "expected_frequency": 0.001,
+      "observed_count": 3
+    },
+    {
+      "type": "all_filtered_stale",
+      "severity": "high",
+      "symptoms": [
+        "all snapshots filtered as stale",
+        "fallback to original list"
+      ],
+      "mitigation": "Adjust MAX_AGE setting or check timestamp accuracy",
+      "expected_frequency": 0.02,
+      "observed_count": 0
+    },
+    {
+      "type": "low_alignment_scores",
+      "severity": "medium",
+      "symptoms": [
+        "alignment scores below threshold",
+        "poor emotional matching"
+      ],
+      "mitigation": "Review emotion normalization, consider strategy tuning",
+      "expected_frequency": 0.05,
+      "observed_count": 0
+    },
+    {
+      "type": "high_drift_detected",
+      "severity": "medium",
+      "symptoms": [
+        "high drift values",
+        "temporal instability"
+      ],
+      "mitigation": "Check temporal weighting, verify system stability",
+      "expected_frequency": 0.03,
+      "observed_count": 0
+    },
+    {
+      "type": "selection_timeout",
+      "severity": "high",
+      "symptoms": [
+        "selection timeout",
+        "processing time exceeded"
+      ],
+      "mitigation": "Optimize alignment strategies, reduce snapshot volume",
+      "expected_frequency": 0.001,
+      "observed_count": 0
+    },
+    {
+      "type": "emotion_validation_failed",
+      "severity": "medium",
+      "symptoms": [
+        "emotion validation failed",
+        "invalid emotion values"
+      ],
+      "mitigation": "Check emotion input format, verify normalization",
+      "expected_frequency": 0.01,
+      "observed_count": 0
+    },
+    {
+      "type": "strategy_execution_failed",
+      "severity": "high",
+      "symptoms": [
+        "strategy execution failed",
+        "alignment calculation error"
+      ],
+      "mitigation": "Review strategy implementation, check input validation",
+      "expected_frequency": 0.005,
+      "observed_count": 0
+    },
+    {
+      "type": "determinism_violation",
+      "severity": "critical",
+      "symptoms": [
+        "non-deterministic results",
+        "different outputs same input"
+      ],
+      "mitigation": "Check PYTHONHASHSEED, verify stable sorting, audit randomness",
+      "expected_frequency": 0.001,
+      "observed_count": 0
+    },
+    {
+      "type": "memory_exhausted",
+      "severity": "critical",
+      "symptoms": [
+        "out of memory",
+        "memory allocation failed"
+      ],
+      "mitigation": "Reduce snapshot count, optimize memory usage, add pagination",
+      "expected_frequency": 0.002,
+      "observed_count": 0
+    },
+    {
+      "type": "invalid_configuration",
+      "severity": "high",
+      "symptoms": [
+        "invalid configuration",
+        "parameter out of range"
+      ],
+      "mitigation": "Validate configuration parameters, use safe defaults",
+      "expected_frequency": 0.01,
+      "observed_count": 0
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "high",
+      "issue": "High frequency of no_snapshots errors",
+      "observed_frequency": 1.0,
+      "expected_frequency": 0.001,
+      "action": "Check memory subsystem, verify snapshot generation pipeline"
+    }
+  ]
+}

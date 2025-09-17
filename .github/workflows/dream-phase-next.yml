@@ -1,0 +1,234 @@
+name: Dream Phase NEXT - Advanced Evaluation
+
+on:
+  push:
+    branches: [ feat/dream-phase-next ]
+    paths:
+      - 'benchmarks/dream/**'
+      - 'candidate/consciousness/dream/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'benchmarks/dream/**'
+      - 'candidate/consciousness/dream/**'
+  workflow_dispatch:
+
+jobs:
+  phase-next-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest numpy matplotlib
+
+    - name: Set environment for deterministic testing
+      run: |
+        echo "PYTHONHASHSEED=42" >> $GITHUB_ENV
+        echo "LUKHAS_BENCH_SEED=42" >> $GITHUB_ENV
+        echo "LUKHAS_CI_MODE=1" >> $GITHUB_ENV
+
+    - name: Run Phase NEXT CI Suite
+      run: |
+        python -m benchmarks.dream.ci
+
+    - name: Run synthetic generation test
+      run: |
+        python -m benchmarks.dream.synthetic 20 42 benchmarks/dream/ci_synthetic_test.json
+        python -c "
+        import json
+        with open('benchmarks/dream/ci_synthetic_test.json') as f:
+            data = json.load(f)
+        assert len(data) == 20, f'Expected 20 cases, got {len(data)}'
+        print(f'✓ Generated {len(data)} synthetic test cases')
+        "
+
+    - name: Run config chooser test
+      run: |
+        python -c "
+        from benchmarks.dream.chooser import ConfigChooser, Environment, Priority
+        chooser = ConfigChooser()
+        config = {'strategy': 'overlap', 'use_objective': '1', 'alignment_threshold': 0.5}
+        validation = chooser.validate_config(config)
+        assert validation['valid'], f'Config validation failed: {validation[\"issues\"]}'
+        print('✓ Config validation passed')
+        "
+
+    - name: Run taxonomy analysis test
+      run: |
+        python -c "
+        import json
+        from benchmarks.dream.taxonomy import analyze_error_distribution
+        # Mock some results
+        results = [
+            {'accuracy': 0.9, 'error': ''},
+            {'accuracy': 0.2, 'error': 'low alignment'},
+            {'accuracy': 0.8, 'error': ''}
+        ]
+        analysis = analyze_error_distribution(results)
+        assert 'error_rate' in analysis
+        assert analysis['total_results'] == 3
+        print(f'✓ Taxonomy analysis: {analysis[\"error_rate\"]:.1%} error rate')
+        "
+
+    - name: Test rollout system
+      run: |
+        python -c "
+        from benchmarks.dream.rollout import RolloutManager, RolloutStrategy
+        manager = RolloutManager('test_rollout_state.json')
+        config = {'strategy': 'overlap', 'use_objective': '1'}
+        plan_id = manager.create_rollout_plan(config, RolloutStrategy.CANARY)
+        status = manager.get_rollout_status(plan_id)
+        assert status['status'] == 'planned'
+        print(f'✓ Rollout system: Created plan {plan_id}')
+        "
+
+    - name: Validate benchmark stability
+      run: |
+        # Run benchmark twice with same seed to ensure determinism
+        python -m benchmarks.dream.run --out benchmarks/dream/test1.jsonl
+        python -m benchmarks.dream.run --out benchmarks/dream/test2.jsonl
+        python -c "
+        import json
+        def load_results(path):
+            results = []
+            with open(path) as f:
+                for line in f:
+                    if line.strip():
+                        results.append(json.loads(line))
+            return results
+
+        results1 = load_results('benchmarks/dream/test1.jsonl')
+        results2 = load_results('benchmarks/dream/test2.jsonl')
+
+        assert len(results1) == len(results2), 'Result counts differ'
+
+        for r1, r2 in zip(results1, results2):
+            assert abs(r1['accuracy'] - r2['accuracy']) < 0.001, 'Accuracy not deterministic'
+            assert r1.get('selected_name') == r2.get('selected_name'), 'Selection not deterministic'
+
+        print('✓ Benchmark determinism verified')
+        "
+
+    - name: Upload test artifacts
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: phase-next-test-results
+        path: |
+          benchmarks/dream/ci_results/
+          benchmarks/dream/test*.jsonl
+          benchmarks/dream/*_test.json
+        retention-days: 7
+
+  performance-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: phase-next-tests
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest numpy
+
+    - name: Run performance benchmark
+      run: |
+        echo "PYTHONHASHSEED=42" >> $GITHUB_ENV
+        echo "LUKHAS_BENCH_SEED=42" >> $GITHUB_ENV
+
+        # Run benchmark and measure time
+        start_time=$(date +%s.%N)
+        python -m benchmarks.dream.run --out benchmarks/dream/perf_test.jsonl
+        end_time=$(date +%s.%N)
+
+        # Calculate duration
+        duration=$(echo "$end_time - $start_time" | bc)
+        echo "Benchmark duration: ${duration}s"
+
+        # Validate performance targets
+        python -c "
+        import json, sys
+
+        # Load results
+        results = []
+        with open('benchmarks/dream/perf_test.jsonl') as f:
+            for line in f:
+                if line.strip():
+                    results.append(json.loads(line))
+
+        if not results:
+            print('❌ No benchmark results')
+            sys.exit(1)
+
+        # Check performance targets
+        avg_accuracy = sum(r.get('accuracy', 0) for r in results) / len(results)
+        avg_latency = sum(r.get('p95_ms', 0) for r in results) / len(results)
+
+        print(f'Average accuracy: {avg_accuracy:.3f}')
+        print(f'Average P95 latency: {avg_latency:.3f}ms')
+
+        # CI performance thresholds
+        if avg_accuracy < 0.75:
+            print(f'❌ Accuracy {avg_accuracy:.3f} below threshold 0.75')
+            sys.exit(1)
+
+        if avg_latency > 0.1:
+            print(f'❌ Latency {avg_latency:.3f}ms above threshold 0.1ms')
+            sys.exit(1)
+
+        print('✓ Performance targets met')
+        "
+
+    - name: Generate performance report
+      run: |
+        python -c "
+        import json, time
+
+        results = []
+        with open('benchmarks/dream/perf_test.jsonl') as f:
+            for line in f:
+                if line.strip():
+                    results.append(json.loads(line))
+
+        report = {
+            'timestamp': time.time(),
+            'total_configs': len(results),
+            'avg_accuracy': sum(r.get('accuracy', 0) for r in results) / len(results),
+            'avg_latency_ms': sum(r.get('p95_ms', 0) for r in results) / len(results),
+            'strategies_tested': list(set(r.get('strategy', 'unknown') for r in results)),
+            'all_deterministic': all(r.get('stability', 0) == 1.0 for r in results)
+        }
+
+        with open('benchmarks/dream/performance_report.json', 'w') as f:
+            json.dump(report, f, indent=2)
+
+        print('Performance report saved')
+        "
+
+    - name: Upload performance artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: performance-results
+        path: |
+          benchmarks/dream/perf_test.jsonl
+          benchmarks/dream/performance_report.json
+        retention-days: 14
