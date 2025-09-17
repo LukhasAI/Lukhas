@@ -62,16 +62,43 @@ jobs:
       - name: T4 unit contracts
         run: |
           mkdir -p reports
-          pytest tests/unit/metrics/ -v --maxfail=1 --durations=10 --junitxml=reports/junit-unit.xml
+          START_TIME=$(date +%s)
+          pytest tests/unit/metrics/ -v --maxfail=1 --durations=10 --junitxml=reports/junit-unit.xml | tee -a /tmp/t4_logs.txt
+          END_TIME=$(date +%s)
+          ELAPSED=$((END_TIME - START_TIME))
+          BUDGET_SEC=60
+          if [ $ELAPSED -gt $BUDGET_SEC ]; then
+            echo "❌ Unit contracts: elapsed ${ELAPSED}s > budget ${BUDGET_SEC}s"
+            exit 1
+          fi
+          echo "✅ Unit contracts: elapsed ${ELAPSED}s within budget ${BUDGET_SEC}s"
 
       - name: T4 capability suite
         run: |
-          pytest tests/capabilities/ -m capability -v --maxfail=1 --durations=10 --junitxml=reports/junit-capabilities.xml
+          START_TIME=$(date +%s)
+          pytest tests/capabilities/ -m capability -v --maxfail=1 --durations=10 --junitxml=reports/junit-capabilities.xml | tee -a /tmp/t4_logs.txt
+          END_TIME=$(date +%s)
+          ELAPSED=$((END_TIME - START_TIME))
+          BUDGET_SEC=120
+          if [ $ELAPSED -gt $BUDGET_SEC ]; then
+            echo "❌ Capability suite: elapsed ${ELAPSED}s > budget ${BUDGET_SEC}s"
+            exit 1
+          fi
+          echo "✅ Capability suite: elapsed ${ELAPSED}s within budget ${BUDGET_SEC}s"
 
       - name: Consciousness e2e (smoke)
         run: |
+          START_TIME=$(date +%s)
           pytest tests/e2e/consciousness/test_consciousness_emergence.py -v -k "signal_cascade_prevention or network_coherence_emergence" \
-            --maxfail=1 --durations=10 --junitxml=reports/junit-e2e-consciousness.xml
+            --maxfail=1 --durations=10 --junitxml=reports/junit-e2e-consciousness.xml | tee -a /tmp/t4_logs.txt
+          END_TIME=$(date +%s)
+          ELAPSED=$((END_TIME - START_TIME))
+          BUDGET_SEC=60
+          if [ $ELAPSED -gt $BUDGET_SEC ]; then
+            echo "❌ E2E smoke: elapsed ${ELAPSED}s > budget ${BUDGET_SEC}s"
+            exit 1
+          fi
+          echo "✅ E2E smoke: elapsed ${ELAPSED}s within budget ${BUDGET_SEC}s"
 
       - name: Upload JUnit reports
         if: always()
@@ -80,3 +107,38 @@ jobs:
           name: t4-junit-${{ matrix.python-version }}
           path: reports/*.xml
           if-no-files-found: ignore
+
+      - name: T4 Success Gate
+        if: always()
+        run: |
+          echo "=== T4 Success Gate Verification ==="
+
+          # Check that all three test suites completed successfully
+          if ! grep -q "✅ Unit contracts:" /tmp/t4_logs.txt; then
+            echo "❌ Unit contracts suite did not complete successfully"
+            exit 1
+          fi
+
+          if ! grep -q "✅ Capability suite:" /tmp/t4_logs.txt; then
+            echo "❌ Capability suite did not complete successfully"
+            exit 1
+          fi
+
+          if ! grep -q "✅ E2E smoke:" /tmp/t4_logs.txt; then
+            echo "❌ E2E smoke suite did not complete successfully"
+            exit 1
+          fi
+
+          # Verify no budget violations occurred
+          if grep -q "❌.*elapsed.*budget" /tmp/t4_logs.txt; then
+            echo "❌ Budget violations detected in test execution"
+            grep "❌.*elapsed.*budget" /tmp/t4_logs.txt
+            exit 1
+          fi
+
+          echo "✅ T4 Success Gate: All suites passed within budget constraints"
+
+          # Run stability sentinel for metrics validation
+          python scripts/validate_t4_metrics.py
+
+          echo "✅ T4 Hardening validation complete for Python ${{ matrix.python-version }}"
