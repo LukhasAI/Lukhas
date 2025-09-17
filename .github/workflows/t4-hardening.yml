@@ -47,16 +47,22 @@ jobs:
       - name: Install system deps (if any)
         run: sudo apt-get update
 
-      - name: Install Python deps
+      - name: Install Python deps (locked if available)
         run: |
           python -m pip install --upgrade pip
-          # Install project with dev dependencies
-          pip install -e .[dev]
-          # Ensure additional test dependencies
-          pip install pytest-asyncio pytest-json-report pytest-rerunfailures
+          PYVER="${{ matrix.python-version }}"
 
-          # Generate requirements.lock for toolchain pinning
-          pip freeze > requirements-${{ matrix.python-version }}.lock
+          # Prefer lockfile per Python version if present
+          if [ -f "requirements-${PYVER}.lock" ]; then
+            echo "Using locked requirements for ${PYVER}"
+            pip install -r "requirements-${PYVER}.lock"
+          else
+            echo "No lockfile for ${PYVER}; installing editable with dev extras"
+            pip install -e .[dev]
+          fi
+
+          # Test extras we need across suites
+          pip install pytest-asyncio pytest-rerunfailures pytest-json-report
 
       - name: Show pytest & env
         run: |
@@ -70,29 +76,21 @@ jobs:
         run: |
           if [ -f scripts/audit_tests.py ]; then python scripts/audit_tests.py; else echo "No audit script found"; fi
 
-      - name: Flake radar (catch intermittent failures)
-        run: |
-          echo "Running flake detection with rerun failures..."
-          pytest tests/unit/metrics/ tests/capabilities/ -q -x --maxfail=1 -ra --reruns=1 --reruns-delay=1 -k 'not slow' | tee /tmp/flake_radar.log
-
-          # Fail if any rerun was needed (treat as flaky)
-          if grep -q "RERUN" /tmp/flake_radar.log; then
-            echo "❌ Flaky test detected - rerun was needed"
-            grep "RERUN" /tmp/flake_radar.log
-            exit 1
-          fi
-          echo "✅ No flaky tests detected"
 
       - name: T4 unit contracts
         run: |
           mkdir -p reports
           echo "T4 unit contracts" | tee -a /tmp/t4_success.log
-          pytest tests/unit/metrics/ -v --maxfail=1 --durations=10 --junitxml=reports/junit-unit.xml --json-report --json-report-file=reports/pytest-unit.json | tee -a /tmp/t4_success.log
+          pytest tests/unit/metrics/ \
+            -v --durations=10 \
+            --reruns=1 --reruns-delay=0 \
+            --json-report --json-report-file=reports/unit.json \
+            --junitxml=reports/junit-unit.xml | tee -a /tmp/t4_success.log
 
           # Time-budget guardrail
           SUITE="Unit contracts"
           BUDGET_SEC=60
-          ELAPSED=$(jq -r '.report.duration // empty' reports/pytest-unit.json 2>/dev/null || echo "")
+          ELAPSED=$(jq -r '.report.duration // empty' reports/unit.json 2>/dev/null || echo "")
           if [ -n "$ELAPSED" ]; then
             python - <<'PY'
 import os,sys
@@ -108,13 +106,18 @@ PY
 
       - name: T4 capability suite
         run: |
+          mkdir -p reports
           echo "T4 capability suite" | tee -a /tmp/t4_success.log
-          pytest tests/capabilities/ -m capability -v --maxfail=1 --durations=10 --junitxml=reports/junit-capabilities.xml --json-report --json-report-file=reports/pytest-capabilities.json | tee -a /tmp/t4_success.log
+          pytest tests/capabilities/ \
+            -m capability -v --durations=10 \
+            --reruns=1 --reruns-delay=0 \
+            --json-report --json-report-file=reports/capabilities.json \
+            --junitxml=reports/junit-capabilities.xml | tee -a /tmp/t4_success.log
 
           # Time-budget guardrail
           SUITE="Capabilities"
           BUDGET_SEC=120
-          ELAPSED=$(jq -r '.report.duration // empty' reports/pytest-capabilities.json 2>/dev/null || echo "")
+          ELAPSED=$(jq -r '.report.duration // empty' reports/capabilities.json 2>/dev/null || echo "")
           if [ -n "$ELAPSED" ]; then
             python - <<'PY'
 import os,sys
@@ -130,14 +133,20 @@ PY
 
       - name: Consciousness e2e (smoke)
         run: |
+          mkdir -p reports
           echo "Consciousness e2e (smoke)" | tee -a /tmp/t4_success.log
-          pytest tests/e2e/consciousness/test_consciousness_emergence.py -v -k "signal_cascade_prevention or network_coherence_emergence" \
-            --maxfail=1 --durations=10 --junitxml=reports/junit-e2e-consciousness.xml --json-report --json-report-file=reports/pytest-e2e.json | tee -a /tmp/t4_success.log
+          LUKHAS_STRESS_DURATION=1.0 \
+          pytest tests/e2e/consciousness/test_consciousness_emergence.py \
+            -v -k "signal_cascade_prevention or network_coherence_emergence" \
+            --durations=10 \
+            --reruns=1 --reruns-delay=0 \
+            --json-report --json-report-file=reports/e2e.json \
+            --junitxml=reports/junit-e2e.xml | tee -a /tmp/t4_success.log
 
           # Time-budget guardrail
           SUITE="E2E smoke"
           BUDGET_SEC=60
-          ELAPSED=$(jq -r '.report.duration // empty' reports/pytest-e2e.json 2>/dev/null || echo "")
+          ELAPSED=$(jq -r '.report.duration // empty' reports/e2e.json 2>/dev/null || echo "")
           if [ -n "$ELAPSED" ]; then
             python - <<'PY'
 import os,sys
@@ -150,6 +159,27 @@ if budget and elapsed>budget:
 print(f"✅ {suite}: elapsed {elapsed:.2f}s within budget {budget:.2f}s")
 PY
           fi
+
+      - name: Fail if any test reran (flake radar)
+        run: |
+          python - <<'PY'
+import json, sys, pathlib
+paths = [pathlib.Path("reports/unit.json"),
+         pathlib.Path("reports/capabilities.json"),
+         pathlib.Path("reports/e2e.json")]
+total_reruns = 0
+for p in paths:
+  if not p.exists():
+    continue
+  data = json.loads(p.read_text())
+  # pytest-json-report exposes reruns per test under 'tests' entries where 'outcome' may be 'rerun'
+  reruns = sum(1 for t in data.get("tests", []) if t.get("outcome") == "rerun")
+  total_reruns += reruns
+if total_reruns > 0:
+  print(f"❌ Flake radar: {total_reruns} test(s) required rerun(s). Failing the build.")
+  sys.exit(1)
+print("✅ No reruns detected across suites.")
+PY
 
       - name: Upload JUnit reports
         if: always()
@@ -191,6 +221,16 @@ PY
 
           echo "✅ T4 Hardening validation complete for Python ${{ matrix.python-version }}"
 
+      - name: Verify success signatures & timings
+        run: |
+          set -e
+          cat /tmp/t4_success.log || true
+          # Require "slowest 10 durations" in each suite section
+          grep -E "slowest 10 durations" /tmp/t4_success.log | grep -q "unit" || (echo "Missing unit timings"; exit 1)
+          grep -E "slowest 10 durations" /tmp/t4_success.log | grep -q "capability" || (echo "Missing capability timings"; exit 1)
+          grep -E "slowest 10 durations" /tmp/t4_success.log | grep -q "e2e" || (echo "Missing e2e timings"; exit 1)
+          echo "✅ All timing signatures verified"
+
       - name: Upload T4 artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -199,6 +239,8 @@ PY
           path: |
             /tmp/t4_success.log
             /tmp/flake_radar.log
-            reports/pytest-*.json
+            reports/unit.json
+            reports/capabilities.json
+            reports/e2e.json
             requirements-${{ matrix.python-version }}.lock
           if-no-files-found: ignore

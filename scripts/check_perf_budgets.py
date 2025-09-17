@@ -90,9 +90,9 @@ def main():
 
     # Check suite budgets from JSON reports
     reports = [
-        ("Unit contracts", "reports/pytest-unit.json"),
-        ("Capabilities", "reports/pytest-capabilities.json"),
-        ("E2E smoke", "reports/pytest-e2e.json")
+        ("Unit contracts", "reports/unit.json"),
+        ("Capabilities", "reports/capabilities.json"),
+        ("E2E smoke", "reports/e2e.json")
     ]
 
     print("=== Performance Budget Check ===")
