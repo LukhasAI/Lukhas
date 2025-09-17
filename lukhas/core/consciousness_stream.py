@@ -23,6 +23,7 @@ from collections import deque
 import statistics
 
 from core.clock import Ticker
+from core.ring import DecimatingRing
 from matriz.router import SymbolicMeshRouter
 from matriz.node_contract import MatrizMessage, GLYPH
 from storage.events import Event, EventStore
@@ -35,6 +36,9 @@ try:
     STREAM_BREAKTHROUGHS_PER_MIN = Gauge("lukhas_stream_breakthroughs_per_min", "Breakthroughs per minute", ["lane"])
     STREAM_TICK_P95 = Gauge("lukhas_stream_tick_p95_ms", "Tick processing p95 latency (ms)", ["lane"])
     STREAM_DRIFT_EMA = Gauge("lukhas_stream_drift_ema", "Exponential moving average of drift", ["lane"])
+    STREAM_BACKPRESSURE_DROPS = Gauge("lukhas_stream_backpressure_drops_total", "Total drops due to backpressure", ["lane"])
+    STREAM_BUFFER_UTILIZATION = Gauge("lukhas_stream_buffer_utilization", "Buffer utilization (0.0-1.0)", ["lane"])
+    STREAM_DECIMATION_EVENTS = Gauge("lukhas_stream_decimation_events_total", "Total decimation events", ["lane"])
     PROM = True
 except Exception:
     PROM = False
@@ -48,6 +52,9 @@ except Exception:
     STREAM_BREAKTHROUGHS_PER_MIN = _NoopMetric()
     STREAM_TICK_P95 = _NoopMetric()
     STREAM_DRIFT_EMA = _NoopMetric()
+    STREAM_BACKPRESSURE_DROPS = _NoopMetric()
+    STREAM_BUFFER_UTILIZATION = _NoopMetric()
+    STREAM_DECIMATION_EVENTS = _NoopMetric()
 
 
 logger = logging.getLogger(__name__)
@@ -66,7 +73,11 @@ class ConsciousnessStream:
         self,
         fps: int = 30,
         store_capacity: int = 10000,
-        glyph_id: Optional[UUID] = None
+        glyph_id: Optional[UUID] = None,
+        enable_backpressure: bool = True,
+        backpressure_threshold: float = 0.8,
+        decimation_factor: int = 2,
+        decimation_strategy: str = "skip_nth"
     ):
         """
         Initialize consciousness stream.
@@ -75,6 +86,10 @@ class ConsciousnessStream:
             fps: Consciousness tick rate (default: 30)
             store_capacity: Maximum events in store (default: 10000)
             glyph_id: Stream identity (auto-generated if None)
+            enable_backpressure: Enable backpressure handling with ring decimation (default: True)
+            backpressure_threshold: Buffer utilization threshold to trigger decimation (default: 0.8)
+            decimation_factor: Decimation aggressiveness (default: 2 = keep every 2nd event)
+            decimation_strategy: Decimation strategy ("skip_nth", "keep_recent", "adaptive")
         """
         self.lane = os.getenv("LUKHAS_LANE", "experimental")
         self.glyph_id = glyph_id or uuid4()
@@ -83,6 +98,18 @@ class ConsciousnessStream:
         self.ticker = Ticker(fps=fps)
         self.router = SymbolicMeshRouter(log_fn=self._log_router_event)
         self.event_store = EventStore(max_capacity=store_capacity)
+
+        # Backpressure management
+        self.enable_backpressure = enable_backpressure
+        if self.enable_backpressure:
+            self.backpressure_ring = DecimatingRing(
+                capacity=store_capacity // 2,  # Ring buffer for overflow events
+                pressure_threshold=backpressure_threshold,
+                decimation_factor=decimation_factor,
+                decimation_strategy=decimation_strategy
+            )
+        else:
+            self.backpressure_ring = None
 
         # Stream state
         self.running = False
@@ -150,9 +177,16 @@ class ConsciousnessStream:
             )
             self.router.publish(router_msg)
 
-            # Store event for experience replay
-            self.event_store.append(tick_event)
-            self.events_processed += 1
+            # Store event for experience replay with backpressure handling
+            if self._should_store_event(tick_event):
+                self.event_store.append(tick_event)
+                self.events_processed += 1
+            elif self.enable_backpressure:
+                # Store in backpressure ring as fallback
+                self.backpressure_ring.push(tick_event)
+                logger.debug(f"Event stored in backpressure ring: {tick_event.kind}")
+            else:
+                logger.warning(f"Event dropped due to storage capacity: {tick_event.kind}")
 
             # Update processing time in payload
             processing_duration = (datetime.utcnow() - tick_start).total_seconds()
@@ -185,7 +219,10 @@ class ConsciousnessStream:
                     "drift_ema": self._drift_ema
                 }
             )
-            self.event_store.append(completion_event)
+            if self._should_store_event(completion_event):
+                self.event_store.append(completion_event)
+            elif self.enable_backpressure:
+                self.backpressure_ring.push(completion_event)
 
             # Update Prometheus metrics
             if PROM:
@@ -212,6 +249,15 @@ class ConsciousnessStream:
             )
             self.event_store.append(error_event)
 
+    def _should_store_event(self, event: Event) -> bool:
+        """Determine if event should be stored in main event store or deferred to backpressure ring."""
+        if not self.enable_backpressure:
+            return True  # Always store when backpressure disabled
+
+        # Check if event store is approaching capacity
+        store_utilization = len(self.event_store.events) / self.event_store.max_capacity
+        return store_utilization < 0.9  # Allow 10% buffer before using ring
+
     def _update_stream_metrics(self) -> None:
         """Update per-stream Prometheus metrics."""
         try:
@@ -230,6 +276,13 @@ class ConsciousnessStream:
             STREAM_BREAKTHROUGHS_PER_MIN.labels(lane=self.lane).set(breakthroughs_per_min)
             STREAM_TICK_P95.labels(lane=self.lane).set(tick_p95_ms)
             STREAM_DRIFT_EMA.labels(lane=self.lane).set(self._drift_ema)
+
+            # Update backpressure metrics
+            if self.enable_backpressure and self.backpressure_ring:
+                bp_stats = self.backpressure_ring.get_backpressure_stats()
+                STREAM_BACKPRESSURE_DROPS.labels(lane=self.lane).set(bp_stats["total_drops"])
+                STREAM_BUFFER_UTILIZATION.labels(lane=self.lane).set(bp_stats["utilization"])
+                STREAM_DECIMATION_EVENTS.labels(lane=self.lane).set(bp_stats["decimation_events"])
 
         except Exception as e:
             logger.debug(f"Error updating stream metrics: {e}")
@@ -315,7 +368,10 @@ class ConsciousnessStream:
             "tick_p95_ms": tick_p95_ms,
             "drift_ema": self._drift_ema,
             "total_breakthroughs": len(self._breakthrough_timestamps),
-            "avg_tick_processing_ms": statistics.mean(self._tick_processing_times) if self._tick_processing_times else 0.0
+            "avg_tick_processing_ms": statistics.mean(self._tick_processing_times) if self._tick_processing_times else 0.0,
+            # Backpressure metrics
+            "backpressure_enabled": self.enable_backpressure,
+            "backpressure_stats": self.backpressure_ring.get_backpressure_stats() if self.backpressure_ring else None
         }
 
     def get_recent_events(self, limit: int = 100) -> List[Event]:

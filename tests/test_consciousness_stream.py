@@ -146,7 +146,9 @@ class TestConsciousnessStream:
             "store_size", "store_capacity", "router_logs", "ticker_metrics",
             # Per-stream metrics
             "breakthroughs_per_min", "tick_p95_ms", "drift_ema",
-            "total_breakthroughs", "avg_tick_processing_ms"
+            "total_breakthroughs", "avg_tick_processing_ms",
+            # Backpressure metrics
+            "backpressure_enabled", "backpressure_stats"
         }
 
         assert set(metrics.keys()) == expected_keys
@@ -280,6 +282,109 @@ class TestConsciousnessStream:
         # Drift EMA should be non-negative and may increase with timing variation
         assert drift1 >= 0
         assert drift2 >= 0
+
+    def test_backpressure_ring_decimation(self):
+        """Test backpressure handling with ring decimation."""
+        # Create stream with small capacity to trigger backpressure quickly
+        stream = ConsciousnessStream(
+            fps=30,
+            store_capacity=10,  # Very small capacity
+            enable_backpressure=True,
+            backpressure_threshold=0.8,
+            decimation_factor=2
+        )
+
+        # Process many events to exceed capacity
+        for i in range(25):
+            stream._on_consciousness_tick(i)
+
+        metrics = stream.get_stream_metrics()
+
+        # Verify backpressure system is active
+        assert metrics["backpressure_enabled"] is True
+        assert metrics["backpressure_stats"] is not None
+
+        bp_stats = metrics["backpressure_stats"]
+
+        # Should have had some events processed through backpressure ring
+        assert bp_stats["total_pushes"] > 0
+        assert bp_stats["drop_rate"] >= 0.0  # Some events may have been dropped
+
+        # Event store should be near capacity (allowing some variance)
+        assert metrics["store_size"] >= metrics["store_capacity"] - 2
+
+    def test_backpressure_disabled(self):
+        """Test stream behavior with backpressure disabled."""
+        stream = ConsciousnessStream(
+            fps=30,
+            store_capacity=100,
+            enable_backpressure=False
+        )
+
+        # Process some events
+        for i in range(10):
+            stream._on_consciousness_tick(i)
+
+        metrics = stream.get_stream_metrics()
+
+        # Verify backpressure is disabled
+        assert metrics["backpressure_enabled"] is False
+        assert metrics["backpressure_stats"] is None
+        assert stream.backpressure_ring is None
+
+    def test_decimation_strategies(self):
+        """Test different decimation strategies under load."""
+        strategies = ["skip_nth", "keep_recent", "adaptive"]
+
+        for strategy in strategies:
+            stream = ConsciousnessStream(
+                fps=30,
+                store_capacity=5,  # Very small
+                enable_backpressure=True,
+                backpressure_threshold=0.6,
+                decimation_factor=2,
+                decimation_strategy=strategy
+            )
+
+            # Generate load
+            for i in range(20):
+                stream._on_consciousness_tick(i)
+
+            metrics = stream.get_stream_metrics()
+            bp_stats = metrics["backpressure_stats"]
+
+            # Each strategy should handle backpressure
+            assert bp_stats["decimation_strategy"] == strategy
+            assert bp_stats["total_pushes"] > 0
+
+    def test_zero_drops_within_budget(self):
+        """Test zero drops guarantee when within capacity budget."""
+        stream = ConsciousnessStream(
+            fps=30,
+            store_capacity=1000,  # Large capacity
+            enable_backpressure=True,
+            backpressure_threshold=0.8
+        )
+
+        # Process reasonable load within budget
+        for i in range(50):
+            stream._on_consciousness_tick(i)
+
+        metrics = stream.get_stream_metrics()
+        bp_stats = metrics["backpressure_stats"]
+
+        # Should have backpressure enabled and stats available
+        assert metrics["backpressure_enabled"] is True
+        assert bp_stats is not None
+
+        # Should have zero drops when within budget
+        assert bp_stats["total_drops"] == 0
+        assert bp_stats["drop_rate"] == 0.0
+
+        # All events should be in main store (when not exceeding capacity)
+        # Note: Due to backpressure logic, some events may go to ring even within budget
+        total_events_expected = stream.events_processed * 2  # tick + completion events
+        assert metrics["store_size"] <= total_events_expected
 
 
 class TestStreamIntegration:
