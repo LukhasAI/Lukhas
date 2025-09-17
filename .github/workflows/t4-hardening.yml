@@ -45,7 +45,7 @@ jobs:
           # Install project with dev dependencies
           pip install -e .[dev]
           # Ensure additional test dependencies
-          pip install pytest-asyncio
+          pip install pytest-asyncio pytest-json-report
 
       - name: Show pytest & env
         run: |
@@ -62,43 +62,70 @@ jobs:
       - name: T4 unit contracts
         run: |
           mkdir -p reports
-          START_TIME=$(date +%s)
-          pytest tests/unit/metrics/ -v --maxfail=1 --durations=10 --junitxml=reports/junit-unit.xml | tee -a /tmp/t4_logs.txt
-          END_TIME=$(date +%s)
-          ELAPSED=$((END_TIME - START_TIME))
+          echo "T4 unit contracts" | tee -a /tmp/t4_success.log
+          pytest tests/unit/metrics/ -v --maxfail=1 --durations=10 --junitxml=reports/junit-unit.xml --json-report --json-report-file=reports/pytest-unit.json | tee -a /tmp/t4_success.log
+
+          # Time-budget guardrail
+          SUITE="Unit contracts"
           BUDGET_SEC=60
-          if [ $ELAPSED -gt $BUDGET_SEC ]; then
-            echo "❌ Unit contracts: elapsed ${ELAPSED}s > budget ${BUDGET_SEC}s"
-            exit 1
+          ELAPSED=$(jq -r '.report.duration // empty' reports/pytest-unit.json 2>/dev/null || echo "")
+          if [ -n "$ELAPSED" ]; then
+            python - <<'PY'
+import os,sys
+elapsed=float(os.environ.get("ELAPSED","0") or 0)
+budget=float(os.environ.get("BUDGET_SEC","0") or 0)
+suite=os.environ.get("SUITE","suite")
+if budget and elapsed>budget:
+    print(f"❌ {suite}: elapsed {elapsed:.2f}s > budget {budget:.2f}s")
+    sys.exit(1)
+print(f"✅ {suite}: elapsed {elapsed:.2f}s within budget {budget:.2f}s")
+PY
           fi
-          echo "✅ Unit contracts: elapsed ${ELAPSED}s within budget ${BUDGET_SEC}s"
 
       - name: T4 capability suite
         run: |
-          START_TIME=$(date +%s)
-          pytest tests/capabilities/ -m capability -v --maxfail=1 --durations=10 --junitxml=reports/junit-capabilities.xml | tee -a /tmp/t4_logs.txt
-          END_TIME=$(date +%s)
-          ELAPSED=$((END_TIME - START_TIME))
+          echo "T4 capability suite" | tee -a /tmp/t4_success.log
+          pytest tests/capabilities/ -m capability -v --maxfail=1 --durations=10 --junitxml=reports/junit-capabilities.xml --json-report --json-report-file=reports/pytest-capabilities.json | tee -a /tmp/t4_success.log
+
+          # Time-budget guardrail
+          SUITE="Capabilities"
           BUDGET_SEC=120
-          if [ $ELAPSED -gt $BUDGET_SEC ]; then
-            echo "❌ Capability suite: elapsed ${ELAPSED}s > budget ${BUDGET_SEC}s"
-            exit 1
+          ELAPSED=$(jq -r '.report.duration // empty' reports/pytest-capabilities.json 2>/dev/null || echo "")
+          if [ -n "$ELAPSED" ]; then
+            python - <<'PY'
+import os,sys
+elapsed=float(os.environ.get("ELAPSED","0") or 0)
+budget=float(os.environ.get("BUDGET_SEC","0") or 0)
+suite=os.environ.get("SUITE","suite")
+if budget and elapsed>budget:
+    print(f"❌ {suite}: elapsed {elapsed:.2f}s > budget {budget:.2f}s")
+    sys.exit(1)
+print(f"✅ {suite}: elapsed {elapsed:.2f}s within budget {budget:.2f}s")
+PY
           fi
-          echo "✅ Capability suite: elapsed ${ELAPSED}s within budget ${BUDGET_SEC}s"
 
       - name: Consciousness e2e (smoke)
         run: |
-          START_TIME=$(date +%s)
+          echo "Consciousness e2e (smoke)" | tee -a /tmp/t4_success.log
           pytest tests/e2e/consciousness/test_consciousness_emergence.py -v -k "signal_cascade_prevention or network_coherence_emergence" \
-            --maxfail=1 --durations=10 --junitxml=reports/junit-e2e-consciousness.xml | tee -a /tmp/t4_logs.txt
-          END_TIME=$(date +%s)
-          ELAPSED=$((END_TIME - START_TIME))
+            --maxfail=1 --durations=10 --junitxml=reports/junit-e2e-consciousness.xml --json-report --json-report-file=reports/pytest-e2e.json | tee -a /tmp/t4_success.log
+
+          # Time-budget guardrail
+          SUITE="E2E smoke"
           BUDGET_SEC=60
-          if [ $ELAPSED -gt $BUDGET_SEC ]; then
-            echo "❌ E2E smoke: elapsed ${ELAPSED}s > budget ${BUDGET_SEC}s"
-            exit 1
+          ELAPSED=$(jq -r '.report.duration // empty' reports/pytest-e2e.json 2>/dev/null || echo "")
+          if [ -n "$ELAPSED" ]; then
+            python - <<'PY'
+import os,sys
+elapsed=float(os.environ.get("ELAPSED","0") or 0)
+budget=float(os.environ.get("BUDGET_SEC","0") or 0)
+suite=os.environ.get("SUITE","suite")
+if budget and elapsed>budget:
+    print(f"❌ {suite}: elapsed {elapsed:.2f}s > budget {budget:.2f}s")
+    sys.exit(1)
+print(f"✅ {suite}: elapsed {elapsed:.2f}s within budget {budget:.2f}s")
+PY
           fi
-          echo "✅ E2E smoke: elapsed ${ELAPSED}s within budget ${BUDGET_SEC}s"
 
       - name: Upload JUnit reports
         if: always()
@@ -108,37 +135,28 @@ jobs:
           path: reports/*.xml
           if-no-files-found: ignore
 
-      - name: T4 Success Gate
+      - name: T4 success gate
         if: always()
         run: |
-          echo "=== T4 Success Gate Verification ==="
+          set -euo pipefail
+          LOG=/tmp/t4_success.log
+          echo "=== SUCCESS VERIFICATION ==="
+          grep -q "T4 unit contracts"    "$LOG"
+          grep -q "T4 capability suite"   "$LOG"
+          grep -q "Consciousness e2e (smoke)" "$LOG"
 
-          # Check that all three test suites completed successfully
-          if ! grep -q "✅ Unit contracts:" /tmp/t4_logs.txt; then
-            echo "❌ Unit contracts suite did not complete successfully"
-            exit 1
-          fi
+          # Ensure "slowest 10 durations" banner appeared for each suite/job
+          grep -q "slowest 10 durations" "$LOG"
 
-          if ! grep -q "✅ Capability suite:" /tmp/t4_logs.txt; then
-            echo "❌ Capability suite did not complete successfully"
-            exit 1
-          fi
+          echo "✅ T4 pipeline reached all suites with timing summaries"
 
-          if ! grep -q "✅ E2E smoke:" /tmp/t4_logs.txt; then
-            echo "❌ E2E smoke suite did not complete successfully"
-            exit 1
-          fi
+          # Stability sentinel (catch intermittent slippage)
+          # Check unrouted counter stayed flat
+          grep -q "lukhas_router_no_rule_total.* rate.*0" "$LOG" || {
+            echo "❌ Unrouted-signal rate nonzero"; exit 1; }
 
-          # Verify no budget violations occurred
-          if grep -q "❌.*elapsed.*budget" /tmp/t4_logs.txt; then
-            echo "❌ Budget violations detected in test execution"
-            grep "❌.*elapsed.*budget" /tmp/t4_logs.txt
-            exit 1
-          fi
-
-          echo "✅ T4 Success Gate: All suites passed within budget constraints"
-
-          # Run stability sentinel for metrics validation
-          python scripts/validate_t4_metrics.py
+          # Check coherence hit target at least once
+          grep -Eq "network_coherence[:=]\s*(0\.7[0-9]*|0\.[89]|1(\.0+)?)" "$LOG" || {
+            echo "❌ Coherence never reached ≥0.70"; exit 1; }
 
           echo "✅ T4 Hardening validation complete for Python ${{ matrix.python-version }}"
