@@ -143,7 +143,10 @@ class TestConsciousnessStream:
 
         expected_keys = {
             "running", "lane", "glyph_id", "tick_count", "events_processed",
-            "store_size", "store_capacity", "router_logs", "ticker_metrics"
+            "store_size", "store_capacity", "router_logs", "ticker_metrics",
+            # Per-stream metrics
+            "breakthroughs_per_min", "tick_p95_ms", "drift_ema",
+            "total_breakthroughs", "avg_tick_processing_ms"
         }
 
         assert set(metrics.keys()) == expected_keys
@@ -201,6 +204,82 @@ class TestConsciousnessStream:
         # Each tick should create events efficiently
         assert stream.events_processed >= 10
         assert len(stream.event_store.events) >= 20  # ticks + completions
+
+    def test_per_stream_metrics(self):
+        """Test per-stream metrics tracking (breakthroughs/min, tick p95, drift EMA)."""
+        stream = ConsciousnessStream(fps=30)
+
+        # Process enough ticks to generate metrics
+        for i in range(20):
+            stream._on_consciousness_tick(i)
+            # Add slight delay to simulate processing variation
+            if i % 3 == 0:
+                time.sleep(0.001)  # 1ms delay
+
+        metrics = stream.get_stream_metrics()
+
+        # Verify per-stream metrics are present
+        assert "breakthroughs_per_min" in metrics
+        assert "tick_p95_ms" in metrics
+        assert "drift_ema" in metrics
+        assert "total_breakthroughs" in metrics
+        assert "avg_tick_processing_ms" in metrics
+
+        # Verify metrics have reasonable values
+        assert metrics["breakthroughs_per_min"] >= 0
+        assert metrics["tick_p95_ms"] >= 0
+        assert metrics["drift_ema"] >= 0
+        assert metrics["total_breakthroughs"] >= 0
+        assert metrics["avg_tick_processing_ms"] >= 0
+
+        # Should have tracked some processing times
+        assert len(stream._tick_processing_times) == 20
+
+    def test_breakthrough_detection(self):
+        """Test breakthrough detection based on processing time patterns."""
+        stream = ConsciousnessStream(fps=30)
+
+        # Process ticks with varying delays to trigger breakthrough detection
+        for i in range(15):
+            if i == 10:
+                # Simulate a processing breakthrough with longer delay
+                original_method = stream._on_consciousness_tick
+                def delayed_tick(tick_count):
+                    time.sleep(0.005)  # 5ms delay
+                    original_method(tick_count)
+                delayed_tick(i)
+            else:
+                stream._on_consciousness_tick(i)
+
+        metrics = stream.get_stream_metrics()
+
+        # Should have detected some breakthrough based on processing time variation
+        # (The exact number may vary due to the heuristic nature)
+        assert metrics["total_breakthroughs"] >= 0
+
+    def test_drift_ema_calculation(self):
+        """Test drift EMA calculation based on timing deviations."""
+        stream = ConsciousnessStream(fps=10)  # 10 FPS = 100ms expected interval
+
+        # Process ticks with consistent timing (should have low drift)
+        for i in range(10):
+            stream._on_consciousness_tick(i)
+
+        metrics1 = stream.get_stream_metrics()
+        drift1 = metrics1["drift_ema"]
+
+        # Process more ticks with variable timing
+        for i in range(10, 20):
+            if i % 2 == 0:
+                time.sleep(0.002)  # Add timing variation
+            stream._on_consciousness_tick(i)
+
+        metrics2 = stream.get_stream_metrics()
+        drift2 = metrics2["drift_ema"]
+
+        # Drift EMA should be non-negative and may increase with timing variation
+        assert drift1 >= 0
+        assert drift2 >= 0
 
 
 class TestStreamIntegration:

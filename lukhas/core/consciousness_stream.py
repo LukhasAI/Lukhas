@@ -15,9 +15,12 @@ from __future__ import annotations
 
 import os
 import logging
-from datetime import datetime
+import time
+from datetime import datetime, timedelta
 from uuid import uuid4, UUID
 from typing import Dict, Any, Optional, List
+from collections import deque
+import statistics
 
 from core.clock import Ticker
 from matriz.router import SymbolicMeshRouter
@@ -26,9 +29,12 @@ from storage.events import Event, EventStore
 
 # Optional metrics
 try:
-    from prometheus_client import Counter, Histogram
+    from prometheus_client import Counter, Histogram, Gauge
     STREAM_EVENTS_TOTAL = Counter("lukhas_stream_events_total", "Events processed by stream", ["kind", "lane"])
     STREAM_PROCESSING_DURATION = Histogram("lukhas_stream_processing_seconds", "Stream processing time", ["lane"])
+    STREAM_BREAKTHROUGHS_PER_MIN = Gauge("lukhas_stream_breakthroughs_per_min", "Breakthroughs per minute", ["lane"])
+    STREAM_TICK_P95 = Gauge("lukhas_stream_tick_p95_ms", "Tick processing p95 latency (ms)", ["lane"])
+    STREAM_DRIFT_EMA = Gauge("lukhas_stream_drift_ema", "Exponential moving average of drift", ["lane"])
     PROM = True
 except Exception:
     PROM = False
@@ -36,8 +42,12 @@ except Exception:
         def labels(self, *_, **__): return self
         def inc(self, *_): pass
         def observe(self, *_): pass
+        def set(self, *_): pass
     STREAM_EVENTS_TOTAL = _NoopMetric()
     STREAM_PROCESSING_DURATION = _NoopMetric()
+    STREAM_BREAKTHROUGHS_PER_MIN = _NoopMetric()
+    STREAM_TICK_P95 = _NoopMetric()
+    STREAM_DRIFT_EMA = _NoopMetric()
 
 
 logger = logging.getLogger(__name__)
@@ -79,6 +89,13 @@ class ConsciousnessStream:
         self.tick_count = 0
         self.events_processed = 0
         self._router_logs: List[Dict[str, Any]] = []
+
+        # Per-stream metrics tracking
+        self._breakthrough_timestamps: deque = deque(maxlen=1000)  # Store recent breakthrough timestamps
+        self._tick_processing_times: deque = deque(maxlen=100)    # Store recent tick processing times
+        self._drift_ema = 0.0                                     # Exponential moving average of drift
+        self._drift_alpha = 0.1                                   # EMA smoothing factor
+        self._last_metrics_update = datetime.utcnow()
 
         # Subscribe to ticker
         self.ticker.subscribe(self._on_consciousness_tick)
@@ -139,6 +156,21 @@ class ConsciousnessStream:
 
             # Update processing time in payload
             processing_duration = (datetime.utcnow() - tick_start).total_seconds()
+            processing_ms = processing_duration * 1000
+
+            # Track tick processing time for p95 calculation
+            self._tick_processing_times.append(processing_ms)
+
+            # Detect breakthrough patterns (simple heuristic: processing time significantly above average)
+            if len(self._tick_processing_times) > 10:
+                avg_processing = statistics.mean(self._tick_processing_times)
+                if processing_ms > avg_processing * 1.5:  # Simple breakthrough detection
+                    self._breakthrough_timestamps.append(datetime.utcnow())
+
+            # Update drift EMA based on timing deviation
+            target_interval = 1.0 / self.ticker.fps  # Expected interval between ticks
+            timing_drift = abs(processing_duration - target_interval)
+            self._drift_ema = (1 - self._drift_alpha) * self._drift_ema + self._drift_alpha * timing_drift
 
             # Create a processing completion event
             completion_event = Event.create(
@@ -147,18 +179,22 @@ class ConsciousnessStream:
                 glyph_id=self.glyph_id,
                 payload={
                     "tick_count": tick_count,
-                    "processing_duration_ms": processing_duration * 1000,
+                    "processing_duration_ms": processing_ms,
                     "events_in_store": len(self.event_store.events),
-                    "router_logs_count": len(self._router_logs)
+                    "router_logs_count": len(self._router_logs),
+                    "drift_ema": self._drift_ema
                 }
             )
             self.event_store.append(completion_event)
 
-            # Metrics
+            # Update Prometheus metrics
             if PROM:
                 STREAM_EVENTS_TOTAL.labels(kind="consciousness_tick", lane=self.lane).inc()
                 STREAM_EVENTS_TOTAL.labels(kind="tick_processed", lane=self.lane).inc()
                 STREAM_PROCESSING_DURATION.labels(lane=self.lane).observe(processing_duration)
+
+                # Update per-stream metrics
+                self._update_stream_metrics()
 
         except Exception as e:
             logger.error(f"Error processing consciousness tick {tick_count}: {e}")
@@ -175,6 +211,28 @@ class ConsciousnessStream:
                 }
             )
             self.event_store.append(error_event)
+
+    def _update_stream_metrics(self) -> None:
+        """Update per-stream Prometheus metrics."""
+        try:
+            # Calculate breakthroughs per minute
+            now = datetime.utcnow()
+            one_minute_ago = now - timedelta(minutes=1)
+            recent_breakthroughs = [ts for ts in self._breakthrough_timestamps if ts >= one_minute_ago]
+            breakthroughs_per_min = len(recent_breakthroughs)
+
+            # Calculate tick processing p95 latency
+            tick_p95_ms = 0.0
+            if len(self._tick_processing_times) >= 5:
+                tick_p95_ms = statistics.quantiles(self._tick_processing_times, n=20)[18]  # 95th percentile
+
+            # Update Prometheus gauges
+            STREAM_BREAKTHROUGHS_PER_MIN.labels(lane=self.lane).set(breakthroughs_per_min)
+            STREAM_TICK_P95.labels(lane=self.lane).set(tick_p95_ms)
+            STREAM_DRIFT_EMA.labels(lane=self.lane).set(self._drift_ema)
+
+        except Exception as e:
+            logger.debug(f"Error updating stream metrics: {e}")
 
     def start(self, duration_seconds: int = 0) -> None:
         """
@@ -232,6 +290,16 @@ class ConsciousnessStream:
 
     def get_stream_metrics(self) -> Dict[str, Any]:
         """Get current stream performance and status metrics."""
+        # Calculate per-stream metrics
+        now = datetime.utcnow()
+        one_minute_ago = now - timedelta(minutes=1)
+        recent_breakthroughs = [ts for ts in self._breakthrough_timestamps if ts >= one_minute_ago]
+        breakthroughs_per_min = len(recent_breakthroughs)
+
+        tick_p95_ms = 0.0
+        if len(self._tick_processing_times) >= 5:
+            tick_p95_ms = statistics.quantiles(self._tick_processing_times, n=20)[18]
+
         return {
             "running": self.running,
             "lane": self.lane,
@@ -241,7 +309,13 @@ class ConsciousnessStream:
             "store_size": len(self.event_store.events),
             "store_capacity": self.event_store.max_capacity,
             "router_logs": len(self._router_logs),
-            "ticker_metrics": self.ticker.get_metrics()
+            "ticker_metrics": self.ticker.get_metrics(),
+            # Per-stream metrics
+            "breakthroughs_per_min": breakthroughs_per_min,
+            "tick_p95_ms": tick_p95_ms,
+            "drift_ema": self._drift_ema,
+            "total_breakthroughs": len(self._breakthrough_timestamps),
+            "avg_tick_processing_ms": statistics.mean(self._tick_processing_times) if self._tick_processing_times else 0.0
         }
 
     def get_recent_events(self, limit: int = 100) -> List[Event]:
