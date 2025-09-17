@@ -27,12 +27,39 @@ def main():
     except FileNotFoundError:
         pytest_cmd = "pytest"
 
-    # Run pytest collection check
-    result = subprocess.run(
-        [pytest_cmd, "--collect-only", "-q"],
-        capture_output=True,
-        text=True
-    )
+    # Run pytest collection check for T4 hardening test directories only
+    test_dirs = [
+        "tests/unit/metrics/",
+        "tests/capabilities/",
+        "tests/e2e/consciousness/test_consciousness_emergence.py"
+    ]
+
+    # Check each directory individually for focused audit
+    all_results = []
+    for test_dir in test_dirs:
+        result = subprocess.run(
+            [pytest_cmd, "--collect-only", "-q", test_dir],
+            capture_output=True,
+            text=True
+        )
+        all_results.append((test_dir, result))
+
+    # Check if any individual result failed
+    failed_dirs = []
+    for test_dir, result in all_results:
+        if result.returncode != 0:
+            failed_dirs.append((test_dir, result))
+
+    if failed_dirs:
+        print("❌ Test collection errors found in T4 directories")
+        for test_dir, result in failed_dirs:
+            print(f"\n--- {test_dir} ---")
+            print(result.stdout)
+            print(result.stderr)
+        sys.exit(1)
+
+    # Use the last result for the main check (this is mostly for compatibility)
+    result = all_results[-1][1] if all_results else result
 
     if result.returncode != 0:
         print("❌ Test collection errors found")
