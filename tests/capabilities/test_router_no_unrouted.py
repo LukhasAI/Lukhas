@@ -25,6 +25,11 @@ def _get_no_rule_count():
         return 0
 
 
+async def _run_demo(system):
+    """Shim for MatrizConsciousnessSystem API drift - maps to available demo method"""
+    return await system.demonstrate_consciousness_evolution()
+
+
 @pytest.mark.capability
 async def test_no_unrouted_during_cycle():
     """Test that consciousness cycles generate zero unrouted signals"""
@@ -82,7 +87,7 @@ async def test_no_unrouted_during_demonstration():
         await system.start_system()
 
         # Run the full demonstration scenario
-        demo_result = await system.demonstrate_consciousness_system()
+        demo_result = await _run_demo(system)
 
         # Verify the demo actually worked
         assert demo_result["total_signals_processed"] > 0, "Demo should process signals"
