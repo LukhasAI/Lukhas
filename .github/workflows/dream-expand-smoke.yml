@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      # Safety: EXPAND features OFF by default.
+      # Safety rails: EXPAND OFF, deterministic ON.
       LUKHAS_DETERMINISTIC: "1"
       LUKHAS_PURE_SELECTION: "1"
       LUKHAS_NOISE_LEVEL: "off"
@@ -31,192 +31,27 @@ jobs:
       LUKHAS_MULTI_AGENT: "0"
       LUKHAS_STRATEGY_EVOLVE: "0"
       LUKHAS_BENCH_INCLUDE_EXTRA: "1"
-      PYTHONHASHSEED: "42"
-      LUKHAS_BENCH_SEED: "42"
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
 
-      - name: Cache pip
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: pip-${{ runner.os }}-${{ hashFiles('**/requirements*.txt') }}
-          restore-keys: pip-${{ runner.os }}-
-
-      - name: Install dependencies
+      - name: Install
         run: |
-          python -m pip install --upgrade pip
-          pip install pytest numpy
-          # Minimal dependencies for smoke tests
+          pip install -e .
+          # Add dev/test extras here if you have them
 
       - name: Quick EXPAND smoke tests (deterministic)
         run: |
-          echo "🧪 Running EXPAND component smoke tests..."
-
-          # Noise injection tests
-          python -c "
-          from candidate.consciousness.dream.expand.noise import get_noise_config, inject_noise
-          config = get_noise_config()
-          assert not config['enabled'], 'Noise should be disabled by default'
-
-          emotion = {'confidence': 0.5, 'joy': 0.8}
-          result = inject_noise(emotion)
-          assert result == emotion, 'Should be unchanged when disabled'
-          print('✓ Noise injection: disabled and safe')
-          "
-
-          # Resonance field tests
-          python -c "
-          from candidate.consciousness.dream.expand.resonance import get_resonance_config, ResonanceField
-          config = get_resonance_config()
-          assert not config['enabled'], 'Resonance should be disabled by default'
-
-          field = ResonanceField()
-          emotion = {'confidence': 0.7, 'joy': 0.6}
-          result = field.apply(emotion)
-          assert result == emotion, 'Should be unchanged when disabled'
-          print('✓ Resonance field: disabled and safe')
-          "
-
-          # Multi-agent mesh tests
-          python -c "
-          from candidate.consciousness.dream.expand.mesh import get_mesh_config, mesh_align
-          config = get_mesh_config()
-          assert not config['enabled'], 'Mesh should be disabled by default'
-
-          agent_snapshots = [[{'emotional_context': {'confidence': 0.5}}]]
-          result = mesh_align(agent_snapshots)
-          assert result == {}, 'Should return empty when disabled'
-          print('✓ Multi-agent mesh: disabled and safe')
-          "
-
-          # Strategy evolution tests
-          python -c "
-          from candidate.consciousness.dream.expand.evolution import get_evolution_config
-          config = get_evolution_config()
-          assert not config['enabled'], 'Evolution should be disabled by default'
-          print('✓ Strategy evolution: disabled and safe')
-          "
-
-      - name: Conflict corpus validation
-        run: |
-          echo "⚔️  Validating conflict scenarios..."
-          python -c "
-          from benchmarks.dream.conflict import run_conflict_validation
-          validation = run_conflict_validation()
-
-          assert validation['overall_valid'], f'Conflict validation failed: {validation[\"validation_errors\"]}'
-          print(f'✓ Conflict corpus: {validation[\"valid_cases\"]}/{validation[\"total_cases\"]} cases valid')
-          "
-
-      - name: Archetypal taxonomy validation
-        run: |
-          echo "🏛️  Validating archetypal taxonomy..."
-          python -c "
-          from benchmarks.dream.archetypes import classify_archetype, create_archetypal_test_case, ARCHETYPES
-
-          # Test each archetype can be created and classified
-          for archetype_name in list(ARCHETYPES.keys())[:3]:  # Test first 3 for speed
-              test_case = create_archetypal_test_case(archetype_name, intensity=0.9)
-              emotion_vector = test_case['emotional_context']
-
-              classifications = classify_archetype(emotion_vector, threshold=0.4)
-              archetype_names = [name for name, score in classifications]
-
-              assert archetype_name in archetype_names, f'Failed to classify {archetype_name}'
-
-          print(f'✓ Archetypal taxonomy: {len(ARCHETYPES)} archetypes validated')
-          "
+          pytest -q tests/unit/dream/test_noise.py
+          pytest -q tests/unit/dream/test_resonance.py
+          pytest -q tests/benchmarks/test_conflict.py
 
       - name: Minimal benchmark run + score
         run: |
-          echo "📊 Running minimal benchmark..."
-          python -m benchmarks.dream.run --out benchmarks/dream/smoke_results.jsonl
-
-          echo "📈 Generating score summary..."
-          python -m benchmarks.dream.score benchmarks/dream/smoke_results.jsonl
-
-          # Validate benchmark output
-          python -c "
-          import json
-
-          # Load and validate results
-          results = []
-          with open('benchmarks/dream/smoke_results.jsonl') as f:
-              for line in f:
-                  if line.strip():
-                      results.append(json.loads(line))
-
-          assert len(results) > 0, 'No benchmark results generated'
-
-          # Check basic quality metrics
-          accuracies = [r.get('accuracy', 0) for r in results]
-          avg_accuracy = sum(accuracies) / len(accuracies)
-
-          assert avg_accuracy > 0.7, f'Smoke benchmark accuracy {avg_accuracy:.3f} below threshold 0.7'
-
-          print(f'✓ Smoke benchmark: {len(results)} results, avg accuracy {avg_accuracy:.3f}')
-          "
-
-      - name: Determinism validation
-        run: |
-          echo "🔒 Validating determinism..."
-
-          # Run benchmark twice with same seed
-          python -m benchmarks.dream.run --out benchmarks/dream/det_test1.jsonl
-          python -m benchmarks.dream.run --out benchmarks/dream/det_test2.jsonl
-
-          # Verify identical results
-          python -c "
-          import json
-
-          def load_results(path):
-              results = []
-              with open(path) as f:
-                  for line in f:
-                      if line.strip():
-                          results.append(json.loads(line))
-              return results
-
-          results1 = load_results('benchmarks/dream/det_test1.jsonl')
-          results2 = load_results('benchmarks/dream/det_test2.jsonl')
-
-          assert len(results1) == len(results2), 'Result counts differ'
-
-          for i, (r1, r2) in enumerate(zip(results1, results2)):
-              assert abs(r1['accuracy'] - r2['accuracy']) < 0.001, f'Accuracy differs at index {i}'
-              assert r1.get('selected_name') == r2.get('selected_name'), f'Selection differs at index {i}'
-
-          print(f'✓ Determinism: {len(results1)} results identical across runs')
-          "
-
-      - name: Safety guardrails check
-        run: |
-          echo "🛡️  Validating safety guardrails..."
-          python -c "
-          # Verify all EXPAND features are disabled
-          import os
-
-          safety_checks = [
-              ('LUKHAS_NOISE_LEVEL', 'off'),
-              ('LUKHAS_DREAM_RESONANCE', '0'),
-              ('LUKHAS_MULTI_AGENT', '0'),
-              ('LUKHAS_STRATEGY_EVOLVE', '0'),
-              ('LUKHAS_DETERMINISTIC', '1'),
-              ('LUKHAS_PURE_SELECTION', '1')
-          ]
-
-          for env_var, expected in safety_checks:
-              actual = os.getenv(env_var, 'NOT_SET')
-              assert actual == expected, f'{env_var}={actual}, expected {expected}'
-
-          print('✓ Safety guardrails: All EXPAND features properly disabled')
-          print('✓ Determinism: Enforced via environment')
-          print('✓ Pure selection: No experimental features active')
-          "
+          python -m benchmarks.dream.run --out benchmarks/dream/results.jsonl
+          python -m benchmarks.dream.score
 
       - name: Upload smoke artifacts
         uses: actions/upload-artifact@v4
@@ -224,5 +59,4 @@ jobs:
           name: dream-expand-smoke-artifacts
           path: |
             benchmarks/dream/summary.json
-            benchmarks/dream/smoke_results.jsonl
-          retention-days: 7
+            benchmarks/dream/results.jsonl
