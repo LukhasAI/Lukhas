@@ -280,7 +280,8 @@
       "Bash(PYTHONHASHSEED=0 TZ=UTC .venv/bin/pytest tests/capabilities/test_governance_suite.py::TestGovernanceCapabilities::test_promotion_metrics_integration -v)",
       "Bash(PYTHONHASHSEED=0 TZ=UTC .venv/bin/pytest tests/capabilities/test_governance_suite.py -v)",
       "Bash(PYTHONHASHSEED=0 TZ=UTC .venv/bin/pytest tests/test_policy_guard.py tests/test_memory_sync.py tests/capabilities/test_governance_suite.py -v --tb=short)",
-      "Bash(PYTHONHASHSEED=0 TZ=UTC .venv/bin/pytest -q --durations=10 tests/test_policy_guard.py tests/test_memory_sync.py tests/capabilities/test_governance_suite.py)"
+      "Bash(PYTHONHASHSEED=0 TZ=UTC .venv/bin/pytest -q --durations=10 tests/test_policy_guard.py tests/test_memory_sync.py tests/capabilities/test_governance_suite.py)",
+      "Bash(git merge-base:*)"
     ],
     "deny": [],
     "ask": []
