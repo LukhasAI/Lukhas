@@ -30,4 +30,8 @@
 
 ## Previous Releases
 
-*Historical changelog entries would go here*
+*Historical changelog entries would go here*## [Phase 3] Learning & Observability
+- Breakthrough detector, event-sourced storage
+- Grafana ops dashboard, Prom+OTEL exporters
+- Capability regression suite & module reload fix
+
