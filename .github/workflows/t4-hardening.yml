@@ -47,15 +47,16 @@ jobs:
       - name: Install system deps (if any)
         run: sudo apt-get update
 
-      - name: Install Python deps (locked if available)
+      - name: Install Python deps (toolchain lock step)
         run: |
           python -m pip install --upgrade pip
           PYVER="${{ matrix.python-version }}"
 
           # Prefer lockfile per Python version if present
           if [ -f "requirements-${PYVER}.lock" ]; then
-            echo "Using locked requirements for ${PYVER}"
-            pip install -r "requirements-${PYVER}.lock"
+            echo "🔒 Toolchain lock step: Using locked requirements for ${PYVER}"
+            pip install pip-tools
+            pip-sync "requirements-${PYVER}.lock"
           else
             echo "No lockfile for ${PYVER}; installing editable with dev extras"
             pip install -e .[dev]
@@ -92,7 +93,7 @@ jobs:
           BUDGET_SEC=60
           ELAPSED=$(jq -r '.report.duration // empty' reports/unit.json 2>/dev/null || echo "")
           if [ -n "$ELAPSED" ]; then
-            python scripts/check_budget.py
+            ELAPSED="$ELAPSED" BUDGET_SEC="$BUDGET_SEC" SUITE="$SUITE" python scripts/check_budget.py
           fi
 
       - name: T4 capability suite
@@ -110,7 +111,7 @@ jobs:
           BUDGET_SEC=120
           ELAPSED=$(jq -r '.report.duration // empty' reports/capabilities.json 2>/dev/null || echo "")
           if [ -n "$ELAPSED" ]; then
-            python scripts/check_budget.py
+            ELAPSED="$ELAPSED" BUDGET_SEC="$BUDGET_SEC" SUITE="$SUITE" python scripts/check_budget.py
           fi
 
       - name: Consciousness e2e (smoke)
@@ -130,7 +131,7 @@ jobs:
           BUDGET_SEC=60
           ELAPSED=$(jq -r '.report.duration // empty' reports/e2e.json 2>/dev/null || echo "")
           if [ -n "$ELAPSED" ]; then
-            python scripts/check_budget.py
+            ELAPSED="$ELAPSED" BUDGET_SEC="$BUDGET_SEC" SUITE="$SUITE" python scripts/check_budget.py
           fi
 
       - name: Fail if any test reran (flake radar)
