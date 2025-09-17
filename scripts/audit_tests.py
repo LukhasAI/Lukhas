@@ -17,14 +17,11 @@ def main():
     """Audit test collection - exit code based validation only"""
     print("🔍 Auditing test collection...")
 
-    # Try .venv/bin/pytest first, fallback to pytest
-    pytest_cmd = ".venv/bin/pytest"
-    try:
-        # Check if .venv/bin/pytest exists
-        result = subprocess.run([pytest_cmd, "--version"], capture_output=True)
-        if result.returncode != 0:
-            pytest_cmd = "pytest"
-    except FileNotFoundError:
+    # Use pytest directly (CI environments don't have .venv)
+    import os
+    if os.path.exists(".venv/bin/pytest"):
+        pytest_cmd = ".venv/bin/pytest"
+    else:
         pytest_cmd = "pytest"
 
     # Run pytest collection check for T4 hardening test directories only
