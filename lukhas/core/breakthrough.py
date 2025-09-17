@@ -36,21 +36,27 @@ class _NoopGauge:
 
 # Define metrics (labeled by lane) with no-op fallbacks when Prometheus is unavailable
 if PROM:
-    BREAKTHROUGH_FLAGS = Counter(
-        "lukhas_breakthrough_flags_total",
-        "Breakthrough detection flags",
-        ["lane"],
-    )
-    BREAKTHROUGH_SCORE = Gauge(
-        "lukhas_breakthrough_score",
-        "Latest novelty×value score",
-        ["lane"],
-    )
-    BREAKTHROUGH_STD = Gauge(
-        "lukhas_breakthrough_std",
-        "Running standard deviation of novelty×value",
-        ["lane"],
-    )
+    try:
+        BREAKTHROUGH_FLAGS = Counter(
+            "lukhas_breakthrough_flags_total",
+            "Breakthrough detection flags",
+            ["lane"],
+        )
+        BREAKTHROUGH_SCORE = Gauge(
+            "lukhas_breakthrough_score",
+            "Latest novelty×value score",
+            ["lane"],
+        )
+        BREAKTHROUGH_STD = Gauge(
+            "lukhas_breakthrough_std",
+            "Running standard deviation of novelty×value",
+            ["lane"],
+        )
+    except ValueError:
+        # Metrics already registered (happens in tests), use no-op fallbacks
+        BREAKTHROUGH_FLAGS = _NoopCounter()
+        BREAKTHROUGH_SCORE = _NoopGauge()
+        BREAKTHROUGH_STD = _NoopGauge()
 else:
     BREAKTHROUGH_FLAGS = _NoopCounter()
     BREAKTHROUGH_SCORE = _NoopGauge()

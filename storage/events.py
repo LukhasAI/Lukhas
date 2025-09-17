@@ -22,11 +22,24 @@ from collections import deque
 
 try:
     from prometheus_client import Counter, Histogram, Gauge
-    EVENTS_APPENDED = Counter("lukhas_events_appended_total", "Events appended to store", ["kind", "lane"])
-    EVENTS_QUERIED = Counter("lukhas_events_queried_total", "Event queries executed", ["query_type"])
-    STORE_SIZE = Gauge("lukhas_event_store_size", "Current number of events in store")
-    QUERY_DURATION = Histogram("lukhas_event_query_duration_seconds", "Event query duration", ["query_type"])
-    PROM = True
+    try:
+        EVENTS_APPENDED = Counter("lukhas_events_appended_total", "Events appended to store", ["kind", "lane"])
+        EVENTS_QUERIED = Counter("lukhas_events_queried_total", "Event queries executed", ["query_type"])
+        STORE_SIZE = Gauge("lukhas_event_store_size", "Current number of events in store")
+        QUERY_DURATION = Histogram("lukhas_event_query_duration_seconds", "Event query duration", ["query_type"])
+        PROM = True
+    except ValueError:
+        # Metrics already registered (happens in tests), use no-op fallbacks
+        PROM = False
+        class _NoopMetric:
+            def labels(self, *_, **__): return self
+            def inc(self, *_): pass
+            def set(self, *_): pass
+            def observe(self, *_): pass
+        EVENTS_APPENDED = _NoopMetric()
+        EVENTS_QUERIED = _NoopMetric()
+        STORE_SIZE = _NoopMetric()
+        QUERY_DURATION = _NoopMetric()
 except Exception:
     PROM = False
     class _NoopMetric:

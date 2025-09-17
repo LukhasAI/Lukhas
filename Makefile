@@ -630,7 +630,7 @@ test-jules06:
 	  --cov-report=xml:reports/tests/cov_adapters.xml \
 	  --cov-report=term-missing
 # AI interface audit rollup (JSONL -> CSV evidence ledger)
-.PHONY: audit-rollup audit-dashboard
+.PHONY: audit-rollup audit-dashboard dash-validate run-prom
 
 audit-rollup:
 	@echo "📥 Rolling up AI audit JSONL into evidence ledger CSV..."
@@ -642,6 +642,20 @@ audit-dashboard: audit-rollup
 	@echo "📊 Generating AI audit dashboard..."
 	@python3 tools/reports/ai_audit_dashboard.py
 	@echo "✅ Dashboard: reports/dashboard/ai_audit_summary.md"
+
+# Validate Grafana dashboard JSON syntax and essential PromQL queries
+.PHONY: dash-validate
+dash-validate:
+	@echo "📊 Validating Grafana dashboard JSON..."
+	@python3 -m json.tool dashboards/lukhas_ops.json > /dev/null || (echo "❌ Invalid JSON syntax in dashboard" && exit 1)
+	@.venv/bin/pytest tests/unit/observability/test_grafana_dashboard_json.py -q || (echo "❌ Dashboard validation failed" && exit 1)
+	@echo "✅ Dashboard validation passed"
+
+# Run LUKHAS with Prometheus metrics exporter
+.PHONY: run-prom
+run-prom:
+	@echo "🚀 Starting LUKHAS with Prometheus exporter on :9095..."
+	LUKHAS_PROM_PORT=9095 python -m lukhas
 
 # T4 Hardening Test Suite
 .PHONY: test.t4
