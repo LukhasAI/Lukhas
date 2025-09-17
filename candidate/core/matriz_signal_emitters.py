@@ -7,6 +7,7 @@ ensuring proper MΛTRIZ signal emission at all consciousness boundaries
 and enabling seamless inter-module communication.
 """
 import logging
+import os
 from collections import defaultdict, deque
 from dataclasses import dataclass
 from enum import Enum
@@ -98,21 +99,44 @@ class ConsciousnessModuleEmitter:
         **kwargs,
     ) -> Optional[ConsciousnessSignal]:
         """Emit a consciousness signal with full MΛTRIZ compliance"""
-
         try:
-            # Create consciousness signal
-            signal = ConsciousnessSignal(
-                signal_type=signal_type,
-                consciousness_id=self.consciousness_id,
-                producer_module=self.module_name,
-                awareness_level=awareness_level,
-                reflection_depth=reflection_depth,
-                bio_symbolic_data=bio_data,
-                constellation_alignment=trinity_compliance,
-                target_modules=target_modules or [],
-                processing_hints=processing_hints or {},
-                **kwargs,
-            )
+            # Build a conflict-safe kwargs map for ConsciousnessSignal ctor
+            base_kwargs = {
+                'signal_type': signal_type,
+                'consciousness_id': self.consciousness_id,
+                'producer_module': self.module_name,
+                'awareness_level': awareness_level,
+                'reflection_depth': reflection_depth,
+                'bio_symbolic_data': bio_data,
+                'constellation_alignment': trinity_compliance,
+                'target_modules': target_modules or [],
+                'processing_hints': processing_hints or {},
+            }
+
+            # Drop known-conflict keys from kwargs and only add non-conflicting ones
+            conflict_keys = set(base_kwargs.keys())
+            merged_kwargs = dict(base_kwargs)
+            STRICT_EMIT = os.getenv("LUKHAS_STRICT_EMIT") == "1"
+
+            for k, v in (kwargs or {}).items():
+                if k in conflict_keys:
+                    # If a caller passed the same key we manage explicitly, prefer explicit value
+                    # unless the values are identical (then it's harmless)
+                    if merged_kwargs.get(k) != v:
+                        if STRICT_EMIT:
+                            raise TypeError(
+                                f"Conflicting kwarg '{k}': got {v!r}, emitter already set {merged_kwargs.get(k)!r}. "
+                                "Set LUKHAS_STRICT_EMIT=0 to allow auto-resolve in dev, or remove the duplicate argument."
+                            )
+                        logger.debug(
+                            "emit_consciousness_signal: dropping conflicting kwarg '%s' (incoming=%r, kept=%r)",
+                            k, v, merged_kwargs.get(k)
+                        )
+                    continue
+                merged_kwargs[k] = v
+
+            # Create consciousness signal with sanitized kwargs
+            signal = ConsciousnessSignal(**merged_kwargs)
 
             # Validate signal
             if not signal.validate_signal():

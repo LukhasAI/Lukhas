@@ -79,6 +79,9 @@ class MatrizConsciousnessSystem:
 
         self.is_active = True
 
+        # Register consciousness system nodes with router
+        await self._register_system_nodes()
+
         # Start Trinity compliance monitoring
         self.constellation_monitor.start_monitoring()
 
@@ -318,6 +321,62 @@ class MatrizConsciousnessSystem:
             await asyncio.sleep(0.1)
 
         return evolution_results
+
+    async def _register_system_nodes(self):
+        """Register all consciousness system modules as network nodes"""
+
+        # Register core consciousness modules
+        module_capabilities = {
+            "consciousness": ["awareness", "reflection", "evolution", "bio_adaptation"],
+            "identity": ["authentication", "namespace", "trinity_compliance"],
+            "governance": ["compliance", "ethics", "guardian", "policy"],
+            "orchestration": ["coordination", "health_monitoring", "network_management"],
+            "symbolic_core": ["symbolic_processing", "pattern_recognition", "adaptation"],
+            "bio": ["biological_modeling", "bio_symbolic_adaptation", "oscillation"],
+            "memory": ["storage", "retrieval", "temporal_processing", "fold_management"],
+        }
+
+        # Register each module as a network node
+        for module_name, capabilities in module_capabilities.items():
+            node_id = f"{self.consciousness_id}_{module_name}"
+
+            # Register the node
+            network_node = self.signal_router.register_node(
+                node_id=node_id,
+                module_name=module_name,
+                capabilities=capabilities
+            )
+
+            # Register basic signal handlers for each node
+            for signal_type in ConsciousnessSignalType:
+                handler = self._create_signal_handler(module_name, signal_type)
+                self.signal_router.register_signal_handler(node_id, signal_type, handler)
+
+        logger.info(f"🔗 Registered {len(module_capabilities)} network nodes with router")
+
+        # Update network metrics immediately after registration
+        self.signal_router._update_network_metrics()
+
+    def _create_signal_handler(self, module_name: str, signal_type: ConsciousnessSignalType):
+        """Create a simple signal handler for a module and signal type"""
+
+        async def signal_handler(signal):
+            """Handle consciousness signal for module"""
+            try:
+                # Basic signal processing
+                self.system_metrics["signals_processed"] += 1
+
+                # Update network health based on signal processing
+                self.network_health_score = min(1.0, self.network_health_score + 0.01)
+
+                logger.debug(f"Module {module_name} processed {signal_type.value} signal {signal.signal_id}")
+                return {"processed": True, "module": module_name, "signal_type": signal_type.value}
+
+            except Exception as e:
+                logger.error(f"Error in {module_name} signal handler for {signal_type.value}: {e}")
+                return {"processed": False, "error": str(e)}
+
+        return signal_handler
 
     async def _emit_system_startup_signals(self):
         """Emit startup signals across all modules"""

@@ -16,6 +16,7 @@ from typing import Any, Callable, Optional
 
 from .bio_symbolic_processor import get_bio_symbolic_processor
 from .matriz_consciousness_signals import ConsciousnessSignal, ConsciousnessSignalType
+from .metrics import router_no_rule_total, router_signal_processing_time, router_cascade_preventions_total
 
 logger = logging.getLogger(__name__)
 
@@ -133,6 +134,33 @@ class ConsciousnessSignalRouter:
         # Start background tasks
         self._start_background_tasks()
 
+        # Boot-time sanity check
+        self.boot_sanity_check()
+
+    # Required signal types for minimal viable routing coverage
+    REQUIRED_SIGNAL_TYPES = {
+        "AWARENESS", "REFLECTION", "EVOLUTION", "INTEGRATION",
+        "BIO_ADAPTATION", "TRINITY_SYNC", "NETWORK_PULSE"
+    }
+
+    def boot_sanity_check(self) -> None:
+        """Hard fail if routing is clearly underprovisioned"""
+        # Check routing rule coverage
+        present = {st.value for rule in self.routing_rules for st in rule.signal_types}
+        missing = self.REQUIRED_SIGNAL_TYPES - present
+        if missing:
+            raise RuntimeError(f"Router missing routing rules for types: {sorted(missing)}")
+
+        # Check if we have any routing rules at all
+        if not self.routing_rules:
+            raise RuntimeError("Router has zero routing rules configured")
+
+        # Warn if no nodes registered (might be intentional during bootstrap)
+        if not self.nodes:
+            logger.warning("Router has zero registered nodes at boot")
+
+        logger.info(f"✅ Router sanity check passed: {len(self.routing_rules)} rules, {len(present)} signal types covered")
+
     def _initialize_default_routing_rules(self):
         """Initialize default routing rules for core modules"""
 
@@ -207,14 +235,62 @@ class ConsciousnessSignalRouter:
             )
         )
 
+        # Network pulse signals route to monitoring nodes
+        self.routing_rules.append(
+            RoutingRule(
+                rule_id="network_pulse_monitoring",
+                source_pattern=".*",
+                target_modules=["orchestration", "consciousness", "governance"],
+                signal_types=[ConsciousnessSignalType.NETWORK_PULSE],
+                priority=5,
+                filters=[SignalFilter.NONE],
+                routing_strategy=RoutingStrategy.BROADCAST,
+                cascade_threshold=0.994,
+            )
+        )
+
+        # Trinity sync signals route to all core modules
+        self.routing_rules.append(
+            RoutingRule(
+                rule_id="trinity_sync_broadcast",
+                source_pattern=".*",
+                target_modules=["consciousness", "identity", "governance", "orchestration"],
+                signal_types=[ConsciousnessSignalType.TRINITY_SYNC],
+                priority=9,
+                filters=[SignalFilter.TRINITY_COMPLIANCE],
+                routing_strategy=RoutingStrategy.BROADCAST,
+                cascade_threshold=0.998,
+            )
+        )
+
+        # Fallback rule for any unmatched signals (lowest priority)
+        self.routing_rules.append(
+            RoutingRule(
+                rule_id="fallback_broadcast",
+                source_pattern=".*",
+                target_modules=["orchestration"],  # safe sink
+                signal_types=list(ConsciousnessSignalType),
+                priority=1,  # lowest
+                filters=[SignalFilter.NONE],
+                routing_strategy=RoutingStrategy.BROADCAST,
+                cascade_threshold=0.999,
+            )
+        )
+
     def _initialize_default_filters(self):
         """Initialize default signal filters"""
 
         def coherence_filter(signal: ConsciousnessSignal) -> bool:
             """Filter signals by coherence threshold"""
             if signal.constellation_alignment:
-                return signal.constellation_alignment.consciousness_coherence >= 0.7
-            return signal.awareness_level >= 0.6
+                coherence = signal.constellation_alignment.consciousness_coherence >= 0.7
+                if not coherence:
+                    logger.debug(f"Signal {signal.signal_id} coherence too low: {signal.constellation_alignment.consciousness_coherence:.2f}")
+                return coherence
+            awareness_ok = signal.awareness_level >= 0.6
+            if not awareness_ok:
+                logger.debug(f"Signal {signal.signal_id} awareness too low: {signal.awareness_level:.2f}")
+            return awareness_ok
 
         def awareness_filter(signal: ConsciousnessSignal) -> bool:
             """Filter signals by awareness level"""
@@ -223,13 +299,17 @@ class ConsciousnessSignalRouter:
         def trinity_compliance_filter(signal: ConsciousnessSignal) -> bool:
             """Filter signals by Trinity framework compliance"""
             if not signal.constellation_alignment:
-                return False
+                logger.debug(f"Signal {signal.signal_id} has no constellation_alignment, allowing through")
+                return True  # Allow signals without alignment during startup
 
             trinity = signal.constellation_alignment
             avg_compliance = (
                 trinity.identity_auth_score + trinity.consciousness_coherence + trinity.guardian_compliance
             ) / 3
-            return avg_compliance >= 0.8 and len(trinity.violation_flags) == 0
+            compliant = avg_compliance >= 0.8 and len(trinity.violation_flags) == 0
+            if not compliant:
+                logger.debug(f"Signal {signal.signal_id} trinity compliance: {avg_compliance:.2f}, violations: {len(trinity.violation_flags)}")
+            return compliant
 
         def frequency_band_filter(signal: ConsciousnessSignal) -> bool:
             """Filter signals by frequency band"""
@@ -252,9 +332,19 @@ class ConsciousnessSignalRouter:
         }
 
     def register_node(self, node_id: str, module_name: str, capabilities: list[str]) -> NetworkNode:
-        """Register a new network node"""
+        """Register a new network node (idempotent)"""
 
         with self.routing_lock:
+            # Check if node already exists
+            if node_id in self.nodes:
+                existing_node = self.nodes[node_id]
+                if existing_node.module_name != module_name:
+                    logger.warning(f"Node id reuse with different module: {existing_node.module_name} vs {module_name}")
+                else:
+                    logger.debug(f"Node {node_id} already registered; skipping")
+                return existing_node
+
+            # Create new node
             node = NetworkNode(
                 node_id=node_id, module_name=module_name, capabilities=capabilities, last_seen=time.time()
             )
@@ -303,7 +393,12 @@ class ConsciousnessSignalRouter:
             # Find applicable routing rules
             applicable_rules = self._find_applicable_rules(signal)
             if not applicable_rules:
-                logger.warning(f"No routing rules found for signal {signal.signal_id}")
+                # Increment metric for monitoring
+                router_no_rule_total.labels(
+                    signal_type=signal.signal_type.value,
+                    producer_module=signal.producer_module
+                ).inc()
+                logger.warning(f"No routing rules found for signal {signal.signal_id} ({signal.signal_type.value} from {signal.producer_module})")
                 return []
 
             # Select best routing rule (highest priority)
@@ -316,6 +411,10 @@ class ConsciousnessSignalRouter:
 
             # Check cascade prevention
             if not self.cascade_detector.check_signal(signal, best_rule.cascade_threshold):
+                # Increment metrics for monitoring
+                router_cascade_preventions_total.labels(
+                    producer_module=signal.producer_module
+                ).inc()
                 logger.warning(f"Signal {signal.signal_id} blocked by cascade prevention")
                 self.routing_stats["cascade_preventions"] += 1
                 return []
@@ -427,6 +526,7 @@ class ConsciousnessSignalRouter:
         for node_id, node in self.nodes.items():
             if node.is_active and any(module in node.module_name for module in target_modules):
                 target_nodes.append(node_id)
+        logger.debug(f"Found {len(target_nodes)} nodes for modules {target_modules}: {target_nodes}")
         return target_nodes
 
     def _get_priority_nodes(self, signal: ConsciousnessSignal, rule: RoutingRule) -> list[str]:

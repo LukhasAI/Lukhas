@@ -642,3 +642,11 @@ audit-dashboard: audit-rollup
 	@echo "📊 Generating AI audit dashboard..."
 	@python3 tools/reports/ai_audit_dashboard.py
 	@echo "✅ Dashboard: reports/dashboard/ai_audit_summary.md"
+
+# T4 Hardening Test Suite
+.PHONY: test.t4
+test.t4:
+	PYTHONHASHSEED=0 LUKHAS_STRICT_EMIT=1 LUKHAS_STRESS_DURATION=1.0 \
+		pytest tests/unit/metrics -v && \
+		pytest tests/capabilities -m capability -v && \
+		pytest tests/e2e/consciousness/test_consciousness_emergence.py -v -k "signal_cascade_prevention or network_coherence_emergence"

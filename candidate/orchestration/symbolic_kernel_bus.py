@@ -174,7 +174,7 @@ class SymbolicKernelBus:
         if BRANDING_AVAILABLE:
             self._brand_context = BrandContext(
                 voice_profile="identity",  # Orchestration uses identity profile
-                trinity_emphasis="balanced",  # All Trinity components
+                triad_emphasis="balanced",  # All Trinity components
                 compliance_level="standard",
                 creative_mode=False,
                 terminology_enforcement=True,

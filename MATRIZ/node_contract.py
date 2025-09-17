@@ -47,7 +47,7 @@ LANE = Literal["experimental", "candidate", "prod"]
 LANES: Tuple[str, str, str] = ("experimental", "candidate", "prod")
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class GLYPH:
     """
     Immutable symbolic identity for LUKHAS consciousness technology
@@ -61,7 +61,7 @@ class GLYPH:
     tags: Dict[str, Any] = field(default_factory=dict)
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class MatrizMessage:
     """
     Immutable message format for MATRIZ communication

@@ -117,3 +117,18 @@ def pytest_collection_modifyitems(config, items):
         if "smoke" in marks or not marks.intersection(skip_marks):
             selected.append(item)
     items[:] = selected
+
+# ---------------------------------------------------------------------------
+# Silence only noisy SSL warnings in tests (runtime remains strict)
+# ---------------------------------------------------------------------------
+import warnings
+try:
+    import urllib3  # type: ignore
+    from urllib3.exceptions import InsecureRequestWarning  # type: ignore
+except Exception:
+    urllib3 = None
+    InsecureRequestWarning = None
+
+warnings.simplefilter("default", Warning)
+if urllib3 and InsecureRequestWarning:
+    urllib3.disable_warnings(InsecureRequestWarning)

@@ -50,7 +50,8 @@ from enum import Enum
 from typing import Any, Optional
 
 # Configure module logger
-logger = logging.getLogger("ΛTRACE.bridge.external_adapters.oauth", timezone)
+logger = logging.getLogger("ΛTRACE.bridge.external_adapters.oauth")
+logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 # Module constants
 MODULE_VERSION = "1.0.0"

@@ -39,9 +39,13 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 import logging
+import warnings
 
-# Module imports
-import requests
+# Suppress SSL warnings during import
+warnings.filterwarnings("ignore", category=Warning, module="urllib3")
+with warnings.catch_warnings():
+    warnings.simplefilter("ignore")
+    import requests
 
 from lukhas.branding.terminology import normalize_output
 

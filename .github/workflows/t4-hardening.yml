@@ -1,0 +1,81 @@
+name: T4 Hardening
+
+on:
+  push:
+    branches: [ main, trunk, develop ]
+  pull_request:
+    branches: [ main, trunk, develop ]
+
+env:
+  PYTHONHASHSEED: "0"
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  PIP_NO_PYTHON_VERSION_WARNING: "1"
+  # strict emitter & short stress run for CI
+  LUKHAS_STRICT_EMIT: "1"
+  LUKHAS_STRESS_DURATION: "1.0"
+  # make pytest discover our config and markers
+  PYTEST_ADDOPTS: "-q"
+
+jobs:
+  tests:
+    name: T4 hardening (py${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ "3.9", "3.10", "3.11" ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+
+      - name: Install system deps (if any)
+        run: sudo apt-get update
+
+      - name: Install Python deps
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          # Ensure prometheus_client present so real metrics types are used
+          pip install prometheus-client pytest pytest-asyncio
+
+      - name: Show pytest & env
+        run: |
+          python -V
+          pytest --version
+          echo "PYTEST_ADDOPTS=$PYTEST_ADDOPTS"
+          echo "LUKHAS_STRICT_EMIT=$LUKHAS_STRICT_EMIT"
+          echo "LUKHAS_STRESS_DURATION=$LUKHAS_STRESS_DURATION"
+
+      - name: Run audit (collection must be clean)
+        run: |
+          if [ -f scripts/audit_tests.py ]; then python scripts/audit_tests.py; else echo "No audit script found"; fi
+
+      - name: T4 unit contracts
+        run: |
+          pytest tests/unit/metrics/ -v --maxfail=1 --durations=10 --junitxml=reports/junit-unit.xml
+
+      - name: T4 capability suite
+        run: |
+          pytest tests/capabilities/ -m capability -v --maxfail=1 --durations=10 --junitxml=reports/junit-capabilities.xml
+
+      - name: Consciousness e2e (smoke)
+        run: |
+          pytest tests/e2e/consciousness/test_consciousness_emergence.py -v -k "signal_cascade_prevention or network_coherence_emergence" \
+            --maxfail=1 --durations=10 --junitxml=reports/junit-e2e-consciousness.xml
+
+      - name: Upload JUnit reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: t4-junit-${{ matrix.python-version }}
+          path: reports/*.xml
+          if-no-files-found: ignore
