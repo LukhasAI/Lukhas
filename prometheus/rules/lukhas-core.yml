@@ -1,0 +1,20 @@
+groups:
+- name: lukhas-core
+  rules:
+  - alert: LukhasRouterNoRuleFound
+    expr: sum(rate(lukhas_router_no_rule_total[5m])) > 0
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Unrouted signals detected"
+      description: "Signals failing to match routing rules for >5m."
+
+  - alert: LukhasDriftEMAHighProd
+    expr: lukhas_drift_ema{lane="prod"} > 0.35
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Drift EMA high in prod"
+      description: "EMA above 0.35 for 2m indicates misalignment."
