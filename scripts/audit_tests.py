@@ -17,9 +17,19 @@ def main():
     """Audit test collection - exit code based validation only"""
     print("🔍 Auditing test collection...")
 
+    # Try .venv/bin/pytest first, fallback to pytest
+    pytest_cmd = ".venv/bin/pytest"
+    try:
+        # Check if .venv/bin/pytest exists
+        result = subprocess.run([pytest_cmd, "--version"], capture_output=True)
+        if result.returncode != 0:
+            pytest_cmd = "pytest"
+    except FileNotFoundError:
+        pytest_cmd = "pytest"
+
     # Run pytest collection check
     result = subprocess.run(
-        [".venv/bin/pytest", "--collect-only", "-q"],
+        [pytest_cmd, "--collect-only", "-q"],
         capture_output=True,
         text=True
     )
