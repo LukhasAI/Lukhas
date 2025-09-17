@@ -1,0 +1,6 @@
+{
+  "budget_seconds": {
+    "unit_contracts_total": 60
+  },
+  "threshold_multiplier": 3.0
+}

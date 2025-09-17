@@ -474,6 +474,15 @@ jobs:
 
 Lane enforcement in CI: require LUKHAS_LANE=candidate for merge to main; prod only on tagged releases.
 
+Perf budgets (A):
+  • CI runs pytest with --junitxml=reports/junit-unit.xml
+  • tools/verify_perf.py parses JUnit and enforces budgets from tests/perf/perf_budgets.json (unit_contracts_total=60s by default)
+
+Lockfiles (B):
+  • If requirements-${python}.lock exists (e.g., requirements-3.11.lock), CI installs from it for deterministic toolchains.
+  • Fallback order: requirements-${python}.lock → requirements-3.11.lock → requirements.txt → editable project.
+  • Generate lockfiles locally with pip-compile and commit them per Python minor.
+
 ⸻
 
 12) KPIs that aren’t fairy dust

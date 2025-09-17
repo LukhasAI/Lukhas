@@ -49,23 +49,29 @@ jobs:
       - name: Install system deps (if any)
         run: sudo apt-get update
 
-      - name: Install Python deps (toolchain lock step)
+      - name: Detect Python minor
+        id: pyver
+        run: |
+          PY=$(python -c 'import sys;print(f"{sys.version_info.major}.{sys.version_info.minor}")')
+          echo "ver=$PY" >> "$GITHUB_OUTPUT"
+
+      - name: Install dependencies (prefer lockfile)
         run: |
           python -m pip install --upgrade pip
-          PYVER="${{ matrix.python-version }}"
-
-          # Prefer lockfile per Python version if present
-          if [ -f "requirements-${PYVER}.lock" ]; then
-            echo "🔒 Toolchain lock step: Using locked requirements for ${PYVER}"
-            pip install pip-tools
-            pip-sync "requirements-${PYVER}.lock"
+          PY=${{ steps.pyver.outputs.ver || '3.11' }}
+          if [ -f "requirements-${PY}.lock" ]; then
+            echo "Using lockfile requirements-${PY}.lock"
+            pip install -r "requirements-${PY}.lock"
+          elif [ -f "requirements-3.11.lock" ]; then
+            echo "Using lockfile requirements-3.11.lock"
+            pip install -r "requirements-3.11.lock"
+          elif [ -f "requirements.txt" ]; then
+            echo "Falling back to requirements.txt"
+            pip install -r requirements.txt
           else
-            echo "No lockfile for ${PYVER}; installing editable with dev extras"
-            pip install -e .[dev]
+            echo "No requirements file found; installing project in editable mode"
+            pip install -e .
           fi
-
-          # Test extras we need across suites
-          pip install pytest-asyncio pytest-rerunfailures pytest-json-report
 
       - name: Show pytest & env
         run: |
@@ -80,23 +86,14 @@ jobs:
           if [ -f scripts/audit_tests.py ]; then python scripts/audit_tests.py; else echo "No audit script found"; fi
 
 
-      - name: T4 unit contracts
+      - name: Run unit tests (with JUnit)
         run: |
           mkdir -p reports
-          echo "T4 unit contracts" | tee -a /tmp/t4_success.log
-          pytest tests/unit/metrics/ \
-            -v --durations=10 \
-            --reruns=1 --reruns-delay=0 \
-            --json-report --json-report-file=reports/unit.json \
-            --junitxml=reports/junit-unit.xml | tee -a /tmp/t4_success.log
+          pytest -m "not prod_only" --maxfail=1 -q --junitxml=reports/junit-unit.xml
 
-          # Time-budget guardrail
-          SUITE="Unit contracts"
-          BUDGET_SEC=60
-          ELAPSED=$(jq -r '.report.duration // empty' reports/unit.json 2>/dev/null || echo "")
-          if [ -n "$ELAPSED" ]; then
-            ELAPSED="$ELAPSED" BUDGET_SEC="$BUDGET_SEC" SUITE="$SUITE" python scripts/check_budget.py
-          fi
+      - name: Verify performance budgets
+        run: |
+          python tools/verify_perf.py
 
       - name: T4 capability suite
         run: |
@@ -139,6 +136,7 @@ jobs:
       - name: Fail if any test reran (flake radar)
         run: |
           python scripts/check_reruns.py
+
 
       - name: Upload JUnit reports
         if: always()
