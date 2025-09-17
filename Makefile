@@ -568,7 +568,12 @@ types-enforce-trend: types-enforce types-trend
 # T4 TEST FRAMEWORK - Deterministic Policy & Golden Discipline
 # ==============================================================================
 
-.PHONY: test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens
+.PHONY: audit test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens
+
+# T4 audit - zero collection errors required
+audit:
+	@echo "🔍 Running T4 test collection audit..."
+	@$(PYTHON) scripts/audit_tests.py
 
 test-clean:
 	@find . -name '__pycache__' -type d -prune -exec rm -rf {} + || true
