@@ -42,10 +42,10 @@ jobs:
       - name: Install Python deps
         run: |
           python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
-          # Ensure prometheus_client present so real metrics types are used
-          pip install prometheus-client pytest pytest-asyncio
+          # Install project with dev dependencies
+          pip install -e .[dev]
+          # Ensure additional test dependencies
+          pip install pytest-asyncio
 
       - name: Show pytest & env
         run: |
@@ -61,6 +61,7 @@ jobs:
 
       - name: T4 unit contracts
         run: |
+          mkdir -p reports
           pytest tests/unit/metrics/ -v --maxfail=1 --durations=10 --junitxml=reports/junit-unit.xml
 
       - name: T4 capability suite
