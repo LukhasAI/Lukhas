@@ -17,13 +17,17 @@ except Exception:
     from .multi_ai_orchestrator import ModelOrchestrator as MultiAIOrchestrator
 
     ModelOrchestrator = MultiAIOrchestrator  # re-export
+from .ai_provider import AIProvider, OrchestrationRequest, TaskType
 from .consensus_engine import ConsensusEngine
 from .context_manager import ContextManager
 from .performance_monitor import PerformanceMonitor
 
 __all__ = [
+    "AIProvider",
     "ConsensusEngine",
     "ContextManager",
     "MultiAIOrchestrator",
+    "OrchestrationRequest",
     "PerformanceMonitor",
+    "TaskType",
 ]
