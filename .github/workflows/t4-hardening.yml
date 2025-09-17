@@ -92,16 +92,7 @@ jobs:
           BUDGET_SEC=60
           ELAPSED=$(jq -r '.report.duration // empty' reports/unit.json 2>/dev/null || echo "")
           if [ -n "$ELAPSED" ]; then
-            python - <<'PY'
-import os,sys
-elapsed=float(os.environ.get("ELAPSED","0") or 0)
-budget=float(os.environ.get("BUDGET_SEC","0") or 0)
-suite=os.environ.get("SUITE","suite")
-if budget and elapsed>budget:
-    print(f"❌ {suite}: elapsed {elapsed:.2f}s > budget {budget:.2f}s")
-    sys.exit(1)
-print(f"✅ {suite}: elapsed {elapsed:.2f}s within budget {budget:.2f}s")
-PY
+            python scripts/check_budget.py
           fi
 
       - name: T4 capability suite
@@ -119,16 +110,7 @@ PY
           BUDGET_SEC=120
           ELAPSED=$(jq -r '.report.duration // empty' reports/capabilities.json 2>/dev/null || echo "")
           if [ -n "$ELAPSED" ]; then
-            python - <<'PY'
-import os,sys
-elapsed=float(os.environ.get("ELAPSED","0") or 0)
-budget=float(os.environ.get("BUDGET_SEC","0") or 0)
-suite=os.environ.get("SUITE","suite")
-if budget and elapsed>budget:
-    print(f"❌ {suite}: elapsed {elapsed:.2f}s > budget {budget:.2f}s")
-    sys.exit(1)
-print(f"✅ {suite}: elapsed {elapsed:.2f}s within budget {budget:.2f}s")
-PY
+            python scripts/check_budget.py
           fi
 
       - name: Consciousness e2e (smoke)
@@ -148,38 +130,12 @@ PY
           BUDGET_SEC=60
           ELAPSED=$(jq -r '.report.duration // empty' reports/e2e.json 2>/dev/null || echo "")
           if [ -n "$ELAPSED" ]; then
-            python - <<'PY'
-import os,sys
-elapsed=float(os.environ.get("ELAPSED","0") or 0)
-budget=float(os.environ.get("BUDGET_SEC","0") or 0)
-suite=os.environ.get("SUITE","suite")
-if budget and elapsed>budget:
-    print(f"❌ {suite}: elapsed {elapsed:.2f}s > budget {budget:.2f}s")
-    sys.exit(1)
-print(f"✅ {suite}: elapsed {elapsed:.2f}s within budget {budget:.2f}s")
-PY
+            python scripts/check_budget.py
           fi
 
       - name: Fail if any test reran (flake radar)
         run: |
-          python - <<'PY'
-import json, sys, pathlib
-paths = [pathlib.Path("reports/unit.json"),
-         pathlib.Path("reports/capabilities.json"),
-         pathlib.Path("reports/e2e.json")]
-total_reruns = 0
-for p in paths:
-  if not p.exists():
-    continue
-  data = json.loads(p.read_text())
-  # pytest-json-report exposes reruns per test under 'tests' entries where 'outcome' may be 'rerun'
-  reruns = sum(1 for t in data.get("tests", []) if t.get("outcome") == "rerun")
-  total_reruns += reruns
-if total_reruns > 0:
-  print(f"❌ Flake radar: {total_reruns} test(s) required rerun(s). Failing the build.")
-  sys.exit(1)
-print("✅ No reruns detected across suites.")
-PY
+          python scripts/check_reruns.py
 
       - name: Upload JUnit reports
         if: always()
