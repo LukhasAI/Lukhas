@@ -5,6 +5,8 @@ on:
     branches: [ main, trunk, develop ]
   pull_request:
     branches: [ main, trunk, develop ]
+  schedule:
+    - cron: "0 5 * * 1"  # Mondays at 05:00 UTC
 
 env:
   # Hermetic determinism for reproducible results
@@ -209,3 +211,34 @@ jobs:
             reports/e2e.json
             requirements-${{ matrix.python-version }}.lock
           if-no-files-found: ignore
+
+  drift-check:
+    name: Dependency drift check (unlocked install)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    timeout-minutes: 15
+    env:
+      PYTHONHASHSEED: "0"
+      TZ: "UTC"
+      LUKHAS_RNG_SEED: "42"
+      LUKHAS_STRICT_EMIT: "1"
+      LUKHAS_LANE: "experimental"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies (unlocked)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+
+      - name: Run drift check tests
+        run: |
+          pytest tests/ --maxfail=1 -q
