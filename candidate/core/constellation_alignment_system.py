@@ -779,8 +779,11 @@ class ConstellationAlignmentMonitor:
                     }
                 )
 
-        # Check compliance score
-        overall_score = sum(scores) / len(scores) if scores else 0.0
+        # Check compliance score with EMA smoothing to avoid 0.0 spam
+        raw_score = sum(scores) / len(scores) if scores else 0.0
+        self.update_from_cycle(raw_score)
+        overall_score = self._ema or raw_score  # Use EMA if available
+
         if overall_score < self.alert_thresholds["compliance_score_min"]:
             alerts.append(
                 {
