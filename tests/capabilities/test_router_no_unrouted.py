@@ -25,6 +25,12 @@ def _get_no_rule_count():
         return 0
 
 
+def normalize_metrics(raw: dict) -> dict:
+    """Normalize metrics to canonical contract for capability tests"""
+    # Simple pass-through for now since _normalize_demo_result handles it
+    return raw
+
+
 async def _run_demo(system):
     """Shim for MatrizConsciousnessSystem API drift - maps to available demo method"""
     return await system.demonstrate_consciousness_evolution()
@@ -88,6 +94,7 @@ async def test_no_unrouted_during_demonstration():
 
         # Run the full demonstration scenario
         demo_result = await _run_demo(system)
+        demo_result = normalize_metrics(demo_result)
 
         # Verify the demo actually worked
         assert demo_result["total_signals_processed"] > 0, "Demo should process signals"

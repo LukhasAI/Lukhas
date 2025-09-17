@@ -124,9 +124,11 @@ class ConsciousnessModuleEmitter:
                     # unless the values are identical (then it's harmless)
                     if merged_kwargs.get(k) != v:
                         if STRICT_EMIT:
+                            cur = merged_kwargs.get(k)
                             raise TypeError(
-                                f"Conflicting kwarg '{k}': got {v!r}, emitter already set {merged_kwargs.get(k)!r}. "
-                                "Set LUKHAS_STRICT_EMIT=0 to allow auto-resolve in dev, or remove the duplicate argument."
+                                f"Conflicting kwarg '{k}': caller={v!r}, factory={cur!r}. "
+                                "If this is intentional, remove the duplicate or disable strict mode "
+                                "(LUKHAS_STRICT_EMIT=0) for local runs."
                             )
                         logger.debug(
                             "emit_consciousness_signal: dropping conflicting kwarg '%s' (incoming=%r, kept=%r)",
@@ -394,7 +396,6 @@ class IdentityEmitter(ConsciousnessModuleEmitter):
             signal_type=ConsciousnessSignalType.AWARENESS,
             awareness_level=auth_score,
             reflection_depth=1,
-            constellation_alignment=trinity_compliance,
             processing_hints=identity_context,
         )
 
@@ -465,7 +466,6 @@ class GovernanceEmitter(ConsciousnessModuleEmitter):
             signal_type=ConsciousnessSignalType.TRINITY_SYNC,
             awareness_level=min(1.0, 0.5 + compliance_score * 0.5),
             reflection_depth=3,
-            constellation_alignment=trinity_compliance,
             processing_hints={
                 "guardian_alert": len(violation_flags) > 0,
                 "urgency_level": urgency_level,

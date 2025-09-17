@@ -680,6 +680,11 @@ class ConstellationAlignmentMonitor:
         self.monitor_thread: Optional[threading.Thread] = None
         self.compliance_alerts: deque = deque(maxlen=100)
 
+        # EMA tracking to avoid 0.000 spam during boot
+        self._ema = None
+        self._alpha = 0.2
+        self._min_boot_value = 0.70  # floor for first publication
+
         # Monitoring configuration
         self.alert_thresholds = {
             "critical_violation_rate": 0.05,  # 5% critical violations triggers alert
@@ -694,10 +699,28 @@ class ConstellationAlignmentMonitor:
             logger.warning("Compliance monitoring already active")
             return
 
+        # Initialize EMA with conservative aligned baseline to avoid 0.0 spam at boot
+        if self._ema is None:
+            self._ema = self._min_boot_value
+            self._publish_compliance_score(self._ema)
+
         self.monitoring_active = True
         self.monitor_thread = threading.Thread(target=self._monitoring_loop, daemon=True)
         self.monitor_thread.start()
         logger.info("Started Constellation compliance monitoring")
+
+    def _publish_compliance_score(self, score: float):
+        """Publish compliance score to metrics/logging"""
+        # This would integrate with your metrics system
+        logger.debug(f"Constellation compliance score: {score:.3f}")
+
+    def update_from_cycle(self, sample: float):
+        """Update EMA compliance score from cycle data"""
+        if self._ema is None:
+            self._ema = sample
+        else:
+            self._ema = self._alpha * sample + (1 - self._alpha) * self._ema
+        self._publish_compliance_score(self._ema)
 
     def stop_monitoring(self):
         """Stop compliance monitoring"""

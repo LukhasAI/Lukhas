@@ -159,6 +159,25 @@ class ConsciousnessSignalRouter:
         if not self.nodes:
             logger.warning("Router has zero registered nodes at boot")
 
+        # Probe critical signal types to ensure routing works at boot
+        from .matriz_consciousness_signals import ConsciousnessSignal, ConsciousnessSignalType
+
+        probe_awareness = ConsciousnessSignal(
+            signal_type=ConsciousnessSignalType.AWARENESS,
+            consciousness_id="probe",
+            producer_module="consciousness"
+        )
+        if not self._find_applicable_rules(probe_awareness):
+            raise RuntimeError("Router sanity: AWARENESS has no applicable rule at boot")
+
+        probe_network = ConsciousnessSignal(
+            signal_type=ConsciousnessSignalType.NETWORK_PULSE,
+            consciousness_id="probe",
+            producer_module="orchestration"
+        )
+        if not self._find_applicable_rules(probe_network):
+            raise RuntimeError("Router sanity: NETWORK_PULSE has no applicable rule at boot")
+
         logger.info(f"✅ Router sanity check passed: {len(self.routing_rules)} rules, {len(present)} signal types covered")
 
     def _initialize_default_routing_rules(self):

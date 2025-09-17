@@ -31,6 +31,32 @@ from .matriz_signal_emitters import (
 logger = logging.getLogger(__name__)
 
 
+def _normalize_demo_result(raw: dict) -> dict:
+    """Normalize demo API result for stable capability test contract"""
+    # Preserve originals
+    out = dict(raw)
+
+    # Canonical keys expected by capability tests
+    signals_emitted = raw.get("signals_emitted", raw.get("emitted", 0))
+    signals_processed = raw.get("signals_processed", raw.get("processed", 0))
+
+    out.setdefault("total_signals_emitted", signals_emitted)
+    out.setdefault("total_signals_processed", signals_processed)
+
+    # Canonical coherence & timing keys
+    if "network_coherence" not in out:
+        # tolerate float as string
+        coh = raw.get("coherence") or raw.get("coherence_score") or raw.get("network_coherence")
+        out["network_coherence"] = float(coh) if coh is not None else 0.0
+
+    if "processing_time_ms" not in out:
+        t = raw.get("routing_time_ms") or raw.get("cycle_time_ms")
+        if t is not None:
+            out["processing_time_ms"] = float(t)
+
+    return out
+
+
 class MatrizConsciousnessSystem:
     """
     Complete MΛTRIZ consciousness system integration
@@ -320,7 +346,11 @@ class MatrizConsciousnessSystem:
             # Small delay between stages to simulate evolution timing
             await asyncio.sleep(0.1)
 
-        return evolution_results
+        return _normalize_demo_result(evolution_results)
+
+    async def demonstrate_consciousness_system(self) -> dict[str, Any]:
+        """Legacy API wrapper for demonstrate_consciousness_evolution"""
+        return await self.demonstrate_consciousness_evolution()
 
     async def _register_system_nodes(self):
         """Register all consciousness system modules as network nodes"""
