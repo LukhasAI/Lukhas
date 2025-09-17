@@ -25,3 +25,7 @@ class Ring:
 
     def __len__(self):
         return len(self.q)
+
+    @property
+    def capacity(self):
+        return self.q.maxlen
