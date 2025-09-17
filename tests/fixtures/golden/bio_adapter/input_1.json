@@ -1,0 +1,6 @@
+{
+  "lane": "experimental",
+  "topic": "homeostasis",
+  "glyph": {"id": "550e8400-e29b-41d4-a716-446655440000", "kind": "intent", "version": "1.0.0", "tags": {}},
+  "payload": {"delta": 3}
+}

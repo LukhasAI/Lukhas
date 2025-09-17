@@ -6,6 +6,17 @@ from pathlib import Path
 
 import pytest
 
+# T4 Lane Configuration
+def pytest_addoption(parser):
+    parser.addoption("--lane", action="store", default=os.getenv("LUKHAS_LANE", "experimental"))
+
+def pytest_configure(config):
+    os.environ.setdefault("LUKHAS_LANE", config.getoption("--lane"))
+
+def pytest_runtest_setup(item):
+    if "prod_only" in item.keywords and os.getenv("LUKHAS_LANE", "experimental") not in {"candidate","prod"}:
+        pytest.skip("prod_only test skipped outside candidate/prod lanes")
+
 # T4 Deterministic Path Setup
 REPO_ROOT = pathlib.Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:

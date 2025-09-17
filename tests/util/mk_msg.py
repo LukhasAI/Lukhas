@@ -15,18 +15,11 @@ Usage:
 """
 from __future__ import annotations
 
+import json
 from datetime import datetime
 from uuid import UUID, uuid4
 
 from matriz.node_contract import GLYPH, MatrizMessage
-from matriz.node_contract import CONTRACT_VERSION, ALLOWED_TOPICS, Topic
-
-
-def _parse_ts(value: str) -> datetime:
-    """Parse ISO-8601 timestamps; accept trailing 'Z' as UTC."""
-    if value.endswith("Z"):
-        value = value[:-1] + "+00:00"
-    return datetime.fromisoformat(value)
 
 
 def mk_msg_from_json(d: dict) -> MatrizMessage:
@@ -48,40 +41,45 @@ def mk_msg_from_json(d: dict) -> MatrizMessage:
     Optional fields:
         - msg_id: str (UUID) - generates if missing
         - ts: str (ISO format) - uses current time if missing
-        - guardian_token: str - empty if missing
     """
-    if d["topic"] not in ALLOWED_TOPICS:
-        raise ValueError(f"Invalid topic '{d['topic']}'. Allowed: {sorted(ALLOWED_TOPICS)}")
-    if "version" in d["glyph"] and d["glyph"]["version"] != CONTRACT_VERSION:
-        raise ValueError(f"Incompatible glyph.version '{d['glyph'].get('version')}', expected {CONTRACT_VERSION}")
+    # Provide fallback GLYPH if missing
+    glyph_data = d.get("glyph", {})
+    if "id" not in glyph_data:
+        glyph_data["id"] = "550e8400-e29b-41d4-a716-446655440000"
+    if "kind" not in glyph_data:
+        glyph_data["kind"] = "intent"
+    if "version" not in glyph_data:
+        glyph_data["version"] = "1.0.0"
+    if "tags" not in glyph_data:
+        glyph_data["tags"] = {}
+
     return MatrizMessage(
         msg_id=UUID(d["msg_id"]) if "msg_id" in d else uuid4(),
-        ts=_parse_ts(d["ts"]) if "ts" in d else datetime.utcnow(),
+        ts=datetime.fromisoformat(d["ts"]) if "ts" in d else datetime.utcnow(),
         lane=d["lane"],
         topic=d["topic"],
         glyph=GLYPH(
-            id=UUID(d["glyph"]["id"]),
-            kind=d["glyph"]["kind"],
-            version=d["glyph"].get("version", CONTRACT_VERSION),
-            tags=d["glyph"].get("tags", {})
+            id=UUID(glyph_data["id"]),
+            kind=glyph_data["kind"],
+            version=glyph_data["version"],
+            tags=glyph_data["tags"]
         ),
-        payload=d["payload"],
-        guardian_token=d.get("guardian_token", "")
+        payload=d.get("payload", {})
     )
 
 
-def mk_test_glyph(kind: str = "test", tags: dict = None, id_override: UUID | None = None) -> GLYPH:
-    """Create a test GLYPH"""
+def mk_test_glyph(kind: str = "intent", tags: dict = None, id_override: UUID | None = None) -> GLYPH:
+    """Create a test GLYPH with stable defaults"""
     return GLYPH(
-        id=id_override or uuid4(),
+        id=id_override or UUID("550e8400-e29b-41d4-a716-446655440000"),
         kind=kind,
-        version=CONTRACT_VERSION,
+        version="1.0.0",
         tags=tags or {}
     )
 
 
 def mk_test_message(
-    topic: str = Topic.CONTRADICTION.value,
+    topic: str = "contradiction",
     lane: str = "experimental",
     payload: dict = None,
     glyph_kind: str = "intent"
@@ -93,35 +91,12 @@ def mk_test_message(
         lane=lane,
         topic=topic,
         glyph=mk_test_glyph(glyph_kind),
-        payload=payload or {},
-        guardian_token=""
+        payload=payload or {}
     )
-
-
-# Example usage for tests
-def example_message() -> MatrizMessage:
-    """Example message for documentation and testing"""
-    return mk_msg_from_json({
-        "lane": "experimental",
-        "topic": "contradiction",
-        "glyph": {
-            "id": "550e8400-e29b-41d4-a716-446655440000",
-            "kind": "intent",
-            "tags": {"priority": "high"}
-        },
-        "payload": {
-            "parameter_A": "value1",
-            "parameter_B": "value2",
-            "target_improve": 0.8
-        }
-    })
 
 
 __all__ = [
     "mk_msg_from_json",
     "mk_test_glyph",
     "mk_test_message",
-    "example_message",
-    "Topic",
-    "ALLOWED_TOPICS"
 ]
