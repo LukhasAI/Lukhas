@@ -43,6 +43,16 @@ Dream Systems
 │   ├── Snapshot Redirection Controller
 │   ├── Narrative Management System
 │   └── Ethical Compliance Validator
+├── 🔮 EXPAND Advanced Systems
+│   ├── Noise Injection & Robustness Testing
+│   ├── Multi-Agent Collective Dreaming Mesh
+│   ├── Conflict Mediation & Resolution
+│   ├── Archetypal Pattern Classification
+│   ├── Genetic Strategy Evolution
+│   ├── Cross-Dream Emotional Resonance
+│   ├── Drift Atlas & Entropy Mapping
+│   ├── Ethical Sentinel & Safety Monitoring
+│   └── Narrative Replay & Explainability
 └── 🔍 Enterprise Infrastructure
     ├── Causality Audit Systems
     ├── Resource Monitoring Dashboard
@@ -203,6 +213,162 @@ with open('../trace/dream_causal_trace.json', 'r') as f:
 print(f"Causality events: {len(causality_trace['causal_events'])}")
 print(f"Average strength: {causality_trace['causality_summary']['average_causation_strength']}")
 print(f"Ethical status: {causality_trace['causality_summary']['ethical_compliance_status']}")
+```
+
+## 🔮 Dream EXPAND Advanced Capabilities
+
+![Dream EXPAND++](https://github.com/ORG/REPO/actions/workflows/dream-expand-ci.yml/badge.svg)
+
+The Dream EXPAND system provides advanced emotion space exploration and consciousness enhancement capabilities through specialized modules designed for research and development.
+
+### **EXPAND Modules Overview**
+
+#### **🎭 Archetypal Intelligence** (`archetypes.py`)
+Jungian archetype-based emotional pattern classification:
+```python
+from dream.expand.archetypes import tag, mesh
+
+# Classify dream snapshot by archetypal patterns
+tags = tag(snapshot)  # Returns: ["Hero"] or ["Shadow", "Anima"]
+
+# Analyze archetypal mesh harmony across dreams
+result = mesh(dream_list)  # Returns: "harmony" or "clash"
+```
+
+#### **🔊 Controlled Noise Injection** (`noise.py`)
+Robustness testing through controlled emotional perturbation:
+```python
+from dream.expand.noise import inject_noise, get_noise_config
+
+# Inject controlled noise for testing (disabled by default)
+# Set LUKHAS_NOISE_LEVEL=low|med|high to enable
+noisy_emotions = inject_noise(emotional_context)
+config = get_noise_config()  # {"level": "off", "enabled": false}
+```
+
+#### **🤝 Conflict Mediation** (`mediation.py`)
+High-tension scenario resolution with compromise generation:
+```python
+from dream.expand.mediation import mediate
+
+# Resolve conflicts between competing dream scenarios
+result = mediate(dream_a, dream_b, target_emotion)
+# Returns: {"compromise": {...}, "trace": "mediation_strategy"}
+```
+
+#### **🌐 Multi-Agent Mesh** (`mesh.py`)
+Collective dreaming across multiple consciousness agents:
+```python
+from dream.expand.mesh import mesh_align, consensus_analysis
+
+# Aggregate emotional contexts across agents
+# Set LUKHAS_MULTI_AGENT=1 to enable
+collective_emotion = mesh_align(agent_snapshots)
+consensus = consensus_analysis(agent_snapshots)
+```
+
+#### **🧬 Strategy Evolution** (`evolution.py`)
+Genetic algorithm optimization of consciousness parameters:
+```python
+from dream.expand.evolution import StrategyGenome, Population
+
+# Evolve strategy parameters for optimal performance
+# Set LUKHAS_STRATEGY_EVOLVE=1 to enable
+genome = StrategyGenome({"alignment_threshold": 0.7})
+population = Population(size=10)
+optimized_strategy = population.evolve(generations=50)
+```
+
+#### **🌊 Emotional Resonance** (`resonance.py`)
+Cross-dream emotional continuity and field modeling:
+```python
+from dream.expand.resonance import ResonanceField
+
+# Model emotional continuity across dream sequences
+field = ResonanceField(decay_rate=0.1)
+field.add_dream(dream_snapshot)
+resonance_influence = field.get_influence()
+```
+
+#### **🗺️ Drift Atlas** (`atlas.py`)
+Entropy tracking and constellation mapping across dream runs:
+```python
+from dream.expand.atlas import log, export_html
+
+# Track drift patterns across consciousness evolution
+row = log("run_001", snapshot, drift_score=0.5, entropy=0.3)
+atlas.export_html("consciousness_drift_report.html")
+```
+
+#### **🛡️ Ethical Sentinel** (`sentinel.py`)
+Safety threshold monitoring and ethical boundary enforcement:
+```python
+from dream.expand.sentinel import detect
+
+# Monitor safety thresholds (blocks fear > 0.8)
+is_unsafe = sentinel.detect(snapshot)  # True if safety violation
+```
+
+#### **📖 Narrative Replay** (`replay.py`)
+Explainability generation for consciousness decision traces:
+```python
+from dream.expand.replay import describe
+
+# Generate human-readable explanations
+description = replay.describe(decision_trace)
+# Returns: "Dream xyz chosen (align=high_confidence, safety=validated)"
+```
+
+### **Safety & Configuration**
+
+All EXPAND features follow strict safety protocols:
+- **Disabled by default**: All experimental features require explicit opt-in
+- **Environment-controlled**: Configuration through environment variables
+- **Value clamping**: All parameters bounded to safe ranges [0,1]
+- **Comprehensive testing**: 100+ test cases ensuring safety and functionality
+- **CI validation**: Automated smoke tests and deep benchmarks
+
+### **CI Workflow Integration**
+
+![Dream EXPAND Smoke](https://github.com/ORG/REPO/actions/workflows/dream-expand-smoke.yml/badge.svg)
+![Dream EXPAND Bench](https://github.com/ORG/REPO/actions/workflows/dream-expand-bench.yml/badge.svg)
+
+**Automated Testing Workflows:**
+
+#### **Smoke Tests** (`dream-expand-smoke.yml`)
+- **Trigger**: Automatic on PR/push to Dream EXPAND paths
+- **Duration**: ~15 minutes for fast feedback
+- **Purpose**: Safety validation and determinism checks
+- **Features**: All EXPAND features disabled (safe mode testing)
+
+#### **Benchmark Suite** (`dream-expand-bench.yml`)
+- **Trigger**: Manual dispatch + nightly cron (02:00 UTC)
+- **Duration**: ~60 minutes for comprehensive analysis
+- **Purpose**: Deep stability, calibration, and taxonomy analysis
+- **Features**: Full parameter sweeps and dashboard generation
+
+**Development Workflow:**
+```bash
+# 1. Modify EXPAND modules
+vim candidate/consciousness/dream/expand/noise.py
+
+# 2. Test locally
+pytest tests/unit/dream/expand -v
+
+# 3. Push changes (triggers smoke tests automatically)
+git add . && git commit -m "feat(dream): enhance noise injection safety"
+git push
+
+# 4. Monitor CI status via badges
+# 5. For deep analysis, manually trigger benchmark workflow
+```
+
+**Badge Integration for Main README:**
+```markdown
+<!-- Dream EXPAND CI Status -->
+[![Dream EXPAND++](https://github.com/ORG/REPO/actions/workflows/dream-expand-ci.yml/badge.svg)](https://github.com/ORG/REPO/actions/workflows/dream-expand-ci.yml)
+[![Dream EXPAND Smoke](https://github.com/ORG/REPO/actions/workflows/dream-expand-smoke.yml/badge.svg)](https://github.com/ORG/REPO/actions/workflows/dream-expand-smoke.yml)
+[![Dream EXPAND Bench](https://github.com/ORG/REPO/actions/workflows/dream-expand-bench.yml/badge.svg)](https://github.com/ORG/REPO/actions/workflows/dream-expand-bench.yml)
 ```
 
 ## 🛡️ Enterprise Stability Features

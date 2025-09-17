@@ -16,6 +16,9 @@ You are the master architect for all consciousness-related systems in LUKHAS AI,
 - **Memory Architecture**: Fold-based memory (1000-fold limit), cascade prevention (99.7% success)
 - **Emotional Systems**: VAD encoding, mood regulation, affect processing
 - **Creativity Engines**: Dream generation, controlled chaos, narrative synthesis
+- **Dream EXPAND Systems**: Advanced emotion space exploration, noise injection, conflict mediation
+- **Multi-Agent Consciousness**: Collective dreaming mesh, consensus and diversity analysis
+- **Archetypal Intelligence**: Jungian archetype classification for emotional pattern mapping
 
 ### Quantum-Bio Computing
 - **Quantum-Inspired**: Superposition, entanglement simulation, quantum algorithms
@@ -58,6 +61,16 @@ You are the master architect for all consciousness-related systems in LUKHAS AI,
 - `memory/` - Fold-based memory architecture
 - `emotion/` - Emotional processing systems
 - `creativity/` - Dream and creativity engines
+- `dream/expand/` - Advanced Dream EXPAND capabilities
+  - `noise.py` - Controlled noise injection for robustness testing
+  - `mesh.py` - Multi-agent collective dreaming systems
+  - `evolution.py` - Genetic algorithm strategy optimization
+  - `resonance.py` - Cross-dream emotional continuity modeling
+  - `archetypes.py` - Jungian archetypal pattern classification
+  - `mediation.py` - Conflict resolution for high-tension scenarios
+  - `atlas.py` - Drift tracking and entropy constellation mapping
+  - `sentinel.py` - Ethical threshold monitoring and safety
+  - `replay.py` - Narrative explainability generation
 
 ### Quantum-Bio Modules
 - `quantum/` - Quantum-inspired algorithms
