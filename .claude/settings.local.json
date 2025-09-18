@@ -283,7 +283,9 @@
       "Bash(PYTHONHASHSEED=0 TZ=UTC .venv/bin/pytest -q --durations=10 tests/test_policy_guard.py tests/test_memory_sync.py tests/capabilities/test_governance_suite.py)",
       "Bash(git merge-base:*)",
       "Bash(.venv/bin/pip:*)",
-      "Bash(xargs sed:*)"
+      "Bash(xargs sed:*)",
+      "Bash(PYTHONPATH=. python3 tests/drift/test_drift_acceptance.py)",
+      "Bash(PYTHONPATH=. python3 /tmp/drift_report_sample.py)"
     ],
     "deny": [],
     "ask": []

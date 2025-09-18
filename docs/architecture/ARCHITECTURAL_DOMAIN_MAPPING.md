@@ -31,7 +31,7 @@ Based on directory analysis, Python package indicators, import patterns, file co
 ```
 candidate/
 ├── aka_qualia/          # Consciousness processing core
-├── core/                # 193 subdirectories of core systems  
+├── core/                # 193 subdirectories of core systems
 ├── consciousness/       # Consciousness architectures
 ├── memory/             # Memory management systems
 ├── identity/           # Identity and authentication
@@ -40,9 +40,14 @@ candidate/
 
 lukhas/
 ├── consciousness/      # Core consciousness integration
-├── memory/            # Memory system integration  
+├── memory/            # Memory system integration
 ├── identity/          # Identity management
 └── core/              # Central system coordination
+
+monitoring/
+├── drift_manager.py    # Unified drift management (ethical/memory/identity)
+├── __init__.py        # Monitoring module initialization
+└── [prometheus configs] # Metrics and alerting
 ```
 
 ### 🔄 **Supporting Infrastructure (Tier 2)**
@@ -97,6 +102,21 @@ environments/          # Environment configurations
 
 5. **Bio-Quantum Fusion**: Multiple bio and quantum directories suggest hybrid approaches to consciousness processing
 
+## Drift Pipeline Integration
+
+### Unified Drift Management
+The `monitoring/drift_manager.py` module provides centralized drift calculation and monitoring:
+
+- **Drift Types**: Ethical, Memory, Identity, and Unified (weighted aggregate)
+- **Symbol Attribution**: Identifies top contributing symbols for root cause analysis
+- **Integration Points**:
+  - `IntegrityProbe` consumes drift scores and triggers alerts
+  - Feature-flagged with `LUKHAS_EXPERIMENTAL=1`
+  - Prometheus metrics for monitoring (p95 latency targets)
+- **Thresholds**:
+  - Warning: 0.10
+  - Critical: 0.15 (Guardian System standard)
+
 ## Analysis Methodology
 
 - **Directory Structure**: Mapped 213 top-level directories and subdirectories
@@ -106,3 +126,4 @@ environments/          # Environment configurations
 - **Architecture JSON**: Referenced LUKHAS_ARCHITECTURE_MASTER.json for tier classifications
 
 *Generated: 2025-09-12*
+*Updated: 2025-09-18 - Added drift pipeline integration*

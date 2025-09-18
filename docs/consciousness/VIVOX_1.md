@@ -37,3 +37,26 @@ Here's a detailed explanation of VIVOX.ME:
     *   The "DriftScore" simulation tracks how variations in internal agent states (phase, entropy) influence collapse decisions and generates an immutable log resembling the VIVOX.SRM (Self-Reflective Memory) module. VIVOX.SRM stores all collapses, hesitations, and moral rejections, tracking alignment drift over time, and creating a forensically sound audit log of ethical cognition.
 
 In essence, VIVOX is the overarching modular architecture for ethical AI, while VIVOX.ME is its central, living, and immutable memory system, designed for self-reflection, ethical governance, and compliance with stringent privacy standards like those found in EU regulations.
+
+## Drift Pipeline Integration
+
+The VIVOX architecture now integrates with the unified drift management system (`monitoring/drift_manager.py`) to track and monitor consciousness state evolution:
+
+### Drift Monitoring Components
+- **DriftManager**: Centralized computation of ethical, memory, and identity drift scores
+- **IntegrityProbe**: Consumes drift scores and triggers alerts when thresholds are exceeded
+- **Symbol Attribution**: Identifies top contributing symbols (top_symbols) for drift analysis
+- **VIVOX.ME Integration**: Memory drift tracked through fold stability and entropy changes
+
+### Drift Thresholds
+- **Warning Level**: 0.10 - Early warning for potential misalignment
+- **Critical Level**: 0.15 - Guardian System intervention threshold
+- **Unified Score**: Weighted combination (ethical: 40%, memory: 30%, identity: 30%)
+
+### Telemetry Integration
+The drift pipeline emits Prometheus metrics for monitoring:
+- `drift_compute_attempts_total`: Total computation attempts by kind
+- `drift_compute_successes_total`: Successful computations
+- `drift_compute_duration_seconds`: p95 latency tracking (target < 5% overhead)
+
+This integration ensures the VIVOX system maintains alignment and coherence while providing forensically sound audit trails of all drift events.
