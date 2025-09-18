@@ -217,6 +217,32 @@ class IntegrityProbe:
                         {'probe': 'integrity', 'results': drift_results}
                     )
 
+            # --- Auto-repair trigger on critical drift (env-gated) ---
+            try:
+                _safe_threshold = float(os.getenv("DRIFT_SAFE_THRESHOLD", "0.15"))
+            except Exception:
+                _safe_threshold = 0.15
+
+            if (not all_pass) and os.environ.get("LUKHAS_AUTOREPAIR_ENABLED", "1") == "1" and getattr(self, "drift_manager", None):
+                try:
+                    for _kind, _res in (drift_results or {}).items():
+                        try:
+                            _score = float(_res.get("score", 0.0))
+                        except Exception:
+                            _score = 0.0
+                        if _score >= _safe_threshold:
+                            _ctx = {
+                                "source": "akaqualia_microcheck",
+                                "band": "critical",
+                                "top_symbols": _res.get("top_symbols", []),
+                            }
+                            try:
+                                self.drift_manager.on_exceed(_kind, _score, _ctx)
+                            except Exception as _e:
+                                logger.warning(f"IntegrityProbe: on_exceed failed for kind={_kind}: {_e}")
+                except Exception as _e_outer:
+                    logger.debug(f"IntegrityProbe: auto-repair evaluation failed (non-fatal): {_e_outer}")
+
             # Record success/failure metrics
             metrics = _get_microcheck_metrics()
             if not all_pass and 'failures' in metrics:

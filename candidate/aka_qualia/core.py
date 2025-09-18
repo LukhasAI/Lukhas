@@ -44,14 +44,16 @@ from candidate.aka_qualia.vivox_integration import VivoxAkaQualiaIntegration
 from candidate.metrics import get_metrics_collector
 
 # Task 7: Integrity micro-check integration
-try:
-    if os.environ.get('LUKHAS_EXPERIMENTAL') == '1':
+def _make_integrity_probe():
+    """Factory for IntegrityProbe - runtime env check for better test determinism."""
+    if os.environ.get("LUKHAS_EXPERIMENTAL") != "1":
+        return None
+    try:
         from candidate.qi.states.integrity_probe import IntegrityProbe
-        INTEGRITY_PROBE_AVAILABLE = True
-    else:
-        INTEGRITY_PROBE_AVAILABLE = False
-except ImportError:
-    INTEGRITY_PROBE_AVAILABLE = False
+        return IntegrityProbe(None, None, None)
+    except Exception as e:
+        logger.warning(f"AkaQualia: Integrity probe init failed: {e}")
+        return None
 
 logger = logging.getLogger(__name__)
 
@@ -148,21 +150,13 @@ class AkaQualia:
             self.oneiric_hook = create_oneiric_hook(oneiric_mode, oneiric_base_url, oneiric_config)
 
         # Task 7: Initialize integrity probe for micro-checks
-        if INTEGRITY_PROBE_AVAILABLE:
-            try:
-                # Create a simplified integrity probe for micro-checks
-                # Note: Using None for components we don't need for basic drift checking
-                self.integrity_probe = IntegrityProbe(None, None, None)
-                if self.integrity_probe.drift_manager:
-                    logger.info("AkaQualia: Integrity micro-check enabled with drift manager")
-                else:
-                    logger.warning("AkaQualia: Integrity probe initialized but no drift manager available")
-            except Exception as e:
-                logger.warning(f"AkaQualia: Failed to initialize integrity probe: {e}")
-                self.integrity_probe = None
+        self.integrity_probe = _make_integrity_probe()
+        if self.integrity_probe and self.integrity_probe.drift_manager:
+            logger.info("AkaQualia: Integrity micro-check enabled with drift manager")
+        elif self.integrity_probe:
+            logger.warning("AkaQualia: Integrity probe initialized but no drift manager available")
         else:
             logger.debug("AkaQualia: IntegrityProbe not available (LUKHAS_EXPERIMENTAL not set)")
-            self.integrity_probe = None
 
         # State tracking
         self.scene_history: list[PhenomenalScene] = []

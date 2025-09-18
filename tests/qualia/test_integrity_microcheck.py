@@ -13,9 +13,10 @@ import os
 import time
 import pytest
 
-# Set experimental flags before imports
+# Set experimental flags before imports (deterministic test env)
 os.environ.setdefault("LUKHAS_EXPERIMENTAL", "1")
 os.environ.setdefault("LUKHAS_LANE", "candidate")
+os.environ.setdefault("LUKHAS_AUTOREPAIR_ENABLED", "1")
 
 
 def test_microcheck_triggers_once(monkeypatch):
@@ -51,6 +52,9 @@ def test_microcheck_triggers_once(monkeypatch):
                                   'kind': kind,
                                   'metadata': {}
                               })
+            # Ensure we have state for drift calculation
+            q.integrity_probe.prev_state = {'ethical': {'test': 'prev'}}
+            q.integrity_probe.curr_state = {'ethical': {'test': 'curr'}}
             return original_run_check(state)
         else:
             # Subsequent calls: normal behavior
@@ -61,6 +65,7 @@ def test_microcheck_triggers_once(monkeypatch):
     for _ in range(5):
         q.tick_once()
 
+    # Tolerant assertion - allows for rate-limiting/dwell coalescing
     assert fired["n"] >= 1, f"micro-check should trigger repair at least once, got {fired['n']}"
 
 
@@ -171,6 +176,10 @@ def test_microcheck_detects_injected_inconsistency():
     # Run processing - should detect injected drift
     for _ in range(3):
         q.tick_once()
+
+    # Restore originals to avoid cross-test contamination
+    q.integrity_probe.drift_manager.on_exceed = original_on_exceed
+    q.integrity_probe.drift_manager.compute = original_compute
 
     # Should have detected at least one ethical drift
     ethical_drifts = [d for d in detected_drifts if d[0] == 'ethical']
