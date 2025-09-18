@@ -603,87 +603,27 @@ async def chatgpt_openapi_spec(request):
                 "description": "LUKHAS AI Production Server"
             }
         ],
+async def chatgpt_openapi_spec(request):
+    """OpenAPI specification for ChatGPT Actions (GPT Connectors)"""
+    spec = {
+        "openapi": "3.0.0",
+        "info": {
+            "title": "LUKHAS AI Trinity Framework",
+            "description": "Consciousness-aware AI platform with 692 cognitive modules, Lambda ID system, and Constitutional AI guardian. Access the complete Trinity Framework: ⚛️ Identity • 🧠 Consciousness • 🛡️ Guardian",
+            "version": "2.0.0"
+        },
+        "servers": [
+            {
+                "url": "https://lukhas-mcp-production.up.railway.app",
+                "description": "LUKHAS AI Production Server"
+            }
+        ],
         "paths": {
-            "/trinity_health_check": {
+            "/tools/call": {
                 "post": {
-                    "operationId": "trinity_health_check",
-                    "summary": "Complete LUKHAS AI Trinity Framework health status",
-                    "description": "Get comprehensive health status of all three Trinity Framework components: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian with performance metrics and system capabilities",
-                    "requestBody": {
-                        "required": True,
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {}
-                                }
-                            }
-                        }
-                    },
-                    "responses": {
-                        "200": {
-                            "description": "Trinity Framework health status with all system metrics",
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "type": "object",
-                                        "properties": {
-                                            "lukhas_ai_status": {"type": "string"},
-                                            "trinity_framework": {"type": "string"},
-                                            "session_id": {"type": "string"},
-                                            "core_info": {"type": "object"},
-                                            "trinity_systems": {"type": "object"},
-                                            "integration_status": {"type": "object"}
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "/get_consciousness_architecture": {
-                "post": {
-                    "operationId": "get_consciousness_architecture",
-                    "summary": "Detailed LUKHAS AI consciousness architecture",
-                    "description": "Explore the 692-module consciousness system with cognitive processing, memory systems, bio-inspired learning, and quantum-inspired processing capabilities",
-                    "requestBody": {
-                        "required": True,
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {}
-                                }
-                            }
-                        }
-                    },
-                    "responses": {
-                        "200": {
-                            "description": "Detailed consciousness architecture with 692 modules",
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "type": "object",
-                                        "properties": {
-                                            "consciousness_overview": {"type": "string"},
-                                            "total_modules": {"type": "integer"},
-                                            "architecture_layers": {"type": "object"},
-                                            "module_distribution": {"type": "object"},
-                                            "performance_metrics": {"type": "object"}
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "/explore_lukhas_codebase": {
-                "post": {
-                    "operationId": "explore_lukhas_codebase",
-                    "summary": "Safely explore LUKHAS AI codebase structure",
-                    "description": "Explore LUKHAS AI codebase with Trinity Framework security validation and consciousness-aware file analysis",
+                    "operationId": "call_trinity_tool",
+                    "summary": "Execute any Trinity Framework tool",
+                    "description": "Execute LUKHAS AI Trinity Framework tools including health checks, consciousness architecture, codebase exploration, file reading, and capabilities overview",
                     "requestBody": {
                         "required": True,
                         "content": {
@@ -691,74 +631,39 @@ async def chatgpt_openapi_spec(request):
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "path": {
+                                        "name": {
                                             "type": "string",
-                                            "description": "Directory path to explore (security-validated)",
-                                            "default": "/tmp"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "responses": {
-                        "200": {
-                            "description": "Directory exploration results with Trinity analysis",
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "type": "object",
-                                        "properties": {
-                                            "exploration_results": {"type": "string"},
-                                            "path": {"type": "string"},
-                                            "total_items": {"type": "integer"},
-                                            "contents": {"type": "array"},
-                                            "trinity_analysis": {"type": "object"},
-                                            "lukhas_context": {"type": "object"}
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "/read_lukhas_file": {
-                "post": {
-                    "operationId": "read_lukhas_file",
-                    "summary": "Safely read LUKHAS AI files with Trinity analysis",
-                    "description": "Read LUKHAS AI files with Trinity Framework analysis, consciousness-aware content processing, and security validation",
-                    "requestBody": {
-                        "required": True,
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "file_path": {
-                                            "type": "string",
-                                            "description": "Path to file (security-validated, max 1MB)"
+                                            "description": "Tool name to execute",
+                                            "enum": [
+                                                "trinity_health_check",
+                                                "get_consciousness_architecture", 
+                                                "explore_lukhas_codebase",
+                                                "read_lukhas_file",
+                                                "get_trinity_capabilities"
+                                            ]
+                                        },
+                                        "arguments": {
+                                            "type": "object",
+                                            "description": "Tool arguments (optional, depends on tool)"
                                         }
                                     },
-                                    "required": ["file_path"]
+                                    "required": ["name"]
                                 }
                             }
                         }
                     },
                     "responses": {
                         "200": {
-                            "description": "File content with Trinity Framework analysis",
+                            "description": "Tool execution result with Trinity Framework analysis",
                             "content": {
                                 "application/json": {
                                     "schema": {
                                         "type": "object",
                                         "properties": {
-                                            "file_analysis": {"type": "string"},
-                                            "path": {"type": "string"},
-                                            "content": {"type": "string"},
-                                            "metadata": {"type": "object"},
-                                            "lukhas_analysis": {"type": "object"},
-                                            "trinity_processing": {"type": "object"}
+                                            "tool": {"type": "string"},
+                                            "result": {"type": "object"},
+                                            "execution_time": {"type": "string"},
+                                            "trinity_processing": {"type": "string"}
                                         }
                                     }
                                 }
@@ -767,36 +672,32 @@ async def chatgpt_openapi_spec(request):
                     }
                 }
             },
-            "/get_trinity_capabilities": {
-                "post": {
-                    "operationId": "get_trinity_capabilities",
-                    "summary": "Complete overview of Trinity Framework capabilities",
-                    "description": "Get comprehensive overview of LUKHAS AI Trinity Framework capabilities including Identity, Consciousness, and Guardian systems with technical specifications",
-                    "requestBody": {
-                        "required": True,
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {}
-                                }
-                            }
-                        }
-                    },
+            "/tools": {
+                "get": {
+                    "operationId": "list_trinity_tools",
+                    "summary": "List all available Trinity Framework tools",
+                    "description": "Get the complete list of 5 specialized Trinity Framework tools with descriptions and parameters",
                     "responses": {
                         "200": {
-                            "description": "Complete Trinity Framework capabilities overview",
+                            "description": "List of 5 specialized Trinity Framework tools",
                             "content": {
                                 "application/json": {
                                     "schema": {
                                         "type": "object",
                                         "properties": {
-                                            "trinity_framework_overview": {"type": "string"},
-                                            "platform": {"type": "string"},
-                                            "consciousness_modules": {"type": "integer"},
-                                            "detailed_capabilities": {"type": "object"},
-                                            "integration_architecture": {"type": "object"},
-                                            "development_context": {"type": "object"}
+                                            "tools": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "name": {"type": "string"},
+                                                        "description": {"type": "string"},
+                                                        "parameters": {"type": "object"}
+                                                    }
+                                                }
+                                            },
+                                            "count": {"type": "integer"},
+                                            "server_info": {"type": "object"}
                                         }
                                     }
                                 }
