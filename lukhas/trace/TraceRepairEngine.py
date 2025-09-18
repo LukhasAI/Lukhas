@@ -24,6 +24,19 @@ from enum import Enum
 
 logger = logging.getLogger(__name__)
 
+
+def _lazy_hash(obj, fast_tag=None):
+    """
+    Cheap tag by default; compute expensive hash only when explicitly requested.
+    """
+    if fast_tag is not None:
+        return fast_tag
+    try:
+        import hashlib, json
+        return hashlib.sha256(json.dumps(obj, sort_keys=True, default=str).encode("utf-8")).hexdigest()[:16]
+    except Exception:
+        return "hash-na"
+
 # Metrics are handled by the drift_manager to avoid duplication
 METRICS_AVAILABLE = False
 

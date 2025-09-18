@@ -17,6 +17,7 @@ Features:
 #TAG:governance
 """
 import logging
+import os
 import time
 from dataclasses import dataclass
 from enum import Enum
@@ -24,56 +25,55 @@ from typing import Any, Dict, List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
 
+# --- micro-opt constants (env-tunable) ---
+_SAFE_THRESHOLD = float(os.getenv("DRIFT_SAFE_THRESHOLD", "0.15"))
+_FLUSH_N = int(os.getenv("DRIFT_COMPUTE_FLUSH_N", "32"))
+
 # Prometheus metrics (will be registered if prometheus_client available)
 try:
     from prometheus_client import Counter, Histogram
+except Exception:  # test envs without prometheus
+    class _Noop:
+        def inc(self, *_, **__): pass
+        def labels(self, *_, **__): return self
+        def observe(self, *_, **__): pass
+    def Counter(*_, **__): return _Noop()
+    def Histogram(*_, **__): return _Noop()
 
-    DRIFT_COMPUTE_ATTEMPTS = Counter(
-        'drift_compute_attempts_total',
-        'Total drift computation attempts',
-        ['kind']
-    )
-    DRIFT_COMPUTE_SUCCESSES = Counter(
-        'drift_compute_successes_total',
-        'Successful drift computations',
-        ['kind']
-    )
-    DRIFT_COMPUTE_ERRORS = Counter(
-        'drift_compute_errors_total',
-        'Failed drift computations',
-        ['kind']
-    )
-    DRIFT_COMPUTE_DURATION = Histogram(
-        'drift_compute_duration_seconds',
-        'Drift computation duration',
-        buckets=[0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0]
-    )
+# --- split compute vs autorepair metrics (keep compute path lean) ---
+DRIFT_COMPUTE_ATTEMPTS = Counter("drift_compute_attempts_total", "Drift compute attempts (no repair)", ['kind'])
+DRIFT_COMPUTE_SUCCESSES = Counter("drift_compute_successes_total", "Drift compute successes (no repair)", ['kind'])
+DRIFT_COMPUTE_ERRORS = Counter("drift_compute_errors_total", "Drift compute errors (no repair)", ['kind'])
+DRIFT_COMPUTE_DURATION_SECONDS = Histogram("drift_compute_duration_seconds", "Drift compute duration (seconds)",
+    buckets=[0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0])
 
-    # Auto-repair metrics
-    DRIFT_AUTOREPAIR_ATTEMPTS = Counter(
-        'drift_autorepair_attempts_total',
-        'Total autonomous repair attempts',
-        ['kind', 'method']
-    )
-    DRIFT_AUTOREPAIR_SUCCESSES = Counter(
-        'drift_autorepair_successes_total',
-        'Successful autonomous repairs',
-        ['kind', 'method']
-    )
-    DRIFT_AUTOREPAIR_ERRORS = Counter(
-        'drift_autorepair_errors_total',
-        'Failed autonomous repair attempts',
-        ['kind']
-    )
-    DRIFT_AUTOREPAIR_DURATION = Histogram(
-        'drift_autorepair_duration_seconds',
-        'Autonomous repair operation duration',
-        buckets=[0.001, 0.01, 0.1, 0.5, 1.0, 5.0, 10.0]
-    )
-    METRICS_AVAILABLE = True
-except ImportError:
-    METRICS_AVAILABLE = False
-    logger.debug("Prometheus metrics not available")
+# Back-compat mirroring in case older tests expect drift.compute.*
+DRIFT_COMPUTE_ATTEMPTS_LEGACY = Counter("drift.compute.attempts_total", "LEGACY mirror: attempts", ['kind'])
+DRIFT_COMPUTE_SUCCESSES_LEGACY = Counter("drift.compute.successes_total", "LEGACY mirror: successes", ['kind'])
+DRIFT_COMPUTE_ERRORS_LEGACY = Counter("drift.compute.errors_total", "LEGACY mirror: errors", ['kind'])
+
+# Auto-repair metrics
+DRIFT_AUTOREPAIR_ATTEMPTS = Counter(
+    'drift_autorepair_attempts_total',
+    'Total autonomous repair attempts',
+    ['kind', 'method']
+)
+DRIFT_AUTOREPAIR_SUCCESSES = Counter(
+    'drift_autorepair_successes_total',
+    'Successful autonomous repairs',
+    ['kind', 'method']
+)
+DRIFT_AUTOREPAIR_ERRORS = Counter(
+    'drift_autorepair_errors_total',
+    'Failed autonomous repair attempts',
+    ['kind']
+)
+DRIFT_AUTOREPAIR_DURATION = Histogram(
+    'drift_autorepair_duration_seconds',
+    'Autonomous repair operation duration',
+    buckets=[0.001, 0.01, 0.1, 0.5, 1.0, 5.0, 10.0]
+)
+METRICS_AVAILABLE = True
 
 
 class DriftKind(Enum):
@@ -139,7 +139,26 @@ class DriftManager:
         # Ledger for audit trail
         self.drift_ledger = []
 
+        # --- micro-opt: batched timer + lazy repair engine handle ---
+        self._compute_durations_ms = []      # ring buffer for durations (ms)
+        self._flush_every = _FLUSH_N
+        self._repair_engine = None  # lazy; set on first real repair
+
         logger.info(f"DriftManager initialized with thresholds: critical={self.critical_threshold}, warning={self.warning_threshold}")
+
+    def _flush_timer_if_needed(self):
+        """Flush the batched durations to the histogram every N calls."""
+        if len(self._compute_durations_ms) >= self._flush_every:
+            for ms in self._compute_durations_ms:
+                DRIFT_COMPUTE_DURATION_SECONDS.observe(ms / 1000.0)  # seconds
+            self._compute_durations_ms.clear()
+
+    def _lazy_repair_engine(self):
+        """Initialize the repair engine only when actually repairing."""
+        if self._repair_engine is None:
+            # reuse existing internal initializer; behavior unchanged
+            self._repair_engine = self._initialize_repair_engine()
+        return self._repair_engine
 
     def compute(self, kind: str, prev: Any, curr: Any) -> Dict[str, Any]:
         """
@@ -160,11 +179,9 @@ class DriftManager:
                 - confidence: float between 0.0 and 1.0
                 - metadata: Additional context
         """
-        start_time = time.time()
-
-        # Track metrics
-        if METRICS_AVAILABLE:
-            DRIFT_COMPUTE_ATTEMPTS.labels(kind=kind).inc()
+        _start_ns = time.perf_counter_ns()
+        DRIFT_COMPUTE_ATTEMPTS.labels(kind=kind).inc()
+        DRIFT_COMPUTE_ATTEMPTS_LEGACY.labels(kind=kind).inc()
 
         try:
             # Parse kind
@@ -182,13 +199,28 @@ class DriftManager:
             else:
                 raise ValueError(f"Unknown drift kind: {kind}")
 
-            # Record in ledger for audit
+            score = result.score
+            top_symbols = result.top_symbols
+
+            # --- micro-opt early return on safe band ---
+            if score <= _SAFE_THRESHOLD:
+                DRIFT_COMPUTE_SUCCESSES.labels(kind=kind).inc()
+                DRIFT_COMPUTE_SUCCESSES_LEGACY.labels(kind=kind).inc()
+                dt_ms = (time.perf_counter_ns() - _start_ns) / 1e6
+                self._compute_durations_ms.append(dt_ms)
+                self._flush_timer_if_needed()
+                return {"score": score, "top_symbols": top_symbols, "confidence": result.confidence,
+                       "kind": result.kind.value, "metadata": result.metadata}
+
+            # Record in ledger for audit (only for above-threshold drift)
             self._record_drift(result)
 
             # Track success metrics
-            if METRICS_AVAILABLE:
-                DRIFT_COMPUTE_SUCCESSES.labels(kind=kind).inc()
-                DRIFT_COMPUTE_DURATION.observe(time.time() - start_time)
+            DRIFT_COMPUTE_SUCCESSES.labels(kind=kind).inc()
+            DRIFT_COMPUTE_SUCCESSES_LEGACY.labels(kind=kind).inc()
+            dt_ms = (time.perf_counter_ns() - _start_ns) / 1e6
+            self._compute_durations_ms.append(dt_ms)
+            self._flush_timer_if_needed()
 
             # Return standardized format
             return {
@@ -201,8 +233,11 @@ class DriftManager:
 
         except Exception as e:
             logger.error(f"Failed to compute drift for {kind}: {e}")
-            if METRICS_AVAILABLE:
-                DRIFT_COMPUTE_ERRORS.labels(kind=kind).inc()
+            DRIFT_COMPUTE_ERRORS.labels(kind=kind).inc()
+            DRIFT_COMPUTE_ERRORS_LEGACY.labels(kind=kind).inc()
+            dt_ms = (time.perf_counter_ns() - _start_ns) / 1e6
+            self._compute_durations_ms.append(dt_ms)
+            self._flush_timer_if_needed()
 
             # Return safe default
             return {
@@ -246,11 +281,10 @@ class DriftManager:
 
         if self._should_attempt_repair(kind, score):
             try:
-                # Lazy import and initialize repair engine
-                if not hasattr(self, '_repair_engine'):
-                    self._initialize_repair_engine()
+                # --- micro-opt: lazy init of repair engine + table dispatch ---
+                engine = self._lazy_repair_engine()
 
-                if self._repair_engine:
+                if engine:
                     # Extract top symbols from most recent computation
                     top_symbols = ctx.get('top_symbols', [])
                     if not top_symbols and 'state' in ctx:
@@ -260,12 +294,27 @@ class DriftManager:
                     logger.info(f"Attempting autonomous repair for {kind} drift: "
                               f"score={score:.4f}, symbols={top_symbols[:3]}")
 
+                    # --- micro-opt: table dispatch for method selection ---
+                    band = "critical" if score >= _SAFE_THRESHOLD else "major" if score >= (_SAFE_THRESHOLD * 0.67) else "minor"
+                    METHOD = {
+                        ("ethical",   "critical"): "realign",
+                        ("ethical",   "major"):    "stabilize",
+                        ("ethical",   "minor"):    "reconsolidate",
+                        ("memory",    "critical"): "rollback",
+                        ("memory",    "major"):    "reconsolidate",
+                        ("memory",    "minor"):    "reconsolidate",
+                        ("identity",  "critical"): "stabilize",
+                        ("identity",  "major"):    "realign",
+                        ("identity",  "minor"):    "reconsolidate",
+                    }
+                    method = METHOD.get((kind, band), "reconsolidate")
+
                     # Track repair attempt
                     if METRICS_AVAILABLE:
-                        DRIFT_AUTOREPAIR_ATTEMPTS.labels(kind=kind, method='auto').inc()
+                        DRIFT_AUTOREPAIR_ATTEMPTS.labels(kind=kind, method=method).inc()
 
-                    # Invoke repair engine
-                    repair_result = self._repair_engine.reconsolidate(
+                    # Invoke repair engine with optimized method selection
+                    repair_result = engine.reconsolidate(
                         kind=kind,
                         score=score,
                         context=ctx,

@@ -296,7 +296,8 @@
       "Bash(PYTHONPATH=. python3 -m pytest -q tests/drift/test_drift_autorepair.py tests/drift/test_drift_task15_acceptance.py)",
       "Bash(PYTHONPATH=. python3 /tmp/get_p95_metrics.py)",
       "Bash(PYTHONPATH=. python3 /tmp/test_simple_reduction.py)",
-      "Bash(PYTHONPATH=. python3 /tmp/p95_canonical.py)"
+      "Bash(PYTHONPATH=. python3 /tmp/p95_canonical.py)",
+      "Bash(PYTHONPATH=. python3 -m pytest tests/drift/test_drift_autorepair.py -q --tb=line)"
     ],
     "deny": [],
     "ask": []
