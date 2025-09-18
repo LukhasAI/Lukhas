@@ -1,0 +1,88 @@
+
+
+{
+  "projectName": "LUKHΛS AGI",
+  "repoRoot": ".",
+  "languages": ["python", "typescript"],
+  "include": [
+    "core/**",
+    "candidate/**",
+    "oneiric_core/**",
+    "identity/**",
+    "ethics/**",
+    "monitoring/**",
+    "docs/**",
+    "Makefile",
+    "pyproject.toml",
+    "requirements*.txt",
+    "package.json"
+  ],
+  "exclude": [
+    "node_modules/**",
+    ".git/**",
+    ".venv/**",
+    "dist/**",
+    "build/**",
+    "**/__pycache__/**",
+    ".DS_Store"
+  ],
+  "featureFlags": {
+    "LUKHAS_EXPERIMENTAL": "1",
+    "LUKHAS_LANE": "candidate",
+    "ENFORCE_ETHICS_DSL": "0",
+    "ENABLE_LLM_GUARDRAIL": "1"
+  },
+  "acceptanceGates": {
+    "driftDeltaMax": 0.02,
+    "latencyOverheadP95Max": 0.05,
+    "containmentIsolationMin": 0.997,
+    "requirePolicyLedger": true
+  },
+  "refusePatterns": [
+    "import glyph",
+    "from glyph",
+    "candidate.core.common.glyph"
+  ],
+  "test": {
+    "commands": [
+      "pytest -q"
+    ],
+    "makeTargets": [
+      "drift",
+      "constraints",
+      "bridge",
+      "orch",
+      "id",
+      "oneiric",
+      "collapse",
+      "demo"
+    ]
+  },
+  "ciArtifacts": {
+    "sloReport": "artifacts/slo/slo_report.json",
+    "chaosReport": "artifacts/chaos/fold_fuzz_report.json",
+    "matrizReport": "artifacts/matriz/convergence_failures.json",
+    "policyLedgerGlob": "var/policy_ledger/*.ndjson"
+  },
+  "editPolicy": {
+    "requireHumanApproval": true,
+    "maxFilesPerBatch": 8,
+    "writeScopes": [
+      "core/**",
+      "candidate/**",
+      "oneiric_core/**",
+      "identity/**",
+      "ethics/**",
+      "monitoring/**"
+    ]
+  },
+  "reviewChecklist": [
+    "All new logic behind feature flags",
+    "Tests added/updated and green",
+    "Telemetry counters + p95 timers present",
+    "No forbidden imports (glyph legacy)",
+    "Policy ledger lines emitted in tests",
+    "Acceptance gates GREEN"
+  ],
+  "defaultInstruction": "Edit minimally, propose diffs, run tests, paste logs. If a gate fails, reduce scope or add flags rather than widening edits."
+}
