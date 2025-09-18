@@ -27,8 +27,8 @@ from candidate.core.common import get_logger
 
 # Quantum Security Imports (placeholder for actual quantum crypto)
 try:
-    from cryptography.hazmat.primitives import hashes, serialization  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
-    from cryptography.hazmat.primitives.asymmetric import padding, rsa  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    from cryptography.hazmat.primitives import hashes, serialization  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    from cryptography.hazmat.primitives.asymmetric import padding, rsa  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
     from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
     CRYPTO_AVAILABLE = True
 except ImportError:

@@ -6,7 +6,7 @@ This module implements sophisticated MΛTRIZ signals for consciousness communica
 bio-symbolic adaptation, and inter-module coordination across the distributed
 consciousness architecture.
 """
-import streamlit as st  # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 
 import logging
 import time

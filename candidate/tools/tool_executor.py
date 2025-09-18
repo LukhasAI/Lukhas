@@ -176,7 +176,7 @@ class ToolExecutor:
 
             try:
                 import faiss
-                import numpy as np  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+                import numpy as np  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
 
                 # Initialize FAISS index (simplified)
                 self.faiss_index = faiss.IndexFlatL2(384)  # 384-dim embeddings

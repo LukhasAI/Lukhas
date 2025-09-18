@@ -52,7 +52,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-from ..orchestration_src.human_in_the_loop_orchestrator import (  # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination
+from ..orchestration_src.human_in_the_loop_orchestrator import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination
 from datetime import timezone
     DecisionContext,
     DecisionPriority,

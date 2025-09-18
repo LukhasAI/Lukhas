@@ -52,7 +52,7 @@ def test_check_annotation_detects_todo_tag(tmp_path: Path) -> None:
     # ΛTAG: t4_annotation_check_test
     """check_annotation should detect TODO-tagged unused imports."""
     annotated_file = tmp_path / "annotated.py"
-    annotated_file.write_text("import os  # TODO[T4-UNUSED-IMPORT]: reason\n", encoding="utf-8")
+    annotated_file.write_text("import os  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: reason\n", encoding="utf-8")
 
     assert check_unused_imports.check_annotation(str(annotated_file), 1)
 

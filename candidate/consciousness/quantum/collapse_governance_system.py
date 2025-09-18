@@ -24,8 +24,8 @@ import numpy as np
 
 # Cryptographic and merkle tree imports
 try:
-    import cryptography  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
-    from cryptography.hazmat.primitives import hashes  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    import cryptography  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    from cryptography.hazmat.primitives import hashes  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
 
     CRYPTO_AVAILABLE = True
 except ImportError:

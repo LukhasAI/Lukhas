@@ -52,7 +52,7 @@ from cachetools import TTLCache
 
 # Streamlit Imports / LUKHAS Placeholders
 try:
-from fromfromfromcandidate.core.common import get_logger  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+from fromfromfromcandidate.core.common import get_logger  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
 
 #     from streamlit.runtime.caching import cache_utils  # TODO: Install or implement streamlit
 # from streamlit.runtime.caching.storage.cache_storage_protocol import (
@@ -63,7 +63,7 @@ from fromfromfromcandidate.core.common import get_logger  # TODO[T4-UNUSED-IMPOR
     )
 #     from streamlit.runtime.stats import CacheStat  # TODO: Install or implement streamlit
 except ImportError as e:
-    import structlog  # Use LUKHAS standard logging if Streamlit's is unavailable  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    import structlog  # Use LUKHAS standard logging if Streamlit's is unavailable  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
     _log_fallback.warning("Streamlit runtime components not found. InMemoryCacheStorageWrapper placeholders in use.", error_details=str(e))
     class CacheStorage: pass # type: ignore:
     @dataclass # type: ignore

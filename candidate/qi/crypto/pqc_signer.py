@@ -9,7 +9,7 @@ from typing import Any
 
 # Check for PQC library availability
 try:
-    import dilithium  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    import dilithium  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
 
     HAS_DILITHIUM = True
 except ImportError:

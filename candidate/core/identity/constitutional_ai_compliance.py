@@ -28,7 +28,7 @@ from typing import Any, Callable, Optional
 
 # Import MΛTRIZ consciousness components
 try:
-    from ..matriz_consciousness_signals import ConsciousnessSignal  # TODO[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
+    from ..matriz_consciousness_signals import ConsciousnessSignal  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
     from .matriz_consciousness_identity_signals import (
         ConstitutionalComplianceData,
         IdentitySignalType,

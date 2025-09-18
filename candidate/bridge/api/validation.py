@@ -31,7 +31,7 @@ from typing import Any, Optional
 
 try:
     import jwt
-    from pydantic import BaseModel, Field, ValidationError, validator  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    from pydantic import BaseModel, Field, ValidationError, validator  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
 
     JWT_AVAILABLE = True
 except ImportError:

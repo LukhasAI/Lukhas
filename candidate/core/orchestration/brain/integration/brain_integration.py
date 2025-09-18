@@ -55,7 +55,7 @@ except ImportError:
 
 # Import core components with fallbacks
 try:
-    from candidate.orchestration.brain.spine.fold_engine import AGIMemory, MemoryFold, MemoryPriority, MemoryType  # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination
+    from candidate.orchestration.brain.spine.fold_engine import AGIMemory, MemoryFold, MemoryPriority, MemoryType  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination
 except ImportError:
     logger.warning("Core memory components not available - using fallbacks")
     AGIMemory = None

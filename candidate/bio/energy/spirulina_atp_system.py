@@ -21,7 +21,7 @@ import numpy as np
 
 # Bio-inspired computation imports
 try:
-    import scipy.optimize  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    import scipy.optimize  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
 
     SCIPY_AVAILABLE = True
 except ImportError:

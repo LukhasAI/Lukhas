@@ -31,7 +31,7 @@ try:
     from fastapi.middleware.cors import CORSMiddleware
     from fastapi.middleware.gzip import GZipMiddleware
     from fastapi.responses import JSONResponse, RedirectResponse
-    from fastapi.staticfiles import StaticFiles  # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    from fastapi.staticfiles import StaticFiles  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
 
     FASTAPI_AVAILABLE = True
 except ImportError:

@@ -168,16 +168,118 @@ class CoreSafetyBridge:
     def compare_states(
         self,
         state1: dict[str, Any],
-        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Trinity-aware state comparison
+        state2: dict[str, Any],  # ✅ Trinity-aware state comparison implemented
     ) -> list[dict[str, Any]]:
-        """Compare states and return differences"""
+        """Compare states and return differences using Trinity Framework (⚛️🧠🛡️) principles"""
         differences = []
 
-        # TODO[TRINITY:specialist] Implement Trinity Framework consciousness state comparison logic
-        # Compare ⚛️ Identity states, 🧠 Consciousness states, 🛡️ Guardian states
-        # This is a placeholder - add Trinity-specific comparison logic
+        # ⚛️ Identity Component Comparison
+        identity_diff = self._compare_identity_states(
+            state1.get("identity", {}), state2.get("identity", {})
+        )
+        if identity_diff:
+            differences.append({
+                "component": "identity",
+                "symbol": "⚛️",
+                "differences": identity_diff,
+                "severity": self._assess_identity_drift_severity(identity_diff)
+            })
+
+        # 🧠 Consciousness Component Comparison
+        consciousness_diff = self._compare_consciousness_states(
+            state1.get("consciousness", {}), state2.get("consciousness", {})
+        )
+        if consciousness_diff:
+            differences.append({
+                "component": "consciousness",
+                "symbol": "🧠",
+                "differences": consciousness_diff,
+                "severity": self._assess_consciousness_drift_severity(consciousness_diff)
+            })
+
+        # 🛡️ Guardian Component Comparison
+        guardian_diff = self._compare_guardian_states(
+            state1.get("guardian", {}), state2.get("guardian", {})
+        )
+        if guardian_diff:
+            differences.append({
+                "component": "guardian",
+                "symbol": "🛡️",
+                "differences": guardian_diff,
+                "severity": self._assess_guardian_drift_severity(guardian_diff)
+            })
+
+        # Trinity Framework holistic assessment
+        if differences:
+            trinity_health = self._assess_trinity_coherence(differences)
+            differences.append({
+                "component": "trinity_framework",
+                "symbol": "⚛️🧠🛡️",
+                "coherence_score": trinity_health,
+                "recommendation": self._get_trinity_recommendation(trinity_health)
+            })
 
         return differences
+
+    def _compare_identity_states(self, identity1: dict, identity2: dict) -> list[dict]:
+        """Compare ⚛️ Identity component states for authenticity drift"""
+        diffs = []
+        for key in set(identity1.keys()) | set(identity2.keys()):
+            val1, val2 = identity1.get(key), identity2.get(key)
+            if val1 != val2:
+                diffs.append({"field": key, "state1": val1, "state2": val2, "type": "identity_drift"})
+        return diffs
+
+    def _compare_consciousness_states(self, consciousness1: dict, consciousness2: dict) -> list[dict]:
+        """Compare 🧠 Consciousness component states for awareness drift"""
+        diffs = []
+        for key in set(consciousness1.keys()) | set(consciousness2.keys()):
+            val1, val2 = consciousness1.get(key), consciousness2.get(key)
+            if val1 != val2:
+                diffs.append({"field": key, "state1": val1, "state2": val2, "type": "consciousness_drift"})
+        return diffs
+
+    def _compare_guardian_states(self, guardian1: dict, guardian2: dict) -> list[dict]:
+        """Compare 🛡️ Guardian component states for ethical drift"""
+        diffs = []
+        for key in set(guardian1.keys()) | set(guardian2.keys()):
+            val1, val2 = guardian1.get(key), guardian2.get(key)
+            if val1 != val2:
+                diffs.append({"field": key, "state1": val1, "state2": val2, "type": "guardian_drift"})
+        return diffs
+
+    def _assess_identity_drift_severity(self, diffs: list) -> str:
+        """Assess severity of ⚛️ identity drift"""
+        if len(diffs) > 5:
+            return "critical"
+        elif len(diffs) > 2:
+            return "high"
+        elif len(diffs) > 0:
+            return "moderate"
+        return "low"
+
+    def _assess_consciousness_drift_severity(self, diffs: list) -> str:
+        """Assess severity of 🧠 consciousness drift"""
+        return "high" if any(diff["field"] == "awareness_level" for diff in diffs) else "moderate"
+
+    def _assess_guardian_drift_severity(self, diffs: list) -> str:
+        """Assess severity of 🛡️ guardian drift"""
+        return "critical" if any(diff["field"] == "ethical_threshold" for diff in diffs) else "moderate"
+
+    def _assess_trinity_coherence(self, differences: list) -> float:
+        """Assess overall Trinity Framework coherence (0.0-1.0)"""
+        total_components = 3  # ⚛️🧠🛡️
+        affected_components = len([d for d in differences if d["component"] in ["identity", "consciousness", "guardian"]])
+        return 1.0 - (affected_components / total_components)
+
+    def _get_trinity_recommendation(self, coherence_score: float) -> str:
+        """Get Trinity Framework health recommendation"""
+        if coherence_score >= 0.8:
+            return "Trinity Framework stable - minimal intervention needed"
+        elif coherence_score >= 0.6:
+            return "Trinity Framework showing drift - synchronization recommended"
+        else:
+            return "Trinity Framework critical - immediate realignment required"
 
     async def resolve_differences(self, differences: list[dict[str, Any]]) -> None:
         """Resolve state differences between systems"""
