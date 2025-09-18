@@ -301,7 +301,11 @@
       "Bash(PYTHONPATH=. python3 -m pytest tests/qualia/test_integrity_microcheck.py -v --tb=short)",
       "Bash(PYTHONPATH=. python3 -m pytest tests/qualia/test_integrity_microcheck.py::test_microcheck_triggers_once -v --tb=short)",
       "Bash(PYTHONPATH=. python3 /tmp/test_akaqualia_basic.py)",
-      "Bash(PYTHONPATH=. python3 /tmp/test_flag_debug.py)"
+      "Bash(PYTHONPATH=. python3 /tmp/test_flag_debug.py)",
+      "Bash(PYTHONPATH=. python3 /tmp/test_flag_debug_fixed.py)",
+      "Bash(PYTHONPATH=. python3 /tmp/test_debug_trace.py)",
+      "Bash(PYTHONPATH=. python3 -m pytest tests/qualia/test_integrity_microcheck.py::test_threshold_consistency -v --tb=short)",
+      "Bash(PYTHONPATH=. python3 -m pytest tests/qualia/test_integrity_microcheck.py::test_dwell_after_successful_repair -v --tb=short)"
     ],
     "deny": [],
     "ask": []

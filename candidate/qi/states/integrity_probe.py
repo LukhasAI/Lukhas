@@ -15,37 +15,40 @@ Runs consistency checks on DriftScore deltas and collapse recovery logic.
 """
 import logging
 import os
+import threading
 import time
 from dataclasses import dataclass
 from typing import Any, Dict, Optional
 
 # Micro-check metrics (lazy initialization to avoid registry conflicts)
 _microcheck_metrics = None
+_metrics_lock = threading.Lock()
 
 def _get_microcheck_metrics():
     global _microcheck_metrics
-    if _microcheck_metrics is None:
-        try:
-            from prometheus_client import Counter, Histogram
-            _microcheck_metrics = {
-                'attempts': Counter(
-                    'akaqualia_microcheck_attempts_total',
-                    'Total micro-check attempts in AkaQualia loop'
-                ),
-                'failures': Counter(
-                    'akaqualia_microcheck_failures_total',
-                    'Total micro-check failures in AkaQualia loop'
-                ),
-                'duration': Histogram(
-                    'akaqualia_microcheck_duration_seconds',
-                    'Micro-check duration in AkaQualia loop',
-                    buckets=[0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0]
-                )
-            }
-        except Exception as e:
-            logger.debug(f"Failed to initialize microcheck metrics: {e}")
-            _microcheck_metrics = {}
-    return _microcheck_metrics
+    with _metrics_lock:
+        if _microcheck_metrics is None:
+            try:
+                from prometheus_client import Counter, Histogram
+                _microcheck_metrics = {
+                    'attempts': Counter(
+                        'akaqualia_microcheck_attempts_total',
+                        'Total micro-check attempts in AkaQualia loop'
+                    ),
+                    'failures': Counter(
+                        'akaqualia_microcheck_failures_total',
+                        'Total micro-check failures in AkaQualia loop'
+                    ),
+                    'duration': Histogram(
+                        'akaqualia_microcheck_duration_seconds',
+                        'Micro-check duration in AkaQualia loop',
+                        buckets=[0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0]
+                    )
+                }
+            except Exception as e:
+                logger.debug(f"Failed to initialize microcheck metrics: {e}")
+                _microcheck_metrics = {}
+        return _microcheck_metrics
 
 # Optional imports for full functionality (not needed for drift-only mode)
 try:

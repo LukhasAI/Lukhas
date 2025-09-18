@@ -44,9 +44,10 @@ def test_microcheck_triggers_once(monkeypatch):
         called["n"] += 1
         if called["n"] == 1:
             # First call: inject high drift that should trigger repair
+            threshold = float(os.environ.get("DRIFT_SAFE_THRESHOLD", "0.15"))
             monkeypatch.setattr(q.integrity_probe.drift_manager, "compute",
                               lambda kind, prev, curr: {
-                                  'score': 0.25,  # Above 0.15 threshold
+                                  'score': threshold + 0.10,  # Above threshold + margin
                                   'top_symbols': ['test.injection'],
                                   'confidence': 1.0,
                                   'kind': kind,
@@ -167,7 +168,8 @@ def test_microcheck_detects_injected_inconsistency():
         result = original_compute(kind, prev, curr)
         if kind == 'ethical':
             # Inject critical drift on ethical dimension
-            result['score'] = 0.25  # Above 0.15 threshold
+            threshold = float(os.environ.get("DRIFT_SAFE_THRESHOLD", "0.15"))
+            result['score'] = threshold + 0.10  # Above threshold + margin
             result['top_symbols'] = ['ethical.test_injection']
         return result
 
@@ -210,6 +212,92 @@ def test_microcheck_telemetry():
     assert final_attempts > initial_attempts, "Micro-check attempts metric not incremented"
 
 
+def test_threshold_consistency():
+    """Test that all components use the same critical threshold from env."""
+    import os
+    from candidate.aka_qualia.core import AkaQualia
+    from monitoring.drift_manager import DriftManager
+
+    # Set custom threshold for test
+    custom_threshold = "0.12"
+    os.environ["DRIFT_SAFE_THRESHOLD"] = custom_threshold
+
+    try:
+        # Clear singleton to force fresh read
+        import monitoring.drift_manager
+        monitoring.drift_manager._drift_manager = None
+
+        # Create fresh instances that should read the env var
+        dm = DriftManager()
+        q = AkaQualia()
+
+        # All should use the same threshold
+        expected = float(custom_threshold)
+
+        # DriftManager should use env threshold
+        assert dm.critical_threshold == expected, f"DriftManager threshold {dm.critical_threshold} != {expected}"
+
+        # IntegrityProbe should read same env var (via factory or singleton)
+        if q.integrity_probe:
+            # Test by checking the actual threshold used in comparison
+            assert q.integrity_probe.drift_manager.critical_threshold == expected, \
+                f"IntegrityProbe drift_manager threshold {q.integrity_probe.drift_manager.critical_threshold} != {expected}"
+
+    finally:
+        # Restore default and clear singleton
+        os.environ["DRIFT_SAFE_THRESHOLD"] = "0.15"
+        import monitoring.drift_manager
+        monitoring.drift_manager._drift_manager = None
+
+
+def test_dwell_after_successful_repair():
+    """Test that micro-check implements dwell period after successful repair."""
+    import os
+    from candidate.aka_qualia.core import AkaQualia
+    from monitoring.drift_manager import DriftManager
+
+    # Set short dwell period for test
+    os.environ["DRIFT_DWELL_CYCLES"] = "2"
+
+    try:
+        q = AkaQualia()
+        dm = DriftManager()
+
+        # Simulate successful repair first
+        dm._record_successful_repair("ethical")
+
+        # Track ledger entries instead of on_exceed calls
+        initial_ledger_size = len(dm.drift_ledger)
+
+        # Now call on_exceed multiple times - should be blocked by dwell
+        for i in range(5):
+            dm.on_exceed("ethical", 0.25, {"test": f"call_{i}"})
+
+        # Check ledger - should have 1 exceedance + 4 dwell_skip events
+        new_entries = dm.drift_ledger[initial_ledger_size:]
+        exceedance_entries = [e for e in new_entries if e.get('event') == 'threshold_exceeded']
+        dwell_skip_entries = [e for e in new_entries if e.get('event') == 'repair_skipped_dwell']
+
+        assert len(exceedance_entries) == 1, f"Expected 1 exceedance event, got {len(exceedance_entries)}"
+        assert len(dwell_skip_entries) == 4, f"Expected 4 dwell skip events, got {len(dwell_skip_entries)}"
+
+        # Simulate enough cycles to exit dwell period
+        for _ in range(3):  # More than DRIFT_DWELL_CYCLES=2
+            dm._increment_cycle_counter("ethical")
+
+        # Now on_exceed should work again
+        dm.on_exceed("ethical", 0.25, {"test": "after_dwell"})
+
+        # Check that a new exceedance was recorded (not skipped)
+        final_entries = dm.drift_ledger[initial_ledger_size:]
+        final_exceedance_entries = [e for e in final_entries if e.get('event') == 'threshold_exceeded']
+        assert len(final_exceedance_entries) == 2, f"Expected 2 exceedance events after dwell, got {len(final_exceedance_entries)}"
+
+    finally:
+        # Restore default
+        os.environ["DRIFT_DWELL_CYCLES"] = "3"
+
+
 def test_microcheck_with_rate_limiting():
     """Test that micro-check respects repair rate limiting."""
     from candidate.aka_qualia.core import AkaQualia
@@ -232,7 +320,8 @@ def test_microcheck_with_rate_limiting():
     # Force consistent drift detection
     def always_critical_drift_compute(kind, prev, curr):
         result = dm._compute_ethical_drift(prev, curr) if kind == 'ethical' else {'score': 0.0, 'top_symbols': [], 'confidence': 1.0, 'metadata': {}}
-        result['score'] = 0.25  # Above threshold
+        threshold = float(os.environ.get("DRIFT_SAFE_THRESHOLD", "0.15"))
+        result['score'] = threshold + 0.10  # Above threshold + margin
         result['top_symbols'] = [f'{kind}.rate_limit_test']
         return result
 
