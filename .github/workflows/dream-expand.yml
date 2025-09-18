@@ -1,0 +1,208 @@
+name: Dream EXPAND (Smoke + Nightly Bench)
+
+on:
+  # Fast signal when EXPAND code changes
+  pull_request:
+    paths:
+      - "candidate/consciousness/dream/expand/**"
+      - "benchmarks/dream/**"
+      - "tests/unit/dream/expand/**"
+      - "tests/benchmarks/**"
+  push:
+    branches: [ main ]
+    paths:
+      - "candidate/consciousness/dream/expand/**"
+      - "benchmarks/dream/**"
+      - "tests/unit/dream/expand/**"
+      - "tests/benchmarks/**"
+
+  # Manual deep runs from the UI
+  workflow_dispatch:
+    inputs:
+      include_synth:
+        description: "Include synthetic/adversarial cases (0/1)"
+        required: false
+        default: "0"
+      sweep:
+        description: "Run parameter grid sweep (0/1)"
+        required: false
+        default: "1"
+      enforce_quality_gate:
+        description: "Fail job if accuracy < min threshold (0/1)"
+        required: false
+        default: "0"
+      min_accuracy:
+        description: "Min accuracy threshold for quality gate (0.00..1.00)"
+        required: false
+        default: "0.80"
+
+  # Nightly science pulse (UTC 02:00)
+  schedule:
+    - cron: "0 2 * * *"
+
+concurrency:
+  group: dream-expand-${{ github.workflow }}-${{ github.ref || github.run_id }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
+  id-token: write
+
+jobs:
+  # --------------------------
+  # Fast, deterministic smoke
+  # --------------------------
+  smoke:
+    name: Smoke (fast, deterministic)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: |
+      github.event_name == 'pull_request' || github.event_name == 'push'
+    env:
+      # Safety rails: EXPAND features OFF; determinism ON
+      LUKHAS_DETERMINISTIC: "1"
+      LUKHAS_PURE_SELECTION: "1"
+      LUKHAS_DREAM_TELEMETRY: "0"
+      LUKHAS_DREAM_METRICS: "0"
+      LUKHAS_NOISE_LEVEL: "off"
+      LUKHAS_DREAM_RESONANCE: "0"
+      LUKHAS_MULTI_AGENT: "0"
+      LUKHAS_STRATEGY_EVOLVE: "0"
+      # Bench corpus: keep small but include "extra" stress tests
+      LUKHAS_BENCH_INCLUDE_EXTRA: "1"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: pip-${{ runner.os }}-
+
+      - name: Install
+        run: |
+          pip install -e .
+          # add any dev/test extras if you keep them
+
+      - name: Unit smoke (EXPAND modules)
+        run: |
+          pytest -q tests/unit/dream/expand
+
+      - name: Minimal benchmark sanity
+        run: |
+          python -m benchmarks.dream.run --out benchmarks/dream/results.jsonl
+          python -m benchmarks.dream.score  # writes benchmarks/dream/summary.json
+
+      - name: Upload smoke artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dream-expand-smoke-artifacts
+          path: |
+            benchmarks/dream/summary.json
+            benchmarks/dream/results.jsonl
+
+  # ---------------------------------------------
+  # Heavy bench (manual dispatch + nightly cron)
+  # ---------------------------------------------
+  bench:
+    name: Bench (nightly + manual)
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    # Run on nightly schedule or when manually dispatched
+    if: |
+      github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    env:
+      # Determinism & privacy
+      LUKHAS_DETERMINISTIC: "1"
+      LUKHAS_PURE_SELECTION: "1"
+      LUKHAS_DREAM_TELEMETRY: "0"
+      LUKHAS_DREAM_METRICS: "0"
+
+      # Corpus toggles
+      # Nightlies include synthetic cases by default
+      LUKHAS_BENCH_INCLUDE_EXTRA: "1"
+      LUKHAS_BENCH_INCLUDE_SYNTH: ${{ github.event_name == 'schedule' && '1' || (inputs.include_synth || '0') }}
+
+      # EXPAND experimental features remain OFF unless explicitly toggled here
+      LUKHAS_NOISE_LEVEL: "off"
+      LUKHAS_DREAM_RESONANCE: "0"
+      LUKHAS_MULTI_AGENT: "0"
+      LUKHAS_STRATEGY_EVOLVE: "0"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install
+        run: |
+          pip install -e .
+          # Optional: pip install matplotlib  # only if your dashboard needs it
+
+      - name: Baseline run + score (+ optional dashboard)
+        run: |
+          python -m benchmarks.dream.run --out benchmarks/dream/results.jsonl
+          python -m benchmarks.dream.score
+          # If a dashboard module exists, run it (graceful if missing)
+          python - <<'PY'
+import importlib, subprocess, sys
+if importlib.util.find_spec("benchmarks.dream.dashboard"):
+    subprocess.run(["python","-m","benchmarks.dream.dashboard"], check=False)
+else:
+    print("dashboard module not present; skipping")
+PY
+
+      - name: Stability / Calibration / Taxonomy / Chooser
+        run: |
+          python -m benchmarks.dream.stability || true
+          python -m benchmarks.dream.calibration || true
+          python -m benchmarks.dream.taxonomy || true
+          python -m benchmarks.dream.chooser || true
+          cat benchmarks/dream/best_config.json || true
+
+      - name: Optional sweep
+        if: ${{ github.event_name == 'schedule' || inputs.sweep == '1' }}
+        run: |
+          python -m benchmarks.dream.run --sweep --out benchmarks/dream/results_sweep.jsonl
+          python -m benchmarks.dream.score benchmarks/dream/results_sweep.jsonl || true
+
+      - name: Upload bench artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dream-expand-bench-artifacts
+          path: |
+            benchmarks/dream/*.json
+            benchmarks/dream/*.jsonl
+            benchmarks/dream/*.png
+            benchmarks/dream/*.html
+
+      # -------------------------
+      # Optional Quality Gate
+      # -------------------------
+      - name: Enforce quality gate (optional)
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.enforce_quality_gate == '1' }}
+        run: |
+          python - <<'PY'
+import json, sys
+from pathlib import Path
+summary = json.loads(Path("benchmarks/dream/summary.json").read_text())
+# summary is a list of rows; take the best or overall:
+def best_acc(rows):
+    # try 'accuracy' field; fall back to 1st row if needed
+    accs = [r.get("accuracy") for r in rows if "accuracy" in r]
+    return max(accs) if accs else rows[0].get("accuracy", 0.0)
+acc = best_acc(summary)
+thr = float("${{ inputs.min_accuracy }}")
+print(f"[gate] accuracy={acc:.3f} threshold={thr:.3f}")
+sys.exit(0 if acc >= thr else 2)
+PY
