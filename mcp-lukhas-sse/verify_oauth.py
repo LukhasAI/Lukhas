@@ -3,8 +3,6 @@
 
 import asyncio
 import httpx
-import json
-from pathlib import Path
 
 async def test_endpoints():
     """Test all OAuth 2.1 MCP server endpoints."""

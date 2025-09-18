@@ -19,8 +19,6 @@ from __future__ import annotations
 import logging
 from datetime import datetime
 from typing import Any, Dict
-from uuid import uuid4
-from uuid import UUID
 from matriz.node_contract import (
     CONTRACT_VERSION,
     validate_message,
@@ -32,14 +30,7 @@ from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
 
 # Import the existing complex interface
 try:
-    from matriz.core.node_interface import (
-        CognitiveNode,
-        NodeState,
-        NodeLink,
-        NodeProvenance,
-        NodeReflection,
-        NodeTrigger
-    )
+    from matriz.core.node_interface import CognitiveNode
     LEGACY_AVAILABLE = True
 except ImportError:
     # Graceful fallback if legacy interface not available

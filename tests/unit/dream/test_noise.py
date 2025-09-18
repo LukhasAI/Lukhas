@@ -3,7 +3,6 @@ Tests for noise injection system.
 Validates noise injection clamping and safety guarantees.
 """
 import os
-import pytest
 from unittest.mock import patch
 
 from candidate.consciousness.dream.expand.noise import (

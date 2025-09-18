@@ -12,14 +12,13 @@ import asyncio
 import json
 import logging
 import os
-import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict
 from datetime import datetime
 import uuid
 
 from starlette.applications import Starlette
-from starlette.responses import JSONResponse, StreamingResponse, Response
+from starlette.responses import JSONResponse, StreamingResponse
 from starlette.routing import Route
 from starlette.middleware import Middleware
 from starlette.middleware.cors import CORSMiddleware
@@ -588,21 +587,6 @@ async def sse_endpoint(request):
         }
     )
 
-async def chatgpt_openapi_spec(request):
-    """OpenAPI specification for ChatGPT Actions (GPT Connectors)"""
-    spec = {
-        "openapi": "3.0.0",
-        "info": {
-            "title": "LUKHAS AI Trinity Framework",
-            "description": "Consciousness-aware AI platform with 692 cognitive modules, Lambda ID system, and Constitutional AI guardian. Access the complete Trinity Framework: ⚛️ Identity • 🧠 Consciousness • 🛡️ Guardian",
-            "version": "2.0.0"
-        },
-        "servers": [
-            {
-                "url": "https://lukhas-mcp-production.up.railway.app",
-                "description": "LUKHAS AI Production Server"
-            }
-        ],
 async def chatgpt_openapi_spec(request):
     """OpenAPI specification for ChatGPT Actions (GPT Connectors)"""
     spec = {

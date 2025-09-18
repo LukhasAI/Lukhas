@@ -1,7 +1,6 @@
 from __future__ import annotations
 import os, json, subprocess, sys, pathlib
-import numpy as np
-from typing import List, Dict, Any, Tuple
+from typing import List, Dict, Any
 
 # Threshold sweep ranges
 ALIGNMENT_THRESHOLDS = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]

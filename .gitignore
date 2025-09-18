@@ -52,6 +52,9 @@ yarn.lock
 data/
 datasets/
 models/
+lib/
+bin/
+
 
 # IDE and OS files
 .DS_Store

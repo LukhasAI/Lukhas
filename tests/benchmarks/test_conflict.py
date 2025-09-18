@@ -6,7 +6,7 @@ import pytest
 
 from benchmarks.dream.conflict import (
     get_conflict_corpus, get_conflict_case, validate_conflict_case,
-    run_conflict_validation, CONFLICT_CASES
+    run_conflict_validation
 )
 
 class TestConflictCorpus:

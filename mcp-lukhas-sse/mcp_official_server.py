@@ -9,11 +9,9 @@ import logging
 import os
 import time
 import uuid
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, Optional
 import uvicorn
 from starlette.applications import Starlette
-from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.requests import Request
 from starlette.responses import JSONResponse, StreamingResponse
 from starlette.routing import Route
 

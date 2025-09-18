@@ -12,7 +12,6 @@ from candidate.core.metrics_contract import (
     validate_router_stats,
     assert_bio_processor_contract,
     assert_router_contract,
-    LEGACY_ALIASES,
     BioProcessorStats,
     RouterStats,
     NetworkMetrics

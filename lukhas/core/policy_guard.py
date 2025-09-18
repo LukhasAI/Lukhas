@@ -26,7 +26,7 @@ from collections import defaultdict
 
 # Optional Prometheus metrics
 try:
-    from prometheus_client import Counter, Histogram, Gauge
+    from prometheus_client import Counter, Histogram
     REPLAY_POLICY_DENIALS = Counter("lukhas_replay_policy_denials_total", "Policy denials", ["lane", "kind", "reason"])
     REPLAY_POLICY_ALLOWS = Counter("lukhas_replay_policy_allows_total", "Policy allows", ["lane", "kind"])
     POLICY_DECISIONS = Histogram("lukhas_policy_decision_duration_seconds", "Policy decision time", ["lane"])

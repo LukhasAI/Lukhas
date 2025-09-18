@@ -3,7 +3,6 @@ Tests for adaptive strategy evolution.
 Validates genetic algorithm functionality and safety constraints.
 """
 import os
-import pytest
 from unittest.mock import patch
 
 from candidate.consciousness.dream.expand.evolution import (

@@ -31,7 +31,7 @@
     "source.addMissingImports": "explicit"
   },
   "[python]": {
-    "editor.defaultFormatter": "GitHub.copilot"
+    "editor.defaultFormatter": "charliermarsh.ruff"
   },
   "[typescript]": {
     "editor.defaultFormatter": "GitHub.copilot"

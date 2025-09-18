@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 
 import matriz.adapters
-from matriz.node_contract import MatrizNode, MatrizMessage, MatrizResult
+from matriz.node_contract import MatrizNode, MatrizResult
 from tests.util.mk_msg import mk_test_message
 
 

@@ -7,8 +7,7 @@ These tests ensure all MATRIZ nodes comply with the frozen v1.0.0 contract
 and that the contract itself is properly validated.
 """
 import pytest
-from datetime import datetime
-from uuid import UUID, uuid4
+from uuid import uuid4
 
 from matriz.node_contract import (
     GLYPH,

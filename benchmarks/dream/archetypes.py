@@ -2,7 +2,7 @@
 Archetypal Taxonomy for Dream System Analysis.
 Classifies emotional patterns using Jungian archetypal categories.
 """
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Dict, List, Any, Tuple
 import statistics
 
 # Archetypal emotion mappings based on Jungian psychology

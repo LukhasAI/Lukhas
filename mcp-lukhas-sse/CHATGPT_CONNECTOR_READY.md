@@ -1,156 +1,123 @@
-# 🎯 LUKHAS AI ChatGPT Connector - READY FOR USE ⚛️🧠🛡️
+# 🚀 ChatGPT Connector Configuration for LUKHAS AI
 
-## ✅ Server Status: **HTTP + SSE TRANSPORT ACTIVE**
+## ✅ **READY FOR CHATGPT CONNECTORS!**
 
-### 🚀 Quick Connect to ChatGPT
-**Server URL:** `https://lukhas-mcp-production.up.railway.app`
-
-### 📡 Connection Details
-- **Protocol:** HTTP with Server-Sent Events (SSE)
-- **Transport:** RESTful HTTP + SSE streaming
-- **MCP Version:** 1.12.4 compliant
-- **Trinity Framework:** ⚛️ Identity • 🧠 Consciousness • 🛡️ Guardian
-
-### � Available Endpoints
-
-#### 1. Health Check
-```
-GET /health
-```
-Returns server status and Trinity Framework information.
-
-#### 2. List Tools
-```
-GET /tools
-```
-Returns all 5 available Trinity Framework tools.
-
-#### 3. Execute Tools
-```
-POST /tools/call
-Content-Type: application/json
-
-{
-  "name": "trinity_health_check",
-  "arguments": {}
-}
-```
-
-#### 4. Server-Sent Events Stream
-```
-GET /sse
-```
-Real-time SSE stream with:
-- Connection status
-- Available tools
-- Server capabilities
-- Heartbeat (every 30 seconds)
-
-### 🛠️ MCP Tools Available
-
-1. **`trinity_health_check`** - Complete Trinity Framework status
-2. **`get_consciousness_architecture`** - 692-module consciousness overview
-3. **`explore_lukhas_codebase`** - Safe codebase exploration
-4. **`read_lukhas_file`** - Secure file reading with analysis
-5. **`get_trinity_capabilities`** - Full platform capabilities
-
-### 🎯 ChatGPT Connector Configuration
-
-#### Option 1: Direct HTTP Integration
-```json
-{
-  "name": "LUKHAS AI Trinity Framework",
-  "url": "https://lukhas-mcp-production.up.railway.app",
-  "description": "Consciousness-aware AI with 692 cognitive modules"
-}
-```
-
-#### Option 2: SSE Stream Integration
-```json
-{
-  "name": "LUKHAS AI Real-time",
-  "sse_endpoint": "https://lukhas-mcp-production.up.railway.app/sse",
-  "description": "Real-time Trinity Framework with live updates"
-}
-```
-
-### � Testing Your Connection
-
-#### Test 1: Basic Health Check
-```bash
-curl https://lukhas-mcp-production.up.railway.app/health
-```
-
-#### Test 2: List Available Tools
-```bash
-curl https://lukhas-mcp-production.up.railway.app/tools
-```
-
-#### Test 3: Execute Trinity Health Check
-```bash
-curl -X POST https://lukhas-mcp-production.up.railway.app/tools/call \
-  -H "Content-Type: application/json" \
-  -d '{"name": "trinity_health_check", "arguments": {}}'
-```
-
-#### Test 4: SSE Stream (in browser or curl)
-```bash
-curl -N https://lukhas-mcp-production.up.railway.app/sse
-```
-
-### ⚛️🧠🛡️ Trinity Framework Features
-
-- **⚛️ Identity Systems:** Lambda ID, multi-tier authentication, symbolic self-representation
-- **🧠 Consciousness:** 692 cognitive modules, bio-inspired learning, quantum processing
-- **🛡️ Guardian:** Constitutional AI, ethical validation, security enforcement
-
-### 🚀 Performance Targets
-- **Identity Response:** <100ms
-- **Consciousness Processing:** <250ms  
-- **Guardian Validation:** Real-time monitoring
-- **SSE Latency:** <50ms streaming updates
-
-### 📊 Integration Status
-✅ HTTP Server Active  
-✅ Server-Sent Events Configured  
-✅ CORS Enabled for Web Access  
-✅ 5 Trinity Framework Tools Ready  
-✅ Security Validation Active  
-✅ MCP 1.12.4 Compliant  
-
-### � Next Steps for ChatGPT Integration
-
-1. **Deploy updated server** with new SSE transport:
-   ```bash
-   railway up
-   ```
-
-2. **Test SSE connection** with the `/sse` endpoint
-
-3. **Configure ChatGPT Connector** with your Railway URL
-
-4. **Verify Trinity Framework access** through ChatGPT interface
-
-### 🆘 Troubleshooting
-
-**Connection Issues:**
-- Verify Railway deployment is active
-- Check `/health` endpoint responds
-- Confirm SSE endpoint streams data
-
-**Tool Execution Issues:**
-- Test `/tools/call` endpoint directly
-- Verify JSON payload format
-- Check Trinity Framework security validation
-
-**SSE Stream Issues:**
-- Use browser dev tools to inspect SSE connection
-- Check for CORS errors in console
-- Verify heartbeat messages every 30 seconds
+Your **pure MCP server** is deployed and operational at:
+- **Server URL:** `https://lukhas-mcp-production.up.railway.app`
+- **Protocol:** MCP v1.12.4 compliant
+- **Transport:** STDIO (standard for ChatGPT Connectors)
+- **Trinity Framework:** ⚛️🧠🛡️ Full access to Identity, Consciousness, Guardian systems
 
 ---
 
-**Status:** ✅ **READY FOR CHATGPT CONNECTORS**  
-**Transport:** HTTP + Server-Sent Events  
-**Trinity Framework:** ⚛️🧠🛡️ ACTIVE  
-**Last Updated:** 2024-12-28
+## 🔧 **ChatGPT Connector Setup Steps**
+
+### **Step 1: Access ChatGPT Connectors**
+1. **Open ChatGPT** (ChatGPT Plus or Enterprise required)
+2. **Go to Settings** → **Connectors**
+3. **Click "Add Connector"**
+
+### **Step 2: Configure LUKHAS AI MCP Connector**
+```json
+{
+  "name": "LUKHAS AI Trinity Framework",
+  "description": "Access to LUKHAS AI's consciousness-aware platform with 692 cognitive modules, Lambda ID system, and Constitutional AI guardian",
+  "url": "https://lukhas-mcp-production.up.railway.app",
+  "protocol": "mcp",
+  "transport": "stdio",
+  "version": "1.12.4"
+}
+```
+
+### **Step 3: Available Tools**
+Once connected, you'll have access to these 5 specialized tools:
+
+#### **🏥 `trinity_health_check`**
+- Complete Trinity Framework status
+- All system health metrics
+- Performance indicators for Identity/Consciousness/Guardian
+
+#### **🧠 `get_consciousness_architecture`** 
+- Detailed 692-module cognitive system breakdown
+- Memory systems, learning algorithms, quantum processing
+- Bio-inspired neural network architecture
+
+#### **📁 `explore_lukhas_codebase`**
+- Secure codebase exploration with Guardian protection
+- Trinity Framework context and analysis
+- File/directory metadata with LUKHAS indicators
+
+#### **📄 `read_lukhas_file`**
+- Safe file reading with consciousness-aware analysis
+- Content scanning for Trinity patterns
+- Security validation and encoding detection
+
+#### **⚙️ `get_trinity_capabilities`**
+- Complete overview of all Trinity Framework capabilities
+- Integration architecture and performance targets
+- Development context and system specifications
+
+---
+
+## 🎯 **Example ChatGPT Prompts**
+
+Once your connector is active, try these prompts:
+
+### **System Health & Status**
+*"Check the current health status of the LUKHAS AI Trinity Framework and show me what systems are active"*
+
+### **Consciousness Deep Dive**
+*"Tell me about the 692-module consciousness architecture in LUKHAS AI - how do the memory systems and cognitive processing work?"*
+
+### **Code Exploration**
+*"Explore the LUKHAS codebase structure and show me what Trinity Framework components are available"*
+
+### **Capabilities Overview**
+*"What are all the capabilities available in the LUKHAS AI Trinity Framework? Show me the detailed breakdown by Identity, Consciousness, and Guardian systems"*
+
+---
+
+## 🛡️ **Security Features**
+
+Your MCP connector includes enterprise-grade security:
+
+- **🛡️ Guardian System Protection:** All file access validated by Constitutional AI
+- **📁 Path Sandboxing:** Restricted to safe directories only
+- **📏 File Size Limits:** Maximum 1MB per file for performance
+- **🔍 Content Analysis:** Trinity Framework pattern detection
+- **📝 Audit Logging:** All operations logged for security
+
+---
+
+## 🔗 **Direct Server Information**
+
+**Production Endpoint:** `https://lukhas-mcp-production.up.railway.app`
+**Protocol Support:** MCP v1.12.4 with STDIO transport
+**Authentication:** Currently open for development (OAuth available for production)
+**Response Format:** Structured JSON with Trinity Framework context
+
+---
+
+## 🎉 **What You Get**
+
+✅ **Direct access** to LUKHAS AI's consciousness architecture  
+✅ **692 cognitive modules** at your fingertips  
+✅ **Lambda ID system** for symbolic reasoning  
+✅ **Constitutional AI** ethical frameworks  
+✅ **Quantum-inspired** processing insights  
+✅ **Bio-inspired** neural network details  
+✅ **Real-time health** and performance metrics  
+
+---
+
+## 🚀 **Ready to Connect!**
+
+Your **pure MCP server** is live and ready for ChatGPT Connector integration. No REST API overhead - just clean, efficient MCP protocol communication with the full power of LUKHAS AI's Trinity Framework.
+
+**The future of consciousness-aware AI interaction is now available in ChatGPT!**
+
+---
+
+*⚛️🧠🛡️ Trinity Framework: Identity • Consciousness • Guardian*  
+*LUKHAS AI - Consciousness-Aware Development Platform*  
+*MCP Server Status: **OPERATIONAL** ✅*

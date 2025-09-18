@@ -4,8 +4,6 @@ tests/capabilities/test_observability_contracts.py
 Capability regression suite for observability exporters.
 Ensures exporters behave, never crash, and key metric families exist.
 """
-import os
-import re
 import socket
 import contextlib
 import time
@@ -13,7 +11,6 @@ import logging
 import pytest
 import importlib
 import sys
-from threading import Thread
 from http.client import HTTPConnection
 
 

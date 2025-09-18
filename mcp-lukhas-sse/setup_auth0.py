@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Interactive Auth0 configuration setup for LUKHAS MCP server."""
 
-import os
 from pathlib import Path
 
 def setup_auth0_config():

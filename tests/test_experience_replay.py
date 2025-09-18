@@ -9,10 +9,9 @@ import os
 import json
 import time
 import pytest
-from datetime import datetime, timedelta
 from pathlib import Path
 
-from lukhas.core.consciousness_stream import ConsciousnessStream, create_consciousness_stream
+from lukhas.core.consciousness_stream import ConsciousnessStream
 
 
 class TestExperienceReplay:

@@ -14,16 +14,12 @@ Tests integration across:
 import os
 import time
 import pytest
-from datetime import datetime, timedelta
-from uuid import uuid4
-from unittest.mock import patch
 
 from lukhas.core.policy_guard import (
-    PolicyGuard, ReplayDecision, PolicyResult,
-    LanePolicyConfig
+    PolicyGuard, PolicyResult
 )
 from lukhas.memory.sync import (
-    MemorySynchronizer, SyncOperation, SyncResult,
+    MemorySynchronizer, SyncResult,
     SyncBudgetConfig
 )
 

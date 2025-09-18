@@ -5,7 +5,6 @@ import os
 import logging
 from fastmcp import FastMCP
 from jose import jwt, JWTError
-import uvicorn
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Generate test JWT tokens for local development."""
 
-import json
 import time
 from jose import jwt
 

@@ -9,13 +9,13 @@ import os
 import time
 import pytest
 from uuid import uuid4
-from datetime import datetime, timedelta
+from datetime import datetime
 from unittest.mock import patch
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from lukhas.memory.sync import (
-    MemorySynchronizer, SyncOperation, SyncResult,
-    SyncBudgetConfig, DEFAULT_SYNC_CONFIGS, create_memory_synchronizer
+    MemorySynchronizer, SyncResult,
+    SyncBudgetConfig, create_memory_synchronizer
 )
 
 

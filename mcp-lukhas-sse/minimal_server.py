@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Simple OAuth MCP Server without FastMCP dependency."""
 
-import json
 import logging
 import os
 import time
@@ -10,7 +9,7 @@ import uvicorn
 from starlette.applications import Starlette
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
-from starlette.responses import JSONResponse, StreamingResponse
+from starlette.responses import JSONResponse
 from jose import jwt, JWTError
 
 # Setup logging

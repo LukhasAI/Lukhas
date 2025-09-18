@@ -28,7 +28,7 @@ from __future__ import annotations
 from typing import Any, Dict, Optional
 import logging
 
-from matriz.legacy_shim import LegacyShim, MatrizNode  # shim and interface
+from matriz.legacy_shim import LegacyShim  # shim and interface
 
 logger = logging.getLogger(__name__)
 

@@ -3,7 +3,6 @@ Tests for multi-agent dream mesh.
 Ensures multi-agent aggregation is deterministic and safe.
 """
 import os
-import pytest
 from unittest.mock import patch
 
 from candidate.consciousness.dream.expand.mesh import (

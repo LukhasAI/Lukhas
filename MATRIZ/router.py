@@ -9,10 +9,8 @@ Usage:
   pytest -k router -q
 """
 import queue
-import threading
-import time
 from typing import Callable, Dict
-from .node_contract import MatrizMessage, MatrizResult, MatrizNode
+from .node_contract import MatrizMessage, MatrizNode
 
 
 class SymbolicMeshRouter:

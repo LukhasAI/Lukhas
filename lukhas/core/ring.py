@@ -14,7 +14,7 @@ Usage:
   dr.push(data)  # Automatically decimates when under pressure
 """
 from collections import deque
-from typing import Any, List, Optional, Callable
+from typing import Any, Optional
 import logging
 
 logger = logging.getLogger(__name__)

@@ -6,18 +6,17 @@ Comprehensive health monitoring with subsystem checks and alerts
 
 import asyncio
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
 
 import aiohttp
 import psutil
 
-# from prometheus_client import Counter, Gauge, Histogram, generate_latest
+from prometheus_client import Counter, Gauge, Histogram, generate_latest
 import redis.asyncio as redis
 import structlog
-
-# import asyncpg  # External dependency
+import asyncpg  # External dependency
 
 # Configure structured logging
 logger = structlog.get_logger()

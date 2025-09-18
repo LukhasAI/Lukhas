@@ -45,7 +45,7 @@ import re
 import sys
 from dataclasses import dataclass, asdict
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 
 # --- Config ------------------------------------------------------------------
 
@@ -202,11 +202,8 @@ if __name__ == "__main__":
   
 # New test file at tests/tools/test_categorize_todos.py
 
-import textwrap
-from pathlib import Path
-from TODO.scripts.categorize_todos import scan_repo, summarize, emit_md, emit_json
-
 def write(p: Path, s: str):
+    import textwrap
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(textwrap.dedent(s).lstrip(), encoding="utf-8")
 

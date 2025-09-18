@@ -4,17 +4,15 @@ LUKHAS MCP REST API Wrapper for ChatGPT Custom GPT Actions and Connectors
 Supports both REST API calls and MCP SSE transport for ChatGPT integration.
 """
 
-import json
 import logging
 import os
 import time
 import uuid
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict
 import uvicorn
 from starlette.applications import Starlette
-from starlette.requests import Request
 from starlette.responses import JSONResponse
-from starlette.routing import Route, Mount
+from starlette.routing import Route
 from starlette.middleware.cors import CORSMiddleware
 
 # MCP imports for SSE transport
@@ -300,7 +298,7 @@ async def get_server_info(request):
     
     return JSONResponse(info)
 
-async def list_directory(request):
+async def list_directory_rest(request):
     """REST endpoint to list directory contents."""
     try:
         # Get path from query parameter
@@ -313,7 +311,7 @@ async def list_directory(request):
         logger.error(f"Error in list_directory endpoint: {e}")
         return JSONResponse({"error": f"Internal server error: {str(e)}"}, status_code=500)
 
-async def read_file(request):
+async def read_file_rest(request):
     """REST endpoint to read file contents."""
     try:
         # Get parameters from query
@@ -539,8 +537,8 @@ async def oauth_prm(request):
 routes = [
     Route("/health", health_check, methods=["GET"]),
     Route("/info", get_server_info, methods=["GET"]),
-    Route("/list-directory", list_directory, methods=["GET"]),
-    Route("/read-file", read_file, methods=["GET"]),
+    Route("/list-directory", list_directory_rest, methods=["GET"]),
+    Route("/read-file", read_file_rest, methods=["GET"]),
     Route("/list-directory", list_directory_post, methods=["POST"]),
     Route("/read-file", read_file_post, methods=["POST"]),
     Route("/openapi.json", get_openapi_spec, methods=["GET"]),

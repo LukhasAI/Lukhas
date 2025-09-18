@@ -20,15 +20,69 @@ from typing import Any, Optional
 
 import psutil
 
-from lukhas.governance.intelligence_safety_validator import SafetyLevel, get_safety_validator
-from lukhas.orchestration.agent_orchestrator.intelligence_bridge import (
-    AgentType,
-    IntelligenceRequestType,
-    create_agent_request,
-    get_agent_bridge,
-)
-from lukhas.orchestration.brain.monitoring.intelligence_monitor import get_monitor
-from lukhas.orchestration.intelligence_adapter import get_orchestration_adapter
+# TODO: Fix missing modules - these imports are broken
+# from lukhas.governance.intelligence_safety_validator import SafetyLevel, get_safety_validator
+# from lukhas.orchestration.agent_orchestrator.intelligence_bridge import (
+#     AgentType,
+#     IntelligenceRequestType,
+#     create_agent_request,
+#     get_agent_bridge,
+# )
+# from lukhas.orchestration.brain.monitoring.intelligence_monitor import get_monitor
+# from lukhas.orchestration.intelligence_adapter import get_orchestration_adapter
+
+# Temporary placeholders to fix undefined names
+class SafetyLevel(Enum):
+    CRITICAL = "critical"
+    HIGH = "high"
+    MEDIUM = "medium"
+    LOW = "low"
+
+class AgentType(Enum):
+    ORCHESTRATOR = "orchestrator"
+    PROCESSOR = "processor"
+
+class IntelligenceRequestType(Enum):
+    STANDARD = "standard"
+    PRIORITY = "priority"
+
+class AgentTaskType(Enum):
+    AUTONOMOUS_GOAL_FORMATION = "autonomous_goal_formation"
+
+@dataclass
+class AgentRequest:
+    agent_id: str
+    task_type: AgentTaskType
+    data: dict
+    priority: int = 1
+    timeout: float = 30.0
+
+# Stub functions for missing modules
+def get_monitor():
+    """Stub for missing monitor function"""
+    return None
+
+async def get_safety_validator():
+    """Stub for missing safety validator function"""
+    return None
+
+async def get_orchestration_adapter():
+    """Stub for missing orchestration adapter function"""
+    return None
+
+async def get_agent_bridge():
+    """Stub for missing agent bridge function"""
+    return None
+
+def create_agent_request(*args, **kwargs):
+    """Stub for missing create_agent_request function"""
+    return AgentRequest(
+        agent_id="stub",
+        task_type=AgentTaskType.AUTONOMOUS_GOAL_FORMATION,
+        data={},
+        priority=1,
+        timeout=30.0
+    )
 
 logger = logging.getLogger("LUKHAS.Tools.Benchmarking.Intelligence")
 

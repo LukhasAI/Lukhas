@@ -3,7 +3,6 @@ Tests for dream resonance field.
 Validates decay behavior and safety constraints.
 """
 import os
-import pytest
 from unittest.mock import patch
 
 from candidate.consciousness.dream.expand.resonance import (

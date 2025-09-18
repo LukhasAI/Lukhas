@@ -4,15 +4,11 @@ LUKHAS MCP STDIO Server - Official MCP Specification Compliant
 Implements the Model Context Protocol v2025-06-18 with STDIO transport for ChatGPT integration.
 """
 
-import asyncio
 import json
 import logging
 import os
 import sys
-from typing import Any, Dict, List, Optional, Sequence
 from mcp.server.fastmcp import FastMCP
-from mcp.server.models import InitializationOptions
-import mcp.types as types
 
 # Configure logging to stderr (NEVER use stdout in STDIO servers)
 logging.basicConfig(

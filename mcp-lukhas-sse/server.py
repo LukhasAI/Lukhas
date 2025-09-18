@@ -1,20 +1,16 @@
 #!/usr/bin/env python3
 
-import asyncio
 import logging
 import os
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-from urllib.parse import urljoin
 
 import httpx
 import uvicorn
 from fastmcp import FastMCP
 from jose import jwt, JWTError
-from mcp.types import Tool
 from pydantic import BaseModel
 from starlette.applications import Starlette
-from starlette.middleware import Middleware
 from starlette.requests import Request
 from starlette.responses import JSONResponse, PlainTextResponse
 from starlette.routing import Route

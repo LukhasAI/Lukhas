@@ -1,6 +1,6 @@
 from __future__ import annotations
-import json, subprocess, sys, os, pathlib
-from typing import Dict, List, Any, Optional
+import json, subprocess, sys, os
+from typing import Dict, Any
 import time
 
 class CIRunner:

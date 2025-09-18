@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """ChatGPT-compatible MCP Server."""
 
-import json
 import logging
 import os
 import time

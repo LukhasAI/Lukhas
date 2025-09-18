@@ -4,7 +4,6 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 import uvicorn
-import json
 
 app = FastAPI(title="Test JWKS Server")
 

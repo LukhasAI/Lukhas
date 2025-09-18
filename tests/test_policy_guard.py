@@ -8,13 +8,11 @@ Tests the policy enforcement matrix across lanes, kinds, and thresholds.
 import os
 import time
 import pytest
-from uuid import uuid4
-from datetime import datetime, timedelta
 from unittest.mock import patch
 
 from lukhas.core.policy_guard import (
     PolicyGuard, ReplayDecision, PolicyResult,
-    LanePolicyConfig, DEFAULT_LANE_CONFIGS, create_policy_guard
+    LanePolicyConfig, create_policy_guard
 )
 
 
