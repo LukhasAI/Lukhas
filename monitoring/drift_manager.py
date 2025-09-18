@@ -48,6 +48,28 @@ try:
         'Drift computation duration',
         buckets=[0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0]
     )
+
+    # Auto-repair metrics
+    DRIFT_AUTOREPAIR_ATTEMPTS = Counter(
+        'drift_autorepair_attempts_total',
+        'Total autonomous repair attempts',
+        ['kind', 'method']
+    )
+    DRIFT_AUTOREPAIR_SUCCESSES = Counter(
+        'drift_autorepair_successes_total',
+        'Successful autonomous repairs',
+        ['kind', 'method']
+    )
+    DRIFT_AUTOREPAIR_ERRORS = Counter(
+        'drift_autorepair_errors_total',
+        'Failed autonomous repair attempts',
+        ['kind']
+    )
+    DRIFT_AUTOREPAIR_DURATION = Histogram(
+        'drift_autorepair_duration_seconds',
+        'Autonomous repair operation duration',
+        buckets=[0.001, 0.01, 0.1, 0.5, 1.0, 5.0, 10.0]
+    )
     METRICS_AVAILABLE = True
 except ImportError:
     METRICS_AVAILABLE = False
@@ -195,8 +217,8 @@ class DriftManager:
         """
         Handler for drift threshold exceedance.
 
-        Currently a no-op placeholder for Task 15 (auto-repair).
-        Logs the exceedance event for monitoring.
+        Implements autonomous drift correction by invoking the TraceRepairEngine
+        when drift scores exceed the critical threshold (0.15).
 
         Args:
             kind: Type of drift that exceeded threshold
@@ -209,16 +231,191 @@ class DriftManager:
         )
 
         # Record exceedance event
-        self.drift_ledger.append({
+        exceedance_event = {
             'event': 'threshold_exceeded',
             'kind': kind,
             'score': score,
             'context': ctx,
             'timestamp': time.time()
-        })
+        }
+        self.drift_ledger.append(exceedance_event)
 
-        # TODO(Task 15): Implement auto-repair logic here
-        # Will call TraceRepairEngine.reconsolidate() or similar
+        # Attempt autonomous repair if TraceRepairEngine is available
+        repair_result = None
+        repair_start_time = time.time()
+
+        if self._should_attempt_repair(kind, score):
+            try:
+                # Lazy import and initialize repair engine
+                if not hasattr(self, '_repair_engine'):
+                    self._initialize_repair_engine()
+
+                if self._repair_engine:
+                    # Extract top symbols from most recent computation
+                    top_symbols = ctx.get('top_symbols', [])
+                    if not top_symbols and 'state' in ctx:
+                        # Try to extract from context state
+                        top_symbols = self._extract_symbols_from_context(kind, ctx)
+
+                    logger.info(f"Attempting autonomous repair for {kind} drift: "
+                              f"score={score:.4f}, symbols={top_symbols[:3]}")
+
+                    # Track repair attempt
+                    if METRICS_AVAILABLE:
+                        DRIFT_AUTOREPAIR_ATTEMPTS.labels(kind=kind, method='auto').inc()
+
+                    # Invoke repair engine
+                    repair_result = self._repair_engine.reconsolidate(
+                        kind=kind,
+                        score=score,
+                        context=ctx,
+                        top_symbols=top_symbols
+                    )
+
+                    # Log repair result and track metrics
+                    if repair_result.success:
+                        logger.info(
+                            f"Auto-repair SUCCESS: {kind} drift reduced from "
+                            f"{repair_result.pre_score:.4f} to {repair_result.post_score:.4f} "
+                            f"({repair_result.improvement_pct:.1f}% improvement)"
+                        )
+
+                        # Track successful repair metrics
+                        if METRICS_AVAILABLE:
+                            DRIFT_AUTOREPAIR_SUCCESSES.labels(
+                                kind=kind,
+                                method=repair_result.method.value
+                            ).inc()
+                            DRIFT_AUTOREPAIR_DURATION.observe(time.time() - repair_start_time)
+
+                        # Record successful repair
+                        repair_event = {
+                            'event': 'auto_repair_success',
+                            'kind': kind,
+                            'method': repair_result.method.value,
+                            'pre_score': repair_result.pre_score,
+                            'post_score': repair_result.post_score,
+                            'improvement_pct': repair_result.improvement_pct,
+                            'timestamp': repair_result.timestamp,
+                            'rationale': f"Repair via {repair_result.method.value} reduced drift by {repair_result.improvement_pct:.1f}%"
+                        }
+                        self.drift_ledger.append(repair_event)
+                    else:
+                        logger.error(
+                            f"Auto-repair FAILED for {kind} drift: "
+                            f"{repair_result.details.get('error', 'unknown error')}"
+                        )
+
+                        # Track failed repair metrics
+                        if METRICS_AVAILABLE:
+                            DRIFT_AUTOREPAIR_ERRORS.labels(kind=kind).inc()
+
+                        # Record failed repair
+                        repair_event = {
+                            'event': 'auto_repair_failure',
+                            'kind': kind,
+                            'error': repair_result.details.get('error', 'unknown'),
+                            'timestamp': repair_result.timestamp,
+                            'rationale': f"Repair attempt failed: {repair_result.details.get('error', 'unknown')}"
+                        }
+                        self.drift_ledger.append(repair_event)
+
+            except Exception as e:
+                logger.error(f"Error during auto-repair attempt: {e}")
+                repair_event = {
+                    'event': 'auto_repair_error',
+                    'kind': kind,
+                    'error': str(e),
+                    'timestamp': time.time(),
+                    'rationale': f"Repair engine error: {str(e)}"
+                }
+                self.drift_ledger.append(repair_event)
+
+        # Always emit policy ledger line with repair rationale
+        policy_line = {
+            'policy_event': 'drift_threshold_exceeded',
+            'kind': kind,
+            'score': score,
+            'threshold': self.critical_threshold,
+            'repair_attempted': repair_result is not None,
+            'repair_success': repair_result.success if repair_result else False,
+            'rationale': repair_result.details.get('rationale', 'No repair attempted') if repair_result else 'Threshold exceeded, no repair engine available'
+        }
+        logger.info(f"POLICY_LEDGER: {policy_line}")
+
+    def _should_attempt_repair(self, kind: str, score: float) -> bool:
+        """
+        Determine if autonomous repair should be attempted.
+
+        Args:
+            kind: Drift type
+            score: Drift score
+
+        Returns:
+            bool: True if repair should be attempted
+        """
+        # Only attempt repair for significant drift
+        if score < self.critical_threshold:
+            return False
+
+        # Check if we have feature flag enabled
+        import os
+        if os.environ.get('LUKHAS_EXPERIMENTAL') != '1':
+            logger.debug("Auto-repair disabled: LUKHAS_EXPERIMENTAL not set")
+            return False
+
+        # Check if we've already attempted too many repairs recently
+        recent_attempts = [
+            entry for entry in self.drift_ledger
+            if entry.get('event') in ['auto_repair_success', 'auto_repair_failure', 'auto_repair_error']
+            and entry.get('kind') == kind
+            and entry.get('timestamp', 0) > time.time() - 300  # Last 5 minutes
+        ]
+
+        if len(recent_attempts) >= 3:
+            logger.warning(f"Skipping auto-repair: too many recent attempts for {kind} ({len(recent_attempts)} in last 5min)")
+            return False
+
+        return True
+
+    def _initialize_repair_engine(self):
+        """Initialize the TraceRepairEngine if available."""
+        try:
+            from lukhas.trace.TraceRepairEngine import TraceRepairEngine
+            self._repair_engine = TraceRepairEngine()
+            logger.info("TraceRepairEngine initialized for auto-repair")
+        except ImportError as e:
+            logger.debug(f"TraceRepairEngine not available: {e}")
+            self._repair_engine = None
+
+    def _extract_symbols_from_context(self, kind: str, ctx: Dict[str, Any]) -> List[str]:
+        """
+        Extract drift symbols from context when not directly provided.
+
+        Args:
+            kind: Drift type
+            ctx: Context dictionary
+
+        Returns:
+            List of inferred top symbols
+        """
+        symbols = []
+
+        # Extract from state if available
+        state = ctx.get('state', {})
+        if isinstance(state, dict):
+            for key in state.keys():
+                symbols.append(f"{kind}.{key}")
+
+        # Add common symbols based on kind
+        if kind == 'ethical':
+            symbols.extend(['ethical.compliance', 'ethical.constitutional'])
+        elif kind == 'memory':
+            symbols.extend(['memory.fold_stability', 'memory.entropy'])
+        elif kind == 'identity':
+            symbols.extend(['identity.coherence', 'identity.namespace_integrity'])
+
+        return symbols[:5]  # Return top 5
 
     def _compute_ethical_drift(self, prev: Any, curr: Any) -> DriftResult:
         """

@@ -285,7 +285,18 @@
       "Bash(.venv/bin/pip:*)",
       "Bash(xargs sed:*)",
       "Bash(PYTHONPATH=. python3 tests/drift/test_drift_acceptance.py)",
-      "Bash(PYTHONPATH=. python3 /tmp/drift_report_sample.py)"
+      "Bash(PYTHONPATH=. python3 /tmp/drift_report_sample.py)",
+      "Bash(PYTHONPATH=. python3 -m pytest -q tests/drift/test_drift_autorepair.py)",
+      "Bash(PYTHONPATH=. python3 -m pytest -q tests/drift/test_drift_autorepair.py -x)",
+      "Bash(PYTHONPATH=. python3 -m pytest -q tests/drift/test_drift_autorepair.py::TestAutonomousDriftCorrection::test_repair_rate_limiting -s)",
+      "Bash(PYTHONPATH=. python3 -m pytest -q tests/drift/)",
+      "Bash(PYTHONPATH=. python3 tests/drift/test_drift_task15_acceptance.py)",
+      "Bash(PYTHONPATH=. python3 /tmp/test_repair_debug.py)",
+      "Bash(PYTHONPATH=. python3 -m pytest -q tests/drift/ -x)",
+      "Bash(PYTHONPATH=. python3 -m pytest -q tests/drift/test_drift_autorepair.py tests/drift/test_drift_task15_acceptance.py)",
+      "Bash(PYTHONPATH=. python3 /tmp/get_p95_metrics.py)",
+      "Bash(PYTHONPATH=. python3 /tmp/test_simple_reduction.py)",
+      "Bash(PYTHONPATH=. python3 /tmp/p95_canonical.py)"
     ],
     "deny": [],
     "ask": []

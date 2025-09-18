@@ -116,6 +116,12 @@ The `monitoring/drift_manager.py` module provides centralized drift calculation 
 - **Thresholds**:
   - Warning: 0.10
   - Critical: 0.15 (Guardian System standard)
+- **Autonomous Repair**: TraceRepairEngine integration for closed-loop correction
+- **Telemetry**: Full Prometheus metrics for monitoring and alerting
+
+### Reading top_symbols for Triage
+Symbol format: `{domain}.{feature}` (e.g., `ethical.compliance`, `memory.fold_stability`)
+Priority: First symbol = highest contributor to drift
 
 ## Analysis Methodology
 

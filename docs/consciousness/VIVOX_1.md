@@ -60,3 +60,25 @@ The drift pipeline emits Prometheus metrics for monitoring:
 - `drift_compute_duration_seconds`: p95 latency tracking (target < 5% overhead)
 
 This integration ensures the VIVOX system maintains alignment and coherence while providing forensically sound audit trails of all drift events.
+
+### How to Read top_symbols
+
+The `top_symbols` array identifies the primary contributors to drift for root cause analysis:
+
+**Format**: `{domain}.{feature}` where domain is `ethical`, `memory`, or `identity`
+
+**Example Drift Analysis**:
+```python
+# Drift result
+{
+  "score": 0.0320,
+  "top_symbols": ["ethical.drift_score", "ethical.compliance", "memory.fold_stability"]
+}
+```
+
+**Interpretation**:
+- `ethical.drift_score`: Core ethical drift metric changed significantly
+- `ethical.compliance`: Constitutional compliance dropped
+- `memory.fold_stability`: Memory fold structure became unstable
+
+**Triage Priority**: Address symbols in order - first symbol contributed most to drift.

@@ -214,10 +214,23 @@ class TestDriftManager:
 
         # Verify ledger entry was added
         assert len(manager.drift_ledger) > initial_ledger_size
-        last_entry = manager.drift_ledger[-1]
-        assert last_entry['event'] == 'threshold_exceeded'
-        assert last_entry['kind'] == 'ethical'
-        assert last_entry['score'] == result['score']
+
+        # Should have threshold exceeded event
+        threshold_events = [
+            e for e in manager.drift_ledger
+            if e.get('event') == 'threshold_exceeded'
+        ]
+        assert len(threshold_events) > 0
+        last_threshold = threshold_events[-1]
+        assert last_threshold['kind'] == 'ethical'
+        assert last_threshold['score'] == result['score']
+
+        # May also have auto-repair event if repair engine is available
+        repair_events = [
+            e for e in manager.drift_ledger
+            if e.get('event', '').startswith('auto_repair')
+        ]
+        print(f"Auto-repair events: {len(repair_events)}")
 
     def test_drift_history(self):
         """Test drift history retrieval from ledger."""
