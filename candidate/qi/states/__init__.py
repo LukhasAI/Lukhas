@@ -36,4 +36,4 @@ class QI_StatesColony:
 
 
 # Initialize colony
-colony = Quantum_StatesColony()
+colony = QI_StatesColony()

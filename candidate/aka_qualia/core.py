@@ -14,6 +14,7 @@ Usage:
 """
 
 import logging
+import os
 import time
 from pathlib import Path
 from typing import Any, Callable, Optional
@@ -41,6 +42,16 @@ from candidate.aka_qualia.teq_hook import TEQGuardian
 from candidate.aka_qualia.util import compute_drift_phi, extract_affect_energy
 from candidate.aka_qualia.vivox_integration import VivoxAkaQualiaIntegration
 from candidate.metrics import get_metrics_collector
+
+# Task 7: Integrity micro-check integration
+try:
+    if os.environ.get('LUKHAS_EXPERIMENTAL') == '1':
+        from candidate.qi.states.integrity_probe import IntegrityProbe
+        INTEGRITY_PROBE_AVAILABLE = True
+    else:
+        INTEGRITY_PROBE_AVAILABLE = False
+except ImportError:
+    INTEGRITY_PROBE_AVAILABLE = False
 
 logger = logging.getLogger(__name__)
 
@@ -135,6 +146,23 @@ class AkaQualia:
             oneiric_base_url = self.config.get("oneiric_base_url")
             oneiric_config = self.config.get("oneiric", {})
             self.oneiric_hook = create_oneiric_hook(oneiric_mode, oneiric_base_url, oneiric_config)
+
+        # Task 7: Initialize integrity probe for micro-checks
+        if INTEGRITY_PROBE_AVAILABLE:
+            try:
+                # Create a simplified integrity probe for micro-checks
+                # Note: Using None for components we don't need for basic drift checking
+                self.integrity_probe = IntegrityProbe(None, None, None)
+                if self.integrity_probe.drift_manager:
+                    logger.info("AkaQualia: Integrity micro-check enabled with drift manager")
+                else:
+                    logger.warning("AkaQualia: Integrity probe initialized but no drift manager available")
+            except Exception as e:
+                logger.warning(f"AkaQualia: Failed to initialize integrity probe: {e}")
+                self.integrity_probe = None
+        else:
+            logger.debug("AkaQualia: IntegrityProbe not available (LUKHAS_EXPERIMENTAL not set)")
+            self.integrity_probe = None
 
         # State tracking
         self.scene_history: list[PhenomenalScene] = []
@@ -537,7 +565,72 @@ class AkaQualia:
         step_duration = time.time() - step_start_time
         self.metrics_collector.record_aka_qualia_processing_time(step_duration)
 
+        # Task 7: Run integrity micro-check after each step
+        if self.integrity_probe:
+            try:
+                # Create state snapshot for drift calculation
+                integrity_state = {
+                    'ethical': {
+                        'compliance': getattr(policy, 'gain', 1.0),
+                        'energy_conservation': not conservation_violation,
+                        'regulation_actions': len(policy.actions) if policy.actions else 0
+                    },
+                    'memory': {
+                        'scene_history_length': len(self.scene_history),
+                        'metrics_history_length': len(self.metrics_history),
+                        'energy_snapshots_length': len(self.energy_snapshots),
+                        'vivox_collapse_hash': vivox_results.get('collapse_hash', 'none') if vivox_results else 'none'
+                    },
+                    'identity': {
+                        'proto_arousal': regulated_scene.proto.arousal,
+                        'proto_clarity': regulated_scene.proto.clarity,
+                        'proto_embodiment': regulated_scene.proto.embodiment,
+                        'glyph_count': len(glyphs)
+                    }
+                }
+
+                # Run micro-check and add top_symbols to context if drift detected
+                consistency_ok = self.integrity_probe.run_consistency_check(integrity_state)
+                if not consistency_ok:
+                    logger.warning("AkaQualia: Integrity micro-check detected drift above threshold")
+
+            except Exception as e:
+                logger.error(f"AkaQualia: Integrity micro-check failed: {e}")
+
         return result
+
+    def tick_once(self) -> dict[str, Any]:
+        """
+        Execute one AkaQualia processing tick with minimal test data.
+
+        Task 7: Used for testing micro-check integration.
+
+        Returns:
+            Dict containing processing results
+        """
+        # Create minimal test signals
+        signals = {'test': True, 'energy': 0.5}
+        goals = {'stability': 1.0}
+        ethics_state = {'compliance': 0.95}
+        guardian_state = {'active': True}
+        memory_ctx = {'test_context': True}
+
+        # Call the full step method (but sync version for testing)
+        import asyncio
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        try:
+            # Use asyncio.run for Python 3.7+ compatibility
+            result = loop.run_until_complete(self.step(
+                signals=signals,
+                goals=goals,
+                ethics_state=ethics_state,
+                guardian_state=guardian_state,
+                memory_ctx=memory_ctx
+            ))
+            return result
+        finally:
+            loop.close()
 
     def _apply_regulation(self, scene: PhenomenalScene, policy: RegulationPolicy) -> PhenomenalScene:
         """

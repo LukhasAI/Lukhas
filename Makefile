@@ -6,7 +6,7 @@
 .PHONY: audit-appendix audit-normalize audit-merge audit-merge-auto audit-merge-check
 .PHONY: check-scoped lint-scoped test-contract type-scoped doctor doctor-tools doctor-py doctor-ci doctor-lanes doctor-tests doctor-audit doctor-dup-targets doctor-phony doctor-summary doctor-strict doctor-dup-targets-strict doctor-json
 .PHONY: todo-unused todo-unused-check todo-unused-core todo-unused-candidate t4-annotate t4-check audit-f821 fix-f821-core annotate-f821-candidate types-audit types-enforce types-core types-trend types-audit-trend types-enforce-trend f401-audit f401-trend
-.PHONY: test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens
+.PHONY: test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens bench-drift
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -213,6 +213,11 @@ deep-clean: clean
 # Quick fix and test
 quick: fix test ## Fix issues and run tests
 	@echo "✅ Quick fix and test complete!"
+
+# Benchmark drift p95 performance
+bench-drift: ## Run canonical drift compute p95 benchmark
+	@echo "🏃 Running drift p95 benchmark..."
+	PYTHONPATH=. python3 tools/bench/p95_canonical.py
 
 # Note: Audit targets are defined in mk/audit.mk
 

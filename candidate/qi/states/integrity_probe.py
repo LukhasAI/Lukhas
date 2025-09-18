@@ -15,11 +15,48 @@ Runs consistency checks on DriftScore deltas and collapse recovery logic.
 """
 import logging
 import os
+import time
 from dataclasses import dataclass
 from typing import Any, Dict, Optional
 
-from candidate.core.symbolic_diagnostics.trace_repair_engine import TraceRepairEngine
-from lukhas.memory.core_memory.memory_collapse_verifier import MemoryCollapseVerifier
+# Micro-check metrics (lazy initialization to avoid registry conflicts)
+_microcheck_metrics = None
+
+def _get_microcheck_metrics():
+    global _microcheck_metrics
+    if _microcheck_metrics is None:
+        try:
+            from prometheus_client import Counter, Histogram
+            _microcheck_metrics = {
+                'attempts': Counter(
+                    'akaqualia_microcheck_attempts_total',
+                    'Total micro-check attempts in AkaQualia loop'
+                ),
+                'failures': Counter(
+                    'akaqualia_microcheck_failures_total',
+                    'Total micro-check failures in AkaQualia loop'
+                ),
+                'duration': Histogram(
+                    'akaqualia_microcheck_duration_seconds',
+                    'Micro-check duration in AkaQualia loop',
+                    buckets=[0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0]
+                )
+            }
+        except Exception as e:
+            logger.debug(f"Failed to initialize microcheck metrics: {e}")
+            _microcheck_metrics = {}
+    return _microcheck_metrics
+
+# Optional imports for full functionality (not needed for drift-only mode)
+try:
+    from candidate.core.symbolic_diagnostics.trace_repair_engine import TraceRepairEngine
+except ImportError:
+    TraceRepairEngine = None
+
+try:
+    from lukhas.memory.core_memory.memory_collapse_verifier import MemoryCollapseVerifier
+except ImportError:
+    MemoryCollapseVerifier = None
 
 logger = logging.getLogger(__name__)
 
@@ -71,6 +108,12 @@ class IntegrityProbe:
         # #AINTEGRITY_CHECK
         # #ΛTRACE_VERIFIER
         # #ΛDRIFT_SCORE
+
+        # Track micro-check performance
+        check_start_time = time.perf_counter()
+        metrics = _get_microcheck_metrics()
+        if 'attempts' in metrics:
+            metrics['attempts'].inc()
 
         # Default pass if no drift manager
         if not self.drift_manager:
@@ -174,9 +217,24 @@ class IntegrityProbe:
                         {'probe': 'integrity', 'results': drift_results}
                     )
 
+            # Record success/failure metrics
+            metrics = _get_microcheck_metrics()
+            if not all_pass and 'failures' in metrics:
+                metrics['failures'].inc()
+            if 'duration' in metrics:
+                metrics['duration'].observe(time.perf_counter() - check_start_time)
+
             return all_pass
 
         except Exception as e:
             logger.error(f"IntegrityProbe: Error during drift calculation: {e}")
+
+            # Record failure metrics
+            metrics = _get_microcheck_metrics()
+            if 'failures' in metrics:
+                metrics['failures'].inc()
+            if 'duration' in metrics:
+                metrics['duration'].observe(time.perf_counter() - check_start_time)
+
             # Fail open - don't block on errors
             return True
