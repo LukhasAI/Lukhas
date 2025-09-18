@@ -305,7 +305,12 @@
       "Bash(PYTHONPATH=. python3 /tmp/test_flag_debug_fixed.py)",
       "Bash(PYTHONPATH=. python3 /tmp/test_debug_trace.py)",
       "Bash(PYTHONPATH=. python3 -m pytest tests/qualia/test_integrity_microcheck.py::test_threshold_consistency -v --tb=short)",
-      "Bash(PYTHONPATH=. python3 -m pytest tests/qualia/test_integrity_microcheck.py::test_dwell_after_successful_repair -v --tb=short)"
+      "Bash(PYTHONPATH=. python3 -m pytest tests/qualia/test_integrity_microcheck.py::test_dwell_after_successful_repair -v --tb=short)",
+      "Bash(PYTHONPATH=. python3 -m pytest tests/orchestration/test_plan_verifier.py -v --tb=short)",
+      "Bash(PYTHONPATH=. python3 -m pytest tests/orchestration/test_plan_verifier.py::TestPlanVerifierConstraints::test_plan_structure_validation -v --tb=short)",
+      "Bash(PYTHONPATH=. python3 -m pytest tests/orchestration/test_plan_verifier.py::TestRealWorldScenarios::test_safe_ai_model_call -v --tb=short)",
+      "Bash(PYTHONPATH=. python3 -m pytest tests/orchestration/test_plan_verifier.py::TestPlanVerifierDeterminism -v)",
+      "Bash(PYTHONPATH=. python3 -m pytest tests/orchestration/test_plan_verifier.py::TestPlanVerifierPerformance -v)"
     ],
     "deny": [],
     "ask": []
