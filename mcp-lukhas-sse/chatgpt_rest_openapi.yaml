@@ -1,0 +1,300 @@
+openapi: 3.0.0
+info:
+  title: LUKHAS AI REST API
+  description: |
+    Access LUKHAS AI Platform capabilities through the Trinity Framework (⚛️🧠🛡️).
+    
+    **Trinity Framework Components:**
+    - ⚛️ **Identity**: Lambda ID system, authentication, symbolic self-representation
+    - 🧠 **Consciousness**: 692-module cognitive processing, memory systems, awareness  
+    - 🛡️ **Guardian**: Constitutional AI, ethical frameworks, drift detection
+    
+    This REST API provides ChatGPT with secure file system access and LUKHAS AI information.
+  version: 1.0.0
+  contact:
+    name: LUKHAS AI Platform
+    url: https://github.com/LUKHAS-AI/LUKHAS
+
+servers:
+  - url: https://lukhas-mcp-production.up.railway.app
+    description: LUKHAS AI REST API Production Server
+
+paths:
+  /health:
+    get:
+      summary: Health Check
+      description: Check if the LUKHAS AI server is operational
+      operationId: healthCheck
+      responses:
+        '200':
+          description: Server is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "healthy"
+                  server:
+                    type: string
+                    example: "LUKHAS MCP REST Wrapper for ChatGPT"
+                  version:
+                    type: string
+                    example: "1.0.0"
+                  trinity_framework:
+                    type: string
+                    example: "⚛️🧠🛡️"
+                  session_id:
+                    type: string
+                    format: uuid
+
+  /info:
+    get:
+      summary: Get LUKHAS AI System Information
+      description: Retrieve detailed information about the LUKHAS AI Platform and Trinity Framework
+      operationId: getSystemInfo
+      responses:
+        '200':
+          description: LUKHAS AI system information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lukhas_ai:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: "LUKHAS AI Platform"
+                      description:
+                        type: string
+                        example: "Consciousness-Aware AI Development Platform"
+                      trinity_framework:
+                        type: object
+                        properties:
+                          symbol:
+                            type: string
+                            example: "⚛️🧠🛡️"
+                          components:
+                            type: object
+                  rest_wrapper:
+                    type: object
+                    properties:
+                      capabilities:
+                        type: array
+                        items:
+                          type: string
+
+  /list-directory:
+    get:
+      summary: List Directory Contents
+      description: List files and directories in a specified path (security: only allowed in safe directories)
+      operationId: listDirectory
+      parameters:
+        - name: path
+          in: query
+          required: true
+          description: Directory path to list (must be within allowed roots)
+          schema:
+            type: string
+            example: "/tmp"
+      responses:
+        '200':
+          description: Directory contents listed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  path:
+                    type: string
+                    example: "/tmp"
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: "example.txt"
+                        type:
+                          type: string
+                          enum: ["file", "directory"]
+                          example: "file"
+                        path:
+                          type: string
+                          example: "/tmp/example.txt"
+                        size_bytes:
+                          type: integer
+                          example: 1024
+                  total_items:
+                    type: integer
+                    example: 5
+                  lukhas_ai:
+                    type: string
+                    example: "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        '400':
+          description: Invalid path or access denied
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Path not allowed"
+                  allowed_roots:
+                    type: array
+                    items:
+                      type: string
+
+    post:
+      summary: List Directory Contents (POST)
+      description: List files and directories using POST request
+      operationId: listDirectoryPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                path:
+                  type: string
+                  example: "/tmp"
+                  description: Directory path to list
+              required:
+                - path
+      responses:
+        '200':
+          description: Directory contents listed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1list-directory/get/responses/200/content/application~1json/schema'
+
+  /read-file:
+    get:
+      summary: Read File Contents
+      description: Read the contents of a text file (security: only allowed in safe directories, max 1MB)
+      operationId: readFile
+      parameters:
+        - name: path
+          in: query
+          required: true
+          description: File path to read (must be within allowed roots)
+          schema:
+            type: string
+            example: "/tmp/example.txt"
+        - name: max_lines
+          in: query
+          required: false
+          description: Maximum number of lines to read
+          schema:
+            type: integer
+            default: 100
+            example: 100
+      responses:
+        '200':
+          description: File contents read successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  path:
+                    type: string
+                    example: "/tmp/example.txt"
+                  content:
+                    type: string
+                    example: "Hello from LUKHAS AI Trinity Framework ⚛️🧠🛡️"
+                  total_lines:
+                    type: integer
+                    example: 1
+                  displayed_lines:
+                    type: integer
+                    example: 1
+                  truncated:
+                    type: boolean
+                    example: false
+                  file_size_bytes:
+                    type: integer
+                    example: 45
+                  lukhas_ai:
+                    type: string
+                    example: "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        '400':
+          description: Invalid file path or access denied
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "File does not exist"
+
+    post:
+      summary: Read File Contents (POST)
+      description: Read file contents using POST request
+      operationId: readFilePost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                path:
+                  type: string
+                  example: "/tmp/example.txt"
+                  description: File path to read
+                max_lines:
+                  type: integer
+                  default: 100
+                  example: 100
+                  description: Maximum number of lines to read
+              required:
+                - path
+      responses:
+        '200':
+          description: File contents read successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1read-file/get/responses/200/content/application~1json/schema'
+
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message
+        allowed_roots:
+          type: array
+          items:
+            type: string
+          description: List of allowed root directories (for path errors)
+
+security: []  # No authentication required
+
+tags:
+  - name: LUKHAS AI
+    description: |
+      LUKHAS AI Platform operations powered by the Trinity Framework ⚛️🧠🛡️
+      
+      **Security Features:**
+      - Path sandboxing (only safe directories allowed)
+      - File size limits (max 1MB per file)
+      - Input validation and sanitization
+      - Safe error handling

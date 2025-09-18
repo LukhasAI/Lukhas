@@ -1,0 +1,150 @@
+openapi: 3.0.0
+info:
+  title: LUKHAS AI MCP Server
+  description: Access LUKHAS AI Platform capabilities through the Trinity Framework (⚛️🧠🛡️)
+  version: 1.0.0
+servers:
+  - url: https://lukhas-mcp-production.up.railway.app
+    description: LUKHAS AI MCP Production Server
+
+paths:
+  /health:
+    get:
+      summary: Health check for LUKHAS AI MCP Server
+      description: Check if the LUKHAS AI MCP server is operational
+      responses:
+        '200':
+          description: Server is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "healthy"
+                  server:
+                    type: string
+                    example: "LUKHAS MCP Server (Official Spec v2025-06-18)"
+                  protocol_version:
+                    type: string
+                    example: "2025-06-18"
+
+  /mcp:
+    post:
+      summary: Execute LUKHAS AI MCP tools
+      description: Initialize MCP session and execute tools from the LUKHAS AI Platform
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/InitializeRequest'
+                - $ref: '#/components/schemas/ToolsListRequest'
+                - $ref: '#/components/schemas/ToolsCallRequest'
+      responses:
+        '200':
+          description: Successful MCP response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jsonrpc:
+                    type: string
+                    example: "2.0"
+                  id:
+                    type: integer
+                  result:
+                    type: object
+
+components:
+  schemas:
+    InitializeRequest:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: "2.0"
+        id:
+          type: integer
+          example: 1
+        method:
+          type: string
+          example: "initialize"
+        params:
+          type: object
+          properties:
+            protocolVersion:
+              type: string
+              example: "2025-06-18"
+            clientInfo:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "ChatGPT"
+                version:
+                  type: string
+                  example: "1.0"
+            capabilities:
+              type: object
+
+    ToolsListRequest:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: "2.0"
+        id:
+          type: integer
+          example: 2
+        method:
+          type: string
+          example: "tools/list"
+
+    ToolsCallRequest:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          example: "2.0"
+        id:
+          type: integer
+          example: 3
+        method:
+          type: string
+          example: "tools/call"
+        params:
+          type: object
+          properties:
+            name:
+              type: string
+              enum: ["list_directory", "read_file"]
+              example: "list_directory"
+            arguments:
+              type: object
+              oneOf:
+                - $ref: '#/components/schemas/ListDirectoryArgs'
+                - $ref: '#/components/schemas/ReadFileArgs'
+
+    ListDirectoryArgs:
+      type: object
+      properties:
+        path:
+          type: string
+          example: "/tmp"
+          description: "Directory path to list (must be within allowed roots)"
+
+    ReadFileArgs:
+      type: object
+      properties:
+        path:
+          type: string
+          example: "/tmp/example.txt"
+          description: "File path to read (must be within allowed roots)"
+        max_lines:
+          type: integer
+          example: 100
+          description: "Maximum number of lines to read"
