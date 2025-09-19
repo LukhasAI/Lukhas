@@ -16,13 +16,11 @@ Task 5: Comprehensive testing of plan verification with focus on:
 import pytest
 import random
 import time
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 from candidate.core.orchestration.plan_verifier import (
     PlanVerifier,
     VerificationContext,
-    VerificationResult,
-    DenialReason,
     get_plan_verifier
 )
 

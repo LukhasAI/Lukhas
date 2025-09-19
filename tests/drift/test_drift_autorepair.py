@@ -17,7 +17,7 @@ Acceptance criteria:
 import os
 import time
 import pytest
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 
 # Set feature flags for auto-repair testing
 os.environ['LUKHAS_EXPERIMENTAL'] = '1'
@@ -25,7 +25,7 @@ os.environ['LUKHAS_LANE'] = 'candidate'
 os.environ['ENABLE_LLM_GUARDRAIL'] = '1'
 
 from monitoring.drift_manager import DriftManager
-from lukhas.trace.TraceRepairEngine import TraceRepairEngine, RepairResult, RepairMethod
+from lukhas.trace.TraceRepairEngine import TraceRepairEngine, RepairMethod
 
 
 class TestAutonomousDriftCorrection:

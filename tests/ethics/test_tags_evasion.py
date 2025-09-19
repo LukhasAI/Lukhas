@@ -13,7 +13,6 @@ Focus areas:
 """
 
 import os
-import re
 import unicodedata
 import pytest
 

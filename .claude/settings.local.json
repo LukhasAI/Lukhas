@@ -22,7 +22,8 @@
       "Bash(.venv/bin/pytest -q tests/bridge/test_llm_guardrail.py)",
       "Bash(LUKHAS_CORE_COMPAT=1 .venv/bin/pytest -q tests/bridge/test_llm_guardrail.py)",
       "Bash(LUKHAS_CORE_COMPAT=1 python3 -c \"from lukhas.core.bridge.llm_guardrail import guardrail_health; print(''Import successful'')\")",
-      "Bash(LUKHAS_CORE_COMPAT=1 .venv/bin/pytest tests/core/test_core_compat.py::TestCoreCompat::test_core_compat_enabled -v)"
+      "Bash(LUKHAS_CORE_COMPAT=1 .venv/bin/pytest tests/core/test_core_compat.py::TestCoreCompat::test_core_compat_enabled -v)",
+      "Bash(.venv/bin/pytest tests/smoke/ tests/bridge/ tests/core/ --tb=no --disable-warnings -q)"
     ],
     "deny": [],
     "ask": []

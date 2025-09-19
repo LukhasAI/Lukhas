@@ -21,7 +21,7 @@ import json
 import random
 import sys
 import time
-from typing import Dict, Any, List
+from typing import Dict, Any
 
 # Telemetry counters (no-op for v1)
 class TelemetryCounter:

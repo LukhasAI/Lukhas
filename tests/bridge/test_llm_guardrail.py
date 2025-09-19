@@ -8,11 +8,8 @@ and error handling work correctly.
 import os
 import pytest
 import sys
-from unittest.mock import patch
 
 # Import bypassing compat layer to avoid recursion in tests
-import sys
-import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 from lukhas.core.bridge.llm_guardrail import call_llm, guardrail_health
 

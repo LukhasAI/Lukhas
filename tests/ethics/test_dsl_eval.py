@@ -14,8 +14,6 @@ Test coverage:
 """
 import pytest
 import time
-import yaml
-from typing import Dict, Any
 
 from candidate.core.ethics.logic.dsl_lite import (
     compile_rule, hash_rule, DSLError,
@@ -25,7 +23,7 @@ from candidate.core.ethics.logic.dsl_lite import (
     and_op, or_op, not_op
 )
 from candidate.core.ethics.logic.ethics_engine import (
-    EthicsEngine, RuleSet, EthicsRule, EthicsAction, Priority, EthicsResult
+    EthicsEngine, RuleSet, EthicsRule, EthicsAction, Priority
 )
 
 
