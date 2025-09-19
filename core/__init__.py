@@ -70,8 +70,14 @@ if not any(isinstance(f, _CoreAliasFinder) for f in sys.meta_path):
     _install_aliases()
     sys.meta_path.insert(0, _CoreAliasFinder())
 
+# Optional brownout toggle (reversible)
+import os
+if os.getenv("LUKHAS_DISABLE_LEGACY_CORE", "0") == "1":
+    # Temporary brownout: surface any stragglers fast
+    raise ImportError("Legacy 'core' alias disabled by brownout; use 'lukhas.core'.")
+
 # Reversible deprecation toggle
-import os, warnings
+import warnings
 if os.getenv("LUKHAS_WARN_LEGACY_CORE", "0") == "1":
     warnings.filterwarnings("default", category=ImportWarning)
     warnings.warn(

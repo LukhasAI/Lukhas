@@ -1,0 +1,37 @@
+name: Legacy Import Guard
+
+on:
+  pull_request:
+    paths:
+      - '**/*.py'
+  push:
+    branches: [main]
+
+jobs:
+  block-new-legacy-imports:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Block new legacy `core` imports (changed lines only)
+        run: |
+          chmod +x scripts/check_no_new_legacy_core.sh
+
+          # Check against main branch if this is a PR
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git fetch --no-tags origin main:refs/remotes/origin/main
+            base=origin/main
+            if git diff --cached -U0 $base... | grep -E '^\+.*\b(from|import)\s+core(\.|$)' \
+              | grep -v 'tests/' | grep -v 'core/__init__.py'; then
+              echo "❌ Blocked: new legacy 'core' imports detected."
+              echo "Use 'lukhas.core' instead of 'core' for new imports."
+              exit 1
+            fi
+          else
+            # For direct pushes, check staged changes
+            scripts/check_no_new_legacy_core.sh
+          fi
+
+          echo "✅ No new legacy core imports detected"
