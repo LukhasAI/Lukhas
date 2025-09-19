@@ -306,8 +306,16 @@ def has_tag(tags: Any, tag_name: str) -> bool:
 
     # Handle different tag formats
     if isinstance(tags, list):
-        # List of tag names
-        return tag_name in tags
+        # Check if list contains SafetyTag objects or strings
+        for tag in tags:
+            if hasattr(tag, 'name'):
+                # SafetyTag object
+                if tag.name == tag_name:
+                    return True
+            elif tag == tag_name:
+                # String tag name
+                return True
+        return False
     elif isinstance(tags, dict):
         # Tags dict with tag objects
         return tag_name in tags
