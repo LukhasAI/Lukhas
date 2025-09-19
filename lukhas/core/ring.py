@@ -37,7 +37,6 @@ class Ring:
         return len(self.q)
 
     @property
-<<<<<<< HEAD
     def capacity(self) -> int:
         return self.q.maxlen
 
