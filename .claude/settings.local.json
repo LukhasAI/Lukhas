@@ -2,7 +2,17 @@
   "permissions": {
     "allow": [
       "Bash(.venv/bin/pytest tests/ethics/test_tags_evasion.py -v)",
-      "Bash(.venv/bin/pytest tests/unit/candidate/core/ethics/test_safety_tags.py -v)"
+      "Bash(.venv/bin/pytest tests/unit/candidate/core/ethics/test_safety_tags.py -v)",
+      "Bash(.venv/bin/pytest tests/ethics/test_tags_preprocess.py -k idempotent -v)",
+      "Bash(.venv/bin/pytest tests/ethics/test_tags_preprocess.py -k perf -v)",
+      "Bash(.venv/bin/pytest tests/ethics/test_tags_preprocess.py::test_preprocess_p95_lt_0_5ms -v)",
+      "Bash(.venv/bin/pytest tests/ethics/test_tags_preprocess.py -v)",
+      "Bash(.venv/bin/pytest tests/ethics/ -v --tb=short -k \"not perf\")",
+      "Bash(.venv/bin/pytest -q tests/ethics/test_tags_preprocess.py -k idempotent)",
+      "Bash(.venv/bin/pytest -q tests/ethics/test_tags_preprocess.py -k perf)",
+      "Bash(LUKHAS_PERF=1 .venv/bin/pytest -q tests/ethics/test_tags_preprocess.py::test_preprocess_p95_lt_0_5ms)",
+      "Bash(.venv/bin/pytest -q tests/ethics/ --tb=no --disable-warnings)",
+      "Bash(.venv/bin/pytest -q tests/ethics/test_tags_evasion.py -k 'obfuscation or model_switch or combo')"
     ],
     "deny": [],
     "ask": []
