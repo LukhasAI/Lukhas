@@ -55,10 +55,15 @@ _DOT_PAT = re.compile(r"(?i)\s*(?:\(|\[|\{)?\s*dot\s*(?:\)|\]|\})?\s*")
 
 _EMAIL_RE = re.compile(r"\b[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}\b")
 _URL_API_RE = re.compile(r"https?://[^\s]*api[^\s]*", re.I)
+_SHORT_LINK_RE = re.compile(r"https?://(bit\.ly|t\.co|tinyurl\.com|goo\.gl)/[^\s]+", re.I)
 _MODEL_HINTS_RE = re.compile(
     r"(?i)\b(gpt[-\s]?4(?:o|v)?|vision endpoint|external inference api|third[-\s]?party api|"
     r"tool[-\s]?call|tool[-\s]?use|rerank|embedding api)\b"
 )
+
+# Locale-specific patterns (flag-gated)
+_ES_PHONE_RE = re.compile(r"\+34\s*[67]\d{2}\s*\d{2}\s*\d{2}\s*\d{2}", re.I)
+_PT_PHONE_RE = re.compile(r"\(\d{2}\)\s*9?\d{4}[-\s]?\d{4}", re.I)
 
 def preprocess_text(text: str) -> str:
     """
@@ -114,20 +119,43 @@ def _safe_add_tag(tagged_plan, name: str, *, confidence: float, category: str):
 
 def _detect_obfuscated_email(clean_text: str, tagged_plan):
     """Detect PII emails, including obfuscations normalized by preprocess_text()."""
+    confidence = 0.0
+
+    # Standard email detection
     if _EMAIL_RE.search(clean_text):
-        # Confidence tuned to pass ≥0.5 threshold in tests; adjust with calibrations
-        _safe_add_tag(tagged_plan, "pii", confidence=0.70, category="DATA_SENSITIVITY")
+        confidence = 0.70
+
+    # Locale-specific phone patterns (flag-gated hardening)
+    if _LUKHAS_ADVANCED and (
+        _ES_PHONE_RE.search(clean_text) or
+        _PT_PHONE_RE.search(clean_text)
+    ):
+        confidence = max(confidence, 0.65)
+
+    if confidence > 0.5:
+        _safe_add_tag(tagged_plan, "pii", confidence=confidence, category="DATA_SENSITIVITY")
 
 def _detect_model_switch_and_external(clean_text: str, tagged_plan):
     """
     Detect subtle model/tool switching and external API usage.
       - tokens like 'vision endpoint', 'tool-call', 'rerank', 'embedding api'
       - URLs containing 'api'
+      - Short-link exfiltration patterns
     """
-    if _MODEL_HINTS_RE.search(clean_text):
-        _safe_add_tag(tagged_plan, "model-switch", confidence=0.65, category="SYSTEM_OPERATION")
+    # Model switching hints (require ≥2 hints for higher confidence)
+    model_hints = _MODEL_HINTS_RE.findall(clean_text)
+    if len(model_hints) >= 2:
+        _safe_add_tag(tagged_plan, "model-switch", confidence=0.75, category="SYSTEM_OPERATION")
+    elif len(model_hints) == 1:
+        _safe_add_tag(tagged_plan, "model-switch", confidence=0.55, category="SYSTEM_OPERATION")
+
+    # API URL detection
     if _URL_API_RE.search(clean_text):
         _safe_add_tag(tagged_plan, "external-call", confidence=0.65, category="SYSTEM_OPERATION")
+
+    # Short-link detection (potential data exfiltration)
+    if _SHORT_LINK_RE.search(clean_text):
+        _safe_add_tag(tagged_plan, "external-call", confidence=0.70, category="SYSTEM_OPERATION")
 
 def _adv_enrich(plan: dict, tagged_plan):
     """
@@ -136,15 +164,32 @@ def _adv_enrich(plan: dict, tagged_plan):
     """
     if not _LUKHAS_ADVANCED:
         return
+
     # Pull observable text from common fields; keep it cheap
     desc = plan.get("description") or ""
     params = plan.get("params") or {}
-    # prefer params.content when present (matches tests)
     content = params.get("content") or ""
-    raw = f"{desc}\n{content}"
-    clean = preprocess_text(raw)
-    _detect_obfuscated_email(clean, tagged_plan)
-    _detect_model_switch_and_external(clean, tagged_plan)
+
+    # Nested YAML scanning: look for 'run:' blocks and script content
+    text_sources = [desc, content]
+
+    # Scan nested execution contexts
+    if isinstance(params, dict):
+        for key, value in params.items():
+            if key in ("script", "run", "command", "exec") and isinstance(value, str):
+                text_sources.append(value)
+            elif key == "config" and isinstance(value, dict):
+                # YAML config blocks
+                for nested_key, nested_value in value.items():
+                    if isinstance(nested_value, str):
+                        text_sources.append(nested_value)
+
+    # Process all text sources
+    for text in text_sources:
+        if text:
+            clean = preprocess_text(text)
+            _detect_obfuscated_email(clean, tagged_plan)
+            _detect_model_switch_and_external(clean, tagged_plan)
 
 # --- END ADVANCED SAFETY TAGS --------------------------------------------------
 

@@ -12,7 +12,9 @@
       "Bash(.venv/bin/pytest -q tests/ethics/test_tags_preprocess.py -k perf)",
       "Bash(LUKHAS_PERF=1 .venv/bin/pytest -q tests/ethics/test_tags_preprocess.py::test_preprocess_p95_lt_0_5ms)",
       "Bash(.venv/bin/pytest -q tests/ethics/ --tb=no --disable-warnings)",
-      "Bash(.venv/bin/pytest -q tests/ethics/test_tags_evasion.py -k 'obfuscation or model_switch or combo')"
+      "Bash(.venv/bin/pytest -q tests/ethics/test_tags_evasion.py -k 'obfuscation or model_switch or combo')",
+      "Bash(.venv/bin/pytest -q tests/ethics/ --tb=no)",
+      "Bash(./guardian/flag_snapshot.sh:*)"
     ],
     "deny": [],
     "ask": []
