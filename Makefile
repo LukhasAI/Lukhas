@@ -6,7 +6,7 @@
 .PHONY: audit-appendix audit-normalize audit-merge audit-merge-auto audit-merge-check
 .PHONY: check-scoped lint-scoped test-contract type-scoped doctor doctor-tools doctor-py doctor-ci doctor-lanes doctor-tests doctor-audit doctor-dup-targets doctor-phony doctor-summary doctor-strict doctor-dup-targets-strict doctor-json
 .PHONY: todo-unused todo-unused-check todo-unused-core todo-unused-candidate t4-annotate t4-check audit-f821 fix-f821-core annotate-f821-candidate types-audit types-enforce types-core types-trend types-audit-trend types-enforce-trend f401-audit f401-trend
-.PHONY: test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens bench-drift
+.PHONY: test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens bench-drift slo
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -16,6 +16,13 @@ include mk/*.mk
 endif
 
 # Note: Main help target is defined in mk/help.mk
+
+# Safety Tags SLO target (Task 13)
+slo:
+	@echo '🎯 Safety Tags SLO Validation'
+	.venv/bin/pytest -q tests/ethics/test_tags_preprocess.py::test_preprocess_idempotent_and_strips_zerowidth
+	LUKHAS_PERF=1 .venv/bin/pytest -q tests/ethics/test_tags_preprocess.py::test_preprocess_p95_lt_0_5ms
+	@echo '✅ SLO validation complete'
 
 # Installation
 install:
