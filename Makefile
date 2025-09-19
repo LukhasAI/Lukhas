@@ -683,3 +683,10 @@ oneiric-drift-test:
 
 collapse:
 	python3 -m lukhas.tools.collapse_simulator --scenario ethical --seed 42
+
+# T4 Test Targets
+bridge:
+	.venv/bin/pytest -q tests/bridge
+
+core-compat:
+	LUKHAS_CORE_COMPAT=1 .venv/bin/pytest -q tests/core/test_core_compat.py
