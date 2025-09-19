@@ -210,6 +210,25 @@ kubectl set env deployment/guardian-service ENFORCE_ETHICS=0
 kubectl exec -it guardian-service -- touch /tmp/guardian_emergency_disable
 ```
 
+## Operator Probes & Tools
+
+### CLI Tools Available
+
+```bash
+# Collapse simulator (deterministic)
+make collapse
+python3 -m lukhas.tools.collapse_simulator --scenario ethical --seed 42 --json
+
+# Drift dream test (reproducible)
+make oneiric-drift-test
+python3 -m oneiric_core.tools.drift_dream_test --symbol LOYALTY --user sid-demo --seed 42 --json
+
+# Available scenarios: ethical, resource, compound
+# Available symbols: LOYALTY, TRUST, FREEDOM, JUSTICE, WISDOM
+```
+
+**Usage**: Both CLIs are deterministic (fixed seed = identical output) and emit telemetry counters for monitoring.
+
 ## Log Analysis
 
 ### Key Log Patterns
@@ -226,6 +245,9 @@ grep -i "auto-rollback\|rollback triggered" /var/log/guardian/*.log
 
 # Dual-approval overrides
 grep -i "dual.*approval\|override.*approved" /var/log/guardian/*.log
+
+# CLI tool usage
+grep -E "collapse_simulator|drift_dream_test" /var/log/guardian/tools.log
 ```
 
 ### Structured Query Examples
