@@ -6,7 +6,7 @@
 .PHONY: audit-appendix audit-normalize audit-merge audit-merge-auto audit-merge-check
 .PHONY: check-scoped lint-scoped test-contract type-scoped doctor doctor-tools doctor-py doctor-ci doctor-lanes doctor-tests doctor-audit doctor-dup-targets doctor-phony doctor-summary doctor-strict doctor-dup-targets-strict doctor-json
 .PHONY: todo-unused todo-unused-check todo-unused-core todo-unused-candidate t4-annotate t4-check audit-f821 fix-f821-core annotate-f821-candidate types-audit types-enforce types-core types-trend types-audit-trend types-enforce-trend f401-audit f401-trend
-.PHONY: test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens bench-drift slo
+.PHONY: test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens bench-drift slo oneiric-drift-test collapse
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -676,3 +676,10 @@ test.t4:
 		pytest tests/unit/metrics -v && \
 		pytest tests/capabilities -m capability -v && \
 		pytest tests/e2e/consciousness/test_consciousness_emergence.py -v -k "signal_cascade_prevention or network_coherence_emergence"
+
+# CLI Tools
+oneiric-drift-test:
+	python3 -m oneiric_core.tools.drift_dream_test --symbol LOYALTY --user test --seed 42
+
+collapse:
+	python3 -m lukhas.tools.collapse_simulator --scenario ethical --seed 42
