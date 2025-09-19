@@ -1,8 +1,8 @@
 """
-Core Compatibility Bridge Tests
+Core Compatibility Alias Tests
 
-Tests for the legacy 'core' import compatibility layer.
-Ensures the bridge is disabled by default and can be enabled via env var.
+Tests for the robust legacy 'core' import alias system.
+Ensures all import styles work and resolve to lukhas.core correctly.
 """
 
 import os
@@ -12,92 +12,86 @@ import sys
 import warnings
 
 
-class TestCoreCompat:
-    """Test suite for core compatibility bridge."""
+class TestCoreCompatAlias:
+    """Test suite for core compatibility alias system."""
 
-    def test_core_compat_disabled_by_default(self):
-        """Test that core imports are disabled by default."""
-        # Clear any existing core module
-        if "core" in sys.modules:
-            del sys.modules["core"]
-
-        # Ensure env var is not set
-        os.environ.pop("LUKHAS_CORE_COMPAT", None)
+    def test_core_alias_always_available(self):
+        """Test that core alias is always available (robust system)."""
+        # Clean up any existing core module imports
+        for module_name in list(sys.modules.keys()):
+            if module_name == "core" or module_name.startswith("core."):
+                del sys.modules[module_name]
 
         # Clear import cache
         importlib.invalidate_caches()
 
-        # Should raise ImportError
-        with pytest.raises(ImportError) as exc_info:
-            import core  # noqa: F401
+        # Should work without environment variables (always available)
+        import core  # noqa: F401
+        assert core is not None
 
-        assert "Legacy 'core' alias disabled" in str(exc_info.value)
+    def test_deprecation_warning_toggle(self, monkeypatch):
+        """Test reversible deprecation warning toggle."""
+        # Clean up
+        for module_name in list(sys.modules.keys()):
+            if module_name == "core" or module_name.startswith("core."):
+                del sys.modules[module_name]
 
-    def test_core_compat_enabled(self, monkeypatch):
-        """Test that core imports work when explicitly enabled."""
-        # Clean up any existing core module
-        if "core" in sys.modules:
-            del sys.modules["core"]
-
-        # Enable compatibility
-        monkeypatch.setenv("LUKHAS_CORE_COMPAT", "1")
-
-        # Clear import cache
+        # Test warning enabled
+        monkeypatch.setenv("LUKHAS_WARN_LEGACY_CORE", "1")
         importlib.invalidate_caches()
 
-        # Should work without warning when enabled
         with warnings.catch_warnings(record=True) as w:
             warnings.simplefilter("always")
             import core  # noqa: F401
 
-            # Should NOT issue deprecation warning when enabled
-            assert len(w) == 0
+            # Should issue ImportWarning when enabled
+            assert len(w) >= 1
+            assert any("Legacy 'core' import in use" in str(warning.message) for warning in w)
 
-    def test_core_compat_proxy_functionality(self, monkeypatch):
-        """Test that the proxy module can access lukhas.core attributes."""
+    def test_alias_functionality(self):
+        """Test that alias provides access to lukhas.core functionality."""
         # Clean up
-        if "core" in sys.modules:
-            del sys.modules["core"]
+        for module_name in list(sys.modules.keys()):
+            if module_name == "core" or module_name.startswith("core."):
+                del sys.modules[module_name]
 
-        # Enable compatibility
-        monkeypatch.setenv("LUKHAS_CORE_COMPAT", "1")
-
-        # Clear import cache
         importlib.invalidate_caches()
 
-        # Import and test proxy functionality
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")  # Suppress deprecation warning for test
-            import core
+        # Import and test functionality
+        import core
 
-            # Should be able to access lukhas.core attributes
-            # Test that module has expected structure
-            assert hasattr(core, "__doc__")
+        # Should be able to access lukhas.core attributes
+        assert hasattr(core, "__doc__")
+        assert core.__doc__ is not None
 
-    def test_core_compat_env_var_values(self, monkeypatch):
-        """Test that only '1' enables compatibility."""
-        test_values = ["0", "true", "yes", "on", "enabled", ""]
+    def test_warning_off_by_default(self):
+        """Test that warnings are off by default."""
+        # Clean up
+        for module_name in list(sys.modules.keys()):
+            if module_name == "core" or module_name.startswith("core."):
+                del sys.modules[module_name]
 
-        for value in test_values:
-            # Clean up
-            if "core" in sys.modules:
-                del sys.modules["core"]
+        # Ensure warning env var is not set
+        os.environ.pop("LUKHAS_WARN_LEGACY_CORE", None)
+        importlib.invalidate_caches()
 
-            monkeypatch.setenv("LUKHAS_CORE_COMPAT", value)
-            importlib.invalidate_caches()
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            import core  # noqa: F401
 
-            # All values except "1" should fail
-            with pytest.raises(ImportError):
-                import core  # noqa: F401
+            # Should NOT issue ImportWarning by default
+            legacy_warnings = [warning for warning in w if "Legacy 'core' import" in str(warning.message)]
+            assert len(legacy_warnings) == 0
 
     def teardown_method(self):
         """Clean up after each test."""
-        # Remove core module if it exists
-        if "core" in sys.modules:
-            del sys.modules["core"]
+        # Remove core modules if they exist
+        for module_name in list(sys.modules.keys()):
+            if module_name == "core" or module_name.startswith("core."):
+                del sys.modules[module_name]
 
-        # Clear env var
-        os.environ.pop("LUKHAS_CORE_COMPAT", None)
+        # Clear env vars
+        os.environ.pop("LUKHAS_WARN_LEGACY_CORE", None)
 
         # Clear import cache
         importlib.invalidate_caches()

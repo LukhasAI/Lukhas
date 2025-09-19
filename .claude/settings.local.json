@@ -31,7 +31,9 @@
       "Bash(.venv/bin/pytest tests/smoke/ tests/bridge/ tests/core/ tests/contracts/ --tb=no -q --disable-warnings)",
       "Bash(.venv/bin/pytest -q -k \"BioSymbolic or biosymbolic or chrono\" -x)",
       "Bash(.venv/bin/pytest:*)",
-      "Bash(PYTHONPATH=. .venv/bin/pytest tests/unit/bio/ -x --tb=short)"
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/unit/bio/ -x --tb=short)",
+      "Bash(LUKHAS_WARN_LEGACY_CORE=1 python3 -c \"import core.trace\")",
+      "Bash(time python3:*)"
     ],
     "deny": [],
     "ask": []
