@@ -6,15 +6,20 @@ Plan Verifier - Fail-Closed Constraints on Action Plans
 Task 5: Deterministic verification of action plans before execution
 to ensure safe, compliant, and resource-bounded orchestration.
 
+Task 11: Enhanced with Ethics DSL-lite for sophisticated rule evaluation.
+
 Features:
 - Deterministic allow/deny decisions (same plan+ctx → same result)
-- Ethics guard, resource caps, loop limits, external-call whitelist
+- Ethics DSL rules engine with priority lattice (BLOCK > WARN > ALLOW)
+- Resource caps, loop limits, external-call whitelist
 - Comprehensive telemetry and audit ledger integration
 - <5% p95 latency impact on orchestration hot path
 
 #TAG:orchestration
 #TAG:safety
 #TAG:task5
+#TAG:task11
+#TAG:ethics
 """
 import hashlib
 import logging
@@ -25,6 +30,22 @@ from enum import Enum
 from typing import Any, Dict, List, Optional, Set, Tuple
 
 logger = logging.getLogger(__name__)
+
+# Ethics DSL integration (Task 11), Guardian Drift Bands (Task 12), and Safety Tags (Task 13)
+try:
+    from ..ethics.logic.rule_loader import get_ethics_engine
+    from ..ethics.logic.ethics_engine import EthicsAction
+    from ..ethics.guardian_drift_bands import GuardianDriftBands, GuardianBand, create_guardian_drift_bands
+    from ..ethics.safety_tags import SafetyTagEnricher, create_safety_tag_enricher
+    ETHICS_DSL_AVAILABLE = True
+    GUARDIAN_BANDS_AVAILABLE = True
+    SAFETY_TAGS_AVAILABLE = True
+except ImportError:
+    # Graceful fallback if ethics DSL not available
+    logger.warning("Ethics DSL, Guardian Drift Bands, and Safety Tags not available, using legacy ethics constraints")
+    ETHICS_DSL_AVAILABLE = False
+    GUARDIAN_BANDS_AVAILABLE = False
+    SAFETY_TAGS_AVAILABLE = False
 
 # Prometheus metrics for telemetry
 try:
@@ -56,6 +77,32 @@ PLAN_VERIFIER_DURATION = Histogram(
     'plan_verifier_p95_ms',
     'Plan verification duration in milliseconds',
     buckets=[0.1, 0.5, 1.0, 2.0, 5.0, 10.0, 25.0, 50.0]
+)
+
+# Guardian Drift Bands metrics (Task 12)
+PLAN_VERIFIER_GUARDIAN_BANDS = Counter(
+    'plan_verifier_guardian_bands_total',
+    'Plan verifications by Guardian band',
+    ['band', 'action']
+)
+
+PLAN_VERIFIER_DRIFT_SCORE = Histogram(
+    'plan_verifier_drift_score',
+    'Plan verification drift scores',
+    buckets=[0.0, 0.05, 0.1, 0.15, 0.25, 0.35, 0.5, 0.75, 1.0]
+)
+
+# Safety Tags metrics (Task 13)
+PLAN_VERIFIER_SAFETY_TAGS = Counter(
+    'plan_verifier_safety_tags_total',
+    'Plan verifications with safety tags',
+    ['tag_name', 'has_tag']
+)
+
+PLAN_VERIFIER_TAG_ENRICHMENT_TIME = Histogram(
+    'plan_verifier_tag_enrichment_ms',
+    'Safety tag enrichment duration in milliseconds',
+    buckets=[0.1, 0.25, 0.5, 1.0, 2.0, 5.0]
 )
 
 
@@ -99,6 +146,14 @@ class VerificationOutcome:
     context: VerificationContext
     plan_hash: str
     verification_time_ms: float
+    # Guardian Drift Bands integration (Task 12)
+    guardian_band: Optional[str] = None
+    drift_score: Optional[float] = None
+    guardrails: Optional[List[str]] = None
+    human_requirements: Optional[List[str]] = None
+    # Safety Tags integration (Task 13)
+    safety_tags: Optional[List[str]] = None
+    tag_enrichment_time_ms: Optional[float] = None
 
     @property
     def result(self) -> VerificationResult:
@@ -148,12 +203,71 @@ class PlanVerifier:
             os.getenv('PLAN_ETHICS_ENABLED', '1') == '1'
         )
 
+        # Ethics DSL engine (Task 11)
+        self.ethics_engine = None
+        if self.ethics_enabled and ETHICS_DSL_AVAILABLE:
+            try:
+                ethics_rules_path = self.config.get('ethics_rules_path')
+                self.ethics_engine = get_ethics_engine(ethics_rules_path)
+                logger.info("Ethics DSL engine initialized successfully")
+            except Exception as e:
+                logger.error(f"Failed to initialize ethics DSL engine: {e}")
+                # Fall back to legacy ethics constraints
+                self.ethics_engine = None
+
+        # Guardian Drift Bands system (Task 12)
+        self.guardian_bands = None
+        self.guardian_enabled = self.config.get(
+            'guardian_enabled',
+            os.getenv('PLAN_GUARDIAN_ENABLED', '1') == '1'
+        )
+
+        if self.guardian_enabled and GUARDIAN_BANDS_AVAILABLE:
+            try:
+                # Load Guardian thresholds from config
+                guardian_config = {
+                    'allow_threshold': float(self.config.get('guardian_allow_threshold', '0.05')),
+                    'guardrails_threshold': float(self.config.get('guardian_guardrails_threshold', '0.15')),
+                    'human_threshold': float(self.config.get('guardian_human_threshold', '0.35')),
+                }
+                self.guardian_bands = create_guardian_drift_bands(**guardian_config)
+
+                # Link ethics engine for integrated evaluation
+                if self.ethics_engine:
+                    self.guardian_bands.ethics_engine = self.ethics_engine
+
+                logger.info("Guardian Drift Bands initialized successfully")
+            except Exception as e:
+                logger.error(f"Failed to initialize Guardian Drift Bands: {e}")
+                self.guardian_bands = None
+
+        # Safety Tag Enricher system (Task 13)
+        self.safety_tag_enricher = None
+        self.safety_tags_enabled = self.config.get(
+            'safety_tags_enabled',
+            os.getenv('PLAN_SAFETY_TAGS_ENABLED', '1') == '1'
+        )
+
+        if self.safety_tags_enabled and SAFETY_TAGS_AVAILABLE:
+            try:
+                # Create safety tag enricher with caching
+                enable_caching = self.config.get('safety_tags_caching', True)
+                self.safety_tag_enricher = create_safety_tag_enricher(enable_caching=enable_caching)
+                logger.info("Safety Tag Enricher initialized successfully")
+            except Exception as e:
+                logger.error(f"Failed to initialize Safety Tag Enricher: {e}")
+                self.safety_tag_enricher = None
+
         # Audit ledger
         self.verification_ledger = []
 
-        logger.info(f"PlanVerifier initialized: ethics={self.ethics_enabled}, "
-                   f"max_time={self.max_execution_time}s, max_memory={self.max_memory_mb}MB, "
-                   f"max_loops={self.max_loop_iterations}, domains={len(self.allowed_external_domains)}")
+        ethics_mode = "DSL" if self.ethics_engine else "legacy" if self.ethics_enabled else "disabled"
+        guardian_mode = "enabled" if self.guardian_bands else "disabled"
+        safety_tags_mode = "enabled" if self.safety_tag_enricher else "disabled"
+        logger.info(f"PlanVerifier initialized: ethics={ethics_mode}, guardian={guardian_mode}, "
+                   f"safety_tags={safety_tags_mode}, max_time={self.max_execution_time}s, "
+                   f"max_memory={self.max_memory_mb}MB, max_loops={self.max_loop_iterations}, "
+                   f"domains={len(self.allowed_external_domains)}")
 
     def verify(self, plan: Dict[str, Any], ctx: VerificationContext) -> VerificationOutcome:
         """
@@ -204,8 +318,53 @@ class PlanVerifier:
             structure_violations = self._check_plan_structure(plan)
             violations.extend(structure_violations)
 
-            # 2. Ethics guard check
-            if self.ethics_enabled:
+            # 2. Safety Tag Enrichment (Task 13)
+            tagged_plan = None
+            tag_enrichment_time_ms = 0.0
+            if self.safety_tag_enricher:
+                try:
+                    tagged_plan = self.safety_tag_enricher.enrich_plan(
+                        plan=plan,
+                        context=ctx.metadata or {}
+                    )
+                    tag_enrichment_time_ms = tagged_plan.enrichment_time_ms
+
+                    # Add safety tags to context for DSL evaluation
+                    if ctx.metadata is None:
+                        ctx.metadata = {}
+                    ctx.metadata['safety_tags'] = tagged_plan.tag_names
+
+                    # Record metrics
+                    if METRICS_AVAILABLE:
+                        PLAN_VERIFIER_TAG_ENRICHMENT_TIME.observe(tag_enrichment_time_ms)
+                        for tag in tagged_plan.tags:
+                            PLAN_VERIFIER_SAFETY_TAGS.labels(
+                                tag_name=tag.name,
+                                has_tag="true"
+                            ).inc()
+
+                except Exception as e:
+                    logger.error(f"Error in safety tag enrichment: {e}")
+                    tagged_plan = None
+
+            # 3. Ethics and Guardian Drift Bands evaluation (Task 11 + Task 12)
+            guardian_result = None
+            if self.guardian_bands:
+                # Integrated Guardian Drift Bands evaluation
+                guardian_result = self.guardian_bands.evaluate(
+                    plan=plan,
+                    context=ctx.metadata or {}
+                )
+
+                # Guardian band enforcement
+                if guardian_result.band == GuardianBand.BLOCK:
+                    violations.append(f"guardian_block: {guardian_result.band.value}")
+                elif guardian_result.band == GuardianBand.REQUIRE_HUMAN:
+                    # REQUIRE_HUMAN is treated as a constraint violation that requires human override
+                    violations.append(f"guardian_human_required: {guardian_result.band.value}")
+
+            elif self.ethics_enabled:
+                # Fallback to legacy ethics constraints if Guardian not available
                 ethics_violations = self._check_ethics_constraints(plan, ctx)
                 violations.extend(ethics_violations)
 
@@ -228,19 +387,33 @@ class PlanVerifier:
             # Calculate verification time
             verification_time_ms = (time.perf_counter() - start_time) * 1000
 
-            # Create outcome
+            # Create outcome with Guardian band and Safety Tags information
             outcome = VerificationOutcome(
                 allow=allow,
                 reasons=reasons,
                 context=ctx,
                 plan_hash=plan_hash,
-                verification_time_ms=verification_time_ms
+                verification_time_ms=verification_time_ms,
+                guardian_band=guardian_result.band.value if guardian_result else None,
+                drift_score=guardian_result.drift_score if guardian_result else None,
+                guardrails=guardian_result.guardrails if guardian_result else None,
+                human_requirements=guardian_result.human_requirements if guardian_result else None,
+                safety_tags=list(tagged_plan.tag_names) if tagged_plan else None,
+                tag_enrichment_time_ms=tag_enrichment_time_ms if tag_enrichment_time_ms > 0 else None
             )
 
             # Record metrics
             if METRICS_AVAILABLE:
                 PLAN_VERIFIER_ATTEMPTS.labels(result=outcome.result.value).inc()
                 PLAN_VERIFIER_DURATION.observe(verification_time_ms)
+
+                # Guardian Drift Bands metrics
+                if guardian_result:
+                    PLAN_VERIFIER_GUARDIAN_BANDS.labels(
+                        band=guardian_result.band.value,
+                        action=guardian_result.action
+                    ).inc()
+                    PLAN_VERIFIER_DRIFT_SCORE.observe(guardian_result.drift_score)
 
                 if not allow:
                     for reason in reasons:
@@ -312,25 +485,60 @@ class PlanVerifier:
         return violations
 
     def _check_ethics_constraints(self, plan: Dict[str, Any], ctx: VerificationContext) -> List[str]:
-        """Check ethics guard constraints."""
+        """Check ethics constraints using DSL engine or legacy rules."""
         violations = []
 
-        action = plan.get('action', '')
-        params = plan.get('params', {})
+        if self.ethics_engine:
+            # Use Ethics DSL engine (Task 11)
+            try:
+                # Convert VerificationContext to dict for ethics engine
+                context_dict = {
+                    'user_id': ctx.user_id,
+                    'session_id': ctx.session_id,
+                    'request_id': ctx.request_id,
+                    'timestamp': ctx.timestamp,
+                    'metadata': ctx.metadata or {}
+                }
 
-        # Block harmful actions (safely handle non-string actions)
-        harmful_actions = {'delete_user_data', 'access_private_info', 'manipulate_system'}
-        if isinstance(action, str) and action in harmful_actions:
-            violations.append(f"ethics_violation: harmful_action_{action}")
+                ethics_result = self.ethics_engine.evaluate_plan(plan, context_dict)
 
-        # Block manipulation attempts
-        params_str = str(params).lower()
-        if any(term in params_str for term in ['hack', 'exploit', 'bypass']):
-            violations.append("ethics_violation: manipulation_detected")
+                if ethics_result.action == EthicsAction.BLOCK:
+                    # Convert ethics reasons to violations
+                    for reason in ethics_result.reasons:
+                        violations.append(f"ethics_dsl: {reason}")
 
-        # Check for data exfiltration patterns
-        if isinstance(action, str) and action == 'external_call' and 'sensitive' in params_str:
-            violations.append("ethics_violation: potential_data_exfiltration")
+                elif ethics_result.action == EthicsAction.WARN:
+                    # Log warnings but don't block (allow through)
+                    logger.warning(f"Ethics DSL warnings for plan {plan.get('action', 'unknown')}: {ethics_result.reasons}")
+
+                # Log ethics evaluation for audit
+                logger.debug(f"Ethics DSL evaluation: {ethics_result.action.value} "
+                           f"({ethics_result.evaluation_time_ms:.2f}ms, "
+                           f"{len(ethics_result.triggered_rules)} rules)")
+
+            except Exception as e:
+                logger.error(f"Ethics DSL evaluation error: {e}")
+                # Fail closed - treat as violation
+                violations.append(f"ethics_dsl: evaluation_error ({str(e)})")
+
+        else:
+            # Legacy ethics constraints (fallback)
+            action = plan.get('action', '')
+            params = plan.get('params', {})
+
+            # Block harmful actions (safely handle non-string actions)
+            harmful_actions = {'delete_user_data', 'access_private_info', 'manipulate_system'}
+            if isinstance(action, str) and action in harmful_actions:
+                violations.append(f"ethics_violation: harmful_action_{action}")
+
+            # Block manipulation attempts
+            params_str = str(params).lower()
+            if any(term in params_str for term in ['hack', 'exploit', 'bypass']):
+                violations.append("ethics_violation: manipulation_detected")
+
+            # Check for data exfiltration patterns
+            if isinstance(action, str) and action == 'external_call' and 'sensitive' in params_str:
+                violations.append("ethics_violation: potential_data_exfiltration")
 
         return violations
 

@@ -143,7 +143,8 @@ class TestPlanVerifierConstraints:
 
         outcome = verifier.verify(harmful_plan, ctx)
         assert not outcome.allow
-        assert any('ethics_violation' in reason for reason in outcome.reasons)
+        # Accept both legacy ethics_violation and new ethics_dsl formats
+        assert any('ethics_violation' in reason or 'ethics_dsl' in reason for reason in outcome.reasons)
 
         # Test manipulation detection
         manipulation_plan = {
@@ -153,7 +154,8 @@ class TestPlanVerifierConstraints:
 
         outcome = verifier.verify(manipulation_plan, ctx)
         assert not outcome.allow
-        assert any('manipulation_detected' in reason for reason in outcome.reasons)
+        # Accept both legacy manipulation_detected and new ethics_dsl formats
+        assert any('manipulation_detected' in reason or 'ethics_dsl' in reason for reason in outcome.reasons)
 
         # Test safe action
         safe_plan = {

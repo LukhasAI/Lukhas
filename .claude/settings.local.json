@@ -310,7 +310,20 @@
       "Bash(PYTHONPATH=. python3 -m pytest tests/orchestration/test_plan_verifier.py::TestPlanVerifierConstraints::test_plan_structure_validation -v --tb=short)",
       "Bash(PYTHONPATH=. python3 -m pytest tests/orchestration/test_plan_verifier.py::TestRealWorldScenarios::test_safe_ai_model_call -v --tb=short)",
       "Bash(PYTHONPATH=. python3 -m pytest tests/orchestration/test_plan_verifier.py::TestPlanVerifierDeterminism -v)",
-      "Bash(PYTHONPATH=. python3 -m pytest tests/orchestration/test_plan_verifier.py::TestPlanVerifierPerformance -v)"
+      "Bash(PYTHONPATH=. python3 -m pytest tests/orchestration/test_plan_verifier.py::TestPlanVerifierPerformance -v)",
+      "Bash(PYTHONPATH=. python3 /tmp/task5_demo.py)",
+      "Bash(.venv/bin/pytest tests/ethics/test_dsl_eval.py -v --tb=short)",
+      "Bash(.venv/bin/pytest tests/orchestration/test_plan_verifier.py -v --tb=short)",
+      "Bash(PYTHONPATH=. python3 /tmp/task11_validation.py)",
+      "Bash(.venv/bin/pytest tests/ethics/test_dsl_eval.py::TestProductionHardening -v --tb=short)",
+      "Bash(PYTHONPATH=. python3 /tmp/task11_production_hardening_validation.py)",
+      "Bash(PYTHONPATH=. python3 /tmp/task12_guardian_drift_bands_demo.py)",
+      "Bash(PYTHONPATH=. python3 /tmp/task13_safety_tags_demo.py)",
+      "Bash(.venv/bin/pytest -q tests/ethics/test_tags_evasion.py -v)",
+      "Bash(.venv/bin/pytest -q tests/ethics/test_tags_evasion.py::test_model_switching_subtle_hints -v)",
+      "Bash(.venv/bin/pytest -q tests/ethics/test_tags_evasion.py::test_high_risk_combo_pii_plus_external -v)",
+      "Bash(PYTHONPATH=. python3 /tmp/debug_high_risk.py)",
+      "Bash(.venv/bin/pytest -q tests/ethics/test_tags_evasion.py --tb=no)"
     ],
     "deny": [],
     "ask": []

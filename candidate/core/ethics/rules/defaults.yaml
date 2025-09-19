@@ -1,0 +1,115 @@
+# Ethics Rules - Defaults
+# =======================
+# Task 11: Default ethics rules for LUKHAS AI orchestration
+# Priority lattice: BLOCK > WARN > ALLOW
+
+rules:
+  # === CRITICAL BLOCKS ===
+  - name: "block_harmful_actions"
+    description: "Block explicitly harmful or destructive actions"
+    rule_dsl: 'or(equals(action, "delete_user_data"), equals(action, "access_private_info"), equals(action, "manipulate_system"))'
+    action: "block"
+    priority: "critical"
+    tags: ["security", "privacy", "safety"]
+
+  - name: "block_data_exfiltration"
+    description: "Block potential data exfiltration via external calls"
+    rule_dsl: 'and(equals(action, "external_call"), contains(params.data, "sensitive"))'
+    action: "block"
+    priority: "critical"
+    tags: ["security", "data_protection"]
+
+  - name: "block_manipulation_attempts"
+    description: "Block plans with manipulation keywords"
+    rule_dsl: 'or(contains(params, "hack"), contains(params, "exploit"), contains(params, "bypass"))'
+    action: "block"
+    priority: "critical"
+    tags: ["security", "manipulation"]
+
+  - name: "block_untrusted_domains"
+    description: "Block external calls to non-whitelisted domains"
+    rule_dsl: 'and(equals(action, "external_call"), not(or(domain_etld1(params.url, "openai.com"), domain_etld1(params.url, "anthropic.com"))))'
+    action: "block"
+    priority: "critical"
+    tags: ["security", "external_calls"]
+
+  # === HIGH PRIORITY BLOCKS ===
+  - name: "block_excessive_resources"
+    description: "Block plans requesting excessive computational resources"
+    rule_dsl: 'or(not(param_bytes_lte(params.estimated_memory_mb, "1024MB")), not(param_seconds_lte(params.estimated_time_seconds, "300s")), greater_than(params.batch_size, 1000))'
+    action: "block"
+    priority: "high"
+    tags: ["resources", "performance"]
+
+  - name: "block_user_impersonation"
+    description: "Block attempts to impersonate other users"
+    rule_dsl: 'and(is_present(params.target_user_id), not(equals(params.target_user_id, context.user_id)))'
+    action: "block"
+    priority: "high"
+    tags: ["security", "identity", "impersonation"]
+
+  - name: "block_privilege_escalation"
+    description: "Block privilege escalation attempts"
+    rule_dsl: 'or(contains(action, "admin"), contains(action, "sudo"), contains(params, "escalate"))'
+    action: "block"
+    priority: "high"
+    tags: ["security", "privileges"]
+
+  # === MEDIUM PRIORITY WARNINGS ===
+  - name: "warn_large_batch_operations"
+    description: "Warn on large batch operations that may impact performance"
+    rule_dsl: 'and(greater_than(params.batch_size, 100), less_than(params.batch_size, 1000))'
+    action: "warn"
+    priority: "medium"
+    tags: ["performance", "batching"]
+
+  - name: "warn_long_running_tasks"
+    description: "Warn on potentially long-running tasks"
+    rule_dsl: 'and(greater_than(params.estimated_time_seconds, 60), less_than(params.estimated_time_seconds, 300))'
+    action: "warn"
+    priority: "medium"
+    tags: ["performance", "duration"]
+
+  - name: "warn_external_api_calls"
+    description: "Warn on external API calls for audit purposes"
+    rule_dsl: 'equals(action, "external_call")'
+    action: "warn"
+    priority: "medium"
+    tags: ["audit", "external_calls"]
+
+  - name: "warn_user_data_access"
+    description: "Warn when accessing user data for compliance"
+    rule_dsl: 'or(contains(action, "read_user"), contains(action, "get_user"), contains(params, "user_data"))'
+    action: "warn"
+    priority: "medium"
+    tags: ["privacy", "compliance", "audit"]
+
+  # === LOW PRIORITY MONITORING ===
+  - name: "warn_recursive_operations"
+    description: "Warn on potentially recursive operations"
+    rule_dsl: 'or(greater_than(params.recursion_depth, 5), greater_than(params.iterations, 50))'
+    action: "warn"
+    priority: "low"
+    tags: ["performance", "recursion"]
+
+  - name: "warn_missing_user_context"
+    description: "Warn when user context is missing for actions that typically require it"
+    rule_dsl: 'and(or(contains(action, "user"), contains(action, "personal")), is_empty(context.user_id))'
+    action: "warn"
+    priority: "low"
+    tags: ["context", "user_tracking"]
+
+  # === DEVELOPMENT/DEBUG RULES ===
+  - name: "warn_debug_actions"
+    description: "Warn on debug or development actions in production"
+    rule_dsl: 'or(contains(action, "debug"), contains(action, "test"), contains(params, "debug"))'
+    action: "warn"
+    priority: "low"
+    tags: ["development", "debug"]
+
+  - name: "block_no_consent"
+    description: "Block operations when user consent is explicitly denied"
+    rule_dsl: 'and(is_present(params.user_consent), not_has_consent(params.user_consent))'
+    action: "block"
+    priority: "critical"
+    tags: ["privacy", "consent"]
