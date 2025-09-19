@@ -882,7 +882,7 @@ if __name__ == "__main__":
         try:
             service.authenticate("INVALID-ID", "passkey")
         except AuthenticationError as e:
-            print(f"✅ Caught expected auth error: {str(e)}[:50]}...")
+            print(f"✅ Caught expected auth error: {str(e)[:50]}...")
 
         print("\n✅ All tests completed successfully!")
         print("🛡️ LUKHAS ΛID Core Identity System validated")

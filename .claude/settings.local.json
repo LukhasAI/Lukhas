@@ -23,7 +23,15 @@
       "Bash(LUKHAS_CORE_COMPAT=1 .venv/bin/pytest -q tests/bridge/test_llm_guardrail.py)",
       "Bash(LUKHAS_CORE_COMPAT=1 python3 -c \"from lukhas.core.bridge.llm_guardrail import guardrail_health; print(''Import successful'')\")",
       "Bash(LUKHAS_CORE_COMPAT=1 .venv/bin/pytest tests/core/test_core_compat.py::TestCoreCompat::test_core_compat_enabled -v)",
-      "Bash(.venv/bin/pytest tests/smoke/ tests/bridge/ tests/core/ --tb=no --disable-warnings -q)"
+      "Bash(.venv/bin/pytest tests/smoke/ tests/bridge/ tests/core/ --tb=no --disable-warnings -q)",
+      "Bash(.venv/bin/pytest tests/smoke/ tests/bridge/ tests/core/ tests/unit/bio/ tests/integration/tools/ -v --tb=short --disable-warnings)",
+      "Bash(.venv/bin/pytest tests/ --tb=no --disable-warnings --continue-on-collection-errors --maxfail=500 -q)",
+      "Bash(.venv/bin/pytest tests/smoke/ tests/bridge/ tests/core/ tests/contracts/ tests/unit/governance/ tests/integration/tools/ --tb=no -q --disable-warnings)",
+      "Bash(tail:*)",
+      "Bash(.venv/bin/pytest tests/smoke/ tests/bridge/ tests/core/ tests/contracts/ --tb=no -q --disable-warnings)",
+      "Bash(.venv/bin/pytest -q -k \"BioSymbolic or biosymbolic or chrono\" -x)",
+      "Bash(.venv/bin/pytest:*)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/unit/bio/ -x --tb=short)"
     ],
     "deny": [],
     "ask": []
