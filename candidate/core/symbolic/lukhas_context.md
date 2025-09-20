@@ -41,7 +41,7 @@ Symbolic Reasoning Ecosystem (71 Files)
 │   ├── evolutionary_algorithms.py # Evolutionary pattern processing
 │   └── [Bio-inspired components...]
 └── integration/              # Symbolic integration systems
-    ├── trinity_symbolic.py        # Trinity Framework symbolic integration
+    ├── trinity_symbolic.py        # Constellation Framework symbolic integration
     ├── consciousness_symbolic.py  # Consciousness symbolic reasoning
     └── [Integration components...]
 ```
@@ -245,12 +245,12 @@ async def integrate_bio_inspired_neural_processing(self, neural_context):
 
 ## 🔗 Symbolic Integration Systems
 
-### **Trinity Framework Symbolic Integration** (`integration/trinity_symbolic.py`)
-**Trinity Framework symbolic coordination** - Symbolic reasoning across Identity-Consciousness-Memory
+### **Constellation Framework Symbolic Integration** (`integration/trinity_symbolic.py`)
+**Constellation Framework symbolic coordination** - Symbolic reasoning across Identity-Consciousness-Memory
 
 #### **Trinity Symbolic Integration**
 ```python
-# Trinity Framework symbolic integration pattern
+# Constellation Framework symbolic integration pattern
 async def integrate_trinity_framework_symbolic_reasoning(self, trinity_symbolic_context):
     # 1. Identity Symbolic Reasoning
     identity_symbolic = await self.integrate_identity_symbolic_reasoning(
@@ -328,7 +328,7 @@ async def integrate_trinity_framework_symbolic_reasoning(self, trinity_symbolic_
 ---
 
 **Symbolic Reasoning**: 71 files with ethics validation + Bio-inspired processing | **Core**: EthicalAuditor (20KB) + SymbolicReasoning + BioHub
-**Ethics**: Moral reasoning + Constitutional AI validation + Cross-system auditing | **Integration**: Trinity Framework + Consciousness coordination
+**Ethics**: Moral reasoning + Constitutional AI validation + Cross-system auditing | **Integration**: Constellation Framework + Consciousness coordination
 **Status**: Active symbolic reasoning development with Constitutional AI integration
 
 *Primary symbolic reasoning engine - extend through ethics validation and bio-inspired processing development*

@@ -11,7 +11,7 @@
 ### Bio-Inspired System Overview
 - **Purpose**: Biological pattern modeling and bio-inspired computational systems
 - **Architecture**: Neural oscillators, swarm intelligence, and biological adaptation patterns
-- **Integration**: Constellation Framework bio-cognitive coordination and consciousness evolution
+- **Integration**: Constellation Framework coordination with MATRIZ pipeline bio-inspired processing
 - **Scale**: Bio-inspired algorithms with hybrid quantum-bio-digital systems
 
 ### Core Bio-Inspired Architecture
@@ -42,7 +42,7 @@
 
 ### Bio-Inspired Integration Patterns
 
-#### **Trinity Framework Bio Integration**
+#### **Constellation Framework Bio Integration**
 ```
 Bio-Inspired ⟷ Consciousness 🧠 ⟷ Memory 💾 ⟷ Identity ⚛️
      │               │              │              │
@@ -105,7 +105,7 @@ Biological Analysis → Pattern Extraction → Algorithm Design
 #### **Bio-Inspired Processing Pipeline**
 - Biological pattern research and mathematical modeling
 - Algorithm design and computational implementation
-- Integration with Trinity Framework and consciousness systems
+- Integration with Constellation Framework and consciousness systems
 - Continuous optimization and biological pattern refinement
 
 ### Advanced Bio-Inspired Features
@@ -144,7 +144,7 @@ Biological Analysis → Pattern Extraction → Algorithm Design
 
 ### Integration Points
 
-#### **Trinity Framework Integration**
+#### **Constellation Framework Integration**
 - Integration with ../consciousness/claude.me for bio-consciousness coordination
 - Integration with ../memory/claude.me for bio-memory pattern integration
 - Integration with ../quantum/claude.me for quantum-bio hybrid systems
@@ -196,4 +196,4 @@ Biological Analysis → Pattern Extraction → Algorithm Design
 - Swarm intelligence for collective behavior and optimization
 - Evolutionary algorithms for adaptive system development
 - Bio-quantum hybrid systems for advanced computational capabilities
-- Trinity Framework integration for bio-conscious computing systems
+- Constellation Framework integration for bio-conscious computing systems

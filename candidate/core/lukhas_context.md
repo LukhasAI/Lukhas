@@ -15,8 +15,8 @@ The CANDIDATE core represents the **largest component ecosystem** in LUKHAS, con
 ### **Ecosystem Scale**
 - **Files**: 1,029+ Python files (massive component development workspace)
 - **Directories**: 193 subdirectories with specialized component domains
-- **Purpose**: Comprehensive AGI component library and integration testing ground
-- **Architecture**: Component-based system with coordinated orchestration and interfaces
+- **Purpose**: Comprehensive AGI component library with Constellation Framework integration
+- **Architecture**: Registry-based plugins with constructor-aware instantiation and T4/0.01% standards
 
 ### **Component Organization**
 ```
@@ -332,6 +332,6 @@ async def coordinate_multi_component_development(components):
 
 **Component Ecosystem**: 1,029+ files across 193 directories | **Top Domains**: Orchestration (266) + Interfaces (190) + Symbolic (71)
 **Integration**: Cross-component coordination + LUKHAS bridge + PRODUCTS deployment readiness
-**Development**: Active component library with comprehensive AGI capabilities
+**Development**: Active component library with comprehensive Cognitive capabilities
 
 *Navigate to specialized component contexts for detailed development workflows*

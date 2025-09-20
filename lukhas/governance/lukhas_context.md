@@ -6,15 +6,15 @@
 
 
 # LUKHAS Governance Integration
-*Policy Enforcement - Constitutional AI Coordination - Trinity Framework Governance*
+*Policy Enforcement - Constitutional AI Coordination - Constellation Framework Governance*
 
 ## Governance Integration Overview
 
-LUKHAS governance serves as the **policy enforcement and compliance coordination layer** integrating governance systems developed in CANDIDATE with production deployment through Trinity Framework coordination. This is where Constitutional AI governance transitions from development to integrated policy enforcement across the LUKHAS AGI architecture.
+LUKHAS governance serves as the **policy enforcement and compliance coordination layer** integrating governance systems developed in CANDIDATE with production deployment through Constellation Framework coordination. This is where Constitutional AI governance transitions from development to integrated policy enforcement across the LUKHAS AI architecture.
 
 ### **Governance Integration Scope**
 - **Purpose**: Policy enforcement and Constitutional AI integration coordination
-- **Architecture**: Trinity Framework governance with cross-system policy enforcement
+- **Architecture**: Constellation Framework governance with cross-system policy enforcement
 - **Integration**: CANDIDATE governance development to PRODUCTS compliance deployment
 - **Coordination**: Constitutional AI policy enforcement across Identity-Consciousness-Memory
 
@@ -30,7 +30,7 @@ LUKHAS Governance Integration Framework
 │  Policy Dev → Constitutional AI → Compliance │
 │  Ethics → Governance Coord → Production    │
 │                                          ↓  │
-│             Trinity Framework               │
+│             Constellation Framework               │
 │  Identity ⚛️ ↔ Consciousness 🧠 ↔ Memory 🗃️ │
 │  Policy → Constitutional AI → Compliance   │
 └─────────────────────────────────────────────┘
@@ -45,7 +45,7 @@ LUKHAS Governance Integration Framework
 - **Policy Enforcement**: Constitutional AI policy enforcement across LUKHAS systems
 - **Cross-System Governance**: Constitutional governance coordination between components
 - **Ethics Integration**: Constitutional AI ethics enforcement and validation
-- **Trinity Framework Governance**: Constitutional governance across Identity-Consciousness-Memory
+- **Constellation Framework Governance**: Constitutional governance across Identity-Consciousness-Memory
 
 #### **Constitutional AI Integration Patterns**
 ```python
@@ -57,7 +57,7 @@ class ConstitutionalAIIntegration:
             governance_context
         )
 
-        # 2. Trinity Framework Constitutional Governance
+        # 2. Constellation Framework Constitutional Governance
         trinity_constitutional_governance = await self.coordinate_trinity_constitutional_governance(
             constitutional_principles
         )
@@ -84,10 +84,10 @@ class ConstitutionalAIIntegration:
 #### **Policy Enforcement Coordination**
 - **Real-Time Policy Validation**: Real-time policy enforcement across LUKHAS systems
 - **Constitutional Policy Integration**: Constitutional AI policy enforcement coordination
-- **Cross-Component Policy**: Policy enforcement across Trinity Framework components
+- **Cross-Component Policy**: Policy enforcement across Constellation Framework components
 - **Governance Compliance**: Automated governance compliance validation and enforcement
 
-## 🛡️ Trinity Framework Governance
+## 🛡️ Constellation Framework Governance
 
 ### **Identity Governance Integration** (`identity_governance.py`)
 **Identity governance coordination** - Identity policy enforcement and validation
@@ -185,15 +185,15 @@ async def coordinate_cross_system_policy_enforcement(self, policy_context):
 
 ### **Constitutional AI Integration Health**
 - ✅ **Policy Enforcement**: Constitutional AI policy enforcement across LUKHAS systems
-- ✅ **Trinity Framework Governance**: Constitutional governance across Identity-Consciousness-Memory
+- ✅ **Constellation Framework Governance**: Constitutional governance across Identity-Consciousness-Memory
 - ✅ **Cross-System Integration**: Constitutional AI integration across CANDIDATE-LUKHAS-PRODUCTS
 - ✅ **Compliance Validation**: Automated constitutional compliance validation and enforcement
 
-### **Trinity Framework Governance Health**
+### **Constellation Framework Governance Health**
 - ✅ **Identity Governance**: Identity policy enforcement and constitutional validation
 - ✅ **Consciousness Governance**: Consciousness ethics enforcement and decision validation
 - ✅ **Memory Governance**: Memory privacy governance and data protection enforcement
-- ✅ **Cross-Component Coordination**: Governance coordination across Trinity Framework components
+- ✅ **Cross-Component Coordination**: Governance coordination across Constellation Framework components
 
 ### **Policy Coordination Status**
 - ✅ **Policy Integration Bridge**: Cross-system policy coordination and enforcement
@@ -207,7 +207,7 @@ async def coordinate_cross_system_policy_enforcement(self, policy_context):
 1. **Advanced Constitutional Governance**: Enhanced constitutional AI governance coordination
 2. **Cross-System Constitutional Policy**: Advanced constitutional policy enforcement across systems
 3. **Constitutional Compliance**: Enhanced constitutional compliance validation and enforcement
-4. **Trinity Constitutional Governance**: Optimized constitutional governance across Trinity Framework
+4. **Trinity Constitutional Governance**: Optimized constitutional governance across Constellation Framework
 
 ### **Policy Enforcement Optimization**
 1. **Real-Time Policy Enforcement**: Enhanced real-time policy validation and enforcement
@@ -223,8 +223,8 @@ async def coordinate_cross_system_policy_enforcement(self, policy_context):
 
 ---
 
-**Governance Integration**: Constitutional AI + Policy enforcement + Trinity Framework governance | **Coordination**: CANDIDATE → LUKHAS → PRODUCTS
+**Governance Integration**: Constitutional AI + Policy enforcement + Constellation Framework governance | **Coordination**: CANDIDATE → LUKHAS → PRODUCTS
 **Constitutional AI**: Policy enforcement + Cross-system governance + Compliance validation | **Trinity**: Identity + Consciousness + Memory governance
-**Status**: Active constitutional AI integration with Trinity Framework governance coordination
+**Status**: Active constitutional AI integration with Constellation Framework governance coordination
 
 *Primary governance integration layer - coordinate Constitutional AI policy enforcement across LUKHAS systems*

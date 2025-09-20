@@ -11,7 +11,7 @@
 ### Guardian System Overview
 - **Purpose**: Real-time safety enforcement and ethical decision validation
 - **Architecture**: Guardian v1.0.0 with Constitutional AI integration
-- **Integration**: Trinity Framework ethics coordination and safety enforcement
+- **Integration**: Constellation Framework ethics coordination and safety enforcement
 - **Scale**: Cross-system guardian deployment with 0.15 drift detection threshold
 
 ### Core Guardian Architecture
@@ -42,7 +42,7 @@
 
 ### Guardian Integration Patterns
 
-#### **Trinity Framework Guardian Coordination**
+#### **Constellation Framework Guardian Coordination**
 ```
 Guardian 🛡️ ←→ Identity ⚛️ ←→ Consciousness 🧠 ←→ Memory 💾
      │              │              │              │
@@ -146,7 +146,7 @@ Validation → Deployment → Monitoring → Optimization
 - Integration with ../drift_detection/claude.me for monitoring systems
 - Cross-system guardian coordination and effectiveness optimization
 
-#### **Trinity Framework Safety**
+#### **Constellation Framework Safety**
 - Guardian integration with consciousness decision-making systems
 - Safety enforcement for identity and authentication processes
 - Memory system ethics and guardian-protected data access

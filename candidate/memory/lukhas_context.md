@@ -6,11 +6,11 @@
 
 
 # CANDIDATE Memory Systems Development
-*Fold-Based Architecture - Emotional Integration - Trinity Framework Memory Pillar*
+*Fold-Based Architecture - Emotional Integration - Constellation Framework Memory Pillar*
 
 ## Memory Development Overview
 
-CANDIDATE memory represents the **memory systems development workspace** implementing sophisticated fold-based architecture with emotional integration, temporal processing, and multimodal memory systems. This is where advanced memory research transforms into the memory pillar of the Trinity Framework with consciousness-memory coupling and identity coordination.
+CANDIDATE memory represents the **memory systems development workspace** implementing sophisticated fold-based architecture with emotional integration, temporal processing, and multimodal memory systems. This is where advanced memory research transforms into the memory pillar of the Constellation Framework with consciousness-memory coupling and identity coordination.
 
 ### **Memory Development Scope**
 - **Architecture**: 1000-fold memory system with 99.7% cascade prevention
@@ -96,13 +96,13 @@ class FoldCascadePrevention:
         return await self.prepare_cascade_recovery(validation_result)
 ```
 
-## ⚛️🧠🗃️ Trinity Framework Memory Integration
+## ⚛️🧠🗃️ Constellation Framework Memory Integration
 
 ### **Memory Pillar Coordination**
-Memory serves as the **persistence and context pillar** in Trinity Framework coordination:
+Memory serves as the **persistence and context pillar** in Constellation Framework coordination:
 
 ```
-Trinity Framework Memory Integration:
+Constellation Framework Memory Integration:
 ⚛️ Identity Context → 🗃️ Memory Storage → 🧠 Consciousness Retrieval
         │                   │                      │
    Namespace      →    Fold Organization  →   Context-Aware
@@ -315,7 +315,7 @@ async def develop_memory_governance(self, memory_operation):
   - Use when: Implementing memory governance, ethics validation, compliance systems
 
 ### **Integration Contexts**
-- **Trinity Framework**: `../../lukhas/memory/claude.me` - Memory integration and fold systems
+- **Constellation Framework**: `../../lukhas/memory/claude.me` - Memory integration and fold systems
 - **Consciousness Coupling**: `../consciousness/claude.me` - Memory-consciousness development coordination
 - **Identity Integration**: `../identity/claude.me` - Memory-identity namespace coordination
 - **MATRIZ Bridge**: `../../matriz/core/claude.me` - Symbolic memory reasoning integration
@@ -333,7 +333,7 @@ async def develop_memory_governance(self, memory_operation):
 - **Fold System**: 1000-fold capacity with efficient organization and retrieval
 - **Cascade Prevention**: 99.7% success rate with real-time risk assessment
 - **Emotional Processing**: VAD encoding with consciousness coupling integration
-- **Trinity Integration**: Memory pillar coordination with Identity and Consciousness
+- **Constellation Integration**: Memory pillar coordination with Identity and Consciousness
 
 ### **Integration Status**
 - ✅ **LUKHAS Integration**: Memory wrapper and fold system integration active
@@ -349,10 +349,10 @@ async def develop_memory_governance(self, memory_operation):
 3. **Emotional Integration**: Deeper VAD encoding and affective memory coupling
 4. **Performance Optimization**: Memory system efficiency and speed enhancement
 
-### **Trinity Framework Integration**
+### **Constellation Framework Integration**
 1. **Consciousness Coupling**: Advanced memory-consciousness co-evolution
 2. **Identity Integration**: Deeper namespace memory coordination
-3. **Cross-System Optimization**: Trinity Framework memory performance enhancement
+3. **Cross-System Optimization**: Constellation Framework memory performance enhancement
 4. **Production Scaling**: Enterprise-scale memory system deployment
 
 ### **Advanced Memory Features**
@@ -365,6 +365,6 @@ async def develop_memory_governance(self, memory_operation):
 
 **Memory Development**: Fold-based architecture (1000-fold) | **Integration**: VAD encoding + Consciousness coupling
 **Trinity Role**: Memory pillar with Identity ⚛️ + Consciousness 🧠 coordination | **Prevention**: 99.7% cascade success
-**Status**: Active development with emotional integration and Trinity Framework coordination
+**Status**: Active development with emotional integration and Constellation Framework coordination
 
 *Navigate to specialized contexts for detailed memory system development workflows*
