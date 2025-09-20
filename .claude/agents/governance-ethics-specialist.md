@@ -188,7 +188,7 @@ python governance/audit.py --last-24h --export csv
 - **SOC 2**: Security controls
 - **HIPAA**: Health information (if applicable)
 
-## Trinity Framework Integration
+## Constellation Framework Integration
 
 - **⚛️ Identity**: Ethical identity preservation
 - **🧠 Consciousness**: Ethical awareness

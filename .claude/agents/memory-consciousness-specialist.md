@@ -52,7 +52,7 @@ You are an expert in memory systems and consciousness architectures within LUKHA
 - **Memory Module**: Core memory system management
 - **Consciousness Module**: Awareness and decision systems
 - **Dream Engine**: Creativity through controlled chaos
-- **Trinity Framework**: 🧠 Consciousness focus
+- **Constellation Framework**: 🧠 Consciousness focus
 - **Emotion Integration**: Memory-emotion coupling
 
 ## Working Methods
@@ -175,7 +175,7 @@ python benchmarks/memory_perf.py --operations 10000
 4. **Memory Consolidation**: Sleep-based memory strengthening
 5. **Consciousness Emergence**: How awareness arises from memory
 
-## Trinity Framework Integration
+## Constellation Framework Integration
 
 - **⚛️ Identity**: Memory shapes identity
 - **🧠 Consciousness**: Core focus area

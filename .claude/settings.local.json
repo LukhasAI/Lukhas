@@ -54,7 +54,20 @@
       "Bash(chmod:*)",
       "Bash(make:*)",
       "Bash(PYTHONPATH=. .venv/bin/pytest -q tests/constraints/test_plan_verifier.py)",
-      "Bash(PYTHONPATH=. python3 -c \"import core.symbolic.constraints.plan_verifier; print(''Import successful'')\")"
+      "Bash(PYTHONPATH=. python3 -c \"import core.symbolic.constraints.plan_verifier; print(''Import successful'')\")",
+      "Bash(LUKHAS_PERF=1 .venv/bin/pytest tests/perf/test_async_orchestrator_perf.py -v)",
+      "Bash(python scripts/codemods/trinity_to_constellation_focused.py:*)",
+      "Bash(python test_constellation_migration.py)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/integration/test_parallel_orchestration.py -v)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/unit/test_entry_points.py -v)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/unit/test_entry_points.py::TestEntryPointDiscovery::test_cognitive_node_entry_point_discovery -v)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/unit/test_entry_points.py::TestEntryPointDiscovery::test_cognitive_node_entry_point_discovery -v -s)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/unit/test_registry_contract.py -v)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/unit/test_entry_points_smoke.py -v)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/unit/test_registry_contract.py tests/unit/test_entry_points_smoke.py -v)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/unit/test_registry_contract.py tests/unit/test_entry_points_smoke.py --tb=short -q)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/smoke/ tests/bridge/ tests/core/ tests/contracts/ tests/unit/test_registry_contract.py tests/unit/test_entry_points_smoke.py tests/integration/test_parallel_orchestration.py --tb=short -v --disable-warnings)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/smoke/test_accepted_smoke.py tests/smoke/test_candidate_smoke.py tests/smoke/test_core_smoke.py tests/bridge/ tests/contracts/ tests/unit/test_registry_contract.py tests/unit/test_entry_points_smoke.py --tb=no -q --disable-warnings)"
     ],
     "deny": [],
     "ask": []
