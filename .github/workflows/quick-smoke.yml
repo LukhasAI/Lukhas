@@ -1,0 +1,21 @@
+name: quick-smoke
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ feature/**, feat/** ]
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install -U pip wheel setuptools
+      - run: pip install -r requirements.txt || true
+      - run: pip install pytest coverage
+      - name: quick smoke
+        run: make quick-smoke
+      - name: quick coverage
+        run: make quick-cov

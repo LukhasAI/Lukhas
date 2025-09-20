@@ -40,28 +40,27 @@ REAL_IDENTITY_AVAILABLE = False
 
 
 def _try_import_candidate_components():
-    """Dynamically import candidate components if available"""
+    """Dynamically load candidate components via registry if available"""
     try:
-        import importlib
-        import importlib.util
+        from lukhas.core.registry import resolve
 
         components = {}
 
-        # Try importing each component individually
-        module_map = {
-            "AccessTierManager": "candidate.governance.identity.access_tier_manager",
-            "AuditLogger": "candidate.governance.identity.auth_backend.audit_logger",
-            "AuthenticationServer": "candidate.governance.identity.auth_backend.authentication_server",
-            "IdentityValidator": "candidate.governance.identity.identity_validator",
-            "QIIdentityManager": "candidate.qi.engines.identity.qi_identity_manager",
+        # Registry keys for candidate components
+        component_map = {
+            "AccessTierManager": "identity:access_tier_manager",
+            "AuditLogger": "identity:audit_logger",
+            "AuthenticationServer": "identity:auth_server",
+            "IdentityValidator": "identity:validator",
+            "QIIdentityManager": "identity:qi_manager",
         }
 
-        for component_name, module_path in module_map.items():
-            if importlib.util.find_spec(module_path) is None:
+        for component_name, registry_key in component_map.items():
+            try:
+                components[component_name] = resolve(registry_key)
+            except LookupError:
+                # Component not registered, continue with next
                 continue
-            module = importlib.import_module(module_path)
-            if hasattr(module, component_name):
-                components[component_name] = getattr(module, component_name)
 
         return components if components else None
     except Exception:

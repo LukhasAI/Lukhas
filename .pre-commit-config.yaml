@@ -1,0 +1,29 @@
+# .pre-commit-config.yaml
+repos:
+  - repo: https://github.com/psf/black
+    rev: 24.8.0
+    hooks:
+      - id: black
+        args: [--line-length=100]
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.3
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+  - repo: local
+    hooks:
+      # T4: guardrail usage (ban direct LLM calls)
+      - id: guardrail-check
+        name: guardrail-check (ban direct LLM calls)
+        entry: python3 scripts/ci/check_guardrail_usage.py
+        language: system
+        pass_filenames: true
+        types: [python]
+        stages: [pre-commit]
+      # T4: fast smoke executes on push, not on each commit
+      - id: quick-smoke-tests
+        name: quick-smoke-tests
+        entry: make quick-smoke
+        language: system
+        pass_filenames: false
+        stages: [pre-push]

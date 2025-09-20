@@ -1,5 +1,5 @@
 # Main Makefile PHONY declarations (only for targets defined in this file)
-.PHONY: install setup-hooks dev api openapi live colony-dna-smoke smoke-matriz lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports legacy-check legacy-fix
+.PHONY: install setup-hooks dev api openapi live colony-dna-smoke smoke-matriz lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports legacy-check legacy-fix obs obs-spans obs-metrics registry-test constraints-test orch-smoke orch-arbitration orch-meta quick-smoke quick-cov plugin-discovery deps-compile deps-sync matriz-e2e matriz-perf
 .PHONY: ai-analyze ai-setup ai-workflow clean deep-clean quick bootstrap organize organize-dry organize-suggest organize-watch
 .PHONY: codex-validate codex-fix validate-all perf migrate-dry migrate-run dna-health dna-compare admin lint-status lane-guard
 .PHONY: audit-tail sdk-py-install sdk-py-test sdk-ts-build sdk-ts-test backup-local backup-s3 restore-local restore-s3 dr-drill dr-weekly dr-quarterly dr-monthly
@@ -38,6 +38,8 @@ setup-hooks:
 	pre-commit install
 	pre-commit install --install-hooks
 	pre-commit autoupdate
+	@echo "🔧 Installing pre-commit hooks (pre-commit + pre-push)"
+	@pre-commit install -t pre-commit -t pre-push || true
 	@echo "✅ Pre-commit hooks installed!"
 
 # Development server
@@ -703,3 +705,73 @@ bridge:
 
 core-compat:
 	LUKHAS_CORE_COMPAT=1 .venv/bin/pytest -q tests/core/test_core_compat.py
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Tiny smoke/guard targets for the new stubs (fast, isolated)
+# T4 defaults: fail-closed, quick feedback, no side effects.
+.PHONY: obs obs-spans obs-metrics \
+        registry-test constraints-test \
+        orch-smoke orch-arbitration orch-meta \
+        quick-smoke quick-cov plugin-discovery
+
+# Observability smoke (no-op if deps absent)
+obs-spans:
+	@echo "🧪 obs-spans"; .venv/bin/pytest -q tests/obs/test_spans_smoke.py
+
+obs-metrics:
+	@echo "🧪 obs-metrics (ENABLE_PROM=0 no-op)"; ENABLE_PROM=0 .venv/bin/pytest -q tests/obs/test_metrics_smoke.py
+
+obs: obs-spans obs-metrics
+
+# Registry and constraints
+registry-test:
+	@echo "🧪 registry"; .venv/bin/pytest -q tests/registry/test_registry.py
+
+constraints-test:
+	@echo "🧪 constraints"; .venv/bin/pytest -q tests/constraints/test_plan_verifier.py
+
+# Orchestration (consensus + meta-controller)
+orch-arbitration:
+	@echo "🧪 orchestration-consensus"; .venv/bin/pytest -q tests/orchestration/test_arbitration.py
+
+orch-meta:
+	@echo "🧪 orchestration-meta"; .venv/bin/pytest -q tests/orchestration/test_meta_loops.py
+
+orch-smoke: orch-arbitration orch-meta
+
+# MATRIZ async orchestrator tests
+matriz-e2e:
+	@echo "🧪 matriz-e2e"; .venv/bin/pytest -q tests/matriz/test_async_orchestrator_e2e.py
+
+# MATRIZ performance tests (env-gated)
+matriz-perf:
+	@echo "🧪 matriz-perf"; LUKHAS_PERF=1 .venv/bin/pytest -q tests/perf/test_async_orchestrator_perf.py -v
+
+# One-button quick smoke for PRs / pre-push (sub-second on typical dev machines)
+quick-smoke: registry-test constraints-test orch-smoke obs matriz-e2e
+
+# Minimal coverage snapshot on just the new surfaces
+quick-cov:
+	@echo "🧪 quick-cov"; \
+	.venv/bin/coverage run -m pytest -q tests/registry/test_registry.py \
+		tests/constraints/test_plan_verifier.py \
+		tests/orchestration/test_arbitration.py \
+		tests/orchestration/test_meta_loops.py \
+		tests/obs/test_spans_smoke.py \
+		tests/obs/test_metrics_smoke.py && \
+	.venv/bin/coverage report -m --omit='*/site-packages/*' --show-missing
+
+# Explicit plugin discovery exercise (stays dark by default)
+plugin-discovery:
+	@echo "🔎 plugin discovery (read-only, non-fatal)"; \
+	python3 -c "import os; os.environ['LUKHAS_PLUGIN_DISCOVERY']='auto'; \
+	from candidate.core.orchestration.loader import discover_nodes; \
+	n = discover_nodes('candidate'); \
+	print(f'[discovery] initialized nodes: {n}')" || echo "[discovery] skip: candidate not available"
+
+# Dependency management with pip-tools (G1)
+deps-compile:
+	pip-compile --generate-hashes -o requirements.txt requirements.in
+
+deps-sync:
+	pip-sync requirements.txt
