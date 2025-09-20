@@ -3,6 +3,9 @@
 Guardian Drift Bands: Ethics DSL + Drift Score Integration
 ==========================================================
 
+# [SEARCH:GUARDIAN_DECISION] - Core Guardian decision engine
+# [SEARCH:DRIFT_REPAIR_HOOK] - Drift detection and repair mechanisms
+
 Task 12: Map ethics DSL outputs + drift scores into explicit action bands
 (ALLOW, ALLOW-WITH-GUARDRAILS, REQUIRE-HUMAN, BLOCK) with hysteresis.
 

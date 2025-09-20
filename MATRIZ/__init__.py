@@ -1,6 +1,9 @@
 """
 MATRIZ - LUKHAS AI Trace and Analysis System
 
+# [SEARCH:MATRIZ_ENVELOPE] - Core trace analysis and symbolic processing
+# [SEARCH:CONSENT_CHECK] - Privacy and consent validation mechanisms
+
 This module provides trace analysis and API endpoints for the LUKHAS AI system.
 Part of the MATRIZ-R1 Stream B implementation.
 """

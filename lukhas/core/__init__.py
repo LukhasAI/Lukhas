@@ -2,6 +2,10 @@
 LUKHAS AI Core Module
 Foundational systems for symbolic processing, GLYPH engine, and Trinity Framework
 Trinity Framework: Identity, Consciousness, Guardian
+
+# [SEARCH:GLYPH_ENGINE] - Core symbolic processing system
+# [SEARCH:TRINITY_FRAMEWORK] - Identity, Consciousness, Guardian integration
+# [SEARCH:ACTOR_SYSTEM] - Distributed actor-based architecture
 """
 
 try:
