@@ -1,0 +1,158 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "products/security/healthcare_guardian",
+    "lane": "development",
+    "purpose": "Directory containing 1 Python files and 2 subdirectories",
+    "trinity_role": [
+      "guardian"
+    ],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "lambda_healthcare_core.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.acceptance.accepted.bio.awareness",
+          "lukhas.acceptance.accepted.bio.oscillator",
+          "lukhas.acceptance.accepted.bio.quantum",
+          "lukhas.acceptance.accepted.bio.voice",
+          "lukhas.acceptance.accepted.colonies.consciousness",
+          "lukhas.acceptance.accepted.colonies.creativity",
+          "lukhas.acceptance.accepted.colonies.orchestrator",
+          "lukhas.acceptance.accepted.colonies.reasoning",
+          "lukhas.acceptance.accepted.core.glyph",
+          "lukhas.acceptance.accepted.core.telemetry",
+          "lukhas.acceptance.accepted.dna.helix.dna_memory_architecture",
+          "lukhas.acceptance.accepted.dna.helix.helix_vault",
+          "lukhas.acceptance.accepted.governance.drift_governor",
+          "lukhas.acceptance.accepted.memory.causal",
+          "lukhas.acceptance.accepted.memory.consolidation",
+          "lukhas.acceptance.accepted.memory.episodic",
+          "lukhas.acceptance.accepted.memory.fold",
+          "lukhas.acceptance.accepted.monitoring.drift_tracker",
+          "lukhas.governance.ethics.enhanced_ethical_guardian",
+          "lukhas.governance.healthcare.case_manager",
+          "lukhas.governance.healthcare.clinical_decision_support",
+          "lukhas.governance.monitoring.enhanced_threat_monitor",
+          "lukhas.governance.monitoring.guardian_dashboard",
+          "lukhas.governance.monitoring.guardian_sentinel",
+          "lukhas.governance.monitoring.threat_predictor",
+          "lukhas.governance.security.consent_manager",
+          "lukhas.governance.security.privacy_guardian",
+          "lukhas.acceptance.accepted.identity",
+          "lukhas.consciousness.awareness",
+          "lukhas.core.glyph",
+          "lukhas.governance.guardian_system",
+          "lukhas.memory.fold_manager"
+        ],
+        "exports": [
+          "ComplianceLevel",
+          "EmergencyLevel",
+          "HealthcareContext",
+          "MedicalDecision",
+          "LambdaHealthcareGuardian",
+          "ThreatMonitor",
+          "DashboardMetrics",
+          "EthicalReflector",
+          "MedicalProtocols",
+          "ProviderManager",
+          "GDPRComplianceManager",
+          "HIPAAComplianceManager",
+          "LOPDComplianceManager",
+          "FallbackManager",
+          "EthicsEngine",
+          "ConsentManager",
+          "DriftDetector",
+          "LambdaSymbols",
+          "LIDCore",
+          "get_metrics",
+          "get_protocol",
+          "get_provider_interface",
+          "detect_drift",
+          "initialize"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "healthcare_guardian_es",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "providers",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "PROVIDER_INTEGRATION_GUIDE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "TRANSFER_COMPLETE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "CLINICAL_GOVERNANCE_GUIDE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "LAMBDA_HEALTHCARE_GUIDE.md",
+        "type": "other",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "README.md"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 1,
+    "estimated_complexity": "low",
+    "consciousness_integration": "basic",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "products/security",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

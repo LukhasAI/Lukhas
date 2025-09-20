@@ -1,0 +1,1651 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/memory/systems",
+    "lane": "development",
+    "purpose": "Directory containing 104 Python files and 4 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "replay_system.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "ReplayMode",
+          "ReplayDirection",
+          "ReplayQuality",
+          "MemorySnapshot",
+          "ReplaySequence",
+          "ReplaySession",
+          "TemporalIndex",
+          "MemoryReplayer",
+          "get_memory_replayer",
+          "create_sequence",
+          "start_session",
+          "get_next",
+          "get_replayer_status",
+          "add_memory_timestamp",
+          "get_memories_in_range",
+          "get_causal_sequence",
+          "find_temporal_neighbors",
+          "create_replay_sequence",
+          "start_replay_session",
+          "get_next_memory",
+          "seek_to_position",
+          "find_memories_by_content",
+          "create_associative_sequence",
+          "get_session_status",
+          "close_session",
+          "get_system_status"
+        ]
+      },
+      {
+        "filename": "memory_recall.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "recall_memories",
+          "decrypt_user_file",
+          "generate_sid"
+        ]
+      },
+      {
+        "filename": "hierarchical_data_store.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MemoryTier",
+          "CompressionLevel",
+          "MemoryNode",
+          "RetrievalContext",
+          "HierarchicalDataStore",
+          "get_status",
+          "build_tree"
+        ]
+      },
+      {
+        "filename": "memory_profiler.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "in_memory_cache_storage_wrapper.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "memory_drift_mirror.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MemoryDriftMirror",
+          "analyze_drift"
+        ]
+      },
+      {
+        "filename": "symbolic_snapshot.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "SymbolicSnapshot",
+          "create_snapshot"
+        ]
+      },
+      {
+        "filename": "memory_safety_features.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DriftMetrics",
+          "VerifoldEntry",
+          "MemorySafetySystem",
+          "SafeMemoryFold",
+          "calculate_drift",
+          "compute_collapse_hash",
+          "track_drift",
+          "calibrate_drift_metrics",
+          "add_reality_anchor",
+          "get_safety_report"
+        ]
+      },
+      {
+        "filename": "dream_memory_manager.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_memory_manager.json",
+        "dependencies": [],
+        "exports": [
+          "DreamMemoryManager",
+          "lukhas_tier_required",
+          "decorator"
+        ]
+      },
+      {
+        "filename": "attention_memory_layer.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AttentionConfig",
+          "MultiHeadAttention",
+          "TemporalAttention",
+          "HierarchicalAttention",
+          "CrossModalAttention",
+          "MemoryAttentionOrchestrator",
+          "create_attention_orchestrator",
+          "forward",
+          "compute_temporal_bias",
+          "forward",
+          "create_hierarchical_representations",
+          "forward",
+          "forward",
+          "compute_memory_relevance",
+          "explain_attention"
+        ]
+      },
+      {
+        "filename": "memory_loop_rebuilder.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "MemoryLoopRebuilder",
+          "rebuild_loop"
+        ]
+      },
+      {
+        "filename": "memory_evolution.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common",
+          "candidate.core.docututor.memory_evolution.bio_oscillator",
+          "candidate.core.docututor.memory_evolution.document_analyzer",
+          "candidate.core.docututor.memory_evolution.knowledge_adaptation",
+          "candidate.core.docututor.memory_evolution.usage_learning",
+          "candidate.core.docututor.memory_evolution.version_control",
+          "candidate.bridge.voice.systems.synthesis"
+        ],
+        "exports": [
+          "MemoryEvolution",
+          "DocumentVersionControl",
+          "KnowledgeAdaptation",
+          "UsageBasedLearning",
+          "BioOscillatorAdapter",
+          "DocumentStructureAnalyzer",
+          "VoiceSynthesisAdapter",
+          "create_document",
+          "update_document",
+          "record_interaction",
+          "get_document_history",
+          "get_related_documents",
+          "get_recommendations",
+          "update_document_relationships",
+          "get_document_effectiveness",
+          "get_usage_patterns",
+          "maintenance_cycle",
+          "run_multi_cycle_recursion",
+          "get_last_voice_synthesis",
+          "track_changes",
+          "adapt_knowledge",
+          "update_relationships",
+          "learn_from_usage",
+          "record_interaction",
+          "identify_patterns",
+          "get_document_effectiveness",
+          "update_user_preferences",
+          "adapt_oscillations",
+          "analyze_structure",
+          "synthesize",
+          "synthesize_content",
+          "clear_cache",
+          "get_last_synthesis"
+        ]
+      },
+      {
+        "filename": "multimodal_memory_support.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "dream_memory_export.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "optimized_memory_item.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "memory_system.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "MemorySystem",
+          "store_trace",
+          "retrieve_trace",
+          "search_traces",
+          "consolidate_memory",
+          "detect_drift",
+          "get_stats"
+        ]
+      },
+      {
+        "filename": "glyph_memory_bridge.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "GlyphMemoryIndex",
+          "GlyphMemoryBridge",
+          "create_glyph_indexed_memory",
+          "recall_by_glyph",
+          "create_drift_anchor",
+          "assess_memory_drift",
+          "get_memory_by_causal_link",
+          "create_retrieval_filter",
+          "get_statistics",
+          "traverse_causal_chain"
+        ]
+      },
+      {
+        "filename": "memory_manager.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AdvancedMemoryManager",
+          "lukhas_tier_required",
+          "decorator",
+          "get_memory_statistics",
+          "FoldEngineClass"
+        ]
+      },
+      {
+        "filename": "memory_reflector.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "store_interaction",
+          "recall_last_interaction"
+        ]
+      },
+      {
+        "filename": "memory_lock.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "memory_helix.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "VoiceMemoryHelix",
+          "save_memory",
+          "get_curious_word",
+          "get_due_practice_words",
+          "get_pronunciation_for_word",
+          "generate_accent_report"
+        ]
+      },
+      {
+        "filename": "causal_memory_chains.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "memory_identity.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas_id"
+        ],
+        "exports": [
+          "MemoryAccessPolicy",
+          "MemoryIdentityIntegration",
+          "register_memory",
+          "verify_access_permission",
+          "share_memory",
+          "revoke_memory_access",
+          "get_shared_memories",
+          "encrypt_memory_content",
+          "decrypt_memory_content",
+          "cleanup",
+          "notify_memory_removal",
+          "get_permission_status"
+        ]
+      },
+      {
+        "filename": "identity_lineage_bridge.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ProtectionLevel",
+          "ThreatType",
+          "IdentityThreat",
+          "ProtectionAction",
+          "IdentityLineageBridge",
+          "validate_memory_operation",
+          "protect_identity_anchor",
+          "detect_collapse_trauma_threats",
+          "create_recovery_protocol",
+          "get_identity_protection_status"
+        ]
+      },
+      {
+        "filename": "qi_memory_architecture.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "QIAssociativeMemoryBank"
+        ]
+      },
+      {
+        "filename": "symbolic_drift_tracker.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/symbolic_drift_tracker.json",
+        "dependencies": [
+          "candidate.core.symbolic.drift.symbolic_drift_tracker"
+        ],
+        "exports": []
+      },
+      {
+        "filename": "memory_resonance_analyzer.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "MemoryResonanceAnalyzer",
+          "analyze_resonance"
+        ]
+      },
+      {
+        "filename": "memory_tracker_integration.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "MemoryTrackerIntegration",
+          "MemoryTracker",
+          "create_memory_tracker_integration"
+        ]
+      },
+      {
+        "filename": "resonance_memory_retrieval.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EmotionalState",
+          "FrequencyFingerprint",
+          "ResonantMemory",
+          "FrequencyGenerator",
+          "ResonanceCalculator",
+          "ResonanceGate",
+          "emotional_state_to_frequency",
+          "generate_frequency_fingerprint",
+          "cosine_similarity",
+          "frequency_resonance",
+          "temporal_decay",
+          "access_boost",
+          "store_memory_with_frequency",
+          "retrieve_by_resonance",
+          "update_memory_resonance",
+          "get_memory_by_id",
+          "analyze_resonance_patterns",
+          "get_system_health",
+          "demo_resonance_system"
+        ]
+      },
+      {
+        "filename": "in_memory_span_exporter.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "integration_example.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.integration.connectivity_engine",
+          "lukhas.consciousness.reflection.unified_memory_manager"
+        ],
+        "exports": [
+          "EnhancedMemoryIntegration",
+          "UnifiedMemoryInterface"
+        ]
+      },
+      {
+        "filename": "pin_memory.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "pin_memory",
+          "do_one_step"
+        ]
+      },
+      {
+        "filename": "memory_orchestrator.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "MemoryOrchestrator",
+          "register_subsystem",
+          "get_subsystem",
+          "create_session",
+          "store_memory",
+          "retrieve_memory",
+          "cleanup_session"
+        ]
+      },
+      {
+        "filename": "memory_comprehensive_new.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MemoryType",
+          "test_memory_lifecycle",
+          "test_error_conditions"
+        ]
+      },
+      {
+        "filename": "memory_comprehensive.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.interfaces.memory_interface",
+          "candidate.core.interfaces.dependency_injection",
+          "candidate.core.interfaces.dependency_injection"
+        ],
+        "exports": [
+          "MemoryComprehensiveTestModule",
+          "MemoryType",
+          "test_memory_lifecycle",
+          "test_error_conditions"
+        ]
+      },
+      {
+        "filename": "memory_node.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "memory_media_file_storage.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "memory_helix_golden.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MemoryStrand",
+          "MutationStrategy",
+          "HealixMapper"
+        ]
+      },
+      {
+        "filename": "memory_format.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "convert_conv2d_weight_memory_format",
+          "convert_conv3d_weight_memory_format"
+        ]
+      },
+      {
+        "filename": "memory_cloud.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "memory_visualizer.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "VisualizationConfig",
+          "EnhancedMemoryVisualizer",
+          "Enhanced3DVisualizer",
+          "ProtonGradient",
+          "setup_visualization",
+          "launch_3d_viewer"
+        ]
+      },
+      {
+        "filename": "memory_session_storage.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MemorySessionStorage",
+          "get",
+          "save",
+          "delete",
+          "list"
+        ]
+      },
+      {
+        "filename": "helix_dna.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "HelixMemory",
+          "lukhas_tier_required",
+          "decorator"
+        ]
+      },
+      {
+        "filename": "memory_planning.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "memory_processing.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "EmotionalState",
+          "MemoryNode",
+          "MemoryProcessor",
+          "store_interaction",
+          "get_relevant_memories",
+          "update_memory_references",
+          "get_emotional_summary",
+          "export_memories",
+          "import_memories",
+          "cluster_memories",
+          "get_memory_timeline",
+          "calculate_relevance"
+        ]
+      },
+      {
+        "filename": "in_memory_log_exporter.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "InMemoryLogExporter",
+          "LogData",
+          "LogExporter",
+          "LogExportResult",
+          "clear",
+          "get_finished_logs",
+          "export",
+          "shutdown",
+          "export",
+          "shutdown"
+        ]
+      },
+      {
+        "filename": "core.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/core.json",
+        "dependencies": [],
+        "exports": [
+          "MemoryType",
+          "MemoryPriority",
+          "MemoryStrand",
+          "MemoryEntry",
+          "MemoryConfig",
+          "MemoryHealth",
+          "MemoryModule",
+          "BaseModule",
+          "BaseConfig",
+          "BaseHealth",
+          "lukhas_tier_required",
+          "decorator",
+          "symbolic_vocabulary",
+          "ethical_validation",
+          "decorator",
+          "decorator"
+        ]
+      },
+      {
+        "filename": "processor.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "MemoryProcessor",
+          "create_memory_component",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "memory_profiler_wrapper.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "MemoryProfiler",
+          "get_memory_profiler",
+          "record_allocation",
+          "record_deallocation",
+          "create_data_flow_node",
+          "get_memory_usage_by_category",
+          "get_memory_timeline",
+          "analyze_memory_patterns",
+          "reset_profiler"
+        ]
+      },
+      {
+        "filename": "learn_to_learn.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MetaLearningSystem",
+          "lukhas_tier_required",
+          "decorator",
+          "optimize_learning_approach",
+          "incorporate_feedback",
+          "generate_learning_report"
+        ]
+      },
+      {
+        "filename": "integration_bridge.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "memory_validator.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "MemoryValidator",
+          "create_memory_component",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "memory_tracker.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "trace_injector.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MemoryTrace",
+          "TraceInjector",
+          "get_global_injector",
+          "inject_memory_trace",
+          "start_memory_trace",
+          "end_memory_trace",
+          "export_trace_data",
+          "to_dict",
+          "generate_trace_id",
+          "inject_trace",
+          "start_memory_operation",
+          "end_memory_operation",
+          "get_trace_chain",
+          "get_active_traces",
+          "export_traces",
+          "clear_traces"
+        ]
+      },
+      {
+        "filename": "trauma_lock.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "memory_collapse_verifier.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.symbolic.symbolic_tracer"
+        ],
+        "exports": [
+          "MemoryNode",
+          "MemoryCollapseVerifier",
+          "verify_collapse_integrity",
+          "validate_semantic_preservation",
+          "check_emotional_consistency",
+          "audit_collapse_operation"
+        ]
+      },
+      {
+        "filename": "agent_memory.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AgentMemory",
+          "lukhas_tier_required",
+          "get_shared_memory",
+          "decorator"
+        ]
+      },
+      {
+        "filename": "memory_trace.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "memory_profiler_mock.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "Category",
+          "Action",
+          "MemoryEvent",
+          "MemoryProfiler",
+          "get_memory_profiler",
+          "record_allocation",
+          "record_deallocation",
+          "get_memory_usage_by_category",
+          "get_memory_timeline",
+          "get_active_tensors",
+          "analyze_memory_patterns",
+          "reset_profiler"
+        ]
+      },
+      {
+        "filename": "memory_voice_helix.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "memory_checkpoint.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Memoria",
+          "store",
+          "trace"
+        ]
+      },
+      {
+        "filename": "memory_planning_wrapper.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "MemoryPlanner",
+          "get_memory_planner",
+          "create_allocation_pool",
+          "track_live_range",
+          "check_overlaps",
+          "get_allocation_stats",
+          "optimize_memory_layout"
+        ]
+      },
+      {
+        "filename": "memory_trace_logger.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "memory_encryptor.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "encrypt_memory",
+          "encrypt_user_file"
+        ]
+      },
+      {
+        "filename": "memory_planning_mock.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "LiveRange",
+          "MemoryPlanner",
+          "get_memory_planner",
+          "overlaps",
+          "create_allocation_pool",
+          "track_live_range",
+          "check_overlaps",
+          "allocate_tensor",
+          "deallocate_tensor",
+          "get_allocation_stats",
+          "optimize_memory_layout"
+        ]
+      },
+      {
+        "filename": "helix_mapper.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "HelixMapper",
+          "lukhas_tier_required",
+          "decorator"
+        ]
+      },
+      {
+        "filename": "simple_memory.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AgentMemory",
+          "append_to_shared_memory",
+          "read_from_shared_memory",
+          "read_all_memory"
+        ]
+      },
+      {
+        "filename": "memory_bases.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MemoryManager",
+          "MemoryAccessPolicy",
+          "MemoryIdentityIntegration",
+          "store",
+          "retrieve",
+          "delete",
+          "log_access",
+          "can_access",
+          "link_memory_to_identity",
+          "get_identity_memories"
+        ]
+      },
+      {
+        "filename": "pin_memory_cache.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "PinMemoryCache",
+          "get",
+          "remove"
+        ]
+      },
+      {
+        "filename": "simple_store.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "MemoryType",
+          "MemoryPriority",
+          "MemoryEntry",
+          "MemoryConfig",
+          "UnifiedMemoryManager",
+          "to_dict",
+          "from_dict"
+        ]
+      },
+      {
+        "filename": "emotional_memory_manager.py",
+        "component_type": "EMOTION_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/emotional_memory_manager.json",
+        "dependencies": [],
+        "exports": [
+          "EmotionalModulator",
+          "modulate_emotion",
+          "integrate_memory_emotion",
+          "get_emotional_context",
+          "update_emotional_state"
+        ]
+      },
+      {
+        "filename": "healix_memory_core.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.core_utilities"
+        ],
+        "exports": [
+          "MemorySegment",
+          "HealixMemoryCore",
+          "HealixVisualizer",
+          "lukhas_tier_required",
+          "calculate_drift_score",
+          "decorator",
+          "encode_to_dna",
+          "decode_from_dna",
+          "generate_collapse_hash",
+          "get_baseline_state",
+          "anonymize_sequence",
+          "get_memory_stats",
+          "generate_compliance_report",
+          "create_memory_landscape_plot_data"
+        ]
+      },
+      {
+        "filename": "recall_handler.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "RecallHandler",
+          "recall_memory"
+        ]
+      },
+      {
+        "filename": "memory_encoder.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "tier_system.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TierLevel",
+          "AccessType",
+          "PermissionScope",
+          "AccessContext",
+          "TierPermission",
+          "AccessDecision",
+          "DynamicTierSystem",
+          "lukhas_tier_required",
+          "create_tier_system",
+          "symbolic_access_test",
+          "check_access_level",
+          "check_access",
+          "elevate_session",
+          "decorator",
+          "wrapper"
+        ]
+      },
+      {
+        "filename": "memory_drift_stabilizer.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "MemoryDriftStabilizer",
+          "analyze_drift_log",
+          "stabilize_memory"
+        ]
+      },
+      {
+        "filename": "memory_seeder.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "generate_seed_memory",
+          "seed_memory_store"
+        ]
+      },
+      {
+        "filename": "multimodal_memory_integration.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "hierarchical_data_store_archive.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "memory_helix_visualizer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "integration_adapters.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "VerifoldRegistryAdapter",
+          "DriftMetricsAdapter",
+          "RealityAnchorsAdapter",
+          "ConsensusValidationAdapter",
+          "MemorySafetyIntegration",
+          "register_trust_callback",
+          "get_module_trust_report",
+          "set_module_drift_threshold",
+          "register_calibration_callback",
+          "get_module_drift_report",
+          "add_module_anchor",
+          "register_validation_callback",
+          "get_module_anchors",
+          "register_colony_validator",
+          "set_swarm_threshold",
+          "get_consensus_report",
+          "get_integration_status"
+        ]
+      },
+      {
+        "filename": "module_integrations.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "symbolic_delta_compression.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "exponential_learning.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ExponentialLearningSystem",
+          "lukhas_tier_required",
+          "decorator",
+          "incorporate_experience",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "distributed_memory.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.colonies.memory_colony",
+          "candidate.core.common",
+          "candidate.core.event_sourcing",
+          "candidate.core.swarm"
+        ],
+        "exports": [
+          "MemoryType",
+          "DistributedMemory",
+          "DistributedMemorySystem",
+          "to_dict"
+        ]
+      },
+      {
+        "filename": "dream_trace_linker.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "dream_integrator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "lazy_loading_embeddings.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EmbeddingCacheEntry",
+          "LRUEmbeddingCache",
+          "EmbeddingStorage",
+          "LazyEmbeddingLoader",
+          "LazyMemoryItem",
+          "create_lazy_embedding_system",
+          "get",
+          "put",
+          "put_batch",
+          "clear",
+          "get_stats",
+          "store_embedding",
+          "load_embedding",
+          "load_embeddings_batch",
+          "exists",
+          "delete_embedding",
+          "get_storage_stats",
+          "exists",
+          "get_performance_stats",
+          "optimize_cache",
+          "get_content",
+          "get_tags",
+          "get_metadata",
+          "memory_usage",
+          "memory_usage_kb"
+        ]
+      },
+      {
+        "filename": "causal_identity_tracker.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "IdentityLinkType",
+          "CausalOriginData",
+          "IdentityAnchor",
+          "EventChainValidation",
+          "CausalIdentityTracker",
+          "create_causal_origin",
+          "create_identity_anchor",
+          "validate_event_chain",
+          "detect_trauma_markers",
+          "create_recovery_link",
+          "get_identity_stability_report"
+        ]
+      },
+      {
+        "filename": "meta_learning_patterns.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "collapse_buffer.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "CollapseBuffer",
+          "buffer_event"
+        ]
+      },
+      {
+        "filename": "memory_handler.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "bio_symbolic_memory.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "WorkingMemoryBuffer",
+          "EpisodicMemoryStore",
+          "SemanticKnowledgeGraph",
+          "ProceduralSkillNetwork",
+          "MemoryConsolidationEngine",
+          "BioSymbolicMemory",
+          "lukhas_tier_required",
+          "decorator"
+        ]
+      },
+      {
+        "filename": "memory_viz.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "collapse_trace.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "CollapseTrace",
+          "get_global_tracer",
+          "log_collapse",
+          "get_collapse_history"
+        ]
+      },
+      {
+        "filename": "neurosymbolic_integration.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolicRelationType",
+          "LogicalOperator",
+          "SymbolicEntity",
+          "SymbolicRelation",
+          "LogicalRule",
+          "NeuralSymbolicExtractor",
+          "SymbolicReasoner",
+          "NeurosymbolicIntegrationLayer",
+          "to_dict",
+          "from_dict",
+          "to_triple",
+          "to_dict",
+          "from_dict",
+          "applies_to",
+          "to_dict",
+          "from_dict",
+          "get_knowledge_statistics"
+        ]
+      },
+      {
+        "filename": "memory_research.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "colony_swarm_integration.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ColonyRole",
+          "ColonyProfile",
+          "ColonyMemoryValidator",
+          "SwarmConsensusManager",
+          "register_colony",
+          "get_swarm_status"
+        ]
+      },
+      {
+        "filename": "agent_memory_trace_animator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "chatgpt_memory_integrator.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "memory_utils.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MemoryUtils",
+          "generate_memory_id",
+          "encrypt_memory_data",
+          "decrypt_memory_data",
+          "validate_memory_access",
+          "format_memory_timestamp",
+          "calculate_memory_size"
+        ]
+      },
+      {
+        "filename": "memory_drift_tracker.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MemoryDriftTracker",
+          "track_drift"
+        ]
+      },
+      {
+        "filename": "integrity_collapser.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "collapse_score",
+          "recover_overflow",
+          "snapshot_entropy"
+        ]
+      },
+      {
+        "filename": "voice_memory_bridge.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "VoiceMemoryBridge",
+          "process_voice_memory"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "memory_learning",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "processing",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "memory_legacy",
+        "has_index": false,
+        "purpose": "Subdirectory with 7 Python files",
+        "component_count": 7
+      },
+      {
+        "name": "remvix",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "memoryarchitecture.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "memoryarchitecturedistinction.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "memoryorganizationfinal.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "MIGRATION.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "memory_fold-enhancements.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "connectivity_report.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "OPTIMIZED_MEMORY_TECHNICAL_SPECIFICATION.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "OPTIMIZED_MEMORY_USER_GUIDE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README_chatgpt_integrator_trace.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "investormemorybrief.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "OPTIMIZED_MEMORY_ARCHITECTURE_DOCUMENTATION.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "MEMORY_SAFETY_ANALYSIS.md",
+        "type": "other",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "README.md"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 104,
+    "estimated_complexity": "high",
+    "consciousness_integration": "intermediate",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate/memory",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

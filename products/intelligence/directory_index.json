@@ -1,0 +1,93 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "products/intelligence",
+    "lane": "development",
+    "purpose": "Directory containing 0 Python files and 5 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [],
+    "subdirectories": [
+      {
+        "name": "dast_enhanced",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "dast_candidate",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "lens",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "monitoring_candidate",
+        "has_index": false,
+        "purpose": "Subdirectory with 21 Python files",
+        "component_count": 21
+      },
+      {
+        "name": "dast",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "lukhas_context.md",
+        "type": "lukhas_context.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "claude.me",
+        "type": "claude.me",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "lukhas_context.md",
+      "claude.me"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 0,
+    "estimated_complexity": "low",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "products",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

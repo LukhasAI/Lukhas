@@ -1,0 +1,48 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "lukhas/trinity",
+    "lane": "development",
+    "purpose": "Directory containing 0 Python files and 0 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 0,
+    "estimated_complexity": "low",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "lukhas",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

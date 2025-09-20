@@ -1,0 +1,935 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/memory",
+    "lane": "development",
+    "purpose": "Directory containing 32 Python files and 48 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "service.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/service.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "MemoryService",
+          "IdentityClient",
+          "store_memory",
+          "retrieve_memory",
+          "search_memory",
+          "delete_memory",
+          "store_memory",
+          "retrieve_memory",
+          "search_memory",
+          "delete_memory",
+          "get_memory_stats",
+          "configure_cross_module_storage",
+          "configure_storage",
+          "verify_user_access",
+          "check_consent",
+          "log_activity"
+        ]
+      },
+      {
+        "filename": "voice_memory_manager.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MemoryManager",
+          "store_interaction",
+          "get_relevant_memories",
+          "store_voice_preference",
+          "get_voice_preferences",
+          "get_user_interactions"
+        ]
+      },
+      {
+        "filename": "memory_chain.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "colonies.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.accepted.memory.colonies"
+        ],
+        "exports": []
+      },
+      {
+        "filename": "structural_conscience.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "consolidation.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ConsolidationTask",
+          "MemoryConsolidator",
+          "get_consolidator",
+          "schedule_consolidation",
+          "consolidate_memories",
+          "compress_memory",
+          "merge_memories",
+          "abstract_memories",
+          "run_consolidation_cycle"
+        ]
+      },
+      {
+        "filename": "fold_universal_bridge.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "compression.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.accepted.memory.compression"
+        ],
+        "exports": []
+      },
+      {
+        "filename": "fold_manager.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.accepted.memory.fold"
+        ],
+        "exports": []
+      },
+      {
+        "filename": "dna_helix.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.accepted.memory.helix"
+        ],
+        "exports": []
+      },
+      {
+        "filename": "memory_optimization.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common",
+          "candidate.core.energy_consumption_analysis"
+        ],
+        "exports": [
+          "MemoryTier",
+          "CompressionStrategy",
+          "MemoryObject",
+          "ObjectPool",
+          "CompressedStorage",
+          "TieredMemoryCache",
+          "MemoryOptimizer",
+          "CompactList",
+          "BloomFilter",
+          "PooledWrapper",
+          "update_access",
+          "age_seconds",
+          "access_frequency",
+          "acquire",
+          "release",
+          "clear",
+          "get_stats",
+          "compress",
+          "decompress",
+          "select_strategy",
+          "put",
+          "get",
+          "get_stats",
+          "store",
+          "retrieve",
+          "acquire_pooled_object",
+          "release_pooled_object",
+          "register_optimization",
+          "register_default_optimizations",
+          "get_memory_stats",
+          "create_memory_efficient_collection",
+          "append",
+          "memory_usage",
+          "add",
+          "contains",
+          "memory_usage",
+          "clear_empty_collections",
+          "force_gc",
+          "compress_large_objects"
+        ]
+      },
+      {
+        "filename": "hippocampal.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.accepted.memory.hippocampal"
+        ],
+        "exports": []
+      },
+      {
+        "filename": "basic.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "MemoryEntry",
+          "MemoryStore",
+          "InMemoryStore",
+          "MemoryManager",
+          "remember",
+          "recall",
+          "search",
+          "access",
+          "to_dict",
+          "from_dict",
+          "store",
+          "retrieve",
+          "search",
+          "list_all",
+          "delete",
+          "store",
+          "retrieve",
+          "search",
+          "list_all",
+          "delete",
+          "clear",
+          "size",
+          "remember",
+          "recall",
+          "recall_entry",
+          "search_memories",
+          "recent_memories",
+          "forget",
+          "memory_stats"
+        ]
+      },
+      {
+        "filename": "symbol_aware_tiered_memory.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolAwareTieredMemory",
+          "store",
+          "retrieve",
+          "get_dream_flagged"
+        ]
+      },
+      {
+        "filename": "qi_manager.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EnhancedMemoryManager",
+          "EnhancedMemoryFold",
+          "MemoryFoldConfig",
+          "EnhancedMemoryVisualizer",
+          "VisualizationConfig",
+          "QIOscillator",
+          "get_active_folds"
+        ]
+      },
+      {
+        "filename": "causal.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.accepted.memory.causal"
+        ],
+        "exports": []
+      },
+      {
+        "filename": "drift_memory_manager.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DriftMemoryManager"
+        ]
+      },
+      {
+        "filename": "episodic.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.accepted.memory.episodic"
+        ],
+        "exports": []
+      },
+      {
+        "filename": "contracts.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AGIMemoryProtocol",
+          "put",
+          "get",
+          "fold_open",
+          "fold_append",
+          "fold_close"
+        ]
+      },
+      {
+        "filename": "neuroplastic_connector.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/neuroplastic_connector.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "MemoryConnector",
+          "connect_component",
+          "emit_hormone",
+          "get_stress_response"
+        ]
+      },
+      {
+        "filename": "emotional_memory_manager_unified.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "node.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MemoryNode",
+          "store",
+          "retrieve",
+          "retrieve_recent",
+          "semantic_search"
+        ]
+      },
+      {
+        "filename": "loop_monitor.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "LoopInfo",
+          "SymbolicLoopMonitor",
+          "register_loop",
+          "report_entanglement",
+          "report_corruption"
+        ]
+      },
+      {
+        "filename": "lightweight_concurrency.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "ActorPriority",
+          "LightweightActor",
+          "MemoryEfficientScheduler",
+          "ActorPool",
+          "get_stats",
+          "release_actor"
+        ]
+      },
+      {
+        "filename": "memory_consolidation.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.accepted.memory.consolidation"
+        ],
+        "exports": []
+      },
+      {
+        "filename": "fold_system.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.accepted.memory.fold"
+        ],
+        "exports": []
+      },
+      {
+        "filename": "memory_fold_tracker.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "memory_core.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "CoreMemoryConfig",
+          "CoreMemoryComponent",
+          "ConsciousnessPhase",
+          "QIMindInterface",
+          "create_core_memory_component",
+          "record_consciousness_phase",
+          "process_symbolic_trace",
+          "get_last_consciousness_phase",
+          "get_component_status",
+          "get_current_phase",
+          "get_quantum_mind",
+          "get_logger",
+          "get_phase",
+          "is_operational"
+        ]
+      },
+      {
+        "filename": "fold.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MemoryFold",
+          "FoldManager",
+          "get_fold_manager",
+          "create_fold",
+          "retrieve_fold",
+          "get_causal_chain",
+          "consolidate"
+        ]
+      },
+      {
+        "filename": "visualizer.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "VisualizationConfig",
+          "EnhancedMemoryVisualizer",
+          "Enhanced3DVisualizer",
+          "QIOscillator",
+          "ProtonGradient",
+          "setup_visualization",
+          "launch_3d_viewer",
+          "qi_modulate"
+        ]
+      },
+      {
+        "filename": "matriz_adapter.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/matriz_adapter.json",
+        "dependencies": [],
+        "exports": [
+          "MemoryMatrizAdapter",
+          "create_node",
+          "emit_fold_creation",
+          "emit_recall_event",
+          "emit_cascade_prevention",
+          "emit_dream_state",
+          "emit_memory_consolidation",
+          "validate_node",
+          "save_node"
+        ]
+      },
+      {
+        "filename": "trinity_framework_validator.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TrinityComponent",
+          "ValidationLevel",
+          "TrinityValidationResult",
+          "TrinityFrameworkValidator",
+          "get_trinity_framework_validator"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "temporal",
+        "has_index": false,
+        "purpose": "Subdirectory with 53 Python files",
+        "component_count": 53
+      },
+      {
+        "name": "consensus",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "tools",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "colonies",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "core",
+        "has_index": false,
+        "purpose": "Subdirectory with 5 Python files",
+        "component_count": 5
+      },
+      {
+        "name": "access",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "causal",
+        "has_index": false,
+        "purpose": "Subdirectory with 14 Python files",
+        "component_count": 14
+      },
+      {
+        "name": "connected",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "security",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "proteome",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "learning",
+        "has_index": false,
+        "purpose": "Subdirectory with 22 Python files",
+        "component_count": 22
+      },
+      {
+        "name": "optimization",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "hippocampal",
+        "has_index": false,
+        "purpose": "Subdirectory with 5 Python files",
+        "component_count": 5
+      },
+      {
+        "name": "episodic",
+        "has_index": false,
+        "purpose": "Subdirectory with 5 Python files",
+        "component_count": 5
+      },
+      {
+        "name": "consciousness",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "tests",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "memory_systems",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "planning",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "dna_helix",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "docs",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "fakes",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "memory_consolidation",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "bridges",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "convergence",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "safety",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "adapters",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "folds",
+        "has_index": false,
+        "purpose": "Subdirectory with 17 Python files",
+        "component_count": 17
+      },
+      {
+        "name": "common",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "protection",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "fold_system",
+        "has_index": false,
+        "purpose": "Subdirectory with 11 Python files",
+        "component_count": 11
+      },
+      {
+        "name": "resonance",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "lineage",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "hooks",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "examples",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "compression",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "governance",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "fold_manager",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "helix_vault",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "integrity",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "replay",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "scaffold",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "systems",
+        "has_index": false,
+        "purpose": "Subdirectory with 105 Python files",
+        "component_count": 105
+      },
+      {
+        "name": "consolidation",
+        "has_index": false,
+        "purpose": "Subdirectory with 18 Python files",
+        "component_count": 18
+      },
+      {
+        "name": "dream",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "repair",
+        "has_index": false,
+        "purpose": "Subdirectory with 5 Python files",
+        "component_count": 5
+      },
+      {
+        "name": "services",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "neocortical",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "interfaces",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "USER_GUIDE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "TAGGING_FOLDS.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "API_REFERENCE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "MEMORY_MODULE_ANALYSIS.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "_README_memory_service_py_trace.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "SYMBOLIC_MEMORY_REPORT.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "ARCHIVE_RESCUE_SUMMARY.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README_glyph_memory_integration.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "NODE_ARCHITECHTURE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README_original.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "CONNECTION_SUMMARY.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "MORE_FOLD_TALES.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README_INDEX.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "lukhas_context.md",
+        "type": "lukhas_context.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README_bio_orchestrator.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "refactor_plan.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "DEV_GUIDE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "INTEGRATION_GUIDE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "MEMORY_OVERVIEW.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "claude.me",
+        "type": "claude.me",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "README.md",
+      "lukhas_context.md",
+      "claude.me"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 32,
+    "estimated_complexity": "high",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

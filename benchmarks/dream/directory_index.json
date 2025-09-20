@@ -1,0 +1,221 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "benchmarks/dream",
+    "lane": "development",
+    "purpose": "Directory containing 9 Python files and 1 subdirectories",
+    "trinity_role": [
+      "consciousness"
+    ],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "synthetic.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SyntheticCase",
+          "SyntheticGenerator",
+          "generate_synthetic_corpus",
+          "generate_easy_case",
+          "generate_medium_case",
+          "generate_hard_case",
+          "generate_adversarial_case"
+        ]
+      },
+      {
+        "filename": "stability.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "run_once",
+          "load_results",
+          "analyze_stability",
+          "run_stability_test",
+          "print_stability_summary"
+        ]
+      },
+      {
+        "filename": "archetypes.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/archetypes.json",
+        "dependencies": [],
+        "exports": [
+          "classify_archetype",
+          "calculate_archetype_score",
+          "analyze_snapshot_archetypes",
+          "calculate_archetypal_diversity",
+          "suggest_archetypal_balance",
+          "calculate_balance_score",
+          "create_archetypal_test_case"
+        ]
+      },
+      {
+        "filename": "ci.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "CIRunner",
+          "run_ci_pipeline",
+          "run_stability_check",
+          "run_benchmark_validation",
+          "run_synthetic_generation",
+          "run_config_validation",
+          "run_taxonomy_test",
+          "run_all_tests"
+        ]
+      },
+      {
+        "filename": "conflict.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "get_conflict_corpus",
+          "get_conflict_case",
+          "validate_conflict_case",
+          "run_conflict_validation"
+        ]
+      },
+      {
+        "filename": "chooser.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Environment",
+          "Priority",
+          "ConfigProfile",
+          "PerformanceMetrics",
+          "ConfigChooser",
+          "load_and_recommend",
+          "extract_metrics",
+          "score_config",
+          "recommend_config",
+          "validate_config"
+        ]
+      },
+      {
+        "filename": "taxonomy.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ErrorType",
+          "Severity",
+          "ErrorPattern",
+          "ErrorClassifier",
+          "analyze_error_distribution",
+          "generate_taxonomy_report",
+          "load_and_analyze",
+          "classify_error"
+        ]
+      },
+      {
+        "filename": "rollout.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "RolloutStrategy",
+          "RolloutStatus",
+          "SafetyThresholds",
+          "RolloutConfig",
+          "RolloutEvent",
+          "RolloutPlan",
+          "RolloutManager",
+          "create_and_execute_rollout",
+          "create_rollout_plan",
+          "check_safety_thresholds",
+          "execute_rollout_step",
+          "execute_full_rollout",
+          "rollback_plan",
+          "get_rollout_status",
+          "list_plans"
+        ]
+      },
+      {
+        "filename": "calibration.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "run_with_thresholds",
+          "load_results",
+          "evaluate_threshold_performance",
+          "run_threshold_sweep",
+          "find_optimal_thresholds",
+          "calibration_report",
+          "print_calibration_summary"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "ci_results",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "README_CI.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README_PHASE_NEXT.md",
+        "type": "other",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 9,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "advanced",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "benchmarks",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

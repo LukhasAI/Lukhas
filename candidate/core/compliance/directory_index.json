@@ -1,0 +1,118 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/core/compliance",
+    "lane": "development",
+    "purpose": "Directory containing 4 Python files and 0 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "privacy_compliance_engine.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "PrivacyFramework",
+          "LegalBasis",
+          "DataCategory",
+          "ConsentStatus",
+          "PrivacyRisk",
+          "ConsentRecord",
+          "PrivacyAssessment",
+          "DataSubjectRequest",
+          "PrivacyComplianceEngine",
+          "to_dict",
+          "get_compliance_status",
+          "generate_privacy_report"
+        ]
+      },
+      {
+        "filename": "democratic_oversight.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "StakeholderType",
+          "DemocraticPrinciple",
+          "TransparencyLevel",
+          "EngagementMethod",
+          "StakeholderGroup",
+          "PublicTransparencyReport",
+          "HumanRightsAssessment",
+          "CitizenEngagementSession",
+          "DemocraticOversightEngine",
+          "assess_democratic_principles_alignment",
+          "get_democratic_oversight_status",
+          "generate_democratic_governance_report"
+        ]
+      },
+      {
+        "filename": "global_compliance_manager.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Jurisdiction",
+          "ComplianceFramework",
+          "ComplianceStatus",
+          "DataTransferMechanism",
+          "JurisdictionProfile",
+          "GlobalComplianceAssessment",
+          "RegulatoryChange",
+          "GlobalComplianceManager",
+          "get_global_compliance_status",
+          "generate_multi_jurisdictional_report"
+        ]
+      },
+      {
+        "filename": "nist_ai_rmf.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 4,
+    "estimated_complexity": "low",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate/core",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

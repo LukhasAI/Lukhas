@@ -1,0 +1,916 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "tools/analysis",
+    "lane": "development",
+    "purpose": "Directory containing 50 Python files and 0 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "2030_full_consolidator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "LUKHAS2030Consolidator",
+          "main",
+          "create_master_plan",
+          "analyze_full_consolidation",
+          "generate_consolidation_scripts"
+        ]
+      },
+      {
+        "filename": "hybrid_component_analyzer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "HybridComponentAnalyzer",
+          "main",
+          "analyze_imports",
+          "identify_hybrid_subdirs",
+          "run_scenario_analysis",
+          "analyze_scenario",
+          "identify_hormone_tags",
+          "generate_hybrid_mapping",
+          "generate_neuroplastic_map"
+        ]
+      },
+      {
+        "filename": "atlas_validator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "validate_atlas",
+          "main"
+        ]
+      },
+      {
+        "filename": "non_core_module_analysis.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "generate_analysis_summary"
+        ]
+      },
+      {
+        "filename": "keyword_extractor.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "KeywordExtractor",
+          "extract_from_file",
+          "scan_workspace",
+          "generate_enhanced_domains",
+          "save_results",
+          "print_summary"
+        ]
+      },
+      {
+        "filename": "redundancy_analyzer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "CodeDuplication",
+          "RedundantImport",
+          "RedundantClass",
+          "RedundancyAnalyzer",
+          "main",
+          "analyze"
+        ]
+      },
+      {
+        "filename": "utcnow_deprecated_fixer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "get_dtz_violations",
+          "create_deprecated_datetime_patterns",
+          "ensure_timezone_import",
+          "fix_file_deprecated_datetime",
+          "run_world_tests",
+          "main"
+        ]
+      },
+      {
+        "filename": "functional_analysis.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "FunctionalAnalyzer",
+          "main",
+          "analyze_functional_capability",
+          "check_missing_dependencies",
+          "identify_system_capabilities",
+          "scan_for_capabilities",
+          "find_entry_points"
+        ]
+      },
+      {
+        "filename": "ml_integration_analyzer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Audit",
+          "FunctionSig",
+          "ModuleView",
+          "EmbeddingAdapter",
+          "ReasonerAdapter",
+          "SWOTEntry",
+          "LineMapping",
+          "IntegrationStrategy",
+          "RiskAssessment",
+          "IntegrationAnalyzer",
+          "camel_to_snake",
+          "snake_to_camel",
+          "detect_naming_convention",
+          "read_text",
+          "extract_module_view",
+          "cosine_similarity",
+          "shutil_which",
+          "log",
+          "to_list",
+          "encode",
+          "encode_batch",
+          "analyze",
+          "analyze_on_model",
+          "discover_python_files",
+          "parse_repository",
+          "build_function_embeddings",
+          "semantic_function_matcher",
+          "security_scan",
+          "style_scan",
+          "read_requirements",
+          "dependency_diff",
+          "naming_analysis",
+          "line_by_line_mapping",
+          "function_summaries",
+          "generate_naming_map",
+          "generate_patch",
+          "generate_test_scaffolding",
+          "github_action_yaml",
+          "value_effort_score",
+          "integration_cost_model",
+          "git_history_summary",
+          "llm_enhance_swot",
+          "analyze",
+          "idx_to_line"
+        ]
+      },
+      {
+        "filename": "comprehensive_core_auditor.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ComprehensiveCoreAuditor",
+          "main",
+          "scan_all_core_directories",
+          "analyze_unclassified_components",
+          "generate_comprehensive_report",
+          "execute_comprehensive_audit"
+        ]
+      },
+      {
+        "filename": "import_optimization_phase5d.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "get_import_violations",
+          "analyze_import_patterns",
+          "create_import_fixing_patterns",
+          "analyze_undefined_names",
+          "get_safe_import_moves",
+          "fix_file_safe_imports",
+          "run_world_tests",
+          "main"
+        ]
+      },
+      {
+        "filename": "streamline_analyzer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "StreamlineAnalyzer",
+          "main",
+          "analyze"
+        ]
+      },
+      {
+        "filename": "DependencyConnectivityTest.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "LambdaDependencyAnalyzer",
+          "main",
+          "scan_python_files",
+          "extract_imports",
+          "extract_imports_regex",
+          "analyze_imports",
+          "is_local_import",
+          "check_broken_imports",
+          "import_exists",
+          "find_isolated_files",
+          "build_connectivity_map",
+          "generate_report",
+          "get_top_importers",
+          "get_dependency_clusters",
+          "print_summary"
+        ]
+      },
+      {
+        "filename": "root_directory_audit.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "RootDirectoryAuditor",
+          "main",
+          "analyze_root",
+          "analyze_directory",
+          "suggest_module_for_directory",
+          "get_directory_size",
+          "count_files",
+          "has_tests",
+          "generate_reorganization_plan",
+          "create_action_plan"
+        ]
+      },
+      {
+        "filename": "IDENTITY_INTEGRATION_AUDIT.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "IdentityAudit",
+          "audit"
+        ]
+      },
+      {
+        "filename": "root_directory_audit_fixed.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "RootDirectoryAuditor",
+          "main",
+          "analyze_root",
+          "analyze_directory",
+          "suggest_module_for_directory",
+          "get_directory_size",
+          "count_files",
+          "has_tests",
+          "generate_reorganization_plan",
+          "create_action_plan"
+        ]
+      },
+      {
+        "filename": "import_fixer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TargetedImportFixer",
+          "main",
+          "fix_syntax_error_files",
+          "fix_audit_syntax",
+          "fix_fstring_backslash",
+          "fix_missing_indentation",
+          "fix_unexpected_indent",
+          "fix_basic_syntax",
+          "fix_missing_local_imports",
+          "fix_import_statements",
+          "create_missing_requirements",
+          "run_targeted_fixes"
+        ]
+      },
+      {
+        "filename": "module_communication_analyzer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ModuleCommunicationAnalyzer",
+          "main",
+          "analyze"
+        ]
+      },
+      {
+        "filename": "entropy_visualizer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "visualize_entropy"
+        ]
+      },
+      {
+        "filename": "operational_summary.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "LUKHASOperationalAnalyzer",
+          "load_analysis_reports",
+          "generate_operational_summary",
+          "main",
+          "load_reports",
+          "get_system_status",
+          "generate_summary"
+        ]
+      },
+      {
+        "filename": "focused_atlas_builder.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolInfo",
+          "ModuleInfo",
+          "FocusedAtlasBuilder",
+          "run",
+          "collect_violations",
+          "analyze_focused_files",
+          "analyze_file",
+          "extract_symbol_info",
+          "extract_imports",
+          "extract_module_intent_clues",
+          "determine_module_role",
+          "extract_intent_clues",
+          "generate_atlas",
+          "get_issue_flag",
+          "generate_rule_indices",
+          "get_rule_description",
+          "save_atlas"
+        ]
+      },
+      {
+        "filename": "security_gap_analysis.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SecurityComplianceAnalyzer",
+          "analyze_module",
+          "identify_gaps",
+          "generate_recommendations",
+          "run_analysis",
+          "print_report",
+          "save_detailed_report"
+        ]
+      },
+      {
+        "filename": "active_import_analysis.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ActiveImportAnalyzer",
+          "generate_fixes",
+          "main",
+          "should_analyze_file",
+          "analyze_file",
+          "analyze_directory",
+          "generate_report"
+        ]
+      },
+      {
+        "filename": "audit_decision_embedding_engine.py",
+        "component_type": "DECISION_MAKER",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AuditDecision",
+          "DecisionAuditEngine",
+          "to_dict",
+          "audit_decision",
+          "generate_embedding",
+          "analyze_decisions",
+          "load_history"
+        ]
+      },
+      {
+        "filename": "comprehensive_f821_eliminator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ComprehensiveF821Eliminator",
+          "main",
+          "should_process_file",
+          "analyze_file",
+          "has_import_for",
+          "has_logger_definition",
+          "fix_file",
+          "add_import_safely",
+          "add_logger_declaration",
+          "find_import_insertion_point",
+          "validate_syntax",
+          "process_directory",
+          "run_elimination"
+        ]
+      },
+      {
+        "filename": "smart_consolidator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SmartConsolidator",
+          "main",
+          "analyze_for_consolidation",
+          "generate_consolidation_script"
+        ]
+      },
+      {
+        "filename": "aggressive_consolidation_analyzer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AggressiveConsolidator",
+          "main",
+          "analyze_workspace",
+          "categorize_file",
+          "analyze_file_content",
+          "generate_consolidation_plan",
+          "create_module_manifest",
+          "execute_consolidation",
+          "determine_submodule"
+        ]
+      },
+      {
+        "filename": "analyze_module_usage.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ModuleUsageAnalyzer",
+          "main",
+          "find_all_python_files",
+          "extract_imports",
+          "resolve_import_to_file",
+          "analyze_imports",
+          "find_reachable_files",
+          "find_orphaned_files",
+          "analyze_module_directories",
+          "generate_report"
+        ]
+      },
+      {
+        "filename": "code_atlas_builder.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "FunctionInfo",
+          "ClassInfo",
+          "ModuleInfo",
+          "CodeAtlasBuilder",
+          "main",
+          "analyze_codebase",
+          "collect_violations",
+          "analyze_python_files",
+          "analyze_file",
+          "extract_function_info",
+          "extract_class_info",
+          "extract_imports",
+          "extract_module_intent_clues",
+          "build_call_graphs",
+          "analyze_function_call",
+          "analyze_name_reference",
+          "analyze_string_reference",
+          "find_containing_function",
+          "extract_intent_clues",
+          "extract_doc_intent_clues",
+          "classify_module_roles",
+          "determine_module_role",
+          "map_violations_to_symbols",
+          "get_issue_flag",
+          "generate_atlas",
+          "generate_rule_indices",
+          "get_rule_description",
+          "save_atlas",
+          "run"
+        ]
+      },
+      {
+        "filename": "analyze_module_internals.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ModuleInternalAnalyzer",
+          "analyze_module",
+          "find_entry_points",
+          "trace_connections",
+          "find_imports",
+          "is_high_value",
+          "count_lines",
+          "analyze_all",
+          "print_summary",
+          "save_report"
+        ]
+      },
+      {
+        "filename": "isolated_file_finder.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "IsolatedFileFinder",
+          "main",
+          "scan_directory",
+          "build_reverse_graph",
+          "find_isolated_files",
+          "categorize_isolated_files",
+          "generate_consolidation_plan",
+          "save_report"
+        ]
+      },
+      {
+        "filename": "workspace_status.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "WorkspaceAnalyzer",
+          "analyze_file",
+          "scan_workspace",
+          "analyze_connectivity",
+          "identify_working_systems",
+          "generate_report",
+          "save_report",
+          "print_summary"
+        ]
+      },
+      {
+        "filename": "generate_hashes.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "calculate_sha3_512",
+          "calculate_shake256",
+          "extract_symbolic_glyphs",
+          "generate_qrglyph",
+          "generate_manifest_hash",
+          "save_hash_manifest",
+          "verify_manifest_integrity",
+          "main"
+        ]
+      },
+      {
+        "filename": "audit_orphaned_modules.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "OrphanedModuleAuditor",
+          "main",
+          "analyze_file_value",
+          "audit_orphaned_files",
+          "generate_audit_report"
+        ]
+      },
+      {
+        "filename": "mass_restoration_script.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "run_command",
+          "get_current_error_files",
+          "restore_files_in_batches"
+        ]
+      },
+      {
+        "filename": "utc_standardization_phase5c.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "get_dtz005_violations",
+          "create_utc_fixing_patterns",
+          "ensure_timezone_import",
+          "fix_file_utc_issues",
+          "run_world_tests",
+          "main"
+        ]
+      },
+      {
+        "filename": "violation_collector.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "collect_violations",
+          "get_rule_description",
+          "generate_violation_indices",
+          "get_severity",
+          "update_atlas_with_violations",
+          "main"
+        ]
+      },
+      {
+        "filename": "comprehensive_import_fixer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ImportErrorFixer",
+          "main",
+          "should_ignore_file",
+          "analyze_syntax_errors",
+          "fix_syntax_errors",
+          "fix_common_syntax_issues",
+          "fix_import_statement",
+          "analyze_missing_modules",
+          "module_exists",
+          "fix_missing_modules",
+          "is_local_module",
+          "fix_local_modules",
+          "find_correct_module_path",
+          "update_import_in_file",
+          "create_missing_module",
+          "report_external_modules",
+          "create_missing_init_files",
+          "fix_common_import_patterns",
+          "run_comprehensive_fix"
+        ]
+      },
+      {
+        "filename": "OrganizationScanner.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "OrganizationScanner",
+          "main",
+          "scan_pascal_case_issues",
+          "scan_directory_naming",
+          "scan_misplaced_documentation",
+          "scan_duplicate_names",
+          "scan_large_files",
+          "scan_orphaned_files",
+          "generate_report",
+          "get_timestamp",
+          "execute_scan"
+        ]
+      },
+      {
+        "filename": "cleanup_analysis.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "analyze_cleanup_candidates",
+          "generate_cleanup_script",
+          "main"
+        ]
+      },
+      {
+        "filename": "import_analysis.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ImportAnalyzer",
+          "main",
+          "analyze_file",
+          "find_circular_imports",
+          "analyze_directory",
+          "generate_report",
+          "dfs"
+        ]
+      },
+      {
+        "filename": "concept_scanner.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "LukhasConceptScanner",
+          "main",
+          "create_preservation_guide",
+          "scan_codebase"
+        ]
+      },
+      {
+        "filename": "final_import_cleanup.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "FinalImportCleanup",
+          "main",
+          "fix_indentation_errors",
+          "fix_file_indentation",
+          "comment_out_problematic_imports",
+          "create_stub_modules",
+          "fix_specific_import_issues",
+          "validate_python_syntax",
+          "run_final_cleanup"
+        ]
+      },
+      {
+        "filename": "duplicate_detector.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DuplicateDetector",
+          "ConsolidationPlanner",
+          "main",
+          "analyze_file",
+          "find_duplicates",
+          "generate_plan"
+        ]
+      },
+      {
+        "filename": "git_clean_file_hunter.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "run_command",
+          "get_syntax_errors_for_commit",
+          "find_clean_files_in_history"
+        ]
+      },
+      {
+        "filename": "lambda_identity_audit.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "LambdaIDSystemAudit",
+          "main",
+          "audit_identity_system"
+        ]
+      },
+      {
+        "filename": "duplicate_analysis.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DuplicateAnalyzer",
+          "generate_consolidation_plan",
+          "main",
+          "analyze_file",
+          "find_duplicates",
+          "analyze_directory"
+        ]
+      },
+      {
+        "filename": "comprehensive_organizational_audit.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "OrganizationalAuditor",
+          "audit_workspace"
+        ]
+      },
+      {
+        "filename": "ecosystem_harmony_audit.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EcosystemHarmonyAuditor",
+          "generate_harmony_report",
+          "main",
+          "audit_module_health",
+          "analyze_file",
+          "calculate_doc_score",
+          "analyze_submodule_balance",
+          "check_hybrid_components",
+          "calculate_module_health_score",
+          "find_weak_links",
+          "measure_connection_strength",
+          "identify_underperformers",
+          "identify_missing_components",
+          "check_circular_dependencies",
+          "calculate_harmony_score",
+          "generate_recommendations",
+          "run_audit"
+        ]
+      },
+      {
+        "filename": "circular_dependency_analysis.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DependencyAnalyzer",
+          "generate_interface_modules",
+          "main",
+          "analyze_file",
+          "find_circular_dependencies",
+          "analyze_impact",
+          "suggest_fixes"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 50,
+    "estimated_complexity": "high",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "tools",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

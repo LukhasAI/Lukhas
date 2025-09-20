@@ -1,0 +1,155 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "tools/security",
+    "lane": "development",
+    "purpose": "Directory containing 7 Python files and 0 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "test_dependency_hasher.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "test_dependency_hasher"
+        ]
+      },
+      {
+        "filename": "enterprise_security_automation.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.common.logger",
+          "lukhas.governance.ethics.constitutional_ai",
+          "lukhas.governance.identity.auth_backend.audit_logger",
+          "lukhas.governance.security.access_control"
+        ],
+        "exports": [
+          "SecuritySeverity",
+          "SecurityCategory",
+          "SecurityFinding",
+          "SecurityScanResult",
+          "EnterprisSecurityScanner",
+          "get_scan_summary"
+        ]
+      },
+      {
+        "filename": "hardcoded_secrets_fixer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "dependency_hasher.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DependencyHasher",
+          "main",
+          "parse_requirements",
+          "get_installed_packages",
+          "get_package_hash",
+          "generate_hash_manifest",
+          "generate_pinned_requirements",
+          "save_hash_manifest",
+          "verify_dependencies",
+          "cleanup"
+        ]
+      },
+      {
+        "filename": "guardian_compliance_validator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "GuardianComplianceValidator",
+          "main",
+          "validate_guardian_infrastructure",
+          "validate_sbom_compliance",
+          "validate_dependency_security",
+          "validate_constitutional_ai_compliance",
+          "validate_ci_pipeline_security",
+          "generate_compliance_report",
+          "run_full_validation"
+        ]
+      },
+      {
+        "filename": "IDENTITY_GUARD.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "IdentityGuard",
+          "main",
+          "validate_file",
+          "validate_changes"
+        ]
+      },
+      {
+        "filename": "fix_insecure_random.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "InsecureRandomFixer",
+          "main",
+          "should_skip_file",
+          "is_security_critical",
+          "analyze_file",
+          "fix_file",
+          "scan_directory",
+          "fix_all_files",
+          "generate_report"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 7,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "tools",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

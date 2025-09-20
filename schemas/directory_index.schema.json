@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "lukhas://schemas/directory_index.schema.json",
+  "title": "LUKHAS Directory Index Schema v2.0.0",
+  "description": "Machine-readable directory index for AI agent discovery and coordination",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "directory_metadata",
+    "component_inventory",
+    "agent_guidance"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "2.0.0"
+    },
+    "directory_metadata": {
+      "type": "object",
+      "required": ["path", "lane", "purpose", "last_updated"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "Relative path from LUKHAS root"
+        },
+        "lane": {
+          "type": "string",
+          "enum": ["production", "integration", "development"],
+          "description": "Lane position in consciousness evolution"
+        },
+        "purpose": {
+          "type": "string",
+          "description": "Primary purpose of this directory"
+        },
+        "trinity_role": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["identity", "consciousness", "guardian"]
+          },
+          "description": "Trinity Framework roles implemented"
+        },
+        "last_updated": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "component_inventory": {
+      "type": "object",
+      "properties": {
+        "python_files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["filename", "component_type"],
+            "properties": {
+              "filename": {"type": "string"},
+              "component_type": {
+                "type": "string",
+                "enum": [
+                  "CONSCIOUSNESS_ENGINE", "COGNITIVE_PROCESSOR", "REFLECTION_SYSTEM",
+                  "AWARENESS_MODULE", "DECISION_MAKER", "EMOTION_PROCESSOR",
+                  "MEMORY_INTERFACE", "TRINITY_BRIDGE", "ORCHESTRATION_NODE",
+                  "SYMBOLIC_PROCESSOR", "CREATIVITY_ENGINE", "DREAM_PROCESSOR",
+                  "API_INTERFACE", "DATA_MODEL", "UTILITY", "TEST", "CONFIGURATION"
+                ]
+              },
+              "has_contract": {"type": "boolean"},
+              "contract_path": {"type": ["string", "null"]},
+              "dependencies": {
+                "type": "array",
+                "items": {"type": "string"}
+              },
+              "exports": {
+                "type": "array",
+                "items": {"type": "string"}
+              }
+            }
+          }
+        },
+        "subdirectories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "has_index"],
+            "properties": {
+              "name": {"type": "string"},
+              "has_index": {"type": "boolean"},
+              "purpose": {"type": ["string", "null"]},
+              "component_count": {"type": "integer"}
+            }
+          }
+        },
+        "documentation": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["filename", "type"],
+            "properties": {
+              "filename": {"type": "string"},
+              "type": {
+                "type": "string",
+                "enum": ["claude.me", "lukhas_context.md", "README.md", "schema", "contract", "other"]
+              },
+              "has_sync_header": {"type": "boolean"}
+            }
+          }
+        }
+      }
+    },
+    "schema_references": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["schema_name", "schema_path"],
+        "properties": {
+          "schema_name": {"type": "string"},
+          "schema_path": {"type": "string"},
+          "validation_status": {
+            "type": "string",
+            "enum": ["valid", "invalid", "unknown"]
+          }
+        }
+      }
+    },
+    "agent_guidance": {
+      "type": "object",
+      "required": ["recommended_approach", "key_files"],
+      "properties": {
+        "recommended_approach": {
+          "type": "string",
+          "description": "Guidance for AI agents working in this directory"
+        },
+        "key_files": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Most important files for agents to examine first"
+        },
+        "common_tasks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["task", "files_involved"],
+            "properties": {
+              "task": {"type": "string"},
+              "files_involved": {
+                "type": "array",
+                "items": {"type": "string"}
+              },
+              "complexity": {
+                "type": "string",
+                "enum": ["low", "medium", "high"]
+              }
+            }
+          }
+        },
+        "prerequisites": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Knowledge or dependencies required before working here"
+        },
+        "avoid_patterns": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Common mistakes or patterns to avoid"
+        }
+      }
+    },
+    "performance_metadata": {
+      "type": "object",
+      "properties": {
+        "component_count": {"type": "integer"},
+        "estimated_complexity": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "critical"]
+        },
+        "consciousness_integration": {
+          "type": "string",
+          "enum": ["none", "basic", "intermediate", "advanced", "core"]
+        },
+        "test_coverage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "relationships": {
+      "type": "object",
+      "properties": {
+        "parent_directory": {"type": ["string", "null"]},
+        "related_directories": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "constellation_cluster": {"type": "string"},
+        "dependency_weight": {
+          "type": "string",
+          "enum": ["isolated", "light", "moderate", "heavy", "critical"]
+        }
+      }
+    }
+  }
+}

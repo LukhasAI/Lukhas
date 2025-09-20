@@ -1,0 +1,134 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/consciousness/expansion",
+    "lane": "development",
+    "purpose": "Directory containing 5 Python files and 0 subdirectories",
+    "trinity_role": [
+      "consciousness"
+    ],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "awareness_boundary_transcender.py",
+        "component_type": "AWARENESS_MODULE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/awareness_boundary_transcender.json",
+        "dependencies": [
+          "candidate.core.interfaces"
+        ],
+        "exports": [
+          "AwarenessBoundary",
+          "AwarenessBoundaryTranscender"
+        ]
+      },
+      {
+        "filename": "consciousness_expansion_engine.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/consciousness_expansion_engine.json",
+        "dependencies": [
+          "candidate.core.container.service_container",
+          "candidate.core.interfaces",
+          "candidate.core.symbolic_engine",
+          "candidate.orchestration.symbolic_kernel_bus",
+          "lukhas.governance.guardian_system"
+        ],
+        "exports": [
+          "ExpandedConsciousnessState",
+          "MetaConsciousnessCapability",
+          "ConsciousnessExpansionEngine"
+        ]
+      },
+      {
+        "filename": "meta_consciousness_developer.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/meta_consciousness_developer.json",
+        "dependencies": [
+          "candidate.core.interfaces"
+        ],
+        "exports": [
+          "RecursiveAwareness",
+          "MetaConsciousnessDeveloper"
+        ]
+      },
+      {
+        "filename": "consciousness_multiplication_engine.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/consciousness_multiplication_engine.json",
+        "dependencies": [
+          "candidate.core.interfaces"
+        ],
+        "exports": [
+          "ConsciousnessInstance",
+          "ConsciousnessMultiplicationEngine"
+        ]
+      },
+      {
+        "filename": "consciousness_dimensionality_expander.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/consciousness_dimensionality_expander.json",
+        "dependencies": [
+          "candidate.core.interfaces"
+        ],
+        "exports": [
+          "DimensionalExpansion",
+          "ConsciousnessDimensionalityExpander"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Start with consciousness architecture documentation, then examine engines and processors",
+    "key_files": [
+      "consciousness_expansion_engine.py",
+      "consciousness_multiplication_engine.py"
+    ],
+    "common_tasks": [
+      {
+        "task": "Consciousness engine development",
+        "files_involved": [
+          "consciousness_expansion_engine.py",
+          "consciousness_multiplication_engine.py"
+        ],
+        "complexity": "high"
+      }
+    ],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity",
+      "Consciousness architecture patterns"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 5,
+    "estimated_complexity": "low",
+    "consciousness_integration": "intermediate",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate/consciousness",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

@@ -1,0 +1,402 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/core/orchestration",
+    "lane": "development",
+    "purpose": "Directory containing 13 Python files and 21 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "main_orchestrator.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "integration_hub.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.orchestration.golden_trio.trio_orchestrator",
+          "lukhas.consciousness.reflection.consciousness_hub",
+          "lukhas.consciousness.reflection.memory_hub",
+          "lukhas.consciousness.systems.unified_consciousness_engine",
+          "lukhas.core.core_hub",
+          "lukhas.core.interfaces.interfaces_hub"
+        ],
+        "exports": [
+          "SystemHealthState",
+          "SystemIntegrationHub",
+          "get_integration_hub"
+        ]
+      },
+      {
+        "filename": "workflow_engine.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "WorkflowEngine",
+          "create_orchestration_component",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "core.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/core.json",
+        "dependencies": [
+          "candidate.core.module_registry",
+          "candidate.memory.basic",
+          "candidate.consciousness.awareness.awareness_engine",
+          "candidate.consciousness.dream.engine.dream_engine",
+          "candidate.governance.ethics.ethics_guardian",
+          "candidate.bio.core",
+          "candidate.memory.systems.memory_learning.memory_manager",
+          "candidate.consciousness.dream.core.dream_engine"
+        ],
+        "exports": [
+          "OrchestrationCore",
+          "get_system_status"
+        ]
+      },
+      {
+        "filename": "main_node.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common.interfaces.ui.adaptive.adaptive_interface_generator",
+          "candidate.core.common.interfaces.ui.multimodal.image_generator",
+          "candidate.core.orchestration.brain.config.settings",
+          "candidate.core.orchestration.brain.neuro_symbolic.neuro_symbolic_engine",
+          "candidate.orchestration.brain.privacy_manager",
+          "lukhas.governance.identity.core.id_service.identity_manager",
+          "lukhas.memory.node"
+        ],
+        "exports": [
+          "AdaptiveAGISystem",
+          "init_components",
+          "register_event_handlers"
+        ]
+      },
+      {
+        "filename": "service_registry.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ServiceRegistry",
+          "ServiceNames",
+          "MockLearningService",
+          "register_service",
+          "register_factory",
+          "get_service",
+          "unregister_service",
+          "list_services",
+          "register_service",
+          "register_factory",
+          "get_service",
+          "unregister_service",
+          "list_services",
+          "clear",
+          "learn_from_data"
+        ]
+      },
+      {
+        "filename": "integration_engine.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "LukhasIntegrationEngine",
+          "lukhas_tier_required",
+          "create_integration_component",
+          "decorator",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "learning_initializer.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.orchestration.service_registry",
+          "candidate.orchestration.service_registry"
+        ],
+        "exports": [
+          "FallbackLearningService",
+          "initialize_learning_service",
+          "learn_from_data",
+          "adapt_behavior",
+          "synthesize_knowledge",
+          "transfer_learning",
+          "get_learning_metrics"
+        ]
+      },
+      {
+        "filename": "agent_orchestrator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "router.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "OrchestrationRouter",
+          "create_orchestration_router",
+          "get_verifier_stats"
+        ]
+      },
+      {
+        "filename": "matriz_consciousness_coordinator.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "OrchestrationState",
+          "ModuleConsciousnessProfile",
+          "MatrizConsciousnessCoordinator"
+        ]
+      },
+      {
+        "filename": "base.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "OrchestratorState",
+          "ComponentStatus",
+          "OrchestratorConfig",
+          "ComponentInfo",
+          "OrchestratorMetrics",
+          "BaseOrchestrator",
+          "register_component",
+          "unregister_component",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "plan_verifier.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "VerificationResult",
+          "DenialReason",
+          "VerificationContext",
+          "VerificationOutcome",
+          "PlanVerifier",
+          "_NoopMetric",
+          "get_plan_verifier",
+          "result",
+          "verify",
+          "inc",
+          "observe",
+          "labels"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "golden_trio",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "swarm",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "apis",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "colonies",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "core",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "coordination",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "config",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "security",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "processing",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "integration",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "agents",
+        "has_index": false,
+        "purpose": "Subdirectory with 5 Python files",
+        "component_count": 5
+      },
+      {
+        "name": "docs",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "specialized",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "immune",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "examples",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "brain",
+        "has_index": false,
+        "purpose": "Subdirectory with 54 Python files",
+        "component_count": 54
+      },
+      {
+        "name": "user_feedback",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "core_modules",
+        "has_index": false,
+        "purpose": "Subdirectory with 5 Python files",
+        "component_count": 5
+      },
+      {
+        "name": "monitoring",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "dream",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "interfaces",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "lukhas_context.md",
+        "type": "lukhas_context.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "MIGRATION_GUIDE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "claude.me",
+        "type": "claude.me",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "lukhas_context.md",
+      "claude.me"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 13,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate/core",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

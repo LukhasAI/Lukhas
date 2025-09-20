@@ -1,0 +1,502 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "products/intelligence/monitoring_candidate",
+    "lane": "development",
+    "purpose": "Directory containing 20 Python files and 0 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "integrated_monitoring_system.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.orchestration.signals.signal_bus",
+          "candidate.orchestration.signals.homeostasis_controller"
+        ],
+        "exports": [
+          "IntegrationState",
+          "MonitoringLevel",
+          "SystemHealthMetrics",
+          "IntegratedMonitoringSystem",
+          "HomeostasisState",
+          "HomeostasisController",
+          "PlasticityTriggerManager",
+          "AdaptationPlan",
+          "MetricContext",
+          "MetricType",
+          "DashboardMode",
+          "LearningPhase",
+          "_Dummy",
+          "_Dummy",
+          "_Dummy",
+          "_Dummy",
+          "_R",
+          "create_integrated_monitoring_system",
+          "get_system_status",
+          "get_unified_insights",
+          "get_system_health_trend",
+          "register_state_callback",
+          "create_endocrine_observability_engine",
+          "create_bio_symbolic_coherence_monitor",
+          "create_adaptive_metrics_collector",
+          "create_hormone_driven_dashboard",
+          "create_neuroplastic_learning_orchestrator",
+          "get_adaptation_statistics",
+          "get_current_state",
+          "get_current_coherence",
+          "get_collection_statistics",
+          "get_current_metrics",
+          "update_endocrine_state"
+        ]
+      },
+      {
+        "filename": "bio_symbolic_coherence_monitor.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.orchestration.signals.signal_bus"
+        ],
+        "exports": [
+          "CoherenceLevel",
+          "CoherenceMetric",
+          "CoherenceMeasurement",
+          "CoherenceReport",
+          "BioSymbolicCoherenceMonitor",
+          "CoherenceAnomalyDetector",
+          "create_bio_symbolic_coherence_monitor",
+          "get_coherence_level",
+          "metric_name",
+          "get_current_coherence",
+          "get_coherence_trend",
+          "get_metric_history",
+          "get_coherence_statistics",
+          "detect_anomalies"
+        ]
+      },
+      {
+        "filename": "config_loader.py",
+        "component_type": "CONFIGURATION",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "load_config",
+          "get_config_value",
+          "validate_config",
+          "load_validated_config"
+        ]
+      },
+      {
+        "filename": "hormone_driven_dashboard.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.orchestration.signals.signal_bus",
+          "candidate.orchestration.signals.signal_bus"
+        ],
+        "exports": [
+          "DashboardMode",
+          "VisualizationType",
+          "AlertSeverity",
+          "DashboardAlert",
+          "PredictionInsight",
+          "DashboardWidget",
+          "HormoneDrivenDashboard",
+          "TrendPredictor",
+          "AnomalyPredictor",
+          "create_hormone_driven_dashboard",
+          "set_mode",
+          "get_dashboard_state",
+          "get_widget_data",
+          "update",
+          "predict",
+          "predict_anomaly_probability",
+          "get_hormone_color"
+        ]
+      },
+      {
+        "filename": "demo_system_capabilities.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SystemCapabilitiesDemo",
+          "generate_demo_summary"
+        ]
+      },
+      {
+        "filename": "real_data_collector.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "LukhasRealDataCollector",
+          "consciousness_fallback",
+          "memory_fallback",
+          "hormone_fallback"
+        ]
+      },
+      {
+        "filename": "newrelic_config.py",
+        "component_type": "CONFIGURATION",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "LUKHASNewRelicMonitoring",
+          "initialize_monitoring",
+          "get_monitor",
+          "monitor_consciousness_endpoint",
+          "monitor_dream_endpoint",
+          "monitor_triad_component",
+          "track_consciousness_interaction",
+          "track_dream_generation",
+          "track_triad_framework_health",
+          "track_api_performance",
+          "wrapper",
+          "wrapper",
+          "decorator",
+          "wrapper"
+        ]
+      },
+      {
+        "filename": "setup_monitoring.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MonitoringSetup",
+          "main",
+          "load_config",
+          "save_default_config",
+          "check_dependencies",
+          "setup_data_directories",
+          "start_unified_dashboard",
+          "start_meta_dashboard",
+          "setup_prometheus_integration",
+          "create_monitoring_scripts",
+          "create_systemd_services",
+          "run_setup"
+        ]
+      },
+      {
+        "filename": "agi_safety_layer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SafetyViolationType",
+          "SafetyViolation",
+          "ConstitutionalSafetyLayer",
+          "RecursiveImprovementBoundary",
+          "CausalSafetyNet",
+          "AGISafetyOrchestrator"
+        ]
+      },
+      {
+        "filename": "standalone_capabilities_demo.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "PlasticityTriggerType",
+          "AdaptationStrategy",
+          "AlertLevel",
+          "PlasticityEvent",
+          "EndocrineSnapshot",
+          "AlertMessage",
+          "PredictiveInsight",
+          "StandaloneMonitoringDemo",
+          "simulate_adaptive_threshold_calculation",
+          "simulate_hormone_levels",
+          "analyze_plasticity_triggers",
+          "generate_alerts",
+          "generate_predictive_insights",
+          "measure_bio_symbolic_coherence",
+          "generate_comprehensive_summary"
+        ]
+      },
+      {
+        "filename": "data_integration_map.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DataIntegrationMap",
+          "show_data_flow_example",
+          "show_threshold_calculation_details"
+        ]
+      },
+      {
+        "filename": "drift_tracker.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MemoryDriftTracker",
+          "track_drift",
+          "get_drift_metrics"
+        ]
+      },
+      {
+        "filename": "plasticity_trigger_manager.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AdaptationStrategy",
+          "AdaptationPriority",
+          "AdaptationRule",
+          "AdaptationPlan",
+          "PlasticityTriggerManager",
+          "PatternDetector",
+          "add_custom_rule",
+          "get_active_adaptations",
+          "get_adaptation_statistics",
+          "detect_patterns",
+          "rule_score"
+        ]
+      },
+      {
+        "filename": "unified_dashboard.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.flags"
+        ],
+        "exports": [
+          "MetricsCollector",
+          "start_dashboard"
+        ]
+      },
+      {
+        "filename": "monitoring_config.py",
+        "component_type": "CONFIGURATION",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MonitoringProfile",
+          "EndocrineMonitoringConfig",
+          "MetricsCollectionConfig",
+          "PlasticityConfig",
+          "DashboardConfig",
+          "LearningConfig",
+          "IntegrationConfig",
+          "ComprehensiveMonitoringConfig",
+          "MonitoringConfigManager",
+          "create_default_monitoring_config",
+          "load_monitoring_config",
+          "save_monitoring_config",
+          "validate_monitoring_config",
+          "create_example_configs",
+          "load_config",
+          "save_config",
+          "get_component_config",
+          "validate_config",
+          "create_profile_config"
+        ]
+      },
+      {
+        "filename": "endocrine_observability_engine.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.endocrine.hormone_system",
+          "candidate.orchestration.signals.signal_bus",
+          "candidate.orchestration.signals.signal_bus",
+          "candidate.orchestration.signals.homeostasis_controller"
+        ],
+        "exports": [
+          "PlasticityTriggerType",
+          "EndocrineSnapshot",
+          "PlasticityEvent",
+          "EndocrineObservabilityEngine",
+          "MockEndocrineSystem",
+          "create_endocrine_observability_engine",
+          "to_dict",
+          "register_adaptation_handler",
+          "get_current_state",
+          "get_trend_data",
+          "get_plasticity_history",
+          "get_coherence_trend",
+          "get_hormone_levels"
+        ]
+      },
+      {
+        "filename": "trigger_flow_example.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.orchestration.signals.signal_bus",
+          "lukhas.consciousness.unified.auto_consciousness",
+          "lukhas.emotion.service",
+          "lukhas.memory.memoria"
+        ],
+        "exports": [
+          "LukhasDataFeeder",
+          "MockConsciousness",
+          "MockMemory",
+          "MockEmotion",
+          "MockReasoning",
+          "MockEndocrine"
+        ]
+      },
+      {
+        "filename": "neuroplastic_learning_orchestrator.py",
+        "component_type": "DATA_MODEL",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.orchestration.signals.signal_bus"
+        ],
+        "exports": [
+          "ExperimentPhase",
+          "LearningPhase",
+          "AdaptationScope",
+          "LearningStrategy",
+          "LearningGoal",
+          "AdaptationExperiment",
+          "LearningInsight",
+          "NeuroplasticLearningOrchestrator",
+          "CausalModel",
+          "ContextModel",
+          "RewardCalculator",
+          "PatternDetector",
+          "KnowledgeConsolidator",
+          "TransferLearner",
+          "PlasticityTriggerType",
+          "EndocrineSnapshot",
+          "PlasticityEvent",
+          "AdaptationStrategy",
+          "AdaptationPriority",
+          "AdaptationRule",
+          "AdaptationPlan",
+          "MetricContext",
+          "create_neuroplastic_learning_orchestrator",
+          "add_learning_goal",
+          "get_learning_status",
+          "get_learning_insights",
+          "get_adaptation_recommendations",
+          "add_causal_factor",
+          "predict_effect",
+          "add_successful_adaptation",
+          "calculate_reward",
+          "observe",
+          "consolidate",
+          "calculate_context_similarity",
+          "transfer_knowledge"
+        ]
+      },
+      {
+        "filename": "adaptive_metrics_collector.py",
+        "component_type": "DATA_MODEL",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.orchestration.signals.signal_bus",
+          "lukhas.async_utils",
+          "candidate.orchestration.signals.signal_bus"
+        ],
+        "exports": [
+          "MetricType",
+          "MetricContext",
+          "OperationalContext",
+          "MetricDefinition",
+          "MetricDataPoint",
+          "ContextualAnalysis",
+          "AdaptiveMetricsCollector",
+          "AnomalyDetector",
+          "PredictiveModel",
+          "BiologicalCorrelator",
+          "create_adaptive_metrics_collector",
+          "register_metric",
+          "update_endocrine_state",
+          "get_current_metrics",
+          "get_metric_trend",
+          "get_contextual_analysis",
+          "get_collection_statistics",
+          "detect",
+          "update",
+          "predict",
+          "calculate_correlations",
+          "create_managed_task",
+          "run_background_task"
+        ]
+      },
+      {
+        "filename": "matriz_adapter.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/matriz_adapter.json",
+        "dependencies": [],
+        "exports": [
+          "MonitoringMatrizAdapter",
+          "wrap_drift_detection",
+          "wrap_metric_collection",
+          "create_node",
+          "emit_drift_detection",
+          "emit_performance_metric",
+          "emit_health_check",
+          "validate_node",
+          "save_node",
+          "wrapper",
+          "wrapper"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 20,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "products/intelligence",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/core/consciousness_ascension",
+    "lane": "development",
+    "purpose": "Directory containing 1 Python files and 0 subdirectories",
+    "trinity_role": [
+      "consciousness"
+    ],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "consciousness_ascension_catalyst_engine.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ConsciousnessScienceAPI",
+          "TranspersonalPsychologyEngine",
+          "FlowStateResearchAPI",
+          "ConsciousnessTechnologiesSDK",
+          "ConsciousnessAscensionCatalystEngine"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Start with consciousness architecture documentation, then examine engines and processors",
+    "key_files": [
+      "consciousness_ascension_catalyst_engine.py"
+    ],
+    "common_tasks": [
+      {
+        "task": "Consciousness engine development",
+        "files_involved": [
+          "consciousness_ascension_catalyst_engine.py"
+        ],
+        "complexity": "high"
+      }
+    ],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity",
+      "Consciousness architecture patterns"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 1,
+    "estimated_complexity": "low",
+    "consciousness_integration": "intermediate",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate/core",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

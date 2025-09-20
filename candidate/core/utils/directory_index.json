@@ -1,0 +1,132 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/core/utils",
+    "lane": "development",
+    "purpose": "Directory containing 6 Python files and 0 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "symbolic_utils.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "tier_label",
+          "summarize_emotion_vector"
+        ]
+      },
+      {
+        "filename": "user_interaction_init.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "tracing_init.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "orchestration_energy_aware_execution_planner.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.symbolic_core.bio.bio_symbolic"
+        ],
+        "exports": [
+          "EnergyProfile",
+          "Priority",
+          "EnergyTask",
+          "EnergyBudget",
+          "EnergyMetrics",
+          "EnergyAwareExecutionPlanner",
+          "DistributedEnergyTask",
+          "DistributedNodeRegistry",
+          "EnergyConsensusProtocol",
+          "DistributedLoadBalancer",
+          "create_eaxp_instance",
+          "get_usable_energy",
+          "can_allocate",
+          "submit_task",
+          "cancel_task",
+          "get_task_status",
+          "optimize_energy_allocation",
+          "get_energy_metrics",
+          "estimate_total_energy",
+          "split_into_components",
+          "get_cluster_statistics",
+          "calculate_rebalance_plan",
+          "select_optimal_node"
+        ]
+      },
+      {
+        "filename": "bio_orchestrator_orchestrator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "grow_init.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      }
+    ],
+    "subdirectories": [],
+    "documentation": [
+      {
+        "filename": "README_utils.md",
+        "type": "other",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 6,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate/core",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

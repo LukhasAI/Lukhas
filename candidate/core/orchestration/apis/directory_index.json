@@ -1,0 +1,84 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/core/orchestration/apis",
+    "lane": "development",
+    "purpose": "Directory containing 2 Python files and 0 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "drift_monitoring_api.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DriftType",
+          "DriftSeverity",
+          "AlertChannel",
+          "MetricDataPoint",
+          "DriftAlert",
+          "MonitoringConfig",
+          "StatisticalAnalyzer",
+          "MetricCollector",
+          "DriftDetector",
+          "AlertManager",
+          "DriftMonitoringAPI",
+          "calculate_zscore",
+          "detect_trend",
+          "kolmogorov_smirnov_test",
+          "moving_average_deviation",
+          "get_recent_values",
+          "get_metric_history",
+          "get_monitoring_status"
+        ]
+      },
+      {
+        "filename": "code_process_integration_api.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Examine API contracts and integration patterns first",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 2,
+    "estimated_complexity": "low",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate/core/orchestration",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

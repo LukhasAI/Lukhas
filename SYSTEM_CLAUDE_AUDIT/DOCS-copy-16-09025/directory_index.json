@@ -1,0 +1,242 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "SYSTEM_CLAUDE_AUDIT/DOCS-copy-16-09025",
+    "lane": "development",
+    "purpose": "Directory containing 0 Python files and 0 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [],
+    "subdirectories": [],
+    "documentation": [
+      {
+        "filename": "IDENTITY_GOVERNANCE_FRAMEWORK.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "BASELINE_STATUS.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "ADVANCED_TESTING_FRAMEWORK_SUCCESS.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "PHASE_4_SYSTEMATIC_PLAN.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "CONSCIOUSNESS_DISTRIBUTED_SYSTEM.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "FULL_TEST_RESULTS.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "MEMORY_ECOSYSTEM_ANALYSIS.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "STRATEGIC_CLAUDE_ME_HIERARCHY.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "SYSTEMATIC_SUCCESS_SUMMARY.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "CORRUPTION_ANALYSIS_REPORT.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "TERMINAL_OUTPUT.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "Untitled-1.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "PHASE2_COMPLETE_NEXT_STRATEGY.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "PHASE_4B_CRITICAL_SYNTAX_RECOVERY.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "PHASE_4B_RECOVERY_SUCCESS.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "SURGICAL_REPAIR_REPORT.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "CANDIDATE_DEEP_DIVE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "LUKHAS_CORE_ANALYSIS.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "jules03_exploration_summary.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "ADVANCED_TESTING_FRAMEWORK_ANALYSIS.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "lukhas_context.md",
+        "type": "lukhas_context.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "PHASE_2_MASS_QUARANTINE_REPORT.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "SURGICAL_CORRUPTION_STRATEGY.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "PHASE2_AUTOMATED_IMPROVEMENTS.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "SAFE_SYNTAX_IMPROVEMENT_PLAN.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "PUBLIC_API.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "AGENT_INITIATION_TASK.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "PHASE_2_COMPLETION_REPORT.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "PHASE2_COMPLETION_REPORT.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "RECOVERY_MISSION_COMPLETE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "DEVOPS_STRATEGY_SUMMARY.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "AGENTS.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "ARCHITECTURAL_DOMAIN_MAPPING.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "ZERO_ERRORS_STRATEGY.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "MATRIZ_ENGINE_ANALYSIS.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "PRODUCTS_DEPLOYMENT_ANALYSIS.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "DUAL_SUITE_TEST_STRATEGY.md",
+        "type": "other",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "README.md",
+      "lukhas_context.md"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 0,
+    "estimated_complexity": "low",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "SYSTEM_CLAUDE_AUDIT",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

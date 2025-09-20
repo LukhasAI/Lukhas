@@ -1,0 +1,266 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "lukhas/governance",
+    "lane": "development",
+    "purpose": "Directory containing 9 Python files and 5 subdirectories",
+    "trinity_role": [
+      "guardian"
+    ],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "auth_governance_policies.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "PolicySeverity",
+          "PolicyCategory",
+          "PolicyRule",
+          "PolicyViolation",
+          "PolicyAssessment",
+          "AuthGovernancePolicyEngine",
+          "add_policy_rule",
+          "get_policy_rule",
+          "get_policies_by_category",
+          "get_policies_for_tier",
+          "record_violation",
+          "get_violation_summary",
+          "export_policies"
+        ]
+      },
+      {
+        "filename": "auth_guardian_integration.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AuthEventType",
+          "AuthDriftMetrics",
+          "ConstitutionalAuthPrinciples",
+          "AuthenticationGuardian",
+          "validate",
+          "get_drift_summary"
+        ]
+      },
+      {
+        "filename": "auth_glyph_registry.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AuthGlyphCategory",
+          "AuthGlyph",
+          "SymbolicIdentity",
+          "AuthGlyphRegistry",
+          "register_glyph",
+          "get_glyph",
+          "get_glyphs_by_category",
+          "get_tier_glyph",
+          "create_symbolic_identity",
+          "encode_jwt_glyph_claims",
+          "decode_glyph_claims",
+          "get_cross_module_glyph_message",
+          "get_registry_stats"
+        ]
+      },
+      {
+        "filename": "consent_ledger.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.observability.matriz_decorators",
+          "lukhas.governance.consent_ledger_impl"
+        ],
+        "exports": [
+          "record_consent",
+          "verify_consent",
+          "withdraw_consent"
+        ]
+      },
+      {
+        "filename": "consent_ledger_impl.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.interfaces.identity",
+          "lukhas.core.common.glyph"
+        ],
+        "exports": [
+          "LambdIDValidator",
+          "PolicyVerdict",
+          "ConsentType",
+          "DataSubjectRights",
+          "\u039bTrace",
+          "ConsentRecord",
+          "ConsentLedgerV1",
+          "PolicyEngine",
+          "ContentModerationIntegration",
+          "validate_lambda_id",
+          "validate_id",
+          "get_tier_from_lambda_id",
+          "to_immutable_hash",
+          "sign",
+          "register_agent_callback",
+          "create_trace",
+          "grant_consent",
+          "revoke_consent",
+          "check_consent",
+          "validate_action",
+          "moderate"
+        ]
+      },
+      {
+        "filename": "colony_memory_validator.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ValidationMode",
+          "ConsensusResult",
+          "ValidationRequest",
+          "ColonyValidationResponse",
+          "ConsensusOutcome",
+          "ColonyMemoryValidator",
+          "register_colony",
+          "unregister_colony",
+          "register_consensus_callback",
+          "get_colony_stats",
+          "get_metrics"
+        ]
+      },
+      {
+        "filename": "guardian_bridge.py",
+        "component_type": "TRINITY_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.governance.guardian.guardian_wrapper"
+        ],
+        "exports": [
+          "GuardianSystem",
+          "is_active",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "auth_integration_system.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "IntegrationHealthStatus",
+          "AuthIntegrationMetrics",
+          "LUKHASAuthIntegrationSystem"
+        ]
+      },
+      {
+        "filename": "auth_cross_module_integration.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ModuleType",
+          "AuthMessageType",
+          "AuthModuleMessage",
+          "ModuleAuthContext",
+          "TrinityFrameworkIntegration",
+          "AuthCrossModuleIntegrator",
+          "get_triad_context_for_module",
+          "get_integration_status"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "identity",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "security",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "ethics",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "consent_ledger",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "guardian",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "lukhas_context.md",
+        "type": "lukhas_context.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "claude.me",
+        "type": "claude.me",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Review constitutional AI frameworks and Guardian system integration",
+    "key_files": [
+      "lukhas_context.md",
+      "claude.me"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 9,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "basic",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "lukhas",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

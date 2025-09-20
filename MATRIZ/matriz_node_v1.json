@@ -1,4 +1,4 @@
-{
+  {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "lukhas://schemas/matriz_node_v1.json",
   "title": "MATRIZ Node v1 (schema v1.1)",

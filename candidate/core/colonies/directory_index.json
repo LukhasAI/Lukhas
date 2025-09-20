@@ -1,0 +1,332 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/core/colonies",
+    "lane": "development",
+    "purpose": "Directory containing 15 Python files and 1 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "temporal_colony.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TemporalColony",
+          "snapshot_state",
+          "revert_last",
+          "get_state",
+          "simulate_future_state"
+        ]
+      },
+      {
+        "filename": "swarm_simulation.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.efficient_communication",
+          "lukhas.core.symbolism.tags"
+        ],
+        "exports": [
+          "SimAgent",
+          "SwarmNetwork",
+          "register",
+          "log_collision",
+          "consensus"
+        ]
+      },
+      {
+        "filename": "creativity_colony.py",
+        "component_type": "CREATIVITY_ENGINE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.colonies.base_colony",
+          "lukhas.accepted.bio.utils"
+        ],
+        "exports": [
+          "CreativityColony",
+          "update_task_slots",
+          "fatigue_level"
+        ]
+      },
+      {
+        "filename": "consensus_mechanisms.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.orchestration.signals.signal_bus"
+        ],
+        "exports": [
+          "ConsensusMethod",
+          "VoteType",
+          "AgentVote",
+          "ConsensusProposal",
+          "ConsensusOutcome",
+          "ColonyConsensus",
+          "is_approved",
+          "is_unanimous",
+          "register_agent",
+          "update_hormone_levels",
+          "get_consensus_history"
+        ]
+      },
+      {
+        "filename": "oracle_colony.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.consciousness.reflection.openai_core_service",
+          "candidate.core.colonies.base_colony"
+        ],
+        "exports": [
+          "OracleQuery",
+          "OracleResponse",
+          "OracleAgent",
+          "OracleColony"
+        ]
+      },
+      {
+        "filename": "tag_propagation.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.colonies.base_colony",
+          "lukhas.core.symbolism.tags"
+        ],
+        "exports": [
+          "SymbolicReasoningColony"
+        ]
+      },
+      {
+        "filename": "tensor_colony_ops.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.colonies.base_colony",
+          "lukhas.core.symbolism.tags"
+        ],
+        "exports": [
+          "TensorColonyOps",
+          "tags_to_tensor",
+          "batch_propagate",
+          "colony_reasoning_tensor",
+          "simulate_throughput",
+          "plot_throughput",
+          "tags_to_tensor",
+          "batch_propagate",
+          "colony_reasoning_tensor",
+          "simulate_throughput"
+        ]
+      },
+      {
+        "filename": "memory_colony.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.colonies.base_colony",
+          "lukhas.core.efficient_communication",
+          "lukhas.core.swarm"
+        ],
+        "exports": [
+          "MemoryAgent",
+          "MemoryColony"
+        ]
+      },
+      {
+        "filename": "colony.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.orchestration.signals.homeostasis",
+          "candidate.orchestration.signals.signal_bus",
+          "candidate.core.colonies.base_colony"
+        ],
+        "exports": [
+          "ConsensusResult",
+          "ColonySignalIntegration",
+          "EnhancedReasoningColony",
+          "SwarmSignalNetwork",
+          "BaseColony",
+          "subscribe_to_signals",
+          "get_swarm_consensus"
+        ]
+      },
+      {
+        "filename": "base_colony.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.colonies.supervisor_agent",
+          "lukhas.core.actor_system",
+          "lukhas.core.distributed_tracing",
+          "lukhas.core.efficient_communication",
+          "lukhas.core.event_sourcing",
+          "lukhas.core.symbolism.methylation_model",
+          "lukhas.core.symbolism.tags"
+        ],
+        "exports": [
+          "ConsensusResult",
+          "BaseColony",
+          "set_governance_colony",
+          "get_status",
+          "link_symbolic_contexts",
+          "prune_expired_tags",
+          "request_permission_escalation",
+          "override_tag",
+          "entangle_tags"
+        ]
+      },
+      {
+        "filename": "supervisor_agent.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SupervisorAgent"
+        ]
+      },
+      {
+        "filename": "governance_colony.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.colonies.base_colony",
+          "candidate.core.efficient_communication",
+          "candidate.core.swarm",
+          "candidate.core.symbolism.tags"
+        ],
+        "exports": [
+          "EthicsAgent",
+          "GovernanceColony"
+        ]
+      },
+      {
+        "filename": "consensus_algorithms.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AdvancedConsensusMethod",
+          "QIVote",
+          "SwarmParticle",
+          "GeneticVote",
+          "AdvancedColonyConsensus",
+          "collapse",
+          "mutate",
+          "update_reputation",
+          "learn_from_outcome"
+        ]
+      },
+      {
+        "filename": "reasoning_colony.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/reasoning_colony.json",
+        "dependencies": [],
+        "exports": [
+          "ReasonerType",
+          "ReasoningQuery",
+          "ReasoningInsight",
+          "ReasoningAgent",
+          "LogicalReasoningAgent",
+          "CausalReasoningAgent",
+          "CreativeReasoningAgent",
+          "ReasoningColony",
+          "MemoryManager",
+          "SymbolicEngine",
+          "add_conclusion",
+          "get_consensus_score",
+          "get_colony_status",
+          "remember",
+          "recall",
+          "search"
+        ]
+      },
+      {
+        "filename": "ethics_swarm_colony.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.colonies.base_colony",
+          "candidate.core.monitoring.collapse_tracker",
+          "candidate.core.verifold.verifold_unified"
+        ],
+        "exports": [
+          "EthicalDecisionType",
+          "SwarmConsensusMethod",
+          "EthicalDriftLevel",
+          "EthicalAgent",
+          "EthicalScenario",
+          "SimulationResult",
+          "EthicalDecisionRequest",
+          "EthicalDecisionResponse",
+          "EthicsSwarmColony",
+          "MockCollapseTracker",
+          "MockVeriFoldConnector",
+          "MockDriftMonitor",
+          "BasicEthicalSimulator",
+          "EthicalSimulationEngine"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "demo",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      }
+    ],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 15,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate/core",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

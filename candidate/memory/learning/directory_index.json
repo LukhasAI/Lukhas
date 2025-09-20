@@ -1,0 +1,459 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/memory/learning",
+    "lane": "development",
+    "purpose": "Directory containing 21 Python files and 12 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "learning_gateway.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "LearningRequest",
+          "LearningResponse",
+          "LearningGatewayInterface",
+          "LearningGateway",
+          "get_learning_gateway"
+        ]
+      },
+      {
+        "filename": "service.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "learning_hub.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common",
+          "candidate.core.meta_learning.enhancement_system",
+          "candidate.core.meta_learning.enhancement_system",
+          "candidate.core.meta_learning.enhancement_system",
+          "candidate.core.integration.service_discovery"
+        ],
+        "exports": [
+          "LearningHub",
+          "CoreEnhancementMode",
+          "CoreSystemIntegrationStatus",
+          "CoreMetaLearningEnhancementSystem",
+          "get_learning_hub",
+          "register_service",
+          "get_service",
+          "register_event_handler",
+          "register_learning_feedback",
+          "get_learning_metrics",
+          "reset_learning_metrics"
+        ]
+      },
+      {
+        "filename": "plugin_learning_engine.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "PluginLearningEngine",
+          "PluginLearningEngine",
+          "PluginLearningEngine",
+          "PluginLearningEngine",
+          "get_optimal_complexity"
+        ]
+      },
+      {
+        "filename": "services.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/services.json",
+        "dependencies": [],
+        "exports": [
+          "LearningService",
+          "create_learning_service"
+        ]
+      },
+      {
+        "filename": "metalearningenhancementsystem_wrapper.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "MetaLearningEnhancementWrapper",
+          "get_meta_learning_enhancement",
+          "get_integration_status"
+        ]
+      },
+      {
+        "filename": "usage_learning.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "UserInteraction",
+          "InteractionPattern",
+          "UsageBasedLearning",
+          "update",
+          "record_interaction",
+          "identify_patterns",
+          "recommend_next_docs"
+        ]
+      },
+      {
+        "filename": "adaptive_meta_learning_system.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "AdaptiveMetaLearningSystem",
+          "optimize_learning_approach",
+          "incorporate_feedback",
+          "generate_learning_report",
+          "demo_meta_learning"
+        ]
+      },
+      {
+        "filename": "enhancement_engine.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EnhancementEngine",
+          "main",
+          "start_sprint",
+          "enhance_bio_symbolic_core",
+          "enhance_adaptive_learning",
+          "enhance_voice_memory_integration",
+          "extract_prototype_gold",
+          "optimize_api_costs",
+          "complete_sprint",
+          "run_enhancement_sprint"
+        ]
+      },
+      {
+        "filename": "tutor_learning_engine.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TestTutorLearningEngine",
+          "TestTutorLearningEngine",
+          "skg",
+          "tutor_engine",
+          "sample_config"
+        ]
+      },
+      {
+        "filename": "meta_learning.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "neural_integrator.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "NeuralMode",
+          "NeuralArchitectureType",
+          "NeuralPattern",
+          "NeuralContext",
+          "AdaptiveNeuralNetwork",
+          "NeuralIntegrator",
+          "forward",
+          "adapt_architecture"
+        ]
+      },
+      {
+        "filename": "metalearningenhancementsystem_mock.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "Enhancementmode",
+          "Systemintegrationstatus",
+          "MockMonitorDashboard",
+          "MockRateModulator",
+          "MockSymbolicFeedback",
+          "MetaLearningEnhancementsystem",
+          "MetaLearningEnhancementWrapper",
+          "get_meta_learning_enhancement",
+          "get_integration_status"
+        ]
+      },
+      {
+        "filename": "federated_learning.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "FederatedLearningManager",
+          "register_model",
+          "get_model",
+          "contribute_gradients"
+        ]
+      },
+      {
+        "filename": "doc_generator_learning_engine.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "exponential_learning.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ExponentialLearningSystem",
+          "incorporate_experience"
+        ]
+      },
+      {
+        "filename": "adaptive_meta_learning.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AdaptiveMetaLearningSystem",
+          "optimize_learning_approach",
+          "incorporate_feedback",
+          "generate_learning_report",
+          "demo_meta_learning"
+        ]
+      },
+      {
+        "filename": "meta_learning_recovery.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MetaLearningRecovery",
+          "main",
+          "explore_meta_learning_directory",
+          "convert_to_lukhas_format",
+          "determine_target_directory",
+          "recover_meta_learning_components",
+          "execute_recovery"
+        ]
+      },
+      {
+        "filename": "federated_colony_learning.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.colonies.base_colony",
+          "candidate.core.swarm"
+        ],
+        "exports": [
+          "LearningAgent",
+          "FederatedLearningColony"
+        ]
+      },
+      {
+        "filename": "tutor.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "integrated_system_orchestrator.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "AdaptiveAGISystem",
+          "init_components",
+          "register_event_handlers"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "learn",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "embodied_thought",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "meta",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "meta_adaptive",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "grow",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "flagship",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "results",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "adaptive_agi",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "meta_learning",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "service",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "systems",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "federated",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "LAYER.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README_learning_trace.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README_INDEX.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "what-role-does-machine-learning-play-in-enhancing.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "metalearningmanifest.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "machine_learning_enhancement_role.md",
+        "type": "other",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "README.md"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 21,
+    "estimated_complexity": "high",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate/memory",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

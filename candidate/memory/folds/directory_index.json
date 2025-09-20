@@ -1,0 +1,287 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/memory/folds",
+    "lane": "development",
+    "purpose": "Directory containing 16 Python files and 4 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "optimized_fold_engine.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "openai_memory_adapter.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "unified_memory_core.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "services.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/services.json",
+        "dependencies": [],
+        "exports": [
+          "MemoryService",
+          "create_memory_service"
+        ]
+      },
+      {
+        "filename": "healix_mapper.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MemoryStrand",
+          "MutationType",
+          "CompressionLevel",
+          "MemoryNucleotide",
+          "MemoryMutation",
+          "QIMemoryFold",
+          "QIHealixMapper"
+        ]
+      },
+      {
+        "filename": "event_replayer.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common",
+          "candidate.core.event_sourcing"
+        ],
+        "exports": [
+          "EventReplayer",
+          "replay_ethical_events",
+          "filter_events_by_tag",
+          "replay_events"
+        ]
+      },
+      {
+        "filename": "fold_engine.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "smart_consolidation.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "memory_fold.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MemoryFoldConfig",
+          "MemoryFoldDatabase",
+          "VisionPromptManager",
+          "TierManager",
+          "MemoryFoldSystem",
+          "log_dream",
+          "create_memory_fold",
+          "recall_memory_folds",
+          "enhanced_recall_memory_folds",
+          "calculate_emotion_distance",
+          "get_emotional_neighborhood",
+          "create_emotion_clusters",
+          "load_config",
+          "get_default_config",
+          "get_default_emotion_vectors",
+          "add_fold",
+          "get_folds",
+          "update_relevance_scores",
+          "get_statistics",
+          "get_prompt_for_fold",
+          "validate_access",
+          "filter_data_by_tier",
+          "log_dream",
+          "create_memory_fold",
+          "recall_memory_folds",
+          "enhanced_recall_memory_folds",
+          "calculate_emotion_distance",
+          "get_emotional_neighborhood",
+          "create_emotion_clusters",
+          "dream_consolidate_memories",
+          "get_system_statistics"
+        ]
+      },
+      {
+        "filename": "trait_sync.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.orchestration.brain.spine.trait_manager"
+        ],
+        "exports": [
+          "export_traits",
+          "load_all_traits",
+          "compare_traits",
+          "run"
+        ]
+      },
+      {
+        "filename": "memory_endpoints.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MemoryFoldRequest",
+          "MemoryFoldResponse",
+          "MemorySearchRequest",
+          "MemorySearchResult",
+          "DriftAnalysis",
+          "LineageTrace",
+          "CollapseRequest",
+          "Config",
+          "Config",
+          "get_memory_system"
+        ]
+      },
+      {
+        "filename": "ISOLATED_FILES_ASSESSMENT.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "IsolatedFilesAssessor",
+          "main",
+          "assess_files"
+        ]
+      },
+      {
+        "filename": "dreamseed_example.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "dream_memory_fold.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "DreamSnapshot",
+          "MemoryFoldState",
+          "DreamMemoryFold",
+          "get_global_dream_memory_fold",
+          "to_dict",
+          "from_dict",
+          "add_snapshot"
+        ]
+      },
+      {
+        "filename": "rem.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "scaffold_modules_reasoning_engine.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "multi",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "tracker",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "system",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "base",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      }
+    ],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 16,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "intermediate",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate/memory",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

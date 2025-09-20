@@ -1,0 +1,154 @@
+{
+  "validation_timestamp": "2025-09-20T15:32:15.119927",
+  "total_indexes": 820,
+  "valid_indexes": 820,
+  "consistent_indexes": 819,
+  "integrated_indexes": 781,
+  "validation_errors": {},
+  "consistency_issues": {
+    "scripts/directory_index.json": [
+      "Missing Python files in index: {'validate_directory_indexes.py'}"
+    ]
+  },
+  "integration_issues": {
+    "candidate/core/identity/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "candidate/core/orchestration/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "candidate/core/symbolic/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "candidate/core/interfaces/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "candidate/memory/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "candidate/bridge/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "candidate/consciousness/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "candidate/governance/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "candidate/dream/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "candidate/aka_qualia/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "tools/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "bio/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "products/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "products/experience/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "products/experience/dashboard/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "products/enterprise/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "products/enterprise/compliance/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "products/intelligence/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "products/intelligence/lens/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "products/intelligence/dast/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "memory/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "identity/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "consciousness/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "matriz/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "matriz/visualization/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "matriz/core/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "SYSTEM_CLAUDE_AUDIT/DOCS-copy-16-09025/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "ethics/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "ethics/drift_detection/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "ethics/compliance/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "ethics/guardian/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "governance/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "lukhas/memory/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "lukhas/identity/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "lukhas/consciousness/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "lukhas/orchestration/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "lukhas/governance/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "lukhas/api/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ],
+    "quantum/directory_index.json": [
+      "Context files present but no sync headers detected"
+    ]
+  },
+  "summary": {
+    "validation_rate": 1.0,
+    "consistency_rate": 0.998780487804878,
+    "integration_rate": 0.9524390243902439,
+    "validation_stats": {
+      "valid": 820,
+      "invalid": 0
+    },
+    "consistency_stats": {
+      "consistent": 819,
+      "inconsistent": 1
+    },
+    "integration_stats": {
+      "integrated": 781,
+      "not_integrated": 39
+    }
+  },
+  "recommendations": [
+    "Update 1 inconsistent directory indexes",
+    "Improve context sync integration for 39 directories",
+    "Directory index system is operating well - consider automation"
+  ]
+}

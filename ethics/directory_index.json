@@ -1,0 +1,264 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "ethics",
+    "lane": "development",
+    "purpose": "Directory containing 1 Python files and 29 subdirectories",
+    "trinity_role": [
+      "guardian"
+    ],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "stubs.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.governance.ethics.guardian_reflector",
+          "candidate.governance.ethics.ethics_guardian",
+          "candidate.governance.ethics.enhanced_ethical_guardian"
+        ],
+        "exports": [
+          "RiskLevel",
+          "Decision",
+          "MEGPolicyBridge",
+          "EthicsEngine",
+          "SafetyChecker",
+          "create_meg_bridge",
+          "evaluate",
+          "check",
+          "get_safety_report",
+          "update_config",
+          "report_false_positive"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "hitlo_bridge",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "stabilization",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "meta_ethics_governor",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "drift_detection",
+        "has_index": true,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "governor",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "core",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "quantum_mesh_integrator",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "compliance_engine",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "ethics_engine",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "security",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "ethical_guardian",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "governance_engine",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "compliance",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "meg_guard",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "sentinel",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "ethics_service",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "ethics_guard",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "seedra",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "ethical_drift_detector",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "compliance_validator",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "ethical_hierarchy",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "ethics_integration",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "meg_bridge",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "policy_engines",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "self_reflective_debugger",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "guardian",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "service",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "safety_checks",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "engine",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "lukhas_context.md",
+        "type": "lukhas_context.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "claude.me",
+        "type": "claude.me",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Review constitutional AI frameworks and Guardian system integration",
+    "key_files": [
+      "lukhas_context.md",
+      "claude.me"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 1,
+    "estimated_complexity": "low",
+    "consciousness_integration": "basic",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": null,
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

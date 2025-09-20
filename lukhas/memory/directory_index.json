@@ -1,0 +1,213 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "lukhas/memory",
+    "lane": "development",
+    "purpose": "Directory containing 6 Python files and 1 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "sync.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SyncResult",
+          "SyncOperation",
+          "SyncBudgetConfig",
+          "MemorySynchronizer",
+          "_NoopMetric",
+          "create_memory_synchronizer",
+          "to_dict",
+          "sync_fold",
+          "get_sync_stats",
+          "get_sync_log",
+          "reset_stats",
+          "labels",
+          "inc",
+          "observe",
+          "set"
+        ]
+      },
+      {
+        "filename": "config.py",
+        "component_type": "CONFIGURATION",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/config.json",
+        "dependencies": [],
+        "exports": [
+          "MemoryConfig",
+          "get_memory_config",
+          "reload_config",
+          "from_environment",
+          "to_dict",
+          "validate"
+        ]
+      },
+      {
+        "filename": "memory_wrapper.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.observability.matriz_decorators"
+        ],
+        "exports": [
+          "MemoryWrapper",
+          "get_memory_manager",
+          "emit_node",
+          "create_fold",
+          "consolidate_memory",
+          "access_memory",
+          "get_status",
+          "extend_causal_chain",
+          "update_valence",
+          "emit_node",
+          "decorator"
+        ]
+      },
+      {
+        "filename": "fold_system.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.observability.matriz_decorators"
+        ],
+        "exports": [
+          "MemoryFold",
+          "FoldManager",
+          "get_fold_manager",
+          "emit_node",
+          "create_fold",
+          "retrieve_fold",
+          "get_causal_chain",
+          "consolidate",
+          "get_status",
+          "emit_node",
+          "decorator"
+        ]
+      },
+      {
+        "filename": "matriz_adapter.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/matriz_adapter.json",
+        "dependencies": [
+          "lukhas.observability.matriz_decorators",
+          "lukhas.observability.matriz_emit"
+        ],
+        "exports": [
+          "MemoryMatrizAdapter",
+          "get_matriz_adapter",
+          "emit_node",
+          "get_matriz_context",
+          "create_node",
+          "emit_fold_created",
+          "emit_memory_accessed",
+          "emit_consolidation",
+          "emit_cascade_prevention",
+          "emit_performance_metrics",
+          "emit_error",
+          "emit_node",
+          "get_matriz_context",
+          "make_node",
+          "emit",
+          "decorator"
+        ]
+      },
+      {
+        "filename": "consciousness_memory_integration.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.async_manager",
+          "lukhas.consciousness.registry",
+          "lukhas.consciousness.trinity_integration",
+          "lukhas.core.common.config"
+        ],
+        "exports": [
+          "MemoryFoldType",
+          "FoldStatus",
+          "EmotionalContext",
+          "MemoryFold",
+          "ConsciousnessMemoryState",
+          "ConsciousnessMemoryIntegrator",
+          "get_memory_integrator",
+          "get_memory_consciousness_metrics",
+          "get_consciousness_registry",
+          "get_triad_integrator",
+          "get_consciousness_manager",
+          "get_config"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "emotional",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "lukhas_context.md",
+        "type": "lukhas_context.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "claude.me",
+        "type": "claude.me",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "README.md",
+      "lukhas_context.md",
+      "claude.me"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 6,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "lukhas",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

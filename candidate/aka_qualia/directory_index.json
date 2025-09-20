@@ -1,0 +1,640 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/aka_qualia",
+    "lane": "development",
+    "purpose": "Directory containing 26 Python files and 5 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "oneiric_hook.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.aka_qualia.models",
+          "candidate.aka_qualia.palette",
+          "candidate.aka_qualia.palette"
+        ],
+        "exports": [
+          "OneiricHook",
+          "OneiricHTTPClient",
+          "create_oneiric_hook",
+          "apply_policy",
+          "get_statistics",
+          "send_feedback",
+          "get_status",
+          "get_statistics"
+        ]
+      },
+      {
+        "filename": "prometheus_exporter.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "PrometheusExporter",
+          "update_proto_qualia_metrics",
+          "update_energy_metrics",
+          "update_consciousness_quality_metrics",
+          "update_regulation_metrics",
+          "update_risk_metrics",
+          "update_vivox_metrics",
+          "update_processing_performance",
+          "record_scene_processed",
+          "get_metrics_endpoint",
+          "get_metrics_summary",
+          "set_vivox_integration_status"
+        ]
+      },
+      {
+        "filename": "metrics.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.aka_qualia.models"
+        ],
+        "exports": [
+          "EnergySnapshot",
+          "MetricsConfig",
+          "AkaQualiaMetrics",
+          "compute_affect_energy",
+          "compute_energy_snapshot",
+          "compute_repair_delta",
+          "compute_drift_phi",
+          "compute_congruence_index",
+          "compute_neurosis_risk",
+          "compute_sublimation_rate",
+          "compute_comprehensive_metrics",
+          "get_alert_status",
+          "reset_alerts"
+        ]
+      },
+      {
+        "filename": "monitoring_dashboard.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DashboardHandler",
+          "MonitoringDashboard",
+          "start_monitoring_dashboard",
+          "log_message",
+          "do_GET",
+          "start",
+          "stop",
+          "is_running",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "pls.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "PLS",
+          "encode",
+          "decode_protoqualia"
+        ]
+      },
+      {
+        "filename": "loop_stress_harness.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.aka_qualia.core"
+        ],
+        "exports": [
+          "StressTestType",
+          "StressTestScenario",
+          "StressTestResult",
+          "StressTestSummary",
+          "LoopStressHarness",
+          "export_results",
+          "print_wave_b_report"
+        ]
+      },
+      {
+        "filename": "memory_noop.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "NoopMemory",
+          "save",
+          "fetch_prev_scene",
+          "history",
+          "search_by_glyph",
+          "top_drift",
+          "delete_user",
+          "get_stats"
+        ]
+      },
+      {
+        "filename": "models.py",
+        "component_type": "DATA_MODEL",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TemporalFeel",
+          "AgencyFeel",
+          "SeverityLevel",
+          "RiskSeverity",
+          "ProtoQualia",
+          "RiskProfile",
+          "RiskGauge",
+          "PhenomenalScene",
+          "PhenomenalGlyph",
+          "RegulationPolicy",
+          "Metrics",
+          "PLSLatent",
+          "SublimatioNResult",
+          "validate_colorfield",
+          "energy_signature",
+          "severity_matches_score",
+          "severity_matches_score",
+          "validate_glyph_key",
+          "validate_actions"
+        ]
+      },
+      {
+        "filename": "vivox_integration.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.aka_qualia.models",
+          "candidate.vivox.collapse.z_collapse_engine",
+          "candidate.vivox.memory_expansion.vivox_me_core"
+        ],
+        "exports": [
+          "VivoxCollapseState",
+          "VivoxDriftResult",
+          "VivoxAkaQualiaIntegration",
+          "generate_collapse_hash",
+          "verify_collapse_hash",
+          "compute_drift_score",
+          "create_vivox_collapse_state",
+          "get_drift_status",
+          "get_collapse_history"
+        ]
+      },
+      {
+        "filename": "teq_hook.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TEQGuardian",
+          "assess",
+          "enforce",
+          "get_intervention_log",
+          "clear_intervention_log"
+        ]
+      },
+      {
+        "filename": "memory.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AkaqMemory",
+          "create_memory_client",
+          "save",
+          "fetch_prev_scene",
+          "history",
+          "search_by_glyph",
+          "top_drift",
+          "delete_user",
+          "get_stats"
+        ]
+      },
+      {
+        "filename": "util.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "to_proto_vec",
+          "cosine_similarity",
+          "euclidean_distance",
+          "find_similar_scenes",
+          "compute_proto_hash",
+          "extract_affect_energy",
+          "validate_proto_bounds",
+          "compute_drift_phi"
+        ]
+      },
+      {
+        "filename": "test_simple.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.aka_qualia.memory_noop"
+        ],
+        "exports": [
+          "test_noop_memory_basic",
+          "test_memory_client_factory",
+          "test_noop_memory_get_stats"
+        ]
+      },
+      {
+        "filename": "observability.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AkaqMetrics",
+          "AkaqObservability",
+          "Counter",
+          "Histogram",
+          "Gauge",
+          "Info",
+          "get_observability",
+          "configure_observability",
+          "measure_scene_processing",
+          "measure_memory_operation",
+          "record_scene_processed",
+          "record_glyph_mapped",
+          "update_consciousness_metrics",
+          "measure_scene_processing",
+          "measure_memory_operation",
+          "record_scene_processed",
+          "record_glyph_mapped",
+          "record_router_dispatch",
+          "update_consciousness_metrics",
+          "record_dream_generated",
+          "update_system_health",
+          "update_memory_storage",
+          "get_metrics_summary",
+          "export_prometheus_metrics",
+          "health_check",
+          "generate_latest",
+          "inc",
+          "labels",
+          "observe",
+          "time",
+          "labels",
+          "set",
+          "inc",
+          "dec",
+          "labels",
+          "info"
+        ]
+      },
+      {
+        "filename": "core.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/core.json",
+        "dependencies": [
+          "candidate.aka_qualia.glyphs",
+          "candidate.aka_qualia.memory",
+          "candidate.aka_qualia.metrics",
+          "candidate.aka_qualia.models",
+          "candidate.aka_qualia.oneiric_hook",
+          "candidate.aka_qualia.palette",
+          "candidate.aka_qualia.pls",
+          "candidate.aka_qualia.regulation",
+          "candidate.aka_qualia.router_client",
+          "candidate.aka_qualia.teq_hook",
+          "candidate.aka_qualia.util",
+          "candidate.aka_qualia.vivox_integration",
+          "candidate.metrics",
+          "candidate.qi.states.integrity_probe"
+        ],
+        "exports": [
+          "AkaQualia",
+          "EnhancedEnergySnapshot",
+          "infer_scene",
+          "emit_glyphs",
+          "regulate",
+          "tick_once",
+          "get_status",
+          "get_prometheus_metrics"
+        ]
+      },
+      {
+        "filename": "regulation.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.aka_qualia.models"
+        ],
+        "exports": [
+          "RegulationAuditEntry",
+          "RegulationPolicyEngine",
+          "generate_policy",
+          "update_audit_entry_post_regulation",
+          "get_audit_statistics",
+          "export_audit_log"
+        ]
+      },
+      {
+        "filename": "palette.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "CultureProfile",
+          "PaletteBias",
+          "map_colorfield",
+          "get_safe_palette_recommendation",
+          "compute_palette_harmony"
+        ]
+      },
+      {
+        "filename": "run_c44_tests.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "run_command",
+          "main"
+        ]
+      },
+      {
+        "filename": "test_c43_integration.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.aka_qualia.core",
+          "candidate.aka_qualia.memory_noop"
+        ],
+        "exports": []
+      },
+      {
+        "filename": "router_client.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.aka_qualia.models",
+          "candidate.core.orchestration.core_modules.symbolic_signal_router",
+          "candidate.orchestration.signals"
+        ],
+        "exports": [
+          "RouterClient",
+          "SymbolicMeshRouterClient",
+          "MockRouterClient",
+          "create_router_client",
+          "compute_routing_priority",
+          "route",
+          "get_routing_status",
+          "route",
+          "get_routing_status",
+          "reset_statistics",
+          "route",
+          "get_routing_status",
+          "get_routed_glyphs",
+          "clear_history"
+        ]
+      },
+      {
+        "filename": "validate_c6_simple.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.aka_qualia.core",
+          "candidate.aka_qualia.core",
+          "candidate.aka_qualia.core",
+          "candidate.aka_qualia.core"
+        ],
+        "exports": [
+          "SimpleAblationFramework",
+          "SimpleConstellationValidator",
+          "test_basic_imports",
+          "test_akaq_instantiation",
+          "test_consciousness_ablation_framework",
+          "test_constellation_ethics_validation",
+          "test_constitutional_ai_compliance",
+          "main",
+          "test_component_disable",
+          "get_results",
+          "validate_basic_principles",
+          "get_results"
+        ]
+      },
+      {
+        "filename": "glyphs.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "map_scene_to_glyphs",
+          "normalize_glyph_keys",
+          "compute_glyph_priority",
+          "validate_glyph_determinism"
+        ]
+      },
+      {
+        "filename": "run_c6_tests.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.aka_qualia.core",
+          "candidate.aka_qualia.tests.test_consciousness_ablation",
+          "candidate.aka_qualia.tests.test_ethics_validation"
+        ],
+        "exports": [
+          "WaveCTestRunner",
+          "main",
+          "run_ablation_tests",
+          "run_ethics_tests",
+          "run_simple_validation",
+          "generate_report",
+          "run_all_tests"
+        ]
+      },
+      {
+        "filename": "test_c5_observability.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.aka_qualia.memory_noop",
+          "candidate.aka_qualia.monitoring_dashboard",
+          "candidate.aka_qualia.observability"
+        ],
+        "exports": [
+          "demo_scene_processing",
+          "demo_memory_operations",
+          "demo_monitoring_dashboard",
+          "test_prometheus_metrics",
+          "main"
+        ]
+      },
+      {
+        "filename": "memory_sql.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SqlMemory",
+          "save",
+          "fetch_prev_scene",
+          "history",
+          "get_scene_history",
+          "search_by_glyph",
+          "top_drift",
+          "delete_user",
+          "get_stats"
+        ]
+      },
+      {
+        "filename": "demo_smoke.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.aka_qualia.core",
+          "candidate.aka_qualia.glyphs",
+          "candidate.aka_qualia.models",
+          "candidate.aka_qualia.oneiric_hook",
+          "candidate.aka_qualia.router_client"
+        ],
+        "exports": [
+          "SmokeDemo",
+          "create_demo_scenarios",
+          "main",
+          "run_smoke_demo",
+          "get_demo_statistics"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "migrations",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "tools",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "tests",
+        "has_index": false,
+        "purpose": "Subdirectory with 10 Python files",
+        "component_count": 10
+      },
+      {
+        "name": "docs",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "cli",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "CLI_REFERENCE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README_C4_MEMORY.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "WAVE_C_DOCUMENTATION.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "PRODUCTION_PROMOTION_PACKAGE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "lukhas_context.md",
+        "type": "lukhas_context.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "TODO_WAVE_C_COMPLETION.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "WAVE_C_COMPLETION_SUMMARY.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "claude.me",
+        "type": "claude.me",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "lukhas_context.md",
+      "claude.me"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 26,
+    "estimated_complexity": "high",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

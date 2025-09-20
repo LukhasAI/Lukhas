@@ -1,0 +1,154 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/core/symbolic_legacy/features",
+    "lane": "development",
+    "purpose": "Directory containing 3 Python files and 5 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "memory_reflection_template.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ReflectionState",
+          "FoldType",
+          "MemoryFold",
+          "ReflectionContext",
+          "MemoryReflectionSystem",
+          "QuantumConsciousnessProcessor",
+          "NeuralOscillator",
+          "IdentityCoherenceTracker",
+          "ConsciousnessDepthMonitor",
+          "GuardianEthicsEngine",
+          "process_signal",
+          "initialize",
+          "start",
+          "get_current_phase",
+          "calibrate",
+          "start",
+          "enable_monitoring",
+          "detect_violations"
+        ]
+      },
+      {
+        "filename": "tracer.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "InferenceStep",
+          "SymbolicTrace",
+          "DecisionTrail",
+          "SymbolicTracer",
+          "to_json",
+          "start_trail",
+          "trace",
+          "end_trail",
+          "get_trail"
+        ]
+      },
+      {
+        "filename": "trace_verifier.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolicTraceVerifier",
+          "verify_trace"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "security",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "collapse",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "docs",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "drift",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "memoria",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "README_glyphs.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README_symbolic.md",
+        "type": "other",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "README.md"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 3,
+    "estimated_complexity": "low",
+    "consciousness_integration": "intermediate",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate/core/symbolic_legacy",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "agi_core/memory",
+    "lane": "development",
+    "purpose": "Directory containing 5 Python files and 0 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "vector_memory.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MemoryType",
+          "MemoryImportance",
+          "MemoryVector",
+          "VectorSearchResult",
+          "VectorMemoryStore",
+          "calculate_current_strength",
+          "reinforce",
+          "get_constellation_alignment",
+          "save_memories",
+          "load_memories",
+          "get_memory_stats"
+        ]
+      },
+      {
+        "filename": "semantic_memory.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "NodeType",
+          "RelationType",
+          "SemanticNode",
+          "SemanticRelation",
+          "SemanticQuery",
+          "SemanticMemoryGraph",
+          "access_node",
+          "add_evidence",
+          "get_constellation_score",
+          "validate_relation",
+          "get_semantic_stats",
+          "export_graph"
+        ]
+      },
+      {
+        "filename": "memory_consolidation.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ConsolidationStrategy",
+          "ConsolidationType",
+          "ConsolidationJob",
+          "ConsolidationResult",
+          "MemoryConsolidator",
+          "get_consolidation_stats"
+        ]
+      },
+      {
+        "filename": "episodic_memory.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EpisodeType",
+          "EpisodeStatus",
+          "EpisodeContext",
+          "Episode",
+          "EpisodicQuery",
+          "EpisodicMemorySystem",
+          "get_episode_vector",
+          "add_memory",
+          "complete_episode",
+          "get_episode_stats"
+        ]
+      },
+      {
+        "filename": "dream_memory.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DreamPhase",
+          "DreamInsightType",
+          "DreamMemoryPattern",
+          "DreamSession",
+          "DreamMemoryBridge",
+          "get_pattern_strength",
+          "get_dream_session",
+          "get_discovered_patterns",
+          "get_dream_stats"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 5,
+    "estimated_complexity": "low",
+    "consciousness_integration": "intermediate",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "agi_core",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

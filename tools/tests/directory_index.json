@@ -1,0 +1,147 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "tools/tests",
+    "lane": "development",
+    "purpose": "Directory containing 6 Python files and 1 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "specs_sync.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "load_architecture_master",
+          "load_spec_template",
+          "generate_spec_stubs",
+          "main"
+        ]
+      },
+      {
+        "filename": "spec_lint.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TestMarkerVisitor",
+          "lint_test_file",
+          "main",
+          "visit_FunctionDef"
+        ]
+      },
+      {
+        "filename": "contract_check.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "get_changed_test_files",
+          "find_package_for_test",
+          "has_contract_md",
+          "has_matching_spec",
+          "main"
+        ]
+      },
+      {
+        "filename": "validate_golden.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "load_golden_schema",
+          "validate_golden_json",
+          "find_golden_files",
+          "main"
+        ]
+      },
+      {
+        "filename": "coverage_gate.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "CoverageGate",
+          "main",
+          "load_baselines",
+          "save_baselines",
+          "parse_coverage_xml",
+          "filename_to_module",
+          "check_ratchet",
+          "update_baselines",
+          "generate_priority_matrix"
+        ]
+      },
+      {
+        "filename": "flake_sentinel.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "FlakeSentinel",
+          "parse_pytest_json_report",
+          "main",
+          "load_timings",
+          "save_timings",
+          "record_session",
+          "record_test_timing",
+          "check_timing_drift",
+          "update_baselines",
+          "detect_flakes",
+          "check_budget"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "validators",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      }
+    ],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 6,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "tools",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

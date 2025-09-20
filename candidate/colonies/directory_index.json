@@ -1,0 +1,174 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/colonies",
+    "lane": "development",
+    "purpose": "Directory containing 8 Python files and 0 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "memory.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MemoryColony",
+          "get_memory_colony",
+          "get_default_capabilities",
+          "process_task"
+        ]
+      },
+      {
+        "filename": "consciousness.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/consciousness.json",
+        "dependencies": [],
+        "exports": [
+          "ConsciousnessColony",
+          "get_consciousness_colony",
+          "get_default_capabilities",
+          "process_task"
+        ]
+      },
+      {
+        "filename": "creativity.py",
+        "component_type": "CREATIVITY_ENGINE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "CreativityColony",
+          "get_creativity_colony",
+          "get_default_capabilities",
+          "process_task"
+        ]
+      },
+      {
+        "filename": "orchestrator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "OrchestratorColony",
+          "get_orchestrator_colony",
+          "get_default_capabilities",
+          "process_task"
+        ]
+      },
+      {
+        "filename": "reasoning.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/reasoning.json",
+        "dependencies": [],
+        "exports": [
+          "ReasoningColony",
+          "get_reasoning_colony",
+          "get_default_capabilities",
+          "process_task"
+        ]
+      },
+      {
+        "filename": "identity.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/identity.json",
+        "dependencies": [],
+        "exports": [
+          "IdentityColony",
+          "get_identity_colony",
+          "get_default_capabilities",
+          "process_task"
+        ]
+      },
+      {
+        "filename": "base.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ColonyRole",
+          "ColonyStatus",
+          "ColonyAgent",
+          "ColonyTask",
+          "BaseColony",
+          "ColonyRegistry",
+          "get_colony_registry",
+          "get_default_capabilities",
+          "process_task",
+          "submit_task",
+          "assign_task",
+          "process_queue",
+          "get_status",
+          "trinity_sync",
+          "add_agent",
+          "remove_agent",
+          "register_colony",
+          "unregister_colony",
+          "add_task_route",
+          "submit_task",
+          "get_colony",
+          "get_all_colonies",
+          "process_all_queues",
+          "get_system_status"
+        ]
+      },
+      {
+        "filename": "governance.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "GovernanceColony",
+          "get_governance_colony",
+          "get_default_capabilities",
+          "process_task",
+          "get_governance_status"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 8,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

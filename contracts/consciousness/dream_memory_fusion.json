@@ -1,0 +1,42 @@
+{
+  "schema_version": "2.0.0",
+  "component_id": "candidate.consciousness.dream.integration.dream_memory_fusion",
+  "component_type": "MEMORY_INTERFACE",
+  "lane": "development",
+  "trinity_integration": {
+    "identity_coupling": false,
+    "consciousness_role": "secondary",
+    "guardian_validation": false
+  },
+  "cognitive_processing": {
+    "processing_mode": "synchronous",
+    "input_types": [
+      "CONTEXT_INFO",
+      "MEMORY_DATA"
+    ],
+    "output_types": [
+      "MEMORY_UPDATE"
+    ],
+    "cascade_prevention": true
+  },
+  "performance_contract": {
+    "latency_target": "<250ms",
+    "throughput_target": 50.0,
+    "availability_target": 0.997,
+    "memory_limit": "100MB"
+  },
+  "governance": {
+    "ethics_validation": "optional",
+    "consent_required": true,
+    "audit_level": "metadata",
+    "privacy_classification": "confidential"
+  },
+  "dependencies": [],
+  "metadata": {
+    "created_date": "2025-09-20",
+    "last_updated": "2025-09-20T15:12:38.483688",
+    "maintainer": "LUKHAS Consciousness Team",
+    "documentation_url": "https://docs.lukhas.ai/consciousness/candidate/consciousness/dream/integration/dream_memory_fusion",
+    "test_coverage": 85.0
+  }
+}

@@ -1,0 +1,559 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "scripts/fixes",
+    "lane": "development",
+    "purpose": "Directory containing 36 Python files and 0 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "mass_fix_pattern_2.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "find_files_with_pattern",
+          "fix_pattern_2_errors",
+          "process_files"
+        ]
+      },
+      {
+        "filename": "cascade_crusher.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "CascadeCrusher",
+          "main",
+          "get_critical_remaining_files",
+          "aggressive_fix_patterns",
+          "crush_cascade_file",
+          "test_functional_breakthrough",
+          "run_cascade_crusher"
+        ]
+      },
+      {
+        "filename": "fix_fstring_errors.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "FStringFixer",
+          "main",
+          "fix_single_brace",
+          "fix_mismatched_parens_in_fstring",
+          "fix_unterminated_fstring",
+          "fix_file",
+          "fix_directory",
+          "replacer"
+        ]
+      },
+      {
+        "filename": "resolve_conflicts.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "find_conflict_files",
+          "resolve_conflict_file",
+          "main",
+          "replace_conflict"
+        ]
+      },
+      {
+        "filename": "fix_syntax_errors.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_broken_strings",
+          "fix_unclosed_parentheses",
+          "fix_file_syntax",
+          "main"
+        ]
+      },
+      {
+        "filename": "fix_bracket_mismatches.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_fstring_bracket_mismatch",
+          "process_file",
+          "main"
+        ]
+      },
+      {
+        "filename": "fix_critical_syntax.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "CriticalSyntaxFixer",
+          "main",
+          "fix_f_string_issues",
+          "fix_missing_parentheses",
+          "fix_basic_syntax_errors",
+          "fix_file",
+          "process_directory"
+        ]
+      },
+      {
+        "filename": "safe_fstring_fixer_t4.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SafeFStringFixer",
+          "main",
+          "validate_syntax",
+          "create_backup",
+          "restore_backup",
+          "safe_fix_fstring_parentheses",
+          "process_file",
+          "get_priority_files",
+          "run_safe_fixes"
+        ]
+      },
+      {
+        "filename": "mass_bracket_fixer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_systematic_patterns",
+          "fix_file_brackets"
+        ]
+      },
+      {
+        "filename": "fix_logging_imports.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_logging_in_file",
+          "main"
+        ]
+      },
+      {
+        "filename": "nuclear_fstring_fixer_isolated.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "NuclearFStringFixer",
+          "main",
+          "get_nuclear_patterns",
+          "isolate_and_test",
+          "nuclear_fix_fstring",
+          "get_critical_files",
+          "process_file_nuclear",
+          "run_nuclear_fixes",
+          "print_nuclear_summary",
+          "cleanup_isolation"
+        ]
+      },
+      {
+        "filename": "enhanced_syntax_fixer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EnhancedSyntaxFixer",
+          "main",
+          "get_error_files_by_pattern",
+          "test_compilation",
+          "fix_fstring_braces",
+          "fix_missing_commas",
+          "fix_string_quotes",
+          "fix_file_safely",
+          "process_by_patterns",
+          "generate_report"
+        ]
+      },
+      {
+        "filename": "fix_closing_brace_issues.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_fstring_specific_issues",
+          "find_and_fix_files",
+          "manual_fix_file"
+        ]
+      },
+      {
+        "filename": "comprehensive_fstring_fix.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "comprehensive_fstring_fix",
+          "main"
+        ]
+      },
+      {
+        "filename": "mass_fix_remaining_syntax.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "get_syntax_error_files",
+          "fix_syntax_patterns",
+          "process_error_files"
+        ]
+      },
+      {
+        "filename": "fix_syntax_systematic.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_fstring_errors",
+          "fix_import_errors",
+          "fix_file",
+          "main",
+          "fix_parens",
+          "fix_incomplete_dict",
+          "fix_double_brace"
+        ]
+      },
+      {
+        "filename": "fix_specific_fstring_patterns.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_specific_patterns",
+          "fix_file"
+        ]
+      },
+      {
+        "filename": "strategic_lukhas_fixer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "StrategicLukhasFixer",
+          "main",
+          "get_lukhas_high_priority_files",
+          "get_aggressive_f_string_patterns",
+          "fix_fstring_parentheses",
+          "fix_fstring_parentheses_single",
+          "validate_syntax",
+          "fix_file_strategically",
+          "run_strategic_fixes"
+        ]
+      },
+      {
+        "filename": "focused_syntax_fixer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "is_lukhas_project_file",
+          "fix_f_string_braces",
+          "fix_eol_strings",
+          "fix_parentheses_mismatch",
+          "fix_unexpected_indent",
+          "fix_invalid_characters",
+          "fix_syntax_errors",
+          "main"
+        ]
+      },
+      {
+        "filename": "mass_f821_elimination_phase2.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "apply_mechanical_fixes",
+          "fix_file_mechanically",
+          "main"
+        ]
+      },
+      {
+        "filename": "fix_fstring_brackets.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_fstring_brackets",
+          "main"
+        ]
+      },
+      {
+        "filename": "rapid_cascade_chaser.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "RapidCascadeChaser",
+          "main",
+          "get_current_blocker",
+          "fix_f_string_line",
+          "chase_cascade"
+        ]
+      },
+      {
+        "filename": "refined_syntax_fixer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "RefinedSyntaxFixer",
+          "main",
+          "get_syntax_errors_only",
+          "apply_refined_patterns",
+          "test_compilation",
+          "fix_file_safely",
+          "run_refined_fixing",
+          "generate_phase2_report"
+        ]
+      },
+      {
+        "filename": "rollback_bad_fstring_fixes.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "rollback_bad_fstring_patterns",
+          "process_files_rollback"
+        ]
+      },
+      {
+        "filename": "autonomous_nuclear_fixer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AutonomousNuclearFixer",
+          "main",
+          "get_comprehensive_patterns",
+          "validate_syntax",
+          "fix_file_autonomous",
+          "get_all_critical_files",
+          "run_autonomous_nuclear_fixes"
+        ]
+      },
+      {
+        "filename": "comprehensive_syntax_fixer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "is_lukhas_file",
+          "fix_common_syntax_errors",
+          "check_syntax",
+          "fix_file",
+          "main"
+        ]
+      },
+      {
+        "filename": "targeted_nuclear_fstring_fixer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TargetedNuclearFixer",
+          "main",
+          "get_targeted_patterns",
+          "validate_fix",
+          "fix_file_targeted",
+          "get_priority_files",
+          "run_targeted_fixes"
+        ]
+      },
+      {
+        "filename": "automated_safe_fixing_plan.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SafeFStringFixer",
+          "main",
+          "get_syntax_error_files",
+          "test_compilation",
+          "apply_rule_a1_drop_f_prefix",
+          "apply_rule_a2_escape_literal_braces",
+          "apply_rule_a3_close_strings_and_fields",
+          "fix_file",
+          "run_automated_fixing",
+          "create_fixing_report",
+          "fix_single_braces"
+        ]
+      },
+      {
+        "filename": "fix_brain_integration.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_brain_integration"
+        ]
+      },
+      {
+        "filename": "fix_f_string_parenthesis_systematic.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_fstring_parentheses",
+          "validate_syntax",
+          "main",
+          "fix_pattern1",
+          "check_fstring_errors"
+        ]
+      },
+      {
+        "filename": "fix_remaining_syntax.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_file_syntax"
+        ]
+      },
+      {
+        "filename": "fix_f_strings.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_f_string_single_brace",
+          "process_file",
+          "main"
+        ]
+      },
+      {
+        "filename": "fstring_fix.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "iter_python_files",
+          "is_fstring_prefix",
+          "find_fstring_spans",
+          "simple_expression_ok",
+          "missing_closing_braces_count",
+          "fix_line",
+          "process_file",
+          "main"
+        ]
+      },
+      {
+        "filename": "fix_datetime.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_datetime_files"
+        ]
+      },
+      {
+        "filename": "targeted_syntax_fix.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_simple_patterns",
+          "can_fix_file",
+          "fix_file",
+          "main"
+        ]
+      },
+      {
+        "filename": "fix_fstring_errors_v2.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_fstring_patterns_v2",
+          "process_files_v2"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [
+      {
+        "task": "API integration",
+        "files_involved": [
+          "rapid_cascade_chaser.py"
+        ],
+        "complexity": "medium"
+      }
+    ],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 36,
+    "estimated_complexity": "high",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "scripts",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

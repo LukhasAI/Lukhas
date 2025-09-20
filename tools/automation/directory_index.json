@@ -1,0 +1,294 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "tools/automation",
+    "lane": "development",
+    "purpose": "Directory containing 13 Python files and 0 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "fix_datetime_utc.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_datetime_in_file",
+          "get_files_with_datetime_issues",
+          "main"
+        ]
+      },
+      {
+        "filename": "syntax_doctor.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SyntaxDoctor",
+          "main",
+          "find_syntax_errors",
+          "has_syntax_error",
+          "get_syntax_error_details",
+          "fix_file",
+          "apply_specific_fixes",
+          "fix_unclosed_strings",
+          "fix_indentation",
+          "generate_report"
+        ]
+      },
+      {
+        "filename": "enhanced_fstring_fixer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EnhancedFStringFixer",
+          "get_problematic_files",
+          "main",
+          "fix_content",
+          "fix_file",
+          "fix_files",
+          "get_stats"
+        ]
+      },
+      {
+        "filename": "proven_pattern_fixer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_f_string_hexdigest_pattern",
+          "fix_float_nan_pattern",
+          "fix_css_f_string_braces",
+          "fix_known_patterns_only",
+          "get_target_files",
+          "main"
+        ]
+      },
+      {
+        "filename": "auto_escalator_policy_implementation.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EscalatorTier",
+          "SplitPolicy",
+          "UserMetrics",
+          "AutoEscalatorEngine",
+          "demo_auto_escalator",
+          "calculate_user_tier",
+          "calculate_split",
+          "check_tier_promotion",
+          "check_performance_bonuses",
+          "generate_tier_requirements_guide"
+        ]
+      },
+      {
+        "filename": "import_fixer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TargetedImportFixer",
+          "main",
+          "fix_syntax_error_files",
+          "fix_audit_syntax",
+          "fix_fstring_backslash",
+          "fix_missing_indentation",
+          "fix_unexpected_indent",
+          "fix_basic_syntax",
+          "fix_missing_local_imports",
+          "fix_import_statements",
+          "create_missing_requirements",
+          "run_targeted_fixes"
+        ]
+      },
+      {
+        "filename": "cleanup_generator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "CleanupGenerator",
+          "main",
+          "generate_cleanup_script",
+          "generate_verification_script",
+          "save_scripts"
+        ]
+      },
+      {
+        "filename": "pytest_class_fixer.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TestClassTransformer",
+          "PytestClassFixer",
+          "main",
+          "visit_ClassDef",
+          "transform_init_method",
+          "find_problematic_test_classes",
+          "file_has_test_class_with_init",
+          "get_pytest_collection_warnings",
+          "create_backup",
+          "validate_fix",
+          "fix_file",
+          "fallback_string_replacement",
+          "run_fixes"
+        ]
+      },
+      {
+        "filename": "auto_fix_linting.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AutoLintFixer",
+          "run_command",
+          "fix_with_black",
+          "fix_with_ruff",
+          "fix_imports_with_isort",
+          "remove_unused_imports",
+          "check_remaining_issues",
+          "generate_report",
+          "run_full_fix",
+          "ensure_tools_installed"
+        ]
+      },
+      {
+        "filename": "comprehensive_import_fixer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ImportErrorFixer",
+          "main",
+          "should_ignore_file",
+          "analyze_syntax_errors",
+          "fix_syntax_errors",
+          "fix_common_syntax_issues",
+          "fix_import_statement",
+          "analyze_missing_modules",
+          "module_exists",
+          "fix_missing_modules",
+          "is_local_module",
+          "fix_local_modules",
+          "find_correct_module_path",
+          "update_import_in_file",
+          "create_missing_module",
+          "report_external_modules",
+          "create_missing_init_files",
+          "fix_common_import_patterns",
+          "run_comprehensive_fix"
+        ]
+      },
+      {
+        "filename": "syntax_fix_automation.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AutomatedSyntaxFixer",
+          "get_syntax_error_count",
+          "apply_f_string_brace_fixes",
+          "apply_dictionary_brace_fixes",
+          "apply_comprehension_colon_fixes",
+          "test_compilation",
+          "process_file",
+          "run_automated_fixes"
+        ]
+      },
+      {
+        "filename": "diagnostic_orchestrator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.governance.identity"
+        ],
+        "exports": [
+          "ErrorCategory",
+          "FixStrategy",
+          "DiagnosticOrchestrator",
+          "main",
+          "load_diagnostic_report",
+          "categorize_errors",
+          "create_backup",
+          "validate_fixes",
+          "apply_fstring_fixes",
+          "apply_config_fixes",
+          "apply_import_fixes",
+          "rollback_from_backup",
+          "run_orchestration"
+        ]
+      },
+      {
+        "filename": "precommit_fstring_validator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "FStringValidationError",
+          "PrecommitFStringValidator",
+          "main",
+          "get_staged_python_files",
+          "validate_ast_syntax",
+          "validate_fstring_patterns",
+          "validate_file",
+          "apply_auto_fixes",
+          "validate_files",
+          "print_validation_report"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 13,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "tools",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "products/intelligence/dast",
+    "lane": "development",
+    "purpose": "Directory containing 2 Python files and 2 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "dast_core.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolCategory",
+          "SymbolSource",
+          "SymbolConfidence",
+          "SymbolicTag",
+          "ContextSnapshot",
+          "SymbolRule",
+          "D\u039bST",
+          "is_valid",
+          "update_confidence",
+          "get_symbol_analytics",
+          "get_system_metrics"
+        ]
+      },
+      {
+        "filename": "realtime_service_switching.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ServiceType",
+          "ServiceStatus",
+          "FailoverStrategy",
+          "ServiceProvider",
+          "ServiceHealth",
+          "ServiceRequest",
+          "ServiceResponse",
+          "RealTimeServiceSwitcher",
+          "register_provider",
+          "get_service_status",
+          "configure_failover_strategy",
+          "get_performance_report"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "complete_implementation",
+        "has_index": false,
+        "purpose": "Subdirectory with 8 Python files",
+        "component_count": 8
+      },
+      {
+        "name": " \u039buctor",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "lukhas_context.md",
+        "type": "lukhas_context.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "claude.me",
+        "type": "claude.me",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "README.md",
+      "lukhas_context.md",
+      "claude.me"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 2,
+    "estimated_complexity": "low",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "products/intelligence",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

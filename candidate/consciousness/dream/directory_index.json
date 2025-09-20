@@ -1,0 +1,660 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/consciousness/dream",
+    "lane": "development",
+    "purpose": "Directory containing 30 Python files and 18 subdirectories",
+    "trinity_role": [
+      "consciousness"
+    ],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "colony_dream_coordinator.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/colony_dream_coordinator.json",
+        "dependencies": [
+          "candidate.orchestration.colony_orchestrator",
+          "candidate.core.swarm",
+          "candidate.orchestration.symbolic_kernel_bus"
+        ],
+        "exports": [
+          "DreamTaskType",
+          "DreamDistributionStrategy",
+          "ColonyDreamTask",
+          "ColonyDreamResult",
+          "ColonyDreamCoordinator",
+          "ColonyOrchestrator",
+          "ColonyType",
+          "ColonyPriority",
+          "get_coordinator_status"
+        ]
+      },
+      {
+        "filename": "redirect_justifier.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/redirect_justifier.json",
+        "dependencies": [],
+        "exports": [
+          "RedirectJustifier",
+          "justify"
+        ]
+      },
+      {
+        "filename": "breakthrough_detector.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/breakthrough_detector.json",
+        "dependencies": [
+          "candidate.core.common",
+          "candidate.core.common.exceptions",
+          "candidate.core.interfaces",
+          "candidate.core.interfaces.dependency_injection"
+        ],
+        "exports": [
+          "BreakthroughType",
+          "ImpactCurve",
+          "ParadigmConflict",
+          "BreakthroughCandidate",
+          "ScientificParadigm",
+          "BreakthroughDetector",
+          "Sustainability",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "dream_visualization.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_visualization.json",
+        "dependencies": [],
+        "exports": [
+          "DreamVisualizationEngine",
+          "render_dream_landscape",
+          "create_symbolic_narrative",
+          "export_visualization_data"
+        ]
+      },
+      {
+        "filename": "dream_pipeline.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_pipeline.json",
+        "dependencies": [
+          "dream_engine.lukhas_oracle_dream"
+        ],
+        "exports": [
+          "UnifiedDreamPipeline",
+          "MockConsent",
+          "MockMemorySampler",
+          "dummy_evaluate",
+          "allows",
+          "pick_emotional_memory"
+        ]
+      },
+      {
+        "filename": "dream_narrator_queue.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_narrator_queue.json",
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "parallel_reality_simulator.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/parallel_reality_simulator.json",
+        "dependencies": [
+          "candidate.core.common",
+          "candidate.core.common.exceptions",
+          "candidate.core.interfaces",
+          "candidate.core.interfaces.dependency_injection",
+          "candidate.core.interfaces.dependency_injection",
+          "candidate.core.interfaces.memory_interface"
+        ],
+        "exports": [
+          "RealityType",
+          "RealityBranch",
+          "RealitySimulation",
+          "ParallelRealitySimulator",
+          "is_viable"
+        ]
+      },
+      {
+        "filename": "lucid_dreaming.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/lucid_dreaming.json",
+        "dependencies": [],
+        "exports": [
+          "LucidDreamController",
+          "initiate_lucid_state",
+          "enhance_dream_control",
+          "validate_lucid_safety"
+        ]
+      },
+      {
+        "filename": "dream_stats.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_stats.json",
+        "dependencies": [],
+        "exports": [
+          "load_dreams",
+          "summarize_dreams"
+        ]
+      },
+      {
+        "filename": "dream_replay.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_replay.json",
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "dream_director.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_director.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": []
+      },
+      {
+        "filename": "symbolic_dream_interpretation.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/symbolic_dream_interpretation.json",
+        "dependencies": [],
+        "exports": [
+          "SymbolicDomain",
+          "SymbolicDreamInterpreter",
+          "interpret_dream_symbols",
+          "generate_symbolic_insights",
+          "export_interpretation"
+        ]
+      },
+      {
+        "filename": "dream.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream.json",
+        "dependencies": [],
+        "exports": [
+          "DreamSystem",
+          "initialize",
+          "get_status",
+          "initialize",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "innovation_drift_protection.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/innovation_drift_protection.json",
+        "dependencies": [
+          "candidate.core.common",
+          "candidate.core.common.exceptions",
+          "candidate.core.interfaces",
+          "candidate.core.interfaces.dependency_injection",
+          "candidate.core.monitoring.drift_monitor",
+          "lukhas.memory.integrity.collapse_hash",
+          "lukhas.memory.temporal.drift_dashboard"
+        ],
+        "exports": [
+          "DriftProtectionConfig",
+          "DriftEvent",
+          "InnovationDriftProtection",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "oracle_dream.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/oracle_dream.json",
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "dream_mutator.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_mutator.json",
+        "dependencies": [],
+        "exports": [
+          "load_latest_dream",
+          "mutate_emotional_wave",
+          "mutate_dream",
+          "save_mutated_dream"
+        ]
+      },
+      {
+        "filename": "redirect_trace_replayer.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/redirect_trace_replayer.json",
+        "dependencies": [],
+        "exports": [
+          "RedirectTraceReplayer",
+          "replay_episode"
+        ]
+      },
+      {
+        "filename": "dream_export_streamlit.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_export_streamlit.json",
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "openai_dream_integration.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/openai_dream_integration.json",
+        "dependencies": [
+          "candidate.bridge.llm_wrappers.unified_openai_client"
+        ],
+        "exports": [
+          "OpenAIDreamIntegration"
+        ]
+      },
+      {
+        "filename": "immersive_ingestion.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/immersive_ingestion.json",
+        "dependencies": [],
+        "exports": [
+          "run_dream_breath"
+        ]
+      },
+      {
+        "filename": "dream_service_init.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_service_init.json",
+        "dependencies": [
+          "candidate.core.interfaces.dependency_injection"
+        ],
+        "exports": [
+          "MockMemoryService",
+          "MockEmotionService",
+          "MockParallelRealitySimulator",
+          "initialize_dream_services",
+          "initialize_consciousness_services",
+          "initialize_all_services"
+        ]
+      },
+      {
+        "filename": "reality_synthesis_engine.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/reality_synthesis_engine.json",
+        "dependencies": [
+          "candidate.core.common",
+          "candidate.core.common.exceptions",
+          "candidate.core.interfaces",
+          "candidate.core.interfaces.dependency_injection"
+        ],
+        "exports": [
+          "PatternType",
+          "UniversalPattern",
+          "FusedInnovation",
+          "IPPortfolio",
+          "RealitySynthesisEngine",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "dream_trace_linker.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_trace_linker.json",
+        "dependencies": [],
+        "exports": [
+          "GlyphResonanceLevel",
+          "DreamTraceType",
+          "GlyphSignature",
+          "IdentitySignature",
+          "EmotionalEcho",
+          "DreamTraceLink",
+          "DreamTraceLinker",
+          "create_dream_trace_linker",
+          "link_dream_to_memory",
+          "get_session_analytics"
+        ]
+      },
+      {
+        "filename": "dream_injector.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_injector.json",
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "dream_data_sources.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_data_sources.json",
+        "dependencies": [],
+        "exports": [
+          "DreamDataCollector"
+        ]
+      },
+      {
+        "filename": "autonomous_innovation_core.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/autonomous_innovation_core.json",
+        "dependencies": [
+          "candidate.core.common",
+          "candidate.core.common.exceptions",
+          "candidate.core.interfaces",
+          "candidate.core.interfaces.dependency_injection"
+        ],
+        "exports": [
+          "InnovationDomain",
+          "MarketOpportunity",
+          "InnovationHypothesis",
+          "BreakthroughInnovation",
+          "AutonomousInnovationCore",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "dream_analytics.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_analytics.json",
+        "dependencies": [],
+        "exports": [
+          "DreamAnalyticsEngine",
+          "analyze_dream_patterns",
+          "generate_insights"
+        ]
+      },
+      {
+        "filename": "dream_summary_generator.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_summary_generator.json",
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "dream_verification_colony.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_verification_colony.json",
+        "dependencies": [],
+        "exports": [
+          "VerificationLevel",
+          "VerificationStatus",
+          "DreamVerificationColony",
+          "initiate_verification",
+          "execute_verification",
+          "get_verification_status",
+          "batch_verify_dreams",
+          "generate_verification_report"
+        ]
+      },
+      {
+        "filename": "parallel_reality_safety.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/parallel_reality_safety.json",
+        "dependencies": [
+          "candidate.core.common",
+          "candidate.core.common.exceptions",
+          "candidate.core.interfaces",
+          "candidate.core.interfaces.dependency_injection"
+        ],
+        "exports": [
+          "HallucinationType",
+          "SafetyLevel",
+          "DriftMetrics",
+          "HallucinationReport",
+          "SafetyCheckpoint",
+          "ParallelRealitySafetyFramework",
+          "RealityFirewall",
+          "ConsensusValidator",
+          "DriftPredictor",
+          "_GuardianStub",
+          "_MemoryStub",
+          "is_critical",
+          "to_hash"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "visualization",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "expand",
+        "has_index": false,
+        "purpose": "Subdirectory with 10 Python files",
+        "component_count": 10
+      },
+      {
+        "name": "modifiers",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "tools",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "core",
+        "has_index": false,
+        "purpose": "Subdirectory with 24 Python files",
+        "component_count": 24
+      },
+      {
+        "name": "integration",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "oneiric",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "docs",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "cli",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "dashboard",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "processors",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "stability",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "symbolic",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "dream_engine",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "engine",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "protocols",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "rl",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "base",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "DREAM_MODULE_ANALYSIS.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "OPENAI_INTEGRATION_GUIDE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "token_plan.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "dreamseed_protocol.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "DREAM_DATA_SOURCES_EXPLAINED.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "dreamseed_proposed_structure.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "EXPAND_OVERVIEW.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "dreamseed_risk_notes.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "dream_integration_plan.md",
+        "type": "other",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Start with consciousness architecture documentation, then examine engines and processors",
+    "key_files": [
+      "README.md",
+      "reality_synthesis_engine.py"
+    ],
+    "common_tasks": [
+      {
+        "task": "Consciousness engine development",
+        "files_involved": [
+          "reality_synthesis_engine.py"
+        ],
+        "complexity": "high"
+      }
+    ],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity",
+      "Consciousness architecture patterns"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 30,
+    "estimated_complexity": "high",
+    "consciousness_integration": "advanced",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate/consciousness",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

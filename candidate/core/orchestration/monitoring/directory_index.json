@@ -1,0 +1,120 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/core/orchestration/monitoring",
+    "lane": "development",
+    "purpose": "Directory containing 3 Python files and 0 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "the_oscillator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "health_checks.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "HealthStatus",
+          "ComponentHealth",
+          "HealthCheck",
+          "HealthChecker",
+          "create_orchestrator_health_checks",
+          "get_health_checker",
+          "to_dict",
+          "from_dict",
+          "should_run",
+          "register_check",
+          "unregister_check",
+          "get_overall_health",
+          "get_component_health",
+          "get_all_health_status",
+          "export_health_report",
+          "memory_check",
+          "cpu_check",
+          "disk_check"
+        ]
+      },
+      {
+        "filename": "emotional_oscillator.py",
+        "component_type": "EMOTION_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EmotionalOscillator",
+          "oscillator_scope",
+          "modulate_emotion",
+          "adjust_parameters"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": [
+      {
+        "filename": "INTEGRATION_REPORT.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "DEPLOYMENT_REPORT.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "DEPLOYMENT_COMPLETE.md",
+        "type": "other",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "README.md"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 3,
+    "estimated_complexity": "low",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate/core/orchestration",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

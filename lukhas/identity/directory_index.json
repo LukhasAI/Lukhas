@@ -1,0 +1,247 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "lukhas/identity",
+    "lane": "development",
+    "purpose": "Directory containing 7 Python files and 4 subdirectories",
+    "trinity_role": [
+      "identity"
+    ],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "lambda_id.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.observability.matriz_decorators",
+          "lukhas.identity.webauthn"
+        ],
+        "exports": [
+          "LambdaIDService",
+          "authenticate",
+          "register_passkey",
+          "verify_passkey",
+          "list_credentials",
+          "revoke_credential",
+          "authenticate",
+          "register_passkey",
+          "verify_passkey",
+          "list_credentials",
+          "revoke_credential"
+        ]
+      },
+      {
+        "filename": "auth_service.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.identity.wallet"
+        ],
+        "exports": [
+          "AuthResult",
+          "UserProfile",
+          "AuthenticationService",
+          "AccessTierManager",
+          "IdentityValidator",
+          "QIIdentityManager",
+          "AuditLogger",
+          "AuthenticationServer",
+          "MockAccessTierManager",
+          "MockIdentityValidator",
+          "MockQIIdentityManager",
+          "MockAuditLogger",
+          "MockAuthServer",
+          "get_auth_service",
+          "authenticate_user",
+          "authenticate_token",
+          "authenticate_api_key",
+          "authenticate_user",
+          "authenticate_token",
+          "authenticate_api_key",
+          "create_user",
+          "get_user_profile",
+          "update_user_permissions",
+          "revoke_session",
+          "get_service_status",
+          "get_implementation_status",
+          "get_user_tier",
+          "create_quantum_identity",
+          "get_server_status"
+        ]
+      },
+      {
+        "filename": "compat.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "canonicalize_id_from_kwargs",
+          "normalize_output_ids"
+        ]
+      },
+      {
+        "filename": "core.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/core.json",
+        "dependencies": [
+          "lukhas.core.common.config"
+        ],
+        "exports": [
+          "IdentityUser",
+          "IdentitySystem",
+          "get_metrics",
+          "get_registered_users"
+        ]
+      },
+      {
+        "filename": "auth_integration.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.interfaces.identity"
+        ],
+        "exports": [
+          "AuthenticationIntegration",
+          "get_component_paths",
+          "get_bridge_paths",
+          "get_integration_status"
+        ]
+      },
+      {
+        "filename": "webauthn.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "WebAuthnCredential",
+          "WebAuthnManager",
+          "to_dict",
+          "generate_registration_options",
+          "verify_registration_response",
+          "generate_authentication_options",
+          "verify_authentication_response",
+          "get_user_credentials",
+          "revoke_credential",
+          "webauthn_health_check"
+        ]
+      },
+      {
+        "filename": "tier_system.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TierLevel",
+          "AccessType",
+          "PermissionScope",
+          "AccessContext",
+          "TierPermission",
+          "AccessDecision",
+          "DynamicTierSystem",
+          "lukhas_tier_required",
+          "create_tier_system",
+          "symbolic_access_test",
+          "lambda_tier_to_int",
+          "int_to_lambda_tier",
+          "normalize_tier",
+          "tier_meets_requirement",
+          "check_access_level",
+          "check_access",
+          "elevate_session",
+          "decorator",
+          "wrapper"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "passkey",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "auth",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "wallet",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "qrg",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "INTEGRATION_COMPLETE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "lukhas_context.md",
+        "type": "lukhas_context.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "claude.me",
+        "type": "claude.me",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Focus on authentication flows and Lambda ID integration patterns",
+    "key_files": [
+      "lukhas_context.md",
+      "claude.me"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity",
+      "Authentication and identity management"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 7,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "basic",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "lukhas",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

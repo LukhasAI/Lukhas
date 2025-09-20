@@ -1,0 +1,109 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/core/adapters",
+    "lane": "development",
+    "purpose": "Directory containing 3 Python files and 0 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "qi_service_adapter.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.container.service_container",
+          "lukhas.core.interfaces.services",
+          "candidate.core.interfaces.services"
+        ],
+        "exports": [
+          "QIServiceAdapter",
+          "register_quantum_service",
+          "get_health"
+        ]
+      },
+      {
+        "filename": "module_service_adapter.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "seven_agent_adapter.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.container.service_container",
+          "lukhas.core.interfaces.services",
+          "lukhas.core.telemetry",
+          "candidate.core.container.service_container",
+          "candidate.core.container.service_container",
+          "candidate.core.identity.lambda_id_core",
+          "lukhas.governance.consent_ledger.ledger_v1",
+          "candidate.bridge.adapters.drive_adapter",
+          "candidate.bridge.adapters.dropbox_adapter",
+          "candidate.bridge.adapters.gmail_adapter",
+          "candidate.orchestration.context_bus_enhanced"
+        ],
+        "exports": [
+          "LambdaIdentityServiceAdapter",
+          "ConsentLedgerServiceAdapter",
+          "ExternalAdaptersServiceAdapter",
+          "ContextBusEnhancedAdapter",
+          "AgentSpans",
+          "register_seven_agent_services",
+          "get_health",
+          "get_health",
+          "get_health",
+          "instrument",
+          "lid_issue",
+          "lid_verify",
+          "consent_record",
+          "consent_check",
+          "adapter_metadata"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 3,
+    "estimated_complexity": "low",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate/core",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

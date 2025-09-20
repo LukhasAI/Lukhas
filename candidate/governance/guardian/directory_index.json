@@ -1,0 +1,290 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/governance/guardian",
+    "lane": "development",
+    "purpose": "Directory containing 14 Python files and 0 subdirectories",
+    "trinity_role": [
+      "guardian"
+    ],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "security_event_monitor.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "SecurityEventType",
+          "ThreatLevel",
+          "AuthenticationOutcome",
+          "SecurityAction",
+          "SecurityEvent",
+          "UserSecurityProfile",
+          "ThreatDetection",
+          "SecurityIncident",
+          "SecurityEventMonitor"
+        ]
+      },
+      {
+        "filename": "monitoring_dashboard.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MonitoringScope",
+          "AlertSeverity",
+          "ThreatLevel",
+          "MonitoringMetric",
+          "ThreatDetection",
+          "ComplianceViolation",
+          "SystemHealthStatus",
+          "MonitoringReport",
+          "GuardianMonitoringDashboard"
+        ]
+      },
+      {
+        "filename": "compliance_audit_system.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "DataProcessingPurpose",
+          "DataCategory",
+          "DataSubjectRights",
+          "ComplianceRegulation",
+          "AuditEventType",
+          "ComplianceStatus",
+          "ComplianceAuditEvent",
+          "ConsentRecord",
+          "DataSubjectRequest",
+          "PrivacyImpactAssessment",
+          "ComplianceAuditSystem"
+        ]
+      },
+      {
+        "filename": "debug_interface.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "DebugLevel",
+          "ComponentState",
+          "DebugCategory",
+          "DebugEvent",
+          "ComponentSnapshot",
+          "DebugSession",
+          "DebugInterface"
+        ]
+      },
+      {
+        "filename": "drift_detector.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.governance.ethics.constitutional_ai",
+          "lukhas.governance.identity.auth_backend.audit_logger"
+        ],
+        "exports": [
+          "DriftType",
+          "DriftSeverity",
+          "DriftTrend",
+          "DetectionMethod",
+          "DriftMeasurement",
+          "DriftPattern",
+          "DriftForecast",
+          "DriftReport",
+          "AdvancedDriftDetector"
+        ]
+      },
+      {
+        "filename": "core.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/core.json",
+        "dependencies": [],
+        "exports": [
+          "EthicalSeverity",
+          "GovernanceAction",
+          "EthicalDecision",
+          "LucasGovernanceModule",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "repair_system.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "RepairType",
+          "RepairPriority",
+          "RepairStatus",
+          "RepairOperation",
+          "SystemHealth",
+          "AutomatedRepairSystem"
+        ]
+      },
+      {
+        "filename": "guardian.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "GuardianSystem",
+          "guard_output"
+        ]
+      },
+      {
+        "filename": "pwm_workspace_guardian.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "WorkspaceGuardian",
+          "EthicalSeverity",
+          "GovernanceAction",
+          "EthicalDecision",
+          "LucasGovernanceModule"
+        ]
+      },
+      {
+        "filename": "workspace_guardian.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "WorkspaceGuardian",
+          "EthicalSeverity",
+          "GovernanceAction",
+          "EthicalDecision",
+          "LucasGovernanceModule"
+        ]
+      },
+      {
+        "filename": "guardian_system.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "GuardianStatus",
+          "ThreatLevel",
+          "ResponseAction",
+          "GuardianRole",
+          "ThreatDetection",
+          "GuardianAgent",
+          "GuardianResponse",
+          "EnhancedGuardianSystem"
+        ]
+      },
+      {
+        "filename": "system_health_monitor.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "HealthStatus",
+          "CascadeRisk",
+          "PerformanceTier",
+          "HealthMetric",
+          "CascadeEvent",
+          "APIPerformanceSnapshot",
+          "SystemHealthReport",
+          "SystemHealthMonitor"
+        ]
+      },
+      {
+        "filename": "sentinel.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/sentinel.json",
+        "dependencies": [],
+        "exports": [
+          "SentinelStatus",
+          "MonitoringScope",
+          "SentinelAlert",
+          "MonitoringProfile",
+          "GuardianSentinel"
+        ]
+      },
+      {
+        "filename": "guardian_validator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ValidationResult",
+          "AudioValidationContext",
+          "ValidationReport",
+          "GuardianValidator",
+          "get_validation_stats"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Review constitutional AI frameworks and Guardian system integration",
+    "key_files": [],
+    "common_tasks": [
+      {
+        "task": "API integration",
+        "files_involved": [
+          "debug_interface.py"
+        ],
+        "complexity": "medium"
+      }
+    ],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 14,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "basic",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate/governance",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

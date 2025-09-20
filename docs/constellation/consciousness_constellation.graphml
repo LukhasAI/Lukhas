@@ -1,0 +1,2374 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d2" for="edge" attr.name="relationship" attr.type="string" />
+  <key id="d1" for="node" attr.name="import_count" attr.type="long" />
+  <key id="d0" for="node" attr.name="file_path" attr.type="string" />
+  <graph edgedefault="directed">
+    <node id="candidate.consciousness.orchestration_bridge">
+      <data key="d0">candidate/consciousness/orchestration_bridge.py</data>
+      <data key="d1">7</data>
+    </node>
+    <node id="candidate.orchestration.brain.personality.personality" />
+    <node id="candidate.orchestration.brain.cognitive.cognitive_updater" />
+    <node id="candidate.orchestration.brain.monitoring.rate_modulator" />
+    <node id="candidate.core.common" />
+    <node id="candidate.consciousness.services">
+      <data key="d0">candidate/consciousness/services.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="consciousness.bridge" />
+    <node id="candidate.consciousness.bridge">
+      <data key="d0">candidate/consciousness/bridge.py</data>
+      <data key="d1">1</data>
+    </node>
+    <node id="candidate.consciousness.dream_bridge_adapter">
+      <data key="d0">candidate/consciousness/dream_bridge_adapter.py</data>
+      <data key="d1">5</data>
+    </node>
+    <node id="candidate.consciousness.qi_consciousness_integration">
+      <data key="d0">candidate/consciousness/qi_consciousness_integration.py</data>
+      <data key="d1">7</data>
+    </node>
+    <node id="consciousness.consciousness_service" />
+    <node id="candidate.consciousness.platform">
+      <data key="d0">candidate/consciousness/platform.py</data>
+      <data key="d1">2</data>
+    </node>
+    <node id="candidate.consciousness.activation">
+      <data key="d0">candidate/consciousness/activation.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.dream_bridge">
+      <data key="d0">candidate/consciousness/dream_bridge.py</data>
+      <data key="d1">6</data>
+    </node>
+    <node id="candidate.core.orchestration.integration_hub" />
+    <node id="candidate.memory.core" />
+    <node id="candidate.consciousness.pattern_separator">
+      <data key="d0">candidate/consciousness/pattern_separator.py</data>
+      <data key="d1">5</data>
+    </node>
+    <node id="candidate.consciousness.neuroplastic_connector">
+      <data key="d0">candidate/consciousness/neuroplastic_connector.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.matriz_adapter">
+      <data key="d0">candidate/consciousness/matriz_adapter.py</data>
+      <data key="d1">5</data>
+    </node>
+    <node id="candidate.consciousness.persona_similarity_engine">
+      <data key="d0">candidate/consciousness/persona_similarity_engine.py</data>
+      <data key="d1">8</data>
+    </node>
+    <node id="candidate.consciousness.loop_meta_learning">
+      <data key="d0">candidate/consciousness/loop_meta_learning.py</data>
+      <data key="d1">8</data>
+    </node>
+    <node id="lukhas.memory.core" />
+    <node id="candidate.consciousness.cognitive.adapter">
+      <data key="d0">candidate/consciousness/cognitive/adapter.py</data>
+      <data key="d1">14</data>
+    </node>
+    <node id="candidate.consciousness.cognitive.reflective_introspection">
+      <data key="d0">candidate/consciousness/cognitive/reflective_introspection.py</data>
+      <data key="d1">5</data>
+    </node>
+    <node id="candidate.consciousness.core.engine_poetic">
+      <data key="d0">candidate/consciousness/core/engine_poetic.py</data>
+      <data key="d1">9</data>
+    </node>
+    <node id="candidate.consciousness.core.engine_complete">
+      <data key="d0">candidate/consciousness/core/engine_complete.py</data>
+      <data key="d1">13</data>
+    </node>
+    <node id="candidate.consciousness.core.engine_codex">
+      <data key="d0">candidate/consciousness/core/engine_codex.py</data>
+      <data key="d1">7</data>
+    </node>
+    <node id="candidate.consciousness.core.engine_alt">
+      <data key="d0">candidate/consciousness/core/engine_alt.py</data>
+      <data key="d1">7</data>
+    </node>
+    <node id="candidate.consciousness.core.engine">
+      <data key="d0">candidate/consciousness/core/engine.py</data>
+      <data key="d1">12</data>
+    </node>
+    <node id="lukhas.branding_bridge" />
+    <node id="candidate.consciousness.trinity.framework_integration">
+      <data key="d0">candidate/consciousness/trinity/framework_integration.py</data>
+      <data key="d1">9</data>
+    </node>
+    <node id="candidate.consciousness.connected.cognitive_sync_adapter">
+      <data key="d0">candidate/consciousness/connected/cognitive_sync_adapter.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.connected.cognitive_updater">
+      <data key="d0">candidate/consciousness/connected/cognitive_updater.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.creativity.service">
+      <data key="d0">candidate/consciousness/creativity/service.py</data>
+      <data key="d1">6</data>
+    </node>
+    <node id="lukhas.governance.identity.interface" />
+    <node id="candidate.consciousness.creativity.creative_expression_core">
+      <data key="d0">candidate/consciousness/creativity/creative_expression_core.py</data>
+      <data key="d1">2</data>
+    </node>
+    <node id="candidate.consciousness.creativity.services">
+      <data key="d0">candidate/consciousness/creativity/services.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.creativity.haiku_generator">
+      <data key="d0">candidate/consciousness/creativity/haiku_generator.py</data>
+      <data key="d1">14</data>
+    </node>
+    <node id="consciousness.core_consciousness.qi_consciousness_integration" />
+    <node id="candidate.consciousness.creativity.creative_expression_processor">
+      <data key="d0">candidate/consciousness/creativity/creative_expression_processor.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.creativity.healix_visualizer">
+      <data key="d0">candidate/consciousness/creativity/healix_visualizer.py</data>
+      <data key="d1">10</data>
+    </node>
+    <node id="candidate.consciousness.creativity.creative_expressions_engine">
+      <data key="d0">candidate/consciousness/creativity/creative_expressions_engine.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.creativity.personality_refiner">
+      <data key="d0">candidate/consciousness/creativity/personality_refiner.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.creativity.qi_creative_types">
+      <data key="d0">candidate/consciousness/creativity/qi_creative_types.py</data>
+      <data key="d1">7</data>
+    </node>
+    <node id="candidate.consciousness.creativity.creative_engine">
+      <data key="d0">candidate/consciousness/creativity/creative_engine.py</data>
+      <data key="d1">17</data>
+    </node>
+    <node id="candidate.consciousness.creativity.voice_integrator">
+      <data key="d0">candidate/consciousness/creativity/voice_integrator.py</data>
+      <data key="d1">10</data>
+    </node>
+    <node id="candidate.consciousness.creativity.creative_core">
+      <data key="d0">candidate/consciousness/creativity/creative_core.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.creativity.personality.narrative_engine_dream_narrator_queue">
+      <data key="d0">candidate/consciousness/creativity/personality/narrative_engine_dream_narrator_queue.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.creativity.personality.brain">
+      <data key="d0">candidate/consciousness/creativity/personality/brain.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.creativity.personality.creative_core">
+      <data key="d0">candidate/consciousness/creativity/personality/creative_core.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.creativity.personality.voice.voice_narrator">
+      <data key="d0">candidate/consciousness/creativity/personality/voice/voice_narrator.py</data>
+      <data key="d1">5</data>
+    </node>
+    <node id="candidate.core.utils.symbolic_utils" />
+    <node id="candidate.consciousness.creativity.personality.voice.voice_personality">
+      <data key="d0">candidate/consciousness/creativity/personality/voice/voice_personality.py</data>
+      <data key="d1">8</data>
+    </node>
+    <node id="candidate.orchestration.brain.orchestration.emotional_oscillator" />
+    <node id="candidate.core.personality.creative_expressions" />
+    <node id="candidate.orchestration.brain.personality.personality_refiner" />
+    <node id="candidate.consciousness.creativity.engines.engine">
+      <data key="d0">candidate/consciousness/creativity/engines/engine.py</data>
+      <data key="d1">6</data>
+    </node>
+    <node id="candidate.consciousness.creativity.systems.creative_expressions_creativity_engine">
+      <data key="d0">candidate/consciousness/creativity/systems/creative_expressions_creativity_engine.py</data>
+      <data key="d1">2</data>
+    </node>
+    <node id="candidate.consciousness.creativity.systems.voice_personality_creativity_engine">
+      <data key="d0">candidate/consciousness/creativity/systems/voice_personality_creativity_engine.py</data>
+      <data key="d1">8</data>
+    </node>
+    <node id="candidate.consciousness.creativity.emotion.voice_profiling_emotion_engine">
+      <data key="d0">candidate/consciousness/creativity/emotion/voice_profiling_emotion_engine.py</data>
+      <data key="d1">8</data>
+    </node>
+    <node id="candidate.consciousness.awareness.awareness_monitoring_system">
+      <data key="d0">candidate/consciousness/awareness/awareness_monitoring_system.py</data>
+      <data key="d1">10</data>
+    </node>
+    <node id="candidate.consciousness.awareness.lukhas_awareness_protocol">
+      <data key="d0">candidate/consciousness/awareness/lukhas_awareness_protocol.py</data>
+      <data key="d1">2</data>
+    </node>
+    <node id="candidate.consciousness.awareness.awareness_engine_elevated">
+      <data key="d0">candidate/consciousness/awareness/awareness_engine_elevated.py</data>
+      <data key="d1">11</data>
+    </node>
+    <node id="candidate.consciousness.awareness.symbolic_trace_logger">
+      <data key="d0">candidate/consciousness/awareness/symbolic_trace_logger.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.awareness.awareness_protocol">
+      <data key="d0">candidate/consciousness/awareness/awareness_protocol.py</data>
+      <data key="d1">7</data>
+    </node>
+    <node id="candidate.consciousness.awareness.bio_symbolic_awareness_adapter">
+      <data key="d0">candidate/consciousness/awareness/bio_symbolic_awareness_adapter.py</data>
+      <data key="d1">9</data>
+    </node>
+    <node id="candidate.consciousness.awareness.attention_monitor">
+      <data key="d0">candidate/consciousness/awareness/attention_monitor.py</data>
+      <data key="d1">7</data>
+    </node>
+    <node id="candidate.consciousness.awareness.symbolic_qi_attention">
+      <data key="d0">candidate/consciousness/awareness/symbolic_qi_attention.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.awareness.awareness_engine">
+      <data key="d0">candidate/consciousness/awareness/awareness_engine.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.awareness.system_awareness">
+      <data key="d0">candidate/consciousness/awareness/system_awareness.py</data>
+      <data key="d1">5</data>
+    </node>
+    <node id="candidate.consciousness.awareness.awareness_log_synchronizer">
+      <data key="d0">candidate/consciousness/awareness/awareness_log_synchronizer.py</data>
+      <data key="d1">5</data>
+    </node>
+    <node id="lukhas.tiers" />
+    <node id="candidate.consciousness.awareness.awareness_processor">
+      <data key="d0">candidate/consciousness/awareness/awareness_processor.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.awareness.awareness_tracker">
+      <data key="d0">candidate/consciousness/awareness/awareness_tracker.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.unified.oscillator">
+      <data key="d0">candidate/consciousness/unified/oscillator.py</data>
+      <data key="d1">6</data>
+    </node>
+    <node id="candidate.consciousness.unified.symbolic_bio_symbolic_orchestrator">
+      <data key="d0">candidate/consciousness/unified/symbolic_bio_symbolic_orchestrator.py</data>
+      <data key="d1">14</data>
+    </node>
+    <node id="candidate.core.symbolism.tags" />
+    <node id="candidate.core.colonies.base_colony" />
+    <node id="candidate.consciousness.unified.auto_consciousness">
+      <data key="d0">candidate/consciousness/unified/auto_consciousness.py</data>
+      <data key="d1">7</data>
+    </node>
+    <node id="candidate.consciousness.unified.consolidate_consciousness_unification">
+      <data key="d0">candidate/consciousness/unified/consolidate_consciousness_unification.py</data>
+      <data key="d1">1</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.id_reasoning_engine">
+      <data key="d0">candidate/consciousness/reasoning/id_reasoning_engine.py</data>
+      <data key="d1">15</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.coherence_patch_validator">
+      <data key="d0">candidate/consciousness/reasoning/coherence_patch_validator.py</data>
+      <data key="d1">9</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.response_reasoning_summary_text_delta_event">
+      <data key="d0">candidate/consciousness/reasoning/response_reasoning_summary_text_delta_event.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.core.models" />
+    <node id="candidate.consciousness.reasoning.response_reasoning_summary_done_event">
+      <data key="d0">candidate/consciousness/reasoning/response_reasoning_summary_done_event.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.reasoning_engine">
+      <data key="d0">candidate/consciousness/reasoning/reasoning_engine.py</data>
+      <data key="d1">8</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.conflict_resolver">
+      <data key="d0">candidate/consciousness/reasoning/conflict_resolver.py</data>
+      <data key="d1">7</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.config">
+      <data key="d0">candidate/consciousness/reasoning/config.py</data>
+      <data key="d1">1</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.response_reasoning_summary_part_done_event">
+      <data key="d0">candidate/consciousness/reasoning/response_reasoning_summary_part_done_event.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.reasoning_errors">
+      <data key="d0">candidate/consciousness/reasoning/reasoning_errors.py</data>
+      <data key="d1">1</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.ΛBot_reasoning">
+      <data key="d0">candidate/consciousness/reasoning/ΛBot_reasoning.py</data>
+      <data key="d1">13</data>
+    </node>
+    <node id="candidate.orchestration.brain.abstract_reasoning.confidence_calibrator" />
+    <node id="candidate.orchestration.brain.abstract_reasoning.bio_quantum_engine" />
+    <node id="candidate.orchestration.brain.MultiBrainSymphony" />
+    <node id="candidate.consciousness.reasoning.reasoning_diagnostics">
+      <data key="d0">candidate/consciousness/reasoning/reasoning_diagnostics.py</data>
+      <data key="d1">13</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.oracle_predictor">
+      <data key="d0">candidate/consciousness/reasoning/oracle_predictor.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.reasoning_hub">
+      <data key="d0">candidate/consciousness/reasoning/reasoning_hub.py</data>
+      <data key="d1">5</data>
+    </node>
+    <node id="candidate.core.integration.service_discovery" />
+    <node id="candidate.consciousness.reasoning.openai_oracle_adapter">
+      <data key="d0">candidate/consciousness/reasoning/openai_oracle_adapter.py</data>
+      <data key="d1">7</data>
+    </node>
+    <node id="candidate.consciousness.reflection.openai_core_service">
+      <data key="d0">candidate/consciousness/reflection/openai_core_service.py</data>
+      <data key="d1">12</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.response_reasoning_summary_delta_event">
+      <data key="d0">candidate/consciousness/reasoning/response_reasoning_summary_delta_event.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.symbolic_loop_harmonizer">
+      <data key="d0">candidate/consciousness/reasoning/symbolic_loop_harmonizer.py</data>
+      <data key="d1">9</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.adaptive_reasoning_loop">
+      <data key="d0">candidate/consciousness/reasoning/adaptive_reasoning_loop.py</data>
+      <data key="d1">5</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.response_reasoning_item">
+      <data key="d0">candidate/consciousness/reasoning/response_reasoning_item.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.master_loop">
+      <data key="d0">candidate/consciousness/reasoning/master_loop.py</data>
+      <data key="d1">11</data>
+    </node>
+    <node id="symbolic.lukhas_visualizer" />
+    <node id="symbolic.lukhas_reflector" />
+    <node id="symbolic.lukhas_dreams" />
+    <node id="symbolic.lukhas_guardian" />
+    <node id="symbolic.lukhas_voice" />
+    <node id="symbolic.lukhas_personality" />
+    <node id="symbolic.lukhas_emotion" />
+    <node id="candidate.consciousness.reasoning.response_reasoning_done_event">
+      <data key="d0">candidate/consciousness/reasoning/response_reasoning_done_event.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.LBot_reasoning_processed">
+      <data key="d0">candidate/consciousness/reasoning/LBot_reasoning_processed.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.reasoning">
+      <data key="d0">candidate/consciousness/reasoning/reasoning.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.response_reasoning_delta_event">
+      <data key="d0">candidate/consciousness/reasoning/response_reasoning_delta_event.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.response_reasoning_item_param">
+      <data key="d0">candidate/consciousness/reasoning/response_reasoning_item_param.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.identity">
+      <data key="d0">candidate/consciousness/reasoning/identity.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.reasoning_colony">
+      <data key="d0">candidate/consciousness/reasoning/reasoning_colony.py</data>
+      <data key="d1">11</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.response_reasoning_summary_part_added_event">
+      <data key="d0">candidate/consciousness/reasoning/response_reasoning_summary_part_added_event.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.reasoning_metrics">
+      <data key="d0">candidate/consciousness/reasoning/reasoning_metrics.py</data>
+      <data key="d1">7</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.trace_summary_builder">
+      <data key="d0">candidate/consciousness/reasoning/trace_summary_builder.py</data>
+      <data key="d1">6</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.response_reasoning_summary_text_done_event">
+      <data key="d0">candidate/consciousness/reasoning/response_reasoning_summary_text_done_event.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.ethical.ConsentManager">
+      <data key="d0">candidate/consciousness/reasoning/ethical/ConsentManager.py</data>
+      <data key="d1">1</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.analysis.engine">
+      <data key="d0">candidate/consciousness/reasoning/analysis/engine.py</data>
+      <data key="d1">15</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.goals.goal_manager">
+      <data key="d0">candidate/consciousness/reasoning/goals/goal_manager.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.utils.agentic_trace">
+      <data key="d0">candidate/consciousness/reasoning/utils/agentic_trace.py</data>
+      <data key="d1">2</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.advanced_engines.intelligence_engines">
+      <data key="d0">candidate/consciousness/reasoning/advanced_engines/intelligence_engines.py</data>
+      <data key="d1">8</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.intent.intent_processor">
+      <data key="d0">candidate/consciousness/reasoning/intent/intent_processor.py</data>
+      <data key="d1">2</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.hooks.dream_reflect_hook">
+      <data key="d0">candidate/consciousness/reasoning/hooks/dream_reflect_hook.py</data>
+      <data key="d1">1</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.diagnostics.trace_mapper">
+      <data key="d0">candidate/consciousness/reasoning/diagnostics/trace_mapper.py</data>
+      <data key="d1">2</data>
+    </node>
+    <node id="candidate.consciousness.reasoning.decision.bridge">
+      <data key="d0">candidate/consciousness/reasoning/decision/bridge.py</data>
+      <data key="d1">12</data>
+    </node>
+    <node id="candidate.core.utils.orchestration_energy_aware_execution_planner" />
+    <node id="candidate.core.integration.neuro_symbolic_fusion_layer" />
+    <node id="lukhas.memory.governance.ethical_drift_governor" />
+    <node id="candidate.consciousness.testing.chaos_engineering_framework">
+      <data key="d0">candidate/consciousness/testing/chaos_engineering_framework.py</data>
+      <data key="d1">11</data>
+    </node>
+    <node id="candidate.consciousness.testing.metamorphic_testing_framework">
+      <data key="d0">candidate/consciousness/testing/metamorphic_testing_framework.py</data>
+      <data key="d1">11</data>
+    </node>
+    <node id="candidate.consciousness.testing.invariant_testing_framework">
+      <data key="d0">candidate/consciousness/testing/invariant_testing_framework.py</data>
+      <data key="d1">11</data>
+    </node>
+    <node id="candidate.consciousness.expansion.awareness_boundary_transcender">
+      <data key="d0">candidate/consciousness/expansion/awareness_boundary_transcender.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.core.interfaces" />
+    <node id="candidate.consciousness.expansion.consciousness_expansion_engine">
+      <data key="d0">candidate/consciousness/expansion/consciousness_expansion_engine.py</data>
+      <data key="d1">13</data>
+    </node>
+    <node id="candidate.orchestration.symbolic_kernel_bus" />
+    <node id="candidate.core.symbolic_engine" />
+    <node id="lukhas.governance.guardian_system" />
+    <node id="candidate.core.container.service_container" />
+    <node id="consciousness_multiplication_engine" />
+    <node id="consciousness_dimensionality_expander" />
+    <node id="meta_consciousness_developer" />
+    <node id="candidate.consciousness.expansion.meta_consciousness_developer">
+      <data key="d0">candidate/consciousness/expansion/meta_consciousness_developer.py</data>
+      <data key="d1">5</data>
+    </node>
+    <node id="candidate.consciousness.expansion.consciousness_multiplication_engine">
+      <data key="d0">candidate/consciousness/expansion/consciousness_multiplication_engine.py</data>
+      <data key="d1">6</data>
+    </node>
+    <node id="candidate.consciousness.expansion.consciousness_dimensionality_expander">
+      <data key="d0">candidate/consciousness/expansion/consciousness_dimensionality_expander.py</data>
+      <data key="d1">5</data>
+    </node>
+    <node id="consciousness_expansion_engine" />
+    <node id="candidate.consciousness.resilience.circuit_breaker_framework">
+      <data key="d0">candidate/consciousness/resilience/circuit_breaker_framework.py</data>
+      <data key="d1">11</data>
+    </node>
+    <node id="candidate.consciousness.examples.basic.example">
+      <data key="d0">candidate/consciousness/examples/basic/example.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.states.qi_consciousness_hub">
+      <data key="d0">candidate/consciousness/states/qi_consciousness_hub.py</data>
+      <data key="d1">12</data>
+    </node>
+    <node id="candidate.orchestration.brain.consciousness_core" />
+    <node id="candidate.consciousness.states.bio_qi_engine">
+      <data key="d0">candidate/consciousness/states/bio_qi_engine.py</data>
+      <data key="d1">12</data>
+    </node>
+    <node id="candidate.consciousness.states.qi_mesh_visualizer">
+      <data key="d0">candidate/consciousness/states/qi_mesh_visualizer.py</data>
+      <data key="d1">17</data>
+    </node>
+    <node id="candidate.consciousness.states.openai_consciousness_adapter">
+      <data key="d0">candidate/consciousness/states/openai_consciousness_adapter.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.states.symbolic_drift_tracker">
+      <data key="d0">candidate/consciousness/states/symbolic_drift_tracker.py</data>
+      <data key="d1">10</data>
+    </node>
+    <node id="candidate.consciousness.states.bio_engine">
+      <data key="d0">candidate/consciousness/states/bio_engine.py</data>
+      <data key="d1">12</data>
+    </node>
+    <node id="candidate.consciousness.states.FederatedLearningSystem">
+      <data key="d0">candidate/consciousness/states/FederatedLearningSystem.py</data>
+      <data key="d1">8</data>
+    </node>
+    <node id="candidate.consciousness.states.simulation_controller">
+      <data key="d0">candidate/consciousness/states/simulation_controller.py</data>
+      <data key="d1">8</data>
+    </node>
+    <node id="candidate.core.bio_systems.bio_oscillator" />
+    <node id="candidate.consciousness.states.symbolic_fallback_systems">
+      <data key="d0">candidate/consciousness/states/symbolic_fallback_systems.py</data>
+      <data key="d1">6</data>
+    </node>
+    <node id="candidate.consciousness.states.federated_learning_system">
+      <data key="d0">candidate/consciousness/states/federated_learning_system.py</data>
+      <data key="d1">8</data>
+    </node>
+    <node id="candidate.consciousness.states.shared_state">
+      <data key="d0">candidate/consciousness/states/shared_state.py</data>
+      <data key="d1">12</data>
+    </node>
+    <node id="candidate.core.identity.vault.lukhas_id" />
+    <node id="candidate.consciousness.states.async_client">
+      <data key="d0">candidate/consciousness/states/async_client.py</data>
+      <data key="d1">20</data>
+    </node>
+    <node id="candidate.consciousness.states.emotional_memory_manager">
+      <data key="d0">candidate/consciousness/states/emotional_memory_manager.py</data>
+      <data key="d1">5</data>
+    </node>
+    <node id="candidate.consciousness.states.cognitive_load_estimator">
+      <data key="d0">candidate/consciousness/states/cognitive_load_estimator.py</data>
+      <data key="d1">7</data>
+    </node>
+    <node id="candidate.consciousness.states.world_models">
+      <data key="d0">candidate/consciousness/states/world_models.py</data>
+      <data key="d1">7</data>
+    </node>
+    <node id="candidate.consciousness.states.tiered_state_management">
+      <data key="d0">candidate/consciousness/states/tiered_state_management.py</data>
+      <data key="d1">12</data>
+    </node>
+    <node id="candidate.consciousness.states.qi_mesh_integrator">
+      <data key="d0">candidate/consciousness/states/qi_mesh_integrator.py</data>
+      <data key="d1">10</data>
+    </node>
+    <node id="candidate.consciousness.perception.symbolic_nervous_system">
+      <data key="d0">candidate/consciousness/perception/symbolic_nervous_system.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.perception.sensor_fusion">
+      <data key="d0">candidate/consciousness/perception/sensor_fusion.py</data>
+      <data key="d1">1</data>
+    </node>
+    <node id="candidate.consciousness.perception.cross_modal_validation">
+      <data key="d0">candidate/consciousness/perception/cross_modal_validation.py</data>
+      <data key="d1">1</data>
+    </node>
+    <node id="candidate.consciousness.meta_cognitive.meta_cognitive">
+      <data key="d0">candidate/consciousness/meta_cognitive/meta_cognitive.py</data>
+      <data key="d1">7</data>
+    </node>
+    <node id="candidate.consciousness.systems.validator">
+      <data key="d0">candidate/consciousness/systems/validator.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.systems.integrator">
+      <data key="d0">candidate/consciousness/systems/integrator.py</data>
+      <data key="d1">17</data>
+    </node>
+    <node id="candidate.consciousness.systems.mapper">
+      <data key="d0">candidate/consciousness/systems/mapper.py</data>
+      <data key="d1">7</data>
+    </node>
+    <node id="candidate.consciousness.systems.consciousness">
+      <data key="d0">candidate/consciousness/systems/consciousness.py</data>
+      <data key="d1">5</data>
+    </node>
+    <node id="candidate.consciousness.systems.lambda_bot_consciousness_integration">
+      <data key="d0">candidate/consciousness/systems/lambda_bot_consciousness_integration.py</data>
+      <data key="d1">6</data>
+    </node>
+    <node id="λBot_consciousness_monitor" />
+    <node id="candidate.consciousness.systems.consciousness_colony_integration">
+      <data key="d0">candidate/consciousness/systems/consciousness_colony_integration.py</data>
+      <data key="d1">12</data>
+    </node>
+    <node id="candidate.core.colonies.memory_colony" />
+    <node id="candidate.core.swarm" />
+    <node id="consciousness.systems.engine" />
+    <node id="candidate.core.colonies.creativity_colony" />
+    <node id="candidate.core.colonies.reasoning_colony" />
+    <node id="candidate.bridge.shared_state" />
+    <node id="candidate.consciousness.systems.lambda_mirror">
+      <data key="d0">candidate/consciousness/systems/lambda_mirror.py</data>
+      <data key="d1">25</data>
+    </node>
+    <node id="candidate.consciousness.systems.advanced_consciousness_engine">
+      <data key="d0">candidate/consciousness/systems/advanced_consciousness_engine.py</data>
+      <data key="d1">12</data>
+    </node>
+    <node id="candidate.consciousness.systems.ΛBot_consciousness_monitor">
+      <data key="d0">candidate/consciousness/systems/ΛBot_consciousness_monitor.py</data>
+      <data key="d1">5</data>
+    </node>
+    <node id="candidate.consciousness.systems.unified_consciousness_engine">
+      <data key="d0">candidate/consciousness/systems/unified_consciousness_engine.py</data>
+      <data key="d1">10</data>
+    </node>
+    <node id="candidate.consciousness.systems.state">
+      <data key="d0">candidate/consciousness/systems/state.py</data>
+      <data key="d1">5</data>
+    </node>
+    <node id="candidate.consciousness.systems.cognitive_systems.voice_personality">
+      <data key="d0">candidate/consciousness/systems/cognitive_systems/voice_personality.py</data>
+      <data key="d1">8</data>
+    </node>
+    <node id="candidate.consciousness.systems.dream_engine.dream_reflection_loop">
+      <data key="d0">candidate/consciousness/systems/dream_engine/dream_reflection_loop.py</data>
+      <data key="d1">16</data>
+    </node>
+    <node id="lukhas.memory.systems.dream_memory_fold" />
+    <node id="candidate.consciousness.systems.reflection.reflection">
+      <data key="d0">candidate/consciousness/systems/reflection/reflection.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.dream.colony_dream_coordinator">
+      <data key="d0">candidate/consciousness/dream/colony_dream_coordinator.py</data>
+      <data key="d1">11</data>
+    </node>
+    <node id="candidate.orchestration.colony_orchestrator" />
+    <node id="candidate.consciousness.dream.redirect_justifier">
+      <data key="d0">candidate/consciousness/dream/redirect_justifier.py</data>
+      <data key="d1">1</data>
+    </node>
+    <node id="candidate.consciousness.dream.breakthrough_detector">
+      <data key="d0">candidate/consciousness/dream/breakthrough_detector.py</data>
+      <data key="d1">12</data>
+    </node>
+    <node id="candidate.core.common.exceptions" />
+    <node id="candidate.core.interfaces.dependency_injection" />
+    <node id="candidate.consciousness.dream.dream_visualization">
+      <data key="d0">candidate/consciousness/dream/dream_visualization.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.dream.dream_pipeline">
+      <data key="d0">candidate/consciousness/dream/dream_pipeline.py</data>
+      <data key="d1">12</data>
+    </node>
+    <node id="consciousness.reflection.unified_memory_manager" />
+    <node id="dream_engine.lukhas_oracle_dream" />
+    <node id="candidate.consciousness.dream.dream_narrator_queue">
+      <data key="d0">candidate/consciousness/dream/dream_narrator_queue.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.dream.parallel_reality_simulator">
+      <data key="d0">candidate/consciousness/dream/parallel_reality_simulator.py</data>
+      <data key="d1">16</data>
+    </node>
+    <node id="candidate.core.interfaces.memory_interface" />
+    <node id="candidate.consciousness.dream.lucid_dreaming">
+      <data key="d0">candidate/consciousness/dream/lucid_dreaming.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.dream.dream_stats">
+      <data key="d0">candidate/consciousness/dream/dream_stats.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.dream.dream_replay">
+      <data key="d0">candidate/consciousness/dream/dream_replay.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.dream.dream_director">
+      <data key="d0">candidate/consciousness/dream/dream_director.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.dream.symbolic_dream_interpretation">
+      <data key="d0">candidate/consciousness/dream/symbolic_dream_interpretation.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.dream.dream">
+      <data key="d0">candidate/consciousness/dream/dream.py</data>
+      <data key="d1">5</data>
+    </node>
+    <node id="candidate.consciousness.dream.innovation_drift_protection">
+      <data key="d0">candidate/consciousness/dream/innovation_drift_protection.py</data>
+      <data key="d1">18</data>
+    </node>
+    <node id="candidate.core.monitoring.drift_monitor" />
+    <node id="lukhas.memory.temporal.drift_dashboard" />
+    <node id="consciousness.states.symbolic_drift_tracker" />
+    <node id="lukhas.memory.integrity.collapse_hash" />
+    <node id="candidate.consciousness.dream.oracle_dream">
+      <data key="d0">candidate/consciousness/dream/oracle_dream.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.dream.dream_mutator">
+      <data key="d0">candidate/consciousness/dream/dream_mutator.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.dream.redirect_trace_replayer">
+      <data key="d0">candidate/consciousness/dream/redirect_trace_replayer.py</data>
+      <data key="d1">2</data>
+    </node>
+    <node id="candidate.consciousness.dream.dream_export_streamlit">
+      <data key="d0">candidate/consciousness/dream/dream_export_streamlit.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.dream.openai_dream_integration">
+      <data key="d0">candidate/consciousness/dream/openai_dream_integration.py</data>
+      <data key="d1">10</data>
+    </node>
+    <node id="candidate.bridge.llm_wrappers.unified_openai_client" />
+    <node id="candidate.consciousness.dream.immersive_ingestion">
+      <data key="d0">candidate/consciousness/dream/immersive_ingestion.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.dream.dream_service_init">
+      <data key="d0">candidate/consciousness/dream/dream_service_init.py</data>
+      <data key="d1">6</data>
+    </node>
+    <node id="consciousness.unified.auto_consciousness" />
+    <node id="consciousness.dream.core.dream_engine" />
+    <node id="consciousness.dream.parallel_reality_simulator" />
+    <node id="candidate.consciousness.dream.reality_synthesis_engine">
+      <data key="d0">candidate/consciousness/dream/reality_synthesis_engine.py</data>
+      <data key="d1">12</data>
+    </node>
+    <node id="candidate.consciousness.dream.dream_trace_linker">
+      <data key="d0">candidate/consciousness/dream/dream_trace_linker.py</data>
+      <data key="d1">16</data>
+    </node>
+    <node id="candidate.consciousness.dream.dream_injector">
+      <data key="d0">candidate/consciousness/dream/dream_injector.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.dream.dream_data_sources">
+      <data key="d0">candidate/consciousness/dream/dream_data_sources.py</data>
+      <data key="d1">15</data>
+    </node>
+    <node id="consciousness.awareness.system_awareness" />
+    <node id="candidate.consciousness.dream.autonomous_innovation_core">
+      <data key="d0">candidate/consciousness/dream/autonomous_innovation_core.py</data>
+      <data key="d1">14</data>
+    </node>
+    <node id="candidate.consciousness.dream.dream_analytics">
+      <data key="d0">candidate/consciousness/dream/dream_analytics.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.dream.dream_summary_generator">
+      <data key="d0">candidate/consciousness/dream/dream_summary_generator.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.dream.dream_verification_colony">
+      <data key="d0">candidate/consciousness/dream/dream_verification_colony.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.dream.parallel_reality_safety">
+      <data key="d0">candidate/consciousness/dream/parallel_reality_safety.py</data>
+      <data key="d1">13</data>
+    </node>
+    <node id="candidate.consciousness.dream.visualization.memoryscape_viewport">
+      <data key="d0">candidate/consciousness/dream/visualization/memoryscape_viewport.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.dream.visualization.dream_log_viewer">
+      <data key="d0">candidate/consciousness/dream/visualization/dream_log_viewer.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.dream.visualization.dream_viewer">
+      <data key="d0">candidate/consciousness/dream/visualization/dream_viewer.py</data>
+      <data key="d1">2</data>
+    </node>
+    <node id="candidate.consciousness.dream.expand.archetypes">
+      <data key="d0">candidate/consciousness/dream/expand/archetypes.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.dream.expand.evolution">
+      <data key="d0">candidate/consciousness/dream/expand/evolution.py</data>
+      <data key="d1">6</data>
+    </node>
+    <node id="candidate.consciousness.dream.expand.mesh">
+      <data key="d0">candidate/consciousness/dream/expand/mesh.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.dream.expand.resonance">
+      <data key="d0">candidate/consciousness/dream/expand/resonance.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.dream.expand.replay">
+      <data key="d0">candidate/consciousness/dream/expand/replay.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.dream.expand.noise">
+      <data key="d0">candidate/consciousness/dream/expand/noise.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.dream.expand.mediation">
+      <data key="d0">candidate/consciousness/dream/expand/mediation.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.dream.expand.atlas">
+      <data key="d0">candidate/consciousness/dream/expand/atlas.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.dream.expand.sentinel">
+      <data key="d0">candidate/consciousness/dream/expand/sentinel.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.dream.tools.run_dream_analysis">
+      <data key="d0">candidate/consciousness/dream/tools/run_dream_analysis.py</data>
+      <data key="d1">5</data>
+    </node>
+    <node id="candidate.consciousness.dream.core.dream_log">
+      <data key="d0">candidate/consciousness/dream/core/dream_log.py</data>
+      <data key="d1">2</data>
+    </node>
+    <node id="candidate.consciousness.dream.core.dream_memory_integration">
+      <data key="d0">candidate/consciousness/dream/core/dream_memory_integration.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.dream.core.dream_memory_manager">
+      <data key="d0">candidate/consciousness/dream/core/dream_memory_manager.py</data>
+      <data key="d1">7</data>
+    </node>
+    <node id="lukhas.memory.folds.fold_engine" />
+    <node id="candidate.consciousness.dream.core.dream_loop_generator">
+      <data key="d0">candidate/consciousness/dream/core/dream_loop_generator.py</data>
+      <data key="d1">2</data>
+    </node>
+    <node id="candidate.consciousness.dream.core.dream_seed_simple">
+      <data key="d0">candidate/consciousness/dream/core/dream_seed_simple.py</data>
+      <data key="d1">1</data>
+    </node>
+    <node id="candidate.consciousness.dream.core.dream_stats">
+      <data key="d0">candidate/consciousness/dream/core/dream_stats.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.dream.core.dream_snapshot">
+      <data key="d0">candidate/consciousness/dream/core/dream_snapshot.py</data>
+      <data key="d1">2</data>
+    </node>
+    <node id="candidate.consciousness.dream.core.dream_replay">
+      <data key="d0">candidate/consciousness/dream/core/dream_replay.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.dream.core.dream_engine">
+      <data key="d0">candidate/consciousness/dream/core/dream_engine.py</data>
+      <data key="d1">10</data>
+    </node>
+    <node id="consciousness.dream.engine.dream_engine" />
+    <node id="candidate.core.unified.integration" />
+    <node id="candidate.core.unified.orchestration" />
+    <node id="candidate.core.unified.bio_signals" />
+    <node id="candidate.consciousness.dream.core.voice_parameter">
+      <data key="d0">candidate/consciousness/dream/core/voice_parameter.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.dream.core.dream_state_manager">
+      <data key="d0">candidate/consciousness/dream/core/dream_state_manager.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.dream.core.dream_feedback_controller">
+      <data key="d0">candidate/consciousness/dream/core/dream_feedback_controller.py</data>
+      <data key="d1">2</data>
+    </node>
+    <node id="lukhas.memory.emotional" />
+    <node id="candidate.consciousness.dream.core.ethics_guard">
+      <data key="d0">candidate/consciousness/dream/core/ethics_guard.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.dream.core.dream_export_streamlit">
+      <data key="d0">candidate/consciousness/dream/core/dream_export_streamlit.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.dream.core.dream_emotion_bridge">
+      <data key="d0">candidate/consciousness/dream/core/dream_emotion_bridge.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.memory.emotional" />
+    <node id="candidate.consciousness.dream.core.dream_cli">
+      <data key="d0">candidate/consciousness/dream/core/dream_cli.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.dream.core.dream_reflection_loop_simple">
+      <data key="d0">candidate/consciousness/dream/core/dream_reflection_loop_simple.py</data>
+      <data key="d1">1</data>
+    </node>
+    <node id="candidate.consciousness.dream.core.dream_log_viewer">
+      <data key="d0">candidate/consciousness/dream/core/dream_log_viewer.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.dream.core.dream_seed">
+      <data key="d0">candidate/consciousness/dream/core/dream_seed.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.dream.core.dream_sequence_coordinator">
+      <data key="d0">candidate/consciousness/dream/core/dream_sequence_coordinator.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.dream.core.dream_injector">
+      <data key="d0">candidate/consciousness/dream/core/dream_injector.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.core.modules.nias.dream_recorder" />
+    <node id="candidate.consciousness.dream.core.dream_limiter">
+      <data key="d0">candidate/consciousness/dream/core/dream_limiter.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.dream.core.dream_viewer">
+      <data key="d0">candidate/consciousness/dream/core/dream_viewer.py</data>
+      <data key="d1">2</data>
+    </node>
+    <node id="candidate.consciousness.dream.integration.dream_orchestration_hub">
+      <data key="d0">candidate/consciousness/dream/integration/dream_orchestration_hub.py</data>
+      <data key="d1">5</data>
+    </node>
+    <node id="candidate.consciousness.dream.integration.dream_consciousness_bridge">
+      <data key="d0">candidate/consciousness/dream/integration/dream_consciousness_bridge.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.dream.integration.dream_memory_fusion">
+      <data key="d0">candidate/consciousness/dream/integration/dream_memory_fusion.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.dream.oneiric.demo.web_app">
+      <data key="d0">candidate/consciousness/dream/oneiric/demo/web_app.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.dream.oneiric.oneiric_core.analysis.drift_score">
+      <data key="d0">candidate/consciousness/dream/oneiric/oneiric_core/analysis/drift_score.py</data>
+      <data key="d1">1</data>
+    </node>
+    <node id="candidate.consciousness.dream.oneiric.oneiric_core.utils.symbolic_logger">
+      <data key="d0">candidate/consciousness/dream/oneiric/oneiric_core/utils/symbolic_logger.py</data>
+      <data key="d1">1</data>
+    </node>
+    <node id="candidate.consciousness.dream.oneiric.oneiric_core.engine.dream_engine_fastapi">
+      <data key="d0">candidate/consciousness/dream/oneiric/oneiric_core/engine/dream_engine_fastapi.py</data>
+      <data key="d1">16</data>
+    </node>
+    <node id="lukhas.memory.core_memory.dream_memory_manager" />
+    <node id="candidate.core.unified_integration" />
+    <node id="candidate.core.bio_systems.qi_layer" />
+    <node id="consciousness.core_consciousness.dream_engine.dream_reflection_loop" />
+    <node id="candidate.consciousness.dream.oneiric.frontend.node_modules.flattedthon.flatted">
+      <data key="d0">candidate/consciousness/dream/oneiric/frontend/node_modules/flatted/python/flatted.py</data>
+      <data key="d1">1</data>
+    </node>
+    <node id="candidate.consciousness.dream.cli.dream_processor">
+      <data key="d0">candidate/consciousness/dream/cli/dream_processor.py</data>
+      <data key="d1">3</data>
+    </node>
+    <node id="candidate.consciousness.dream.cli.dream_cli">
+      <data key="d0">candidate/consciousness/dream/cli/dream_cli.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.dream.cli.dream_replay_cli">
+      <data key="d0">candidate/consciousness/dream/cli/dream_replay_cli.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.dream.dashboard.dream_metrics_db">
+      <data key="d0">candidate/consciousness/dream/dashboard/dream_metrics_db.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.dream.dashboard.dream_metrics_view">
+      <data key="d0">candidate/consciousness/dream/dashboard/dream_metrics_view.py</data>
+      <data key="d1">6</data>
+    </node>
+    <node id="candidate.consciousness.dream.processors.dream_processor">
+      <data key="d0">candidate/consciousness/dream/processors/dream_processor.py</data>
+      <data key="d1">2</data>
+    </node>
+    <node id="lukhas.memory.systems.helix_dna" />
+    <node id="candidate.consciousness.dream.processors.dream_processor_integrator">
+      <data key="d0">candidate/consciousness/dream/processors/dream_processor_integrator.py</data>
+      <data key="d1">2</data>
+    </node>
+    <node id="candidate.consciousness.dream.stability.redirect_forecaster">
+      <data key="d0">candidate/consciousness/dream/stability/redirect_forecaster.py</data>
+      <data key="d1">2</data>
+    </node>
+    <node id="candidate.consciousness.dream.symbolic.archetypal_patterns">
+      <data key="d0">candidate/consciousness/dream/symbolic/archetypal_patterns.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.dream.symbolic.dream_symbolism">
+      <data key="d0">candidate/consciousness/dream/symbolic/dream_symbolism.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.dream.symbolic.dream_interpretation">
+      <data key="d0">candidate/consciousness/dream/symbolic/dream_interpretation.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.dream.engine.dream_engine">
+      <data key="d0">candidate/consciousness/dream/engine/dream_engine.py</data>
+      <data key="d1">9</data>
+    </node>
+    <node id="candidate.orchestration.brain.cognitive.voice_engine" />
+    <node id="lukhas.memory.systems.helix_mapper" />
+    <node id="candidate.consciousness.dream.rl.rl_dream_cycle">
+      <data key="d0">candidate/consciousness/dream/rl/rl_dream_cycle.py</data>
+      <data key="d1">2</data>
+    </node>
+    <node id="candidate.consciousness.dream.base.dream_loop.dream_loop">
+      <data key="d0">candidate/consciousness/dream/base/dream_loop/dream_loop.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.dream.base.dream_refold.dream_refold">
+      <data key="d0">candidate/consciousness/dream/base/dream_refold/dream_refold.py</data>
+      <data key="d1">1</data>
+    </node>
+    <node id="candidate.consciousness.qi_integration.qi_creative_consciousness">
+      <data key="d0">candidate/consciousness/qi_integration/qi_creative_consciousness.py</data>
+      <data key="d1">8</data>
+    </node>
+    <node id="candidate.consciousness.qi_integration.qi_consciousness_integration">
+      <data key="d0">candidate/consciousness/qi_integration/qi_consciousness_integration.py</data>
+      <data key="d1">9</data>
+    </node>
+    <node id="candidate.consciousness.qi_integration.qi_consciousness_visualizer">
+      <data key="d0">candidate/consciousness/qi_integration/qi_consciousness_visualizer.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.qi_integration.qi_consciousness_integration_wrapper">
+      <data key="d0">candidate/consciousness/qi_integration/qi_consciousness_integration_wrapper.py</data>
+      <data key="d1">6</data>
+    </node>
+    <node id="qi_consciousness_integration" />
+    <node id="candidate.consciousness.interfaces.natural_language_interface">
+      <data key="d0">candidate/consciousness/interfaces/natural_language_interface.py</data>
+      <data key="d1">13</data>
+    </node>
+    <node id="candidate.consciousness.quantum.superposition_processor">
+      <data key="d0">candidate/consciousness/quantum/superposition_processor.py</data>
+      <data key="d1">10</data>
+    </node>
+    <node id="candidate.consciousness.quantum.collapse_governance_system">
+      <data key="d0">candidate/consciousness/quantum/collapse_governance_system.py</data>
+      <data key="d1">10</data>
+    </node>
+    <node id="candidate.consciousness.reflection.id_reasoning_engine">
+      <data key="d0">candidate/consciousness/reflection/id_reasoning_engine.py</data>
+      <data key="d1">15</data>
+    </node>
+    <node id="candidate.consciousness.reflection.dream_narrator">
+      <data key="d0">candidate/consciousness/reflection/dream_narrator.py</data>
+      <data key="d1">9</data>
+    </node>
+    <node id="candidate.consciousness.reflection.consciousness_api">
+      <data key="d0">candidate/consciousness/reflection/consciousness_api.py</data>
+      <data key="d1">10</data>
+    </node>
+    <node id="consciousness.qi_integration.qi_consciousness_integration" />
+    <node id="consciousness.awareness.awareness_engine" />
+    <node id="consciousness.reflection.self_reflection_engine" />
+    <node id="consciousness.core.engine" />
+    <node id="candidate.consciousness.reflection.federated_meta_learning">
+      <data key="d0">candidate/consciousness/reflection/federated_meta_learning.py</data>
+      <data key="d1">8</data>
+    </node>
+    <node id="candidate.consciousness.reflection.swarm">
+      <data key="d0">candidate/consciousness/reflection/swarm.py</data>
+      <data key="d1">13</data>
+    </node>
+    <node id="candidate.core.actor_system" />
+    <node id="candidate.core.distributed_tracing" />
+    <node id="candidate.consciousness.reflection.service">
+      <data key="d0">candidate/consciousness/reflection/service.py</data>
+      <data key="d1">7</data>
+    </node>
+    <node id="candidate.consciousness.reflection.system">
+      <data key="d0">candidate/consciousness/reflection/system.py</data>
+      <data key="d1">8</data>
+    </node>
+    <node id="candidate.consciousness.reflection.brain_integration">
+      <data key="d0">candidate/consciousness/reflection/brain_integration.py</data>
+      <data key="d1">11</data>
+    </node>
+    <node id="candidate.consciousness.reflection.reflection_layer">
+      <data key="d0">candidate/consciousness/reflection/reflection_layer.py</data>
+      <data key="d1">23</data>
+    </node>
+    <node id="candidate.core.user_interface_manager.voice_handler" />
+    <node id="candidate.core.interfaces.logic.voice.voice_renderer" />
+    <node id="candidate.consciousness.reflection.controller">
+      <data key="d0">candidate/consciousness/reflection/controller.py</data>
+      <data key="d1">23</data>
+    </node>
+    <node id="candidate.orchestration.brain.privacy_manager" />
+    <node id="consciousness.consciousness_integrator" />
+    <node id="lukhas.governance.identity.auth_backend.audit_logger" />
+    <node id="candidate.consciousness.reflection.MetaLearningAdapter">
+      <data key="d0">candidate/consciousness/reflection/MetaLearningAdapter.py</data>
+      <data key="d1">6</data>
+    </node>
+    <node id="candidate.consciousness.reflection.integration_manager">
+      <data key="d0">candidate/consciousness/reflection/integration_manager.py</data>
+      <data key="d1">9</data>
+    </node>
+    <node id="candidate.orchestration.brain.cognitive_agi_enhancement" />
+    <node id="candidate.consciousness.reflection.cognitive_architecture_controller">
+      <data key="d0">candidate/consciousness/reflection/cognitive_architecture_controller.py</data>
+      <data key="d1">17</data>
+    </node>
+    <node id="candidate.consciousness.reflection.awareness_system">
+      <data key="d0">candidate/consciousness/reflection/awareness_system.py</data>
+      <data key="d1">15</data>
+    </node>
+    <node id="candidate.consciousness.reflection.metalearningenhancementsystem">
+      <data key="d0">candidate/consciousness/reflection/metalearningenhancementsystem.py</data>
+      <data key="d1">11</data>
+    </node>
+    <node id="candidate.consciousness.reflection.memory_hub">
+      <data key="d0">candidate/consciousness/reflection/memory_hub.py</data>
+      <data key="d1">29</data>
+    </node>
+    <node id="lukhas.memory.systems.multimodal_memory_integration" />
+    <node id="lukhas.memory.systems.memory_planning_mock" />
+    <node id="lukhas.memory.systems.memory_profiler_mock" />
+    <node id="lukhas.memory.distributed_state_manager" />
+    <node id="candidate.core.bridges.memory_consciousness_bridge" />
+    <node id="candidate.core.bridges.memory_learning_bridge" />
+    <node id="lukhas.memory.repair.trauma_repair_wrapper" />
+    <node id="lukhas.memory.emotional_memory_manager_unified" />
+    <node id="candidate.core.core_hub" />
+    <node id="lukhas.memory.systems.memory_helix_golden" />
+    <node id="lukhas.memory.colonies.episodic_memory_integration" />
+    <node id="lukhas.memory.systems.memory_profiler_wrapper" />
+    <node id="lukhas.memory.qi_manager" />
+    <node id="candidate.bridge.symbolic_memory_mapper" />
+    <node id="lukhas.memory.voice_memory_manager" />
+    <node id="lukhas.memory.systems.memory_planning_wrapper" />
+    <node id="lukhas.memory.systems.neurosymbolic_integration" />
+    <node id="lukhas.memory.core.base_manager" />
+    <node id="lukhas.memory.systems.symbolic_delta_compression" />
+    <node id="lukhas.memory.systems.memory_tracker_integration" />
+    <node id="candidate.consciousness.reflection.symbolic_drift_analyzer">
+      <data key="d0">candidate/consciousness/reflection/symbolic_drift_analyzer.py</data>
+      <data key="d1">25</data>
+    </node>
+    <node id="candidate.core.glyph.glyphs" />
+    <node id="candidate.consciousness.reflection.abas_qi_specialist">
+      <data key="d0">candidate/consciousness/reflection/abas_qi_specialist.py</data>
+      <data key="d1">12</data>
+    </node>
+    <node id="candidate.consciousness.reflection.research_awareness_engine">
+      <data key="d0">candidate/consciousness/reflection/research_awareness_engine.py</data>
+      <data key="d1">11</data>
+    </node>
+    <node id="candidate.consciousness.reflection.client">
+      <data key="d0">candidate/consciousness/reflection/client.py</data>
+      <data key="d1">22</data>
+    </node>
+    <node id="candidate.consciousness.reflection.integrated_safety_system">
+      <data key="d0">candidate/consciousness/reflection/integrated_safety_system.py</data>
+      <data key="d1">18</data>
+    </node>
+    <node id="candidate.core.colonies.ethics_swarm_colony" />
+    <node id="candidate.core.quantized_thought_cycles" />
+    <node id="lukhas.memory.systems.memory_safety_features" />
+    <node id="candidate.core.colonies.governance_colony_enhanced" />
+    <node id="candidate.consciousness.reflection.oscillator">
+      <data key="d0">candidate/consciousness/reflection/oscillator.py</data>
+      <data key="d1">9</data>
+    </node>
+    <node id="candidate.consciousness.reflection.dreamseed_unified">
+      <data key="d0">candidate/consciousness/reflection/dreamseed_unified.py</data>
+      <data key="d1">12</data>
+    </node>
+    <node id="candidate.core.tier_unification_adapter" />
+    <node id="lukhas.governance.identity.core.user_tier_mapping" />
+    <node id="candidate.core.identity_integration" />
+    <node id="candidate.consciousness.reflection.lambda_dependa_bot">
+      <data key="d0">candidate/consciousness/reflection/lambda_dependa_bot.py</data>
+      <data key="d1">22</data>
+    </node>
+    <node id="candidate.core.common.config" />
+    <node id="candidate.consciousness.reflection.identity_hub">
+      <data key="d0">candidate/consciousness/reflection/identity_hub.py</data>
+      <data key="d1">25</data>
+    </node>
+    <node id="candidate.core.bridges.identity_core_bridge" />
+    <node id="lukhas.governance.identity.core.swarm.tier_aware_swarm_hub" />
+    <node id="lukhas.governance.identity.core.auth.biometric_integration" />
+    <node id="lukhas.governance.identity.core.sent.consent_manager" />
+    <node id="candidate.core.identity.persona_engine" />
+    <node id="lukhas.governance.identity.core.brain_identity_integration" />
+    <node id="lukhas.governance.identity.auth_utils.grid_size_calculator" />
+    <node id="lukhas.governance.identity.auth_utils.attention_monitor" />
+    <node id="lukhas.governance.identity.auth_backend.trust_scorer" />
+    <node id="lukhas.governance.identity.core.qrs_manager" />
+    <node id="consciousness.reflection.memory_hub" />
+    <node id="candidate.consciousness.reflection.colony_orchestrator">
+      <data key="d0">candidate/consciousness/reflection/colony_orchestrator.py</data>
+      <data key="d1">20</data>
+    </node>
+    <node id="candidate.core.tier_aware_colony_proxy" />
+    <node id="candidate.core.colonies.oracle_colony" />
+    <node id="candidate.core.colonies.temporal_colony" />
+    <node id="candidate.consciousness.reflection.emotional">
+      <data key="d0">candidate/consciousness/reflection/emotional.py</data>
+      <data key="d1">10</data>
+    </node>
+    <node id="candidate.core.symbolic.drift.symbolic_drift_tracker" />
+    <node id="candidate.consciousness.reflection.core">
+      <data key="d0">candidate/consciousness/reflection/core.py</data>
+      <data key="d1">21</data>
+    </node>
+    <node id="lukhas.memory.structural_conscience" />
+    <node id="candidate.consciousness.reflection.EthicalReasoningSystem">
+      <data key="d0">candidate/consciousness/reflection/EthicalReasoningSystem.py</data>
+      <data key="d1">11</data>
+    </node>
+    <node id="candidate.consciousness.reflection.meta_learning">
+      <data key="d0">candidate/consciousness/reflection/meta_learning.py</data>
+      <data key="d1">8</data>
+    </node>
+    <node id="candidate.consciousness.reflection.practical_optimizations">
+      <data key="d0">candidate/consciousness/reflection/practical_optimizations.py</data>
+      <data key="d1">19</data>
+    </node>
+    <node id="candidate.consciousness.reflection.lambda_mirror">
+      <data key="d0">candidate/consciousness/reflection/lambda_mirror.py</data>
+      <data key="d1">14</data>
+    </node>
+    <node id="candidate.consciousness.reflection.self_reflection_engine">
+      <data key="d0">candidate/consciousness/reflection/self_reflection_engine.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.reflection.visionary_orchestrator">
+      <data key="d0">candidate/consciousness/reflection/visionary_orchestrator.py</data>
+      <data key="d1">14</data>
+    </node>
+    <node id="candidate.core.advanced_symbolic_loop" />
+    <node id="candidate.core.memory.memory_manager" />
+    <node id="candidate.core.logging" />
+    <node id="candidate.consciousness.reflection.master_orchestrator">
+      <data key="d0">candidate/consciousness/reflection/master_orchestrator.py</data>
+      <data key="d1">17</data>
+    </node>
+    <node id="candidate.memory.consolidation.memory_visualization" />
+    <node id="candidate.orchestration.swarm_orchestration_adapter" />
+    <node id="candidate.memory.consolidation.memory_colonies" />
+    <node id="candidate.memory.folds.unified_memory_core" />
+    <node id="candidate.orchestration.brain.primary_hub" />
+    <node id="candidate.orchestration.workflow_engine" />
+    <node id="candidate.orchestration.bio_symbolic_orchestrator" />
+    <node id="candidate.consciousness.reflection.bio_crista_optimizer_adapter">
+      <data key="d0">candidate/consciousness/reflection/bio_crista_optimizer_adapter.py</data>
+      <data key="d1">7</data>
+    </node>
+    <node id="candidate.consciousness.reflection.certificate_manager">
+      <data key="d0">candidate/consciousness/reflection/certificate_manager.py</data>
+      <data key="d1">16</data>
+    </node>
+    <node id="candidate.consciousness.reflection.qrg_100_percent_coverage">
+      <data key="d0">candidate/consciousness/reflection/qrg_100_percent_coverage.py</data>
+      <data key="d1">8</data>
+    </node>
+    <node id="lukhas.qi.steganographic_demo" />
+    <node id="candidate.consciousness.reflection.distributed_state_manager">
+      <data key="d0">candidate/consciousness/reflection/distributed_state_manager.py</data>
+      <data key="d1">13</data>
+    </node>
+    <node id="candidate.core.cluster_sharding" />
+    <node id="candidate.core.event_sourcing" />
+    <node id="candidate.consciousness.reflection.ethical_drift_sentinel">
+      <data key="d0">candidate/consciousness/reflection/ethical_drift_sentinel.py</data>
+      <data key="d1">11</data>
+    </node>
+    <node id="candidate.consciousness.reflection.orchestration_service">
+      <data key="d0">candidate/consciousness/reflection/orchestration_service.py</data>
+      <data key="d1">16</data>
+    </node>
+    <node id="candidate.core.performance.performance_orchestrator" />
+    <node id="candidate.bridge.message_bus" />
+    <node id="candidate.consciousness.reflection.privacy_preserving_memory_vault">
+      <data key="d0">candidate/consciousness/reflection/privacy_preserving_memory_vault.py</data>
+      <data key="d1">20</data>
+    </node>
+    <node id="candidate.core.integration.governance.__init__" />
+    <node id="candidate.consciousness.reflection.unified_memory_manager">
+      <data key="d0">candidate/consciousness/reflection/unified_memory_manager.py</data>
+      <data key="d1">10</data>
+    </node>
+    <node id="lukhas.memory.systems.memory_visualizer" />
+    <node id="lukhas.memory.memory_fold" />
+    <node id="candidate.consciousness.reflection.circuit_breaker">
+      <data key="d0">candidate/consciousness/reflection/circuit_breaker.py</data>
+      <data key="d1">16</data>
+    </node>
+    <node id="candidate.consciousness.reflection.openai_modulated_service">
+      <data key="d0">candidate/consciousness/reflection/openai_modulated_service.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.reflection.content_enterprise_orchestrator">
+      <data key="d0">candidate/consciousness/reflection/content_enterprise_orchestrator.py</data>
+      <data key="d1">21</data>
+    </node>
+    <node id="candidate.consciousness.reflection.layer">
+      <data key="d0">candidate/consciousness/reflection/layer.py</data>
+      <data key="d1">7</data>
+    </node>
+    <node id="candidate.consciousness.reflection.event_replay_snapshot">
+      <data key="d0">candidate/consciousness/reflection/event_replay_snapshot.py</data>
+      <data key="d1">18</data>
+    </node>
+    <node id="candidate.consciousness.reflection.bio_system">
+      <data key="d0">candidate/consciousness/reflection/bio_system.py</data>
+      <data key="d1">8</data>
+    </node>
+    <node id="candidate.consciousness.reflection.MetaLearningEnhancement">
+      <data key="d0">candidate/consciousness/reflection/MetaLearningEnhancement.py</data>
+      <data key="d1">11</data>
+    </node>
+    <node id="candidate.consciousness.reflection.meta_learning_adapter">
+      <data key="d0">candidate/consciousness/reflection/meta_learning_adapter.py</data>
+      <data key="d1">7</data>
+    </node>
+    <node id="candidate.consciousness.reflection.qi_dream_adapter">
+      <data key="d0">candidate/consciousness/reflection/qi_dream_adapter.py</data>
+      <data key="d1">7</data>
+    </node>
+    <node id="candidate.consciousness.reflection.meta_cognitive_orchestrator_alt">
+      <data key="d0">candidate/consciousness/reflection/meta_cognitive_orchestrator_alt.py</data>
+      <data key="d1">12</data>
+    </node>
+    <node id="candidate.consciousness.reflection.monitoring_observability">
+      <data key="d0">candidate/consciousness/reflection/monitoring_observability.py</data>
+      <data key="d1">28</data>
+    </node>
+    <node id="candidate.consciousness.reflection.ethical_reasoning_system">
+      <data key="d0">candidate/consciousness/reflection/ethical_reasoning_system.py</data>
+      <data key="d1">10</data>
+    </node>
+    <node id="candidate.consciousness.reflection.learning_system">
+      <data key="d0">candidate/consciousness/reflection/learning_system.py</data>
+      <data key="d1">8</data>
+    </node>
+    <node id="candidate.consciousness.reflection.processing_core">
+      <data key="d0">candidate/consciousness/reflection/processing_core.py</data>
+      <data key="d1">0</data>
+    </node>
+    <node id="candidate.consciousness.reflection._dict_learning">
+      <data key="d0">candidate/consciousness/reflection/_dict_learning.py</data>
+      <data key="d1">15</data>
+    </node>
+    <node id="candidate.consciousness.reflection.qi_memory_manager">
+      <data key="d0">candidate/consciousness/reflection/qi_memory_manager.py</data>
+      <data key="d1">6</data>
+    </node>
+    <node id="candidate.consciousness.reflection.token_budget_controller">
+      <data key="d0">candidate/consciousness/reflection/token_budget_controller.py</data>
+      <data key="d1">8</data>
+    </node>
+    <node id="candidate.consciousness.reflection.agent_coordination">
+      <data key="d0">candidate/consciousness/reflection/agent_coordination.py</data>
+      <data key="d1">11</data>
+    </node>
+    <node id="candidate.consciousness.reflection.full_connectivity_resolver">
+      <data key="d0">candidate/consciousness/reflection/full_connectivity_resolver.py</data>
+      <data key="d1">5</data>
+    </node>
+    <node id="candidate.consciousness.reflection.awareness">
+      <data key="d0">candidate/consciousness/reflection/awareness.py</data>
+      <data key="d1">4</data>
+    </node>
+    <node id="candidate.consciousness.reflection.qi_layer">
+      <data key="d0">candidate/consciousness/reflection/qi_layer.py</data>
+      <data key="d1">5</data>
+    </node>
+    <node id="candidate.consciousness.reflection.core_integrator">
+      <data key="d0">candidate/consciousness/reflection/core_integrator.py</data>
+      <data key="d1">8</data>
+    </node>
+    <node id="candidate.orchestration.brain.integration.brain_integration" />
+    <node id="candidate.consciousness.reflection.consciousness_hub">
+      <data key="d0">candidate/consciousness/reflection/consciousness_hub.py</data>
+      <data key="d1">17</data>
+    </node>
+    <node id="consciousness.qi_consciousness_hub" />
+    <node id="consciousness.systems.lambda_bot_consciousness_integration" />
+    <node id="consciousness.systems.qi_consciousness_integration_wrapper" />
+    <node id="consciousness.cognitive_architecture_controller" />
+    <node id="consciousness.cognitive.adapter" />
+    <node id="candidate.consciousness.reflection.actor_system">
+      <data key="d0">candidate/consciousness/reflection/actor_system.py</data>
+      <data key="d1">13</data>
+    </node>
+    <node id="candidate.consciousness.reflection.symbolic_weaver">
+      <data key="d0">candidate/consciousness/reflection/symbolic_weaver.py</data>
+      <data key="d1">18</data>
+    </node>
+    <edge source="candidate.consciousness.orchestration_bridge" target="candidate.orchestration.brain.personality.personality">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.orchestration_bridge" target="candidate.orchestration.brain.cognitive.cognitive_updater">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.orchestration_bridge" target="candidate.orchestration.brain.monitoring.rate_modulator">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.orchestration_bridge" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.services" target="consciousness.bridge">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream_bridge_adapter" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.qi_consciousness_integration" target="consciousness.consciousness_service">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream_bridge" target="candidate.core.orchestration.integration_hub">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream_bridge" target="candidate.memory.core">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream_bridge" target="consciousness.bridge">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.neuroplastic_connector" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.loop_meta_learning" target="lukhas.memory.core">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.cognitive.adapter" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.core.engine_poetic" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.core.engine" target="lukhas.branding_bridge">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.creativity.service" target="lukhas.governance.identity.interface">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.creativity.haiku_generator" target="lukhas.branding_bridge">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.creativity.haiku_generator" target="consciousness.core_consciousness.qi_consciousness_integration">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.creativity.haiku_generator" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.creativity.creative_core" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.creativity.personality.voice.voice_narrator" target="candidate.core.utils.symbolic_utils">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.creativity.personality.voice.voice_narrator" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.creativity.personality.voice.voice_personality" target="candidate.orchestration.brain.orchestration.emotional_oscillator">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.creativity.personality.voice.voice_personality" target="candidate.core.personality.creative_expressions">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.creativity.personality.voice.voice_personality" target="candidate.orchestration.brain.personality.personality_refiner">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.creativity.personality.voice.voice_personality" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.creativity.engines.engine" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.creativity.systems.voice_personality_creativity_engine" target="candidate.orchestration.brain.orchestration.emotional_oscillator">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.creativity.systems.voice_personality_creativity_engine" target="candidate.core.personality.creative_expressions">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.creativity.systems.voice_personality_creativity_engine" target="candidate.orchestration.brain.personality.personality_refiner">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.creativity.systems.voice_personality_creativity_engine" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.awareness.awareness_protocol" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.awareness.bio_symbolic_awareness_adapter" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.awareness.attention_monitor" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.awareness.system_awareness" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.awareness.awareness_log_synchronizer" target="lukhas.tiers">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.awareness.awareness_tracker" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.unified.symbolic_bio_symbolic_orchestrator" target="candidate.core.symbolism.tags">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.unified.symbolic_bio_symbolic_orchestrator" target="candidate.core.colonies.base_colony">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.id_reasoning_engine" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.coherence_patch_validator" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.response_reasoning_summary_text_delta_event" target="candidate.core.models">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.response_reasoning_summary_done_event" target="candidate.core.models">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.reasoning_engine" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.response_reasoning_summary_part_done_event" target="candidate.core.models">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.reasoning_errors" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.ΛBot_reasoning" target="candidate.orchestration.brain.abstract_reasoning.confidence_calibrator">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.ΛBot_reasoning" target="candidate.orchestration.brain.abstract_reasoning.bio_quantum_engine">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.ΛBot_reasoning" target="candidate.orchestration.brain.MultiBrainSymphony">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.reasoning_diagnostics" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.reasoning_hub" target="candidate.core.integration.service_discovery">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.openai_oracle_adapter" target="candidate.consciousness.reflection.openai_core_service">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.openai_core_service" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.response_reasoning_summary_delta_event" target="candidate.core.models">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.symbolic_loop_harmonizer" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.adaptive_reasoning_loop" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.response_reasoning_item" target="candidate.core.models">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.master_loop" target="symbolic.lukhas_visualizer">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.master_loop" target="symbolic.lukhas_reflector">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.master_loop" target="symbolic.lukhas_dreams">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.master_loop" target="symbolic.lukhas_guardian">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.master_loop" target="symbolic.lukhas_voice">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.master_loop" target="symbolic.lukhas_personality">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.master_loop" target="symbolic.lukhas_emotion">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.response_reasoning_done_event" target="candidate.core.models">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.response_reasoning_delta_event" target="candidate.core.models">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.reasoning_colony" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.response_reasoning_summary_part_added_event" target="candidate.core.models">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.reasoning_metrics" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.trace_summary_builder" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.response_reasoning_summary_text_done_event" target="candidate.core.models">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.utils.agentic_trace" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.diagnostics.trace_mapper" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.decision.bridge" target="candidate.core.utils.orchestration_energy_aware_execution_planner">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.decision.bridge" target="candidate.core.integration.neuro_symbolic_fusion_layer">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reasoning.decision.bridge" target="lukhas.memory.governance.ethical_drift_governor">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.expansion.awareness_boundary_transcender" target="candidate.core.interfaces">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.expansion.consciousness_expansion_engine" target="candidate.orchestration.symbolic_kernel_bus">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.expansion.consciousness_expansion_engine" target="candidate.core.symbolic_engine">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.expansion.consciousness_expansion_engine" target="lukhas.governance.guardian_system">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.expansion.consciousness_expansion_engine" target="candidate.core.container.service_container">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.expansion.consciousness_expansion_engine" target="candidate.core.interfaces">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.expansion.consciousness_expansion_engine" target="consciousness_multiplication_engine">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.expansion.consciousness_expansion_engine" target="consciousness_dimensionality_expander">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.expansion.consciousness_expansion_engine" target="meta_consciousness_developer">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.expansion.meta_consciousness_developer" target="candidate.core.interfaces">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.expansion.consciousness_multiplication_engine" target="candidate.core.interfaces">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.expansion.consciousness_dimensionality_expander" target="candidate.core.interfaces">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.expansion.consciousness_dimensionality_expander" target="consciousness_expansion_engine">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.states.qi_consciousness_hub" target="candidate.orchestration.brain.consciousness_core">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.states.qi_consciousness_hub" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.states.qi_mesh_visualizer" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.states.symbolic_drift_tracker" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.states.bio_engine" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.states.FederatedLearningSystem" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.states.simulation_controller" target="candidate.core.bio_systems.bio_oscillator">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.states.shared_state" target="candidate.core.identity.vault.lukhas_id">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.states.async_client" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.states.cognitive_load_estimator" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.states.world_models" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.states.tiered_state_management" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.states.qi_mesh_integrator" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.systems.validator" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.systems.integrator" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.systems.mapper" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.systems.consciousness" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.systems.lambda_bot_consciousness_integration" target="λBot_consciousness_monitor">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.systems.lambda_bot_consciousness_integration" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.systems.consciousness_colony_integration" target="candidate.core.colonies.memory_colony">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.systems.consciousness_colony_integration" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.systems.consciousness_colony_integration" target="candidate.core.swarm">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.systems.consciousness_colony_integration" target="consciousness.systems.engine">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.systems.consciousness_colony_integration" target="candidate.core.colonies.creativity_colony">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.systems.consciousness_colony_integration" target="candidate.core.colonies.reasoning_colony">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.systems.consciousness_colony_integration" target="candidate.bridge.shared_state">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.systems.advanced_consciousness_engine" target="candidate.consciousness.neuroplastic_connector">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.systems.advanced_consciousness_engine" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.systems.unified_consciousness_engine" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.systems.state" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.systems.cognitive_systems.voice_personality" target="candidate.orchestration.brain.orchestration.emotional_oscillator">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.systems.cognitive_systems.voice_personality" target="candidate.core.personality.creative_expressions">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.systems.cognitive_systems.voice_personality" target="candidate.orchestration.brain.personality.personality_refiner">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.systems.cognitive_systems.voice_personality" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.systems.dream_engine.dream_reflection_loop" target="lukhas.memory.systems.dream_memory_fold">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.systems.dream_engine.dream_reflection_loop" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.colony_dream_coordinator" target="candidate.orchestration.symbolic_kernel_bus">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.colony_dream_coordinator" target="candidate.core.swarm">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.colony_dream_coordinator" target="candidate.orchestration.colony_orchestrator">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.breakthrough_detector" target="candidate.core.interfaces">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.breakthrough_detector" target="candidate.core.common.exceptions">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.breakthrough_detector" target="candidate.core.interfaces.dependency_injection">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.breakthrough_detector" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.dream_pipeline" target="consciousness.reflection.unified_memory_manager">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.dream_pipeline" target="dream_engine.lukhas_oracle_dream">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.parallel_reality_simulator" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.parallel_reality_simulator" target="candidate.core.interfaces">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.parallel_reality_simulator" target="candidate.core.interfaces.dependency_injection">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.parallel_reality_simulator" target="candidate.core.interfaces.memory_interface">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.parallel_reality_simulator" target="candidate.core.common.exceptions">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.dream_director" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.innovation_drift_protection" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.innovation_drift_protection" target="candidate.core.interfaces">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.innovation_drift_protection" target="candidate.core.monitoring.drift_monitor">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.innovation_drift_protection" target="lukhas.memory.temporal.drift_dashboard">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.innovation_drift_protection" target="candidate.core.interfaces.dependency_injection">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.innovation_drift_protection" target="consciousness.states.symbolic_drift_tracker">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.innovation_drift_protection" target="lukhas.memory.integrity.collapse_hash">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.innovation_drift_protection" target="candidate.core.common.exceptions">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.openai_dream_integration" target="candidate.bridge.llm_wrappers.unified_openai_client">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.dream_service_init" target="consciousness.unified.auto_consciousness">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.dream_service_init" target="consciousness.dream.core.dream_engine">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.dream_service_init" target="consciousness.dream.parallel_reality_simulator">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.dream_service_init" target="candidate.core.interfaces.dependency_injection">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.reality_synthesis_engine" target="candidate.core.interfaces">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.reality_synthesis_engine" target="candidate.core.common.exceptions">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.reality_synthesis_engine" target="candidate.core.interfaces.dependency_injection">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.reality_synthesis_engine" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.dream_data_sources" target="consciousness.awareness.system_awareness">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.dream_data_sources" target="consciousness.reflection.unified_memory_manager">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.autonomous_innovation_core" target="candidate.core.interfaces">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.autonomous_innovation_core" target="candidate.core.common.exceptions">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.autonomous_innovation_core" target="candidate.core.interfaces.dependency_injection">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.autonomous_innovation_core" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.parallel_reality_safety" target="candidate.core.interfaces">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.parallel_reality_safety" target="candidate.core.common.exceptions">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.parallel_reality_safety" target="candidate.core.interfaces.dependency_injection">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.parallel_reality_safety" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.core.dream_memory_manager" target="lukhas.memory.folds.fold_engine">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.core.dream_engine" target="consciousness.dream.engine.dream_engine">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.core.dream_engine" target="candidate.core.unified.integration">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.core.dream_engine" target="candidate.core.unified.orchestration">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.core.dream_engine" target="candidate.core.unified.bio_signals">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.core.dream_feedback_controller" target="lukhas.memory.emotional">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.core.dream_emotion_bridge" target="candidate.memory.emotional">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.core.dream_cli" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.core.dream_injector" target="candidate.core.modules.nias.dream_recorder">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.core.dream_limiter" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.oneiric.oneiric_core.engine.dream_engine_fastapi" target="lukhas.memory.core_memory.dream_memory_manager">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.oneiric.oneiric_core.engine.dream_engine_fastapi" target="candidate.core.unified_integration">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.oneiric.oneiric_core.engine.dream_engine_fastapi" target="candidate.core.bio_systems.qi_layer">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.oneiric.oneiric_core.engine.dream_engine_fastapi" target="consciousness.core_consciousness.dream_engine.dream_reflection_loop">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.processors.dream_processor" target="lukhas.memory.systems.helix_dna">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.engine.dream_engine" target="candidate.orchestration.brain.cognitive.voice_engine">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.engine.dream_engine" target="lukhas.memory.systems.helix_mapper">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.engine.dream_engine" target="candidate.core.colonies.creativity_colony">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.dream.engine.dream_engine" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.qi_integration.qi_consciousness_integration" target="consciousness.consciousness_service">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.qi_integration.qi_consciousness_integration" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.qi_integration.qi_consciousness_visualizer" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.qi_integration.qi_consciousness_integration_wrapper" target="qi_consciousness_integration">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.qi_integration.qi_consciousness_integration_wrapper" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.interfaces.natural_language_interface" target="lukhas.branding_bridge">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.interfaces.natural_language_interface" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.interfaces.natural_language_interface" target="candidate.core.interfaces">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.interfaces.natural_language_interface" target="candidate.core.interfaces.dependency_injection">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.interfaces.natural_language_interface" target="candidate.core.common.exceptions">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.id_reasoning_engine" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.dream_narrator" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.consciousness_api" target="consciousness.qi_integration.qi_consciousness_integration">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.consciousness_api" target="consciousness.awareness.awareness_engine">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.consciousness_api" target="consciousness.reflection.self_reflection_engine">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.consciousness_api" target="consciousness.core.engine">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.federated_meta_learning" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.swarm" target="candidate.core.actor_system">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.swarm" target="candidate.core.distributed_tracing">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.swarm" target="candidate.core.colonies.base_colony">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.swarm" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.service" target="lukhas.governance.identity.interface">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.system" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.reflection_layer" target="candidate.core.user_interface_manager.voice_handler">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.reflection_layer" target="candidate.core.monitoring.drift_monitor">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.reflection_layer" target="candidate.core.interfaces.logic.voice.voice_renderer">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.controller" target="candidate.orchestration.brain.privacy_manager">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.controller" target="consciousness.consciousness_integrator">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.controller" target="lukhas.governance.identity.auth_backend.audit_logger">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.integration_manager" target="candidate.orchestration.brain.cognitive_agi_enhancement">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.awareness_system" target="candidate.core.unified.integration">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.awareness_system" target="consciousness.awareness.awareness_engine">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.metalearningenhancementsystem" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.memory_hub" target="lukhas.memory.systems.multimodal_memory_integration">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.memory_hub" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.memory_hub" target="lukhas.memory.systems.memory_planning_mock">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.memory_hub" target="lukhas.memory.systems.memory_profiler_mock">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.memory_hub" target="lukhas.memory.distributed_state_manager">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.memory_hub" target="candidate.core.bridges.memory_consciousness_bridge">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.memory_hub" target="candidate.core.bridges.memory_learning_bridge">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.memory_hub" target="lukhas.memory.repair.trauma_repair_wrapper">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.memory_hub" target="lukhas.memory.emotional_memory_manager_unified">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.memory_hub" target="candidate.core.core_hub">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.memory_hub" target="lukhas.memory.systems.memory_helix_golden">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.memory_hub" target="lukhas.memory.colonies.episodic_memory_integration">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.memory_hub" target="lukhas.memory.systems.memory_profiler_wrapper">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.memory_hub" target="candidate.core.integration.service_discovery">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.memory_hub" target="lukhas.memory.qi_manager">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.memory_hub" target="candidate.bridge.symbolic_memory_mapper">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.memory_hub" target="lukhas.memory.voice_memory_manager">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.memory_hub" target="lukhas.memory.systems.memory_planning_wrapper">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.memory_hub" target="lukhas.memory.systems.neurosymbolic_integration">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.memory_hub" target="lukhas.memory.core.base_manager">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.memory_hub" target="lukhas.memory.systems.symbolic_delta_compression">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.memory_hub" target="consciousness.reflection.unified_memory_manager">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.memory_hub" target="lukhas.memory.systems.memory_tracker_integration">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.symbolic_drift_analyzer" target="candidate.core.glyph.glyphs">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.symbolic_drift_analyzer" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.integrated_safety_system" target="candidate.core.colonies.ethics_swarm_colony">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.integrated_safety_system" target="candidate.core.quantized_thought_cycles">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.integrated_safety_system" target="candidate.core.colonies.base_colony">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.integrated_safety_system" target="lukhas.memory.systems.memory_safety_features">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.integrated_safety_system" target="candidate.core.colonies.governance_colony_enhanced">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.dreamseed_unified" target="candidate.core.tier_unification_adapter">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.dreamseed_unified" target="lukhas.governance.identity.core.user_tier_mapping">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.dreamseed_unified" target="candidate.core.identity_integration">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.dreamseed_unified" target="lukhas.memory.emotional">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.dreamseed_unified" target="lukhas.memory.governance.ethical_drift_governor">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.lambda_dependa_bot" target="candidate.core.common.config">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.identity_hub" target="candidate.core.bridges.identity_core_bridge">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.identity_hub" target="lukhas.governance.identity.core.swarm.tier_aware_swarm_hub">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.identity_hub" target="lukhas.governance.identity.core.auth.biometric_integration">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.identity_hub" target="lukhas.governance.identity.core.sent.consent_manager">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.identity_hub" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.identity_hub" target="candidate.core.identity.persona_engine">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.identity_hub" target="lukhas.governance.identity.core.brain_identity_integration">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.identity_hub" target="candidate.core.core_hub">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.identity_hub" target="lukhas.governance.identity.auth_utils.grid_size_calculator">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.identity_hub" target="lukhas.governance.identity.auth_utils.attention_monitor">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.identity_hub" target="lukhas.governance.identity.interface">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.identity_hub" target="lukhas.governance.identity.auth_backend.trust_scorer">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.identity_hub" target="lukhas.governance.identity.core.qrs_manager">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.identity_hub" target="consciousness.reflection.memory_hub">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.colony_orchestrator" target="candidate.core.colonies.memory_colony">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.colony_orchestrator" target="candidate.core.tier_aware_colony_proxy">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.colony_orchestrator" target="candidate.core.colonies.ethics_swarm_colony">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.colony_orchestrator" target="candidate.core.colonies.oracle_colony">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.colony_orchestrator" target="candidate.core.colonies.base_colony">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.colony_orchestrator" target="candidate.core.colonies.creativity_colony">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.colony_orchestrator" target="candidate.core.colonies.reasoning_colony">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.colony_orchestrator" target="candidate.core.colonies.temporal_colony">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.emotional" target="candidate.core.symbolic.drift.symbolic_drift_tracker">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.core" target="lukhas.memory.structural_conscience">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.meta_learning" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.practical_optimizations" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.self_reflection_engine" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.visionary_orchestrator" target="candidate.core.advanced_symbolic_loop">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.visionary_orchestrator" target="candidate.core.memory.memory_manager">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.visionary_orchestrator" target="candidate.core.logging">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.master_orchestrator" target="candidate.memory.consolidation.memory_visualization">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.master_orchestrator" target="candidate.orchestration.swarm_orchestration_adapter">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.master_orchestrator" target="candidate.core.utils.orchestration_energy_aware_execution_planner">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.master_orchestrator" target="candidate.memory.consolidation.memory_colonies">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.master_orchestrator" target="candidate.orchestration.colony_orchestrator">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.master_orchestrator" target="candidate.memory.folds.unified_memory_core">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.master_orchestrator" target="candidate.orchestration.brain.primary_hub">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.master_orchestrator" target="candidate.orchestration.workflow_engine">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.master_orchestrator" target="candidate.orchestration.bio_symbolic_orchestrator">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.qrg_100_percent_coverage" target="lukhas.qi.steganographic_demo">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.distributed_state_manager" target="candidate.core.cluster_sharding">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.distributed_state_manager" target="candidate.core.event_sourcing">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.distributed_state_manager" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.orchestration_service" target="lukhas.governance.identity.interface">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.orchestration_service" target="candidate.core.performance.performance_orchestrator">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.orchestration_service" target="candidate.bridge.message_bus">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.privacy_preserving_memory_vault" target="candidate.core.integration.governance.__init__">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.privacy_preserving_memory_vault" target="lukhas.memory.emotional">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.unified_memory_manager" target="lukhas.memory.systems.memory_visualizer">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.unified_memory_manager" target="lukhas.memory.memory_fold">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.circuit_breaker" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.event_replay_snapshot" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.bio_system" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.MetaLearningEnhancement" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.learning_system" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.agent_coordination" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.awareness" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.core_integrator" target="candidate.orchestration.brain.integration.brain_integration">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.consciousness_hub" target="consciousness.qi_consciousness_hub">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.consciousness_hub" target="consciousness.systems.lambda_bot_consciousness_integration">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.consciousness_hub" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.consciousness_hub" target="consciousness.systems.qi_consciousness_integration_wrapper">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.consciousness_hub" target="consciousness.cognitive_architecture_controller">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.consciousness_hub" target="consciousness.cognitive.adapter">
+      <data key="d2">imports</data>
+    </edge>
+    <edge source="candidate.consciousness.reflection.actor_system" target="candidate.core.common">
+      <data key="d2">imports</data>
+    </edge>
+  </graph>
+</graphml>

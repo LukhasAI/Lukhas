@@ -1,0 +1,8 @@
+schema_version: 2.0.0
+lanes:
+  production: {root: "lukhas", write: "docs/tests/scripts only"}
+  integration: {root: "candidate/core", write: "tests/docs only"}
+  development: {root: "candidate", write: "tests/docs only"}
+rules:
+  - "DO NOT create new modules unless owner approves (CODEOWNERS)"
+  - "Prefer lukhas.* imports unless LUKHAS_LANE != production"

@@ -1,0 +1,523 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/core/interfaces",
+    "lane": "development",
+    "purpose": "Directory containing 20 Python files and 14 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "dependency_injection.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ServiceRegistry",
+          "ServiceLocator",
+          "LazyProxy",
+          "get_registry",
+          "register_service",
+          "register_factory",
+          "register_interface",
+          "get_service",
+          "get_by_interface",
+          "clear_registry",
+          "inject",
+          "lazy_service",
+          "register_service",
+          "register_factory",
+          "register_interface",
+          "get_service",
+          "get_by_interface",
+          "has_service",
+          "clear",
+          "list_services",
+          "decorator",
+          "get_memory_service",
+          "get_consciousness_service",
+          "get_guardian_service",
+          "get_orchestration_service",
+          "sync_wrapper"
+        ]
+      },
+      {
+        "filename": "research_dashboard.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "core_interface.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.common"
+        ],
+        "exports": [
+          "MessagePriority",
+          "CommunicationMode",
+          "OptimizationStrategy",
+          "CoreInterface",
+          "CommunicationFabricInterface",
+          "ResourceOptimizerInterface",
+          "register_module",
+          "get_module"
+        ]
+      },
+      {
+        "filename": "services.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/services.json",
+        "dependencies": [],
+        "exports": [
+          "IService",
+          "IMemoryService",
+          "IConsciousnessService",
+          "IDreamService",
+          "IQuantumService",
+          "IEmotionService",
+          "IIdentityService",
+          "IGovernanceService",
+          "IBridgeService",
+          "IEventService",
+          "IGlyphService",
+          "IConfigurationService",
+          "get_health",
+          "get",
+          "set",
+          "reload"
+        ]
+      },
+      {
+        "filename": "memory_interface.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.common"
+        ],
+        "exports": [
+          "MemoryType",
+          "MemoryInterface",
+          "MemoryTestInterface",
+          "register_module",
+          "get_module",
+          "register_test_module",
+          "get_test_module"
+        ]
+      },
+      {
+        "filename": "adaptive_enhancements.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.orchestration.symbolic_kernel_bus"
+        ],
+        "exports": [
+          "ExportFormat",
+          "CognitiveLoad",
+          "ComplianceValidator",
+          "AdaptiveExporter",
+          "SimplifiedIntentExtractor",
+          "AdaptiveInterfaceEnhancer",
+          "calculate_adjusted_load",
+          "validate_output"
+        ]
+      },
+      {
+        "filename": "common_interface.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.common"
+        ],
+        "exports": [
+          "CommonInterface",
+          "register_module",
+          "get_module"
+        ]
+      },
+      {
+        "filename": "moral_alignment_interface.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.common"
+        ],
+        "exports": [
+          "Moral_AlignmentInterface",
+          "register_module",
+          "get_module"
+        ]
+      },
+      {
+        "filename": "cli.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "display_mood",
+          "display_flashback_preview",
+          "display_system_status",
+          "voice_welcome",
+          "launch"
+        ]
+      },
+      {
+        "filename": "interfaces_hub.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.api.api_server",
+          "lukhas.core.api.endpoints",
+          "lukhas.core.api.external_api_handler",
+          "lukhas.core.interfaces.as_agent.core.agent_handoff",
+          "lukhas.core.interfaces.as_agent.core.gatekeeper",
+          "lukhas.core.interfaces.as_agent.sys.dast.dast_logger"
+        ],
+        "exports": [
+          "CoreInterfacesHub",
+          "get_interfaces_hub"
+        ]
+      },
+      {
+        "filename": "encrypted_perception_interface.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.common"
+        ],
+        "exports": [
+          "EthicalSignificance",
+          "PerceptualVector",
+          "AnomalySignature",
+          "Encrypted_PerceptionInterface",
+          "AnomalyDetectorInterface",
+          "EVRNCoreInterface",
+          "register_module",
+          "get_module"
+        ]
+      },
+      {
+        "filename": "app.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MockStreamlit",
+          "MockTab",
+          "MockColumn",
+          "set_page_config",
+          "error",
+          "stop",
+          "title",
+          "sidebar",
+          "tabs",
+          "header",
+          "write",
+          "markdown",
+          "success",
+          "info",
+          "warning",
+          "button",
+          "columns",
+          "text_area",
+          "selectbox",
+          "button",
+          "markdown"
+        ]
+      },
+      {
+        "filename": "custom_llm.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "CustomLlm",
+          "Config",
+          "log_creation"
+        ]
+      },
+      {
+        "filename": "launcher.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "launch_lukhas"
+        ]
+      },
+      {
+        "filename": "dev_dashboard.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MockStreamlit",
+          "MockTab",
+          "set_page_config",
+          "error",
+          "stop",
+          "title",
+          "sidebar",
+          "tabs",
+          "header"
+        ]
+      },
+      {
+        "filename": "common_interfaces.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EthicsCheckable",
+          "DreamAnalyzable",
+          "get_ethical_context",
+          "get_dream_state"
+        ]
+      },
+      {
+        "filename": "main.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.interfaces.voice.edge_voice"
+        ],
+        "exports": [
+          "log_event",
+          "symbolic_intro",
+          "symbolic_menu",
+          "launch_gui",
+          "launch_cli",
+          "launch_socket",
+          "launch_narration",
+          "main"
+        ]
+      },
+      {
+        "filename": "socket.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "dashboad.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "web_formatter.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "load_latest_expression",
+          "format_html",
+          "format_markdown",
+          "format_caption",
+          "save_formats"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "ui",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "design",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "tools",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "registries",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "nodes",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "nias",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "logic",
+        "has_index": false,
+        "purpose": "Subdirectory with 9 Python files",
+        "component_count": 9
+      },
+      {
+        "name": "voice",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "api",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "human",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "protocols",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "widgets",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "as_agent",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "flow",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "README_interfaces_trace.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "lukhas_context.md",
+        "type": "lukhas_context.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README_interfaces.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "claude.me",
+        "type": "claude.me",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Examine API contracts and integration patterns first",
+    "key_files": [
+      "README.md",
+      "lukhas_context.md",
+      "claude.me"
+    ],
+    "common_tasks": [
+      {
+        "task": "API integration",
+        "files_involved": [
+          "dependency_injection.py",
+          "core_interface.py",
+          "services.py",
+          "adaptive_enhancements.py",
+          "common_interface.py",
+          "moral_alignment_interface.py",
+          "cli.py",
+          "interfaces_hub.py",
+          "encrypted_perception_interface.py",
+          "app.py",
+          "custom_llm.py",
+          "launcher.py",
+          "dev_dashboard.py",
+          "common_interfaces.py",
+          "main.py",
+          "socket.py",
+          "web_formatter.py"
+        ],
+        "complexity": "medium"
+      }
+    ],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 20,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate/core",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

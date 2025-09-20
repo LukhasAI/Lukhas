@@ -1,0 +1,103 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/bridge/api_gateway",
+    "lane": "development",
+    "purpose": "Directory containing 4 Python files and 0 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "rate_limiter.py",
+        "component_type": "TRINITY_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "RateLimiter",
+          "check_rate_limit",
+          "get_client_id",
+          "reset_client_limits",
+          "get_stats"
+        ]
+      },
+      {
+        "filename": "route_handlers.py",
+        "component_type": "TRINITY_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "RouteHandlers",
+          "register_handler",
+          "register_middleware",
+          "get_registered_paths",
+          "remove_handler"
+        ]
+      },
+      {
+        "filename": "auth_middleware.py",
+        "component_type": "TRINITY_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AuthMiddleware"
+        ]
+      },
+      {
+        "filename": "unified_api_gateway.py",
+        "component_type": "TRINITY_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ChatRequest",
+          "ChatResponse",
+          "OrchestrationResponse",
+          "HealthResponse",
+          "UnifiedAPIGateway",
+          "run",
+          "get_app"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Examine API contracts and integration patterns first",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 4,
+    "estimated_complexity": "low",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate/bridge",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

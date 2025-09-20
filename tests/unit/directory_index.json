@@ -1,0 +1,470 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "tests/unit",
+    "lane": "development",
+    "purpose": "Directory containing 17 Python files and 36 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "test_memory_fold_system.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.memory.protection.symbolic_quarantine_sanctum"
+        ],
+        "exports": [
+          "MockMemoryFold",
+          "TestMemoryFoldSystem",
+          "add_memory",
+          "get_memory_count",
+          "sanctum"
+        ]
+      },
+      {
+        "filename": "conftest.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "test_personality_brain.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "_StubCore",
+          "test_lukhas_brain_registers_components_and_scores_decision",
+          "register_component"
+        ]
+      },
+      {
+        "filename": "test_example_unit.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TestLukhasCore",
+          "TestCandidateModules",
+          "test_example_unit",
+          "test_core_functionality",
+          "test_candidate_functionality"
+        ]
+      },
+      {
+        "filename": "test_creative_engine_metrics.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "test_metrics_support_basic_operations"
+        ]
+      },
+      {
+        "filename": "test_imports.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "test_imports_real"
+        ]
+      },
+      {
+        "filename": "test_nias_recommendations.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "products.communication.nias_candidate.core.nias_engine"
+        ],
+        "exports": []
+      },
+      {
+        "filename": "test_awareness_protocol.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.consciousness.awareness.awareness_protocol",
+          "lukhas.tiers"
+        ],
+        "exports": [
+          "test_map_local_tier_to_global_valid_tiers",
+          "test_map_local_tier_to_global_case_insensitivity",
+          "test_map_local_tier_to_global_unknown_tier",
+          "test_map_local_tier_to_global_empty_string"
+        ]
+      },
+      {
+        "filename": "test_fallback_settings.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "test_fallback_settings_applies_safe_defaults",
+          "test_fallback_settings_reports_stable_configuration"
+        ]
+      },
+      {
+        "filename": "test_ruff_formatting.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TestClass",
+          "test_function",
+          "method"
+        ]
+      },
+      {
+        "filename": "test_identity_lid_compat.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "test_lid_import_and_normalize"
+        ]
+      },
+      {
+        "filename": "test_public_api.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.security.auth"
+        ],
+        "exports": [
+          "TestPublicAPI",
+          "setUp",
+          "test_health_check",
+          "test_root_endpoint",
+          "test_chat_endpoint_no_auth",
+          "test_chat_endpoint_invalid_auth",
+          "test_chat_endpoint_valid_auth",
+          "test_dreams_endpoint_no_auth",
+          "test_dreams_endpoint_valid_auth",
+          "test_status_endpoint_optional_auth"
+        ]
+      },
+      {
+        "filename": "test_quantum_memory_architecture.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "test_quantum_memory_bank_register_size"
+        ]
+      },
+      {
+        "filename": "test_guardian_sentinel.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "test_basic_functions.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.memory",
+          "lukhas.core.common"
+        ],
+        "exports": [
+          "test_memory_wrapper_initializes",
+          "test_logger_emits"
+        ]
+      },
+      {
+        "filename": "test_author_reference_guard.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "test_author_reference_guard_detects_existing_violations",
+          "test_author_reference_guard_detects_violations",
+          "test_author_reference_guard_allows_academic"
+        ]
+      },
+      {
+        "filename": "test_qi_creative_types.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "test_enhanced_creative_state_accepts_quantum_state"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "behavior",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "metrics",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "candidate",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "agi_core",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "branding",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "contract",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "tools",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "bio",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "products",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "core",
+        "has_index": false,
+        "purpose": "Subdirectory with 7 Python files",
+        "component_count": 7
+      },
+      {
+        "name": "memory",
+        "has_index": false,
+        "purpose": "Subdirectory with 7 Python files",
+        "component_count": 7
+      },
+      {
+        "name": "identity",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "config",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "security",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "ci",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "bridge",
+        "has_index": false,
+        "purpose": "Subdirectory with 7 Python files",
+        "component_count": 7
+      },
+      {
+        "name": "consciousness",
+        "has_index": false,
+        "purpose": "Subdirectory with 7 Python files",
+        "component_count": 7
+      },
+      {
+        "name": "golden",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "ai_orchestration",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "matriz",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "observability",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "compliance",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "qi",
+        "has_index": false,
+        "purpose": "Subdirectory with 5 Python files",
+        "component_count": 5
+      },
+      {
+        "name": "adapters",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "products_infra",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "vivox",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "scripts",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "orchestration",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "governance",
+        "has_index": false,
+        "purpose": "Subdirectory with 10 Python files",
+        "component_count": 10
+      },
+      {
+        "name": "monitoring",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "dream",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "emotion",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "universal_language",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "reports",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "aka_qualia",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "router",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      }
+    ],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 17,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "tests",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

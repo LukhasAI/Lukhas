@@ -1,0 +1,152 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/orchestration/signals",
+    "lane": "development",
+    "purpose": "Directory containing 5 Python files and 0 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "modulator.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "PromptStyle",
+          "PromptModulation",
+          "PromptModulator",
+          "AdaptiveModulator",
+          "to_api_format",
+          "modulate",
+          "apply_feedback",
+          "get_metrics",
+          "record_outcome",
+          "get_recommended_strategy"
+        ]
+      },
+      {
+        "filename": "homeostasis.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SystemEvent",
+          "ModulationParams",
+          "AuditTrail",
+          "OscillationDetector",
+          "HomeostasisController",
+          "to_dict",
+          "update",
+          "detect_oscillation",
+          "get_damping_factor",
+          "on_event",
+          "regulate_signals",
+          "compute_modulation",
+          "detect_oscillation",
+          "explain_decision",
+          "get_metrics",
+          "process_signals",
+          "get_system_state"
+        ]
+      },
+      {
+        "filename": "homeostasis_controller.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.orchestration.signals.signal_bus"
+        ],
+        "exports": [
+          "HomeostasisState",
+          "HormoneEmission",
+          "SystemMetrics",
+          "HomeostasisPolicy",
+          "HomeostasisController",
+          "process_event",
+          "record_feedback",
+          "get_status",
+          "reset"
+        ]
+      },
+      {
+        "filename": "prompt_modulator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "signal_bus.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SignalType",
+          "Signal",
+          "SignalPattern",
+          "SignalBus",
+          "get_signal_bus",
+          "emit_stress",
+          "emit_alignment_risk",
+          "emit_novelty",
+          "is_expired",
+          "matches",
+          "subscribe",
+          "unsubscribe",
+          "add_modulation_rule",
+          "publish",
+          "get_current_levels",
+          "get_signal_history",
+          "get_statistics",
+          "get_metrics",
+          "get_active_signals",
+          "register_pattern",
+          "clear_history"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 5,
+    "estimated_complexity": "low",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate/orchestration",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

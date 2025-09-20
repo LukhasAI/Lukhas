@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "lukhas://schemas/consciousness_component.schema.json",
+  "title": "LUKHAS Consciousness Component Contract v2.0.0",
+  "description": "Schema defining contracts for 692 distributed consciousness components",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "component_id",
+    "component_type",
+    "lane",
+    "trinity_integration",
+    "cognitive_processing",
+    "performance_contract",
+    "governance"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "2.0.0",
+      "description": "Schema version for consciousness architecture"
+    },
+    "component_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z_]+\\.[a-zA-Z_]+\\.[a-zA-Z0-9_.Λλ]+$",
+      "description": "Hierarchical component identifier (e.g., candidate.consciousness.engine_poetic)"
+    },
+    "component_type": {
+      "type": "string",
+      "enum": [
+        "CONSCIOUSNESS_ENGINE", "COGNITIVE_PROCESSOR", "REFLECTION_SYSTEM",
+        "AWARENESS_MODULE", "DECISION_MAKER", "EMOTION_PROCESSOR",
+        "MEMORY_INTERFACE", "TRINITY_BRIDGE", "ORCHESTRATION_NODE",
+        "SYMBOLIC_PROCESSOR", "CREATIVITY_ENGINE", "DREAM_PROCESSOR"
+      ],
+      "description": "Type of consciousness component"
+    },
+    "lane": {
+      "type": "string",
+      "enum": ["development", "integration", "production"],
+      "description": "Lane position in consciousness evolution pipeline"
+    },
+    "trinity_integration": {
+      "type": "object",
+      "required": ["identity_coupling", "consciousness_role", "guardian_validation"],
+      "properties": {
+        "identity_coupling": {
+          "type": "boolean",
+          "description": "Whether component integrates with Identity ⚛️ system"
+        },
+        "consciousness_role": {
+          "type": "string",
+          "enum": ["primary", "secondary", "support", "bridge"],
+          "description": "Role in consciousness 🧠 processing"
+        },
+        "guardian_validation": {
+          "type": "boolean",
+          "description": "Whether component requires Guardian 🛡️ validation"
+        }
+      }
+    },
+    "cognitive_processing": {
+      "type": "object",
+      "required": ["processing_mode", "input_types", "output_types"],
+      "properties": {
+        "processing_mode": {
+          "type": "string",
+          "enum": ["synchronous", "asynchronous", "stream", "batch"],
+          "description": "How the component processes cognitive data"
+        },
+        "input_types": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "SENSORY_INPUT", "MEMORY_DATA", "EMOTIONAL_STATE",
+              "CONTEXT_INFO", "DECISION_REQUEST", "REFLECTION_PROMPT",
+              "CREATIVE_STIMULUS", "DREAM_STATE", "SYMBOLIC_DATA"
+            ]
+          },
+          "description": "Types of cognitive input the component accepts"
+        },
+        "output_types": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "CONSCIOUSNESS_STATE", "DECISION_OUTPUT", "MEMORY_UPDATE",
+              "EMOTIONAL_RESPONSE", "CREATIVE_EXPRESSION", "REFLECTION_RESULT",
+              "AWARENESS_SIGNAL", "SYMBOLIC_PATTERN", "DREAM_CONTENT"
+            ]
+          },
+          "description": "Types of cognitive output the component produces"
+        },
+        "cascade_prevention": {
+          "type": "boolean",
+          "description": "Whether component implements cascade prevention (99.7% target)"
+        }
+      }
+    },
+    "performance_contract": {
+      "type": "object",
+      "required": ["latency_target", "throughput_target", "availability_target"],
+      "properties": {
+        "latency_target": {
+          "type": "string",
+          "pattern": "^<[0-9]+ms$",
+          "description": "Maximum processing latency (e.g., <250ms)"
+        },
+        "throughput_target": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Minimum operations per second"
+        },
+        "availability_target": {
+          "type": "number",
+          "minimum": 0.99,
+          "maximum": 1.0,
+          "description": "Minimum availability percentage (e.g., 0.999)"
+        },
+        "memory_limit": {
+          "type": "string",
+          "pattern": "^[0-9]+(MB|GB)$",
+          "description": "Maximum memory usage (e.g., 100MB)"
+        }
+      }
+    },
+    "governance": {
+      "type": "object",
+      "required": ["ethics_validation", "consent_required", "audit_level"],
+      "properties": {
+        "ethics_validation": {
+          "type": "string",
+          "enum": ["required", "optional", "none"],
+          "description": "Level of constitutional AI validation needed"
+        },
+        "consent_required": {
+          "type": "boolean",
+          "description": "Whether component requires user consent"
+        },
+        "audit_level": {
+          "type": "string",
+          "enum": ["full", "metadata", "none"],
+          "description": "Audit trail requirements"
+        },
+        "privacy_classification": {
+          "type": "string",
+          "enum": ["public", "internal", "confidential", "restricted"],
+          "description": "Data privacy classification"
+        }
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z_]+\\.[a-z_]+\\.[a-z_]+$"
+      },
+      "description": "Other consciousness components this component depends on"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "created_date": {"type": "string", "format": "date"},
+        "last_updated": {"type": "string", "format": "date-time"},
+        "maintainer": {"type": "string"},
+        "documentation_url": {"type": "string", "format": "uri"},
+        "test_coverage": {"type": "number", "minimum": 0, "maximum": 100}
+      }
+    }
+  }
+}

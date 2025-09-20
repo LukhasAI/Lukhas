@@ -1,0 +1,94 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "tests/matriz",
+    "lane": "development",
+    "purpose": "Directory containing 3 Python files and 0 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "test_policy_engine.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.matriz.runtime.policy"
+        ],
+        "exports": [
+          "test_policy_engine_uses_custom_evaluator_allows",
+          "test_policy_engine_blocks_when_evaluator_reports_violation",
+          "test_policy_engine_string_rule_enforces_forbidden_label",
+          "test_policy_engine_requires_labels_when_marked",
+          "test_policy_engine_rejects_non_mapping_input",
+          "evaluator"
+        ]
+      },
+      {
+        "filename": "conftest.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "matriz_test_data_dir",
+          "clean_matriz_env",
+          "temp_traces_dir",
+          "sample_trace_data"
+        ]
+      },
+      {
+        "filename": "test_traces_tier1.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "test_latest_returns_json_with_trace_id",
+          "test_by_id_prefers_json_trace_id_over_filename",
+          "test_list_paging_and_filters",
+          "test_404_for_missing_trace",
+          "test_golden_fallback_when_live_missing",
+          "test_trace_schema_validation"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 3,
+    "estimated_complexity": "low",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "tests",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

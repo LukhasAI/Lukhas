@@ -1,0 +1,137 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "tests/benchmarks",
+    "lane": "development",
+    "purpose": "Directory containing 3 Python files and 0 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "test_conflict.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TestConflictCorpus",
+          "test_corpus_structure",
+          "test_conflict_case_retrieval",
+          "test_case_validation",
+          "test_corpus_validation",
+          "test_emotional_oppositions",
+          "test_confidence_vs_fear_case",
+          "test_extreme_opposition_case",
+          "test_subtle_preference_case",
+          "test_all_cases_have_expected_selections",
+          "test_emotional_context_validity",
+          "test_case_diversity",
+          "test_rationale_quality"
+        ]
+      },
+      {
+        "filename": "test_mesh.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.consciousness.dream.expand.mesh"
+        ],
+        "exports": [
+          "TestMeshAlignment",
+          "test_disabled_by_default",
+          "test_mean_aggregation",
+          "test_median_aggregation",
+          "test_max_aggregation",
+          "test_min_aggregation",
+          "test_insufficient_agents",
+          "test_value_clamping",
+          "test_multiple_snapshots_per_agent",
+          "test_missing_emotional_context",
+          "test_invalid_emotion_values",
+          "test_mesh_consensus",
+          "test_mesh_consensus_disabled",
+          "test_diversity_analysis",
+          "test_diversity_analysis_disabled",
+          "test_mesh_validation",
+          "test_mesh_validation_disabled",
+          "test_custom_min_agents",
+          "test_config_reporting",
+          "test_invalid_aggregation_method"
+        ]
+      },
+      {
+        "filename": "test_archetypes.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TestArchetypalClassification",
+          "TestSnapshotAnalysis",
+          "TestArchetypalBalance",
+          "TestArchetypalTestCases",
+          "TestArchetypalSystem",
+          "test_hero_archetype_detection",
+          "test_shadow_archetype_detection",
+          "test_trickster_archetype_detection",
+          "test_threshold_filtering",
+          "test_score_calculation",
+          "test_opposition_penalty",
+          "test_missing_emotions",
+          "test_all_archetypes_represented",
+          "test_snapshot_analysis",
+          "test_diversity_calculation",
+          "test_invalid_snapshots",
+          "test_balance_suggestions",
+          "test_different_target_balances",
+          "test_balance_score_calculation",
+          "test_test_case_generation",
+          "test_intensity_scaling",
+          "test_invalid_archetype",
+          "test_emotion_value_validity",
+          "test_canonical_emotions_coverage",
+          "test_archetype_distinctiveness",
+          "test_system_consistency"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 3,
+    "estimated_complexity": "low",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "tests",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

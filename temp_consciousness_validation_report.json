@@ -1,0 +1,38 @@
+{
+  "validation_timestamp": "2025-09-20T15:32:30.173406",
+  "schema_valid": true,
+  "total_contracts": 287,
+  "valid_contracts": 287,
+  "invalid_contracts": 0,
+  "validation_errors": {},
+  "summary": {
+    "validation_rate": 1.0,
+    "component_types": {
+      "DECISION_MAKER": 1,
+      "DREAM_PROCESSOR": 65,
+      "COGNITIVE_PROCESSOR": 145,
+      "CREATIVITY_ENGINE": 12,
+      "SYMBOLIC_PROCESSOR": 10,
+      "CONSCIOUSNESS_ENGINE": 30,
+      "EMOTION_PROCESSOR": 2,
+      "AWARENESS_MODULE": 12,
+      "TRINITY_BRIDGE": 5,
+      "MEMORY_INTERFACE": 4,
+      "ORCHESTRATION_NODE": 1
+    },
+    "lanes": {
+      "development": 287
+    },
+    "trinity_integration": {
+      "identity": 10,
+      "guardian": 33
+    },
+    "governance_stats": {
+      "ethics_required": 31,
+      "consent_required": 34
+    }
+  },
+  "recommendations": [
+    "Consider promoting stable components to integration lane"
+  ]
+}

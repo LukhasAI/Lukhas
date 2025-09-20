@@ -1,0 +1,167 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "lukhas/core/common",
+    "lane": "development",
+    "purpose": "Directory containing 5 Python files and 0 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "glyph.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "GLYPHSymbol",
+          "GLYPHPriority",
+          "GLYPHContext",
+          "GLYPHToken",
+          "GLYPHRouter",
+          "create_glyph",
+          "parse_glyph",
+          "validate_glyph",
+          "create_response_glyph",
+          "create_error_glyph",
+          "to_dict",
+          "from_dict",
+          "to_dict",
+          "from_dict",
+          "to_json",
+          "from_json",
+          "add_to_trace",
+          "set_metadata",
+          "get_metadata",
+          "register_route",
+          "register_handler"
+        ]
+      },
+      {
+        "filename": "config.py",
+        "component_type": "CONFIGURATION",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/config.json",
+        "dependencies": [],
+        "exports": [
+          "ModuleConfig",
+          "ConfigLoader",
+          "get_config_loader",
+          "get_config",
+          "get_global_config",
+          "get_setting",
+          "get",
+          "set",
+          "load_env",
+          "load_module_config",
+          "load_global_config",
+          "get_database_config",
+          "get_redis_config",
+          "get_guardian_config"
+        ]
+      },
+      {
+        "filename": "logger.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "LukhasFormatter",
+          "JSONFormatter",
+          "configure_logging",
+          "get_logger",
+          "get_module_logger",
+          "format",
+          "format"
+        ]
+      },
+      {
+        "filename": "exceptions.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "LukhasError",
+          "GLYPHTokenError",
+          "GuardianRejectionError",
+          "MemoryDriftError",
+          "ModuleTimeoutError",
+          "ModuleNotFoundError",
+          "ConfigurationError",
+          "AuthenticationError",
+          "AuthorizationError",
+          "ValidationError",
+          "GLYPHError",
+          "CircuitBreakerError",
+          "ResourceExhaustedError",
+          "raise_guardian_rejection",
+          "raise_if_drift_excessive",
+          "to_dict"
+        ]
+      },
+      {
+        "filename": "decorators.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "retry",
+          "with_timeout",
+          "lukhas_tier_required",
+          "cached",
+          "log_execution",
+          "decorator",
+          "decorator",
+          "decorator",
+          "decorator",
+          "decorator",
+          "sync_wrapper",
+          "sync_wrapper",
+          "default_key_func",
+          "sync_wrapper",
+          "sync_wrapper"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 5,
+    "estimated_complexity": "low",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "lukhas/core",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

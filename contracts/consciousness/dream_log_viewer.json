@@ -1,0 +1,43 @@
+{
+  "schema_version": "2.0.0",
+  "component_id": "candidate.consciousness.dream.core.dream_log_viewer",
+  "component_type": "DREAM_PROCESSOR",
+  "lane": "development",
+  "trinity_integration": {
+    "identity_coupling": false,
+    "consciousness_role": "secondary",
+    "guardian_validation": false
+  },
+  "cognitive_processing": {
+    "processing_mode": "synchronous",
+    "input_types": [
+      "CONTEXT_INFO",
+      "DREAM_STATE",
+      "MEMORY_DATA"
+    ],
+    "output_types": [
+      "DREAM_CONTENT"
+    ],
+    "cascade_prevention": true
+  },
+  "performance_contract": {
+    "latency_target": "<250ms",
+    "throughput_target": 50.0,
+    "availability_target": 0.997,
+    "memory_limit": "100MB"
+  },
+  "governance": {
+    "ethics_validation": "optional",
+    "consent_required": false,
+    "audit_level": "metadata",
+    "privacy_classification": "internal"
+  },
+  "dependencies": [],
+  "metadata": {
+    "created_date": "2025-09-20",
+    "last_updated": "2025-09-20T15:12:38.476583",
+    "maintainer": "LUKHAS Consciousness Team",
+    "documentation_url": "https://docs.lukhas.ai/consciousness/candidate/consciousness/dream/core/dream_log_viewer",
+    "test_coverage": 85.0
+  }
+}

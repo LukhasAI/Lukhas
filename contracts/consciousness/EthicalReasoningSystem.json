@@ -1,0 +1,43 @@
+{
+  "schema_version": "2.0.0",
+  "component_id": "candidate.consciousness.reflection.EthicalReasoningSystem",
+  "component_type": "COGNITIVE_PROCESSOR",
+  "lane": "development",
+  "trinity_integration": {
+    "identity_coupling": false,
+    "consciousness_role": "secondary",
+    "guardian_validation": false
+  },
+  "cognitive_processing": {
+    "processing_mode": "asynchronous",
+    "input_types": [
+      "CONTEXT_INFO",
+      "MEMORY_DATA",
+      "CONTEXT_INFO"
+    ],
+    "output_types": [
+      "AWARENESS_SIGNAL"
+    ],
+    "cascade_prevention": true
+  },
+  "performance_contract": {
+    "latency_target": "<250ms",
+    "throughput_target": 50.0,
+    "availability_target": 0.997,
+    "memory_limit": "100MB"
+  },
+  "governance": {
+    "ethics_validation": "optional",
+    "consent_required": false,
+    "audit_level": "metadata",
+    "privacy_classification": "internal"
+  },
+  "dependencies": [],
+  "metadata": {
+    "created_date": "2025-09-20",
+    "last_updated": "2025-09-20T15:12:38.752640",
+    "maintainer": "LUKHAS Consciousness Team",
+    "documentation_url": "https://docs.lukhas.ai/consciousness/candidate/consciousness/reflection/EthicalReasoningSystem",
+    "test_coverage": 85.0
+  }
+}

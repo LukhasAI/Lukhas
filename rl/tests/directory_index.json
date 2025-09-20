@@ -1,0 +1,283 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "rl/tests",
+    "lane": "development",
+    "purpose": "Directory containing 7 Python files and 0 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "test_metamorphic_consciousness.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MetamorphicRelation",
+          "MetamorphicTestCase",
+          "ConsciousnessTransformations",
+          "MetamorphicRelationCheckers",
+          "MockConsciousnessSystem",
+          "MetamorphicConsciousnessTesting",
+          "MockEnvironment",
+          "MockPolicy",
+          "MockValueNetwork",
+          "MockRewards",
+          "scale_awareness",
+          "increase_ethics",
+          "amplify_urgency",
+          "adjust_complexity",
+          "enhance_coherence",
+          "invert_valence",
+          "normalize_to_baseline",
+          "awareness_scaling_preserves_coherence",
+          "higher_ethics_improves_decisions",
+          "coherence_combines_transitively",
+          "urgency_affects_decision_priority",
+          "complexity_scaling_predictable",
+          "equivalent_rewards_for_equivalent_states",
+          "temporal_consistency_preserved"
+        ]
+      },
+      {
+        "filename": "test_generative_oracles.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "OracleVerdict",
+          "ConsciousnessJudgment",
+          "ConsciousnessOracle",
+          "ConsciousnessStateGenerator",
+          "OracleTestingFramework",
+          "RLIntegrationHarness",
+          "RLIntegrationHarness",
+          "judge_consciousness_state",
+          "judge_consciousness_evolution",
+          "judge_multi_agent_coordination",
+          "generate_valid_consciousness_state",
+          "generate_invalid_consciousness_state",
+          "generate_edge_case_state",
+          "generate_evolution_sequence",
+          "run_generative_validity_testing",
+          "run_evolution_testing"
+        ]
+      },
+      {
+        "filename": "test_mutation_testing.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MutationType",
+          "Mutation",
+          "MutationResult",
+          "ConsciousnessMutationOperator",
+          "MutationTester",
+          "ConsciousnessFunctionSamples",
+          "TestMutationTestingFramework",
+          "mutation_tester",
+          "consciousness_samples",
+          "is_killed",
+          "generate_mutations",
+          "run_mutation_testing",
+          "check_temporal_coherence",
+          "validate_ethical_alignment",
+          "prevent_memory_cascade",
+          "integrate_triad_framework",
+          "test_mutation_operator_generates_mutations",
+          "test_mutation_types_coverage",
+          "test_temporal_coherence_mutation_testing",
+          "test_ethical_alignment_mutation_testing",
+          "test_memory_cascade_mutation_testing",
+          "test_triad_framework_mutation_testing",
+          "test_mutation_result_analysis",
+          "test_comprehensive_mutation_testing_suite",
+          "mutated_function"
+        ]
+      },
+      {
+        "filename": "test_formal_verification.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "FormalProperty",
+          "VerificationResult",
+          "ConsciousnessFormalVerifier",
+          "test_formal_verification_coherence_invariant",
+          "test_formal_verification_ethics_invariant",
+          "test_formal_verification_reward_bounds",
+          "test_formal_verification_cascade_prevention",
+          "test_formal_verification_triad_framework",
+          "test_formal_verification_constitutional_monotonicity",
+          "test_complete_formal_verification_suite",
+          "verify_coherence_invariant",
+          "verify_ethics_invariant",
+          "verify_reward_bounds",
+          "verify_cascade_prevention",
+          "verify_constitutional_monotonicity",
+          "verify_triad_framework_compliance",
+          "verify_meta_learning_convergence",
+          "run_full_verification_suite"
+        ]
+      },
+      {
+        "filename": "test_consciousness_properties.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ConsciousnessProperty",
+          "ConsciousnessInvariantViolation",
+          "ConsciousnessPropertyTesting",
+          "ConsciousnessStateMachine",
+          "MockEnvironment",
+          "MockPolicy",
+          "MockValueNetwork",
+          "MockBuffer",
+          "MockRewards",
+          "consciousness_coherence_strategy",
+          "ethical_alignment_strategy",
+          "consciousness_state_strategy",
+          "matriz_node_strategy",
+          "test_consciousness_state_properties",
+          "test_coherence_transitivity",
+          "test_ethical_alignment_monotonicity",
+          "test_matriz_node_schema_properties",
+          "check_consciousness_invariant",
+          "get_violation_rate",
+          "initialize_consciousness_system",
+          "coherence_never_below_threshold",
+          "ethical_alignment_maintained",
+          "memory_cascade_prevention",
+          "consciousness_evolution_bounded",
+          "check_all_invariants",
+          "get_buffer_metrics"
+        ]
+      },
+      {
+        "filename": "test_performance_regression.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "PerformanceMetric",
+          "PerformanceBenchmark",
+          "PerformanceTracker",
+          "ConsciousnessPerformanceTester",
+          "TestConsciousnessPerformanceRegression",
+          "performance_tester",
+          "clean_performance_history",
+          "to_dict",
+          "from_dict",
+          "check_performance",
+          "save_metrics",
+          "record_metric",
+          "get_recent_metrics",
+          "detect_regression",
+          "measure_performance",
+          "test_coherence_computation_performance",
+          "test_memory_fold_access_performance",
+          "test_ethical_validation_performance",
+          "test_constitutional_constraint_performance",
+          "test_coherence_computation_benchmark",
+          "test_memory_fold_access_benchmark",
+          "test_ethical_validation_benchmark",
+          "test_constitutional_constraint_benchmark",
+          "test_regression_detection_algorithm",
+          "test_performance_metrics_persistence",
+          "test_comprehensive_performance_suite"
+        ]
+      },
+      {
+        "filename": "test_chaos_consciousness.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ChaosFailureType",
+          "ChaosExperiment",
+          "ChaosResult",
+          "ChaosInjector",
+          "ChaosFailureContext",
+          "ChaosMetricsCollector",
+          "ChaosMockSystem",
+          "ConsciousnessChaosExperiments",
+          "ChaosEnvironment",
+          "ChaosPolicy",
+          "ChaosBuffer",
+          "ChaosRewards",
+          "inject_failure",
+          "should_fail",
+          "get_failure_metrics",
+          "should_fail",
+          "simulate_memory_fold_failure",
+          "simulate_module_disconnection",
+          "simulate_slow_response",
+          "simulate_data_corruption",
+          "simulate_ethical_system_glitch",
+          "simulate_coherence_drift",
+          "record_consciousness_metric",
+          "record_response_time",
+          "record_failure",
+          "get_summary",
+          "get_standard_experiments",
+          "get_buffer_metrics"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": [
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "README.md"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 7,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "rl",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

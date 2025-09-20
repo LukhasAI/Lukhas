@@ -1,0 +1,161 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "lukhas/governance/identity",
+    "lane": "development",
+    "purpose": "Directory containing 3 Python files and 1 subdirectories",
+    "trinity_role": [
+      "identity",
+      "guardian"
+    ],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "extreme_performance_connector.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SecurityError",
+          "ExtremePerformanceIdentityConnector",
+          "AuthPerformanceMetrics",
+          "OptimizedMonitorContext",
+          "FallbackContext",
+          "get_performance_dashboard",
+          "decorator",
+          "optimized_monitor_safety",
+          "fallback_check_access",
+          "fallback_monitor_safety"
+        ]
+      },
+      {
+        "filename": "interface.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TierValidator",
+          "ActivityLogger",
+          "ConsentManager",
+          "LambdIDValidator",
+          "IdentityClient",
+          "get_identity_client",
+          "verify_access",
+          "log_activity",
+          "check_consent",
+          "validate_tier",
+          "log_activity",
+          "check_consent",
+          "validate_identity",
+          "verify_user_access",
+          "check_consent",
+          "log_activity",
+          "log_security_event",
+          "validate_session",
+          "validate_identity"
+        ]
+      },
+      {
+        "filename": "connector.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SecurityError",
+          "IdentityConnector",
+          "AuditLogger",
+          "SafetyMonitor",
+          "AccessControlEngine",
+          "AccessType",
+          "SyncAccessControlEngine",
+          "SyncAuditLogger",
+          "AccessControlStub",
+          "SafetyMonitorStub",
+          "AuditLoggerStub",
+          "MonitorContext",
+          "MonitorContext",
+          "SafetyLevel",
+          "SafetyAssessment",
+          "MockAccessTier",
+          "MockAccessDecision",
+          "get_integration_hub",
+          "get_identity_connector",
+          "require_tier",
+          "get_implementation_status",
+          "log_access_denied",
+          "log_access_granted",
+          "log_event",
+          "monitor_operation",
+          "decorator",
+          "log_event",
+          "monitor_operation",
+          "log_identity_event",
+          "log_access_event",
+          "log_event",
+          "create_secure_check_access",
+          "create_secure_log_audit",
+          "create_secure_monitor_safety",
+          "stub_check_access",
+          "stub_monitor_safety",
+          "secure_monitor_safety"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "auth_backend",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      }
+    ],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Focus on authentication flows and Lambda ID integration patterns",
+    "key_files": [],
+    "common_tasks": [
+      {
+        "task": "API integration",
+        "files_involved": [
+          "interface.py"
+        ],
+        "complexity": "medium"
+      }
+    ],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity",
+      "Authentication and identity management"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 3,
+    "estimated_complexity": "low",
+    "consciousness_integration": "basic",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "lukhas/governance",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

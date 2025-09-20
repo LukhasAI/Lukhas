@@ -1,0 +1,735 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/governance/identity",
+    "lane": "development",
+    "purpose": "Directory containing 16 Python files and 37 subdirectories",
+    "trinity_role": [
+      "identity",
+      "guardian"
+    ],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "qrg_integration.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.interfaces.as_agent.core.gatekeeper",
+          "lukhas.consciousness.core_consciousness.consciousness_engine",
+          "lukhas.consciousness.core_consciousness.qi_consciousness_visualizer"
+        ],
+        "exports": [
+          "QRGType",
+          "SecurityLevel",
+          "QRGContext",
+          "QRGResult",
+          "LukhusQRGIntegrator",
+          "MockModule",
+          "demo_qrg_integration",
+          "create_qrg_context",
+          "generate_consciousness_qrg",
+          "generate_cultural_qrg",
+          "generate_quantum_qrg",
+          "generate_dream_state_qrg",
+          "generate_emergency_override_qrg",
+          "generate_adaptive_qrg",
+          "get_generation_statistics"
+        ]
+      },
+      {
+        "filename": "trace.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "import_bridge.py",
+        "component_type": "TRINITY_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "IdentityModuleFinder",
+          "IdentityModuleLoader",
+          "IdentityFallbackLoader",
+          "FallbackManager",
+          "FallbackSynchronizer",
+          "EventType",
+          "install_identity_bridge",
+          "uninstall_identity_bridge",
+          "find_spec",
+          "load_module",
+          "exec_module",
+          "load_module",
+          "exec_module"
+        ]
+      },
+      {
+        "filename": "diagnostics.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "interface.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TierValidator",
+          "ActivityLogger",
+          "ConsentManager",
+          "LambdIDValidator",
+          "IdentityClient",
+          "_StubTierValidator",
+          "_StubActivityLogger",
+          "_StubConsentManager",
+          "_StubLambdIDValidator",
+          "_StubLambdIDValidator",
+          "get_lambda_id_validator",
+          "get_identity_client",
+          "verify_access",
+          "log_activity",
+          "check_consent",
+          "validate_tier",
+          "log_activity",
+          "check_consent",
+          "validate_identity",
+          "verify_user_access",
+          "check_consent",
+          "log_activity",
+          "log_security_event",
+          "validate_session",
+          "validate_identity",
+          "validate_tier",
+          "log_activity",
+          "check_consent",
+          "validate_identity",
+          "validate_identity"
+        ]
+      },
+      {
+        "filename": "access_tier_manager.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AccessTier",
+          "TierTransition",
+          "AccessDecision",
+          "TierRequirements",
+          "UserAccessProfile",
+          "AccessRequest",
+          "ComprehensiveAccessTierManager"
+        ]
+      },
+      {
+        "filename": "privacy_manager.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "PrivacyManager",
+          "set_privacy_setting",
+          "get_privacy_setting",
+          "apply_privacy_mechanisms",
+          "anonymize_data",
+          "encrypt_sensitive_fields",
+          "decrypt_field",
+          "check_permissions",
+          "set_user_permissions",
+          "apply_retention_policy",
+          "create_gdpr_report",
+          "log_privacy_event",
+          "get_privacy_logs",
+          "anonymize_dict",
+          "encrypt_dict",
+          "should_retain"
+        ]
+      },
+      {
+        "filename": "identity_validator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ValidationMethod",
+          "IdentityRisk",
+          "IdentityValidation",
+          "BiometricProfile",
+          "AdvancedIdentityValidator"
+        ]
+      },
+      {
+        "filename": "qrg_showcase.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "QRGShowcase",
+          "create_ascii_qr_pattern",
+          "main",
+          "demonstrate_user_profile",
+          "run_comprehensive_showcase",
+          "run_specific_qrg_type_demo",
+          "run_performance_benchmark",
+          "save_showcase_results"
+        ]
+      },
+      {
+        "filename": "deployment_package.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DeploymentConfig",
+          "SystemValidator",
+          "DemoOrchestrator",
+          "TestOrchestrator",
+          "BenchmarkRunner",
+          "DeploymentChecker",
+          "DeploymentPackage",
+          "main",
+          "validate_python_environment",
+          "validate_file_structure",
+          "validate_module_functionality",
+          "run_complete_validation",
+          "run_interactive_demo",
+          "run_fallback_demo",
+          "run_comprehensive_tests",
+          "run_basic_tests",
+          "test_python_env",
+          "test_file_structure",
+          "test_basic_imports",
+          "test_mock_generation",
+          "run_performance_benchmarks",
+          "benchmark_qrg_speed",
+          "benchmark_memory_usage",
+          "benchmark_concurrent",
+          "benchmark_security",
+          "check_deployment_readiness",
+          "check_system_validation",
+          "check_performance_standards",
+          "check_security_compliance",
+          "check_documentation",
+          "check_test_coverage",
+          "run_validation",
+          "run_demo",
+          "run_tests",
+          "run_benchmarks",
+          "check_deployment",
+          "run_complete_package",
+          "mock_generation"
+        ]
+      },
+      {
+        "filename": "qrg_coverage_integration.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "CoverageReport",
+          "TestConfiguration",
+          "QRGCoverageIntegration",
+          "create_qrg_coverage_integration"
+        ]
+      },
+      {
+        "filename": "lambda_id_auth.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AuthTier",
+          "ConsentRecord",
+          "AuthCredentials",
+          "QISafeHasher",
+          "Ed448KeyManager",
+          "QRGLYPHGenerator",
+          "TierAuthenticator",
+          "LambdaIDSystem",
+          "main",
+          "to_qrglyph",
+          "hash_password",
+          "verify_password",
+          "hash_biometric",
+          "generate_keypair",
+          "sign_data",
+          "verify_signature",
+          "generate_static_qrglyph",
+          "generate_dynamic_qrglyph",
+          "authenticate_t1",
+          "authenticate_t2",
+          "authenticate_t3",
+          "authenticate_t4",
+          "authenticate_t5",
+          "authenticate",
+          "create_consent_record",
+          "health_check"
+        ]
+      },
+      {
+        "filename": "constellation_glyph_integration.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.identity"
+        ],
+        "exports": [
+          "ConstellationStar",
+          "GLYPHType",
+          "GLYPHMessage",
+          "ConstellationValidator",
+          "TrinityComponent",
+          "TrinityValidator",
+          "GLYPHIntegrator",
+          "MockIdentitySystem",
+          "create_trinity_compliant_identity_system",
+          "to_dict",
+          "is_expired",
+          "validate_star_coherence",
+          "publish_glyph_message",
+          "subscribe_to_glyph_type",
+          "process_message_queue",
+          "get_integration_status"
+        ]
+      },
+      {
+        "filename": "unified_login_interface.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.unified_auth_manager"
+        ],
+        "exports": [
+          "LoginStep",
+          "UIAdaptation",
+          "LoginState",
+          "LoginResponse",
+          "ConsciousnessDetector",
+          "CulturalContextDetector",
+          "RevolutionaryLoginInterface",
+          "get_revolutionary_login_interface"
+        ]
+      },
+      {
+        "filename": "connector.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.orchestration.integration_hub"
+        ],
+        "exports": [
+          "IdentityConnector",
+          "get_identity_connector",
+          "require_tier",
+          "setup_cross_module_auth",
+          "configure_auth",
+          "decorator"
+        ]
+      },
+      {
+        "filename": "lid.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "normalize_lid",
+          "is_valid_lid"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "demo",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "qrg_schemas",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "zkproof",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "auth_backend",
+        "has_index": false,
+        "purpose": "Subdirectory with 11 Python files",
+        "component_count": 11
+      },
+      {
+        "name": "tools",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "auth_utils",
+        "has_index": false,
+        "purpose": "Subdirectory with 7 Python files",
+        "component_count": 7
+      },
+      {
+        "name": "core",
+        "has_index": false,
+        "purpose": "Subdirectory with 8 Python files",
+        "component_count": 8
+      },
+      {
+        "name": "frontend",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "identity",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "enterprise",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "lukhas_identity",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "config",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "wearables_integration",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "security",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "auth",
+        "has_index": false,
+        "purpose": "Subdirectory with 9 Python files",
+        "component_count": 9
+      },
+      {
+        "name": "dao",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "utils",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "docs",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "mobile_platform",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "auth_integrations",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "web_interface",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "audio",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "public",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "biometric",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "consent",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "audit",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "mobile",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "diagnostics",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "governance",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "enhancements",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "api",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "claude_integration",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "assets",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "protocols",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "auth_web",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "gateway",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "quantum",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "QUANTUM_GLYPH_INTEGRATION_GUIDE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "QRG_COMPLETION_REPORT.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "LAYER.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "ARCHITECTURE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "IMPLEMENTATION_SUMMARY.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "id_login_flow.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "id_trajectory.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "COLONY_STATE_COVERAGE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "PROJECT_COMPLETION_SUMMARY.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "TEST_RESULTS_DOCUMENTATION.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "VOCAB.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "roadmap.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "CONSOLIDATION_COMPLETE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "IDENTITY_INTEGRATION_GUIDE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "INTEGRATION_SUMMARY.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "CONSOLIDATION_SUMMARY.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "VADEMECUM.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "auth_README.md",
+        "type": "other",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Focus on authentication flows and Lambda ID integration patterns",
+    "key_files": [
+      "README.md"
+    ],
+    "common_tasks": [
+      {
+        "task": "API integration",
+        "files_involved": [
+          "interface.py",
+          "unified_login_interface.py"
+        ],
+        "complexity": "medium"
+      }
+    ],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity",
+      "Authentication and identity management"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 16,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "basic",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate/governance",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

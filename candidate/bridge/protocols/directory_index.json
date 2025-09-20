@@ -1,0 +1,188 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/bridge/protocols",
+    "lane": "development",
+    "purpose": "Directory containing 12 Python files and 0 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "reasoning_effort.py",
+        "component_type": "TRINITY_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "lambda_id_previewer.py",
+        "component_type": "TRINITY_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "PreviewResult",
+          "PublicLambdaIDPreviewer",
+          "get_web_interface_template",
+          "preview_lambda_id",
+          "generate_demo_lambda_id",
+          "get_tier_comparison",
+          "get_format_specifications",
+          "analyze_entropy_live",
+          "get_public_api_info"
+        ]
+      },
+      {
+        "filename": "plugin_loader.py",
+        "component_type": "TRINITY_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "load_plugins"
+        ]
+      },
+      {
+        "filename": "connection_visualizer.py",
+        "component_type": "TRINITY_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "load_all_specifications",
+          "analyze_connections",
+          "print_connection_summary",
+          "print_data_flow_diagram",
+          "print_integration_interfaces",
+          "print_implementation_checklist",
+          "main"
+        ]
+      },
+      {
+        "filename": "LambdaDependaBoT_robust.py",
+        "component_type": "TRINITY_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "reasoning_report_generator.py",
+        "component_type": "TRINITY_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ReasoningReportGenerator",
+          "generate_report"
+        ]
+      },
+      {
+        "filename": "freeze_protection_check.py",
+        "component_type": "TRINITY_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "is_locked",
+          "freeze_protection_check"
+        ]
+      },
+      {
+        "filename": "vscode_diagnostic.py",
+        "component_type": "TRINITY_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "check_vscode_config"
+        ]
+      },
+      {
+        "filename": "chat_completion_reasoning_effort.py",
+        "component_type": "TRINITY_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "apply_naming_refinements.py",
+        "component_type": "TRINITY_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "apply_refinements"
+        ]
+      },
+      {
+        "filename": "targeted_syntax_fix.py",
+        "component_type": "TRINITY_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_specific_files",
+          "fix_all_line_continuations",
+          "main"
+        ]
+      },
+      {
+        "filename": "check_all_box_alignment.py",
+        "component_type": "TRINITY_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "check_box_alignment",
+          "main"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 12,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate/bridge",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

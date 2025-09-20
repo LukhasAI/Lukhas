@@ -33,7 +33,21 @@
       "Bash(.venv/bin/pytest:*)",
       "Bash(PYTHONPATH=. .venv/bin/pytest tests/unit/bio/ -x --tb=short)",
       "Bash(LUKHAS_WARN_LEGACY_CORE=1 python3 -c \"import core.trace\")",
-      "Bash(time python3:*)"
+      "Bash(time python3:*)",
+      "Bash(.venv/bin/pip:*)",
+      "Bash(.venv/bin/pip-compile --generate-hashes -o requirements.txt requirements.in)",
+      "Bash(.venv/bin/pip-compile --generate-hashes -o constraints.txt requirements.in)",
+      "Bash(git add:*)",
+      "Bash(grep:*)",
+      "Bash(git commit:*)",
+      "Bash(.venv/bin/pydeps lukhas --noshow --max-bacon=2 -o docs/architecture/module_graph.svg)",
+      "Bash(ruff check:*)",
+      "Bash(.venv/bin/ruff check:*)",
+      "Bash(for dir in lukhas/*/)",
+      "Bash(find:*)",
+      "Bash(done)",
+      "Bash(python3:*)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []

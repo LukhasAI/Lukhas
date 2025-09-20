@@ -1,0 +1,131 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/memory/hippocampal",
+    "lane": "development",
+    "purpose": "Directory containing 4 Python files and 0 subdirectories",
+    "trinity_role": [],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "theta_oscillator.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "OscillationPhase",
+          "ThetaWave",
+          "ThetaOscillator",
+          "phase_degrees",
+          "get_current_state",
+          "is_encoding_optimal",
+          "is_retrieval_optimal",
+          "phase_lock",
+          "phase_unlock",
+          "register_phase_callback",
+          "modulate_frequency",
+          "modulate_amplitude",
+          "get_gamma_phase",
+          "compute_phase_amplitude_coupling",
+          "get_phase_coherence",
+          "get_traveling_wave_offset",
+          "get_metrics"
+        ]
+      },
+      {
+        "filename": "pattern_separator_archive.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "PatternSeparator",
+          "separate",
+          "separate_batch",
+          "compute_separation_quality",
+          "create_content_vector",
+          "reset_competitive_weights",
+          "get_metrics"
+        ]
+      },
+      {
+        "filename": "pattern_separator.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/pattern_separator.json",
+        "dependencies": [],
+        "exports": [
+          "PatternSeparator",
+          "separate",
+          "separate_batch",
+          "compute_separation_quality",
+          "create_content_vector",
+          "reset_competitive_weights",
+          "get_metrics"
+        ]
+      },
+      {
+        "filename": "hippocampal_buffer.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.symbolism.tags"
+        ],
+        "exports": [
+          "HippocampalState",
+          "PlaceField",
+          "EpisodicMemory",
+          "PlaceCell",
+          "GridCell",
+          "HippocampalBuffer",
+          "TagScope",
+          "PersistenceMode",
+          "calculate_salience",
+          "activation",
+          "activation",
+          "get_consolidation_candidates",
+          "get_metrics"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 4,
+    "estimated_complexity": "low",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate/memory",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

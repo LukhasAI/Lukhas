@@ -1,0 +1,630 @@
+{
+  "schema_version": "2.0.0",
+  "directory_metadata": {
+    "path": "candidate/consciousness/reasoning",
+    "lane": "development",
+    "purpose": "Directory containing 30 Python files and 10 subdirectories",
+    "trinity_role": [
+      "consciousness"
+    ],
+    "last_updated": "2025-09-20"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "id_reasoning_engine.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/id_reasoning_engine.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "QISignature",
+          "AccessTier",
+          "ComplianceRegion",
+          "EmotionalMemoryVector",
+          "QuantumSignature",
+          "AuditLogEntry",
+          "TraumaLockedMemory",
+          "ComplianceMonitor",
+          "LukhasIdEnhancedReasoningEngine",
+          "to_dict",
+          "to_dict",
+          "lock_memory",
+          "unlock_memory",
+          "check_compliance",
+          "resolve_access_tier",
+          "get_compliance_status"
+        ]
+      },
+      {
+        "filename": "coherence_patch_validator.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/coherence_patch_validator.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "CoherenceMetrics",
+          "CoherencePatch",
+          "CoherencePatchValidator",
+          "validate_harmonization",
+          "to_dict",
+          "overall_score",
+          "to_dict",
+          "get_validation_summary"
+        ]
+      },
+      {
+        "filename": "response_reasoning_summary_text_delta_event.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/response_reasoning_summary_text_delta_event.json",
+        "dependencies": [
+          "candidate.core.models"
+        ],
+        "exports": [
+          "ResponseReasoningSummaryTextDeltaEvent"
+        ]
+      },
+      {
+        "filename": "response_reasoning_summary_done_event.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/response_reasoning_summary_done_event.json",
+        "dependencies": [
+          "candidate.core.models"
+        ],
+        "exports": [
+          "ResponseReasoningSummaryDoneEvent"
+        ]
+      },
+      {
+        "filename": "reasoning_engine.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/reasoning_engine.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "ReasoningType",
+          "ConfidenceLevel",
+          "ReasoningStatus",
+          "ReasoningPremise",
+          "ReasoningConclusion",
+          "ReasoningTask",
+          "ReasoningEngine",
+          "get_logger"
+        ]
+      },
+      {
+        "filename": "conflict_resolver.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/conflict_resolver.json",
+        "dependencies": [],
+        "exports": [
+          "ConflictType",
+          "ResolutionMode",
+          "ConflictSeverity",
+          "SymbolicFragment",
+          "ContradictionReport",
+          "ConflictResolutionResult",
+          "SymbolicConflictResolver",
+          "detect_symbolic_conflict",
+          "classify_contradiction",
+          "resolve_conflict",
+          "emit_resolution_trace",
+          "get_resolution_statistics"
+        ]
+      },
+      {
+        "filename": "config.py",
+        "component_type": "CONFIGURATION",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/config.json",
+        "dependencies": [],
+        "exports": [
+          "LucasConfig",
+          "get_default"
+        ]
+      },
+      {
+        "filename": "response_reasoning_summary_part_done_event.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/response_reasoning_summary_part_done_event.json",
+        "dependencies": [
+          "candidate.core.models"
+        ],
+        "exports": [
+          "Part",
+          "ResponseReasoningSummaryPartDoneEvent"
+        ]
+      },
+      {
+        "filename": "reasoning_errors.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/reasoning_errors.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "ReasoningError",
+          "CoherenceError",
+          "DriftError"
+        ]
+      },
+      {
+        "filename": "\u039bBot_reasoning.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/\u039bBot_reasoning.json",
+        "dependencies": [
+          "candidate.orchestration.brain.abstract_reasoning.bio_quantum_engine",
+          "candidate.orchestration.brain.abstract_reasoning.confidence_calibrator",
+          "candidate.orchestration.brain.MultiBrainSymphony"
+        ],
+        "exports": [
+          "AdvancedReasoningRequest",
+          "AdvancedReasoningResult",
+          "\u039bBotAdvancedReasoningOrchestrator",
+          "BioQuantumSymbolicReasoner",
+          "AdvancedConfidenceCalibrator",
+          "MultiBrainSymphonyOrchestrator",
+          "get_reasoning_status"
+        ]
+      },
+      {
+        "filename": "reasoning_diagnostics.py",
+        "component_type": "TEST",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/reasoning_diagnostics.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "DiagnosticLevel",
+          "DiagnosticResult",
+          "ReasoningDiagnostics",
+          "TestReasoningDiagnostics",
+          "to_dict",
+          "test_logic_fallbacks",
+          "test_unstable_inference"
+        ]
+      },
+      {
+        "filename": "oracle_predictor.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/oracle_predictor.json",
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "reasoning_hub.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/reasoning_hub.json",
+        "dependencies": [
+          "candidate.core.integration.service_discovery"
+        ],
+        "exports": [
+          "ReasoningHub",
+          "get_reasoning_hub",
+          "register_service",
+          "get_service"
+        ]
+      },
+      {
+        "filename": "openai_oracle_adapter.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/openai_oracle_adapter.json",
+        "dependencies": [
+          "candidate.consciousness.reflection.openai_core_service"
+        ],
+        "exports": [
+          "OraclePromptTemplate",
+          "OracleOpenAIAdapter"
+        ]
+      },
+      {
+        "filename": "response_reasoning_summary_delta_event.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/response_reasoning_summary_delta_event.json",
+        "dependencies": [
+          "candidate.core.models"
+        ],
+        "exports": [
+          "ResponseReasoningSummaryDeltaEvent"
+        ]
+      },
+      {
+        "filename": "symbolic_loop_harmonizer.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/symbolic_loop_harmonizer.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "HarmonizerMode",
+          "SymbolicPatch",
+          "SymbolicLoopHarmonizer",
+          "get_harmonizer",
+          "harmonize_symbolic_loop",
+          "adjust_dream_trajectory",
+          "record_emotional_alignment_impact",
+          "to_dict",
+          "update_symbol_registry",
+          "set_dream_state",
+          "get_harmony_summary"
+        ]
+      },
+      {
+        "filename": "adaptive_reasoning_loop.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/adaptive_reasoning_loop.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "ReasoningStrategy",
+          "ReasoningContext",
+          "AdaptiveReasoningLoop",
+          "create_reasoning_loop",
+          "stop_reasoning",
+          "get_status",
+          "reset"
+        ]
+      },
+      {
+        "filename": "response_reasoning_item.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/response_reasoning_item.json",
+        "dependencies": [
+          "candidate.core.models"
+        ],
+        "exports": [
+          "Summary",
+          "ResponseReasoningItem"
+        ]
+      },
+      {
+        "filename": "master_loop.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/master_loop.json",
+        "dependencies": [
+          "symbolic.lukhas_dreams",
+          "symbolic.lukhas_emotion",
+          "symbolic.lukhas_guardian",
+          "symbolic.lukhas_personality",
+          "symbolic.lukhas_reflector",
+          "symbolic.lukhas_visualizer",
+          "symbolic.lukhas_voice"
+        ],
+        "exports": [
+          "process_user_input"
+        ]
+      },
+      {
+        "filename": "response_reasoning_done_event.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/response_reasoning_done_event.json",
+        "dependencies": [
+          "candidate.core.models"
+        ],
+        "exports": [
+          "ResponseReasoningDoneEvent"
+        ]
+      },
+      {
+        "filename": "LBot_reasoning_processed.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/LBot_reasoning_processed.json",
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "reasoning.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/reasoning.json",
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "response_reasoning_delta_event.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/response_reasoning_delta_event.json",
+        "dependencies": [
+          "candidate.core.models"
+        ],
+        "exports": [
+          "ResponseReasoningDeltaEvent"
+        ]
+      },
+      {
+        "filename": "response_reasoning_item_param.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/response_reasoning_item_param.json",
+        "dependencies": [],
+        "exports": [
+          "Summary",
+          "ResponseReasoningItemParam"
+        ]
+      },
+      {
+        "filename": "identity.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/identity.json",
+        "dependencies": [],
+        "exports": [
+          "AccessController",
+          "can_analyze",
+          "check_permissions"
+        ]
+      },
+      {
+        "filename": "reasoning_colony.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/reasoning_colony.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "ReasonerType",
+          "ReasoningQuery",
+          "ReasoningInsight",
+          "ReasoningAgent",
+          "LogicalReasoningAgent",
+          "CausalReasoningAgent",
+          "CreativeReasoningAgent",
+          "ReasoningColony",
+          "MemoryManager",
+          "SymbolicEngine",
+          "add_conclusion",
+          "get_consensus_score",
+          "get_colony_status",
+          "remember",
+          "recall",
+          "search"
+        ]
+      },
+      {
+        "filename": "response_reasoning_summary_part_added_event.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/response_reasoning_summary_part_added_event.json",
+        "dependencies": [
+          "candidate.core.models"
+        ],
+        "exports": [
+          "Part",
+          "ResponseReasoningSummaryPartAddedEvent"
+        ]
+      },
+      {
+        "filename": "reasoning_metrics.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/reasoning_metrics.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "ReasoningMetrics",
+          "ReasoningMetricsCalculator",
+          "get_metrics_calculator",
+          "logic_drift_index",
+          "recall_efficiency_score",
+          "get_metric_trends",
+          "set_baseline",
+          "compare_to_baseline"
+        ]
+      },
+      {
+        "filename": "trace_summary_builder.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/trace_summary_builder.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "TraceNode",
+          "TraceSummaryBuilder",
+          "summarize_reason_trace",
+          "add_child",
+          "to_dict",
+          "get_cached_summary",
+          "clear_cache"
+        ]
+      },
+      {
+        "filename": "response_reasoning_summary_text_done_event.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/response_reasoning_summary_text_done_event.json",
+        "dependencies": [
+          "candidate.core.models"
+        ],
+        "exports": [
+          "ResponseReasoningSummaryTextDoneEvent"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "ethical",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "analysis",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "goals",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "utils",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "advanced_engines",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "intent",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "hooks",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "diagnostics",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "decision",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "systems",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "README_ENHANCED.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "USER_GUIDE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "_README_symbolic_reasoning_py_trace.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "_README_reasoning_py_trace.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README_reasoning_trace.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "_README_reasoning_engine_py_trace.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "DEV_GUIDE.md",
+        "type": "other",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Start with consciousness architecture documentation, then examine engines and processors",
+    "key_files": [
+      "README.md",
+      "id_reasoning_engine.py",
+      "reasoning_engine.py"
+    ],
+    "common_tasks": [
+      {
+        "task": "Consciousness engine development",
+        "files_involved": [
+          "id_reasoning_engine.py",
+          "reasoning_engine.py"
+        ],
+        "complexity": "high"
+      }
+    ],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Trinity Framework familiarity",
+      "Consciousness architecture patterns"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Trinity Framework integration"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 30,
+    "estimated_complexity": "high",
+    "consciousness_integration": "intermediate",
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate/consciousness",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}
