@@ -5,7 +5,7 @@ LUKHAS AI High-Performance Context Bus
 Ultra-fast context handoff system with <250ms performance target.
 Implements async pub-sub with transparent logging and workflow orchestration.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 Performance Target: <250ms context handoffs
 Throughput Target: 1000+ events/second
 Reliability Target: 99.9% uptime
@@ -74,7 +74,7 @@ class ContextMessage:
     processing_start: float = 0.0
     processing_complete: float = 0.0
 
-    # Trinity Framework context
+    # Constellation Framework context
     identity_context: dict[str, Any] = field(default_factory=dict)  # ⚛️
     consciousness_state: dict[str, Any] = field(default_factory=dict)  # 🧠
     guardian_policies: dict[str, Any] = field(default_factory=dict)  # 🛡️
@@ -151,7 +151,7 @@ class WorkflowStep:
     max_latency_ms: int = 250
     priority: ContextPriority = ContextPriority.NORMAL
 
-    # Trinity Framework requirements
+    # Constellation Framework requirements
     requires_identity: bool = False  # ⚛️
     requires_consciousness: bool = False  # 🧠
     requires_guardian: bool = False  # 🛡️
@@ -227,7 +227,7 @@ class HighPerformanceContextBus:
     - MΛTRIZ bridge connectivity
     - Multi-model orchestration support
     - Transparent interpretability logging
-    - Trinity Framework compliance
+    - Constellation Framework compliance
     """
 
     def __init__(self, max_queue_size: int = 10000, worker_count: int = 4):
@@ -441,7 +441,7 @@ class HighPerformanceContextBus:
                     priority=step.priority,
                 )
 
-                # Set Trinity Framework requirements
+                # Set Constellation Framework requirements
                 if step.requires_identity:
                     step_message.identity_context = {"required": True}
                 if step.requires_consciousness:

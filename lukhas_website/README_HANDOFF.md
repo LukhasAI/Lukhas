@@ -91,7 +91,7 @@ The website implements a **7-state user journey**:
 
 ### Color System
 ```css
-/* Trinity Framework Colors */
+/* Constellation Framework Colors */
 --trinity-identity: #a855f7     (Purple)
 --trinity-consciousness: #0ea5e9 (Blue)
 --trinity-guardian: #10b981      (Emerald)

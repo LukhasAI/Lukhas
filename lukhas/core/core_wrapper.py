@@ -1,7 +1,7 @@
 """
 LUKHAS AI Core System Wrapper
 Production interface for the foundational GLYPH engine and symbolic processing
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 
 from __future__ import annotations
@@ -151,12 +151,12 @@ class CoreWrapper:
     - GLYPH engine for symbolic communication
     - Actor system for distributed processing
     - Symbolic reasoning and pattern recognition
-    - Trinity Framework integration (⚛️🧠🛡️)
+    - Constellation Framework integration (⚛️🧠🛡️)
     - Graph-based processing capabilities
     """
 
     def __init__(self) -> None:
-        """Initialize the Core wrapper with Trinity Framework support"""
+        """Initialize the Core wrapper with Constellation Framework support"""
         self._status = CoreStatus.INACTIVE
         self._triad_context = {
             "identity": "⚛️",
@@ -259,14 +259,14 @@ class CoreWrapper:
 
     def create_triad_glyph(self, emphasis: str = "balanced", mode: str = "dry_run") -> GlyphResult:
         """
-        Create a Trinity Framework glyph for LUKHAS AI operations.
+        Create a Constellation Framework glyph for LUKHAS AI operations.
 
         Args:
             emphasis: Trinity aspect to emphasize (identity, consciousness, guardian, balanced)
             mode: Operation mode (dry_run or production)
 
         Returns:
-            GlyphResult with Trinity Framework symbol
+            GlyphResult with Constellation Framework symbol
         """
         if mode == "dry_run" or LUKHAS_DRY_RUN_MODE or not self._glyph_engine:
             # Dry-run Trinity creation
@@ -274,7 +274,7 @@ class CoreWrapper:
             return GlyphResult(
                 glyph_id=f"triad_{emphasis}",
                 symbol=symbol,
-                concept=f"Trinity Framework ({emphasis})",
+                concept=f"Constellation Framework ({emphasis})",
                 success=True,
                 metadata={"mode": "dry_run", "emphasis": emphasis},
             )
@@ -284,7 +284,7 @@ class CoreWrapper:
             return GlyphResult(
                 glyph_id=glyph_obj.id,
                 symbol=glyph_obj.symbol,
-                concept=f"Trinity Framework ({emphasis})",
+                concept=f"Constellation Framework ({emphasis})",
                 success=True,
                 metadata={
                     "emphasis": emphasis,
@@ -296,7 +296,7 @@ class CoreWrapper:
             return GlyphResult(
                 glyph_id="",
                 symbol="⚠️",
-                concept="Trinity Framework",
+                concept="Constellation Framework",
                 success=False,
                 metadata={"error": str(e)},
             )
@@ -629,7 +629,7 @@ def encode_concept(concept: str, emotion: dict[str, float] | None = None, mode: 
 
 
 def create_triad_glyph(emphasis: str = "balanced", mode: str = "dry_run") -> GlyphResult:
-    """Create a Trinity Framework glyph using the global core instance"""
+    """Create a Constellation Framework glyph using the global core instance"""
     return get_core().create_triad_glyph(emphasis, mode)
 
 

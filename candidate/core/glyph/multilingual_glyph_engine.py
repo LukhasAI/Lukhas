@@ -2,7 +2,7 @@
 """
 LUKHΛS Multilingual Glyph Engine
 Cross-cultural symbolic translation system
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 import json
 import logging
@@ -356,7 +356,7 @@ class MultilingualGlyphEngine:
             # Prepare export data
             export_data = {
                 "version": "1.0.0",
-                "trinity_framework": ["⚛️", "🧠", "🛡️"],
+                "constellation_framework": ["⚛️", "🧠", "🛡️"],
                 "supported_locales": self.supported_locales,
                 "mappings": self.cultural_mappings,
                 "glyph_categories": {},
@@ -556,9 +556,9 @@ class MultilingualGlyphEngine:
 
         return harmonized
 
-    def get_trinity_translations(self, locale: str) -> dict[str, str]:
+    def get_constellation_translations(self, locale: str) -> dict[str, str]:
         """
-        Get Trinity Framework translations for a locale.
+        Get Constellation Framework translations for a locale.
 
         Args:
             locale: Target locale
@@ -609,7 +609,7 @@ class MultilingualGlyphEngine:
             }
 
             # Trinity support
-            trinity_trans = self.get_trinity_translations(locale)
+            trinity_trans = self.get_constellation_translations(locale)
             report["trinity_support"][locale] = trinity_trans
 
         return report

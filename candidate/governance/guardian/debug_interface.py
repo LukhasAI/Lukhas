@@ -8,7 +8,7 @@ LUKHAS AI Debug Interface - Comprehensive System Debugging and Diagnostics
 This module provides advanced debugging capabilities for LUKHAS AI system including:
 - Real-time system state inspection
 - Component debugging interfaces
-- Trinity Framework diagnostics (⚛️🧠🛡️)
+- Constellation Framework diagnostics (⚛️🧠🛡️)
 - Performance profiling and analysis
 - Log aggregation and analysis
 - Interactive debugging sessions
@@ -94,7 +94,7 @@ class DebugEvent:
     session_id: Optional[str] = None
     request_id: Optional[str] = None
 
-    # Trinity Framework context
+    # Constellation Framework context
     identity_context: dict[str, Any] = field(default_factory=dict)  # ⚛️
     consciousness_context: dict[str, Any] = field(default_factory=dict)  # 🧠
     guardian_context: dict[str, Any] = field(default_factory=dict)  # 🛡️
@@ -195,7 +195,7 @@ class DebugInterface:
         self.performance_metrics: dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
         self.profiling_sessions: dict[str, dict[str, Any]] = {}
 
-        # Trinity Framework debugging
+        # Constellation Framework debugging
         self.trinity_debug_state = {
             "identity": {"active_contexts": [], "debug_level": DebugLevel.INFO},  # ⚛️
             "consciousness": {
@@ -219,7 +219,7 @@ class DebugInterface:
         asyncio.create_task(self._component_monitoring_loop())
         asyncio.create_task(self._performance_analysis_loop())
         asyncio.create_task(self._session_management_loop())
-        asyncio.create_task(self._trinity_debug_loop())
+        asyncio.create_task(self._constellation_debug_loop())
 
         logger.info("🔍 Debug interface started")
 
@@ -273,7 +273,7 @@ class DebugInterface:
         if level in [DebugLevel.ERROR, DebugLevel.CRITICAL]:
             event.stack_trace = traceback.format_stack()
 
-        # Add Trinity Framework context
+        # Add Constellation Framework context
         if category == DebugCategory.IDENTITY:
             event.identity_context = context.get("identity_context", {})
         elif category == DebugCategory.CONSCIOUSNESS:
@@ -515,8 +515,8 @@ class DebugInterface:
                     "memory_usage_mb": snapshot.memory_usage_mb,
                 }
 
-        # Trinity Framework status
-        trinity_status = {
+        # Constellation Framework status
+        constellation_status = {
             "identity": {
                 "health": self._get_trinity_component_health("identity"),
                 "active_contexts": len(self.trinity_debug_state["identity"]["active_contexts"]),
@@ -581,8 +581,8 @@ class DebugInterface:
                     for s in self.active_sessions.values()
                 ],
             },
-            # Trinity Framework status
-            "constellation_framework": trinity_status,
+            # Constellation Framework status
+            "constellation_framework": constellation_status,
             # Performance metrics
             "performance": performance_summary,
             # System information
@@ -705,12 +705,12 @@ class DebugInterface:
                 logger.error(f"Session management loop error: {e}")
                 await asyncio.sleep(300)
 
-    async def _trinity_debug_loop(self):
-        """Background loop for Trinity Framework debugging."""
+    async def _constellation_debug_loop(self):
+        """Background loop for Constellation Framework debugging."""
 
         while True:
             try:
-                # Update Trinity Framework debug state
+                # Update Constellation Framework debug state
                 await self._update_trinity_debug_state()
 
                 await asyncio.sleep(15)  # Update every 15 seconds
@@ -780,7 +780,7 @@ class DebugInterface:
         return dependents
 
     def _get_trinity_component_health(self, framework_component: str) -> float:
-        """Get Trinity Framework component health score."""
+        """Get Constellation Framework component health score."""
 
         # Simulate health calculation based on registered components
         related_components = [name for name in self.registered_components if framework_component in name.lower()]
@@ -858,7 +858,7 @@ class DebugInterface:
             pass
 
     async def _update_trinity_debug_state(self):
-        """Update Trinity Framework debug state."""
+        """Update Constellation Framework debug state."""
 
         # Update identity debug state (⚛️)
         identity_components = [name for name in self.registered_components if "identity" in name.lower()]

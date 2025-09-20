@@ -1,7 +1,7 @@
 """
 LUKHAS AI Colony System - Base Infrastructure
 Core interfaces and management for agent colonies
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 import uuid
 from abc import ABC, abstractmethod
@@ -216,7 +216,7 @@ class BaseColony(ABC):
         }
 
     def trinity_sync(self) -> dict[str, Any]:
-        """Synchronize with Trinity Framework"""
+        """Synchronize with Constellation Framework"""
         return {
             "identity": "⚛️",
             "consciousness": "🧠",

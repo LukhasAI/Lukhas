@@ -11,7 +11,7 @@ Features:
 - Dynamic privilege escalation and de-escalation
 - Behavior-based access adjustments
 - Constitutional compliance for access control
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 - Real-time access monitoring and auditing
 - Risk-based access control
 - Temporary access grants and restrictions
@@ -131,7 +131,7 @@ class UserAccessProfile:
     temporary_grants: list[dict[str, Any]] = field(default_factory=list)
     temporary_restrictions: list[dict[str, Any]] = field(default_factory=list)
 
-    # Trinity Framework integration
+    # Constellation Framework integration
     identity_coherence: float = 1.0  # ⚛️
     consciousness_level: str = "basic"  # 🧠
     guardian_status: str = "monitored"  # 🛡️
@@ -427,7 +427,7 @@ class ComprehensiveAccessTierManager:
             constitutional_compliance=context.get("constitutional_compliance", True),
         )
 
-        # Trinity Framework initialization
+        # Constellation Framework initialization
         profile.identity_coherence = context.get("identity_coherence", 1.0)
         profile.consciousness_level = context.get("consciousness_level", "basic")
         profile.guardian_status = "monitored"
@@ -647,14 +647,14 @@ class ComprehensiveAccessTierManager:
                 if permission not in user_permissions:
                     return AccessDecision.DENY
 
-        # Additional Trinity Framework checks
+        # Additional Constellation Framework checks
         if not await self._check_trinity_framework_access(profile, resource):
             return AccessDecision.CONDITIONAL
 
         return AccessDecision.ALLOW
 
     async def _check_trinity_framework_access(self, profile: UserAccessProfile, resource: str) -> bool:
-        """Check Trinity Framework access requirements"""
+        """Check Constellation Framework access requirements"""
 
         # ⚛️ Identity coherence check
         if profile.identity_coherence < 0.7:
@@ -726,7 +726,7 @@ class ComprehensiveAccessTierManager:
             "eligibility": {tier.value: is_eligible for tier, is_eligible in eligibility.items()},
             "next_tier_requirements": next_tier_requirements,
             "tier_history_count": len(profile.tier_history),
-            "trinity_framework": {
+            "constellation_framework": {
                 "identity_coherence": profile.identity_coherence,
                 "consciousness_level": profile.consciousness_level,
                 "guardian_status": profile.guardian_status,

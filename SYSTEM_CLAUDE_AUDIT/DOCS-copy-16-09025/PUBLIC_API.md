@@ -12,7 +12,7 @@ This document defines the stable public APIs that must remain compatible during 
 ```python
 # STABLE - keep these function signatures
 def get_trinity_description() -> str
-def get_trinity_context(emphasis: Optional[str] = None) -> dict
+def get_constellation_context(emphasis: Optional[str] = None) -> dict
 ```
 
 ### Core Wrapper (`lukhas/core/core_wrapper.py`)
@@ -25,7 +25,7 @@ def create_trinity_glyph(component: str) -> dict
 ```python
 # STABLE - keep these function signatures
 def validate_trinity_framework(context: dict) -> bool
-def trinity_status() -> dict
+def constellation_status() -> dict
 ```
 
 ### Colonies Base (`candidate/colonies/base.py`)
@@ -38,7 +38,7 @@ def trinity_sync() -> dict
 
 ### Phase 1: Compatibility Shims (✅ DONE)
 - Created `lukhas/constellation/triad/__init__.py` (new namespace)
-- Created `branding/trinity/__init__.py` (backwards compatibility shim)
+- Created `branding/constellation/__init__.py` (backwards compatibility shim)
 - Added import test in `tests/test_constellation_shims.py`
 
 ### Phase 2: Internal Symbol Conversion (🚧 IN PROGRESS)
@@ -51,8 +51,8 @@ def trinity_sync() -> dict
 - Convert TODO tags to dual format: `[CONSTELLATION:MESH] ⚛️`
 
 ### Phase 4: Module Moves (⏳ PENDING)
-- Move `branding/trinity/` → `branding/constellation/triad/`
-- Keep shim at `branding/trinity/__init__.py`
+- Move `branding/constellation/` → `branding/constellation/triad/`
+- Keep shim at `branding/constellation/__init__.py`
 
 ### Phase 5: Deprecation Warnings (⏳ PENDING)
 - Add CI warnings for legacy `branding.trinity` imports
@@ -64,7 +64,7 @@ During migration, these imports MUST continue to work:
 ```python
 # Legacy imports - KEEP WORKING
 from branding.trinity import Identity, Consciousness, Guardian
-from lukhas.branding_bridge import get_trinity_context
+from lukhas.branding_bridge import get_constellation_context
 from candidate.colonies.base import trinity_sync
 
 # New imports - ALSO WORK

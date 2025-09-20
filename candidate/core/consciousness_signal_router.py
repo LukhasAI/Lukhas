@@ -316,7 +316,7 @@ class ConsciousnessSignalRouter:
             return signal.awareness_level >= 0.5
 
         def trinity_compliance_filter(signal: ConsciousnessSignal) -> bool:
-            """Filter signals by Trinity framework compliance"""
+            """Filter signals by Constellation framework compliance"""
             if not signal.constellation_alignment:
                 logger.debug(f"Signal {signal.signal_id} has no constellation_alignment, allowing through")
                 return True  # Allow signals without alignment during startup

@@ -174,7 +174,7 @@ class DirectoryIndexGenerator:
             return "development"  # Default
 
     def determine_trinity_roles(self, directory: Path) -> List[str]:
-        """Determine Trinity Framework roles for a directory"""
+        """Determine Constellation Framework roles for a directory"""
         path_str = str(directory).lower()
         roles = []
 
@@ -231,7 +231,7 @@ class DirectoryIndexGenerator:
             })
 
         # Prerequisites
-        prerequisites = ["Understanding of LUKHAS lane system", "Trinity Framework familiarity"]
+        prerequisites = ["Understanding of LUKHAS lane system", "Constellation Framework familiarity"]
         if "consciousness" in path_str:
             prerequisites.append("Consciousness architecture patterns")
         if "identity" in path_str:
@@ -245,7 +245,7 @@ class DirectoryIndexGenerator:
             "avoid_patterns": [
                 "Modifying contracts without validation",
                 "Breaking lane boundaries",
-                "Ignoring Trinity Framework integration"
+                "Ignoring Constellation Framework integration"
             ]
         }
 

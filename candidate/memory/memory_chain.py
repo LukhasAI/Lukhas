@@ -2,7 +2,7 @@
 """
 LUKHΛS Memory Chain - Symbolic Memory Management
 Tracks and analyzes symbolic patterns across sessions
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 from typing import List
 from typing import Dict

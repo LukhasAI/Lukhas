@@ -248,7 +248,7 @@ class ImageProcessor:
                 image = image.convert("RGB")
 
             # Simple feature extraction (placeholder for advanced vision models)
-            # In a real AGI system, this would use sophisticated visual embeddings
+            # In a real Cognitive system, this would use sophisticated visual embeddings
             image_array = np.array(image)
 
             # Basic statistical features (placeholder)
@@ -585,7 +585,7 @@ class MultiModalMemoryProcessor:
         """Generate text embedding (placeholder for real NLP model)"""
 
         # Placeholder: Simple hash-based embedding
-        # In real AGI system, would use advanced language models
+        # In real Cognitive system, would use advanced language models
         text_hash = hashlib.sha256(text.encode()).hexdigest()
         embedding = np.array(
             [
@@ -656,7 +656,7 @@ class MultiModalMemoryProcessor:
         modality_weights = modality_weights / np.sum(modality_weights)
 
         # Combine embeddings with weighted average
-        # In a real AGI system, this would be more sophisticated attention-based fusion
+        # In a real Cognitive system, this would be more sophisticated attention-based fusion
         combined_embedding = np.zeros(self.modal_embedding_dim, dtype=np.float32)
 
         for embedding, weight in zip(available_embeddings, modality_weights):

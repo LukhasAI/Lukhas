@@ -5,7 +5,7 @@ Comprehensive safety validation system for intelligence engines.
 Integrates with Guardian System v1.0.0 to ensure ethical compliance,
 drift detection, and safety bounds for all intelligence operations.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 import asyncio
 import logging

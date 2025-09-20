@@ -429,7 +429,7 @@
     {
       "task_id": "TODO-CRIT-CANDIDATE-QI-a24bd36a",
       "priority": "critical",
-      "title": "kept for Trinity Framework consciousness evolution",
+      "title": "kept for Constellation Framework consciousness evolution",
       "file": "./candidate/qi/engines/identity/qi_identity_manager.py",
       "line_hint": 36,
       "module": "candidate/qi",
@@ -576,7 +576,7 @@
     {
       "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-e49f4ab7",
       "priority": "critical",
-      "title": "kept for Trinity Framework consciousness evolution",
+      "title": "kept for Constellation Framework consciousness evolution",
       "file": "./candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py",
       "line_hint": 19,
       "module": "candidate/governance",
@@ -584,7 +584,7 @@
       "status": "open",
       "source": "critical_todos.md",
       "evidence": {
-        "grep": "./candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py:from governance.identity.core.colonies import (  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution",
+        "grep": "./candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py:from governance.identity.core.colonies import (  # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution",
         "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
       },
       "acceptance": [],

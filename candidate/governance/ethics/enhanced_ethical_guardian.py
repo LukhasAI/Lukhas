@@ -455,12 +455,12 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
                 "trinity_state_available": False,
             }
 
-        # Analyze impact on each Trinity component
+        # Analyze impact on each Constellation component
         identity_impact = self._calculate_identity_impact(user_input, trinity_state)
         consciousness_impact = self._calculate_consciousness_impact(user_input, trinity_state)
         guardian_impact = self._calculate_guardian_impact(user_input, trinity_state)
 
-        # Weight impacts according to Trinity Framework priorities
+        # Weight impacts according to Constellation Framework priorities
         weighted_impact = (
             identity_impact * self.trinity_ethical_weights["identity"]
             + consciousness_impact * self.trinity_ethical_weights["consciousness"]

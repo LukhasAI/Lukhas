@@ -1,9 +1,9 @@
 """
 🎭 LUKHAS AI Symbolic Terminology System
-Trinity Framework Vocabulary and Symbolic Mappings
+Constellation Framework Vocabulary and Symbolic Mappings
 """
 
-# Core Trinity Framework Terms
+# Core Constellation Framework Terms
 TRINITY_TERMS = {
     "IDENTITY": "⚛️",
     "CONSCIOUSNESS": "🧠",
@@ -70,7 +70,7 @@ def get_glyph(concept: str) -> str:
 
 
 def get_triad_symbol(aspect: str) -> str:
-    """Get Trinity Framework symbol for specific aspect."""
+    """Get Constellation Framework symbol for specific aspect."""
     return TRINITY_TERMS.get(aspect.upper(), "❓")
 
 

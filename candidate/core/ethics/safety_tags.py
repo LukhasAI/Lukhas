@@ -13,7 +13,7 @@ Features:
 - Integration with Guardian Drift Bands and Ethics DSL
 - Performance-optimized tag inference (<1ms overhead)
 
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 Author: LUKHAS AI System
 Version: 1.0.0
 

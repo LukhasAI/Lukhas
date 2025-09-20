@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 🏛️ ΛGOVERNOR - GLOBAL ETHICAL ARBITRATION ENGINE
 ────────────────────────────────────────────────────────────────────
 
-The ΛGOVERNOR serves as the supreme ethical authority for the LUKHAS AGI system,
+The ΛGOVERNOR serves as the supreme ethical authority for the LUKHAS Cognitive system,
 receiving escalations from all subsystems and making final arbitration decisions
 on critical interventions, memory quarantine, and system stabilization.
 

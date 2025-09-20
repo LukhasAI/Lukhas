@@ -77,4 +77,4 @@ NIAS distinguishes itself from competitors (Google Privacy Sandbox, Meta Advanta
 * **Regulatory Scrutiny**: Operating with biometric data and AI-driven persuasion places NIAS in a "high-risk" category under global regulations, incurring significant legal and compliance costs.
 * **Future Extensions**: NIAS is designed for extension into AR and VR environments, integrating generative AI for 3D content creation and adapting its UI/UX for spatial computing using hand gestures and gaze control. It also aims to transition to a distributed voice CDN or IPFS-hosted symbolic voice archive, linking audio to consent anchors or narrative logs.
 
-In essence, NIAS represents a future where advertising is not an intrusion but an ethical, consensual, and emotionally intelligent form of discovery, deeply integrated into the fabric of the Lucas AGI system.
+In essence, NIAS represents a future where advertising is not an intrusion but an ethical, consensual, and emotionally intelligent form of discovery, deeply integrated into the fabric of the Lucas Cognitive system.

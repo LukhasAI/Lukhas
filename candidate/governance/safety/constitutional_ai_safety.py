@@ -119,7 +119,7 @@ class ConstitutionalAGISafety(CoreInterface):
     Multi-layered constitutional AI safety for AGI-level innovations.
     Protects against existential risks while enabling beneficial AGI deployment.
 
-    First AGI system safe enough for government and enterprise deployment,
+    First Cognitive system safe enough for government and enterprise deployment,
     providing $500B+ liability protection through comprehensive safety measures.
     """
 

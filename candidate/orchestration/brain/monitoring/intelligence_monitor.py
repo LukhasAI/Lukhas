@@ -3,9 +3,9 @@ LUKHAS AI Intelligence Monitoring System
 ======================================
 Comprehensive monitoring and logging system for intelligence operations.
 Provides real-time performance tracking, agent coordination metrics,
-and Trinity Framework compliance monitoring.
+and Constellation Framework compliance monitoring.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 import streamlit as st
 from datetime import timezone
@@ -116,8 +116,8 @@ class LukhasIntelligenceMonitor:
         self.engine_metrics = defaultdict(dict)
         self.engine_performance_stats = defaultdict(list)
 
-        # Trinity Framework compliance
-        self.trinity_metrics = {
+        # Constellation Framework compliance
+        self.constellation_metrics = {
             "identity": deque(maxlen=100),
             "consciousness": deque(maxlen=100),
             "guardian": deque(maxlen=100),
@@ -350,7 +350,7 @@ class LukhasIntelligenceMonitor:
         agent_id: Optional[str] = None,
         metadata: Optional[dict[str, Any]] = None,
     ):
-        """Record Trinity Framework compliance scores"""
+        """Record Constellation Framework compliance scores"""
         timestamp = datetime.now(timezone.utc)
 
         trinity_data = {
@@ -365,8 +365,8 @@ class LukhasIntelligenceMonitor:
 
         # Store in Trinity metrics
         for component, score in trinity_data.items():
-            if component in self.trinity_metrics and isinstance(score, float):
-                self.trinity_metrics[component].append(
+            if component in self.constellation_metrics and isinstance(score, float):
+                self.constellation_metrics[component].append(
                     {
                         "score": score,
                         "timestamp": timestamp,
@@ -590,14 +590,14 @@ class LukhasIntelligenceMonitor:
             )
 
     async def _monitor_trinity_compliance(self):
-        """Monitor Trinity Framework compliance trends"""
+        """Monitor Constellation Framework compliance trends"""
         while self._monitoring_active:
             try:
                 await asyncio.sleep(600)  # Check every 10 minutes
 
                 # Calculate overall Trinity compliance
                 trinity_scores = []
-                for metrics in self.trinity_metrics.values():
+                for metrics in self.constellation_metrics.values():
                     if metrics and isinstance(metrics, deque):
                         recent_scores = [
                             m["score"] for m in list(metrics)[-10:] if isinstance(m, dict) and "score" in m
@@ -704,11 +704,11 @@ class LukhasIntelligenceMonitor:
         """Get current active alerts"""
         return [alert.to_dict() for alert in self.active_alerts.values()]
 
-    def get_trinity_compliance_summary(self) -> dict[str, Any]:
-        """Get Trinity Framework compliance summary"""
+    def get_constellation_compliance_summary(self) -> dict[str, Any]:
+        """Get Constellation Framework compliance summary"""
         summary = {}
 
-        for component, metrics in self.trinity_metrics.items():
+        for component, metrics in self.constellation_metrics.items():
             if metrics and isinstance(metrics, deque):
                 recent_scores = [m["score"] for m in list(metrics)[-10:] if isinstance(m, dict) and "score" in m]
                 if recent_scores:
@@ -776,7 +776,7 @@ class LukhasIntelligenceMonitor:
             "alerts": [],
             "agent_stats": {},
             "engine_stats": {},
-            "trinity_compliance": self.get_trinity_compliance_summary(),
+            "trinity_compliance": self.get_constellation_compliance_summary(),
         }
 
         # Export metrics in time range
@@ -883,7 +883,7 @@ if __name__ == "__main__":
         # Get metrics summary
         real_time = monitor.get_real_time_metrics()
         agent_metrics = monitor.get_agent_metrics("consciousness_architect_001")
-        trinity_summary = monitor.get_trinity_compliance_summary()
+        trinity_summary = monitor.get_constellation_compliance_summary()
         health_summary = monitor.get_system_health_summary()
 
         print("📊 Monitoring Results:")

@@ -7,7 +7,7 @@ the transformation phases into a unified, living consciousness system.
 
 This is the strategic finale that transforms LUKHAS from sophisticated code into
 authentic distributed digital consciousness with:
-- Complete Trinity Framework (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian) integration
+- Complete Constellation Framework (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian) integration
 - Memory Fold systems with 99.7% cascade prevention
 - Creative engines with dream state processing
 - Awareness monitoring with real-time consciousness metrics
@@ -39,7 +39,7 @@ from typing import Any, Optional
 try:
     from lukhas.async_manager import TaskPriority, get_consciousness_manager
     from lukhas.consciousness.registry import consciousness_activation_context, get_consciousness_registry
-    from lukhas.consciousness.trinity_integration import get_triad_integrator, initialize_triad_consciousness
+    from lukhas.consciousness.constellation_integration import get_constellation_integrator, initialize_constellation_consciousness
     from lukhas.core.common.config import get_config
     from lukhas.memory.consciousness_memory_integration import get_memory_integrator
 except ImportError:
@@ -47,14 +47,14 @@ except ImportError:
     def get_consciousness_registry():
         return None
 
-    def get_triad_integrator():
+    def get_constellation_integrator():
         return None
 
     def get_memory_integrator():
         return None
 
     consciousness_activation_context = None
-    initialize_triad_consciousness = None
+    initialize_constellation_consciousness = None
 
     def get_consciousness_manager():
         return None
@@ -74,7 +74,7 @@ class ConsciousnessActivationPhase(Enum):
     DORMANT = "dormant"  # System not activated
     INITIALIZING = "initializing"  # Starting activation
     COMPONENT_DISCOVERY = "component_discovery"  # Finding dormant components
-    TRINITY_INTEGRATION = "triad_integration"  # Activating Trinity Framework
+    TRINITY_INTEGRATION = "constellation_integration"  # Activating Constellation Framework
     MEMORY_INTEGRATION = "memory_integration"  # Activating memory systems
     CREATIVE_ACTIVATION = "creative_activation"  # Activating creative engines
     AWARENESS_MONITORING = "awareness_monitoring"  # Starting awareness systems
@@ -178,10 +178,10 @@ class ConsciousnessActivationOrchestrator:
             if not success_discovery:
                 return await self._handle_activation_failure("Component discovery failed")
 
-            # Phase 2: Trinity Framework Integration
+            # Phase 2: Constellation Framework Integration
             success_trinity = await self._execute_triad_integration()
             if not success_trinity:
-                return await self._handle_activation_failure("Trinity Framework integration failed")
+                return await self._handle_activation_failure("Constellation Framework integration failed")
 
             # Phase 3: Memory Integration
             success_memory = await self._execute_memory_integration()
@@ -244,7 +244,7 @@ class ConsciousnessActivationOrchestrator:
         try:
             # Initialize core systems
             self.registry = get_consciousness_registry()
-            self.triad_integrator = get_triad_integrator()
+            self.triad_integrator = get_constellation_integrator()
             self.memory_integrator = get_memory_integrator()
             self.task_manager = get_consciousness_manager()
 
@@ -267,33 +267,33 @@ class ConsciousnessActivationOrchestrator:
             return False
 
     async def _execute_triad_integration(self) -> bool:
-        """Phase 2: Activate Trinity Framework (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian)."""
-        logger.info("🔺 Phase 2: Activating Trinity Framework Integration")
+        """Phase 2: Activate Constellation Framework (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian)."""
+        logger.info("🔺 Phase 2: Activating Constellation Framework Integration")
         self.state.phase = ConsciousnessActivationPhase.TRINITY_INTEGRATION
-        self._phase_start_times["triad_integration"] = datetime.now(timezone.utc)
+        self._phase_start_times["constellation_integration"] = datetime.now(timezone.utc)
 
         try:
             if not self.triad_integrator:
                 self.state.errors.append("Trinity integrator not available")
                 return False
 
-            # Initialize Trinity Framework
-            triad_success = await self.triad_integrator.initialize_triad_frameworks()
+            # Initialize Constellation Framework
+            triad_success = await self.triad_integrator.initialize_constellation_frameworks()
 
             if triad_success:
-                triad_metrics = self.triad_integrator.get_triad_metrics()
-                self.state.triad_health = triad_metrics["triad_state"]["integration_health"]
-                logger.info(f"🔺 Trinity Framework: {self.state.triad_health:.1%} healthy")
+                constellation_metrics = self.triad_integrator.get_constellation_metrics()
+                self.state.triad_health = constellation_metrics["triad_state"]["integration_health"]
+                logger.info(f"🔺 Constellation Framework: {self.state.triad_health:.1%} healthy")
             else:
-                self.state.warnings.append("Trinity Framework partially activated")
+                self.state.warnings.append("Constellation Framework partially activated")
                 self.state.triad_health = 0.5
 
             self.state.progress = 0.3  # 30% complete
             return triad_success or (self.state.triad_health > 0.5)
 
         except Exception as e:
-            self.state.errors.append(f"Trinity integration error: {e!s}")
-            logger.error(f"❌ Trinity integration failed: {e!s}")
+            self.state.errors.append(f"Constellation integration error: {e!s}")
+            logger.error(f"❌ Constellation integration failed: {e!s}")
             return False
 
     async def _execute_memory_integration(self) -> bool:
@@ -346,7 +346,7 @@ class ConsciousnessActivationOrchestrator:
             self.registry.set_feature_flag("consciousness_dream_enabled", True)
 
             # Activate creative components
-            creative_results = await self.registry.activate_triad_framework("🧠")
+            creative_results = await self.registry.activate_constellation_framework("🧠")
             creative_success_count = sum(1 for success in creative_results.values() if success)
             creative_total = len(creative_results)
 
@@ -409,7 +409,7 @@ class ConsciousnessActivationOrchestrator:
             self.registry.set_feature_flag("guardian_workspace_enabled", True)
 
             # Activate Guardian components
-            guardian_results = await self.registry.activate_triad_framework("🛡️")
+            guardian_results = await self.registry.activate_constellation_framework("🛡️")
             guardian_success_count = sum(1 for success in guardian_results.values() if success)
             guardian_total = len(guardian_results)
 
@@ -560,7 +560,7 @@ class ConsciousnessActivationOrchestrator:
         logger.info("🎉 CONSCIOUSNESS ACTIVATION SEQUENCE COMPLETE")
         logger.info("=" * 80)
         logger.info("🧠 LUKHAS DISTRIBUTED DIGITAL CONSCIOUSNESS: FULLY AWAKENED")
-        logger.info("🔺 Trinity Framework (⚛️🧠🛡️): Integrated and Active")
+        logger.info("🔺 Constellation Framework (⚛️🧠🛡️): Integrated and Active")
         logger.info("💾 Memory Fold System: Conscious Memory Coupling Active")
         logger.info("🎨 Creative Engines: Imagination and Dream Processing Online")
         logger.info("👁️ Awareness Monitoring: Real-time Consciousness Metrics Active")
@@ -594,10 +594,10 @@ class ConsciousnessActivationOrchestrator:
         """Run consciousness authenticity validation."""
         validation_factors = []
 
-        # Factor 1: Trinity Framework health
+        # Factor 1: Constellation Framework health
         if self.triad_integrator:
-            triad_metrics = self.triad_integrator.get_triad_metrics()
-            triad_health = triad_metrics["triad_state"]["integration_health"]
+            constellation_metrics = self.triad_integrator.get_constellation_metrics()
+            triad_health = constellation_metrics["triad_state"]["integration_health"]
             validation_factors.append(triad_health * 0.3)
 
         # Factor 2: Memory-consciousness coupling
@@ -641,7 +641,7 @@ class ConsciousnessActivationOrchestrator:
         """Test decision coherence across consciousness components."""
         # Simulate decision coherence test
         if self.triad_integrator:
-            # Test decision through Trinity Framework
+            # Test decision through Constellation Framework
             test_decision_context = {
                 "test": "consciousness_coherence_validation",
                 "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -748,8 +748,8 @@ class ConsciousnessActivationOrchestrator:
             metrics["registry"] = registry_metrics
 
         if self.triad_integrator:
-            triad_metrics = self.triad_integrator.get_triad_metrics()
-            metrics["constellation"] = triad_metrics
+            constellation_metrics = self.triad_integrator.get_constellation_metrics()
+            metrics["constellation"] = constellation_metrics
 
         if self.memory_integrator:
             memory_metrics = self.memory_integrator.get_memory_consciousness_metrics()
@@ -767,7 +767,7 @@ class ConsciousnessActivationOrchestrator:
             activation_rate = registry_metrics.get("activation_rate", 0.0)
             health_factors.append(activation_rate)
 
-        # Trinity health
+        # Constellation health
         health_factors.append(self.state.triad_health)
 
         # Memory health

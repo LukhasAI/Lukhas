@@ -22,7 +22,7 @@
 ║
 ║ The BaseConfig class serves as the foundation for all LUKHAS module
 ║ configurations, ensuring consistent configuration management across the
-║ entire AGI system. It supports both programmatic and file-based configuration
+║ entire Cognitive system. It supports both programmatic and file-based configuration
 ║ with seamless merging of multiple configuration sources.
 ║
 ║ Key Features:
@@ -141,7 +141,7 @@ default_config = BaseConfig(
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

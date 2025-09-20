@@ -75,7 +75,7 @@ class EliteContentOrchestrator:
 
         # LUKHAS AI consciousness technology brand standards
         self.brand_standards = {
-            "required_terms": ["LUKHAS AI", "consciousness technology", "Trinity Framework"],
+            "required_terms": ["LUKHAS AI", "consciousness technology", "Constellation Framework"],
             "triad_symbols": ["⚛️", "🧠", "🛡️"],
             "prohibited_terms": ["Lucas", "Lambda AI", "production-ready"],
             "consciousness_focus": [
@@ -158,7 +158,7 @@ class EliteContentOrchestrator:
             # Basic voice coherence analysis
             voice_coherence = await self._calculate_system_voice_coherence(path)
 
-            # Check Trinity Framework integration
+            # Check Constellation Framework integration
             triad_integration = await self._check_triad_integration(path)
 
             # Check consciousness technology focus
@@ -231,14 +231,14 @@ class EliteContentOrchestrator:
             return 0.0
 
     async def _check_triad_integration(self, system_path: str) -> bool:
-        """Check if system has Trinity Framework integration"""
+        """Check if system has Constellation Framework integration"""
         try:
             # Look for Trinity symbols and references
             triad_indicators = [
                 "⚛️",
                 "🧠",
                 "🛡️",
-                "Trinity Framework",
+                "Constellation Framework",
                 "Identity",
                 "Consciousness",
                 "Guardian",
@@ -343,7 +343,7 @@ class EliteContentOrchestrator:
 **Total Systems**: {len(systems)}
 **Average Voice Coherence**: {avg_coherence:.1f}%
 **Elite Systems**: {len([s for s in systems if s.elite_ready])}/{len(systems)}
-**Trinity Integration**: {len([s for s in systems if s.triad_integration])}/{len(systems)}
+**Constellation Integration**: {len([s for s in systems if s.triad_integration])}/{len(systems)}
 **Consciousness Tech Focus**: {len([s for s in systems if s.consciousness_tech_focus])}/{len(systems)}
 
 ## 🚀 Content Systems Analysis
@@ -384,13 +384,13 @@ class EliteContentOrchestrator:
 
 ### Immediate Actions
 1. **Voice Coherence Upgrade**: Target 85%+ across all systems
-2. **Trinity Framework Integration**: Add ⚛️🧠🛡️ to all content
+2. **Constellation Framework Integration**: Add ⚛️🧠🛡️ to all content
 3. **Consciousness Technology Focus**: Amplify consciousness tech messaging
 4. **Founder Positioning**: Integrate thought leadership elements
 
 ### Success Criteria
 - **Voice Coherence**: 85%+ (Current: {avg_coherence:.1f}%)
-- **Trinity Integration**: 100% (Current: {len([s for s in systems if s.triad_integration])}/{len(systems)})
+- **Constellation Integration**: 100% (Current: {len([s for s in systems if s.triad_integration])}/{len(systems)})
 - **Consciousness Tech**: 100% (Current: {len([s for s in systems if s.consciousness_tech_focus])}/{len(systems)})
 - **Elite Status**: 100% (Current: {len([s for s in systems if s.elite_ready])}/{len(systems)})
 

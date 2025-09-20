@@ -21,7 +21,7 @@ Based on directory analysis, Python package indicators, import patterns, file co
 - **Size**: 1.9MB, 148 Python files
 - **Rationale**: Central integration hub with extensive cross-references; symlinked as `core/` indicating system-critical role
 
-### 5. **Consciousness/Memory/Identity** (Trinity Framework)
+### 5. **Consciousness/Memory/Identity** (Constellation Framework)
 - **Combined footprint**: Multiple directories across candidate/, lukhas/, and root
 - **Rationale**: Distributed across multiple locations indicating architectural importance; forms the consciousness trinity framework
 
@@ -92,7 +92,7 @@ environments/          # Environment configurations
 
 ## Key Architectural Insights
 
-1. **Trinity Framework**: The consciousness/memory/identity triad appears distributed across multiple domains, indicating a foundational architectural pattern
+1. **Constellation Framework**: The consciousness/memory/identity triad appears distributed across multiple domains, indicating a foundational architectural pattern
 
 2. **Candidate-Centric Development**: The `candidate/` directory serves as the primary development workspace with the highest density of active AGI components
 

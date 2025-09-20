@@ -452,4 +452,4 @@ const NIAS_MODULE: ModuleRegistration = {
 
 ---
 
-*This specification integrates with the LUKHAS Trinity Framework (⚛️🧠🛡️) and implements deny-by-default security principles.*
+*This specification integrates with the LUKHAS Constellation Framework (⚛️🧠🛡️) and implements deny-by-default security principles.*

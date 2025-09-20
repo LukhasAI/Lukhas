@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 The ΛECHO module identifies recurring emotional patterns and archetypal loops
 that could indicate emotional stagnation, trauma loops, or escalating symbolic
-cascades across the LUKHAS AGI system.
+cascades across the LUKHAS Cognitive system.
 
 🔬 DETECTION CAPABILITIES:
 - Emotional sequence extraction from dreams, memory entries, and drift logs

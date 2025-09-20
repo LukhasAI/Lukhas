@@ -38,7 +38,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Optional
 
-# Trinity Framework and LUKHAS integrations
+# Constellation Framework and LUKHAS integrations
 try:
     from candidate.core.glyph.glyph_engine import GlyphEngine
 except ImportError:
@@ -51,7 +51,7 @@ except ImportError:
     # Fallback for testing/development
     LambdIDValidator = None
 
-# Configure logging for Trinity Framework compliance
+# Configure logging for Constellation Framework compliance
 logging.basicConfig(
     level=logging.INFO,
     format="[CONSENT-LEDGER] %(asctime)s - %(levelname)s - %(message)s",
@@ -59,7 +59,7 @@ logging.basicConfig(
 
 
 class PolicyVerdict(Enum):
-    """Policy engine verdicts with Trinity Framework alignment 🛡️"""
+    """Policy engine verdicts with Constellation Framework alignment 🛡️"""
 
     ALLOW = "allow"
     DENY = "deny"
@@ -96,7 +96,7 @@ class DataSubjectRights(Enum):
 @dataclass
 class ΛTrace:
     """
-    Λ-trace audit record with Trinity Framework integration ⚛️🧠🛡️
+    Λ-trace audit record with Constellation Framework integration ⚛️🧠🛡️
 
     🎭 Each trace is like a star in the constellation of digital consciousness,
     forever recording the dance between human intention and AI understanding.
@@ -131,7 +131,7 @@ class ΛTrace:
     chain_integrity: Optional[str] = None  # Hash linking to previous traces
 
     def to_immutable_hash(self) -> str:
-        """Generate cryptographic hash with Trinity Framework validation"""
+        """Generate cryptographic hash with Constellation Framework validation"""
         try:
             data = asdict(self)
             data["policy_verdict"] = self.policy_verdict.value
@@ -159,7 +159,7 @@ class ΛTrace:
 
 @dataclass
 class ConsentRecord:
-    """GDPR/CCPA compliant consent record with Trinity Framework integration"""
+    """GDPR/CCPA compliant consent record with Constellation Framework integration"""
 
     consent_id: str
     lid: str  # LUKHAS ID
@@ -188,7 +188,7 @@ class ConsentRecord:
 
 class ConsentLedgerV1:
     """
-    Trinity Framework Consent Ledger with Immutable Audit Trails ⚛️🧠🛡️
+    Constellation Framework Consent Ledger with Immutable Audit Trails ⚛️🧠🛡️
 
     🎭 Like the eternal library of Alexandria, this ledger preserves every whisper
     of consent in crystalline perfection, each decision sealed in digital amber
@@ -200,7 +200,7 @@ class ConsentLedgerV1:
 
     🎓 Immutable append-only ledger implementing GDPR Articles 6, 7, 17 and
     CCPA compliance. Features real-time revocation, cryptographic integrity,
-    Trinity Framework validation, and integration with all 7 LUKHAS agents.
+    Constellation Framework validation, and integration with all 7 LUKHAS agents.
 
     Implements GDPR compliance (Articles 6, 7, 17), CCPA requirements,
     step-up authentication, duress detection, data residency controls.
@@ -211,14 +211,14 @@ class ConsentLedgerV1:
         db_path: str = "governance/consent_ledger.db",
         enable_trinity_validation: bool = True,
     ):
-        """Initialize Trinity Framework Consent Ledger with full validation"""
+        """Initialize Constellation Framework Consent Ledger with full validation"""
         self.db_path = Path(db_path)
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Secure key management with environmental fallback
         self.secret_key = os.environ.get("LUKHAS_CONSENT_SECRET") or secrets.token_urlsafe(32)
 
-        # Trinity Framework integrations
+        # Constellation Framework integrations
         self.enable_trinity = enable_trinity_validation
         self.glyph_engine = GlyphEngine() if GlyphEngine else None
         self.lambd_id_validator = LambdIDValidator() if LambdIDValidator else None
@@ -239,10 +239,10 @@ class ConsentLedgerV1:
         # Initialize validation methods
         self._init_validation_methods()
 
-        logging.info("Consent Ledger v1 initialized with Trinity Framework support")
+        logging.info("Consent Ledger v1 initialized with Constellation Framework support")
 
     def _init_database(self):
-        """Initialize Trinity Framework database with enhanced security"""
+        """Initialize Constellation Framework database with enhanced security"""
         try:
             conn = sqlite3.connect(
                 str(self.db_path),
@@ -256,7 +256,7 @@ class ConsentLedgerV1:
             cursor.execute("PRAGMA synchronous=FULL;")  # Maximum durability
             cursor.execute("PRAGMA foreign_keys=ON;")  # Referential integrity
 
-            # Λ-trace table (immutable) with Trinity Framework enhancements
+            # Λ-trace table (immutable) with Constellation Framework enhancements
             cursor.execute(
                 """
                 CREATE TABLE IF NOT EXISTS lambda_traces (
@@ -318,7 +318,7 @@ class ConsentLedgerV1:
             """
             )
 
-            # Enhanced duress signals with Trinity Framework integration
+            # Enhanced duress signals with Constellation Framework integration
             cursor.execute(
                 """
                 CREATE TABLE IF NOT EXISTS duress_signals (
@@ -370,7 +370,7 @@ class ConsentLedgerV1:
             """
             )
 
-            # Trinity Framework validation log
+            # Constellation Framework validation log
             cursor.execute(
                 """
                 CREATE TABLE IF NOT EXISTS trinity_validations (
@@ -387,7 +387,7 @@ class ConsentLedgerV1:
             """
             )
 
-            # Comprehensive performance indexes for Trinity Framework
+            # Comprehensive performance indexes for Constellation Framework
             indexes = [
                 "CREATE INDEX IF NOT EXISTS idx_lid_traces ON lambda_traces(lid)",
                 "CREATE INDEX IF NOT EXISTS idx_timestamp ON lambda_traces(timestamp)",
@@ -407,7 +407,7 @@ class ConsentLedgerV1:
                 cursor.execute(index_sql)
 
             conn.commit()
-            logging.info("Database initialized with Trinity Framework schema")
+            logging.info("Database initialized with Constellation Framework schema")
 
         except Exception as e:
             logging.error(f"Database initialization failed: {e}")
@@ -416,7 +416,7 @@ class ConsentLedgerV1:
             conn.close()
 
     def _validate_trinity_integration(self):
-        """Validate Trinity Framework components are properly integrated"""
+        """Validate Constellation Framework components are properly integrated"""
         validation_results = {
             "identity": self.lambd_id_validator is not None,
             "consciousness": self.glyph_engine is not None,
@@ -424,9 +424,9 @@ class ConsentLedgerV1:
         }
 
         if not all(validation_results.values()):
-            logging.warning(f"Trinity integration incomplete: {validation_results}")
+            logging.warning(f"Constellation integration incomplete: {validation_results}")
         else:
-            logging.info("Trinity Framework fully integrated")
+            logging.info("Constellation Framework fully integrated")
 
         return validation_results
 
@@ -507,7 +507,7 @@ class ConsentLedgerV1:
         explanation_unl: Optional[str] = None,
         validate_trinity: bool = True,
     ) -> ΛTrace:
-        """Create Trinity Framework validated Λ-trace audit record ⚛️🧠🛡️"""
+        """Create Constellation Framework validated Λ-trace audit record ⚛️🧠🛡️"""
         with self._lock:  # Thread safety
             try:
                 # Validate ΛID if validator available
@@ -526,7 +526,7 @@ class ConsentLedgerV1:
                     except Exception as e:
                         logging.warning(f"GLYPH encoding failed: {e}")
 
-                # Create trace with Trinity Framework validation
+                # Create trace with Constellation Framework validation
                 trace = ΛTrace(
                     trace_id=f"LT-{uuid.uuid4().hex}",
                     lid=lid,
@@ -542,7 +542,7 @@ class ConsentLedgerV1:
                     glyph_signature=glyph_sig,
                 )
 
-                # Perform Trinity Framework validation
+                # Perform Constellation Framework validation
                 if validate_trinity and self.enable_trinity:
                     trace.trinity_validation = self._perform_trinity_validation(trace)
 
@@ -577,7 +577,7 @@ class ConsentLedgerV1:
                 raise
 
     def _perform_trinity_validation(self, trace: ΛTrace) -> dict[str, bool]:
-        """Perform Trinity Framework validation ⚛️🧠🛡️"""
+        """Perform Constellation Framework validation ⚛️🧠🛡️"""
         validation = {
             "identity_verified": False,
             "consciousness_aligned": False,
@@ -630,7 +630,7 @@ class ConsentLedgerV1:
                 logging.error(f"Agent {agent_name} callback failed: {e}")
 
     def _append_trace(self, trace: ΛTrace):
-        """Append trace to immutable ledger with Trinity Framework data"""
+        """Append trace to immutable ledger with Constellation Framework data"""
         conn = sqlite3.connect(str(self.db_path), timeout=30)
         cursor = conn.cursor()
 
@@ -740,7 +740,7 @@ class ConsentLedgerV1:
         sensitive_data: bool = False,
     ) -> ConsentRecord:
         """
-        Grant GDPR/CCPA compliant consent with Trinity Framework validation ⚛️🧠🛡️
+        Grant GDPR/CCPA compliant consent with Constellation Framework validation ⚛️🧠🛡️
 
         🎭 Like sealing a sacred covenant between souls, each consent becomes
         an eternal bond of trust, witnessed by the digital cosmos.
@@ -750,7 +750,7 @@ class ConsentLedgerV1:
         your mind anytime.
 
         🎓 Full GDPR Article 6 & 7 compliance with lawful basis validation,
-        consent type tracking, data residency controls, and Trinity Framework
+        consent type tracking, data residency controls, and Constellation Framework
         validation. Supports automated decision-making disclosure per Article 22.
 
         Args:
@@ -764,9 +764,9 @@ class ConsentLedgerV1:
         """
         with self._lock:  # Thread safety
             try:
-                # Validate Trinity Framework requirements
+                # Validate Constellation Framework requirements
                 if self.enable_trinity and not self._validate_consent_preconditions(lid, resource_type):
-                    raise ValueError("Trinity Framework validation failed for consent grant")
+                    raise ValueError("Constellation Framework validation failed for consent grant")
 
                 # GDPR compliance checks
                 self._validate_gdpr_compliance(

@@ -4,9 +4,9 @@ Autonomous Innovation Orchestrator
 SUPREME CONTROLLER: Orchestrates all innovation engines for maximum
 breakthrough generation without human intervention.
 
-Integration with LUKHAS Trinity Framework (⚛️🧠🛡️)
+Integration with LUKHAS Constellation Framework (⚛️🧠🛡️)
 """
-from consciousness.qi import qi  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution
+from consciousness.qi import qi  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
 from typing import List  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 

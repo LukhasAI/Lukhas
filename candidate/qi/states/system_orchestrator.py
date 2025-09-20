@@ -40,7 +40,7 @@ and bio-inspired architecture for next-generation AI applications.
 
 Module: Quantum System Orchestrator
 Path: lukhas/quantum/system_orchestrator.py
-Description: Quantum module for advanced AGI functionality
+Description: Quantum module for advanced Cognitive functionality
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.
@@ -335,7 +335,7 @@ class QIAGISystem:
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

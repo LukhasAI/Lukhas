@@ -38,7 +38,7 @@ and bio-inspired architecture for next-generation AI applications.
 
 Module: Quantum Web Integration
 Path: lukhas/quantum/web_integration.py
-Description: Quantum module for advanced AGI functionality
+Description: Quantum module for advanced Cognitive functionality
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.
@@ -381,7 +381,7 @@ if __name__ == "__main__":
     asyncio.run(demo_quantum_web_security())
 
 # Integration footer
-# This file integrates the quantum-secure AGI architecture with web interfaces
+# This file integrates the quantum-secure AI architecture with web interfaces
 # Compatible with: CRYSTALS-Kyber, CRYSTALS-Dilithium, ΛiD quantum identity
 # Status: Production-Ready Security Research
 # Last Updated: 2025-06-22 🚀⚛️🛡️

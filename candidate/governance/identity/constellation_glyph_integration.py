@@ -322,7 +322,7 @@ class ConstellationValidator:
 
             # Component-specific validations
             # Component-specific validations: map to ConstellationStar if applicable
-            # Use simple name checks to avoid hard dependency on TrinityComponent
+            # Use simple name checks to avoid hard dependency on ConstellationComponent
             if component == ConstellationStar.IDENTITY:
                 identity_validation = self._validate_identity_specific(component_instance, operation_context)
                 compliance_result["identity_specific"] = identity_validation
@@ -453,7 +453,7 @@ class ConstellationValidator:
 
 
 # --- Minimal Trinity placeholders (compat layer) ---
-class TrinityComponent(Enum):
+class ConstellationComponent(Enum):
     """Compatibility placeholder mapping to ConstellationStar"""
 
     IDENTITY = ConstellationStar.IDENTITY
@@ -543,7 +543,7 @@ class GLYPHIntegrator:
         self.subscribers = {}
         self.published_messages = []
 
-        # Trinity components integration
+        # Constellation components integration
         self.trinity_validator = TrinityValidator()
 
         # Performance tracking
@@ -707,19 +707,19 @@ class GLYPHIntegrator:
         return self._process_message(message)
 
     def _generate_trinity_context(self, payload: dict[str, Any]) -> dict[str, Any]:
-        """Generate Trinity Framework context for message"""
+        """Generate Constellation Framework context for message"""
         return {
-            TrinityComponent.IDENTITY.value: {
+            ConstellationComponent.IDENTITY.value: {
                 "component_active": True,
                 "authenticity_verified": payload.get("user_id") is not None,
                 "tier_level": payload.get("tier", 0),
             },
-            TrinityComponent.CONSCIOUSNESS.value: {
+            ConstellationComponent.CONSCIOUSNESS.value: {
                 "component_active": True,
                 "awareness_level": payload.get("awareness_level", "standard"),
                 "memory_integration": payload.get("memory_fold_id") is not None,
             },
-            TrinityComponent.GUARDIAN.value: {
+            ConstellationComponent.GUARDIAN.value: {
                 "component_active": True,
                 "security_validated": True,
                 "policy_compliant": True,
@@ -782,20 +782,20 @@ class GLYPHIntegrator:
         return symbols
 
     def _validate_trinity_compliance(self, message: GLYPHMessage) -> dict[str, Any]:
-        """Validate Trinity Framework compliance for message"""
+        """Validate Constellation Framework compliance for message"""
         validation_result = {"compliant": True, "violations": [], "warnings": []}
 
         trinity_context = message.trinity_context
 
-        # Check each Trinity component
-        for component in TrinityComponent:
+        # Check each Constellation component
+        for component in ConstellationComponent:
             component_context = trinity_context.get(component.value, {})
 
             if not component_context.get("component_active", False):
-                validation_result["warnings"].append(f"Trinity component {component.value} is not active")
+                validation_result["warnings"].append(f"Constellation component {component.value} is not active")
 
             # Component-specific validations
-            if component == TrinityComponent.GUARDIAN:
+            if component == ConstellationComponent.GUARDIAN:
                 if not component_context.get("security_validated", False):
                     validation_result["violations"].append("Guardian security validation failed")
                     validation_result["compliant"] = False
@@ -823,7 +823,7 @@ class GLYPHIntegrator:
             "trinity_validation": {
                 "validator_active": self.trinity_validator is not None,
                 "compliance_cache_size": len(self.trinity_validator.compliance_cache),
-                "supported_components": [comp.value for comp in TrinityComponent],
+                "supported_components": [comp.value for comp in ConstellationComponent],
             },
             "performance_metrics": {
                 "avg_processing_time_ms": self.message_stats.get("avg_processing_time_ms", 0),
@@ -861,7 +861,7 @@ def create_trinity_compliant_identity_system(
         glyph_integrator = GLYPHIntegrator()
 
         # Validate Trinity compliance
-        for component in TrinityComponent:
+        for component in ConstellationComponent:
             try:
                 compliance_result = trinity_validator.validate_component_compliance(
                     component, identity_system, {"operation": "system_initialization"}
@@ -900,7 +900,7 @@ __all__ = [
     "GLYPHIntegrator",
     "GLYPHMessage",
     "GLYPHType",
-    "TrinityComponent",
+    "ConstellationComponent",
     "TrinityValidator",
     "create_trinity_compliant_identity_system",
 ]

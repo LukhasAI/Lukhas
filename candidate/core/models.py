@@ -22,7 +22,7 @@ class BaseModel(PydanticBaseModel):
     LUKHAS Base Model extending Pydantic BaseModel with LUKHAS-specific features.
     
     This serves as the foundation for all LUKHAS data models, providing:
-    - Trinity Framework awareness
+    - Constellation Framework awareness
     - Identity integration hooks
     - Consciousness-aware serialization
     """
@@ -41,7 +41,7 @@ class BaseModel(PydanticBaseModel):
     # Optional LUKHAS-specific metadata
     lambda_id: Optional[str] = Field(None, description="Lambda ID for identity tracking")
     tier: Optional[int] = Field(None, ge=0, le=5, description="LUKHAS tier (0-5)")
-    trinity_aspect: Optional[str] = Field(None, description="Trinity Framework aspect")
+    trinity_aspect: Optional[str] = Field(None, description="Constellation Framework aspect")
     
     def to_lukhas_dict(self) -> dict[str, Any]:
         """Convert to dictionary with LUKHAS-specific formatting."""
@@ -57,7 +57,7 @@ class BaseModel(PydanticBaseModel):
         """Initialize subclasses with LUKHAS awareness."""
         super().__init_subclass__(**kwargs)
         
-        # Log model registration for Trinity Framework
+        # Log model registration for Constellation Framework
         logger.debug(
             f"ΛTRACE: Registering LUKHAS model class: {cls.__name__}",
             extra={

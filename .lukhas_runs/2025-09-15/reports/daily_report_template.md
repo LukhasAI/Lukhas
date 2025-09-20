@@ -51,7 +51,7 @@
 - QI/cryptography/Guardian safety code requiring Jules + Claude Code review
 - Consciousness engines and awareness systems
 - Identity and authentication systems
-- Trinity Framework boundary changes
+- Constellation Framework boundary changes
 
 ### Safeguards Implemented
 - Feature flag requirements for experimental work

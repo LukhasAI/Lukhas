@@ -34,7 +34,7 @@ class OrchestrationStatus(Enum):
 
 
 class DreamOrchestrationHub:
-    """Central hub for dream consciousness orchestration with Trinity Framework compliance."""
+    """Central hub for dream consciousness orchestration with Constellation Framework compliance."""
 
     def __init__(self):
         self.orchestration_status = OrchestrationStatus.IDLE
@@ -42,7 +42,7 @@ class DreamOrchestrationHub:
         self.coordination_log: list[dict] = []
         self.registered_components: dict[str, Any] = {}
         self.session_counter = 0
-        logger.info("🎭 Dream Orchestration Hub initialized - Trinity Framework active")
+        logger.info("🎭 Dream Orchestration Hub initialized - Constellation Framework active")
 
     def register_component(self, component_name: str, component_instance: Any) -> bool:
         """⚛️ Register consciousness component while preserving authenticity."""
@@ -180,7 +180,7 @@ class DreamOrchestrationHub:
         return total_score / len(coordination_results)
 
     def synchronize_trinity_framework(self, session_id: str) -> dict[str, Any]:
-        """🛡️ Synchronize Trinity Framework across orchestration components."""
+        """🛡️ Synchronize Constellation Framework across orchestration components."""
         if session_id not in self.active_sessions:
             return {"error": "Session not found"}
 
@@ -209,7 +209,7 @@ class DreamOrchestrationHub:
         })
 
         self.orchestration_status = OrchestrationStatus.COORDINATING
-        logger.info(f"🛡️ Trinity Framework synchronized: {session_id} - Score: {trinity_sync['overall_trinity_score']:.2f}")
+        logger.info(f"🛡️ Constellation Framework synchronized: {session_id} - Score: {trinity_sync['overall_trinity_score']:.2f}")
         return trinity_sync
 
     def get_orchestration_status(self, session_id: Optional[str] = None) -> dict[str, Any]:

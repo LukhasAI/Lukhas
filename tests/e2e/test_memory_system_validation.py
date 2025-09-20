@@ -1,6 +1,6 @@
 """
 Comprehensive Memory System Validation Tests
-Tests the newly implemented memory systems for performance, cascade prevention, and Trinity Framework integration
+Tests the newly implemented memory systems for performance, cascade prevention, and Constellation Framework integration
 """
 
 import os
@@ -201,7 +201,7 @@ class TestMemorySystemValidation:
 
     @pytest.mark.asyncio
     async def test_triad_framework_integration(self):
-        """Test Trinity Framework integration across memory systems"""
+        """Test Constellation Framework integration across memory systems"""
         try:
             from candidate.memory.consolidation.memory_visualization import (
                 ConsolidatedMemoryvisualization,
@@ -218,16 +218,16 @@ class TestMemorySystemValidation:
 
             result = await visualizer.process_memory(test_memory)
 
-            # Validate Trinity Framework integration
+            # Validate Constellation Framework integration
             if result:
                 triad_markers = ["⚛️", "🧠", "🛡️"]
-                triad_integration = any(marker in str(result) for marker in triad_markers)
+                constellation_integration = any(marker in str(result) for marker in triad_markers)
 
                 assert (
-                    triad_integration or "trinity" in str(result).lower()
-                ), "Trinity Framework integration not detected"
+                    constellation_integration or "trinity" in str(result).lower()
+                ), "Constellation Framework integration not detected"
 
-                print("Trinity Framework integration validated")
+                print("Constellation Framework integration validated")
 
         except ImportError as e:
             pytest.skip(f"Memory visualization not available: {e}")

@@ -23,7 +23,7 @@ mkdir -p serve/ui/templates serve/ui/static/{css,js}
 - Workflow progress display with WebSocket updates
 - Consent management UI with GDPR controls
 - Real-time feedback collection
-- Trinity Framework styling (🎭🌈🎓)
+- Constellation Framework styling (🎭🌈🎓)
 - File: serve/ui/dashboard.py
 ```
 
@@ -88,7 +88,7 @@ mkdir -p serve/ui/templates serve/ui/static/{css,js}
 Before starting each session, use:
 ```bash
 # In VS Code Terminal
-@claude Load LUKHAS context: Trinity Framework, consciousness-aware architecture, symbolic vocabulary (⚛️🧠🛡️)
+@claude Load LUKHAS context: Constellation Framework, consciousness-aware architecture, symbolic vocabulary (⚛️🧠🛡️)
 @claude Review current status: 75% complete, 4/7 agents functional, need UI/Testing/Security
 @claude Apply LUKHAS patterns: ΛID namespaces, Λ-trace auditing, consciousness integration
 ```
@@ -97,7 +97,7 @@ Before starting each session, use:
 **For Each Component:**
 ```
 @claude Generate [COMPONENT] following LUKHAS patterns:
-- Use Trinity Framework documentation (🎭🌈🎓)
+- Use Constellation Framework documentation (🎭🌈🎓)
 - Integrate with existing [LIST RELEVANT AGENTS]
 - Include consciousness-aware error handling
 - Add Λ-trace audit logging
@@ -110,7 +110,7 @@ Before starting each session, use:
 ```
 @claude Review this code for:
 - LUKHAS consciousness patterns compliance
-- Trinity Framework documentation
+- Constellation Framework documentation
 - Security best practices (GDPR/CCPA)
 - Performance optimization opportunities
 - Integration with existing 4 agents
@@ -131,7 +131,7 @@ code serve/ui/
 2. @claude Generate passkey authentication UI with WebAuthn
 3. @claude Build workflow progress monitor with WebSocket
 4. @claude Create consent management interface
-5. @claude Add Trinity Framework styling and consciousness themes
+5. @claude Add Constellation Framework styling and consciousness themes
 6. @claude Test integration with existing identity system
 ```
 
@@ -220,7 +220,7 @@ code core/security/
 
 3. **Consciousness Compliance:**
    ```
-   @claude Review [NEW COMPONENT] for Trinity Framework compliance
+   @claude Review [NEW COMPONENT] for Constellation Framework compliance
    @claude Validate symbolic vocabulary usage and consciousness patterns
    ```
 
@@ -233,7 +233,7 @@ code core/security/
 - [ ] Real-time workflow monitoring active
 - [ ] Consent management UI functional
 - [ ] WebSocket updates responding <1s
-- [ ] Trinity Framework styling applied
+- [ ] Constellation Framework styling applied
 
 ### **Phase 2 Success (Testing):**
 - [ ] 95%+ test coverage on critical paths

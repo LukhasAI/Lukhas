@@ -155,7 +155,7 @@ class DriftDashboard:
     ΛDASH - Symbolic Drift Monitoring Dashboard.
 
     Provides real-time monitoring and control interface for symbolic drift
-    across the LUKHAS AGI system.
+    across the LUKHAS Cognitive system.
     """
 
     def __init__(

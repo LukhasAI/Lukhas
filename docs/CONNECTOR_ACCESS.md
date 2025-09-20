@@ -55,7 +55,7 @@ LUKHAS/
 ### Core Production Code
 ```
 lukhas/                         # Production-ready modules
-├── core/                      # GLYPH engine, Trinity Framework
+├── core/                      # GLYPH engine, Constellation Framework
 ├── identity/                  # Authentication and authorization
 ├── memory/                    # Memory systems and persistence
 ├── orchestration/             # Brain Hub coordination
@@ -83,7 +83,7 @@ samples/                       # Sample logs and data
 ## Key Files for Understanding System
 
 ### Essential Reading (Priority 1)
-1. **`README.md`** - Project overview and Trinity Framework
+1. **`README.md`** - Project overview and Constellation Framework
 2. **`ARCHITECTURE.md`** - Complete system architecture
 3. **`SEARCH_MAP.md`** - How to find specific functionality
 4. **`ENV_VARS.md`** - All configuration options

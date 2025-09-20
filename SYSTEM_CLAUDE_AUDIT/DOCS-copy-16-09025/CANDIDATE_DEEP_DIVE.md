@@ -45,7 +45,7 @@ CANDIDATE Domain Architecture
                               │
                               ↓
     ┌─────────────────────────────────────────────────────────────┐
-    │               Trinity Framework Integration                  │
+    │               Constellation Framework Integration                  │
     │                                                             │
     │  consciousness/ ←→ memory/ ←→ identity/                    │
     │       │              │           │                         │
@@ -94,7 +94,7 @@ CANDIDATE Domain Architecture
 
 ### 🔗 Integration Points Map
 
-#### **Trinity Framework Connections**
+#### **Constellation Framework Connections**
 ```
 candidate/consciousness/ ┌──────────────────────────────────┐
                         │  OpenAI Consciousness Adapter    │
@@ -185,7 +185,7 @@ candidate/governance/.claude.md
 - Orchestration and interfaces dominate with 456 files combined
 - Suggests enterprise-scale, production-ready architecture
 
-#### **3. Trinity Framework Implementation**
+#### **3. Constellation Framework Implementation**
 - Consciousness/Memory/Identity triad implemented across multiple modules
 - Cross-references show tight integration between domains
 - Dream-emotion bridging indicates advanced affective processing
@@ -206,7 +206,7 @@ candidate/governance/.claude.md
 2. **Orchestration**: Multi-agent coordination and workflow management  
 3. **Interfaces**: API definitions and external integrations
 4. **Symbolic**: Abstract reasoning and ethical auditing systems
-5. **Trinity Integration**: Consciousness-Memory-Identity coordination
+5. **Constellation Integration**: Consciousness-Memory-Identity coordination
 
 *Analysis Date: 2025-09-12*
 *Files Analyzed: 2,877 Python files across 193+ subdirectories*

@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 # DESCRIPTION: Initializes the 'meta_cognitive' sub-package within core.integration.
 #              This package is designed for integrating meta-cognitive processes,
 #              such as self-reflection, learning strategy adjustment, and higher-order
-#              thought control, into the LUKHAS AGI system.
+#              thought control, into the LUKHAS Cognitive system.
 #              Acts as an #AINTEROP layer for these advanced cognitive functions.
 # DEPENDENCIES: structlog
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED

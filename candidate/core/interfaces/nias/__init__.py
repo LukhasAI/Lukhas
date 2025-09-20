@@ -1,6 +1,6 @@
 # core/interfaces/nias/__init__.py
 # ΛAGENT: Jules-[01]
-# ΛPURPOSE: Initializes the NIAS (Non-Intrusive Ad System) plugin package for the Lukhas AGI system.
+# ΛPURPOSE: Initializes the NIAS (Non-Intrusive Ad System) plugin package for the Lukhas Cognitive system.
 # ΛTAGS: ΛMODULE_INIT, ΛPLUGIN_SYSTEM, ΛNIAS_INTEGRATION, AIO_NODE (defines package structure), AINTEROP, ΛSYMBOLIC_ECHO
 # ΛVERSION: 1.0.0 (as defined in original)
 # ΛAUTHOR: Lukhas AGI Systems (Original), AI-generated (Jules-[01]) for standardization

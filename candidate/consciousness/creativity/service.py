@@ -1,7 +1,7 @@
 """
 LUKHAS Creativity Service - Module API Interface
 
-This service provides creative generation capabilities for the AGI system.
+This service provides creative generation capabilities for the Cognitive system.
 All operations are logged via ΛTRACE and respect user consent and tier access.
 
 Key functions:
@@ -42,7 +42,7 @@ except ImportError:
 
 class CreativityService:
     """
-    Main creativity service for the LUKHAS AGI system.
+    Main creativity service for the LUKHAS Cognitive system.
 
     Provides creative content generation with full integration to
     the identity system for access control and audit logging.

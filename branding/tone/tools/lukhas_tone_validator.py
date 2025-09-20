@@ -117,7 +117,7 @@ class LukhasToneValidator:
         "readme": {
             "min_poetic": 35,
             "min_triad_refs": 1,
-            "required_sections": ["Trinity Framework", "consciousness"],
+            "required_sections": ["Constellation Framework", "consciousness"],
             "forbidden_terms": ["generic AI", "standard AI"],
         },
         "api": {
@@ -290,13 +290,13 @@ class LukhasToneValidator:
             suggestions.append("🏷️ Replace generic AI references with 'LUKHAS AI' to honor our identity")
 
         if not re.search(r"⚛️|🧠|🛡️", content):
-            suggestions.append("🛡️ Include Trinity Framework glyphs (⚛️🧠🛡️) where relevant")
+            suggestions.append("🛡️ Include Constellation Framework glyphs (⚛️🧠🛡️) where relevant")
 
         if not re.search(r'\*".*".*\*', content):
             suggestions.append("📜 Add poetic header with consciousness metaphor in italics")
 
-        if doc_type == "readme" and "Trinity Framework" not in content:
-            suggestions.append("🔗 Add Trinity Framework section explaining ⚛️Identity 🧠Consciousness 🛡️Guardian")
+        if doc_type == "readme" and "Constellation Framework" not in content:
+            suggestions.append("🔗 Add Constellation Framework section explaining ⚛️Identity 🧠Consciousness 🛡️Guardian")
 
         return suggestions
 

@@ -30,7 +30,7 @@ autotest.stop()
 
 ### Sam Altman AGI Vision
 - **AI-powered analysis**: Intelligent test recommendations and insights
-- **Scalable architecture**: Future-proof for advanced AGI capabilities
+- **Scalable architecture**: Future-proof for advanced Cognitive capabilities
 - **Human-AI collaboration**: Enhanced testing through AI assistance
 - **Adaptive learning**: System improves with every test run
 

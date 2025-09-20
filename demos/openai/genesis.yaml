@@ -10,7 +10,7 @@ genesis:
 build:
   hash: "SHA3-256:7f4e9b21a3c5d8f6e2b1a9c7d4e3f8a2b5c9d1e6f3a7b8c4d9e2f5a8b3c6d9e2"
   components:
-    - "LUKHΛS Trinity Framework"
+    - "LUKHΛS Constellation Framework"
     - "ΛiD Quantum-Safe Authentication"
     - "Stargate Gateway v1.0.0"
     - "Guardian System v1.0.0"

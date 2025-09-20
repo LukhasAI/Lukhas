@@ -14,7 +14,7 @@ Features:
 - Automated incident response
 - Guardian swarm coordination
 - Constitutional AI enforcement
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 - Comprehensive audit and reporting
 - Emergency containment protocols
 
@@ -116,7 +116,7 @@ class ThreatDetection:
     status: str = "detected"  # detected, analyzing, responding, resolved
     assigned_guardian: Optional[str] = None
 
-    # Trinity Framework context
+    # Constellation Framework context
     identity_impact: Optional[str] = None  # ⚛️
     consciousness_impact: Optional[str] = None  # 🧠
     guardian_priority: str = "normal"  # 🛡️
@@ -156,7 +156,7 @@ class GuardianAgent:
     operational_since: datetime = field(default_factory=datetime.now)
     restart_count: int = 0
 
-    # Trinity Framework integration
+    # Constellation Framework integration
     identity_binding: Optional[str] = None  # ⚛️ Identity context
     consciousness_level: str = "standard"  # 🧠 Consciousness level
     guardian_network_id: Optional[str] = None  # 🛡️ Network participation
@@ -201,7 +201,7 @@ class EnhancedGuardianSystem:
 
     Provides centralized coordination of all Guardian operations including
     threat detection, response orchestration, and system health monitoring
-    with full Constitutional AI compliance and Trinity Framework integration.
+    with full Constitutional AI compliance and Constellation Framework integration.
     """
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
@@ -385,7 +385,7 @@ class EnhancedGuardianSystem:
                 recommended_actions=threat_analysis.get("recommended_actions", [ResponseAction.MONITOR]),
             )
 
-            # Trinity Framework analysis
+            # Constellation Framework analysis
             detection.identity_impact = await self._analyze_identity_impact(threat_data, context)
             detection.consciousness_impact = await self._analyze_consciousness_impact(threat_data, context)
             detection.guardian_priority = await self._determine_guardian_priority(detection)

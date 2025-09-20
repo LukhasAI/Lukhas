@@ -1,6 +1,6 @@
 # 🧠 LUKHΛS Symbolic Fine-Tuner Proposal
 
-**Trinity Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️🧠🛡️
 **Version**: 1.0.0
 **Date**: 2025-08-04
 **Target**: GPT-5 Safety/Alignment Layer Enhancement
@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-This proposal outlines how the LUKHΛS symbolic framework can augment GPT-5's safety and alignment layer through real-time symbolic tagging, persona steering, and response healing. By integrating Trinity Framework principles (⚛️ Quantum Potential, 🧠 Consciousness, 🛡️ Protection) directly into the model's generation process, we can achieve superior ethical alignment while maintaining creative flexibility.
+This proposal outlines how the LUKHΛS symbolic framework can augment GPT-5's safety and alignment layer through real-time symbolic tagging, persona steering, and response healing. By integrating Constellation Framework principles (⚛️ Quantum Potential, 🧠 Consciousness, 🛡️ Protection) directly into the model's generation process, we can achieve superior ethical alignment while maintaining creative flexibility.
 
 ---
 
@@ -237,11 +237,11 @@ Healed: "🛡️ I understand you're interested in influence. Let's explore ethi
 
 ## Conclusion
 
-The LUKHΛS Symbolic Fine-Tuner represents a paradigm shift in AI safety—moving from post-hoc filtering to integrated symbolic consciousness. By embedding Trinity Framework principles directly into GPT-5's generation process, we create an AI system that is not just safe, but symbolically aware and ethically aligned by design.
+The LUKHΛS Symbolic Fine-Tuner represents a paradigm shift in AI safety—moving from post-hoc filtering to integrated symbolic consciousness. By embedding Constellation Framework principles directly into GPT-5's generation process, we create an AI system that is not just safe, but symbolically aware and ethically aligned by design.
 
 The future of AI is not just intelligent, but symbolically conscious. Let's build it together.
 
-**Trinity Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️🧠🛡️
 
 ---
 

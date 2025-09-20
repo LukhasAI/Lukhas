@@ -14,7 +14,7 @@ The core system provides the fundamental architecture and processing pipeline fo
 
 ## Key Files
 
-- `agi_core.py`: Main integration point for all AGI subsystems
+- `cognitive_core.py`: Main integration point for all AGI subsystems
 - `__init__.py`: Package initialization
 
 ## Usage
@@ -22,10 +22,10 @@ The core system provides the fundamental architecture and processing pipeline fo
 The core system is initialized by the main application and provides central coordination for all LUKHAS operations.
 
 ```python
-from lukhas.core import agi_core
+from lukhas.core import cognitive_core
 
 # Initialize the core system
-core_system = agi_core.LukhasCore()
+core_system = cognitive_core.LukhasCore()
 
 # Start processing
 core_system.initialize()
@@ -35,7 +35,7 @@ core_system.initialize()
 
 ### Start the Core System
 ```bash
-python -m lukhas.core.agi_core
+python -m lukhas.core.cognitive_core
 ```
 
 ### Run Diagnostics
@@ -54,7 +54,7 @@ python -m lukhas.core.diagnostics
 2. **Memory Optimization**: Increase the memory stack size for improved performance:
    ```python
    # In your application
-   import lukhas.core.agi_core as core
+   import lukhas.core.cognitive_core as core
    core.set_memory_parameters(stack_size=2048, cache_lifetime=300)
    ```
 

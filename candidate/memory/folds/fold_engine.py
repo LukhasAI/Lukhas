@@ -250,7 +250,7 @@ class MemoryFold:
 
     # ΛEXPOSE: Updates the content and optionally the priority of the memory fold.
     # LUKHAS_TAG: memory_mutation_core
-    def update(:
+    def update(
         self, new_content: Any, new_priority: Optional[MemoryPriority] = None
     ) -> None:
         """

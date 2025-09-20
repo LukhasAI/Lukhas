@@ -44,7 +44,7 @@
 - **Kill Switch Testing**: End-to-end emergency disable validation
 - **Canary Framework**: Deterministic sampling with automatic rollback
 
-### **Trinity Framework Integration** ⚛️🧠🛡️
+### **Constellation Framework Integration** ⚛️🧠🛡️
 
 - **⚛️ Identity**: Lambda ID audit trails and tier-based dual-approval
 - **🧠 Consciousness**: Semantic plan understanding with tag-based reasoning
@@ -150,4 +150,4 @@ curl localhost:8080/guardian/status | jq '.enforcement_active'
 - **Go-Live Drill**: `docs/runbooks/safety_tags_go_live_drill.md`
 
 ---
-*Released by: LUKHAS AI Trinity Framework | Version: 1.0.0 | Classification: Production Ready* 🎯
+*Released by: LUKHAS AI Constellation Framework | Version: 1.0.0 | Classification: Production Ready* 🎯

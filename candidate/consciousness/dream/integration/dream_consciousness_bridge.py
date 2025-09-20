@@ -24,14 +24,14 @@ class ConsciousnessBridgeState(Enum):
 
 
 class DreamConsciousnessBridge:
-    """Advanced bridge between dream and consciousness systems with Trinity Framework compliance."""
+    """Advanced bridge between dream and consciousness systems with Constellation Framework compliance."""
 
     def __init__(self):
         self.bridge_state = ConsciousnessBridgeState.DISCONNECTED
         self.active_connections: dict[str, dict] = {}
         self.synchronization_log: list[dict] = []
         self.bridge_counter = 0
-        logger.info("🌉 Dream Consciousness Bridge initialized - Trinity Framework active")
+        logger.info("🌉 Dream Consciousness Bridge initialized - Constellation Framework active")
 
     def establish_bridge(self, dream_id: str, consciousness_context: dict[str, Any]) -> str:
         """⚛️ Establish bridge between dream and consciousness while preserving identity."""
@@ -115,7 +115,7 @@ class DreamConsciousnessBridge:
         return 0.92  # Simplified quality calculation
 
     def _validate_trinity_coherence(self) -> float:
-        """Validate Trinity Framework coherence across bridge."""
+        """Validate Constellation Framework coherence across bridge."""
         return 0.89  # Simplified coherence validation
 
     def transfer_symbolic_content(self, bridge_id: str, content: list[str]) -> dict[str, Any]:

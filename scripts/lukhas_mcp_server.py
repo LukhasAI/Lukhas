@@ -4,7 +4,7 @@
 Model Context Protocol server for enhanced Claude Code experience
 
 This MCP server provides Claude Code with direct access to LUKHAS consciousness
-systems, Trinity Framework validation, and intelligent context management.
+systems, Constellation Framework validation, and intelligent context management.
 """
 
 import asyncio
@@ -42,7 +42,7 @@ class LUKHASConsciousnessMCP:
     🧠 LUKHAS Consciousness MCP Server
 
     Provides Claude Code with enhanced consciousness development capabilities:
-    - Trinity Framework integration (⚛️🧠🛡️)
+    - Constellation Framework integration (⚛️🧠🛡️)
     - Real-time consciousness metrics
     - Intelligent module context loading
     - Guardian System validation
@@ -139,8 +139,8 @@ class LUKHASConsciousnessMCP:
                     ),
                     Resource(
                         uri="lukhas://constellation/framework",
-                        name="Trinity Framework (⚛️🧠🛡️)",
-                        description="Core Trinity Framework principles and validation",
+                        name="Constellation Framework (⚛️🧠🛡️)",
+                        description="Core Constellation Framework principles and validation",
                         mimeType="application/json",
                     ),
                     Resource(
@@ -214,7 +214,7 @@ class LUKHASConsciousnessMCP:
             return [
                 Tool(
                     name="validate_triad_framework",
-                    description="Validate code/design against Trinity Framework (⚛️🧠🛡️) principles",
+                    description="Validate code/design against Constellation Framework (⚛️🧠🛡️) principles",
                     inputSchema={
                         "type": "object",
                         "properties": {
@@ -420,9 +420,9 @@ class LUKHASConsciousnessMCP:
         return json.dumps(modules_map, indent=2)
 
     async def _get_triad_framework_status(self) -> str:
-        """Get Trinity Framework validation status."""
-        triad_status = {
-            "framework": "Trinity Framework ⚛️🧠🛡️",
+        """Get Constellation Framework validation status."""
+        constellation_status = {
+            "framework": "Constellation Framework ⚛️🧠🛡️",
             "components": {
                 "identity": "⚛️ Identity - Authenticity, consciousness, symbolic self",
                 "consciousness": "🧠 Consciousness - Memory, learning, dream states, neural processing",
@@ -434,14 +434,14 @@ class LUKHASConsciousnessMCP:
 
         if self.triad_validator:
             try:
-                # Validate each consciousness module against Trinity Framework
+                # Validate each consciousness module against Constellation Framework
                 for module_name, module_path in self.consciousness_modules.items():
                     validation_result = await self._validate_module_triad_compliance(module_path)
-                    triad_status["validation_status"][module_name] = validation_result
+                    constellation_status["validation_status"][module_name] = validation_result
             except Exception as e:
-                triad_status["validation_error"] = str(e)
+                constellation_status["validation_error"] = str(e)
 
-        return json.dumps(triad_status, indent=2)
+        return json.dumps(constellation_status, indent=2)
 
     async def _get_consciousness_metrics(self) -> str:
         """Get real-time consciousness system metrics."""
@@ -583,7 +583,7 @@ class LUKHASConsciousnessMCP:
 
     # Tool implementation methods
     async def _validate_triad_framework(self, arguments: dict[str, Any]) -> list[TextContent]:
-        """Validate content against Trinity Framework."""
+        """Validate content against Constellation Framework."""
         _ = arguments["content"]  # Content validation would be implemented here
         module = arguments.get("module", "unknown")
         validation_type = arguments.get("validation_type", "code")
@@ -601,7 +601,7 @@ class LUKHASConsciousnessMCP:
             ],
             "passed_checks": [
                 "Contains consciousness metaphors",
-                "Includes Trinity Framework references",
+                "Includes Constellation Framework references",
                 "Has proper error handling",
             ],
             "failed_checks": ["Missing Guardian System integration"],
@@ -610,7 +610,7 @@ class LUKHASConsciousnessMCP:
         return [
             TextContent(
                 type="text",
-                text=f"🎯 Trinity Framework Validation Results\n\n"
+                text=f"🎯 Constellation Framework Validation Results\n\n"
                 f"Module: {module}\n"
                 f"Type: {validation_type}\n\n"
                 f"⚛️ Identity Score: {validation_result['identity_score']:.2f}\n"
@@ -695,7 +695,7 @@ class LUKHASConsciousnessMCP:
 
     # Helper methods
     async def _get_module_triad_alignment(self, module_name: str) -> dict[str, float]:
-        """Get Trinity Framework alignment for a module."""
+        """Get Constellation Framework alignment for a module."""
         # Simplified scoring based on module name and purpose
         if "identity" in module_name:
             return {"identity": 1.0, "consciousness": 0.6, "guardian": 0.7}
@@ -728,8 +728,8 @@ class LUKHASConsciousnessMCP:
         return "Supporting consciousness development system"
 
     async def _validate_module_triad_compliance(self, module_path: Path) -> dict[str, Any]:
-        """Validate a module's Trinity Framework compliance."""
-        # Simplified validation - check for Trinity Framework references
+        """Validate a module's Constellation Framework compliance."""
+        # Simplified validation - check for Constellation Framework references
         compliance = {"score": 0.8, "issues": [], "recommendations": []}
 
         try:
@@ -747,8 +747,8 @@ class LUKHASConsciousnessMCP:
             compliance["files_checked"] = len(py_files)
 
             if triad_references == 0:
-                compliance["issues"].append("No Trinity Framework references found")
-                compliance["recommendations"].append("Add Trinity Framework integration")
+                compliance["issues"].append("No Constellation Framework references found")
+                compliance["recommendations"].append("Add Constellation Framework integration")
                 compliance["score"] = 0.3
 
         except Exception as e:

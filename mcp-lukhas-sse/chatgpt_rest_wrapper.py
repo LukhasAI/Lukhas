@@ -73,7 +73,7 @@ class LukhasMCPRestWrapper:
                 "path": path,
                 "items": items,
                 "total_items": len(items),
-                "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+                "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
             }
             
         except Exception as e:
@@ -127,7 +127,7 @@ class LukhasMCPRestWrapper:
                 "displayed_lines": len(content_lines),
                 "truncated": truncated,
                 "file_size_bytes": file_size,
-                "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+                "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
             }
             
         except UnicodeDecodeError:
@@ -185,7 +185,7 @@ def list_directory(path: str) -> dict:
             "path": path,
             "items": items,
             "total_items": len(items),
-            "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+            "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
         }
     except Exception as e:
         return {"error": f"Error listing directory: {str(e)}"}
@@ -238,7 +238,7 @@ def read_file(path: str, max_lines: int = 100) -> dict:
             "displayed_lines": len(content_lines),
             "truncated": truncated,
             "file_size_bytes": file_size,
-            "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+            "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
         }
     except UnicodeDecodeError:
         return {
@@ -259,7 +259,7 @@ async def health_check(request):
         "timestamp": time.time(),
         "server": "LUKHAS MCP REST Wrapper for ChatGPT",
         "version": "1.0.0",
-        "trinity_framework": "⚛️🧠🛡️",
+        "constellation_framework": "⚛️🧠🛡️",
         "session_id": mcp_wrapper.session_id
     })
 
@@ -270,7 +270,7 @@ async def get_server_info(request):
             "name": "LUKHAS AI Platform",
             "description": "Consciousness-Aware AI Development Platform",
             "version": "1.0.0",
-            "trinity_framework": {
+            "constellation_framework": {
                 "symbol": "⚛️🧠🛡️",
                 "components": {
                     "⚛️ Identity": "Lambda ID system, authentication, symbolic self-representation",
@@ -366,7 +366,7 @@ async def get_openapi_spec(request):
         "openapi": "3.0.0",
         "info": {
             "title": "LUKHAS AI REST API",
-            "description": "Access LUKHAS AI Platform capabilities through the Trinity Framework (⚛️🧠🛡️). This REST API provides ChatGPT Connectors with secure file system access and LUKHAS AI information.",
+            "description": "Access LUKHAS AI Platform capabilities through the Constellation Framework (⚛️🧠🛡️). This REST API provides ChatGPT Connectors with secure file system access and LUKHAS AI information.",
             "version": "1.0.0",
             "contact": {
                 "name": "LUKHAS AI Platform",
@@ -396,7 +396,7 @@ async def get_openapi_spec(request):
                                             "status": {"type": "string", "example": "healthy"},
                                             "server": {"type": "string", "example": "LUKHAS MCP REST Wrapper for ChatGPT"},
                                             "version": {"type": "string", "example": "1.0.0"},
-                                            "trinity_framework": {"type": "string", "example": "⚛️🧠🛡️"},
+                                            "constellation_framework": {"type": "string", "example": "⚛️🧠🛡️"},
                                             "session_id": {"type": "string", "format": "uuid"}
                                         }
                                     }
@@ -409,7 +409,7 @@ async def get_openapi_spec(request):
             "/info": {
                 "get": {
                     "summary": "Get LUKHAS AI System Information",
-                    "description": "Retrieve detailed information about the LUKHAS AI Platform and Trinity Framework",
+                    "description": "Retrieve detailed information about the LUKHAS AI Platform and Constellation Framework",
                     "operationId": "getSystemInfo",
                     "responses": {
                         "200": {
@@ -512,7 +512,7 @@ async def get_openapi_spec(request):
         "tags": [
             {
                 "name": "LUKHAS AI",
-                "description": "LUKHAS AI Platform operations powered by the Trinity Framework ⚛️🧠🛡️"
+                "description": "LUKHAS AI Platform operations powered by the Constellation Framework ⚛️🧠🛡️"
             }
         ]
     }
@@ -569,7 +569,7 @@ if __name__ == "__main__":
         os.environ["ALLOWED_ROOTS"] = "/tmp,/var/tmp"
     
     logger.info(f"🚀 Starting LUKHAS MCP REST Wrapper + SSE for ChatGPT")
-    logger.info(f"⚛️🧠🛡️ Trinity Framework: Identity, Consciousness, Guardian")
+    logger.info(f"⚛️🧠🛡️ Constellation Framework: Identity, Consciousness, Guardian")
     logger.info(f"🔗 Listening on {host}:{port}")
     logger.info(f"🔗 Health check: http://{host}:{port}/health")
     logger.info(f"🔗 Server info: http://{host}:{port}/info")

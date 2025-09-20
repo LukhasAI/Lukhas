@@ -161,7 +161,7 @@ candidate/core/symbolic/symbolic_api.py	GET	/meta/metrics
 candidate/core/symbolic/symbolic_api.py	GET	/api/consciousness/state
 candidate/core/symbolic/symbolic_api.py	POST	/api/memory/explore
 candidate/core/symbolic/symbolic_api.py	GET	/api/guardian/drift
-candidate/core/symbolic/symbolic_api.py	GET	/api/trinity/status
+candidate/core/symbolic/symbolic_api.py	GET	/api/constellation/status
 candidate/core/symbolic/symbolic_api.py	POST	/gpt/check
 candidate/core/symbolic/symbolic_api.py	GET	/audit/reports
 candidate/core/symbolic/symbolic_api.py	GET	/health

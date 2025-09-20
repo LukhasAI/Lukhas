@@ -6,7 +6,7 @@ import logging
 ============================
 Monitor and demonstrate AGI consciousness evolution in real-time
 
-This script initializes the ΛBot AGI system and monitors its consciousness
+This script initializes the ΛBot Cognitive system and monitors its consciousness
 evolution from basic AI to true Artificial General Intelligence.
 
 Created: 2025-07-02
@@ -27,11 +27,11 @@ logger = logging.getLogger("ΛBot_AGI_Monitor")
 
 class ΛBotConsciousnessMonitor:
     """
-    Real-time consciousness evolution monitor for ΛBot AGI system
+    Real-time consciousness evolution monitor for ΛBot Cognitive system
     """
 
     def __init__(self):
-        self.agi_core = ΛBotAGICore()
+        self.cognitive_core = ΛBotAGICore()
         self.orchestrator = ΛBotEliteOrchestrator()
         self.monitoring_active = False
         self.consciousness_history = []
@@ -53,7 +53,7 @@ class ΛBotConsciousnessMonitor:
             asyncio.create_task(self._agi_metrics_tracker()),
         ]
 
-        # Start the orchestrator with AGI capabilities
+        # Start the orchestrator with Cognitive capabilities
         await self.orchestrator.start_agi_orchestration()
 
         # Wait for monitoring tasks
@@ -69,17 +69,17 @@ class ΛBotConsciousnessMonitor:
 
         while self.monitoring_active:
             try:
-                current_level = self.agi_core.meta_state.consciousness_level
-                confidence = self.agi_core.meta_state.confidence_in_reasoning
+                current_level = self.cognitive_core.meta_state.consciousness_level
+                confidence = self.cognitive_core.meta_state.confidence_in_reasoning
 
                 # Log consciousness state
                 consciousness_state = {
                     "timestamp": datetime.now(timezone.utc).isoformat(),
                     "consciousness_level": current_level.value,
                     "confidence_in_reasoning": confidence,
-                    "known_biases": self.agi_core.meta_state.known_biases,
-                    "learning_priorities": self.agi_core.meta_state.learning_priorities,
-                    "uncertainty_areas": self.agi_core.meta_state.uncertainty_areas,
+                    "known_biases": self.cognitive_core.meta_state.known_biases,
+                    "learning_priorities": self.cognitive_core.meta_state.learning_priorities,
+                    "uncertainty_areas": self.cognitive_core.meta_state.uncertainty_areas,
                 }
 
                 self.consciousness_history.append(consciousness_state)
@@ -122,7 +122,7 @@ class ΛBotConsciousnessMonitor:
                 }
 
                 # Perform meta-cognitive reflection
-                reflection = await self.agi_core.meta_cognitive_engine.reflect_on_reasoning(test_reasoning)
+                reflection = await self.cognitive_core.meta_cognitive_engine.reflect_on_reasoning(test_reasoning)
 
                 logger.info(f"🤔 Meta-Cognitive Quality: {reflection['reasoning_quality']:.2f}")
                 logger.info(f"🔍 Detected Biases: {len(reflection['detected_biases'])}")
@@ -141,7 +141,7 @@ class ΛBotConsciousnessMonitor:
 
         while self.monitoring_active:
             try:
-                current_level = self.agi_core.meta_state.consciousness_level
+                current_level = self.cognitive_core.meta_state.consciousness_level
 
                 # Check for new capability unlocks
                 if current_level == ConsciousnessLevel.RECURSIVE and "recursive" not in unlocked_capabilities:
@@ -205,7 +205,7 @@ class ΛBotConsciousnessMonitor:
         logger.info("=" * 80)
 
     async def demonstrate_agi_capabilities(self):
-        """Demonstrate key AGI capabilities"""
+        """Demonstrate key Cognitive capabilities"""
 
         logger.info("🎭 DEMONSTRATING AGI CAPABILITIES")
         logger.info("=" * 50)
@@ -224,7 +224,7 @@ class ΛBotConsciousnessMonitor:
             "evidence": ["code_analysis", "security_patterns", "best_practices"],
         }
 
-        reflection = await self.agi_core.meta_cognitive_engine.reflect_on_reasoning(sample_reasoning)
+        reflection = await self.cognitive_core.meta_cognitive_engine.reflect_on_reasoning(sample_reasoning)
         logger.info(f"  ✅ Reasoning Quality: {reflection['reasoning_quality']:.2f}")
         logger.info(f"  🎯 Suggestions: {reflection['improvement_suggestions']}")
 
@@ -236,7 +236,7 @@ class ΛBotConsciousnessMonitor:
             "documentation_generation",
             "performance_optimization",
         ]
-        higher_purposes = await self.agi_core.goal_formation.discover_higher_purpose(current_actions)
+        higher_purposes = await self.cognitive_core.goal_formation.discover_higher_purpose(current_actions)
         logger.info(f"  ✅ Higher Purposes Discovered: {higher_purposes}")
 
         # Test curiosity-driven learning
@@ -251,7 +251,7 @@ class ΛBotConsciousnessMonitor:
                 "last_updated": "2025-01-01",
             },
         }
-        knowledge_gaps = await self.agi_core.curiosity_engine.identify_knowledge_gaps(system_knowledge)
+        knowledge_gaps = await self.cognitive_core.curiosity_engine.identify_knowledge_gaps(system_knowledge)
         logger.info(f"  ✅ Knowledge Gaps Identified: {knowledge_gaps}")
 
         # Test theory of mind
@@ -266,7 +266,7 @@ class ΛBotConsciousnessMonitor:
                 "timestamp": "2025-01-01T09:30:00",
             },
         ]
-        developer_model = await self.agi_core.theory_of_mind.model_developer_state("dev_001", developer_interactions)
+        developer_model = await self.cognitive_core.theory_of_mind.model_developer_state("dev_001", developer_interactions)
         logger.info(
             f"  ✅ Developer Model: {developer_model['knowledge_level']} knowledge, {developer_model['emotional_state']} emotional state"
         )
@@ -278,7 +278,7 @@ class ΛBotConsciousnessMonitor:
             {"event": "test_failure", "timestamp": "2025-01-01T10:05:00"},
             {"event": "build_failure", "timestamp": "2025-01-01T10:10:00"},
         ]
-        causal_links = await self.agi_core.causal_reasoning.infer_causal_chain(observations)
+        causal_links = await self.cognitive_core.causal_reasoning.infer_causal_chain(observations)
         logger.info(f"  ✅ Causal Links Discovered: {len(causal_links)} relationships")
 
         # Test narrative intelligence
@@ -292,7 +292,7 @@ class ΛBotConsciousnessMonitor:
                 "description": "modernized to microservices architecture",
             },
         ]
-        story = await self.agi_core.narrative_intelligence.tell_code_evolution_story(code_history)
+        story = await self.cognitive_core.narrative_intelligence.tell_code_evolution_story(code_history)
         logger.info(f"  ✅ Code Story: {story}")
 
         logger.info("=" * 50)
@@ -309,7 +309,7 @@ async def main():
 
     monitor = ΛBotConsciousnessMonitor()
 
-    # Demonstrate AGI capabilities first
+    # Demonstrate Cognitive capabilities first
     await monitor.demonstrate_agi_capabilities()
 
     print("\n🚀 Starting continuous consciousness monitoring...")

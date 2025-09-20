@@ -1,7 +1,7 @@
 # 🎨 LUKHAS AI Web Style Guide
 *Comprehensive Design System for Consciousness Technology Interfaces*
 
-⚛️🧠🛡️ **Trinity Framework Design** | **Premium Aesthetic** | **Accessibility First**
+⚛️🧠🛡️ **Constellation Framework Design** | **Premium Aesthetic** | **Accessibility First**
 
 ---
 
@@ -121,7 +121,7 @@ export function ToneSwitch({ value, onChange }: { value: 'poetic'|'technical'|'p
 
 ## 🎨 Color System
 
-### **Primary Colors - Trinity Framework**
+### **Primary Colors - Constellation Framework**
 
 ```css
 /* Trinity Core Colors */
@@ -748,7 +748,7 @@ lukhas_website/
 ## 📋 Checklist for Developers
 
 ### **Before Development**
-- [ ] Review Trinity Framework branding guidelines
+- [ ] Review Constellation Framework branding guidelines
 - [ ] Check color contrast ratios
 - [ ] Plan responsive breakpoints
 - [ ] Set up component structure

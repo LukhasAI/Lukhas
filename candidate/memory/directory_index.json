@@ -1,11 +1,27 @@
 {
-  "schema_version": "2.0.0",
+  "schema_version": "3.0.0",
   "directory_metadata": {
     "path": "candidate/memory",
     "lane": "development",
-    "purpose": "Directory containing 32 Python files and 48 subdirectories",
-    "trinity_role": [],
-    "last_updated": "2025-09-20"
+    "purpose": "Advanced memory systems with fold-based architecture, cascade prevention, and MATRIZ pipeline integration for Trail Star operations",
+    "constellation_framework_version": "2.0.0",
+    "constellation_role": "trail_star_primary",
+    "t4_compliance_level": "experimental",
+    "last_updated": "2025-09-20",
+    "matriz_pipeline_integration": {
+      "memory_stage": "primary",
+      "attention_stage": "supporting",
+      "thought_stage": "supporting",
+      "action_stage": "inactive",
+      "decision_stage": "inactive",
+      "awareness_stage": "supporting"
+    },
+    "memory_architecture": {
+      "fold_based_storage": true,
+      "cascade_prevention": "99.7%",
+      "temporal_memory": true,
+      "consciousness_integration": true
+    }
   },
   "component_inventory": {
     "python_files": [
@@ -483,17 +499,17 @@
         ]
       },
       {
-        "filename": "trinity_framework_validator.py",
+        "filename": "constellation_framework_validator.py",
         "component_type": "MEMORY_INTERFACE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
         "exports": [
-          "TrinityComponent",
+          "ConstellationComponent",
           "ValidationLevel",
-          "TrinityValidationResult",
-          "TrinityFrameworkValidator",
-          "get_trinity_framework_validator"
+          "ConstellationValidationResult",
+          "ConstellationFrameworkValidator",
+          "get_constellation_framework_validator"
         ]
       }
     ],
@@ -917,19 +933,26 @@
     "avoid_patterns": [
       "Modifying contracts without validation",
       "Breaking lane boundaries",
-      "Ignoring Constellation Framework integration"
+      "Ignoring Constellation Framework integration",
+      "Bypassing fold-based memory architecture",
+      "Direct memory manipulation without cascade prevention",
+      "Violating 99.7% cascade prevention guarantees"
     ]
   },
   "performance_metadata": {
     "component_count": 32,
     "estimated_complexity": "high",
-    "consciousness_integration": "none",
+    "consciousness_integration": "advanced",
+    "matriz_compatibility": "experimental",
+    "t4_compliance_score": 0.65,
+    "fold_architecture_enabled": true,
+    "cascade_prevention_rate": 0.997,
     "test_coverage": 85.0
   },
   "relationships": {
     "parent_directory": "candidate",
     "related_directories": [],
-    "constellation_cluster": "unknown",
+    "constellation_cluster": "trail_star_memory",
     "dependency_weight": "moderate"
   }
 }

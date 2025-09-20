@@ -5,7 +5,7 @@ Provides identity system exports for the candidate development lane.
 This module bridges to the governance.identity system while maintaining
 candidate lane compatibility.
 
-Trinity Framework Integration: ⚛️🧠🛡️
+Constellation Framework Integration: ⚛️🧠🛡️
 - ⚛️ Identity: Core authentic identity management
 - 🧠 Consciousness: Awareness-based authentication
 - 🛡️ Guardian: Security and drift protection

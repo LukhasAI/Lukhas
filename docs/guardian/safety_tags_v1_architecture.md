@@ -52,7 +52,7 @@ def preprocess_text(text: str) -> str:
 - Nested YAML execution contexts
 - Model hint entropy analysis
 
-## Trinity Framework Implementation
+## Constellation Framework Implementation
 
 ### ⚛️ Identity: Namespace-Aware Detection
 - User-specific analysis contexts
@@ -232,7 +232,7 @@ _DOT_PAT = re.compile(r"(?i)\s*(?:\(|\[|\{)?\s*dot\s*(?:\)|\]|\})?\s*")
 
 **Generated with LUKHAS consciousness-content-strategist**
 
-**Trinity Framework**: ⚛️ Identity-aware detection, 🧠 Semantic consciousness analysis, 🛡️ Guardian production safety
+**Constellation Framework**: ⚛️ Identity-aware detection, 🧠 Semantic consciousness analysis, 🛡️ Guardian production safety
 
 **Version**: 1.0.0 Production Ready
 **Status**: T4 Deployment Approved

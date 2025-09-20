@@ -6,7 +6,7 @@ Path: core/consciousness/consciousness_integrator.py
 Created: 2025-01-27
 Author: lukhas AI Team
 
-TAGS: [CRITICAL, KeyFile, Consciousness, Integration, AGI_Core]
+TAGS: [CRITICAL, KeyFile, Consciousness, Integration, CognitiveCore]
 DEPENDENCIES:
   - core/memory/enhanced_memory_manager.py
   - core/voice/voice_processor.py
@@ -112,7 +112,7 @@ except ImportError as e:
 
 
 class ConsciousnessState(Enum):
-    """Consciousness states for the AGI system"""
+    """Consciousness states for the Cognitive system"""
 
     AWARE = "aware"  # Fully conscious and responsive
     DREAMING = "dreaming"  # In dream/creative state
@@ -160,7 +160,7 @@ class IntegrationContext:
 
 class ConsciousnessIntegrator:
     """
-    Central consciousness coordinator for the LUKHAS AGI system.
+    Central consciousness coordinator for the LUKHAS Cognitive system.
 
     This class manages the integration of all cognitive components,
     maintains consciousness continuity, and ensures seamless

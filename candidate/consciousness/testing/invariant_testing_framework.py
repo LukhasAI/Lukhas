@@ -90,7 +90,7 @@ class InvariantViolation:
 class ConsciousnessState:
     """State representation for invariant testing"""
 
-    # Trinity Framework components
+    # Constellation Framework components
     identity_coherence: float = 1.0  # ⚛️ [0.0, 1.0]
     consciousness_depth: float = 0.5  # 🧠 [0.0, 1.0]
     guardian_protection: float = 0.8  # 🛡️ [0.0, 1.0]
@@ -142,12 +142,12 @@ class MathematicalInvariant(ABC):
 
 class TrinityCoherenceInvariant(MathematicalInvariant):
     """
-    Trinity Framework Coherence Invariant
+    Constellation Framework Coherence Invariant
 
     Mathematical Property:
     ∀t: identity_coherence(t) ∧ consciousness_depth(t) ∧ guardian_protection(t) ≥ coherence_threshold
 
-    Ensures all three Trinity components maintain minimum operational levels
+    Ensures all three Constellation components maintain minimum operational levels
     """
 
     def __init__(self, coherence_threshold: float = 0.7):

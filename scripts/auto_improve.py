@@ -2,7 +2,7 @@
 """
 LUKHAS Auto-Improvement System
 Orchestrates code quality improvements using local LLMs, self-healing, and Guardian validation
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 
 import argparse

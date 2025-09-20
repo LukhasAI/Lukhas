@@ -20,7 +20,7 @@ agent_relevance:
   consciousness_developer: 0.5
   velocity_lead: 0.8
 
-# Trinity Framework
+# Constellation Framework
 trinity_component: ["consciousness", "guardian"]
 search_keywords: ["executive review", "status", "user experience", "implementation", "ceo"]
 

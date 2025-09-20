@@ -12,7 +12,7 @@ This module provides controlled access to consciousness capabilities with:
 - Performance boundaries (<100ms responses)
 - Drift detection and safety thresholds
 
-The consciousness module coordinates across the 4-star Constellation Framework:
+The consciousness module coordinates across the Constellation Framework:
 - ⚛️ Anchor Star: Identity-consciousness coupling and authentication
 - ✦ Trail Star: Memory-consciousness integration and experience patterns
 - 🔬 Horizon Star: Natural language consciousness interface

@@ -1,7 +1,7 @@
 """
 LUKHAS AI Bio Utilities
 Biological-inspired utility functions and helpers
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
 This module provides bio-inspired utilities for creativity and supervision.
 """

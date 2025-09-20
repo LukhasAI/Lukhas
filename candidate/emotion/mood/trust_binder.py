@@ -19,7 +19,7 @@
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Symbolic mood regulator inspired by the oxytocin hormone, designed to enhance
-║ social bonding, trust building, and collaborative behaviors in the AGI system.
+║ social bonding, trust building, and collaborative behaviors in the Cognitive system.
 ║
 ║ BIOLOGICAL INSPIRATION:
 ║ - Based on: Oxytocin (the "love hormone")
@@ -137,7 +137,7 @@ class TrustBinder:
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚══════════════════════════════════════════════════════════════════════════════

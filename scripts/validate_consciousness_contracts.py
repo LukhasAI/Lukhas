@@ -75,7 +75,7 @@ class ConsciousnessContractValidator:
         # Track statistics
         component_types = {}
         lanes = {}
-        trinity_integration = {"identity": 0, "guardian": 0}
+        constellation_integration = {"identity": 0, "guardian": 0}
         governance_stats = {"ethics_required": 0, "consent_required": 0}
 
         # Validate each contract
@@ -96,10 +96,10 @@ class ConsciousnessContractValidator:
                     lane = contract.get("lane", "unknown")
                     lanes[lane] = lanes.get(lane, 0) + 1
 
-                    if contract.get("trinity_integration", {}).get("identity_coupling"):
-                        trinity_integration["identity"] += 1
-                    if contract.get("trinity_integration", {}).get("guardian_validation"):
-                        trinity_integration["guardian"] += 1
+                    if contract.get("constellation_integration", {}).get("identity_coupling"):
+                        constellation_integration["identity"] += 1
+                    if contract.get("constellation_integration", {}).get("guardian_validation"):
+                        constellation_integration["guardian"] += 1
 
                     if contract.get("governance", {}).get("ethics_validation") == "required":
                         governance_stats["ethics_required"] += 1
@@ -120,7 +120,7 @@ class ConsciousnessContractValidator:
             "validation_rate": results["valid_contracts"] / results["total_contracts"] if results["total_contracts"] > 0 else 0,
             "component_types": component_types,
             "lanes": lanes,
-            "trinity_integration": trinity_integration,
+            "constellation_integration": constellation_integration,
             "governance_stats": governance_stats
         }
 
@@ -131,7 +131,7 @@ class ConsciousnessContractValidator:
         if lanes.get("development", 0) == results["valid_contracts"]:
             results["recommendations"].append("Consider promoting stable components to integration lane")
 
-        if trinity_integration["identity"] == 0:
+        if constellation_integration["identity"] == 0:
             results["recommendations"].append("Review identity coupling - no components are identity-coupled")
 
         return results
@@ -160,8 +160,8 @@ def main():
         print(f"  {comp_type}: {count}")
 
     print(f"\nTrinity Integration:")
-    print(f"  Identity-coupled: {results['summary']['trinity_integration']['identity']}")
-    print(f"  Guardian-validated: {results['summary']['trinity_integration']['guardian']}")
+    print(f"  Identity-coupled: {results['summary']['constellation_integration']['identity']}")
+    print(f"  Guardian-validated: {results['summary']['constellation_integration']['guardian']}")
 
     print(f"\nGovernance Statistics:")
     print(f"  Ethics validation required: {results['summary']['governance_stats']['ethics_required']}")

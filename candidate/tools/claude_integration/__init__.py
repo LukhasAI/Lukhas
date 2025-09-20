@@ -11,7 +11,7 @@ Components:
 - claude_context_extractor.js: JavaScript-based context extraction
 - extract_claude6_tasks.py: Task extraction for Claude Agent deployments
 
-Part of the LUKHAS AI Trinity Framework ⚛️🧠🛡️
+Part of the LUKHAS AI Constellation Framework ⚛️🧠🛡️
 """
 import streamlit as st
 

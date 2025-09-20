@@ -552,7 +552,7 @@ make organize-watch &
 - [Testing Strategy](../testing/TESTING_STRATEGY.md)
 - [Security Guidelines](../security/SECURITY_GUIDELINES.md)
 - [CI/CD Pipeline](../ci/CICD_PIPELINE.md)
-- [Trinity Framework](../trinity/TRINITY_FRAMEWORK.md)
+- [Constellation Framework](../constellation/CONSTELLATION_FRAMEWORK.md)
 
 ## 🆘 Help & Support
 

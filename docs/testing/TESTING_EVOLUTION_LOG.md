@@ -62,7 +62,7 @@ The user created comprehensive baseline tests for consciousness emergence with r
 2. **Production System Tests** - Current stable consciousness wrapper validation
 
 **Safety & Compliance Integration:**
-- Trinity Framework (⚛️🧠🛡️) integration testing
+- Constellation Framework (⚛️🧠🛡️) integration testing
 - Guardian System ethical oversight validation  
 - Drift detection with 0.15 threshold compliance
 - Memory limits testing (1000-fold system)
@@ -148,7 +148,7 @@ def test_consciousness_coherence_invariant(consciousness_state):
 - **Comprehensive Coverage**: Tests infinite input space automatically  
 - **Failure Mode Coverage**: Chaos engineering tests ALL failure modes
 - **Test Quality Validation**: Mutation testing validates the tests themselves
-- **Consciousness Expertise**: Constitutional constraints, Trinity Framework, cascade prevention
+- **Consciousness Expertise**: Constitutional constraints, Constellation Framework, cascade prevention
 
 #### **Production-Grade Infrastructure**
 

@@ -18,7 +18,7 @@ Components:
 - Regulatory change management and adaptation
 
 Integration:
-- Trinity Framework (⚛️🧠🛡️) compliance alignment
+- Constellation Framework (⚛️🧠🛡️) compliance alignment
 - Constitutional AI regulatory principle enforcement
 - Guardian System 2.0 compliance violation detection
 - Secure logging for regulatory audit trails

@@ -19,7 +19,7 @@
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ The Symbolic Memory Mapper provides translation and mapping services between
-║ different memory representations within the LUKHAS AGI system. It enables
+║ different memory representations within the LUKHAS Cognitive system. It enables
 ║ seamless conversion between symbolic payloads, dream memories, episodic
 ║ experiences, and semantic knowledge structures.
 ║
@@ -170,7 +170,7 @@ if __name__ == "__main__":
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

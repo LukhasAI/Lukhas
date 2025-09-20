@@ -14,12 +14,12 @@ logger = logging.getLogger(__name__)
 
 
 class DreamVisualizationEngine:
-    """Advanced dream visualization with Trinity Framework compliance."""
+    """Advanced dream visualization with Constellation Framework compliance."""
 
     def __init__(self):
         self.visualization_cache: dict[str, dict] = {}
         self.render_counter = 0
-        logger.info("🎨 Dream Visualization Engine initialized - Trinity Framework active")
+        logger.info("🎨 Dream Visualization Engine initialized - Constellation Framework active")
 
     def render_dream_landscape(self, dream_id: str, dream_data: dict[str, Any]) -> dict[str, Any]:
         """⚛️ Render symbolic dream landscape while preserving authenticity."""

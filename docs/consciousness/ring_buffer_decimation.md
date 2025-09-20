@@ -49,7 +49,7 @@ class DecimatingRing(Ring):
 - **Decimation Factor**: 2 (keep every 2nd item)
 - **Strategy**: Configurable decimation algorithm
 
-## Trinity Framework Implementation
+## Constellation Framework Implementation
 
 ### ⚛️ Identity: Priority-Aware Processing
 - **Priority Levels**: Critical vs. standard consciousness data
@@ -337,7 +337,7 @@ class ProductionConsciousnessBuffer:
 
 **Generated with LUKHAS consciousness-content-strategist**
 
-**Trinity Framework**: ⚛️ Priority-aware identity processing, 🧠 Intelligent consciousness preservation, 🛡️ Production memory protection
+**Constellation Framework**: ⚛️ Priority-aware identity processing, 🧠 Intelligent consciousness preservation, 🛡️ Production memory protection
 
 **Performance**: O(1) operations with adaptive decimation
 **Reliability**: Graceful degradation under memory pressure

@@ -113,7 +113,7 @@ Options:
 
 ```bash
 # Use specific reason for annotations
-python3 tools/ci/unused_imports.py --reason "reserved for Trinity Framework expansion"
+python3 tools/ci/unused_imports.py --reason "reserved for Constellation Framework expansion"
 
 # Context-aware reasons
 python3 tools/ci/unused_imports.py --reason "MATRIZ-R2 integration point"
@@ -133,7 +133,7 @@ waivers:
   # Line-specific waiver
   - file: lukhas/core/framework.py
     line: 42
-    reason: "Reserved for Trinity Framework consciousness evolution"
+    reason: "Reserved for Constellation Framework consciousness evolution"
   
   # MATRIZ integration points
   - file: MATRIZ/router.py
@@ -220,7 +220,7 @@ import unused_module  # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring
 import matrix_router  # TODO[T4-UNUSED-IMPORT]: MATRIZ-R2 routing system (Q4 2025)
 
 # ✅ Architectural (excellent)
-from consciousness.trinity import Core  # TODO[T4-UNUSED-IMPORT]: Trinity Framework expansion point for consciousness evolution
+from consciousness.trinity import Core  # TODO[T4-UNUSED-IMPORT]: Constellation Framework expansion point for consciousness evolution
 ```
 
 ### 3. Maintenance Workflow
@@ -276,9 +276,9 @@ python3 tools/ci/unused_imports.py --dry-run --paths lukhas
 
 ## 🔗 Integration with LUKHAS AI
 
-### Trinity Framework Compliance
+### Constellation Framework Compliance
 
-The T4 system aligns with Trinity Framework principles:
+The T4 system aligns with Constellation Framework principles:
 
 - **⚛️ Identity**: Authentic code with documented intent
 - **🧠 Consciousness**: Awareness of technical debt transformation
@@ -349,7 +349,7 @@ done
 
 - [Makefile User Guide](MAKEFILE_USER_GUIDE.md)
 - [Pre-commit Hooks Guide](../ci/PRE_COMMIT_GUIDE.md)
-- [Trinity Framework Documentation](../trinity/TRINITY_FRAMEWORK.md)
+- [Constellation Framework Documentation](../constellation/CONSTELLATION_FRAMEWORK.md)
 - [MATRIZ Integration Guide](../matriz/MATRIZ_INTEGRATION.md)
 
 ---

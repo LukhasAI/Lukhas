@@ -3,7 +3,7 @@
 Guardian Sentinel - Enhanced system health monitoring and threat detection
 
 Monitors system stability, detects threats, and triggers interventions with
-full governance integration and Trinity Framework (⚛️🧠🛡️) awareness.
+full governance integration and Constellation Framework (⚛️🧠🛡️) awareness.
 """
 import streamlit as st
 from datetime import timezone
@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class ThreatIndicator:
-    """Enhanced threat indicator with governance and Trinity Framework context"""
+    """Enhanced threat indicator with governance and Constellation Framework context"""
 
     indicator_type: str  # drift_spike, entropy_surge, pattern_anomaly, governance_drift, trinity_desync
     severity: float  # 0.0 to 1.0
@@ -66,10 +66,10 @@ class ThreatIndicator:
 
 class GuardianSentinel(GlyphIntegrationMixin):
     """
-    Enhanced Guardian Sentinel with governance integration and Trinity Framework monitoring
+    Enhanced Guardian Sentinel with governance integration and Constellation Framework monitoring
 
     Monitors system health, detects threats to stability, and triggers interventions
-    with comprehensive governance oversight and Trinity Framework awareness.
+    with comprehensive governance oversight and Constellation Framework awareness.
     """
 
     # Enhanced severity thresholds with governance considerations
@@ -82,7 +82,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
         "trinity_critical": 0.95,
     }
 
-    # Enhanced monitoring thresholds with Trinity Framework awareness
+    # Enhanced monitoring thresholds with Constellation Framework awareness
     THRESHOLDS = {
         "drift_rate": 0.1,  # Max drift change per minute
         "entropy_spike": 0.3,  # Max entropy increase
@@ -90,7 +90,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
         "memory_fragmentation": 0.7,  # Memory coherence threshold
         "consciousness_instability": 0.4,  # State change frequency
         "governance_drift": 0.2,  # Governance system health threshold
-        "trinity_desync": 0.3,  # Trinity Framework synchronization threshold
+        "trinity_desync": 0.3,  # Constellation Framework synchronization threshold
         "identity_compromise": 0.25,  # Identity system integrity threshold
         "guardian_malfunction": 0.15,  # Guardian system effectiveness threshold
     }
@@ -122,7 +122,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
         self.monitoring_interval = monitoring_interval
         self.governance_enabled = governance_enabled
 
-        # Enhanced monitoring windows with Trinity Framework components
+        # Enhanced monitoring windows with Constellation Framework components
         self.drift_history = deque(maxlen=100)
         self.entropy_history = deque(maxlen=100)
         self.pattern_history = deque(maxlen=50)
@@ -142,7 +142,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
         self.websocket: Optional[websockets.WebSocketServerProtocol] = None
         self.governance_log: list[dict] = []
 
-        # Trinity Framework monitoring state
+        # Constellation Framework monitoring state
         self.trinity_components = {
             "identity": {"health": 1.0, "last_check": time.time()},
             "consciousness": {"health": 1.0, "last_check": time.time()},
@@ -239,7 +239,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                 await asyncio.sleep(self.monitoring_interval)
 
     async def _monitor_entropy(self):
-        """Monitor entropy spikes with Trinity Framework awareness"""
+        """Monitor entropy spikes with Constellation Framework awareness"""
         while self.monitoring_active:
             try:
                 # Enhanced entropy reading with Trinity context
@@ -341,7 +341,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                 await asyncio.sleep(self.monitoring_interval)
 
     async def _monitor_consciousness(self):
-        """Monitor consciousness state stability with Trinity integration"""
+        """Monitor consciousness state stability with Constellation integration"""
         while self.monitoring_active:
             try:
                 # Enhanced consciousness state reading
@@ -452,10 +452,10 @@ class GuardianSentinel(GlyphIntegrationMixin):
                 await asyncio.sleep(self.monitoring_interval)
 
     async def _monitor_trinity_framework(self):
-        """Monitor Trinity Framework synchronization and health"""
+        """Monitor Constellation Framework synchronization and health"""
         while self.monitoring_active:
             try:
-                # Trinity Framework synchronization metrics
+                # Constellation Framework synchronization metrics
                 sync_level = self._calculate_trinity_sync_level()
                 component_health = self._get_trinity_component_health()
                 cross_impact = self._assess_trinity_cross_impact()
@@ -497,7 +497,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                 await asyncio.sleep(self.monitoring_interval * 2)
 
             except Exception as e:
-                logger.error(f"Error in Trinity Framework monitoring: {e}")
+                logger.error(f"Error in Constellation Framework monitoring: {e}")
                 await asyncio.sleep(self.monitoring_interval)
 
     async def _monitor_identity_health(self):
@@ -518,7 +518,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                     }
                 )
 
-                # Update Trinity component status
+                # Update Constellation component status
                 overall_identity_health = (identity_integrity + auth_system_health + identity_coherence) / 3
                 self.trinity_components["identity"]["health"] = overall_identity_health
                 self.trinity_components["identity"]["last_check"] = time.time()
@@ -572,7 +572,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                     }
                 )
 
-                # Update Trinity component status
+                # Update Constellation component status
                 overall_guardian_health = (guardian_effectiveness + protection_coverage + response_capability) / 3
                 self.trinity_components["guardian"]["health"] = overall_guardian_health
                 self.trinity_components["guardian"]["last_check"] = time.time()
@@ -609,7 +609,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                 await asyncio.sleep(self.monitoring_interval)
 
     async def _raise_threat(self, threat: ThreatIndicator):
-        """Raise a threat alert with enhanced governance and Trinity Framework processing"""
+        """Raise a threat alert with enhanced governance and Constellation Framework processing"""
         # Check severity threshold
         if threat.severity < self.alert_threshold:
             logger.info(f"🟡 Low severity threat detected: {threat.indicator_type}")
@@ -639,7 +639,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
         if threat.governance_escalation and self.governance_enabled:
             await self._handle_governance_escalation(threat)
 
-        # Trinity Framework specific handling
+        # Constellation Framework specific handling
         if max(threat.trinity_impact.values()) > 0.8:
             await self._handle_trinity_critical_threat(threat)
 
@@ -681,7 +681,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
         logger.critical(f"🛡️ GOVERNANCE ESCALATION: {threat.indicator_type}")
 
     async def _handle_trinity_critical_threat(self, threat: ThreatIndicator):
-        """Handle Trinity Framework critical threats"""
+        """Handle Constellation Framework critical threats"""
         critical_components = [comp for comp, impact in threat.trinity_impact.items() if impact > 0.8]
 
         logger.critical(f"⚛️🧠🛡️ TRINITY CRITICAL THREAT: {threat.indicator_type}")
@@ -755,7 +755,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
         }
 
     async def _intervene_entropy_surge(self, threat: ThreatIndicator) -> dict:
-        """Intervene for entropy surge with Trinity Framework consideration"""
+        """Intervene for entropy surge with Constellation Framework consideration"""
         return {
             "action": "entropy_cooling",
             "parameters": {"cooling_rate": 0.1, "target_entropy": 0.3},
@@ -778,7 +778,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
         }
 
     async def _intervene_consciousness_instability(self, threat: ThreatIndicator) -> dict:
-        """Intervene for consciousness instability with Trinity integration"""
+        """Intervene for consciousness instability with Constellation integration"""
         return {
             "action": "consciousness_anchoring",
             "parameters": {"anchor_state": "meditative", "anchor_duration": 120},
@@ -798,11 +798,11 @@ class GuardianSentinel(GlyphIntegrationMixin):
         }
 
     async def _intervene_trinity_desync(self, threat: ThreatIndicator) -> dict:
-        """Intervene for Trinity Framework desynchronization"""
+        """Intervene for Constellation Framework desynchronization"""
         return {
             "action": "trinity_resynchronization",
             "parameters": {"sync_all_components": True, "deep_alignment": True},
-            "expected_result": "Trinity Framework synchronization restored",
+            "expected_result": "Constellation Framework synchronization restored",
             "component_specific_actions": {
                 "identity": "validate_identity_coherence",
                 "consciousness": "stabilize_consciousness_state",
@@ -833,7 +833,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
             "trinity_critical_protection": True,
         }
 
-    # Enhanced simulation methods with Trinity Framework context
+    # Enhanced simulation methods with Constellation Framework context
 
     def _read_current_drift(self) -> float:
         """Enhanced drift reading with governance influence"""
@@ -863,8 +863,8 @@ class GuardianSentinel(GlyphIntegrationMixin):
         return base + random.uniform(-0.1, 0.1)
 
     def _calculate_trinity_entropy_factor(self) -> float:
-        """Calculate Trinity Framework entropy factor"""
-        # Factor based on Trinity component health
+        """Calculate Constellation Framework entropy factor"""
+        # Factor based on Constellation component health
         avg_health = sum(comp["health"] for comp in self.trinity_components.values()) / 3
         return (1.0 - avg_health) * 0.3
 
@@ -905,7 +905,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
         return random.uniform(0.5, 1.0)
 
     def _check_consciousness_trinity_alignment(self) -> float:
-        """Check consciousness alignment with Trinity Framework"""
+        """Check consciousness alignment with Constellation Framework"""
         import random
 
         return random.uniform(0.6, 1.0)
@@ -934,7 +934,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
         return random.uniform(0.8, 1.0)
 
     def _calculate_trinity_sync_level(self) -> float:
-        """Calculate Trinity Framework synchronization level"""
+        """Calculate Constellation Framework synchronization level"""
         # Based on component health variance
         healths = [comp["health"] for comp in self.trinity_components.values()]
         avg_health = sum(healths) / len(healths)
@@ -942,11 +942,11 @@ class GuardianSentinel(GlyphIntegrationMixin):
         return max(0.0, 1.0 - variance * 4)  # Higher variance = lower sync
 
     def _get_trinity_component_health(self) -> dict[str, float]:
-        """Get current Trinity component health"""
+        """Get current Constellation component health"""
         return {comp: data["health"] for comp, data in self.trinity_components.items()}
 
     def _assess_trinity_cross_impact(self) -> float:
-        """Assess cross-impact between Trinity components"""
+        """Assess cross-impact between Constellation components"""
         import random
 
         return random.uniform(0.7, 1.0)
@@ -1033,7 +1033,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
             if max(threat.trinity_impact.values()) > 0.7:
                 trinity_threats += 1
 
-        # Trinity Framework component health
+        # Constellation Framework component health
         trinity_health = {comp: data["health"] for comp, data in self.trinity_components.items()}
 
         return {
@@ -1073,12 +1073,12 @@ class GuardianSentinel(GlyphIntegrationMixin):
 
 # Enhanced demo function
 async def demo_enhanced_sentinel():
-    """Demonstrate Enhanced Guardian Sentinel with governance and Trinity Framework"""
+    """Demonstrate Enhanced Guardian Sentinel with governance and Constellation Framework"""
     sentinel = GuardianSentinel(alert_threshold=0.5, monitoring_interval=2, governance_enabled=True)
 
     print("🛡️ Enhanced Guardian Sentinel Demo")
     print("=" * 70)
-    print("Starting enhanced monitoring with governance and Trinity Framework...")
+    print("Starting enhanced monitoring with governance and Constellation Framework...")
     print("⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian")
 
     # Run monitoring for demo

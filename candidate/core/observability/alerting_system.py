@@ -13,7 +13,7 @@ Features:
 - Multi-channel notification system (email, webhooks, dashboard)
 - Alert correlation and deduplication
 - Escalation policies and notification chains
-- Trinity Framework alert integration (⚛️🧠🛡️)
+- Constellation Framework alert integration (⚛️🧠🛡️)
 - Automated alert resolution and acknowledgment
 - Historical alert analysis and reporting
 - Compliance violation detection and reporting
@@ -132,7 +132,7 @@ class AlertRule:
     compliance_relevant: bool = False
     applicable_regulations: list[ComplianceRegulation] = field(default_factory=list)
 
-    # Trinity Framework
+    # Constellation Framework
     trinity_component: Optional[str] = None  # identity, consciousness, guardian
 
     # Auto-resolution
@@ -190,7 +190,7 @@ class Alert:
     applicable_regulations: list[ComplianceRegulation] = field(default_factory=list)
     audit_trail_id: Optional[str] = None
 
-    # Trinity Framework
+    # Constellation Framework
     trinity_impact: dict[str, float] = field(default_factory=dict)  # ⚛️🧠🛡️
 
     # Correlation
@@ -645,7 +645,7 @@ LUKHAS AI Monitoring System
             alert.compliance_relevant = rule.compliance_relevant
             alert.applicable_regulations = rule.applicable_regulations.copy()
 
-        # Trinity Framework impact analysis
+        # Constellation Framework impact analysis
         alert.trinity_impact = await self._analyze_trinity_impact(alert)
 
         # Store alert
@@ -713,7 +713,7 @@ LUKHAS AI Monitoring System
         return hashlib.md5(correlation_string.encode()).hexdigest()[:16]
 
     async def _analyze_trinity_impact(self, alert: Alert) -> dict[str, float]:
-        """Analyze alert impact on Trinity Framework components"""
+        """Analyze alert impact on Constellation Framework components"""
 
         impact = {"identity": 0.0, "consciousness": 0.0, "guardian": 0.0}
 

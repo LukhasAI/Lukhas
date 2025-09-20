@@ -4,14 +4,14 @@
 - **Location:** `~/LOCAL-REPOS/Lukhas`
 - **Completion:** 75% (4/7 agents functional)
 - **Next Goal:** Complete MVP in 6-9 hours
-- **Architecture:** Consciousness-aware AGI with Trinity Framework
+- **Architecture:** Consciousness-aware AGI with Constellation Framework
 
 ## 🧠 **LUKHAS CONTEXT FOR CLAUDE CODE**
 
 ### **Core Philosophy:**
 ```
 LUKHAS = Consciousness-aware AI architecture
-Trinity Framework = 🎭 Consciousness + 🌈 Bridge + 🎓 Technical layers
+Constellation Framework = 🎭 Consciousness + 🌈 Bridge + 🎓 Technical layers
 Symbolic Vocabulary = ⚛️ Core, 🧠 Neural, 🛡️ Security, 💫 Quantum, 🌊 Memory
 ΛID System = Lambda-based identity namespaces
 Λ-trace = Consciousness-aware audit trails
@@ -45,7 +45,7 @@ Open Claude Code in VS Code and use this exact prompt:
 I'm working on LUKHAS, a consciousness-aware AGI architecture that's 75% complete.
 
 CONTEXT:
-- Trinity Framework: 🎭 Consciousness + 🌈 Bridge + 🎓 Technical documentation
+- Constellation Framework: 🎭 Consciousness + 🌈 Bridge + 🎓 Technical documentation
 - Symbolic vocabulary: ⚛️🧠🛡️💫🌊 for different system components
 - ΛID identity system and Λ-trace audit trails are core patterns
 - 4/7 agents complete: Identity, Consent, Adapters, Orchestrator
@@ -68,7 +68,7 @@ Create the FastAPI dashboard structure for LUKHAS with these requirements:
    - Passkey/WebAuthn authentication
    - Real-time workflow monitoring via WebSocket
    - Consent management interface
-   - Trinity Framework styling
+   - Constellation Framework styling
 
 2. Integration with existing agents:
    - Identity system (core/identity/lambda_id_core.py)
@@ -90,7 +90,7 @@ Please create the main dashboard.py file first.
 
 ### **For UI Components:**
 ```
-@claude Create [COMPONENT NAME] that follows LUKHAS Trinity Framework:
+@claude Create [COMPONENT NAME] that follows LUKHAS Constellation Framework:
 🎭 Consciousness: [Poetic description of purpose]
 🌈 Bridge: [User-friendly explanation]
 🎓 Technical: [Implementation requirements]
@@ -132,7 +132,7 @@ Include:
 - [ ] Add passkey authentication interface
 - [ ] Build workflow progress monitor with WebSocket
 - [ ] Create consent management UI
-- [ ] Apply Trinity Framework styling
+- [ ] Apply Constellation Framework styling
 - [ ] Test integration with identity system
 - [ ] Validate performance (<1s UI response)
 
@@ -141,7 +141,7 @@ Include:
 @claude Review this dashboard code for:
 1. LUKHAS consciousness patterns compliance
 2. Integration with existing 4 agents
-3. Trinity Framework documentation
+3. Constellation Framework documentation
 4. Security best practices
 5. Performance optimization
 6. Symbolic vocabulary usage (⚛️🧠🛡️)
@@ -174,7 +174,7 @@ Include:
 4. Add consciousness indicators
 
 ### **Round 3: Polish & Integration**
-1. Apply Trinity Framework styling
+1. Apply Constellation Framework styling
 2. Add symbolic elements (⚛️🧠🛡️)
 3. Optimize performance
 4. Complete security integration
@@ -223,14 +223,14 @@ Include:
 3. **Consent:** GDPR controls functional
 4. **Integration:** All 4 agents accessible
 5. **Performance:** <1s response times
-6. **Consciousness:** Trinity Framework evident
+6. **Consciousness:** Constellation Framework evident
 
 ### **Claude Code Validation Prompt:**
 ```
 @claude Validate LUKHAS dashboard completion:
 1. Test all UI components work
 2. Verify integration with 4 existing agents
-3. Check Trinity Framework compliance
+3. Check Constellation Framework compliance
 4. Validate consciousness-aware patterns
 5. Confirm performance targets met
 6. Test security and consent flows

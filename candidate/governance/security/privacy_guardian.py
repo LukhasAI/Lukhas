@@ -3,7 +3,7 @@
 Privacy Guardian - Privacy protection and data security for LUKHAS AI
 
 Provides encryption, anonymization, privacy compliance, and governance
-integration with Trinity Framework (⚛️🧠🛡️) oversight.
+integration with Constellation Framework (⚛️🧠🛡️) oversight.
 """
 import asyncio
 import base64
@@ -88,7 +88,7 @@ class PrivacyIncident:
 
 class PrivacyGuardian(GlyphIntegrationMixin):
     """
-    Enhanced privacy protection system with governance and Trinity Framework integration
+    Enhanced privacy protection system with governance and Constellation Framework integration
 
     Provides comprehensive privacy protection including encryption, anonymization,
     compliance monitoring, and governance oversight for LUKHAS AI systems.
@@ -199,10 +199,10 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         "noise_addition": "Add statistical noise with governance validation",
         "k_anonymity": "Ensure k identical records exist",
         "differential_privacy": "Add mathematical privacy guarantees",
-        "trinity_protection": "Apply Trinity Framework specific protection",
+        "trinity_protection": "Apply Constellation Framework specific protection",
     }
 
-    # Enhanced privacy symbols with governance and Trinity Framework
+    # Enhanced privacy symbols with governance and Constellation Framework
     PRIVACY_SYMBOLS = {
         "protected": ["🔒", "🛡️", "🔐"],
         "encrypted": ["🔑", "🔒", "💎"],
@@ -245,7 +245,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         self.consent_records: dict[str, dict] = {}
         self.governance_log: list[dict] = []
 
-        # Enhanced compliance tracking with Trinity Framework
+        # Enhanced compliance tracking with Constellation Framework
         self.compliance_status = {
             "GDPR": {
                 "compliant": True,
@@ -301,7 +301,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "privacy_by_design_validations": 0,
         }
 
-        # Trinity Framework integration
+        # Constellation Framework integration
         self.trinity_weights = {
             "identity": 1.0,  # Maximum weight for identity privacy
             "consciousness": 0.9,  # High weight for consciousness privacy
@@ -402,7 +402,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             logger.error(f"Failed to create default configuration: {e}")
 
     def _create_default_policies(self):
-        """Create default privacy policies with governance and Trinity Framework integration"""
+        """Create default privacy policies with governance and Constellation Framework integration"""
         default_policies = {
             "policies": [
                 {
@@ -545,7 +545,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             # Load the policies we just created
             self._load_privacy_policies()
 
-            logger.info(f"Created default privacy policies with governance and Trinity Framework: {self.policies_path}")
+            logger.info(f"Created default privacy policies with governance and Constellation Framework: {self.policies_path}")
         except Exception as e:
             logger.error(f"Failed to create default policies: {e}")
 
@@ -574,13 +574,13 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             # Initialize anonymization engine with governance oversight
             await self._initialize_anonymization()
 
-            # Start compliance monitoring with Trinity Framework integration
+            # Start compliance monitoring with Constellation Framework integration
             await self._start_compliance_monitoring()
 
             # Initialize audit logging with governance integration
             await self._initialize_audit_logging()
 
-            # Initialize Trinity Framework protection
+            # Initialize Constellation Framework protection
             if self.config.get("trinity_protection"):
                 await self._initialize_trinity_protection()
 
@@ -620,7 +620,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         logger.info("🎭 Enhanced anonymization engine initialized with governance oversight")
 
     async def _start_compliance_monitoring(self):
-        """Start compliance monitoring with Trinity Framework integration"""
+        """Start compliance monitoring with Constellation Framework integration"""
         await asyncio.sleep(0.1)  # Simulate initialization
 
         if self.governance_enabled:
@@ -629,7 +629,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                 {"regulations": self.active_regulations},
             )
 
-        logger.info("⚖️ Enhanced compliance monitoring started with Trinity Framework integration")
+        logger.info("⚖️ Enhanced compliance monitoring started with Constellation Framework integration")
 
     async def _initialize_audit_logging(self):
         """Initialize audit logging with governance integration"""
@@ -641,7 +641,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         logger.info("📝 Enhanced audit logging initialized with governance integration")
 
     async def _initialize_trinity_protection(self):
-        """Initialize Trinity Framework specific protection"""
+        """Initialize Constellation Framework specific protection"""
         await asyncio.sleep(0.1)  # Simulate initialization
 
         await self._log_governance_action(
@@ -649,7 +649,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             {"components": ["identity", "consciousness", "guardian"]},
         )
 
-        logger.info("⚛️🧠🛡️ Trinity Framework protection initialized")
+        logger.info("⚛️🧠🛡️ Constellation Framework protection initialized")
 
     async def _initialize_governance_integration(self):
         """Initialize governance integration services"""
@@ -668,7 +668,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         data_type: Optional[str] = None,
         context: Optional[dict] = None,
     ) -> dict:
-        """Enhanced data classification with governance validation and Trinity Framework assessment"""
+        """Enhanced data classification with governance validation and Constellation Framework assessment"""
         start_time = time.time()
         context = context or {}
 
@@ -701,7 +701,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             if sensitive_patterns:
                 classification = await self._adjust_classification_for_patterns(classification, sensitive_patterns)
 
-            # Analyze Trinity Framework impact
+            # Analyze Constellation Framework impact
             trinity_impact = await self._analyze_trinity_impact_for_data(data, data_type, context)
             classification.trinity_impact = trinity_impact["impact_scores"]
 
@@ -761,11 +761,11 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             }
 
     def _detect_data_type(self, data: dict) -> str:
-        """Enhanced data type detection with Trinity Framework awareness"""
+        """Enhanced data type detection with Constellation Framework awareness"""
         # Convert data to string for analysis
         content_str = json.dumps(data).lower()
 
-        # Trinity Framework specific keywords
+        # Constellation Framework specific keywords
         identity_keywords = [
             "identity",
             "auth",
@@ -819,7 +819,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "balance",
         ]
 
-        # Check Trinity Framework types first
+        # Check Constellation Framework types first
         if any(keyword in content_str for keyword in identity_keywords):
             return "identity"
         elif any(keyword in content_str for keyword in consciousness_keywords):
@@ -846,13 +846,13 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         return None
 
     async def _detect_sensitive_patterns(self, data: dict) -> list[str]:
-        """Enhanced sensitive pattern detection with Trinity Framework patterns"""
+        """Enhanced sensitive pattern detection with Constellation Framework patterns"""
         patterns = []
 
         # Convert data to string for pattern matching
         data_str = json.dumps(data)
 
-        # Trinity Framework patterns
+        # Constellation Framework patterns
         if re.search(r"\b(identity|auth|credential)[_-]?\w+", data_str, re.IGNORECASE):
             patterns.append("identity_data")
 
@@ -894,7 +894,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         return patterns
 
     async def _analyze_trinity_impact_for_data(self, data: dict, data_type: str, context: dict) -> dict:
-        """Analyze Trinity Framework impact for data classification"""
+        """Analyze Constellation Framework impact for data classification"""
         impact_scores = {"identity": 0.0, "consciousness": 0.0, "guardian": 0.0}
 
         # Base impact based on data type
@@ -932,7 +932,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
     async def _adjust_classification_for_patterns(
         self, classification: DataClassification, patterns: list[str]
     ) -> DataClassification:
-        """Enhanced classification adjustment with Trinity Framework and governance awareness"""
+        """Enhanced classification adjustment with Constellation Framework and governance awareness"""
         trinity_patterns = {"identity_data", "consciousness_data", "guardian_data"}
         sensitive_patterns = {
             "ssn",
@@ -941,7 +941,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "api_key_or_token",
         }
 
-        # Upgrade for Trinity Framework patterns
+        # Upgrade for Constellation Framework patterns
         if any(pattern in trinity_patterns for pattern in patterns):
             classification.sensitivity_level = "restricted"
             classification.encryption_required = True
@@ -986,13 +986,13 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                     "reason": "Governance approval required for sensitive data classification",
                 }
 
-        # Check Trinity Framework compliance
+        # Check Constellation Framework compliance
         if max(classification.trinity_impact.values()) > 0.7:
             trinity_approval = context.get("trinity_framework_approved", False)
             if not trinity_approval:
                 return {
                     "approved": False,
-                    "reason": "Trinity Framework approval required for high-impact data",
+                    "reason": "Constellation Framework approval required for high-impact data",
                 }
 
         return {"approved": True, "reason": "Governance validation passed"}
@@ -1011,7 +1011,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         if classification.governance_validated:
             base_symbols.append("⚖️")
 
-        # Add Trinity Framework symbols
+        # Add Constellation Framework symbols
         if max(classification.trinity_impact.values()) > 0.7:
             base_symbols.extend(["⚛️", "🧠", "🛡️"])
 
@@ -1023,7 +1023,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         encryption_level: str = "standard",
         context: Optional[dict] = None,
     ) -> dict:
-        """Enhanced data encryption with governance validation and Trinity Framework protection"""
+        """Enhanced data encryption with governance validation and Constellation Framework protection"""
         start_time = time.time()
         context = context or {}
 
@@ -1050,7 +1050,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             # Convert data to string for encryption
             data_str = json.dumps(data) if isinstance(data, dict) else str(data)
 
-            # Apply Trinity Framework protection if needed
+            # Apply Constellation Framework protection if needed
             if context.get("trinity_protection") or self.config.get("trinity_protection"):
                 encryption_level = "trinity_protected"
 
@@ -1117,13 +1117,13 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             if encryption_level == "standard":
                 return {
                     "approved": False,
-                    "reason": "Trinity Framework data requires enhanced encryption",
+                    "reason": "Constellation Framework data requires enhanced encryption",
                 }
 
         return {"approved": True, "reason": "Encryption governance validation passed"}
 
     def _enhanced_encrypt(self, data: str, level: str, context: dict) -> str:
-        """Enhanced encryption with governance and Trinity Framework support"""
+        """Enhanced encryption with governance and Constellation Framework support"""
         # Enhanced base64 encoding for demo (NOT for production use)
         encoded = base64.b64encode(data.encode()).decode()
 
@@ -1131,7 +1131,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             # Double encoding for "high" security
             encoded = base64.b64encode(encoded.encode()).decode()
         elif level == "trinity_protected":
-            # Triple encoding with Trinity Framework markers
+            # Triple encoding with Constellation Framework markers
             encoded = base64.b64encode(encoded.encode()).decode()
             encoded = base64.b64encode(encoded.encode()).decode()
             encoded = f"TRINITY:{encoded}"
@@ -1209,13 +1209,13 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         )
         stats["governance_log_entries"] = len(self.governance_log)
 
-        # Trinity Framework metrics
-        stats["trinity_framework_integration"] = self.config.get("trinity_protection", False)
+        # Constellation Framework metrics
+        stats["constellation_framework_integration"] = self.config.get("trinity_protection", False)
 
         return stats
 
     async def health_check(self) -> bool:
-        """Enhanced health check including governance and Trinity Framework systems"""
+        """Enhanced health check including governance and Constellation Framework systems"""
         try:
             # Test enhanced data classification
             test_data = {
@@ -1257,7 +1257,7 @@ if __name__ == "__main__":
         guardian = PrivacyGuardian(governance_enabled=True)
         await guardian.initialize_privacy_services()
 
-        # Test data with Trinity Framework elements
+        # Test data with Constellation Framework elements
         test_data = {
             "identity_id": "user_12345",
             "consciousness_pattern": "analytical_focused",

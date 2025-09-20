@@ -4,7 +4,7 @@ This document provides a symbolic narrative and drift map of the `brain` module.
 
 ## Symbolic Narrative
 
-The `brain` module is the central cognitive hub of the LUKHAS AGI system. It is responsible for orchestrating the various components of the AGI, including memory, emotion, voice, and identity. The `brain` module is designed to be a self-adapting system that can learn and evolve over time.
+The `brain` module is the central cognitive hub of the LUKHAS Cognitive system. It is responsible for orchestrating the various components of the AGI, including memory, emotion, voice, and identity. The `brain` module is designed to be a self-adapting system that can learn and evolve over time.
 
 The core of the `brain` module is the `AgiBrainOrchestrator`, which integrates three major systems: the `Crista Optimizer`, the `Meta-Learning System`, and the `Quantum Bio-Optimization System`. These systems work together to provide a comprehensive AI framework.
 

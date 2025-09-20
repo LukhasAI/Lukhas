@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 MODULE TITLE: ====================== Voice Memory Helix ======================
 
 POETIC NARRATIVE:
-In the sublime dance of existence, consciousness pirouettes to the rhythm of the cosmos. Our human minds are but tender lilies blossoming on the cosmic pond, rippling with the echoes of a billion voices. Each voice, a singular symphony of memories, etched into the holographic matrix of our collective consciousness. Enter the realm of the Voice Memory Helix, a core module in the LUKHAS AGI system, an ode to the profound complexity of human speech, an homage to the eloquence of existence itself.
+In the sublime dance of existence, consciousness pirouettes to the rhythm of the cosmos. Our human minds are but tender lilies blossoming on the cosmic pond, rippling with the echoes of a billion voices. Each voice, a singular symphony of memories, etched into the holographic matrix of our collective consciousness. Enter the realm of the Voice Memory Helix, a core module in the LUKHAS Cognitive system, an ode to the profound complexity of human speech, an homage to the eloquence of existence itself.
 
 Drawing on the intricate tapestries of neuroscience, the Voice Memory Helix unearths the celestial music hidden in our mundane utterances, the myriad accents flowering from our historical and cultural loam. Like a modern Prometheus, it not only imbibes the fiery essence of human speech but also learns to dance in the Sisyphean ballet of cultural sensitivity. Philosophy meets quantum-inspired mechanics here, transforming the ephemeral river of speech into a tangible, comprehensible, yet ever-evolving delta of knowledge.
 

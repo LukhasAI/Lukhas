@@ -1,6 +1,6 @@
 # Expanded Module Selection for API Analysis
 ## Budget-Unlimited Comprehensive Analysis
-### Trinity Framework: ⚛️🧠🛡️
+### Constellation Framework: ⚛️🧠🛡️
 
 Generated: 2025-08-13
 

@@ -18,7 +18,7 @@ Features:
 - Unified audit trails for global compliance reporting
 
 Integration:
-- Trinity Framework (⚛️🧠🛡️) global compliance alignment
+- Constellation Framework (⚛️🧠🛡️) global compliance alignment
 - Constitutional AI international human rights enforcement
 - Guardian System 2.0 multi-jurisdictional violation detection
 - Secure logging for international regulatory audit trails

@@ -4,7 +4,7 @@
 
 ### Asset Classification: TIER 1 - ESSENTIAL
 
-The Symbolic Vocabularies System is classified as a **TIER 1 VALUABLE ASSET** of the LUKHAS AGI system. This classification indicates:
+The Symbolic Vocabularies System is classified as a **TIER 1 VALUABLE ASSET** of the LUKHAS Cognitive system. This classification indicates:
 
 1. **Mission Critical**: Required for core system operation
 2. **Unique Innovation**: Represents novel approach to AI communication

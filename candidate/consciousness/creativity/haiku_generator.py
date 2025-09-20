@@ -392,7 +392,7 @@ class AdvancedHaikuGenerator:
         else:
             enhanced_haiku = expanded_haiku
 
-        # Apply LUKHAS AI branding and Trinity Framework integration
+        # Apply LUKHAS AI branding and Constellation Framework integration
         if BRANDING_BRIDGE_AVAILABLE:
             brand_context = BrandContext(
                 voice_profile="consciousness",

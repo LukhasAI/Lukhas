@@ -582,7 +582,7 @@ class EnhancedCoreIntegrator:
             "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             "priority": priority,
             "context_preservation": context_preservation,
-            "trinity_framework": {
+            "constellation_framework": {
                 "identity_authenticated": True,
                 "consciousness_aware": True,
                 "guardian_approved": True,
@@ -756,7 +756,7 @@ class EnhancedCoreIntegrator:
         Implements transparent logging and step-by-step narrative generation.
         """
         try:
-            # Trinity Framework validation logging
+            # Constellation Framework validation logging
             if event_type.startswith("constellation."):
                 log.info(
                     "ΛTRACE_TRINITY_WORKFLOW",
@@ -764,7 +764,7 @@ class EnhancedCoreIntegrator:
                     event_type=event_type,
                     trinity_component=event_type.split(".")[1],
                     step="framework_validation",
-                    narrative="Processing Trinity Framework event for system coherence",
+                    narrative="Processing Constellation Framework event for system coherence",
                 )
 
             # Orchestration workflow logging

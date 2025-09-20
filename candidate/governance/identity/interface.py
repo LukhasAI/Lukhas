@@ -1,7 +1,7 @@
 """
 LUKHAS Identity Interface - Module Integration Layer
 
-This module provides a clean interface for all AGI modules to interact with the
+This module provides a clean interface for all Cognitive modules to interact with the
 lukhas-id identity system without needing detailed knowledge of ΛiD internals.
 
 Key functions:

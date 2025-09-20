@@ -120,7 +120,7 @@ Legacy core alias: enabled (warn/disable via env) — use lukhas.core.*
 ### **Key Documents**
 - **AGENTS.md**: Multi-agent development platform guide
 - **AUTOMATED_MAINTENANCE_GUIDE.md**: Maintenance and validation procedures
-- **Trinity Framework Documentation**: Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️
+- **Constellation Framework Documentation**: Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️
 
 **Agent Benefits**:
 - Development workflow understanding
@@ -174,7 +174,7 @@ candidate/consciousness/directory_index.json → agent_guidance → key_files
 lukhas/api/directory_index.json → component_inventory → API_INTERFACE files
 ```
 
-**Trinity Framework Work**:
+**Constellation Framework Work**:
 ```bash
 grep -r "trinity_role" */directory_index.json
 ```
@@ -238,7 +238,7 @@ python scripts/validate_consciousness_contracts.py # Component contracts
 ### **Don'ts**
 ❌ Modify components without contract validation
 ❌ Cross lane boundaries without permission
-❌ Ignore Trinity Framework integration requirements
+❌ Ignore Constellation Framework integration requirements
 ❌ Skip consciousness component classification
 ❌ Break existing dependency patterns
 ❌ Create new modules without approval
@@ -260,9 +260,9 @@ python scripts/validate_consciousness_contracts.py # Component contracts
 
 ---
 
-## 🧠 Trinity Framework Integration
+## 🧠 Constellation Framework Integration
 
-The agent coordination system fully integrates with the Trinity Framework:
+The agent coordination system fully integrates with the Constellation Framework:
 
 **Identity ⚛️**: Lane-based identity management and namespace isolation
 **Consciousness 🧠**: 692 cognitive components with distributed processing

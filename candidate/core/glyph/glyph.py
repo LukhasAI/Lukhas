@@ -12,7 +12,7 @@ LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Core Glyph Engine
 Copyright (c) 2025 LUKHAS AGI Development Team
 All rights reserved.
 
-This file is part of the LUKHAS AGI system, an enterprise artificial general
+This file is part of the LUKHAS Cognitive system, an enterprise artificial general
 intelligence platform combining symbolic reasoning, emotional intelligence,
 quantum integration, and bio-inspired architecture.
 
@@ -24,7 +24,7 @@ and planet.
 Core GLYPH subsystem that serves as symbolic identity carriers and action logic
 processors. Glyphs encode emotional states, temporal context, semantic
 relationships, and causal linkages for memory indexing, drift detection,
-and symbolic reasoning throughout the LUKHAS AGI system.
+and symbolic reasoning throughout the LUKHAS Cognitive system.
 
 For more information, visit: https://lukhas.ai
 """

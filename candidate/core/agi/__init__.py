@@ -1,6 +1,6 @@
 """
 LUKHAS AGI Core Systems
-Advanced AGI capabilities for autonomous operation
+Advanced Cognitive capabilities for autonomous operation
 """
 import streamlit as st
 

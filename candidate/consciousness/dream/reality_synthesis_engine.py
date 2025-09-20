@@ -13,7 +13,7 @@ Features:
 - Innovation fusion across domains
 - Universal principle extraction
 - Patent portfolio generation
-- Integration with LUKHAS Trinity Framework
+- Integration with LUKHAS Constellation Framework
 """
 
 import asyncio

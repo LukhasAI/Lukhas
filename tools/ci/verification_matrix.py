@@ -97,7 +97,7 @@ class VerificationMatrix:
                     "Consciousness state transitions tested",
                     "Awareness protocol compliance verified",
                     "Memory integration properly isolated",
-                    "Trinity Framework alignment confirmed",
+                    "Constellation Framework alignment confirmed",
                 ],
                 "test_patterns": ["test_*_consciousness_*", "test_*_awareness_*", "test_*_trinity_*"],
                 "modules": ["consciousness", "awareness", "constellation"],

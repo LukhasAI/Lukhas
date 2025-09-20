@@ -20,7 +20,7 @@
 
 ## Overview
 
-The LUKHAS identity system provides unified identity management, tier-based access control, consent management, and audit logging across all AGI modules. This guide explains how to properly integrate identity validation into your modules.
+The LUKHAS identity system provides unified identity management, tier-based access control, consent management, and audit logging across all Cognitive modules. This guide explains how to properly integrate identity validation into your modules.
 
 ## Table of Contents
 
@@ -427,6 +427,6 @@ def test_my_function():
 
 ## Conclusion
 
-The LUKHAS identity system provides a robust foundation for secure, tier-based access control across all AGI modules. By following these integration patterns and best practices, you can ensure your module properly validates user access, respects consent preferences, and maintains comprehensive audit trails.
+The LUKHAS identity system provides a robust foundation for secure, tier-based access control across all Cognitive modules. By following these integration patterns and best practices, you can ensure your module properly validates user access, respects consent preferences, and maintains comprehensive audit trails.
 
 For questions or issues, consult the identity module documentation or contact the LUKHAS security team.

@@ -789,7 +789,7 @@ class AuthCrossModuleIntegrator:
             "active_contexts": len(self.active_contexts),
             "pending_messages": len(self.pending_messages),
             "module_types": [m.value for m in self.registered_modules],
-            "trinity_integration": True,
+            "constellation_integration": True,
             "glyph_communication": auth_glyph_registry is not None,
             "kernel_bus_available": self.kernel_bus is not None,
             "statistics": self.integration_stats,

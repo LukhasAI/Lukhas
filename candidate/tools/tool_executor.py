@@ -244,7 +244,7 @@ class ToolExecutor:
         # LUKHAS AI specific knowledge
         elif "lukhas" in query_lower or "constellation framework" in query_lower:
             return """Retrieved knowledge about LUKHAS AI:
-- Trinity Framework: Identity ⚛️, Consciousness 🧠, Guardian 🛡️
+- Constellation Framework: Identity ⚛️, Consciousness 🧠, Guardian 🛡️
 - Quantum-inspired processing with bio-symbolic adaptation
 - Advanced memory systems with fold-based architecture
 - Guardian System v1.0.0 for ethical oversight and drift detection
@@ -255,7 +255,7 @@ class ToolExecutor:
             return """Retrieved knowledge about AI consciousness technology:
 - Consciousness requires self-awareness, intentionality, and subjective experience
 - Current AI systems exhibit narrow consciousness in specific domains
-- Trinity Framework integrates identity, awareness, and ethical governance
+- Constellation Framework integrates identity, awareness, and ethical governance
 - Memory persistence and causal reasoning are key components
 - Ethical considerations around consciousness claims are paramount"""
 

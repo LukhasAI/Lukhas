@@ -257,7 +257,7 @@ class AdaptiveNeuralNetwork(nn.Module):
 
 class NeuralIntegrator:
     """
-    Advanced neural processing integrator for the LUKHAS AGI system.
+    Advanced neural processing integrator for the LUKHAS Cognitive system.
 
     This class provides sophisticated neural processing capabilities including
     adaptive neural networks, pattern recognition, cross-modal integration,

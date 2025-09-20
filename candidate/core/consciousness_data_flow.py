@@ -386,7 +386,7 @@ class ConsciousnessDataFlowManager:
                 "sync_type": "state_synchronization",
                 "node_data": {
                     "signal_count": node_data.get("signal_count", 0),
-                    "trinity_status": node_data.get("trinity_status", "unknown"),
+                    "constellation_status": node_data.get("constellation_status", "unknown"),
                 },
             },
             reflection_depth=1,
@@ -769,7 +769,7 @@ class ConsciousnessDataFlowManager:
         if not signal.signal_id or not signal.consciousness_id:
             return False
 
-        # Trinity Framework validation
+        # Constellation Framework validation
         trinity_compliance = signal.trinity_compliance
         return not (
             not trinity_compliance

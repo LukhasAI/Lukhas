@@ -13,7 +13,7 @@ Features:
 - Continuous identity monitoring
 - Risk-based authentication scoring
 - Identity fraud detection
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 - Real-time identity verification
 - Adaptive authentication thresholds
 - Comprehensive identity audit trails
@@ -82,7 +82,7 @@ class IdentityValidation:
     device_fingerprint: Optional[str] = None
     location_context: Optional[dict] = None
 
-    # Trinity Framework integration
+    # Constellation Framework integration
     identity_coherence: float = 1.0  # ⚛️
     consciousness_alignment: float = 1.0  # 🧠
     guardian_clearance: bool = True  # 🛡️
@@ -228,7 +228,7 @@ class AdvancedIdentityValidator:
             # Risk assessment
             validation.risk_level = await self._assess_identity_risk(validation, identity_data, context)
 
-            # Trinity Framework integration
+            # Constellation Framework integration
             await self._integrate_trinity_framework(validation, identity_data, context)
 
             # Determine final validation result
@@ -496,7 +496,7 @@ class AdvancedIdentityValidator:
         identity_data: dict[str, Any],
         context: dict[str, Any],
     ):
-        """Integrate Trinity Framework considerations"""
+        """Integrate Constellation Framework considerations"""
 
         # ⚛️ Identity coherence
         validation.identity_coherence = validation.confidence_score

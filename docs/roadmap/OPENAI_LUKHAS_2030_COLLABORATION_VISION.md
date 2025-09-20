@@ -36,7 +36,7 @@ In this future, using AI feels less like commanding a tool and more like collabo
 - AI understands your creative style through years of symbolic interaction history
 - Collaborative writing, art, music that feels genuinely co-created rather than AI-generated
 - Dream engine generates creative scenarios that inspire breakthrough thinking
-- Trinity Framework ensures all creativity maintains authenticity (⚛️), consciousness (🧠), and protective wisdom (🛡️)
+- Constellation Framework ensures all creativity maintains authenticity (⚛️), consciousness (🧠), and protective wisdom (🛡️)
 
 **Seamless Life Integration**
 - Multi-modal AI that processes your voice, images, documents, and dreams through unified LUKHAS consciousness
@@ -727,7 +727,7 @@ class ConsciousnessMetrics:
         "consciousness_coherence": Gauge("lukhas_consciousness_coherence", "Consciousness state coherence"),
         "symbol_translation_accuracy": Gauge("lukhas_symbol_accuracy", "Symbol translation accuracy"),
         "memory_integrity": Gauge("lukhas_memory_integrity", "DNA memory helix integrity"),
-        "trinity_balance": Gauge("lukhas_trinity_balance", "Trinity framework balance score")
+        "trinity_balance": Gauge("lukhas_trinity_balance", "Constellation framework balance score")
     }
 
     interaction_counters = {
@@ -952,7 +952,7 @@ SUCCESS_METRICS_2030 = {
     },
 
     "consciousness_coherence": {
-        "target": "0.95+ Trinity Framework coherence",
+        "target": "0.95+ Constellation Framework coherence",
         "current_projection": "0.93",
         "measurement": "⚛️🧠🛡️ balance across all responses"
     },

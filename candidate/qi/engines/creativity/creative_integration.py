@@ -29,7 +29,7 @@ and bio-inspired architecture for next-generation AI applications.
 
 Module: Quantum Creative Integration
 Path: lukhas/quantum/creative_integration.py
-Description: Quantum module for advanced AGI functionality
+Description: Quantum module for advanced Cognitive functionality
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.
@@ -239,7 +239,7 @@ if __name__ == "__main__":
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

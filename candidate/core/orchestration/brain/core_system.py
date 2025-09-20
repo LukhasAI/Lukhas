@@ -3,7 +3,7 @@
 ┌────────────────────────────────────────────────────────────────────────────
 │ 🔑 #KeyFile    : LUKHAS AI AGI BOT
 │ 📦 MODULE      : agi_bot.py
-│ 🧾 DESCRIPTION : Core AGI system with:
+│ 🧾 DESCRIPTION : Core Cognitive system with:
 │                  - Quantum-biological architecture
 │                  - Meta-cognitive self-awareness
 │                  - Multi-modal reasoning engines
@@ -14,7 +14,7 @@
 │ 🖋️ AUTHOR      : LUKHAS AI Team            📅 UPDATED: 2025-06-27
 ├────────────────────────────────────────────────────────────────────────────
 │ ⚠️ INTELLIGENCE NOTICE:
-│   This is a KEY_FILE implementing core AGI capabilities for LUKHAS AI.
+│   This is a KEY_FILE implementing core Cognitive capabilities for LUKHAS AI.
 │   Any modifications require intelligence review and safety audit.
 │
 │ 🔒 CRITICAL FUNCTIONS:
@@ -143,7 +143,7 @@ class AGIBot:
         Initialize the LUKHAS AI AGI Bot with quantum-biological components
 
         Args:
-            config: Configuration dictionary for AGI system initialization
+            config: Configuration dictionary for Cognitive system initialization
         """
         logger.info(
             "🧠 Initializing LUKHAS AI AGI Bot - Quantum-Biological Architecture"
@@ -245,7 +245,7 @@ class AGIBot:
         self, prompt: str, context: Optional[dict[str, Any]] = None
     ) -> AGIResponse:
         """
-        Process a request with full AGI capabilities
+        Process a request with full Cognitive capabilities
 
         Args:
             prompt: Input prompt for AGI processing

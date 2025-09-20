@@ -60,7 +60,7 @@ class ConsciousnessContractGenerator:
             else:
                 component_info["processing_mode"] = "synchronous"
 
-            # Look for Trinity Framework references
+            # Look for Constellation Framework references
             if any("identity" in imp.lower() for imp in component_info["imports"]):
                 component_info["trinity_references"].append("identity")
             if any("guardian" in imp.lower() for imp in component_info["imports"]):
@@ -139,7 +139,7 @@ class ConsciousnessContractGenerator:
             "component_id": component_id,
             "component_type": component_type,
             "lane": lane,
-            "trinity_integration": {
+            "constellation_integration": {
                 "identity_coupling": "identity" in analysis.get("trinity_references", []),
                 "consciousness_role": "primary" if "engine" in str(file_path).lower() else "secondary",
                 "guardian_validation": "guardian" in analysis.get("trinity_references", []) or component_type in ["CONSCIOUSNESS_ENGINE", "DECISION_MAKER"]

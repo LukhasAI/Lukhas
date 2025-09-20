@@ -76,7 +76,7 @@ Comprehensive catalog of all environment variables used throughout the LUKHAS AI
 | `DRIFT_THRESHOLD` | `0.15` | Ethical drift detection threshold (0.0-1.0) | |
 | `GUARDIAN_ENFORCEMENT` | `strict` | Guardian system enforcement level | |
 | `SYMBOLIC_DRIFT_THRESHOLD` | `0.7` | Symbolic drift threshold | |
-| `TRINITY_COHERENCE_MIN` | `0.3` | Minimum Trinity Framework coherence | |
+| `TRINITY_COHERENCE_MIN` | `0.3` | Minimum Constellation Framework coherence | |
 
 ## AI Model Configuration
 

@@ -1,7 +1,7 @@
 """
 LUKHAS AI Bio-Symbolic Processing Module
 Bridging biological processes with symbolic reasoning
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
 This module provides bio-symbolic processing capabilities,
 mapping biological processes to symbolic representations.

@@ -20,7 +20,7 @@ agent_relevance:
   consciousness_architect: 0.6
   guardian_engineer: 0.6
 
-# Trinity Framework
+# Constellation Framework
 trinity_component: ["consciousness", "guardian"]
 search_keywords: ["api", "endpoints", "authentication", "glyph", "websocket", "reference"]
 
@@ -267,7 +267,7 @@ Response:
 
 ## AGI-Enhanced APIs (v2)
 
-The v2 API provides AGI-enhanced capabilities with advanced reasoning, multi-model orchestration, and integrated consciousness processing. These endpoints represent the next evolution of LUKHAS consciousness technology, integrating the Trinity Framework (⚛️🧠🛡️) with hybrid QI-Bio-AGI processing for enhanced awareness and decision-making.
+The v2 API provides AGI-enhanced capabilities with advanced reasoning, multi-model orchestration, and integrated consciousness processing. These endpoints represent the next evolution of LUKHAS consciousness technology, integrating the Constellation Framework (⚛️🧠🛡️) with hybrid QI-Bio-AGI processing for enhanced awareness and decision-making.
 
 ### AGI Service Bridge API
 
@@ -373,7 +373,7 @@ Response:
     }
   },
   "unified_message": "Chain-of-thought reasoning enhanced by dream insights, ethical validation, and memory synthesis",
-  "cross_references": ["consciousness_architecture", "trinity_framework", "hybrid_processing"]
+  "cross_references": ["consciousness_architecture", "constellation_framework", "hybrid_processing"]
 }
 ```
 
@@ -946,7 +946,7 @@ Response:
 
 ### Governance & Security Integration
 
-Constitutional AI governance with Trinity Framework compliance.
+Constitutional AI governance with Constellation Framework compliance.
 
 #### Governance Validation
 
@@ -1033,7 +1033,7 @@ Response:
     ],
     "compliance_status": {
       "gdpr": "compliant",
-      "trinity_framework": "aligned",
+      "constellation_framework": "aligned",
       "lukhas_policies": "approved"
     }
   },
@@ -1740,7 +1740,7 @@ All official SDKs provide:
 - **QI-Bio-AGI Hybrid Processing**: 5 processing modes with consciousness field coherence
 - **Product Enhancement APIs**: AGI-enhanced ΛLens, DAST, Argus, NIAS, ABAS, Auctor, Poetica
 - **Constitutional AI Governance**: 3-layer governance (Consent, Privacy, Constitutional AI)
-- **Trinity Framework Compliance**: Full ⚛️🧠🛡️ integration across all endpoints
+- **Constellation Framework Compliance**: Full ⚛️🧠🛡️ integration across all endpoints
 - **Performance Improvements**: 25-40% enhancement in reasoning quality and response times
 - **Dream-Guided Processing**: Enhanced creativity through consciousness-integrated dream systems
 - **Memory Integration**: Vector memory synthesis with episodic and semantic processing

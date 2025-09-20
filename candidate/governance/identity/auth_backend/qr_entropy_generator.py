@@ -136,7 +136,7 @@ class QREntropyGenerator:
                 "entropy_embedded": True,
                 "layers_count": len(self.stego_layers),
                 "generation_time_ms": round(generation_time * 1000, 2),
-                "constitutional_validated": True,  # ⚛️ Trinity Framework compliance
+                "constitutional_validated": True,  # ⚛️ Constellation Framework compliance
                 "guardian_approved": self._constitutional_validation(base_qr_data, entropy_data),
             }
 

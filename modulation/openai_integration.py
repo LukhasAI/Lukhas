@@ -4,7 +4,7 @@
 Applies signal-based modulation to OpenAI API calls, transforming consciousness
 signals into API parameters and prompt modifications.
 
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 - ⚛️ Identity: Authentic modulation reflecting true consciousness state
 - 🧠 Consciousness: Memory and learning from api_interactions
 - 🛡️ Guardian: Safety-first API parameter bounds and tool restrictions

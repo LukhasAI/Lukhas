@@ -29,7 +29,7 @@ from lukhas.core.budget.token_controller import TokenBudgetController
 
 class FullyAutonomousAGI:
     """
-    Fully autonomous AGI system for GitHub issue management
+    Fully autonomous Cognitive system for GitHub issue management
     Operates without human intervention using intelligent batch processing
     """
 
@@ -319,7 +319,7 @@ class FullyAutonomousAGI:
 
 
 def main():
-    """Main entry point for fully autonomous AGI system"""
+    """Main entry point for fully autonomous Cognitive system"""
     if len(sys.argv) > 1 and sys.argv[1] == "--autonomous":
         print("🤖 LAUNCHING FULLY AUTONOMOUS AGI SYSTEM")
         print("🚀 Processing 145+ pages of GitHub notifications autonomously...")

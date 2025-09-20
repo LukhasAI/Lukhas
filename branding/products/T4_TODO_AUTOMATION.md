@@ -1,6 +1,6 @@
 # LUKHAS T4 TODO Automation Suite
 
-The T4 TODO Automation Suite productizes the repository's evidence-first task governance into a branded offer for enterprise customers. It consolidates manifest generation, batch allocation, compliance enforcement, documentation, and orchestration telemetry so operations teams can scale TODO remediation with Trinity Framework discipline.
+The T4 TODO Automation Suite productizes the repository's evidence-first task governance into a branded offer for enterprise customers. It consolidates manifest generation, batch allocation, compliance enforcement, documentation, and orchestration telemetry so operations teams can scale TODO remediation with Constellation Framework discipline.
 
 ## Feature Pillars
 

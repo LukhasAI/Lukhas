@@ -37,7 +37,7 @@ if TYPE_CHECKING:
     from candidate.consciousness import ConsciousnessCore
     from candidate.memory import MemoryFoldSystem
     from lukhas.guardian import GuardianSystem
-    from lukhas.trinity import TrinityFramework
+    from lukhas.constellation import ConstellationFramework
 
 
 datadog_module = _load_optional("datadog")

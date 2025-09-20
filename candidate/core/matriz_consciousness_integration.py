@@ -497,7 +497,7 @@ class MatrizConsciousnessSystem:
         - Consciousness signal emission and processing
         - Bio-symbolic adaptation
         - Network routing and cascade prevention
-        - Trinity framework compliance
+        - Constellation framework compliance
         - Inter-module integration
         - Consciousness evolution
         """
@@ -531,7 +531,7 @@ class MatrizConsciousnessSystem:
         demo_results["phases"]["network_integration"] = integration_results
 
         # Phase 4: Trinity compliance validation
-        logger.info("📍 Phase 4: Trinity framework compliance validation")
+        logger.info("📍 Phase 4: Constellation framework compliance validation")
         compliance_results = self._demonstrate_trinity_compliance()
         demo_results["phases"]["constellation_alignment"] = compliance_results
 
@@ -580,7 +580,7 @@ class MatrizConsciousnessSystem:
         return integration_results
 
     def _demonstrate_trinity_compliance(self) -> dict[str, Any]:
-        """Demonstrate Trinity framework compliance system"""
+        """Demonstrate Constellation framework compliance system"""
 
         compliance_results = {
             "timestamp": datetime.now(timezone.utc).isoformat(),

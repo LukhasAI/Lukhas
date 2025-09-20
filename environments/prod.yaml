@@ -38,8 +38,8 @@ api_keys:
     timeout: 45
     retry_attempts: 3
     
-# Trinity Framework Settings (Production Hardened)
-trinity_framework:
+# Constellation Framework Settings (Production Hardened)
+constellation_framework:
   identity:
     tier_validation: true
     session_timeout: 3600

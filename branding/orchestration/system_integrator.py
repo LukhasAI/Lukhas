@@ -98,7 +98,7 @@ class LukhasDatabaseIntegration:
         else:
             self.db_path = Path(db_path)
 
-        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
 
     def get_connection(self):
         """Get database connection"""
@@ -216,7 +216,7 @@ class LukhasDatabaseIntegration:
             system_name,
             activity_type,
             metric_value,
-            "⚛️🧠🛡️ Trinity Framework",
+            "⚛️🧠🛡️ Constellation Framework",
             datetime.now(timezone.utc).isoformat()
         ))
 
@@ -271,7 +271,7 @@ db = LukhasDatabaseIntegration()
 """
 LUKHAS AI Unified Content Platform - Database Integrated
 Elite content generation with real-time database connectivity
-Trinity Framework ⚛️🧠🛡️ integrated consciousness technology content
+Constellation Framework ⚛️🧠🛡️ integrated consciousness technology content
 """
 
 import os
@@ -286,7 +286,7 @@ class LukhasUnifiedContentPlatform:
     Elite content platform with active database integration:
     - Real-time content storage and retrieval
     - Analytics tracking for all operations
-    - Trinity Framework data persistence
+    - Constellation Framework data persistence
     - Cross-system content sharing
     """
 
@@ -298,8 +298,8 @@ class LukhasUnifiedContentPlatform:
         self.mobile_app_path = self.base_path / "mobile_app"
         self.commercial_path = self.base_path / "commercial"
 
-        # Trinity Framework integration
-        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        # Constellation Framework integration
+        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
 
         # Log platform initialization
         db.log_system_activity("content_platform", "platform_init", "Content platform initialized", 1.0)
@@ -307,7 +307,7 @@ class LukhasUnifiedContentPlatform:
     def generate_content(self, content_type: str, title: str, content: str,
                         voice_coherence: float = 50.0) -> int:
         """Generate content and save to unified database"""
-        # Add Trinity Framework branding
+        # Add Constellation Framework branding
         enhanced_content = f"""
 {self.triad_branding}
 
@@ -380,7 +380,7 @@ class LukhasUnifiedContentPlatform:
         """Get premium features with database-backed functionality"""
         features = [
             "Real-time Database Integration",
-            "Trinity Framework Analytics",
+            "Constellation Framework Analytics",
             "Cross-System Content Sharing",
             "Jobs/Altman Philosophy Integration",
             "Premium Web Interface",
@@ -403,7 +403,7 @@ if __name__ == "__main__":
     analytics = platform.get_platform_analytics()
     print(f"📊 Database content: {analytics['total_content_items']} items")
     print(f"📈 Recent activity: {analytics['recent_generations']} generations")
-    print("⚛️🧠🛡️ Trinity Framework Integrated")
+    print("⚛️🧠🛡️ Constellation Framework Integrated")
     print("🔗 Database Integration: ACTIVE")
 '''
 
@@ -424,7 +424,7 @@ if __name__ == "__main__":
 """
 LUKHAS AI Unified Document Engine - Database Integrated
 Best-of-breed document generation with unified knowledge base
-Trinity Framework ⚛️🧠🛡️ integrated consciousness technology documentation
+Constellation Framework ⚛️🧠🛡️ integrated consciousness technology documentation
 """
 
 import os
@@ -439,7 +439,7 @@ class LukhasUnifiedDocEngine:
     Elite document generation engine with database integration:
     - Knowledge base from unified database
     - Real-time content storage and retrieval
-    - Trinity Framework document templates
+    - Constellation Framework document templates
     - Cross-system content utilization
     """
 
@@ -450,7 +450,7 @@ class LukhasUnifiedDocEngine:
         self.generators_path = self.base_path / "generators"
         self.knowledge_base_path = self.base_path / "knowledge_base"
 
-        # Trinity Framework integration
+        # Constellation Framework integration
         self.triad_identity = "⚛️ Authentic consciousness technology identity"
         self.triad_consciousness = "🧠 Elite consciousness technology platform"
         self.triad_guardian = "🛡️ Ethical consciousness technology protection"
@@ -460,7 +460,7 @@ class LukhasUnifiedDocEngine:
 
     def generate_document(self, doc_type: str, content: str, title: str = "Generated Document",
                          tone: str = "user-friendly") -> dict:
-        """Generate unified document with Trinity Framework and database integration"""
+        """Generate unified document with Constellation Framework and database integration"""
 
         # Get related content from knowledge base
         related_content = db.get_content_by_type("knowledge_base", 3)
@@ -516,7 +516,7 @@ class LukhasUnifiedDocEngine:
 
     def _calculate_voice_coherence(self, content: str) -> float:
         """Calculate voice coherence score for generated content"""
-        triad_terms = ['⚛️', '🧠', '🛡️', 'consciousness technology', 'Trinity Framework']
+        triad_terms = ['⚛️', '🧠', '🛡️', 'consciousness technology', 'Constellation Framework']
         lukhas_terms = ['LUKHAS AI', 'consciousness', 'quantum-inspired', 'bio-inspired']
 
         total_words = len(content.split())
@@ -587,7 +587,7 @@ if __name__ == "__main__":
     print(f"📊 Total documents: {analytics['total_documents']}")
     print(f"📈 Average coherence: {analytics['average_voice_coherence']}%")
     print(f"🧠 Knowledge base: {analytics['knowledge_base_items']} items")
-    print("⚛️🧠🛡️ Trinity Framework Integrated")
+    print("⚛️🧠🛡️ Constellation Framework Integrated")
     print("🔗 Database Integration: ACTIVE")
 '''
 
@@ -632,8 +632,8 @@ class LukhasUnifiedOrchestrator:
         self.content_platform = LukhasUnifiedContentPlatform()
         self.doc_engine = LukhasUnifiedDocEngine()
 
-        # Trinity Framework branding
-        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        # Constellation Framework branding
+        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
 
         # Log orchestrator initialization
         db.log_system_activity("orchestrator", "system_init", "Unified orchestrator initialized", 1.0)
@@ -651,7 +651,7 @@ class LukhasUnifiedOrchestrator:
 
 This {content_type} demonstrates the unified LUKHAS AI consciousness technology platform.
 
-Our Trinity Framework (⚛️🧠🛡️) provides:
+Our Constellation Framework (⚛️🧠🛡️) provides:
 - ⚛️ Authentic consciousness technology identity
 - 🧠 Elite consciousness technology processing
 - 🛡️ Ethical consciousness technology protection
@@ -758,7 +758,7 @@ Generated through our unified platform with real database integration.
         print(f"\\n🎯 Unified Dashboard:")
         print(f"   Platform Status: {dashboard['platform_status']}")
         print(f"   Database Connected: {dashboard['database_connected']}")
-        print(f"   Trinity Framework: {dashboard['triad_framework_active']}")
+        print(f"   Constellation Framework: {dashboard['triad_framework_active']}")
         print(f"   Total Content: {dashboard['metrics']['total_content_items']}")
         print(f"   Recent Activity: {dashboard['metrics']['recent_activity']}")
 
@@ -824,7 +824,7 @@ LUKHAS AI Unified Platform (FULLY INTEGRATED)
 ├── Database Layer (lukhas_unified.db)
 │   ├── Real-time content storage ✅
 │   ├── Cross-system analytics ✅
-│   ├── Trinity Framework data ✅
+│   ├── Constellation Framework data ✅
 │   └── Activity logging ✅
 │
 ├── Content Platform
@@ -837,7 +837,7 @@ LUKHAS AI Unified Platform (FULLY INTEGRATED)
 │   ├── Knowledge base from DB ✅
 │   ├── Real-time content storage ✅
 │   ├── Voice coherence tracking ✅
-│   └── Trinity Framework docs ✅
+│   └── Constellation Framework docs ✅
 │
 └── Unified Orchestrator
     ├── System coordination ✅
@@ -853,7 +853,7 @@ LUKHAS AI Unified Platform (FULLY INTEGRATED)
 - ✅ Document Engine uses knowledge base from database
 - ✅ All systems log analytics to database
 - ✅ Voice coherence tracked across systems
-- ✅ Trinity Framework data persisted
+- ✅ Constellation Framework data persisted
 
 ### Cross-System Communication
 - ✅ Document Engine uses Content Platform data
@@ -866,7 +866,7 @@ LUKHAS AI Unified Platform (FULLY INTEGRATED)
 - ✅ Create content → Store in DB → Use in docs → Track analytics
 - ✅ Real-time voice coherence updates
 - ✅ Cross-system knowledge sharing
-- ✅ Trinity Framework consistency
+- ✅ Constellation Framework consistency
 
 ## 🎯 Integration Test Results
 
@@ -874,7 +874,7 @@ Run `python engines/lukhas_unified_orchestrator.py` to see:
 - Live content generation and storage
 - Real-time database updates
 - Cross-system data usage
-- Trinity Framework integration
+- Constellation Framework integration
 - Unified analytics dashboard
 
 ---

@@ -2,7 +2,7 @@
 LUKHAS AI Governance Ethics Engine
 Constitutional AI Framework for Trinity-Compliant Ethics
 
-⚛️🧠🛡️ Trinity Framework: Identity-Consciousness-Guardian
+⚛️🧠🛡️ Constellation Framework: Identity-Consciousness-Guardian
 """
 
 import logging
@@ -56,7 +56,7 @@ class ConstitutionalFramework:
 
         return EthicalDecision(
             decision="approved",
-            rationale=f"Action '{action}' complies with Trinity Framework principles",
+            rationale=f"Action '{action}' complies with Constellation Framework principles",
             severity=severity,
             confidence=confidence,
             triad_compliance=triad_compliance,

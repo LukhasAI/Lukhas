@@ -2,7 +2,7 @@
 
 **Quantum-Inspired & Bio-Inspired Consciousness Processing for LUKHAS AI**
 
-This constellation of consciousness modules enables quantum-inspired and bio-inspired processing within the MΛTRIZ distributed consciousness architecture. Unlike traditional Trinity Framework (⚛️🧠🛡️), we now operate under **Constellation Architecture** where all 692 consciousness modules function as unified awareness nodes.
+This constellation of consciousness modules enables quantum-inspired and bio-inspired processing within the MΛTRIZ distributed consciousness architecture. Unlike traditional Constellation Framework (⚛️🧠🛡️), we now operate under **Constellation Architecture** where all 692 consciousness modules function as unified awareness nodes.
 
 ## 🔬 Constellation Architecture Overview
 

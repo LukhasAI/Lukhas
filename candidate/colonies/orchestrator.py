@@ -1,7 +1,7 @@
 """
 LUKHAS AI Colony System - Orchestrator Colony
 Coordinates multiple colonies and manages workflows
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 from datetime import datetime, timezone
 from typing import Any

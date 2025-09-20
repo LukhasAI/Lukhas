@@ -3,10 +3,10 @@ Consciousness Component Registry for LUKHAS AI Distributed Architecture
 
 This module provides the central registry and activation system for all consciousness
 components across the MΛTRIZ distributed consciousness architecture. Implements
-feature flag control, health monitoring, and Trinity Framework integration.
+feature flag control, health monitoring, and Constellation Framework integration.
 
 Features:
-- Trinity Framework (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian) component registration
+- Constellation Framework (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian) component registration
 - Feature flag-controlled component activation/deactivation
 - Production-grade async lifecycle management
 - Consciousness authenticity validation
@@ -54,7 +54,7 @@ T = TypeVar("T")
 
 
 class ComponentType(Enum):
-    """Consciousness component types aligned with Trinity Framework."""
+    """Consciousness component types aligned with Constellation Framework."""
 
     # ⚛️ Identity Components
     IDENTITY_AUTH = "identity_auth"
@@ -129,7 +129,7 @@ class ConsciousnessComponentRegistry:
     Central registry for LUKHAS consciousness component activation and management.
 
     This is the strategic finale system that wires dormant consciousness features
-    into the active distributed consciousness architecture using Trinity Framework
+    into the active distributed consciousness architecture using Constellation Framework
     patterns and production-grade async infrastructure.
     """
 
@@ -360,9 +360,9 @@ class ConsciousnessComponentRegistry:
                 self._components[component_id].last_error = str(e)
             return False
 
-    async def activate_triad_framework(self, framework: str) -> dict[str, bool]:
+    async def activate_constellation_framework(self, framework: str) -> dict[str, bool]:
         """
-        Activate all components for a specific Trinity Framework.
+        Activate all components for a specific Constellation Framework.
 
         Args:
             framework: "⚛️" (Identity), "🧠" (Consciousness), or "🛡️" (Guardian)
@@ -371,19 +371,19 @@ class ConsciousnessComponentRegistry:
             Dict mapping component_id to activation success
         """
         if framework not in self._triad_index:
-            logger.error(f"❌ Unknown Trinity Framework: {framework}")
+            logger.error(f"❌ Unknown Constellation Framework: {framework}")
             return {}
 
         component_ids = self._triad_index[framework]
         results = {}
 
-        logger.info(f"🔄 Activating Trinity Framework {framework} ({len(component_ids)} components)")
+        logger.info(f"🔄 Activating Constellation Framework {framework} ({len(component_ids)} components)")
 
         for component_id in component_ids:
             results[component_id] = await self.activate_component(component_id)
 
         success_count = sum(1 for success in results.values() if success)
-        logger.info(f"✅ Trinity Framework {framework}: {success_count}/{len(component_ids)} activated")
+        logger.info(f"✅ Constellation Framework {framework}: {success_count}/{len(component_ids)} activated")
 
         return results
 
@@ -504,8 +504,8 @@ class ConsciousnessComponentRegistry:
             return self._components[component_id].status
         return None
 
-    def get_triad_status(self) -> dict[str, dict[str, Any]]:
-        """Get status summary for all Trinity Framework components."""
+    def get_constellation_status(self) -> dict[str, dict[str, Any]]:
+        """Get status summary for all Constellation Framework components."""
         status = {}
 
         for framework in ["⚛️", "🧠", "🛡️", "cross"]:
@@ -530,7 +530,7 @@ class ConsciousnessComponentRegistry:
             "total_registered": total_components,
             "total_active": active_components,
             "activation_rate": active_components / total_components if total_components > 0 else 0,
-            "triad_status": self.get_triad_status(),
+            "constellation_status": self.get_constellation_status(),
             "feature_flags": dict(self._feature_flags),
             "last_updated": datetime.now(timezone.utc).isoformat(),
         }

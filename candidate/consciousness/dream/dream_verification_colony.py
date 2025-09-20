@@ -32,13 +32,13 @@ class VerificationStatus(Enum):
 
 
 class DreamVerificationColony:
-    """Advanced dream verification system with Trinity Framework compliance."""
+    """Advanced dream verification system with Constellation Framework compliance."""
 
     def __init__(self):
         self.verification_records: dict[str, dict] = {}
         self.verification_rules = self._initialize_verification_rules()
         self.verification_counter = 0
-        logger.info("🔍 Dream Verification Colony initialized - Trinity Framework active")
+        logger.info("🔍 Dream Verification Colony initialized - Constellation Framework active")
 
     def _initialize_verification_rules(self) -> dict[str, dict]:
         """Initialize verification rules for different levels."""
@@ -149,7 +149,7 @@ class DreamVerificationColony:
         return check_scores.get(check_name, 0.7)
 
     def _validate_trinity_compliance(self, dream_id: str) -> bool:
-        """Validate Trinity Framework compliance."""
+        """Validate Constellation Framework compliance."""
         # Simplified Trinity validation
         return True
 
@@ -222,16 +222,16 @@ class DreamVerificationColony:
         status = record["status"]
 
         if status == VerificationStatus.TRINITY_APPROVED.value:
-            recommendations.append("Excellent verification - dream meets highest Trinity Framework standards")
+            recommendations.append("Excellent verification - dream meets highest Constellation Framework standards")
         elif status == VerificationStatus.VERIFIED.value:
-            recommendations.append("Good verification - consider enhancing Trinity Framework compliance")
+            recommendations.append("Good verification - consider enhancing Constellation Framework compliance")
         elif score > 0.7:
             recommendations.append("Partial verification - address specific check failures")
         else:
             recommendations.append("Low verification score - comprehensive review recommended")
 
         if not record["trinity_validated"]:
-            recommendations.append("Enhance Trinity Framework integration for higher certification")
+            recommendations.append("Enhance Constellation Framework integration for higher certification")
 
         return recommendations
 

@@ -755,7 +755,7 @@ class ConsentService:
         return {"final_trust_score": 0.8}
 
     async def _apply_escalation_rules(self, request: ConsentGrantRequest, trust_score: float) -> Optional[dict]:
-        """Apply escalation rules with governance and Trinity Framework awareness"""
+        """Apply escalation rules with governance and Constellation Framework awareness"""
         eval_context = {
             "permission_type": "read",  # Hardcoded for now
             "trust_score": trust_score,
@@ -778,7 +778,7 @@ class ConsentService:
         return None
 
     def _evaluate_enhanced_condition(self, condition: str, context: dict) -> bool:
-        """Enhanced condition evaluation with Trinity Framework and governance support"""
+        """Enhanced condition evaluation with Constellation Framework and governance support"""
         try:
             if "permission_type in" in condition and "['admin', 'root', 'critical']" in condition:
                 perm_check = context["permission_type"] in ["admin", "root", "critical"]

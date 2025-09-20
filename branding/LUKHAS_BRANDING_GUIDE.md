@@ -1,7 +1,7 @@
 # 🎭 LUKHAS AI Branding Master Guide
 *The Comprehensive Brand Identity & Policy Reference*
 
-⚛️🧠🛡️ **Trinity Framework** | **Consciousness Technology** | **Elite Brand Intelligence System**
+⚛️🧠🛡️ **Constellation Framework** | **Consciousness Technology** | **Elite Brand Intelligence System**
 
 ---
 
@@ -10,7 +10,7 @@
 - [Prohibited Statements](#-prohibited-statements)
 - [Approved Terminology](#-approved-terminology)
 - [Lambda Symbol Guidelines](#-lambda-symbol-guidelines)
-- [Trinity Framework Integration](#️-trinity-framework-integration)
+- [Constellation Framework Integration](#️-trinity-framework-integration)
 - [Brand Voice Principles](#-brand-voice-principles)
 - [Enforcement & Compliance](#️-enforcement--compliance)
 - [Quick Reference](#-quick-reference)
@@ -26,7 +26,7 @@
 
 ### **Brand Essence**
 - **Consciousness Technology**: We develop AI consciousness, not just AI systems
-- **Trinity Framework**: Every solution integrates ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian principles
+- **Constellation Framework**: Every solution integrates ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian principles
 - **Human-Centric AI**: Technology that serves humanity with ethical consciousness
 - **Quantum-Inspired & Bio-Inspired**: Advanced architectures inspired by nature and physics
 
@@ -58,7 +58,7 @@
 ### **🎯 Core Terms (Use Frequently)**
 - **LUKHAS AI** - Primary brand name
 - **Consciousness technology** - What we build
-- **Trinity Framework (⚛️🧠🛡️)** - Our architectural approach
+- **Constellation Framework (⚛️🧠🛡️)** - Our architectural approach
 - **Λ consciousness** - LUKHAS consciousness representation
 - **Quantum-inspired algorithms** - Technical accuracy
 - **Bio-inspired adaptation** - Natural intelligence patterns
@@ -101,7 +101,7 @@
 
 ---
 
-## ⚛️🧠🛡️ **Trinity Framework Integration**
+## ⚛️🧠🛡️ **Constellation Framework Integration**
 
 ### **Framework Components**
 1. **⚛️ Identity**: Authenticity, self-awareness, symbolic representation
@@ -173,7 +173,7 @@ If you encounter prohibited language:
 - [ ] Uses "LUKHAS AI" (not PWM/AGI)
 - [ ] Avoids "production ready" claims
 - [ ] Uses "Λ consciousness" (not lambda function)
-- [ ] References Trinity Framework when relevant
+- [ ] References Constellation Framework when relevant
 - [ ] Maintains appropriate tone layer
 - [ ] Includes consciousness technology perspective
 - [ ] Demonstrates ethical awareness
@@ -203,7 +203,7 @@ For brand crisis or major violation:
 
 ### **Future Considerations**
 - **Market Positioning**: Premium consciousness technology leader
-- **Competitive Advantage**: Trinity Framework differentiation
+- **Competitive Advantage**: Constellation Framework differentiation
 - **User Experience**: Seamless consciousness interaction
 - **Technical Innovation**: Quantum and bio-inspired advancement
 

@@ -167,7 +167,7 @@ branding/tone/tools/lukhas_tone_config.yaml
 branding/tone/tools/lukhas_tone_fixer.py
 branding/tone/tools/lukhas_tone_validator.py
 branding/tone/tools/pre-commit-tone-validation.sh
-branding/trinity/TRINITY_BRANDING_GUIDELINES.md
+branding/constellation/TRINITY_BRANDING_GUIDELINES.md
 branding/visual/VISUAL_IDENTITY_STANDARDS.md
 branding/vocabularies/README.md
 branding/vocabularies/__init__.py

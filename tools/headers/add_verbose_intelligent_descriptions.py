@@ -125,7 +125,7 @@ def generate_verbose_description(analysis: dict[str, any]) -> str:
         class_names = [c["name"] for c in analysis["classes"][:3]]
         classes_info = f"Key classes: {', '.join(class_names)}"
 
-    prompt = f"""Generate a verbose, rich module description for a quantum-inspired computing module in the LUKHAS AGI system.
+    prompt = f"""Generate a verbose, rich module description for a quantum-inspired computing module in the LUKHAS Cognitive system.
 
 Module: {analysis["module_name"]}
 Filename: {analysis["filename"]}
@@ -167,7 +167,7 @@ possibilities, this module orchestrates... [poetic narrative continues]
 
 From a rigorous computational perspective, this module implements... [technical explanation]
 
-Within the LUKHAS AGI architecture, this quantum engine serves as... [integration details]
+Within the LUKHAS AI architecture, this quantum engine serves as... [integration details]
 
 Generate a verbose, beautiful description that makes readers feel the magic of quantum-inspired computing:"""
 

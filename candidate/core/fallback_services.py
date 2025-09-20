@@ -4,7 +4,7 @@ logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: core/fallback_services.py
 # MODULE: core.fallback_services
-# DESCRIPTION: Provides fallback service implementations for LUKHAS AGI system
+# DESCRIPTION: Provides fallback service implementations for LUKHAS Cognitive system
 #              when core services are unavailable during development/testing.
 # DEPENDENCIES: structlog, typing
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED

@@ -6,7 +6,7 @@ LUKHAS AI - Comprehensive API Validation System
 Advanced validation system for API requests, responses, and orchestration
 with security validation, rate limiting, and performance monitoring.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 Performance Target: <10ms validation latency
 Supports: Request validation, response validation, security checks
 

@@ -70,7 +70,7 @@ class MemoryColony:
 
 
 class ConsolidatedMemorycolonies:
-    """Consolidated memory colonies with neuroplastic adaptation and Trinity Framework integration"""
+    """Consolidated memory colonies with neuroplastic adaptation and Constellation Framework integration"""
 
     def __init__(self):
         self.active_memories = {}

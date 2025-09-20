@@ -199,7 +199,7 @@ class ConstellationMapper:
             elif any(t in component_id for t in ["cognitive", "processing", "reflection"]):
                 patterns["processing_components"].append(component_id)
 
-            # Identify Trinity Framework components
+            # Identify Constellation Framework components
             trinity_keywords = ["identity", "guardian", "consciousness"]
             if any(keyword in " ".join(info["imports"]) for keyword in trinity_keywords):
                 patterns["trinity_components"].append(component_id)

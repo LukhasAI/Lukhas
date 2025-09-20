@@ -136,7 +136,7 @@ rigor_requirements:
     - Experiment orchestration
 
   formal_verification:
-    - Mathematical proofs for Trinity Framework
+    - Mathematical proofs for Constellation Framework
     - Algorithm correctness validation
     - Safety property verification
 

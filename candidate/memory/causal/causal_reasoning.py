@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 ║ DESCRIPTION
 ╠═══════════════════════════════════════════════════════════════════════════════
 ║ This module implements sophisticated causal reasoning capabilities for the
-║ LUKHAS AGI system. It identifies and analyzes cause-effect relationships
+║ LUKHAS Cognitive system. It identifies and analyzes cause-effect relationships
 ║ within complex data structures, enabling the system to understand causal
 ║ chains and make predictions based on causal models.
 ║
@@ -888,7 +888,7 @@ logger.debug("ΛTRACE: causal_reasoning.py module `__all__` defined.", exported_
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════════

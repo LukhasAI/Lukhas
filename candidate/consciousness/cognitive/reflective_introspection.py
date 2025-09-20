@@ -389,7 +389,7 @@ class ReflectiveIntrospectionSystem:
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: reflective_introspection.py
 # VERSION: 1.0.0
-# TIER SYSTEM: Tier 3-5 (Introspection and self-optimization are advanced AGI capabilities)
+# TIER SYSTEM: Tier 3-5 (Introspection and self-optimization are advanced Cognitive capabilities)
 # ΛTRACE INTEGRATION: ENABLED
 # CAPABILITIES: Logs interactions, analyzes recent interaction history for performance
 #               metrics and patterns, generates insights, and recommends parameter
@@ -416,7 +416,7 @@ class ReflectiveIntrospectionSystem:
 #                    each significant system-user or internal interaction.
 #                    `analyze_recent_interactions` can be called periodically.
 # MAINTENANCE: Refine performance metrics, pattern identification logic, and insight
-#              generation rules as the AGI system evolves. Make thresholds and
+#              generation rules as the Cognitive system evolves. Make thresholds and
 #              intervals configurable.
 """
 ═══════════════════════════════════════════════════════════════════════════════
@@ -448,7 +448,7 @@ class ReflectiveIntrospectionSystem:
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

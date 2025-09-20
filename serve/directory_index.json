@@ -75,7 +75,7 @@
         ]
       },
       {
-        "filename": "agi_enhanced_consciousness_api.py",
+        "filename": "cognitive_enhanced_consciousness_api.py",
         "component_type": "API_INTERFACE",
         "has_contract": false,
         "contract_path": null,
@@ -238,7 +238,7 @@
         "task": "API integration",
         "files_involved": [
           "consciousness_api.py",
-          "agi_enhanced_consciousness_api.py",
+          "cognitive_enhanced_consciousness_api.py",
           "identity_api.py",
           "guardian_api.py"
         ],

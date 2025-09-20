@@ -292,7 +292,7 @@ class AwarenessProcessor:
 
     # Monitoring System Implementation Methods
     async def _setup_awareness_monitoring(self):
-        """Set up awareness state monitoring with Trinity Framework integration."""
+        """Set up awareness state monitoring with Constellation Framework integration."""
         self.instance_logger.info("ΛTRACE: Setting up awareness monitoring system")
 
         # Initialize awareness metrics tracking
@@ -334,8 +334,8 @@ class AwarenessProcessor:
             "last_consciousness_update": datetime.now(timezone.utc).isoformat(),
         }
 
-        # Trinity Framework monitoring
-        self.trinity_metrics = {
+        # Constellation Framework monitoring
+        self.constellation_metrics = {
             "identity_coherence": 0.0,  # ⚛️ Identity system health
             "consciousness_depth": 0.0,  # 🧠 Consciousness processing depth
             "guardian_protection": 0.0,  # 🛡️ Guardian system effectiveness
@@ -394,8 +394,8 @@ class AwarenessProcessor:
             if not hasattr(self, "consciousness_state"):
                 return False
 
-            # Verify Trinity Framework metrics
-            if not hasattr(self, "trinity_metrics"):
+            # Verify Constellation Framework metrics
+            if not hasattr(self, "constellation_metrics"):
                 return False
 
             # Check required Trinity metrics
@@ -404,7 +404,7 @@ class AwarenessProcessor:
                 "consciousness_depth",
                 "guardian_protection",
             ]
-            if not all(key in self.trinity_metrics for key in trinity_keys):
+            if not all(key in self.constellation_metrics for key in trinity_keys):
                 return False
 
             self.instance_logger.debug("ΛTRACE: Consciousness metrics validation passed")
@@ -542,7 +542,7 @@ class AwarenessProcessor:
             self.instance_logger.info(f"ΛTRACE: AWARENESS ALERT [{severity}] {source}: {message}")
 
     def get_monitoring_status(self) -> dict[str, Any]:
-        """Get comprehensive monitoring status including Trinity Framework metrics."""
+        """Get comprehensive monitoring status including Constellation Framework metrics."""
         status = {
             "component_name": self.__class__.__name__,
             "monitoring_active": hasattr(self, "awareness_metrics"),
@@ -557,9 +557,9 @@ class AwarenessProcessor:
         if hasattr(self, "consciousness_state"):
             status["consciousness_state"] = self.consciousness_state.copy()
 
-        # Add Trinity Framework metrics if available
-        if hasattr(self, "trinity_metrics"):
-            status["trinity_framework"] = self.trinity_metrics.copy()
+        # Add Constellation Framework metrics if available
+        if hasattr(self, "constellation_metrics"):
+            status["constellation_framework"] = self.constellation_metrics.copy()
 
         # Add alert summary
         if hasattr(self, "active_alerts"):

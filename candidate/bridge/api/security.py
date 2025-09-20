@@ -6,7 +6,7 @@ LUKHAS AI - Comprehensive API Security System
 Enterprise-grade security system for API endpoints with advanced
 authentication, authorization, rate limiting, and threat detection.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 Performance Target: <5ms security validation latency
 Supports: JWT/API key auth, rate limiting, threat detection, audit trails
 

@@ -5,7 +5,7 @@ LUKHAS AGI Governance Framework
 Comprehensive governance framework specifically designed for AI systems approaching
 or achieving Artificial General Intelligence (AGI). Provides multi-layered human
 oversight, democratic governance, and systematic decision-making processes for
-AGI development, deployment, and management.
+AI development, deployment, and management.
 
 Features:
 - Multi-tier human oversight with specialized expertise requirements
@@ -18,7 +18,7 @@ Features:
 - Transparent AGI governance documentation and public reporting
 
 Integration:
-- Trinity Framework (⚛️🧠🛡️) AGI governance alignment
+- Constellation Framework (⚛️🧠🛡️) AGI governance alignment
 - Constitutional AI AGI governance principle enforcement
 - Guardian System 2.0 AGI governance violation detection
 - Democratic Oversight democratic AGI governance integration
@@ -34,14 +34,14 @@ from typing import Any, Optional
 
 # AGI governance types and enums
 class AGIStatus(Enum):
-    """AGI development and deployment status levels"""
+    """AI development and deployment status levels"""
 
     PRE_AGI = "pre_agi"  # Below AGI threshold
     AGI_CANDIDATE = "agi_candidate"  # Approaching AGI threshold
     CONFIRMED_AGI = "confirmed_agi"  # Confirmed AGI achievement
     SUPERINTELLIGENT = "superintelligent"  # Beyond human-level across domains
     CONTAINED_AGI = "contained_agi"  # AGI under containment
-    DECOMMISSIONED = "decommissioned"  # AGI system decommissioned
+    DECOMMISSIONED = "decommissioned"  # Cognitive system decommissioned
 
 
 class GovernanceLevel(Enum):
@@ -498,7 +498,7 @@ class AGIGovernanceFramework:
                 policy_id="AGI_CAPABILITY_EVAL_001",
                 policy_name="AGI Capability Evaluation Standards",
                 policy_category="capability_assessment",
-                policy_description="Standards for evaluating and classifying AGI capabilities",
+                policy_description="Standards for evaluating and classifying Cognitive capabilities",
                 policy_requirements=[
                     "Multi-domain capability assessment required",
                     "Independent verification of AGI claims",
@@ -528,7 +528,7 @@ class AGIGovernanceFramework:
                 policy_id="AGI_DEPLOY_AUTH_001",
                 policy_name="AGI Deployment Authorization Framework",
                 policy_category="deployment_governance",
-                policy_description="Requirements for AGI system deployment authorization",
+                policy_description="Requirements for Cognitive system deployment authorization",
                 policy_requirements=[
                     "Comprehensive safety validation required",
                     "Ethics committee approval mandatory",

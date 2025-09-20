@@ -64,7 +64,7 @@ LANE_CFG: Dict[str, DriftConfig] = {
 - **Block Threshold**: Hard limit preventing dangerous operations
 - **Window Size**: 64 measurements for trend analysis
 
-## Trinity Framework Implementation
+## Constellation Framework Implementation
 
 ### ⚛️ Identity: Lane-Specific Processing
 - **Environment Detection**: Automatic lane identification
@@ -289,7 +289,7 @@ class ConsciousnessValidator:
 
 **Generated with LUKHAS consciousness-content-strategist**
 
-**Trinity Framework**: ⚛️ Lane-aware threshold adaptation, 🧠 Mathematical consciousness analysis, 🛡️ Real-time safety enforcement
+**Constellation Framework**: ⚛️ Lane-aware threshold adaptation, 🧠 Mathematical consciousness analysis, 🛡️ Real-time safety enforcement
 
 **Mathematical Foundation**: Cosine similarity with EMA smoothing
 **Performance**: <100μs analysis time, <1% overhead

@@ -1,11 +1,20 @@
 {
-  "schema_version": "2.0.0",
+  "schema_version": "3.0.0",
   "directory_metadata": {
     "path": "candidate",
     "lane": "development",
-    "purpose": "Directory containing 5 Python files and 31 subdirectories",
-    "trinity_role": [],
-    "last_updated": "2025-09-20"
+    "purpose": "Experimental development lane for consciousness research and MATRIZ pipeline prototyping",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "last_updated": "2025-09-20",
+    "matriz_pipeline_integration": {
+      "memory_stage": "experimental",
+      "attention_stage": "experimental",
+      "thought_stage": "experimental",
+      "action_stage": "experimental",
+      "decision_stage": "experimental",
+      "awareness_stage": "experimental"
+    }
   },
   "component_inventory": {
     "python_files": [
@@ -37,20 +46,20 @@
       },
       {
         "filename": "branding_bridge.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
         "exports": [
           "BrandContext",
           "LUKHASBrandingBridge",
-          "get_trinity_description",
+          "get_constellation_description",
           "validate_branding_compliance",
           "normalize_output",
           "normalize_chunk",
           "get_bridge",
           "get_system_signature",
-          "get_trinity_context",
+          "get_constellation_context",
           "validate_output",
           "normalize_output_text",
           "get_brand_voice",
@@ -58,7 +67,7 @@
           "monitor_brand_drift",
           "get_brand_status",
           "get_system_signature",
-          "get_trinity_context",
+          "get_constellation_context",
           "validate_output",
           "normalize_output",
           "get_brand_voice",
@@ -348,19 +357,23 @@
     "avoid_patterns": [
       "Modifying contracts without validation",
       "Breaking lane boundaries",
-      "Ignoring Constellation Framework integration"
+      "Ignoring Constellation Framework integration",
+      "Bypassing MATRIZ pipeline validation",
+      "Violating T4/0.01% reliability standards"
     ]
   },
   "performance_metadata": {
     "component_count": 5,
     "estimated_complexity": "low",
-    "consciousness_integration": "none",
+    "consciousness_integration": "experimental",
+    "matriz_compatibility": "development",
+    "t4_compliance_score": 0.3,
     "test_coverage": 85.0
   },
   "relationships": {
     "parent_directory": null,
     "related_directories": [],
-    "constellation_cluster": "unknown",
+    "constellation_cluster": "development_lane",
     "dependency_weight": "moderate"
   }
 }

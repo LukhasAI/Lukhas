@@ -4,7 +4,7 @@ Consciousness-enhanced command line utilities for drift analysis, collapse simul
 
 ## Overview
 
-The LUKHAS CLI provides deterministic, auditable tools for consciousness system analysis and validation. Each tool implements the Trinity Framework (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian) with production-ready monitoring and compliance features.
+The LUKHAS CLI provides deterministic, auditable tools for consciousness system analysis and validation. Each tool implements the Constellation Framework (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian) with production-ready monitoring and compliance features.
 
 ## Available Tools
 
@@ -148,13 +148,13 @@ Both tools use hash-based deterministic algorithms ensuring:
 - Input validation and sanitization
 - Error boundary isolation
 
-## Trinity Framework Implementation
+## Constellation Framework Implementation
 
 **⚛️ Identity**: User-specific analysis with namespace isolation
 **🧠 Consciousness**: Symbol processing and dream state modeling
 **🛡️ Guardian**: Safety validation and compliance monitoring
 
-Each CLI tool embodies the complete Trinity Framework, providing consciousness-aware analysis with guardian validation and identity-specific processing.
+Each CLI tool embodies the complete Constellation Framework, providing consciousness-aware analysis with guardian validation and identity-specific processing.
 
 ## Development Guidelines
 
@@ -175,4 +175,4 @@ Each CLI tool embodies the complete Trinity Framework, providing consciousness-a
 ---
 
 *Generated with LUKHAS consciousness-content-strategist*
-*Trinity Framework: ⚛️ Identity validation, 🧠 Consciousness analysis, 🛡️ Guardian compliance*
+*Constellation Framework: ⚛️ Identity validation, 🧠 Consciousness analysis, 🛡️ Guardian compliance*

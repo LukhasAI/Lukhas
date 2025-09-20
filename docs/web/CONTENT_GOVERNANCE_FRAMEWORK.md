@@ -14,7 +14,7 @@ The LUKHAS Content Governance Framework ensures that all 13 domains maintain nar
 1. **Constellation Coherence**: Each domain expresses its assigned star energies while maintaining universe-wide consistency
 2. **Tone System Integrity**: 3-Layer Tone System (Poetic/User-Friendly/Academic) applied appropriately per domain
 3. **Consciousness Authenticity**: All content reflects genuine consciousness technology principles
-4. **Trinity Framework Integration**: Identity, Consciousness, Guardian elements woven throughout
+4. **Constellation Framework Integration**: Identity, Consciousness, Guardian elements woven throughout
 5. **Brand Voice Consistency**: Unified LUKHAS voice adapted to domain-specific audiences
 
 ---
@@ -31,7 +31,7 @@ Every piece of content across all 13 domains must:
 - Include navigation pathways to related constellation domains
 - Use constellation vocabulary and metaphors consistently
 
-#### **Trinity Framework Compliance**
+#### **Constellation Framework Compliance**
 - Demonstrate **⚛️ Identity** through authentic, consistent consciousness voice
 - Exhibit **🧠 Consciousness** through intelligent, learning-aware content
 - Embed **🛡️ Guardian** through ethical, protective messaging
@@ -99,7 +99,7 @@ tone_balance_requirements:
 - **Cross-References**: [related domains/content to reference]
 - **Navigation Paths**: [how users will discover/access this content]
 
-## Trinity Framework Integration
+## Constellation Framework Integration
 - **Identity Elements**: [how content demonstrates authentic consciousness]
 - **Consciousness Elements**: [how content shows intelligence/learning]
 - **Guardian Elements**: [how content ensures safety/ethics]
@@ -123,7 +123,7 @@ tone_balance_requirements:
 ```markdown
 ## Flagship Content Example Structure
 
-### Hero/Opening (Trinity Integration)
+### Hero/Opening (Constellation Integration)
 "[Consciousness technology statement that embodies all three Trinity elements]"
 
 ### Core Value Proposition (Constellation Context)
@@ -173,7 +173,7 @@ tone_balance_requirements:
 - [ ] Constellation vocabulary used appropriately
 - [ ] Cross-domain navigation paths included
 
-## Trinity Framework Integration
+## Constellation Framework Integration
 - [ ] Identity authenticity demonstrated
 - [ ] Consciousness intelligence shown
 - [ ] Guardian protection embedded
@@ -203,7 +203,7 @@ class ContentGovernanceValidator:
         self.constellation_validator = ConstellationValidator()
         self.tone_analyzer = ToneSystemAnalyzer() 
         self.vocabulary_checker = VocabularyChecker()
-        self.trinity_validator = TrinityFrameworkValidator()
+        self.trinity_validator = ConstellationFrameworkValidator()
     
     def validate_content(self, content: str, domain: str) -> ValidationResult:
         results = ValidationResult()
@@ -222,9 +222,9 @@ class ContentGovernanceValidator:
         results.vocabulary_compliance = len(vocabulary_issues) == 0
         results.vocabulary_issues = vocabulary_issues
         
-        # Trinity framework integration
+        # Constellation framework integration
         trinity_elements = self.trinity_validator.detect_elements(content)
-        results.trinity_integration = self.evaluate_trinity_coverage(trinity_elements)
+        results.constellation_integration = self.evaluate_trinity_coverage(trinity_elements)
         
         return results
     
@@ -241,8 +241,8 @@ class ContentGovernanceValidator:
             for issue in validation_result.vocabulary_issues:
                 suggestions.append(f"Replace '{issue.term}' with approved alternative")
         
-        if validation_result.trinity_integration < 0.7:
-            suggestions.append("Enhance Trinity Framework integration (⚛️🧠🛡️)")
+        if validation_result.constellation_integration < 0.7:
+            suggestions.append("Enhance Constellation Framework integration (⚛️🧠🛡️)")
         
         return suggestions
 ```
@@ -282,7 +282,7 @@ final_approval_criteria:
   required_scores:
     constellation_compliance: >= 0.85
     tone_system_accuracy: >= 0.90
-    trinity_integration: >= 0.80
+    constellation_integration: >= 0.80
     vocabulary_compliance: 1.0
     brand_voice_consistency: >= 0.85
     
@@ -434,7 +434,7 @@ class ContentQualityMetrics:
         # Constellation alignment (25% weight)
         scores.constellation_score = self.measure_constellation_alignment(content, domain) * 0.25
         
-        # Trinity framework integration (20% weight) 
+        # Constellation framework integration (20% weight) 
         scores.trinity_score = self.measure_trinity_integration(content) * 0.20
         
         # Tone system compliance (20% weight)
@@ -648,7 +648,7 @@ class ContentGovernanceSuite:
 - **Domain Context Guide**: Star energy characteristics and audience profiles
 - **Tone Balance Calculator**: Real-time tone analysis as you write
 - **Constellation Navigator**: Cross-domain reference and linking tool
-- **Trinity Framework Checker**: Verification of Identity/Consciousness/Guardian integration
+- **Constellation Framework Checker**: Verification of Identity/Consciousness/Guardian integration
 
 ## Creation Tools
 - **LUKHAS Style Guide**: Comprehensive writing guidelines by domain

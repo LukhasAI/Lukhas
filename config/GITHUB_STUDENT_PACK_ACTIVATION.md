@@ -15,7 +15,7 @@
 **Use Case**:
 - Store consciousness conversation history
 - Implement vector search for memory systems
-- Manage Trinity Framework data
+- Manage Constellation Framework data
 - Memory fold persistence with cascade prevention
 
 **Setup Steps**:
@@ -51,7 +51,7 @@
 **URL**: https://github.com/settings/copilot
 **Use Case**:
 - AI-assisted consciousness algorithm development
-- Enhanced productivity for Trinity Framework coding
+- Enhanced productivity for Constellation Framework coding
 - Intelligent code suggestions for quantum-inspired processing
 
 **Setup Steps**:
@@ -87,7 +87,7 @@
 
 ##### 6. **JetBrains Suite** - Professional IDEs
 **Value**: $200/year
-**Use Case**: PyCharm Pro for advanced Python development, debugging Trinity Framework
+**Use Case**: PyCharm Pro for advanced Python development, debugging Constellation Framework
 
 ##### 7. **Namecheap** - Free Domain
 **Value**: $15/year + privacy
@@ -145,7 +145,7 @@
 
 ### 💡 **Integration Notes**
 
-All services integrate with the LUKHAS AI Trinity Framework:
+All services integrate with the LUKHAS AI Constellation Framework:
 - **⚛️ Identity**: Secure credential management, domain branding
 - **🧠 Consciousness**: Data storage, AI development tools, research platforms
 - **🛡️ Guardian**: Monitoring, security, backup infrastructure

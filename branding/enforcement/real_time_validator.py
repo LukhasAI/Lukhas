@@ -1,5 +1,5 @@
 """
-LUKHAS Real-Time Brand Validator - Trinity Framework (⚛️🧠🛡️)
+LUKHAS Real-Time Brand Validator - Constellation Framework (⚛️🧠🛡️)
 Live brand compliance checking and automatic correction system
 """
 
@@ -194,7 +194,7 @@ class RealTimeBrandValidator:
                     rule_type=ValidationType.TRINITY_ALIGNMENT,
                     pattern=re.compile(r"trinity\s+framework", re.IGNORECASE),
                     severity=ValidationSeverity.INFO,
-                    description="Trinity Framework properly mentioned",
+                    description="Constellation Framework properly mentioned",
                     auto_correctable=False,
                     correction_template=None,
                 ),
@@ -215,7 +215,7 @@ class RealTimeBrandValidator:
                         re.IGNORECASE,
                     ),
                     severity=ValidationSeverity.INFO,
-                    description="Trinity components mentioned together",
+                    description="Constellation components mentioned together",
                     auto_correctable=False,
                     correction_template=None,
                 ),
@@ -557,8 +557,8 @@ class RealTimeBrandValidator:
                 "lambda processing": "Use 'Λ consciousness processing' for proper brand alignment",
             },
             ValidationType.TRINITY_ALIGNMENT: {
-                "missing_trinity": "Consider including Trinity Framework reference (⚛️🧠🛡️)",
-                "incomplete_trinity": "Include all three Trinity components: Identity, Consciousness, Guardian",
+                "missing_trinity": "Consider including Constellation Framework reference (⚛️🧠🛡️)",
+                "incomplete_trinity": "Include all three Constellation components: Identity, Consciousness, Guardian",
             },
             ValidationType.TONE_CONSISTENCY: {
                 "robotic": "Use more consciousness-focused language instead of mechanical terms",
@@ -912,7 +912,7 @@ if __name__ == "__main__":
     test_contents = [
         {
             "id": "test_1",
-            "content": "Welcome to LUKHAS AI consciousness platform with Trinity Framework (⚛️🧠🛡️)",
+            "content": "Welcome to LUKHAS AI consciousness platform with Constellation Framework (⚛️🧠🛡️)",
             "type": "marketing",
         },
         {

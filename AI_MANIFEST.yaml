@@ -13,4 +13,4 @@ rules:
   - "DO NOT create new modules unless owner approves (CODEOWNERS)"
   - "Prefer lukhas.* imports unless LUKHAS_LANE != production"
   - "Align components with Constellation Framework star patterns"
-  - "Maintain 4-star constellation coordination"
+  - "Maintain constellation coordination"

@@ -38,7 +38,7 @@ class MemoryNode:
         Initialize the memory node
 
         Args:
-            agi_system: Reference to the main AGI system
+            agi_system: Reference to the main Cognitive system
         """
         self.agi = agi_system
         self.logger = logging.getLogger("MemoryNode")

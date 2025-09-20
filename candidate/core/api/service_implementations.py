@@ -60,7 +60,7 @@ except ImportError:
         EMOTION_ENGINE_AVAILABLE = False
 
 try:
-    from candidate.consciousness.dream.core.dream_engine import DreamEngine  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution
+    from candidate.consciousness.dream.core.dream_engine import DreamEngine  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
 
     DREAM_ENGINE_AVAILABLE = True
 except ImportError:

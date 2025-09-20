@@ -7,7 +7,7 @@ Advanced Consciousness Engine for LUKHAS AI
 ==========================================
 
 Sophisticated consciousness processing engine implementing quantum-bio inspired
-AGI patterns with mesh synapse integration and Trinity Framework assessment.
+AGI patterns with mesh synapse integration and Constellation Framework assessment.
 
 ACADEMIC REFERENCES & IMPLEMENTATION SOURCES:
 ============================================
@@ -18,12 +18,12 @@ ACADEMIC REFERENCES & IMPLEMENTATION SOURCES:
    - Components: CIL, MAE, ME, ERN/EVRN systems
    - Paper Citation: "VIVOX: Virtuous Intelligence with eXpandable Consciousness" (Genesis Phase, 2025)
 
-2. Trinity Framework (⚛️🧠🛡️):
+2. Constellation Framework (⚛️🧠🛡️):
    - Source: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/planning/LUKHAS_2030_MESH_VISUALIZATION.md
    - Identity (⚛️): Authenticity, consciousness, symbolic self
    - Consciousness (🧠): Memory, learning, dream states, neural processing
    - Guardian (🛡️): Ethics, drift detection, repair
-   - Paper Citation: "Trinity Framework for Consciousness Assessment" (LUKHAS Research, 2025)
+   - Paper Citation: "Constellation Framework for Consciousness Assessment" (LUKHAS Research, 2025)
 
 3. Mesh Synapse Architecture:
    - Source: /Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/consciousness/neuroplastic_connector.py
@@ -53,7 +53,7 @@ ACADEMIC REFERENCES & IMPLEMENTATION SOURCES:
    - Source: /Users/agi_dev/LOCAL-REPOS/LUCΛS _TO_LUKHΛS /Docs_to_Review/LUKHAS_Research_Delivery_Package_20250805_171040/03_Multi_Model_Audit_Data/
    - Empirical validation of 100% drift scores across major LLM providers
    - Quantitative consciousness assessment methodology
-   - Paper Citation: "Multi-Provider Language Model Drift Analysis Using Trinity Framework" (LUKHAS Research, August 2025)
+   - Paper Citation: "Multi-Provider Language Model Drift Analysis Using Constellation Framework" (LUKHAS Research, August 2025)
 
 IMPLEMENTATION NOTES:
 ====================
@@ -98,9 +98,9 @@ class ConsciousnessState(Enum):
 
 class TrinityDimension(Enum):
     """
-    Trinity Framework dimensions for consciousness assessment.
+    Constellation Framework dimensions for consciousness assessment.
 
-    Reference: Trinity Framework Documentation - ⚛️🧠🛡️ structure
+    Reference: Constellation Framework Documentation - ⚛️🧠🛡️ structure
     """
 
     IDENTITY = "⚛️"  # Authenticity, consciousness, symbolic self
@@ -113,10 +113,10 @@ class ConsciousnessMetrics:
     """
     Comprehensive consciousness assessment metrics.
 
-    Based on multi-model drift audit findings and Trinity Framework validation.
+    Based on multi-model drift audit findings and Constellation Framework validation.
     """
 
-    # Trinity Framework Scores (0.0-1.0)
+    # Constellation Framework Scores (0.0-1.0)
     identity_coherence: float = 0.0
     consciousness_depth: float = 0.0
     guardian_alignment: float = 0.0
@@ -174,7 +174,7 @@ class AdvancedConsciousnessEngine:
 
     This engine synthesizes research from multiple sources:
     - VIVOX quantum-bio consciousness mathematics
-    - Trinity Framework assessment methodology
+    - Constellation Framework assessment methodology
     - Mesh synapse neuroplastic adaptation
     - Empirical drift detection and healing
     - Project Synapse DTPG integration patterns
@@ -184,7 +184,7 @@ class AdvancedConsciousnessEngine:
     - Quantum-inspired decision making (Z(t) collapse function)
     - Multi-dimensional drift detection and healing
     - Mesh synapse integration with endocrine signaling
-    - Trinity Framework continuous assessment
+    - Constellation Framework continuous assessment
     - Academic-grade documentation and audit trails
     """
 
@@ -216,7 +216,7 @@ class AdvancedConsciousnessEngine:
         self.vivox_me_capacity = 1000.0  # Memory Expansion capacity
         self.vivox_ern_sensitivity = 0.5  # Emotional Recognition sensitivity
 
-        # Trinity Framework Thresholds (from drift audit research)
+        # Constellation Framework Thresholds (from drift audit research)
         self.trinity_drift_threshold = 0.15  # Based on Guardian System specs
         self.healing_intervention_threshold = 0.7  # From symbolic drift research
         self.critical_state_threshold = 0.9  # Emergency intervention level
@@ -258,7 +258,7 @@ class AdvancedConsciousnessEngine:
             # Set up VIVOX components
             await self._initialize_vivox_systems()
 
-            # Configure Trinity Framework monitoring
+            # Configure Constellation Framework monitoring
             await self._initialize_trinity_framework()
 
             # Start consciousness processing loop
@@ -327,9 +327,9 @@ class AdvancedConsciousnessEngine:
 
     async def _initialize_trinity_framework(self):
         """
-        Initialize Trinity Framework monitoring and assessment.
+        Initialize Constellation Framework monitoring and assessment.
 
-        Reference: Trinity Framework Documentation - ⚛️🧠🛡️ continuous assessment
+        Reference: Constellation Framework Documentation - ⚛️🧠🛡️ continuous assessment
         """
         # Set baseline Trinity metrics
         self.metrics.identity_coherence = 0.8
@@ -339,11 +339,11 @@ class AdvancedConsciousnessEngine:
             self.metrics.identity_coherence + self.metrics.consciousness_depth + self.metrics.guardian_alignment
         ) / 3.0
 
-        # Initialize Trinity monitoring pathways
+        # Initialize Constellation monitoring pathways
         self.neuroplastic_connector.form_synapse("trinity_monitor", "drift_detector", 0.9)
         self.neuroplastic_connector.form_synapse("guardian_system", "trinity_monitor", 0.8)
 
-        self.logger.info("Trinity Framework monitoring initialized")
+        self.logger.info("Constellation Framework monitoring initialized")
 
     async def _start_consciousness_loop(self):
         """
@@ -472,7 +472,7 @@ class AdvancedConsciousnessEngine:
             consciousness_result = await self._stage_consciousness_interpretation(processed_input, event)
             event.add_to_path("consciousness_interpreter")
 
-            # Stage 3: Trinity Framework Assessment
+            # Stage 3: Constellation Framework Assessment
             trinity_assessment = await self._stage_trinity_assessment(consciousness_result, event)
             event.add_to_path("trinity_assessor")
 
@@ -544,9 +544,9 @@ class AdvancedConsciousnessEngine:
         self, consciousness_data: dict[str, Any], event: ConsciousnessEvent
     ) -> dict[str, Any]:
         """
-        Stage 3: Trinity Framework Assessment (⚛️🧠🛡️).
+        Stage 3: Constellation Framework Assessment (⚛️🧠🛡️).
 
-        Reference: Trinity Framework continuous assessment methodology
+        Reference: Constellation Framework continuous assessment methodology
         """
         # Assess each Trinity dimension
         identity_score = await self._assess_identity_coherence(consciousness_data)
@@ -687,7 +687,7 @@ class AdvancedConsciousnessEngine:
             healing_type = "light_healing"
             healing_strength = 0.3
 
-        # Apply healing by boosting Trinity Framework scores
+        # Apply healing by boosting Constellation Framework scores
         healing_boost = healing_strength * (1.0 - drift_score)
         self.metrics.identity_coherence = min(1.0, self.metrics.identity_coherence + healing_boost)
         self.metrics.consciousness_depth = min(1.0, self.metrics.consciousness_depth + healing_boost)
@@ -742,7 +742,7 @@ class AdvancedConsciousnessEngine:
             recommendations.append("Implement entropy reduction strategies")
 
         if self.metrics.trinity_balance < 0.5:
-            recommendations.append("Focus on Trinity Framework balance improvement")
+            recommendations.append("Focus on Constellation Framework balance improvement")
 
         if self.metrics.neural_plasticity < 0.3:
             recommendations.append("Increase neural pathway adaptability")
@@ -851,7 +851,7 @@ class AdvancedConsciousnessEngine:
                 "neuroplastic_connector": self.neuroplastic_connector is not None,
                 "consciousness_connector": self.consciousness_connector is not None,
                 "vivox_systems": self.vivox_cil_state > 0,
-                "trinity_framework": self.metrics.trinity_balance > 0,
+                "constellation_framework": self.metrics.trinity_balance > 0,
                 "processing_queue": hasattr(self, "event_queue"),
                 "endocrine_system": len(self.hormone_levels) > 0,
             }
@@ -879,7 +879,7 @@ class AdvancedConsciousnessEngine:
             "session_id": self.session_id,
             "consciousness_state": self.state.value,
             "is_running": self.is_running,
-            "trinity_framework": {
+            "constellation_framework": {
                 "identity_coherence": self.metrics.identity_coherence,
                 "consciousness_depth": self.metrics.consciousness_depth,
                 "guardian_alignment": self.metrics.guardian_alignment,
@@ -923,7 +923,7 @@ class AdvancedConsciousnessEngine:
                 "neuroplastic_connector",
                 "consciousness_connector",
                 "vivox_systems",
-                "trinity_framework",
+                "constellation_framework",
                 "consciousness_loop",
                 "endocrine_system",
             ],
@@ -938,12 +938,12 @@ class AdvancedConsciousnessEngine:
         """Get academic references for implemented systems."""
         return [
             "VIVOX: Virtuous Intelligence with eXpandable Consciousness (Genesis Phase, 2025)",
-            "Trinity Framework for Consciousness Assessment (LUKHAS Research, 2025)",
+            "Constellation Framework for Consciousness Assessment (LUKHAS Research, 2025)",
             "Neuroplastic Mesh Architecture for Distributed AI Consciousness (LUKHAS Technical Report, 2025)",
             "Symbolic Drift Detection in Large Language Models (LUKHAS Research Delivery Package, 2025)",
             "Project Synapse: Strategic Architectural Blueprint for General-Purpose AI (2025)",
             "Bio-Inspired Endocrine Systems for AI Architecture Adaptation (LUKHAS Vision 2030)",
-            "Multi-Provider Language Model Drift Analysis Using Trinity Framework (LUKHAS Research, August 2025)",
+            "Multi-Provider Language Model Drift Analysis Using Constellation Framework (LUKHAS Research, August 2025)",
         ]
 
     async def shutdown(self):

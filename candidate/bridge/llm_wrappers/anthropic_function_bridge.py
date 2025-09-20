@@ -6,7 +6,7 @@ LUKHAS AI - Anthropic Claude Function Calling Bridge
 Comprehensive Anthropic API integration with tool use, streaming,
 and advanced reasoning capabilities.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 Performance Target: <100ms tool execution latency
 Supports: Claude-3 Opus, Sonnet, Haiku, tool use, streaming
 
@@ -783,7 +783,7 @@ LUKHAS_CLAUDE_TOOLS = {
         "reasoning_prompt": "Break down the problem systematically and show reasoning steps",
     },
     "validate_lukhas_output": {
-        "description": "Validate output against LUKHAS standards and Trinity Framework principles",
+        "description": "Validate output against LUKHAS standards and Constellation Framework principles",
         "input_schema": {
             "type": "object",
             "properties": {
@@ -794,13 +794,13 @@ LUKHAS_CLAUDE_TOOLS = {
                 "trinity_aspect": {
                     "type": "string",
                     "enum": ["identity", "consciousness", "guardian", "all"],
-                    "description": "Trinity Framework aspect to validate against",
+                    "description": "Constellation Framework aspect to validate against",
                 },
             },
             "required": ["output_content"],
         },
         "security_level": "high",
-        "reasoning_prompt": "Evaluate against LUKHAS Trinity Framework and quality standards",
+        "reasoning_prompt": "Evaluate against LUKHAS Constellation Framework and quality standards",
     },
 }
 

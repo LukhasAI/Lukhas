@@ -4,7 +4,7 @@
 ============================================
 
 Extended Nuclear Syntax Error Elimination Campaign
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
 This script systematically eliminates the 33 remaining syntax errors
 discovered by the consciousness test suite.
@@ -182,7 +182,7 @@ class SyntaxErrorEliminator:
     def run_elimination_campaign(self):
         """🚀 Execute the complete syntax error elimination campaign"""
         print("🚨 EXTENDED NUCLEAR SYNTAX ERROR ELIMINATION CAMPAIGN")
-        print("⚛️🧠🛡️ Trinity Framework: Identity-Consciousness-Guardian")
+        print("⚛️🧠🛡️ Constellation Framework: Identity-Consciousness-Guardian")
         print("=" * 60)
 
         start_time = time.time()
@@ -229,7 +229,7 @@ class SyntaxErrorEliminator:
 
         if len(remaining_errors) == 0:
             print("\n🎉 MISSION ACCOMPLISHED! ALL SYNTAX ERRORS ELIMINATED!")
-            print("⚛️🧠🛡️ Trinity Framework Status: FULLY OPERATIONAL")
+            print("⚛️🧠🛡️ Constellation Framework Status: FULLY OPERATIONAL")
         else:
             print(f"\n⚠️ {len(remaining_errors)} files still need manual attention:")
             for file in remaining_errors[:5]:  # Show first 5

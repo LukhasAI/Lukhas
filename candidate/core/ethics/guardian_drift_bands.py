@@ -16,7 +16,7 @@ Features:
 - Comprehensive audit logging with band transition history
 - Configurable thresholds for different deployment environments
 
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 Author: LUKHAS AI System
 Version: 1.0.0
 

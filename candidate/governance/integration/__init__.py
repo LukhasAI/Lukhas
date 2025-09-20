@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 # DESCRIPTION: Initializes the 'governance' sub-package within core.integration.
 #              This package is intended to handle the integration of governance
 #              mechanisms, policy enforcement, and ethical oversight components
-#              into the LUKHAS AGI system. Serves as an #AINTEROP point.
+#              into the LUKHAS Cognitive system. Serves as an #AINTEROP point.
 # DEPENDENCIES: structlog
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════

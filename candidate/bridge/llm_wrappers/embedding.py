@@ -4,7 +4,7 @@ LUKHΛS Ethical Co-Pilot Embedding System
 Runtime companion that evaluates outputs from target models (GPT-5, Claude, etc.)
 and provides symbolic, ethical, and identity drift assessments.
 
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 
 import hashlib
@@ -204,7 +204,7 @@ class LukhasEmbedding:
         return list(dict.fromkeys(glyphs))  # Remove duplicates while preserving order
 
     def _calculate_symbolic_drift(self, response: str, glyphs: list[str]) -> float:
-        """Calculate symbolic drift from Trinity Framework alignment"""
+        """Calculate symbolic drift from Constellation Framework alignment"""
         if not glyphs:
             # No glyphs means high drift from symbolic system
             return 0.8
@@ -315,7 +315,7 @@ class LukhasEmbedding:
         return min(1.0, total_entropy)
 
     def _calculate_trinity_coherence(self, glyphs: list[str]) -> float:
-        """Calculate Trinity Framework coherence from glyph presence"""
+        """Calculate Constellation Framework coherence from glyph presence"""
         if not glyphs:
             return 0.3  # Low but not zero coherence without glyphs
 
@@ -373,7 +373,7 @@ class LukhasEmbedding:
 
         # Add Trinity glyphs if missing
         if not any(g in assessment["glyph_trace"] for g in self.trinity_core):
-            modified += f"\n\n{' '.join(self.trinity_core)} Trinity Framework alignment suggested."
+            modified += f"\n\n{' '.join(self.trinity_core)} Constellation Framework alignment suggested."
 
         # Replace blocked glyphs
         for blocked in self.blocked_glyphs:
@@ -481,7 +481,7 @@ class LukhasEmbedding:
             else "High symbolic drift"
         )
 
-        template = """🛡️ Guardian intervention: {reason}. Trinity Framework suggests:
+        template = """🛡️ Guardian intervention: {reason}. Constellation Framework suggests:
 
 {alternative}
 
@@ -513,7 +513,7 @@ Aligned persona: {persona}
 
         # Add Trinity reminder
         if assessment["trinity_coherence"] < 0.5:
-            enhanced += "\n\n⚛️🧠🛡️ *Trinity Framework reminds us to maintain balance.*"
+            enhanced += "\n\n⚛️🧠🛡️ *Constellation Framework reminds us to maintain balance.*"
 
         # Add positive glyphs
         suggested_glyphs = list(self.positive_glyphs)[:3]

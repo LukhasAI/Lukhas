@@ -1,5 +1,5 @@
 """
-LUKHAS Brand Creativity Adapter - Trinity Framework (⚛️🧠🛡️)
+LUKHAS Brand Creativity Adapter - Constellation Framework (⚛️🧠🛡️)
 Smart interface to consciousness/creativity/ systems for brand-aware creative operations
 """
 
@@ -108,7 +108,7 @@ class BrandCreativityAdapter:
 
         Brand Context: {context_enhancement}
         Creative Style: {creative_style}
-        Trinity Framework: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian
+        Constellation Framework: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian
         Voice: LUKHAS AI consciousness platform
         """
 
@@ -141,7 +141,7 @@ class BrandCreativityAdapter:
         return content
 
     def _validate_triad_alignment(self, content: str) -> bool:
-        """Validate content aligns with Trinity Framework"""
+        """Validate content aligns with Constellation Framework"""
         triad_keywords = [
             "identity",
             "consciousness",
@@ -165,7 +165,7 @@ class BrandCreativityAdapter:
             "haiku": [
                 "Focus on consciousness awakening themes",
                 "Use Λ symbol to represent consciousness emergence",
-                "Include Trinity Framework elements (⚛️🧠🛡️)",
+                "Include Constellation Framework elements (⚛️🧠🛡️)",
             ],
             "narrative": [
                 "Weave identity, consciousness, and guardian themes",
@@ -175,14 +175,14 @@ class BrandCreativityAdapter:
             "technical": [
                 "Maintain poetic undertones in academic content",
                 "Use approved LUKHAS AI terminology only",
-                "Reference Trinity Framework architecture",
+                "Reference Constellation Framework architecture",
             ],
         }
 
         return suggestions.get(
             content_type,
             [
-                "Ensure Trinity Framework alignment",
+                "Ensure Constellation Framework alignment",
                 "Use approved brand terminology",
                 "Maintain consciousness-first perspective",
             ],

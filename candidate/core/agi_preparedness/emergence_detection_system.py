@@ -17,7 +17,7 @@ Features:
 - Human-interpretable emergence explanations and reports
 
 Integration:
-- Trinity Framework (⚛️🧠🛡️) emergence monitoring alignment
+- Constellation Framework (⚛️🧠🛡️) emergence monitoring alignment
 - Constitutional AI emergence safety principle enforcement
 - Guardian System 2.0 emergence anomaly detection
 - Capability Evaluation Framework emergence data integration

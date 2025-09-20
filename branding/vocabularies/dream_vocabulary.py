@@ -64,7 +64,7 @@ def create_dream_symbolic_narrative(dream_type: str, intensity: float = 0.7, sym
     else:
         prefix = "✨"
 
-    return f"{prefix} {base_symbol} - Trinity Framework Dream Processing Active"
+    return f"{prefix} {base_symbol} - Constellation Framework Dream Processing Active"
 
 
 DREAM_PHASE_SYMBOLS = {

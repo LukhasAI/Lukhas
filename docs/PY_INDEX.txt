@@ -56,7 +56,7 @@ lukhas/core/policy/decision.py
 lukhas/core/actor_system.py
 lukhas/core/decorators.py
 lukhas/test_import_violation.py
-lukhas/trinity/__init__.py
+lukhas/constellation/__init__.py
 lukhas/memory/sync.py
 lukhas/memory/config.py
 lukhas/memory/__init__.py
@@ -97,4 +97,4 @@ lukhas/consciousness/__init__.py
 lukhas/consciousness/bio_integration.py
 lukhas/consciousness/activation_orchestrator.py
 lukhas/consciousness/consciousness_wrapper.py
-lukhas/consciousness/trinity_integration.py
+lukhas/consciousness/constellation_integration.py

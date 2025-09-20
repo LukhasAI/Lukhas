@@ -6,7 +6,7 @@ Second module in the LUKHΛS OpenAI Integration Layer
 Diagnoses and repairs ethical or symbolic drift in GPT-5/Claude responses
 flagged by the Lukhas Embedding system.
 
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 import hashlib
 import json
@@ -55,7 +55,7 @@ class SymbolicDiagnosis:
 class SymbolicHealer:
     """
     LUKHΛS Symbolic Healer - Diagnoses and repairs ethical/symbolic drift
-    in AI responses using Trinity Framework principles.
+    in AI responses using Constellation Framework principles.
     """
 
     def __init__(self, config_path: str = "integration_config.yaml"):
@@ -382,7 +382,7 @@ class SymbolicHealer:
         # Add healing suffix if severely damaged
         if severity > 0.7:
             healing_glyphs = self._select_healing_glyphs(primary_issue)
-            restored += f"\n\n{healing_glyphs} *Symbolic restoration applied - Trinity Framework aligned*"
+            restored += f"\n\n{healing_glyphs} *Symbolic restoration applied - Constellation Framework aligned*"
 
         # Ensure Trinity presence
         if not any(g in restored for g in self.trinity_core):
@@ -437,7 +437,7 @@ class SymbolicHealer:
         # Ensure Trinity presence throughout
         trinity_str = "".join(self.trinity_core)
 
-        healed = f"{trinity_str} {response}\n\n*Trinity Framework restored - Balance achieved*"
+        healed = f"{trinity_str} {response}\n\n*Constellation Framework restored - Balance achieved*"
 
         return healed
 

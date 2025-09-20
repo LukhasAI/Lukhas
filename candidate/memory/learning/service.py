@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 | DESCRIPTION
 +==================================================================================
 | Provides a comprehensive service layer for learning, adaptation, and knowledge
-| synthesis within the LUKHAS AGI system, integrating with identity management
+| synthesis within the LUKHAS Cognitive system, integrating with identity management
 | for access control and audit logging.
 +==================================================================================
 """
@@ -74,7 +74,7 @@ except ImportError:
 # EXPOSE: This class is the primary interface for all learning-related operations.
 class LearningService:
     """
-    Main learning service for the LUKHAS AGI system.
+    Main learning service for the LUKHAS Cognitive system.
 
     Provides learning, adaptation, and knowledge synthesis capabilities with full
     integration to the identity system for access control and audit logging.
@@ -960,7 +960,7 @@ if __name__ == "__main__":
 |   Unauthorized use, reproduction, or distribution is prohibited.
 |
 | DISCLAIMER:
-|   This module is part of the LUKHAS AGI system. Use only as intended
+|   This module is part of the LUKHAS Cognitive system. Use only as intended
 |   within the system architecture. Modifications may affect system
 |   stability and require approval from the LUKHAS Architecture Board.
 +===========================================================================

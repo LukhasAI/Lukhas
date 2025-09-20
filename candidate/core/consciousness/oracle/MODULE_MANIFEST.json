@@ -32,7 +32,7 @@
       "consciousness_profile_refinement"
     ]
   },
-  "trinity_framework": {
+  "constellation_framework": {
     "identity": "⚛️ Consciousness Oracle Identity - Future-aware self-recognition system",
     "consciousness": "🧠 Primary Consciousness Function - Predictive awareness processing",
     "guardian": "🛡️ Ethical Oversight - Responsible consciousness prediction and privacy"
@@ -101,6 +101,6 @@
   "documentation": {
     "README": "../README.md",
     "architecture_docs": "MATRIZ_CONSCIOUSNESS_ARCHITECTURE.md",
-    "trinity_guidelines": "Trinity Framework Documentation"
+    "trinity_guidelines": "Constellation Framework Documentation"
   }
 }

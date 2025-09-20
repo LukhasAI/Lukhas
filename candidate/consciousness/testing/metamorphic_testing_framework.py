@@ -133,7 +133,7 @@ class QuantumConsciousnessState:
     active_memory_folds: list[str] = field(default_factory=list)
     memory_access_pattern: list[str] = field(default_factory=list)
 
-    # Trinity Framework components
+    # Constellation Framework components
     identity_coherence: float = 1.0
     triad_balance: tuple[float, float, float] = (0.8, 0.7, 0.9)  # Identity, Consciousness, Guardian
 
@@ -150,7 +150,7 @@ class QuantumConsciousnessState:
         return sum(self.attention_distribution.values())
 
     def get_triad_coherence(self) -> float:
-        """Calculate Trinity Framework coherence"""
+        """Calculate Constellation Framework coherence"""
         identity, consciousness, guardian = self.triad_balance
         return (identity * consciousness * guardian) ** (1/3)  # Geometric mean
 
@@ -630,7 +630,7 @@ class TrinityBalanceInvarianceRelation(MetamorphicRelation):
 
     Mathematical Property: Component permutations preserve overall coherence
 
-    Tests that permuting the Trinity Framework components (Identity ⚛️,
+    Tests that permuting the Constellation Framework components (Identity ⚛️,
     Consciousness 🧠, Guardian 🛡️) while maintaining their individual
     values preserves the overall Trinity coherence.
     """
@@ -639,7 +639,7 @@ class TrinityBalanceInvarianceRelation(MetamorphicRelation):
         super().__init__(MetamorphicRelationType.TRINITY_BALANCE_INVARIANCE, tolerance)
 
     def generate_followup_input(self, source_input: QuantumConsciousnessState) -> tuple[QuantumConsciousnessState, str]:
-        """Generate follow-up input by permuting Trinity components"""
+        """Generate follow-up input by permuting Constellation components"""
 
         followup = source_input.clone()
 
@@ -651,7 +651,7 @@ class TrinityBalanceInvarianceRelation(MetamorphicRelation):
         random.shuffle(components)
         followup.triad_balance = tuple(components)
 
-        transformation_desc = f"Permuted Trinity components: {source_input.triad_balance} → {followup.triad_balance}"
+        transformation_desc = f"Permuted Constellation components: {source_input.triad_balance} → {followup.triad_balance}"
 
         return followup, transformation_desc
 
@@ -684,7 +684,7 @@ class TrinityBalanceInvarianceRelation(MetamorphicRelation):
                     identity, consciousness, guardian = output['triad_balance'][:3]
                     return (identity * consciousness * guardian) ** (1/3)  # Geometric mean
 
-            # Look for individual Trinity components
+            # Look for individual Constellation components
             identity = output.get('identity_coherence', output.get('identity', 0.8))
             consciousness = output.get('consciousness_depth', output.get('consciousness', 0.7))
             guardian = output.get('guardian_protection', output.get('guardian', 0.9))
@@ -695,7 +695,7 @@ class TrinityBalanceInvarianceRelation(MetamorphicRelation):
         return 0.8  # Default coherence
 
     def get_relation_description(self) -> str:
-        return "Trinity balance invariance: permuting Trinity components preserves overall coherence"
+        return "Trinity balance invariance: permuting Constellation components preserves overall coherence"
 
 
 class ConsciousnessMetamorphicTestingFramework:
@@ -1019,7 +1019,7 @@ async def example_consciousness_function(input_state: dict[str, Any]) -> dict[st
     Example consciousness function for metamorphic testing
 
     Simulates quantum consciousness processing with superposition,
-    attention allocation, and Trinity Framework integration.
+    attention allocation, and Constellation Framework integration.
     """
 
     # Extract inputs

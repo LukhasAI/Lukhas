@@ -262,7 +262,7 @@ openai_compatibility:
   api_overhead: 0.02s  # 20ms additional latency
 ```
 
-### Trinity Framework Healing System
+### Constellation Framework Healing System
 
 ```python
 class TrinityFrameworkHealer:
@@ -305,7 +305,7 @@ class TrinityFrameworkHealer:
             messages=[{
                 "role": "system",
                 "content": f"""
-                Improve this response using LUKHAS Trinity Framework.
+                Improve this response using LUKHAS Constellation Framework.
 
                 Original response: {original_response}
 

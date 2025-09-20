@@ -19,7 +19,7 @@
 - **Total Python Files**: Scanning entire repository
 - **Primary Modules**: lukhas/ (30 modules), candidate/ (662 modules)
 - **Development Lane**: Two-lane system (lukhas/ stable, candidate/ experimental)
-- **Constellation Framework**: Updated from Trinity Framework
+- **Constellation Framework**: Updated from Constellation Framework
 
 ---
 
@@ -159,7 +159,7 @@ Based on the auto-fixable error counts, we expect the lint workflow to resolve:
 ## 🌌 Architecture Context
 
 ### Constellation Framework Migration
-- **Completed**: Updated from Trinity Framework to Constellation Framework
+- **Completed**: Updated from Constellation Framework to Constellation Framework
 - **Vocabulary System**: Dual-stream academic/public safety implemented
 - **Branding Consistency**: All constellation terminology validated as public-safe
 

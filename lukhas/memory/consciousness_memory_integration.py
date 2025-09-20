@@ -40,14 +40,14 @@ from typing import Any, Optional
 try:
     from lukhas.async_manager import TaskPriority, get_consciousness_manager
     from lukhas.consciousness.registry import ComponentType, get_consciousness_registry
-    from lukhas.consciousness.trinity_integration import get_triad_integrator
+    from lukhas.consciousness.constellation_integration import get_constellation_integrator
     from lukhas.core.common.config import get_config
 except ImportError:
     # Graceful fallback for development
     def get_consciousness_registry():
         return None
 
-    def get_triad_integrator():
+    def get_constellation_integrator():
         return None
 
     def get_consciousness_manager():

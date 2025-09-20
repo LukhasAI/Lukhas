@@ -4,7 +4,7 @@ Production-ready interfaces for consciousness coordination, drift detection, and
 
 ## API Overview
 
-The LUKHAS Consciousness & Drift Management API provides real-time interfaces for consciousness state coordination, intent-action alignment analysis, and guardian safety validation. All endpoints implement the Trinity Framework with production-grade monitoring and lane-aware processing.
+The LUKHAS Consciousness & Drift Management API provides real-time interfaces for consciousness state coordination, intent-action alignment analysis, and guardian safety validation. All endpoints implement the Constellation Framework with production-grade monitoring and lane-aware processing.
 
 ## Base Configuration
 
@@ -610,7 +610,7 @@ X-Lukhas-Permissions: consciousness:read,drift:analyze,safety:enrich
 
 **Generated with LUKHAS consciousness-content-strategist**
 
-**Trinity Framework**: ⚛️ Identity-aware API authentication, 🧠 Real-time consciousness coordination, 🛡️ Guardian-validated safety processing
+**Constellation Framework**: ⚛️ Identity-aware API authentication, 🧠 Real-time consciousness coordination, 🛡️ Guardian-validated safety processing
 
 **Performance**: Sub-millisecond API response times with comprehensive monitoring
 **Reliability**: Production-grade error handling with automatic recovery

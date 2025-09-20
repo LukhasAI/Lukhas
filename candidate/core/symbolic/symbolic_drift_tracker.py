@@ -200,7 +200,7 @@ class SymbolicDriftTracker:
 
 if __name__ == "__main__":
     # ΛNOTE: This entry point simulates a symbolic drift recording for testing and demonstration.
-    # It showcases how the SymbolicDriftTracker might be used in the broader AGI system.
+    # It showcases how the SymbolicDriftTracker might be used in the broader Cognitive system.
     print("Running Symbolic Drift Tracker Simulation...")
 
     # Basic configuration for the tracker
@@ -288,7 +288,7 @@ if __name__ == "__main__":
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

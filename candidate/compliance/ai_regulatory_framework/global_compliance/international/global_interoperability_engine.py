@@ -4,7 +4,7 @@ Global Interoperability Engine
 MARKET DOMINATION: Ensures AGI systems comply with all international
 regulations while maintaining competitive advantage.
 
-Integration with LUKHAS Trinity Framework (⚛️🧠🛡️)
+Integration with LUKHAS Constellation Framework (⚛️🧠🛡️)
 """
 import logging
 from dataclasses import dataclass

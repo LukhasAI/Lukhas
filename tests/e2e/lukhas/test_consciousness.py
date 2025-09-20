@@ -7,7 +7,7 @@ Comprehensive test suite for consciousness module following T4 standards:
 - 90% code coverage minimum
 - Security vulnerability testing
 - Performance benchmarks
-- Trinity Framework compliance
+- Constellation Framework compliance
 """
 
 import asyncio

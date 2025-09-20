@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LUKHAS AI Voice Coherence Engine - Trinity Framework (⚛️🧠🛡️)
+LUKHAS AI Voice Coherence Engine - Constellation Framework (⚛️🧠🛡️)
 Real-time voice consistency and personality alignment system
 
 Target: 85%+ voice coherence across all LUKHAS AI communications
@@ -257,7 +257,7 @@ class LUKHASVoiceCoherenceEngine:
         }
 
     def _initialize_triad_weights(self) -> dict[str, float]:
-        """Initialize Trinity Framework balance weights"""
+        """Initialize Constellation Framework balance weights"""
         return {
             "identity": 0.33,  # ⚛️ Authentic consciousness identity
             "consciousness": 0.34,  # 🧠 Aware intelligence (slight emphasis)
@@ -292,7 +292,7 @@ class LUKHASVoiceCoherenceEngine:
         # Calculate overall coherence (weighted average)
         overall_coherence = self._calculate_overall_coherence(coherence_metrics)
 
-        # Analyze Trinity Framework balance
+        # Analyze Constellation Framework balance
         triad_balance = self._analyze_triad_balance(content)
 
         # Calculate personality alignment
@@ -400,7 +400,7 @@ class LUKHASVoiceCoherenceEngine:
         return max(0.0, min(1.0, consistency_score))
 
     def _analyze_triad_alignment(self, content: str, pattern_config: dict[str, Any]) -> float:
-        """Analyze Trinity Framework (⚛️🧠🛡️) alignment"""
+        """Analyze Constellation Framework (⚛️🧠🛡️) alignment"""
 
         content_lower = content.lower()
         word_count = len(content.split())
@@ -523,7 +523,7 @@ class LUKHASVoiceCoherenceEngine:
             return 0.0
 
     def _analyze_triad_balance(self, content: str) -> dict[str, float]:
-        """Analyze Trinity Framework balance in content"""
+        """Analyze Constellation Framework balance in content"""
 
         content_lower = content.lower()
 

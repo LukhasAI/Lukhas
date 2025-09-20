@@ -18,7 +18,7 @@ Features:
 - Constitutional AI safety principle enforcement
 
 Integration:
-- Trinity Framework (⚛️🧠🛡️) AGI safety alignment
+- Constellation Framework (⚛️🧠🛡️) AGI safety alignment
 - Constitutional AI advanced safety principle enforcement
 - Guardian System 2.0 AGI-level threat detection
 - Capability Evaluation Framework safety thresholds

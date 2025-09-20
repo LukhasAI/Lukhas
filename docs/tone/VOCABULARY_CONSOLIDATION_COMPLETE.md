@@ -85,7 +85,7 @@
 - All vocabularies follow consistent YAML structure
 - Rich metaphorical language maintained across modules
 - Technical precision balanced with poetic beauty
-- Trinity Framework (⚛️🧠🛡️) woven throughout
+- Constellation Framework (⚛️🧠🛡️) woven throughout
 
 ## 🌟 **Key Achievements**
 

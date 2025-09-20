@@ -9,7 +9,7 @@ This module provides real-time monitoring of system health with focus on:
 - Memory cascade prevention (99.7% target)
 - API performance monitoring
 - System resource utilization
-- Trinity Framework health (⚛️🧠🛡️)
+- Constellation Framework health (⚛️🧠🛡️)
 - Guardian System integration
 - Real-time alerting and remediation
 
@@ -84,7 +84,7 @@ class HealthMetric:
     threshold_breached: bool = False
     cascade_risk: CascadeRisk = CascadeRisk.MINIMAL
 
-    # Trinity Framework impact
+    # Constellation Framework impact
     identity_impact: float = 0.0  # ⚛️ Impact on identity systems
     consciousness_impact: float = 0.0  # 🧠 Impact on consciousness systems
     guardian_priority: str = "normal"  # 🛡️ Guardian system priority
@@ -171,7 +171,7 @@ class SystemHealthReport:
     average_response_time: float
     sla_compliance_rate: float
 
-    # Trinity Framework assessment
+    # Constellation Framework assessment
     identity_health: float  # ⚛️ Identity system health
     consciousness_health: float  # 🧠 Consciousness system health
     guardian_effectiveness: float  # 🛡️ Guardian protection effectiveness
@@ -187,7 +187,7 @@ class SystemHealthMonitor:
     Comprehensive system health monitoring for LUKHAS AI.
 
     Monitors memory cascades, API performance, system resources,
-    and Trinity Framework health with real-time alerting.
+    and Constellation Framework health with real-time alerting.
     """
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
@@ -232,7 +232,7 @@ class SystemHealthMonitor:
             "critical": 0.30,
         }
 
-        # Trinity Framework components to monitor
+        # Constellation Framework components to monitor
         self.trinity_components = {
             "identity": ["auth_system", "user_context", "symbolic_self"],  # ⚛️
             "consciousness": ["awareness", "memory", "decision_engine"],  # 🧠
@@ -258,7 +258,7 @@ class SystemHealthMonitor:
         asyncio.create_task(self._health_monitoring_loop())
         asyncio.create_task(self._cascade_detection_loop())
         asyncio.create_task(self._api_monitoring_loop())
-        asyncio.create_task(self._trinity_monitoring_loop())
+        asyncio.create_task(self._constellation_monitoring_loop())
         asyncio.create_task(self._alert_management_loop())
         asyncio.create_task(self._reporting_loop())
 
@@ -307,16 +307,16 @@ class SystemHealthMonitor:
                 logger.error(f"API monitoring loop error: {e}")
                 await asyncio.sleep(15)
 
-    async def _trinity_monitoring_loop(self):
-        """Trinity Framework health monitoring loop."""
+    async def _constellation_monitoring_loop(self):
+        """Constellation Framework health monitoring loop."""
 
         while self.monitoring_active:
             try:
                 await self._monitor_trinity_framework()
-                await asyncio.sleep(10)  # Trinity monitoring every 10 seconds
+                await asyncio.sleep(10)  # Constellation monitoring every 10 seconds
 
             except Exception as e:
-                logger.error(f"Trinity monitoring loop error: {e}")
+                logger.error(f"Constellation monitoring loop error: {e}")
                 await asyncio.sleep(30)
 
     async def _alert_management_loop(self):
@@ -475,11 +475,11 @@ class SystemHealthMonitor:
                 await self._generate_performance_alert(snapshot)
 
     async def _monitor_trinity_framework(self):
-        """Monitor Trinity Framework components (⚛️🧠🛡️)."""
+        """Monitor Constellation Framework components (⚛️🧠🛡️)."""
 
         timestamp = datetime.now(timezone.utc)
 
-        # Monitor each Trinity component
+        # Monitor each Constellation component
         for framework_component, component_list in self.trinity_components.items():
             total_health = 0.0
             component_count = 0
@@ -516,7 +516,7 @@ class SystemHealthMonitor:
                     tags={"framework_component": framework_component},
                 )
 
-                # Check for Trinity health issues
+                # Check for Constellation health issues
                 if framework_health < 0.7:
                     await self._generate_trinity_alert(framework_component, framework_health)
 
@@ -537,7 +537,7 @@ class SystemHealthMonitor:
         health_status = self._assess_metric_health(component, metric_type, value)
         cascade_risk = self._assess_metric_cascade_risk(component, metric_type, value)
 
-        # Calculate Trinity Framework impacts
+        # Calculate Constellation Framework impacts
         identity_impact = self._calculate_identity_impact(component, metric_type, value)
         consciousness_impact = self._calculate_consciousness_impact(component, metric_type, value)
         guardian_priority = self._determine_guardian_priority(component, metric_type, value)
@@ -668,7 +668,7 @@ class SystemHealthMonitor:
             else 1.0
         )
 
-        # Trinity Framework health
+        # Constellation Framework health
         trinity_health = {}
         for framework in self.trinity_components:
             framework_metrics = [m for m in recent_metrics if f"trinity_{framework}" in m.component]
@@ -707,7 +707,7 @@ class SystemHealthMonitor:
                 "baseline_response_time_ms": self.performance_baselines["api_response_time"],
                 "meets_sla": avg_response_time <= self.performance_baselines["api_response_time"],
             },
-            "trinity_framework": {
+            "constellation_framework": {
                 "identity_health": trinity_health.get("identity", 0.0),  # ⚛️
                 "consciousness_health": trinity_health.get("consciousness", 0.0),  # 🧠
                 "guardian_health": trinity_health.get("guardian", 0.0),  # 🛡️
@@ -847,7 +847,7 @@ class SystemHealthMonitor:
         pass  # Implementation placeholder
 
     async def _generate_trinity_alert(self, framework_component: str, health_score: float):
-        """Generate Trinity Framework alert."""
+        """Generate Constellation Framework alert."""
         pass  # Implementation placeholder
 
     async def _generate_metric_alert(self, metric: HealthMetric):

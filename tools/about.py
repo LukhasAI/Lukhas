@@ -1,6 +1,6 @@
 # ===============================================================
 # 📂 FILE: tools/about.py
-# 🧠 PURPOSE: Terminal entry point for LUCAS AGI system metadata
+# 🧠 PURPOSE: Terminal entry point for LUCAS Cognitive system metadata
 # ===============================================================
 
 import json

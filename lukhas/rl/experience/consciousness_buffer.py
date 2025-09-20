@@ -6,7 +6,7 @@ Advanced experience replay system designed for consciousness learning.
 Integrates with LUKHAS memory fold system and provides consciousness-aware
 experience sampling and storage.
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 from __future__ import annotations

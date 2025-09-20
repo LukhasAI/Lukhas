@@ -1,7 +1,7 @@
 """
 LUKHAS AI Colony System
 Provides base colony infrastructure for the stable lane.
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
 This module intentionally avoids any cross-lane imports from `candidate`.
 """

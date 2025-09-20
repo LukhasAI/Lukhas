@@ -42,7 +42,7 @@ def _decimate(self):
 **Retention Strategy**: Keep most recent 50% of frames
 **Memory Protection**: Prevents consciousness overflow
 
-## Trinity Framework Implementation
+## Constellation Framework Implementation
 
 ### ⚛️ Identity: Lane-Aware Processing
 - **Lane Detection**: Environment-specific processing (`LUKHAS_LANE`)
@@ -238,7 +238,7 @@ ticker.subscribe(custom_frame_processor)
 
 **Generated with LUKHAS consciousness-content-strategist**
 
-**Trinity Framework**: ⚛️ Lane-aware identity processing, 🧠 Real-time consciousness coordination, 🛡️ Production-grade safety and monitoring
+**Constellation Framework**: ⚛️ Lane-aware identity processing, 🧠 Real-time consciousness coordination, 🛡️ Production-grade safety and monitoring
 
 **Performance**: 30 FPS consciousness updates with <1ms latency
 **Reliability**: Automatic backpressure handling and error recovery

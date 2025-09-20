@@ -13,11 +13,11 @@ This module provides:
 - JWT token GLYPH encoding integration
 - Symbolic identity representation
 - Cross-module communication via GLYPH protocol
-- Trinity Framework symbolic alignment
+- Constellation Framework symbolic alignment
 
 Author: LUKHAS AI System
 Version: 1.0.0
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 import logging
 import streamlit as st
@@ -98,7 +98,7 @@ class AuthGlyphRegistry:
     ⚛️ Authentication GLYPH Registry
 
     Manages authentication-related GLYPHs for the LUKHAS symbolic system,
-    enabling cross-module communication and Trinity Framework integration.
+    enabling cross-module communication and Constellation Framework integration.
     """
 
     def __init__(self):
@@ -300,14 +300,14 @@ class AuthGlyphRegistry:
             )
         )
 
-        # Trinity Framework GLYPHs
+        # Constellation Framework GLYPHs
         self.register_glyph(
             AuthGlyph(
                 id="trinity_identity",
                 category=AuthGlyphCategory.IDENTITY,
                 symbol="⚛️",
                 concept="trinity_identity",
-                description="Trinity Framework - Identity aspect",
+                description="Constellation Framework - Identity aspect",
                 metadata={"trinity_core": True, "aspect": "identity"},
             )
         )
@@ -318,7 +318,7 @@ class AuthGlyphRegistry:
                 category=AuthGlyphCategory.IDENTITY,
                 symbol="🧠",
                 concept="trinity_consciousness",
-                description="Trinity Framework - Consciousness aspect",
+                description="Constellation Framework - Consciousness aspect",
                 metadata={"trinity_core": True, "aspect": "consciousness"},
             )
         )
@@ -329,7 +329,7 @@ class AuthGlyphRegistry:
                 category=AuthGlyphCategory.GUARDIAN,
                 symbol="🛡️",
                 concept="trinity_guardian",
-                description="Trinity Framework - Guardian aspect",
+                description="Constellation Framework - Guardian aspect",
                 metadata={"trinity_core": True, "aspect": "guardian"},
             )
         )
@@ -447,7 +447,7 @@ class AuthGlyphRegistry:
             )
 
     def _create_trinity_glyph(self, access_context: dict[str, Any], session_context: dict[str, Any]) -> str:
-        """Create Trinity Framework GLYPH"""
+        """Create Constellation Framework GLYPH"""
         # Get Trinity symbols
         identity_symbol = self.get_glyph("trinity_identity").symbol
         consciousness_symbol = self.get_glyph("trinity_consciousness").symbol

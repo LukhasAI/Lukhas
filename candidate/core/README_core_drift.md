@@ -1,6 +1,6 @@
 # Core Directory Drift and Duplicate Analysis (Ongoing)
 
-This document tracks findings related to code drift (deviations from intended or documented purpose) and duplicate code within the `core/` directory of the LUKHAS AGI system. This analysis is part of Task 154 assigned to Jules-01.
+This document tracks findings related to code drift (deviations from intended or documented purpose) and duplicate code within the `core/` directory of the LUKHAS Cognitive system. This analysis is part of Task 154 assigned to Jules-01.
 
 **ΛORIGIN_AGENT:** Jules-01
 **ΛTASK_ID:** 154

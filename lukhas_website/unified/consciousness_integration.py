@@ -263,7 +263,7 @@ class ConsciousnessVisualizationBridge:
         self.state.entanglement = abs(self.state.awareness - self.state.coherence)
 
     def _calculate_triad_balance(self):
-        """Calculate Trinity framework balance"""
+        """Calculate Constellation framework balance"""
         total = self.state.awareness + self.state.coherence + (1 - self.state.entropy)
         if total > 0:
             self.state.identity_strength = self.state.awareness / total

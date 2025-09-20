@@ -1,5 +1,5 @@
 # Main Makefile PHONY declarations (only for targets defined in this file)
-.PHONY: install setup-hooks dev api openapi live colony-dna-smoke smoke-matriz lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports legacy-check legacy-fix obs obs-spans obs-metrics registry-test constraints-test orch-smoke orch-arbitration orch-meta quick-smoke quick-cov plugin-discovery deps-compile deps-sync matriz-e2e matriz-perf
+.PHONY: install setup-hooks dev api openapi live colony-dna-smoke smoke-matriz lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports legacy-check legacy-fix obs obs-spans obs-metrics registry-test constraints-test orch-smoke orch-arbitration orch-meta quick-smoke quick-cov plugin-discovery deps-compile deps-sync deps-compile-all deps-compile-dev deps-compile-prod deps-sync-dev deps-upgrade deps-check deps-update matriz-e2e matriz-perf
 .PHONY: ai-analyze ai-setup ai-workflow clean deep-clean quick bootstrap organize organize-dry organize-suggest organize-watch
 .PHONY: codex-validate codex-fix validate-all perf migrate-dry migrate-run dna-health dna-compare admin lint-status lane-guard
 .PHONY: audit-tail sdk-py-install sdk-py-test sdk-ts-build sdk-ts-test backup-local backup-s3 restore-local restore-s3 dr-drill dr-weekly dr-quarterly dr-monthly
@@ -769,9 +769,45 @@ plugin-discovery:
 	n = discover_nodes('candidate'); \
 	print(f'[discovery] initialized nodes: {n}')" || echo "[discovery] skip: candidate not available"
 
-# Dependency management with pip-tools (G1)
+# Enhanced dependency management with pip-tools (G1+)
+.PHONY: deps-compile deps-sync deps-compile-all deps-upgrade deps-check deps-update
+
 deps-compile:
-	pip-compile --generate-hashes -o requirements.txt requirements.in
+	@echo "📦 Compiling base requirements..."
+	.venv/bin/pip-compile --generate-hashes -o requirements.txt requirements.in
+
+deps-compile-dev:
+	@echo "📦 Compiling development requirements..."
+	.venv/bin/pip-compile --generate-hashes -o requirements-dev.txt requirements-dev.in
+
+deps-compile-prod:
+	@echo "📦 Compiling production requirements..."
+	.venv/bin/pip-compile --generate-hashes -o requirements-prod.txt requirements-prod.in
+
+deps-compile-all: deps-compile deps-compile-dev deps-compile-prod
+	@echo "✅ All requirements compiled with hashes"
 
 deps-sync:
-	pip-sync requirements.txt
+	@echo "🔄 Syncing requirements to virtual environment..."
+	.venv/bin/pip-sync requirements.txt
+
+deps-sync-dev:
+	@echo "🔄 Syncing development requirements..."
+	.venv/bin/pip-sync requirements-dev.txt
+
+deps-upgrade:
+	@echo "⬆️ Upgrading all dependencies..."
+	.venv/bin/pip-compile --upgrade --generate-hashes -o requirements.txt requirements.in
+	.venv/bin/pip-compile --upgrade --generate-hashes -o requirements-dev.txt requirements-dev.in
+	.venv/bin/pip-compile --upgrade --generate-hashes -o requirements-prod.txt requirements-prod.in
+	@echo "✅ Dependencies upgraded"
+
+deps-check:
+	@echo "🔍 Checking for dependency issues..."
+	.venv/bin/pip check
+	@echo "🔐 Checking for security vulnerabilities..."
+	.venv/bin/pip-audit --format=text
+	@echo "✅ Dependency check complete"
+
+deps-update: deps-upgrade deps-sync-dev deps-check
+	@echo "🎯 Full dependency update cycle complete"

@@ -9,11 +9,11 @@
   },
   "distributed_consciousness_system": {
     "description": "692 cognitive components implementing distributed consciousness",
-    "architecture": "lane-based evolution with Trinity Framework integration",
+    "architecture": "lane-based evolution with Constellation Framework integration",
     "performance_targets": {
       "cascade_prevention": "99.7%",
       "processing_latency": "<250ms p95",
-      "consciousness_integration": "Trinity Framework coordination"
+      "consciousness_integration": "Constellation Framework coordination"
     }
   },
   "component_type_distribution": {

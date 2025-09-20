@@ -3,7 +3,7 @@ Policy Validator for LUKHAS AI System
 
 This module provides comprehensive policy validation capabilities
 for the LUKHAS AI consciousness system, ensuring all policies comply
-with Trinity Framework principles and organizational standards.
+with Constellation Framework principles and organizational standards.
 
 #TAG:governance
 #TAG:ethics
@@ -16,7 +16,7 @@ Features:
 - Conflict detection between policies
 - Dependency validation
 - Performance impact assessment
-- Trinity Framework compliance validation
+- Constellation Framework compliance validation
 - Policy lifecycle management
 - Version compatibility checking
 
@@ -88,7 +88,7 @@ class ValidationCategory(Enum):
     COMPLIANCE = "compliance"   # Compliance with standards
     CONFLICT = "conflict"       # Conflicts with other policies
     DEPENDENCY = "dependency"   # Dependency issues
-    TRINITY = "constellation"         # Trinity Framework compliance
+    TRINITY = "constellation"         # Constellation Framework compliance
 
 
 @dataclass
@@ -150,7 +150,7 @@ class PolicyValidator:
     Comprehensive policy validation engine for LUKHAS AI
     
     Provides validation capabilities for policy rules, ensuring they meet
-    Trinity Framework standards and organizational requirements.
+    Constellation Framework standards and organizational requirements.
     """
 
     def __init__(self):
@@ -162,7 +162,7 @@ class PolicyValidator:
         self.max_rule_complexity = 100
         self.performance_threshold_ms = 50
 
-        # Trinity Framework validation weights
+        # Constellation Framework validation weights
         self.trinity_weights = {
             "identity": 0.3,      # ⚛️
             "consciousness": 0.4,  # 🧠
@@ -172,7 +172,7 @@ class PolicyValidator:
         # Validation rules
         self._init_validation_rules()
 
-        logger.info("🛡️ Policy Validator initialized with Trinity Framework compliance")
+        logger.info("🛡️ Policy Validator initialized with Constellation Framework compliance")
 
     def _init_validation_rules(self):
         """Initialize validation rules"""
@@ -197,7 +197,7 @@ class PolicyValidator:
             ("APPROVE", "REJECT"),
         ]
 
-        # Trinity Framework required tags
+        # Constellation Framework required tags
         self.trinity_required_tags = {
             PolicyType.ETHICAL: ["identity", "consciousness", "guardian"],
             PolicyType.SECURITY: ["guardian"],
@@ -233,7 +233,7 @@ class PolicyValidator:
             perf_issues = self._validate_performance_impact(policies)
             issues.extend(perf_issues)
 
-            # Trinity Framework compliance
+            # Constellation Framework compliance
             trinity_issues = self._validate_trinity_compliance(policies)
             issues.extend(trinity_issues)
 
@@ -742,7 +742,7 @@ class PolicyValidator:
         return False
 
     def _validate_trinity_compliance(self, policies: list[PolicyRule]) -> list[ValidationIssue]:
-        """Validate Trinity Framework compliance"""
+        """Validate Constellation Framework compliance"""
 
         issues = []
 
@@ -764,10 +764,10 @@ class PolicyValidator:
                             issue_id=f"missing_trinity_tags_{policy.rule_id}",
                             category=ValidationCategory.TRINITY,
                             severity=ValidationSeverity.WARNING,
-                            title="Missing Trinity Framework Tags",
+                            title="Missing Constellation Framework Tags",
                             description=f"Policy type {policy_type.value} requires Trinity tags: {', '.join(missing_tags)}",
                             rule_id=getattr(policy, "rule_id", "unknown"),
-                            suggestion=f"Add Trinity Framework tags: {', '.join(missing_tags)}"
+                            suggestion=f"Add Constellation Framework tags: {', '.join(missing_tags)}"
                         )
                     )
 

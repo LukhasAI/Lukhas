@@ -57,7 +57,7 @@
         "dependencies": [
           "lukhas.async_manager",
           "lukhas.consciousness.registry",
-          "lukhas.consciousness.trinity_integration",
+          "lukhas.consciousness.constellation_integration",
           "lukhas.core.common.config",
           "lukhas.memory.consciousness_memory_integration"
         ],
@@ -100,7 +100,7 @@
         ]
       },
       {
-        "filename": "trinity_integration.py",
+        "filename": "constellation_integration.py",
         "component_type": "TRINITY_BRIDGE",
         "has_contract": false,
         "contract_path": null,
@@ -112,7 +112,7 @@
         "exports": [
           "TrinityFramework",
           "TrinityIntegrationConfig",
-          "TrinityState",
+          "ConstellationState",
           "TrinityFrameworkIntegrator",
           "get_triad_integrator",
           "get_triad_metrics",

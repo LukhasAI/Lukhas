@@ -91,9 +91,9 @@ class T4MonitoringIntegration:
 
             # Check for Trinity framework
             try:
-                trinity_metrics = await self.t4_observability.collect_triad_metrics(None)
-                if trinity_metrics:
-                    metrics["constellation"] = trinity_metrics
+                constellation_metrics = await self.t4_observability.collect_triad_metrics(None)
+                if constellation_metrics:
+                    metrics["constellation"] = constellation_metrics
             except Exception as e:
                 logger.debug(f"Trinity metrics unavailable: {e}")
 

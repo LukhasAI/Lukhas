@@ -83,7 +83,7 @@ class ContextUpdater:
 ### **Consciousness Architecture**
 - **Distributed System**: 692 cognitive components across distributed consciousness network
 - **Lane-Based Evolution**: Development (candidate) → Integration (candidate/core) → Production (lukhas)
-- **Trinity Framework**: Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️ coordination
+- **Constellation Framework**: Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️ coordination
 - **Multi-Engine Processing**: Poetic, Complete, Codex, Alternative consciousness engines
 
 ### **Recent Updates**

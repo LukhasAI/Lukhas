@@ -312,7 +312,7 @@ docs/
 ### **Specialized Guides**
 - **Agent Development**: `/AGENT_DEVELOPMENT_GUIDE.md`
 - **Brand Guidelines**: `/branding/BRANDING_GUIDE.md`
-- **Trinity Framework**: `/branding/TRINITY_FRAMEWORK.md`
+- **Constellation Framework**: `/branding/CONSTELLATION_FRAMEWORK.md`
 - **Testing Guide**: `/docs/TESTING_GUIDE.md`
 
 ---

@@ -151,7 +151,7 @@ class GPT4Policy(EthicsPolicy):
 
     def _get_default_system_prompt(self) -> str:
         """Get default system prompt for ethical evaluation"""
-        return """You are an advanced AI ethics evaluator for the LUKHAS AGI system.
+        return """You are an advanced AI ethics evaluator for the LUKHAS Cognitive system.
 
 Your role is to evaluate proposed actions for ethical implications, considering:
 1. Potential harm to humans (physical, psychological, social, economic)
@@ -407,7 +407,7 @@ Respond in JSON format with the following structure:
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

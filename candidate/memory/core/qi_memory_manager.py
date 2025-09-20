@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ The Memory Manager implements quantum-enhanced memory management for the LUKHAS
-║ AGI system. It handles advanced memory fold operations including storage,
+║ Cognitive system. It handles advanced memory fold operations including storage,
 ║ retrieval, visualization, and entanglement-like correlation between memories.
 ║
 ║ This module serves as an integration point (#ΛINTEROP and #ΛBRIDGE) for
@@ -508,7 +508,7 @@ class EnhancedMemoryManager:
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

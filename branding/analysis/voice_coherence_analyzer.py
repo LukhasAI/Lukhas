@@ -87,7 +87,7 @@ class VoiceCoherenceAnalyzer:
             "⚛️",
             "🧠",
             "🛡️",
-            "Trinity Framework",
+            "Constellation Framework",
             "Identity",
             "Consciousness",
             "Guardian",
@@ -128,7 +128,7 @@ class VoiceCoherenceAnalyzer:
             "core_brand": [
                 "LUKHAS AI",
                 "Lambda",
-                "Trinity Framework",
+                "Constellation Framework",
                 "consciousness technology",
                 "elite brand",
                 "premium positioning",
@@ -188,7 +188,7 @@ class VoiceCoherenceAnalyzer:
         # Brand terminology score
         brand_score = self._calculate_brand_terminology_score(content_lower)
 
-        # Trinity Framework integration
+        # Constellation Framework integration
         triad_score = self._calculate_triad_score(content)
 
         # Consciousness technology focus
@@ -225,14 +225,14 @@ class VoiceCoherenceAnalyzer:
         return min(found_keywords / total_keywords, 1.0)
 
     def _calculate_triad_score(self, content: str) -> float:
-        """Calculate Trinity Framework (⚛️🧠🛡️) integration score"""
+        """Calculate Constellation Framework (⚛️🧠🛡️) integration score"""
         triad_mentions = 0
 
         for symbol in self.triad_symbols:
             if symbol in content:
                 triad_mentions += 1
 
-        # Perfect score if mentions Trinity Framework concept
+        # Perfect score if mentions Constellation Framework concept
         if "trinity framework" in content.lower():
             triad_mentions += 2
 
@@ -358,7 +358,7 @@ class VoiceCoherenceAnalyzer:
             suggestions.append("Increase use of approved LUKHAS AI brand terminology")
 
         if metrics.triad_framework_score < 0.5:
-            suggestions.append("Integrate Trinity Framework (⚛️🧠🛡️) concepts and symbols")
+            suggestions.append("Integrate Constellation Framework (⚛️🧠🛡️) concepts and symbols")
 
         if metrics.consciousness_tech_score < 0.6:
             suggestions.append("Emphasize consciousness technology focus and benefits")

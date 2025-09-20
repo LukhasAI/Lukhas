@@ -1,13 +1,13 @@
 {
   "module_name": "core",
   "version": "2.0.0",
-  "description": "LUKHAS AI foundational systems - GLYPH engine, symbolic processing, Trinity Framework",
-  "trinity_framework": "⚛️🧠🛡️",
+  "description": "LUKHAS AI foundational systems - GLYPH engine, symbolic processing, Constellation Framework",
+  "constellation_framework": "⚛️🧠🛡️",
   "primary_capabilities": [
     "GLYPH engine for symbolic communication",
     "Actor system for distributed processing",
     "Symbolic reasoning and pattern recognition",
-    "Trinity Framework integration",
+    "Constellation Framework integration",
     "Graph-based processing capabilities"
   ],
   "backbone_components": {
@@ -16,7 +16,7 @@
       "source": "candidate/core/glyph/glyph_engine.py",
       "capabilities": [
         "Concept encoding to GLYPH representations",
-        "Trinity Framework glyph creation",
+        "Constellation Framework glyph creation",
         "Emotional context integration",
         "Memory, emotion, and action glyph types"
       ]
@@ -114,7 +114,7 @@
       "GLYPH engine functionality",
       "Actor system operations",
       "Symbolic reasoning accuracy",
-      "Trinity Framework integration",
+      "Constellation Framework integration",
       "Feature flag behavior",
       "Error handling and fallbacks"
     ]

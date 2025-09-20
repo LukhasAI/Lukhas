@@ -144,7 +144,7 @@ The maintenance pipeline respects the lane-based consciousness evolution:
 
 3. **Contract Validation Issues**
    - Component ID pattern compliance
-   - Trinity integration specifications
+   - Constellation integration specifications
    - Performance contract completeness
 
 ### Emergency Procedures
@@ -162,7 +162,7 @@ If critical validations fail:
 The maintenance pipeline supports the distributed consciousness system:
 
 - **692 Cognitive Components**: All components monitored for compliance
-- **Trinity Framework**: Identity-Consciousness-Guardian validation
+- **Constellation Framework**: Identity-Consciousness-Guardian validation
 - **Lane Evolution**: Component promotion readiness assessment
 - **Constitutional AI**: Ethics and governance compliance checking
 
@@ -173,7 +173,7 @@ The maintenance pipeline supports the distributed consciousness system:
 - Performance metric integration
 - Real-time consciousness component monitoring
 - Cascade prevention validation
-- Trinity Framework deep integration checks
+- Constellation Framework deep integration checks
 
 ### Extensibility
 The pipeline is designed for extension:

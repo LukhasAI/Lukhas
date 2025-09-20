@@ -2,7 +2,7 @@
 
 ## Overview
 
-The LUKHAS account recovery system provides secure, user-controlled recovery mechanisms through a distributed Guardian system. This policy defines thresholds, cool-off periods, and recovery procedures aligned with the Trinity Framework (⚛️🧠🛡️).
+The LUKHAS account recovery system provides secure, user-controlled recovery mechanisms through a distributed Guardian system. This policy defines thresholds, cool-off periods, and recovery procedures aligned with the Constellation Framework (⚛️🧠🛡️).
 
 ## Guardian System Architecture
 
@@ -412,4 +412,4 @@ interface RecoveryService {
 
 ---
 
-*This recovery policy integrates with the LUKHAS Trinity Framework and follows deny-by-default security principles.*
+*This recovery policy integrates with the LUKHAS Constellation Framework and follows deny-by-default security principles.*

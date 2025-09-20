@@ -11,7 +11,7 @@ Features:
 - Circuit breaker pattern for safety
 - Real-time monitoring and alerting
 
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 Author: LUKHAS AI System
 Version: 1.0.0
 

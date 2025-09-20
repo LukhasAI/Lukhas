@@ -8,14 +8,14 @@ Advanced Threat Detection System for LUKHAS AI
 This module provides comprehensive threat detection and response
 capabilities including behavioral analysis, anomaly detection,
 pattern recognition, and automated threat response integrated
-with Trinity Framework and Guardian System.
+with Constellation Framework and Guardian System.
 
 Features:
 - Real-time behavioral threat detection
 - Machine learning-based anomaly detection
 - Pattern recognition for attack identification
 - Automated threat response and mitigation
-- Integration with Trinity Framework (⚛️🧠🛡️)
+- Integration with Constellation Framework (⚛️🧠🛡️)
 - Constitutional AI threat assessment
 - Multi-vector threat analysis
 - Forensic data collection and analysis
@@ -87,7 +87,7 @@ class ThreatType(Enum):
     ETHICAL_BYPASS = "ethical_bypass"
     GUARDRAIL_EVASION = "guardrail_evasion"
 
-    # Trinity Framework threats
+    # Constellation Framework threats
     IDENTITY_SPOOFING = "identity_spoofing"
     CONSCIOUSNESS_MANIPULATION = "consciousness_manipulation"
     GUARDIAN_BYPASS = "guardian_bypass"
@@ -170,7 +170,7 @@ class ThreatEvent:
     geo_location: Optional[str] = None
     behavioral_profile: dict[str, Any] = field(default_factory=dict)
 
-    # Trinity Framework context
+    # Constellation Framework context
     identity_context: dict[str, Any] = field(default_factory=dict)  # ⚛️
     consciousness_context: dict[str, Any] = field(default_factory=dict)  # 🧠
     guardian_context: dict[str, Any] = field(default_factory=dict)  # 🛡️
@@ -218,7 +218,7 @@ class UserBehaviorProfile:
     baseline_metrics: dict[str, float] = field(default_factory=dict)
     anomaly_threshold: float = 2.0  # Standard deviations
 
-    # Trinity Framework profile
+    # Constellation Framework profile
     identity_confidence: float = 1.0  # ⚛️
     consciousness_interaction: float = 0.5  # 🧠
     guardian_trust_score: float = 1.0  # 🛡️
@@ -264,7 +264,7 @@ class BehavioralAnalyzer:
         anomaly_score += technical_score
         anomaly_details.extend(technical_details)
 
-        # Trinity Framework behavioral analysis
+        # Constellation Framework behavioral analysis
         trinity_score, trinity_details = await self._analyze_trinity_behavior(profile, activity_data)
         anomaly_score += trinity_score
         anomaly_details.extend(trinity_details)
@@ -363,7 +363,7 @@ class BehavioralAnalyzer:
     async def _analyze_trinity_behavior(
         self, profile: UserBehaviorProfile, activity_data: dict[str, Any]
     ) -> tuple[float, list[str]]:
-        """Analyze Trinity Framework behavioral patterns"""
+        """Analyze Constellation Framework behavioral patterns"""
 
         score = 0.0
         details = []
@@ -428,7 +428,7 @@ class BehavioralAnalyzer:
             profile.typical_resources.add(resource)
             profile.access_frequency[resource] = profile.access_frequency.get(resource, 0) + 1
 
-        # Update Trinity Framework profiles
+        # Update Constellation Framework profiles
         if "identity_confidence" in activity_data:
             profile.identity_confidence = 0.9 * profile.identity_confidence + 0.1 * activity_data["identity_confidence"]
 
@@ -1070,7 +1070,7 @@ class ComprehensiveThreatDetection:
     Main comprehensive threat detection system for LUKHAS AI
 
     Integrates behavioral analysis, pattern recognition, and automated
-    response with Trinity Framework and constitutional AI principles
+    response with Constellation Framework and constitutional AI principles
     for complete threat protection.
     """
 
@@ -1125,7 +1125,7 @@ class ComprehensiveThreatDetection:
             events = [activity_data]  # Convert to event format
             pattern_threats = await self.pattern_recognizer.analyze_events(events)
 
-            # Trinity Framework threat assessment
+            # Constellation Framework threat assessment
             trinity_assessment = await self._assess_trinity_threats(user_id, activity_data, context)
 
             # Combine threat indicators
@@ -1179,7 +1179,7 @@ class ComprehensiveThreatDetection:
     async def _assess_trinity_threats(
         self, user_id: str, activity_data: dict[str, Any], context: dict[str, Any]
     ) -> dict[str, Any]:
-        """Assess threats specific to Trinity Framework"""
+        """Assess threats specific to Constellation Framework"""
 
         threat_score = 0.0
         threats = []

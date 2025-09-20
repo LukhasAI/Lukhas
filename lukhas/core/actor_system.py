@@ -1,7 +1,7 @@
 """
 Actor System Module - Production Version
 Provides ActorRef, ActorSystem, and Actor base classes for LUKHAS AI
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
 This is the production-ready actor system that supports the colony architecture.
 """

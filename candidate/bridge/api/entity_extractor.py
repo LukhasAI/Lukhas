@@ -3,9 +3,9 @@ LUKHΛS Entity Extractor
 =======================
 
 Extracts symbolic entities and metadata from natural language.
-Works with Trinity Framework for deep understanding.
+Works with Constellation Framework for deep understanding.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 import logging
 import re
@@ -455,7 +455,7 @@ class EntityExtractor:
                         "type": entity.metadata.get("type", "Unknown"),
                     }
                 )
-                # Check for Trinity components
+                # Check for Constellation components
                 if entity.value in ["⚛️", "🧠", "🛡️"]:
                     context["trinity_components"].add(entity.metadata.get("name", ""))
 

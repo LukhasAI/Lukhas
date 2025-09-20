@@ -1,4 +1,4 @@
-# 🌟 Universal Symbol Communication - Trinity Framework Blueprint
+# 🌟 Universal Symbol Communication - Constellation Framework Blueprint
 
 ---
 
@@ -367,4 +367,4 @@ def colony_symbol_validation(symbol: Symbol) -> ValidationResult:
 
 ---
 
-**This Trinity Framework implementation ensures that the Universal Symbol System speaks to dreamers, builders, and architects alike—from poetic vision through practical application to rigorous technical specification.**
+**This Constellation Framework implementation ensures that the Universal Symbol System speaks to dreamers, builders, and architects alike—from poetic vision through practical application to rigorous technical specification.**

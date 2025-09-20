@@ -164,9 +164,9 @@ Comprehensive documentation created for all new consciousness technology feature
 - **Error Handling**: Comprehensive error scenarios and recovery
 - **Scalability**: Performance characteristics and capacity planning
 
-## Trinity Framework Implementation
+## Constellation Framework Implementation
 
-All documentation demonstrates complete Trinity Framework integration:
+All documentation demonstrates complete Constellation Framework integration:
 
 **⚛️ Identity**: Lane-aware processing, namespace isolation, and identity-specific features
 **🧠 Consciousness**: Real-time awareness coordination, semantic understanding, and intelligent processing
@@ -204,7 +204,7 @@ All documentation demonstrates complete Trinity Framework integration:
 
 **Generated with LUKHAS consciousness-content-strategist**
 
-**Trinity Framework**: ⚛️ Complete identity-aware documentation, 🧠 Consciousness technology narrative, 🛡️ Guardian-validated technical accuracy
+**Constellation Framework**: ⚛️ Complete identity-aware documentation, 🧠 Consciousness technology narrative, 🛡️ Guardian-validated technical accuracy
 
 **Coverage**: 100% of new features from last 24 hours
 **Quality**: Production-ready with comprehensive examples

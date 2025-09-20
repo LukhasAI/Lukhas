@@ -6,7 +6,7 @@ Path: core/neural_architectures/neural_integrator.py
 Created: 2025-01-27
 Author: lukhas AI Team
 
-TAGS: [CRITICAL, KeyFile, Neural_Architecture, Integration, AGI_Core]
+TAGS: [CRITICAL, KeyFile, Neural_Architecture, Integration, CognitiveCore]
 DEPENDENCIES:
   - core/consciousness/consciousness_integrator.py
   - core/memory/enhanced_memory_manager.py
@@ -27,7 +27,7 @@ with the consciousness system to enhance cognitive functions including:
 - Cognitive load balancing
 
 The neural integrator works in conjunction with the consciousness integrator
-to provide sophisticated neural processing capabilities for the AGI system.
+to provide sophisticated neural processing capabilities for the Cognitive system.
 """
 
 import asyncio
@@ -229,7 +229,7 @@ class AdaptiveNeuralNetwork(nn.Module):
 
 class NeuralIntegrator:
     """
-    Advanced neural processing integrator for the LUKHAS AGI system.
+    Advanced neural processing integrator for the LUKHAS Cognitive system.
 
     This class provides sophisticated neural processing capabilities including
     adaptive neural networks, pattern recognition, cross-modal integration,

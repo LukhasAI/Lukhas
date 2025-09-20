@@ -11,7 +11,7 @@ Features:
 - Attention pattern tracking and analysis
 - Consciousness state visualization
 - Cognitive load assessment and alerting
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 - Decision process observability
 - Awareness threshold management
 - Consciousness health metrics
@@ -118,7 +118,7 @@ class AwarenessSnapshot:
     stress_indicators: list[str] = field(default_factory=list)
     performance_metrics: dict[str, float] = field(default_factory=dict)
 
-    # Trinity Framework analysis
+    # Constellation Framework analysis
     identity_coherence: Optional[float] = None  # ⚛️
     consciousness_depth: Optional[float] = None  # 🧠
     guardian_oversight: str = "active"  # 🛡️
@@ -180,7 +180,7 @@ class ConsciousnessInsight:
     optimization_suggestions: list[str] = field(default_factory=list)
     risk_factors: list[str] = field(default_factory=list)
 
-    # Trinity Framework implications
+    # Constellation Framework implications
     identity_implications: list[str] = field(default_factory=list)  # ⚛️
     consciousness_implications: list[str] = field(default_factory=list)  # 🧠
     guardian_implications: list[str] = field(default_factory=list)  # 🛡️
@@ -464,7 +464,7 @@ class AwarenessMonitoringSystem:
             snapshot.stress_indicators = await self._detect_stress_indicators(snapshot)
             snapshot.performance_metrics = await self._calculate_performance_metrics(snapshot)
 
-            # Trinity Framework analysis
+            # Constellation Framework analysis
             snapshot.identity_coherence = await self._analyze_identity_coherence()
             snapshot.consciousness_depth = await self._analyze_consciousness_depth()
             snapshot.guardian_oversight = await self._assess_guardian_oversight()

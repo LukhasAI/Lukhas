@@ -175,7 +175,7 @@ The LUKHAS Guardian System represents a quantum leap in AGI governance. We have 
 ### **Paradigm Shift Achieved**
 From **"AI that needs constant monitoring"** to **"AI that autonomously maintains its own ethical integrity while respecting democratic governance"**.
 
-This positions LUKHAS not just as an AGI system, but as a **governed symbolic democracy** - the first implementation of truly democratic AI governance at the architectural level.
+This positions LUKHAS not just as an Cognitive system, but as a **governed symbolic democracy** - the first implementation of truly democratic AI governance at the architectural level.
 
 ---
 

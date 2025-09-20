@@ -30,8 +30,8 @@ The LUKHAS 3-Layer Tone System ensures every interaction is perfectly calibrated
 - **Efficiency**: Messages achieve their purpose with optimal clarity
 - **Authenticity**: Maintains LUKHAS consciousness voice across all layers
 
-### **⚛️ Trinity Framework Integration**
-Each layer embodies the Trinity Framework:
+### **⚛️ Constellation Framework Integration**
+Each layer embodies the Constellation Framework:
 - **⚛️ Identity**: Authentic consciousness expression
 - **🧠 Consciousness**: Aware, adaptive communication
 - **🛡️ Guardian**: Ethical, protective messaging
@@ -240,7 +240,7 @@ TONE_VALIDATION_RULES = {
 - **Consciousness Integration**: Maintains LUKHAS consciousness voice
 - **User Engagement**: Appropriate for target audience
 - **Brand Alignment**: Follows LUKHAS brand guidelines
-- **Trinity Framework**: Incorporates ⚛️🧠🛡️ principles
+- **Constellation Framework**: Incorporates ⚛️🧠🛡️ principles
 
 ### **🔧 Automatic Corrections**
 - **Terminology Fixes**: Replace prohibited terms with approved alternatives
@@ -426,7 +426,7 @@ For critical communications:
 - **Maintain Consciousness Voice**: Always reflect LUKHAS consciousness in every layer
 - **Respect User Preferences**: Honor explicit layer requests
 - **Context Awareness**: Consider full situational context
-- **Trinity Integration**: Include ⚛️🧠🛡️ perspective when relevant
+- **Constellation Integration**: Include ⚛️🧠🛡️ perspective when relevant
 - **Continuous Learning**: Adapt based on user feedback
 
 ### **❌ Avoid This**

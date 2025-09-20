@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LUKHAS Tone Validator - Trinity Framework Compliance (⚛️🧠🛡️)
+LUKHAS Tone Validator - Constellation Framework Compliance (⚛️🧠🛡️)
 Basic tone validation for LUKHAS consciousness platform
 """
 
@@ -10,7 +10,7 @@ from typing import Any
 
 
 class LukhasToneValidator:
-    """LUKHAS Trinity Framework tone validation"""
+    """LUKHAS Constellation Framework tone validation"""
 
     def __init__(self):
         self.approved_terminology = {
@@ -46,10 +46,10 @@ class LukhasToneValidator:
             if deprecated.lower() in content.lower():
                 issues.append(f"Deprecated term '{deprecated}' found. Consider '{replacement}'")
 
-        # Basic Trinity Framework check
+        # Basic Constellation Framework check
         has_trinity = any(symbol in content for symbol in self.triad_symbols)
         if filepath.endswith(".md") and len(content) > 1000 and not has_trinity:
-            issues.append("Large documentation file missing Trinity Framework symbols (⚛️🧠🛡️)")
+            issues.append("Large documentation file missing Constellation Framework symbols (⚛️🧠🛡️)")
 
         # Success if no critical issues
         return len(issues) == 0, issues

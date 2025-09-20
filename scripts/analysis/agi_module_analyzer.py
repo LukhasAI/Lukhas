@@ -309,7 +309,7 @@ class AGIModuleAnalyzer:
             )
 
     def _identify_consolidation_opportunities(self) -> dict:
-        """Identify modules that can be consolidated without losing AGI functionality"""
+        """Identify modules that can be consolidated without losing Cognitive functionality"""
         consolidation_plan = {
             "merge_candidates": [],
             "interface_standardization": [],
@@ -473,7 +473,7 @@ class AGIModuleAnalyzer:
         return {category: interfaces for category, interfaces in patterns.items() if interfaces}
 
     def _generate_optimization_plan(self) -> dict:
-        """Generate optimization recommendations for the AGI architecture"""
+        """Generate optimization recommendations for the AI architecture"""
         return {
             "architectural_optimizations": self._suggest_architectural_optimizations(),
             "performance_optimizations": self._suggest_performance_optimizations(),
@@ -674,7 +674,7 @@ class AGIModuleAnalyzer:
             return 0
 
     def _generate_modular_recommendations(self) -> list[dict]:
-        """Generate high-level modular recommendations for AGI architecture"""
+        """Generate high-level modular recommendations for AI architecture"""
         recommendations = []
 
         # Analyze current architecture balance
@@ -721,7 +721,7 @@ class AGIModuleAnalyzer:
             {
                 "type": "architectural_pattern",
                 "priority": "HIGH",
-                "description": "Implement layered AGI architecture with clear separation of concerns",
+                "description": "Implement layered AI architecture with clear separation of concerns",
                 "layers": [
                     "Perception Layer",
                     "Cognitive Layer",
@@ -745,7 +745,7 @@ class AGIModuleAnalyzer:
             "from pathlib import Path",
             "",
             "def consolidate_agi_modules():",
-            "    print('🧠 Starting AGI module consolidation...')",
+            "    print('🧠 Starting Cognitive module consolidation...')",
             "",
         ]
 

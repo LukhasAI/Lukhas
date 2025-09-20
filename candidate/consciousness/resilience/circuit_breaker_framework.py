@@ -21,7 +21,7 @@
 ║ • Memory Cascade Prevention: Breaks memory operations before cascade threshold
 ║ • Quantum Decoherence Protection: Prevents quantum state corruption spread
 ║ • Attention Starvation Guard: Ensures minimum attention allocation
-║ • Trinity Coherence Preservation: Maintains Trinity Framework balance
+║ • Trinity Coherence Preservation: Maintains Constellation Framework balance
 ║ • Bio-oscillator Stability: Protects oscillator synchronization
 ║ • Emotional Overflow Prevention: Prevents emotional state saturation
 ║ • Processing Load Balancer: Distributes consciousness processing load
@@ -171,7 +171,7 @@ class CircuitBreakerTrip:
     # System state at trip
     consciousness_state: dict[str, float] = field(default_factory=dict)
     memory_state: dict[str, float] = field(default_factory=dict)
-    triad_metrics: dict[str, float] = field(default_factory=dict)
+    constellation_metrics: dict[str, float] = field(default_factory=dict)
 
     # Impact assessment
     requests_blocked: int = 0
@@ -339,7 +339,7 @@ class ConsciousnessCircuitBreaker(ABC):
             },
             consciousness_state=await self._get_consciousness_state(),
             memory_state=await self._get_memory_state(),
-            triad_metrics=await self._get_triad_metrics(),
+            constellation_metrics=await self._get_triad_metrics(),
         )
 
         self.trip_history.append(trip_event)
@@ -431,7 +431,7 @@ class ConsciousnessCircuitBreaker(ABC):
 
     @abstractmethod
     async def _get_triad_metrics(self) -> dict[str, float]:
-        """Get current Trinity Framework metrics for trip recording"""
+        """Get current Constellation Framework metrics for trip recording"""
         pass
 
     def _get_trigger_value(self, failure_reason: FailureReason) -> float:
@@ -603,7 +603,7 @@ class MemoryCascadePreventionBreaker(ConsciousnessCircuitBreaker):
         }
 
     async def _get_triad_metrics(self) -> dict[str, float]:
-        """Get Trinity Framework metrics for memory cascade breaker"""
+        """Get Constellation Framework metrics for memory cascade breaker"""
         return {
             "guardian_protection": 0.8,  # Guardian is actively protecting
             "consciousness_preservation": self.metrics.consciousness_preservation_rate,
@@ -628,11 +628,11 @@ class MemoryCascadePreventionBreaker(ConsciousnessCircuitBreaker):
 
 class TrinityCoherencePreservationBreaker(ConsciousnessCircuitBreaker):
     """
-    Circuit breaker for Trinity Framework coherence preservation
+    Circuit breaker for Constellation Framework coherence preservation
 
     Protects the balance between Identity (⚛️), Consciousness (🧠), and Guardian (🛡️)
     components by monitoring coherence metrics and preventing operations that
-    would destabilize the Trinity Framework.
+    would destabilize the Constellation Framework.
     """
 
     def __init__(self, config: Optional[CircuitBreakerConfig] = None):
@@ -649,13 +649,13 @@ class TrinityCoherencePreservationBreaker(ConsciousnessCircuitBreaker):
         """Check Trinity coherence before execution"""
 
         # Get current Trinity metrics
-        triad_metrics = await self._calculate_current_triad_metrics(*args, **kwargs)
+        constellation_metrics = await self._calculate_current_triad_metrics(*args, **kwargs)
 
         # Update histories
-        self.triad_coherence_history.append(triad_metrics["coherence"])
-        self.identity_stability_history.append(triad_metrics["identity"])
-        self.consciousness_depth_history.append(triad_metrics["consciousness"])
-        self.guardian_protection_history.append(triad_metrics["guardian"])
+        self.triad_coherence_history.append(constellation_metrics["coherence"])
+        self.identity_stability_history.append(constellation_metrics["identity"])
+        self.consciousness_depth_history.append(constellation_metrics["consciousness"])
+        self.guardian_protection_history.append(constellation_metrics["guardian"])
 
         # Maintain sliding windows
         for history in [
@@ -668,17 +668,17 @@ class TrinityCoherencePreservationBreaker(ConsciousnessCircuitBreaker):
                 history.pop(0)
 
         # Check coherence threshold
-        if triad_metrics["coherence"] < self.config.triad_coherence_threshold:
-            logger.warning(f"ΛTRACE: Trinity coherence below threshold: {triad_metrics['coherence']:.3f}")
+        if constellation_metrics["coherence"] < self.config.triad_coherence_threshold:
+            logger.warning(f"ΛTRACE: Trinity coherence below threshold: {constellation_metrics['coherence']:.3f}")
             return False
 
         # Check component balance
         component_variance = statistics.variance(
-            [triad_metrics["identity"], triad_metrics["consciousness"], triad_metrics["guardian"]]
+            [constellation_metrics["identity"], constellation_metrics["consciousness"], constellation_metrics["guardian"]]
         )
 
         if component_variance > 0.1:  # Components too imbalanced
-            logger.warning(f"ΛTRACE: Trinity components imbalanced - variance: {component_variance:.3f}")
+            logger.warning(f"ΛTRACE: Constellation components imbalanced - variance: {component_variance:.3f}")
             return False
 
         return True
@@ -692,7 +692,7 @@ class TrinityCoherencePreservationBreaker(ConsciousnessCircuitBreaker):
         # Execute operation
         result = await operation(*args, **kwargs)
 
-        # Post-execution Trinity monitoring
+        # Post-execution Constellation monitoring
         post_metrics = await self._calculate_current_triad_metrics(*args, **kwargs)
 
         # Calculate coherence impact
@@ -742,13 +742,13 @@ class TrinityCoherencePreservationBreaker(ConsciousnessCircuitBreaker):
         trip_event.graceful_degradation_applied = True
 
     async def _trigger_triad_rebalancing(self):
-        """Trigger Trinity Framework rebalancing procedures"""
-        logger.info("ΛTRACE: Triggering Trinity Framework rebalancing")
+        """Trigger Constellation Framework rebalancing procedures"""
+        logger.info("ΛTRACE: Triggering Constellation Framework rebalancing")
         # Implementation would interface with actual Trinity systems
         pass
 
     async def _calculate_current_triad_metrics(self, *args, **kwargs) -> dict[str, float]:
-        """Calculate current Trinity Framework metrics"""
+        """Calculate current Constellation Framework metrics"""
 
         # Simulate Trinity metrics (would interface with actual systems)
         import random
@@ -788,7 +788,7 @@ class TrinityCoherencePreservationBreaker(ConsciousnessCircuitBreaker):
         }
 
     async def _get_triad_metrics(self) -> dict[str, float]:
-        """Get Trinity Framework metrics"""
+        """Get Constellation Framework metrics"""
         return {
             "triad_coherence": statistics.mean(self.triad_coherence_history) if self.triad_coherence_history else 0.8,
             "identity_stability": statistics.mean(self.identity_stability_history)
@@ -1078,11 +1078,11 @@ async def main():
         await asyncio.sleep(0.1)
 
     # Show Trinity breaker status
-    triad_status = framework.get_breaker_status(CircuitBreakerType.TRINITY_COHERENCE_PRESERVATION)
+    constellation_status = framework.get_breaker_status(CircuitBreakerType.TRINITY_COHERENCE_PRESERVATION)
     print(f"\nTrinity Coherence Preservation Breaker Status:")
-    print(f"  State: {triad_status['state']}")
-    print(f"  Success Rate: {triad_status['success_rate']:.1%}")
-    print(f"  Trip Count: {triad_status['trip_count']}")
+    print(f"  State: {constellation_status['state']}")
+    print(f"  Success Rate: {constellation_status['success_rate']:.1%}")
+    print(f"  Trip Count: {constellation_status['trip_count']}")
 
     # Show framework statistics
     stats = framework.get_framework_statistics()

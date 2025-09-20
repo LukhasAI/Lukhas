@@ -28,7 +28,7 @@ TAGS: [CRITICAL, KeyFile, Integration] (Original Tags)
 """
 Integration Module
 ==================
-System integration and coordination components for the LUKHAS AGI system.
+System integration and coordination components for the LUKHAS Cognitive system.
 
 This module provides the main integration point and coordinator for all
 AGI components, ensuring seamless communication and coordination between

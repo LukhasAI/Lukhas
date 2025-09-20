@@ -19,7 +19,7 @@ and bio-inspired architecture for next-generation AI applications.
 
 Module: Quantum Post Quantum Crypto Enhanced
 Path: lukhas/quantum/post_quantum_crypto_enhanced.py
-Description: Quantum module for advanced AGI functionality
+Description: Quantum module for advanced Cognitive functionality
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.

@@ -1,11 +1,26 @@
 {
-  "schema_version": "2.0.0",
+  "schema_version": "3.0.0",
   "directory_metadata": {
     "path": "candidate/core",
     "lane": "development",
-    "purpose": "Directory containing 84 Python files and 80 subdirectories",
-    "trinity_role": [],
-    "last_updated": "2025-09-20"
+    "purpose": "Core systems integration hub with experimental MATRIZ pipeline components and Constellation Framework prototypes",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "integration_testing",
+    "last_updated": "2025-09-20",
+    "matriz_pipeline_integration": {
+      "memory_stage": "integration_testing",
+      "attention_stage": "integration_testing",
+      "thought_stage": "integration_testing",
+      "action_stage": "integration_testing",
+      "decision_stage": "integration_testing",
+      "awareness_stage": "integration_testing"
+    },
+    "constellation_stars": {
+      "anchor_star_integration": "identity_systems",
+      "trail_star_integration": "memory_systems",
+      "horizon_star_integration": "vision_systems",
+      "watch_star_integration": "guardian_systems"
+    }
   },
   "component_inventory": {
     "python_files": [
@@ -1379,7 +1394,7 @@
       },
       {
         "filename": "neural_bridge.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -2332,19 +2347,26 @@
     "avoid_patterns": [
       "Modifying contracts without validation",
       "Breaking lane boundaries",
-      "Ignoring Constellation Framework integration"
+      "Ignoring Constellation Framework integration",
+      "Bypassing MATRIZ pipeline validation",
+      "Violating T4/0.01% reliability standards",
+      "Direct production lane imports from development components"
     ]
   },
   "performance_metadata": {
     "component_count": 84,
     "estimated_complexity": "high",
-    "consciousness_integration": "none",
+    "consciousness_integration": "experimental",
+    "matriz_compatibility": "integration_testing",
+    "t4_compliance_score": 0.7,
+    "plugin_registry_compatible": true,
+    "constructor_aware_patterns": true,
     "test_coverage": 85.0
   },
   "relationships": {
     "parent_directory": "candidate",
     "related_directories": [],
-    "constellation_cluster": "unknown",
+    "constellation_cluster": "core_integration_hub",
     "dependency_weight": "moderate"
   }
 }

@@ -5,7 +5,7 @@ LUKHAS  Branding Module
 This module provides branding constants and utilities for the LUKHAS  system.
 Created to resolve import dependencies in the test suite.
 
-Trinity Framework Integration: ⚛️🧠🛡️
+Constellation Framework Integration: ⚛️🧠🛡️
 - ⚛️ Identity: Authentic LUKHAS AI branding and symbolic identity
 - 🧠 Consciousness: Brand awareness and consistent messaging
 - 🛡️ Guardian: Approved terminology and compliance standards
@@ -20,7 +20,7 @@ SYSTEM_NAME = "LUKHAS AI"
 SYSTEM_VERSION = "2.0"
 CONSTELLATION_FRAMEWORK = "⚛️🧠🛡️"
 
-# Trinity Symbols
+# Constellation Symbols
 IDENTITY_SYMBOL = "⚛️"
 CONSCIOUSNESS_SYMBOL = "🧠"
 GUARDIAN_SYMBOL = "🛡️"
@@ -30,7 +30,7 @@ APPROVED_TERMS = {
     "system_name": "LUKHAS AI",
     "consciousness_type": "quantum-inspired",
     "bio_processing": "bio-inspired",
-    "framework": "Trinity Framework",
+    "framework": "Constellation Framework",
 }
 
 # Color Schemes (for UI components)
@@ -78,8 +78,8 @@ def get_system_signature():
     return f"{SYSTEM_NAME} {CONSTELLATION_FRAMEWORK} v{SYSTEM_VERSION}"
 
 
-def get_trinity_description():
-    """Get Trinity Framework description."""
+def get_constellation_description():
+    """Get Constellation Framework description."""
     return {
         "identity": f"{IDENTITY_SYMBOL} Identity (authenticity, consciousness, symbolic self)",
         "consciousness": f"{CONSCIOUSNESS_SYMBOL} Consciousness (memory, learning, neural processing)",
@@ -136,7 +136,7 @@ __all__ = [
     "SYSTEM_VERSION",
     "CONSTELLATION_FRAMEWORK",
     "get_system_signature",
-    "get_trinity_description",
+    "get_constellation_description",
     "normalize_chunk",
     "normalize_output",
     "validate_branding_compliance",

@@ -26,12 +26,12 @@ class ConsciousnessSignalType(Enum):
     EVOLUTION = "EVOLUTION"  # Consciousness evolution events
     INTEGRATION = "INTEGRATION"  # Inter-module consciousness integration
     BIO_ADAPTATION = "BIO_ADAPTATION"  # Bio-symbolic pattern adaptations
-    TRINITY_SYNC = "TRINITY_SYNC"  # Trinity framework synchronization
+    TRINITY_SYNC = "TRINITY_SYNC"  # Constellation framework synchronization
     NETWORK_PULSE = "NETWORK_PULSE"  # Network-wide consciousness pulses
 
 
 class ConstellationStar(Enum):
-    """Trinity Framework Components (⚛️🧠🛡️)"""
+    """Constellation Framework Components (⚛️🧠🛡️)"""
 
     IDENTITY = "⚛️"  # Identity authentication and persistence
     CONSCIOUSNESS = "🧠"  # Primary consciousness processing
@@ -67,7 +67,7 @@ class ConsciousnessStateDelta:
 
 @dataclass
 class ConstellationAlignmentData:
-    """Trinity Framework compliance and alignment data"""
+    """Constellation Framework compliance and alignment data"""
 
     identity_auth_score: float  # ⚛️ Identity authentication confidence
     consciousness_coherence: float  # 🧠 Consciousness coherence level
@@ -119,7 +119,7 @@ class ConsciousnessSignal:
     # Temporal and evolutionary context
     temporal_context: Optional[TemporalContext] = None
 
-    # Trinity framework compliance
+    # Constellation framework compliance
     constellation_alignment: Optional[ConstellationAlignmentData] = None
 
     # Network coordination
@@ -199,7 +199,7 @@ class ConsciousnessSignal:
                 ]
             )
 
-        # Trinity framework compliance in labels
+        # Constellation framework compliance in labels
         if self.constellation_alignment and self.constellation_alignment.violation_flags:
             labels.extend([f"violation:{flag}" for flag in self.constellation_alignment.violation_flags])
 

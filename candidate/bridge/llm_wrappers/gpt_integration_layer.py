@@ -2,7 +2,7 @@
 """
 LUKHΛS GPT Integration Layer
 Symbolic wrapper for GPT model responses with drift detection and healing
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 import json
 import logging
@@ -80,7 +80,7 @@ class GPTIntegrationLayer:
         self.diagnostic_log_path.parent.mkdir(parents=True, exist_ok=True)
 
         logger.info("🤖 GPT Integration Layer initialized")
-        logger.info("   Trinity Framework: ⚛️🧠🛡️")
+        logger.info("   Constellation Framework: ⚛️🧠🛡️")
         logger.info("   Drift annotation enabled")
 
     def process_gpt_response(self, gpt_response: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
@@ -277,7 +277,7 @@ class GPTIntegrationLayer:
             summary["reasons"].append("Ethical drift detected")
 
         if diagnosis.get("primary_issue") == "trinity_violation":
-            summary["reasons"].append("Trinity Framework violation")
+            summary["reasons"].append("Constellation Framework violation")
 
         if assessment.get("trinity_coherence", 1.0) < 0.3:
             summary["reasons"].append(f"Low Trinity coherence: {assessment['trinity_coherence']:.2f}")
@@ -315,7 +315,7 @@ class GPTIntegrationLayer:
         # Trinity-based recommendations
         constellation = assessment.get("trinity_coherence", 1.0)
         if constellation < 0.5:
-            recommendations.append("Reinforce Trinity Framework in prompts")
+            recommendations.append("Reinforce Constellation Framework in prompts")
             recommendations.append(f"Add Trinity glyphs: {' '.join(self.trinity_core)}")
 
         # Issue-specific recommendations

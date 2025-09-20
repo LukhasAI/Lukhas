@@ -1,8 +1,8 @@
 """
 LUKHAS AI Core Module
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
-Core system with integrated GLYPH-based Trinity Framework support
+Core system with integrated GLYPH-based Constellation Framework support
 and branding compliance for symbolic communication.
 """
 import streamlit as st
@@ -14,7 +14,7 @@ try:
         GUARDIAN_SYMBOL,
         IDENTITY_SYMBOL,
         CONSTELLATION_FRAMEWORK,
-        get_trinity_context,
+        get_constellation_context,
     )
 
     CORE_BRANDING_AVAILABLE = True
@@ -37,6 +37,6 @@ __all__ = [
     "CONSTELLATION_FRAMEWORK",
     # Business modules
     "business",
-    # Trinity Framework integration
-    "get_trinity_context",
+    # Constellation Framework integration
+    "get_constellation_context",
 ]

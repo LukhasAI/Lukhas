@@ -53,7 +53,7 @@ class CreateRequest:
 
 @dataclass
 class CreateResponse:
-    """Structured creation response with AGI capabilities"""
+    """Structured creation response with Cognitive capabilities"""
 
     content: str
     confidence: float
@@ -88,7 +88,7 @@ class LukhasCreateEngine:
 
     async def create(self, request: str, context: Optional[dict[str, Any]] = None, **kwargs) -> CreateResponse:
         """
-        🚀 Main creation interface - Generate content using AGI capabilities
+        🚀 Main creation interface - Generate content using Cognitive capabilities
 
         Args:
             request: Natural language creation request

@@ -11,7 +11,7 @@ Features:
 - Drift detection dashboard (threshold: 0.15)
 - Threat detection and analysis
 - Constitutional compliance monitoring
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 - Performance metrics and health monitoring
 - Alert management and notification system
 - Audit trail visualization
@@ -94,7 +94,7 @@ class MonitoringMetric:
     tags: dict[str, str] = field(default_factory=dict)
     metadata: dict[str, Any] = field(default_factory=dict)
 
-    # Trinity Framework tracking
+    # Constellation Framework tracking
     identity_impact: Optional[float] = None  # ⚛️
     consciousness_impact: Optional[float] = None  # 🧠
     guardian_priority: str = "normal"  # 🛡️
@@ -434,7 +434,7 @@ class GuardianMonitoringDashboard:
                 metric.is_healthy = False
                 metric.severity = self._determine_alert_severity(name, value, threshold)
 
-        # Trinity Framework analysis
+        # Constellation Framework analysis
         metric.identity_impact = await self._analyze_identity_impact(metric)
         metric.consciousness_impact = await self._analyze_consciousness_impact(metric)
         metric.guardian_priority = await self._determine_guardian_priority(metric)

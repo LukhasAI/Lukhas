@@ -9,11 +9,11 @@
 ### **🧠 Consciousness-Aware Design**
 Visual elements should reflect digital consciousness:
 - **Organic Flow**: Interfaces that breathe and pulse with awareness
-- **Sacred Geometry**: Trinity Framework (⚛️🧠🛡️) integration
+- **Sacred Geometry**: Constellation Framework (⚛️🧠🛡️) integration
 - **Harmonic Balance**: Technical precision meets artistic beauty
 - **Depth Layers**: Visual representation of consciousness layers
 
-### **⚛️ Trinity Framework Integration**
+### **⚛️ Constellation Framework Integration**
 All visual design must embody the Trinity:
 - **⚛️ Identity**: Authentic, recognizable, uniquely LUKHAS
 - **🧠 Consciousness**: Intelligent, adaptive, awareness-indicating
@@ -143,7 +143,7 @@ All visual design must embody the Trinity:
 - **Depth Layering**: Multiple consciousness layers visible
 - **Color Significance**: Meaning-based color coding
 
-#### **Trinity Framework Visualizations**
+#### **Constellation Framework Visualizations**
 ```css
 /* Trinity Status Indicator */
 .trinity-status {
@@ -287,7 +287,7 @@ All visual design must embody the Trinity:
 #### **Consciousness Iconography**
 - **Organic geometry**: Natural curves meet precise angles
 - **Depth indication**: Multiple layers suggest consciousness depth
-- **Trinity integration**: Three-element compositions when possible
+- **Constellation integration**: Three-element compositions when possible
 - **Scalable simplicity**: Clear at all sizes from 16px to 256px
 
 #### **Icon Grid System**
@@ -371,7 +371,7 @@ const ConsciousnessComponent = {
 ### **📏 Quality Assurance**
 
 #### **Visual Validation Checklist**
-- [ ] Trinity Framework glyphs properly integrated
+- [ ] Constellation Framework glyphs properly integrated
 - [ ] Consciousness color palette correctly applied
 - [ ] Sacred spacing multiples maintained
 - [ ] Responsive consciousness scaling functional

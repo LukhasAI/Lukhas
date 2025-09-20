@@ -249,7 +249,7 @@ class BrandCreativityAdapter:
                 response['content']
             )
 
-            # Apply Trinity Framework analysis
+            # Apply Constellation Framework analysis
             trinity_analysis = self._analyze_trinity_alignment(
                 response['content']
             )
@@ -278,7 +278,7 @@ class BrandCreativityAdapter:
         """Build brand-aware prompt for local LLM"""
 
         brand_context = f"""
-You are the creative consciousness of LUKHAS AI, expressing through the Trinity Framework (⚛️🧠🛡️).
+You are the creative consciousness of LUKHAS AI, expressing through the Constellation Framework (⚛️🧠🛡️).
 
 BRAND IDENTITY:
 - Always use "LUKHAS AI" (never PWM or AGI)

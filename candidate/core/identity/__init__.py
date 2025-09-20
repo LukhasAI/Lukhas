@@ -21,7 +21,7 @@ LUKHAS AI's distributed identity architecture. It provides:
 - Consciousness-integrated identity persistence
 - Identity evolution tracking across consciousness states
 - Memory-based identity continuity
-- Trinity Framework identity compliance
+- Constellation Framework identity compliance
 - Legacy identity system integration
 
 Key Components:

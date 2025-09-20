@@ -1,6 +1,6 @@
 # Mobile App
 
-⚛️🧠🛡️ LUKHAS AI Trinity Framework
+⚛️🧠🛡️ LUKHAS AI Constellation Framework
 
 ## Overview
 
@@ -13,7 +13,7 @@ This module is part of the LUKHAS AI consciousness technology platform.
 ## Features
 
 - [ ] Core functionality implementation
-- [ ] Trinity Framework integration
+- [ ] Constellation Framework integration
 - [ ] Voice coherence optimization
 - [ ] Database integration
 

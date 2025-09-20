@@ -17,10 +17,10 @@
 2. **Configure Actions:**
    - **Schema:** Import from `https://lukhas-mcp-production.up.railway.app/openapi.json`
    - **Authentication:** None
-   - **Instructions:** Access LUKHAS AI Trinity Framework via REST API
+   - **Instructions:** Access LUKHAS AI Constellation Framework via REST API
 
 **Available Actions:**
-- `GET /health` - Health check and Trinity Framework status
+- `GET /health` - Health check and Constellation Framework status
 - `GET /info` - Complete LUKHAS AI platform information  
 - `GET /list-directory?path=/tmp` - Secure directory browsing
 - `GET /read-file?path=/tmp/file.txt` - Secure file reading
@@ -28,7 +28,7 @@
 **Test Commands:**
 ```bash
 curl https://lukhas-mcp-production.up.railway.app/health
-curl https://lukhas-mcp-production.up.railway.app/info | jq .lukhas_ai.trinity_framework
+curl https://lukhas-mcp-production.up.railway.app/info | jq .lukhas_ai.constellation_framework
 curl "https://lukhas-mcp-production.up.railway.app/list-directory?path=/tmp"
 ```
 
@@ -48,7 +48,7 @@ The REST wrapper supports both paradigms:
 
 ## 🏆 What's Working RIGHT NOW
 
-### ⚛️🧠🛡️ Trinity Framework Access via Custom GPT
+### ⚛️🧠🛡️ Constellation Framework Access via Custom GPT
 
 You can **immediately** create a Custom GPT that:
 
@@ -57,7 +57,7 @@ You can **immediately** create a Custom GPT that:
 3. **🛡️ Guardian**: Get Constitutional AI and ethical framework data
 
 **Example Custom GPT Prompts:**
-- *"Check if LUKHAS AI is healthy and show me the Trinity Framework status"*
+- *"Check if LUKHAS AI is healthy and show me the Constellation Framework status"*
 - *"Get detailed information about the LUKHAS AI consciousness architecture"*
 - *"List any files in the /tmp directory and read a configuration file"*
 
@@ -67,7 +67,7 @@ You can **immediately** create a Custom GPT that:
 
 | Endpoint | Status | Purpose |
 |----------|--------|---------|
-| `/health` | ✅ | Trinity Framework health check |
+| `/health` | ✅ | Constellation Framework health check |
 | `/info` | ✅ | Complete platform architecture |
 | `/list-directory` | ✅ | Secure directory listing |
 | `/read-file` | ✅ | Secure file reading (max 1MB) |
@@ -82,7 +82,7 @@ You can **immediately** create a Custom GPT that:
 ### **For Custom GPT Actions (Recommended):**
 1. **Use the working REST API endpoints** 
 2. **Import OpenAPI schema** from `/openapi.json`
-3. **Start building with Trinity Framework data**
+3. **Start building with Constellation Framework data**
 
 ### **For ChatGPT Connectors:**
 1. **REST API provides all necessary data** for both paradigms
@@ -96,14 +96,14 @@ You can **immediately** create a Custom GPT that:
 ✅ **Multi-transport architecture** - Both REST and MCP protocols  
 ✅ **Railway production deployment** - 99.9% uptime, auto-scaling  
 ✅ **Security implementation** - Path sandboxing, file limits, CORS  
-✅ **Trinity Framework integration** - Full ⚛️🧠🛡️ access  
+✅ **Constellation Framework integration** - Full ⚛️🧠🛡️ access  
 ✅ **OpenAPI specification** - Auto-discovery and documentation  
 ✅ **OAuth PRM support** - Enterprise-ready authentication  
 
-**Bottom Line:** Your LUKHAS AI platform is **immediately accessible** through ChatGPT Custom GPT Actions with full Trinity Framework capabilities!
+**Bottom Line:** Your LUKHAS AI platform is **immediately accessible** through ChatGPT Custom GPT Actions with full Constellation Framework capabilities!
 
 ---
 
 *Status: Custom GPT Actions READY • Connectors integration in progress*  
 *Last Updated: September 18, 2025*  
-*Trinity Framework: ⚛️ Identity • 🧠 Consciousness • 🛡️ Guardian*
+*Constellation Framework: ⚛️ Identity • 🧠 Consciousness • 🛡️ Guardian*

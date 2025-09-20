@@ -226,7 +226,7 @@ def add_module_description(filepath: Path) -> bool:
 {"=" * len(filepath.stem.replace("_", " ").title())}
 
 Quantum-enhanced module for {filepath.stem.replace("_", " ")} operations.
-Integrates with LUKHAS AGI architecture for advanced quantum-inspired processing
+Integrates with LUKHAS AI architecture for advanced quantum-inspired processing
 capabilities and bio-symbolic reasoning enhancements.
 """,
         )

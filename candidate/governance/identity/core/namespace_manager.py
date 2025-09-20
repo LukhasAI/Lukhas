@@ -10,7 +10,7 @@ Features:
 - Cross-namespace identity mapping
 - Namespace-specific authentication policies
 - Tenant isolation and security
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 - <5ms namespace resolution latency
 
 Namespace Schema:
@@ -152,7 +152,7 @@ class NamespaceManager:
         self.policy_cache = {}
         self.mapping_cache = {}
 
-        # Trinity Framework integration
+        # Constellation Framework integration
         self.guardian_validator = None  # 🛡️ Guardian
         self.consciousness_tracker = None  # 🧠 Consciousness
         self.identity_verifier = None  # ⚛️ Identity

@@ -10,7 +10,7 @@ This module implements the Constellation Framework for organizing LUKHAS's
 🔬 Horizon Star (Vision): Natural language interface, pattern recognition
 🛡️ Watch Star (Guardian): Ethics oversight, security, compliance
 
-Replaces the previous Trinity Framework with enhanced 4-star coordination.
+Replaces the previous Constellation Framework with enhanced 4-star coordination.
 """
 
 import logging
@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 
 
 class ConstellationStar(Enum):
-    """4-Star Constellation Framework stars"""
+    """Constellation Framework stars"""
     ANCHOR = "⚛️"      # Identity systems
     TRAIL = "✦"        # Memory systems
     HORIZON = "🔬"     # Vision/NLP systems
@@ -227,7 +227,7 @@ class ConstellationFramework:
             "interconnected_clusters": interconnected_clusters,
             "connectivity_improvement": (interconnected_clusters / len(self.clusters)) * 100,
             "isolated_components_remaining": len(self.isolated_components),
-            "constellation_compliance": "✅ 4-Star Framework Active",
+            "constellation_compliance": "✅ Dynamic Constellation Framework Active",
             "graph_density_improvement": "🔄 Bridging 189 clusters for enhanced connectivity"
         }
 
@@ -235,7 +235,7 @@ class ConstellationFramework:
 def get_constellation_context() -> Dict[str, any]:
     """
     Get current constellation framework context
-    Replaces get_constellation_context from Trinity Framework
+    Replaces get_constellation_context from Constellation Framework
     """
     return {
         "framework": "Constellation Framework v2.0.0",
@@ -245,8 +245,8 @@ def get_constellation_context() -> Dict[str, any]:
             "horizon": "🔬 Vision - Natural language interface, pattern recognition",
             "watch": "🛡️ Guardian - Ethics oversight, security, compliance"
         },
-        "coordination": "4-Star Orchestration",
-        "transition_from": "Trinity Framework (⚛️🧠🛡️)",
+        "coordination": "Dynamic Constellation Orchestration",
+        "transition_from": "Constellation Framework (⚛️🧠🛡️)",
         "architecture_improvement": "189 cluster organization with 164 isolated component integration",
         "status": "🌌 Active Constellation Coordination"
     }

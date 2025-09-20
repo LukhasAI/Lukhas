@@ -35,6 +35,7 @@ dependencies = [
     "typing-extensions>=4.8.0",
     "pyyaml>=6.0.1",
     "python-dotenv>=1.0.0",
+    "importlib-metadata>=6.0.0; python_version<'3.10'",
     "websockets",
     "pynacl",
     "Pillow",
@@ -84,6 +85,45 @@ dropbox = [
 [project.scripts]
 lukhas = "main:main"
 lukhas-test = "tests.COMPLETE_SYSTEM_TEST:main"
+
+[project.entry-points."lukhas.cognitive_nodes"]
+# MATRIZ Cognitive Nodes - Auto-discoverable via entry points (aligned with cognitive naming)
+memory = "candidate.core.matrix.nodes.memory_node:MemoryNode"
+attention = "candidate.core.matrix.nodes.attention_node:AttentionNode"
+thought = "candidate.core.matrix.nodes.thought_node:ThoughtNode"
+risk = "candidate.core.matrix.nodes.risk_node:RiskNode"
+intent = "candidate.core.matrix.nodes.intent_node:IntentNode"
+action = "candidate.core.matrix.nodes.action_node:ActionNode"
+vision = "candidate.core.matrix.nodes.vision_node:VisionNode"
+
+# Optional legacy alias group (kept for sunset period)
+[project.entry-points."lukhas.agi_nodes"]
+memory = "candidate.core.matrix.nodes.memory_node:MemoryNode"
+attention = "candidate.core.matrix.nodes.attention_node:AttentionNode"
+thought = "candidate.core.matrix.nodes.thought_node:ThoughtNode"
+risk = "candidate.core.matrix.nodes.risk_node:RiskNode"
+intent = "candidate.core.matrix.nodes.intent_node:IntentNode"
+action = "candidate.core.matrix.nodes.action_node:ActionNode"
+vision = "candidate.core.matrix.nodes.vision_node:VisionNode"
+
+[project.entry-points."lukhas.constellation_components"]
+# Constellation Framework Components
+identity = "candidate.governance.identity.core.lambda_id_core:IdentityComponent"
+consciousness = "candidate.consciousness.core.engine:ConsciousnessComponent"
+guardian = "candidate.governance.guardian.guardian_system:GuardianComponent"
+memory_system = "candidate.memory.core.base_manager:MemorySystemComponent"
+
+[project.entry-points."lukhas.adapters"]
+# External Service Adapters
+gmail = "candidate.bridge.adapters.gmail_adapter:GmailAdapter"
+dropbox = "candidate.bridge.adapters.dropbox_adapter:DropboxAdapter"
+oauth = "candidate.governance.identity.core.auth.oauth2_oidc_provider:OAuth2Provider"
+
+[project.entry-points."lukhas.monitoring"]
+# Observability and Monitoring Components
+metrics = "lukhas.metrics:PrometheusMetrics"
+tracing = "candidate.core.orchestration.otel:OpenTelemetryTracing"
+constellation_monitor = "candidate.core.observability.constellation_framework_monitor:ConstellationFrameworkMonitor"
 
 [project.urls]
 Homepage = "https://github.com/LukhasAI/Lukhas"

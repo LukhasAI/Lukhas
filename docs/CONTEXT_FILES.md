@@ -45,7 +45,7 @@ directory/
 ### For Claude Desktop Users
 - Continue using `claude.me` files (zero disruption)
 - Built-in recognition and optimization
-- Full Trinity Framework integration
+- Full Constellation Framework integration
 
 ### For Other AI Tools
 - Configure tools to read `lukhas_context.md` files
@@ -111,7 +111,7 @@ lukhas/claude.me / lukhas_context.md       # Integration layer (148 files)
 matriz/claude.me / lukhas_context.md       # Cognitive DNA processing
 ```
 
-### Trinity Framework
+### Constellation Framework
 - **⚛️ Identity**: identity/, candidate/core/identity/, lukhas/identity/
 - **🧠 Consciousness**: consciousness/, candidate/consciousness/, lukhas/consciousness/
 - **🛡️ Guardian**: ethics/, governance/, ethics/guardian/

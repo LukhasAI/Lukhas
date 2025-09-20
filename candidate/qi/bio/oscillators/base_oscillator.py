@@ -1,5 +1,5 @@
 """
-Core bio-oscillator implementation for LUKHAS AGI system.
+Core bio-oscillator implementation for LUKHAS Cognitive system.
 
 This module provides the foundational oscillator classes that power the rhythm-based
 processing patterns in the LUKHAS system. It implements quantum-biological metaphors

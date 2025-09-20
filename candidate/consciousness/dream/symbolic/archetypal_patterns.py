@@ -45,14 +45,14 @@ class ArchetypalResonance(Enum):
 
 
 class ArchetypalPatternRecognizer:
-    """Advanced archetypal pattern recognition with Trinity Framework compliance."""
+    """Advanced archetypal pattern recognition with Constellation Framework compliance."""
 
     def __init__(self):
         self.archetypal_registry = self._initialize_archetypal_registry()
         self.pattern_history: list[dict] = []
         self.recognition_templates = self._initialize_recognition_templates()
         self.recognition_counter = 0
-        logger.info("🎭 Archetypal Pattern Recognizer initialized - Trinity Framework active")
+        logger.info("🎭 Archetypal Pattern Recognizer initialized - Constellation Framework active")
 
     def _initialize_archetypal_registry(self) -> dict[str, dict]:
         """Initialize comprehensive archetypal registry."""
@@ -167,7 +167,7 @@ class ArchetypalPatternRecognizer:
         # Determine dominant archetypes
         dominant_archetypes = self._identify_dominant_archetypes(archetypal_analysis)
 
-        # Calculate Trinity Framework resonance
+        # Calculate Constellation Framework resonance
         trinity_resonance = self._calculate_trinity_archetypal_resonance(archetypal_analysis)
 
         # Generate archetypal insights
@@ -316,7 +316,7 @@ class ArchetypalPatternRecognizer:
         return significant_archetypes[:3]  # Return top 3 dominant archetypes
 
     def _calculate_trinity_archetypal_resonance(self, archetypal_analysis: dict[str, dict]) -> dict[str, Any]:
-        """Calculate Trinity Framework resonance within archetypal patterns."""
+        """Calculate Constellation Framework resonance within archetypal patterns."""
         trinity_aspects = {"identity": [], "consciousness": [], "guardian": []}
 
         for analysis in archetypal_analysis.values():
@@ -391,11 +391,11 @@ class ArchetypalPatternRecognizer:
         # Trinity resonance insights
         trinity_score = trinity_resonance["overall_score"]
         if trinity_score > 0.8:
-            insights.append("Excellent Trinity Framework archetypal integration detected")
+            insights.append("Excellent Constellation Framework archetypal integration detected")
         elif trinity_score > 0.6:
-            insights.append("Strong Trinity Framework archetypal presence suggests balanced development")
+            insights.append("Strong Constellation Framework archetypal presence suggests balanced development")
         elif trinity_score > 0.4:
-            insights.append("Developing Trinity Framework archetypal awareness")
+            insights.append("Developing Constellation Framework archetypal awareness")
 
         # Dominant archetype insights
         if dominant_archetypes:
@@ -420,11 +420,11 @@ class ArchetypalPatternRecognizer:
         # Balance insights
         balance_score = trinity_resonance["balance_score"]
         if balance_score > 0.8:
-            insights.append("Excellent archetypal balance across Trinity Framework aspects")
+            insights.append("Excellent archetypal balance across Constellation Framework aspects")
         elif balance_score > 0.6:
             insights.append("Good archetypal balance with room for development")
         else:
-            insights.append("Consider developing balance across Trinity Framework archetypal aspects")
+            insights.append("Consider developing balance across Constellation Framework archetypal aspects")
 
         return insights
 
@@ -506,7 +506,7 @@ class ArchetypalPatternRecognizer:
         return 1.0 - min(score_variance, 1.0)
 
     def _track_trinity_development(self, sequence_results: list[dict]) -> dict[str, Any]:
-        """Track Trinity Framework development across sequence."""
+        """Track Constellation Framework development across sequence."""
         trinity_scores = [result["trinity_resonance"]["overall_score"] for result in sequence_results]
 
         if len(trinity_scores) < 2:

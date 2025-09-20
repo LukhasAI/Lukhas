@@ -11,7 +11,7 @@
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
-║ This module provides standardized logging utilities for the LUKHAS AGI system,
+║ This module provides standardized logging utilities for the LUKHAS Cognitive system,
 ║ ensuring consistent log formatting and hierarchical organization:
 ║
 ║ • Hierarchical logger namespacing (e.g., lukhas.module.submodule)
@@ -23,7 +23,7 @@
 ║
 ║ The logging framework is essential for debugging, monitoring, and auditing
 ║ LUKHAS operations. It provides the foundation for observability and
-║ troubleshooting across the distributed AGI system.
+║ troubleshooting across the distributed Cognitive system.
 ║
 ║ Key Features:
 ║ • Automatic logger hierarchy based on module names
@@ -103,7 +103,7 @@ logger = setup_logger("lukhas.common")
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

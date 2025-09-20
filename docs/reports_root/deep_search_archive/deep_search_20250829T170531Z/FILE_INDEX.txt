@@ -335,7 +335,7 @@ branding/tone/tools/lukhas_tone_config.yaml
 branding/tone/tools/lukhas_tone_fixer.py
 branding/tone/tools/lukhas_tone_validator.py
 branding/tone/tools/pre-commit-tone-validation.sh
-branding/trinity/TRINITY_BRANDING_GUIDELINES.md
+branding/constellation/TRINITY_BRANDING_GUIDELINES.md
 branding/visual/VISUAL_IDENTITY_STANDARDS.md
 branding/vocabularies/README.md
 branding/vocabularies/__init__.py
@@ -1072,7 +1072,7 @@ candidate/consciousness/systems/state.py
 candidate/consciousness/systems/unified_consciousness_engine.py
 candidate/consciousness/systems/validator.py
 candidate/consciousness/systems/ΛBot_consciousness_monitor.py
-candidate/consciousness/trinity/framework_integration.py
+candidate/consciousness/constellation/framework_integration.py
 candidate/consciousness/unified/__init__.py
 candidate/consciousness/unified/auto_consciousness.py
 candidate/consciousness/unified/consolidate_consciousness_unification.py
@@ -3817,7 +3817,7 @@ docs/consciousness/bio-inspired-design.md
 docs/consciousness/consciousness-patterns.md
 docs/consciousness/symbolic-vocabulary.md
 docs/consciousness/trinity-framework-guide.md
-docs/consciousness/trinity_framework.md
+docs/consciousness/constellation_framework.md
 docs/consciousness/vivox_capabilities_report.md
 docs/consciousness/vivox_evrn_implementation_report.md
 docs/consciousness/vivox_improvements_summary.md
@@ -4533,7 +4533,7 @@ scripts/start_mcp_server.sh
 scripts/svg-freeze-validator.js
 scripts/terminal_safety_demo.sh
 scripts/transfer_candidate_scanner.py
-scripts/trinity/activate_framework_monitoring.sh
+scripts/constellation/activate_framework_monitoring.sh
 scripts/utilities/IMMEDIATE_CONFIG_ANALYSIS.py
 scripts/utilities/__init__.py
 scripts/utilities/auto_backup_lukhas.sh

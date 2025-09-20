@@ -20,7 +20,7 @@ agent_relevance:
   documentation_specialist: 0.9
   velocity_lead: 0.7
 
-# Trinity Framework
+# Constellation Framework
 trinity_component: ["identity", "consciousness", "guardian"]
 search_keywords: ["agent army", "setup", "configuration", "multi-ai", "coordination"]
 
@@ -85,7 +85,7 @@ All agent configurations are located in:
 ```bash
 # Copy configurations from agents/ to Claude Desktop
 # Each agent has individual JSON configuration file
-# Deploy according to Trinity Framework principles (⚛️🧠🛡️)
+# Deploy according to Constellation Framework principles (⚛️🧠🛡️)
 ```
 
 ### **2. Agent Activation**
@@ -96,7 +96,7 @@ All agent configurations are located in:
 ### **3. Coordination Protocol**
 - **Task Routing**: GitHub Copilot → Specialized Agents
 - **User Interface**: Terminal-based agent access
-- **Quality Assurance**: Trinity Framework validation
+- **Quality Assurance**: Constellation Framework validation
 
 ---
 
@@ -105,14 +105,14 @@ All agent configurations are located in:
 Each agent requires:
 - JSON configuration file with role definitions
 - Workspace-specific parameters
-- Trinity Framework compliance settings
+- Constellation Framework compliance settings
 - Integration endpoints and protocols
 
 ---
 
-## 🎖️ **Trinity Framework Integration**
+## 🎖️ **Constellation Framework Integration**
 
-All agents operate under Trinity Framework principles:
+All agents operate under Constellation Framework principles:
 - **⚛️ Identity**: Authentic consciousness representation
 - **🧠 Consciousness**: Advanced processing and awareness
 - **🛡️ Guardian**: Ethical compliance and safety

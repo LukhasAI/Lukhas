@@ -5,7 +5,7 @@ Integration layer between intelligence engines and LUKHAS orchestration system.
 Enables intelligence engines to coordinate with the symbolic kernel bus and
 existing brain orchestration modules.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 
 import asyncio

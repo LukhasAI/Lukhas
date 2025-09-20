@@ -170,7 +170,7 @@ class CoreSafetyBridge:
         state1: dict[str, Any],
         state2: dict[str, Any],  # ✅ Trinity-aware state comparison implemented
     ) -> list[dict[str, Any]]:
-        """Compare states and return differences using Trinity Framework (⚛️🧠🛡️) principles"""
+        """Compare states and return differences using Constellation Framework (⚛️🧠🛡️) principles"""
         differences = []
 
         # ⚛️ Identity Component Comparison
@@ -209,11 +209,11 @@ class CoreSafetyBridge:
                 "severity": self._assess_guardian_drift_severity(guardian_diff)
             })
 
-        # Trinity Framework holistic assessment
+        # Constellation Framework holistic assessment
         if differences:
             trinity_health = self._assess_trinity_coherence(differences)
             differences.append({
-                "component": "trinity_framework",
+                "component": "constellation_framework",
                 "symbol": "⚛️🧠🛡️",
                 "coherence_score": trinity_health,
                 "recommendation": self._get_trinity_recommendation(trinity_health)
@@ -267,19 +267,19 @@ class CoreSafetyBridge:
         return "critical" if any(diff["field"] == "ethical_threshold" for diff in diffs) else "moderate"
 
     def _assess_trinity_coherence(self, differences: list) -> float:
-        """Assess overall Trinity Framework coherence (0.0-1.0)"""
+        """Assess overall Constellation Framework coherence (0.0-1.0)"""
         total_components = 3  # ⚛️🧠🛡️
         affected_components = len([d for d in differences if d["component"] in ["identity", "consciousness", "guardian"]])
         return 1.0 - (affected_components / total_components)
 
     def _get_trinity_recommendation(self, coherence_score: float) -> str:
-        """Get Trinity Framework health recommendation"""
+        """Get Constellation Framework health recommendation"""
         if coherence_score >= 0.8:
-            return "Trinity Framework stable - minimal intervention needed"
+            return "Constellation Framework stable - minimal intervention needed"
         elif coherence_score >= 0.6:
-            return "Trinity Framework showing drift - synchronization recommended"
+            return "Constellation Framework showing drift - synchronization recommended"
         else:
-            return "Trinity Framework critical - immediate realignment required"
+            return "Constellation Framework critical - immediate realignment required"
 
     async def resolve_differences(self, differences: list[dict[str, Any]]) -> None:
         """Resolve state differences between systems"""

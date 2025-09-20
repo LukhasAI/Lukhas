@@ -1,10 +1,10 @@
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: api_controllers.py
 # MODULE: core.api_controllers
-# DESCRIPTION: Provides REST API controllers for LUKHAS AGI system modules,
+# DESCRIPTION: Provides REST API controllers for LUKHAS Cognitive system modules,
 #              exposing services via HTTP with authentication and error handling.
 # DEPENDENCIES: Flask, functools, os, sys, typing, datetime, traceback, logging,
-#               various AGI module services (ethics, memory, etc.), IdentityClient.
+#               various Cognitive module services (ethics, memory, etc.), IdentityClient.
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
@@ -61,7 +61,7 @@ logger.info("ΛTRACE: Initializing api_controllers module.")
 # Import module services
 # It's good practice to have these services clearly defined and importable.
 # The fallback classes are useful for development if services are not yet available.
-# AIMPORT_RESOLVED: AGI services imports have been reviewed and improved with
+# AIMPORT_RESOLVED: Cognitive services imports have been reviewed and improved with
 # proper fallback handling and service registry integration. The current
 # implementation uses try/catch blocks for graceful degradation when services
 # are not available, and integrates with the service registry for better
@@ -82,9 +82,9 @@ try:
     # Learning service is now obtained through the service registry
     from qi.qi_service import QIService
 
-    logger.info("ΛTRACE: Successfully imported AGI module services and IdentityClient.")
+    logger.info("ΛTRACE: Successfully imported Cognitive module services and IdentityClient.")
 except ImportError as e:
-    logger.warning(f"ΛTRACE: Some AGI module service imports failed: {e}. Using fallback classes for development.")
+    logger.warning(f"ΛTRACE: Some Cognitive module service imports failed: {e}. Using fallback classes for development.")
     # ΛCORE: Import fallback services from dedicated module
     from .fallback_services import (
         FallbackConsciousnessService as ConsciousnessService,
@@ -130,7 +130,7 @@ learning_service_getter = _get_learning_service()
 learning_service = learning_service_getter()
 qi_service = QIService()
 identity_client = IdentityClient()  # This client handles auth and activity logging
-logger.info("ΛTRACE: All AGI module services initialized (potentially fallbacks).")
+logger.info("ΛTRACE: All Cognitive module services initialized (potentially fallbacks).")
 
 # API Configuration
 API_VERSION = "v1.0.0"  # More semantic versioning
@@ -1085,7 +1085,7 @@ if __name__ == "__main__":
 #            plus numerous Flask route handler functions.
 # CLASSES: Fallback service classes (EthicsService, MemoryService, etc.) for development.
 # DECORATORS: @app.route, @require_auth, @wraps, @app.errorhandler.
-# DEPENDENCIES: Flask, functools, os, sys, typing, datetime, traceback, logging, AGI services.
+# DEPENDENCIES: Flask, functools, os, sys, typing, datetime, traceback, logging, Cognitive services.
 # INTERFACES: Exposes RESTful HTTP endpoints.
 # ERROR HANDLING: Centralized via handle_api_error and Flask's @app.errorhandler.
 # LOGGING: ΛTRACE_ENABLED using Python's logging module for API lifecycle and operations.
@@ -1094,11 +1094,11 @@ if __name__ == "__main__":
 #   Run this script (e.g., python core/api_controllers.py).
 #   Send HTTP requests to endpoints like /api/v1.0.0/ethics/assess (POST).
 #   Include 'X-User-ID' header for authentication.
-# INTEGRATION NOTES: Assumes AGI service classes (EthicsService, etc.) and IdentityClient
+# INTEGRATION NOTES: Assumes Cognitive service classes (EthicsService, etc.) and IdentityClient
 #                    are correctly implemented and importable. Service initialization is basic;
 #                    consider a more robust DI or service location pattern for production.
 # MAINTENANCE: Update endpoint definitions, required tiers, and request/response structures
-#              as AGI module services evolve. Ensure fallback classes are kept minimal
+#              as Cognitive module services evolve. Ensure fallback classes are kept minimal
 #              and only for dev convenience if real services are unavailable.
 # CONTACT: LUKHAS DEVELOPMENT TEAM
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED

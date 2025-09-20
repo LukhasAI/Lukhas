@@ -73,10 +73,10 @@ git gc --aggressive --prune=now
 
 ---
 
-## 🛡️ **CLAUDE AGENT 2 TASKS** - Ethics, Compliance & Trinity Framework
+## 🛡️ **CLAUDE AGENT 2 TASKS** - Ethics, Compliance & Constellation Framework
 
 ### **Priority 1: Guardian System Validation** 🛡️
-**Target:** Ensure Trinity Framework (⚛️🧠🛡️) is functional
+**Target:** Ensure Constellation Framework (⚛️🧠🛡️) is functional
 
 **Task 2.1:** Guardian Audit Implementation
 ```bash
@@ -119,7 +119,7 @@ grep -r "TODO.*performance\|FIXME.*slow" --include="*.py" .
 **Task 2.4:** Trinity Documentation Generation
 ```bash
 # Files to create:
-- docs/trinity_framework.md
+- docs/constellation_framework.md
 - docs/ethical_guidelines.md
 - docs/symbolic_architecture.md
 
@@ -176,7 +176,7 @@ grep -r "\$[0-9]\|revenue\|profit\|pricing" --include="*.py" .
 - ✅ Technical debt reduced by 25% (180+ TODOs resolved)
 - ✅ Test coverage increased to 6%+ (200+ test files)
 - ✅ All code complies with Trinity branding policy
-- ✅ Complete documentation for Trinity Framework
+- ✅ Complete documentation for Constellation Framework
 
 ### **Shared Validation:**
 ```bash
@@ -201,7 +201,7 @@ python real_gpt_drift_audit.py --compliance-check
 
 ### **Phase 3 (Medium-term - 1 week):**
 - Both: Test coverage expansion + technical debt reduction
-- Integration testing and Trinity Framework validation
+- Integration testing and Constellation Framework validation
 
 ---
 

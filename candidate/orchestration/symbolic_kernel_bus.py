@@ -5,7 +5,7 @@ LUKHΛS Symbolic Kernel Bus
 Production-ready event coordination system for swarm actions, plugin triggers,
 and memory signals. Implements symbolic routing with automatic handler connections.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 import asyncio
 import logging
@@ -174,7 +174,7 @@ class SymbolicKernelBus:
         if BRANDING_AVAILABLE:
             self._brand_context = BrandContext(
                 voice_profile="identity",  # Orchestration uses identity profile
-                triad_emphasis="balanced",  # All Trinity components
+                triad_emphasis="balanced",  # All Constellation components
                 compliance_level="standard",
                 creative_mode=False,
                 terminology_enforcement=True,
@@ -451,7 +451,7 @@ class SymbolicKernelBus:
 
                     event.payload[key] = branded_value
 
-            # Add Trinity Framework context for consciousness and guardian events
+            # Add Constellation Framework context for consciousness and guardian events
             if any(
                 effect
                 in [

@@ -62,7 +62,7 @@ logger = logging.getLogger(__name__)
 
 class IdentityManager:
     """
-    Manages the identity framework for the adaptive AGI system.
+    Manages the identity framework for the adaptive Cognitive system.
 
     This system coordinates personal identity, emotional memory,
     and secure access to sensitive memories. It enables the system

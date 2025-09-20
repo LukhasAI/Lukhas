@@ -11,7 +11,7 @@ Features:
 - JWT token issuance and validation
 - Tier-based scope management
 - PKCE support for enhanced security
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 - <100ms p95 latency for token operations
 """
 import base64
@@ -156,7 +156,7 @@ class OAuth2OIDCProvider:
             5: {"*"},  # Admin - all scopes
         }
 
-        # Trinity Framework integration
+        # Constellation Framework integration
         self.guardian_validator = None  # 🛡️ Guardian
         self.consciousness_tracker = None  # 🧠 Consciousness
         self.identity_verifier = None  # ⚛️ Identity

@@ -18,7 +18,7 @@ Core Features:
 - Scalable safety oversight
 - Emergency containment protocols
 - Comprehensive audit trails
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 
 Safety Standards:
 - Constitutional compliance: >95%
@@ -160,7 +160,7 @@ class GuardianDecision:
     explanation: str = ""
     explanation_type: ExplanationType = ExplanationType.STANDARD
 
-    # Trinity Framework
+    # Constellation Framework
     identity_impact: Optional[float] = None  # ⚛️
     consciousness_impact: Optional[float] = None  # 🧠
     guardian_priority: str = "normal"  # 🛡️

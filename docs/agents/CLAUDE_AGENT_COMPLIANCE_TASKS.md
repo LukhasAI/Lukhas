@@ -17,7 +17,7 @@
 - **⚠️ PARTIAL:** VIVOX has 55/78 tests failing (logic issues)
 
 ### ✅ **Agent 2 (Ethics & Compliance) - Grade: B (80%)**
-- **✅ SUCCESS:** Created 1,086 lines of Trinity Framework documentation
+- **✅ SUCCESS:** Created 1,086 lines of Constellation Framework documentation
 - **✅ SUCCESS:** Professional ethical guidelines implementation
 - **✅ SUCCESS:** Comprehensive test structure for Trinity
 - **❌ BLOCKED:** Guardian system tests fail due to missing dependencies
@@ -453,7 +453,7 @@ git status  # Should show clean organization
 
 ---
 
-*Task assignments follow LUKHAS AI's Trinity Framework (⚛️🧠🛡️) with evidence-based success criteria and transparent validation protocols.*
+*Task assignments follow LUKHAS AI's Constellation Framework (⚛️🧠🛡️) with evidence-based success criteria and transparent validation protocols.*
 
 ---
 

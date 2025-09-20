@@ -8,7 +8,7 @@ This is the **official STDIO-based MCP server** that ChatGPT requires, implement
 ✅ **MCP v2025-06-18**: Implements the latest protocol specification  
 ✅ **JSON-RPC 2.0**: Proper message format and error handling  
 ✅ **Security**: Path sandboxing and input validation  
-✅ **Trinity Framework**: LUKHAS AI branding and capabilities  
+✅ **Constellation Framework**: LUKHAS AI branding and capabilities  
 
 ## 🚀 Quick Start
 
@@ -82,7 +82,7 @@ Searches for files matching a pattern in a directory.
 ```
 
 ### 4. `get_lukhas_info`
-Gets information about the LUKHAS AI system and Trinity Framework.
+Gets information about the LUKHAS AI system and Constellation Framework.
 
 **Input:**
 ```json
@@ -137,7 +137,7 @@ echo '{"jsonrpc": "2.0", "id": 3, "method": "tools/call", "params": {"name": "li
 }
 ```
 
-## ⚛️🧠🛡️ LUKHAS AI Trinity Framework
+## ⚛️🧠🛡️ LUKHAS AI Constellation Framework
 
 This MCP server provides ChatGPT with access to LUKHAS AI Platform capabilities:
 

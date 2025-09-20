@@ -272,7 +272,7 @@
         ]
       },
       {
-        "filename": "agi_core_demo.py",
+        "filename": "cognitive_core_demo.py",
         "component_type": "UTILITY",
         "has_contract": false,
         "contract_path": null,

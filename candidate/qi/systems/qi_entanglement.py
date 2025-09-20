@@ -19,7 +19,7 @@ and bio-inspired architecture for next-generation AI applications.
 
 Module: Quantum Quantum Entanglement
 Path: lukhas/quantum/qi_entanglement.py
-Description: Quantum module for advanced AGI functionality
+Description: Quantum module for advanced Cognitive functionality
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.

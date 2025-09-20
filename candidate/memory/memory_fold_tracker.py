@@ -2,7 +2,7 @@
 """
 LUKHΛS Memory Fold Tracker
 Detects symbolic patterns, recursions, and stability opportunities
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 import json
 import logging
@@ -245,7 +245,7 @@ class MemoryFoldTracker:
         return collapses
 
     def _detect_trinity_voids(self, sessions: list[dict]) -> list[dict]:
-        """Detect sessions lacking Trinity Framework"""
+        """Detect sessions lacking Constellation Framework"""
         voids = []
 
         for i, session in enumerate(sessions):

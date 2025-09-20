@@ -63,9 +63,9 @@ print(auth_status)
 # {'authenticated': True, 'user_id': 'user_123', 'permissions': ['read', 'write']}
 ```
 
-### **🛡️ Trinity Framework Authentication**
+### **🛡️ Constellation Framework Authentication**
 ```python
-# Enhanced security with Trinity Framework integration
+# Enhanced security with Constellation Framework integration
 trinity_auth = TrinityFramework.authenticate(
     identity_token="your_identity_token",
     consciousness_verification=True,
@@ -117,7 +117,7 @@ Interface to bridge/voice systems with brand-specific voice profiles.
 POST /adapters/voice/generate
 
 {
-    "content": "The Trinity Framework enables conscious AI interactions",
+    "content": "The Constellation Framework enables conscious AI interactions",
     "tone_layer": "user_friendly",
     "voice_profile": "consciousness_ambassador",
     "emotional_context": "encouraging",
@@ -221,7 +221,7 @@ POST /intelligence/analyze
         "tone_appropriateness": 0.91
     },
     "improvement_suggestions": [
-        "Consider adding more Trinity Framework references",
+        "Consider adding more Constellation Framework references",
         "Enhance consciousness terminology usage"
     ]
 }
@@ -363,7 +363,7 @@ POST /orchestration/create
 {
     "content_request": {
         "type": "marketing_content",
-        "topic": "Trinity Framework consciousness technology",
+        "topic": "Constellation Framework consciousness technology",
         "audience": "technical_professionals",
         "tone_layer": "user_friendly",
         "context": "product_introduction"
@@ -644,7 +644,7 @@ asyncio.run(monitor.start_monitoring())
 |---|---|---|
 | `INVALID_API_KEY` | API key missing or invalid | Verify API key and permissions |
 | `BRAND_VALIDATION_FAILED` | Content violates brand guidelines | Apply suggested corrections |
-| `TRINITY_ALIGNMENT_ERROR` | Trinity Framework integration issues | Review Trinity requirements |
+| `TRINITY_ALIGNMENT_ERROR` | Constellation Framework integration issues | Review Trinity requirements |
 | `RATE_LIMIT_EXCEEDED` | Too many requests | Implement rate limiting |
 | `CONTENT_TOO_LARGE` | Content exceeds size limits | Split content into smaller chunks |
 | `INVALID_TONE_LAYER` | Unsupported tone layer specified | Use valid tone layer values |

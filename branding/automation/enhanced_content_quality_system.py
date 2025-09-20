@@ -189,7 +189,7 @@ class EnhancedContentQualitySystem:
         if brand_result.is_compliant and len(brand_result.issues) == 0:
             bonus += 0.2
 
-        # Bonus for rich Trinity Framework integration
+        # Bonus for rich Constellation Framework integration
         triad_balance = voice_result.triad_balance
         balance_score = 1.0 - max(abs(v - 0.33) for v in triad_balance.values()) * 3
         if balance_score >= 0.8:
@@ -367,9 +367,9 @@ class EnhancedContentQualitySystem:
         improved_content = content
 
         for suggestion in suggestions:
-            if "Trinity Framework" in suggestion and "⚛️🧠🛡️" not in content:
+            if "Constellation Framework" in suggestion and "⚛️🧠🛡️" not in content:
                 improved_content += (
-                    " The Trinity Framework (⚛️🧠🛡️) ensures authentic, conscious, and ethical AI assistance."
+                    " The Constellation Framework (⚛️🧠🛡️) ensures authentic, conscious, and ethical AI assistance."
                 )
 
             elif "call-to-action" in suggestion and "?" not in content:
@@ -412,7 +412,7 @@ async def main():
     test_content = [
         "LUKHAS AI is great.",  # Poor quality
         "LUKHAS consciousness technology helps users with smart AI solutions.",  # Medium quality
-        "LUKHAS consciousness technology represents a transformative approach to artificial intelligence, integrating the Trinity Framework (⚛️🧠🛡️) to deliver authentic, aware, and ethically-guided assistance. Our quantum-inspired algorithms create genuine understanding that resonates with human consciousness. What aspects of conscious AI technology intrigue you most?",  # High quality
+        "LUKHAS consciousness technology represents a transformative approach to artificial intelligence, integrating the Constellation Framework (⚛️🧠🛡️) to deliver authentic, aware, and ethically-guided assistance. Our quantum-inspired algorithms create genuine understanding that resonates with human consciousness. What aspects of conscious AI technology intrigue you most?",  # High quality
     ]
 
     for i, content in enumerate(test_content):

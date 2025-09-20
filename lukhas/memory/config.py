@@ -1,7 +1,7 @@
 """
 LUKHAS AI Memory Configuration
 Configuration settings for the memory system
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 import os

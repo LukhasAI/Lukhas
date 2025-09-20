@@ -1,5 +1,5 @@
 """
-LUKHAS Brand Orchestrator AI Agent - Trinity Framework (⚛️🧠🛡️)
+LUKHAS Brand Orchestrator AI Agent - Constellation Framework (⚛️🧠🛡️)
 Master AI agent for coordinating all brand systems and ensuring cohesive brand expression
 """
 
@@ -171,7 +171,7 @@ class BrandOrchestratorAgent:
             "brand_objectives": {
                 "primary": "Establish LUKHAS AI as the leading conscious AI platform",
                 "secondary": [
-                    "Maintain Trinity Framework coherence across all communications",
+                    "Maintain Constellation Framework coherence across all communications",
                     "Ensure ethical AI representation in all content",
                     "Build trust through transparency and authenticity",
                     "Enhance accessibility while maintaining technical depth",
@@ -591,7 +591,7 @@ class BrandOrchestratorAgent:
             if area == "brand_consistency":
                 recommendations.append("Review content for brand guideline compliance")
             elif area == "triad_alignment":
-                recommendations.append("Strengthen Trinity Framework integration (⚛️🧠🛡️)")
+                recommendations.append("Strengthen Constellation Framework integration (⚛️🧠🛡️)")
             elif area == "sentiment_quality":
                 recommendations.append("Improve sentiment through more positive, engaging language")
             elif area == "voice_consistency":
@@ -851,7 +851,7 @@ class BrandOrchestratorAgent:
                 "Address user pain points proactively",
             ],
             "triad_alignment": [
-                "Strengthen Trinity Framework integration",
+                "Strengthen Constellation Framework integration",
                 "Increase Trinity symbol usage",
                 "Align content with Identity-Consciousness-Guardian themes",
             ],
@@ -1084,7 +1084,7 @@ if __name__ == "__main__":
 
         # Test content orchestration
         content_request = {
-            "prompt": "Explain the Trinity Framework to new users",
+            "prompt": "Explain the Constellation Framework to new users",
             "tone_layer": "user_friendly",
             "creative_style": "consciousness_inspired",
             "personality_profile": "lukhas_consciousness",

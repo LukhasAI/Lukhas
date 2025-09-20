@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-🎯 T4 F821/F401 ERROR ANNOTATOR - LUKHAS AI Trinity Framework
+🎯 T4 F821/F401 ERROR ANNOTATOR - LUKHAS AI Constellation Framework
 ==============================================================
 ⚛️ Transform undefined names and unused imports into documented technical debt
-🧠 Consciousness-aware error annotation with Trinity Framework compliance
+🧠 Consciousness-aware error annotation with Constellation Framework compliance
 🛡️ Guardian-validated annotation system for production stability
 
 This tool automatically adds policy annotations to F821 (undefined name) and
@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 
 
 class F821F401Annotator:
-    """Trinity Framework compliant error annotator for F821 and F401 issues"""
+    """Constellation Framework compliant error annotator for F821 and F401 issues"""
 
     def __init__(self):
         self.annotated_count = 0
@@ -76,7 +76,7 @@ class F821F401Annotator:
 
     def process_errors(self, error_codes: List[str]):
         """Process and annotate F821/F401 errors"""
-        logger.info("🎯 T4 F821/F401 ANNOTATOR - LUKHAS Trinity Framework")
+        logger.info("🎯 T4 F821/F401 ANNOTATOR - LUKHAS Constellation Framework")
         logger.info("=" * 60)
         logger.info("⚛️ Transforming technical debt into documented intent")
 

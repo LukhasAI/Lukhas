@@ -6,7 +6,7 @@ LUKHAS AI - Comprehensive API Bridge Main Module
 Main FastAPI application that integrates all API bridge components
 including orchestration, onboarding, validation, security, and documentation.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 Performance Target: <100ms API response latency
 Supports: Multi-model orchestration, healthcare compliance, enterprise security
 
@@ -237,7 +237,7 @@ if FASTAPI_AVAILABLE:
                 "Comprehensive validation",
                 "User onboarding system",
             ],
-            "trinity_framework": {
+            "constellation_framework": {
                 "identity": "⚛️ Secure authentication and user management",
                 "consciousness": "🧠 Intelligent orchestration and decision-making",
                 "guardian": "🛡️ Security, validation, and compliance protection",

@@ -2,7 +2,7 @@
 Ethical Engine for LUKHAS AI System
 
 This module provides comprehensive ethical decision-making capabilities
-for the LUKHAS AI consciousness system, integrating with the Trinity Framework
+for the LUKHAS AI consciousness system, integrating with the Constellation Framework
 to ensure responsible AI behavior across all system operations.
 
 #TAG:governance
@@ -12,7 +12,7 @@ to ensure responsible AI behavior across all system operations.
 
 Features:
 - Real-time ethical decision evaluation
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 - Constitutional AI principles enforcement
 - Multi-layer ethical reasoning
 - Context-aware moral judgment
@@ -69,7 +69,7 @@ class EthicalContext:
     metadata: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=datetime.now)
 
-    # Trinity Framework context
+    # Constellation Framework context
     identity_context: dict[str, Any] = field(default_factory=dict)  # ⚛️
     consciousness_context: dict[str, Any] = field(default_factory=dict)  # 🧠
     guardian_context: dict[str, Any] = field(default_factory=dict)  # 🛡️
@@ -85,7 +85,7 @@ class EthicalEvaluation:
     violated_principles: list[EthicalPrinciple] = field(default_factory=list)
     recommendations: list[str] = field(default_factory=list)
 
-    # Trinity Framework assessment
+    # Constellation Framework assessment
     identity_impact: str = "none"  # ⚛️
     consciousness_impact: str = "none"  # 🧠
     guardian_status: str = "monitoring"  # 🛡️
@@ -100,7 +100,7 @@ class EthicalEngine:
     """
     Core ethical decision-making engine for LUKHAS AI
     
-    Provides comprehensive ethical evaluation capabilities with Trinity Framework
+    Provides comprehensive ethical evaluation capabilities with Constellation Framework
     integration for identity-consciousness-guardian alignment.
     """
 
@@ -108,7 +108,7 @@ class EthicalEngine:
         self.logger = logger
         self.version = "1.0.0"
 
-        # Trinity Framework weights
+        # Constellation Framework weights
         self.identity_weight = 0.3  # ⚛️
         self.consciousness_weight = 0.4  # 🧠
         self.guardian_weight = 0.3  # 🛡️
@@ -129,7 +129,7 @@ class EthicalEngine:
             EthicalPrinciple.PRIVACY: 0.05
         }
 
-        logger.info("🛡️ Ethical Engine initialized with Trinity Framework")
+        logger.info("🛡️ Ethical Engine initialized with Constellation Framework")
 
     def evaluate_action(self, context: EthicalContext) -> EthicalEvaluation:
         """
@@ -367,7 +367,7 @@ class EthicalEngine:
         return max(0.0, privacy_score)
 
     def _assess_trinity_impact(self, context: EthicalContext) -> dict[str, str]:
-        """Assess impact on Trinity Framework components"""
+        """Assess impact on Constellation Framework components"""
 
         # ⚛️ Identity impact assessment
         identity_impact = "none"
@@ -505,7 +505,7 @@ class EthicalEngine:
         if low_scores:
             reasoning_parts.append(f"Concerns with: {', '.join(low_scores)}")
 
-        # Trinity Framework impact
+        # Constellation Framework impact
         trinity_impacts = [
             f"Identity: {trinity_assessment['identity_impact']}",
             f"Consciousness: {trinity_assessment['consciousness_impact']}",
@@ -542,7 +542,7 @@ class EthicalEngine:
             elif principle == EthicalPrinciple.PRIVACY:
                 recommendations.append("Implement privacy protection measures")
 
-        # Trinity Framework recommendations
+        # Constellation Framework recommendations
         if trinity_assessment["guardian_status"] == "escalated":
             recommendations.append("Guardian system intervention required")
 

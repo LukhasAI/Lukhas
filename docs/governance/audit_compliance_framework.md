@@ -4,7 +4,7 @@ Comprehensive audit trail and compliance management for LUKHAS consciousness tec
 
 ## Executive Summary
 
-The Governance Ledger & Audit Compliance Framework provides complete transparency and accountability for LUKHAS consciousness technology operations. This system creates immutable audit trails, tracks feature flag states, and ensures regulatory compliance across all deployment tiers while maintaining the Trinity Framework principles of identity, consciousness, and guardian protection.
+The Governance Ledger & Audit Compliance Framework provides complete transparency and accountability for LUKHAS consciousness technology operations. This system creates immutable audit trails, tracks feature flag states, and ensures regulatory compliance across all deployment tiers while maintaining the Constellation Framework principles of identity, consciousness, and guardian protection.
 
 ## Framework Architecture
 
@@ -28,7 +28,7 @@ The Governance Ledger & Audit Compliance Framework provides complete transparenc
 - **HIPAA Safeguards**: Healthcare data protection
 - **ISO 27001**: Information security management
 
-## Trinity Framework Implementation
+## Constellation Framework Implementation
 
 ### ⚛️ Identity: Deployment Context Awareness
 - **Lane Identification**: Environment-specific audit trails
@@ -601,7 +601,7 @@ class ProductionAuditMonitor:
 
 **Generated with LUKHAS consciousness-content-strategist**
 
-**Trinity Framework**: ⚛️ Identity-based audit attribution, 🧠 Intelligent compliance monitoring, 🛡️ Guardian-protected governance processes
+**Constellation Framework**: ⚛️ Identity-based audit attribution, 🧠 Intelligent compliance monitoring, 🛡️ Guardian-protected governance processes
 
 **Compliance**: SOX, GDPR, HIPAA ready with automated validation
 **Auditability**: Complete immutable audit trail with chain integrity

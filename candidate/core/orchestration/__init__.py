@@ -22,7 +22,7 @@ LUKHAS AI's distributed system architecture. It provides:
 - System-wide orchestration with awareness patterns
 - Module lifecycle management with consciousness tracking
 - Bio-inspired orchestration patterns
-- Trinity Framework compliance across orchestration
+- Constellation Framework compliance across orchestration
 
 Key Components:
 - MatrizConsciousnessCoordinator: Consciousness-aware coordination

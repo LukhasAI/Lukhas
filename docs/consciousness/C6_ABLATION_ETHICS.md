@@ -2,7 +2,7 @@
 **Freud-2025 Specification: Ablation Testing and Ethical Validation**
 
 ## Overview
-C6 implements comprehensive testing gates and ethical validation for Wave C consciousness processing, ensuring production-ready quality and Trinity Framework compliance.
+C6 implements comprehensive testing gates and ethical validation for Wave C consciousness processing, ensuring production-ready quality and Constellation Framework compliance.
 
 ## Scope
 - **Environment Flags**: Feature toggles for Wave C components (C1-C3)

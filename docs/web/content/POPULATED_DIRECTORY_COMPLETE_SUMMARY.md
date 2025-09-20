@@ -131,7 +131,7 @@ Every domain strategy properly implements tone layer distribution:
 - **Constellation Symbols**: Appropriate ⚛️🧠🛡️ usage in poetic contexts
 - **Poetic Limits**: All expressions ≤40 words as per standards
 
-### **✅ Trinity Framework Integration**
+### **✅ Constellation Framework Integration**
 Every domain strategy includes comprehensive ⚛️🧠🛡️ integration:
 - ⚛️ **Identity**: Unique positioning and user relationship management
 - 🧠 **Consciousness**: Awareness-driven features and decision making
@@ -212,7 +212,7 @@ Based on extracted and organized content:
 ### **Quality Standards**: ✅ 100% Compliant
 - **3-Layer Tone System**: Properly implemented across all content
 - **Vocabulary Consistency**: LUKHAS standards maintained throughout
-- **Trinity Framework**: ⚛️🧠🛡️ integration in all strategies
+- **Constellation Framework**: ⚛️🧠🛡️ integration in all strategies
 - **Technical Accuracy**: Claims backed by extracted documentation
 
 ### **Strategic Value**: ✅ Maximum Impact

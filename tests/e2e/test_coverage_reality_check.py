@@ -8,7 +8,7 @@ OBJECTIVE: Get REAL coverage numbers, not inflated estimates
 - Identify gaps in testing
 - Provide honest coverage assessment
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 import json

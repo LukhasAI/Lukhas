@@ -20,7 +20,7 @@ When asking an agent to develop any LUKHAS component, provide this context:
 4. `/README.md` and `/lambda_products_pack/README.md`
 
 **🏗️ Architecture Context:**
-- **Trinity Framework**: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian
+- **Constellation Framework**: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian
 - **QI Processing**: All 'Quantum' references are now 'QI - Quantum Inspired'
 - **Bio-Oscillator Integration**: Advanced processing with biological awareness
 - **Ethical Frameworks**: Multi-tier ethics with drift detection"
@@ -193,7 +193,7 @@ Development Focus:
 4. `/lambda_products_pack/lambda_core/[COMPONENT]/complete_implementation/` (existing code)
 
 **Architecture Requirements**:
-- ⚛️🧠🛡️ Trinity Framework compliance (Identity, Consciousness, Guardian)
+- ⚛️🧠🛡️ Constellation Framework compliance (Identity, Consciousness, Guardian)
 - QI (Quantum-Inspired) processing - NOT actual quantum computing
 - Bio-oscillator awareness integration
 - Multi-tier ethics system with drift detection
@@ -208,7 +208,7 @@ Development Focus:
 **Development Standards**:
 - Follow existing code patterns in complete_implementation directories
 - Include comprehensive docstrings and type hints
-- Implement Trinity Framework validation points
+- Implement Constellation Framework validation points
 - Add ethical checkpoints and guardrails
 - Create corresponding test files
 - Update documentation and README files
@@ -240,7 +240,7 @@ Development Focus:
    ```
 
 2. **Architecture Review** (10 minutes):
-   - Trinity Framework requirements (⚛️🧠🛡️)
+   - Constellation Framework requirements (⚛️🧠🛡️)
    - QI processing capabilities
    - Bio-oscillator integration points
    - Ethical framework integration
@@ -248,13 +248,13 @@ Development Focus:
 3. **Implementation** (main development):
    - Start with complete_implementation directory as base
    - Follow existing patterns and conventions
-   - Implement Trinity Framework checkpoints
+   - Implement Constellation Framework checkpoints
    - Add comprehensive testing
 
 4. **Integration Testing** (validation):
    - Component-level tests
    - Integration with Lambda Products ecosystem
-   - Trinity Framework compliance validation
+   - Constellation Framework compliance validation
    - Ethics and safety verification
 
 ---
@@ -288,7 +288,7 @@ Development Focus:
 ## 🎯 Success Criteria
 
 ### **Any component development should achieve:**
-- ✅ Trinity Framework compliance (⚛️🧠🛡️)
+- ✅ Constellation Framework compliance (⚛️🧠🛡️)
 - ✅ QI processing integration (not quantum computing)
 - ✅ Bio-oscillator awareness
 - ✅ Multi-tier ethics validation
@@ -299,7 +299,7 @@ Development Focus:
 
 ---
 
-**💡 Pro Tip**: Start any development request with: *"Using the complete development context in `/AGENT_DEVELOPMENT_GUIDE.md`, develop [COMPONENT] with full Trinity Framework integration..."*
+**💡 Pro Tip**: Start any development request with: *"Using the complete development context in `/AGENT_DEVELOPMENT_GUIDE.md`, develop [COMPONENT] with full Constellation Framework integration..."*
 
 ---
 *Created: August 21, 2025*

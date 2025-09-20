@@ -50,7 +50,7 @@ from ..events.typed_event_bus import get_typed_event_bus
 4. **Memory wrapper** - `lukhas.memory.memory_wrapper.MemoryWrapper`
 5. **Symbolic context** - `candidate.core.symbolic.context.SymbolicContext` 
 6. **Identity Manager** - `candidate.core.identity.manager`
-7. **Trinity Framework** - `lukhas.core`
+7. **Constellation Framework** - `lukhas.core`
 8. **Actor System** - `lukhas.core.actor_system`
 
 ### ⚠️ Partially Working (1/9):

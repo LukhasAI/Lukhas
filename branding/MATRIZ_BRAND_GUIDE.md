@@ -43,7 +43,7 @@ MΛTRIZ is LUKHAS AI's traceability and governance layer that turns model decisi
 
 ## Visual Identity
 
-- **Colors**: Inherit from Trinity Framework
+- **Colors**: Inherit from Constellation Framework
   - Primary: Purple (#6B46C1)
   - Secondary: Blue (#0EA5E9)
 - **Font**: Helvetica Neue (100 weight for Lambda)

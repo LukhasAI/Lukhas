@@ -93,7 +93,7 @@
     {
       "task_id": "TODO-HIGH-CANDIDATE-CORE-c24f150d",
       "priority": "high",
-      "title": "kept for Trinity Framework consciousness evolution",
+      "title": "kept for Constellation Framework consciousness evolution",
       "file": "./candidate/core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py",
       "line_hint": 9,
       "module": "candidate/core",
@@ -408,7 +408,7 @@
     {
       "task_id": "TODO-HIGH-CANDIDATE-CORE-c4d9d42b",
       "priority": "high",
-      "title": "specialist] Implement Trinity identity-consciousness state comparison",
+      "title": "specialist] Implement Constellation identity-consciousness state comparison",
       "file": "./candidate/core/bridges/identity_core_bridge.py",
       "line_hint": 171,
       "module": "candidate/core",
@@ -416,7 +416,7 @@
       "status": "open",
       "source": "high_todos.md",
       "evidence": {
-        "grep": "./candidate/core/bridges/identity_core_bridge.py:        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Trinity identity-consciousness state comparison",
+        "grep": "./candidate/core/bridges/identity_core_bridge.py:        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Constellation identity-consciousness state comparison",
         "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
       },
       "acceptance": [],

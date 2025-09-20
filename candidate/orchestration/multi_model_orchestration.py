@@ -5,7 +5,7 @@ LUKHAS AI Multi-Model Orchestration Pipeline
 Orchestrates consensus across multiple AI models (GPT-4, Claude, Gemini) with
 transparent workflow execution and interpretability logging.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 Performance Target: Sub-250ms context handoffs between models
 Consensus Strategy: Weighted voting with confidence scoring
 
@@ -172,7 +172,7 @@ class OrchestrationPipeline:
     min_confidence_threshold: float = 0.7
     min_agreement_threshold: float = 0.6
 
-    # Trinity Framework requirements
+    # Constellation Framework requirements
     requires_identity_validation: bool = False  # ⚛️
     requires_consciousness_context: bool = False  # 🧠
     requires_guardian_oversight: bool = True  # 🛡️

@@ -182,7 +182,7 @@ class SymbolicDriftTracker:
 
 if __name__ == "__main__":
     # ΛNOTE: This entry point simulates a symbolic drift recording for testing and demonstration.
-    # It showcases how the SymbolicDriftTracker might be used in the broader AGI system.
+    # It showcases how the SymbolicDriftTracker might be used in the broader Cognitive system.
     print("Running Symbolic Drift Tracker Simulation...")
 
     # Basic configuration for the tracker

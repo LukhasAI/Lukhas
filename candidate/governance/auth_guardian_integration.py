@@ -16,7 +16,7 @@ This module provides:
 
 Author: LUKHAS AI System
 Version: 1.0.0
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 import logging
 from dataclasses import dataclass

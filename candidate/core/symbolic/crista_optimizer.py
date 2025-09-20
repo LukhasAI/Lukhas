@@ -439,14 +439,14 @@ class TopologyManager:
 
 # Main CristaOptimizer Class
 # Simulates mitochondrial cristae-like remodeling (fusion, fission, detachment)
-# within a symbolic cognitive graph network in the LUKHAS AGI system.
+# within a symbolic cognitive graph network in the LUKHAS Cognitive system.
 # This class orchestrates the adaptive changes to the network topology.
 
 
 class CristaOptimizer:
     """
     Simulates mitochondrial cristae-like remodeling (fusion, fission, detachment)
-    within a symbolic cognitive graph network in the LUKHAS AGI system.
+    within a symbolic cognitive graph network in the LUKHAS Cognitive system.
     This class orchestrates the adaptive changes to the network topology.
     """
 

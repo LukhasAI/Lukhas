@@ -121,7 +121,7 @@ class LukhasMCPServer:
             },
             {
                 "name": "get_lukhas_info",
-                "description": "Get information about the LUKHAS AI system and Trinity Framework",
+                "description": "Get information about the LUKHAS AI system and Constellation Framework",
                 "inputSchema": {
                     "type": "object",
                     "properties": {},
@@ -177,7 +177,7 @@ class LukhasMCPServer:
                 "path": path,
                 "items": items,
                 "total_items": len(items),
-                "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+                "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
             }
             
             return json.dumps(result, indent=2)
@@ -232,7 +232,7 @@ class LukhasMCPServer:
                 "displayed_lines": len(content_lines),
                 "truncated": truncated,
                 "file_size_bytes": file_size,
-                "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+                "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
             }
             
             return json.dumps(result, indent=2)
@@ -297,7 +297,7 @@ class LukhasMCPServer:
                 "matches": matches,
                 "total_found": len(matches),
                 "truncated": len(matches) >= max_results,
-                "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+                "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
             }
             
             return json.dumps(result, indent=2)
@@ -307,7 +307,7 @@ class LukhasMCPServer:
             return json.dumps({"error": f"Error searching files: {str(e)}"}, indent=2)
     
     async def get_lukhas_info_tool(self) -> str:
-        """Get information about the LUKHAS AI system and Trinity Framework."""
+        """Get information about the LUKHAS AI system and Constellation Framework."""
         try:
             import platform
             
@@ -316,7 +316,7 @@ class LukhasMCPServer:
                     "name": "LUKHAS AI Platform",
                     "description": "Consciousness-Aware AI Development Platform",
                     "version": "1.0.0",
-                    "trinity_framework": {
+                    "constellation_framework": {
                         "symbol": "⚛️🧠🛡️",
                         "components": {
                             "⚛️ Identity": "Lambda ID system, authentication, symbolic self-representation",
@@ -488,7 +488,7 @@ async def main():
         os.environ["ALLOWED_ROOTS"] = ",".join(default_roots)
     
     logger.info("🚀 Starting LUKHAS AI MCP STDIO Server")
-    logger.info("⚛️🧠🛡️ Trinity Framework: Identity, Consciousness, Guardian")
+    logger.info("⚛️🧠🛡️ Constellation Framework: Identity, Consciousness, Guardian")
     logger.info(f"📁 Allowed roots: {os.getenv('ALLOWED_ROOTS')}")
     logger.info("📋 Protocol: MCP v2025-06-18 with STDIO transport")
     logger.info("🔗 Ready for ChatGPT integration")

@@ -88,7 +88,7 @@ class LambdaBotConsciousnessIntegration:
             logger.info("Initializing ΛBot consciousness integration...")
 
             # Initialize the consciousness monitor if available
-            if LAMBDA_BOT_CONSCIOUSNESS_AVAILABLE and hasattr(self.consciousness_monitor, "agi_core"):
+            if LAMBDA_BOT_CONSCIOUSNESS_AVAILABLE and hasattr(self.consciousness_monitor, "cognitive_core"):
                 logger.info("ΛBot consciousness monitor initialized")
 
             # Setup consciousness monitoring systems
@@ -238,11 +238,11 @@ class LambdaBotConsciousnessIntegration:
             await self.initialize()
 
         try:
-            if LAMBDA_BOT_CONSCIOUSNESS_AVAILABLE and hasattr(self.consciousness_monitor, "agi_core"):
+            if LAMBDA_BOT_CONSCIOUSNESS_AVAILABLE and hasattr(self.consciousness_monitor, "cognitive_core"):
                 # Get state from consciousness monitor
                 monitor = self.consciousness_monitor
-                if hasattr(monitor, "agi_core") and hasattr(monitor.agi_core, "meta_state"):
-                    meta_state = monitor.agi_core.meta_state
+                if hasattr(monitor, "cognitive_core") and hasattr(monitor.cognitive_core, "meta_state"):
+                    meta_state = monitor.cognitive_core.meta_state
 
                     consciousness_state = {
                         "consciousness_level": getattr(meta_state, "consciousness_level", ConsciousnessLevel.BASIC),
@@ -273,7 +273,7 @@ class LambdaBotConsciousnessIntegration:
 
     async def demonstrate_agi_capabilities(self) -> dict[str, Any]:
         """
-        Demonstrate AGI capabilities
+        Demonstrate Cognitive capabilities
 
         Returns:
             Dict containing capability demonstration results
@@ -304,7 +304,7 @@ class LambdaBotConsciousnessIntegration:
                 for capability in capabilities_demonstrated:
                     self.agi_capabilities[capability] = True
 
-                logger.info("AGI capabilities demonstration completed")
+                logger.info("Cognitive capabilities demonstration completed")
                 return {
                     "success": True,
                     "capabilities_demonstrated": capabilities_demonstrated,
@@ -315,7 +315,7 @@ class LambdaBotConsciousnessIntegration:
                 return await self._fallback_demonstrate_agi()
 
         except Exception as e:
-            logger.error(f"Error demonstrating AGI capabilities: {e}")
+            logger.error(f"Error demonstrating Cognitive capabilities: {e}")
             return {
                 "success": False,
                 "error": str(e),
@@ -528,7 +528,7 @@ class LambdaBotConsciousnessIntegration:
             if capability in self.agi_capabilities:
                 self.agi_capabilities[capability] = True
 
-        logger.info("Fallback AGI capabilities demonstration completed")
+        logger.info("Fallback Cognitive capabilities demonstration completed")
         return {
             "success": True,
             "capabilities_demonstrated": capabilities_demonstrated,

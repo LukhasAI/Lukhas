@@ -201,7 +201,7 @@ infrastructure_pricing = {
 - Optimizes performance while maintaining ethical guardrails
 - Learns from consciousness patterns to improve routing decisions
 
-**Trinity Framework Integration:**
+**Constellation Framework Integration:**
 - ⚛️ **Identity**: Persistent user context across distributed infrastructure
 - 🧠 **Consciousness**: Awareness-driven routing and optimization decisions  
 - 🛡️ **Guardian**: Built-in ethical evaluation and protection at infrastructure level

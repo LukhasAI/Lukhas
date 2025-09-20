@@ -128,7 +128,7 @@
         "dependencies": [
           "lukhas.async_manager",
           "lukhas.consciousness.registry",
-          "lukhas.consciousness.trinity_integration",
+          "lukhas.consciousness.constellation_integration",
           "lukhas.core.common.config"
         ],
         "exports": [

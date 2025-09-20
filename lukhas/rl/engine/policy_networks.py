@@ -6,7 +6,7 @@ Neural network architectures specifically designed for consciousness-aware
 policy learning. Includes attention mechanisms, reflection components, and
 ethical constraint integration.
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 from __future__ import annotations

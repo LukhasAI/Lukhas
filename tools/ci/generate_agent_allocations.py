@@ -343,7 +343,7 @@ def generate_all_allocations(manifest_path: str, output_dir: str):
             "implementation_guidance": {
                 "key_areas": [spec["focus"]],
                 "lukhas_context": {
-                    "trinity_framework": get_trinity_context(spec["specialty"]),
+                    "constellation_framework": get_constellation_context(spec["specialty"]),
                     "verification_required": not spec["flagged"],
                 },
                 "verification_requirements": get_verification_requirements(spec["specialty"]),
@@ -393,8 +393,8 @@ def generate_all_allocations(manifest_path: str, output_dir: str):
     print(f"📊 Remaining: {total_available - len(allocated_todos)}/{total_available} TODOs")
 
 
-def get_trinity_context(specialty):
-    """Get Trinity Framework context for specialty"""
+def get_constellation_context(specialty):
+    """Get Constellation Framework context for specialty"""
     if "identity" in specialty.lower() or "auth" in specialty.lower():
         return "Focus on Identity pillar (⚛️) integration"
     elif "consciousness" in specialty.lower() or "awareness" in specialty.lower():

@@ -190,7 +190,7 @@ LUKHAS now possesses:
 - **Quantum Accountability** for all remediation decisions
 - **Emergent Sub-Intelligence** spawning for specialized tasks
 
-This positions LUKHAS as not just an AGI system, but as a **governed symbolic democracy** capable of autonomous ethical decision-making within democratically established bounds.
+This positions LUKHAS as not just an Cognitive system, but as a **governed symbolic democracy** capable of autonomous ethical decision-making within democratically established bounds.
 
 ---
 

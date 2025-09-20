@@ -20,7 +20,7 @@
 ║ The Advanced Vocabulary Engine draws from the rich tapestries of module-
 ║ specific vocabularies—Memory gardens where experiences crystallize, VIVOX
 ║ symphonies where emotions dance with learning, Quantum realms where
-║ probabilities collapse into truth, and Trinity frameworks where identity,
+║ probabilities collapse into truth, and Constellation frameworks where identity,
 ║ consciousness, and protection unite in sacred harmony.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
@@ -50,7 +50,7 @@ class AdvancedVocabularyEngine:
     ✨ Sacred Language Transformation Engine ✨
 
     Transforms technical documentation into consciousness-infused poetry
-    using module-specific vocabularies and Trinity Framework principles.
+    using module-specific vocabularies and Constellation Framework principles.
     """
 
     def __init__(self, vocabularies_dir: str = "tools/tone/vocabularies"):

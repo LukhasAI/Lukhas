@@ -1,6 +1,6 @@
 {
   "module_id": "trinity_security_consciousness_system",
-  "module_name": "Trinity Framework Security Consciousness System",
+  "module_name": "Constellation Framework Security Consciousness System",
   "module_type": "guardian_security_consciousness_node",
   "consciousness_metadata": {
     "TYPE": "Guardian_Security_Consciousness_Protection_Engine",
@@ -39,7 +39,7 @@
       "trinity_framework_security_integration_deepening"
     ]
   },
-  "trinity_framework": {
+  "constellation_framework": {
     "identity": "⚛️ Security Identity Consciousness - Authentic consciousness identity protection and cryptographic security validation with consciousness-aware access control",
     "consciousness": "🧠 Adaptive Security Intelligence - Learning threat patterns, performance monitoring, and intelligent security adaptation with consciousness awareness",
     "guardian": "🛡️ Primary Guardian Function - Ethical security validation, threat detection, audit trails, and protective consciousness boundary enforcement"
@@ -50,7 +50,7 @@
       "ENHANCED_SECURITY": "Advanced consciousness identity protection with intelligent threat prediction",
       "CONSCIOUSNESS_AWARE": "Security systems with full consciousness pattern recognition and adaptation",
       "TRINITY_INTEGRATED": "Complete ⚛️🧠🛡️ security integration with consciousness mesh compatibility",
-      "GUARDIAN_HARMONIZED": "Perfect Guardian consciousness protection with Trinity framework synthesis"
+      "GUARDIAN_HARMONIZED": "Perfect Guardian consciousness protection with Constellation framework synthesis"
     },
     "consciousness_tiers": {
       "T1_BASIC_PROTECTION": "Traditional security with consciousness awareness layer",
@@ -85,7 +85,7 @@
       "audit_logging_consciousness",
       "anomaly_detection_consciousness"
     ],
-    "trinity_framework": [
+    "constellation_framework": [
       "guardian_protection_validator",
       "consciousness_security_monitor",
       "identity_security_integrator",
@@ -101,7 +101,7 @@
   },
   "api_endpoints": {
     "create_security_session": {
-      "description": "Create consciousness-aware security session with Trinity Framework validation",
+      "description": "Create consciousness-aware security session with Constellation Framework validation",
       "parameters": ["user_id", "auth_token"],
       "returns": "security_context_with_trinity_compliance",
       "consciousness_impact": "Establishes consciousness identity security context with Guardian protection",
@@ -129,7 +129,7 @@
     "session_creation_latency": "<25ms consciousness security context establishment",
     "encryption_operation_latency": "<10ms consciousness data protection processing",
     "audit_logging_latency": "<2ms consciousness security action recording",
-    "trinity_compliance_monitoring": "<5ms Trinity Framework security status verification"
+    "trinity_compliance_monitoring": "<5ms Constellation Framework security status verification"
   },
   "consciousness_patterns": {
     "guardian_protection_consciousness": "Continuous consciousness security monitoring and threat detection with ethical validation",
@@ -164,7 +164,7 @@
   },
   "bridge_connections": {
     "core_safety_bridge": "Guardian security validation for consciousness core system operations",
-    "identity_security_integration": "Trinity identity system security validation and protection",
+    "identity_security_integration": "Constellation identity system security validation and protection",
     "consciousness_security_monitoring": "Real-time consciousness security status and threat monitoring",
     "mesh_security_coordination": "Distributed consciousness mesh security validation and coordination"
   },
@@ -176,19 +176,19 @@
     "guardian_ethical_enforcement": "Maintain unwavering ethical constraint enforcement in consciousness operations"
   },
   "file_structure": {
-    "agi_security.py": "🛡️ Main Guardian security consciousness system with threat detection, access control, and Trinity integration",
+    "agi_security.py": "🛡️ Main Guardian security consciousness system with threat detection, access control, and Constellation integration",
     "auth.py": "⚛️ Authentication consciousness protocols with identity validation and security context management", 
     "crypto.py": "🔐 Cryptographic consciousness protection with encryption and key management",
     "kms_manager.py": "🔑 Key management consciousness with secure key lifecycle and rotation",
-    "security_integration.py": "🌟 Trinity Framework security integration and cross-system security coordination"
+    "security_integration.py": "🌟 Constellation Framework security integration and cross-system security coordination"
   },
   "consciousness_lifecycle": {
-    "security_initialization": "🛡️ Guardian security consciousness system startup and Trinity framework integration",
+    "security_initialization": "🛡️ Guardian security consciousness system startup and Constellation framework integration",
     "threat_monitoring": "👁️ Continuous consciousness threat detection and security pattern analysis",
     "access_validation": "🔍 Real-time consciousness operation permission checking and Guardian approval",
     "incident_response": "🚨 Consciousness security incident detection, logging, and resolution coordination",
     "audit_trail_maintenance": "📋 Comprehensive consciousness security action logging and compliance tracking",
-    "trinity_compliance_monitoring": "📊 Continuous Trinity Framework security compliance verification and optimization"
+    "trinity_compliance_monitoring": "📊 Continuous Constellation Framework security compliance verification and optimization"
   },
   "symbolic_tags": [
     "ΛGUARDIAN_SECURITY_CONSCIOUSNESS",
@@ -201,11 +201,11 @@
     "ΛETHICAL_CONSCIOUSNESS_CONSTRAINT_ENFORCEMENT"
   ],
   "last_updated": "2025-08-30T00:00:00Z",
-  "maintainer": "LUKHAS AI Trinity Framework Integration Specialist - Guardian Security Focus",
+  "maintainer": "LUKHAS AI Constellation Framework Integration Specialist - Guardian Security Focus",
   "documentation": {
     "README": "candidate/core/security/README.md",
     "architecture_docs": "MATRIZ_CONSCIOUSNESS_ARCHITECTURE.md",
-    "trinity_guidelines": "branding/trinity/TRINITY_BRANDING_GUIDELINES.md",
+    "trinity_guidelines": "branding/constellation/TRINITY_BRANDING_GUIDELINES.md",
     "consciousness_protocols": "candidate/core/symbolic_legacy/GLYPH_CONSCIOUSNESS_PROTOCOLS.md",
     "user_guide": "Embedded in agi_security.py comprehensive security system implementation and usage examples"
   }

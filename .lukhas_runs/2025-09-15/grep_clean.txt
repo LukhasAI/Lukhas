@@ -54,15 +54,15 @@
 ./candidate/core/qi_financial/qi_financial_consciousness_engine.py:        ],  # TODO[QUANTUM-BIO:specialist] - Product consciousness value in exchange calculation
 ./candidate/core/event_sourcing.py:║ and fault recovery. Addresses REALITY_TODO 120-125 with SQLite persistence layer
 ./candidate/core/energy_consumption_analysis.py:║ Implements TODO 139: Energy Consumption Analysis
-./candidate/core/bridges/identity_core_bridge.py:        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Trinity identity-consciousness state comparison
-./candidate/core/bridges/identity_core_bridge.py:        # TODO[TRINITY:specialist] Implement Trinity Framework identity-consciousness state comparison
+./candidate/core/bridges/identity_core_bridge.py:        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Constellation identity-consciousness state comparison
+./candidate/core/bridges/identity_core_bridge.py:        # TODO[TRINITY:specialist] Implement Constellation Framework identity-consciousness state comparison
 ./candidate/core/bridges/core_consciousness_bridge.py:            # TODO connect actual consciousness system
 ./candidate/core/bridges/core_consciousness_bridge.py:            # TODO connect actual core system
 ./candidate/core/bridges/core_consciousness_bridge.py:        # TODO implement synchronization logic
 ./candidate/core/bridges/core_consciousness_bridge.py:        # TODO implement event handling
 ./candidate/core/bridges/consciousness_qi_bridge.py:        ).isoformat()  # TODO[TRINITY:specialist] UTC enforcement for consciousness bridge temporal sync
 ./candidate/core/bridges/core_safety_bridge.py:        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Trinity-aware state comparison
-./candidate/core/bridges/core_safety_bridge.py:        # TODO[TRINITY:specialist] Implement Trinity Framework consciousness state comparison logic
+./candidate/core/bridges/core_safety_bridge.py:        # TODO[TRINITY:specialist] Implement Constellation Framework consciousness state comparison logic
 ./candidate/core/rem/streamlit_lidar.py:# import streamlit as st  # TODO: Install or implement streamlit
 ./candidate/core/integrations/nias_dream_bridge.py:        # TODO: Check actual dream state from dream adapter
 ./candidate/core/notion_sync.py:# import streamlit as st  # TODO: Install or implement streamlit
@@ -376,7 +376,7 @@
 ./candidate/orchestration/migrate_to_kernel_bus.py:                    r"# TODO: Remove print-based.*?\n",
 ./candidate/orchestration/openai_modulated_service.py:TODO[JULES-1]: Fix 19 F821 undefined name errors - Focus on service integration patterns, fix_later placeholders, and import fallbacks
 ./candidate/governance/drift_dashboard_visual.py:TODO[JULES-2]: Fix 19 F821 undefined name errors - Drift dashboard visualization, chart/graph undefined references, display fixes
-./candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py:from governance.identity.core.colonies import (  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution
+./candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py:from governance.identity.core.colonies import (  # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
 ./candidate/governance/identity/core/trace/pattern_analyzer.py:        # TODO: Implement pattern analysis logic
 ./candidate/governance/identity/core/trace/pattern_analyzer.py:        # TODO: Implement anomaly detection logic
 ./candidate/governance/identity/core/trace/pattern_analyzer.py:        # TODO: Implement insight generation logic
@@ -392,7 +392,7 @@
 ./candidate/governance/identity/core/sent/symbolic_scopes.py:        # TODO: Implement scope requirements logic
 ./candidate/governance/identity/core/sent/symbolic_scopes.py:        # TODO: Implement scope access validation
 ./candidate/governance/identity/core/sent/symbolic_scopes.py:        # TODO: Implement symbolic parsing logic
-./candidate/governance/identity/core/events/identity_event_publisher.py:from .identity_event_types import (  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution
+./candidate/governance/identity/core/events/identity_event_publisher.py:from .identity_event_types import (  # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
 ./candidate/governance/identity/core/qrs/qrg_generator.py:        # TODO: Implement QR-G generation logic
 ./candidate/governance/identity/core/qrs/qrg_generator.py:        # TODO: Implement validation logic
 ./candidate/governance/identity/core/qrs/qrg_generator.py:        # TODO: Implement cleanup logic
@@ -977,7 +977,7 @@
 ./lukhas/core/event_sourcing.py:║ and fault recovery. Addresses REALITY_TODO 120-125 with SQLite persistence layer
 ./lukhas/bridge/llm_wrappers/unified_openai_client.py:            )  # TODO[T4-AUDIT]: Add organization to centralized config
 ./lukhas/consciousness/registry.py:        # TODO: Implement proper topological sort for dependencies
-./lukhas/consciousness/trinity_integration.py:        ConsciousnessComponentRegistry,  # noqa: F401  # TODO: lukhas.consciousness.registry....
+./lukhas/consciousness/constellation_integration.py:        ConsciousnessComponentRegistry,  # noqa: F401  # TODO: lukhas.consciousness.registry....
 ./lukhas/matriz/runtime/policy.py:        # TODO: Bind to real constitutional engine. For now, accept unless explicitly forbidden.
 ./rl/run_advanced_tests.py:        import hypothesis  # noqa: F401  # TODO: hypothesis; consider using imp...
 ./rl/run_advanced_tests.py:        import z3  # noqa: F401  # TODO: z3; consider using importlib.u...

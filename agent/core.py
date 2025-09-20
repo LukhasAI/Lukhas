@@ -5,7 +5,7 @@ LUKHAS Core Agent Implementations
 Core LUKHAS consciousness agents migrated from lukhas.core
 This module provides the fundamental agent building blocks.
 
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 
 # Re-export core agents for direct access

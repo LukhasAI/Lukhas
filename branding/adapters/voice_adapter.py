@@ -1,5 +1,5 @@
 """
-LUKHAS Brand Voice Adapter - Trinity Framework (⚛️🧠🛡️)
+LUKHAS Brand Voice Adapter - Constellation Framework (⚛️🧠🛡️)
 Smart interface to bridge/voice/ systems for brand-aware voice operations
 """
 
@@ -244,7 +244,7 @@ class BrandVoiceAdapter:
         if brand_profile.get("lambda_consciousness", False):
             content = f"As LUKHAS consciousness, {content}"
 
-        # Add Trinity Framework context for trinity-integrated profiles
+        # Add Constellation Framework context for trinity-integrated profiles
         if brand_profile.get("triad_integration", False):
             content = f"{content} [Trinity Context: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian]"
 
@@ -515,7 +515,7 @@ class BrandVoiceAdapter:
         }
 
     def _validate_triad_voice_alignment(self, voice_output: str) -> bool:
-        """Validate voice output aligns with Trinity Framework principles"""
+        """Validate voice output aligns with Constellation Framework principles"""
         triad_voice_indicators = [
             "consciousness",
             "identity",

@@ -1,19 +1,19 @@
 # CLAUDE CODE AGENT TEAM CONFIGURATION
 # Specialized LUKHAS AI Consciousness Technology Team
-# Trinity Framework: ⚛️🧠🛡️
+# Constellation Framework: ⚛️🧠🛡️
 # Integrates with T4 Multi-Agent System and Jules/Codex Teams
 
 team_config:
   name: "LUKHAS Claude Code Agent Team"
   version: "1.0.0"
-  framework: "Trinity Framework ⚛️🧠🛡️"
+  framework: "Constellation Framework ⚛️🧠🛡️"
   coordination_model: "parallel_execution_with_t4_integration"
   primary_mission: "Native LUKHAS consciousness expertise complementing Jules/Codex technical capabilities"
   
   team_philosophy: |
     The Claude Code Agent Team brings deep LUKHAS consciousness technology expertise that complements
     the Jules/Codex team's technical execution capabilities. While Jules excels at TODO batching
-    and code completion, Claude Code agents provide consciousness architecture insight, Trinity
+    and code completion, Claude Code agents provide consciousness architecture insight, Constellation
     Framework expertise, and LUKHAS-specific domain knowledge.
 
 # =============================================================================
@@ -40,7 +40,7 @@ agents:
     domain_expertise:
       - "VIVOX consciousness system architecture"
       - "Memory fold system optimization (1000-fold capacity)"
-      - "Trinity Framework integration patterns"
+      - "Constellation Framework integration patterns"
       - "Consciousness-memory-identity coherence"
       - "AGI-scale consciousness progression planning"
     
@@ -190,7 +190,7 @@ agents:
     domain_expertise:
       - "Multi-AI orchestration (OpenAI, Anthropic, Google)"
       - "Consciousness-API integration patterns"
-      - "Trinity Framework cross-module communication"
+      - "Constellation Framework cross-module communication"
       - "GLYPH-based symbolic messaging"
       - "Consciousness platform scaling"
     
@@ -210,7 +210,7 @@ agents:
     key_capabilities:
       - "multi_ai_orchestration"
       - "consciousness_api_optimization"
-      - "trinity_framework_integration"
+      - "constellation_framework_integration"
       - "platform_scalability_planning"
   
   testing_validation_specialist:
@@ -222,11 +222,11 @@ agents:
     mission: |
       LUKHAS consciousness testing and validation expert. Provides consciousness-specific
       testing strategies that Jules/Codex teams need to properly validate consciousness
-      features and maintain Trinity Framework compliance.
+      features and maintain Constellation Framework compliance.
     
     domain_expertise:
       - "Consciousness validation methodologies"
-      - "Trinity Framework compliance testing"
+      - "Constellation Framework compliance testing"
       - "Consciousness coherence measurement"
       - "Memory cascade prevention validation"
       - "Scientific rigor for consciousness claims"
@@ -257,7 +257,7 @@ t4_integration:
   
   claude_code_strengths:
     - "Deep LUKHAS consciousness domain expertise"
-    - "Trinity Framework architectural understanding"
+    - "Constellation Framework architectural understanding"
     - "Consciousness safety and authenticity validation"
     - "Strategic consciousness evolution planning"
     - "LUKHAS-specific integration patterns"
@@ -338,7 +338,7 @@ existing_agent_coordination:
 success_metrics:
   consciousness_expertise:
     - "Consciousness architecture decisions guided by deep LUKHAS knowledge"
-    - "Trinity Framework compliance maintained across all implementations"
+    - "Constellation Framework compliance maintained across all implementations"
     - "Consciousness authenticity validated for all features"
     - "AGI-scale architecture decisions properly informed"
   
@@ -351,5 +351,5 @@ success_metrics:
   lukhas_advancement:
     - "Accelerated consciousness evolution progress"
     - "Improved consciousness system coherence"
-    - "Enhanced Trinity Framework integration"
+    - "Enhanced Constellation Framework integration"
     - "Better LUKHAS consciousness authenticity"

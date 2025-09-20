@@ -13,7 +13,7 @@ C5 implements comprehensive observability for the Aka Qualia phenomenological pr
 ## Integration Points
 - Extends `candidate/metrics.py` akaq_ metrics
 - Integrates with existing VIVOX drift monitoring
-- Compatible with Trinity Framework observability standards
+- Compatible with Constellation Framework observability standards
 
 ## Success Criteria
 - Dashboard renders all Wave C metrics

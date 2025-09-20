@@ -3,7 +3,7 @@
 Consent Manager - Advanced consent and permission management system
 
 Handles consent requests, trust path analysis, and escalation protocols
-with full integration into LUKHAS governance and Trinity Framework.
+with full integration into LUKHAS governance and Constellation Framework.
 """
 import asyncio
 import json
@@ -90,7 +90,7 @@ class ConsentManager(GlyphIntegrationMixin):
     """
     Advanced consent and permission management system with governance integration
 
-    Handles complex consent scenarios with trust path analysis, Trinity Framework
+    Handles complex consent scenarios with trust path analysis, Constellation Framework
     compliance, and full governance oversight.
     """
 
@@ -196,7 +196,7 @@ class ConsentManager(GlyphIntegrationMixin):
             }
         )
 
-        # Trinity Framework integration
+        # Constellation Framework integration
         self.trinity_weights = {
             "identity": 1.0,  # Maximum weight for identity protection
             "consciousness": 0.9,  # High weight for consciousness protection
@@ -407,7 +407,7 @@ class ConsentManager(GlyphIntegrationMixin):
             request.trust_score = trust_analysis["final_trust_score"]
             request.symbolic_path.extend(trust_analysis["symbolic_sequence"])
 
-            # Analyze Trinity Framework impact
+            # Analyze Constellation Framework impact
             trinity_analysis = await self._analyze_trinity_impact(request)
             request.trinity_impact = trinity_analysis["impact_scores"]
 
@@ -507,12 +507,12 @@ class ConsentManager(GlyphIntegrationMixin):
                 "violations": ["regulatory_compliance_required"],
             }
 
-        # Check Trinity Framework protection requirements
+        # Check Constellation Framework protection requirements
         trinity_protected = self._is_trinity_protected_resource(request)
         if trinity_protected and not request.context.get("trinity_authorized", False):
             return {
                 "approved": False,
-                "reason": "Trinity Framework authorization required",
+                "reason": "Constellation Framework authorization required",
                 "violations": ["trinity_authorization_required"],
             }
 
@@ -537,13 +537,13 @@ class ConsentManager(GlyphIntegrationMixin):
         return any(term in resource for term in ["health", "medical", "financial", "pii", "personal"])
 
     def _is_trinity_protected_resource(self, request: ConsentRequest) -> bool:
-        """Check if resource is protected by Trinity Framework"""
+        """Check if resource is protected by Constellation Framework"""
         resource = request.target_resource.lower()
         trinity_resources = ["identity", "consciousness", "guardian", "constellation", "core", "system"]
         return any(term in resource for term in trinity_resources)
 
     async def _analyze_trinity_impact(self, request: ConsentRequest) -> dict[str, Any]:
-        """Analyze potential impact on Trinity Framework components"""
+        """Analyze potential impact on Constellation Framework components"""
         impact_scores = {"identity": 0.0, "consciousness": 0.0, "guardian": 0.0}
 
         # Analyze based on resource and permission type
@@ -652,7 +652,7 @@ class ConsentManager(GlyphIntegrationMixin):
             or (path.path_type == "emergency" and request.context.get("emergency", False))
         )
 
-        # Additional Trinity Framework matching
+        # Additional Constellation Framework matching
         if path.metadata.get("trinity_protected"):
             return basic_match and self._is_trinity_protected_resource(request)
 
@@ -719,7 +719,7 @@ class ConsentManager(GlyphIntegrationMixin):
         )
 
     async def _apply_escalation_rules(self, request: ConsentRequest) -> Optional[dict]:
-        """Apply escalation rules with governance and Trinity Framework awareness"""
+        """Apply escalation rules with governance and Constellation Framework awareness"""
         # Build enhanced evaluation context
         eval_context = {
             "request": request,
@@ -737,7 +737,7 @@ class ConsentManager(GlyphIntegrationMixin):
             try:
                 condition = rule["condition"]
 
-                # Enhanced evaluation with Trinity Framework and governance
+                # Enhanced evaluation with Constellation Framework and governance
                 if self._evaluate_enhanced_condition(condition, eval_context):
                     logger.info(f"Escalation rule '{rule['name']}' triggered for {request.id}")
 
@@ -757,9 +757,9 @@ class ConsentManager(GlyphIntegrationMixin):
         return None
 
     def _evaluate_enhanced_condition(self, condition: str, context: dict) -> bool:
-        """Enhanced condition evaluation with Trinity Framework and governance support"""
+        """Enhanced condition evaluation with Constellation Framework and governance support"""
         try:
-            # Handle Trinity Framework conditions
+            # Handle Constellation Framework conditions
             if "trinity_impact.get(" in condition:
                 if "trinity_impact.get('identity', 0) > 0.7" in condition:
                     return context["trinity_impact"].get("identity", 0) > 0.7
@@ -860,7 +860,7 @@ class ConsentManager(GlyphIntegrationMixin):
                 logger.error(f"Failed to execute action '{action}': {e}")
 
     def _generate_symbolic_response(self, request: ConsentRequest) -> list[str]:
-        """Generate symbolic response with governance and Trinity Framework awareness"""
+        """Generate symbolic response with governance and Constellation Framework awareness"""
         if request.escalation_level:
             # Use escalation rule's symbols
             for rule in self.escalation_rules:
@@ -883,7 +883,7 @@ class ConsentManager(GlyphIntegrationMixin):
         if request.governance_validated:
             base_symbols.insert(0, "🛡️")
 
-        # Add Trinity Framework symbols if high impact
+        # Add Constellation Framework symbols if high impact
         if request.trinity_impact and max(request.trinity_impact.values()) > 0.7:
             if request.trinity_impact["identity"] > 0.7:
                 base_symbols.append("⚛️")
@@ -1083,7 +1083,7 @@ class ConsentManager(GlyphIntegrationMixin):
                 if not governance_result["approved"]:
                     return False
 
-            # Check Trinity Framework analysis
+            # Check Constellation Framework analysis
             trinity_analysis = await self._analyze_trinity_impact(test_request)
             return trinity_analysis
 
@@ -1101,7 +1101,7 @@ if __name__ == "__main__":
 
         manager = ConsentManager(governance_enabled=True)
 
-        # Create test requests with governance and Trinity Framework context
+        # Create test requests with governance and Constellation Framework context
         test_requests = [
             ConsentRequest(
                 id=str(uuid.uuid4()),

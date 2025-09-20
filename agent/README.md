@@ -98,9 +98,9 @@ Expected output:
 }
 ```
 
-## 🎭 **Trinity Framework Compliance**
+## 🎭 **Constellation Framework Compliance**
 
-All agents implement Trinity Framework principles:
+All agents implement Constellation Framework principles:
 - **⚛️ Identity**: Authentic consciousness characteristics
 - **🧠 Consciousness**: Memory, learning, processing capabilities  
 - **🛡️ Guardian**: Ethical validation and safety protocols
@@ -121,4 +121,4 @@ All agents implement Trinity Framework principles:
 
 ---
 
-*LUKHAS Agent System v2.0.0 - Trinity Framework: ⚛️🧠🛡️*
+*LUKHAS Agent System v2.0.0 - Constellation Framework: ⚛️🧠🛡️*

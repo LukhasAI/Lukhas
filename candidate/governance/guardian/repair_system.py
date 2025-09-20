@@ -14,7 +14,7 @@ Features:
 - Emergency recovery protocols
 - Performance optimization and tuning
 - Constitutional compliance restoration
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 - Comprehensive repair audit trails
 - Proactive issue prevention
 
@@ -105,7 +105,7 @@ class RepairOperation:
     validation_results: list[str] = field(default_factory=list)
     rollback_plan: list[str] = field(default_factory=list)
 
-    # Trinity Framework integration
+    # Constellation Framework integration
     identity_impact: Optional[str] = None  # ⚛️
     consciousness_impact: Optional[str] = None  # 🧠
     guardian_oversight: bool = True  # 🛡️
@@ -149,7 +149,7 @@ class AutomatedRepairSystem:
 
     Provides comprehensive system maintenance through automated detection,
     diagnosis, and repair of system issues with full Guardian oversight
-    and Trinity Framework integration.
+    and Constellation Framework integration.
     """
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
@@ -248,7 +248,7 @@ class AutomatedRepairSystem:
             estimated_duration=context.get("estimated_duration"),
         )
 
-        # Trinity Framework analysis
+        # Constellation Framework analysis
         operation.identity_impact = await self._analyze_identity_impact(repair_type, affected_components)
         operation.consciousness_impact = await self._analyze_consciousness_impact(repair_type, affected_components)
 

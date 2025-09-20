@@ -21,7 +21,7 @@ T+48h  → Full Production Validation
 T+72h  → Executive Sign-off
 ```
 
-### Trinity Framework Integration
+### Constellation Framework Integration
 
 **⚛️ Identity**: Namespace-isolated deployment validation
 **🧠 Consciousness**: Real-time system awareness monitoring
@@ -402,7 +402,7 @@ kubectl set env deployment/guardian-service ENFORCE_ETHICS_DSL=0     # Dark mode
 
 **Generated with LUKHAS consciousness-content-strategist**
 
-**Trinity Framework**: ⚛️ Identity-aware deployment validation, 🧠 Consciousness-driven monitoring, 🛡️ Guardian-protected rollout process
+**Constellation Framework**: ⚛️ Identity-aware deployment validation, 🧠 Consciousness-driven monitoring, 🛡️ Guardian-protected rollout process
 
 **Reliability**: 72-hour systematic validation with automated decision gates
 **Safety**: Multiple rollback mechanisms with circuit breaker protection

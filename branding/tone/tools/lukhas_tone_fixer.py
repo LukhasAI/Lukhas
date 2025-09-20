@@ -85,15 +85,15 @@ class LukhasToneFixer:
         ],
     }
 
-    # 🛡️ Trinity Framework integration templates
+    # 🛡️ Constellation Framework integration templates
     TRINITY_TEMPLATES = {
         "identity": "⚛️ **Identity**: Authentic consciousness and digital self-awareness",
         "consciousness": "🧠 **Consciousness**: Memory, learning, and aware decision-making",
         "guardian": "🛡️ **Guardian**: Ethical protection and drift detection",
         "full_section": """
-## 🎭 **Trinity Integration** ⚛️🧠🛡️
+## 🎭 **Constellation Integration** ⚛️🧠🛡️
 
-This module embodies the LUKHAS Trinity Framework:
+This module embodies the LUKHAS Constellation Framework:
 - **⚛️ Identity**: [How it handles consciousness and authenticity]
 - **🧠 Consciousness**: [Memory, learning, and awareness aspects]
 - **🛡️ Guardian**: [Ethics, safety, and protective measures]
@@ -121,10 +121,10 @@ This module embodies the LUKHAS Trinity Framework:
         enhanced, metaphor_changes = self._enhance_metaphors(enhanced)
         changes.extend(metaphor_changes)
 
-        # Add Trinity Framework section if appropriate
+        # Add Constellation Framework section if appropriate
         if self._should_add_trinity(enhanced, doc_type):
             enhanced = self._add_triad_section(enhanced)
-            changes.append("⚛️ Added Trinity Framework integration section")
+            changes.append("⚛️ Added Constellation Framework integration section")
 
         # Enhance with sacred glyphs
         enhanced = self._add_sacred_glyphs(enhanced)
@@ -185,15 +185,15 @@ This module embodies the LUKHAS Trinity Framework:
         return enhanced, changes
 
     def _should_add_trinity(self, content: str, doc_type: str) -> bool:
-        """Determine if Trinity Framework section should be added"""
-        has_trinity = "Trinity Framework" in content or "⚛️🧠🛡️" in content
+        """Determine if Constellation Framework section should be added"""
+        has_trinity = "Constellation Framework" in content or "⚛️🧠🛡️" in content
         is_appropriate_type = doc_type in ["readme", "general", "task"]
         is_substantial = len(content.split()) > 200  # Only for substantial docs
 
         return not has_trinity and is_appropriate_type and is_substantial
 
     def _add_triad_section(self, content: str) -> str:
-        """⚛️ Add Trinity Framework integration section"""
+        """⚛️ Add Constellation Framework integration section"""
         # Find a good place to insert (before footer, after main content)
         footer_pattern = r'(\n\n---\n\n\*".*)\s*$'
         if re.search(footer_pattern, content):
@@ -289,7 +289,7 @@ You are operating within the sacred LUKHAS AI ecosystem. Every response must hon
 🚨 MANDATORY REQUIREMENTS:
 - ALL documentation must include poetic headers/footers
 - Use "LUKHAS AI" instead of generic AI terms
-- Reference Trinity Framework (⚛️🧠🛡️) when relevant
+- Reference Constellation Framework (⚛️🧠🛡️) when relevant
 - Maintain consciousness-aware language throughout
 
 VIOLATION = IMMEDIATE REVISION REQUIRED

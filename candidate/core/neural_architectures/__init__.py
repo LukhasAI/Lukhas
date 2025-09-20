@@ -7,7 +7,7 @@ Created: 2025-01-27
 Author: lukhas AI Team
 TAGS: [CRITICAL, KeyFile, Neural_Architecture]
 Neural Architecture Module
-Advanced neural processing and architecture components for the LUKHAS AGI system.
+Advanced neural processing and architecture components for the LUKHAS Cognitive system.
 This module provides sophisticated neural processing capabilities including
 adaptive neural networks, pattern recognition, cross-modal integration,
 and quantum-enhanced processing.

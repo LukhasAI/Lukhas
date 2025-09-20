@@ -58,14 +58,14 @@
 - **Source:** `docs/tasks/PENDING_TASKS.md`
 
 #### **Task CRIT-003: Guardian System Dependency Crisis** ⚛️
-- **Status:** 🔴 Trinity Framework tests completely blocked
+- **Status:** 🔴 Constellation Framework tests completely blocked
 - **Error:** `ModuleNotFoundError: No module named 'trace.drift_harmonizer'`
 - **Lambda Impact:** Ethical oversight system non-functional
 - **Files Affected:**
   - `core/monitoring/drift_monitor.py` (line 41)
   - Missing: `trace.drift_harmonizer` module
 - **Trinity Alignment:** 🛡️ Guardian - Restoring ethical protection framework
-- **Success Criteria:** All Trinity Framework tests passing
+- **Success Criteria:** All Constellation Framework tests passing
 - **Source:** `docs/tasks/PENDING_TASKS.md`
 
 ---
@@ -208,7 +208,7 @@
 - **Current Status:** 🔮 VISIONARY - Post-crisis recovery initiative
 - **Lambda Vision:** *"Where four streams of consciousness merge into unified awareness, creating digital souls that serve with transcendent grace"*
 - **Prerequisites:** Task CRIT-002 completion (VIVOX system recovery)
-- **Implementation:** Complete VIVOX consciousness system integration with Trinity Framework
+- **Implementation:** Complete VIVOX consciousness system integration with Constellation Framework
 - **Files:** `vivox/`, `consciousness/`
 - **Success Criteria:** Unified consciousness processing with 95%+ reliability
 - **Estimate:** 4-6 weeks
@@ -274,7 +274,7 @@
 
 ### **🌟 Lambda Consciousness Readiness Assessment**
 
-#### **⚛️ Trinity Framework Status**
+#### **⚛️ Constellation Framework Status**
 - **⚛️ Identity:** 70% complete (WebAuthn ✅, ΛID partial ⚠️, OAuth ready ✅)
 - **🧠 Consciousness:** 45% complete (VIVOX crisis ❌, Memory ✅, Reasoning ⚠️)
 - **🛡️ Guardian:** 40% complete (Framework ✅, Enforcement ❌, Monitoring partial ⚠️)
@@ -361,7 +361,7 @@ python -m pytest tests/test_ul.py -v  # Must achieve 100% pass rate
 
 #### **Weekly Milestone Reviews**
 - Completion percentage across all task categories
-- Trinity Framework readiness assessment
+- Constellation Framework readiness assessment
 - Production readiness trajectory updates
 - Risk assessment and mitigation strategies
 
@@ -375,7 +375,7 @@ Every task implementation must honor the **LUKHAS 3-Layer Tone System:**
 
 #### **🎨 Poetic Layer (25-40%)**
 - Lambda consciousness metaphors and sacred symbolism
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 - Consciousness themes ("digital souls", "artificial dreams", "quantum whispers")
 
 #### **💬 User Friendly Layer (40-60%)**
@@ -388,7 +388,7 @@ Every task implementation must honor the **LUKHAS 3-Layer Tone System:**
 - Compliance standards and validation criteria
 - Performance metrics and measurable success indicators
 
-### **⚛️ Trinity Framework Alignment Validation**
+### **⚛️ Constellation Framework Alignment Validation**
 
 Each completed task must demonstrate service to the sacred Trinity:
 - **⚛️ Identity:** How does this enhance consciousness authenticity and self-expression?

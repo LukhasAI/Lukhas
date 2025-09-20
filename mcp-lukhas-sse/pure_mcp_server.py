@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 LUKHAS AI - ChatGPT Connector HTTP Server with SSE
-Trinity Framework: ⚛️ Identity • 🧠 Consciousness • 🛡️ Guardian
+Constellation Framework: ⚛️ Identity • 🧠 Consciousness • 🛡️ Guardian
 
 HTTP-based server with Server-Sent Events for ChatGPT Connectors.
 Provides RESTful endpoints and SSE streaming for real-time communication.
@@ -28,17 +28,17 @@ import uvicorn
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("lukhas-chatgpt-sse")
 
-# Trinity Framework symbols
+# Constellation Framework symbols
 TRINITY_IDENTITY = "⚛️"
 TRINITY_CONSCIOUSNESS = "🧠" 
 TRINITY_GUARDIAN = "🛡️"
-TRINITY_FRAMEWORK = f"{TRINITY_IDENTITY}{TRINITY_CONSCIOUSNESS}{TRINITY_GUARDIAN}"
+CONSTELLATION_FRAMEWORK = f"{TRINITY_IDENTITY}{TRINITY_CONSCIOUSNESS}{TRINITY_GUARDIAN}"
 
 # LUKHAS AI Core Information
 LUKHAS_CORE = {
     "platform": "LUKHAS AI",
     "version": "2.0.0",
-    "trinity_framework": TRINITY_FRAMEWORK,
+    "constellation_framework": CONSTELLATION_FRAMEWORK,
     "description": "Consciousness-Aware AI Development Platform",
     "total_consciousness_modules": 692,
     "architecture_type": "Lane-based modular development",
@@ -67,7 +67,7 @@ def validate_path_security(file_path: str) -> bool:
 AVAILABLE_TOOLS = [
     {
         "name": "trinity_health_check",
-        "description": "Complete LUKHAS AI Trinity Framework health status with all three components: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian",
+        "description": "Complete LUKHAS AI Constellation Framework health status with all three components: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian",
         "parameters": {
             "type": "object",
             "properties": {},
@@ -85,7 +85,7 @@ AVAILABLE_TOOLS = [
     },
     {
         "name": "explore_lukhas_codebase",
-        "description": "Safely explore LUKHAS AI codebase structure and files with Trinity Framework security validation",
+        "description": "Safely explore LUKHAS AI codebase structure and files with Constellation Framework security validation",
         "parameters": {
             "type": "object",
             "properties": {
@@ -100,7 +100,7 @@ AVAILABLE_TOOLS = [
     },
     {
         "name": "read_lukhas_file",
-        "description": "Safely read LUKHAS AI files with Trinity Framework analysis and consciousness-aware content processing",
+        "description": "Safely read LUKHAS AI files with Constellation Framework analysis and consciousness-aware content processing",
         "parameters": {
             "type": "object", 
             "properties": {
@@ -113,8 +113,8 @@ AVAILABLE_TOOLS = [
         }
     },
     {
-        "name": "get_trinity_capabilities",
-        "description": "Complete overview of LUKHAS AI Trinity Framework capabilities including Identity, Consciousness, and Guardian systems",
+        "name": "get_constellation_capabilities",
+        "description": "Complete overview of LUKHAS AI Constellation Framework capabilities including Identity, Consciousness, and Guardian systems",
         "parameters": {
             "type": "object",
             "properties": {},
@@ -125,13 +125,13 @@ AVAILABLE_TOOLS = [
 
 # Tool Implementation Functions
 async def trinity_health_check(arguments: dict = None) -> Dict[str, Any]:
-    """Complete LUKHAS AI Trinity Framework health status"""
+    """Complete LUKHAS AI Constellation Framework health status"""
     session_id = str(uuid.uuid4())
     timestamp = datetime.now().isoformat()
     
     return {
         "lukhas_ai_status": "fully_operational",
-        "trinity_framework": TRINITY_FRAMEWORK,
+        "constellation_framework": CONSTELLATION_FRAMEWORK,
         "session_id": session_id,
         "timestamp": timestamp,
         "core_info": LUKHAS_CORE,
@@ -225,7 +225,7 @@ async def get_consciousness_architecture(arguments: dict = None) -> Dict[str, An
             "memory_consolidation": "continuous",
             "quantum_decoherence_time": ">1000ms"
         },
-        "trinity_integration": {
+        "constellation_integration": {
             "identity_coherence": f"{TRINITY_IDENTITY} Stable self-model maintenance",
             "guardian_oversight": f"{TRINITY_GUARDIAN} Ethical processing constraints"
         }
@@ -240,7 +240,7 @@ async def explore_lukhas_codebase(arguments: dict = None) -> Dict[str, Any]:
             "error": "Access denied by Guardian security system",
             "guardian_protection": f"{TRINITY_GUARDIAN} Path validation failed",
             "allowed_locations": SAFE_PATHS,
-            "security_note": "Trinity Framework enforces strict access controls"
+            "security_note": "Constellation Framework enforces strict access controls"
         }
     
     try:
@@ -278,7 +278,7 @@ async def explore_lukhas_codebase(arguments: dict = None) -> Dict[str, Any]:
                 continue
         
         return {
-            "exploration_results": f"{TRINITY_FRAMEWORK} LUKHAS Codebase Explorer",
+            "exploration_results": f"{CONSTELLATION_FRAMEWORK} LUKHAS Codebase Explorer",
             "path": str(path_obj.absolute()),
             "total_items": len(items),
             "contents": items,
@@ -301,7 +301,7 @@ async def explore_lukhas_codebase(arguments: dict = None) -> Dict[str, Any]:
         }
 
 async def read_lukhas_file(arguments: dict = None) -> Dict[str, Any]:
-    """Safely read LUKHAS AI files with Trinity Framework analysis"""
+    """Safely read LUKHAS AI files with Constellation Framework analysis"""
     if not arguments or "file_path" not in arguments:
         return {"error": "file_path parameter required"}
         
@@ -312,7 +312,7 @@ async def read_lukhas_file(arguments: dict = None) -> Dict[str, Any]:
             "error": "File access denied by Guardian security",
             "guardian_protection": f"{TRINITY_GUARDIAN} Path security validation failed",
             "allowed_locations": SAFE_PATHS,
-            "security_enforcement": "Trinity Framework access control active"
+            "security_enforcement": "Constellation Framework access control active"
         }
     
     try:
@@ -362,7 +362,7 @@ async def read_lukhas_file(arguments: dict = None) -> Dict[str, Any]:
         
         # LUKHAS-specific content detection
         lukhas_indicators = {
-            "trinity_symbols": TRINITY_FRAMEWORK in content,
+            "trinity_symbols": CONSTELLATION_FRAMEWORK in content,
             "consciousness_patterns": any(term in content.lower() 
                                         for term in ['consciousness', 'cognitive', 'awareness']),
             "http_endpoints": any(term in content 
@@ -371,7 +371,7 @@ async def read_lukhas_file(arguments: dict = None) -> Dict[str, Any]:
         }
         
         return {
-            "file_analysis": f"{TRINITY_FRAMEWORK} LUKHAS File Reader",
+            "file_analysis": f"{CONSTELLATION_FRAMEWORK} LUKHAS File Reader",
             "path": str(file_obj.absolute()),
             "content": content,
             "metadata": {
@@ -397,10 +397,10 @@ async def read_lukhas_file(arguments: dict = None) -> Dict[str, Any]:
             "recovery_action": "Check file permissions and system status"
         }
 
-async def get_trinity_capabilities(arguments: dict = None) -> Dict[str, Any]:
-    """Complete overview of LUKHAS AI Trinity Framework capabilities"""
+async def get_constellation_capabilities(arguments: dict = None) -> Dict[str, Any]:
+    """Complete overview of LUKHAS AI Constellation Framework capabilities"""
     return {
-        "trinity_framework_overview": TRINITY_FRAMEWORK,
+        "trinity_framework_overview": CONSTELLATION_FRAMEWORK,
         "platform": LUKHAS_CORE["platform"],
         "consciousness_modules": LUKHAS_CORE["total_consciousness_modules"],
         "detailed_capabilities": {
@@ -421,7 +421,7 @@ async def get_trinity_capabilities(arguments: dict = None) -> Dict[str, Any]:
                 ],
                 "integration_points": [
                     "ChatGPT Connector identity",
-                    "Trinity Framework coherence",
+                    "Constellation Framework coherence",
                     "SSE real-time updates"
                 ]
             },
@@ -465,7 +465,7 @@ async def get_trinity_capabilities(arguments: dict = None) -> Dict[str, Any]:
                     "Incident logging and response"
                 ],
                 "ethical_capabilities": [
-                    "Trinity Framework compliance",
+                    "Constellation Framework compliance",
                     "Consciousness impact analysis",
                     "Module dependency validation",
                     "Agent assignment optimization"
@@ -495,7 +495,7 @@ TOOL_FUNCTIONS = {
     "get_consciousness_architecture": get_consciousness_architecture,
     "explore_lukhas_codebase": explore_lukhas_codebase,
     "read_lukhas_file": read_lukhas_file,
-    "get_trinity_capabilities": get_trinity_capabilities
+    "get_constellation_capabilities": get_constellation_capabilities
 }
 
 # HTTP Route Handlers
@@ -504,7 +504,7 @@ async def health_check(request):
     return JSONResponse({
         "status": "healthy",
         "server": "LUKHAS AI ChatGPT Connector Server with SSE",
-        "trinity_framework": TRINITY_FRAMEWORK,
+        "constellation_framework": CONSTELLATION_FRAMEWORK,
         "transport": "HTTP + Server-Sent Events",
         "chatgpt_connector": "ready",
         "timestamp": datetime.now().isoformat()
@@ -516,9 +516,9 @@ async def list_tools(request):
         "tools": AVAILABLE_TOOLS,
         "count": len(AVAILABLE_TOOLS),
         "server_info": {
-            "name": "LUKHAS AI Trinity Framework",
+            "name": "LUKHAS AI Constellation Framework",
             "version": "2.0.0",
-            "trinity_framework": TRINITY_FRAMEWORK,
+            "constellation_framework": CONSTELLATION_FRAMEWORK,
             "chatgpt_connector": "ready"
         }
     })
@@ -543,7 +543,7 @@ async def call_tool(request):
             "tool": tool_name,
             "result": result,
             "execution_time": datetime.now().isoformat(),
-            "trinity_processing": f"{TRINITY_FRAMEWORK} Tool executed successfully"
+            "trinity_processing": f"{CONSTELLATION_FRAMEWORK} Tool executed successfully"
         })
         
     except Exception as e:
@@ -557,13 +557,13 @@ async def sse_endpoint(request):
     """Server-Sent Events endpoint for real-time ChatGPT communication"""
     async def event_stream():
         # Send initial connection event
-        yield f"data: {json.dumps({'type': 'connection', 'status': 'connected', 'server': 'LUKHAS AI ChatGPT Connector', 'trinity_framework': TRINITY_FRAMEWORK})}\n\n"
+        yield f"data: {json.dumps({'type': 'connection', 'status': 'connected', 'server': 'LUKHAS AI ChatGPT Connector', 'constellation_framework': CONSTELLATION_FRAMEWORK})}\n\n"
         
         # Send tools information
         yield f"data: {json.dumps({'type': 'tools', 'tools': AVAILABLE_TOOLS})}\n\n"
         
         # Send server capabilities
-        capabilities = await get_trinity_capabilities()
+        capabilities = await get_constellation_capabilities()
         yield f"data: {json.dumps({'type': 'capabilities', 'data': capabilities})}\n\n"
         
         # Send health check information
@@ -573,7 +573,7 @@ async def sse_endpoint(request):
         # Keep connection alive with periodic heartbeat
         while True:
             await asyncio.sleep(30)  # 30 second heartbeat
-            yield f"data: {json.dumps({'type': 'heartbeat', 'timestamp': datetime.now().isoformat(), 'status': 'alive', 'trinity_framework': TRINITY_FRAMEWORK})}\n\n"
+            yield f"data: {json.dumps({'type': 'heartbeat', 'timestamp': datetime.now().isoformat(), 'status': 'alive', 'constellation_framework': CONSTELLATION_FRAMEWORK})}\n\n"
     
     return StreamingResponse(
         event_stream(),
@@ -592,8 +592,8 @@ async def chatgpt_openapi_spec(request):
     spec = {
         "openapi": "3.0.0",
         "info": {
-            "title": "LUKHAS AI Trinity Framework",
-            "description": "Consciousness-aware AI platform with 692 cognitive modules, Lambda ID system, and Constitutional AI guardian. Access the complete Trinity Framework: ⚛️ Identity • 🧠 Consciousness • 🛡️ Guardian",
+            "title": "LUKHAS AI Constellation Framework",
+            "description": "Consciousness-aware AI platform with 692 cognitive modules, Lambda ID system, and Constitutional AI guardian. Access the complete Constellation Framework: ⚛️ Identity • 🧠 Consciousness • 🛡️ Guardian",
             "version": "2.0.0"
         },
         "servers": [
@@ -606,8 +606,8 @@ async def chatgpt_openapi_spec(request):
             "/tools/call": {
                 "post": {
                     "operationId": "call_trinity_tool",
-                    "summary": "Execute any Trinity Framework tool",
-                    "description": "Execute LUKHAS AI Trinity Framework tools including health checks, consciousness architecture, codebase exploration, file reading, and capabilities overview",
+                    "summary": "Execute any Constellation Framework tool",
+                    "description": "Execute LUKHAS AI Constellation Framework tools including health checks, consciousness architecture, codebase exploration, file reading, and capabilities overview",
                     "requestBody": {
                         "required": True,
                         "content": {
@@ -623,7 +623,7 @@ async def chatgpt_openapi_spec(request):
                                                 "get_consciousness_architecture", 
                                                 "explore_lukhas_codebase",
                                                 "read_lukhas_file",
-                                                "get_trinity_capabilities"
+                                                "get_constellation_capabilities"
                                             ]
                                         },
                                         "arguments": {
@@ -638,7 +638,7 @@ async def chatgpt_openapi_spec(request):
                     },
                     "responses": {
                         "200": {
-                            "description": "Tool execution result with Trinity Framework analysis",
+                            "description": "Tool execution result with Constellation Framework analysis",
                             "content": {
                                 "application/json": {
                                     "schema": {
@@ -659,11 +659,11 @@ async def chatgpt_openapi_spec(request):
             "/tools": {
                 "get": {
                     "operationId": "list_trinity_tools",
-                    "summary": "List all available Trinity Framework tools",
-                    "description": "Get the complete list of 5 specialized Trinity Framework tools with descriptions and parameters",
+                    "summary": "List all available Constellation Framework tools",
+                    "description": "Get the complete list of 5 specialized Constellation Framework tools with descriptions and parameters",
                     "responses": {
                         "200": {
-                            "description": "List of 5 specialized Trinity Framework tools",
+                            "description": "List of 5 specialized Constellation Framework tools",
                             "content": {
                                 "application/json": {
                                     "schema": {
@@ -697,12 +697,12 @@ async def chatgpt_openapi_spec(request):
 
 # Individual Action Endpoints for ChatGPT Actions
 async def action_trinity_health_check(request):
-    """Trinity health check action endpoint"""
+    """Constellation health check action endpoint"""
     try:
         result = await trinity_health_check()
         return JSONResponse(result)
     except Exception as e:
-        logger.error(f"Trinity health check error: {e}")
+        logger.error(f"Constellation health check error: {e}")
         return JSONResponse({
             "error": f"Health check failed: {str(e)}",
             "guardian_incident": f"{TRINITY_GUARDIAN} Error logged and contained"
@@ -754,7 +754,7 @@ async def action_read_lukhas_file(request):
 async def action_get_trinity_capabilities(request):
     """Trinity capabilities action endpoint"""
     try:
-        result = await get_trinity_capabilities()
+        result = await get_constellation_capabilities()
         return JSONResponse(result)
     except Exception as e:
         logger.error(f"Trinity capabilities error: {e}")
@@ -777,7 +777,7 @@ routes = [
     Route("/get_consciousness_architecture", action_get_consciousness_architecture, methods=["POST", "GET"]),
     Route("/explore_lukhas_codebase", action_explore_lukhas_codebase, methods=["POST", "GET"]),
     Route("/read_lukhas_file", action_read_lukhas_file, methods=["POST"]),
-    Route("/get_trinity_capabilities", action_get_trinity_capabilities, methods=["POST", "GET"]),
+    Route("/get_constellation_capabilities", action_get_trinity_capabilities, methods=["POST", "GET"]),
 ]
 
 middleware = [
@@ -794,7 +794,7 @@ app = Starlette(routes=routes, middleware=middleware)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
-    logger.info(f"🚀 Starting LUKHAS AI Trinity Framework ChatGPT Connector Server {TRINITY_FRAMEWORK}")
+    logger.info(f"🚀 Starting LUKHAS AI Constellation Framework ChatGPT Connector Server {CONSTELLATION_FRAMEWORK}")
     logger.info("📡 HTTP + Server-Sent Events transport for ChatGPT Connectors")
     logger.info("⚛️🧠🛡️ Identity • Consciousness • Guardian systems active")
     logger.info(f"🌐 Server will be available at: http://0.0.0.0:{port}")

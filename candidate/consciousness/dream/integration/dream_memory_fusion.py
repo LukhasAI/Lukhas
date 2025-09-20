@@ -33,14 +33,14 @@ class FusionQuality(Enum):
 
 
 class DreamMemoryFusion:
-    """Advanced dream memory fusion with Trinity Framework compliance."""
+    """Advanced dream memory fusion with Constellation Framework compliance."""
 
     def __init__(self):
         self.fusion_history: dict[str, dict] = {}
         self.memory_templates: dict[str, dict] = {}
         self.fusion_counter = 0
         self._initialize_memory_templates()
-        logger.info("🔮 Dream Memory Fusion initialized - Trinity Framework active")
+        logger.info("🔮 Dream Memory Fusion initialized - Constellation Framework active")
 
     def _initialize_memory_templates(self):
         """Initialize memory fusion templates."""
@@ -223,7 +223,7 @@ class DreamMemoryFusion:
         return trinity_symbols + other_symbols
 
     def _validate_trinity_symbols(self, symbols: list[str]) -> bool:
-        """Validate Trinity Framework symbol presence."""
+        """Validate Constellation Framework symbol presence."""
         trinity_symbols = ["⚛️", "🧠", "🛡️"]
         return all(symbol in symbols for symbol in trinity_symbols)
 

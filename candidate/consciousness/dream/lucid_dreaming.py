@@ -14,12 +14,12 @@ logger = logging.getLogger(__name__)
 
 
 class LucidDreamController:
-    """Advanced lucid dreaming control system with Trinity Framework compliance."""
+    """Advanced lucid dreaming control system with Constellation Framework compliance."""
 
     def __init__(self):
         self.lucid_sessions: dict[str, dict] = {}
         self.control_counter = 0
-        logger.info("🌟 Lucid Dream Controller initialized - Trinity Framework active")
+        logger.info("🌟 Lucid Dream Controller initialized - Constellation Framework active")
 
     def initiate_lucid_state(self, user_intent: Optional[dict] = None) -> str:
         """⚛️ Initiate lucid dreaming state with identity preservation."""

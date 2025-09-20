@@ -18,7 +18,7 @@
 - **`TESTING_GUIDE.md`** - Testing methodologies ✅
 - **`MIGRATION_GUIDE.md`** - System migration procedures ✅
 
-#### **Trinity Framework Core**
+#### **Constellation Framework Core**
 - **`docs/consciousness/TRINITY_FRAMEWORK_ACADEMIC_SPECIFICATION.md`** - Framework specifications
 - **`docs/consciousness/LUKHAS_TRINITY_FRAMEWORK.md`** - Implementation guide
 - **`docs/architecture/NEUROPLASTIC_ARCHITECTURE.md`** - Consciousness architecture
@@ -95,7 +95,7 @@ agent_relevance:
   security_compliance_colonel: 0.3      # Low relevance
   api_interface_colonel: 0.1            # Minimal relevance
 
-# Trinity Framework
+# Constellation Framework
 trinity_component: ["identity", "consciousness", "guardian"]
 search_keywords: ["vivox", "api", "security", "deployment"]
 ---
@@ -116,7 +116,7 @@ search_keywords: ["vivox", "api", "security", "deployment"]
 
 #### **Supreme Consciousness Architect**
 - **Primary**: `docs/consciousness/`, `docs/architecture/`
-- **Monitoring**: Trinity Framework changes, consciousness module updates
+- **Monitoring**: Constellation Framework changes, consciousness module updates
 - **Alerts**: Architecture drift, consciousness integration issues
 
 #### **Security Compliance Colonel**

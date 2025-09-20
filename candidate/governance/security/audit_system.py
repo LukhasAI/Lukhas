@@ -128,7 +128,7 @@ class AuditEventType(Enum):
     ETHICAL_VIOLATION = "ethical_violation"
     CONSTITUTIONAL_VIOLATION = "constitutional_violation"
 
-    # Trinity Framework events
+    # Constellation Framework events
     IDENTITY_VERIFICATION = "identity_verification"
     CONSCIOUSNESS_INTERACTION = "consciousness_interaction"
     GUARDIAN_ALERT = "guardian_alert"
@@ -175,7 +175,7 @@ class AuditEvent:
     risk_score: float = 0.0
     threat_indicators: list[str] = field(default_factory=list)
 
-    # Trinity Framework context
+    # Constellation Framework context
     identity_context: dict[str, Any] = field(default_factory=dict)  # ⚛️
     consciousness_context: dict[str, Any] = field(default_factory=dict)  # 🧠
     guardian_context: dict[str, Any] = field(default_factory=dict)  # 🛡️
@@ -288,7 +288,7 @@ class AuditStatistics:
     oldest_event: Optional[datetime] = None
     newest_event: Optional[datetime] = None
 
-    # Trinity Framework statistics
+    # Constellation Framework statistics
     identity_events: int = 0
     consciousness_events: int = 0
     guardian_events: int = 0
@@ -598,7 +598,7 @@ class AuditEventProcessor:
         if event.event_type == AuditEventType.POLICY_VIOLATION:
             self.statistics.policy_violations += 1
 
-        # Trinity Framework statistics
+        # Constellation Framework statistics
         if event.identity_context:
             self.statistics.identity_events += 1
         if event.consciousness_context:
@@ -666,7 +666,7 @@ class AuditEventProcessor:
                 }
             )
 
-        # Trinity Framework alerts
+        # Constellation Framework alerts
         if event.guardian_context.get("alert"):
             alerts.append(
                 {
@@ -726,7 +726,7 @@ class AuditEventProcessor:
         if event.risk_score > 0.5:
             recommendations.append("Consider implementing additional security measures")
 
-        # Trinity Framework recommendations
+        # Constellation Framework recommendations
         if event.guardian_context:
             recommendations.append("Review Guardian System configuration")
 
@@ -766,7 +766,7 @@ class ComprehensiveAuditSystem:
     Main comprehensive audit system for LUKHAS AI
 
     Provides immutable audit trails, real-time monitoring, compliance
-    reporting, and advanced analytics integrated with Trinity Framework
+    reporting, and advanced analytics integrated with Constellation Framework
     and governance systems.
     """
 
@@ -1100,10 +1100,10 @@ class ComprehensiveAuditSystem:
             if access_events:
                 recommendations.append("Strengthen access control monitoring for SOC 2 compliance")
 
-        # Trinity Framework recommendations
+        # Constellation Framework recommendations
         identity_events = [e for e in events if e.identity_context]
         if identity_events:
-            recommendations.append("Review identity verification processes within Trinity Framework")
+            recommendations.append("Review identity verification processes within Constellation Framework")
 
         return recommendations
 
@@ -1194,7 +1194,7 @@ async def audit_security_violation(violation_type: str, details: str, risk_score
 
 
 async def audit_trinity_event(component: str, event_details: dict[str, Any], user_id: Optional[str] = None) -> str:
-    """Audit Trinity Framework event"""
+    """Audit Constellation Framework event"""
     audit_system = ComprehensiveAuditSystem()
 
     # Determine Trinity context based on component
@@ -1208,7 +1208,7 @@ async def audit_trinity_event(component: str, event_details: dict[str, Any], use
 
     return await audit_system.log_event(
         event_type=AuditEventType.SYSTEM_EVENT,
-        message=f"Trinity Framework event: {component}",
+        message=f"Constellation Framework event: {component}",
         category=AuditCategory.TRINITY,
         level=AuditLevel.INFO,
         user_id=user_id,

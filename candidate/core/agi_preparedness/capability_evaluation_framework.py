@@ -17,7 +17,7 @@ Features:
 - Advanced safety circuit breakers and containment protocols
 
 Integration:
-- Trinity Framework (⚛️🧠🛡️) AGI capability alignment
+- Constellation Framework (⚛️🧠🛡️) AGI capability alignment
 - Constitutional AI AGI safety principle enforcement
 - Guardian System 2.0 AGI capability violation detection
 - Democratic oversight for AGI governance decisions

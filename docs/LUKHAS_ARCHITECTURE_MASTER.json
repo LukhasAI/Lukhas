@@ -32,7 +32,7 @@
           "owner": "lukhas-core",
           "lifecycle": "active",
           "tier": 1,
-          "summary": "Foundational systems for symbolic processing, GLYPH engine, and Trinity Framework",
+          "summary": "Foundational systems for symbolic processing, GLYPH engine, and Constellation Framework",
           "public_interfaces": [
             "core.glyph.processed",
             "core.trinity.identity_sync",
@@ -188,7 +188,7 @@
           "owner": "lukhas-core",
           "lifecycle": "active",
           "tier": 1,
-          "summary": "Constellation Framework coordination and 4-star orchestration",
+          "summary": "Constellation Framework coordination and dynamic constellation orchestration",
           "public_interfaces": [
             "constellation.anchor_star.initialized",
             "constellation.trail_star.coordinated",

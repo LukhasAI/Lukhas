@@ -1,12 +1,12 @@
 # Framework Usage Guide: Trinity vs Constellation
 
-**Definitive guide for when to use Trinity Framework (internal) vs Constellation Framework (user-facing) in LUKHAS consciousness technology**
+**Definitive guide for when to use Constellation Framework (internal) vs Constellation Framework (user-facing) in LUKHAS consciousness technology**
 
 ---
 
 ## 🎯 Framework Selection Matrix
 
-### Trinity Framework (Internal/Technical)
+### Constellation Framework (Internal/Technical)
 
 **🔧 WHEN TO USE:**
 - Internal documentation and technical specifications
@@ -24,12 +24,12 @@
 **📝 USAGE EXAMPLES:**
 ```markdown
 ✅ CORRECT - Internal Documentation:
-"The Trinity Framework provides the foundational architecture with three core pillars: 
+"The Constellation Framework provides the foundational architecture with three core pillars: 
 ⚛️ Identity (authentication), 🧠 Consciousness (awareness processing), 
 and 🛡️ Guardian (ethical protection)."
 
 ✅ CORRECT - Code Comments:
-// Trinity Framework: Guardian system validates consciousness authenticity
+// Constellation Framework: Guardian system validates consciousness authenticity
 // ⚛️ Identity layer handles authentication, 🧠 Consciousness processes awareness
 ```
 
@@ -92,7 +92,7 @@ graph TD
     B --> C[Developers/Internal Team]
     B --> D[Users/Public/Customers]
     
-    C --> E[Use Trinity Framework ⚛️🧠🛡️]
+    C --> E[Use Constellation Framework ⚛️🧠🛡️]
     E --> F[3 pillars: Identity, Consciousness, Guardian]
     E --> G[Technical implementation focus]
     E --> H[Architecture and system design language]
@@ -109,7 +109,7 @@ graph TD
 
 ❌ **WRONG - Public Content with Trinity:**
 ```markdown
-"LUKHAS is built on the Trinity Framework with three core pillars: 
+"LUKHAS is built on the Constellation Framework with three core pillars: 
 ⚛️ Identity, 🧠 Consciousness, and 🛡️ Guardian."
 ```
 
@@ -124,7 +124,7 @@ authentication to Dream-powered creativity to Guardian protection."
 
 ✅ **CORRECT - Internal Technical Document:**
 ```markdown
-"Trinity Framework Implementation:
+"Constellation Framework Implementation:
 - ⚛️ Identity Module: Handles ΛiD authentication and user identity management
 - 🧠 Consciousness Module: Processes awareness patterns and decision logic  
 - 🛡️ Guardian Module: Validates ethical compliance and consciousness authenticity"
@@ -134,7 +134,7 @@ authentication to Dream-powered creativity to Guardian protection."
 
 ## 🎨 Tone and Language Differences
 
-### Trinity Framework Tone (Internal)
+### Constellation Framework Tone (Internal)
 
 **Characteristics:**
 - **Precise and technical** language focused on implementation
@@ -145,7 +145,7 @@ authentication to Dream-powered creativity to Guardian protection."
 **Language Patterns:**
 ```markdown
 ✅ Trinity Examples:
-- "The Trinity Framework implements consciousness through three core systems..."
+- "The Constellation Framework implements consciousness through three core systems..."
 - "Guardian validation ensures ethical compliance at the consciousness level..."
 - "Identity authentication integrates with consciousness processing..."
 ```
@@ -211,7 +211,7 @@ as the ethereal stars guide your galactic journey through the universe of AI..."
 - Use Trinity only for technical API docs
 
 **Technical Documentation:**
-- Use Trinity Framework for system architecture
+- Use Constellation Framework for system architecture
 - Reference Constellation for user-facing features
 - Maintain clear technical accuracy
 - Focus on implementation details with Trinity
@@ -227,7 +227,7 @@ as the ethereal stars guide your galactic journey through the universe of AI..."
 - User-Facing/Public → Convert to Constellation
 
 **Step 2: Audience Assessment**
-- Developers/Architects → Trinity Framework appropriate
+- Developers/Architects → Constellation Framework appropriate
 - Users/Customers/Public → Constellation Framework required
 
 **Step 3: Context Evaluation**
@@ -291,7 +291,7 @@ as the ethereal stars guide your galactic journey through the universe of AI..."
 
 ### Framework Usage Success Indicators
 
-**Trinity Framework (Internal) Success:**
+**Constellation Framework (Internal) Success:**
 - Developer comprehension and adoption rates
 - Technical accuracy and implementation efficiency  
 - Clear architecture communication

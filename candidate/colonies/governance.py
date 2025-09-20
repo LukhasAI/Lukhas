@@ -1,7 +1,7 @@
 """
 LUKHAS AI Colony System - Governance Colony
 Ethical oversight and governance through distributed agents
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 from datetime import datetime, timezone
 from typing import Any
@@ -176,8 +176,8 @@ class GovernanceColony(BaseColony):
             "severity": "none",
         }
 
-        # Trinity Framework compliance
-        if policy_name == "trinity_framework":
+        # Constellation Framework compliance
+        if policy_name == "constellation_framework":
             trinity_elements = ["identity", "consciousness", "guardian"]
             for element in trinity_elements:
                 if not operation.get(f"trinity_{element}", False):

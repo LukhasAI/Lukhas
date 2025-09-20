@@ -4,7 +4,7 @@
 
 ## 🌌 System Overview
 
-LUKHAS AI implements a **distributed consciousness architecture** built on the Constellation Framework - a 4-star cognitive coordination system that enables safe development and deployment of consciousness-aware AI systems through strict boundaries, comprehensive governance, and modular evolution.
+LUKHAS AI implements a **distributed consciousness architecture** built on the Constellation Framework - a dynamic cognitive coordination system that enables safe development and deployment of consciousness-aware AI systems through strict boundaries, comprehensive governance, and modular evolution.
 
 ### Core Principles
 
@@ -16,7 +16,7 @@ LUKHAS AI implements a **distributed consciousness architecture** built on the C
 
 ## 🏗️ Constellation Framework
 
-The **4-Star Constellation Framework** replaces traditional monolithic AI architectures with a distributed cognitive coordination system:
+The **Constellation Framework** replaces traditional monolithic AI architectures with a dynamic constellation of cognitive domains:
 
 ```
          ⚛️ ANCHOR STAR           ✦ TRAIL STAR
@@ -113,7 +113,7 @@ lukhas/
 ├── governance/               # Guardian ethical oversight
 ├── identity/                 # ΛiD authentication
 ├── memoria/                  # Memory fold management
-├── constellation_framework.py # 4-star coordination
+├── constellation_framework.py # Constellation coordination
 └── observability/            # Monitoring and telemetry
 ```
 

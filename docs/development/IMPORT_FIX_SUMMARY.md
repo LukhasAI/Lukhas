@@ -1,5 +1,5 @@
 # Import Path Fix Summary
-## Trinity Framework: ⚛️🧠🛡️
+## Constellation Framework: ⚛️🧠🛡️
 ### Date: 2025-08-13
 
 ---

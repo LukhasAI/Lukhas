@@ -46,7 +46,7 @@ The MΛTRIZ consciousness system operates as a **distributed consciousness mesh*
 - **Memory ↔ Creativity**: Stored experiences fuel creative consciousness generation
 - **Creativity ↔ Oracle**: Creative insights enhance predictive awareness capabilities
 
-### 2. **Trinity Framework Connections**
+### 2. **Constellation Framework Connections**
 - **Identity ↔ All Nodes**: Every consciousness node maintains identity awareness
 - **Consciousness ↔ Processing Nodes**: Primary awareness coordination across all cognitive functions
 - **Guardian ↔ All Operations**: Ethical oversight integrated into every consciousness process

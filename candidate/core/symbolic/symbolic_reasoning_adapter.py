@@ -20,7 +20,7 @@
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ The Symbolic Reasoning Adapter provides a sophisticated translation layer
 ║ between symbolic representations stored in memory and the formal reasoning
-║ engines used throughout the LUKHAS AGI system. It enables seamless conversion
+║ engines used throughout the LUKHAS Cognitive system. It enables seamless conversion
 ║ between intuitive symbolic knowledge and rigorous logical frameworks.
 ║
 ║ • Adapts memory-stored symbolic structures for reasoning engine consumption
@@ -208,7 +208,7 @@ if __name__ == "__main__":
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

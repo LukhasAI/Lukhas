@@ -1,7 +1,7 @@
 """
 OpenTelemetry Minimal Tracing for LUKHAS AI
 Provides lightweight instrumentation with noop fallback
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 import os
 import time
@@ -132,7 +132,7 @@ class LukhasTracer:
                 for key, value in attributes.items():
                     span.set_attribute(key, str(value))
 
-            # Add Trinity Framework tag
+            # Add Constellation Framework tag
             span.set_attribute("constellation.component", self._get_component(name))
 
             try:
@@ -151,7 +151,7 @@ class LukhasTracer:
                 self._check_budget(name, latency_ms, span)
 
     def _get_component(self, span_name: str) -> str:
-        """Map span name to Trinity component"""
+        """Map span name to Constellation component"""
         if "auth" in span_name or "identity" in span_name or "lid" in span_name.lower():
             return "⚛️ Identity"
         elif "consent" in span_name or "policy" in span_name or "governance" in span_name:

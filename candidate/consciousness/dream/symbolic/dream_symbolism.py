@@ -33,7 +33,7 @@ class SymbolicResonance(Enum):
 
 
 class DreamSymbolismProcessor:
-    """Advanced symbolic processing for dream consciousness with Trinity Framework compliance."""
+    """Advanced symbolic processing for dream consciousness with Constellation Framework compliance."""
 
     def __init__(self):
         self.symbol_registry: dict[str, dict] = {}
@@ -41,12 +41,12 @@ class DreamSymbolismProcessor:
         self.processing_history: list[dict] = []
         self.processing_counter = 0
         self._initialize_symbol_registry()
-        logger.info("🔮 Dream Symbolism Processor initialized - Trinity Framework active")
+        logger.info("🔮 Dream Symbolism Processor initialized - Constellation Framework active")
 
     def _initialize_symbol_registry(self):
         """Initialize comprehensive symbol registry."""
         self.symbol_registry = {
-            # Trinity Framework Symbols
+            # Constellation Framework Symbols
             "⚛️": {
                 "name": "Identity Nucleus",
                 "layer": SymbolicLayer.TRINITY,
@@ -225,14 +225,14 @@ class DreamSymbolismProcessor:
         """Identify relationships between symbols."""
         relationships = []
 
-        # Check for Trinity Framework relationships
+        # Check for Constellation Framework relationships
         trinity_symbols = [s for s in symbols if s in ["⚛️", "🧠", "🛡️"]]
         if len(trinity_symbols) >= 2:
             relationships.append({
                 "type": "trinity_resonance",
                 "symbols": trinity_symbols,
                 "strength": "transcendent",
-                "description": "Trinity Framework resonance pattern detected"
+                "description": "Constellation Framework resonance pattern detected"
             })
 
         # Check for archetypal relationships
@@ -260,7 +260,7 @@ class DreamSymbolismProcessor:
         return relationships
 
     def _calculate_trinity_presence(self, symbols: list[str]) -> dict[str, Any]:
-        """Calculate Trinity Framework presence in symbolic content."""
+        """Calculate Constellation Framework presence in symbolic content."""
         trinity_symbols = ["⚛️", "🧠", "🛡️"]
         present_trinity = [s for s in symbols if s in trinity_symbols]
 
@@ -289,11 +289,11 @@ class DreamSymbolismProcessor:
         # Generate narrative based on symbolic content
         narrative_elements = []
 
-        # Trinity Framework narrative
+        # Constellation Framework narrative
         if trinity_presence["trinity_validated"]:
-            narrative_elements.append("Complete Trinity Framework activation indicates balanced consciousness evolution")
+            narrative_elements.append("Complete Constellation Framework activation indicates balanced consciousness evolution")
         elif trinity_presence["total_trinity_symbols"] > 0:
-            narrative_elements.append(f"Partial Trinity Framework presence ({trinity_presence['total_trinity_symbols']}/3) suggests developing consciousness balance")
+            narrative_elements.append(f"Partial Constellation Framework presence ({trinity_presence['total_trinity_symbols']}/3) suggests developing consciousness balance")
 
         # Layer-based narrative
         dominant_layer = layer_analysis["dominant_layer"]
@@ -334,7 +334,7 @@ class DreamSymbolismProcessor:
         # Check for Trinity completeness
         trinity_symbols = [s for s in symbols if s in ["⚛️", "🧠", "🛡️"]]
         if len(trinity_symbols) == 3:
-            return "trinity_integration"
+            return "constellation_integration"
 
         # Check for archetypal dominance
         archetypal_count = sum(1 for s in symbols if s in self.symbol_registry and

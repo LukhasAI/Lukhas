@@ -15,7 +15,7 @@ Features:
 - Statistical drift measurement
 - Behavioral drift tracking
 - Constitutional drift monitoring
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 - Comprehensive drift reporting
 
 #TAG:governance
@@ -112,7 +112,7 @@ class DriftMeasurement:
     baseline_comparison: Optional[dict[str, float]] = None
     historical_comparison: Optional[dict[str, float]] = None
 
-    # Trinity Framework analysis
+    # Constellation Framework analysis
     identity_impact: Optional[float] = None  # ⚛️
     consciousness_impact: Optional[float] = None  # 🧠
     guardian_priority: str = "normal"  # 🛡️
@@ -208,7 +208,7 @@ class DriftReport:
     immediate_actions: list[str] = field(default_factory=list)
     preventive_measures: list[str] = field(default_factory=list)
 
-    # Trinity Framework summary
+    # Constellation Framework summary
     identity_drift_summary: dict[str, float] = field(default_factory=dict)  # ⚛️
     consciousness_drift_summary: dict[str, float] = field(default_factory=dict)  # 🧠
     guardian_response_summary: dict[str, float] = field(default_factory=dict)  # 🛡️
@@ -676,7 +676,7 @@ class AdvancedDriftDetector:
                 },
             )
 
-            # Trinity Framework analysis
+            # Constellation Framework analysis
             measurement.identity_impact = await self._analyze_identity_impact(
                 drift_type, current_data, final_drift_score
             )

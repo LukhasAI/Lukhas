@@ -23,7 +23,7 @@ and bio-inspired architecture for next-generation AI applications.
 
 Module: Quantum Zero Knowledge System
 Path: lukhas/quantum/zero_knowledge_system.py
-Description: Quantum module for advanced AGI functionality
+Description: Quantum module for advanced Cognitive functionality
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.

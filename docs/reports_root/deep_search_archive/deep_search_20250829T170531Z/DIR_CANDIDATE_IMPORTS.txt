@@ -2420,7 +2420,7 @@ import logging
 import asyncio
 from datetime import datetime
 
->>> candidate/consciousness/trinity/framework_integration.py
+>>> candidate/consciousness/constellation/framework_integration.py
 import asyncio
 import logging
 import statistics

@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 #              pathways. Acts as arbitration layer for inconsistencies across collapse
 #              events, emotional states, and ethical mismatches.
 # ΛNOTE: This module provides the core conflict detection and resolution capabilities
-#        for managing symbolic contradictions in the LUKHAS AGI system.
+#        for managing symbolic contradictions in the LUKHAS Cognitive system.
 # DEPENDENCIES: structlog, datetime, typing, enum, dataclasses, uuid, json
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════

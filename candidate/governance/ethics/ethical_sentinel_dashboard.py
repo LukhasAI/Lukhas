@@ -21,7 +21,7 @@
 ────────────────────────────────────────────────────────────────────
 
 The Ethical Sentinel Dashboard provides a mission control view into the ethical
-health of the LUKHAS AGI system. Through real-time visualization of violations,
+health of the LUKHAS Cognitive system. Through real-time visualization of violations,
 interventions, and system-wide risk metrics, operators gain immediate insight
 into the moral compass of the artificial consciousness.
 

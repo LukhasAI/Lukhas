@@ -186,7 +186,7 @@ When adding new vocabulary:
 
 ### Good Vocabulary Usage
 ✅ "LUKHAS AI uses quantum-inspired algorithms"
-✅ "The Trinity Framework ensures ethical oversight"
+✅ "The Constellation Framework ensures ethical oversight"
 ✅ "Memory folds achieve 99.7% cascade prevention"
 ✅ "Where consciousness meets code in digital harmony" (28 words)
 
@@ -198,7 +198,7 @@ When adding new vocabulary:
 
 ## Resources
 
-- [Trinity Framework Documentation](../trinity_core_vocabulary.yaml)
+- [Constellation Framework Documentation](../trinity_core_vocabulary.yaml)
 - [LUKHAS Branding Policy](../BRANDING_POLICY.md)
 - [Readability Testing Tools](https://readable.com/)
 - [Information Integration Theory Papers](https://www.iit.it/)

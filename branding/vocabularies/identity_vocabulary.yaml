@@ -53,7 +53,7 @@ identity_vocabulary:
       usage_weight: 0.7
       contexts: ["privileges", "authorization", "decisions"]
 
-  # 🔗 Trinity Integration
+  # 🔗 Constellation Integration
   trinity_elements:
     - name: "Consciousness Anchor"
       symbol: "🧭"

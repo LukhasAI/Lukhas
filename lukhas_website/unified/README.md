@@ -66,7 +66,7 @@ graph TD
   - Emotional states (VAD model)
   - Memory density
   - Quantum coherence
-- Trinity framework balance visualization
+- Constellation framework balance visualization
 
 ### 4. Shape Library
 - **Basic Shapes**: Sphere, Cube, Torus

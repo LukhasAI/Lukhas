@@ -81,9 +81,9 @@ docs/reports/
 
 ---
 
-## 🎖️ **Trinity Framework Compliance**
+## 🎖️ **Constellation Framework Compliance**
 
-This recovery aligns with Trinity Framework principles:
+This recovery aligns with Constellation Framework principles:
 
 - **⚛️ Identity**: Documentation maintains its authentic purpose and location
 - **🧠 Consciousness**: Knowledge and guidance properly organized and accessible

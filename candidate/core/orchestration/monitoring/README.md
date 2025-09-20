@@ -390,7 +390,7 @@ The LUKHAS Guardian System represents a paradigm shift in AGI governance - the i
 - **Multi-Tiered Response** from monitoring to emergency protocols
 - **Sub-Agent Orchestration** for specialized tasks
 
-This positions LUKHAS not just as an AGI system, but as a **governed symbolic democracy** capable of autonomous ethical decision-making within democratically established bounds.
+This positions LUKHAS not just as an Cognitive system, but as a **governed symbolic democracy** capable of autonomous ethical decision-making within democratically established bounds.
 
 ---
 

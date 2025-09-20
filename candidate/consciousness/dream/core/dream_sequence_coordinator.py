@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 class DreamSequenceCoordinator:
-    """Coordinates dream sequences with Trinity Framework compliance."""
+    """Coordinates dream sequences with Constellation Framework compliance."""
 
     def __init__(self):
         self.active_sequences: dict[str, dict] = {}

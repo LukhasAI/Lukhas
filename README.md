@@ -6,7 +6,7 @@ LUKHAS AI is a sophisticated cognitive platform that implements consciousness-in
 
 ## 🧠 What is LUKHAS?
 
-LUKHAS (Layered Universal Knowledge Handling and Awareness System) is designed around the **Constellation Framework** - a 4-star cognitive architecture that coordinates:
+LUKHAS (Layered Universal Knowledge Handling and Awareness System) is designed around the **Constellation Framework** - a dynamic cognitive architecture that coordinates:
 
 - **⚛️ Anchor Star (Identity)**: Authentication, ΛiD system, secure access
 - **✦ Trail Star (Memory)**: Experience patterns, fold-based memory systems
@@ -100,7 +100,7 @@ lukhas/                    # Production Lane - Stable consciousness systems
 ├── governance/            # Guardian system - ethics and compliance
 ├── identity/              # ΛiD authentication and identity management
 ├── memoria/               # Memory systems and fold management
-└── constellation_framework.py  # 4-star coordination system
+└── constellation_framework.py  # Constellation coordination system
 
 candidate/                 # Development Lane - Experimental research
 ├── consciousness/         # Advanced consciousness research
@@ -137,7 +137,7 @@ The **lane system** provides safe development boundaries:
 - Feature flags control promotion between lanes
 
 ### Constellation Framework
-The **4-star Constellation Framework** replaces traditional AI architectures:
+The **Constellation Framework** replaces traditional AI architectures:
 - **Distributed Consciousness**: Components self-organize into clusters
 - **Ethical Boundaries**: Guardian system enforces constitutional AI principles
 - **Memory Coherence**: Fold-based memory prevents cascade failures

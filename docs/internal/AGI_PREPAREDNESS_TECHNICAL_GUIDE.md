@@ -649,7 +649,7 @@ agi_preparedness:
     transparency_reporting: true
 
 # Integration settings
-trinity_framework:
+constellation_framework:
   identity_verification: mandatory
   consciousness_tracking: enabled  
   guardian_validation: strict

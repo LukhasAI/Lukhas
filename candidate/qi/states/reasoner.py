@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 #              Invoked when symbolic entropy crosses critical thresholds or
 #              contradiction density reaches risk levels.
 # ΛNOTE: This module implements quantum-inspired collapse resolution mechanics
-#        for the LUKHAS AGI system, handling multi-branch reasoning convergence.
+#        for the LUKHAS Cognitive system, handling multi-branch reasoning convergence.
 # DEPENDENCIES: structlog, datetime, typing, enum, dataclasses
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════

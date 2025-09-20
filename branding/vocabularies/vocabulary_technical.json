@@ -1,11 +1,11 @@
 [
   {
-    "term": "Trinity Framework",
+    "term": "Constellation Framework",
     "definition": "LUKHAS AI's core architectural pattern consisting of three integrated pillars: Identity (⚛️), Consciousness (🧠), and Guardian (🛡️)",
     "technical_notes": "Implements separation of concerns with cross-pillar communication via symbolic messaging",
     "citations": ["Internal LUKHAS AI architecture documentation"],
     "usage_contexts": ["system architecture", "technical documentation", "developer discussions"],
-    "examples": ["The Trinity Framework ensures ethical oversight across all consciousness operations"]
+    "examples": ["The Constellation Framework ensures ethical oversight across all consciousness operations"]
   },
   {
     "term": "VIVOX consciousness system",
@@ -61,7 +61,7 @@
     "technical_notes": "Implements semantic compression and symbolic abstraction for efficient inter-module messaging",
     "citations": ["GLYPH Protocol Specification v2.0"],
     "usage_contexts": ["system integration", "module communication", "symbolic processing"],
-    "examples": ["GLYPH tokens carry semantic meaning across Trinity Framework pillars"]
+    "examples": ["GLYPH tokens carry semantic meaning across Constellation Framework pillars"]
   },
   {
     "term": "consciousness metrics",

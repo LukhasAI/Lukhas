@@ -1,5 +1,5 @@
 """
-LUKHAS Brand Monitoring Adapter - Trinity Framework (⚛️🧠🛡️)
+LUKHAS Brand Monitoring Adapter - Constellation Framework (⚛️🧠🛡️)
 Smart interface to monitoring/ systems for brand-aware analytics and tracking
 """
 
@@ -175,7 +175,7 @@ class BrandMonitoringAdapter:
         # Analyze tone layer distribution
         tone_distribution = self._analyze_tone_layer_distribution(content_data)
 
-        # Analyze Trinity Framework presence
+        # Analyze Constellation Framework presence
         triad_presence = self._analyze_triad_framework_presence(content_data)
 
         return {
@@ -222,7 +222,7 @@ class BrandMonitoringAdapter:
         }
 
     def _collect_triad_alignment_metrics(self, time_range: str) -> dict[str, Any]:
-        """Collect Trinity Framework alignment metrics"""
+        """Collect Constellation Framework alignment metrics"""
 
         triad_data = self.data_collector.collect_real_data("triad_analysis")
 
@@ -279,7 +279,7 @@ class BrandMonitoringAdapter:
         }
 
     def _analyze_triad_framework_presence(self, content_data: dict[str, Any]) -> dict[str, Any]:
-        """Analyze presence of Trinity Framework elements"""
+        """Analyze presence of Constellation Framework elements"""
 
         config = self.brand_metrics_config["brand_consistency_metrics"]["triad_framework_presence"]
 
@@ -438,11 +438,11 @@ class BrandMonitoringAdapter:
         }
 
     def _calculate_triad_coherence(self, triad_data: dict[str, Any]) -> float:
-        """Calculate overall Trinity Framework coherence"""
+        """Calculate overall Constellation Framework coherence"""
         return 0.88
 
     def _track_framework_evolution(self, time_range: str) -> dict[str, Any]:
-        """Track Trinity Framework evolution and strengthening"""
+        """Track Constellation Framework evolution and strengthening"""
         return {
             "evolution_direction": "strengthening",
             "coherence_improvement": 0.05,
@@ -590,7 +590,7 @@ class BrandMonitoringAdapter:
         insights["emerging_trends"].append("Increasing user preference for consciousness-aware communication")
 
         # Spot opportunities
-        insights["opportunities"].append("Strong Trinity Framework alignment enables deeper user connection")
+        insights["opportunities"].append("Strong Constellation Framework alignment enables deeper user connection")
 
         # Identify risks
         if "brand_consistency" in brand_metrics:

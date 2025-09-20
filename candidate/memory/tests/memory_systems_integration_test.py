@@ -10,7 +10,7 @@ LUKHAS AI - Memory Systems Integration Test Suite
 Comprehensive test suite for LUKHAS AI memory systems integration.
 Tests all major components and their interactions.
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 import asyncio
@@ -29,7 +29,7 @@ try:
     from fold import FoldManager, MemoryFold
     from systems.dream_memory_manager import DreamMemoryManager
     from systems.memory_collapse_verifier import MemoryCollapseVerifier
-    from trinity_framework_validator import TrinityFrameworkValidator
+    from constellation_framework_validator import ConstellationFrameworkValidator
 
     from consciousness.awareness_mechanism import AwarenessMechanism
     from consciousness.dream_memory_integration import DreamMemoryIntegrator
@@ -281,12 +281,12 @@ class TestMemorySystemsIntegration(unittest.TestCase):
             print("⚠️ Memory-Consciousness Optimizer not available for testing")
 
     def test_trinity_framework_validation(self):
-        """Test Trinity Framework compliance validation"""
+        """Test Constellation Framework compliance validation"""
         try:
-            from trinity_framework_validator import TrinityComponent, TrinityFrameworkValidator, ValidationLevel
+            from constellation_framework_validator import ConstellationComponent, ConstellationFrameworkValidator, ValidationLevel
 
             # Initialize validator
-            validator = TrinityFrameworkValidator()
+            validator = ConstellationFrameworkValidator()
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
 
@@ -305,7 +305,7 @@ class TestMemorySystemsIntegration(unittest.TestCase):
             self.assertIn('component_results', validation_result)
 
             # Check individual component validation
-            for component in TrinityComponent:
+            for component in ConstellationComponent:
                 component_result = loop.run_until_complete(
                     validator._validate_trinity_component(component, ValidationLevel.STANDARD)
                 )
@@ -314,17 +314,17 @@ class TestMemorySystemsIntegration(unittest.TestCase):
                 self.assertGreaterEqual(component_result.score, 0.0)
                 self.assertLessEqual(component_result.score, 1.0)
 
-            # Test Trinity status
-            status = loop.run_until_complete(validator.get_trinity_status())
+            # Test Constellation status
+            status = loop.run_until_complete(validator.get_constellation_status())
             self.assertIsNotNone(status)
             self.assertIn('system_references', status)
 
             loop.close()
 
-            print(f"✅ Trinity Framework Validation test passed (score: {validation_result['overall_score']:.3f})")
+            print(f"✅ Constellation Framework Validation test passed (score: {validation_result['overall_score']:.3f})")
 
         except ImportError:
-            print("⚠️ Trinity Framework Validator not available for testing")
+            print("⚠️ Constellation Framework Validator not available for testing")
 
     def test_memory_collapse_verification(self):
         """Test memory collapse verification system"""

@@ -44,7 +44,7 @@ class ContextPriorityAnalyzer:
             "candidate/core/symbolic/claude.me": 75,
             "candidate/core/symbolic/lukhas_context.md": 75,
 
-            # MEDIUM - Trinity Framework components
+            # MEDIUM - Constellation Framework components
             "lukhas/identity/claude.me": 70,
             "lukhas/identity/lukhas_context.md": 70,
             "lukhas/memory/claude.me": 70,

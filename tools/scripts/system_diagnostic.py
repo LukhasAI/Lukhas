@@ -6,7 +6,7 @@ LUKHΛS System Diagnostic
 Comprehensive diagnostic to verify system functionality and readiness.
 Tests all major components and provides a functionality percentage.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 
 import importlib.util
@@ -193,7 +193,7 @@ class SystemDiagnostic:
         return results
 
     def check_triad_integration(self) -> dict[str, bool]:
-        """Check Trinity Framework integration."""
+        """Check Constellation Framework integration."""
         checks = {
             "Identity System": self.results["imports"].get("Identity System", False),
             "Consciousness System": self.results["imports"].get("Consciousness System", False),
@@ -219,7 +219,7 @@ class SystemDiagnostic:
         🧠 LUKHΛS System Diagnostic Report
 ═══════════════════════════════════════════════════════════════
 Generated: {datetime.now(timezone.utc).isoformat()}Z
-Trinity Framework: ⚛️ 🧠 🛡️
+Constellation Framework: ⚛️ 🧠 🛡️
 
 Overall Functionality: {functionality_percentage:.1f}%
 Total Checks: {self.total_checks}
@@ -259,7 +259,7 @@ Passed: {self.passed_checks}
 
         report += """
 ═══════════════════════════════════════════════════════════════
-🔺 Trinity Framework Status
+🔺 Constellation Framework Status
 ═══════════════════════════════════════════════════════════════
 """
         triad_ok = all(self.results.get("constellation", {}).values())
@@ -340,7 +340,7 @@ Functionality: {functionality_percentage:.1f}%
         print("Checking module health...")
         self.check_module_health()
 
-        print("Checking Trinity integration...")
+        print("Checking Constellation integration...")
         self.check_triad_integration()
 
         # Generate and display report

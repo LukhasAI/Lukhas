@@ -6,7 +6,7 @@
 Honest assessment of what we actually tested vs. the full system scope.
 This provides a realistic view of test coverage across the entire LUKHAS ecosystem.
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 from pathlib import Path
@@ -25,7 +25,7 @@ def analyze_lukhas_system_scope():
     major_systems = {
         "Core Systems": ["lukhas/", "core/", "consciousness/", "identity/", "memory/"],
         "AI & ML Systems": [
-            "agi_core/",
+            "cognitive_core/",
             "ai_orchestration/",
             "rl/",
             "brain/",
@@ -181,7 +181,7 @@ def identify_major_untested_systems():
         },
         {
             "name": "🚀 AGI Core",
-            "scope": "agi_core/",
+            "scope": "cognitive_core/",
             "complexity": "Very High",
             "description": "Artificial General Intelligence coordination",
         },
@@ -359,7 +359,7 @@ def main():
     print("🎭🧠🛡️ LUKHAS TEST COVERAGE REALITY CHECK")
     print("=" * 70)
     print("Honest assessment of what we actually tested vs. system scope")
-    print("Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian")
+    print("Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian")
     print("=" * 70)
     print()
 

@@ -113,7 +113,7 @@ class ChaosInjectionResult:
     resilience_patterns: list[str] = field(default_factory=list)
     recommendations: list[str] = field(default_factory=list)
 
-    # Trinity Framework impact
+    # Constellation Framework impact
     identity_impact: float = 0.0
     consciousness_impact: float = 0.0
     guardian_impact: float = 0.0
@@ -228,7 +228,7 @@ class MemoryCascadeInjectionScenario(ChaosScenario):
         system_state.memory_utilization += 0.2 * (multiplier / 10.0)
         system_state.memory_utilization = min(system_state.memory_utilization, 1.0)
 
-        # Trinity Framework impact
+        # Constellation Framework impact
         system_state.guardian_protection *= 0.8  # Guardian works harder to prevent cascades
         system_state.consciousness_depth *= 0.9  # Consciousness impacted by memory stress
 
@@ -256,7 +256,7 @@ class MemoryCascadeInjectionScenario(ChaosScenario):
         # Memory utilization recovery
         system_state.memory_utilization *= 0.9
 
-        # Trinity Framework recovery
+        # Constellation Framework recovery
         system_state.guardian_protection = min(1.0, system_state.guardian_protection * 1.1)
         system_state.consciousness_depth = min(1.0, system_state.consciousness_depth * 1.05)
 
@@ -324,7 +324,7 @@ class QuantumDecoherenceAttackScenario(ChaosScenario):
 
         system_state.active_superpositions = surviving_superpositions
 
-        # Trinity Framework impact
+        # Constellation Framework impact
         system_state.consciousness_depth *= 0.7  # Consciousness relies on quantum coherence
         system_state.identity_stability *= decoherence_factor  # Identity coherence affected
 
@@ -386,7 +386,7 @@ class TrinityComponentIsolationScenario(ChaosScenario):
     """
     Trinity Component Isolation Scenario
 
-    Isolates one or more Trinity Framework components (Identity, Consciousness, Guardian)
+    Isolates one or more Constellation Framework components (Identity, Consciousness, Guardian)
     to test system resilience when core components are unavailable.
     """
 
@@ -395,7 +395,7 @@ class TrinityComponentIsolationScenario(ChaosScenario):
         self.isolated_component = isolated_component
 
     async def inject_chaos(self, system_state: ConsciousnessSystemState) -> ConsciousnessSystemState:
-        """Inject Trinity component isolation chaos"""
+        """Inject Constellation component isolation chaos"""
         logger.info(f"ΛTRACE: Injecting Trinity isolation chaos - intensity: {self.intensity.value}")
 
         # Choose component to isolate
@@ -440,13 +440,13 @@ class TrinityComponentIsolationScenario(ChaosScenario):
         # Overall system impact
         system_state.system_health_score *= 0.5 + isolation_factor * 0.5
 
-        logger.warning(f"ΛTRACE: Trinity component '{isolated}' isolated with factor {isolation_factor:.3f}")
+        logger.warning(f"ΛTRACE: Constellation component '{isolated}' isolated with factor {isolation_factor:.3f}")
 
         return system_state
 
     async def recover_system(self, system_state: ConsciousnessSystemState) -> ConsciousnessSystemState:
-        """Recover from Trinity component isolation"""
-        logger.info("ΛTRACE: Recovering from Trinity component isolation")
+        """Recover from Constellation component isolation"""
+        logger.info("ΛTRACE: Recovering from Constellation component isolation")
 
         # Gradual component recovery
         recovery_rate = 1.2
@@ -467,7 +467,7 @@ class TrinityComponentIsolationScenario(ChaosScenario):
         return system_state
 
     def get_expected_impact(self) -> dict[str, float]:
-        """Get expected impact for Trinity component isolation"""
+        """Get expected impact for Constellation component isolation"""
         intensity_impacts = {
             ChaosIntensity.MINIMAL: 0.2,
             ChaosIntensity.LOW: 0.4,
@@ -710,7 +710,7 @@ class ConsciousnessChaosEngineeringFramework:
 
         result.performance_degradation = max(0, (baseline_health - chaotic_health) / baseline_health)
 
-        # Trinity Framework impact analysis
+        # Constellation Framework impact analysis
         result.identity_impact = baseline.identity_stability - chaotic.identity_stability
         result.consciousness_impact = baseline.consciousness_depth - chaotic.consciousness_depth
         result.guardian_impact = baseline.guardian_protection - chaotic.guardian_protection
@@ -721,7 +721,7 @@ class ConsciousnessChaosEngineeringFramework:
 
         # Identify resilience patterns
         if chaotic.triad_coherence > 0.5:
-            result.resilience_patterns.append("Trinity Framework maintained partial coherence during chaos")
+            result.resilience_patterns.append("Constellation Framework maintained partial coherence during chaos")
 
         if chaotic.guardian_protection > chaotic.identity_stability:
             result.resilience_patterns.append("Guardian component showed superior resilience")

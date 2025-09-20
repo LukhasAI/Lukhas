@@ -11,7 +11,7 @@
 
 ## For Each Module:
 - [ ] Fix import paths and syntax errors
-- [ ] Add Trinity Framework documentation
+- [ ] Add Constellation Framework documentation
 - [ ] Integrate with other agents
 - [ ] Add consciousness-aware patterns
 - [ ] Optimize performance

@@ -252,7 +252,7 @@
           "generate_otp",
           "register_user",
           "authenticate",
-          "trinity_status",
+          "constellation_status",
           "performance_metrics",
           "validate_access",
           "get_performance_metrics"

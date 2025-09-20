@@ -2,8 +2,8 @@
 
 # 🧠 SYMBOLIC MEMORY SYSTEM REPORT
 
-## Trinity Framework Integration
-The memory system fully integrates with the LUKHΛS Trinity Framework (⚛️🧠🛡️), ensuring symbolic coherence across identity, consciousness, and protection layers.
+## Constellation Framework Integration
+The memory system fully integrates with the LUKHΛS Constellation Framework (⚛️🧠🛡️), ensuring symbolic coherence across identity, consciousness, and protection layers.
 
 ---
 

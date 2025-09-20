@@ -3,14 +3,14 @@ LUKHAS WebAuthn/FIDO2 Manager
 ============================
 
 Comprehensive WebAuthn/FIDO2 implementation for LUKHAS Identity system.
-Provides passwordless authentication with Trinity Framework compliance.
+Provides passwordless authentication with Constellation Framework compliance.
 
 Features:
 - WebAuthn credential registration and authentication
 - FIDO2 platform and roaming authenticator support
 - Biometric authentication integration
 - Tier-based authenticator requirements
-- Trinity Framework compliance (⚛️🧠🛡️)
+- Constellation Framework compliance (⚛️🧠🛡️)
 - <100ms p95 latency for credential validation
 """
 
@@ -83,7 +83,7 @@ class WebAuthnManager:
         self.validation_cache = {}
         self.challenge_cache = {}
 
-        # Trinity Framework integration
+        # Constellation Framework integration
         self.guardian_validator = None  # 🛡️ Guardian
         self.consciousness_tracker = None  # 🧠 Consciousness
         self.identity_verifier = None  # ⚛️ Identity

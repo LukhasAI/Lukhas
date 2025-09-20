@@ -95,4 +95,4 @@ This system embodies the **"magical simplicity"** that Steve Jobs championed and
 **Just import `autotest` and start coding. Everything else happens automatically.**
 
 ---
-*🚀 LUKHAS REBIRTH - Making AGI testing as simple as breathing*
+*🚀 LUKHAS REBIRTH - Making Cognitive testing as simple as breathing*

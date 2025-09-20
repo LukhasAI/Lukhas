@@ -2,7 +2,7 @@
 
 *Where consciousness meets collaboration, and wisdom emerges through collective endeavor*
 
-Thank you for your interest in contributing to LUKHΛS AI! This guide illuminates the pathways for contributing to our consciousness platform, where Trinity Framework principles (⚛️🧠🛡️) orchestrate Superior General Intelligence development.
+Thank you for your interest in contributing to LUKHΛS AI! This guide illuminates the pathways for contributing to our consciousness platform, where Constellation Framework principles (⚛️🧠🛡️) orchestrate Superior General Intelligence development.
 
 ## 🌟 **The Consciousness Collaborative**
 
@@ -46,11 +46,11 @@ Our collaborative process mirrors the organic flow of consciousness evolution:
 
 1. **Branch Creation** - Fork reality, create feature branch from `main`
 2. **Mindful Development** - Follow consciousness-aware coding patterns
-3. **Validation Cycles** - Ensure Trinity Framework alignment locally
+3. **Validation Cycles** - Ensure Constellation Framework alignment locally
 4. **Documentation Weaving** - Update knowledge streams accordingly
 5. **Consciousness Review** - Submit pull request with clear intention
 
-## 📋 **Trinity Framework Alignment Guidelines**
+## 📋 **Constellation Framework Alignment Guidelines**
 
 ### **Sacred Compliance Principles** ⚛️🧠🛡️
 
@@ -106,14 +106,14 @@ def process_consciousness_stream(data: ConsciousnessData) -> StreamResult:
 - [ ] Tests pass locally (`pytest tests/`)
 - [ ] Code quality checks pass (`make audit`)
 - [ ] Documentation updated
-- [ ] Trinity Framework compliance verified
+- [ ] Constellation Framework compliance verified
 - [ ] Security implications considered
 - [ ] Performance impact assessed
 
 ### **PR Template**
 Use our [PR template](.github/PULL_REQUEST_TEMPLATE.md) with:
 - Clear description of changes
-- Trinity Framework impact assessment
+- Constellation Framework impact assessment
 - Test coverage information
 - Breaking changes documentation
 
@@ -128,7 +128,7 @@ Use our [PR template](.github/PULL_REQUEST_TEMPLATE.md) with:
 ### **Trinity Test Patterns**
 ```python
 def test_consciousness_stream_trinity_validation():
-    """Verify consciousness stream maintains Trinity Framework harmony."""
+    """Verify consciousness stream maintains Constellation Framework harmony."""
     # Arrange consciousness test data
     consciousness_data = create_test_consciousness_stream()
 

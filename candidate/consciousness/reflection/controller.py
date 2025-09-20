@@ -40,7 +40,7 @@ Main AGI Controller for LUKHAS AGI System - Enterprise Compliance Edition
 ========================================================================
 
 This module serves as the central orchestrator and main entry point for
-the entire LUKHAS AGI system. It provides a unified interface for all
+the entire LUKHAS Cognitive system. It provides a unified interface for all
 AGI operations and manages the complete lifecycle of the system with
 full regulatory compliance across all jurisdictions.
 
@@ -67,7 +67,7 @@ The AGI Controller integrates all major components with compliance middleware:
 - 🆕 Privacy Manager (data protection)
 - 🆕 Audit Logger (compliance tracking)
 
-This is the primary interface for interacting with the LUKHAS AGI system
+This is the primary interface for interacting with the LUKHAS Cognitive system
 with enterprise-grade regulatory compliance.
 """
 
@@ -140,7 +140,7 @@ class PrivacyControls:
 
 
 class AGIState(Enum):
-    """AGI system states"""
+    """Cognitive system states"""
 
     OFFLINE = "offline"  # System not running
     STARTING = "starting"  # System startup
@@ -153,7 +153,7 @@ class AGIState(Enum):
 
 @dataclass
 class AGIRequest:
-    """Represents a user request to the AGI system - Compliance Enhanced"""
+    """Represents a user request to the Cognitive system - Compliance Enhanced"""
 
     id: str
     timestamp: datetime
@@ -173,7 +173,7 @@ class AGIRequest:
 
 @dataclass
 class AGIResponse:
-    """Represents an AGI system response - Compliance Enhanced"""
+    """Represents an Cognitive system response - Compliance Enhanced"""
 
     request_id: str
     timestamp: datetime
@@ -223,7 +223,7 @@ class InteractionMode(Enum):
 
 class AGIController:
     """
-    Main AGI Controller for the LUKHAS AGI system.
+    Main AGI Controller for the LUKHAS Cognitive system.
 
     This class serves as the central orchestrator and main entry point
     for all AGI operations, providing a unified interface for user
@@ -326,8 +326,8 @@ class AGIController:
         asyncio.create_task(self.shutdown())
 
     async def start_agi_system(self) -> bool:
-        """Start the complete AGI system with Enterprise Compliance"""
-        logger.info("Starting LUKHAS AGI system with Enterprise Compliance...")
+        """Start the complete Cognitive system with Enterprise Compliance"""
+        logger.info("Starting LUKHAS Cognitive system with Enterprise Compliance...")
 
         try:
             self.current_state = AGIState.STARTING
@@ -416,11 +416,11 @@ class AGIController:
             self.current_state = AGIState.ONLINE
             self.is_running = True
 
-            logger.info("LUKHAS AGI system started successfully")
+            logger.info("LUKHAS Cognitive system started successfully")
             return True
 
         except Exception as e:
-            logger.error(f"Failed to start AGI system: {e}")
+            logger.error(f"Failed to start Cognitive system: {e}")
             self.current_state = AGIState.OFFLINE
             return False
 
@@ -1040,7 +1040,7 @@ if __name__ == "__main__":
     import signal
 
     async def test_agi():
-        """Test the AGI system"""
+        """Test the Cognitive system"""
         controller = AGIController()
 
         # Start the system

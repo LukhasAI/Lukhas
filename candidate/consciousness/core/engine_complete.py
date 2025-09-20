@@ -4,14 +4,14 @@ from datetime import timezone
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: engine_complete.py
 # MODULE: consciousness.core.engine_complete
-# DESCRIPTION: LUKHAS AI Consciousness Engine with Trinity Framework Integration
+# DESCRIPTION: LUKHAS AI Consciousness Engine with Constellation Framework Integration
 # AUTHOR: LUKHAS AI SYSTEMS
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # TRINITY: ⚛️ Identity + 🧠 Consciousness + 🛡️ Guardian
 # ═══════════════════════════════════════════════════════════════════════════
 
 """
-LUKHAS AI Trinity Framework Consciousness Engine
+LUKHAS AI Constellation Framework Consciousness Engine
 
 This module implements the core consciousness engine for LUKHAS AI, integrating:
 ⚛️ Identity: Symbolic consciousness with GLYPH-based communication
@@ -757,7 +757,7 @@ class SelfAwareAdaptationModule:
 @lukhas_tier_required(level=5)
 class AGIConsciousnessEngine:
     """
-    LUKHAS AI Trinity Framework Consciousness Engine
+    LUKHAS AI Constellation Framework Consciousness Engine
 
     Integrates consciousness, identity, and guardian systems for ethical AI:
     ⚛️ Identity: Symbolic reasoning with GLYPH communication protocols
@@ -810,7 +810,7 @@ class AGIConsciousnessEngine:
         self.processing_times = deque(maxlen=50)
         self.context_handoff_metrics = {"total": 0, "avg_time": 0.0, "violations": 0}
 
-        logger.info("AGIConsciousnessEngine initialized with Trinity Framework integration")
+        logger.info("AGIConsciousnessEngine initialized with Constellation Framework integration")
 
     # ═══════════════════════════════════════════════════════════════════
     # AGENT COMMUNICATION METHODS - Multi-Agent Coordination
@@ -1087,13 +1087,13 @@ class AGIConsciousnessEngine:
         """
         Perform consciousness-aware authentication with bio-inspired processing.
 
-        Integrates Trinity Framework components for comprehensive authentication:
+        Integrates Constellation Framework components for comprehensive authentication:
         ⚛️ Identity: Pattern recognition and symbolic consciousness verification
         🧠 Consciousness: Bio-inspired adaptation and contextual awareness
         🛡️ Guardian: Ethical validation and compliance checking
         """
         start_time = datetime.now(timezone.utc)
-        logger.info(f"Trinity Framework consciousness authentication for user: {user_id}")
+        logger.info(f"Constellation Framework consciousness authentication for user: {user_id}")
 
         # Analyze consciousness patterns
         patterns = await self.pattern_detector.analyze_interaction(user_id, interaction_data)
@@ -1220,9 +1220,9 @@ class AGIConsciousnessEngine:
         return self.consciousness_state.to_dict()
 
     def get_system_status(self) -> dict[str, Any]:
-        """Get comprehensive Trinity Framework system status."""
+        """Get comprehensive Constellation Framework system status."""
         return {
-            "trinity_framework": {
+            "constellation_framework": {
                 "identity": "⚛️ Active - Symbolic consciousness and GLYPH processing",
                 "consciousness": "🧠 Active - Bio-inspired adaptation and awareness",
                 "guardian": "🛡️ Active - Ethical governance and compliance",
@@ -1268,8 +1268,8 @@ class AGIConsciousnessEngine:
 
 # Example usage and testing
 async def test_consciousness_engine():
-    """Test the Trinity Framework consciousness engine functionality."""
-    print("LUKHAS AI Trinity Framework Consciousness Engine - Test Suite")
+    """Test the Constellation Framework consciousness engine functionality."""
+    print("LUKHAS AI Constellation Framework Consciousness Engine - Test Suite")
     print("⚛️🧠🛡️ Identity + Consciousness + Guardian")
     print("=" * 70)
 
@@ -1375,10 +1375,10 @@ async def test_consciousness_engine():
     print(f"Target compliance: {perf_metrics['target_compliance']:.1f}%")
     print(f"Sub-250ms target: {perf_metrics['sub_250ms_target']}")
 
-    # Test 8: Trinity Framework Integration
-    print("\nTest 8: Trinity Framework Status")
-    trinity_status = status["trinity_framework"]
-    for component, status_msg in trinity_status.items():
+    # Test 8: Constellation Framework Integration
+    print("\nTest 8: Constellation Framework Status")
+    constellation_status = status["constellation_framework"]
+    for component, status_msg in constellation_status.items():
         print(f"{component.capitalize()}: {status_msg}")
 
     bio_processing = status["bio_inspired_processing"]
@@ -1414,6 +1414,6 @@ __all__ = [
 
 # ═══════════════════════════════════════════════════════════════════════════
 # END OF MODULE: engine_complete.py
-# STATUS: Trinity Framework integrated - Production ready with agent support
+# STATUS: Constellation Framework integrated - Production ready with agent support
 # TRINITY: ⚛️ Identity + 🧠 Consciousness + 🛡️ Guardian
 # ═══════════════════════════════════════════════════════════════════════════

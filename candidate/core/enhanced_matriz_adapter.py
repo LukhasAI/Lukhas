@@ -6,7 +6,7 @@ Emits MATRIZ-compliant consciousness signals and bio-symbolic data for inter-mod
 - Bio-symbolic adaptation and pattern recognition
 - Consciousness state synchronization and evolution
 - Real-time inter-module communication and monitoring
-- Trinity Framework (⚛️🧠🛡️) compliance validation
+- Constellation Framework (⚛️🧠🛡️) compliance validation
 """
 import random  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
@@ -102,7 +102,7 @@ class EnhancedMatrizAdapter:
         self.consciousness_network = {}  # Track consciousness nodes
         self.bio_patterns = {}  # Track bio-symbolic patterns
         self.signal_history = []  # Signal emission history
-        self.trinity_validators = {}  # Trinity framework validators
+        self.trinity_validators = {}  # Constellation framework validators
         self._lock = asyncio.Lock()
 
     @staticmethod
@@ -137,7 +137,7 @@ class EnhancedMatrizAdapter:
             # Reflection and evolution data
             "reflection_depth": signal.reflection_depth,
             "temporal_context": signal.temporal_context,
-            # Trinity Framework compliance
+            # Constellation Framework compliance
             "trinity_compliance": signal.trinity_compliance,
             "timestamps": {
                 "created_ts": int(signal.timestamp.timestamp() * 1000),
@@ -185,7 +185,7 @@ class EnhancedMatrizAdapter:
             # Process bio-symbolic data
             bio_data = await self._process_bio_symbolic_data(bio_symbolic_data or {}, signal_type, consciousness_id)
 
-            # Validate Trinity Framework compliance
+            # Validate Constellation Framework compliance
             trinity_compliance = await self._validate_trinity_framework(consciousness_id, state_delta, bio_data)
 
             # Create consciousness signal
@@ -324,7 +324,7 @@ class EnhancedMatrizAdapter:
     async def _validate_trinity_framework(
         self, consciousness_id: str, state_delta: dict[str, float], bio_data: dict
     ) -> dict[str, Any]:
-        """Validate Trinity Framework (⚛️🧠🛡️) compliance"""
+        """Validate Constellation Framework (⚛️🧠🛡️) compliance"""
 
         trinity_validation = {
             "identity_validation": {  # ⚛️ IDENTITY
@@ -373,7 +373,7 @@ class EnhancedMatrizAdapter:
                 "last_signal_time": None,
                 "state_evolution": [],
                 "bio_pattern_history": [],
-                "trinity_status": "unknown",
+                "constellation_status": "unknown",
             }
 
         node = self.consciousness_network[consciousness_id]
@@ -394,11 +394,11 @@ class EnhancedMatrizAdapter:
         if len(node["state_evolution"]) > 100:
             node["state_evolution"] = node["state_evolution"][-100:]
 
-        # Update Trinity status
+        # Update Constellation status
         if signal.trinity_compliance.get("framework_compliance", {}).get("validation_passed", False):
-            node["trinity_status"] = "compliant"
+            node["constellation_status"] = "compliant"
         else:
-            node["trinity_status"] = "non_compliant"
+            node["constellation_status"] = "non_compliant"
 
     async def emit_bio_adaptation_signal(
         self,
@@ -508,7 +508,7 @@ class EnhancedMatrizAdapter:
         total_signals = sum(node["signal_count"] for node in nodes)
         avg_signals = total_signals / len(nodes)
 
-        trinity_compliant = sum(1 for node in nodes if node.get("trinity_status") == "compliant")
+        trinity_compliant = sum(1 for node in nodes if node.get("constellation_status") == "compliant")
         compliance_rate = trinity_compliant / len(nodes)
 
         return {
@@ -547,7 +547,7 @@ class EnhancedMatrizAdapter:
 
         provenance_valid = all(field in node.get("provenance", {}) for field in required_prov)
 
-        # Validate Trinity Framework compliance
+        # Validate Constellation Framework compliance
         trinity_valid = (
             "trinity_compliance" in node
             and "identity_validation" in node["trinity_compliance"]

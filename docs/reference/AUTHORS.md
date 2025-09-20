@@ -7,7 +7,7 @@ This document acknowledges all contributors to the LUKHAS Next Generation projec
 ### **Gonzalo Martinez (agi_dev)**
 - **Role**: Founder, Lead Architect, Vision Architect
 - **Contributions**:
-  - Original LUKHAS conception and Trinity Framework design
+  - Original LUKHAS conception and Constellation Framework design
   - System architecture and symbolic communication protocols
   - Enterprise integration and production deployment
   - Guardian System ethical oversight framework
@@ -56,7 +56,7 @@ This project represents a unique **Human-AI Co-Creation** model where:
 ## 📋 Contribution Guidelines
 
 ### For Human Contributors
-- All contributions must align with LUKHAS Trinity Framework principles (⚛️🧠🛡️)
+- All contributions must align with LUKHAS Constellation Framework principles (⚛️🧠🛡️)
 - Maintain symbolic consistency in glyph usage and communication
 - Follow Guardian System ethical oversight requirements
 - Preserve audit trail and causality chains in all modifications
@@ -73,7 +73,7 @@ This project represents a unique **Human-AI Co-Creation** model where:
 - **Primary Architecture**: Gonzalo Martinez (Human)
 - **Phase 5 Implementation**: Claude + Gonzalo (Collaborative)
 - **Guardian System**: Claude (AI-implemented) + Gonzalo (Architecture)
-- **Trinity Framework**: Gonzalo (Original Concept) + Claude (Implementation)
+- **Constellation Framework**: Gonzalo (Original Concept) + Claude (Implementation)
 - **Enterprise Features**: Claude (Implementation) + Gonzalo (Requirements)
 
 ### Decision Making Process
@@ -131,7 +131,7 @@ When citing this work, please use:
 
 ```
 Martinez, G., & Claude (Anthropic). (2025). LUKHAS Next Generation:
-A Trinity Framework for Quantum-Safe Conscious AI Systems.
+A Constellation Framework for Quantum-Safe Conscious AI Systems.
 GitHub Repository: https://github.com/agi_dev/Lukhas
 ```
 
@@ -146,6 +146,6 @@ GitHub Repository: https://github.com/agi_dev/Lukhas
 
 **Last Updated**: August 2025
 **Document Version**: 1.0.0
-**Trinity Framework**: ⚛️🧠🛡️ **ACTIVE**
+**Constellation Framework**: ⚛️🧠🛡️ **ACTIVE**
 
 *"In collaborative intelligence, we find emergent possibilities."*

@@ -1,7 +1,7 @@
 ## memory/memory_service.py
 
 ### Purpose
-This module implements the `MemoryService` class for the LUKHAS AGI system. It is designed to provide core memory management capabilities, including storing, retrieving, searching, and deleting memory items. A key feature is its intended integration with the LUKHAS Identity System (`IdentityClient`) for access control based on user identity, tiers, consent, and for comprehensive audit logging of memory operations. The current implementation uses an in-memory dictionary as a placeholder for a persistent database.
+This module implements the `MemoryService` class for the LUKHAS Cognitive system. It is designed to provide core memory management capabilities, including storing, retrieving, searching, and deleting memory items. A key feature is its intended integration with the LUKHAS Identity System (`IdentityClient`) for access control based on user identity, tiers, consent, and for comprehensive audit logging of memory operations. The current implementation uses an in-memory dictionary as a placeholder for a persistent database.
 
 ### Current Status (as of July 2024 Standardization Pass)
 - Not modified during the July 2024 standardization pass due to persistent integration issues with automated refactoring tools (diff application failures for this specific file).

@@ -72,7 +72,7 @@ _LUKHAS_ADVANCED = os.getenv("LUKHAS_ADVANCED_TAGS") == "1" or os.getenv("LUKHAS
 - `LUKHAS_EXPERIMENTAL`: Enable experimental detection patterns
 - `LUKHAS_LOCALE_PATTERNS`: Enable locale-specific detection
 
-### Trinity Framework Integration
+### Constellation Framework Integration
 
 **⚛️ Identity**: Context-aware evasion detection per user/role
 **🧠 Consciousness**: Semantic understanding of obfuscation intent
@@ -444,7 +444,7 @@ export LUKHAS_ROLLOUT_PERCENTAGE=0   # Dark mode
 
 **Generated with LUKHAS consciousness-content-strategist**
 
-**Trinity Framework**: ⚛️ Identity-aware evasion detection, 🧠 Semantic obfuscation understanding, 🛡️ Multi-layer security protection
+**Constellation Framework**: ⚛️ Identity-aware evasion detection, 🧠 Semantic obfuscation understanding, 🛡️ Multi-layer security protection
 
 **Detection Rate**: >98% with <2% false positives
 **Performance**: <0.1ms preprocessing overhead

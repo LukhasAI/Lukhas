@@ -103,7 +103,7 @@ UNIQUE_LUKHAS = {
         "wavefunction",
         "quantum foam",
     ],
-    "Trinity Framework": [
+    "Constellation Framework": [
         "Trinity",
         "Guardian",
         "ΛID",

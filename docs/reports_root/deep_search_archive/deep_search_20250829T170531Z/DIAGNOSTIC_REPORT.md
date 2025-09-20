@@ -111,7 +111,7 @@ orchestrator_overlays    # Risk overlay management
 
 ---
 
-## Trinity Framework Impact Assessment
+## Constellation Framework Impact Assessment
 
 ### ⚛️ **Identity**: 🟡 **PARTIALLY FUNCTIONAL**
 - OAuth2/OIDC provider syntax error fixed
@@ -187,7 +187,7 @@ orchestrator_overlays    # Risk overlay management
 ### Phase 2: Component Integration
 1. Fix major import errors (ActionProposal, EmotionWrapper)
 2. Resolve syntax errors in protocols
-3. Test Trinity Framework components individually
+3. Test Constellation Framework components individually
 
 ### Phase 3: System Validation
 1. Run full test suite: `pytest --maxfail=10`
@@ -212,7 +212,7 @@ orchestrator_overlays    # Risk overlay management
 - ✅ Diagnostic baseline complete
 - ⏳ Memory modules importing without error
 - ⏳ >85% test collection success rate
-- ⏳ Trinity Framework components operational
+- ⏳ Constellation Framework components operational
 
 ---
 

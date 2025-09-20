@@ -4,13 +4,13 @@
 
 ### 🎭 The Poetic Vision
 
-In the boundless realm where human imagination meets digital possibility, the LUKHAS Trinity Framework emerges as a beacon of communication excellence. Like a prism that separates white light into its component colors, this framework transforms complex AI concepts into three distinct yet harmonious layers of understanding.
+In the boundless realm where human imagination meets digital possibility, the LUKHAS Constellation Framework emerges as a beacon of communication excellence. Like a prism that separates white light into its component colors, this framework transforms complex AI concepts into three distinct yet harmonious layers of understanding.
 
 Each communication journey begins in the ethereal clouds of metaphor and wonder, descends through the warm valleys of human connection, and finally grounds itself in the precise mountains of technical truth. This trinity ensures that no voice is left unheard, no mind left unconvinced, and no implementation left undefined.
 
 ### 🌈 What This Means for You
 
-The LUKHAS Trinity Framework is like having three different translators, each perfect for their audience:
+The LUKHAS Constellation Framework is like having three different translators, each perfect for their audience:
 
 1. **🎭 The Poet** - Captures imagination and inspiration
 2. **🌈 The Friend** - Explains clearly and builds trust

@@ -13,7 +13,7 @@ Features:
 - Hierarchical rule inheritance
 - Dynamic rule composition
 - Real-time validation performance
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 - GLYPH-based rule communication
 - Comprehensive audit trails
 
@@ -173,7 +173,7 @@ class ValidationReport:
     suggestions: list[str] = field(default_factory=list)
     required_actions: list[str] = field(default_factory=list)
 
-    # Trinity Framework integration
+    # Constellation Framework integration
     identity_factors: list[str] = field(default_factory=list)  # ⚛️
     consciousness_factors: list[str] = field(default_factory=list)  # 🧠
     guardian_factors: list[str] = field(default_factory=list)  # 🛡️
@@ -468,7 +468,7 @@ class AdvancedRuleValidator:
         suggestions = await self._generate_suggestions(rule, failed_conditions, context)
         required_actions = await self._generate_required_actions(rule, failed_conditions)
 
-        # Trinity Framework integration
+        # Constellation Framework integration
         trinity_factors = await self._analyze_trinity_factors(rule, target_data, context, overall_result)
 
         execution_time = (datetime.now(timezone.utc) - start_time).total_seconds()
@@ -703,7 +703,7 @@ class AdvancedRuleValidator:
         context: dict[str, Any],
         result: ValidationResult,
     ) -> dict[str, list[str]]:
-        """Analyze Trinity Framework factors (⚛️🧠🛡️)"""
+        """Analyze Constellation Framework factors (⚛️🧠🛡️)"""
 
         factors = {"identity": [], "consciousness": [], "guardian": []}
 

@@ -144,7 +144,7 @@ Level 3: Experimental (DISCONNECTED)
 ### What Agents Correctly Reported:
 - Tests ARE passing (on core systems)
 - System CAN run (with degraded features)
-- Trinity Framework IS implemented (in core modules)
+- Constellation Framework IS implemented (in core modules)
 
 ### What They Missed/Misrepresented:
 - How much is actually connected (20% not 100%)

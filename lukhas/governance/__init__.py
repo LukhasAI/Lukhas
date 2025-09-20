@@ -32,7 +32,7 @@ Modules:
 
 Author: LUKHAS AI System
 Version: 1.0.0
-Trinity Framework: Identity-Consciousness-Guardian
+Constellation Framework: Identity-Consciousness-Guardian
 Phase: Phase 7 - Registry Updates and Policy Integration
 """
 
@@ -196,7 +196,7 @@ GOVERNANCE_INFO = {
             "ID authentication governance integration",
             "Constitutional AI validation and compliance",
             "GLYPH-based symbolic governance communication",
-            "Trinity Framework alignment (Identity-Consciousness-Guardian)",
+            "Constellation Framework alignment (Identity-Consciousness-Guardian)",
             "Real-time drift detection and bias prevention",
             "Cross-module authentication context propagation",
             "Comprehensive audit trail and compliance tracking",
@@ -213,7 +213,7 @@ GOVERNANCE_INFO = {
     ),
     "standards_compliance": [
         "LUKHAS Constitutional AI Principles",
-        "Trinity Framework Integration",
+        "Constellation Framework Integration",
         "Guardian System Ethical Guidelines",
         "GDPR Privacy Protection",
         "CCPA Compliance",
@@ -228,7 +228,7 @@ GOVERNANCE_INFO = {
             "Guardian System Monitoring",
             "Policy Engine Enforcement",
             "Constitutional AI Validation",
-            "Trinity Framework Alignment",
+            "Constellation Framework Alignment",
         ]
         if PHASE_7_AVAILABLE
         else ["Basic Guardian System", "Core governance functions"]
@@ -282,7 +282,7 @@ def initialize_governance_system(config=None):
         if integration_system:
             # This would be async in practice, but providing sync interface
             print(f"LUKHAS Governance System initialized: {__phase__}")
-            print(f"Trinity Framework: {__triad_framework__}")
+            print(f"Constellation Framework: {__triad_framework__}")
             print("Guardian System v1.0.0 with drift threshold: 0.15")
             print(f"Phase 7 ID integration: {' Available' if PHASE_7_AVAILABLE else 'L Not Available'}")
 
@@ -375,7 +375,7 @@ if PHASE_7_AVAILABLE:
 try:
     if PHASE_7_AVAILABLE and lukhas_auth_integration_system:
         print(f" LUKHAS AI Governance Module loaded: {__phase__}")
-        print(f"< Trinity Framework: {__triad_framework__}")
+        print(f"< Constellation Framework: {__triad_framework__}")
         print(" Phase 7 ID Integration: Available")
     else:
         print(" LUKHAS AI Governance Module loaded: Basic functionality")

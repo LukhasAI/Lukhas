@@ -6,7 +6,7 @@ Maintainer: Jules-07
 
 ## 🌐 Directory Purpose
 
-The `reasoning/` directory encapsulates the core cognitive functions related to logical inference, abstract problem-solving, causal analysis, and symbolic manipulation within the LUKHAS AGI system. It houses modules that enable the system to:
+The `reasoning/` directory encapsulates the core cognitive functions related to logical inference, abstract problem-solving, causal analysis, and symbolic manipulation within the LUKHAS Cognitive system. It houses modules that enable the system to:
 
 *   Understand cause-and-effect relationships (`causal_reasoning.py`).
 *   Perform abstract reasoning and pattern recognition (`abstract_reasoning_demo.py`).

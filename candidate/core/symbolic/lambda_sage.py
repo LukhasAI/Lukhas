@@ -12,7 +12,7 @@ LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - ΛSAGE Archetypal Re
 Copyright (c) 2025 LUKHAS AGI Development Team
 All rights reserved.
 
-This file is part of the LUKHAS AGI system, an enterprise artificial general
+This file is part of the LUKHAS Cognitive system, an enterprise artificial general
 intelligence platform combining symbolic reasoning, emotional intelligence,
 quantum integration, and bio-inspired architecture.
 
@@ -219,7 +219,7 @@ class ΛSage:
         Initialize ΛSAGE with system paths and archetypal knowledge base.
 
         Args:
-            base_directory: Root path for LUKHAS AGI system
+            base_directory: Root path for LUKHAS Cognitive system
             output_directory: Directory for analysis outputs
         """
         self.base_directory = Path(base_directory)

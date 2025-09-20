@@ -110,7 +110,7 @@ class SecurityEvent:
     risk_factors: list[str] = field(default_factory=list)
     geolocation: dict[str, str] = field(default_factory=dict)
 
-    # Trinity Framework context
+    # Constellation Framework context
     identity_context: dict[str, Any] = field(default_factory=dict)  # ⚛️
     guardian_context: dict[str, Any] = field(default_factory=dict)  # 🛡️
 
@@ -268,7 +268,7 @@ class SecurityEventMonitor:
         # Security rules
         self.security_rules = self._initialize_security_rules()
 
-        # Trinity Framework security contexts
+        # Constellation Framework security contexts
         self.trinity_security_contexts = {
             "identity": {"monitored_events": [], "security_level": "high"},  # ⚛️
             "guardian": {"protection_rules": [], "enforcement_level": "strict"},  # 🛡️
@@ -358,7 +358,7 @@ class SecurityEventMonitor:
         # Add geolocation if available
         event.geolocation = await self._get_ip_geolocation(ip_address)
 
-        # Add Trinity Framework context
+        # Add Constellation Framework context
         event.identity_context = await self._get_identity_context(user_id)  # ⚛️
         event.guardian_context = await self._get_guardian_context()  # 🛡️
 
@@ -692,7 +692,7 @@ class SecurityEventMonitor:
             if profile.risk_score > 0.7
         ]
 
-        # Trinity Framework security status
+        # Constellation Framework security status
         trinity_security = {
             "identity": {
                 "monitored_events": len(self.trinity_security_contexts["identity"]["monitored_events"]),
@@ -759,7 +759,7 @@ class SecurityEventMonitor:
                 "disabled_users": len(self.disabled_users),
                 "active_sessions": len(self.active_sessions),
             },
-            # Trinity Framework security
+            # Constellation Framework security
             "constellation_framework": trinity_security,
             # System status
             "system": {
@@ -923,7 +923,7 @@ class SecurityEventMonitor:
         return {"country": "Unknown", "region": "Unknown", "city": "Unknown"}
 
     async def _get_identity_context(self, user_id: str) -> dict[str, Any]:
-        """Get identity context for Trinity Framework (⚛️)."""
+        """Get identity context for Constellation Framework (⚛️)."""
 
         return {
             "user_id": user_id,
@@ -932,7 +932,7 @@ class SecurityEventMonitor:
         }
 
     async def _get_guardian_context(self) -> dict[str, Any]:
-        """Get guardian context for Trinity Framework (🛡️)."""
+        """Get guardian context for Constellation Framework (🛡️)."""
 
         return {
             "protection_active": True,

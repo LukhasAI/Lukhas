@@ -71,7 +71,7 @@ Q   Licensed under the LUKHAS AI Proprietary License.
 Q   Unauthorized use, reproduction, or distribution is prohibited.
 Q
 Q DISCLAIMER:
-Q   This module is part of the LUKHAS AGI system. Use only as intended
+Q   This module is part of the LUKHAS Cognitive system. Use only as intended
 Q   within the system architecture. Modifications may affect system
 Q   stability and require approval from the LUKHAS Architecture Board.
 ZPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP

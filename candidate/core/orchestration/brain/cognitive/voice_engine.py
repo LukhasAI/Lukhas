@@ -11,7 +11,7 @@ from lukhas.memory.systems.helix_mapper import HelixMapper
 
 
 class CognitiveVoiceEngine:
-    """Advanced AGI voice processing and synthesis system"""
+    """Advanced cognitive AI voice processing and synthesis system"""
 
     def __init__(self):
         self.memory = HelixMapper()

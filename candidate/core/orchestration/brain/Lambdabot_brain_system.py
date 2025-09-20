@@ -33,7 +33,7 @@ class BotAGISystem:
     Legacy Bot AGI System - now bridges to Lukhas AGI Orchestrator
 
     This class maintains backward compatibility while leveraging
-    the enhanced AGI capabilities of the new orchestrator.
+    the enhanced Cognitive capabilities of the new orchestrator.
     """
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
@@ -44,7 +44,7 @@ class BotAGISystem:
         logger.info(" Bot AGI System initialized (bridging to Lukhas AGI)")
 
     async def initialize(self) -> bool:
-        """Initialize the AGI system"""
+        """Initialize the Cognitive system"""
         if self.orchestrator:
             return await self.orchestrator.initialize_agi_system()
         else:
@@ -53,7 +53,7 @@ class BotAGISystem:
             return True
 
     async def process_request(self, user_input: str, context: Optional[dict] = None) -> dict[str, Any]:
-        """Process a request through the AGI system"""
+        """Process a request through the Cognitive system"""
         if self.orchestrator:
             return await self.orchestrator.process_agi_request(user_input, context)
         else:
@@ -66,7 +66,7 @@ class BotAGISystem:
             }
 
     async def start(self):
-        """Start the AGI system"""
+        """Start the Cognitive system"""
         if not self.active:
             await self.initialize()
 
@@ -77,7 +77,7 @@ class BotAGISystem:
         logger.info(" Bot AGI System started")
 
     async def stop(self):
-        """Stop the AGI system"""
+        """Stop the Cognitive system"""
         if self.orchestrator:
             await self.orchestrator.stop_agi_orchestration()
 

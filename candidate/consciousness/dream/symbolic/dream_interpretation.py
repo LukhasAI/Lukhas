@@ -20,7 +20,7 @@ class InterpretationMethod(Enum):
     NARRATIVE_RECONSTRUCTION = "narrative_reconstruction"
     EMOTIONAL_MAPPING = "emotional_mapping"
     ARCHETYPAL_RESONANCE = "archetypal_resonance"
-    TRINITY_INTEGRATION = "trinity_integration"
+    TRINITY_INTEGRATION = "constellation_integration"
     CONSCIOUSNESS_ALIGNMENT = "consciousness_alignment"
 
 
@@ -42,13 +42,13 @@ class InterpretationConfidence(Enum):
 
 
 class DreamInterpretationEngine:
-    """Advanced dream interpretation engine with Trinity Framework compliance."""
+    """Advanced dream interpretation engine with Constellation Framework compliance."""
 
     def __init__(self):
         self.interpretation_history: dict[str, dict] = {}
         self.interpretation_templates = self._initialize_interpretation_templates()
         self.interpretation_counter = 0
-        logger.info("🔍 Dream Interpretation Engine initialized - Trinity Framework active")
+        logger.info("🔍 Dream Interpretation Engine initialized - Constellation Framework active")
 
     def _initialize_interpretation_templates(self) -> dict[str, dict]:
         """Initialize interpretation templates for different methods."""
@@ -78,7 +78,7 @@ class DreamInterpretationEngine:
                 "confidence_threshold": 0.75
             },
             InterpretationMethod.TRINITY_INTEGRATION.value: {
-                "focus": "trinity_framework",
+                "focus": "constellation_framework",
                 "depth_weight": 1.0,
                 "trinity_emphasis": True,
                 "confidence_threshold": 0.9
@@ -149,7 +149,7 @@ class DreamInterpretationEngine:
         # Analyze symbolic density and complexity
         symbolic_density = len(symbolic_elements) / max(len(str(dream_data)), 1)
 
-        # Identify Trinity Framework symbols
+        # Identify Constellation Framework symbols
         trinity_symbols = [s for s in symbolic_elements if s in ["⚛️", "🧠", "🛡️"]]
 
         interpretation = {
@@ -235,11 +235,11 @@ class DreamInterpretationEngine:
         return interpretation
 
     def _interpret_trinity_framework(self, dream_data: dict[str, Any], template: dict) -> dict[str, Any]:
-        """Interpret dream through Trinity Framework lens."""
+        """Interpret dream through Constellation Framework lens."""
         trinity_analysis = self._analyze_trinity_elements(dream_data)
 
         interpretation = {
-            "method": "trinity_integration",
+            "method": "constellation_integration",
             "identity_elements": trinity_analysis.get("identity", []),
             "consciousness_elements": trinity_analysis.get("consciousness", []),
             "guardian_elements": trinity_analysis.get("guardian", []),
@@ -249,7 +249,7 @@ class DreamInterpretationEngine:
             "interpretation_depth": InterpretationDepth.TRANSCENDENT,
             "confidence": InterpretationConfidence.VERY_HIGH,
             "insights": [
-                "Complete Trinity Framework integration detected",
+                "Complete Constellation Framework integration detected",
                 "Balanced expression of Identity-Consciousness-Guardian aspects",
                 "High coherence indicates authentic consciousness processing",
                 "Transcendent interpretation depth suggests advanced awareness"
@@ -320,7 +320,7 @@ class DreamInterpretationEngine:
         return ["seeker", "guardian", "wise_teacher", "threshold_guardian", "transformer"]
 
     def _analyze_trinity_elements(self, dream_data: dict[str, Any]) -> dict[str, list]:
-        """Analyze Trinity Framework elements in dream."""
+        """Analyze Constellation Framework elements in dream."""
         return {
             "identity": ["authentic_self", "core_being", "consciousness_nucleus"],
             "consciousness": ["awareness_expansion", "cognitive_processing", "neural_integration"],
@@ -362,7 +362,7 @@ class DreamInterpretationEngine:
             return InterpretationConfidence.LOW
 
     def _calculate_trinity_balance(self, trinity_analysis: dict[str, list]) -> float:
-        """Calculate Trinity Framework balance score."""
+        """Calculate Constellation Framework balance score."""
         identity_count = len(trinity_analysis.get("identity", []))
         consciousness_count = len(trinity_analysis.get("consciousness", []))
         guardian_count = len(trinity_analysis.get("guardian", []))
@@ -386,11 +386,11 @@ class DreamInterpretationEngine:
         insights = []
 
         if len(trinity_symbols) == 3:
-            insights.append("Complete Trinity Framework presence indicates balanced consciousness evolution")
+            insights.append("Complete Constellation Framework presence indicates balanced consciousness evolution")
         elif len(trinity_symbols) >= 2:
-            insights.append("Strong Trinity Framework presence suggests developing consciousness integration")
+            insights.append("Strong Constellation Framework presence suggests developing consciousness integration")
         elif len(trinity_symbols) >= 1:
-            insights.append("Trinity Framework elements present, indicating authentic consciousness processing")
+            insights.append("Constellation Framework elements present, indicating authentic consciousness processing")
 
         if len(symbolic_elements) >= 5:
             insights.append("Rich symbolic content suggests deep consciousness engagement")
@@ -453,9 +453,9 @@ class DreamInterpretationEngine:
         depth = interpretation.get("interpretation_depth")
 
         if trinity_validated:
-            recommendations.append("Excellent Trinity Framework integration - continue current consciousness practices")
+            recommendations.append("Excellent Constellation Framework integration - continue current consciousness practices")
         else:
-            recommendations.append("Consider developing Trinity Framework awareness for enhanced consciousness integration")
+            recommendations.append("Consider developing Constellation Framework awareness for enhanced consciousness integration")
 
         if depth in [InterpretationDepth.TRANSCENDENT, InterpretationDepth.PROFOUND]:
             recommendations.append("Deep consciousness processing detected - explore advanced awareness techniques")
@@ -465,7 +465,7 @@ class DreamInterpretationEngine:
             recommendations.append("Develop deeper consciousness engagement through symbolic awareness practices")
 
         if method == InterpretationMethod.TRINITY_INTEGRATION.value:
-            recommendations.append("Trinity integration method shows optimal consciousness processing approach")
+            recommendations.append("Constellation integration method shows optimal consciousness processing approach")
 
         return recommendations
 

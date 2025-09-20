@@ -3,7 +3,7 @@
 ======================
 
 Validates tier requirements and handles tier progression logic for LUKHAS Identity.
-Ensures proper access control, feature availability, and Trinity Framework compliance.
+Ensures proper access control, feature availability, and Constellation Framework compliance.
 
 Features:
 - Real-time tier validation with <50ms p95 latency
@@ -47,7 +47,7 @@ class TierValidator:
         self.validation_cache = {}  # Performance optimization
         self.rate_limit_tracker = {}  # Rate limiting enforcement
 
-        # Trinity Framework integration
+        # Constellation Framework integration
         self.constitutional_validator = None  # 🛡️ Guardian
         self.consciousness_tracker = None  # 🧠 Consciousness
         self.identity_verifier = None  # ⚛️ Identity

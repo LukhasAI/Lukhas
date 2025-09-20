@@ -2,7 +2,7 @@
 """
 LUKHAS Code Quality Self-Healing Extension
 Autonomous code quality improvement using consciousness principles
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 
 import asyncio

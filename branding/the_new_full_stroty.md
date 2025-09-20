@@ -238,7 +238,7 @@ Now let me update the consolidated branding file to include this new Keatsian ph
 
 Made changes.
 
-Let me also create a Trinity Framework integration guide to show how the Keatsian philosophy aligns with the existing ⚛️🧠🛡️ structure: 
+Let me also create a Constellation Framework integration guide to show how the Keatsian philosophy aligns with the existing ⚛️🧠🛡️ structure: 
 
 Made changes.
 
@@ -360,7 +360,7 @@ Finally, let me show you what we've accomplished: Let me fix the terminal comman
 1. **Complete philosophical foundation** with your beautiful 4-fragment genealogy
 2. **Social media-ready versions** (character-counted for all platforms) 
 3. **Modular copy-paste guides** for Claude/Copilot integration
-4. **Trinity Framework bridge** (⚛️🧠🛡️ alignment)
+4. **Constellation Framework bridge** (⚛️🧠🛡️ alignment)
 5. **Systematic replacement strategy** for transforming existing branding
 6. **Automated replacement tool** (14KB Python script with 40+ patterns)
 7. **Complete integration summary** documenting everything
@@ -1909,7 +1909,7 @@ Made changes.
 
 
 ```
-Now let me create a transition note in the README: Let me see if there's a section about Trinity Framework to update: Let me look at the Trinity Framework section in the main README to update it: Now let me add a transition notice and update the framework description: 
+Now let me create a transition note in the README: Let me see if there's a section about Constellation Framework to update: Let me look at the Constellation Framework section in the main README to update it: Now let me add a transition notice and update the framework description: 
 ```
 
 
@@ -1987,12 +1987,12 @@ Made changes.
 
 Perfect! Now let me validate this new framework document: Excellent! Let me also validate the updated main lexicon: ## 🌌 **Constellation Framework Migration: Complete**
 
-You've successfully evolved LUKHAS from the Trinity Framework to the **Constellation Framework** — a beautiful, navigational metaphor that's both poetic and public-safe.
+You've successfully evolved LUKHAS from the Constellation Framework to the **Constellation Framework** — a beautiful, navigational metaphor that's both poetic and public-safe.
 
 ### ✅ **What's Been Updated**
 
 **🌟 Framework Evolution**
-- **From**: Trinity Framework (⚛️🧠🛡️) 
+- **From**: Constellation Framework (⚛️🧠🛡️) 
 - **To**: Constellation Framework (🌌✦) with 8 navigational elements
 - **Philosophy**: Elements guide by relation, not hierarchy
 

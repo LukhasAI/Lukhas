@@ -7,7 +7,7 @@ Comprehensive Compliance Monitor for LUKHAS AI System
 
 This module provides real-time compliance monitoring across multiple
 regulatory frameworks including GDPR, CCPA, HIPAA, SOC 2, and AI-specific
-regulations. Integrates with Trinity Framework and Guardian System.
+regulations. Integrates with Constellation Framework and Guardian System.
 
 Features:
 - Multi-regulatory framework compliance (GDPR, CCPA, HIPAA, SOC 2, ISO 27001)
@@ -16,7 +16,7 @@ Features:
 - Comprehensive audit trail generation
 - Risk-based compliance scoring
 - Automated remediation suggestions
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 - Constitutional AI compliance validation
 - Continuous compliance drift detection
 
@@ -143,7 +143,7 @@ class ComplianceAssessment:
     next_review_date: datetime = field(default_factory=lambda: datetime.now(timezone.utc) + timedelta(days=30))
     risk_factors: list[str] = field(default_factory=list)
 
-    # Trinity Framework integration
+    # Constellation Framework integration
     identity_compliance: dict[str, Any] = field(default_factory=dict)  # ⚛️
     consciousness_compliance: dict[str, Any] = field(default_factory=dict)  # 🧠
     guardian_validations: list[str] = field(default_factory=list)  # 🛡️
@@ -385,7 +385,7 @@ class ComplianceMonitor:
     Comprehensive compliance monitoring system for LUKHAS AI
 
     Provides real-time monitoring, violation detection, and compliance
-    assessment across multiple regulatory frameworks with Trinity
+    assessment across multiple regulatory frameworks with Constellation
     Framework integration and automated remediation suggestions.
     """
 
@@ -518,7 +518,7 @@ class ComplianceMonitor:
             # Determine overall status
             overall_status = await self._determine_overall_status(framework_statuses, overall_score)
 
-            # Trinity Framework integration
+            # Constellation Framework integration
             trinity_results = await self._assess_trinity_compliance()
 
             # Create assessment
@@ -904,7 +904,7 @@ class ComplianceMonitor:
             return ComplianceStatus.NON_COMPLIANT
 
     async def _assess_trinity_compliance(self) -> dict[str, Any]:
-        """Assess Trinity Framework compliance"""
+        """Assess Constellation Framework compliance"""
 
         # ⚛️ Identity compliance
         identity_compliance = {

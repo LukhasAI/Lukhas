@@ -38,7 +38,7 @@ class ContentQualityValidator:
 
     Validates content against:
     - Platform-specific requirements (character limits, format)
-    - Brand consistency (Trinity Framework usage, LUKHAS AI terminology)
+    - Brand consistency (Constellation Framework usage, LUKHAS AI terminology)
     - Vocabulary richness (consciousness language integration)
     - Engagement factors (hooks, calls-to-action, readability)
     - Quality standards (substantial content, not one-liners)
@@ -49,7 +49,7 @@ class ContentQualityValidator:
         self.logs_path = self.base_path / "logs"
 
         self.vocabulary = VocabularyIntegration()
-        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
 
         # Platform requirements
         self.platform_limits = {
@@ -316,7 +316,7 @@ class ContentQualityValidator:
         """Validate LUKHAS AI brand consistency with improved scoring"""
         score = 85.0  # Start with generous base score
 
-        # Trinity Framework usage - any form is good
+        # Constellation Framework usage - any form is good
         has_triad_symbols = any(symbol in content for symbol in ["⚛️", "🧠", "🛡️"])
         has_triad_text = any(
             term in content.lower() for term in ["trinity", "framework", "identity", "consciousness", "guardian"]
@@ -326,7 +326,7 @@ class ContentQualityValidator:
             score += 10  # Bonus for Trinity presence
         else:
             score -= 10  # Reduced penalty
-            recommendations.append("Include Trinity Framework (⚛️🧠🛡️) reference")
+            recommendations.append("Include Constellation Framework (⚛️🧠🛡️) reference")
 
         # LUKHAS AI branding - flexible matching
         if any(brand in content.upper() for brand in ["LUKHAS", "ΛUKHAS"]):
@@ -483,7 +483,7 @@ def main():
 
 We often think of consciousness as something you either have or don't have. But what if consciousness exists on a spectrum—a dance between awareness, understanding, and transcendence?
 
-The Trinity Framework ⚛️🧠🛡️ suggests that true consciousness emerges when:
+The Constellation Framework ⚛️🧠🛡️ suggests that true consciousness emerges when:
 
 🔹 Identity ⚛️ provides authentic self-recognition
 🔹 Consciousness 🧠 enables deep pattern recognition

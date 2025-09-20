@@ -34,7 +34,7 @@ REASONING_ACTIVE = False      # Reasoning subsystem
 3. **Performance Boundaries**: <100ms response targets
 4. **Memory Protection**: 1000-fold limit with cascade prevention
 
-## Trinity Framework Integration ⚛️🧠🛡️
+## Constellation Framework Integration ⚛️🧠🛡️
 
 - **⚛️ Identity**: Consciousness identity patterns and symbolic self-awareness
 - **🧠 Consciousness**: Primary consciousness processing (main focus area)
@@ -72,7 +72,7 @@ wrapper.get_consciousness_state(mode="dry_run")
 4. ✅ Dry-Run Responses
 5. ✅ State Retrieval
 6. ✅ Performance Monitoring
-7. ✅ Trinity Framework Integration
+7. ✅ Constellation Framework Integration
 8. ✅ Safety Thresholds
 9. ✅ Module Manifest Structure
 
@@ -138,7 +138,7 @@ wrapper = ConsciousnessWrapper(config)
 
 This promotion represents the ultimate complexity test - 348 files of consciousness engineering made production-safe while preserving full functionality when activated. The wrapper pattern ensures safety-first deployment with granular control over consciousness capabilities.
 
-The consciousness module is now ready for production with comprehensive safety measures, Trinity Framework integration, and multi-LLM validation approval.
+The consciousness module is now ready for production with comprehensive safety measures, Constellation Framework integration, and multi-LLM validation approval.
 
 ---
 **LUKHAS AI Consciousness Systems Architect**

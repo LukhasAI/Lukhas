@@ -4,7 +4,7 @@ Production-ready consciousness infrastructure with advanced monitoring and safet
 
 ## Module Overview
 
-The LUKHAS core provides fundamental consciousness coordination capabilities, real-time drift detection, and intelligent memory management. Each module implements the Trinity Framework while maintaining production-grade performance and reliability.
+The LUKHAS core provides fundamental consciousness coordination capabilities, real-time drift detection, and intelligent memory management. Each module implements the Constellation Framework while maintaining production-grade performance and reliability.
 
 ## Available Modules
 
@@ -121,7 +121,7 @@ ring = DecimatingRing(
 - `keep_recent`: Temporal priority retention
 - `adaptive`: Pressure-sensitive decimation
 
-## Trinity Framework Integration
+## Constellation Framework Integration
 
 ### ⚛️ Identity: Environment-Aware Processing
 - **Lane Detection**: Automatic environment identification
@@ -302,7 +302,7 @@ def health_check():
 
 **Generated with LUKHAS consciousness-content-strategist**
 
-**Trinity Framework**: ⚛️ Lane-aware identity processing, 🧠 Real-time consciousness coordination, 🛡️ Production-grade safety and monitoring
+**Constellation Framework**: ⚛️ Lane-aware identity processing, 🧠 Real-time consciousness coordination, 🛡️ Production-grade safety and monitoring
 
 **Performance**: Sub-millisecond operation with comprehensive monitoring
 **Reliability**: Production-tested with automatic error recovery

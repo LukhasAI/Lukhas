@@ -10,7 +10,7 @@ LUKHAS AI - Consciousness Awareness Mechanism
 Advanced awareness mechanism for LUKHAS AI consciousness integration.
 Implements self-reflection, meta-cognitive monitoring, and awareness states.
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 import asyncio

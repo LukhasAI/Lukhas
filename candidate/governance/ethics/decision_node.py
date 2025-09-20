@@ -37,7 +37,7 @@ logger = get_logger(__name__)
 class EthicsNode:
     """
     Responsible for evaluating actions based on ethical standards
-    and ensuring the AGI system upholds core values.
+    and ensuring the Cognitive system upholds core values.
 
     Key features:
     - Self-updating ethical principles based on feedback
@@ -50,7 +50,7 @@ class EthicsNode:
         Initialize the ethics node
 
         Args:
-            agi_system: Reference to the main AGI system
+            agi_system: Reference to the main Cognitive system
         """
         self.agi = agi_system
         self.logger = logging.getLogger("EthicsNode")

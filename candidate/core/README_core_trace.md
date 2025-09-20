@@ -1,6 +1,6 @@
 # Core Directory Symbolic Trace Summary (Ongoing)
 
-This document provides a summary of the symbolic roles of Python files within the `core/` directory of the LUKHAS AGI system. This is part of Task 158 assigned to Jules-01.
+This document provides a summary of the symbolic roles of Python files within the `core/` directory of the LUKHAS Cognitive system. This is part of Task 158 assigned to Jules-01.
 
 **ΛORIGIN_AGENT:** Jules-01
 **ΛTASK_ID:** 158
@@ -81,13 +81,13 @@ This section covers the initial set of files processed. This document will be up
 ### `core/api_controllers.py`
 *   **Symbolic Role:** Central API Controller for Multiple AGI Modules.
 *   **Key Responsibilities:**
-    *   Provides Flask API endpoints for various LUKHAS AGI modules (Ethics, Memory, Creativity, Consciousness, Learning, Quantum).
+    *   Provides Flask API endpoints for various LUKHAS Cognitive modules (Ethics, Memory, Creativity, Consciousness, Learning, Quantum).
     *   Implements authentication (`@require_auth` decorator) and standardized error handling.
     *   Uses an `IdentityClient` for user access verification and activity logging.
     *   Includes fallback service classes for development if main services fail to import.
 *   **ΛTAGS & Notes:**
     *   Uses `structlog` for ΛTRACE.
-    *   `# AIMPORT_TODO` for the direct imports of AGI services.
+    *   `# AIMPORT_TODO` for the direct imports of Cognitive services.
     *   `# ΛCAUTION` regarding the behavior of fallback service classes.
     *   `# AIDENTITY` tags related to the authentication decorator and user ID handling.
     *   `# ΛNOTE` regarding the basic service initialization pattern.

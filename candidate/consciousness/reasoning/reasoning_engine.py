@@ -3,7 +3,7 @@ Reasoning Engine for LUKHAS AI System
 
 This module provides advanced reasoning capabilities including logical inference,
 causal reasoning, analogical thinking, and meta-cognitive reasoning with
-Trinity Framework integration.
+Constellation Framework integration.
 
 #TAG:consciousness
 #TAG:reasoning
@@ -15,7 +15,7 @@ Features:
 - Causal reasoning and chain analysis
 - Analogical reasoning and pattern matching
 - Meta-cognitive reasoning about reasoning processes
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 - Uncertainty handling and confidence scoring
 - Knowledge graph integration
 - Reasoning chain validation and explanation
@@ -140,7 +140,7 @@ class ReasoningEngine:
     """
     Advanced reasoning engine for LUKHAS AI
     
-    Provides multi-modal reasoning capabilities with Trinity Framework
+    Provides multi-modal reasoning capabilities with Constellation Framework
     integration, confidence tracking, and meta-cognitive awareness.
     """
 

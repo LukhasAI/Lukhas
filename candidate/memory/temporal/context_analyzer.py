@@ -19,7 +19,7 @@ import logging
 Context Analyzer Module for v1_AGI
 
 This module analyzes user input along with metadata and memory to extract contextual
-information that helps the AGI system respond appropriately. It considers emotional state,
+information that helps the Cognitive system respond appropriately. It considers emotional state,
 urgency, formality, and other contextual factors critical for human-centered interactions.
 """
 import datetime

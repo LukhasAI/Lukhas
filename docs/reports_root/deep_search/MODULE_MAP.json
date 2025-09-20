@@ -16,7 +16,7 @@
         "normalize_chunk",
         "get_bridge",
         "get_system_signature",
-        "get_trinity_context",
+        "get_constellation_context",
         "validate_output",
         "normalize_output_text",
         "get_brand_voice",
@@ -25,7 +25,7 @@
         "get_brand_status",
         "__init__",
         "get_system_signature",
-        "get_trinity_context",
+        "get_constellation_context",
         "validate_output",
         "normalize_output",
         "get_brand_voice",
@@ -9812,7 +9812,7 @@
         "normalize_chunk",
         "get_bridge",
         "get_system_signature",
-        "get_trinity_context",
+        "get_constellation_context",
         "validate_output",
         "normalize_output_text",
         "get_brand_voice",
@@ -9821,7 +9821,7 @@
         "get_brand_status",
         "__init__",
         "get_system_signature",
-        "get_trinity_context",
+        "get_constellation_context",
         "validate_output",
         "normalize_output",
         "get_brand_voice",
@@ -14721,7 +14721,7 @@
         "__init__",
         "register_user",
         "authenticate",
-        "trinity_status",
+        "constellation_status",
         "performance_metrics",
         "_track_performance",
         "_validate_registration_request",
@@ -16862,7 +16862,7 @@
         "collector",
         "logging",
         "system_health_monitor",
-        "trinity_framework_monitor",
+        "constellation_framework_monitor",
         "typing",
         "unified_monitoring_dashboard"
       ]
@@ -16904,8 +16904,8 @@
       ]
     },
     {
-      "module": "candidate.core.observability.trinity_framework_monitor",
-      "path": "candidate/core/observability/trinity_framework_monitor.py",
+      "module": "candidate.core.observability.constellation_framework_monitor",
+      "path": "candidate/core/observability/constellation_framework_monitor.py",
       "loc": 1216,
       "classes": [
         "TrinityComponent",
@@ -43776,7 +43776,7 @@
     },
     {
       "module": "candidate.consciousness.trinity.framework_integration",
-      "path": "candidate/consciousness/trinity/framework_integration.py",
+      "path": "candidate/consciousness/constellation/framework_integration.py",
       "loc": 987,
       "classes": [
         "TrinityComponent",
@@ -83470,7 +83470,7 @@
     },
     {
       "from": "candidate.core.observability",
-      "to": "trinity_framework_monitor"
+      "to": "constellation_framework_monitor"
     },
     {
       "from": "candidate.core.observability",
@@ -83529,39 +83529,39 @@
       "to": "hashlib"
     },
     {
-      "from": "candidate.core.observability.trinity_framework_monitor",
+      "from": "candidate.core.observability.constellation_framework_monitor",
       "to": "enum"
     },
     {
-      "from": "candidate.core.observability.trinity_framework_monitor",
+      "from": "candidate.core.observability.constellation_framework_monitor",
       "to": "typing"
     },
     {
-      "from": "candidate.core.observability.trinity_framework_monitor",
+      "from": "candidate.core.observability.constellation_framework_monitor",
       "to": "collections"
     },
     {
-      "from": "candidate.core.observability.trinity_framework_monitor",
+      "from": "candidate.core.observability.constellation_framework_monitor",
       "to": "statistics"
     },
     {
-      "from": "candidate.core.observability.trinity_framework_monitor",
+      "from": "candidate.core.observability.constellation_framework_monitor",
       "to": "uuid"
     },
     {
-      "from": "candidate.core.observability.trinity_framework_monitor",
+      "from": "candidate.core.observability.constellation_framework_monitor",
       "to": "datetime"
     },
     {
-      "from": "candidate.core.observability.trinity_framework_monitor",
+      "from": "candidate.core.observability.constellation_framework_monitor",
       "to": "logging"
     },
     {
-      "from": "candidate.core.observability.trinity_framework_monitor",
+      "from": "candidate.core.observability.constellation_framework_monitor",
       "to": "asyncio"
     },
     {
-      "from": "candidate.core.observability.trinity_framework_monitor",
+      "from": "candidate.core.observability.constellation_framework_monitor",
       "to": "dataclasses"
     },
     {

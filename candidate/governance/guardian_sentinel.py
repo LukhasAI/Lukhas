@@ -2,7 +2,7 @@
 """
 LUKHΛS Guardian Sentinel Module
 Wrapper for Guardian System functionality
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
 This module serves as a compatibility layer for the Guardian system,
 centralizing access to guardian functionality spread across the governance module.
@@ -41,7 +41,7 @@ class GuardianSentinel:
         self.active_threats = []
 
         logger.info("🛡️ Guardian Sentinel initialized")
-        logger.info("   Trinity Framework active: ⚛️🧠🛡️")
+        logger.info("   Constellation Framework active: ⚛️🧠🛡️")
 
     def assess_threat(
         self, action: str, context: dict[str, Any], drift_score: float = 0.0
@@ -154,7 +154,7 @@ class GuardianSentinel:
             "total_interventions": len(self.interventions),
             "active_threats": len(self.active_threats),
             "last_intervention": self.interventions[-1] if self.interventions else None,
-            "trinity_status": "aligned",
+            "constellation_status": "aligned",
             "protection_layers": [
                 "ethical_guardian",
                 "philosophical_reflector",

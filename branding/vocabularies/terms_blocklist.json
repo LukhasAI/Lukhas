@@ -134,12 +134,12 @@
     {
       "term": "Trinity System",
       "reason": "Incorrect name - should be Framework",
-      "alternatives": ["Trinity Framework"]
+      "alternatives": ["Constellation Framework"]
     },
     {
       "term": "Trinity Architecture",
       "reason": "Incorrect name - should be Framework",
-      "alternatives": ["Trinity Framework"]
+      "alternatives": ["Constellation Framework"]
     }
   ],
   "production_claims": [

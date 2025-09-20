@@ -29,7 +29,7 @@
 ║ • Privacy-preserving consciousness data handling
 ║
 ║ This service acts as the gateway to LUKHAS's higher cognitive functions,
-║ enabling true AGI capabilities through managed consciousness states. All
+║ enabling true Cognitive capabilities through managed consciousness states. All
 ║ operations are logged via ΛTRACE and respect user consent boundaries.
 ║
 ║ Key Features:
@@ -1321,7 +1321,7 @@ if __name__ == "__main__":
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

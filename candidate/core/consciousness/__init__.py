@@ -22,7 +22,7 @@ distributed consciousness architecture. It provides:
 - Network-wide Consciousness Orchestration
 - Evolutionary Stage Tracking
 - Reflection and Self-Awareness Systems
-- Trinity Framework Compliance (⚛️🧠🛡️)
+- Constellation Framework Compliance (⚛️🧠🛡️)
 
 Key Components:
 - ConsciousnessState: Core consciousness state structure

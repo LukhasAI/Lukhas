@@ -5,7 +5,7 @@ Core Introspection Module - Phase 3C
 # LUKHAS_TAG: introspection_core
 # PURPOSE: Analyze modules for symbolic tags, drift scores, and emotional deltas
 
-This module provides introspective analysis capabilities for the AGI system,
+This module provides introspective analysis capabilities for the Cognitive system,
 enabling symbolic state reporting and module health monitoring.
 """
 

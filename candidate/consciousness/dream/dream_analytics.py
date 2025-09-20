@@ -14,12 +14,12 @@ logger = logging.getLogger(__name__)
 
 
 class DreamAnalyticsEngine:
-    """Advanced dream analytics with Trinity Framework compliance."""
+    """Advanced dream analytics with Constellation Framework compliance."""
 
     def __init__(self):
         self.analytics_data: dict[str, dict] = {}
         self.analysis_counter = 0
-        logger.info("📊 Dream Analytics Engine initialized - Trinity Framework active")
+        logger.info("📊 Dream Analytics Engine initialized - Constellation Framework active")
 
     def analyze_dream_patterns(self, dream_data: list[dict]) -> dict[str, Any]:
         """⚛️ Analyze dream patterns while preserving identity authenticity."""

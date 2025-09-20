@@ -20,7 +20,7 @@ import logging
 
 """
 Consciousness Module
-Core consciousness and integration components for the LUKHAS AGI system.
+Core consciousness and integration components for the LUKHAS Cognitive system.
 This module provides the central nervous system that coordinates and integrates
 all major cognitive components including memory, voice, personality, emotion,
 identity, and learning systems.
@@ -151,7 +151,7 @@ logger.info(f"ΛTRACE: 'consciousness.core_consciousness' package initialized. E
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚══════════════════════════════════════════════════════════════════════════════

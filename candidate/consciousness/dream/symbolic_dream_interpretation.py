@@ -25,13 +25,13 @@ class SymbolicDomain(Enum):
 
 
 class SymbolicDreamInterpreter:
-    """Advanced symbolic dream interpretation with Trinity Framework compliance."""
+    """Advanced symbolic dream interpretation with Constellation Framework compliance."""
 
     def __init__(self):
         self.interpretation_history: dict[str, dict] = {}
         self.symbolic_lexicon = self._initialize_symbolic_lexicon()
         self.interpretation_counter = 0
-        logger.info("🔮 Symbolic Dream Interpreter initialized - Trinity Framework active")
+        logger.info("🔮 Symbolic Dream Interpreter initialized - Constellation Framework active")
 
     def _initialize_symbolic_lexicon(self) -> dict[str, dict]:
         """Initialize symbolic interpretation lexicon."""
@@ -122,7 +122,7 @@ class SymbolicDreamInterpreter:
         # Trinity-focused narratives
         trinity_symbols = [s for s in symbol_analysis if s["symbol"] in ["⚛️", "🧠", "🛡️"]]
         if trinity_symbols:
-            threads.append("Strong Trinity Framework presence indicates balanced consciousness evolution")
+            threads.append("Strong Constellation Framework presence indicates balanced consciousness evolution")
 
         # Domain-specific narratives
         domains = set(s["domain"] for s in symbol_analysis)
@@ -136,7 +136,7 @@ class SymbolicDreamInterpreter:
         return threads if threads else ["Symbolic patterns suggest transitional consciousness state"]
 
     def _calculate_trinity_resonance(self, symbol_analysis: list[dict]) -> float:
-        """Calculate Trinity Framework resonance score."""
+        """Calculate Constellation Framework resonance score."""
         trinity_symbols = [s for s in symbol_analysis if s["symbol"] in ["⚛️", "🧠", "🛡️"]]
         if not symbol_analysis:
             return 0.0
@@ -178,11 +178,11 @@ class SymbolicDreamInterpreter:
 
         trinity_resonance = interpretation["trinity_resonance"]
         if trinity_resonance > 0.8:
-            recommendations.append("Excellent Trinity Framework integration - continue current practices")
+            recommendations.append("Excellent Constellation Framework integration - continue current practices")
         elif trinity_resonance > 0.5:
             recommendations.append("Good Trinity presence - focus on strengthening weaker aspects")
         else:
-            recommendations.append("Develop Trinity Framework awareness through conscious practice")
+            recommendations.append("Develop Constellation Framework awareness through conscious practice")
 
         domain_mapping = interpretation["domain_mapping"]
         if "guardian" not in domain_mapping:

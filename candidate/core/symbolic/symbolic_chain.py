@@ -3,7 +3,7 @@
 LUKHΛS Symbolic Chain - Real-time Ethical Co-Piloting Pipeline
 Chains LukhasEmbedding → SymbolicHealer for live output processing
 
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 import hashlib
 import json

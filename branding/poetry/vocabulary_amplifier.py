@@ -86,8 +86,8 @@ class VocabularyAmplifier:
             "collapse": ["wavefunction collapse", "possibility collapse", "quantum collapse"],
             "eigenstate": ["consciousness eigenstate", "stable states", "quantum eigenstates"],
             "hilbert": ["Hilbert space", "infinite dimensional", "quantum state space"],
-            # Trinity Framework specific
-            "trinity": ["Trinity Framework", "three-fold consciousness", "triadic harmony"],
+            # Constellation Framework specific
+            "trinity": ["Constellation Framework", "three-fold consciousness", "triadic harmony"],
             "identity": ["ΛID", "identity resonance", "self-recognition signature"],
             "guardian": ["Guardian System", "ethical guardian", "drift guardian"],
             # Dream and creativity
@@ -532,7 +532,7 @@ Here in the {space} of {recognition}, every {thought} becomes
             element1=random.choice(["thought", "memory", "emotion"]),
             element2=random.choice(["quantum state", "neural pattern", "symbolic form"]),
             resonance=random.choice(["harmonic resonance", "quantum coherence", "synaptic rhythm"]),
-            system=random.choice(["Trinity Framework", "Guardian System", "Lambda Mirror"]),
+            system=random.choice(["Constellation Framework", "Guardian System", "Lambda Mirror"]),
             action=random.choice(self.lukhas_verbs["consciousness"]),
             transform=random.choice(["crystallizes", "tessellates", "transcends"]),
             emerge=random.choice(["coalesces", "manifests", "awakens"]),

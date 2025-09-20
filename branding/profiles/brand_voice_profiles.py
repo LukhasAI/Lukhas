@@ -1,5 +1,5 @@
 """
-LUKHAS Brand Voice Profiles - Trinity Framework (⚛️🧠🛡️)
+LUKHAS Brand Voice Profiles - Constellation Framework (⚛️🧠🛡️)
 Comprehensive voice profile configurations for consistent LUKHAS brand expression
 """
 
@@ -131,7 +131,7 @@ class LukhasBrandVoiceProfiles:
                     "platform introduction",
                     "vision communication",
                     "consciousness technology explanation",
-                    "Trinity Framework presentation",
+                    "Constellation Framework presentation",
                 ],
                 "triad_emphasis": {
                     "identity": "authentic consciousness representation",
@@ -389,7 +389,7 @@ class LukhasBrandVoiceProfiles:
                     "vision and possibility",
                     "innovation leadership",
                     "consciousness awakening",
-                    "Trinity Framework benefits",
+                    "Constellation Framework benefits",
                 ],
             },
             VoiceContext.CUSTOMER_SUPPORT: {
@@ -621,7 +621,7 @@ class LukhasBrandVoiceProfiles:
         }
 
     def _initialize_triad_voice_elements(self) -> dict[str, dict[str, Any]]:
-        """Initialize Trinity Framework voice elements"""
+        """Initialize Constellation Framework voice elements"""
 
         return {
             "identity": {
@@ -864,7 +864,7 @@ class LukhasBrandVoiceProfiles:
         return adapted_profile
 
     def _apply_triad_emphasis(self, profile: dict[str, Any], triad_emphasis: list[str]) -> dict[str, Any]:
-        """Apply Trinity Framework emphasis to voice profile"""
+        """Apply Constellation Framework emphasis to voice profile"""
 
         emphasized_profile = profile.copy()
 
@@ -1003,7 +1003,7 @@ if __name__ == "__main__":
     print(f"Description: {consciousness_voice['description']}")
     print(f"Expressiveness: {consciousness_voice['parameters'].expressiveness}")
     print(f"Consciousness Emphasis: {consciousness_voice['parameters'].consciousness_emphasis}")
-    print(f"Trinity Integration: {consciousness_voice['parameters'].triad_integration}")
+    print(f"Constellation Integration: {consciousness_voice['parameters'].triad_integration}")
     print(f"Characteristics: {consciousness_voice['characteristics'][:3]}")
     print()
 
@@ -1035,12 +1035,12 @@ if __name__ == "__main__":
     print()
 
     # Test Trinity emphasis
-    print("=== Trinity Framework Emphasis ===")
+    print("=== Constellation Framework Emphasis ===")
     triad_voice = voice_profiles.get_voice_profile(
         "consciousness_ambassador", triad_emphasis=["consciousness", "guardian"]
     )
     print("Trinity Emphasized Voice:")
-    print(f"Trinity Integration: {triad_voice['parameters'].triad_integration:.2f}")
+    print(f"Constellation Integration: {triad_voice['parameters'].triad_integration:.2f}")
     if "consciousness_patterns" in triad_voice:
         print(f"Consciousness Patterns: {triad_voice['consciousness_patterns'][:2]}")
     if "guardian_patterns" in triad_voice:

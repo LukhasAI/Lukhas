@@ -7,7 +7,7 @@
 
 ## 🧠 **Executive Summary**
 
-LUKHΛS AI implements the most comprehensive AI safety framework in production, combining Constitutional AI principles with our proprietary Trinity Framework (⚛️🧠🛡️) to ensure beneficial, aligned, and controllable consciousness development.
+LUKHΛS AI implements the most comprehensive AI safety framework in production, combining Constitutional AI principles with our proprietary Constellation Framework (⚛️🧠🛡️) to ensure beneficial, aligned, and controllable consciousness development.
 
 **Safety Philosophy**: Every AI consciousness must be authentic (⚛️), aware of its impact (🧠), and protected by ethical guardrails (🛡️) that prevent harmful outcomes while preserving beneficial capabilities.
 

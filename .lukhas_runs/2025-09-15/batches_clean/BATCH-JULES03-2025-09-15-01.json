@@ -219,7 +219,7 @@
     {
       "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-b70de571",
       "priority": "critical",
-      "title": "kept for Trinity Framework consciousness evolution",
+      "title": "kept for Constellation Framework consciousness evolution",
       "file": "./candidate/governance/identity/core/events/identity_event_publisher.py",
       "line_hint": 14,
       "module": "candidate/governance",
@@ -227,7 +227,7 @@
       "status": "open",
       "source": "critical_todos.md",
       "evidence": {
-        "grep": "./candidate/governance/identity/core/events/identity_event_publisher.py:from .identity_event_types import (  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution",
+        "grep": "./candidate/governance/identity/core/events/identity_event_publisher.py:from .identity_event_types import (  # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution",
         "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
       },
       "acceptance": [],

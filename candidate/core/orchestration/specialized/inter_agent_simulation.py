@@ -3,7 +3,7 @@
 Inter-Agent Simulation Module
 =============================
 
-This module provides inter-agent simulation functionality for the LUKHAS AGI system.
+This module provides inter-agent simulation functionality for the LUKHAS Cognitive system.
 It handles communication and coordination between different agents.
 """
 import streamlit as st

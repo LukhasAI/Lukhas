@@ -10,7 +10,7 @@ TODO[T4-AUDIT]:triage - Large legacy symbolic processing system. Need migration 
 
 """
 📦 MODULE      : qi_attention.py
-🧠 DESCRIPTION : Quantum-biological inspired AGI modules based on mitochondrial mechanisms
+🧠 DESCRIPTION : Quantum-biological inspired Cognitive modules based on mitochondrial mechanisms
 🧩 PART OF     : LUKHAS_AGI bio-symbolic layer
 🔢 VERSION     : 1.0.0
 📅 UPDATED     : 2025-05-07

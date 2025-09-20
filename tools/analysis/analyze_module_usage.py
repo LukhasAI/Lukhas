@@ -2,7 +2,7 @@
 """
 Module Usage Analyzer for LUKHAS AI
 Detects unused modules, orphaned files, and import paths
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 
 import ast

@@ -3,7 +3,7 @@
 LUKHΛS Phase 7 - Guardian Shadow Filter
 Implements ethical constraints for identity evolution to prevent harmful transformations.
 
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 
 import json
@@ -108,7 +108,7 @@ class GuardianShadowFilter:
             identity_state: Dictionary containing:
                 - persona: PersonaSignature or dict with persona info
                 - entropy: Current entropy level
-                - trinity_coherence: Trinity Framework coherence
+                - trinity_coherence: Constellation Framework coherence
                 - phase: Identity phase
 
         Returns:
@@ -151,7 +151,7 @@ class GuardianShadowFilter:
                     constraint_type=ConstraintType.COHERENCE_MINIMUM,
                     severity=0.8,
                     description=f"Trinity coherence {trinity_coherence:.2f} below minimum {self.MIN_COHERENCE_FOR_SHIFT}",
-                    recommendation="Restore Trinity Framework alignment",
+                    recommendation="Restore Constellation Framework alignment",
                 )
             )
 
@@ -198,7 +198,7 @@ class GuardianShadowFilter:
                     constraint_type=ConstraintType.TRINITY_VIOLATION,
                     severity=0.5,
                     description="High Trinity coherence requires Trinity glyph presence",
-                    recommendation="Include at least one Trinity Framework glyph",
+                    recommendation="Include at least one Constellation Framework glyph",
                 )
             )
 

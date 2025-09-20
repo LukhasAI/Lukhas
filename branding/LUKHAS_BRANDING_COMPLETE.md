@@ -2,7 +2,7 @@
 
 **Generated**: 2025-08-28T14:58:44.809926  
 **Source**: branding  
-**Trinity Framework**: ⚛️🧠🛡️  
+**Constellation Framework**: ⚛️🧠🛡️  
 **Files Processed**: 193
 
 ---

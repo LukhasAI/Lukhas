@@ -3,7 +3,7 @@
 Enhanced Threat Monitor - Advanced system threat detection and monitoring
 
 Monitors system stability, entropy, consciousness drift, and anomalies with
-full governance integration and Trinity Framework (⚛️🧠🛡️) compliance.
+full governance integration and Constellation Framework (⚛️🧠🛡️) compliance.
 """
 import asyncio
 import logging
@@ -43,7 +43,7 @@ class ThreatIndicator:
     recommended_actions: list[str]
     symbolic_signature: list[str]
     governance_metadata: dict
-    trinity_impact: dict  # Impact on Identity, Consciousness, Guardian
+    constellation_impact: dict  # Impact on Identity, Consciousness, Guardian
 
 
 class EnhancedThreatMonitor(GlyphIntegrationMixin):
@@ -69,7 +69,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         "consciousness_instability": 0.4,
     }
 
-    # Enhanced symbolic patterns with Trinity Framework integration
+    # Enhanced symbolic patterns with Constellation Framework integration
     THREAT_SYMBOLS = {
         "consciousness_drift": ["🧠", "🌊", "⚠️"],
         "entropy_spike": ["🔥", "📈", "🚨"],
@@ -108,7 +108,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         self.threat_history: list[ThreatIndicator] = []
         self.governance_log: list[dict] = []
 
-        # Enhanced metrics history with Trinity Framework monitoring
+        # Enhanced metrics history with Constellation Framework monitoring
         self.consciousness_history = deque(maxlen=history_size)
         self.entropy_history = deque(maxlen=history_size)
         self.memory_history = deque(maxlen=history_size)
@@ -150,7 +150,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             asyncio.create_task(self._monitor_identity()),
             asyncio.create_task(self._monitor_guardian()),
             asyncio.create_task(self._analyze_threats()),
-            asyncio.create_task(self._trinity_framework_monitor()),
+            asyncio.create_task(self._constellation_framework_monitor()),
             asyncio.create_task(self._cleanup_old_data()),
         ]
 
@@ -160,7 +160,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             {"governance_enabled": self.governance_enabled, "trinity_monitoring": True},
         )
 
-        logger.info("🔍 Enhanced Threat monitoring started with Trinity Framework integration")
+        logger.info("🔍 Enhanced Threat monitoring started with Constellation Framework integration")
 
     async def stop_monitoring(self):
         """Stop threat monitoring with governance logging"""
@@ -183,7 +183,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         logger.info("🛑 Enhanced Threat monitoring stopped")
 
     async def _monitor_consciousness(self):
-        """Monitor consciousness system stability with Trinity Framework integration"""
+        """Monitor consciousness system stability with Constellation Framework integration"""
         while self.is_monitoring:
             try:
                 # Enhanced consciousness metrics
@@ -339,7 +339,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 await asyncio.sleep(self.monitoring_interval)
 
     async def _monitor_identity(self):
-        """Monitor identity system integrity (⚛️ component of Trinity Framework)"""
+        """Monitor identity system integrity (⚛️ component of Constellation Framework)"""
         while self.is_monitoring:
             try:
                 # Identity-specific metrics
@@ -392,7 +392,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 await asyncio.sleep(self.monitoring_interval)
 
     async def _monitor_guardian(self):
-        """Monitor guardian system functionality (🛡️ component of Trinity Framework)"""
+        """Monitor guardian system functionality (🛡️ component of Constellation Framework)"""
         while self.is_monitoring:
             try:
                 # Guardian-specific metrics
@@ -444,11 +444,11 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 await self._log_governance_action("guardian_monitoring_error", {"error": str(e)})
                 await asyncio.sleep(self.monitoring_interval)
 
-    async def _trinity_framework_monitor(self):
-        """Monitor overall Trinity Framework (⚛️🧠🛡️) coherence and synchronization"""
+    async def _constellation_framework_monitor(self):
+        """Monitor overall Constellation Framework (⚛️🧠🛡️) coherence and synchronization"""
         while self.is_monitoring:
             try:
-                # Calculate Trinity Framework health
+                # Calculate Constellation Framework health
                 identity_health = self._get_trinity_component_health("identity")
                 consciousness_health = self._get_trinity_component_health("consciousness")
                 guardian_health = self._get_trinity_component_health("guardian")
@@ -459,13 +459,13 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 # Update detection stats
                 self.detection_stats["trinity_framework_health"] = trinity_coherence
 
-                # Check for Trinity Framework desynchronization
+                # Check for Constellation Framework desynchronization
                 if trinity_synchronization < 0.7:
                     await self._raise_enhanced_threat(
                         threat_type="trinity_desync",
                         severity=ThreatLevel.HIGH,
                         confidence=0.85,
-                        description=f"Trinity Framework desynchronization: {trinity_synchronization:.2f}",
+                        description=f"Constellation Framework desynchronization: {trinity_synchronization:.2f}",
                         context={
                             "identity_health": identity_health,
                             "consciousness_health": consciousness_health,
@@ -489,7 +489,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 await asyncio.sleep(self.monitoring_interval * 4)  # Framework-level monitoring
 
             except Exception as e:
-                logger.error(f"Trinity Framework monitoring error: {e}")
+                logger.error(f"Constellation Framework monitoring error: {e}")
                 await self._log_governance_action("trinity_monitoring_error", {"error": str(e)})
                 await asyncio.sleep(self.monitoring_interval)
 
@@ -734,7 +734,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                         },
                     )
 
-                # Analyze Trinity Framework impact patterns
+                # Analyze Constellation Framework impact patterns
                 await self._analyze_trinity_threat_patterns()
 
                 await asyncio.sleep(30)  # Analyze every 30 seconds
@@ -744,7 +744,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 await asyncio.sleep(30)
 
     async def _analyze_trinity_threat_patterns(self):
-        """Analyze threat patterns specific to Trinity Framework components"""
+        """Analyze threat patterns specific to Constellation Framework components"""
         if not self.active_threats:
             return
 
@@ -753,7 +753,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         total_consciousness_impact = sum(t.trinity_impact.get("consciousness", 0) for t in self.active_threats)
         total_guardian_impact = sum(t.trinity_impact.get("guardian", 0) for t in self.active_threats)
 
-        # Check for critical Trinity component overload
+        # Check for critical Constellation component overload
         if total_identity_impact > 2.0:
             await self._log_governance_action(
                 "trinity_identity_overload",
@@ -970,7 +970,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         return random.uniform(0.6, 0.95)
 
     def _get_trinity_alignment(self, component: str) -> float:
-        """Simulate Trinity Framework component alignment"""
+        """Simulate Constellation Framework component alignment"""
         return random.uniform(0.7, 0.95)
 
     def _get_governance_health(self) -> float:
@@ -1030,7 +1030,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         return random.uniform(0.8, 0.95)
 
     def _get_trinity_component_health(self, component: str) -> float:
-        """Get Trinity Framework component health"""
+        """Get Constellation Framework component health"""
         if component == "identity":
             return self._get_identity_coherence()
         elif component == "consciousness":
@@ -1040,7 +1040,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         return 0.5
 
     def _calculate_trinity_sync(self) -> float:
-        """Calculate Trinity Framework synchronization"""
+        """Calculate Constellation Framework synchronization"""
         identity_health = self._get_trinity_component_health("identity")
         consciousness_health = self._get_trinity_component_health("consciousness")
         guardian_health = self._get_trinity_component_health("guardian")
@@ -1182,8 +1182,8 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         )
 
     async def _resynchronize_trinity_framework(self, threat: ThreatIndicator):
-        """Resynchronize Trinity Framework components"""
-        logger.info("⚛️🧠🛡️ Resynchronizing Trinity Framework")
+        """Resynchronize Constellation Framework components"""
+        logger.info("⚛️🧠🛡️ Resynchronizing Constellation Framework")
         await asyncio.sleep(3)
         await self._log_governance_action(
             "trinity_resynchronized",
@@ -1291,7 +1291,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         return monitoring_healthy and governance_healthy and trinity_healthy
 
     def get_enhanced_threat_summary(self) -> dict:
-        """Get comprehensive threat summary with governance and Trinity Framework data"""
+        """Get comprehensive threat summary with governance and Constellation Framework data"""
         active_by_severity = {}
         for level in ThreatLevel:
             active_by_severity[level.name] = len([t for t in self.active_threats if t.severity == level])
@@ -1329,7 +1329,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         }
 
     def get_enhanced_system_metrics(self) -> dict:
-        """Get comprehensive system metrics including governance and Trinity Framework"""
+        """Get comprehensive system metrics including governance and Constellation Framework"""
         current_time = time.time()
 
         # Get latest readings from all monitoring systems
@@ -1379,7 +1379,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 "policy_alignment": (latest_governance["policy_alignment"] if latest_governance else 1.0),
                 "oversight_effectiveness": (latest_governance["oversight_effectiveness"] if latest_governance else 1.0),
             },
-            "trinity_framework": {
+            "constellation_framework": {
                 "identity": {
                     "coherence": (latest_identity["coherence"] if latest_identity else 1.0),
                     "authentication_health": (latest_identity["authentication_health"] if latest_identity else 1.0),
@@ -1432,7 +1432,7 @@ if __name__ == "__main__":
                 )
                 print(f"   Consciousness: {metrics['consciousness']['stability']:.2f}")
                 print(f"   Governance Health: {metrics['governance']['health']:.2f}")
-                print(f"   Trinity Sync: {metrics['trinity_framework']['synchronization']:.2f}")
+                print(f"   Trinity Sync: {metrics['constellation_framework']['synchronization']:.2f}")
                 print(f"   Ethics Compliance: {metrics['governance']['ethics_compliance']:.2f}")
 
                 if summary["active_threats"] > 0:
@@ -1449,7 +1449,7 @@ if __name__ == "__main__":
             print(f"   Governance interventions: {final_summary['governance_interventions']}")
             print(f"   Ethics violations prevented: {final_summary['ethics_violations_prevented']}")
             print(f"   Detection accuracy: {final_summary['detection_accuracy']:.2f}")
-            print(f"   Trinity Framework health: {final_summary['trinity_framework_health']:.2f}")
+            print(f"   Constellation Framework health: {final_summary['trinity_framework_health']:.2f}")
 
         finally:
             await monitor.stop_monitoring()

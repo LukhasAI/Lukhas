@@ -65,7 +65,7 @@
         ]
       },
       {
-        "filename": "trinity_framework_monitor.py",
+        "filename": "constellation_framework_monitor.py",
         "component_type": "TRINITY_BRIDGE",
         "has_contract": false,
         "contract_path": null,

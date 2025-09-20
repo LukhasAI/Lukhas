@@ -38,7 +38,7 @@ environment_variables:
   LUKHAS_API_PORT: "8080"
   LUKHAS_LOG_LEVEL: "INFO"
 
-  # Trinity Framework Features
+  # Constellation Framework Features
   LUKHAS_ENABLE_CONSCIOUSNESS: "true"
   LUKHAS_ENABLE_MEMORY: "true"
   LUKHAS_ENABLE_DREAMS: "true"

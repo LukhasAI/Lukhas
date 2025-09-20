@@ -2,7 +2,7 @@
 """
 LUKHΛS Persona Similarity Engine
 Symbolic matching between session attributes and persona profiles
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 # Note: Using custom implementation instead of sklearn for portability
 import json
@@ -558,7 +558,7 @@ class PersonaSimilarityEngine:
             strategies.append("Introduce grounding glyphs and reduce complexity")
 
         if "trinity_void" in collapse_types:
-            strategies.append("Restore Trinity Framework with core glyphs")
+            strategies.append("Restore Constellation Framework with core glyphs")
 
         return "; ".join(strategies) if strategies else "General stabilization protocol"
 

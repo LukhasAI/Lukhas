@@ -33,7 +33,7 @@
   "defineConstant": {
     "DEBUG": true,
     "PRODUCTION": false,
-    "TRINITY_FRAMEWORK": true
+    "CONSTELLATION_FRAMEWORK": true
   },
   "stubPath": "./typings",
   "typeCheckingMode": "strict",

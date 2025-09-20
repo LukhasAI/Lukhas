@@ -9,7 +9,7 @@
 
 ΛBot AGI Real-Time Status Monitor
 ===============================
-Monitor the autonomous AGI system in real-time
+Monitor the autonomous Cognitive system in real-time
 """
 import json
 import os
@@ -18,7 +18,7 @@ from datetime import datetime, timezone
 
 
 def monitor_agi_system():
-    """Monitor the running AGI system"""
+    """Monitor the running Cognitive system"""
     print("🤖 ΛBot AGI Real-Time Monitor")
     print("=" * 50)
     print("Monitoring autonomous operations...")

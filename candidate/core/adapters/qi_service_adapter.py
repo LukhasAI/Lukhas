@@ -1,6 +1,6 @@
 """
 Quantum Service Adapter - Connects QIM module to main system
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 import logging
 from typing import Any
@@ -26,7 +26,7 @@ class QIServiceAdapter(IQuantumService):
         if not self._initialized:
             try:
                 # Try to import qim_components
-                from qi.engines.consciousness.engine import QIEngine  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution
+                from qi.engines.consciousness.engine import QIEngine  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
                 from qi.processing.qi_bio_coordinator import MockQuantumBioCoordinator
                 from qi.qi_states.processor import QIProcessor  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 

@@ -1,7 +1,7 @@
 """
 LUKHAS AI Core Module
-Foundational systems for symbolic processing, GLYPH engine, and Trinity Framework
-Trinity Framework: Identity, Consciousness, Guardian
+Foundational systems for symbolic processing, GLYPH engine, and Constellation Framework
+Constellation Framework: Identity, Consciousness, Guardian
 
 # [SEARCH:GLYPH_ENGINE] - Core symbolic processing system
 # [SEARCH:CONSTELLATION_FRAMEWORK] - Identity, Consciousness, Guardian integration
@@ -91,9 +91,9 @@ from .symbolism import (
 # Version and module info
 __version__ = "2.0.0"
 __module_name__ = "core"
-__description__ = "LUKHAS AI foundational systems - GLYPH engine, symbolic processing, Trinity Framework"
+__description__ = "LUKHAS AI foundational systems - GLYPH engine, symbolic processing, Constellation Framework"
 
-# Trinity Framework symbols
+# Constellation Framework symbols
 TRINITY_SYMBOLS = {
     "identity": "⚛️",
     "consciousness": "🧠",

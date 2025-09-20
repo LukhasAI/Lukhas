@@ -1,19 +1,34 @@
 {
-  "schema_version": "2.0.0",
+  "schema_version": "3.0.0",
   "directory_metadata": {
     "path": "candidate/consciousness",
     "lane": "development",
-    "purpose": "Directory containing 13 Python files and 30 subdirectories",
-    "trinity_role": [
-      "consciousness"
-    ],
-    "last_updated": "2025-09-20"
+    "purpose": "Advanced consciousness processing systems with MATRIZ pipeline integration and Constellation Framework cognitive alignment",
+    "constellation_framework_version": "2.0.0",
+    "constellation_role": "horizon_star_primary",
+    "t4_compliance_level": "experimental",
+    "last_updated": "2025-09-20",
+    "matriz_pipeline_integration": {
+      "memory_stage": "active",
+      "attention_stage": "active",
+      "thought_stage": "active",
+      "action_stage": "partial",
+      "decision_stage": "experimental",
+      "awareness_stage": "active"
+    },
+    "cognitive_domains": [
+      "consciousness_processing",
+      "awareness_patterns",
+      "metacognitive_reflection",
+      "dream_synthesis",
+      "quantum_consciousness"
+    ]
   },
   "component_inventory": {
     "python_files": [
       {
         "filename": "orchestration_bridge.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": true,
         "contract_path": "contracts/consciousness/orchestration_bridge.json",
         "dependencies": [
@@ -41,7 +56,7 @@
       },
       {
         "filename": "bridge.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": true,
         "contract_path": "contracts/consciousness/bridge.json",
         "dependencies": [],
@@ -227,9 +242,9 @@
         "component_count": 6
       },
       {
-        "name": "trinity",
+        "name": "constellation",
         "has_index": true,
-        "purpose": "Subdirectory with 1 Python files",
+        "purpose": "Constellation Framework integration components",
         "component_count": 1
       },
       {
@@ -459,19 +474,25 @@
     "avoid_patterns": [
       "Modifying contracts without validation",
       "Breaking lane boundaries",
-      "Ignoring Constellation Framework integration"
+      "Ignoring Constellation Framework integration",
+      "Bypassing consciousness validation checks",
+      "Direct consciousness state manipulation",
+      "Violating cognitive alignment requirements"
     ]
   },
   "performance_metadata": {
     "component_count": 13,
     "estimated_complexity": "medium",
-    "consciousness_integration": "intermediate",
+    "consciousness_integration": "advanced",
+    "matriz_compatibility": "experimental",
+    "t4_compliance_score": 0.6,
+    "cognitive_alignment_score": 0.85,
     "test_coverage": 85.0
   },
   "relationships": {
     "parent_directory": "candidate",
     "related_directories": [],
-    "constellation_cluster": "unknown",
+    "constellation_cluster": "horizon_star_consciousness",
     "dependency_weight": "moderate"
   }
 }

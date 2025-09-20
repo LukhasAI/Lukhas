@@ -11,14 +11,14 @@ import logging
 
 Lukhas System AGI Integration Manager
 ====================================
-Central integration manager for connecting AGI capabilities across
+Central integration manager for connecting Cognitive capabilities across
 the entire Lukhas ecosystem.
 
 This manager coordinates:
 1. Main Lukhas AGI Orchestrator
 2. Cognitive Core AGI Enhancement
 3. Brain Orchestration Integration
-4. Bot GitHub App AGI capabilities
+4. Bot GitHub App Cognitive capabilities
 5. Legacy system compatibility
 
 Enhanced: 2025-7-2
@@ -71,7 +71,7 @@ class LukhasAGIIntegrationManager:
             # Step 3: Initialize brain orchestration integration
             await self._initialize_brain_integration()
 
-            # Step 4: Connect GitHub App AGI capabilities
+            # Step 4: Connect GitHub App Cognitive capabilities
             await self._initialize_github_app_integration()
 
             # Step 5: Setup legacy compatibility
@@ -112,7 +112,7 @@ class LukhasAGIIntegrationManager:
             logger.warning(f"AGI orchestrator not available: {e}")
 
     async def _initialize_cognitive_enhancement(self):
-        """Initialize cognitive core AGI enhancement"""
+        """Initialize cognitive core Cognitive enhancement"""
         try:
             from candidate.orchestration.brain.cognitive_agi_enhancement import (
                 CognitiveAGIEnhancement,
@@ -122,7 +122,7 @@ class LukhasAGIIntegrationManager:
             if enhancement_success:
                 self.components["cognitive_enhancement"] = CognitiveAGIEnhancement()
                 self.integration_status["cognitive_enhancement"] = "active"
-                logger.info(" Cognitive AGI enhancement initialized")
+                logger.info(" Cognitive Cognitive enhancement initialized")
             else:
                 self.integration_status["cognitive_enhancement"] = "failed"
                 logger.error(" Cognitive enhancement initialization failed")
@@ -152,12 +152,12 @@ class LukhasAGIIntegrationManager:
             logger.warning(f"Brain orchestrator not available: {e}")
 
     async def _initialize_github_app_integration(self):
-        """Initialize GitHub App AGI capabilities integration"""
+        """Initialize GitHub App Cognitive capabilities integration"""
         try:
             # Check if GitHub App AGI components are available
             github_app_path = Path(__file__).parent / "Bot_GitHub_App"
             if github_app_path.exists():
-                # Import AGI capabilities from GitHub App
+                # Import Cognitive capabilities from GitHub App
                 import sys
 
                 sys.path.append(str(github_app_path))
@@ -260,7 +260,7 @@ class LukhasAGIIntegrationManager:
 
     async def process_unified_request(self, user_input: str, context: Optional[dict] = None) -> dict[str, Any]:
         """
-        Process a request through the unified AGI system
+        Process a request through the unified Cognitive system
 
         This method orchestrates processing across all integrated components
         """

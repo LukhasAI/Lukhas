@@ -34,7 +34,7 @@
 
 ### 🚀 **Benefits for LUKHAS Development**:
 
-1. **Trinity Framework Validation**: Type checking ensures ⚛️🧠🛡️ components are properly typed
+1. **Constellation Framework Validation**: Type checking ensures ⚛️🧠🛡️ components are properly typed
 2. **QI Processing Safety**: Catch type errors in quantum-inspired algorithms
 3. **Bio-Oscillator Integrity**: Validate bio-awareness integration points
 4. **Production Readiness**: Strict checking for deployment-ready code
@@ -51,7 +51,7 @@
 ### 📝 **Recommended Type Annotations for LUKHAS**:
 
 ```python
-# Trinity Framework typing
+# Constellation Framework typing
 from typing import Protocol, TypedDict, Literal, Union
 from dataclasses import dataclass
 
@@ -83,7 +83,7 @@ BioOscillatorFreq = float  # Hz
 
 Type checking is now fully integrated with:
 - **GitHub Copilot**: Enhanced with type context
-- **IntelliSense**: Trinity Framework aware
+- **IntelliSense**: Constellation Framework aware
 - **Error Highlighting**: Real-time type validation
 - **Quick Fixes**: Automatic type annotation suggestions
 
@@ -107,4 +107,4 @@ Type checking is now fully integrated with:
 
 ---
 *Updated: August 22, 2025*
-*Type checking configured for LUKHAS Trinity Framework development*
+*Type checking configured for LUKHAS Constellation Framework development*

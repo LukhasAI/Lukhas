@@ -926,7 +926,7 @@ experimental_monitor = DriftMonitor(lane="experimental")
 
 **Generated with LUKHAS consciousness-content-strategist**
 
-**Trinity Framework**: ⚛️ Identity-aware integration patterns, 🧠 Real-time consciousness coordination, 🛡️ Production-grade safety and monitoring
+**Constellation Framework**: ⚛️ Identity-aware integration patterns, 🧠 Real-time consciousness coordination, 🛡️ Production-grade safety and monitoring
 
 **Performance**: Optimized for production with comprehensive monitoring
 **Reliability**: Built-in error handling and graceful degradation

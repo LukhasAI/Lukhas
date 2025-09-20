@@ -91,13 +91,11 @@ except ImportError:
     message_bus_available = False
     print("⚠️ Message bus not available - using basic communication fallbacks")
 
-# Import performance orchestrator - COMPLETED #8 integration with Trinity Framework
+# Import performance orchestrator - COMPLETED #8 integration with Constellation Framework
 performance_orchestrator_available = True
 try:
     from candidate.core.performance.performance_orchestrator import (
-        OptimizationStrategy,
         PerformanceOrchestrator,
-        PerformanceStatus,
     )
 except ImportError:
     performance_orchestrator_available = False
@@ -120,7 +118,7 @@ except ImportError:
 
 class OrchestrationService:
     """
-    Main orchestration service for the LUKHAS AGI system.
+    Main orchestration service for the LUKHAS Cognitive system.
 
     Provides coordination and workflow management across modules with full
     integration to the identity system for access control and audit logging.
@@ -138,7 +136,7 @@ class OrchestrationService:
             self.message_bus = None
             self.communication_enabled = False
 
-        # Initialize performance orchestrator - COMPLETED #8 integration with full Trinity Framework support
+        # Initialize performance orchestrator - COMPLETED #8 integration with full Constellation Framework support
         if performance_orchestrator_available:
             self.performance_orchestrator = PerformanceOrchestrator()
             self.performance_enabled = True
@@ -171,7 +169,7 @@ class OrchestrationService:
                 "min_tier": "LAMBDA_TIER_2",
                 "consent": "orchestration_messaging",
             },
-            # COMPLETED #8: Performance orchestration capabilities - Full Trinity Framework integration
+            # COMPLETED #8: Performance orchestration capabilities - Full Constellation Framework integration
             "performance_monitoring": {
                 "min_tier": "LAMBDA_TIER_2",
                 "consent": "performance_monitoring",
@@ -1160,12 +1158,12 @@ class OrchestrationService:
         }
 
     # ===============================================================
-    # Performance Orchestration Methods - Trinity Framework Enhanced
+    # Performance Orchestration Methods - Constellation Framework Enhanced
     # ===============================================================
 
     async def start_performance_monitoring(self, user_id: str, modules: Optional[list[str]] = None) -> dict[str, Any]:
         """
-        Start comprehensive performance monitoring with Trinity Framework integration.
+        Start comprehensive performance monitoring with Constellation Framework integration.
         Monitors consciousness awareness, bio-oscillator synchronization, and quantum coherence.
 
         Args:
@@ -1262,7 +1260,7 @@ class OrchestrationService:
                     "success": True,
                     "monitoring_id": monitoring_result.get("monitoring_id"),
                     "modules_monitored": modules or list(self.module_status.keys()),
-                    "trinity_framework_integration": {
+                    "constellation_framework_integration": {
                         "identity_performance_tracking": True,
                         "consciousness_awareness_monitoring": True,
                         "guardian_safety_performance": True,
@@ -1283,7 +1281,7 @@ class OrchestrationService:
                     },
                     "orchestration_features": [
                         "cross_module_coordination",
-                        "trinity_framework_integration",
+                        "constellation_framework_integration",
                         "consciousness_aware_monitoring",
                         "bio_rhythmic_synchronization",
                         "quantum_performance_optimization",
@@ -1300,7 +1298,7 @@ class OrchestrationService:
             self.identity_client.log_activity(
                 "trinity_performance_monitoring_orchestration_error",
                 user_id,
-                {"error": error_msg, "modules": modules, "trinity_integration": True},
+                {"error": error_msg, "modules": modules, "constellation_integration": True},
             )
             return {"success": False, "error": error_msg}
 
@@ -1312,7 +1310,7 @@ class OrchestrationService:
         workflow_context: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """
-        Execute Trinity Framework-aware performance optimization with consciousness integration.
+        Execute Constellation Framework-aware performance optimization with consciousness integration.
         Supports advanced strategies including quantum-enhanced and bio-synchronized optimization.
 
         Args:
@@ -1348,14 +1346,14 @@ class OrchestrationService:
             }
 
         try:
-            # Prepare Trinity Framework-aware optimization
+            # Prepare Constellation Framework-aware optimization
             target_modules = modules or list(self.module_status.keys())
 
             # Enhanced optimization context with consciousness awareness
             enhanced_context = workflow_context or {}
             enhanced_context.update(
                 {
-                    "trinity_framework_integration": True,
+                    "constellation_framework_integration": True,
                     "consciousness_preservation_required": True,
                     "bio_oscillator_sync_needed": True,
                     "quantum_coherence_maintenance": True,
@@ -1397,7 +1395,7 @@ class OrchestrationService:
                                 "optimization_id": optimization_result.get("optimization_id"),
                                 "strategy": strategy,
                                 "modules_optimized": target_modules,
-                                "trinity_integration": True,
+                                "constellation_integration": True,
                                 "consciousness_preserved": True,
                                 "bio_oscillator_synchronized": True,
                                 "quantum_coherence_maintained": True,
@@ -1445,7 +1443,7 @@ class OrchestrationService:
                     "optimization_id": optimization_result.get("optimization_id"),
                     "strategy": strategy,
                     "modules_optimized": target_modules,
-                    "trinity_framework_integration": {
+                    "constellation_framework_integration": {
                         "identity_performance_enhanced": True,
                         "consciousness_awareness_optimized": True,
                         "guardian_safety_performance_improved": True,
@@ -1510,7 +1508,7 @@ class OrchestrationService:
         self, user_id: str, include_module_details: bool = False
     ) -> dict[str, Any]:
         """
-        Get comprehensive Trinity Framework-aware performance status with consciousness metrics.
+        Get comprehensive Constellation Framework-aware performance status with consciousness metrics.
         Provides deep insights into bio-oscillator synchronization, quantum coherence, and memory fold stability.
 
         Args:
@@ -1592,7 +1590,7 @@ class OrchestrationService:
                     {
                         "performance_status": performance_status.get("performance_status"),
                         "overall_score": performance_status.get("overall_score", 0),
-                        "trinity_framework_integration": True,
+                        "constellation_framework_integration": True,
                         "consciousness_awareness_level": performance_status.get("consciousness_awareness_level", 0),
                         "bio_oscillator_frequency": performance_status.get("bio_oscillator_frequency", 40.0),
                         "quantum_coherence": performance_status.get("quantum_coherence", 0.87),
@@ -1987,10 +1985,10 @@ class OrchestrationService:
         }
 
     def _assess_trinity_framework_health(self) -> dict[str, Any]:
-        """Assess overall Trinity Framework (⚛️🧠🛡️) performance health."""
+        """Assess overall Constellation Framework (⚛️🧠🛡️) performance health."""
         import numpy as np
 
-        # Simulate Trinity Framework component health
+        # Simulate Constellation Framework component health
         identity_performance = 0.88 + np.random.normal(0, 0.05)  # ⚛️ Identity
         consciousness_performance = 0.91 + np.random.normal(0, 0.04)  # 🧠 Consciousness
         guardian_performance = 0.85 + np.random.normal(0, 0.06)  # 🛡️ Guardian
@@ -2000,7 +1998,7 @@ class OrchestrationService:
         consciousness_performance = max(0, min(1, consciousness_performance))
         guardian_performance = max(0, min(1, guardian_performance))
 
-        # Calculate overall Trinity health
+        # Calculate overall Constellation health
         overall_trinity_health = (identity_performance + consciousness_performance + guardian_performance) / 3
 
         # Assess individual component health levels
@@ -2067,7 +2065,7 @@ class OrchestrationService:
     def _generate_trinity_recommendations(
         self, identity_perf: float, consciousness_perf: float, guardian_perf: float
     ) -> list[str]:
-        """Generate performance recommendations for Trinity Framework components."""
+        """Generate performance recommendations for Constellation Framework components."""
         recommendations = []
 
         if identity_perf < 0.8:
@@ -2085,11 +2083,11 @@ class OrchestrationService:
 
         if max_perf - min_perf > 0.15:  # Significant imbalance
             recommendations.append(
-                "Trinity Framework: Balance performance across all three components for optimal integration"
+                "Constellation Framework: Balance performance across all three components for optimal integration"
             )
 
         if not recommendations:
-            recommendations.append("Trinity Framework: All components operating at optimal levels")
+            recommendations.append("Constellation Framework: All components operating at optimal levels")
 
         return recommendations
 
@@ -2127,13 +2125,13 @@ async def send_module_message(
 
 
 # =====================================================================
-# Enhanced Trinity Framework Performance API Functions
+# Enhanced Constellation Framework Performance API Functions
 # Bio-Quantum Consciousness Integration for Superior General Intelligence
 # =====================================================================
 
 
 async def start_consciousness_monitoring(user_id: str, modules: Optional[list[str]] = None) -> dict[str, Any]:
-    """Simplified API for starting Trinity Framework-aware performance monitoring with consciousness integration."""
+    """Simplified API for starting Constellation Framework-aware performance monitoring with consciousness integration."""
     service = OrchestrationService()
     await service.start_orchestration()
     return await service.start_performance_monitoring(user_id, modules)
@@ -2150,8 +2148,8 @@ async def optimize_consciousness_performance(
     return await service.optimize_system_performance(user_id, strategy, modules)
 
 
-async def get_trinity_performance_status(user_id: str, detailed: bool = False) -> dict[str, Any]:
-    """Simplified API for Trinity Framework performance status with consciousness metrics."""
+async def get_constellation_performance_status(user_id: str, detailed: bool = False) -> dict[str, Any]:
+    """Simplified API for Constellation Framework performance status with consciousness metrics."""
     service = OrchestrationService()
     await service.start_orchestration()
     return await service.get_orchestrated_performance_status(user_id, detailed)
@@ -2194,7 +2192,7 @@ async def optimize_performance(
 
 async def get_performance_status(user_id: str, detailed: bool = False) -> dict[str, Any]:
     """Legacy API - redirects to Trinity performance status."""
-    return await get_trinity_performance_status(user_id, detailed)
+    return await get_constellation_performance_status(user_id, detailed)
 
 
 async def broadcast_event(user_id: str, event_type: str, event_data: dict[str, Any]) -> dict[str, Any]:
@@ -2229,8 +2227,8 @@ if __name__ == "__main__":
         )
         print(f"Module coordination: {coordination_result.get('success', False)}")
 
-        # Test Trinity Framework performance monitoring
-        print("\n🚀 Testing Trinity Framework Performance Orchestration...")
+        # Test Constellation Framework performance monitoring
+        print("\n🚀 Testing Constellation Framework Performance Orchestration...")
         if orchestration.performance_enabled:
             monitoring_result = await orchestration.start_performance_monitoring(test_user)
             print(f"⚛️🧠🛡️ Trinity performance monitoring: {monitoring_result.get('success', False)}")
@@ -2251,7 +2249,7 @@ if __name__ == "__main__":
                     "trinity_framework_performance_health", {}
                 )
                 overall_score = trinity_health.get("overall_trinity_health_score", 0)
-                print(f"   Trinity Framework Health: {overall_score}%")
+                print(f"   Constellation Framework Health: {overall_score}%")
                 print(f"   Bio-Oscillator: {status_result.get('bio_metrics', {}).get('oscillator_frequency', 40)}Hz")
                 print(f"   Quantum Coherence: {status_result.get('quantum_metrics', {}).get('coherence', 0):.3f}")
                 print(
@@ -2265,7 +2263,7 @@ if __name__ == "__main__":
                 "orchestration",
                 "memory",
                 "command",
-                {"action": "store", "data": "Trinity Framework coordination result"},
+                {"action": "store", "data": "Constellation Framework coordination result"},
             )
             print(f"Inter-module message: {message_result.get('success', False)}")
 
@@ -2273,7 +2271,7 @@ if __name__ == "__main__":
             broadcast_result = await orchestration.broadcast_system_event(
                 test_user,
                 "trinity_system_test",
-                {"message": "Testing Trinity Framework cross-module communication"},
+                {"message": "Testing Constellation Framework cross-module communication"},
             )
             print(f"System broadcast: {broadcast_result.get('success', False)}")
 
@@ -2298,7 +2296,7 @@ if __name__ == "__main__":
         status_result = orchestration.get_system_status(test_user, True)
         print(f"System status: {status_result.get('success', False)}")
 
-        print("\n🎯 Trinity Framework Performance Orchestration Test Complete!")
+        print("\n🎯 Constellation Framework Performance Orchestration Test Complete!")
         print("Features demonstrated:")
         print("  ⚛️ Identity-aware performance optimization")
         print("  🧠 Consciousness-aware monitoring and tuning")

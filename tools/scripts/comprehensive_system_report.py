@@ -4,7 +4,7 @@ LUKHAS Comprehensive System Status Report
 =========================================
 Complete system diagnostic and status report
 Date: August 5, 2025
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 
 import json

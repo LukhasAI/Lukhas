@@ -284,5 +284,5 @@ For technical questions or integration support:
 
 ---
 
-**Built with the Trinity Framework** ⚛️🧠🛡️
+**Built with the Constellation Framework** ⚛️🧠🛡️
 **LUKHAS AI Authentication System** - Consciousness-driven security for the AGI era.

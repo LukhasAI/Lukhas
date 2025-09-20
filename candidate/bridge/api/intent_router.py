@@ -3,9 +3,9 @@ LUKHΛS Intent Router
 ====================
 
 Natural Language Understanding for routing user intents to appropriate handlers.
-Integrates with Trinity Framework for symbolic understanding.
+Integrates with Constellation Framework for symbolic understanding.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 import logging
 import re
@@ -252,13 +252,13 @@ class IntentRouter:
         }
 
     def _handle_trinity_analysis(self, intent: Intent) -> dict[str, Any]:
-        """Handle Trinity Framework analysis."""
+        """Handle Constellation Framework analysis."""
         return {
             "action": "analyze_trinity",
             "endpoint": "/api/constellation/status",
             "parameters": intent.parameters,
             "glyphs": ["⚛️", "🧠", "🛡️"],
-            "message": "Analyzing Trinity Framework coherence",
+            "message": "Analyzing Constellation Framework coherence",
         }
 
     def _handle_intervention_request(self, intent: Intent) -> dict[str, Any]:
@@ -308,7 +308,7 @@ class IntentRouter:
                 "Query memory about [topic]",
                 "Show consciousness state",
                 "Check drift status",
-                "Analyze Trinity Framework",
+                "Analyze Constellation Framework",
             ],
         }
 

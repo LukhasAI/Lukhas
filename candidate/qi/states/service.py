@@ -32,7 +32,7 @@ and bio-inspired architecture for next-generation AI applications.
 
 Module: Quantum Service
 Path: lukhas/quantum/service.py
-Description: Quantum module for advanced AGI functionality
+Description: Quantum module for advanced Cognitive functionality
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.
@@ -71,7 +71,7 @@ except ImportError:
 
 class QIService:
     """
-    Main quantum service for the LUKHAS AGI system.
+    Main quantum service for the LUKHAS Cognitive system.
 
     Provides quantum-inspired computing and quantum consciousness capabilities with full
     integration to the identity system for access control and audit logging.

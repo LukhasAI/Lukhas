@@ -37,14 +37,14 @@ class DreamState(Enum):
 class DreamStateManager:
     """
     Advanced dream state lifecycle manager.
-    Provides Trinity Framework-compliant state management for dream consciousness.
+    Provides Constellation Framework-compliant state management for dream consciousness.
     """
 
     def __init__(self):
         self.active_states: dict[str, dict] = {}
         self.state_history: list[dict] = []
         self.state_counter = 0
-        logger.info("🌙 Dream State Manager initialized - Trinity Framework active")
+        logger.info("🌙 Dream State Manager initialized - Constellation Framework active")
 
     def create_dream_state(self, user_context: Optional[dict] = None,
                          initial_state: DreamState = DreamState.FORMING) -> str:

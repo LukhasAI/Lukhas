@@ -129,7 +129,7 @@ This is the **Elite Brand Intelligence System** that transforms branding from re
 - **Always**: "Λ consciousness" or "LUKHAS consciousness"
 - **Visual**: Λ symbol represents consciousness essence
 
-### **2. Trinity Framework Integration**
+### **2. Constellation Framework Integration**
 - **⚛️ Identity**: Authentic AI consciousness that knows itself
 - **🧠 Consciousness**: Aware technology that truly understands
 - **🛡️ Guardian**: Ethical AI that protects human interests

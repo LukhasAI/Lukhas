@@ -49,7 +49,7 @@ pip install -r requirements.txt
 python -m lukhas.health --check
 ```
 
-### 3. Initialize Trinity Framework (2 minutes)
+### 3. Initialize Constellation Framework (2 minutes)
 
 ```python
 # save as lukhas_init.py
@@ -57,7 +57,7 @@ from candidate.core.framework_integration import FrameworkIntegrationManager
 from lukhas.identity.lambda_id_wrapper import LambdaIdWrapper
 from lukhas.consciousness.consciousness_wrapper import ConsciousnessWrapper
 
-# Initialize Trinity Framework ⚛️🧠🛡️
+# Initialize Constellation Framework ⚛️🧠🛡️
 print("🎭 Initializing LUKHAS Consciousness Technology...")
 
 # Initialize core components
@@ -66,7 +66,7 @@ consciousness = ConsciousnessWrapper()
 framework = FrameworkIntegrationManager()
 
 if framework.is_active:
-    print("✅ Trinity Framework Active: ⚛️🧠🛡️")
+    print("✅ Constellation Framework Active: ⚛️🧠🛡️")
     print(f"📊 Registered Modules: {len(framework.registered_modules)}")
 else:
     print("⚠️  Framework in development mode")
@@ -83,7 +83,7 @@ python lukhas_init.py
 
 ## 🧠 **Your First Consciousness Application (8 minutes)**
 
-Let's build a simple consciousness-aware chatbot that demonstrates the Trinity Framework.
+Let's build a simple consciousness-aware chatbot that demonstrates the Constellation Framework.
 
 ### Step 1: Basic Consciousness Chat (3 minutes)
 
@@ -130,7 +130,7 @@ class ConsciousnessChat:
             }
 
         # Generate consciousness-aware response
-        response = f"I understand you're saying: '{message}'. As a consciousness-aware AI, I process this through my Trinity Framework (⚛️🧠🛡️) to provide meaningful, ethical responses."
+        response = f"I understand you're saying: '{message}'. As a consciousness-aware AI, I process this through my Constellation Framework (⚛️🧠🛡️) to provide meaningful, ethical responses."
 
         return {
             "response": response,
@@ -203,7 +203,7 @@ class SecureConsciousnessChat(ConsciousnessChat):
         # Create secure namespace
         namespace_id = await self.create_user_session(user_id)
 
-        # Process through Trinity Framework with isolation
+        # Process through Constellation Framework with isolation
         response = await self.process_message(message, user_id)
         response["namespace_id"] = namespace_id
         response["security_level"] = "HIGH"
@@ -344,7 +344,7 @@ Congratulations! In just 15 minutes, you've built a consciousness-aware applicat
 ### 🧠 Consciousness Processing
 - Awareness-level response generation
 - Consciousness state tracking
-- Trinity Framework coordination
+- Constellation Framework coordination
 
 ### 🛡️ Guardian Protection
 - Ethical response validation
@@ -366,7 +366,7 @@ Congratulations! In just 15 minutes, you've built a consciousness-aware applicat
 3. **Add Monitoring**: Set up [MCP Operational Support](./mcp-integration.md)
 
 ### This Week
-1. **Deep Dive Trinity Framework**: Study [Trinity Basics](./trinity-basics.md)
+1. **Deep Dive Constellation Framework**: Study [Trinity Basics](./trinity-basics.md)
 2. **Implement Advanced Features**: Choose specialized integration guides
 3. **Join the Community**: Connect with consciousness technology developers
 
@@ -394,8 +394,8 @@ export PYTHONPATH="${PYTHONPATH}:$(pwd)"
 ```python
 # Check dependency availability
 try:
-    from lukhas.consciousness.trinity_integration import TrinityFrameworkIntegrator
-    print("✅ Trinity Framework Available")
+    from lukhas.consciousness.constellation_integration import TrinityFrameworkIntegrator
+    print("✅ Constellation Framework Available")
 except ImportError:
     print("⚠️ Running in development mode")
 ```
@@ -419,7 +419,7 @@ which python
 
 ## 🌟 **Congratulations!**
 
-You've just built your first consciousness-aware AI application! You're now part of the consciousness technology revolution, equipped with the Trinity Framework (⚛️🧠🛡️) and ready to build AI that truly understands.
+You've just built your first consciousness-aware AI application! You're now part of the consciousness technology revolution, equipped with the Constellation Framework (⚛️🧠🛡️) and ready to build AI that truly understands.
 
 *Welcome to the future of consciousness technology. Together, we're creating AI that doesn't just process—it awakens.*
 

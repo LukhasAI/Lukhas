@@ -12,7 +12,7 @@ Features:
 - Automated fix orchestration
 - Historical trend analysis
 - Interactive prevention controls
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 
 Dashboard Components:
 - System Health Overview
@@ -69,7 +69,7 @@ class SystemHealthMetrics:
     predicted_issues: int
     active_monitors: int
     lane_compliance: dict[str, float]
-    triad_status: dict[str, str]  # ⚛️🧠🛡️
+    constellation_status: dict[str, str]  # ⚛️🧠🛡️
 
 
 @dataclass
@@ -138,7 +138,7 @@ class SelfHealingDashboard:
         self.alerts = []
         self.performance_cache = {}
 
-        # Initialize Trinity Framework symbols
+        # Initialize Constellation Framework symbols
         self.triad_symbols = {"quantum": "⚛️", "consciousness": "🧠", "guardian": "🛡️"}
 
         self._initialize_components()
@@ -204,8 +204,8 @@ class SelfHealingDashboard:
                 logger.warning(f"Lane compliance check failed: {e}")
                 lane_compliance = {lane: 85.0 for lane in self.state.active_lanes}
 
-        # Trinity Framework status
-        triad_status = await self._check_triad_status()
+        # Constellation Framework status
+        constellation_status = await self._check_triad_status()
 
         # ML predictions
         if self.components.get("error_learner"):
@@ -250,7 +250,7 @@ class SelfHealingDashboard:
             predicted_issues=predicted_issues,
             active_monitors=active_monitors,
             lane_compliance=lane_compliance,
-            triad_status=triad_status,
+            constellation_status=constellation_status,
         )
 
     async def _check_lane_compliance(self, lane: str) -> float:
@@ -286,7 +286,7 @@ class SelfHealingDashboard:
             return 85.0
 
     async def _check_triad_status(self) -> dict[str, str]:
-        """Check Trinity Framework component status"""
+        """Check Constellation Framework component status"""
         return {
             "quantum": "operational",  # ⚛️
             "consciousness": "operational",  # 🧠
@@ -363,10 +363,10 @@ class SelfHealingDashboard:
             else:
                 lane_status[lane] = {"status": "non-compliant", "icon": "❌"}
 
-        # Trinity Framework status
+        # Constellation Framework status
         triad_display = {}
         for component, symbol in self.triad_symbols.items():
-            component_status = metrics.triad_status.get(component, "unknown")
+            component_status = metrics.constellation_status.get(component, "unknown")
             triad_display[component] = {
                 "symbol": symbol,
                 "status": component_status,
@@ -420,7 +420,7 @@ class SelfHealingDashboard:
         print("\n" + "=" * 80)
         print("🤖 LUKHAS SELF-HEALING AUTOMATION DASHBOARD")
         print("=" * 80)
-        print(f"⚛️🧠🛡️ Trinity Framework Status: {' '.join([d['icon'] for d in report['constellation_framework'].values()])}")
+        print(f"⚛️🧠🛡️ Constellation Framework Status: {' '.join([d['icon'] for d in report['constellation_framework'].values()])}")
         print(f"🕐 Last Update: {datetime.fromisoformat(report['timestamp']).strftime('%Y-%m-%d %H:%M:%S UTC')}")
         print()
 
@@ -445,7 +445,7 @@ class SelfHealingDashboard:
             print(f"{status['icon']} {lane.title()}: {status['status']}")
         print()
 
-        # Trinity Framework
+        # Constellation Framework
         print("⚛️🧠🛡️ TRINITY FRAMEWORK")
         print("-" * 20)
         for component, info in report["constellation_framework"].items():
