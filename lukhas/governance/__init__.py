@@ -1,19 +1,26 @@
 #!/usr/bin/env python3
 
 """
- LUKHAS AI Governance Module
-==============================
+LUKHAS AI Governance Module
+===========================
 
 Complete governance framework for LUKHAS AI including the Guardian System,
-authentication governance, constitutional AI, and Phase 7 ID integration.
+authentication governance, constitutional AI, and Constellation Framework integration.
 
 This module provides:
-- Guardian System v1.0.0 with ethical oversight
-- ID Authentication governance integration
-- Constitutional AI validation and compliance
-- GLYPH-based symbolic governance
-- Trinity Framework alignment (Identity-Consciousness-Guardian)
-- Comprehensive audit trail and compliance tracking
+- Guardian System v1.0.0 with ethical oversight and drift detection
+- ΛiD Authentication governance integration with multi-tier security
+- Constitutional AI validation and compliance monitoring
+- GLYPH-based symbolic governance and audit trails
+- Constellation Framework alignment (⚛️✦🔬🛡️ coordination)
+- Comprehensive audit trail and compliance tracking (GDPR/CCPA)
+
+The governance module serves as the 🛡️ Watch Star in the Constellation Framework,
+providing ethical oversight and constitutional AI validation for all system decisions.
+It integrates with other constellation stars to ensure ethical AI development:
+- ⚛️ Anchor Star integration: Identity governance and authentication oversight
+- ✦ Trail Star integration: Memory governance and experience validation
+- 🔬 Horizon Star integration: NLP governance and content moderation
 
 Modules:
 - guardian_system: Core Guardian System functionality

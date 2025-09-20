@@ -11,7 +11,7 @@
 ### Bio-Inspired System Overview
 - **Purpose**: Biological pattern modeling and bio-inspired computational systems
 - **Architecture**: Neural oscillators, swarm intelligence, and biological adaptation patterns
-- **Integration**: Trinity Framework bio-cognitive coordination and consciousness evolution
+- **Integration**: Constellation Framework bio-cognitive coordination and consciousness evolution
 - **Scale**: Bio-inspired algorithms with hybrid quantum-bio-digital systems
 
 ### Core Bio-Inspired Architecture

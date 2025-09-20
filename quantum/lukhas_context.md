@@ -11,7 +11,7 @@
 ### Quantum Consciousness Overview
 - **Purpose**: Quantum-inspired algorithms for consciousness and decision-making systems
 - **Architecture**: Quantum state simulation with quantum superposition and entanglement
-- **Integration**: Trinity Framework quantum-consciousness coordination and hybrid systems
+- **Integration**: Constellation Framework quantum-consciousness coordination and hybrid systems
 - **Scale**: Quantum-inspired processing with consciousness emergence patterns
 
 ### Core Quantum Architecture

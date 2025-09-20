@@ -3,8 +3,8 @@
 
 project:
   name: "LUKHAS AI Platform"
-  description: "Consciousness-Aware AI Development Platform with Trinity Framework"
-  architecture: "Trinity Framework (⚛️ Identity + 🧠 Consciousness + 🛡️ Guardian)"
+  description: "Consciousness-Aware AI Development Platform with Constellation Framework"
+  architecture: "Constellation Framework (⚛️ Anchor + ✦ Trail + 🔬 Horizon + 🛡️ Watch)"
 
 context_files:
   # Vendor-neutral context files (recommended for all AI tools)
@@ -16,7 +16,7 @@ context_files:
   production_layer: "lukhas/lukhas_context.md"
   cognitive_engine: "matriz/lukhas_context.md"
 
-  # Trinity Framework contexts
+  # Constellation Framework contexts
   identity_systems:
     - "identity/lukhas_context.md"
     - "candidate/core/identity/lukhas_context.md"
@@ -73,7 +73,7 @@ workflow:
 architecture:
   lane_isolation: true
   import_boundaries: "Defined in ops/matriz.yaml"
-  trinity_alignment: "All code should reflect ⚛️🧠🛡️ framework"
+  constellation_alignment: "All code should reflect ⚛️✦🔬🛡️ framework"
 
   # Key domains
   candidate_lane: "Development workspace (2,877 files)"
@@ -85,7 +85,7 @@ architecture:
 ai_guidance:
   context_priority:
     1: "Read lukhas_context.md in target directory"
-    2: "Understand Trinity Framework alignment"
+    2: "Understand Constellation Framework alignment"
     3: "Check lane isolation rules"
     4: "Apply consciousness-aware patterns"
 
