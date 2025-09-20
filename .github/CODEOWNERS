@@ -1,11 +1,88 @@
+# LUKHAS AI Code Ownership
+# Critical paths require human review from domain experts and bots
+
+# === CRITICAL PATHS ===
+
+# Ethics & Safety Systems (highest priority)
+/ethics/**                         @gonzo.dominguez @security-team
+/candidate/core/ethics/**          @gonzo.dominguez @security-team
+/candidate/core/governance/**      @gonzo.dominguez @governance-team
+/governance/**                     @gonzo.dominguez @governance-team
+
+# Identity & Authentication Systems
+/identity/**                       @gonzo.dominguez @identity-team
+/candidate/governance/identity/**  @gonzo.dominguez @identity-team
+/lukhas/identity/**               @gonzo.dominguez @identity-team
+
+# Orchestration & Brain Hub (coordination)
+/orchestrator/**                   @gonzo.dominguez @orchestration-team
+/candidate/core/orchestration/**  @gonzo.dominguez @orchestration-team
+/lukhas/orchestration/**          @gonzo.dominguez @orchestration-team
+
+# Oneiric/Dream Systems (experimental)
+/oneiric/**                        @gonzo.dominguez @consciousness-team
+/candidate/consciousness/dream/**  @gonzo.dominguez @consciousness-team
+
+# === CORE SYSTEMS ===
+
+# LUKHAS Core & GLYPH Engine
+/lukhas/core/**                    @gonzo.dominguez @core-team
+/lukhas/**                         @gonzo.dominguez @core-team
+
+# MATRIZ Symbolic Processing
+/MATRIZ/**                         @gonzo.dominguez @matriz-team
+
+# Memory Systems
+/candidate/memory/**               @gonzo.dominguez @memory-team
+/lukhas/memory/**                 @gonzo.dominguez @memory-team
+
+# Consciousness Systems
+/candidate/consciousness/**        @gonzo.dominguez @consciousness-team
+
+# === INFRASTRUCTURE ===
+
+# Configuration & Environment
+/.env.example                      @gonzo.dominguez @platform-team
+/pyproject.toml                    @gonzo.dominguez @platform-team
+/requirements.txt                  @gonzo.dominguez @platform-team
+/ENV_VARS.md                       @gonzo.dominguez @platform-team
+
+# Monitoring & Observability
+/monitoring/**                     @gonzo.dominguez @platform-team
+/samples/logs/**                   @gonzo.dominguez @platform-team
+
+# CI/CD & Automation
+/.github/workflows/**              @gonzo.dominguez @platform-team
+/tools/ci/**                       @gonzo.dominguez @platform-team
+
+# === TESTING ===
+
 # Tests and fixtures require human review
-/tests/**                          @gonzo.dominguez
-/**/tests/**                       @gonzo.dominguez
-/mocks/**                          @gonzo.dominguez
-/**/conftest.py                    @gonzo.dominguez
+/tests/**                          @gonzo.dominguez @qa-team
+/**/tests/**                       @gonzo.dominguez @qa-team
+/mocks/**                          @gonzo.dominguez @qa-team
+/**/conftest.py                    @gonzo.dominguez @qa-team
+/pytest.ini                        @gonzo.dominguez @qa-team
+
+# === DOCUMENTATION ===
+
+# Architecture & Design
+/docs/architecture/**              @gonzo.dominguez @architecture-team
+/ARCHITECTURE.md                   @gonzo.dominguez @architecture-team
+/SEARCH_MAP.md                     @gonzo.dominguez @architecture-team
+
+# Security Documentation
+/docs/security/**                  @gonzo.dominguez @security-team
+
+# === LEGACY SUNSET ===
 
 # Legacy core sunset components - platform team ownership
 core/__init__.py                              @platform-team
 scripts/codemod_legacy_core.py                @platform-team
 .github/workflows/legacy-*                    @platform-team
 monitoring/legacy_core_sunset_alerts.yml      @platform-team
+
+# === CATCH-ALL ===
+
+# Default reviewers for everything else
+*                                  @gonzo.dominguez
