@@ -18,7 +18,7 @@ import streamlit as st
 # Core Branding Constants
 SYSTEM_NAME = "LUKHAS AI"
 SYSTEM_VERSION = "2.0"
-TRINITY_FRAMEWORK = "⚛️🧠🛡️"
+CONSTELLATION_FRAMEWORK = "⚛️🧠🛡️"
 
 # Trinity Symbols
 IDENTITY_SYMBOL = "⚛️"
@@ -75,7 +75,7 @@ _REPLACEMENTS: tuple[tuple[re.Pattern[str], str], ...] = (
 
 def get_system_signature():
     """Get the official LUKHAS AI system signature."""
-    return f"{SYSTEM_NAME} {TRINITY_FRAMEWORK} v{SYSTEM_VERSION}"
+    return f"{SYSTEM_NAME} {CONSTELLATION_FRAMEWORK} v{SYSTEM_VERSION}"
 
 
 def get_trinity_description():
@@ -134,7 +134,7 @@ __all__ = [
     "IDENTITY_SYMBOL",
     "SYSTEM_NAME",
     "SYSTEM_VERSION",
-    "TRINITY_FRAMEWORK",
+    "CONSTELLATION_FRAMEWORK",
     "get_system_signature",
     "get_trinity_description",
     "normalize_chunk",

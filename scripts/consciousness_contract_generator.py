@@ -93,7 +93,7 @@ class ConsciousnessContractGenerator:
             return "EMOTION_PROCESSOR"
         elif "memory" in path_str:
             return "MEMORY_INTERFACE"
-        elif "trinity" in path_str or "bridge" in path_str:
+        elif "constellation" in path_str or "bridge" in path_str:
             return "TRINITY_BRIDGE"
         elif "orchestration" in path_str:
             return "ORCHESTRATION_NODE"

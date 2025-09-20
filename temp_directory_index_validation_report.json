@@ -1,13 +1,16 @@
 {
-  "validation_timestamp": "2025-09-20T15:32:15.119927",
+  "validation_timestamp": "2025-09-20T16:42:05.514163",
   "total_indexes": 820,
   "valid_indexes": 820,
-  "consistent_indexes": 819,
+  "consistent_indexes": 818,
   "integrated_indexes": 781,
   "validation_errors": {},
   "consistency_issues": {
     "scripts/directory_index.json": [
       "Missing Python files in index: {'validate_directory_indexes.py'}"
+    ],
+    "lukhas/directory_index.json": [
+      "Missing Python files in index: {'constellation_framework.py'}"
     ]
   },
   "integration_issues": {
@@ -131,15 +134,15 @@
   },
   "summary": {
     "validation_rate": 1.0,
-    "consistency_rate": 0.998780487804878,
+    "consistency_rate": 0.9975609756097561,
     "integration_rate": 0.9524390243902439,
     "validation_stats": {
       "valid": 820,
       "invalid": 0
     },
     "consistency_stats": {
-      "consistent": 819,
-      "inconsistent": 1
+      "consistent": 818,
+      "inconsistent": 2
     },
     "integration_stats": {
       "integrated": 781,
@@ -147,7 +150,7 @@
     }
   },
   "recommendations": [
-    "Update 1 inconsistent directory indexes",
+    "Update 2 inconsistent directory indexes",
     "Improve context sync integration for 39 directories",
     "Directory index system is operating well - consider automation"
   ]

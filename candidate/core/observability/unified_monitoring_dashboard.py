@@ -24,7 +24,7 @@ Features:
 #TAG:dashboard
 #TAG:monitoring
 #TAG:unified
-#TAG:trinity
+#TAG:constellation
 """
 
 import asyncio

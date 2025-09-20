@@ -3,10 +3,10 @@
   "component_id": "candidate.consciousness.dream.dream_visualization",
   "component_type": "DREAM_PROCESSOR",
   "lane": "development",
-  "trinity_integration": {
-    "identity_coupling": false,
-    "consciousness_role": "secondary",
-    "guardian_validation": false
+  "constellation_integration": {
+    "anchor_star_coupling": false,
+    "memory_star_integration": "secondary", "horizon_star_processing": "none",
+    "horizon_star_processing": "none", "guardian_validation": false
   },
   "cognitive_processing": {
     "processing_mode": "synchronous",

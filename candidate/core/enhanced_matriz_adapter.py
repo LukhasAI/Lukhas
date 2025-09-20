@@ -96,7 +96,7 @@ class EnhancedMatrizAdapter:
     """Enhanced MΛTRIZ Adapter for consciousness signals and bio-symbolic processing"""
 
     SCHEMA_REF = "lukhas://schemas/matriz_consciousness_v2.json"
-    TRINITY_FRAMEWORK = ["⚛️", "🧠", "🛡️"]
+    CONSTELLATION_FRAMEWORK = ["⚛️", "🧠", "🛡️"]
 
     def __init__(self):
         self.consciousness_network = {}  # Track consciousness nodes
@@ -145,7 +145,7 @@ class EnhancedMatrizAdapter:
             },
             "provenance": {
                 "producer": f"lukhas.core.{signal.source_module}",
-                "capabilities": ["consciousness:process", "bio:adapt", "symbolic:reason", "trinity:validate"],
+                "capabilities": ["consciousness:process", "bio:adapt", "symbolic:reason", "constellation:validate"],
                 "tenant": "consciousness_network",
                 "trace_id": f"MΛTRIZ-{signal.signal_id}",
                 "consent_scopes": ["consciousness:network", "bio:patterns"],

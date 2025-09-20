@@ -384,7 +384,7 @@ class SelfHealingDashboard:
                 "active_monitors": metrics.active_monitors,
             },
             "lane_compliance": lane_status,
-            "triad_framework": triad_display,
+            "constellation_framework": triad_display,
             "alerts": self.alerts[-5:],  # Last 5 alerts
             "recommendations": self._generate_recommendations(metrics),
         }
@@ -420,7 +420,7 @@ class SelfHealingDashboard:
         print("\n" + "=" * 80)
         print("🤖 LUKHAS SELF-HEALING AUTOMATION DASHBOARD")
         print("=" * 80)
-        print(f"⚛️🧠🛡️ Trinity Framework Status: {' '.join([d['icon'] for d in report['triad_framework'].values()])}")
+        print(f"⚛️🧠🛡️ Trinity Framework Status: {' '.join([d['icon'] for d in report['constellation_framework'].values()])}")
         print(f"🕐 Last Update: {datetime.fromisoformat(report['timestamp']).strftime('%Y-%m-%d %H:%M:%S UTC')}")
         print()
 
@@ -448,7 +448,7 @@ class SelfHealingDashboard:
         # Trinity Framework
         print("⚛️🧠🛡️ TRINITY FRAMEWORK")
         print("-" * 20)
-        for component, info in report["triad_framework"].items():
+        for component, info in report["constellation_framework"].items():
             print(f"{info['icon']} {info['symbol']} {component.title()}: {info['status']}")
         print()
 

@@ -65,7 +65,7 @@ class ContextUpdater:
                 needs_update = True
                 reasons.append("Missing lane-based architecture information")
 
-            if "trinity.*framework" in content.lower() and "distributed" not in content.lower():
+            if "constellation.*framework" in content.lower() and "distributed" not in content.lower():
                 needs_update = True
                 reasons.append("Missing distributed consciousness architecture")
 

@@ -8,7 +8,7 @@ Trinity Framework integration.
 #TAG:consciousness
 #TAG:reasoning
 #TAG:logic
-#TAG:trinity
+#TAG:constellation
 
 Features:
 - Multi-modal reasoning (deductive, inductive, abductive)

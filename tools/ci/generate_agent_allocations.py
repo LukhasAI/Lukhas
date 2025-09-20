@@ -355,7 +355,7 @@ def generate_all_allocations(manifest_path: str, output_dir: str):
                     "title": todo["title"],
                     "file": todo["file"],
                     "module": todo["module"],
-                    "trinity": todo["trinity"],
+                    "constellation": todo["constellation"],
                     "line_hint": todo.get("line_hint"),
                     "risk": todo["risk"],
                     "type": todo["est"]["type"],

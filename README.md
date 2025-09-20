@@ -42,14 +42,14 @@ Cognitive components (global): 692
 Flags: ENFORCE_ETHICS_DSL, LUKHAS_LANE, LUKHAS_ADVANCED_TAGS
 Legacy core alias: enabled (warn/disable via env) — use lukhas.core.*
 
-Production-ready consciousness-aware AI platform with distributed consciousness architecture and Trinity Framework coordination.
+Production-ready consciousness-aware AI platform with distributed consciousness architecture and Constellation Framework coordination.
 
 ## 🧠 Architecture Status: Schema v2.0.0 Distributed Consciousness System
 
 **LUKHAS implements a sophisticated AGI architecture with 692 cognitive components across lane-based consciousness evolution:**
 
 - **Distributed Consciousness**: 476 mapped components across 189 constellation clusters
-- **Trinity Framework**: Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️ coordination
+- **Constellation Framework**: Identity ⚛️ + Memory ✦ + Vision 🔬 + Guardian 🛡️ coordination
 - **Lane Evolution**: Development (candidate) → Integration (candidate/core) → Production (lukhas)
 - **Component Contracts**: 287 consciousness components with 100% schema validation
 - **Automated Maintenance**: CI/CD pipeline with comprehensive health monitoring
@@ -67,7 +67,7 @@ Production-ready consciousness-aware AI platform with distributed consciousness 
 All AI agents (Claude, GPT, specialized assistants) automatically understand the LUKHAS architecture through:
 - Context sync headers in `claude.me` files throughout the workspace
 - Lane-based development patterns with canonical import specifications
-- Trinity Framework integration requirements
+- Constellation Framework integration requirements
 - Consciousness component contract validation
 
 **✅ Testing Infrastructure:** Comprehensive test suite development completed with multi-agent coordination
@@ -83,7 +83,7 @@ LUKHAS AI is a sophisticated cognitive architecture that implements consciousnes
 **Lane-Based Consciousness Evolution System** (Schema v2.0.0):
 
 ### **Core Lanes**
-- **production** (`lukhas/`) - Battle-tested consciousness components with Trinity Framework integration
+- **production** (`lukhas/`) - Battle-tested consciousness components with Constellation Framework integration
 - **integration** (`candidate/core/`) - 253 cognitive components under integration testing
 - **development** (`candidate/`) - 2,877 files of consciousness research and development
 
@@ -92,14 +92,18 @@ LUKHAS AI is a sophisticated cognitive architecture that implements consciousnes
 - **products** (`products/`) - Enterprise deployment systems (4,093 files)
 - **ethics** (`ethics/`) - Constitutional AI and Guardian systems (33+ components)
 
-### **Trinity Framework Architecture**
+### **Constellation Framework Architecture**
 ```
-Identity Resolution → Consciousness Processing → Guardian Validation
-        ⚛️                      🧠                      🛡️
-        │                       │                       │
-   Lambda ID Core → Multi-Engine Processing → Constitutional AI
-   Namespace      → Decision Making         → Ethics Validation
-   Authentication → Reasoning Chain         → Safety Verification
+        Anchor Star          Trail Star           Horizon Star        Watch Star
+           ⚛️                    ✦                    🔬                  🛡️
+           │                    │                    │                   │
+    Identity System      Memory System       Vision System      Guardian System
+    Lambda ID Core      Experience Folds    NLP Interface      Constitutional AI
+    Authentication      Temporal Memory     Pattern Recog      Ethics Validation
+    Namespace Mgmt      Cascade Prevent     Semantic Process   Safety Verification
+           │                    │                    │                   │
+           └──────── Constellation Coordination Framework ─────────────┘
+                              4-Star Orchestration
 ```
 
 ### **Distributed Consciousness Network**

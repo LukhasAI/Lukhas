@@ -93,7 +93,7 @@ class T4MonitoringIntegration:
             try:
                 trinity_metrics = await self.t4_observability.collect_triad_metrics(None)
                 if trinity_metrics:
-                    metrics["trinity"] = trinity_metrics
+                    metrics["constellation"] = trinity_metrics
             except Exception as e:
                 logger.debug(f"Trinity metrics unavailable: {e}")
 
@@ -146,10 +146,10 @@ class T4MonitoringIntegration:
                 # High memory fold count might indicate memory pressure
                 base_metrics.memory_percent = min(base_metrics.memory_percent + 5, 100)
 
-        # Check for trinity coherence metrics
-        trinity = enhanced_data.get("trinity", {})
-        if trinity:
-            coherence = trinity.get("coherence", 1.0)
+        # Check for constellation coherence metrics
+        constellation = enhanced_data.get("constellation", {})
+        if constellation:
+            coherence = constellation.get("coherence", 1.0)
             if isinstance(coherence, (int, float)) and coherence < 0.8:
                 # Low coherence might indicate performance issues
                 base_metrics.response_time_p95 = max(base_metrics.response_time_p95, 200)

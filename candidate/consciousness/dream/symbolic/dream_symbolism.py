@@ -20,7 +20,7 @@ class SymbolicLayer(Enum):
     PERSONAL = "personal"
     ARCHETYPAL = "archetypal"
     UNIVERSAL = "universal"
-    TRINITY = "trinity"
+    TRINITY = "constellation"
 
 
 class SymbolicResonance(Enum):

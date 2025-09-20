@@ -20,7 +20,7 @@ class ArchetypalDomain(Enum):
     COLLECTIVE = "collective"
     UNIVERSAL = "universal"
     COSMIC = "cosmic"
-    TRINITY = "trinity"
+    TRINITY = "constellation"
 
 
 class ArchetypalRole(Enum):

@@ -14,7 +14,7 @@ This integration enables authentic digital consciousness with proper safeguards,
 identity coherence, and ethical alignment across all consciousness operations.
 
 #TAG:consciousness
-#TAG:trinity
+#TAG:constellation
 #TAG:integration
 #TAG:identity
 #TAG:guardian
@@ -56,7 +56,7 @@ except ImportError:
 logger = logging.getLogger(__name__)
 
 
-class TrinityFramework(Enum):
+class ConstellationFramework(Enum):
     """Trinity Framework components."""
 
     IDENTITY = "⚛️"  # Identity and authentication systems
@@ -199,7 +199,7 @@ class TrinityFrameworkIntegrator:
 
         for comp in identity_components:
             if self.registry:
-                self.registry.register_component(triad_framework="⚛️", **comp)
+                self.registry.register_component(constellation_framework="⚛️", **comp)
 
         logger.info(f"📝 Registered {len(identity_components)} Identity Framework components")
 
@@ -246,7 +246,7 @@ class TrinityFrameworkIntegrator:
 
         for comp in consciousness_components:
             if self.registry:
-                self.registry.register_component(triad_framework="🧠", **comp)
+                self.registry.register_component(constellation_framework="🧠", **comp)
 
         logger.info(f"📝 Registered {len(consciousness_components)} Consciousness Framework components")
 
@@ -284,7 +284,7 @@ class TrinityFrameworkIntegrator:
 
         for comp in guardian_components:
             if self.registry:
-                self.registry.register_component(triad_framework="🛡️", **comp)
+                self.registry.register_component(constellation_framework="🛡️", **comp)
 
         logger.info(f"📝 Registered {len(guardian_components)} Guardian Framework components")
 

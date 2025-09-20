@@ -23,7 +23,7 @@ Features:
 #TAG:anonymization
 #TAG:differential_privacy
 #TAG:gdpr
-#TAG:trinity
+#TAG:constellation
 """
 import time
 import random

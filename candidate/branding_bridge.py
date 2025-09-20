@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 # Core System Constants
 SYSTEM_NAME = "LUKHAS AI"
 SYSTEM_VERSION = "2.0"
-TRINITY_FRAMEWORK = "⚛️🧠🛡️"
+CONSTELLATION_FRAMEWORK = "⚛️🧠🛡️"
 
 # Trinity Framework Symbols
 IDENTITY_SYMBOL = "⚛️"
@@ -88,13 +88,13 @@ TRINITY_DESCRIPTIONS = {
 
 def _get_system_signature() -> str:
     """Get the official LUKHAS AI system signature with Trinity Framework"""
-    return f"{SYSTEM_NAME} {TRINITY_FRAMEWORK} v{SYSTEM_VERSION}"
+    return f"{SYSTEM_NAME} {CONSTELLATION_FRAMEWORK} v{SYSTEM_VERSION}"
 
 
 def get_trinity_description() -> dict[str, Any]:
     """Get comprehensive Trinity Framework description"""
     return {
-        "framework": TRINITY_FRAMEWORK,
+        "framework": CONSTELLATION_FRAMEWORK,
         "system": SYSTEM_NAME,
         "version": SYSTEM_VERSION,
         "components": TRINITY_DESCRIPTIONS,
@@ -235,7 +235,7 @@ class LUKHASBrandingBridge:
                     logger.warning(f"⚠️ Creative branding initialization failed: {e}")
 
             self.is_initialized = True
-            logger.info(f"🎨 Branding Bridge initialized with {SYSTEM_NAME} {TRINITY_FRAMEWORK}")
+            logger.info(f"🎨 Branding Bridge initialized with {SYSTEM_NAME} {CONSTELLATION_FRAMEWORK}")
             return True
 
         except Exception as e:
@@ -246,12 +246,12 @@ class LUKHASBrandingBridge:
         """Get the official LUKHAS AI system signature with Trinity Framework"""
         if BRANDING_AVAILABLE:
             return _get_system_signature()
-        return f"{SYSTEM_NAME} {TRINITY_FRAMEWORK} v{SYSTEM_VERSION}"
+        return f"{SYSTEM_NAME} {CONSTELLATION_FRAMEWORK} v{SYSTEM_VERSION}"
 
     def get_trinity_context(self, emphasis: str = "balanced") -> dict[str, Any]:
         """Get Trinity Framework context for operations"""
         context = {
-            "framework": TRINITY_FRAMEWORK,
+            "framework": CONSTELLATION_FRAMEWORK,
             "identity": {
                 "symbol": IDENTITY_SYMBOL,
                 "description": "Authenticity, consciousness, symbolic self",
@@ -370,8 +370,8 @@ class LUKHASBrandingBridge:
                 logger.warning(f"Wordsmith generation error: {e}")
 
         # Fallback to prompt with Trinity context
-        trinity = self.get_trinity_context(context.trinity_emphasis)
-        return f"{prompt}\n\nIntegrating {trinity['framework']} principles: {trinity['identity']['description']}, {trinity['consciousness']['description']}, {trinity['guardian']['description']}"
+        constellation = self.get_trinity_context(context.trinity_emphasis)
+        return f"{prompt}\n\nIntegrating {constellation['framework']} principles: {constellation['identity']['description']}, {constellation['consciousness']['description']}, {constellation['guardian']['description']}"
 
     def monitor_brand_drift(self, content: str) -> dict[str, Any]:
         """Monitor content for brand drift"""
@@ -402,7 +402,7 @@ class LUKHASBrandingBridge:
             "advanced_branding": ADVANCED_BRANDING_AVAILABLE,
             "creative_branding": CREATIVE_BRANDING_AVAILABLE,
             "system_name": SYSTEM_NAME,
-            "trinity_framework": TRINITY_FRAMEWORK,
+            "trinity_framework": CONSTELLATION_FRAMEWORK,
             "components": {
                 "voice_adapter": self.voice_adapter is not None,
                 "validator": self.validator is not None,
@@ -482,7 +482,7 @@ __all__ = [
     # Constants
     "SYSTEM_NAME",
     "SYSTEM_VERSION",
-    "TRINITY_FRAMEWORK",
+    "CONSTELLATION_FRAMEWORK",
     "BrandContext",
     "LUKHASBrandingBridge",
     "generate_branded_content",

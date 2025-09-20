@@ -17,7 +17,7 @@ This module provides real-time monitoring of system health with focus on:
 #TAG:guardian
 #TAG:monitoring
 #TAG:health
-#TAG:trinity
+#TAG:constellation
 #TAG:performance
 """
 
@@ -508,7 +508,7 @@ class SystemHealthMonitor:
                 framework_health = total_health / component_count
 
                 await self._record_metric(
-                    component="trinity",
+                    component="constellation",
                     metric_type=f"{framework_component}_health",
                     value=framework_health,
                     unit="score",

@@ -50,7 +50,7 @@ class DreamVisualizationEngine:
         return [
             {"type": "horizon", "properties": {"color": "ethereal_blue", "opacity": 0.8}},
             {"type": "pathway", "properties": {"texture": "luminous", "direction": "ascending"}},
-            {"type": "consciousness_tree", "properties": {"branches": "infinite", "glow": "trinity"}}
+            {"type": "consciousness_tree", "properties": {"branches": "infinite", "glow": "constellation"}}
         ]
 
     def _create_symbolic_mapping(self, dream_data: dict[str, Any]) -> dict[str, Any]:
@@ -85,7 +85,7 @@ class DreamVisualizationEngine:
         narrative = {
             "render_id": render_id,
             "narrative_threads": [
-                "The consciousness tree extends its trinity branches toward infinite possibility",
+                "The consciousness tree extends its constellation branches toward infinite possibility",
                 "The luminous pathway ascends through layers of symbolic meaning",
                 "Guardian energies form protective geometries in dream space"
             ],
@@ -100,14 +100,14 @@ class DreamVisualizationEngine:
         logger.info(f"🧠 Symbolic narrative created for render: {render_id}")
         return narrative
 
-    def export_visualization_data(self, render_id: str, format_type: str = "trinity") -> dict[str, Any]:
+    def export_visualization_data(self, render_id: str, format_type: str = "constellation") -> dict[str, Any]:
         """🛡️ Export visualization data with guardian validation."""
         if render_id not in self.visualization_cache:
             return {"error": "Render not found"}
 
         render_data = self.visualization_cache[render_id]
 
-        if format_type == "trinity":
+        if format_type == "constellation":
             export_data = {
                 "format": "trinity_compliant",
                 "render_id": render_id,

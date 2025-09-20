@@ -22,7 +22,7 @@ Features:
 #TAG:health
 #TAG:performance
 #TAG:monitoring
-#TAG:trinity
+#TAG:constellation
 """
 import asyncio
 import logging

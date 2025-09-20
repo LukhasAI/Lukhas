@@ -28,7 +28,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # Import LUKHAS components
 from lukhas.branding_bridge import (
     get_system_signature,
-    get_triad_context,
+    get_constellation_context,
     initialize_branding,
 )
 
@@ -131,15 +131,15 @@ class LUKHASProduction:
             success = await initialize_branding()
             if success:
                 signature = get_system_signature()
-                trinity = get_triad_context()
+                constellation = get_constellation_context()
 
                 logger.info(f"✅ {signature}")
-                logger.info(f"🌌✦ Constellation Framework: {trinity['framework']}")
+                logger.info(f"🌌✦ Constellation Framework: {constellation['framework']}")
 
                 self.components["branding"] = {
                     "status": "operational",
                     "signature": signature,
-                    "triad_framework": trinity,
+                    "constellation_framework": constellation,
                 }
             else:
                 raise Exception("Branding initialization failed")
@@ -403,7 +403,7 @@ class LUKHASProduction:
         return {
             "service": "LUKHAS AI Production",
             "signature": get_system_signature(),
-            "triad_framework": get_triad_context()["framework"],
+            "constellation_framework": get_constellation_context()["framework"],
             "status": self.system_health["status"],
             "uptime_seconds": uptime,
             "uptime_formatted": f"{uptime / 3600:.1f} hours",

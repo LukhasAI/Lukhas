@@ -3,10 +3,10 @@
   "component_id": "candidate.consciousness.core.engine_codex",
   "component_type": "CONSCIOUSNESS_ENGINE",
   "lane": "development",
-  "trinity_integration": {
-    "identity_coupling": false,
-    "consciousness_role": "primary",
-    "guardian_validation": true
+  "constellation_integration": {
+    "anchor_star_coupling": false,
+    "memory_star_integration": "primary",
+    "horizon_star_processing": "none", "guardian_validation": true
   },
   "cognitive_processing": {
     "processing_mode": "asynchronous",

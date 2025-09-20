@@ -23,7 +23,7 @@ Features:
 #TAG:encryption
 #TAG:security
 #TAG:gdpr
-#TAG:trinity
+#TAG:constellation
 """
 from consciousness.qi import qi
 import random

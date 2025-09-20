@@ -153,7 +153,7 @@ def determine_smart_reason(file_path: str, line_content: str, message: str) -> s
         return "kept for multi-AI agent coordination"
 
     # Consciousness/Trinity Framework
-    if any(word in line_lower for word in ["consciousness", "trinity", "guardian", "identity"]):
+    if any(word in line_lower for word in ["consciousness", "constellation", "guardian", "identity"]):
         return "kept for Trinity Framework consciousness evolution"
 
     # API/Interface definitions

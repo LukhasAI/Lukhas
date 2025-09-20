@@ -88,7 +88,7 @@ class ValidationCategory(Enum):
     COMPLIANCE = "compliance"   # Compliance with standards
     CONFLICT = "conflict"       # Conflicts with other policies
     DEPENDENCY = "dependency"   # Dependency issues
-    TRINITY = "trinity"         # Trinity Framework compliance
+    TRINITY = "constellation"         # Trinity Framework compliance
 
 
 @dataclass

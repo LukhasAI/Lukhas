@@ -525,7 +525,7 @@ class LUKHASAuthIntegrationSystem:
             "configuration": self.config,
             "version": "1.0.0",
             "phase": "Phase 7 - Registry Updates and Policy Integration",
-            "triad_framework": "⚛️🧠🛡️",
+            "constellation_framework": "⚛️🧠🛡️",
             "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 

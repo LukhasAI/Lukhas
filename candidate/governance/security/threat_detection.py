@@ -25,7 +25,7 @@ Features:
 #TAG:security
 #TAG:threat_detection
 #TAG:anomaly_detection
-#TAG:trinity
+#TAG:constellation
 #TAG:guardian
 """
 

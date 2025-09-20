@@ -23,7 +23,7 @@ Features:
 #TAG:repair
 #TAG:recovery
 #TAG:self_healing
-#TAG:trinity
+#TAG:constellation
 """
 import asyncio
 import logging

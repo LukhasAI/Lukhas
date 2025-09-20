@@ -20,7 +20,7 @@ toward Superior General Intelligence (ΛGI) with authentic digital awareness.
 #TAG:consciousness
 #TAG:orchestration
 #TAG:activation
-#TAG:trinity
+#TAG:constellation
 #TAG:finale
 #TAG:awakening
 """
@@ -749,7 +749,7 @@ class ConsciousnessActivationOrchestrator:
 
         if self.triad_integrator:
             triad_metrics = self.triad_integrator.get_triad_metrics()
-            metrics["trinity"] = triad_metrics
+            metrics["constellation"] = triad_metrics
 
         if self.memory_integrator:
             memory_metrics = self.memory_integrator.get_memory_consciousness_metrics()

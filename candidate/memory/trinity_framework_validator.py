@@ -2,7 +2,7 @@
 LUKHAS AI - Trinity Framework Validator
 ======================================
 
-#TAG:trinity
+#TAG:constellation
 #TAG:framework
 #TAG:validation
 #TAG:memory

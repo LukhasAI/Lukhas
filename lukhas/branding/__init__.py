@@ -56,7 +56,7 @@ def get_branding_info():
         "name": LUKHAS_NAME,
         "full_name": LUKHAS_FULL_NAME,
         "version": get_version(),
-        "trinity": get_triad_framework(),
+        "constellation": get_triad_framework(),
         "symbols": LAMBDA_SYMBOLS,
         "colors": COLORS,
     }

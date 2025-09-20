@@ -8,7 +8,7 @@ managing state transitions, awareness levels, and cross-system coordination.
 #TAG:consciousness
 #TAG:neuroplastic
 #TAG:unified
-#TAG:trinity
+#TAG:constellation
 
 Features:
 - Unified consciousness state management

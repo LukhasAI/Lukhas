@@ -357,10 +357,10 @@ class PersonaSimilarityEngine:
         alignment["entropy"] = 1.0 - abs(entropy - 0.5)  # Default to medium entropy
 
         # Trinity alignment
-        trinity = symbolic_trace.get("trinity_coherence", 0.5)
+        constellation = symbolic_trace.get("trinity_coherence", 0.5)
         session_glyphs = set(symbolic_trace.get("glyphs", []))
         trinity_present = len(session_glyphs & self.trinity_core) / 3
-        alignment["trinity"] = (trinity + trinity_present) / 2
+        alignment["constellation"] = (constellation + trinity_present) / 2
 
         return {k: round(v, 2) for k, v in alignment.items()}
 
@@ -500,7 +500,7 @@ class PersonaSimilarityEngine:
         # Detect collapse conditions
         drift = symbolic_trace.get("drift_score", 0.5)
         entropy = symbolic_trace.get("entropy", 0.5)
-        trinity = symbolic_trace.get("trinity_coherence", 0.5)
+        constellation = symbolic_trace.get("trinity_coherence", 0.5)
 
         collapse_detected = False
         collapse_type = []
@@ -513,7 +513,7 @@ class PersonaSimilarityEngine:
             collapse_detected = True
             collapse_type.append("entropy_overflow")
 
-        if trinity < 0.1:
+        if constellation < 0.1:
             collapse_detected = True
             collapse_type.append("trinity_void")
 

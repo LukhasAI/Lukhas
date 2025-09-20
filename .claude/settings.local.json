@@ -47,7 +47,10 @@
       "Bash(find:*)",
       "Bash(done)",
       "Bash(python3:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(git push:*)",
+      "Read(//Users/agi_dev/Downloads/**)",
+      "Bash(python scripts/codemods/trinity_to_constellation_dryrun.py:*)"
     ],
     "deny": [],
     "ask": []

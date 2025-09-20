@@ -4,7 +4,7 @@ Foundational systems for symbolic processing, GLYPH engine, and Trinity Framewor
 Trinity Framework: Identity, Consciousness, Guardian
 
 # [SEARCH:GLYPH_ENGINE] - Core symbolic processing system
-# [SEARCH:TRINITY_FRAMEWORK] - Identity, Consciousness, Guardian integration
+# [SEARCH:CONSTELLATION_FRAMEWORK] - Identity, Consciousness, Guardian integration
 # [SEARCH:ACTOR_SYSTEM] - Distributed actor-based architecture
 """
 

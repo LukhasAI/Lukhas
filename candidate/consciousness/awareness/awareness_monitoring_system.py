@@ -22,7 +22,7 @@ Features:
 #TAG:awareness
 #TAG:monitoring
 #TAG:observability
-#TAG:trinity
+#TAG:constellation
 """
 import asyncio
 import logging

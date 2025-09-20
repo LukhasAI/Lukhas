@@ -63,12 +63,12 @@
     "common_tasks": [],
     "prerequisites": [
       "Understanding of LUKHAS lane system",
-      "Trinity Framework familiarity"
+      "Constellation Framework familiarity"
     ],
     "avoid_patterns": [
       "Modifying contracts without validation",
       "Breaking lane boundaries",
-      "Ignoring Trinity Framework integration"
+      "Ignoring Constellation Framework integration"
     ]
   },
   "performance_metadata": {

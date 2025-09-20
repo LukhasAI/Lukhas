@@ -518,9 +518,9 @@ class EnhancedCoreIntegrator:
         Establishes the foundation for sub-250ms context handoff performance.
         """
         core_event_types = [
-            "trinity.identity.authentication",
-            "trinity.consciousness.state_change",
-            "trinity.guardian.ethics_validation",
+            "constellation.identity.authentication",
+            "constellation.consciousness.state_change",
+            "constellation.guardian.ethics_validation",
             "context.workflow.started",
             "context.workflow.completed",
             "context.workflow.error",
@@ -757,7 +757,7 @@ class EnhancedCoreIntegrator:
         """
         try:
             # Trinity Framework validation logging
-            if event_type.startswith("trinity."):
+            if event_type.startswith("constellation."):
                 log.info(
                     "ΛTRACE_TRINITY_WORKFLOW",
                     event_id=event["id"],

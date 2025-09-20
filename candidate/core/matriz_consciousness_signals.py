@@ -209,7 +209,7 @@ class ConsciousnessSignal:
             "consciousness:awareness",
             "consciousness:reflection",
             "bio:symbolic",
-            "trinity:compliance",
+            "constellation:compliance",
         ]
 
         if self.bio_symbolic_data:

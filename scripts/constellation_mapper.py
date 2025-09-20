@@ -192,7 +192,7 @@ class ConstellationMapper:
             # Categorize by file path patterns
             if "engine" in component_id:
                 patterns["engine_components"].append(component_id)
-            elif "bridge" in component_id or "trinity" in component_id:
+            elif "bridge" in component_id or "constellation" in component_id:
                 patterns["bridge_components"].append(component_id)
             elif "dream" in component_id:
                 patterns["dream_components"].append(component_id)

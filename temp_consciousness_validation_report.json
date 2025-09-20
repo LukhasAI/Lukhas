@@ -1,5 +1,5 @@
 {
-  "validation_timestamp": "2025-09-20T15:32:30.173406",
+  "validation_timestamp": "2025-09-20T16:42:39.339779",
   "schema_valid": true,
   "total_contracts": 287,
   "valid_contracts": 287,
@@ -24,8 +24,8 @@
       "development": 287
     },
     "trinity_integration": {
-      "identity": 10,
-      "guardian": 33
+      "identity": 0,
+      "guardian": 0
     },
     "governance_stats": {
       "ethics_required": 31,
@@ -33,6 +33,7 @@
     }
   },
   "recommendations": [
-    "Consider promoting stable components to integration lane"
+    "Consider promoting stable components to integration lane",
+    "Review identity coupling - no components are identity-coupled"
   ]
 }

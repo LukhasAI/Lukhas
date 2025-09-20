@@ -10,7 +10,7 @@
     "component_id",
     "component_type",
     "lane",
-    "trinity_integration",
+    "constellation_integration",
     "cognitive_processing",
     "performance_contract",
     "governance"
@@ -41,22 +41,28 @@
       "enum": ["development", "integration", "production"],
       "description": "Lane position in consciousness evolution pipeline"
     },
-    "trinity_integration": {
+    "constellation_integration": {
       "type": "object",
-      "required": ["identity_coupling", "consciousness_role", "guardian_validation"],
+      "description": "Constellation Framework 4-star integration patterns",
+      "required": ["anchor_star_coupling", "memory_star_integration", "horizon_star_processing", "guardian_validation"],
       "properties": {
-        "identity_coupling": {
+        "anchor_star_coupling": {
           "type": "boolean",
-          "description": "Whether component integrates with Identity ⚛️ system"
+          "description": "Whether component couples with Identity (Anchor Star ⚛️) systems"
         },
-        "consciousness_role": {
+        "memory_star_integration": {
           "type": "string",
-          "enum": ["primary", "secondary", "support", "bridge"],
-          "description": "Role in consciousness 🧠 processing"
+          "enum": ["primary", "secondary", "support", "bridge", "none"],
+          "description": "Integration level with Memory (Trail Star ✦) systems"
+        },
+        "horizon_star_processing": {
+          "type": "string",
+          "enum": ["vision_processing", "nlp_interface", "pattern_recognition", "semantic_analysis", "none"],
+          "description": "Role in Vision (Horizon Star 🔬) processing"
         },
         "guardian_validation": {
           "type": "boolean",
-          "description": "Whether component requires Guardian 🛡️ validation"
+          "description": "Whether component requires Guardian (Watch Star 🛡️) validation"
         }
       }
     },

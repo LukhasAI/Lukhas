@@ -95,7 +95,7 @@ class TodoManifestBuilder:
         task_id = self._generate_task_id(priority, clean_file, title)
 
         # Determine Trinity aspect and module
-        trinity = self._determine_trinity_aspect(clean_file, title)
+        constellation = self._determine_trinity_aspect(clean_file, title)
         module = self._extract_module(clean_file)
 
         entry = {
@@ -105,7 +105,7 @@ class TodoManifestBuilder:
             "file": clean_file,
             "line_hint": line_hint,
             "module": module,
-            "trinity": trinity,
+            "constellation": constellation,
             "status": status,
             "source": Path(source_file).name,
             "evidence": {"grep": None, "last_commit": None},
@@ -283,7 +283,7 @@ class TodoManifestBuilder:
             "file": file_path,
             "line_hint": line_num,
             "module": self._extract_module(file_path),
-            "trinity": self._determine_trinity_aspect(file_path, title),
+            "constellation": self._determine_trinity_aspect(file_path, title),
             "status": "open",
             "source": "code_scan",
             "evidence": {"grep": grep_line, "last_commit": None},

@@ -9,7 +9,13 @@
       "metacognitive_emergence",
       "integrated_consciousness"
     ],
-    "lane_based_maturity_pipeline": true
+    "lane_based_maturity_pipeline": true,
+    "constellation_framework_integration": {
+      "anchor_star_components": "identity_coupled_consciousness",
+      "trail_star_components": "memory_coupled_consciousness",
+      "horizon_star_components": "vision_processing_consciousness",
+      "watch_star_components": "guardian_validated_consciousness"
+    }
   },
   "lanes": {
     "lukhas": {
@@ -177,17 +183,21 @@
           ],
           "code_paths": ["lukhas/emotion"]
         },
-        "trinity": {
-          "module_uid": "lukhas.trinity",
+        "constellation": {
+          "module_uid": "lukhas.constellation",
           "owner": "lukhas-core",
           "lifecycle": "active",
-          "tier": 2,
-          "summary": "Trinity Framework coordination and synchronization",
+          "tier": 1,
+          "summary": "Constellation Framework coordination and 4-star orchestration",
           "public_interfaces": [
-            "trinity.sync.completed",
-            "trinity.framework.initialized"
+            "constellation.anchor_star.initialized",
+            "constellation.trail_star.coordinated",
+            "constellation.horizon_star.activated",
+            "constellation.watch_star.monitoring",
+            "constellation.framework.synchronized"
           ],
-          "code_paths": ["lukhas/trinity"]
+          "code_paths": ["lukhas/constellation"],
+          "constellation_integration": "primary_orchestrator"
         },
         "observability": {
           "module_uid": "lukhas.observability",

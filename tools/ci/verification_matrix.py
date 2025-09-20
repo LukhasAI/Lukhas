@@ -100,7 +100,7 @@ class VerificationMatrix:
                     "Trinity Framework alignment confirmed",
                 ],
                 "test_patterns": ["test_*_consciousness_*", "test_*_awareness_*", "test_*_trinity_*"],
-                "modules": ["consciousness", "awareness", "trinity"],
+                "modules": ["consciousness", "awareness", "constellation"],
                 "risk_level": "critical",
                 "requires_state_testing": True,
                 "requires_isolation_testing": True,

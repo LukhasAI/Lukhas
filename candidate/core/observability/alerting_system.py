@@ -22,7 +22,7 @@ Features:
 #TAG:compliance
 #TAG:audit
 #TAG:notifications
-#TAG:trinity
+#TAG:constellation
 """
 import asyncio
 import contextlib

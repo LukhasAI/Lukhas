@@ -109,7 +109,7 @@ class ContextPriorityAnalyzer:
         impact = {
             "file_size": len(content),
             "mentions_consciousness": "consciousness" in content.lower(),
-            "mentions_trinity": "trinity" in content.lower(),
+            "mentions_trinity": "constellation" in content.lower(),
             "mentions_candidate": "candidate" in content,
             "mentions_lukhas": "lukhas" in content,
             "has_architecture_section": "architecture" in content.lower(),

@@ -32,7 +32,7 @@ Safety Standards:
 #TAG:constitutional-ai
 #TAG:safety
 #TAG:drift-detection
-#TAG:trinity
+#TAG:constellation
 """
 import asyncio
 import json
