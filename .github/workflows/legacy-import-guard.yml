@@ -27,6 +27,7 @@ jobs:
               | grep -v 'tests/' | grep -v 'core/__init__.py'; then
               echo "❌ Blocked: new legacy 'core' imports detected."
               echo "Use 'lukhas.core' instead of 'core' for new imports."
+              echo "Run: python3 scripts/codemod_legacy_core.py --write"
               exit 1
             fi
           else
@@ -35,3 +36,14 @@ jobs:
           fi
 
           echo "✅ No new legacy core imports detected"
+
+      - name: Verify codemod can fix any legacy imports
+        run: |
+          # Dry-run codemod to ensure it can handle current state
+          python3 scripts/codemod_legacy_core.py
+          if [ $? -eq 2 ]; then
+            echo "⚠️  Legacy imports found but codemod can fix them"
+            echo "Run: python3 scripts/codemod_legacy_core.py --write"
+          else
+            echo "✅ No legacy imports detected by codemod"
+          fi

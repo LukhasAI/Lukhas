@@ -5,8 +5,30 @@ Supports:
 Fail-closed, no optional deps at import time.
 """
 from __future__ import annotations
-import sys, types, importlib
+import sys, types, importlib, os
 import importlib.util, importlib.machinery, importlib.abc
+
+# Telemetry for sunset planning
+try:
+    from prometheus_client import Counter
+    _legacy_ctr = Counter(
+        "legacy_core_import_total",
+        "Count of legacy 'core' imports (alias path)",
+        ["file", "service", "sha"]
+    )
+    _telemetry_available = True
+except ImportError:
+    _telemetry_available = False
+
+def _bump_legacy_counter(file_path: str = None):
+    """Track legacy import usage for sunset planning."""
+    if not _telemetry_available:
+        return
+    _legacy_ctr.labels(
+        file=os.path.basename(file_path) if file_path else "unknown",
+        service=os.getenv("SERVICE_NAME", "unknown"),
+        sha=os.getenv("GIT_SHA", "dev"),
+    ).inc()
 
 _TARGET = "lukhas.core"
 _THIS = __name__  # "core"
@@ -14,6 +36,8 @@ _THIS = __name__  # "core"
 def _install_aliases() -> None:
     """Map base package and preload common submodules used by tests."""
     target_pkg = importlib.import_module(_TARGET)
+    # Track legacy usage for sunset planning
+    _bump_legacy_counter(__file__)
     # Alias base package
     sys.modules.setdefault(_THIS, sys.modules[_TARGET])
     m = sys.modules[_THIS]
@@ -44,6 +68,7 @@ class _CoreAliasFinder(importlib.abc.MetaPathFinder):
             return None
         # Loader that registers the real module under the legacy name
         def _loader_exec(module):
+            _bump_legacy_counter(fullname)
             real = importlib.import_module(target_name)
             sys.modules[fullname] = real
         loader = types.SimpleNamespace(create_module=lambda s: None, exec_module=_loader_exec)
@@ -55,6 +80,7 @@ class _CoreAliasFinder(importlib.abc.MetaPathFinder):
 def __getattr__(name: str):
     """Enable `from core import trace`."""
     try:
+        _bump_legacy_counter(f"{_THIS}.{name}")
         mod = importlib.import_module(f"{_TARGET}.{name}")
         sys.modules.setdefault(f"{_THIS}.{name}", mod)
         return mod

@@ -3,3 +3,9 @@
 /**/tests/**                       @gonzo.dominguez
 /mocks/**                          @gonzo.dominguez
 /**/conftest.py                    @gonzo.dominguez
+
+# Legacy core sunset components - platform team ownership
+core/__init__.py                              @platform-team
+scripts/codemod_legacy_core.py                @platform-team
+.github/workflows/legacy-*                    @platform-team
+monitoring/legacy_core_sunset_alerts.yml      @platform-team

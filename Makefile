@@ -1,5 +1,5 @@
 # Main Makefile PHONY declarations (only for targets defined in this file)
-.PHONY: install setup-hooks dev api openapi live colony-dna-smoke smoke-matriz lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports
+.PHONY: install setup-hooks dev api openapi live colony-dna-smoke smoke-matriz lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports legacy-check legacy-fix
 .PHONY: ai-analyze ai-setup ai-workflow clean deep-clean quick bootstrap organize organize-dry organize-suggest organize-watch
 .PHONY: codex-validate codex-fix validate-all perf migrate-dry migrate-run dna-health dna-compare admin lint-status lane-guard
 .PHONY: audit-tail sdk-py-install sdk-py-test sdk-ts-build sdk-ts-test backup-local backup-s3 restore-local restore-s3 dr-drill dr-weekly dr-quarterly dr-monthly
@@ -96,6 +96,19 @@ lint-unused-strict:
 	@echo "🎯 T4 Unused Imports Enforcer (Production Lanes - Strict Mode)"
 	@echo "⚛️ Failing if any unannotated F401 remain in lukhas/ and MATRIZ/..."
 	python3 tools/ci/unused_imports.py --paths lukhas MATRIZ --strict
+
+# Legacy Core Import Management
+legacy-check:
+	@echo "🔍 Checking for legacy 'core' imports..."
+	@python3 scripts/codemod_legacy_core.py || \
+	  (echo "⚠️  Legacy imports found. Run 'make legacy-fix' to automatically update them." && exit 2)
+	@echo "✅ No legacy imports detected"
+
+legacy-fix:
+	@echo "🔧 Fixing legacy 'core' imports..."
+	@python3 scripts/codemod_legacy_core.py --write
+	@echo "✅ Legacy imports updated to 'lukhas.core'"
+	@echo "📝 Review changes and commit when ready"
 
 # Format code
 format:
