@@ -235,7 +235,7 @@ class ConstellationFramework:
 def get_constellation_context() -> Dict[str, any]:
     """
     Get current constellation framework context
-    Replaces get_triad_context from Trinity Framework
+    Replaces get_constellation_context from Trinity Framework
     """
     return {
         "framework": "Constellation Framework v2.0.0",

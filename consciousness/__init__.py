@@ -19,35 +19,50 @@ CONSCIOUSNESS_AVAILABLE = False
 ConsciousnessCore = None
 ConsciousnessAPI = None
 
-# Try lukhas lane first (production) - use what actually works
+# Use the proper import router system for cross-lane resolution
 try:
-    from lukhas.consciousness import (
-        ConsciousnessConfig,
-        ConsciousnessKernel,
-        ConsciousnessWrapper,
-    )  # MATRIZ Integration: LUKHAS consciousness components for Trinity Framework consciousness evolution and kernel coordination
+    from lukhas.core.import_router import import_with_fallback, import_class
 
-    CONSCIOUSNESS_AVAILABLE = True
-    CONSCIOUSNESS_SOURCE = "lukhas"
-    # Map to expected names for compatibility
-    ConsciousnessCore = ConsciousnessKernel
-    ConsciousnessAPI = ConsciousnessWrapper
-except ImportError:
-    # Try candidate lane (development)
-    try:
-        from candidate.consciousness import ConsciousnessAPI, ConsciousnessCore
+    # Use registry-based import with proper fallback chain
+    consciousness_module = import_with_fallback(
+        "lukhas.consciousness",
+        ["candidate.consciousness", "lukhas.consciousness.consciousness_wrapper"]
+    )
 
-        if ConsciousnessCore is not None and ConsciousnessAPI is not None:
+    if consciousness_module:
+        # Try to get components from the resolved module
+        ConsciousnessConfig = getattr(consciousness_module, 'ConsciousnessConfig', None)
+        ConsciousnessKernel = getattr(consciousness_module, 'ConsciousnessKernel', None)
+        ConsciousnessWrapper = getattr(consciousness_module, 'ConsciousnessWrapper', None)
+        ConsciousnessCore = getattr(consciousness_module, 'ConsciousnessCore', None) or ConsciousnessKernel
+        ConsciousnessAPI = getattr(consciousness_module, 'ConsciousnessAPI', None) or ConsciousnessWrapper
+
+        if ConsciousnessCore and ConsciousnessAPI:
             CONSCIOUSNESS_AVAILABLE = True
-            CONSCIOUSNESS_SOURCE = "candidate"
+            CONSCIOUSNESS_SOURCE = "registry_resolved"
         else:
-            CONSCIOUSNESS_AVAILABLE = False
-            CONSCIOUSNESS_SOURCE = "candidate_unavailable"
-    except ImportError:
+            # Try class-based import as fallback
+            ConsciousnessCore = import_class("ConsciousnessCore", "lukhas.consciousness")
+            ConsciousnessAPI = import_class("ConsciousnessAPI", "lukhas.consciousness")
+
+            if ConsciousnessCore and ConsciousnessAPI:
+                CONSCIOUSNESS_AVAILABLE = True
+                CONSCIOUSNESS_SOURCE = "class_resolved"
+            else:
+                CONSCIOUSNESS_AVAILABLE = False
+                CONSCIOUSNESS_SOURCE = "registry_unavailable"
+    else:
         CONSCIOUSNESS_AVAILABLE = False
-        CONSCIOUSNESS_SOURCE = "none"
+        CONSCIOUSNESS_SOURCE = "module_unavailable"
         ConsciousnessCore = None
         ConsciousnessAPI = None
+
+except ImportError:
+    # Fallback to None if import router is not available
+    CONSCIOUSNESS_AVAILABLE = False
+    CONSCIOUSNESS_SOURCE = "import_router_unavailable"
+    ConsciousnessCore = None
+    ConsciousnessAPI = None
 
 # Consciousness domains
 CONSCIOUSNESS_DOMAINS = {

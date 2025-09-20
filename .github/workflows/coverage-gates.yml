@@ -1,0 +1,443 @@
+name: 📊 Test Coverage Gates
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+  schedule:
+    - cron: "23 5 * * *"  # nightly 05:23 UTC
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
+concurrency:
+  group: coverage-${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  coverage-analysis:
+    name: 📈 Coverage Analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      LUKHAS_COVERAGE_THRESHOLD: 75
+      LUKHAS_CRITICAL_THRESHOLD: 85
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Need history for coverage comparison
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-coverage-${{ runner.os }}-${{ hashFiles('requirements*.txt', 'pyproject.toml') }}-v1
+          restore-keys: |
+            pip-coverage-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e '.[dev]'
+          pip install pytest-xdist pytest-cov coverage[toml]
+
+      - name: Run comprehensive test suite
+        run: |
+          echo "🧪 Running comprehensive test suite for coverage analysis..."
+
+          # Run all tests with coverage (excluding slow/enterprise tests)
+          coverage run --branch --source=lukhas,consciousness,governance,identity,memoria,matriz -m pytest \
+            -x --tb=short --disable-warnings \
+            -m "not enterprise and not cloud and not bench" \
+            --maxfail=5
+
+          echo "✅ Test suite completed"
+
+      - name: Generate coverage reports
+        run: |
+          echo "📊 Generating coverage reports..."
+
+          # Text report for CI logs
+          coverage report --show-missing --skip-covered
+
+          # XML report for tools
+          coverage xml -o coverage.xml
+
+          # HTML report for artifact
+          coverage html -d coverage-html
+
+          # JSON report for analysis
+          coverage json -o coverage.json
+
+          # Extract key metrics
+          TOTAL_COVERAGE=$(coverage report --format=total)
+          echo "TOTAL_COVERAGE=$TOTAL_COVERAGE" >> $GITHUB_ENV
+
+          # Get uncovered lines count
+          UNCOVERED_LINES=$(coverage report --format=json | python3 -c "
+          import sys, json
+          data = json.load(sys.stdin)
+          total_missing = sum(f['summary']['missing_lines'] for f in data['files'].values())
+          print(total_missing)
+          ")
+          echo "UNCOVERED_LINES=$UNCOVERED_LINES" >> $GITHUB_ENV
+
+          echo "📈 Total Coverage: $TOTAL_COVERAGE%"
+          echo "📉 Uncovered Lines: $UNCOVERED_LINES"
+
+      - name: Analyze coverage by module
+        run: |
+          echo "🔍 Analyzing coverage by LUKHAS module..."
+
+          python3 - <<'EOF'
+          import json
+          import sys
+
+          with open('coverage.json', 'r') as f:
+              data = json.load(f)
+
+          print("## 📊 Coverage by Module")
+          print("| Module | Coverage | Missing Lines | Status |")
+          print("|--------|----------|---------------|--------|")
+
+          modules = {
+              'lukhas/': 'Core LUKHAS',
+              'consciousness/': 'Consciousness',
+              'governance/': 'Governance',
+              'identity/': 'Identity',
+              'memoria/': 'Memory',
+              'matriz/': 'MATRIZ'
+          }
+
+          total_summary = {'covered': 0, 'missing': 0}
+
+          for module_path, module_name in modules.items():
+              module_files = {k: v for k, v in data['files'].items() if k.startswith(module_path)}
+
+              if not module_files:
+                  print(f"| {module_name} | N/A | N/A | ⚪ No Files |")
+                  continue
+
+              covered = sum(f['summary']['covered_lines'] for f in module_files.values())
+              missing = sum(f['summary']['missing_lines'] for f in module_files.values())
+              total = covered + missing
+
+              if total > 0:
+                  coverage_pct = round((covered / total) * 100, 1)
+
+                  if coverage_pct >= 85:
+                      status = "🟢 Excellent"
+                  elif coverage_pct >= 75:
+                      status = "🟡 Good"
+                  elif coverage_pct >= 60:
+                      status = "🟠 Needs Work"
+                  else:
+                      status = "🔴 Critical"
+
+                  print(f"| {module_name} | {coverage_pct}% | {missing} | {status} |")
+
+                  total_summary['covered'] += covered
+                  total_summary['missing'] += missing
+              else:
+                  print(f"| {module_name} | N/A | N/A | ⚪ Empty |")
+
+          # Overall summary
+          total_lines = total_summary['covered'] + total_summary['missing']
+          if total_lines > 0:
+              overall_pct = round((total_summary['covered'] / total_lines) * 100, 1)
+              print(f"| **Overall** | **{overall_pct}%** | **{total_summary['missing']}** | - |")
+
+          print(f"\n📊 **Total Coverage: {overall_pct}%**")
+          print(f"📈 Covered Lines: {total_summary['covered']}")
+          print(f"📉 Missing Lines: {total_summary['missing']}")
+          EOF
+
+      - name: Coverage threshold enforcement
+        run: |
+          echo "🎯 Enforcing coverage thresholds..."
+
+          THRESHOLD=${LUKHAS_COVERAGE_THRESHOLD}
+          CRITICAL_THRESHOLD=${LUKHAS_CRITICAL_THRESHOLD}
+
+          echo "📊 Current Coverage: $TOTAL_COVERAGE%"
+          echo "🎯 Required Threshold: $THRESHOLD%"
+          echo "⭐ Critical Threshold: $CRITICAL_THRESHOLD%"
+
+          # Check thresholds
+          if [ "$TOTAL_COVERAGE" -lt "$THRESHOLD" ]; then
+            echo "🚨 Coverage $TOTAL_COVERAGE% below required $THRESHOLD% threshold"
+            echo "COVERAGE_GATE_FAILED=true" >> $GITHUB_ENV
+
+            if [ "$TOTAL_COVERAGE" -lt 50 ]; then
+              echo "💥 CRITICAL: Coverage below 50% - immediate action required"
+              exit 1
+            fi
+          else
+            echo "✅ Coverage meets $THRESHOLD% threshold"
+            echo "COVERAGE_GATE_FAILED=false" >> $GITHUB_ENV
+
+            if [ "$TOTAL_COVERAGE" -ge "$CRITICAL_THRESHOLD" ]; then
+              echo "⭐ EXCELLENT: Coverage exceeds $CRITICAL_THRESHOLD% critical threshold"
+            fi
+          fi
+
+      - name: Compare with main branch
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "📊 Comparing coverage with main branch..."
+
+          # Try to get main branch coverage
+          git fetch origin main:main || true
+
+          if git show main:coverage.json > main-coverage.json 2>/dev/null; then
+            MAIN_COVERAGE=$(python3 -c "
+            import json
+            with open('main-coverage.json') as f:
+                data = json.load(f)
+            print(int(round(data['totals']['percent_covered'])))
+            ")
+
+            COVERAGE_DIFF=$((TOTAL_COVERAGE - MAIN_COVERAGE))
+
+            echo "📈 Main Branch Coverage: $MAIN_COVERAGE%"
+            echo "📊 Current Coverage: $TOTAL_COVERAGE%"
+            echo "📉 Coverage Difference: $COVERAGE_DIFF%"
+
+            if [ "$COVERAGE_DIFF" -lt -5 ]; then
+              echo "🚨 Coverage decreased by more than 5% from main"
+              echo "COVERAGE_REGRESSION=true" >> $GITHUB_ENV
+            elif [ "$COVERAGE_DIFF" -gt 5 ]; then
+              echo "🎉 Coverage improved by more than 5% from main"
+              echo "COVERAGE_IMPROVEMENT=true" >> $GITHUB_ENV
+            else
+              echo "📊 Coverage change within acceptable range"
+              echo "COVERAGE_STABLE=true" >> $GITHUB_ENV
+            fi
+          else
+            echo "⚠️  Could not compare with main branch coverage"
+          fi
+
+      - name: Generate coverage badge
+        run: |
+          echo "🏷️  Generating coverage badge..."
+
+          # Create badge data
+          if [ "$TOTAL_COVERAGE" -ge 90 ]; then
+            COLOR="brightgreen"
+          elif [ "$TOTAL_COVERAGE" -ge 75 ]; then
+            COLOR="green"
+          elif [ "$TOTAL_COVERAGE" -ge 60 ]; then
+            COLOR="yellow"
+          elif [ "$TOTAL_COVERAGE" -ge 40 ]; then
+            COLOR="orange"
+          else
+            COLOR="red"
+          fi
+
+          # Create shields.io badge URL
+          BADGE_URL="https://img.shields.io/badge/Coverage-${TOTAL_COVERAGE}%25-${COLOR}"
+          echo "COVERAGE_BADGE_URL=$BADGE_URL" >> $GITHUB_ENV
+
+          echo "🏷️  Badge URL: $BADGE_URL"
+
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports-${{ github.run_id }}
+          path: |
+            coverage.xml
+            coverage.json
+            coverage-html/
+          retention-days: 30
+
+      - name: Upload to Codecov
+        if: always()
+        uses: codecov/codecov-action@v4
+        with:
+          files: coverage.xml
+          fail_ci_if_error: false
+          verbose: true
+
+      - name: Comment PR with coverage
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const coverage = process.env.TOTAL_COVERAGE;
+            const uncovered = process.env.UNCOVERED_LINES;
+            const threshold = process.env.LUKHAS_COVERAGE_THRESHOLD;
+            const failed = process.env.COVERAGE_GATE_FAILED === 'true';
+            const regression = process.env.COVERAGE_REGRESSION === 'true';
+            const improvement = process.env.COVERAGE_IMPROVEMENT === 'true';
+
+            let emoji = '📊';
+            let status = 'meets threshold';
+
+            if (failed) {
+              emoji = '🚨';
+              status = 'below threshold';
+            } else if (improvement) {
+              emoji = '🎉';
+              status = 'improved significantly';
+            } else if (regression) {
+              emoji = '⚠️';
+              status = 'decreased from main';
+            }
+
+            const body = `
+            ## ${emoji} Test Coverage Report
+
+            **Current Coverage: ${coverage}%** (${status})
+
+            - 📊 Coverage Threshold: ${threshold}%
+            - 📈 Covered Lines: ${Number(coverage) * 100 / 100}%
+            - 📉 Uncovered Lines: ${uncovered}
+            - 🎯 Status: ${failed ? '❌ Below Threshold' : '✅ Passes'}
+
+            ${regression ? '⚠️ **Warning:** Coverage decreased from main branch' : ''}
+            ${improvement ? '🎉 **Great:** Coverage improved significantly!' : ''}
+
+            <details>
+            <summary>📊 View detailed coverage report</summary>
+
+            See the full coverage report in the [workflow artifacts](${context.payload.pull_request.html_url}/checks).
+
+            </details>
+
+            ${failed ? '**Action Required:** Add tests to increase coverage above ' + threshold + '%' : ''}
+            `;
+
+            // Update or create comment
+            const comments = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const botComment = comments.data.find(comment =>
+              comment.user.type === 'Bot' && comment.body.includes('Test Coverage Report')
+            );
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }
+
+  critical-file-coverage:
+    name: 🎯 Critical File Coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    needs: [coverage-analysis]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e '.[dev]'
+          pip install coverage
+
+      - name: Download coverage data
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-reports-${{ github.run_id }}
+
+      - name: Analyze critical file coverage
+        run: |
+          echo "🎯 Analyzing coverage for critical LUKHAS files..."
+
+          python3 - <<'EOF'
+          import json
+
+          with open('coverage.json', 'r') as f:
+              data = json.load(f)
+
+          # Define critical files that must have high coverage
+          critical_files = [
+              'lukhas/core/',
+              'consciousness/__init__.py',
+              'governance/auth_integration_system.py',
+              'identity/lambda_id.py',
+              'memoria/fold_manager.py'
+          ]
+
+          print("## 🎯 Critical File Coverage Analysis")
+          print("| File | Coverage | Missing | Status |")
+          print("|------|----------|---------|--------|")
+
+          critical_issues = []
+
+          for file_path, file_data in data['files'].items():
+              is_critical = any(critical in file_path for critical in critical_files)
+
+              if is_critical:
+                  summary = file_data['summary']
+                  total_lines = summary['covered_lines'] + summary['missing_lines']
+
+                  if total_lines > 0:
+                      coverage_pct = round((summary['covered_lines'] / total_lines) * 100, 1)
+
+                      if coverage_pct < 85:
+                          status = "🚨 CRITICAL"
+                          critical_issues.append(f"{file_path}: {coverage_pct}%")
+                      elif coverage_pct < 90:
+                          status = "⚠️ Needs Work"
+                      else:
+                          status = "✅ Good"
+
+                      print(f"| `{file_path}` | {coverage_pct}% | {summary['missing_lines']} | {status} |")
+
+          if critical_issues:
+              print(f"\n🚨 **Critical Coverage Issues Found:**")
+              for issue in critical_issues:
+                  print(f"- {issue}")
+              print(f"\n**Action Required:** Critical files must have >85% coverage")
+              exit(1)
+          else:
+              print(f"\n✅ All critical files meet coverage requirements")
+          EOF
+
+  summary:
+    name: 📋 Coverage Gates Summary
+    runs-on: ubuntu-latest
+    needs: [coverage-analysis, critical-file-coverage]
+    if: always()
+    steps:
+      - name: Coverage gates summary
+        run: |
+          echo "📊 LUKHAS AI Coverage Gates Results"
+          echo "================================="
+          echo "Coverage Analysis: ${{ needs.coverage-analysis.result }}"
+          echo "Critical Files: ${{ needs.critical-file-coverage.result }}"
+
+          if [ "${{ needs.coverage-analysis.result }}" = "failure" ] || [ "${{ needs.critical-file-coverage.result }}" = "failure" ]; then
+            echo "🚨 Coverage gates failed! Review test coverage and add missing tests."
+            exit 1
+          else
+            echo "✅ All coverage gates passed successfully"
+          fi
