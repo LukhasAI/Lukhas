@@ -12,7 +12,7 @@
       "memory_stage": "active",
       "attention_stage": "active",
       "thought_stage": "active",
-      "action_stage": "partial",
+      "action_stage": "experimental",
       "decision_stage": "experimental",
       "awareness_stage": "active"
     },

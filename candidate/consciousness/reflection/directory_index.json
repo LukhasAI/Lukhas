@@ -1,19 +1,30 @@
 {
-  "schema_version": "2.0.0",
+  "schema_version": "3.0.0",
   "directory_metadata": {
     "path": "candidate/consciousness/reflection",
     "lane": "development",
     "purpose": "Directory containing 69 Python files and 0 subdirectories",
-    "trinity_role": [
-      "consciousness"
-    ],
-    "last_updated": "2025-09-20"
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "constellation_role": "horizon_star_primary",
+    "matriz_pipeline_integration": {
+      "memory_stage": "active",
+      "attention_stage": "active",
+      "thought_stage": "active",
+      "awareness_stage": "active",
+      "decision_stage": "experimental"
+    },
+    "cognitive_domains": [
+      "consciousness_processing",
+      "awareness_patterns"
+    ]
   },
   "component_inventory": {
     "python_files": [
       {
         "filename": "id_reasoning_engine.py",
-        "component_type": "CONSCIOUSNESS_ENGINE",
+        "component_type": "MATRIZ_PROCESSOR",
         "has_contract": true,
         "contract_path": "contracts/consciousness/id_reasoning_engine.json",
         "dependencies": [
@@ -55,7 +66,7 @@
       },
       {
         "filename": "consciousness_api.py",
-        "component_type": "COGNITIVE_PROCESSOR",
+        "component_type": "CONSCIOUSNESS_ENGINE",
         "has_contract": true,
         "contract_path": "contracts/consciousness/consciousness_api.json",
         "dependencies": [],
@@ -278,7 +289,7 @@
       },
       {
         "filename": "MetaLearningAdapter.py",
-        "component_type": "COGNITIVE_PROCESSOR",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": true,
         "contract_path": "contracts/consciousness/MetaLearningAdapter.json",
         "dependencies": [],
@@ -382,7 +393,7 @@
       },
       {
         "filename": "awareness_system.py",
-        "component_type": "COGNITIVE_PROCESSOR",
+        "component_type": "CONSCIOUSNESS_ENGINE",
         "has_contract": true,
         "contract_path": "contracts/consciousness/awareness_system.json",
         "dependencies": [
@@ -412,7 +423,7 @@
       },
       {
         "filename": "memory_hub.py",
-        "component_type": "COGNITIVE_PROCESSOR",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": true,
         "contract_path": "contracts/consciousness/memory_hub.json",
         "dependencies": [
@@ -509,7 +520,7 @@
       },
       {
         "filename": "research_awareness_engine.py",
-        "component_type": "CONSCIOUSNESS_ENGINE",
+        "component_type": "MATRIZ_PROCESSOR",
         "has_contract": true,
         "contract_path": "contracts/consciousness/research_awareness_engine.json",
         "dependencies": [],
@@ -672,13 +683,13 @@
           "candidate.core.common.config"
         ],
         "exports": [
-          "\u039bSelfHealingAction",
-          "\u039bCodeFixSuggestion",
-          "\u039bSelfHealingReport",
-          "\u039bDependencyProfile",
-          "\u039bArchitecturalInsight",
-          "\u039bModularityReport",
-          "\u039bDependaBoT",
+          "ΛSelfHealingAction",
+          "ΛCodeFixSuggestion",
+          "ΛSelfHealingReport",
+          "ΛDependencyProfile",
+          "ΛArchitecturalInsight",
+          "ΛModularityReport",
+          "ΛDependaBoT",
           "CodeFixerBase",
           "OllamaCodeFixer",
           "TransformersCodeFixer",
@@ -699,7 +710,7 @@
       },
       {
         "filename": "identity_hub.py",
-        "component_type": "COGNITIVE_PROCESSOR",
+        "component_type": "IDENTITY_SERVICE",
         "has_contract": true,
         "contract_path": "contracts/consciousness/identity_hub.json",
         "dependencies": [
@@ -1033,7 +1044,7 @@
       },
       {
         "filename": "self_reflection_engine.py",
-        "component_type": "CONSCIOUSNESS_ENGINE",
+        "component_type": "MATRIZ_PROCESSOR",
         "has_contract": true,
         "contract_path": "contracts/consciousness/self_reflection_engine.json",
         "dependencies": [
@@ -1095,7 +1106,7 @@
       },
       {
         "filename": "bio_crista_optimizer_adapter.py",
-        "component_type": "COGNITIVE_PROCESSOR",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": true,
         "contract_path": "contracts/consciousness/bio_crista_optimizer_adapter.json",
         "dependencies": [],
@@ -1261,7 +1272,7 @@
       },
       {
         "filename": "privacy_preserving_memory_vault.py",
-        "component_type": "COGNITIVE_PROCESSOR",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": true,
         "contract_path": "contracts/consciousness/privacy_preserving_memory_vault.json",
         "dependencies": [
@@ -1292,7 +1303,7 @@
       },
       {
         "filename": "unified_memory_manager.py",
-        "component_type": "COGNITIVE_PROCESSOR",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": true,
         "contract_path": "contracts/consciousness/unified_memory_manager.json",
         "dependencies": [
@@ -1477,7 +1488,7 @@
       },
       {
         "filename": "meta_learning_adapter.py",
-        "component_type": "COGNITIVE_PROCESSOR",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": true,
         "contract_path": "contracts/consciousness/meta_learning_adapter.json",
         "dependencies": [],
@@ -1491,7 +1502,7 @@
       },
       {
         "filename": "qi_dream_adapter.py",
-        "component_type": "DREAM_PROCESSOR",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": true,
         "contract_path": "contracts/consciousness/qi_dream_adapter.json",
         "dependencies": [],
@@ -1623,7 +1634,7 @@
       },
       {
         "filename": "qi_memory_manager.py",
-        "component_type": "COGNITIVE_PROCESSOR",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": true,
         "contract_path": "contracts/consciousness/qi_memory_manager.json",
         "dependencies": [],
@@ -1720,7 +1731,7 @@
       },
       {
         "filename": "awareness.py",
-        "component_type": "COGNITIVE_PROCESSOR",
+        "component_type": "CONSCIOUSNESS_ENGINE",
         "has_contract": true,
         "contract_path": "contracts/consciousness/awareness.json",
         "dependencies": [
@@ -1781,7 +1792,7 @@
       },
       {
         "filename": "consciousness_hub.py",
-        "component_type": "COGNITIVE_PROCESSOR",
+        "component_type": "CONSCIOUSNESS_ENGINE",
         "has_contract": true,
         "contract_path": "contracts/consciousness/consciousness_hub.json",
         "dependencies": [
@@ -1887,24 +1898,34 @@
     "prerequisites": [
       "Understanding of LUKHAS lane system",
       "Constellation Framework familiarity",
-      "Consciousness architecture patterns"
+      "Consciousness architecture patterns",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
     ],
     "avoid_patterns": [
       "Modifying contracts without validation",
       "Breaking lane boundaries",
-      "Ignoring Constellation Framework integration"
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
     ]
   },
   "performance_metadata": {
     "component_count": 69,
     "estimated_complexity": "high",
     "consciousness_integration": "advanced",
-    "test_coverage": 85.0
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "native",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true,
+    "cognitive_alignment_score": 0.85
   },
   "relationships": {
     "parent_directory": "candidate/consciousness",
     "related_directories": [],
-    "constellation_cluster": "unknown",
+    "constellation_cluster": "horizon_star_consciousness",
     "dependency_weight": "moderate"
   }
 }

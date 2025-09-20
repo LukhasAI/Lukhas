@@ -1,13 +1,23 @@
 {
-  "schema_version": "2.0.0",
+  "schema_version": "3.0.0",
   "directory_metadata": {
     "path": "candidate/governance/ethics",
     "lane": "development",
     "purpose": "Directory containing 51 Python files and 0 subdirectories",
-    "trinity_role": [
-      "guardian"
-    ],
-    "last_updated": "2025-09-20"
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "constellation_role": "watch_star_primary",
+    "matriz_pipeline_integration": {
+      "decision_stage": "primary",
+      "awareness_stage": "active"
+    },
+    "governance_features": {
+      "constitutional_ai": true,
+      "drift_detection": true,
+      "compliance_monitoring": true,
+      "audit_trails": true
+    }
   },
   "component_inventory": {
     "python_files": [
@@ -23,7 +33,7 @@
       },
       {
         "filename": "enhanced_ethical_guardian.py",
-        "component_type": "UTILITY",
+        "component_type": "GUARDIAN_VALIDATOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -55,7 +65,7 @@
       },
       {
         "filename": "ethics_monitor.py",
-        "component_type": "UTILITY",
+        "component_type": "GUARDIAN_VALIDATOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -66,7 +76,7 @@
       },
       {
         "filename": "policy_validator.py",
-        "component_type": "UTILITY",
+        "component_type": "GUARDIAN_VALIDATOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -119,7 +129,7 @@
       },
       {
         "filename": "ethical_engine.py",
-        "component_type": "UTILITY",
+        "component_type": "MATRIZ_PROCESSOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -137,7 +147,7 @@
       },
       {
         "filename": "meta_ethics_governor.py",
-        "component_type": "UTILITY",
+        "component_type": "GUARDIAN_VALIDATOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -170,7 +180,7 @@
       },
       {
         "filename": "policy_engine.py",
-        "component_type": "UTILITY",
+        "component_type": "MATRIZ_PROCESSOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -207,7 +217,7 @@
       },
       {
         "filename": "ethical_guardian.py",
-        "component_type": "UTILITY",
+        "component_type": "GUARDIAN_VALIDATOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -217,7 +227,7 @@
       },
       {
         "filename": "ethics_engine.py",
-        "component_type": "UTILITY",
+        "component_type": "MATRIZ_PROCESSOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -233,7 +243,7 @@
       },
       {
         "filename": "governance_engine.py",
-        "component_type": "UTILITY",
+        "component_type": "MATRIZ_PROCESSOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -259,7 +269,7 @@
       },
       {
         "filename": "validators.py",
-        "component_type": "UTILITY",
+        "component_type": "GUARDIAN_VALIDATOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -288,7 +298,7 @@
       },
       {
         "filename": "audit_ethics_monitor.py",
-        "component_type": "UTILITY",
+        "component_type": "GUARDIAN_VALIDATOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -316,7 +326,7 @@
       },
       {
         "filename": "shared_ethics_engine.py",
-        "component_type": "UTILITY",
+        "component_type": "MATRIZ_PROCESSOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -336,7 +346,7 @@
       },
       {
         "filename": "ethics_guardian.py",
-        "component_type": "UTILITY",
+        "component_type": "GUARDIAN_VALIDATOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -383,7 +393,7 @@
       },
       {
         "filename": "data_protection_validator.py",
-        "component_type": "UTILITY",
+        "component_type": "GUARDIAN_VALIDATOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -496,7 +506,7 @@
       },
       {
         "filename": "guardian.py",
-        "component_type": "UTILITY",
+        "component_type": "GUARDIAN_VALIDATOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -559,7 +569,7 @@
       },
       {
         "filename": "LGOV_validator.py",
-        "component_type": "UTILITY",
+        "component_type": "GUARDIAN_VALIDATOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -572,7 +582,7 @@
       },
       {
         "filename": "guardian_reflector.py",
-        "component_type": "UTILITY",
+        "component_type": "GUARDIAN_VALIDATOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -590,7 +600,7 @@
       },
       {
         "filename": "hitlo_bridge.py",
-        "component_type": "UTILITY",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -621,7 +631,7 @@
       },
       {
         "filename": "ethics.py",
-        "component_type": "UTILITY",
+        "component_type": "GUARDIAN_VALIDATOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -631,7 +641,7 @@
       },
       {
         "filename": "governance_validator.py",
-        "component_type": "UTILITY",
+        "component_type": "GUARDIAN_VALIDATOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -688,7 +698,7 @@
       },
       {
         "filename": "meg_bridge.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -731,7 +741,7 @@
       },
       {
         "filename": "policy_engines.py",
-        "component_type": "UTILITY",
+        "component_type": "MATRIZ_PROCESSOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -775,7 +785,7 @@
       },
       {
         "filename": "enhanced_pwm_guardian.py",
-        "component_type": "UTILITY",
+        "component_type": "GUARDIAN_VALIDATOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -810,24 +820,33 @@
     "common_tasks": [],
     "prerequisites": [
       "Understanding of LUKHAS lane system",
-      "Constellation Framework familiarity"
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
     ],
     "avoid_patterns": [
       "Modifying contracts without validation",
       "Breaking lane boundaries",
-      "Ignoring Constellation Framework integration"
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
     ]
   },
   "performance_metadata": {
     "component_count": 51,
     "estimated_complexity": "high",
     "consciousness_integration": "intermediate",
-    "test_coverage": 85.0
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "experimental",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
   },
   "relationships": {
     "parent_directory": "candidate/governance",
     "related_directories": [],
-    "constellation_cluster": "unknown",
+    "constellation_cluster": "watch_star_governance",
     "dependency_weight": "moderate"
   }
 }

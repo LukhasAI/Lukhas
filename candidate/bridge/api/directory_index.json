@@ -1,17 +1,26 @@
 {
-  "schema_version": "2.0.0",
+  "schema_version": "3.0.0",
   "directory_metadata": {
     "path": "candidate/bridge/api",
     "lane": "development",
     "purpose": "Directory containing 39 Python files and 0 subdirectories",
-    "trinity_role": [],
-    "last_updated": "2025-09-20"
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "matriz_pipeline_integration": {
+      "memory_stage": "experimental",
+      "attention_stage": "experimental",
+      "thought_stage": "experimental",
+      "action_stage": "inactive",
+      "decision_stage": "inactive",
+      "awareness_stage": "experimental"
+    }
   },
   "component_inventory": {
     "python_files": [
       {
         "filename": "signal_router.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -21,7 +30,7 @@
       },
       {
         "filename": "apply_api_fixes.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -31,7 +40,7 @@
       },
       {
         "filename": "ai_interface.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -55,7 +64,7 @@
       },
       {
         "filename": "orchestration_endpoints.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -76,7 +85,7 @@
       },
       {
         "filename": "documentation.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -91,7 +100,7 @@
       },
       {
         "filename": "unified_router.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -104,7 +113,7 @@
       },
       {
         "filename": "eleven_tts.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -145,7 +154,7 @@
       },
       {
         "filename": "paths.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -173,7 +182,7 @@
       },
       {
         "filename": "intent_router.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -187,7 +196,7 @@
       },
       {
         "filename": "controllers.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -225,7 +234,7 @@
       },
       {
         "filename": "onboarding.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -252,7 +261,7 @@
       },
       {
         "filename": "security.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -279,7 +288,7 @@
       },
       {
         "filename": "colony_endpoints.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -309,7 +318,7 @@
       },
       {
         "filename": "lambda_id_routes.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -334,7 +343,7 @@
       },
       {
         "filename": "lambd_id_routes.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -359,7 +368,7 @@
       },
       {
         "filename": "module_generator.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -371,7 +380,7 @@
       },
       {
         "filename": "api.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -410,7 +419,7 @@
       },
       {
         "filename": "entity_extractor.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -424,7 +433,7 @@
       },
       {
         "filename": "setup.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -432,7 +441,7 @@
       },
       {
         "filename": "onboarding_api.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -454,7 +463,7 @@
       },
       {
         "filename": "setup_api_keys.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -465,7 +474,7 @@
       },
       {
         "filename": "example.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": true,
         "contract_path": "contracts/consciousness/example.json",
         "dependencies": [],
@@ -473,7 +482,7 @@
       },
       {
         "filename": "simple_troubleshooter.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -488,7 +497,7 @@
       },
       {
         "filename": "api_hub.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -507,7 +516,7 @@
       },
       {
         "filename": "flows.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -547,7 +556,7 @@
       },
       {
         "filename": "router.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -557,7 +566,7 @@
       },
       {
         "filename": "verify.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -587,7 +596,7 @@
       },
       {
         "filename": "flows_redirect.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -595,7 +604,7 @@
       },
       {
         "filename": "main.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -603,7 +612,7 @@
       },
       {
         "filename": "direct_ai_router.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -619,7 +628,7 @@
       },
       {
         "filename": "orchestration_api_bridge.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -646,7 +655,7 @@
       },
       {
         "filename": "main_app.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -660,7 +669,7 @@
       },
       {
         "filename": "validation.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -702,19 +711,28 @@
     "common_tasks": [],
     "prerequisites": [
       "Understanding of LUKHAS lane system",
-      "Constellation Framework familiarity"
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
     ],
     "avoid_patterns": [
       "Modifying contracts without validation",
       "Breaking lane boundaries",
-      "Ignoring Constellation Framework integration"
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
     ]
   },
   "performance_metadata": {
     "component_count": 39,
     "estimated_complexity": "high",
     "consciousness_integration": "intermediate",
-    "test_coverage": 85.0
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "experimental",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
   },
   "relationships": {
     "parent_directory": "candidate/bridge",

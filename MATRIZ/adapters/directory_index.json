@@ -1,17 +1,18 @@
 {
-  "schema_version": "2.0.0",
+  "schema_version": "3.0.0",
   "directory_metadata": {
     "path": "matriz/adapters",
     "lane": "development",
     "purpose": "Directory containing 11 Python files and 0 subdirectories",
-    "trinity_role": [],
-    "last_updated": "2025-09-20"
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental"
   },
   "component_inventory": {
     "python_files": [
       {
         "filename": "bio_adapter.py",
-        "component_type": "UTILITY",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -24,7 +25,7 @@
       },
       {
         "filename": "governance_adapter.py",
-        "component_type": "UTILITY",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -35,7 +36,7 @@
       },
       {
         "filename": "creative_adapter.py",
-        "component_type": "CREATIVITY_ENGINE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -46,7 +47,7 @@
       },
       {
         "filename": "bridge_adapter.py",
-        "component_type": "TRINITY_BRIDGE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -57,7 +58,7 @@
       },
       {
         "filename": "memory_adapter.py",
-        "component_type": "MEMORY_INTERFACE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -68,7 +69,7 @@
       },
       {
         "filename": "emotion_adapter.py",
-        "component_type": "EMOTION_PROCESSOR",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -79,7 +80,7 @@
       },
       {
         "filename": "consciousness_adapter.py",
-        "component_type": "UTILITY",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -90,7 +91,7 @@
       },
       {
         "filename": "orchestration_adapter.py",
-        "component_type": "ORCHESTRATION_NODE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -101,7 +102,7 @@
       },
       {
         "filename": "identity_adapter.py",
-        "component_type": "UTILITY",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -112,7 +113,7 @@
       },
       {
         "filename": "contradiction_adapter.py",
-        "component_type": "UTILITY",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -123,7 +124,7 @@
       },
       {
         "filename": "compliance_adapter.py",
-        "component_type": "UTILITY",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -149,19 +150,28 @@
     "common_tasks": [],
     "prerequisites": [
       "Understanding of LUKHAS lane system",
-      "Constellation Framework familiarity"
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
     ],
     "avoid_patterns": [
       "Modifying contracts without validation",
       "Breaking lane boundaries",
-      "Ignoring Constellation Framework integration"
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
     ]
   },
   "performance_metadata": {
     "component_count": 11,
     "estimated_complexity": "medium",
     "consciousness_integration": "none",
-    "test_coverage": 85.0
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "standard",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
   },
   "relationships": {
     "parent_directory": "matriz",

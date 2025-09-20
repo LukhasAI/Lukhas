@@ -1,11 +1,28 @@
 {
-  "schema_version": "2.0.0",
+  "schema_version": "3.0.0",
   "directory_metadata": {
     "path": "candidate/memory/systems",
     "lane": "development",
     "purpose": "Directory containing 104 Python files and 4 subdirectories",
-    "trinity_role": [],
-    "last_updated": "2025-09-20"
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "constellation_role": "trail_star_primary",
+    "matriz_pipeline_integration": {
+      "memory_stage": "primary",
+      "attention_stage": "supporting",
+      "awareness_stage": "supporting"
+    },
+    "cognitive_domains": [
+      "memory_management",
+      "temporal_processing"
+    ],
+    "memory_architecture": {
+      "fold_based_storage": true,
+      "cascade_prevention": "99.7%",
+      "temporal_memory": true,
+      "consciousness_integration": true
+    }
   },
   "component_inventory": {
     "python_files": [
@@ -76,7 +93,7 @@
       },
       {
         "filename": "memory_profiler.py",
-        "component_type": "UTILITY",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -84,7 +101,7 @@
       },
       {
         "filename": "in_memory_cache_storage_wrapper.py",
-        "component_type": "UTILITY",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -135,7 +152,7 @@
       },
       {
         "filename": "dream_memory_manager.py",
-        "component_type": "DREAM_PROCESSOR",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": true,
         "contract_path": "contracts/consciousness/dream_memory_manager.json",
         "dependencies": [],
@@ -234,7 +251,7 @@
       },
       {
         "filename": "multimodal_memory_support.py",
-        "component_type": "UTILITY",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -242,7 +259,7 @@
       },
       {
         "filename": "dream_memory_export.py",
-        "component_type": "DREAM_PROCESSOR",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -280,7 +297,7 @@
       },
       {
         "filename": "glyph_memory_bridge.py",
-        "component_type": "MEMORY_INTERFACE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -326,7 +343,7 @@
       },
       {
         "filename": "memory_lock.py",
-        "component_type": "UTILITY",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -351,7 +368,7 @@
       },
       {
         "filename": "causal_memory_chains.py",
-        "component_type": "UTILITY",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -382,7 +399,7 @@
       },
       {
         "filename": "identity_lineage_bridge.py",
-        "component_type": "MEMORY_INTERFACE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -476,7 +493,7 @@
       },
       {
         "filename": "in_memory_span_exporter.py",
-        "component_type": "UTILITY",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -539,7 +556,7 @@
       },
       {
         "filename": "memory_comprehensive.py",
-        "component_type": "TEST",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -556,7 +573,7 @@
       },
       {
         "filename": "memory_node.py",
-        "component_type": "UTILITY",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -564,7 +581,7 @@
       },
       {
         "filename": "memory_media_file_storage.py",
-        "component_type": "UTILITY",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -646,7 +663,7 @@
       },
       {
         "filename": "memory_planning.py",
-        "component_type": "UTILITY",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -723,7 +740,7 @@
       },
       {
         "filename": "processor.py",
-        "component_type": "MEMORY_INTERFACE",
+        "component_type": "MATRIZ_PROCESSOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -772,7 +789,7 @@
       },
       {
         "filename": "integration_bridge.py",
-        "component_type": "MEMORY_INTERFACE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -796,7 +813,7 @@
       },
       {
         "filename": "memory_tracker.py",
-        "component_type": "UTILITY",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -1057,7 +1074,7 @@
       },
       {
         "filename": "emotional_memory_manager.py",
-        "component_type": "EMOTION_PROCESSOR",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": true,
         "contract_path": "contracts/consciousness/emotional_memory_manager.json",
         "dependencies": [],
@@ -1166,7 +1183,7 @@
       },
       {
         "filename": "multimodal_memory_integration.py",
-        "component_type": "UTILITY",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -1182,7 +1199,7 @@
       },
       {
         "filename": "memory_helix_visualizer.py",
-        "component_type": "UTILITY",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -1190,7 +1207,7 @@
       },
       {
         "filename": "integration_adapters.py",
-        "component_type": "MEMORY_INTERFACE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -1264,7 +1281,7 @@
       },
       {
         "filename": "dream_trace_linker.py",
-        "component_type": "UTILITY",
+        "component_type": "DREAM_PROCESSOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -1272,7 +1289,7 @@
       },
       {
         "filename": "dream_integrator.py",
-        "component_type": "UTILITY",
+        "component_type": "DREAM_PROCESSOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -1314,7 +1331,7 @@
       },
       {
         "filename": "causal_identity_tracker.py",
-        "component_type": "MEMORY_INTERFACE",
+        "component_type": "IDENTITY_SERVICE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -1380,7 +1397,7 @@
       },
       {
         "filename": "memory_viz.py",
-        "component_type": "UTILITY",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -1429,7 +1446,7 @@
       },
       {
         "filename": "memory_research.py",
-        "component_type": "UTILITY",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -1452,7 +1469,7 @@
       },
       {
         "filename": "agent_memory_trace_animator.py",
-        "component_type": "UTILITY",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -1509,7 +1526,7 @@
       },
       {
         "filename": "voice_memory_bridge.py",
-        "component_type": "MEMORY_INTERFACE",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -1628,24 +1645,35 @@
     "common_tasks": [],
     "prerequisites": [
       "Understanding of LUKHAS lane system",
-      "Constellation Framework familiarity"
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
     ],
     "avoid_patterns": [
       "Modifying contracts without validation",
       "Breaking lane boundaries",
-      "Ignoring Constellation Framework integration"
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
     ]
   },
   "performance_metadata": {
     "component_count": 104,
     "estimated_complexity": "high",
     "consciousness_integration": "intermediate",
-    "test_coverage": 85.0
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "native",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true,
+    "fold_architecture_enabled": true,
+    "cascade_prevention_rate": 0.997
   },
   "relationships": {
     "parent_directory": "candidate/memory",
     "related_directories": [],
-    "constellation_cluster": "unknown",
+    "constellation_cluster": "trail_star_memory",
     "dependency_weight": "moderate"
   }
 }

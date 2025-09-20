@@ -365,8 +365,8 @@
   "performance_metadata": {
     "component_count": 5,
     "estimated_complexity": "low",
-    "consciousness_integration": "experimental",
-    "matriz_compatibility": "development",
+    "consciousness_integration": "basic",
+    "matriz_compatibility": "experimental",
     "t4_compliance_score": 0.3,
     "test_coverage": 85.0
   },

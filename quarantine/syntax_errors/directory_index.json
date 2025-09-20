@@ -1,11 +1,12 @@
 {
-  "schema_version": "2.0.0",
+  "schema_version": "3.0.0",
   "directory_metadata": {
     "path": "quarantine/syntax_errors",
     "lane": "development",
     "purpose": "Directory containing 28 Python files and 0 subdirectories",
-    "trinity_role": [],
-    "last_updated": "2025-09-20"
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental"
   },
   "component_inventory": {
     "python_files": [
@@ -74,7 +75,7 @@
       },
       {
         "filename": "t4_ollama_core_processor.py",
-        "component_type": "UTILITY",
+        "component_type": "MATRIZ_PROCESSOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -122,7 +123,7 @@
       },
       {
         "filename": "IDENTITY_AUTOMATION_SUITE.py",
-        "component_type": "UTILITY",
+        "component_type": "IDENTITY_SERVICE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -154,7 +155,7 @@
       },
       {
         "filename": "t4_core_batch_processor.py",
-        "component_type": "UTILITY",
+        "component_type": "MATRIZ_PROCESSOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -200,7 +201,7 @@
       },
       {
         "filename": "memory_api.py",
-        "component_type": "UTILITY",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -232,7 +233,7 @@
       },
       {
         "filename": "demo_dream_generation.py",
-        "component_type": "UTILITY",
+        "component_type": "DREAM_PROCESSOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -246,7 +247,7 @@
         "dependencies": [],
         "exports": [
           "BrainSynchronizationState",
-          "MultiBrain\u039bBot",
+          "MultiBrainΛBot",
           "fix_later"
         ]
       },
@@ -275,19 +276,28 @@
     "common_tasks": [],
     "prerequisites": [
       "Understanding of LUKHAS lane system",
-      "Constellation Framework familiarity"
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
     ],
     "avoid_patterns": [
       "Modifying contracts without validation",
       "Breaking lane boundaries",
-      "Ignoring Constellation Framework integration"
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
     ]
   },
   "performance_metadata": {
     "component_count": 28,
     "estimated_complexity": "high",
     "consciousness_integration": "none",
-    "test_coverage": 85.0
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "standard",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
   },
   "relationships": {
     "parent_directory": "quarantine",

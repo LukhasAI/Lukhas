@@ -1,11 +1,12 @@
 {
-  "schema_version": "2.0.0",
+  "schema_version": "3.0.0",
   "directory_metadata": {
     "path": "products/communication/nias",
     "lane": "development",
     "purpose": "Directory containing 18 Python files and 4 subdirectories",
-    "trinity_role": [],
-    "last_updated": "2025-09-20"
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental"
   },
   "component_inventory": {
     "python_files": [
@@ -56,7 +57,7 @@
       },
       {
         "filename": "api_validator.py",
-        "component_type": "API_INTERFACE",
+        "component_type": "GUARDIAN_VALIDATOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -101,7 +102,7 @@
           "SymbolicMessage",
           "UserContext",
           "DeliveryResult",
-          "NI\u039bS",
+          "NIΛS",
           "get_system_metrics"
         ]
       },
@@ -133,7 +134,7 @@
           "ConsentLevel",
           "SymbolicMessage",
           "DeliveryResult",
-          "NI\u039bS",
+          "NIΛS",
           "get_system_metrics",
           "enable_stress_test_mode"
         ]
@@ -249,7 +250,7 @@
       },
       {
         "filename": "reward_engine.py",
-        "component_type": "UTILITY",
+        "component_type": "MATRIZ_PROCESSOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -359,19 +360,28 @@
     ],
     "prerequisites": [
       "Understanding of LUKHAS lane system",
-      "Constellation Framework familiarity"
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
     ],
     "avoid_patterns": [
       "Modifying contracts without validation",
       "Breaking lane boundaries",
-      "Ignoring Constellation Framework integration"
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
     ]
   },
   "performance_metadata": {
     "component_count": 18,
     "estimated_complexity": "medium",
     "consciousness_integration": "intermediate",
-    "test_coverage": 85.0
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "standard",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
   },
   "relationships": {
     "parent_directory": "products/communication",

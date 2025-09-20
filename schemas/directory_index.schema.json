@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "lukhas://schemas/directory_index.schema.json",
-  "title": "LUKHAS Directory Index Schema v2.0.0",
-  "description": "Machine-readable directory index for AI agent discovery and coordination",
+  "title": "LUKHAS Directory Index Schema v3.0.0",
+  "description": "Machine-readable directory index for AI agent discovery and coordination with Constellation Framework and MATRIZ pipeline integration",
   "type": "object",
   "required": [
     "schema_version",
@@ -13,7 +13,7 @@
   "properties": {
     "schema_version": {
       "type": "string",
-      "const": "2.0.0"
+      "const": "3.0.0"
     },
     "directory_metadata": {
       "type": "object",
@@ -32,13 +32,55 @@
           "type": "string",
           "description": "Primary purpose of this directory"
         },
-        "trinity_role": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": ["identity", "consciousness", "guardian"]
+        "constellation_framework_version": {
+          "type": "string",
+          "const": "2.0.0",
+          "description": "Constellation Framework version"
+        },
+        "constellation_role": {
+          "type": "string",
+          "enum": [
+            "anchor_star_primary", "anchor_star_secondary",
+            "trail_star_primary", "trail_star_secondary",
+            "horizon_star_primary", "horizon_star_secondary",
+            "watch_star_primary", "watch_star_secondary"
+          ],
+          "description": "Constellation Framework star role"
+        },
+        "t4_compliance_level": {
+          "type": "string",
+          "enum": ["experimental", "integration", "production"],
+          "description": "T4/0.01% implementation compliance level"
+        },
+        "matriz_pipeline_integration": {
+          "type": "object",
+          "properties": {
+            "memory_stage": {
+              "type": "string",
+              "enum": ["inactive", "experimental", "supporting", "active", "primary"]
+            },
+            "attention_stage": {
+              "type": "string",
+              "enum": ["inactive", "experimental", "supporting", "active", "primary"]
+            },
+            "thought_stage": {
+              "type": "string",
+              "enum": ["inactive", "experimental", "supporting", "active", "primary"]
+            },
+            "action_stage": {
+              "type": "string",
+              "enum": ["inactive", "experimental", "supporting", "active", "primary"]
+            },
+            "decision_stage": {
+              "type": "string",
+              "enum": ["inactive", "experimental", "supporting", "active", "primary"]
+            },
+            "awareness_stage": {
+              "type": "string",
+              "enum": ["inactive", "experimental", "supporting", "active", "primary"]
+            }
           },
-          "description": "Trinity Framework roles implemented"
+          "description": "MATRIZ pipeline stage integration levels"
         },
         "last_updated": {
           "type": "string",
@@ -61,9 +103,11 @@
                 "enum": [
                   "CONSCIOUSNESS_ENGINE", "COGNITIVE_PROCESSOR", "REFLECTION_SYSTEM",
                   "AWARENESS_MODULE", "DECISION_MAKER", "EMOTION_PROCESSOR",
-                  "MEMORY_INTERFACE", "TRINITY_BRIDGE", "ORCHESTRATION_NODE",
+                  "MEMORY_INTERFACE", "CONSTELLATION_BRIDGE", "CONSTELLATION_CORE",
+                  "CONSTELLATION_SERVICE", "MATRIZ_PROCESSOR", "ORCHESTRATION_NODE",
                   "SYMBOLIC_PROCESSOR", "CREATIVITY_ENGINE", "DREAM_PROCESSOR",
-                  "API_INTERFACE", "DATA_MODEL", "UTILITY", "TEST", "CONFIGURATION"
+                  "IDENTITY_SERVICE", "GUARDIAN_VALIDATOR", "API_INTERFACE",
+                  "DATA_MODEL", "UTILITY", "TEST", "CONFIGURATION"
                 ]
               },
               "has_contract": {"type": "boolean"},
@@ -183,6 +227,25 @@
           "type": "number",
           "minimum": 0,
           "maximum": 100
+        },
+        "t4_compliance_score": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "T4/0.01% compliance score"
+        },
+        "matriz_compatibility": {
+          "type": "string",
+          "enum": ["none", "experimental", "standard", "native"],
+          "description": "MATRIZ pipeline compatibility level"
+        },
+        "plugin_registry_compatible": {
+          "type": "boolean",
+          "description": "Enhanced plugin registry compatibility"
+        },
+        "constructor_aware_instantiation": {
+          "type": "boolean",
+          "description": "Constructor-aware instantiation pattern support"
         }
       }
     },

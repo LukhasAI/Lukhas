@@ -1,17 +1,34 @@
 {
-  "schema_version": "2.0.0",
+  "schema_version": "3.0.0",
   "directory_metadata": {
     "path": "candidate/memory/folds",
     "lane": "development",
     "purpose": "Directory containing 16 Python files and 4 subdirectories",
-    "trinity_role": [],
-    "last_updated": "2025-09-20"
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "constellation_role": "trail_star_primary",
+    "matriz_pipeline_integration": {
+      "memory_stage": "primary",
+      "attention_stage": "supporting",
+      "awareness_stage": "supporting"
+    },
+    "cognitive_domains": [
+      "memory_management",
+      "temporal_processing"
+    ],
+    "memory_architecture": {
+      "fold_based_storage": true,
+      "cascade_prevention": "99.7%",
+      "temporal_memory": true,
+      "consciousness_integration": true
+    }
   },
   "component_inventory": {
     "python_files": [
       {
         "filename": "optimized_fold_engine.py",
-        "component_type": "UTILITY",
+        "component_type": "MATRIZ_PROCESSOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -19,7 +36,7 @@
       },
       {
         "filename": "openai_memory_adapter.py",
-        "component_type": "UTILITY",
+        "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -27,7 +44,7 @@
       },
       {
         "filename": "unified_memory_core.py",
-        "component_type": "UTILITY",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -78,7 +95,7 @@
       },
       {
         "filename": "fold_engine.py",
-        "component_type": "UTILITY",
+        "component_type": "MATRIZ_PROCESSOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -180,7 +197,7 @@
       },
       {
         "filename": "dreamseed_example.py",
-        "component_type": "UTILITY",
+        "component_type": "DREAM_PROCESSOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -188,7 +205,7 @@
       },
       {
         "filename": "dream_memory_fold.py",
-        "component_type": "DREAM_PROCESSOR",
+        "component_type": "MEMORY_INTERFACE",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [
@@ -214,7 +231,7 @@
       },
       {
         "filename": "scaffold_modules_reasoning_engine.py",
-        "component_type": "MEMORY_INTERFACE",
+        "component_type": "MATRIZ_PROCESSOR",
         "has_contract": false,
         "contract_path": null,
         "dependencies": [],
@@ -264,24 +281,35 @@
     "common_tasks": [],
     "prerequisites": [
       "Understanding of LUKHAS lane system",
-      "Constellation Framework familiarity"
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
     ],
     "avoid_patterns": [
       "Modifying contracts without validation",
       "Breaking lane boundaries",
-      "Ignoring Constellation Framework integration"
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
     ]
   },
   "performance_metadata": {
     "component_count": 16,
     "estimated_complexity": "medium",
     "consciousness_integration": "intermediate",
-    "test_coverage": 85.0
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "native",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true,
+    "fold_architecture_enabled": true,
+    "cascade_prevention_rate": 0.997
   },
   "relationships": {
     "parent_directory": "candidate/memory",
     "related_directories": [],
-    "constellation_cluster": "unknown",
+    "constellation_cluster": "trail_star_memory",
     "dependency_weight": "moderate"
   }
 }

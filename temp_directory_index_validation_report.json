@@ -1,16 +1,80 @@
 {
-  "validation_timestamp": "2025-09-20T16:43:35.929687",
+  "validation_timestamp": "2025-09-21T00:53:33.845255",
   "total_indexes": 820,
   "valid_indexes": 820,
-  "consistent_indexes": 818,
+  "consistent_indexes": 800,
   "integrated_indexes": 781,
   "validation_errors": {},
   "consistency_issues": {
+    "directory_index.json": [
+      "Missing subdirectories in index: {'cognitive_core', 'cognitive'}",
+      "Extra subdirectories in index: {'__pycache__', 'agi_core'}",
+      "Missing documentation files in index: {'Lukhas_Architectural_Transition.md', 'TODO.md', 'ARCHITECTURE.md', 'STUBS_2.md', 'STUBS.md', 'CONSTELLATION_X_MATRIZ.md'}"
+    ],
+    "mcp-lukhas-sse/directory_index.json": [
+      "Extra subdirectories in index: {'__pycache__'}"
+    ],
+    "candidate/directory_index.json": [
+      "Missing subdirectories in index: {'nodes'}"
+    ],
+    "candidate/core/directory_index.json": [
+      "Missing subdirectories in index: {'matrix'}"
+    ],
+    "candidate/core/identity/directory_index.json": [
+      "Extra Python files in index: {'trinity_validation_test.py'}"
+    ],
+    "candidate/core/orchestration/directory_index.json": [
+      "Missing Python files in index: {'async_orchestrator.py', 'consensus_arbitrator.py', 'loader.py', 'otel.py', 'meta_controller.py'}"
+    ],
+    "branding/design/directory_index.json": [
+      "Missing Python files in index: {'constellation_visual_system.py'}",
+      "Extra Python files in index: {'trinity_visual_system.py'}"
+    ],
+    "branding/orchestration/directory_index.json": [
+      "Missing Python files in index: {'constellation_framework_deployer.py'}",
+      "Extra Python files in index: {'trinity_framework_deployer.py'}"
+    ],
+    "core/directory_index.json": [
+      "Missing subdirectories in index: {'symbolic'}"
+    ],
+    "tests/directory_index.json": [
+      "Missing subdirectories in index: {'constraints', 'registry', 'lane', 'memory', 'obs'}"
+    ],
+    "tests/unit/directory_index.json": [
+      "Missing Python files in index: {'test_entry_points_smoke.py', 'test_registry_contract.py'}",
+      "Missing subdirectories in index: {'cognitive_core'}",
+      "Extra subdirectories in index: {'agi_core'}"
+    ],
+    "tests/integration/directory_index.json": [
+      "Missing Python files in index: {'test_parallel_orchestration.py'}"
+    ],
+    "tests/matriz/directory_index.json": [
+      "Missing Python files in index: {'test_behavioral_e2e.py', 'test_async_orchestrator_e2e.py'}"
+    ],
+    "tests/orchestration/directory_index.json": [
+      "Missing Python files in index: {'test_arbitration.py', 'test_meta_loops.py', 'test_node_discovery.py'}"
+    ],
+    "tests/performance/directory_index.json": [
+      "Missing Python files in index: {'test_matriz_performance.py'}"
+    ],
     "scripts/directory_index.json": [
-      "Missing Python files in index: {'validate_directory_indexes.py'}"
+      "Missing Python files in index: {'validate_directory_indexes.py', 'agi_core_demo.py', 'demo_plugin_registry.py', 'demo_parallel_orchestration.py', 'update_directory_indexes.py'}",
+      "Extra Python files in index: {'cognitive_core_demo.py'}",
+      "Missing subdirectories in index: {'ci'}"
+    ],
+    "scripts/codemods/directory_index.json": [
+      "Missing Python files in index: {'constellation_consistency_final.py', 'update_framework_integration_refs.py', 'agi_to_cognitive_codemod.py', 'trinity_to_constellation_focused.py', 'trinity_to_constellation_comprehensive.py'}"
+    ],
+    "serve/directory_index.json": [
+      "Missing Python files in index: {'agi_enhanced_consciousness_api.py'}",
+      "Extra Python files in index: {'cognitive_enhanced_consciousness_api.py'}"
     ],
     "lukhas/directory_index.json": [
-      "Missing Python files in index: {'constellation_framework.py'}"
+      "Missing Python files in index: {'metrics.py', 'constellation_framework.py'}"
+    ],
+    "lukhas/core/directory_index.json": [
+      "Missing Python files in index: {'registry.py', 'interfaces.py'}",
+      "Missing subdirectories in index: {'symbolic'}"
     ]
   },
   "integration_issues": {
@@ -134,15 +198,15 @@
   },
   "summary": {
     "validation_rate": 1.0,
-    "consistency_rate": 0.9975609756097561,
+    "consistency_rate": 0.975609756097561,
     "integration_rate": 0.9524390243902439,
     "validation_stats": {
       "valid": 820,
       "invalid": 0
     },
     "consistency_stats": {
-      "consistent": 818,
-      "inconsistent": 2
+      "consistent": 800,
+      "inconsistent": 20
     },
     "integration_stats": {
       "integrated": 781,
@@ -150,7 +214,7 @@
     }
   },
   "recommendations": [
-    "Update 2 inconsistent directory indexes",
+    "Update 20 inconsistent directory indexes",
     "Improve context sync integration for 39 directories",
     "Directory index system is operating well - consider automation"
   ]

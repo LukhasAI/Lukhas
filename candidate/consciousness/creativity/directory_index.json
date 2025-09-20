@@ -1,13 +1,24 @@
 {
-  "schema_version": "2.0.0",
+  "schema_version": "3.0.0",
   "directory_metadata": {
     "path": "candidate/consciousness/creativity",
     "lane": "development",
     "purpose": "Directory containing 12 Python files and 5 subdirectories",
-    "trinity_role": [
-      "consciousness"
-    ],
-    "last_updated": "2025-09-20"
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "constellation_role": "horizon_star_primary",
+    "matriz_pipeline_integration": {
+      "memory_stage": "active",
+      "attention_stage": "active",
+      "thought_stage": "active",
+      "awareness_stage": "active",
+      "decision_stage": "experimental"
+    },
+    "cognitive_domains": [
+      "consciousness_processing",
+      "awareness_patterns"
+    ]
   },
   "component_inventory": {
     "python_files": [
@@ -36,7 +47,7 @@
       },
       {
         "filename": "creative_expression_core.py",
-        "component_type": "CREATIVITY_ENGINE",
+        "component_type": "DREAM_PROCESSOR",
         "has_contract": true,
         "contract_path": "contracts/consciousness/creative_expression_core.json",
         "dependencies": [],
@@ -75,7 +86,7 @@
       },
       {
         "filename": "creative_expression_processor.py",
-        "component_type": "CREATIVITY_ENGINE",
+        "component_type": "MATRIZ_PROCESSOR",
         "has_contract": true,
         "contract_path": "contracts/consciousness/creative_expression_processor.json",
         "dependencies": [],
@@ -96,7 +107,7 @@
       },
       {
         "filename": "creative_expressions_engine.py",
-        "component_type": "CONSCIOUSNESS_ENGINE",
+        "component_type": "MATRIZ_PROCESSOR",
         "has_contract": true,
         "contract_path": "contracts/consciousness/creative_expressions_engine.json",
         "dependencies": [],
@@ -116,7 +127,7 @@
       },
       {
         "filename": "qi_creative_types.py",
-        "component_type": "CREATIVITY_ENGINE",
+        "component_type": "DREAM_PROCESSOR",
         "has_contract": true,
         "contract_path": "contracts/consciousness/qi_creative_types.json",
         "dependencies": [],
@@ -191,7 +202,7 @@
       },
       {
         "filename": "creative_engine.py",
-        "component_type": "CONSCIOUSNESS_ENGINE",
+        "component_type": "MATRIZ_PROCESSOR",
         "has_contract": true,
         "contract_path": "contracts/consciousness/creative_engine.json",
         "dependencies": [],
@@ -235,7 +246,7 @@
       },
       {
         "filename": "creative_core.py",
-        "component_type": "CREATIVITY_ENGINE",
+        "component_type": "DREAM_PROCESSOR",
         "has_contract": true,
         "contract_path": "contracts/consciousness/creative_core.json",
         "dependencies": [
@@ -335,24 +346,34 @@
     "prerequisites": [
       "Understanding of LUKHAS lane system",
       "Constellation Framework familiarity",
-      "Consciousness architecture patterns"
+      "Consciousness architecture patterns",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
     ],
     "avoid_patterns": [
       "Modifying contracts without validation",
       "Breaking lane boundaries",
-      "Ignoring Constellation Framework integration"
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
     ]
   },
   "performance_metadata": {
     "component_count": 12,
     "estimated_complexity": "medium",
     "consciousness_integration": "intermediate",
-    "test_coverage": 85.0
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "native",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true,
+    "cognitive_alignment_score": 0.85
   },
   "relationships": {
     "parent_directory": "candidate/consciousness",
     "related_directories": [],
-    "constellation_cluster": "unknown",
+    "constellation_cluster": "horizon_star_consciousness",
     "dependency_weight": "moderate"
   }
 }

@@ -5,15 +5,15 @@
     "lane": "development",
     "purpose": "Core systems integration hub with experimental MATRIZ pipeline components and Constellation Framework prototypes",
     "constellation_framework_version": "2.0.0",
-    "t4_compliance_level": "integration_testing",
+    "t4_compliance_level": "integration",
     "last_updated": "2025-09-20",
     "matriz_pipeline_integration": {
-      "memory_stage": "integration_testing",
-      "attention_stage": "integration_testing",
-      "thought_stage": "integration_testing",
-      "action_stage": "integration_testing",
-      "decision_stage": "integration_testing",
-      "awareness_stage": "integration_testing"
+      "memory_stage": "experimental",
+      "attention_stage": "experimental",
+      "thought_stage": "experimental",
+      "action_stage": "experimental",
+      "decision_stage": "experimental",
+      "awareness_stage": "experimental"
     },
     "constellation_stars": {
       "anchor_star_integration": "identity_systems",
@@ -2356,8 +2356,8 @@
   "performance_metadata": {
     "component_count": 84,
     "estimated_complexity": "high",
-    "consciousness_integration": "experimental",
-    "matriz_compatibility": "integration_testing",
+    "consciousness_integration": "intermediate",
+    "matriz_compatibility": "experimental",
     "t4_compliance_score": 0.7,
     "plugin_registry_compatible": true,
     "constructor_aware_patterns": true,

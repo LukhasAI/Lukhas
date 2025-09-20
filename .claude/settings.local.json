@@ -67,7 +67,8 @@
       "Bash(PYTHONPATH=. .venv/bin/pytest tests/unit/test_registry_contract.py tests/unit/test_entry_points_smoke.py -v)",
       "Bash(PYTHONPATH=. .venv/bin/pytest tests/unit/test_registry_contract.py tests/unit/test_entry_points_smoke.py --tb=short -q)",
       "Bash(PYTHONPATH=. .venv/bin/pytest tests/smoke/ tests/bridge/ tests/core/ tests/contracts/ tests/unit/test_registry_contract.py tests/unit/test_entry_points_smoke.py tests/integration/test_parallel_orchestration.py --tb=short -v --disable-warnings)",
-      "Bash(PYTHONPATH=. .venv/bin/pytest tests/smoke/test_accepted_smoke.py tests/smoke/test_candidate_smoke.py tests/smoke/test_core_smoke.py tests/bridge/ tests/contracts/ tests/unit/test_registry_contract.py tests/unit/test_entry_points_smoke.py --tb=no -q --disable-warnings)"
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/smoke/test_accepted_smoke.py tests/smoke/test_candidate_smoke.py tests/smoke/test_core_smoke.py tests/bridge/ tests/contracts/ tests/unit/test_registry_contract.py tests/unit/test_entry_points_smoke.py --tb=no -q --disable-warnings)",
+      "Bash(python:*)"
     ],
     "deny": [],
     "ask": []
