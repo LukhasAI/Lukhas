@@ -10,7 +10,7 @@ discovery:
   - from branding.orchestration import UpgradeRule
   - from branding.orchestration import UpgradeResult
   - from branding.orchestration import EliteVoiceCoherenceUpgrader
-  - from branding.orchestration import TrinityFrameworkDeployer
+  - from branding.orchestration import ConstellationFrameworkDeployer
   import_aliases:
   - orchestration
   file_patterns:
@@ -29,9 +29,9 @@ contracts:
     - 'python: branding.orchestration.UpgradeRule'
     - 'python: branding.orchestration.UpgradeResult'
     - 'python: branding.orchestration.EliteVoiceCoherenceUpgrader'
-    - 'python: branding.orchestration.TrinityFrameworkDeployer'
+    - 'python: branding.orchestration.ConstellationFrameworkDeployer'
     - 'python: branding.orchestration.OrchestrationResult'
-    - 'python: branding.orchestration.TrinityIntegration'
+    - 'python: branding.orchestration.ConstellationIntegration'
     - 'python: branding.orchestration.EliteContentOrchestrator'
     - 'python: branding.orchestration.ConsolidationResult'
     - 'python: branding.orchestration.SystemIntegration'
@@ -82,9 +82,9 @@ data_and_events:
   - name: EliteVoiceCoherenceUpgrader
     schema_ref: audit/SCHEMAS/elitevoicecoherenceupgrader.json
     description: EliteVoiceCoherenceUpgrader data class
-  - name: TrinityFrameworkDeployer
-    schema_ref: audit/SCHEMAS/trinityframeworkdeployer.json
-    description: TrinityFrameworkDeployer data class
+  - name: ConstellationFrameworkDeployer
+    schema_ref: audit/SCHEMAS/constellationframeworkdeployer.json
+    description: ConstellationFrameworkDeployer for Constellation Framework deployment
   pii:
     contains: false
     classification: internal

@@ -1,13 +1,14 @@
 identity:
   name: branding.design
   layer: application
-  summary: branding.design module with 5 classes and 5 functions
+  summary: Constellation Framework visual design system with enhanced cognitive branding
   status: active
   tier: 2
+  constellation_framework_version: 2.0.0
 discovery:
   import_patterns:
   - from branding.design import ConsciousnessExperienceDesigner
-  - from branding.design import TrinityColor
+  - from branding.design import ConstellationColor
   - from branding.design import export_css_variables
   - from branding.design import generate_consciousness_interface_kit
   - from branding.design import VisualElement
@@ -26,12 +27,12 @@ contracts:
   api:
     surface:
     - 'python: branding.design.ConsciousnessExperienceDesigner'
-    - 'python: branding.design.TrinityColor'
+    - 'python: branding.design.ConstellationColor'
     - 'python: branding.design.export_css_variables'
     - 'python: branding.design.generate_consciousness_interface_kit'
     - 'python: branding.design.VisualElement'
-    - 'python: branding.design.TrinityVisualSystem'
-    - 'python: branding.design.TrinitySymbol'
+    - 'python: branding.design.ConstellationVisualSystem'
+    - 'python: branding.design.ConstellationSymbol'
     - 'python: branding.design.create_premium_interface_system'
     - 'python: branding.design.design_consciousness_onboarding'
     - 'python: branding.design.create_consciousness_brand_guidelines'
@@ -69,18 +70,18 @@ data_and_events:
   - name: ConsciousnessExperienceDesigner
     schema_ref: audit/SCHEMAS/consciousnessexperiencedesigner.json
     description: ConsciousnessExperienceDesigner data class
-  - name: TrinityColor
-    schema_ref: audit/SCHEMAS/trinitycolor.json
-    description: TrinityColor data class
+  - name: ConstellationColor
+    schema_ref: audit/SCHEMAS/constellationcolor.json
+    description: ConstellationColor data class with Constellation Framework theming
   - name: VisualElement
     schema_ref: audit/SCHEMAS/visualelement.json
     description: VisualElement data class
-  - name: TrinityVisualSystem
-    schema_ref: audit/SCHEMAS/trinityvisualsystem.json
-    description: TrinityVisualSystem data class
-  - name: TrinitySymbol
-    schema_ref: audit/SCHEMAS/trinitysymbol.json
-    description: TrinitySymbol data class
+  - name: ConstellationVisualSystem
+    schema_ref: audit/SCHEMAS/constellationvisualsystem.json
+    description: ConstellationVisualSystem data class with enhanced cognitive design patterns
+  - name: ConstellationSymbol
+    schema_ref: audit/SCHEMAS/constellationsymbol.json
+    description: ConstellationSymbol data class representing the triumvirate Identity-Consciousness-Guardian
   pii:
     contains: false
     classification: internal

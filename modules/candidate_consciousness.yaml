@@ -1,12 +1,13 @@
 identity:
   name: candidate.consciousness
   layer: application
-  summary: Quantum Bio-System Integration
+  summary: Constellation Framework consciousness with quantum bio-system integration
   status: active
   tier: 2
+  constellation_framework_version: 2.0.0
 discovery:
   import_patterns:
-  - from candidate.consciousness import TrinityComplianceReport
+  - from candidate.consciousness import ConstellationComplianceReport
   - from candidate.consciousness import is_stable
   - from candidate.consciousness import test_memory_exhaustion_protection
   - from candidate.consciousness import consolidate_memories
@@ -33,7 +34,7 @@ ownership:
 contracts:
   api:
     surface:
-    - 'python: candidate.consciousness.TrinityComplianceReport'
+    - 'python: candidate.consciousness.ConstellationComplianceReport'
     - 'python: candidate.consciousness.is_stable'
     - 'python: candidate.consciousness.test_memory_exhaustion_protection'
     - 'python: candidate.consciousness.consolidate_memories'
@@ -1441,9 +1442,9 @@ data_and_events:
   - name: StateAggregator
     schema_ref: audit/SCHEMAS/stateaggregator.json
     description: StateAggregator data class
-  - name: TrinityComplianceReport
-    schema_ref: audit/SCHEMAS/trinitycompliancereport.json
-    description: TrinityComplianceReport data class
+  - name: ConstellationComplianceReport
+    schema_ref: audit/SCHEMAS/constellationcompliancereport.json
+    description: ConstellationComplianceReport for Constellation Framework compliance validation
   - name: DriftAlert
     schema_ref: audit/SCHEMAS/driftalert.json
     description: DriftAlert data class
