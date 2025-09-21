@@ -114,7 +114,7 @@ Successfully implemented robust authentication solutions for the three critical 
 
 ## Integration with LUKHAS Architecture
 
-### Trinity Framework (⚛️🧠🛡️) Integration:
+### Constellation Framework (⚛️🧠🛡️) Integration:
 - **⚛️ Identity**: ΛiD generation and namespace management
 - **🧠 Consciousness**: Session awareness and user context
 - **🛡️ Guardian**: Ethics validation and drift detection integration
@@ -196,7 +196,7 @@ The Phase 1 Critical Security implementation successfully addresses all three id
 - **Comprehensive audit trails** for all authentication events
 - **Defense-in-depth security** with multiple validation layers
 
-The implementation follows LUKHAS AI branding standards, integrates seamlessly with the Trinity Framework, and provides a solid foundation for the complete identity management system.
+The implementation follows LUKHAS AI branding standards, integrates seamlessly with the Constellation Framework, and provides a solid foundation for the complete identity management system.
 
 ---
 

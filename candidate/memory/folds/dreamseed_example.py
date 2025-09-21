@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ This example module demonstrates the full DREAMSEED integration capabilities,
 ║ showing how dreams are processed, linked to memory, and integrated into the
-║ LUKHAS AGI memory architecture with proper safeguards and analytics.
+║ LUKHAS Cognitive AI memory architecture with proper safeguards and analytics.
 ║
 ║ • Complete dream-to-memory integration workflow
 ║ • Emotional memory cascade handling in dream contexts
@@ -391,7 +391,7 @@ if __name__ == "__main__":
 ║
 ║ REFERENCES:
 ║   - Docs: docs/memory/dreamseed-integration.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=dreamseed
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=dreamseed
 ║   - Wiki: wiki.lukhas.ai/dreamseed-protocol
 ║
 ║ COPYRIGHT & LICENSE:
@@ -400,7 +400,7 @@ if __name__ == "__main__":
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

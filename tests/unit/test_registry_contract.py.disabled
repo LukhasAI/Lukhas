@@ -1,0 +1,184 @@
+#!/usr/bin/env python3
+"""
+Registry contract tests using real classes when available, concrete samples otherwise.
+No mocks - T4/0.01% production truth over test doubles.
+"""
+
+import importlib
+import pytest
+import sys
+from pathlib import Path
+
+# Add project root to path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+from lukhas.core.registry import get_plugin_registry, PluginBase, PluginInfo
+
+
+def _try_import_memory_node():
+    """Try to import real MemoryNode if available."""
+    try:
+        module = importlib.import_module("candidate.core.matrix.nodes.memory_node")
+        return getattr(module, "MemoryNode")
+    except Exception:
+        return None
+
+
+def _try_import_thought_node():
+    """Try to import real ThoughtNode if available."""
+    try:
+        module = importlib.import_module("candidate.core.matrix.nodes.thought_node")
+        return getattr(module, "ThoughtNode")
+    except Exception:
+        return None
+
+
+class SampleCognitiveNode:
+    """Concrete sample node for testing when real nodes aren't available."""
+
+    def __init__(self, name=None):
+        self.name = name or "sample"
+
+    def process(self, context):
+        return {"result": f"processed by {self.name}"}
+
+
+class SampleFactoryNode:
+    """Sample node with factory classmethod."""
+
+    def __init__(self, name=None):
+        self.name = name or "factory_sample"
+
+    @classmethod
+    def from_entry_point(cls, name=None):
+        return cls(name=name or "from_entry_point")
+
+    def process(self, context):
+        return {"result": f"factory processed by {self.name}"}
+
+
+class SampleZeroArgNode:
+    """Sample node with zero-arg constructor."""
+
+    def __init__(self):
+        self.name = "zero_arg_sample"
+
+    def process(self, context):
+        return {"result": f"zero-arg processed by {self.name}"}
+
+
+class TestRegistryContract:
+    """Test registry contract without mocks."""
+
+    def setup_method(self):
+        """Clear registry before each test."""
+        _REG.clear()
+
+    def test_register_and_resolve_concrete_node(self):
+        """Test basic register/resolve with concrete nodes."""
+        NodeClass = _try_import_memory_node() or SampleCognitiveNode
+        node = NodeClass(name="memory") if hasattr(NodeClass, "__init__") and "name" in NodeClass.__init__.__code__.co_varnames else NodeClass()
+
+        register("node:memory", node)
+        got = resolve("node:memory")
+
+        assert type(got) is type(node)
+        assert hasattr(got, "name")
+
+    def test_instantiate_plugin_with_factory_method(self):
+        """Test smart instantiation with factory classmethod."""
+        obj = _instantiate_plugin("test_factory", SampleFactoryNode)
+
+        assert isinstance(obj, SampleFactoryNode)
+        assert obj.name == "test_factory"  # Factory method receives the name parameter
+        assert hasattr(obj, "process")
+
+    def test_instantiate_plugin_with_name_parameter(self):
+        """Test smart instantiation with name parameter."""
+        obj = _instantiate_plugin("test_named", SampleCognitiveNode)
+
+        assert isinstance(obj, SampleCognitiveNode)
+        assert obj.name == "test_named"
+        assert hasattr(obj, "process")
+
+    def test_instantiate_plugin_with_zero_args(self):
+        """Test smart instantiation with zero-arg constructor."""
+        obj = _instantiate_plugin("test_zero", SampleZeroArgNode)
+
+        assert isinstance(obj, SampleZeroArgNode)
+        assert obj.name == "zero_arg_sample"
+        assert hasattr(obj, "process")
+
+    def test_instantiate_plugin_fallback_to_class(self):
+        """Test fallback to class-as-factory when instantiation fails."""
+
+        class ProblematicNode:
+            def __init__(self, required_arg, another_required):
+                self.required_arg = required_arg
+                self.another_required = another_required
+
+        obj = _instantiate_plugin("problematic", ProblematicNode)
+
+        # Should fallback to returning the class itself
+        assert obj is ProblematicNode
+        assert callable(obj)
+
+    def test_register_resolve_multiple_nodes(self):
+        """Test registering and resolving multiple different nodes."""
+        memory_class = _try_import_memory_node() or SampleCognitiveNode
+        thought_class = _try_import_thought_node() or SampleCognitiveNode
+
+        # Create instances
+        memory_node = memory_class(name="memory") if "name" in getattr(memory_class.__init__, "__code__", type("", (), {"co_varnames": []})()).co_varnames else memory_class()
+        thought_node = thought_class(name="thought") if "name" in getattr(thought_class.__init__, "__code__", type("", (), {"co_varnames": []})()).co_varnames else thought_class()
+
+        # Register both
+        register("node:memory", memory_node)
+        register("node:thought", thought_node)
+
+        # Resolve and verify
+        resolved_memory = resolve("node:memory")
+        resolved_thought = resolve("node:thought")
+
+        assert resolved_memory is memory_node
+        assert resolved_thought is thought_node
+        assert "node:memory" in _REG
+        assert "node:thought" in _REG
+
+    def test_lookup_nonexistent_raises_error(self):
+        """Test that looking up non-existent keys raises LookupError."""
+        with pytest.raises(LookupError, match="no implementation registered for 'non:existent'"):
+            resolve("non:existent")
+
+    def test_register_overwrites_existing(self):
+        """Test that re-registering overwrites existing entries."""
+        node1 = SampleCognitiveNode(name="first")
+        node2 = SampleCognitiveNode(name="second")
+
+        register("node:test", node1)
+        assert resolve("node:test").name == "first"
+
+        register("node:test", node2)
+        assert resolve("node:test").name == "second"
+
+    def test_real_node_compatibility(self):
+        """Test compatibility with real nodes if available."""
+        RealMemoryNode = _try_import_memory_node()
+        if RealMemoryNode is None:
+            pytest.skip("Real MemoryNode not available")
+
+        # Test that real node can be instantiated by our helper
+        obj = _instantiate_plugin("real_memory", RealMemoryNode)
+
+        # Should be an instance or the class itself (both valid)
+        assert isinstance(obj, RealMemoryNode) or obj is RealMemoryNode
+
+        # If it's an instance, register and resolve it
+        if isinstance(obj, RealMemoryNode):
+            register("node:real_memory", obj)
+            resolved = resolve("node:real_memory")
+            assert isinstance(resolved, RealMemoryNode)
+
+
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])

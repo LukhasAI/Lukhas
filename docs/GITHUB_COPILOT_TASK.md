@@ -27,14 +27,14 @@ branding/adapters/voice_adapter.py          # Voice processing (line 65 error)
 
 ### 3. Safety Guidelines
 - **Test each file**: `python -m py_compile filename.py` after changes
-- **Preserve LUKHAS branding**: Keep Λ symbols and Trinity Framework references
+- **Preserve LUKHAS branding**: Keep Λ symbols and Constellation Framework references
 - **No API changes**: Only fix syntax, don't alter function signatures
 - **Lane separation**: Don't modify imports between branding/ and candidate/
 
 ### 4. LUKHAS Context
 - This is the **MΛTRIZ Distributed Consciousness System**
 - `branding/` contains content creation and brand management modules
-- Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+- Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 - Use approved terminology: "LUKHAS AI" (never AGI), "quantum-inspired"
 
 ### 5. Quality Targets

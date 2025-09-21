@@ -4,7 +4,7 @@ LUKHAS Reinforcement Learning Framework
 
 Consciousness-aware reinforcement learning for distributed AGI systems.
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 This module implements RL specifically designed for consciousness architecture,
 enabling 692 distributed modules to learn, coordinate, and evolve together.

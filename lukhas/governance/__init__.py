@@ -1,19 +1,26 @@
 #!/usr/bin/env python3
 
 """
- LUKHAS AI Governance Module
-==============================
+LUKHAS AI Governance Module
+===========================
 
 Complete governance framework for LUKHAS AI including the Guardian System,
-authentication governance, constitutional AI, and Phase 7 ID integration.
+authentication governance, constitutional AI, and Constellation Framework integration.
 
 This module provides:
-- Guardian System v1.0.0 with ethical oversight
-- ID Authentication governance integration
-- Constitutional AI validation and compliance
-- GLYPH-based symbolic governance
-- Trinity Framework alignment (Identity-Consciousness-Guardian)
-- Comprehensive audit trail and compliance tracking
+- Guardian System v1.0.0 with ethical oversight and drift detection
+- ΛiD Authentication governance integration with multi-tier security
+- Constitutional AI validation and compliance monitoring
+- GLYPH-based symbolic governance and audit trails
+- Constellation Framework alignment (⚛️✦🔬🛡️ coordination)
+- Comprehensive audit trail and compliance tracking (GDPR/CCPA)
+
+The governance module serves as the 🛡️ Watch Star in the Constellation Framework,
+providing ethical oversight and constitutional AI validation for all system decisions.
+It integrates with other constellation stars to ensure ethical AI development:
+- ⚛️ Anchor Star integration: Identity governance and authentication oversight
+- ✦ Trail Star integration: Memory governance and experience validation
+- 🔬 Horizon Star integration: NLP governance and content moderation
 
 Modules:
 - guardian_system: Core Guardian System functionality
@@ -25,7 +32,7 @@ Modules:
 
 Author: LUKHAS AI System
 Version: 1.0.0
-Trinity Framework: Identity-Consciousness-Guardian
+Constellation Framework: Identity-Consciousness-Guardian
 Phase: Phase 7 - Registry Updates and Policy Integration
 """
 
@@ -178,7 +185,7 @@ __triad_framework__ = "Identity-Consciousness-Guardian"
 GOVERNANCE_INFO = {
     "version": __version__,
     "phase": __phase__,
-    "triad_framework": __triad_framework__,
+    "constellation_framework": __triad_framework__,
     "guardian_system_version": "1.0.0",
     "drift_threshold": 0.15,
     "constitutional_ai": True,
@@ -189,7 +196,7 @@ GOVERNANCE_INFO = {
             "ID authentication governance integration",
             "Constitutional AI validation and compliance",
             "GLYPH-based symbolic governance communication",
-            "Trinity Framework alignment (Identity-Consciousness-Guardian)",
+            "Constellation Framework alignment (Identity-Consciousness-Guardian)",
             "Real-time drift detection and bias prevention",
             "Cross-module authentication context propagation",
             "Comprehensive audit trail and compliance tracking",
@@ -206,7 +213,7 @@ GOVERNANCE_INFO = {
     ),
     "standards_compliance": [
         "LUKHAS Constitutional AI Principles",
-        "Trinity Framework Integration",
+        "Constellation Framework Integration",
         "Guardian System Ethical Guidelines",
         "GDPR Privacy Protection",
         "CCPA Compliance",
@@ -221,7 +228,7 @@ GOVERNANCE_INFO = {
             "Guardian System Monitoring",
             "Policy Engine Enforcement",
             "Constitutional AI Validation",
-            "Trinity Framework Alignment",
+            "Constellation Framework Alignment",
         ]
         if PHASE_7_AVAILABLE
         else ["Basic Guardian System", "Core governance functions"]
@@ -234,7 +241,7 @@ def get_governance_status():
     status = {
         "version": __version__,
         "phase": __phase__,
-        "triad_framework": __triad_framework__,
+        "constellation_framework": __triad_framework__,
         "components": {
             "guardian_system": GuardianSystem is not None,
             "constitutional_ai": ConstitutionalAI is not None,
@@ -275,7 +282,7 @@ def initialize_governance_system(config=None):
         if integration_system:
             # This would be async in practice, but providing sync interface
             print(f"LUKHAS Governance System initialized: {__phase__}")
-            print(f"Trinity Framework: {__triad_framework__}")
+            print(f"Constellation Framework: {__triad_framework__}")
             print("Guardian System v1.0.0 with drift threshold: 0.15")
             print(f"Phase 7 ID integration: {' Available' if PHASE_7_AVAILABLE else 'L Not Available'}")
 
@@ -368,7 +375,7 @@ if PHASE_7_AVAILABLE:
 try:
     if PHASE_7_AVAILABLE and lukhas_auth_integration_system:
         print(f" LUKHAS AI Governance Module loaded: {__phase__}")
-        print(f"< Trinity Framework: {__triad_framework__}")
+        print(f"< Constellation Framework: {__triad_framework__}")
         print(" Phase 7 ID Integration: Available")
     else:
         print(" LUKHAS AI Governance Module loaded: Basic functionality")

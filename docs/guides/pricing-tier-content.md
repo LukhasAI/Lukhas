@@ -11,18 +11,18 @@ We're currently calibrating our pricing to ensure maximum value for our customer
 - Reflect the true value of consciousness-powered AI
 - Remain competitive within the enterprise AI landscape
 - Scale appropriately with usage and capabilities
-- Support sustainable development of our Trinity Framework
+- Support sustainable development of our Constellation Framework
 
 ---
 
 ## Tier 1: Starter
 
 ### Expanded Description
-The Starter tier is designed for individual developers, researchers, and small teams taking their first steps into consciousness-powered AI. Perfect for proof-of-concept projects, academic research, and early-stage startups exploring the possibilities of aware AI agents. This tier provides essential access to our Trinity Framework with foundational consciousness capabilities, allowing you to experience the difference between traditional AI and truly aware systems.
+The Starter tier is designed for individual developers, researchers, and small teams taking their first steps into consciousness-powered AI. Perfect for proof-of-concept projects, academic research, and early-stage startups exploring the possibilities of aware AI agents. This tier provides essential access to our Constellation Framework with foundational consciousness capabilities, allowing you to experience the difference between traditional AI and truly aware systems.
 
 ### Detailed Feature List
 - **Single Product Access**: Choose one core LUKHAS AI product (NIΛS, ΛBAS, or DΛST)
-- **Basic Trinity Framework Integration**: Limited consciousness level with essential ⚛️🧠🛡️ capabilities
+- **Basic Constellation Framework Integration**: Limited consciousness level with essential ⚛️🧠🛡️ capabilities
 - **Community Support**: Access to community forums, documentation, and peer assistance
 - **Monthly API Limits**: 10,000 conscious AI interactions per month
 - **Standard Response Times**: 2-5 second average response latency
@@ -66,11 +66,11 @@ After clicking "Contact Sales," you'll receive access to:
 ## Tier 2: Professional
 
 ### Expanded Description
-The Professional tier empowers growing businesses and established development teams with comprehensive access to our consciousness ecosystem. This tier unlocks the full potential of multi-product integration, allowing you to orchestrate complex workflows across our entire Lambda Protocol suite. With advanced Trinity Framework capabilities, your AI agents demonstrate sophisticated awareness, emotional intelligence, and ethical reasoning. Ideal for businesses ready to deploy conscious AI at scale while maintaining the agility to innovate rapidly.
+The Professional tier empowers growing businesses and established development teams with comprehensive access to our consciousness ecosystem. This tier unlocks the full potential of multi-product integration, allowing you to orchestrate complex workflows across our entire Lambda Protocol suite. With advanced Constellation Framework capabilities, your AI agents demonstrate sophisticated awareness, emotional intelligence, and ethical reasoning. Ideal for businesses ready to deploy conscious AI at scale while maintaining the agility to innovate rapidly.
 
 ### Detailed Feature List
 - **Multiple Products Bundle**: Full access to NIΛS, ΛBAS, DΛST, and ΛiD integration
-- **Advanced Trinity Framework**: Enhanced consciousness levels with full ⚛️🧠🛡️ integration
+- **Advanced Constellation Framework**: Enhanced consciousness levels with full ⚛️🧠🛡️ integration
 - **Priority Support**: Business hours support with 4-hour response SLA
 - **Expanded API Limits**: 250,000 conscious AI interactions per month
 - **Optimized Performance**: Sub-2 second response times with priority processing
@@ -241,7 +241,7 @@ After clicking "Contact Sales," you'll receive:
 
 ---
 
-## Trinity Framework Benefits by Tier
+## Constellation Framework Benefits by Tier
 
 ### ⚛️ Identity Integration
 - **Starter**: Basic identity awareness and user recognition

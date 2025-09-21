@@ -108,7 +108,7 @@ def validate_pr_security_review():
     try:
         result = subprocess.run(["launchctl", "list"], capture_output=True, text=True)
 
-        if "com.agi.lambda_bot_pr_security_review" in result.stdout:
+        if "com.cognitive.lambda_bot_pr_security_review" in result.stdout:
             print("\n✅ PR security review LaunchAgent is active")
         else:
             print("\n❌ PR security review LaunchAgent is not running!")

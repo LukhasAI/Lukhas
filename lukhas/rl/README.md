@@ -2,7 +2,7 @@
 
 **Consciousness-Aware Reinforcement Learning for AGI Systems**
 
-*Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian*
+*Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian*
 
 ---
 
@@ -646,7 +646,7 @@ The LUKHAS RL Framework is part of the larger LUKHAS consciousness architecture.
 ### **Code Style**
 
 Follow the LUKHAS development standards:
-- Trinity Framework compliance
+- Constellation Framework compliance
 - Consciousness-first design
 - Ethical considerations built-in
 - Comprehensive testing
@@ -665,7 +665,7 @@ Follow the LUKHAS development standards:
 
 **LUKHAS-Specific:**
 - MΛTRIZ Consciousness Architecture
-- Trinity Framework Design Principles
+- Constellation Framework Design Principles
 - Guardian System Specifications
 - Memory Fold System Integration
 

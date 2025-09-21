@@ -1,0 +1,126 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/consciousness/unified",
+    "lane": "development",
+    "purpose": "Directory containing 4 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "constellation_role": "horizon_star_primary",
+    "matriz_pipeline_integration": {
+      "memory_stage": "active",
+      "attention_stage": "active",
+      "thought_stage": "active",
+      "awareness_stage": "active",
+      "decision_stage": "experimental"
+    },
+    "cognitive_domains": [
+      "consciousness_processing",
+      "awareness_patterns"
+    ]
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "oscillator.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/oscillator.json",
+        "dependencies": [],
+        "exports": [
+          "AbstractReasoningBrainOscillator",
+          "generate_rhythm",
+          "sync_with_master",
+          "get_synchronization_status",
+          "reset_synchronization",
+          "get_performance_metrics"
+        ]
+      },
+      {
+        "filename": "symbolic_bio_symbolic_orchestrator.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/symbolic_bio_symbolic_orchestrator.json",
+        "dependencies": [
+          "candidate.core.colonies.base_colony",
+          "candidate.core.symbolism.tags"
+        ],
+        "exports": [
+          "CoherenceMetrics",
+          "ProcessingPipeline",
+          "BioSymbolicOrchestrator",
+          "create_bio_symbolic_orchestrator"
+        ]
+      },
+      {
+        "filename": "auto_consciousness.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/auto_consciousness.json",
+        "dependencies": [],
+        "exports": [
+          "ConsciousnessState",
+          "AutoConsciousness",
+          "is_available"
+        ]
+      },
+      {
+        "filename": "consolidate_consciousness_unification.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/consolidate_consciousness_unification.json",
+        "dependencies": [],
+        "exports": [
+          "consolidate_consciousness_unification"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Start with consciousness architecture documentation, then examine engines and processors",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "Consciousness architecture patterns",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 4,
+    "estimated_complexity": "low",
+    "consciousness_integration": "basic",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "native",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true,
+    "cognitive_alignment_score": 0.85
+  },
+  "relationships": {
+    "parent_directory": "candidate/consciousness",
+    "related_directories": [],
+    "constellation_cluster": "horizon_star_consciousness",
+    "dependency_weight": "moderate"
+  }
+}

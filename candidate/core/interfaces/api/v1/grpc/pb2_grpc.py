@@ -1,5 +1,5 @@
 """
-Generated gRPC service classes for LUKHAS AGI Protocol
+Generated gRPC service classes for LUKHAS Cognitive AI Protocol
 Auto-generated from proto - DO NOT EDIT MANUALLY
 """
 import lukhas_pb2
@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 class LukhasServiceServicer:
-    """Servicer implementation for LUKHAS AGI gRPC service"""
+    """Servicer implementation for LUKHAS Cognitive AI gRPC service"""
 
     def __init__(self):
         self.uptime_start = None
@@ -234,7 +234,7 @@ class IntelligenceRegistryServicer:
 
 
 class LukhasServiceStub:
-    """Client stub for LUKHAS AGI gRPC service"""
+    """Client stub for LUKHAS Cognitive AI gRPC service"""
 
     def __init__(self, channel):
         self.channel = channel

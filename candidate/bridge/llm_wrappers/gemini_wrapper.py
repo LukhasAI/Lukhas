@@ -12,7 +12,7 @@
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ The Gemini Wrapper provides integration with Google's Gemini family of
-║ language models, enabling LUKHAS AGI to leverage Google's advanced AI
+║ language models, enabling LUKHAS Cognitive AI to leverage Google's advanced AI
 ║ capabilities including multimodal understanding and generation across
 ║ text, images, audio, and video.
 ║
@@ -116,7 +116,7 @@ class GeminiWrapper(LLMWrapper):
 ║
 ║ REFERENCES:
 ║   - Docs: docs/bridge/llm-wrappers/gemini.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=gemini-wrapper
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=gemini-wrapper
 ║   - Wiki: wiki.lukhas.ai/gemini-integration
 ║
 ║ COPYRIGHT & LICENSE:
@@ -125,7 +125,7 @@ class GeminiWrapper(LLMWrapper):
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

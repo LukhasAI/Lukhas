@@ -10,7 +10,7 @@ Features:
 - Device trust scoring and validation
 - End-to-end encrypted token transmission
 - WebRTC-based real-time sync for trusted devices
-- Trinity Framework compliance (⚛️🧠🛡️)
+- Constellation Framework compliance (⚛️🧠🛡️)
 - <100ms p95 latency for token validation
 - OAuth2/OIDC compatible token management
 """
@@ -84,7 +84,7 @@ class DeviceTrustScore:
 
 
 class CrossDeviceTokenManager:
-    """⚛️🧠🛡️ Manage SSO tokens across devices with Trinity Framework compliance"""
+    """⚛️🧠🛡️ Manage SSO tokens across devices with Constellation Framework compliance"""
 
     def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
@@ -102,7 +102,7 @@ class CrossDeviceTokenManager:
         self.token_sync_timeout = self.config.get("token_sync_timeout", 30)  # seconds
         self.trust_threshold = self.config.get("minimum_trust_threshold", 0.6)
 
-        # Trinity Framework components
+        # Constellation Framework components
         self.guardian_validator = None  # 🛡️ Guardian
         self.consciousness_tracker = None  # 🧠 Consciousness
         self.identity_verifier = None  # ⚛️ Identity

@@ -195,7 +195,7 @@ class SymbolicEngine:
                                 including identified logical chains, valid logic,
         confidence, and timestamp.
         """
-        request_id = f"sym_reason_{int(datetime.now(timezone.utc).timestamp(} * 1000)}"  # Ensure UTC
+        request_id = f"sym_reason_{int(datetime.now(timezone.utc).timestamp()) * 1000}"  # Ensure UTC
         method_logger = self.logger.bind(request_id=request_id, operation="reason")
         method_logger.info("Starting symbolic reasoning.", input_keys=list(input_data.keys()))
 
@@ -377,7 +377,7 @@ class SymbolicEngine:
                 {
                     "type": sym_pattern["type"],
                     # Content is the pattern itself
-                    "content": f"Pattern({sym_pattern['matched_keyword_pattern']})}",
+                    "content": f"Pattern({sym_pattern['matched_keyword_pattern']})",
                     "base_confidence": sym_pattern["base_confidence"],
                     "matched_pattern": sym_pattern["matched_keyword_pattern"],
                 }
@@ -419,7 +419,7 @@ class SymbolicEngine:
         # use graph algorithms.
         for i, element_data in enumerate(logical_elements):
             # More unique ID, ensure UTC
-            chain_id = f"logic_chain_{i}_{int(datetime.now(timezone.utc).timestamp(} * 1000}"
+            chain_id = f"logic_chain_{i}_{int(datetime.now(timezone.utc).timestamp()) * 1000}"
             # Each element can start its own chain, or be linked to existing ones.
             # For simplicity, each element forms a primary chain here.
             # True chain building would involve finding sequences like A -> B -> C.
@@ -678,7 +678,7 @@ logger.debug("symbolic_reasoning module __all__ set.", all_list=__all__)
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

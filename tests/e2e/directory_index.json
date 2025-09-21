@@ -1,0 +1,644 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "tests/e2e",
+    "lane": "development",
+    "purpose": "Directory containing 19 Python files and 15 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "comprehensive_dream_test.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "test_dream_component",
+          "main",
+          "test_dream_components"
+        ]
+      },
+      {
+        "filename": "test_example_e2e.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TestCompleteUserJourneys",
+          "TestSystemIntegration",
+          "test_example_e2e",
+          "test_user_signup_to_consciousness_interaction",
+          "test_system_startup_to_api_ready",
+          "test_all_components_working_together"
+        ]
+      },
+      {
+        "filename": "conftest.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "test_guardian_system.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.governance.guardian_system_integration",
+          "candidate.governance.consent_ledger.ledger_v1",
+          "candidate.governance.guardian.drift_detector",
+          "candidate.governance.identity.core.sent.policy_engine",
+          "candidate.governance.security.audit_system"
+        ],
+        "exports": [
+          "TestConsentLedger",
+          "TestDriftDetector",
+          "TestEthicsPolicyEngine",
+          "TestAuditSystem",
+          "TestGuardianSystemIntegration",
+          "TestGuardianSystemCompliance",
+          "TestGuardianSystemIntegrationEndToEnd",
+          "sample_validation_request"
+        ]
+      },
+      {
+        "filename": "test_priority3_systems_functional.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TestEmotionSystems",
+          "TestBioSystems",
+          "TestMonitoringSystems",
+          "TestToolsSystems",
+          "TestCrossSystemIntegration",
+          "run_priority3_tests",
+          "test_emotion_system_structure",
+          "test_dreamseed_upgrade_functionality",
+          "test_emotional_intelligence_processing",
+          "test_creative_expression_engine",
+          "test_bio_system_structure",
+          "test_bio_optimization_algorithms",
+          "test_neural_network_integration",
+          "test_bio_quantum_integration",
+          "test_monitoring_system_structure",
+          "test_consciousness_monitoring",
+          "test_performance_analytics",
+          "test_real_time_dashboard",
+          "test_tools_system_structure",
+          "test_analysis_tools",
+          "test_validation_tools",
+          "test_utility_tools",
+          "test_emotion_consciousness_integration",
+          "test_bio_quantum_integration",
+          "test_monitoring_tools_integration"
+        ]
+      },
+      {
+        "filename": "test_core_memory_validation.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.memory.folds.unified_memory_core",
+          "candidate.memory.causal.memory_cleaner",
+          "candidate.memory.systems.symbolic_delta_compression",
+          "candidate.memory.folds.unified_memory_core"
+        ],
+        "exports": [
+          "TestCoreMemoryValidation",
+          "test_memory_system_working_modules",
+          "test_memory_performance_benchmarks"
+        ]
+      },
+      {
+        "filename": "test_advanced_lukhas_components.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.identity.lambda_id",
+          "lukhas.identity.lambda_id",
+          "lukhas.identity.lambda_id",
+          "lukhas.memory.fold_system",
+          "lukhas.memory.fold_system",
+          "lukhas.memory.fold_system",
+          "lukhas.memory.fold_system"
+        ],
+        "exports": [
+          "TestIdentitySystem",
+          "TestMemoryFoldSystem",
+          "TestDreamSystem",
+          "TestEncryptionGovernance",
+          "run_comprehensive_lukhas_tests",
+          "test_lambda_id_authentication",
+          "test_user_registration",
+          "test_credential_management",
+          "run_all_tests",
+          "test_fold_creation_and_compression",
+          "test_cascade_prevention",
+          "test_memory_consolidation",
+          "test_performance_metrics",
+          "run_all_tests",
+          "setup_mock_dream_log",
+          "test_dream_replay_functionality",
+          "test_emotion_vector_processing",
+          "test_symbolic_processing",
+          "cleanup",
+          "run_all_tests",
+          "test_consent_ledger_functionality",
+          "test_cryptographic_integrity",
+          "test_policy_enforcement",
+          "test_audit_trail_generation",
+          "run_all_tests",
+          "check_compliance"
+        ]
+      },
+      {
+        "filename": "test_core_components_comprehensive.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.actor_system",
+          "lukhas.core.actor_system",
+          "lukhas.core.actor_system",
+          "lukhas.core.actor_system",
+          "candidate.aka_qualia.memory_sql",
+          "candidate.aka_qualia.memory_sql",
+          "candidate.aka_qualia.memory_sql",
+          "candidate.aka_qualia.memory_sql",
+          "candidate.core.bootstrap",
+          "candidate.branding_bridge",
+          "lukhas.core.bootstrap",
+          "lukhas.branding_bridge"
+        ],
+        "exports": [
+          "TestActorSystem",
+          "TestTierSystem",
+          "TestMemorySQL",
+          "TestMainApplication",
+          "TestMessage",
+          "TestActor",
+          "run_comprehensive_tests",
+          "test_actor_creation_and_registration",
+          "test_message_passing_and_handling",
+          "test_ai_agent_actor_functionality",
+          "test_global_actor_system",
+          "test_tier_level_enumeration",
+          "test_access_context_creation",
+          "test_dynamic_tier_system_initialization",
+          "test_access_control_decisions",
+          "test_session_elevation",
+          "setup_test_database",
+          "cleanup_test_database",
+          "test_sql_memory_initialization",
+          "test_memory_save_and_retrieve",
+          "test_privacy_hashing_features",
+          "test_memory_statistics_tracking",
+          "test_main_module_imports",
+          "test_bootstrap_functionality",
+          "test_branding_system_integration",
+          "test_system_path_configuration",
+          "receive"
+        ]
+      },
+      {
+        "filename": "test_consciousness_activation.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.consciousness.activation_orchestrator",
+          "lukhas.consciousness.registry",
+          "lukhas.consciousness.trinity_integration",
+          "lukhas.memory.consciousness_memory_integration"
+        ],
+        "exports": [
+          "TestConsciousnessComponentRegistry",
+          "TestTrinityFrameworkIntegration",
+          "TestMemoryConsciousnessIntegration",
+          "TestConsciousnessActivationOrchestrator",
+          "TestEndToEndConsciousnessActivation",
+          "TestConsciousnessIntegration",
+          "TestConsciousnessPerformance",
+          "TestConsciousnessErrorHandling",
+          "test_consciousness_module_imports"
+        ]
+      },
+      {
+        "filename": "test_consciousness_direct.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "test_async_reliability_integration.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.async_manager",
+          "lukhas.async_utils"
+        ],
+        "exports": [
+          "TestAsyncTaskLifecycle",
+          "TestGracefulShutdown",
+          "TestConsciousnessContextIntegration",
+          "TestErrorRecovery",
+          "TestMemoryLeakPrevention",
+          "TestAsyncUtilities",
+          "event_loop"
+        ]
+      },
+      {
+        "filename": "test_core_systems_functional.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TestCoreSystems",
+          "TestIdentitySystems",
+          "TestMemorySystems",
+          "TestConsciousnessSystems",
+          "TestSuiteRunner",
+          "setUp",
+          "tearDown",
+          "test_core_module_imports",
+          "verify_core_file_structure",
+          "test_symbolic_processing_capability",
+          "test_consciousness_orchestration",
+          "test_triad_framework_integration",
+          "setUp",
+          "tearDown",
+          "test_identity_module_structure",
+          "test_lambda_id_system",
+          "test_identity_authentication",
+          "test_tiered_access_control",
+          "setUp",
+          "tearDown",
+          "test_memory_module_structure",
+          "test_memory_persistence",
+          "test_memory_recall_patterns",
+          "test_memory_fold_logging",
+          "setUp",
+          "tearDown",
+          "test_consciousness_module_structure",
+          "test_consciousness_state_management",
+          "test_consciousness_processing_pipeline",
+          "test_consciousness_triad_integration",
+          "run_all_tests"
+        ]
+      },
+      {
+        "filename": "test_coverage_reality_check.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "LukhasCoverageAnalyzer",
+          "print_coverage_table",
+          "main",
+          "discover_all_python_files",
+          "analyze_major_systems",
+          "analyze_test_quality",
+          "calculate_real_coverage",
+          "generate_coverage_report"
+        ]
+      },
+      {
+        "filename": "test_remaining_systems.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TestSymbolicLanguageSystems",
+          "TestDreamsPersonalitySystems",
+          "TestIntegrationAdapterSystems",
+          "TestToolsUtilitiesSystems",
+          "TestDeploymentOperationsSystems",
+          "TestDocumentationComplianceSystems",
+          "TestWebFrontendSystems",
+          "run_remaining_systems_testing",
+          "test_symbolic_core_systems",
+          "test_universal_language_system",
+          "test_vocabularies_systems",
+          "run_all_tests",
+          "test_dreams_systems",
+          "test_personality_systems",
+          "run_all_tests",
+          "test_external_adapters",
+          "test_mcp_servers",
+          "test_business_systems",
+          "test_ops_systems",
+          "run_all_tests",
+          "test_analysis_tools",
+          "test_security_tools",
+          "test_development_tools",
+          "test_performance_tools",
+          "test_trace_monitoring_tools",
+          "run_all_tests",
+          "test_deployment_systems",
+          "test_docker_systems",
+          "test_scripts_automation",
+          "test_config_environment",
+          "run_all_tests",
+          "test_docs_systems",
+          "test_branding_tone_systems",
+          "test_testing_infrastructure",
+          "run_all_tests",
+          "test_website_systems",
+          "test_frontend_src_systems",
+          "run_all_tests"
+        ]
+      },
+      {
+        "filename": "test_comprehensive_security_validation.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SecurityValidationFramework",
+          "TestHardcodedCredentialValidation",
+          "TestCryptographicSecurityValidation",
+          "TestInputValidationSecurity",
+          "TestT4AgentCoordinationSecurity",
+          "TestAuditComplianceSecurity",
+          "TestSecurityMetricsAndReporting",
+          "scan_file_for_vulnerabilities",
+          "scan_directory_for_vulnerabilities",
+          "test_no_hardcoded_passwords_in_test_files",
+          "test_no_hardcoded_tokens_in_source_code",
+          "test_secure_password_generation_patterns",
+          "test_secure_random_generation",
+          "test_environment_variable_usage",
+          "test_strong_hashing_algorithms_used",
+          "test_bcrypt_password_hashing",
+          "test_jwt_secret_strength",
+          "test_secure_random_token_generation",
+          "test_sql_injection_protection",
+          "test_path_traversal_protection",
+          "test_secure_file_operations",
+          "test_acceptance_gate_integration",
+          "test_security_standards_compliance",
+          "test_multi_agent_security_coordination",
+          "test_audit_mode_security_restrictions",
+          "test_no_external_dependencies_in_audit_tests",
+          "test_security_audit_trail_completeness",
+          "test_security_metrics_calculation",
+          "test_security_trend_tracking",
+          "test_security_coverage_measurement"
+        ]
+      },
+      {
+        "filename": "test_guardian_integrated_platform.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.business.guardian_integrated_platform"
+        ],
+        "exports": [
+          "TestGuardianSystemAdapter",
+          "TestGuardianIntegratedPlatform",
+          "mock_budget_manager",
+          "mock_consciousness_cache",
+          "mock_revenue_tracker",
+          "guardian_adapter",
+          "integrated_platform"
+        ]
+      },
+      {
+        "filename": "test_api_security_functional.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TestAPIBackendSystems",
+          "TestSecurityGuardianSystems",
+          "TestInfrastructureIntegration",
+          "TestSuiteRunner",
+          "setUp",
+          "tearDown",
+          "test_api_module_structure",
+          "test_fastapi_application_structure",
+          "test_api_endpoint_capabilities",
+          "test_api_triad_integration",
+          "test_api_authentication_middleware",
+          "test_api_streaming_capabilities",
+          "setUp",
+          "tearDown",
+          "test_security_module_structure",
+          "test_guardian_drift_detection",
+          "test_security_audit_system",
+          "test_guardian_triad_protection",
+          "test_security_compliance_framework",
+          "setUp",
+          "tearDown",
+          "test_api_security_integration",
+          "test_triad_infrastructure_alignment",
+          "run_all_tests"
+        ]
+      },
+      {
+        "filename": "test_memory_system_validation.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.memory.folds.unified_memory_core",
+          "candidate.memory.folds.unified_memory_core",
+          "candidate.memory.consolidation.memory_colonies",
+          "candidate.memory.systems.dream_trace_linker",
+          "candidate.memory.causal.memory_cleaner",
+          "candidate.memory.consolidation.memory_visualization",
+          "candidate.memory.systems.symbolic_delta_compression"
+        ],
+        "exports": [
+          "TestMemorySystemValidation",
+          "test_memory_system_integration_smoke"
+        ]
+      },
+      {
+        "filename": "test_e2e_audit_dryrun.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AuditSafetyChecker",
+          "AuditMockRegistry",
+          "TestE2EAuditDryRun",
+          "generate_e2e_audit_report",
+          "verify_audit_mode",
+          "verify_dangerous_features_disabled",
+          "verify_no_api_keys_required",
+          "mock_identity_authenticate",
+          "mock_governance_record_consent",
+          "mock_orchestration_build_context",
+          "mock_policy_decide",
+          "setup_method",
+          "test_identity_authentication_dry_run",
+          "test_governance_consent_recording_dry_run",
+          "test_orchestration_context_building_dry_run",
+          "test_policy_decision_dry_run",
+          "test_full_e2e_workflow_dry_run",
+          "test_registry_pattern_compliance",
+          "test_acceptance_gate_validation",
+          "test_safety_defaults_active",
+          "validate_registry_compliance"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "candidate",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "tools",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "core",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "security",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "integration",
+        "has_index": false,
+        "purpose": "Subdirectory with 5 Python files",
+        "component_count": 5
+      },
+      {
+        "name": "memory_security",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "consciousness",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "comprehensive",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "phase2",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "gdpr",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "scripts",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "governance",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "lukhas",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "functional",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "rl",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      }
+    ],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 19,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "standard",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "tests",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

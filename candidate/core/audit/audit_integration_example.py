@@ -1,5 +1,5 @@
 """
-Example integration of audit trail into AGI systems
+Example integration of audit trail into Cognitive AI systems
 Shows best practices for comprehensive audit logging
 """
 

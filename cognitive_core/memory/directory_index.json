@@ -1,0 +1,170 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "cognitive_core/memory",
+    "lane": "development",
+    "purpose": "Directory containing 5 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "constellation_role": "trail_star_primary",
+    "matriz_pipeline_integration": {
+      "memory_stage": "primary",
+      "attention_stage": "supporting",
+      "awareness_stage": "supporting"
+    },
+    "cognitive_domains": [
+      "memory_management",
+      "temporal_processing"
+    ],
+    "memory_architecture": {
+      "fold_based_storage": true,
+      "cascade_prevention": "99.7%",
+      "temporal_memory": true,
+      "consciousness_integration": true
+    }
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "vector_memory.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MemoryType",
+          "MemoryImportance",
+          "MemoryVector",
+          "VectorSearchResult",
+          "VectorMemoryStore",
+          "calculate_current_strength",
+          "reinforce",
+          "get_constellation_alignment",
+          "save_memories",
+          "load_memories",
+          "get_memory_stats"
+        ]
+      },
+      {
+        "filename": "semantic_memory.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "NodeType",
+          "RelationType",
+          "SemanticNode",
+          "SemanticRelation",
+          "SemanticQuery",
+          "SemanticMemoryGraph",
+          "access_node",
+          "add_evidence",
+          "get_constellation_score",
+          "validate_relation",
+          "get_semantic_stats",
+          "export_graph"
+        ]
+      },
+      {
+        "filename": "memory_consolidation.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ConsolidationStrategy",
+          "ConsolidationType",
+          "ConsolidationJob",
+          "ConsolidationResult",
+          "MemoryConsolidator",
+          "get_consolidation_stats"
+        ]
+      },
+      {
+        "filename": "episodic_memory.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EpisodeType",
+          "EpisodeStatus",
+          "EpisodeContext",
+          "Episode",
+          "EpisodicQuery",
+          "EpisodicMemorySystem",
+          "get_episode_vector",
+          "add_memory",
+          "complete_episode",
+          "get_episode_stats"
+        ]
+      },
+      {
+        "filename": "dream_memory.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DreamPhase",
+          "DreamInsightType",
+          "DreamMemoryPattern",
+          "DreamSession",
+          "DreamMemoryBridge",
+          "get_pattern_strength",
+          "get_dream_session",
+          "get_discovered_patterns",
+          "get_dream_stats"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 5,
+    "estimated_complexity": "low",
+    "consciousness_integration": "intermediate",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "native",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true,
+    "fold_architecture_enabled": true,
+    "cascade_prevention_rate": 0.997
+  },
+  "relationships": {
+    "parent_directory": "cognitive_core",
+    "related_directories": [],
+    "constellation_cluster": "trail_star_memory",
+    "dependency_weight": "moderate"
+  }
+}

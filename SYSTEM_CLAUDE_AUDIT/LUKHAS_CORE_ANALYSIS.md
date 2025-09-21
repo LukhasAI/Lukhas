@@ -21,7 +21,7 @@ LUKHAS Core Integration Architecture
                               │
                               ↓
     ┌─────────────────────────────────────────────────────────┐
-    │               Trinity Framework Hub                      │
+    │               Constellation Framework Hub                      │
     │                                                         │
     │  consciousness/        memory/           identity/      │
     │       │                  │                  │          │
@@ -51,7 +51,7 @@ LUKHAS Core Integration Architecture
 
 ### 🎯 Key Abstractions List
 
-#### **1. Trinity Framework Core**
+#### **1. Constellation Framework Core**
 
 **Consciousness Integration (`lukhas/consciousness/`)**
 - **ConsciousnessWrapper**: Primary consciousness interface
@@ -104,7 +104,7 @@ lukhas/core/ (symlink) ←→ candidate/core/
      └── Policy enforcement      └── Advanced implementations
 ```
 
-#### **Trinity Framework Orchestration**
+#### **Constellation Framework Orchestration**
 ```
 ConsciousnessWrapper ←──────→ MemoryWrapper
          │                         │
@@ -154,10 +154,10 @@ lukhas/core/.claude.md
 
 lukhas/consciousness/.claude.md
   Purpose: Consciousness integration development
-  Context: Trinity framework, wrapper interfaces
+  Context: Constellation framework, wrapper interfaces
 ```
 
-#### **Tier 2 Boundaries** (Trinity Framework)
+#### **Tier 2 Boundaries** (Constellation Framework)
 ```
 lukhas/memory/.claude.md
   Purpose: Memory system integration
@@ -188,14 +188,14 @@ lukhas/orchestration/.claude.md
 #### **1. Hub-and-Spoke Integration Pattern**
 - LUKHAS core serves as central integration hub
 - Symlink to candidate/core creates shared development bridge
-- Trinity framework provides structured consciousness-memory-identity coordination
+- Constellation framework provides structured consciousness-memory-identity coordination
 
 #### **2. Lightweight Integration Layer**
 - Only 148 Python files vs 2,877 in candidate/
 - Focus on integration, orchestration, and governance
 - Minimal footprint (1.9MB) suggests efficient, focused design
 
-#### **3. Trinity Framework Implementation**
+#### **3. Constellation Framework Implementation**
 - **ConsciousnessWrapper**: Unified consciousness interface
 - **MemoryWrapper**: Memory system abstraction
 - **TrinityIntegration**: Three-way coordination system
@@ -228,7 +228,7 @@ candidate/ (Development) → lukhas/ (Integration) → products/ (Production)
 ```
 
 #### **Key Bridge Components**
-1. **Trinity Integration**: Consciousness-memory-identity coordination
+1. **Constellation Integration**: Consciousness-memory-identity coordination
 2. **Async Management**: Non-blocking operation handling
 3. **Governance Bridge**: Ethics and compliance integration
 4. **MATRIZ Adapter**: Symbolic reasoning connection
@@ -258,4 +258,4 @@ candidate/ (Development) → lukhas/ (Integration) → products/ (Production)
 - Integration components manage coordination
 
 *Analysis Date: 2025-09-12*  
-*Files Analyzed: 148 Python files across Trinity Framework integration*
+*Files Analyzed: 148 Python files across Constellation Framework integration*

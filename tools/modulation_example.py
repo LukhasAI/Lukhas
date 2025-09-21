@@ -45,7 +45,7 @@ def print_banner():
     print("🎛️" + "=" * 70)
     print("   LUKHAS Endocrine → OpenAI Modulation System")
     print("   Bio-inspired consciousness signal processing")
-    print("   Trinity Framework: ⚛️🧠🛡️")
+    print("   Constellation Framework: ⚛️🧠🛡️")
     print("=" * 72)
     print()
 

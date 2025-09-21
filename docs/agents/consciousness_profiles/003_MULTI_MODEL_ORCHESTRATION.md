@@ -85,7 +85,7 @@
 - **Memory Context**: Provides shared memory context to all models
 - **Ethics Validation**: Guardian oversight for all consensus decisions
 
-### **Trinity Framework Alignment**
+### **Constellation Framework Alignment**
 Each pipeline specifies Trinity requirements:
 - **⚛️ Identity Validation**: Ensures authentic model responses
 - **🧠 Consciousness Context**: Provides consciousness state to models

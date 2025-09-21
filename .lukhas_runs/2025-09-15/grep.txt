@@ -227,7 +227,7 @@ lukhas/core/distributed_tracing.py:3:Addresses TODO 168: Distributed tracing wit
 lukhas/core/distributed_tracing.py:575:# --- New Additions for Event Replay and State Snapshotting (TODO 169) ---
 tools/scripts/FULL_INTEGRATION.py:232:            adapter = LukhasegrationAdapter()  # noqa: F821  # TODO: LukhasegrationAdapter
 lukhas/core/event_sourcing.py:15:║ and fault recovery. Addresses REALITY_TODO 120-125 with SQLite persistence layer
-lukhas/consciousness/trinity_integration.py:37:        ConsciousnessComponentRegistry,  # noqa: F401  # TODO: lukhas.consciousness.registry....
+lukhas/consciousness/constellation_integration.py:37:        ConsciousnessComponentRegistry,  # noqa: F401  # TODO: lukhas.consciousness.registry....
 lukhas/matriz/runtime/policy.py:17:        # TODO: Bind to real constitutional engine. For now, accept unless explicitly forbidden.
 lukhas/consciousness/registry.py:214:        # TODO: Implement proper topological sort for dependencies
 tools/enterprise/observability_system.py:506:                    expected_value=0,  # TODO: Calculate from baseline
@@ -927,7 +927,7 @@ candidate/orchestration/openai_modulated_service.py:1:TODO[JULES-1]: Fix 19 F821
 candidate/core/p2p_fabric.py:3:Addresses TODOs 57-67
 candidate/orchestration/migrate_to_kernel_bus.py:106:                    r"# TODO: Remove print-based.*?\n",
 candidate/core/bridges/core_safety_bridge.py:171:        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Trinity-aware state comparison
-candidate/core/bridges/core_safety_bridge.py:176:        # TODO[TRINITY:specialist] Implement Trinity Framework consciousness state comparison logic
+candidate/core/bridges/core_safety_bridge.py:176:        # TODO[TRINITY:specialist] Implement Constellation Framework consciousness state comparison logic
 candidate/core/integrations/nias_dream_bridge.py:260:        # TODO: Check actual dream state from dream adapter
 candidate/governance/identity/auth_integrations/wallet_bridge.py:54:            # TODO: Initialize when WALLET components are wired
 candidate/governance/identity/auth_integrations/wallet_bridge.py:79:        # TODO: Implement when WALLET is integrated
@@ -952,8 +952,8 @@ candidate/governance/identity/auth_integrations/qrg_bridge.py:96:        # TODO:
 candidate/governance/identity/auth_integrations/qrg_bridge.py:106:        # TODO: Implement when QRG is integrated
 candidate/governance/identity/auth_integrations/qrg_bridge.py:116:        # TODO: Implement when QRG animation engine is integrated
 candidate/governance/identity/auth_integrations/qrg_bridge.py:128:        # TODO: Implement when QRG steganography is integrated
-candidate/core/bridges/identity_core_bridge.py:171:        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Trinity identity-consciousness state comparison
-candidate/core/bridges/identity_core_bridge.py:176:        # TODO[TRINITY:specialist] Implement Trinity Framework identity-consciousness state comparison
+candidate/core/bridges/identity_core_bridge.py:171:        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Constellation identity-consciousness state comparison
+candidate/core/bridges/identity_core_bridge.py:176:        # TODO[TRINITY:specialist] Implement Constellation Framework identity-consciousness state comparison
 candidate/colonies/__init__.py:6:TODO[T4-AUDIT]:triage - Colony system implementation status unclear. Need integration assessment with actor system.
 candidate/core/symbolic_core/__init__.py:34:TODO[T4-AUDIT]:triage - Large legacy symbolic processing system preserved.
 candidate/core/efficient_communication.py:3:Addresses TODO 142: Optimized dual EDA/P2P communication
@@ -1014,7 +1014,7 @@ candidate/governance/identity/core/sing/sso_engine.py:637:        # TODO: Implem
 candidate/governance/identity/core/sing/sso_engine.py:643:        # TODO: Implement device sync token creation
 candidate/governance/identity/core/sing/sso_engine.py:648:        # TODO: Implement sync token registration
 candidate/governance/identity/core/sing/sso_engine.py:653:        # TODO: Implement service notification logic
-candidate/governance/identity/core/events/identity_event_publisher.py:14:from .identity_event_types import (  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution
+candidate/governance/identity/core/events/identity_event_publisher.py:14:from .identity_event_types import (  # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
 candidate/governance/identity/core/trace/pattern_analyzer.py:19:        # TODO: Implement pattern analysis logic
 candidate/governance/identity/core/trace/pattern_analyzer.py:23:        # TODO: Implement anomaly detection logic
 candidate/governance/identity/core/trace/pattern_analyzer.py:27:        # TODO: Implement insight generation logic
@@ -1037,7 +1037,7 @@ candidate/core/orchestration/apis/code_process_integration_api.py:317:    # TODO
 candidate/core/orchestration/core.py:31:║ • TODO: ModuleRegistry implementation pending
 candidate/core/orchestration/core.py:341:            # await self.module_registry.register_module(name, module) #TODO: See above
 candidate/core/orchestration/core.py:490:# [CLAUDE_01] Applied standardized LUKHAS AI header and footer template to orchestration core.py module. Updated header with proper module metadata, detailed description of orchestration responsibilities, and integration notes. Added module constants and preserved all existing functionality including TODOs for missing imports. Maintained bio-inspired consciousness architecture. # CLAUDE_EDIT_v0.1
-candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py:19:from governance.identity.core.colonies import (  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution
+candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py:19:from governance.identity.core.colonies import (  # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
 candidate/core/orchestration/agent_orchestrator.py:231:                # TODO: Reassign or cancel tasks
 candidate/core/symbolic/dream_divergence_map.py:57:TODO: Add temporal correlation weighting for chronological proximity
 candidate/core/orchestration/brain/dynamic_adaptive_dashboard.py:28:    from AGENT.lukhas_nias_filter import evaluate_ad_permission  # TODO: Install or implement AGENT

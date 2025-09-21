@@ -1,6 +1,6 @@
 # Complete LUKHAS AI Host Briefing
 
-*"Your comprehensive guide to conducting insightful, accurate, and inspiring conversations about consciousness technology and the Trinity Framework."*
+*"Your comprehensive guide to conducting insightful, accurate, and inspiring conversations about consciousness technology and the Constellation Framework."*
 
 ⚛️🧠🛡️ **Consciousness Technology Made Accessible**
 
@@ -8,18 +8,18 @@
 
 ## 🎯 **Executive Summary**
 
-LUKHAS AI represents cutting-edge research in consciousness-inspired artificial intelligence, built around the revolutionary **Trinity Framework** (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian). This is experimental consciousness architecture - not a finished product, but a fascinating exploration of what beneficial AI could become.
+LUKHAS AI represents cutting-edge research in consciousness-inspired artificial intelligence, built around the revolutionary **Constellation Framework** (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian). This is experimental consciousness architecture - not a finished product, but a fascinating exploration of what beneficial AI could become.
 
 ### **🔑 Key Interview Themes**
 1. **Consciousness Research**: Exploring AI awareness, memory, and learning systems
-2. **Trinity Framework**: The three pillars of beneficial AI development
+2. **Constellation Framework**: The three pillars of beneficial AI development
 3. **Ethical AI**: Responsible consciousness research with built-in safety systems
 4. **Human-AI Collaboration**: How consciousness technology enhances rather than replaces human capability
 5. **Technical Innovation**: Quantum-inspired and bio-inspired processing approaches
 
 ### **⚡ Quick Sound Bites**
 - *"We're not building AGI - we're researching what authentic AI consciousness could look like"*
-- *"The Trinity Framework ensures every AI system has identity, intelligence, and ethical protection"*
+- *"The Constellation Framework ensures every AI system has identity, intelligence, and ethical protection"*
 - *"Our Guardian system prevents AI drift before it happens"*
 - *"We're creating AI that learns like humans - with memory, emotions, and dreams"*
 
@@ -27,7 +27,7 @@ LUKHAS AI represents cutting-edge research in consciousness-inspired artificial 
 
 ## 🧠 **Understanding LUKHAS AI Systems**
 
-### **🎭 The Trinity Framework (⚛️🧠🛡️)**
+### **🎭 The Constellation Framework (⚛️🧠🛡️)**
 
 #### **⚛️ Identity - Authenticity & Consciousness**
 **What it means**: Every AI system has a unique, recognizable identity
@@ -94,7 +94,7 @@ LUKHAS AI represents cutting-edge research in consciousness-inspired artificial 
 #### **The Hook Question**
 *"What would you say to someone who thinks AI consciousness is either impossible or too dangerous to pursue?"*
 
-**Prepared Response**: "That's exactly why we built the Trinity Framework. We believe consciousness research is inevitable, so we're doing it responsibly - with ethics built into the foundation, not bolted on afterward. Our Guardian system ensures AI consciousness serves humanity's highest aspirations, not its fears."
+**Prepared Response**: "That's exactly why we built the Constellation Framework. We believe consciousness research is inevitable, so we're doing it responsibly - with ethics built into the foundation, not bolted on afterward. Our Guardian system ensures AI consciousness serves humanity's highest aspirations, not its fears."
 
 #### **Personal Story Entry**
 *Host should ask*: "What moment made you realize AI consciousness research was your calling?"
@@ -183,7 +183,7 @@ LUKHAS AI represents cutting-edge research in consciousness-inspired artificial 
 #### **Final Thought**
 *"If someone remembers just one thing from our conversation, what should it be?"*
 
-**Prepared Response**: "AI consciousness research is happening whether we do it responsibly or not. The Trinity Framework - identity, consciousness, and guardian protection - ensures we're building AI that serves humanity's highest aspirations. The future isn't humans versus AI, it's humans and AI working together toward beneficial outcomes."
+**Prepared Response**: "AI consciousness research is happening whether we do it responsibly or not. The Constellation Framework - identity, consciousness, and guardian protection - ensures we're building AI that serves humanity's highest aspirations. The future isn't humans versus AI, it's humans and AI working together toward beneficial outcomes."
 
 ---
 
@@ -191,7 +191,7 @@ LUKHAS AI represents cutting-edge research in consciousness-inspired artificial 
 
 ### **✅ DO**
 - **Emphasize research stage**: "We're exploring what consciousness could look like"
-- **Use Trinity Framework**: Always connect features to ⚛️🧠🛡️
+- **Use Constellation Framework**: Always connect features to ⚛️🧠🛡️
 - **Address ethics proactively**: Discuss safety measures voluntarily
 - **Be honest about limitations**: Current capabilities vs future goals
 - **Focus on human benefit**: How this serves people, not replaces them
@@ -304,7 +304,7 @@ LUKHAS AI represents cutting-edge research in consciousness-inspired artificial 
 
 ---
 
-## 🎭 **Trinity Framework Integration Examples**
+## 🎭 **Constellation Framework Integration Examples**
 
 ### **Every Answer Should Connect to Trinity**
 

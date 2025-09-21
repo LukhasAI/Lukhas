@@ -73,7 +73,7 @@ except ImportError:
 
 class MemoryService:
     """
-    Main memory management service for the LUKHAS AGI system.
+    Main memory management service for the LUKHAS Cognitive system.
 
     Provides secure memory storage and retrieval with full integration to
     the identity system for access control and audit logging.
@@ -560,7 +560,7 @@ if __name__ == "__main__":
     result = memory_service.store_memory(
         test_user,
         "conversation",
-        {"dialogue": "Test conversation", "topic": "AGI development"},
+        {"dialogue": "Test conversation", "topic": "AI development"},
         "personal",
     )
     logging.info(f"Memory storage: {result}")
@@ -602,7 +602,7 @@ if __name__ == "__main__":
 ║
 ║ REFERENCES:
 ║   - Docs: docs/memory/memory-service-api.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=memory-service
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=memory-service
 ║   - Wiki: wiki.lukhas.ai/memory-service-integration
 ║
 ║ COPYRIGHT & LICENSE:
@@ -611,7 +611,7 @@ if __name__ == "__main__":
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

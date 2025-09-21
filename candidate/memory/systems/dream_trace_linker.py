@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 🌙 MODULE: memory.core_memory.dream_trace_linker
 📄 FILENAME: dream_trace_linker.py
 🎯 PURPOSE: Dream-Memory Symbolic Trace Linking with DREAMSEED Integration
-🧠 CONTEXT: LUKHAS AGI DREAMSEED Dream→Memory Symbolic Entanglement System
+🧠 CONTEXT: LUKHAS Cognitive AI DREAMSEED Dream→Memory Symbolic Entanglement System
 🔮 CAPABILITY: Advanced dream tracing, GLYPH linking, emotional echo propagation
 🛡️ ETHICS: Dream-memory entanglement monitoring, recursive amplification prevention
 🚀 VERSION: v1.0.0 • 📅 CREATED: 2025-07-21 • ✍️ AUTHOR: CLAUDE-HARMONIZER
@@ -163,10 +163,10 @@ class DreamTraceLinker:
     """
 
     def __init__(self):
-        self.trace_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/dream/dream_trace_links.jsonl"
-        self.glyph_database_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/dream/glyph_signatures.jsonl"
+        self.trace_log_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/dream/dream_trace_links.jsonl"
+        self.glyph_database_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/dream/glyph_signatures.jsonl"
         self.entanglement_log_path = (
-            "/Users/agi_dev/Downloads/Consolidation-Repo/logs/dream/symbolic_entanglement.jsonl"
+            "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/dream/symbolic_entanglement.jsonl"
         )
 
         # Initialize integrated components

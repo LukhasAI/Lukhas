@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 ║                             ◊ POETIC ESSENCE ◊
 ║
 ║ ║ 🚀 LUKHAS AI - CAUSAL MEMORY CHAINS: WEAVING THE TAPESTRY OF REASONING
-║ ║ Illuminating the labyrinth of cause-and-effect for the nascent AGI mind
+║ ║ Illuminating the labyrinth of cause-and-effect for the nascent Cognitive AI mind
 ║ ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ║ ╠══════════════════════════════════════════════════════════════════════════════════
 ║ ║ Module: causal_memory_chains.py
@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 ║ ║ In the intricate dance of intellect and intuition, where shadows play upon the
 ║ ║ canvas of cognition, this module emerges as a beacon of clarity. It encapsulates
 ║ ║ the essence of causality, weaving together the threads of memory and inference,
-║ ║ crafting a rich tapestry for Artificial General Intelligence. Herein lies a system
+║ ║ crafting a rich tapestry for Cognitive Artificial Intelligence. Herein lies a system
 ║ ║ that transcends mere data storage, aspiring instead to harness the profound
 ║ ║ symphony of relationships that govern the universe of thought.
 ║
@@ -427,7 +427,7 @@ class CausalGraphBuilder:
     Builds and maintains causal graphs from memory relationships.
 
     Creates directed graphs representing causal structures in the
-    AGI's memory for advanced reasoning and prediction.
+    Cognitive AI's memory for advanced reasoning and prediction.
     """
 
     def __init__(self):
@@ -647,10 +647,10 @@ class CausalGraphBuilder:
 
 class CausalReasoningEngine:
     """
-    Main engine for causal reasoning in AGI memory systems.
+    Main engine for causal reasoning in Cognitive AI memory systems.
 
     Integrates temporal analysis, graph building, and reasoning
-    capabilities for advanced AGI decision-making.
+    capabilities for advanced cognitive AI decision-making.
     """
 
     def __init__(
@@ -851,7 +851,7 @@ class CausalReasoningEngine:
     async def identify_significant_causal_chains(
         self, min_chain_length: int = 3, min_strength: float = 0.5
     ) -> list[CausalChain]:
-        """Identify significant causal chains for AGI reasoning"""
+        """Identify significant causal chains for Cognitive AI reasoning"""
 
         if not self.graph_builder:
             return []
@@ -1012,9 +1012,9 @@ async def create_causal_memory_system(
 
 # Example usage and testing
 async def example_causal_reasoning():
-    """Example of causal reasoning in AGI memory"""
+    """Example of causal reasoning in Cognitive AI memory"""
 
-    print("🚀 Causal Memory Chains for AGI Reasoning Demo")
+    print("🚀 Causal Memory Chains for Cognitive AI Reasoning Demo")
     print("=" * 60)
 
     # Create causal reasoning engine

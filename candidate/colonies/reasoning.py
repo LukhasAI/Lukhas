@@ -1,7 +1,7 @@
 """
 LUKHAS AI Colony System - Reasoning Colony
 Distributed reasoning and logic processing
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 from typing import Any, Optional
 

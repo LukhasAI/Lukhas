@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ The Memory Visualizer implements quantum-enhanced visualization capabilities
-║ for memory folds in the LUKHAS AGI system. It creates rich visual representations
+║ for memory folds in the LUKHAS Cognitive system. It creates rich visual representations
 ║ of memory structures, emotional mappings, and quantum-like states.
 ║
 ║ This module serves as an integration point (#ΛINTEROP and #ΛBRIDGE) for
@@ -34,7 +34,7 @@ logger = logging.getLogger(__name__)
 ║ • Real-time coherence metrics
 ║
 ║ The module integrates with quantum-inspired processing and bio-awareness components
-║ to create visualizations that reflect the full complexity of the AGI's
+║ to create visualizations that reflect the full complexity of the Cognitive AI's
 ║ memory architecture.
 ║
 ║ Symbolic Tags: {ΛVISUALIZE}, {ΛQUANTUM}, {ΛBRIDGE}, {ΛINTEROP}
@@ -337,7 +337,7 @@ class Enhanced3DVisualizer:
 ║
 ║ REFERENCES:
 ║   - Docs: docs/memory/visualization-guide.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=memory-visualization
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=memory-visualization
 ║   - Wiki: wiki.lukhas.ai/memory-visualization
 ║
 ║ COPYRIGHT & LICENSE:
@@ -346,7 +346,7 @@ class Enhanced3DVisualizer:
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

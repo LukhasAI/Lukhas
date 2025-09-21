@@ -15,7 +15,7 @@
 ║ │  memory intertwine like the delicate threads of a spider's web, there lies    │
 ║ │  a sanctuary of utility—an ethereal repository of shared memories. This      │
 ║ │  module, a beacon of simplicity amidst the tempest of complexity, serves      │
-║ │  as a guiding star for the AGI system, illuminating pathways of memory        │
+║ │  as a guiding star for the Cognitive system, illuminating pathways of memory        │
 ║ │  management with the soft glow of shared purpose. Herein lies the alchemy of  │
 ║ │  transformation—where ephemeral thoughts are etched into the annals of       │
 ║ │  permanence, encapsulated within the sacred architecture of algorithms.       │

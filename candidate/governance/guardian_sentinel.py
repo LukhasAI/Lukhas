@@ -2,7 +2,7 @@
 """
 LUKHΛS Guardian Sentinel Module
 Wrapper for Guardian System functionality
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
 This module serves as a compatibility layer for the Guardian system,
 centralizing access to guardian functionality spread across the governance module.
@@ -41,7 +41,7 @@ class GuardianSentinel:
         self.active_threats = []
 
         logger.info("🛡️ Guardian Sentinel initialized")
-        logger.info("   Trinity Framework active: ⚛️🧠🛡️")
+        logger.info("   Constellation Framework active: ⚛️🧠🛡️")
 
     def assess_threat(
         self, action: str, context: dict[str, Any], drift_score: float = 0.0
@@ -128,7 +128,7 @@ class GuardianSentinel:
                 [
                     "consciousness_stabilization",
                     "identity_anchor",
-                    "trinity_realignment",
+                    "constellation_realignment",
                 ]
             )
             intervention["symbolic_injection"] = ["⚛️", "🧠", "🛡️"]
@@ -154,7 +154,7 @@ class GuardianSentinel:
             "total_interventions": len(self.interventions),
             "active_threats": len(self.active_threats),
             "last_intervention": self.interventions[-1] if self.interventions else None,
-            "trinity_status": "aligned",
+            "constellation_status": "aligned",
             "protection_layers": [
                 "ethical_guardian",
                 "philosophical_reflector",
@@ -164,7 +164,7 @@ class GuardianSentinel:
 
     def monitor_symbolic_coherence(self, glyphs: list[str], expected_pattern: Optional[str] = None) -> dict[str, Any]:
         """
-        Monitor symbolic coherence and Trinity alignment.
+        Monitor symbolic coherence and Constellation alignment.
 
         Args:
             glyphs: List of glyphs to analyze
@@ -173,11 +173,11 @@ class GuardianSentinel:
         Returns:
             Coherence analysis results
         """
-        trinity_glyphs = ["⚛️", "🧠", "🛡️"]
-        trinity_present = all(g in glyphs for g in trinity_glyphs)
+        constellation_glyphs = ["⚛️", "🧠", "🛡️"]
+        constellation_present = all(g in glyphs for g in constellation_glyphs)
 
         # Calculate coherence score
-        coherence_score = 1.0 if trinity_present else 0.3
+        coherence_score = 1.0 if constellation_present else 0.3
 
         # Check for chaos glyphs
         chaos_glyphs = ["🌪️", "💥", "💀", "👹", "🔥"]
@@ -188,7 +188,7 @@ class GuardianSentinel:
 
         return {
             "coherence_score": max(0, coherence_score),
-            "trinity_aligned": trinity_present,
+            "constellation_aligned": constellation_present,
             "chaos_detected": chaos_count > 0,
             "symbolic_health": "healthy" if coherence_score > 0.7 else "unstable",
         }

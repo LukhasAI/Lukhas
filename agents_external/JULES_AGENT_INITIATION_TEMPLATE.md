@@ -36,7 +36,7 @@ with open('.lukhas_runs/2025-09-15/batches_clean/BATCH-JULES{AGENT_NUMBER:02d}-2
 
 ### **Your Execution Workflow**
 1. **🔍 Task Analysis**: Read each TODO, understand context via grep/git history
-2. **🏗️ Implementation**: Execute changes following Trinity Framework alignment
+2. **🏗️ Implementation**: Execute changes following Constellation Framework alignment
 3. **✅ Verification**: Ensure tests pass, no breaking changes introduced
 4. **📝 Evidence**: Document completion with commit messages following T4 standard
 5. **🔄 Progress**: Update task status and continue to next item
@@ -47,11 +47,11 @@ with open('.lukhas_runs/2025-09-15/batches_clean/BATCH-JULES{AGENT_NUMBER:02d}-2
 Your domain-specific context comes from these `claude.me` files throughout the codebase:
 
 **Master Architecture**:
-- [`claude.me`](claude.me) - Root architecture overview (7,000+ files, Trinity Framework)
+- [`claude.me`](claude.me) - Root architecture overview (7,000+ files, Constellation Framework)
 - [`candidate/claude.me`](candidate/claude.me) - Primary development workspace
 - [`AGENTS.md`](AGENTS.md) - Complete agent system documentation
 
-**Trinity Framework Contexts (⚛️🧠🛡️)**:
+**Constellation Framework Contexts (⚛️🧠🛡️)**:
 - **⚛️ Identity**: [`identity/claude.me`](identity/claude.me), [`candidate/core/identity/claude.me`](candidate/core/identity/claude.me)
 - **🧠 Consciousness**: [`consciousness/claude.me`](consciousness/claude.me), [`candidate/consciousness/claude.me`](candidate/consciousness/claude.me)
 - **🛡️ Guardian/Ethics**: [`ethics/claude.me`](ethics/claude.me), [`governance/claude.me`](governance/claude.me)
@@ -131,7 +131,7 @@ with open('.lukhas_runs/2025-09-15/batches_clean/BATCH-JULES{AGENT_NUMBER:02d}-2
 ### **Before You Start**
 - **Jules-06, 07, 08**: EXPERIMENTAL agents - all changes must be behind feature flags
 - **Jules-01, 02, 03, 04, 05**: HIGH RISK - Claude Code review required for critical changes
-- **All Jules**: Test thoroughly, maintain Trinity Framework alignment
+- **All Jules**: Test thoroughly, maintain Constellation Framework alignment
 
 ## 📊 **Progress Tracking**
 
@@ -185,4 +185,4 @@ with open('.lukhas_runs/2025-09-15/batches_clean/BATCH-JULES{AGENT_NUMBER:02d}-2
 
 **🎯 Ready to execute? Load your batch and begin systematic TODO completion!**
 
-*Remember: You are part of a coordinated multi-agent system. Your work contributes to the larger LUKHAS AI Trinity Framework. Execute with precision, document thoroughly, and maintain T4 compliance.*
+*Remember: You are part of a coordinated multi-agent system. Your work contributes to the larger LUKHAS AI Constellation Framework. Execute with precision, document thoroughly, and maintain T4 compliance.*

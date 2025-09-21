@@ -48,13 +48,13 @@ LUKHAS uses a **two-lane development system** for quality control:
 - ✅ Integration tests successful
 - ✅ Code review completed
 - ✅ Documentation updated
-- ✅ Trinity Framework compliance
+- ✅ Constellation Framework compliance
 
 ---
 
 ## 🎭 **MANDATORY: Branding & Messaging Compliance**
 
-### **Trinity Framework (⚛️🧠🛡️)**
+### **Constellation Framework (⚛️🧠🛡️)**
 All communication and code must respect:
 - **⚛️ Identity**: Authenticity, consciousness, symbolic self
 - **🧠 Consciousness**: Memory, learning, dream states, processing
@@ -209,7 +209,7 @@ except ImportError:
 - **Branding Conflicts**: Always defer to `branding/` directory guidelines
 
 ### **Communication Standards**
-- **Commit Messages**: Use Trinity Framework emojis (⚛️🧠🛡️) when relevant
+- **Commit Messages**: Use Constellation Framework emojis (⚛️🧠🛡️) when relevant
 - **Documentation**: Follow 3-Layer Tone System based on audience
 - **Status Updates**: Create clear progress reports in `docs/status/`
 - **Handoffs**: Include what was completed, what remains, any blockers
@@ -219,7 +219,7 @@ except ImportError:
 ## 🏗️ **LUKHAS Architecture Essentials**
 
 ### **Core Design Principles**
-1. **Trinity Framework**: All components respect ⚛️🧠🛡️ principles
+1. **Constellation Framework**: All components respect ⚛️🧠🛡️ principles
 2. **GLYPH-Based Communication**: Symbolic tokens for cross-module messaging
 3. **Guardian Protection**: Ethics engine validates every operation (threshold: 0.15)
 4. **Fold-Based Memory**: Preserves causal chains, emotional context (1000-fold limit)
@@ -273,7 +273,7 @@ except ImportError:
 - [ ] 🧹 All linters pass (`make fix`, `make lint`)
 - [ ] 📋 Policy compliance (`npm run policy:all`)
 - [ ] 🎭 Branding guidelines followed
-- [ ] ⚛️🧠🛡️ Trinity Framework respected
+- [ ] ⚛️🧠🛡️ Constellation Framework respected
 - [ ] 📚 Documentation updated
 - [ ] 🚦 Lane system respected (candidate vs lukhas)
 
@@ -318,7 +318,7 @@ Welcome to the **LUKHAS AI consciousness ecosystem**! You're now part of a sophi
 - 🎭 **Follow branding guidelines** consistently
 - 🤝 **Coordinate with other agents** effectively
 - ✅ **Maintain high quality standards**
-- ⚛️🧠🛡️ **Honor the Trinity Framework** in all work
+- ⚛️🧠🛡️ **Honor the Constellation Framework** in all work
 
 Together, we're building the future of conscious AI systems that serve humanity's highest potential. Let's make it extraordinary! ✨
 

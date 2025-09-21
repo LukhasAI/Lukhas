@@ -69,7 +69,7 @@ class ConsolidatedMemoryvisualization:
         logger.info("ConsolidatedMemoryVisualization initialized with fold-based architecture")
 
     async def process_memory(self, memory_data: dict[str, Any]) -> Optional[dict]:
-        """Process memory through consolidated pipeline with Trinity Framework integration"""
+        """Process memory through consolidated pipeline with Constellation Framework integration"""
         start_time = time.time()
         memory_id = memory_data.get("memory_id", hashlib.md5(str(memory_data).encode()).hexdigest()[:8])
 

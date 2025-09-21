@@ -1,0 +1,1069 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/core/symbolic",
+    "lane": "development",
+    "purpose": "Directory containing 66 Python files and 2 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "integration",
+    "matriz_pipeline_integration": {
+      "memory_stage": "experimental",
+      "attention_stage": "experimental",
+      "thought_stage": "experimental",
+      "action_stage": "inactive",
+      "decision_stage": "inactive",
+      "awareness_stage": "experimental"
+    }
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "neural_symbolic_bridge.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "NeuralSymbolicIntegration",
+          "process"
+        ]
+      },
+      {
+        "filename": "voice_vocabulary.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.symbolic"
+        ],
+        "exports": [
+          "Voicesymbol",
+          "Voicesymbolicvocabulary",
+          "get_symbol_for_emotion",
+          "get_symbol_for_provider",
+          "create_synthesis_phrase",
+          "get_quality_indicators",
+          "get_all_symbols",
+          "get_context_symbols",
+          "analyze_emotional_weight"
+        ]
+      },
+      {
+        "filename": "dream_vocabulary.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "dream_cycle_start",
+          "dream_phase_transition",
+          "pattern_discovered",
+          "insight_generated",
+          "emotional_context",
+          "memory_processing",
+          "cycle_completion",
+          "get_dream_symbol",
+          "get_dream_narrative",
+          "get_visual_hint"
+        ]
+      },
+      {
+        "filename": "entropy_calculator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "dast_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.orchestration.golden_trio"
+        ],
+        "exports": [
+          "DASTEngine",
+          "TaskCompatibilityEngine",
+          "SymbolicActivityTracker",
+          "GestureInterpretationSystem",
+          "RealtimeDataAggregator",
+          "_Sys"
+        ]
+      },
+      {
+        "filename": "crista_optimizer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "symbolic_logic_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "symbolic_hub.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "symbolic_contract.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolicContract",
+          "SymbolicContractRegistry",
+          "validate_propagation",
+          "validate_payload",
+          "register",
+          "get",
+          "to_json"
+        ]
+      },
+      {
+        "filename": "id_builder.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "LUKHASIdentity",
+          "LUKHASIDBuilder",
+          "LUKHASAuthAPI",
+          "create_lukhas_auth_demo",
+          "main",
+          "generate_lukhas_id",
+          "authenticate_with_phrase",
+          "generate_qrg",
+          "create_identity_endpoint",
+          "authenticate_endpoint"
+        ]
+      },
+      {
+        "filename": "identity_vocabulary.py",
+        "component_type": "IDENTITY_SERVICE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "symbolic_knowledge_integration.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolicKnowledgeIntegrator",
+          "get_knowledge_integrator",
+          "query_knowledge",
+          "get_integration_status",
+          "query_integrated_knowledge"
+        ]
+      },
+      {
+        "filename": "qrs_manager.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "usage_examples.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolicLogger",
+          "log_bio_state",
+          "log_dream_phase",
+          "perform_identity_operation",
+          "log_any_symbol",
+          "get_system_status",
+          "log_state",
+          "log_bio"
+        ]
+      },
+      {
+        "filename": "symbolic_memory_mapper.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.consciousness.reflection.memory_hub",
+          "lukhas.core.integration.hub_registry"
+        ],
+        "exports": [
+          "MemoryMapType",
+          "SymbolicMemoryNode",
+          "SymbolicMemoryMapper",
+          "create_memory_map"
+        ]
+      },
+      {
+        "filename": "drift_tools.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "symbolic_drift_tracker.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/symbolic_drift_tracker.json",
+        "dependencies": [
+          "lukhas.core.symbolic.drift.symbolic_drift_tracker"
+        ],
+        "exports": [
+          "SymbolicDriftTracker",
+          "record_drift",
+          "register_drift",
+          "calculate_entropy",
+          "log_phase_mismatch",
+          "summarize_drift",
+          "calculate_symbolic_drift",
+          "register_symbolic_state",
+          "detect_recursive_drift_loops",
+          "emit_drift_alert"
+        ]
+      },
+      {
+        "filename": "bio_integration_hub.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "BioSymbolicIntegrationHub",
+          "get_bio_integration_hub"
+        ]
+      },
+      {
+        "filename": "semantic_reasoner.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolicReasoningEngine",
+          "reason"
+        ]
+      },
+      {
+        "filename": "trace_drift_tracker.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.symbolic.symbolic_drift_tracker"
+        ],
+        "exports": [
+          "SymbolicDriftTracker",
+          "record_drift",
+          "register_drift",
+          "calculate_entropy",
+          "log_phase_mismatch",
+          "summarize_drift",
+          "calculate_symbolic_drift",
+          "register_symbolic_state",
+          "detect_recursive_drift_loops",
+          "emit_drift_alert"
+        ]
+      },
+      {
+        "filename": "vision_vocabulary.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.symbolic"
+        ],
+        "exports": [
+          "Visualsymbol",
+          "Visionsymbolicvocabulary",
+          "get_symbol_for_analysis_type",
+          "get_symbol_for_provider",
+          "get_dominant_color_symbol",
+          "create_analysis_phrase",
+          "get_quality_indicators",
+          "get_all_symbols",
+          "get_context_symbols",
+          "calculate_visual_harmony"
+        ]
+      },
+      {
+        "filename": "symbolic_anomaly_explorer.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.symbolic.drift.symbolic_drift_tracker"
+        ],
+        "exports": [
+          "AnomalyType",
+          "AnomalySeverity",
+          "SymbolicTag",
+          "DreamSession",
+          "SymbolicAnomaly",
+          "AnomalyReport",
+          "SymbolicAnomalyExplorer",
+          "analyze_recent_dreams",
+          "cli_analysis",
+          "extract_lambda_tags",
+          "calculate_symbolic_density",
+          "to_dict",
+          "load_recent_dreams",
+          "detect_symbolic_anomalies",
+          "generate_anomaly_report",
+          "summarize_symbolic_trends",
+          "export_report_json",
+          "export_summary_markdown",
+          "display_ascii_heatmap"
+        ]
+      },
+      {
+        "filename": "symbolic_trace_map.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolicTraceMap",
+          "get_global_trace_map",
+          "add_trace_node",
+          "get_trace",
+          "generate_flow_diagram"
+        ]
+      },
+      {
+        "filename": "creative_market.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "CreativeItem",
+          "CreativeMarket",
+          "update_reputation",
+          "export_item"
+        ]
+      },
+      {
+        "filename": "symbolic_core.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "symbolic_language.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolicDomain",
+          "SymbolicType",
+          "SymbolicAttribute",
+          "Symbol",
+          "SymbolicRelation",
+          "SymbolicExpression",
+          "SymbolicTranslator",
+          "SymbolicLanguageFramework",
+          "SymbolicVocabulary",
+          "get_symbolic_translator",
+          "get_symbolic_vocabulary",
+          "add_attribute",
+          "get_attribute",
+          "to_dict",
+          "add_symbol",
+          "add_relation",
+          "evaluate",
+          "to_dict",
+          "translate",
+          "batch_translate",
+          "get_patterns",
+          "get_decision_trace",
+          "get_symbol",
+          "add_symbol",
+          "get_symbols_by_domain"
+        ]
+      },
+      {
+        "filename": "symbolic_theme_clusterer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "neuro_symbolic_fusion_layer.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.symbolic_core.bio.bio_symbolic"
+        ],
+        "exports": [
+          "FusionMode",
+          "FusionContext",
+          "NeuroSymbolicPattern",
+          "NeuroSymbolicFusionLayer",
+          "create_nsfl_instance",
+          "calculate_coherence",
+          "set_fusion_context",
+          "fuse_neural_symbolic",
+          "translate_neural_to_symbolic",
+          "translate_symbolic_to_neural",
+          "adapt_fusion_weights",
+          "get_fusion_metrics"
+        ]
+      },
+      {
+        "filename": "symbolic_healer.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DiagnosisType",
+          "SymbolicDiagnosis",
+          "SymbolicHealer",
+          "diagnose",
+          "restore",
+          "visualize_drift",
+          "get_stats"
+        ]
+      },
+      {
+        "filename": "bio_vocabulary.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "get_bio_symbol",
+          "get_bio_message",
+          "format_bio_log"
+        ]
+      },
+      {
+        "filename": "lambda_sage.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "bridge.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/bridge.json",
+        "dependencies": [],
+        "exports": [
+          "NeuralSymbolicBridge"
+        ]
+      },
+      {
+        "filename": "symbolic_boot.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolicBootstrap",
+          "get_bootstrap",
+          "symbolic_boot",
+          "main",
+          "validate_workspace",
+          "load_system_modules",
+          "symbolic_boot",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "symbolic_reasoning.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "symbolic_parser.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolicCategory",
+          "SemanticType",
+          "ParsedSymbol",
+          "CulturalAnalysis",
+          "SymbolicParser",
+          "parse_symbolic_element",
+          "analyze_cultural_content",
+          "extract_patterns"
+        ]
+      },
+      {
+        "filename": "hybrid_integration.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "NeuroSymbolicIntegrator"
+        ]
+      },
+      {
+        "filename": "TestIntegrationSimple.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "test_imports",
+          "test_class_instantiation",
+          "test_symbolic_validation"
+        ]
+      },
+      {
+        "filename": "SymbolicReasoning.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolicEngine",
+          "reason",
+          "apply_logic_operator",
+          "get_symbolic_insights"
+        ]
+      },
+      {
+        "filename": "restabilization_index.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "RestabilizationIndex",
+          "register_recovery",
+          "score_recovery",
+          "link_to_drift",
+          "summarize_restabilization"
+        ]
+      },
+      {
+        "filename": "vocabulary_creativity_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.symbolic"
+        ],
+        "exports": [
+          "VocabularyCreativityEngine",
+          "VocabularyCreativityEngine",
+          "get_symbol_for_analysis_type",
+          "get_symbol_for_provider",
+          "get_dominant_color_symbol",
+          "create_analysis_phrase",
+          "get_quality_indicators",
+          "get_all_symbols",
+          "get_context_symbols",
+          "calculate_visual_harmony"
+        ]
+      },
+      {
+        "filename": "symbolic_dream_bridge.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolicDreamContext",
+          "SymbolicDreamBridge",
+          "bridge_dream_to_memory",
+          "establish_symbolic_handshake",
+          "translate_dream_symbols",
+          "maintain_phase_resonance",
+          "close_bridge"
+        ]
+      },
+      {
+        "filename": "loop_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.consciousness.bridge"
+        ],
+        "exports": [
+          "SymbolicState",
+          "SymbolicLoopEngine",
+          "get_symbolic_loop_engine"
+        ]
+      },
+      {
+        "filename": "ethical_auditor.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.consciousness.dream.oneiric.oneiric_core.analysis.drift_score"
+        ],
+        "exports": [
+          "AuditContext",
+          "AuditResult",
+          "EliteEthicalAuditor",
+          "get_audit_summary"
+        ]
+      },
+      {
+        "filename": "symbolic_drift_tracker_trace.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.symbolic.drift.symbolic_drift_tracker"
+        ],
+        "exports": [
+          "SymbolicDriftTracker",
+          "record_drift",
+          "register_drift",
+          "calculate_entropy",
+          "log_phase_mismatch",
+          "summarize_drift",
+          "calculate_symbolic_drift",
+          "register_symbolic_state",
+          "detect_recursive_drift_loops",
+          "emit_drift_alert"
+        ]
+      },
+      {
+        "filename": "dream_divergence_map.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DreamSession",
+          "DriftScore",
+          "DriftMatrix",
+          "DreamDivergenceMapper",
+          "main",
+          "calculate_entropy",
+          "calculate_emotional_magnitude",
+          "extract_phase_markers",
+          "to_dict",
+          "get_max_drift_pair",
+          "get_high_drift_pairs",
+          "load_dream_sessions",
+          "compute_drift_matrix",
+          "extract_recurring_symbols",
+          "render_divergence_map",
+          "generate_summary_json"
+        ]
+      },
+      {
+        "filename": "glyph_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "generate_glyph",
+          "evaluate_entropy",
+          "evaluate_resonance",
+          "detect_attractors"
+        ]
+      },
+      {
+        "filename": "context.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolicContext",
+          "FeedbackType"
+        ]
+      },
+      {
+        "filename": "symbolic_loop_controller.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "stream_handler.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolicPattern",
+          "SymbolicStreamHandler",
+          "start_stream",
+          "stop_stream",
+          "get_next_pattern"
+        ]
+      },
+      {
+        "filename": "symbolic_reasoning_adapter.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ReasoningMode",
+          "ReasoningContext",
+          "SymbolicReasoningAdapter",
+          "adapt_symbolic_reasoning",
+          "bridge_reasoning_flow",
+          "validate_reasoning_coherence",
+          "close_reasoning_context"
+        ]
+      },
+      {
+        "filename": "pattern_recognition.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.symbolic_core.bio.crista_optimizer"
+        ],
+        "exports": [
+          "UnifiedPatternRecognition",
+          "register_pattern",
+          "recognize_patterns"
+        ]
+      },
+      {
+        "filename": "symbolic_integration.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "bio_hub.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "dream_delivery_manager.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.interfaces.voice.voice_emotional.context_aware_modular_voice",
+          "lukhas.memory.adapters.creativity_adapter"
+        ],
+        "exports": [
+          "DreamDeliveryManager",
+          "VoiceSynthesisAdapter",
+          "VoiceSafetyFilter",
+          "modulate_voice_output",
+          "deliver_dream",
+          "synthesize",
+          "filter_content"
+        ]
+      },
+      {
+        "filename": "symbolic_feedback.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "FeedbackType",
+          "SymbolicContext",
+          "Intentnodehistory",
+          "Memoriasnapshot",
+          "Dreamreplayrecord",
+          "Symbolicfeedbackloop",
+          "Symbolicfeedbacksystem",
+          "create_integrated_symbolic_feedback_system",
+          "simulate_intent_node_integration",
+          "log_intent_node_interaction",
+          "log_memoria_snapshot",
+          "log_dream_replay",
+          "create_symbolic_feedback_loop",
+          "execute_symbolic_rehearsal",
+          "get_optimization_insights"
+        ]
+      },
+      {
+        "filename": "symbolic_action_protocol.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolicActionProtocol",
+          "evaluate_proposal",
+          "explain_action"
+        ]
+      },
+      {
+        "filename": "intent_detector.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "IntentNode"
+        ]
+      },
+      {
+        "filename": "EthicalAuditor.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.elite.ai_constitution_checker",
+          "candidate.core.elite.emotional_secure_logger",
+          "candidate.core.elite.symbolic_trust_scorer"
+        ],
+        "exports": [
+          "AuditContext",
+          "AuditResult",
+          "EthicalAuditor",
+          "get_audit_summary"
+        ]
+      },
+      {
+        "filename": "neuro_symbolic_integration.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "NeuroSymbolicIntegration",
+          "integrate",
+          "register_integration_method",
+          "set_default_method"
+        ]
+      },
+      {
+        "filename": "symbolic_chain.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "InterventionMode",
+          "SymbolicDiff",
+          "ChainResult",
+          "SymbolicChain",
+          "process",
+          "generate_healing_report",
+          "batch_process",
+          "get_stats"
+        ]
+      },
+      {
+        "filename": "symbolic_handshake.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.orchestration.signal_router",
+          "candidate.orchestration.signals"
+        ],
+        "exports": [
+          "SymbolicHandshake",
+          "register_module",
+          "create_signal",
+          "validate_handshake",
+          "get_signal_history",
+          "get_emotion_state_history"
+        ]
+      },
+      {
+        "filename": "symbolic_validator.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ValidationSeverity",
+          "ValidationType",
+          "ValidationIssue",
+          "ValidationResult",
+          "BaseValidator",
+          "SymbolicIntegrationValidator",
+          "EthicsValidator",
+          "ComplianceValidator",
+          "SecurityValidator",
+          "ConsciousnessValidator",
+          "LucasSymbolicValidator",
+          "add_issue",
+          "get_issues_by_severity",
+          "get_issues_by_type",
+          "add_custom_validator",
+          "get_validation_report"
+        ]
+      },
+      {
+        "filename": "vocabulary.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.utils.__init__"
+        ],
+        "exports": [
+          "DreamOperation",
+          "get_dream_symbol",
+          "get_dream_narrative",
+          "get_visual_hint",
+          "cycle_start",
+          "phase_transition",
+          "pattern_discovered",
+          "insight_generated",
+          "emotional_context",
+          "memory_processing",
+          "cycle_completion"
+        ]
+      },
+      {
+        "filename": "symbolic_api.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "symbolic_bio_symbolic.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolicGlyph",
+          "BioSymbolic",
+          "process",
+          "process_rhythm",
+          "process_energy",
+          "process_dna",
+          "process_stress",
+          "process_homeostasis",
+          "process_neural",
+          "process_generic",
+          "get_statistics",
+          "reset"
+        ]
+      },
+      {
+        "filename": "message_hub.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "collapse",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "drift",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "lukhas_context.md",
+        "type": "lukhas_context.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "claude.me",
+        "type": "claude.me",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "lukhas_context.md",
+      "claude.me"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 66,
+    "estimated_complexity": "high",
+    "consciousness_integration": "intermediate",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.75,
+    "matriz_compatibility": "experimental",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "candidate/core",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

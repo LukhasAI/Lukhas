@@ -6,7 +6,7 @@ LUKHAS AI - OpenAI Function Calling Bridge
 Comprehensive OpenAI API integration with function calling, streaming,
 and multi-model orchestration support.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 Performance Target: <100ms function call latency
 Supports: GPT-4, GPT-3.5-turbo, function calling, streaming
 

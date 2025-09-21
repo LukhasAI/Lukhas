@@ -1,10 +1,19 @@
 import os
 import pathlib
+import random
 import sqlite3
 import sys
 from pathlib import Path
 
 import pytest
+
+# Seed determinism for reproducible tests
+PYTHONHASHSEED = os.environ.get("PYTHONHASHSEED")
+if PYTHONHASHSEED is None:
+    os.environ["PYTHONHASHSEED"] = "0"
+
+# Set random seed for deterministic test behavior
+random.seed(1337)
 
 # T4 Lane Configuration
 def pytest_addoption(parser):

@@ -12,7 +12,7 @@ from pathlib import Path
 def complete_cleanup():
     """Remove all remaining _, lukhas_, and other redundant prefixes"""
 
-    workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas"
+    workspace = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas"
     changes = []
 
     print("🧹 COMPLETE HYGIENE CLEANUP")

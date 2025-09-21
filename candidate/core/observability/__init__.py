@@ -3,7 +3,7 @@ LUKHAS AI Observability and Monitoring System
 
 This module provides comprehensive observability and monitoring capabilities
 for the LUKHAS AI system, integrating Guardian System monitoring, consciousness
-awareness tracking, system health observability, and Trinity Framework
+awareness tracking, system health observability, and Constellation Framework
 monitoring into a unified platform.
 
 Key Components:
@@ -11,7 +11,7 @@ Key Components:
 - Consciousness Awareness Monitoring System
 - System Health Monitor
 - Comprehensive Alerting System
-- Trinity Framework Monitor
+- Constellation Framework Monitor
 - Unified Monitoring Dashboard
 
 Features:
@@ -19,7 +19,7 @@ Features:
 - Consciousness awareness state tracking and analysis
 - System health observability with performance metrics
 - Comprehensive alerting with compliance audit trails
-- Trinity Framework monitoring (⚛️🧠🛡️)
+- Constellation Framework monitoring (⚛️🧠🛡️)
 - Authentication and API performance tracking
 - Multi-channel notifications and escalation
 - Compliance monitoring (GDPR/CCPA/HIPAA/SOC2)
@@ -32,7 +32,7 @@ Usage:
         AwarenessMonitoringSystem,
         SystemHealthMonitor,
         ComprehensiveAlertingSystem,
-        TrinityFrameworkMonitor
+        ConstellationFrameworkMonitor
     )
 
     # Initialize unified monitoring
@@ -49,7 +49,7 @@ Usage:
 #TAG:observability
 #TAG:monitoring
 #TAG:dashboard
-#TAG:trinity
+#TAG:constellation
 #TAG:guardian
 """
 import logging
@@ -165,21 +165,21 @@ except ImportError as e:
     ALERTING_SYSTEM_AVAILABLE = False
 
 try:
-    from .trinity_framework_monitor import (
+    from .constellation_framework_monitor import (
         APIPerformanceMetric,
         AuthenticationEvent,
         InteractionType,
         PerformanceMetric,
-        TrinityComponent,
-        TrinityFrameworkMonitor,
-        TrinityHealthStatus,
-        TrinityInteraction,
-        TrinityReport,
+        ConstellationComponent,
+        ConstellationFrameworkMonitor,
+        ConstellationHealthStatus,
+        ConstellationInteraction,
+        ConstellationReport,
     )
 
     TRINITY_MONITORING_AVAILABLE = True
 except ImportError as e:
-    logger.warning(f"Trinity monitoring not available: {e}")
+    logger.warning(f"Constellation monitoring not available: {e}")
     TRINITY_MONITORING_AVAILABLE = False
 
 
@@ -200,7 +200,7 @@ class ObservabilityManager:
         self.consciousness_monitor: Optional[AwarenessMonitoringSystem] = None
         self.health_monitor: Optional[SystemHealthMonitor] = None
         self.alerting_system: Optional[ComprehensiveAlertingSystem] = None
-        self.trinity_monitor: Optional[TrinityFrameworkMonitor] = None
+        self.constellation_monitor: Optional[ConstellationFrameworkMonitor] = None
 
         # System state
         self.initialized = False
@@ -214,14 +214,14 @@ class ObservabilityManager:
         initialization_results = {}
 
         try:
-            # Initialize Trinity Framework monitoring first (foundation)
+            # Initialize Constellation Framework monitoring first (foundation)
             if TRINITY_MONITORING_AVAILABLE:
-                self.trinity_monitor = TrinityFrameworkMonitor(self.config.get("trinity_monitoring", {}))
-                initialization_results["trinity_monitoring"] = True
-                logger.info("✅ Trinity Framework monitoring initialized")
+                self.constellation_monitor = ConstellationFrameworkMonitor(self.config.get("constellation_monitoring", {}))
+                initialization_results["constellation_monitoring"] = True
+                logger.info("✅ Constellation Framework monitoring initialized")
             else:
-                initialization_results["trinity_monitoring"] = False
-                logger.warning("⚠️ Trinity Framework monitoring not available")
+                initialization_results["constellation_monitoring"] = False
+                logger.warning("⚠️ Constellation Framework monitoring not available")
 
             # Initialize Guardian monitoring
             if GUARDIAN_MONITORING_AVAILABLE:
@@ -299,7 +299,7 @@ class ObservabilityManager:
                 "consciousness_monitor": ("active" if self.consciousness_monitor else "not_available"),
                 "health_monitor": "active" if self.health_monitor else "not_available",
                 "alerting_system": ("active" if self.alerting_system else "not_available"),
-                "trinity_monitor": ("active" if self.trinity_monitor else "not_available"),
+                "constellation_monitor": ("active" if self.constellation_monitor else "not_available"),
             },
             "availability": {
                 "unified_dashboard": UNIFIED_DASHBOARD_AVAILABLE,
@@ -307,7 +307,7 @@ class ObservabilityManager:
                 "consciousness_monitoring": CONSCIOUSNESS_MONITORING_AVAILABLE,
                 "health_monitoring": HEALTH_MONITORING_AVAILABLE,
                 "alerting_system": ALERTING_SYSTEM_AVAILABLE,
-                "trinity_monitoring": TRINITY_MONITORING_AVAILABLE,
+                "constellation_monitoring": TRINITY_MONITORING_AVAILABLE,
             },
         }
 
@@ -414,11 +414,11 @@ if TRINITY_MONITORING_AVAILABLE:
             "AuthenticationEvent",
             "InteractionType",
             "PerformanceMetric",
-            "TrinityComponent",
-            "TrinityFrameworkMonitor",
-            "TrinityHealthStatus",
-            "TrinityInteraction",
-            "TrinityReport",
+            "ConstellationComponent",
+            "ConstellationFrameworkMonitor",
+            "ConstellationHealthStatus",
+            "ConstellationInteraction",
+            "ConstellationReport",
         ]
     )
 

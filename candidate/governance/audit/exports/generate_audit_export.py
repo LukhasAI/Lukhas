@@ -477,7 +477,7 @@ Based on this audit period:
 ---
 
 **Guardian Status**: 🛡️ **OPERATIONAL**
-**Trinity Framework**: ⚛️🧠🛡️ **PROTECTING**
+**Constellation Framework**: ⚛️🧠🛡️ **PROTECTING**
 
 *Audit complete - System under continuous protection*
 """.format(

@@ -15,10 +15,10 @@ from pydantic import BaseModel
 
 # AGI Core imports
 try:
-    from agi_core.orchestration.capability_matrix import CapabilityDimension, CapabilityMatrix
-    from agi_core.orchestration.consensus_engine import ConsensusEngine, ConsensusMethod
-    from agi_core.orchestration.cost_optimizer import CostConstraints, CostOptimizer, OptimizationStrategy
-    from agi_core.orchestration.model_router import ModelRouter, RoutingRequest, TaskType
+    from cognitive_core.orchestration.capability_matrix import CapabilityDimension, CapabilityMatrix
+    from cognitive_core.orchestration.consensus_engine import ConsensusEngine, ConsensusMethod
+    from cognitive_core.orchestration.cost_optimizer import CostConstraints, CostOptimizer, OptimizationStrategy
+    from cognitive_core.orchestration.model_router import ModelRouter, RoutingRequest, TaskType
 
     AGI_ORCHESTRATION_AVAILABLE = True
 except ImportError:
@@ -186,7 +186,7 @@ async def intelligent_model_routing(request: OrchestrationRequest):
             constellation_context=request.constellation_context,
         )
 
-        # Route request through AGI system
+        # Route request through Cognitive system
         decision, response = await agi_model_router.route_request(routing_request)
 
         # Calculate processing time
@@ -320,7 +320,7 @@ async def analyze_model_capabilities(request: ModelCapabilitiesRequest):
                 required_capabilities[capability_mapping[capability_name]] = min_score
 
         # Create task requirements
-        from agi_core.orchestration.capability_matrix import TaskRequirements
+        from cognitive_core.orchestration.capability_matrix import TaskRequirements
 
         task_reqs = TaskRequirements(
             task_type=None,  # Will be inferred
@@ -446,7 +446,7 @@ async def record_model_feedback(
 
         # Record in capability matrix
         if agi_capability_matrix:
-            from agi_core.orchestration.capability_matrix import TaskType as AGITaskType
+            from cognitive_core.orchestration.capability_matrix import TaskType as AGITaskType
 
             task_type_mapping = {
                 "reasoning": AGITaskType.REASONING,

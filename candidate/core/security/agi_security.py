@@ -1,6 +1,6 @@
 """
-LUKHAS AGI Security Layer
-Enterprise-grade security for AGI operations
+LUKHAS Cognitive AI Security Layer
+Enterprise-grade security for Cognitive AI operations
 """
 import asyncio
 import hashlib
@@ -73,7 +73,7 @@ class SecurityValidator(ABC):
 
 class AGISecuritySystem:
     """
-    Comprehensive security system for LUKHAS AGI
+    Comprehensive security system for LUKHAS Cognitive AI
     Protects against threats while preserving functionality
     """
 

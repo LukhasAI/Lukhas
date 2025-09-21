@@ -64,7 +64,7 @@ Banned terms and superlatives that violate LUKHAS messaging standards.
 - Superlatives (revolutionary, groundbreaking, ultimate)
 - Misleading claims (true AI, sentient, conscious AI)
 - Inaccurate technical terms (quantum processing vs quantum-inspired)
-- Deprecated LUKHAS terms (LUKHAS AGI, MATADA)
+- Deprecated LUKHAS terms (LUKHAS Cognitive AI, MATADA)
 - Production claims (only when explicitly approved)
 - Financial claims (avoid all revenue/pricing projections)
 
@@ -87,7 +87,7 @@ Approved strong claims backed by evidence and technical documentation.
 ### Technical Accuracy Requirements
 - Always use "quantum-inspired" not "quantum processing"
 - Always use "bio-inspired" not "biological processing"
-- Use "LUKHAS AI" never "LUKHAS AGI"
+- Use "LUKHAS AI" never "LUKHAS Cognitive AI"
 - Product name: "MΛTRIZ" (display) / "Matriz" (plain text)
 
 ### Reading Level Standards
@@ -186,19 +186,19 @@ When adding new vocabulary:
 
 ### Good Vocabulary Usage
 ✅ "LUKHAS AI uses quantum-inspired algorithms"
-✅ "The Trinity Framework ensures ethical oversight"
+✅ "The Constellation Framework ensures ethical oversight"
 ✅ "Memory folds achieve 99.7% cascade prevention"
 ✅ "Where consciousness meets code in digital harmony" (28 words)
 
 ### Problematic Usage
 ❌ "Revolutionary quantum AI brain"
-❌ "Sentient LUKHAS AGI achieves consciousness"
+❌ "Sentient LUKHAS Cognitive AI achieves consciousness"
 ❌ "Ultimate groundbreaking artificial general intelligence"
 ❌ "In the infinite cathedral of quantum consciousness where probability waves dance through crystalline architectures of pure awareness" (17 words over limit)
 
 ## Resources
 
-- [Trinity Framework Documentation](../trinity_core_vocabulary.yaml)
+- [Constellation Framework Documentation](../constellation_core_vocabulary.yaml)
 - [LUKHAS Branding Policy](../BRANDING_POLICY.md)
 - [Readability Testing Tools](https://readable.com/)
 - [Information Integration Theory Papers](https://www.iit.it/)

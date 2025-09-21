@@ -94,7 +94,7 @@ We believe the best minds are distributed globally, and consciousness developmen
 
 ## Future Team Structure
 
-As LUKHAS AI grows, we envision a carefully structured organization that reflects our Trinity Framework:
+As LUKHAS AI grows, we envision a carefully structured organization that reflects our Constellation Framework:
 
 ### ⚛️ Identity Team
 - **Consciousness Architects**: Designing and implementing core consciousness systems

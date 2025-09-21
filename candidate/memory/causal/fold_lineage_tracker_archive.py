@@ -127,9 +127,9 @@ class FoldLineageTracker:
     """
 
     def __init__(self, max_drift_rate: float = MAX_DRIFT_RATE):
-        self.lineage_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/fold_lineage_log.jsonl"
-        self.causal_map_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/fold_cause_map.jsonl"
-        self.lineage_graph_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/lineage_graph.jsonl"
+        self.lineage_log_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/fold_lineage_log.jsonl"
+        self.causal_map_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/fold_cause_map.jsonl"
+        self.lineage_graph_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/lineage_graph.jsonl"
         self.max_drift_rate = max_drift_rate
 
         # In-memory lineage graph for fast queries

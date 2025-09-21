@@ -7,7 +7,7 @@ Integration Date: 2025-05-31T07:55:27.738271
 
 # 📄 MODULE: web_formatter.py
 # 🔎 PURPOSE: Format symbolic LUKHAS expressions for web, markdown, and simulated social output
-# 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-04-30 • ✍️ AUTHOR: LUKHAS AGI
+# 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-04-30 • ✍️ AUTHOR: LUKHAS Cognitive AI
 
 import argparse
 import json

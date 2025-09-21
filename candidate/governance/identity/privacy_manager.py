@@ -366,7 +366,7 @@ class PrivacyManager:
         # and possibly derived from a master key
 
         # Create a key derivation function
-        password = b"adaptive-agi-secure-key"  # This would be a secure secret in production
+        password = b"adaptive-cognitive-secure-key"  # This would be a secure secret in production
         kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),
             length=32,

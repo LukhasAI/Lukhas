@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 AI-Powered AGI Code Consolidator
-Uses Claude API to intelligently analyze and consolidate AGI modules
+Uses Claude API to intelligently analyze and consolidate Cognitive modules
 Preserves complex functionality while reducing redundancy
 """
 
@@ -87,7 +87,7 @@ class AICodeConsolidator:
         """Create AI prompt for merging modules"""
         prompt = f"""You are an expert AGI architect. I need to merge these {component_type} modules while preserving all functionality and improving the architecture.
 
-CONTEXT: This is part of an AGI system where {component_type} components handle specific aspects of artificial general intelligence. The goal is to reduce redundancy while maintaining modular complexity necessary for AGI.
+CONTEXT: This is part of an Cognitive system where {component_type} components handle specific aspects of artificial general intelligence. The goal is to reduce redundancy while maintaining modular complexity necessary for AGI.
 
 MODULES TO MERGE:
 """
@@ -128,7 +128,7 @@ MERGED MODULE:
         base_interfaces = interface_plan["base_interfaces"]
 
         for interface_name, interface_spec in base_interfaces.items():
-            prompt = f"""You are designing standardized interfaces for an AGI system.
+            prompt = f"""You are designing standardized interfaces for an Cognitive system.
 
 Create a comprehensive Python interface/protocol for: {interface_name}
 
@@ -163,7 +163,7 @@ OUTPUT: Complete Python interface definition with full documentation.
 
     async def _optimize_modules_with_ai(self, codebase_path: str, optimization_plan: dict) -> list[dict]:
         """Use AI to optimize individual modules"""
-        print("⚡ Optimizing AGI modules with AI...")
+        print("⚡ Optimizing Cognitive modules with AI...")
 
         optimized_results = []
 
@@ -194,7 +194,7 @@ OUTPUT: Complete Python interface definition with full documentation.
 
     async def _optimize_complex_module(self, module_path: str, original_code: str) -> Optional[str]:
         """Use AI to optimize a complex module"""
-        prompt = f"""You are an expert AGI architect. Optimize this overly complex AGI module while preserving all functionality.
+        prompt = f"""You are an expert AGI architect. Optimize this overly complex Cognitive module while preserving all functionality.
 
 MODULE: {module_path}
 
@@ -204,7 +204,7 @@ ORIGINAL CODE:
 ```
 
 OPTIMIZATION GOALS:
-1. Reduce complexity while preserving all AGI functionality
+1. Reduce complexity while preserving all Cognitive functionality
 2. Break down large functions into smaller, focused methods
 3. Improve separation of concerns
 4. Add proper abstraction layers
@@ -292,7 +292,7 @@ This report details the AI-powered consolidation of your AGI codebase.
             report += f"""
 ### {optimized["module_path"]}
 - **Optimization Type**: {optimized["optimization_type"]}
-- **Improvements**: Reduced complexity while preserving AGI functionality
+- **Improvements**: Reduced complexity while preserving Cognitive functionality
 
 """
 
@@ -371,7 +371,7 @@ import shutil
 from pathlib import Path
 
 def migrate_agi_modules():
-    print("🚀 Starting AGI module migration...")
+    print("🚀 Starting Cognitive module migration...")
 
     # Backup original modules
     backup_dir = Path("backup_original_modules")

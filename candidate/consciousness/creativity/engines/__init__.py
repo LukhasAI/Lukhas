@@ -38,7 +38,7 @@ import streamlit as st
 from .engine import CreationEngine
 
 __version__ = "1.0.0"
-__author__ = "LUKHAS AGI System"
+__author__ = "LUKHAS Cognitive AI System"
 
 # Export main components
 __all__ = ["CreationEngine"]

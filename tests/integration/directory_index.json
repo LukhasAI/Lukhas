@@ -1,0 +1,355 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "tests/integration",
+    "lane": "development",
+    "purpose": "Directory containing 10 Python files and 20 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "conftest.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "test_aka_qualia.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.aka_qualia.core",
+          "candidate.aka_qualia.models",
+          "candidate.aka_qualia.pls",
+          "candidate.aka_qualia.teq_hook"
+        ],
+        "exports": [
+          "TestT1PackageStructure",
+          "TestT1PLSMonotonicity",
+          "TestT2TEQGuardian",
+          "TestVivoxIntegration",
+          "TestT1T2Integration",
+          "test_protoqualia_ranges",
+          "test_colorfield_validation",
+          "test_risk_profile_severity_alignment",
+          "test_regulation_actions_validation",
+          "setup_method",
+          "test_threat_arousal_monotonicity",
+          "test_soothing_monotonicity",
+          "test_temporal_pressure_urgency",
+          "test_agency_signals_mapping",
+          "setup_method",
+          "test_severity_threshold_classification",
+          "test_golden_severity_actions",
+          "test_extreme_arousal_detection",
+          "test_negative_tone_high_arousal_combo",
+          "setup_method",
+          "test_collapse_hash_generation",
+          "test_drift_score_computation",
+          "test_high_drift_detection",
+          "setup_method"
+        ]
+      },
+      {
+        "filename": "test_async_manager.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.async_manager",
+          "lukhas.async_utils"
+        ],
+        "exports": [
+          "TestConsciousnessTaskManager",
+          "TestAsyncUtils",
+          "TestGlobalManagers",
+          "TestConsciousnessTaskDecorator",
+          "TestAsyncReliabilityIntegration",
+          "task_manager",
+          "test_get_managers"
+        ]
+      },
+      {
+        "filename": "test_memory_threading.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.aka_qualia.memory_sql"
+        ],
+        "exports": [
+          "test_sql_memory_threading",
+          "save_scene"
+        ]
+      },
+      {
+        "filename": "test_advanced_components_focused.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.actor_system",
+          "lukhas.core.actor_system",
+          "lukhas.core.actor_system"
+        ],
+        "exports": [
+          "TestActorSystemAdvanced",
+          "TestTierSystemAdvanced",
+          "TaskMessage",
+          "AnalysisTask",
+          "run_focused_tests",
+          "test_multi_agent_collaboration",
+          "test_agent_capability_management",
+          "test_actor_system_scaling",
+          "test_complex_access_control_workflow",
+          "test_session_elevation_scenarios"
+        ]
+      },
+      {
+        "filename": "test_production_main.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TestProductionMain",
+          "test_initialization",
+          "test_main_function"
+        ]
+      },
+      {
+        "filename": "test_example_integration.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TestDatabaseIntegration",
+          "TestAPIIntegration",
+          "test_example_integration",
+          "test_db_connection",
+          "test_external_api_calls"
+        ]
+      },
+      {
+        "filename": "test_concurrent_fix.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TestSqlMemory",
+          "create_test_scene",
+          "create_test_glyph",
+          "test_concurrent_saves",
+          "save",
+          "save_scene"
+        ]
+      },
+      {
+        "filename": "test_cross_component_integration.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.actor_system",
+          "lukhas.core.actor_system"
+        ],
+        "exports": [
+          "TestActorTierIntegration",
+          "SecureActor",
+          "WorkflowCoordinator",
+          "run_integration_tests",
+          "test_secure_actor_communication",
+          "test_elevated_session_actor_workflow",
+          "secure_operation",
+          "request_elevation",
+          "execute_privileged_workflow"
+        ]
+      },
+      {
+        "filename": "test_integration.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.memory"
+        ],
+        "exports": [
+          "test_memory_flow_minimal"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "candidate",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "branding",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "contract",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "tools",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "bio",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "products",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "core",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "identity",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "end_to_end",
+        "has_index": false,
+        "purpose": "Subdirectory with 5 Python files",
+        "component_count": 5
+      },
+      {
+        "name": "security",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "bridge",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "phase2",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "ai_orchestration",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "adapters",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "consent",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "scripts",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "orchestration",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "governance",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "api",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "universal_language",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      }
+    ],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 10,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "standard",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "tests",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

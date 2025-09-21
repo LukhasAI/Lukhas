@@ -480,7 +480,7 @@ class EnhancedBrainIntegration:
                         level=self.config.get("compliance_level", "STRICT")
                     )
                 if DAOGovernanceNode:
-                    self.dao_governance = DAOGovernanceNode(agi_system=self)
+                    self.dao_governance = DAOGovernanceNode(cognitive_system=self)
                 if EthicalHierarchy:
                     self.ethical_hierarchy = EthicalHierarchy()
 
@@ -584,7 +584,7 @@ class EnhancedBrainIntegration:
             "input_received": True,
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "processing_stages": {},
-            "agi_enhancements": {}
+            "cognitive_enhancements": {}
         }
 
         try:
@@ -595,7 +595,7 @@ class EnhancedBrainIntegration:
                     compliance_result = await self.compliance_manager.validate_ai_action(
                         {"action": "process_input", "data": input_data}, context
                     )
-                    result["agi_enhancements"]["compliance"] = compliance_result
+                    result["cognitive_enhancements"]["compliance"] = compliance_result
                     self.stats["compliance_checks"] += 1
 
                     # Block processing if critical compliance violation
@@ -609,7 +609,7 @@ class EnhancedBrainIntegration:
                     ethical_result = await self.ethical_hierarchy.evaluate_ethical_decision(
                         input_data, context
                     )
-                    result["agi_enhancements"]["ethics"] = ethical_result
+                    result["cognitive_enhancements"]["ethics"] = ethical_result
                     self.stats["ethical_evaluations"] += 1
 
                     # Warn if ethical concerns detected
@@ -621,7 +621,7 @@ class EnhancedBrainIntegration:
                 memory_enhancement = await self.enhanced_memory_manager.process_with_context(
                     input_data, context
                 )
-                result["agi_enhancements"]["memory"] = memory_enhancement
+                result["cognitive_enhancements"]["memory"] = memory_enhancement
                 self.stats["memory_enhancements"] += 1
 
             # Stage 3: Meta-Cognitive Reflection
@@ -629,7 +629,7 @@ class EnhancedBrainIntegration:
                 meta_reflection = await self.meta_cognitive_system.reflect_on_processing(
                     input_data, context, result
                 )
-                result["agi_enhancements"]["meta_cognitive"] = meta_reflection
+                result["cognitive_enhancements"]["meta_cognitive"] = meta_reflection
                 self.stats["meta_cognitive_reflections"] += 1
 
             # Stage 4: Causal Reasoning
@@ -637,7 +637,7 @@ class EnhancedBrainIntegration:
                 causal_analysis = await self.causal_reasoning.analyze_causal_relationships(
                     input_data, context
                 )
-                result["agi_enhancements"]["causal_reasoning"] = causal_analysis
+                result["cognitive_enhancements"]["causal_reasoning"] = causal_analysis
                 self.stats["causal_inferences"] += 1
 
             # Stage 5: Predictive Resource Management
@@ -645,7 +645,7 @@ class EnhancedBrainIntegration:
                 predictive_insights = await self.predictive_manager.predict_resource_needs(
                     input_data, context, result
                 )
-                result["agi_enhancements"]["prediction"] = predictive_insights
+                result["cognitive_enhancements"]["prediction"] = predictive_insights
                 self.stats["predictive_operations"] += 1
 
             # Stage 6: Original Symphony Processing (if available)
@@ -662,7 +662,7 @@ class EnhancedBrainIntegration:
                     governance_result = await self.dao_governance.evaluate_decision(
                         input_data, context, result
                     )
-                    result["agi_enhancements"]["governance"] = governance_result
+                    result["cognitive_enhancements"]["governance"] = governance_result
                     self.stats["governance_decisions"] += 1
 
             # Stage 8: Integration and Final Processing
@@ -671,7 +671,7 @@ class EnhancedBrainIntegration:
             # Update result status
             result["status"] = "completed"
             result["processing_time"] = time.time() - start_time
-            result["agi_integration"] = "full" if self.advanced_agi_available else "partial"
+            result["cognitive_integration"] = "full" if self.advanced_agi_available else "partial"
 
             return result
 
@@ -687,30 +687,30 @@ class EnhancedBrainIntegration:
         """Integrate results from all AI components into a coherent response"""
 
         # Extract key insights from each component
-        agi_insights = {
-            "compliance_status": result.get("agi_enhancements", {}).get("compliance", {}).get("status", "unknown"),
-            "ethical_alignment": result.get("agi_enhancements", {}).get("ethics", {}).get("alignment_score", 0.5),
-            "memory_relevance": result.get("agi_enhancements", {}).get("memory", {}).get("relevance_score", 0.5),
-            "causal_confidence": result.get("agi_enhancements", {}).get("causal_reasoning", {}).get("confidence", 0.5),
-            "prediction_accuracy": result.get("agi_enhancements", {}).get("prediction", {}).get("accuracy", 0.5),
-            "meta_awareness": result.get("agi_enhancements", {}).get("meta_cognitive", {}).get("awareness_level", 0.5)
+        cognitive_insights = {
+            "compliance_status": result.get("cognitive_enhancements", {}).get("compliance", {}).get("status", "unknown"),
+            "ethical_alignment": result.get("cognitive_enhancements", {}).get("ethics", {}).get("alignment_score", 0.5),
+            "memory_relevance": result.get("cognitive_enhancements", {}).get("memory", {}).get("relevance_score", 0.5),
+            "causal_confidence": result.get("cognitive_enhancements", {}).get("causal_reasoning", {}).get("confidence", 0.5),
+            "prediction_accuracy": result.get("cognitive_enhancements", {}).get("prediction", {}).get("accuracy", 0.5),
+            "meta_awareness": result.get("cognitive_enhancements", {}).get("meta_cognitive", {}).get("awareness_level", 0.5)
         }
 
         # Calculate overall AI intelligence score
-        agi_score = sum(agi_insights.values()) / len(agi_insights)
+        cognitive_score = sum(cognitive_insights.values()) / len(cognitive_insights)
 
         # Generate integrated recommendations
         recommendations = []
-        if agi_insights["compliance_status"] != "compliant":
+        if cognitive_insights["compliance_status"] != "compliant":
             recommendations.append("Review compliance requirements")
-        if agi_insights["ethical_alignment"] < 0.7:
+        if cognitive_insights["ethical_alignment"] < 0.7:
             recommendations.append("Consider ethical implications")
-        if agi_insights["causal_confidence"] < 0.6:
+        if cognitive_insights["causal_confidence"] < 0.6:
             recommendations.append("Gather more causal evidence")
 
-        result["agi_summary"] = {
-            "overall_score": agi_score,
-            "insights": agi_insights,
+        result["cognitive_summary"] = {
+            "overall_score": cognitive_score,
+            "insights": cognitive_insights,
             "recommendations": recommendations,
             "integration_complete": True
         }

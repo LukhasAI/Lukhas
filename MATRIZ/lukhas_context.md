@@ -5,26 +5,26 @@
 ---
 
 
-# MATRIZ Cognitive DNA Engine
-*Symbolic Reasoning & Node-Based Thought Processing*
+# MATRIZ Cognitive Engine
+*Memory-Attention-Thought-Risk-Intent-Action Pipeline*
 
 ## Cognitive Architecture Overview
 
-MATRIZ implements a **"Cognitive DNA" system** where every thought becomes a traceable, governed, and evolvable node. With **20 Python files** orchestrating **16,042 frontend assets** (632MB), MATRIZ transforms AI processing into a symbolic reasoning engine that bridges biological patterns with quantum-inspired processing.
+MATRIZ implements the **Memory-Attention-Thought-Risk-Intent-Action pipeline** with T4/0.01% implementation standards. With **20 Python files** orchestrating **16,042 frontend assets** (632MB), MATRIZ provides registry-based plugin architecture with constructor-aware instantiation patterns and Constellation Framework integration.
 
 ### **System Scope**
 - **Core Logic**: 20 Python files (minimal backend, maximum reasoning power)
 - **Visualization Assets**: 16,042 frontend files (rich human-AI interaction)
-- **Architecture**: Node-based cognitive processing with full provenance tracking
-- **Integration**: LUKHAS Trinity Framework bridge and CANDIDATE symbolic systems
+- **Architecture**: MATRIZ pipeline with registry-based plugins and parallel orchestration
+- **Integration**: Constellation Framework coordination with dynamic star-node system
 
-### **Cognitive DNA Philosophy**
+### **MATRIZ Pipeline Architecture**
 ```
-Every Operation → MATRIZ Node → Reasoning Chain → Provenance Tracking
-      │               │              │                │
-  User Input    → Node Creation → Causal Links → Decision Audit
-  Processing    → Memory Storage → Temporal Link → Learning Loop
-  Decision      → Node Network  → Semantic Link → Evolution
+Memory → Attention → Thought → Risk → Intent → Action
+  M         A         T        R       I        A
+  │         │         │        │       │        │
+Fold    → Pattern → Symbolic → Ethics → ΛiD  → Response
+Based   → Focus   → Reasoning → Check  → Auth → Generation
 ```
 
 ## 🧬 Node-Based Architecture
@@ -112,22 +112,21 @@ Decision Output → Learning Update → Node Evolution
 
 ## 🌉 Integration Points
 
-### **LUKHAS Trinity Framework Integration**
+### **Constellation Framework Integration**
 
-#### **Memory Adapter** (`lukhas/memory/matriz_adapter.py`)
+#### **Star-Node Coordination** (`lukhas/core/constellation_bridge.py`)
 ```
-LUKHAS Memory ↔ MATRIZ Nodes ↔ Symbolic Reasoning
-       │              │                │
-  Fold System   → Node Memory    → Reasoning Chains
-  Consciousness → Node Network   → Causal Processing
-  Integration   → Provenance     → Decision Tracking
+Anchor Star ↔ Intent Stage ↔ ΛiD Authentication
+Trail Star  ↔ Memory Stage ↔ Fold-Based Memory
+Horizon Star ↔ Attention Stage ↔ Pattern Recognition
+Watch Star  ↔ Risk Stage ↔ Guardian Validation
 ```
 
-#### **Symbolic Bridge Pattern**
-- **Memory Synchronization**: LUKHAS fold system ↔ MATRIZ node persistence
-- **Consciousness Coupling**: Trinity Framework awareness ↔ Node reasoning
-- **Decision Integration**: Guardian validation ↔ MATRIZ reasoning chains
-- **Identity Context**: Lambda ID ↔ Node ownership and access control
+#### **Dynamic Plugin Registry Pattern**
+- **Constructor-Aware Instantiation**: T4/0.01% implementation standards
+- **Registry-Based Plugins**: Dynamic component registration with cognitive alignment
+- **Parallel Orchestration**: Multi-stage pipeline processing with fault tolerance
+- **Constellation Coordination**: Dynamic star-node system integration
 
 ### **CANDIDATE Symbolic Systems Bridge**
 
@@ -193,9 +192,9 @@ User Interaction → Navigation Enhancement → Cognitive Insights
 - [`./visualization/claude.me`](./visualization/claude.me) - Graph visualization, interactive exploration
 
 ### **Integration Contexts**
-- **LUKHAS Integration**: `../lukhas/memory/claude.me` - Memory adapter and Trinity bridge
+- **LUKHAS Integration**: `../lukhas/memory/claude.me` - Memory adapter and Constellation Framework bridge
 - **CANDIDATE Bridge**: `../candidate/core/symbolic/claude.me` - Symbolic reasoning integration
-- **Trinity Framework**: `../lukhas/claude.me` - Trinity Framework coordination
+- **Constellation Framework**: `../lukhas/claude.me` - Constellation Framework coordination
 
 ### **Development Contexts**
 - **Node Development**: Custom node creation and capability extension
@@ -218,7 +217,7 @@ User Interaction → Navigation Enhancement → Cognitive Insights
 - **API Response**: RESTful services with rapid query processing
 
 ### **Integration Status**
-- ✅ **LUKHAS Bridge**: Memory adapter and Trinity Framework coordination
+- ✅ **Constellation Bridge**: Star-node coordination and dynamic plugin registry
 - ✅ **CANDIDATE Integration**: Symbolic reasoning and ethics bridge
 - ✅ **Visualization Pipeline**: Frontend-backend synchronization active
 - 🔄 **Production Scaling**: Enterprise deployment optimization
@@ -226,6 +225,6 @@ User Interaction → Navigation Enhancement → Cognitive Insights
 ---
 
 **Cognitive Engine**: 20 Python files + 16K frontend assets | **Architecture**: Node-based reasoning
-**Integration**: LUKHAS Trinity + CANDIDATE Symbolic | **Visualization**: Interactive thought exploration
+**Integration**: Constellation Framework + CANDIDATE Symbolic | **Pipeline**: Memory-Attention-Thought-Risk-Intent-Action
 
 *Navigate to specialized contexts for node development and reasoning chain optimization*

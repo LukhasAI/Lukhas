@@ -13,7 +13,7 @@
 ║                             ◊ POETIC ESSENCE ◊
 ║
 ║ ║ 🚀 LUKHAS AI - EPISODIC REPLAY BUFFER FOR REINFORCEMENT LEARNING
-║ ║ Bio-inspired memory replay for AGI learning and decision optimization
+║ ║ Bio-inspired memory replay for Cognitive AI learning and decision optimization
 ║ ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ║ ╠══════════════════════════════════════════════════════════════════════════════════
 ║ ║ Module: EPISODIC REPLAY BUFFER

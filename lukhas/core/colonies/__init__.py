@@ -1,7 +1,7 @@
 """
 LUKHAS AI Colony System
 Provides base colony infrastructure for the stable lane.
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
 This module intentionally avoids any cross-lane imports from `candidate`.
 """
@@ -22,14 +22,29 @@ if USE_CANDIDATE_BRIDGE:
     logger.warning("ALLOW_CANDIDATE_RUNTIME=1: candidate bridge enabled for migration")
 
 
-# Import router for fallback imports
+# Import router using registry for candidate components
 def import_with_fallback(primary_path: str, fallback_paths: list, item_name: str) -> Any:
     """
-    Try to import from primary path, fall back to alternatives if needed.
+    Try to resolve from registry first, then fall back to direct imports.
     """
-    paths_to_try = [primary_path, *fallback_paths]
+    # First try registry lookup for candidate components
+    if primary_path.startswith("candidate."):
+        try:
+            from lukhas.core.registry import resolve
+            registry_key = f"colony:{item_name.lower()}"
+            result = resolve(registry_key)
+            logger.debug(f"Successfully resolved {item_name} from registry key {registry_key}")
+            return result
+        except (ImportError, LookupError):
+            logger.debug(f"Registry lookup failed for {item_name}, falling back to direct imports")
 
+    # Fall back to direct imports for non-candidate modules
+    paths_to_try = [primary_path, *fallback_paths]
     for module_path in paths_to_try:
+        if module_path.startswith("candidate."):
+            # Skip candidate modules in direct import fallback
+            logger.debug(f"Skipping candidate module {module_path} in direct import fallback")
+            continue
         spec = importlib.util.find_spec(module_path)
         if spec is None:
             logger.debug(f"Module spec not found for {module_path}")
@@ -39,7 +54,7 @@ def import_with_fallback(primary_path: str, fallback_paths: list, item_name: str
             logger.debug(f"Successfully imported {item_name} from {module_path}")
             return getattr(module, item_name)
 
-    raise ImportError(f"Could not import {item_name} from any of: {paths_to_try}")
+    raise ImportError(f"Could not import {item_name} from registry or paths: {paths_to_try}")
 
 
 # Try to prefer real implementations from candidate lane first

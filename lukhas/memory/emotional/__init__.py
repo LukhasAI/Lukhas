@@ -1,7 +1,7 @@
 """
 LUKHAS AI Emotional Memory Module
 Emotional memory management and processing
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
 This module consolidates emotional memory functionality from various locations.
 """

@@ -14,7 +14,7 @@ Metadata:
   LUKHAS_TAGS: ethical_monitoring, drift_governor, symbolic_alignment
 
 License:
-  OpenAI-aligned AGI Symbolic Framework (internal use)
+  OpenAI-aligned Cognitive AI Symbolic Framework (internal use)
 """
 
 import hashlib
@@ -83,9 +83,9 @@ class EthicalDriftGovernor:
     """
 
     def __init__(self):
-        self.governance_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/ethical_governance.jsonl"
-        self.intervention_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/interventions.jsonl"
-        self.warnings_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/ethical_warnings.jsonl"
+        self.governance_log_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/ethical_governance.jsonl"
+        self.intervention_log_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/interventions.jsonl"
+        self.warnings_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/ethical_warnings.jsonl"
 
         # Memory type specific governance rules
         self.governance_rules = self._initialize_governance_rules()

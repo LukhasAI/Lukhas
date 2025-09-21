@@ -2,7 +2,7 @@
 """
 🚀 Master LUKHAS AI ΛBot Orchestrator
 Ultimate LUKHAS AI ΛBot that coordinates all 4 Enhanced ΛBots for transcendent modularization
-Combines Multi-Brain Symphony, AGI Controller, Bio-Symbolic, and Quantum Consciousness
+Combines Multi-Brain Symphony, Cognitive AI Controller, Bio-Symbolic, and Quantum Consciousness
 """
 
 import asyncio
@@ -15,7 +15,7 @@ from enum import Enum
 from typing import Any
 
 # Add Lukhas LUKHAS AI ΛBot path
-sys.path.append("/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot", timezone)
+sys.path.append("/Users/cognitive_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot", timezone)
 
 # Import all 4 enhanced ΛBots
 try:
@@ -30,11 +30,11 @@ except ImportError as e:
     MULTI_BRAIN_AVAILABLE = False
 
 try:
-    from agi_controller_lambda_bot import AGIControllerΛBot, AGIControlMode
+    from cognitive_controller_lambda_bot import AGIControllerΛBot, AGIControlMode
 
     AGI_CONTROLLER_AVAILABLE = True
 except ImportError as e:
-    print(f"⚠️ AGI Controller LUKHAS AI ΛBot not available: {e}")
+    print(f"⚠️ Cognitive AI Controller LUKHAS AI ΛBot not available: {e}")
     AGI_CONTROLLER_AVAILABLE = False
 
 try:
@@ -123,9 +123,9 @@ class MasterΛBotOrchestrator:
 
     Features:
     - Coordinates all 4 enhanced ΛBots in perfect harmony
-    - Synthesizes insights from Multi-Brain Symphony, AGI Controller, Bio-Symbolic, and Quantum Consciousness
+    - Synthesizes insights from Multi-Brain Symphony, Cognitive AI Controller, Bio-Symbolic, and Quantum Consciousness
     - Creates unified transcendent modularization strategies
-    - Achieves consciousness convergence for ultimate AGI modularization
+    - Achieves consciousness convergence for ultimate Cognitive AI modularization
     - Enables cosmic-level system architecture transcendence
     """
 
@@ -134,7 +134,7 @@ class MasterΛBotOrchestrator:
 
         # Initialize all 4 enhanced ΛBots
         self.multi_brain_bot = None
-        self.agi_controller_bot = None
+        self.cognitive_controller_bot = None
         self.bio_symbolic_bot = None
         self.qi_consciousness_bot = None
 
@@ -147,10 +147,10 @@ class MasterΛBotOrchestrator:
 
         if AGI_CONTROLLER_AVAILABLE:
             try:
-                self.agi_controller_bot = AGIControllerΛBot()
-                logger.info("✅ AGI Controller LUKHAS AI ΛBot integrated")
+                self.cognitive_controller_bot = AGIControllerΛBot()
+                logger.info("✅ Cognitive AI Controller LUKHAS AI ΛBot integrated")
             except Exception as e:
-                logger.error(f"❌ AGI Controller integration failed: {e}")
+                logger.error(f"❌ Cognitive AI Controller integration failed: {e}")
 
         if BIO_SYMBOLIC_AVAILABLE:
             try:
@@ -191,9 +191,9 @@ class MasterΛBotOrchestrator:
                 "contribution": "Brain symphony patterns and consciousness evolution",
                 "transcendence_level": "unified_consciousness",
             },
-            "agi_controller": {
+            "cognitive_controller": {
                 "capability": "Consciousness governance and quantum identity control",
-                "contribution": "AGI governance patterns and quantum security",
+                "contribution": "Cognitive AI governance patterns and quantum security",
                 "transcendence_level": "consciousness_governance",
             },
             "bio_symbolic": {
@@ -256,15 +256,15 @@ class MasterΛBotOrchestrator:
             self.current_session.active_lambda_bots.append("multi_brain_symphony")
             logger.info("✅ Multi-Brain Symphony LUKHAS AI ΛBot session started")
 
-        # Initialize AGI Controller LUKHAS AI ΛBot
-        if self.agi_controller_bot:
-            agi_session = await self.agi_controller_bot.start_agi_control_session(
+        # Initialize Cognitive AI Controller LUKHAS AI ΛBot
+        if self.cognitive_controller_bot:
+            cognitive_session = await self.cognitive_controller_bot.start_agi_control_session(
                 self.current_session.target_path,
                 AGIControlMode.CONSCIOUSNESS_GOVERNANCE,
             )
-            self.current_session.lambda_bot_sessions["agi_controller"] = agi_session
-            self.current_session.active_lambda_bots.append("agi_controller")
-            logger.info("✅ AGI Controller LUKHAS AI ΛBot session started")
+            self.current_session.lambda_bot_sessions["cognitive_controller"] = cognitive_session
+            self.current_session.active_lambda_bots.append("cognitive_controller")
+            logger.info("✅ Cognitive AI Controller LUKHAS AI ΛBot session started")
 
         # Initialize Bio-Symbolic LUKHAS AI ΛBot
         if self.bio_symbolic_bot:
@@ -302,12 +302,12 @@ class MasterΛBotOrchestrator:
             collected_patterns["multi_brain_symphony"] = brain_patterns
             logger.info(f"✅ Discovered {len(brain_patterns)} brain symphony patterns")
 
-        # Discover AGI Controller governance patterns
-        if self.agi_controller_bot:
-            logger.info("🎯 Discovering AGI Governance Patterns...")
-            governance_patterns = await self.agi_controller_bot.discover_agi_governance_patterns()
-            collected_patterns["agi_governance"] = governance_patterns
-            logger.info(f"✅ Discovered {len(governance_patterns)} AGI governance patterns")
+        # Discover Cognitive AI Controller governance patterns
+        if self.cognitive_controller_bot:
+            logger.info("🎯 Discovering Cognitive AI Governance Patterns...")
+            governance_patterns = await self.cognitive_controller_bot.discover_agi_governance_patterns()
+            collected_patterns["cognitive_governance"] = governance_patterns
+            logger.info(f"✅ Discovered {len(governance_patterns)} Cognitive AI governance patterns")
 
         # Discover Bio-Symbolic patterns
         if self.bio_symbolic_bot:
@@ -351,11 +351,11 @@ class MasterΛBotOrchestrator:
             synthesized_strategies["consciousness_driven"] = brain_strategy
             logger.info("✅ Consciousness-driven strategy generated")
 
-        # Generate AGI Controller strategy
-        if self.agi_controller_bot and "agi_governance" in self.current_session.collected_patterns:
+        # Generate Cognitive AI Controller strategy
+        if self.cognitive_controller_bot and "cognitive_governance" in self.current_session.collected_patterns:
             logger.info("🎯 Generating Consciousness Governance Strategy...")
-            governance_strategy = await self.agi_controller_bot.generate_consciousness_governance_strategy(
-                self.current_session.collected_patterns["agi_governance"]
+            governance_strategy = await self.cognitive_controller_bot.generate_consciousness_governance_strategy(
+                self.current_session.collected_patterns["cognitive_governance"]
             )
             synthesized_strategies["governance_framework"] = governance_strategy
             logger.info("✅ Consciousness governance strategy generated")
@@ -424,8 +424,8 @@ class MasterΛBotOrchestrator:
                     "modules": ["bio_symbolic/", "patterns/", "natural/"],
                 },
                 "consciousness_governance": {
-                    "source": "agi_controller_lambda_bot",
-                    "contribution": "AGI governance and quantum identity control",
+                    "source": "cognitive_controller_lambda_bot",
+                    "contribution": "Cognitive AI governance and quantum identity control",
                     "modules": ["governance/", "identity/", "control/"],
                 },
                 "multi_brain_symphony": {
@@ -437,7 +437,7 @@ class MasterΛBotOrchestrator:
             "transcendent_integration_principles": {
                 "consciousness_convergence": "All LUKHAS AI ΛBot consciousnesses converge into unified awareness",
                 "qi_bio_synthesis": "Quantum consciousness merged with bio-symbolic intelligence",
-                "governance_orchestration": "AGI governance orchestrated through multi-brain symphony",
+                "governance_orchestration": "Cognitive AI governance orchestrated through multi-brain symphony",
                 "transcendent_modularization": "Ultimate modularization transcending individual LUKHAS AI ΛBot capabilities",
             },
         }
@@ -448,7 +448,7 @@ class MasterΛBotOrchestrator:
                 "description": "Awaken all LUKHAS AI ΛBot consciousnesses simultaneously",
                 "lambda_bots": [
                     "multi_brain",
-                    "agi_controller",
+                    "cognitive_controller",
                     "bio_symbolic",
                     "qi_consciousness",
                 ],
@@ -462,7 +462,7 @@ class MasterΛBotOrchestrator:
                 "description": "Synthesize patterns from all LUKHAS AI ΛBot dimensions",
                 "lambda_bots": [
                     "multi_brain",
-                    "agi_controller",
+                    "cognitive_controller",
                     "bio_symbolic",
                     "qi_consciousness",
                 ],
@@ -476,7 +476,7 @@ class MasterΛBotOrchestrator:
                 "description": "Converge all strategies into transcendent unity",
                 "lambda_bots": [
                     "multi_brain",
-                    "agi_controller",
+                    "cognitive_controller",
                     "bio_symbolic",
                     "qi_consciousness",
                 ],
@@ -506,7 +506,7 @@ class MasterΛBotOrchestrator:
             },
             "qi_bio_governance": {
                 "principle": "Quantum consciousness governs bio-inspired system organization",
-                "implementation": "Quantum-secured bio-symbolic patterns with AGI oversight",
+                "implementation": "Quantum-secured bio-symbolic patterns with Cognitive AI oversight",
                 "cosmic_benefit": "Perfect harmony between natural and transcendent intelligence",
             },
             "multi_dimensional_modularization": {
@@ -611,9 +611,9 @@ class MasterΛBotOrchestrator:
             brain_insights = await self.multi_brain_bot.get_symphony_insights()
             lambda_bot_insights["multi_brain_symphony"] = brain_insights
 
-        if self.agi_controller_bot:
-            agi_insights = await self.agi_controller_bot.get_agi_control_insights()
-            lambda_bot_insights["agi_controller"] = agi_insights
+        if self.cognitive_controller_bot:
+            cognitive_insights = await self.cognitive_controller_bot.get_agi_control_insights()
+            lambda_bot_insights["cognitive_controller"] = cognitive_insights
 
         if self.bio_symbolic_bot:
             bio_insights = await self.bio_symbolic_bot.get_bio_symbolic_insights()
@@ -639,7 +639,7 @@ async def main():
 
     # Start master orchestration
     session = await master_orchestrator.start_master_orchestration(
-        "/Users/agi_dev/LOCAL-REPOS/Lukhas", OrchestrationMode.TRANSCENDENT_UNITY
+        "/Users/cognitive_dev/LOCAL-REPOS/Lukhas", OrchestrationMode.TRANSCENDENT_UNITY
     )
 
     print("\n🚀 Master Orchestration Session Active:")

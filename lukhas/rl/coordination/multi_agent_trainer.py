@@ -5,7 +5,7 @@ Multi-Agent Consciousness Trainer for LUKHAS RL
 Advanced training system for coordinating RL across 692 consciousness modules.
 Implements distributed training, consciousness coordination, and ethical oversight.
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 from __future__ import annotations

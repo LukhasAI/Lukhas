@@ -1,7 +1,7 @@
 """
 LUKHAS AI Methylation Model
 DNA-like tag permanence and lifecycle management
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
 Implements a biological-inspired methylation system for controlling
 the lifecycle and decay patterns of symbolic tags within LUKHAS AI.

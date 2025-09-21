@@ -1,6 +1,6 @@
 # Core Directory Drift and Duplicate Analysis (Ongoing)
 
-This document tracks findings related to code drift (deviations from intended or documented purpose) and duplicate code within the `core/` directory of the LUKHAS AGI system. This analysis is part of Task 154 assigned to Jules-01.
+This document tracks findings related to code drift (deviations from intended or documented purpose) and duplicate code within the `core/` directory of the LUKHAS Cognitive system. This analysis is part of Task 154 assigned to Jules-01.
 
 **ΛORIGIN_AGENT:** Jules-01
 **ΛTASK_ID:** 154
@@ -126,7 +126,7 @@ Date: 2024-07-12 (Assumed date based on interaction flow)
 ### `core/integration/system_coordinator.py`
 
 *   **Issue Type:** Blocked Standardization / Tool Failure (`#ΛBLOCKED`)
-*   **Description:** Complex file defining the `SystemCoordinator` class, the main integration point for LUKHAS AGI.
+*   **Description:** Complex file defining the `SystemCoordinator` class, the main integration point for LUKHAS Cognitive AI.
 *   **Processing Status:** **SKIPPED / REQUIRES MANUAL REVIEW & STANDARDIZATION.** (`#ΛPENDING_PATCH`)
 *   **Drift Implication:** Lack of standardized logging/metadata for a critical component is a significant concern. Placeholder logic for interactions is a functional drift.
 

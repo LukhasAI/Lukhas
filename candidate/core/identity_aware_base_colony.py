@@ -7,19 +7,19 @@
 ║ Module: identity_aware_base_colony.py
 ║ Path: core/identity_aware_base_colony.py
 ║ Version: 1.0.0 | Created: 2025-07-28
-║ Authors: LUKHAS AGI Identity Team | Claude Code
+║ Authors: LUKHAS Cognitive AI Identity Team | Claude Code
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Revolutionary identity-aware colony base class that integrates quantum-proof
 ║ identity management with the LUKHAS colony architecture. Provides tier-based
-║ access control, post-quantum security, and AGI-ready identity features.
+║ access control, post-quantum security, and Cognitive AI-ready identity features.
 ║
 ║ KEY FEATURES:
 ║ • Quantum-proof identity validation for all colony operations
 ║ • Dynamic tier-based capability allocation
 ║ • Post-quantum cryptographic audit trails (CollapseHash)
-║ • AGI-ready identity models (composite, emergent, superintelligence)
+║ • Cognitive AI-ready identity models (composite, emergent, superintelligence)
 ║ • Resource quantum pools with entangled allocation
 ║ • Oracle & Ethics nervous system integration
 ║ • Consciousness-aware identity processing
@@ -92,10 +92,10 @@ class QISecurityError(Exception):
 
 class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
     """
-    Identity-aware base colony with quantum-proof security and AGI-ready features.
+    Identity-aware base colony with quantum-proof security and Cognitive AI-ready features.
 
     Extends BaseColony with comprehensive identity integration, tier-based access
-    control, post-quantum cryptography, and advanced AGI identity models.
+    control, post-quantum cryptography, and advanced cognitive AI identity models.
     """
 
     def __init__(self, colony_id: str, capabilities: list[str], **kwargs):

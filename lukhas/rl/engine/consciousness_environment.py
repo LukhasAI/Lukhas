@@ -3,13 +3,13 @@
 LUKHAS AI Consciousness-Aware RL Environment
 ============================================
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 Provides consciousness-aware reinforcement learning environment with:
 - Phenomenological state representation
 - Ethical constraint integration
 - Memory fold interaction
-- Trinity Framework compliance
+- Constellation Framework compliance
 """
 
 from typing import Any, Optional

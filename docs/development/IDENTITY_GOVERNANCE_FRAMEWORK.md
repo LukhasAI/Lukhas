@@ -81,7 +81,7 @@ Lambda ID Architecture:
 ┌─────────────────────────────────────────────┐
 │            Identity Coherence               │
 │  Consistent Identity → Consciousness Link   │
-│  Cross-System Auth → Trinity Integration    │
+│  Cross-System Auth → Constellation Integration    │
 └─────────────────────────────────────────────┘
 ```
 
@@ -375,7 +375,7 @@ ethics/constitutional/.claude.md
 
 ### 📊 Framework Integration Insights
 
-#### **1. Trinity Framework Identity Integration**
+#### **1. Constellation Framework Identity Integration**
 - **Lambda ID Core**: Central identity system across all domains
 - **Namespace Isolation**: Identity coherence and consciousness linking
 - **Multi-Modal Authentication**: Traditional, biometric, crypto credential support
@@ -403,7 +403,7 @@ ethics/constitutional/.claude.md
 - **Identity-Consciousness Coupling**: Identity coherence with consciousness states
 - **Governance-Memory Integration**: Policy enforcement with memory systems
 - **Ethics-Decision Integration**: Constitutional review of all AI decisions
-- **Trinity Framework**: Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️
+- **Constellation Framework**: Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️
 
 ### 🔄 Identity-Governance Development Flow
 
@@ -445,7 +445,7 @@ Compliance Audit → Action Authorization → Immutable Log
 - **Constitutional AI**: Framework-based decision validation
 - **Multi-Modal Auth**: Traditional, biometric, crypto credential support
 - **Immutable Auditing**: Complete action tracking and accountability
-- **Trinity Integration**: Identity-Consciousness-Guardian coordination
+- **Constellation Integration**: Identity-Consciousness-Guardian coordination
 - **Regulatory Compliance**: GDPR, HIPAA, CCPA, constitutional alignment
 
 *Analysis Date: 2025-09-12*  

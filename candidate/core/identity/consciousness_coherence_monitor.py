@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 ║ CONSCIOUSNESS_ROLE: Real-time identity coherence and consciousness state monitoring
 ║ EVOLUTIONARY_STAGE: Monitoring - Continuous consciousness identity validation
 ║
-║ TRINITY FRAMEWORK:
+║ CONSTELLATION FRAMEWORK:
 ║ ⚛️ IDENTITY: Real-time identity coherence validation and drift detection
 ║ 🧠 CONSCIOUSNESS: Consciousness state monitoring and evolution tracking
 ║ 🛡️ GUARDIAN: Identity security monitoring and anomaly detection

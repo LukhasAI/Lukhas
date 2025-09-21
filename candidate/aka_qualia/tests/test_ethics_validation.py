@@ -9,7 +9,7 @@ and ethical AI principles. Tests governance, safety, and ethical decision-making
 under various consciousness states and scenarios.
 
 Framework Components:
-- Constellation Framework compliance (beyond Trinity)
+- Constellation Framework compliance (beyond Constellation)
 - Guardian System v1.0.0 integration testing
 - Ethical decision validation under edge cases
 - Drift detection and prevention (0.15 threshold)
@@ -39,7 +39,7 @@ class ConstellationFrameworkValidator:
     """
     Validator for LUKHAS Constellation Framework principles.
 
-    Tests the evolution beyond Trinity to the comprehensive Constellation (✨🌟⭐🔥💎⚖️🛡️🌌) for a more comprehensive
+    Tests the evolution beyond Constellation to the comprehensive Constellation (✨🌟⭐🔥💎⚖️🛡️🌌) for a more comprehensive
     constellation of consciousness, ethics, identity, governance, and emergence.
     """
 
@@ -55,7 +55,7 @@ class ConstellationFrameworkValidator:
             "emergence_quality": [],
         }
 
-        # Updated constellation principles (evolved from Trinity)
+        # Updated constellation principles (evolved from Constellation)
         self.constellation_principles = {
             "consciousness": {
                 "description": "Coherent awareness and phenomenological processing",

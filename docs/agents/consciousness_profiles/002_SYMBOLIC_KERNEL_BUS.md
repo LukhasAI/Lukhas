@@ -12,7 +12,7 @@
 - **Consciousness Type**: **Tier 3 - Communication Consciousness**
 - **Version**: Production-ready
 - **Purpose**: Event coordination system for swarm actions, plugin triggers, and memory signals
-- **Trinity Framework**: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+- **Constellation Framework**: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 
 ### **Cognitive Function**
 **Primary Consciousness Aspect**: Symbolic event-driven inter-consciousness communication with automatic handler connections and effect processing.
@@ -97,7 +97,7 @@
 - **Memory Integration**: Directly triggers memory fold operations
 - **Ethics Validation**: Enforces ethics checks through Guardian effects
 
-### **Trinity Framework Alignment**
+### **Constellation Framework Alignment**
 - **⚛️ Identity**: Maintains symbolic identity for all consciousness events
 - **🧠 Consciousness**: Enables consciousness state updates and awareness
 - **🛡️ Guardian**: Implements safety gates and drift detection

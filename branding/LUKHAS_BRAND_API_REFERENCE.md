@@ -40,7 +40,7 @@ Local: http://localhost:8095/brand/v1/
 pip install lukhas-brand-sdk
 
 # Import the SDK
-from lukhas_brand import BrandAPI, TrinityFramework, ContentOrchestrator
+from lukhas_brand import BrandAPI, ConstellationFramework, ContentOrchestrator
 ```
 
 ---
@@ -63,10 +63,10 @@ print(auth_status)
 # {'authenticated': True, 'user_id': 'user_123', 'permissions': ['read', 'write']}
 ```
 
-### **🛡️ Trinity Framework Authentication**
+### **🛡️ Constellation Framework Authentication**
 ```python
-# Enhanced security with Trinity Framework integration
-trinity_auth = TrinityFramework.authenticate(
+# Enhanced security with Constellation Framework integration
+constellation_auth = ConstellationFramework.authenticate(
     identity_token="your_identity_token",
     consciousness_verification=True,
     guardian_validation=True
@@ -89,7 +89,7 @@ POST /adapters/creativity/generate
     "tone_layer": "poetic",  # "poetic", "user_friendly", "academic"
     "creative_style": "consciousness_inspired",
     "brand_context": "product_launch",
-    "trinity_alignment": True
+    "constellation_alignment": True
 }
 ```
 
@@ -100,7 +100,7 @@ POST /adapters/creativity/generate
     "tone_layer": "poetic",
     "creative_style": "consciousness_inspired",
     "brand_validated": True,
-    "trinity_aligned": True,
+    "constellation_aligned": True,
     "creativity_metadata": {
         "inspiration_level": 0.92,
         "consciousness_integration": 0.89,
@@ -117,7 +117,7 @@ Interface to bridge/voice systems with brand-specific voice profiles.
 POST /adapters/voice/generate
 
 {
-    "content": "The Trinity Framework enables conscious AI interactions",
+    "content": "The Constellation Framework enables conscious AI interactions",
     "tone_layer": "user_friendly",
     "voice_profile": "consciousness_ambassador",
     "emotional_context": "encouraging",
@@ -139,7 +139,7 @@ POST /adapters/voice/generate
         "emotional_resonance": 0.91,
         "audience_appropriateness": 0.94
     },
-    "trinity_aligned": True
+    "constellation_aligned": True
 }
 ```
 
@@ -154,7 +154,7 @@ POST /adapters/personality/express
     "content": "Welcome to LUKHAS AI",
     "personality_profile": "consciousness_ambassador",
     "context": "user_onboarding",
-    "trinity_emphasis": ["consciousness", "guardian"]
+    "constellation_emphasis": ["consciousness", "guardian"]
 }
 ```
 
@@ -165,7 +165,7 @@ POST /adapters/personality/express
     "personality_profile": "consciousness_ambassador",
     "context": "user_onboarding",
     "brand_authentic": True,
-    "trinity_coherent": True,
+    "constellation_coherent": True,
     "personality_metadata": {
         "authenticity_score": 0.93,
         "consistency_score": 0.88,
@@ -206,8 +206,8 @@ POST /intelligence/analyze
         "forbidden_terms_found": [],
         "terminology_health": "good"
     },
-    "trinity_analysis": {
-        "trinity_score": 0.92,
+    "constellation_analysis": {
+        "constellation_score": 0.92,
         "framework_mentioned": True,
         "components_present": {
             "identity": True,
@@ -221,7 +221,7 @@ POST /intelligence/analyze
         "tone_appropriateness": 0.91
     },
     "improvement_suggestions": [
-        "Consider adding more Trinity Framework references",
+        "Consider adding more Constellation Framework references",
         "Enhance consciousness terminology usage"
     ]
 }
@@ -256,7 +256,7 @@ POST /intelligence/sentiment
         "ethical_commitment": 0.88,
         "human_centricity": 0.82
     },
-    "trinity_sentiment": {
+    "constellation_sentiment": {
         "identity": 0.76,
         "consciousness": 0.89,
         "guardian": 0.83
@@ -363,7 +363,7 @@ POST /orchestration/create
 {
     "content_request": {
         "type": "marketing_content",
-        "topic": "Trinity Framework consciousness technology",
+        "topic": "Constellation Framework consciousness technology",
         "audience": "technical_professionals",
         "tone_layer": "user_friendly",
         "context": "product_introduction"
@@ -371,7 +371,7 @@ POST /orchestration/create
     "quality_requirements": {
         "consistency_threshold": 0.9,
         "brand_compliance": 0.95,
-        "trinity_alignment": 0.85
+        "constellation_alignment": 0.85
     }
 }
 ```
@@ -386,7 +386,7 @@ POST /orchestration/create
         "overall_quality": 0.92,
         "quality_factors": {
             "brand_consistency": 0.94,
-            "trinity_alignment": 0.89,
+            "constellation_alignment": 0.89,
             "sentiment_quality": 0.87,
             "voice_consistency": 0.93,
             "personality_coherence": 0.91
@@ -454,7 +454,7 @@ GET /voice-profiles/consciousness_ambassador
         "inspirational_content",
         "technical_introductions"
     ],
-    "trinity_emphasis": ["consciousness", "identity", "guardian"]
+    "constellation_emphasis": ["consciousness", "identity", "guardian"]
 }
 ```
 
@@ -466,7 +466,7 @@ POST /voice-profiles/consciousness_ambassador/adapt
 {
     "context": "user_onboarding",
     "audience": "first_time_users",
-    "trinity_emphasis": ["consciousness", "guardian"]
+    "constellation_emphasis": ["consciousness", "guardian"]
 }
 ```
 
@@ -498,7 +498,7 @@ GET /analytics/validation-metrics
     "brand_health": {
         "overall_score": 0.91,
         "consistency_score": 0.89,
-        "trinity_alignment": 0.94,
+        "constellation_alignment": 0.94,
         "voice_coherence": 0.87
     },
     "trend_analysis": {
@@ -644,7 +644,7 @@ asyncio.run(monitor.start_monitoring())
 |---|---|---|
 | `INVALID_API_KEY` | API key missing or invalid | Verify API key and permissions |
 | `BRAND_VALIDATION_FAILED` | Content violates brand guidelines | Apply suggested corrections |
-| `TRINITY_ALIGNMENT_ERROR` | Trinity Framework integration issues | Review Trinity requirements |
+| `TRINITY_ALIGNMENT_ERROR` | Constellation Framework integration issues | Review Constellation requirements |
 | `RATE_LIMIT_EXCEEDED` | Too many requests | Implement rate limiting |
 | `CONTENT_TOO_LARGE` | Content exceeds size limits | Split content into smaller chunks |
 | `INVALID_TONE_LAYER` | Unsupported tone layer specified | Use valid tone layer values |

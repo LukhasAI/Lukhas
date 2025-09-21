@@ -6,7 +6,7 @@ import json
 from datetime import datetime, timezone
 from typing import Any, Callable, Optional
 
-from .agi_security import AGISecuritySystem, SecurityContext, SecurityLevel
+from .cognitive_security import AGISecuritySystem, SecurityContext, SecurityLevel
 from .auth import get_auth_system
 from .crypto import get_encryption_manager
 
@@ -21,7 +21,7 @@ class SecurityIntegration:
         # Get enhanced security components
         self.crypto = get_encryption_manager()
         self.auth = get_auth_system()
-        self.agi_security = AGISecuritySystem()
+        self.cognitive_security = AGISecuritySystem()
 
         # Module encryption hooks
         self.module_hooks: dict[str, Callable] = {}
@@ -38,7 +38,7 @@ class SecurityIntegration:
     async def initialize(self):
         """Initialize security integration"""
         # Initialize core security
-        await self.agi_security.initialize()
+        await self.cognitive_security.initialize()
 
         # Replace XOR encryption in all modules
         await self._replace_xor_encryption()
@@ -226,8 +226,8 @@ class SecurityIntegration:
             },
         )
 
-        # Create security context for AGI security
-        context = await self.agi_security.create_session(user_id, auth_token)
+        # Create security context for Cognitive AI security
+        context = await self.cognitive_security.create_session(user_id, auth_token)
 
         await self.auth.clear_failed_attempts(user_id)
 
@@ -303,8 +303,8 @@ class SecurityIntegration:
             # in this demo
             context.permissions = {"*"}
 
-            # Validate with AGI security
-            return await self.agi_security.validate_operation(operation, request_data.get("data"), context)
+            # Validate with Cognitive AI security
+            return await self.cognitive_security.validate_operation(operation, request_data.get("data"), context)
 
         # Check API key
         elif auth_header.startswith("ApiKey "):

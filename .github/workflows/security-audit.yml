@@ -1,0 +1,207 @@
+name: Security Audit
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run daily at 2:00 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  security-audit:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      security-events: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Run TruffleHog to scan for secrets
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD
+          extra_args: --debug --json
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install pip-audit and syft
+        run: |
+          python -m pip install --upgrade pip
+          pip install pip-audit
+          curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+
+      - name: Generate SBOM
+        run: make sbom
+
+      - name: Create audit reports directory
+        run: mkdir -p reports/security
+
+      - name: Run pip-audit on requirements.txt
+        id: audit-requirements
+        continue-on-error: true
+        run: |
+          echo "🔍 Auditing requirements.txt..."
+          pip-audit \
+            --requirement requirements.txt \
+            --format=json \
+            --output=reports/security/requirements-audit.json \
+            --progress-spinner=off
+
+          AUDIT_EXIT_CODE=$?
+          echo "audit_exit_code=$AUDIT_EXIT_CODE" >> $GITHUB_OUTPUT
+
+          if [ $AUDIT_EXIT_CODE -eq 0 ]; then
+            echo "✅ No vulnerabilities found in requirements.txt"
+            echo "requirements_status=clean" >> $GITHUB_OUTPUT
+            echo "requirements_vulns=0" >> $GITHUB_OUTPUT
+          else
+            VULN_COUNT=$(jq -r '[.vulnerabilities[]] | length' reports/security/requirements-audit.json 2>/dev/null || echo 0)
+            echo "❌ Found $VULN_COUNT vulnerabilities in requirements.txt"
+            echo "requirements_status=vulnerable" >> $GITHUB_OUTPUT
+            echo "requirements_vulns=$VULN_COUNT" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run pip-audit on constraints.txt
+        id: audit-constraints
+        continue-on-error: true
+        run: |
+          echo "🔍 Auditing constraints.txt..."
+          pip-audit \
+            --requirement constraints.txt \
+            --format=json \
+            --output=reports/security/constraints-audit.json \
+            --progress-spinner=off
+
+          AUDIT_EXIT_CODE=$?
+          echo "audit_exit_code=$AUDIT_EXIT_CODE" >> $GITHUB_OUTPUT
+
+          if [ $AUDIT_EXIT_CODE -eq 0 ]; then
+            echo "✅ No vulnerabilities found in constraints.txt"
+            echo "constraints_status=clean" >> $GITHUB_OUTPUT
+            echo "constraints_vulns=0" >> $GITHUB_OUTPUT
+          else
+            VULN_COUNT=$(jq -r '[.vulnerabilities[]] | length' reports/security/constraints-audit.json 2>/dev/null || echo 0)
+            echo "❌ Found $VULN_COUNT vulnerabilities in constraints.txt"
+            echo "constraints_status=vulnerable" >> $GITHUB_OUTPUT
+            echo "constraints_vulns=$VULN_COUNT" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Generate security summary
+        run: |
+          echo "📊 Generating security audit summary..."
+
+          TOTAL_VULNS=$((
+            ${{ steps.audit-requirements.outputs.requirements_vulns || 0 }} +
+            ${{ steps.audit-constraints.outputs.constraints_vulns || 0 }}
+          ))
+
+          cat > reports/security/audit-summary.md << EOF
+          # Security Audit Report
+
+          **Generated**: $(date -u +%Y-%m-%dT%H:%M:%SZ)
+          **Commit**: ${{ github.sha }}
+          **Total Vulnerabilities**: $TOTAL_VULNS
+
+          ## Results Summary
+
+          | File | Status | Vulnerabilities |
+          |------|--------|----------------|
+          | requirements.txt | ${{ steps.audit-requirements.outputs.requirements_status }} | ${{ steps.audit-requirements.outputs.requirements_vulns }} |
+          | constraints.txt | ${{ steps.audit-constraints.outputs.constraints_status }} | ${{ steps.audit-constraints.outputs.constraints_vulns }} |
+
+          ## Detailed Findings
+
+          ### Requirements.txt Audit
+          \`\`\`json
+          $(cat reports/security/requirements-audit.json 2>/dev/null || echo '{"vulnerabilities": []}')
+          \`\`\`
+
+          ### Constraints.txt Audit
+          \`\`\`json
+          $(cat reports/security/constraints-audit.json 2>/dev/null || echo '{"vulnerabilities": []}')
+          \`\`\`
+
+          ## Recommendations
+
+          $(if [ $TOTAL_VULNS -eq 0 ]; then
+            echo "✅ **No vulnerabilities detected** - dependency security posture is good"
+          else
+            echo "⚠️ **$TOTAL_VULNS vulnerabilities found** - review and update affected packages"
+            echo ""
+            echo "### Action Items:"
+            echo "1. Review vulnerability details above"
+            echo "2. Update affected packages to patched versions"
+            echo "3. Regenerate requirements.txt with pip-compile"
+            echo "4. Re-run security audit to verify fixes"
+          fi)
+
+          ## Hash Verification Status
+
+          $(if grep -q "sha256:" requirements.txt; then
+            echo "✅ **Hash verification enabled** - requirements.txt includes SHA256 hashes"
+          else
+            echo "❌ **Hash verification missing** - consider regenerating with pip-compile --generate-hashes"
+          fi)
+
+          EOF
+
+      - name: Upload security audit artifacts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: security-audit-report
+          path: |
+            reports/security/
+            reports/sbom/
+          retention-days: 90
+
+      - name: Comment on PR with audit results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            const totalVulns = parseInt('${{ steps.audit-requirements.outputs.requirements_vulns || 0 }}') +
+                              parseInt('${{ steps.audit-constraints.outputs.constraints_vulns || 0 }}');
+
+            let summary;
+            if (totalVulns === 0) {
+              summary = `🛡️ **Security Audit: PASSED** ✅\n\nNo vulnerabilities detected in dependency files.`;
+            } else {
+              summary = `🚨 **Security Audit: FAILED** ❌\n\n**${totalVulns} vulnerabilities found** in dependency files.\n\nPlease review the audit report and update affected packages.`;
+            }
+
+            const body = `${summary}\n\n<details>\n<summary>📊 Security Audit Details</summary>\n\n\`\`\`\n${fs.readFileSync('reports/security/audit-summary.md', 'utf8')}\n\`\`\`\n\n</details>`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+      - name: Fail job if vulnerabilities found
+        if: |
+          steps.audit-requirements.outputs.requirements_vulns > 0 ||
+          steps.audit-constraints.outputs.constraints_vulns > 0
+        run: |
+          echo "🚨 Security audit failed with vulnerabilities detected"
+          echo "Requirements vulnerabilities: ${{ steps.audit-requirements.outputs.requirements_vulns }}"
+          echo "Constraints vulnerabilities: ${{ steps.audit-constraints.outputs.constraints_vulns }}"
+          exit 1

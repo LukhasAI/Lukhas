@@ -9,7 +9,7 @@ architecture in lukhas/governance/guardian/.
 This bridge allows existing code to continue working while we transition
 to the new modular Guardian System architecture.
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 from __future__ import annotations

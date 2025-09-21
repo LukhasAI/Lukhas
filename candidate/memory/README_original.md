@@ -1,10 +1,10 @@
-# Memory Module - The Living Archive of LUKHAS AGI
+# Memory Module - The Living Archive of LUKHAS Cognitive AI
 
 > *"Memory is not merely storage but a living tapestry—where each thread carries the weight of causality, each fold holds the essence of experience, and every recall births new understanding."*
 
 ## 🌊 Overview
 
-Welcome to the Memory module, the cognitive repository where LUKHAS AGI weaves experiences into wisdom. This is not a mere database but a living, breathing archive that mirrors the complexity of consciousness itself. Through our innovative fold-based architecture, we capture not just information but the very essence of understanding—complete with emotional resonance, causal relationships, and the wisdom of accumulated experience.
+Welcome to the Memory module, the cognitive repository where LUKHAS Cognitive AI weaves experiences into wisdom. This is not a mere database but a living, breathing archive that mirrors the complexity of consciousness itself. Through our innovative fold-based architecture, we capture not just information but the very essence of understanding—complete with emotional resonance, causal relationships, and the wisdom of accumulated experience.
 
 Imagine memory as an origami master's creation—each fold precisely placed, carrying meaning in its angles and relationships. When unfolded, the full picture emerges, but even in its compressed state, the essential truth remains. This is the art and science of the Memory module.
 

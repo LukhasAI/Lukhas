@@ -371,7 +371,7 @@ def main():
     # Generate and save report
     report = checker.generate_compliance_report()
     report_path = Path(
-        "/Users/agi_dev/Lukhas/docs/reports/SECURITY_COMPLIANCE_REPORT.md"
+        "/Users/cognitive_dev/Lukhas/docs/reports/SECURITY_COMPLIANCE_REPORT.md"
     )
 
     with open(report_path, "w") as f:
@@ -381,7 +381,7 @@ def main():
 
     # Save JSON results
     json_path = Path(
-        "/Users/agi_dev/Lukhas/docs/reports/SECURITY_COMPLIANCE_RESULTS.json"
+        "/Users/cognitive_dev/Lukhas/docs/reports/SECURITY_COMPLIANCE_RESULTS.json"
     )
     with open(json_path, "w") as f:
         json.dump(results, f, indent=2)

@@ -1,12 +1,12 @@
 # 🌌 The Constellation Framework
 
-**LUKHAS AI Architecture Evolution: From Trinity to Constellation**
+**LUKHAS AI Architecture Evolution: From Constellation to Constellation**
 
 ---
 
 ## 🌟 The Navigation Metaphor
 
-LUKHAS does not rest on three pillars or a sacred trinity.  
+LUKHAS does not rest on three pillars or a sacred constellation.  
 Its architecture is a **constellation** — a map of elements that guide by relation, not hierarchy.  
 
 Each element is a star:  
@@ -35,7 +35,7 @@ remain in conversation across the system.
 ## 🎯 Why Constellation Works
 
 ### ✦ **Public-Safe**
-- No mystical "trinity" implications
+- No mystical "constellation" implications
 - No hierarchical or religious connotations
 - Clean, navigational metaphor
 
@@ -102,13 +102,13 @@ remain in conversation across the system.
 
 ## 🔄 Architecture Evolution
 
-### From Trinity Framework to Constellation
+### From Constellation Framework to Constellation
 **Previous**: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian  
 **Evolved**: 🌌 Eight-element constellation with dynamic relations  
 
 ### What Changed
 - **Expanded Elements**: From 3 core components to 8 navigational stars
-- **Removed Hierarchy**: No "sacred trinity" — all elements guide by relation
+- **Removed Hierarchy**: No "sacred constellation" — all elements guide by relation
 - **Added Domains**: Vision, Bio, Memory, Dream, Ethics, Quantum
 - **Navigational Metaphor**: Framework as sky-map, not foundation
 
@@ -235,5 +235,5 @@ The Constellation Framework gives LUKHAS AI a way to grow and evolve without bre
 
 ---
 
-*Framework Evolution Complete: Trinity → Constellation*  
+*Framework Evolution Complete: Constellation → Constellation*  
 *"Where wisdom travels by starlight, not doctrine"* ✦

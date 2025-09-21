@@ -1,0 +1,453 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/orchestration",
+    "lane": "development",
+    "purpose": "Directory containing 12 Python files and 26 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "matriz_pipeline_integration": {
+      "memory_stage": "experimental",
+      "attention_stage": "experimental",
+      "thought_stage": "experimental",
+      "action_stage": "inactive",
+      "decision_stage": "inactive",
+      "awareness_stage": "experimental"
+    }
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "kernel_bus_examples.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.orchestration.symbolic_kernel_bus"
+        ],
+        "exports": [
+          "create_memory_fold",
+          "detect_agent_drift",
+          "load_plugin",
+          "handle_memory_event",
+          "safety_violation",
+          "handle_memory_effects"
+        ]
+      },
+      {
+        "filename": "high_performance_context_bus.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ContextPriority",
+          "HandoffStatus",
+          "ContextMessage",
+          "WorkflowStep",
+          "PerformanceMetrics",
+          "HighPerformanceContextBus",
+          "subscribe",
+          "handoff_latency_ms",
+          "processing_latency_ms",
+          "total_latency_ms",
+          "meets_performance_target",
+          "to_dict",
+          "add_handoff",
+          "average_handoff_ms",
+          "p95_handoff_ms",
+          "success_rate",
+          "subscribe",
+          "get_performance_metrics",
+          "get_transparency_log",
+          "get_workflow_narrative",
+          "pattern_fn"
+        ]
+      },
+      {
+        "filename": "context_bus.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "multi_model_orchestration.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.orchestration.high_performance_context_bus",
+          "lukhas.bridge.anthropic_bridge",
+          "lukhas.bridge.google_bridge",
+          "lukhas.bridge.openai_bridge"
+        ],
+        "exports": [
+          "ModelProvider",
+          "ConsensusStrategy",
+          "OrchestrationMode",
+          "ModelResponse",
+          "ConsensusResult",
+          "OrchestrationPipeline",
+          "MultiModelOrchestrator",
+          "HighPerformanceContextBus",
+          "ContextMessage",
+          "ContextPriority",
+          "WorkflowStep",
+          "OpenAIBridge",
+          "AnthropicBridge",
+          "GoogleBridge",
+          "MockBridge",
+          "latency_ms",
+          "get_performance_metrics",
+          "get_execution_history"
+        ]
+      },
+      {
+        "filename": "gpt_colony_orchestrator.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.colonies.consensus_mechanisms",
+          "candidate.core.colonies.enhanced_colony",
+          "candidate.orchestration.signals.signal_bus",
+          "lukhas.consciousness.reflection.openai_modulated_service"
+        ],
+        "exports": [
+          "OrchestrationMode",
+          "OrchestrationTask",
+          "OrchestrationResult",
+          "GPTColonyOrchestrator",
+          "register_colony",
+          "get_performance_report"
+        ]
+      },
+      {
+        "filename": "symbolic_kernel_bus.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.branding_bridge"
+        ],
+        "exports": [
+          "SymbolicEffect",
+          "EventPriority",
+          "SymbolicEvent",
+          "SymbolicKernelBus",
+          "emit",
+          "subscribe",
+          "to_dict",
+          "emit",
+          "subscribe",
+          "subscribe_effect",
+          "get_metrics",
+          "get_event_history",
+          "get_correlation_chain",
+          "pattern_fn"
+        ]
+      },
+      {
+        "filename": "brain.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/brain.json",
+        "dependencies": [
+          "lukhas.accepted.orchestrator.brain"
+        ],
+        "exports": []
+      },
+      {
+        "filename": "intelligence_adapter.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "migrate_to_kernel_bus.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "KernelBusMigration",
+          "main",
+          "backup_files",
+          "remove_experimental_code",
+          "update_imports_and_calls",
+          "create_integration_examples",
+          "generate_report",
+          "execute"
+        ]
+      },
+      {
+        "filename": "openai_modulated_service.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.orchestration.core_modules.symbolic_signal_router",
+          "candidate.orchestration.context_bus"
+        ],
+        "exports": [
+          "OpenAIModelConfig",
+          "AIModelResponse",
+          "OpenAIModulatedService",
+          "create_openai_service",
+          "get_performance_metrics"
+        ]
+      },
+      {
+        "filename": "dream_orchestrator.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DreamOrchestrator",
+          "get_cache_path",
+          "read_from_cache",
+          "write_to_cache",
+          "weave_dream",
+          "store_dream"
+        ]
+      },
+      {
+        "filename": "matriz_adapter.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/matriz_adapter.json",
+        "dependencies": [],
+        "exports": [
+          "OrchestrationMatrizAdapter",
+          "create_node",
+          "emit_brain_decision",
+          "emit_coordination_event",
+          "emit_routing_event",
+          "emit_kernel_bus_event",
+          "validate_node",
+          "save_node"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "agent_orchestrator",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "golden_trio",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "module_orchestrator",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "core",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "service_registry",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "human_in_the_loop_orchestrator",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "colony_orchestrator",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "signals",
+        "has_index": false,
+        "purpose": "Subdirectory with 6 Python files",
+        "component_count": 6
+      },
+      {
+        "name": "migrate_orchestrators",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "orchestrator_core",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "agents",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "lukhas_master_orchestrator",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "signal_router",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "swarm_orchestration_adapter",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "workflow_engine",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "brain",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "learning_initializer",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "integration_hub",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "resonance_orchestrator",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "core_modules",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "bio_symbolic_orchestrator",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "meta_cognitive_orchestrator",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "dream",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "orchestrator",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "endocrine_orchestrator",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "interfaces",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "KERNEL_BUS_MIGRATION_REPORT.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "README.md"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 12,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "intermediate",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "experimental",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "candidate",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

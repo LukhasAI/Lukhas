@@ -14,7 +14,7 @@ Features:
 - Consent withdrawal with immediate effect
 - Immutable audit trails
 - Multi-jurisdictional compliance (CCPA, PIPEDA, etc.)
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 - Real-time consent monitoring
 - Consent receipt generation
 
@@ -166,7 +166,7 @@ class ConsentRecord:
     consent_hash: Optional[str] = None  # Integrity hash
     signature: Optional[str] = None  # Digital signature if applicable
 
-    # Trinity Framework integration
+    # Constellation Framework integration
     identity_context: dict[str, Any] = field(default_factory=dict)  # ⚛️
     consciousness_context: dict[str, Any] = field(default_factory=dict)  # 🧠
     guardian_validations: list[str] = field(default_factory=list)  # 🛡️
@@ -549,7 +549,7 @@ class AdvancedConsentManager:
         # Generate integrity hash
         consent_record.consent_hash = self._generate_consent_hash(consent_record)
 
-        # Add Trinity Framework context
+        # Add Constellation Framework context
         consent_record.identity_context = {
             "user_id": user_id,
             "authentication_method": context.get("auth_method", "unknown"),

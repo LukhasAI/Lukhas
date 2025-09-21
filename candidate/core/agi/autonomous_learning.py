@@ -75,7 +75,7 @@ class KnowledgeSource(ABC):
 
 class AutonomousLearningPipeline:
     """
-    Self-directed learning system for LUKHAS AGI
+    Self-directed learning system for LUKHAS Cognitive AI
     Continuously acquires and integrates new knowledge
     """
 

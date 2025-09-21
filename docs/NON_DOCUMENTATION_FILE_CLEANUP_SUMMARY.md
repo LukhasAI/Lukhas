@@ -71,9 +71,9 @@
 
 ---
 
-## 🎖️ **Trinity Framework Compliance**
+## 🎖️ **Constellation Framework Compliance**
 
-This cleanup aligns with Trinity Framework principles:
+This cleanup aligns with Constellation Framework principles:
 
 - **⚛️ Identity**: Clear file type separation maintains authentic system organization
 - **🧠 Consciousness**: Documentation remains focused on knowledge and guidance

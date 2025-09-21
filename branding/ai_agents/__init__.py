@@ -1,5 +1,5 @@
 """
-LUKHAS Brand AI Agents - Trinity Framework (⚛️🧠🛡️)
+LUKHAS Brand AI Agents - Constellation Framework (⚛️🧠🛡️)
 Intelligent agents for brand management, content strategy, and consistency
 """
 

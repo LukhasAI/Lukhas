@@ -35,7 +35,7 @@ MODULE_NAME = "quantum consciousness visualizer"
 
 class QIConsciousnessVisualizer:
     """
-    Advanced 3D visualization system for LUKHAS AGI-ready authentication.
+    Advanced 3D visualization system for LUKHAS Cognitive AI-ready authentication.
     Integrates neural radiance fields, consciousness tracking, and symbolic rendering.
     """
 
@@ -121,7 +121,7 @@ __all__ = ["QIConsciousnessVisualizer"]
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

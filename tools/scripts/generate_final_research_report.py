@@ -3,7 +3,7 @@
 LUKHAS Final Comprehensive Research Report
 ==========================================
 Complete system analysis, drift testing, and research documentation
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
 Date: August 5, 2025
 Purpose: Research Documentation and Academic Publishing
@@ -182,7 +182,7 @@ def generate_research_insights(_report_data):
     """Generate research insights from the data"""
     insights = {
         "symbolic_drift_analysis": {
-            "framework_effectiveness": "Trinity Framework (⚛️🧠🛡️) shows consistent symbolic alignment detection",
+            "framework_effectiveness": "Constellation Framework (⚛️🧠🛡️) shows consistent symbolic alignment detection",
             "drift_thresholds": "LUKHAS drift threshold of 0.42 effectively identifies problematic responses",
             "healing_success_rate": "Symbolic healing system demonstrates improvement in Trinity coherence",
             "cross_model_patterns": "All tested models show similar baseline drift patterns without symbolic prompting",
@@ -215,7 +215,7 @@ def generate_conclusions(_report_data):
     """Generate research conclusions"""
     conclusions = {
         "technical_achievements": [
-            "Successfully implemented Trinity Framework (⚛️🧠🛡️) symbolic drift detection",
+            "Successfully implemented Constellation Framework (⚛️🧠🛡️) symbolic drift detection",
             "VIVOX consciousness architecture with 4 components fully operational",
             "Real-time symbolic healing and entropy management system working",
             "Multi-model drift auditing capability established",
@@ -247,7 +247,7 @@ def generate_conclusions(_report_data):
             "Some test failures require investigation (5/36 tests failing)",
             "Perplexity API model naming inconsistencies prevent testing",
             "Long-term memory persistence patterns need validation",
-            "Trinity Framework requires calibration for different model architectures",
+            "Constellation Framework requires calibration for different model architectures",
         ],
     }
 
@@ -272,7 +272,7 @@ def print_report_summary(report):
     """Print executive summary of the comprehensive report"""
     print("🧠 LUKHAS Comprehensive Research Report")
     print("=" * 60)
-    print("Trinity Framework: ⚛️🧠🛡️")
+    print("Constellation Framework: ⚛️🧠🛡️")
     print(f"Date: {report['metadata']['report_date']}")
     print("=" * 60)
 
@@ -314,7 +314,7 @@ def print_report_summary(report):
 def main():
     """Generate and save comprehensive research report"""
     print("📊 Generating LUKHAS Comprehensive Research Report...")
-    print("Trinity Framework: ⚛️🧠🛡️")
+    print("Constellation Framework: ⚛️🧠🛡️")
     print("-" * 60)
 
     # Generate comprehensive report

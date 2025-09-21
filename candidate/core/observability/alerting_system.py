@@ -13,7 +13,7 @@ Features:
 - Multi-channel notification system (email, webhooks, dashboard)
 - Alert correlation and deduplication
 - Escalation policies and notification chains
-- Trinity Framework alert integration (⚛️🧠🛡️)
+- Constellation Framework alert integration (⚛️🧠🛡️)
 - Automated alert resolution and acknowledgment
 - Historical alert analysis and reporting
 - Compliance violation detection and reporting
@@ -22,7 +22,7 @@ Features:
 #TAG:compliance
 #TAG:audit
 #TAG:notifications
-#TAG:trinity
+#TAG:constellation
 """
 import asyncio
 import contextlib
@@ -132,8 +132,8 @@ class AlertRule:
     compliance_relevant: bool = False
     applicable_regulations: list[ComplianceRegulation] = field(default_factory=list)
 
-    # Trinity Framework
-    trinity_component: Optional[str] = None  # identity, consciousness, guardian
+    # Constellation Framework
+    constellation_component: Optional[str] = None  # identity, consciousness, guardian
 
     # Auto-resolution
     auto_resolve: bool = False
@@ -190,8 +190,8 @@ class Alert:
     applicable_regulations: list[ComplianceRegulation] = field(default_factory=list)
     audit_trail_id: Optional[str] = None
 
-    # Trinity Framework
-    trinity_impact: dict[str, float] = field(default_factory=dict)  # ⚛️🧠🛡️
+    # Constellation Framework
+    constellation_impact: dict[str, float] = field(default_factory=dict)  # ⚛️🧠🛡️
 
     # Correlation
     correlation_key: Optional[str] = None
@@ -394,7 +394,7 @@ class ComprehensiveAlertingSystem:
                 ],
                 compliance_relevant=True,
                 applicable_regulations=[ComplianceRegulation.SOC2],
-                trinity_component="guardian",
+                constellation_component="guardian",
             ),
             # Consciousness alerts
             AlertRule(
@@ -407,7 +407,7 @@ class ComprehensiveAlertingSystem:
                 severity=AlertSeverity.MEDIUM,
                 category=AlertCategory.CONSCIOUSNESS,
                 notification_channels=[NotificationChannel.DASHBOARD],
-                trinity_component="consciousness",
+                constellation_component="consciousness",
             ),
             # System health alerts
             AlertRule(
@@ -645,8 +645,8 @@ LUKHAS AI Monitoring System
             alert.compliance_relevant = rule.compliance_relevant
             alert.applicable_regulations = rule.applicable_regulations.copy()
 
-        # Trinity Framework impact analysis
-        alert.trinity_impact = await self._analyze_trinity_impact(alert)
+        # Constellation Framework impact analysis
+        alert.constellation_impact = await self._analyze_trinity_impact(alert)
 
         # Store alert
         self.active_alerts[alert_id] = alert
@@ -713,7 +713,7 @@ LUKHAS AI Monitoring System
         return hashlib.md5(correlation_string.encode()).hexdigest()[:16]
 
     async def _analyze_trinity_impact(self, alert: Alert) -> dict[str, float]:
-        """Analyze alert impact on Trinity Framework components"""
+        """Analyze alert impact on Constellation Framework components"""
 
         impact = {"identity": 0.0, "consciousness": 0.0, "guardian": 0.0}
 
@@ -1054,7 +1054,7 @@ LUKHAS AI Monitoring System
                 "source_system": alert.source_system,
                 "tags": alert.tags,
                 "metadata": alert.metadata,
-                "trinity_impact": alert.trinity_impact,
+                "constellation_impact": alert.constellation_impact,
             }
 
             # In production, would make HTTP POST to webhook URL

@@ -61,7 +61,7 @@ Each fragment is standalone and can be:
 1. Copied directly into Claude/Copilot prompts
 2. Used as replacement text in existing documentation  
 3. Adapted for specific channels by trimming or expanding
-4. Combined with Trinity Framework symbols (⚛️🧠🛡️) for technical contexts
+4. Combined with Constellation Framework symbols (⚛️🧠🛡️) for technical contexts
 
 ---
 

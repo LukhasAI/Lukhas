@@ -7,7 +7,7 @@
 ║ Module: tier_aware_colony_proxy.py
 ║ Path: core/tier_aware_colony_proxy.py
 ║ Version: 1.0.0 | Created: 2025-07-28
-║ Authors: LUKHAS AGI Identity Team | Claude Code
+║ Authors: LUKHAS Cognitive AI Identity Team | Claude Code
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════

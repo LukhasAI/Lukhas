@@ -1,7 +1,7 @@
 ## reasoning/symbolic_reasoning.py
 
 ### Purpose
-This module implements a `SymbolicEngine` class for performing symbolic reasoning within the LUKHAS AGI system. Its described capabilities include extracting symbolic patterns from text, building logical chains from these patterns and other inputs (semantic, contextual), and calculating confidence scores for these chains. The engine is designed with explainability, reliability, and ethical alignment in mind. The file header itself notes its similarity to `enhanced_bot_primary.py` and implies it's an extracted/enhanced version, and it also shares significant structural and naming similarities with `reasoning.py` and `reasoning_engine.py`.
+This module implements a `SymbolicEngine` class for performing symbolic reasoning within the LUKHAS Cognitive system. Its described capabilities include extracting symbolic patterns from text, building logical chains from these patterns and other inputs (semantic, contextual), and calculating confidence scores for these chains. The engine is designed with explainability, reliability, and ethical alignment in mind. The file header itself notes its similarity to `enhanced_bot_primary.py` and implies it's an extracted/enhanced version, and it also shares significant structural and naming similarities with `reasoning.py` and `reasoning_engine.py`.
 
 ### Current Status (as of July 2024 Standardization Pass)
 - Not modified during the July 2024 standardization pass due to persistent integration issues with automated refactoring tools (diff application failures for this specific file).

@@ -1,0 +1,696 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/memory/temporal",
+    "lane": "development",
+    "purpose": "Directory containing 52 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "constellation_role": "trail_star_primary",
+    "matriz_pipeline_integration": {
+      "memory_stage": "primary",
+      "attention_stage": "supporting",
+      "awareness_stage": "supporting"
+    },
+    "cognitive_domains": [
+      "memory_management",
+      "temporal_processing"
+    ],
+    "memory_architecture": {
+      "fold_based_storage": true,
+      "cascade_prevention": "99.7%",
+      "temporal_memory": true,
+      "consciousness_integration": true
+    }
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "affect_stagnation_detector.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AffectStagnationDetector",
+          "check_for_stagnation"
+        ]
+      },
+      {
+        "filename": "dream_log.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_log.json",
+        "dependencies": [],
+        "exports": [
+          "log_dream"
+        ]
+      },
+      {
+        "filename": "compliance_report_generator.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "load_drift_logs",
+          "plot_drift_scores",
+          "generate_report"
+        ]
+      },
+      {
+        "filename": "generate_dream.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "journal_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "gen_audit_logger_check.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "simulate_audit_log_entry",
+          "update_manifest_with_audit_hash",
+          "create_shortcut_trigger"
+        ]
+      },
+      {
+        "filename": "drift_dashboard_visual.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "diagnostic_payloads.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.helpers",
+          "candidate.core.utils"
+        ],
+        "exports": [
+          "create_diagnostic_payload"
+        ]
+      },
+      {
+        "filename": "monitor.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "monitor_agi_system"
+        ]
+      },
+      {
+        "filename": "multimodal_sentiment.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "analyze_multimodal_sentiment"
+        ]
+      },
+      {
+        "filename": "hyperspace_dream_simulator.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.integration.dynamic_modality_broker"
+        ],
+        "exports": [
+          "SimulationType",
+          "TimelineState",
+          "CausalConstraint",
+          "HyperspaceVector",
+          "TimelineBranch",
+          "SimulationScenario",
+          "HyperspaceDreamSimulator",
+          "DataType",
+          "ModalityData",
+          "distance_to",
+          "interpolate",
+          "add_decision",
+          "add_outcome",
+          "check_constraints",
+          "add_timeline",
+          "branch_timeline",
+          "find_optimal_timeline",
+          "get_scenario_status",
+          "get_system_status",
+          "get_token_usage_report",
+          "get_dmb",
+          "get_srd",
+          "instrument_reasoning"
+        ]
+      },
+      {
+        "filename": "context_analyzer.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ContextAnalyzer",
+          "analyze"
+        ]
+      },
+      {
+        "filename": "validate_pr_security_review.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "dream_timeline_visualizer.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DreamTimelineVisualizer",
+          "render_timeline"
+        ]
+      },
+      {
+        "filename": "vdf.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "emotion_log_alt.py",
+        "component_type": "EMOTION_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "log_emotion",
+          "decay_emotion",
+          "save_emotion_log",
+          "load_emotion_log",
+          "blend_emotions",
+          "search_emotions",
+          "summarize_emotions"
+        ]
+      },
+      {
+        "filename": "trait_manager.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "default_traits",
+          "load_traits",
+          "save_traits",
+          "reset_traits",
+          "decay_traits",
+          "adjust_traits_from_context",
+          "log_trait_shift",
+          "process_traits",
+          "emoji_trait_bar"
+        ]
+      },
+      {
+        "filename": "benchmark_swarm.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "bench_behavior",
+          "event_to_actor_bridge",
+          "handle_event"
+        ]
+      },
+      {
+        "filename": "compliance_hooks.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "compliance_drift_detect",
+          "log_compliance_event"
+        ]
+      },
+      {
+        "filename": "documentation_analytics.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "gen_architecture_log_update.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "add_architecture_log_entry"
+        ]
+      },
+      {
+        "filename": "pr_security_review_starter.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "run_security_review"
+        ]
+      },
+      {
+        "filename": "echo_controller.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "EchoController",
+          "ping"
+        ]
+      },
+      {
+        "filename": "output_log.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "auto_heal_conflicts.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "main"
+        ]
+      },
+      {
+        "filename": "bot_enhancement.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "generate_dream_data.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "intent_language.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "interpret_intent",
+          "log_interpretation"
+        ]
+      },
+      {
+        "filename": "performance_validator.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "safe_subprocess_executor.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SafeSubprocessExecutor",
+          "safe_subprocess_run",
+          "safe_python_execution",
+          "safe_run",
+          "safe_python_run",
+          "safe_git_run"
+        ]
+      },
+      {
+        "filename": "dream_mutator.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_mutator.json",
+        "dependencies": [],
+        "exports": [
+          "load_latest_dream",
+          "mutate_emotional_wave",
+          "mutate_dream",
+          "save_mutated_dream"
+        ]
+      },
+      {
+        "filename": "ContextAnalyzer.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ContextAnalyzer",
+          "analyze"
+        ]
+      },
+      {
+        "filename": "dashboard.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "secure_utils.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "SecurityError",
+          "safe_eval",
+          "safe_subprocess_run",
+          "sanitize_input",
+          "secure_file_path",
+          "get_env_var"
+        ]
+      },
+      {
+        "filename": "kyi_check.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "record_interaction",
+          "check_kyi_threshold",
+          "get_user_interactions"
+        ]
+      },
+      {
+        "filename": "pattern_detector.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "entropy_health_api.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "get_entropy_status",
+          "get_trust_scores",
+          "get_sync_status",
+          "get_trust_score_session",
+          "background_health_monitor",
+          "handle_dashboard_connect",
+          "handle_dashboard_disconnect",
+          "handle_health_snapshot_request",
+          "start_background_monitor"
+        ]
+      },
+      {
+        "filename": "integrity_probe.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "IntegrityProbe"
+        ]
+      },
+      {
+        "filename": "drift_pattern_analyzer.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DriftPatternAnalyzer"
+        ]
+      },
+      {
+        "filename": "snapshot_divergence_plot.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "plot_snapshot_drift_overlay"
+        ]
+      },
+      {
+        "filename": "snapshot_redirection_controller.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "SnapshotRedirectionController",
+          "check_and_redirect",
+          "calculate_redirect_severity",
+          "preemptive_stabilize"
+        ]
+      },
+      {
+        "filename": "meg_guard.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "MEGConfig",
+          "MEG",
+          "demo_meg_usage",
+          "guard",
+          "get_stats",
+          "temporary_disable_ethics",
+          "critical_operation",
+          "decorator",
+          "sync_wrapper"
+        ]
+      },
+      {
+        "filename": "fold_entropy_visualizer.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "FoldEntropyVisualizer",
+          "render_mermaid_timeline",
+          "render_ascii_chart"
+        ]
+      },
+      {
+        "filename": "context_sync.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "generate_daily_context"
+        ]
+      },
+      {
+        "filename": "meg_openai_guard.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "MEGChatCompletion",
+          "meg_chat_completion",
+          "meg_chat_completion_critical",
+          "meg_chat_completion_extended",
+          "meg_chat_completion_long",
+          "meg_generate_text",
+          "meg_complete_with_system",
+          "patch_openai_with_meg",
+          "unpatch_openai",
+          "create"
+        ]
+      },
+      {
+        "filename": "simple_conflict_healer.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "find_conflicts",
+          "heal_file",
+          "main",
+          "resolve_conflict"
+        ]
+      },
+      {
+        "filename": "expression.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "load_latest_flashback",
+          "synthesize_expression",
+          "save_expression"
+        ]
+      },
+      {
+        "filename": "emotion_log.py",
+        "component_type": "EMOTION_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "log_emotion",
+          "decay_emotion",
+          "save_emotion_log",
+          "load_emotion_log"
+        ]
+      },
+      {
+        "filename": "episodic_recall.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "recall"
+        ]
+      },
+      {
+        "filename": "mobile_ui_renderer.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "TouchGesture",
+          "VisualizationMode",
+          "TouchEvent"
+        ]
+      },
+      {
+        "filename": "cpu_friendly_compliance.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "get_cpu_usage",
+          "check_vscode_cpu",
+          "wait_for_low_cpu",
+          "run_compliance_scan",
+          "main"
+        ]
+      },
+      {
+        "filename": "drift_dashboard.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 52,
+    "estimated_complexity": "high",
+    "consciousness_integration": "intermediate",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "native",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true,
+    "fold_architecture_enabled": true,
+    "cascade_prevention_rate": 0.997
+  },
+  "relationships": {
+    "parent_directory": "candidate/memory",
+    "related_directories": [],
+    "constellation_cluster": "trail_star_memory",
+    "dependency_weight": "moderate"
+  }
+}

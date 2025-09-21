@@ -1,6 +1,6 @@
 """
 Core Memory System Performance Validation
-Tests the working memory systems for cascade prevention, performance, and Trinity Framework integration
+Tests the working memory systems for cascade prevention, performance, and Constellation Framework integration
 """
 
 import os
@@ -220,7 +220,7 @@ class TestCoreMemoryValidation:
 
     @pytest.mark.asyncio
     async def test_memory_system_triad_integration(self):
-        """Test Trinity Framework integration markers"""
+        """Test Constellation Framework integration markers"""
         triad_markers = ["⚛️", "🧠", "🛡️"]
         triad_keywords = ["identity", "consciousness", "guardian", "trinity"]
 
@@ -249,9 +249,9 @@ class TestCoreMemoryValidation:
                     print(f"🔍 Found Trinity keyword: {keyword}")
 
             if integration_found:
-                print("✅ Trinity Framework integration detected")
+                print("✅ Constellation Framework integration detected")
             else:
-                print("⚠️ Trinity Framework integration not clearly visible")
+                print("⚠️ Constellation Framework integration not clearly visible")
 
             # Test with Trinity-aware memory data
             triad_memory = {
@@ -272,7 +272,7 @@ class TestCoreMemoryValidation:
         except ImportError as e:
             pytest.skip(f"Memory modules not available for Trinity testing: {e}")
         except Exception as e:
-            print(f"⚠️ Trinity integration test encountered error: {e}")
+            print(f"⚠️ Constellation integration test encountered error: {e}")
 
     def test_memory_performance_benchmarks(self):
         """Test performance benchmarks for available memory systems"""
@@ -291,7 +291,7 @@ class TestCoreMemoryValidation:
         print("   - Cascade prevention: 99.7% success rate target")
         print("   - Operation timing: <100ms average, <300ms maximum")
         print("   - Memory processing: 85% minimum success rate")
-        print("   - Trinity Framework: Integration markers required")
+        print("   - Constellation Framework: Integration markers required")
 
         # This test always passes - it's informational
         assert True, "Benchmarks defined successfully"

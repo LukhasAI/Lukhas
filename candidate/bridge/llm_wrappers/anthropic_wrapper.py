@@ -1,7 +1,7 @@
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - ANTHROPIC WRAPPER
-║ Claude family language model integration for AGI communication
+║ Claude family language model integration for Cognitive AI communication
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Module: anthropic_wrapper.py
@@ -12,7 +12,7 @@
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ The Anthropic Wrapper provides seamless integration with Claude models,
-║ enabling LUKHAS AGI to leverage Anthropic's advanced language understanding
+║ enabling LUKHAS Cognitive AI to leverage Anthropic's advanced language understanding
 ║ and generation capabilities. This wrapper abstracts the Anthropic API
 ║ complexity while providing consistent interfaces and error handling.
 ║
@@ -125,7 +125,7 @@ class AnthropicWrapper(LLMWrapper):
 ║
 ║ REFERENCES:
 ║   - Docs: docs/bridge/llm-wrappers/anthropic.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=anthropic-wrapper
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=anthropic-wrapper
 ║   - Wiki: wiki.lukhas.ai/claude-integration
 ║
 ║ COPYRIGHT & LICENSE:
@@ -134,7 +134,7 @@ class AnthropicWrapper(LLMWrapper):
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

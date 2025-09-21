@@ -1,6 +1,6 @@
 # Manual Module Selection Process
 ## Pre-OpenAI API Call Evaluation
-### Trinity Framework: ⚛️🧠🛡️
+### Constellation Framework: ⚛️🧠🛡️
 
 Generated: 2025-08-13
 
@@ -163,7 +163,7 @@ For each module, fill this out BEFORE using API credits:
 
 ### DO Analyze If:
 - ✅ Implements complete AI/AGI concept
-- ✅ Has Trinity Framework markers
+- ✅ Has Constellation Framework markers
 - ✅ Contains novel algorithms
 - ✅ Could fill gap in current system
 - ✅ Has "breakthrough" potential

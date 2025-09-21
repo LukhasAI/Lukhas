@@ -40,14 +40,14 @@ from typing import Any, Optional
 try:
     from lukhas.async_manager import TaskPriority, get_consciousness_manager
     from lukhas.consciousness.registry import ComponentType, get_consciousness_registry
-    from lukhas.consciousness.trinity_integration import get_triad_integrator
+    from lukhas.consciousness.constellation_integration import get_constellation_integrator
     from lukhas.core.common.config import get_config
 except ImportError:
     # Graceful fallback for development
     def get_consciousness_registry():
         return None
 
-    def get_triad_integrator():
+    def get_constellation_integrator():
         return None
 
     def get_consciousness_manager():
@@ -224,7 +224,7 @@ class ConsciousnessMemoryIntegrator:
                 "name": "Memory Fold Processor",
                 "description": "Core memory fold processing with consciousness integration",
                 "module_path": "lukhas.memory.consciousness_memory_integration",
-                "triad_framework": "cross",
+                "constellation_framework": "cross",
                 "activation_priority": 20,
                 "feature_flags": ["memory_fold_enabled"],
                 "health_check_fn": self._memory_health_check,
@@ -235,7 +235,7 @@ class ConsciousnessMemoryIntegrator:
                 "name": "Memory Cascade Prevention System",
                 "description": "Advanced cascade detection and prevention (99.7% success rate)",
                 "module_path": "candidate.memory.consolidation.emergency_override",
-                "triad_framework": "🛡️",
+                "constellation_framework": "🛡️",
                 "activation_priority": 15,
                 "feature_flags": ["memory_cascade_prevention_enabled"],
             },
@@ -245,7 +245,7 @@ class ConsciousnessMemoryIntegrator:
                 "name": "Memory Emotional Context Encoder",
                 "description": "VAD emotional context encoding for memory folds",
                 "module_path": "candidate.memory.temporal.emotion_log",
-                "triad_framework": "🧠",
+                "constellation_framework": "🧠",
                 "activation_priority": 25,
                 "feature_flags": ["memory_emotional_encoding_enabled"],
             },

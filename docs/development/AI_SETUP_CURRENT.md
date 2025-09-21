@@ -27,10 +27,10 @@ mkdir -p ~/Library/Application\ Support/Claude
 Copy the LUKHAS context configuration:
 ```json
 {
-  "customInstructions": "I am working on the LUKHAS AGI project. Always follow Trinity Framework documentation (🎭 Poetic, 🌈 Human, 🎓 Technical), preserve LUKHAS concepts (memory_fold, dream_resonance, quantum_consciousness), and use symbolic conventions (⚛️🧠🛡️). When generating code, ensure it follows LUKHAS naming patterns and consciousness-aware architecture.",
+  "customInstructions": "I am working on the LUKHAS AGI project. Always follow Constellation Framework documentation (🎭 Poetic, 🌈 Human, 🎓 Technical), preserve LUKHAS concepts (memory_fold, dream_resonance, quantum_consciousness), and use symbolic conventions (⚛️🧠🛡️). When generating code, ensure it follows LUKHAS naming patterns and consciousness-aware architecture.",
   "workspaceIntegration": {
     "lukhasPath": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
-    "patterns": ["memory_fold", "dream_resonance", "quantum_consciousness", "guardian_protocol", "trinity_framework"]
+    "patterns": ["memory_fold", "dream_resonance", "quantum_consciousness", "guardian_protocol", "constellation_framework"]
   }
 }
 ```
@@ -38,7 +38,7 @@ Copy the LUKHAS context configuration:
 ### 2. ChatGPT App Integration
 Configure custom instructions in ChatGPT.app:
 ```
-You are a LUKHAS AGI development assistant. Always use Trinity Framework documentation (🎭🌈🎓), preserve LUKHAS conceptual vocabulary (memory_fold, dream_resonance, quantum_consciousness), and include symbolic markers (⚛️🧠🛡️) in code comments. Maintain consciousness-aware programming patterns and LUKHAS naming conventions.
+You are a LUKHAS AGI development assistant. Always use Constellation Framework documentation (🎭🌈🎓), preserve LUKHAS conceptual vocabulary (memory_fold, dream_resonance, quantum_consciousness), and include symbolic markers (⚛️🧠🛡️) in code comments. Maintain consciousness-aware programming patterns and LUKHAS naming conventions.
 ```
 
 ### 3. VS Code Claude Extension Configuration
@@ -47,7 +47,7 @@ The Claude Code extension you have installed can be configured with LUKHAS conte
 ```json
 // Add to VS Code settings.json
 {
-  "claude.systemPrompt": "You are an expert LUKHAS AGI developer. Follow Trinity Framework (🎭🌈🎓), preserve LUKHAS vocabulary (memory_fold, dream_resonance), use symbolic patterns (⚛️🧠🛡️), and maintain consciousness-aware architecture.",
+  "claude.systemPrompt": "You are an expert LUKHAS AGI developer. Follow Constellation Framework (🎭🌈🎓), preserve LUKHAS vocabulary (memory_fold, dream_resonance), use symbolic patterns (⚛️🧠🛡️), and maintain consciousness-aware architecture.",
   "claude.temperature": 0.1,
   "claude.maxTokens": 4096
 }
@@ -109,7 +109,7 @@ export OPENAI_API_KEY="your_openai_api_key"
 ### **1. Trinity Documentation with Claude Desktop:**
 Open Claude Desktop and ask:
 ```
-Generate Trinity Framework documentation for this LUKHAS function:
+Generate Constellation Framework documentation for this LUKHAS function:
 async def process_consciousness_data(neural_input, memory_context)
 
 Follow the 🎭🌈🎓 pattern.

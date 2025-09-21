@@ -25,8 +25,8 @@ from interfaces.api.v1.rest.routers import (
 )
 
 app = FastAPI(
-    title="LUKHAS AGI API",
-    description="Enterprise Artificial General Intelligence System",
+    title="LUKHAS Cognitive AI API",
+    description="Enterprise Cognitive Artificial Intelligence System",
     version="1.0.0",
     docs_url=f"{API_PREFIX}/docs",
     redoc_url=f"{API_PREFIX}/redoc",
@@ -68,9 +68,9 @@ app.include_router(tasks_router, prefix=f"{API_PREFIX}/tasks")
 
 @app.on_event("startup")
 async def startup_event():
-    logging.info("LUKHAS AGI API starting up...")
+    logging.info("LUKHAS Cognitive AI API starting up...")
 
 
 @app.on_event("shutdown")
 async def shutdown_event():
-    logging.info("LUKHAS AGI API shutting down...")
+    logging.info("LUKHAS Cognitive AI API shutting down...")

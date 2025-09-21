@@ -671,7 +671,7 @@ def initialize_lukhas_federated_learning(
 ║
 ║ REFERENCES:
 ║   - Docs: docs/learning/federated-learning.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=federated-learning
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=federated-learning
 ║   - Wiki: wiki.lukhas.ai/federated-learning-architecture
 ║
 ║ COPYRIGHT & LICENSE:
@@ -680,7 +680,7 @@ def initialize_lukhas_federated_learning(
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════════

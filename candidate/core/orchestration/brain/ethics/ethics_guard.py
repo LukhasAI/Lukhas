@@ -15,7 +15,7 @@ lukhas_ethics_guard.py
     and ethical tiers
 📚 COMPLIANCE  : GDPR, EU AI Act, ECHR, ISO/IEC 27001 (Annex A.5.19, timezone)
 🧠 PART OF     : LUKHAS AI Ethics Core
-🛠️ VERSION     : v1.0.0 • 📅 CREATED: 2025-05-05 • ✍️ AUTHOR: LUKHAS AGI TEAM
+🛠️ VERSION     : v1.0.0 • 📅 CREATED: 2025-05-05 • ✍️ AUTHOR: LUKHAS Cognitive AI TEAM
 
 ┌─────────────────────────────────────────────────────────────────────┐
 │ This module acts as a real-time ethics firewall and contextual     │

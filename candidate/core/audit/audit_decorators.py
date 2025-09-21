@@ -1,5 +1,5 @@
 """
-Audit decorators for easy integration into AGI systems
+Audit decorators for easy integration into Cognitive AI systems
 Provides automatic audit logging with minimal code changes
 """
 

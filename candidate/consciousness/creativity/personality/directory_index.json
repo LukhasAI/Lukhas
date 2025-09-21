@@ -1,0 +1,141 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/consciousness/creativity/personality",
+    "lane": "development",
+    "purpose": "Directory containing 3 Python files and 1 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "constellation_role": "horizon_star_primary",
+    "matriz_pipeline_integration": {
+      "memory_stage": "active",
+      "attention_stage": "active",
+      "thought_stage": "active",
+      "awareness_stage": "active",
+      "decision_stage": "experimental"
+    },
+    "cognitive_domains": [
+      "consciousness_processing",
+      "awareness_patterns"
+    ]
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "narrative_engine_dream_narrator_queue.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/narrative_engine_dream_narrator_queue.json",
+        "dependencies": [],
+        "exports": [
+          "load_dreams",
+          "filter_narratable_dreams",
+          "save_to_queue",
+          "run_narration_queue_builder"
+        ]
+      },
+      {
+        "filename": "brain.py",
+        "component_type": "CREATIVITY_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/brain.json",
+        "dependencies": [],
+        "exports": [
+          "LUKHASBrain"
+        ]
+      },
+      {
+        "filename": "creative_core.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/creative_core.json",
+        "dependencies": [],
+        "exports": [
+          "MetaLearningSystem",
+          "FederatedLearningManager",
+          "ReflectiveIntrospectionSystem",
+          "NeuroHaikuGenerator",
+          "EthicalProtestModule",
+          "ConceptualDoodler",
+          "AI",
+          "analyze_context",
+          "optimize_learning_approach",
+          "get_model",
+          "incorporate_feedback",
+          "get_model",
+          "contribute_gradients",
+          "log_interaction",
+          "meta_haiku",
+          "plan_protest",
+          "meta_draw",
+          "unified_processing",
+          "adaptive_learning_loop"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "voice",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      }
+    ],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Start with consciousness architecture documentation, then examine engines and processors",
+    "key_files": [
+      "narrative_engine_dream_narrator_queue.py"
+    ],
+    "common_tasks": [
+      {
+        "task": "Consciousness engine development",
+        "files_involved": [
+          "narrative_engine_dream_narrator_queue.py"
+        ],
+        "complexity": "high"
+      }
+    ],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "Consciousness architecture patterns",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 3,
+    "estimated_complexity": "low",
+    "consciousness_integration": "intermediate",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "native",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true,
+    "cognitive_alignment_score": 0.85
+  },
+  "relationships": {
+    "parent_directory": "candidate/consciousness/creativity",
+    "related_directories": [],
+    "constellation_cluster": "horizon_star_consciousness",
+    "dependency_weight": "moderate"
+  }
+}

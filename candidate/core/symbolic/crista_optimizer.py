@@ -2,7 +2,7 @@
 # FILENAME: crista_optimizer.py
 # MODULE: core.adaptive_systems.crista_optimizer.crista_optimizer
 # DESCRIPTION: Implements the CristaOptimizer for dynamic symbolic architecture management,
-#              inspired by mitochondrial cristae remodeling. Part of LUKHAS AGI's
+#              inspired by mitochondrial cristae remodeling. Part of LUKHAS Cognitive AI's
 #              bio-symbolic adaptive topology layer.
 # DEPENDENCIES: logging, numpy, typing, dataclasses, enum, .symbolic_network (for TYPE_CHECKING)
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
@@ -439,14 +439,14 @@ class TopologyManager:
 
 # Main CristaOptimizer Class
 # Simulates mitochondrial cristae-like remodeling (fusion, fission, detachment)
-# within a symbolic cognitive graph network in the LUKHAS AGI system.
+# within a symbolic cognitive graph network in the LUKHAS Cognitive system.
 # This class orchestrates the adaptive changes to the network topology.
 
 
 class CristaOptimizer:
     """
     Simulates mitochondrial cristae-like remodeling (fusion, fission, detachment)
-    within a symbolic cognitive graph network in the LUKHAS AGI system.
+    within a symbolic cognitive graph network in the LUKHAS Cognitive system.
     This class orchestrates the adaptive changes to the network topology.
     """
 

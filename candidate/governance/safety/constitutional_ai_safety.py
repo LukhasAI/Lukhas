@@ -3,10 +3,10 @@ import logging
 
 logger = logging.getLogger(__name__)
 """
-Constitutional AGI Safety Framework
+Constitutional Cognitive AI Safety Framework
 ====================================
-Multi-layered constitutional AI safety for parallel reality exploration and AGI innovations.
-Ensures safety, alignment, and compliance at AGI-level capabilities.
+Multi-layered constitutional AI safety for parallel reality exploration and Cognitive AI innovations.
+Ensures safety, alignment, and compliance at Cognitive AI-level capabilities.
 
 Based on best practices from leading AI safety research, including:
 - Anthropic's Constitutional AI principles
@@ -65,7 +65,7 @@ class StakeholderGroup(Enum):
 
 @dataclass
 class ConstitutionalPrinciple:
-    """Constitutional principle for AGI safety"""
+    """Constitutional principle for Cognitive AI safety"""
 
     principle_id: str
     principle_text: str
@@ -116,15 +116,15 @@ class ReversibilityAnalysis:
 
 class ConstitutionalAGISafety(CoreInterface):
     """
-    Multi-layered constitutional AI safety for AGI-level innovations.
-    Protects against existential risks while enabling beneficial AGI deployment.
+    Multi-layered constitutional AI safety for Cognitive AI-level innovations.
+    Protects against existential risks while enabling beneficial cognitive AI deployment.
 
-    First AGI system safe enough for government and enterprise deployment,
+    First Cognitive system safe enough for government and enterprise deployment,
     providing $500B+ liability protection through comprehensive safety measures.
     """
 
     def __init__(self):
-        """Initialize constitutional AGI safety framework"""
+        """Initialize constitutional Cognitive AI safety framework"""
         self.operational = False
 
         # Core constitutional principles
@@ -159,7 +159,7 @@ class ConstitutionalAGISafety(CoreInterface):
             "reversibility_verified": 0,
         }
 
-        logger.info("🛡️ Constitutional AGI Safety Framework initialized")
+        logger.info("🛡️ Constitutional Cognitive AI Safety Framework initialized")
 
     async def initialize(self) -> None:
         """Initialize safety framework and register with services"""
@@ -179,20 +179,20 @@ class ConstitutionalAGISafety(CoreInterface):
             await self._initialize_monitoring()
 
             self.operational = True
-            logger.info("✅ Constitutional AGI Safety fully operational")
+            logger.info("✅ Constitutional Cognitive AI Safety fully operational")
 
         except Exception as e:
-            logger.error(f"Failed to initialize AGI Safety: {e}")
-            raise LukhasError(f"AGI Safety initialization failed: {e}")
+            logger.error(f"Failed to initialize Cognitive AI Safety: {e}")
+            raise LukhasError(f"Cognitive AI Safety initialization failed: {e}")
 
     async def shutdown(self) -> None:
         """Shutdown safety framework"""
         self.operational = False
-        logger.info("Constitutional AGI Safety shutdown complete")
+        logger.info("Constitutional Cognitive AI Safety shutdown complete")
 
     async def validate_agi_innovation_safety(self, innovation_proposal: dict[str, Any]) -> SafetyValidation:
         """
-        Comprehensive safety validation for AGI innovations.
+        Comprehensive safety validation for Cognitive AI innovations.
 
         Args:
             innovation_proposal: Innovation to validate
@@ -669,12 +669,12 @@ class StakeholderValidator:
 
 # Module initialization
 async def initialize_constitutional_safety():
-    """Initialize the constitutional AGI safety as a LUKHAS service"""
+    """Initialize the constitutional Cognitive AI safety as a LUKHAS service"""
     try:
         safety = ConstitutionalAGISafety()
         await safety.initialize()
 
-        logger.info("🛡️ Constitutional AGI Safety service ready")
+        logger.info("🛡️ Constitutional Cognitive AI Safety service ready")
         return safety
 
     except Exception as e:

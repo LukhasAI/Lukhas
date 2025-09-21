@@ -19,7 +19,7 @@
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ The Identity Vocabulary module provides symbolic representations for identity
 ║ management, authentication, and tier-based access control within the LUKHAS
-║ AGI system. It enables clear communication of identity states and operations.
+║ Cognitive system. It enables clear communication of identity states and operations.
 ║
 ║ Key Features:
 ║ • Identity authentication symbols
@@ -323,7 +323,7 @@ CONSENT_LEVEL_SYMBOLS = {
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This vocabulary is part of the LUKHAS AGI system. Use only as intended
+║   This vocabulary is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚══════════════════════════════════════════════════════════════════════════════════

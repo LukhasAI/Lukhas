@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 | DESCRIPTION
 +==================================================================================
 | Provides a comprehensive service layer for learning, adaptation, and knowledge
-| synthesis within the LUKHAS AGI system, integrating with identity management
+| synthesis within the LUKHAS Cognitive system, integrating with identity management
 | for access control and audit logging.
 +==================================================================================
 """
@@ -74,7 +74,7 @@ except ImportError:
 # EXPOSE: This class is the primary interface for all learning-related operations.
 class LearningService:
     """
-    Main learning service for the LUKHAS AGI system.
+    Main learning service for the LUKHAS Cognitive system.
 
     Provides learning, adaptation, and knowledge synthesis capabilities with full
     integration to the identity system for access control and audit logging.
@@ -140,7 +140,7 @@ class LearningService:
         Returns:
             Dict: Learning results and knowledge updates
         """
-        # DREAM_LOOP: Each call to learn_from_data can be part of an ongoing learning and adaptation cycle for the AGI.
+        # DREAM_LOOP: Each call to learn_from_data can be part of an ongoing learning and adaptation cycle for the Cognitive AI.
         # TRACE: learn_from_data called
         logger.info(
             "learn_from_data_start",
@@ -265,7 +265,7 @@ class LearningService:
         Returns:
             Dict: Behavior adaptation results
         """
-        # DREAM_LOOP: Behavior adaptation is a core feedback loop for a learning AGI.
+        # DREAM_LOOP: Behavior adaptation is a core feedback loop for a learning Cognitive AI.
         # TRACE: adapt_behavior called
         logger.info(
             "adapt_behavior_start",
@@ -960,7 +960,7 @@ if __name__ == "__main__":
 |   Unauthorized use, reproduction, or distribution is prohibited.
 |
 | DISCLAIMER:
-|   This module is part of the LUKHAS AGI system. Use only as intended
+|   This module is part of the LUKHAS Cognitive system. Use only as intended
 |   within the system architecture. Modifications may affect system
 |   stability and require approval from the LUKHAS Architecture Board.
 +===========================================================================

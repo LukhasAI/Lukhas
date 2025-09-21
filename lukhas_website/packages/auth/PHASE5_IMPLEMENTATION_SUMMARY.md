@@ -201,7 +201,7 @@ lukhas_website/
 - ✅ **Λ usage**: Proper display-only usage with accessibility labels
 - ✅ **Terminology**: Consistent LUKHAS AI messaging
 - ✅ **Tone system**: Adaptive communication across user types
-- ✅ **Visual consistency**: Aligned with Trinity Framework design
+- ✅ **Visual consistency**: Aligned with Constellation Framework design
 
 ## 🔄 Future Enhancements
 

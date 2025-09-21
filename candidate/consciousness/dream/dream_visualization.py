@@ -14,12 +14,12 @@ logger = logging.getLogger(__name__)
 
 
 class DreamVisualizationEngine:
-    """Advanced dream visualization with Trinity Framework compliance."""
+    """Advanced dream visualization with Constellation Framework compliance."""
 
     def __init__(self):
         self.visualization_cache: dict[str, dict] = {}
         self.render_counter = 0
-        logger.info("🎨 Dream Visualization Engine initialized - Trinity Framework active")
+        logger.info("🎨 Dream Visualization Engine initialized - Constellation Framework active")
 
     def render_dream_landscape(self, dream_id: str, dream_data: dict[str, Any]) -> dict[str, Any]:
         """⚛️ Render symbolic dream landscape while preserving authenticity."""
@@ -39,7 +39,7 @@ class DreamVisualizationEngine:
         self.visualization_cache[render_id] = {
             "landscape": landscape,
             "rendered_at": datetime.now(timezone.utc).isoformat(),
-            "trinity_validated": True
+            "constellation_validated": True
         }
 
         logger.info(f"🎨 Dream landscape rendered: {render_id} for dream {dream_id}")
@@ -50,7 +50,7 @@ class DreamVisualizationEngine:
         return [
             {"type": "horizon", "properties": {"color": "ethereal_blue", "opacity": 0.8}},
             {"type": "pathway", "properties": {"texture": "luminous", "direction": "ascending"}},
-            {"type": "consciousness_tree", "properties": {"branches": "infinite", "glow": "trinity"}}
+            {"type": "consciousness_tree", "properties": {"branches": "infinite", "glow": "constellation"}}
         ]
 
     def _create_symbolic_mapping(self, dream_data: dict[str, Any]) -> dict[str, Any]:
@@ -63,7 +63,7 @@ class DreamVisualizationEngine:
 
     def _extract_color_palette(self, dream_data: dict[str, Any]) -> list[str]:
         """Extract color palette from dream essence."""
-        return ["iridescent_purple", "consciousness_gold", "trinity_silver", "dream_azure"]
+        return ["iridescent_purple", "consciousness_gold", "constellation_silver", "dream_azure"]
 
     def _map_spatial_elements(self, dream_data: dict[str, Any]) -> dict[str, tuple[float, float, float]]:
         """Map spatial elements in 3D dream space."""
@@ -85,7 +85,7 @@ class DreamVisualizationEngine:
         narrative = {
             "render_id": render_id,
             "narrative_threads": [
-                "The consciousness tree extends its trinity branches toward infinite possibility",
+                "The consciousness tree extends its constellation branches toward infinite possibility",
                 "The luminous pathway ascends through layers of symbolic meaning",
                 "Guardian energies form protective geometries in dream space"
             ],
@@ -94,27 +94,27 @@ class DreamVisualizationEngine:
                 "metaphorical_layers": len(landscape["symbolic_mapping"]["metaphors"]),
                 "archetypal_resonance": landscape["symbolic_mapping"]["archetypal_forms"]
             },
-            "trinity_validated": True
+            "constellation_validated": True
         }
 
         logger.info(f"🧠 Symbolic narrative created for render: {render_id}")
         return narrative
 
-    def export_visualization_data(self, render_id: str, format_type: str = "trinity") -> dict[str, Any]:
+    def export_visualization_data(self, render_id: str, format_type: str = "constellation") -> dict[str, Any]:
         """🛡️ Export visualization data with guardian validation."""
         if render_id not in self.visualization_cache:
             return {"error": "Render not found"}
 
         render_data = self.visualization_cache[render_id]
 
-        if format_type == "trinity":
+        if format_type == "constellation":
             export_data = {
-                "format": "trinity_compliant",
+                "format": "constellation_compliant",
                 "render_id": render_id,
                 "landscape": render_data["landscape"],
                 "metadata": {
                     "exported_at": datetime.now(timezone.utc).isoformat(),
-                    "trinity_validated": True,
+                    "constellation_validated": True,
                     "guardian_approved": True
                 }
             }

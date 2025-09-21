@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 🌙 MODULE: emotion.emotion_dreamseed_upgrade
 📄 FILENAME: emotion_dreamseed_upgrade.py
 🎯 PURPOSE: DREAMSEED Protocol Integration for Symbolic Emotion Engine
-🧠 CONTEXT: LUKHAS AGI Emotion Subsystem Enhancement with Safety & Tiered Access
+🧠 CONTEXT: LUKHAS Cognitive AI Emotion Subsystem Enhancement with Safety & Tiered Access
 🔮 CAPABILITY: Ethical emotion regulation, drift moderation, co-dreamer isolation
 🛡️ ETHICS: Multi-layer safety with ethical governor integration
 🚀 VERSION: v1.0.0 • 📅 CREATED: 2025-07-21 • ✍️ AUTHOR: CLAUDE-4-HARMONIZER
@@ -246,7 +246,7 @@ class DreamSeedEmotionEngine:
         self.tier_access_log: list[dict[str, Any]] = []
 
         # Logging paths
-        self.logs_dir = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/emotion"
+        self.logs_dir = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/emotion"
         os.makedirs(self.logs_dir, exist_ok=True)
 
         self.safety_log_path = os.path.join(self.logs_dir, "dreamseed_safety.jsonl")

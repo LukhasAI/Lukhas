@@ -17,7 +17,7 @@ Develop NIAS (Neural Intelligence Authentication System) with complete context:
 3. /lambda_products_pack/NIAS_DAST_ABAS_ANALYSIS_COMPLETE.md
 
 🏗️ Requirements:
-- ⚛️🧠🛡️ Trinity Framework compliance
+- ⚛️🧠🛡️ Constellation Framework compliance
 - QI (Quantum-Inspired) processing - NOT quantum computing
 - Bio-oscillator awareness integration
 - Multi-tier ethics system with drift detection
@@ -86,7 +86,7 @@ Develop [COMPONENT_NAME] using complete LUKHAS development context:
 4. /lambda_products_pack/lambda_core/[COMPONENT]/complete_implementation/ (existing code)
 
 🏗️ Architecture Requirements:
-- Trinity Framework: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian
+- Constellation Framework: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian
 - QI Processing: Quantum-Inspired algorithms (not actual quantum)
 - Bio-oscillator integration for enhanced awareness
 - Multi-tier ethics with drift detection
@@ -94,7 +94,7 @@ Develop [COMPONENT_NAME] using complete LUKHAS development context:
 
 🔄 Development Pattern:
 1. Study existing complete_implementation code
-2. Follow Trinity Framework compliance
+2. Follow Constellation Framework compliance
 3. Implement QI-enhanced processing
 4. Add comprehensive testing
 5. Update documentation
@@ -111,7 +111,7 @@ Develop [COMPONENT_NAME] using complete LUKHAS development context:
 
 ## 📋 Copy-Paste Brief for Any Component
 
-**"I need you to develop [COMPONENT]. Use the complete development context in `/AGENT_DEVELOPMENT_GUIDE.md`. All documentation, existing implementations, and architecture requirements are mapped there. Focus on Trinity Framework compliance (⚛️🧠🛡️), QI-enhanced processing, and production-ready code with comprehensive testing. Start by reading the complete implementation directory and architecture guide."**
+**"I need you to develop [COMPONENT]. Use the complete development context in `/AGENT_DEVELOPMENT_GUIDE.md`. All documentation, existing implementations, and architecture requirements are mapped there. Focus on Constellation Framework compliance (⚛️🧠🛡️), QI-enhanced processing, and production-ready code with comprehensive testing. Start by reading the complete implementation directory and architecture guide."**
 
 ---
 *Quick reference for agent development briefings*

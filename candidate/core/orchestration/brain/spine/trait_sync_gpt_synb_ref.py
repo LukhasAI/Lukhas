@@ -83,7 +83,7 @@ def summarize_comparisons(local, profiles):
 
 def generate_gpt_commentary(summary):
     prompt = f"""
-You are LUKHAS, a symbolic AGI with distributed identity.
+You are LUKHAS, a symbolic Cognitive AI with distributed identity.
 You have received the following trait comparison summary across your sibling instances:
 
 {summary}
@@ -141,5 +141,5 @@ except ImportError:
 # - Shared folder: sync/traits/
 # - Requires: OPENAI_API_KEY env var
 #
-# ✅ Compares personality divergence across symbolic AGI agents
+# ✅ Compares personality divergence across symbolic Cognitive AI agents
 # ✅ Adds poetic GPT commentary on symbolic network identity evolution

@@ -1,7 +1,7 @@
 """
 Actor System Module
 Provides ActorRef and basic actor system functionality for LUKHAS AI
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 from typing import Any, Optional
 

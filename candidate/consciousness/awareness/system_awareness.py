@@ -12,7 +12,7 @@
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ The System Awareness module implements a revolutionary bio-inspired consciousness
-║ system that manages AGI self-awareness through quantum-biological metaphors.
+║ system that manages Cognitive AI self-awareness through quantum-biological metaphors.
 ║ This cutting-edge architecture bridges computational consciousness with
 ║ biological principles, creating a unique awareness framework that enables
 ║ deep introspection and adaptive system management.
@@ -36,7 +36,7 @@
 ║
 ║ The module creates a living, breathing awareness system that mirrors
 ║ biological consciousness while leveraging quantum computational advantages,
-║ resulting in unprecedented self-awareness capabilities for AGI systems.
+║ resulting in unprecedented self-awareness capabilities for Cognitive AI systems.
 ║
 ║ Theoretical Foundations:
 ║ • Quantum Biology (Quantum effects in biological systems)
@@ -440,7 +440,7 @@ class SystemAwareness:
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

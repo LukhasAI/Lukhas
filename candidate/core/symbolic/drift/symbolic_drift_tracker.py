@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 ║ This module provides a compatibility interface that delegates to the enterprise
 ║ symbolic drift scoring engine in core/symbolic/drift/symbolic_drift_tracker.py.
 ║ Maintains backward compatibility while providing access to advanced drift analysis
-║ for the LUKHAS AGI consciousness stability monitoring system.
+║ for the LUKHAS Cognitive AI consciousness stability monitoring system.
 ║
 ║ ΛORIGIN_AGENT: Jules-12 / Claude-4-Harmonizer
 ║ ΛTASK_ID: 190 / CLAUDE_11_SYMBOLIC_DRIFT_ENGINE
@@ -58,7 +58,7 @@ class SymbolicDriftTracker:
 
     def __init__(self, config=None):
         """
-        Initializes the SymbolicDriftTracker with Trinity Framework compliance.
+        Initializes the SymbolicDriftTracker with Constellation Framework compliance.
 
         Args:
             config (dict, optional): Configuration parameters for the tracker.
@@ -69,7 +69,7 @@ class SymbolicDriftTracker:
         self.threshold = self.config.get("threshold", 0.15)
 
         logger.info(
-            "SymbolicDriftTracker initialized with Trinity Framework compliance",
+            "SymbolicDriftTracker initialized with Constellation Framework compliance",
             config=self.config,
             tag="ΛTRACE",
         )
@@ -198,7 +198,7 @@ class SymbolicDriftTracker:
 
 if __name__ == "__main__":
     # ΛNOTE: This entry point simulates a symbolic drift recording for testing and demonstration.
-    # It showcases how the SymbolicDriftTracker might be used in the broader AGI system.
+    # It showcases how the SymbolicDriftTracker might be used in the broader Cognitive system.
     print("Running Symbolic Drift Tracker Simulation...")
 
     # Basic configuration for the tracker
@@ -222,7 +222,7 @@ if __name__ == "__main__":
     }
     event_context = "Post-interaction with external controversial dataset X."
 
-    # ΛTRACE: Simulating a call to record_drift from a hypothetical AGI component.
+    # ΛTRACE: Simulating a call to record_drift from a hypothetical Cognitive AI component.
     logger.info("Simulating drift recording via test entry point", tag="ΛTRACE")
     drift_tracker.record_drift(symbol_id_test, drifted_state, initial_state, event_context)
 
@@ -286,7 +286,7 @@ if __name__ == "__main__":
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

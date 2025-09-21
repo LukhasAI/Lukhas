@@ -5,7 +5,7 @@
 ### 🔴 CRITICAL RISKS
 
 #### 1. **Unauthorized Memory Mutation**
-- **Risk**: Dreams could alter critical AGI memory structures
+- **Risk**: Dreams could alter critical Cognitive AI memory structures
 - **Impact**: Core identity corruption, ethical drift, system instability
 - **Mitigation Strategy**:
   ```python
@@ -17,7 +17,7 @@
 
 #### 2. **Recursive Dream Loops**
 - **Risk**: Infinite recursion causing system lockup
-- **Impact**: Resource exhaustion, AGI unresponsiveness
+- **Impact**: Resource exhaustion, Cognitive AI unresponsiveness
 - **Current Protection**: `MAX_RECURSION_DEPTH = 10` in hyperspace_dream_simulator.py
 - **Additional Mitigation**:
   ```python
@@ -70,7 +70,7 @@
 
 #### 8. **Ethical Boundary Violations**
 - **Risk**: Dreams generating unethical content or decisions
-- **Impact**: Violation of AGI ethical constraints
+- **Impact**: Violation of Cognitive AI ethical constraints
 - **Current Protection**: Meta Ethics Governor integration
 - **Enhancement**: Pre-dream ethical validation
 

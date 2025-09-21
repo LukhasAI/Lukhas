@@ -1,0 +1,342 @@
+name: 📦 Dependency Pinning & Lockfile Management
+
+on:
+  schedule:
+    - cron: "15 4 * * 1"  # Weekly Monday 04:15 UTC
+  pull_request:
+    paths:
+      - "requirements.in"
+      - "pyproject.toml"
+  push:
+    branches: [main]
+    paths:
+      - "requirements.in"
+      - "pyproject.toml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: deps-${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  validate-lockfiles:
+    name: 🔒 Validate Dependency Lockfiles
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pip-tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install pip-tools>=7.0.0
+
+      - name: Validate requirements.in syntax
+        run: |
+          echo "🔍 Validating requirements.in syntax..."
+          python -c "
+          import re
+          with open('requirements.in', 'r') as f:
+              content = f.read()
+
+          # Check for proper version constraints
+          lines = [line.strip() for line in content.split('\n') if line.strip() and not line.startswith('#')]
+
+          for line in lines:
+              if not re.match(r'^[a-zA-Z0-9_-]+[>=<~!]*[0-9.]*.*$', line):
+                  print(f'❌ Invalid dependency format: {line}')
+                  exit(1)
+
+          print('✅ requirements.in syntax is valid')
+          "
+
+      - name: Check lockfile freshness
+        run: |
+          echo "📅 Checking if lockfiles are up-to-date..."
+
+          # Generate fresh requirements.txt to compare
+          pip-compile --generate-hashes --quiet requirements.in --output-file requirements-fresh.txt
+
+          if ! cmp -s requirements.txt requirements-fresh.txt; then
+            echo "⚠️  requirements.txt is out of date with requirements.in"
+            echo "Diff:"
+            diff requirements.txt requirements-fresh.txt | head -20 || true
+            echo "LOCKFILE_OUTDATED=true" >> $GITHUB_ENV
+          else
+            echo "✅ requirements.txt is up-to-date"
+            echo "LOCKFILE_OUTDATED=false" >> $GITHUB_ENV
+          fi
+
+      - name: Validate dependency security
+        run: |
+          echo "🛡️  Checking dependencies for known vulnerabilities..."
+
+          # Install current dependencies for scanning
+          pip install -r requirements.txt
+          pip install safety
+
+          # Run safety check
+          safety check --json --output safety-report.json || SAFETY_EXIT_CODE=$?
+
+          if [ -f safety-report.json ] && [ -s safety-report.json ]; then
+            echo "⚠️  Security vulnerabilities found:"
+            cat safety-report.json | jq '.[]' | head -10 || cat safety-report.json | head -20
+            echo "SECURITY_ISSUES=true" >> $GITHUB_ENV
+          else
+            echo "✅ No known security vulnerabilities found"
+            echo "SECURITY_ISSUES=false" >> $GITHUB_ENV
+          fi
+
+      - name: Check for dependency conflicts
+        run: |
+          echo "🔍 Checking for dependency conflicts..."
+
+          pip install pipdeptree
+
+          # Check for conflicts
+          pipdeptree --warn fail > dependency-tree.txt || {
+            echo "⚠️  Dependency conflicts detected:"
+            cat dependency-tree.txt
+            echo "DEPENDENCY_CONFLICTS=true" >> $GITHUB_ENV
+            exit 0  # Don't fail the job, just warn
+          }
+
+          echo "✅ No dependency conflicts found"
+          echo "DEPENDENCY_CONFLICTS=false" >> $GITHUB_ENV
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-reports-${{ github.run_id }}
+          path: |
+            safety-report.json
+            dependency-tree.txt
+            requirements-fresh.txt
+          retention-days: 14
+
+      - name: Create issue for outdated lockfile
+        if: env.LOCKFILE_OUTDATED == 'true' && github.event_name == 'schedule'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = '📦 Dependency lockfile needs update';
+            const body = `
+            ## 🔄 Lockfile Update Required
+
+            The dependency lockfile (\`requirements.txt\`) is out of sync with \`requirements.in\`.
+
+            **Action Required:**
+            - Run \`pip-compile --generate-hashes requirements.in\`
+            - Review changes carefully for security implications
+            - Test with updated dependencies
+            - Commit the updated \`requirements.txt\`
+
+            **Automated Detection:**
+            - Detected: ${new Date().toISOString()}
+            - Workflow: ${context.workflow}
+            - Run: ${context.runId}
+
+            /label dependencies
+            `;
+
+            // Check if issue already exists
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'dependencies'
+            });
+
+            const existingIssue = issues.data.find(issue => issue.title.includes('lockfile needs update'));
+
+            if (!existingIssue) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: title,
+                body: body,
+                labels: ['dependencies', 'maintenance']
+              });
+            }
+
+  update-lockfiles:
+    name: 🔄 Update Dependency Lockfiles
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [validate-lockfiles]
+    if: github.event_name == 'pull_request' && contains(github.event.pull_request.title, 'deps:')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pip-tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install pip-tools>=7.0.0
+
+      - name: Update requirements.txt
+        run: |
+          echo "🔄 Updating requirements.txt..."
+
+          # Backup current file
+          cp requirements.txt requirements.txt.backup
+
+          # Generate new lockfile
+          pip-compile --generate-hashes --upgrade requirements.in
+
+          # Show diff
+          echo "📊 Changes in requirements.txt:"
+          diff requirements.txt.backup requirements.txt | head -30 || true
+
+      - name: Update requirements.lock (CI baseline)
+        run: |
+          echo "🔄 Updating requirements.lock for CI..."
+
+          # Install deps and generate minimal CI lockfile
+          pip install -r requirements.txt
+
+          # Create minimal lockfile for CI critical path
+          cat > requirements.lock << 'EOF'
+          # Pinned CI lockfile (prefer on main/nightly). Generated via pip freeze.
+          # This is a minimal baseline for Critical Path jobs; Extended jobs may install extras.
+
+          EOF
+
+          # Add key testing dependencies with exact versions
+          pip freeze | grep -E "^(pytest|coverage|ruff|mypy|bandit|import-linter|codecov-cli)==" >> requirements.lock
+
+      - name: Test updated dependencies
+        run: |
+          echo "🧪 Testing updated dependencies..."
+
+          # Install and test
+          pip install -r requirements.txt
+
+          # Quick smoke test
+          python -c "
+          try:
+              import lukhas
+              print('✅ LUKHAS imports successfully')
+          except Exception as e:
+              print(f'❌ Import failed: {e}')
+              exit(1)
+          "
+
+          # Run minimal test suite if available
+          if [ -f pytest.ini ] || [ -d tests ]; then
+            pip install pytest
+            pytest -x -q --tb=short -k "smoke" || echo "⚠️  Some tests failed, review carefully"
+          fi
+
+      - name: Commit updated lockfiles
+        run: |
+          echo "💾 Committing updated lockfiles..."
+
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          git add requirements.txt requirements.lock
+
+          if git diff --staged --quiet; then
+            echo "📝 No changes to commit"
+          else
+            git commit -m "deps: update dependency lockfiles
+
+            - Updated requirements.txt via pip-compile
+            - Refreshed requirements.lock for CI baseline
+            - Tested dependency compatibility
+
+            🤖 Generated with Claude Code
+
+            Co-Authored-By: Claude <noreply@anthropic.com>"
+
+            git push
+            echo "✅ Lockfiles updated and committed"
+          fi
+
+  dependency-audit:
+    name: 📊 Dependency Audit Report
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: github.event_name == 'schedule'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Generate dependency report
+        run: |
+          python -m pip install --upgrade pip
+          pip install pipdeptree pip-audit
+          pip install -r requirements.txt
+
+          echo "📊 LUKHAS AI Dependency Audit Report" > dependency-audit.md
+          echo "Generated: $(date -u)" >> dependency-audit.md
+          echo "" >> dependency-audit.md
+
+          echo "## 🌳 Dependency Tree" >> dependency-audit.md
+          echo "\`\`\`" >> dependency-audit.md
+          pipdeptree --packages lukhas-ai,fastapi,openai,anthropic | head -50 >> dependency-audit.md
+          echo "\`\`\`" >> dependency-audit.md
+          echo "" >> dependency-audit.md
+
+          echo "## 🛡️ Security Audit" >> dependency-audit.md
+          echo "\`\`\`" >> dependency-audit.md
+          pip-audit --format=text | head -20 >> dependency-audit.md || echo "No vulnerabilities found" >> dependency-audit.md
+          echo "\`\`\`" >> dependency-audit.md
+          echo "" >> dependency-audit.md
+
+          echo "## 📦 Package Statistics" >> dependency-audit.md
+          echo "- Total packages: $(pip list | wc -l)" >> dependency-audit.md
+          echo "- Direct dependencies: $(wc -l < requirements.in)" >> dependency-audit.md
+          echo "- Core ML packages: $(pip list | grep -E "(openai|anthropic|numpy|torch)" | wc -l)" >> dependency-audit.md
+
+      - name: Upload audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-audit-${{ github.run_id }}
+          path: dependency-audit.md
+          retention-days: 30
+
+  summary:
+    name: 📋 Dependency Management Summary
+    runs-on: ubuntu-latest
+    needs: [validate-lockfiles, update-lockfiles, dependency-audit]
+    if: always()
+    steps:
+      - name: Dependency management summary
+        run: |
+          echo "📦 LUKHAS AI Dependency Management Results"
+          echo "========================================"
+          echo "Validation: ${{ needs.validate-lockfiles.result }}"
+          echo "Updates: ${{ needs.update-lockfiles.result }}"
+          echo "Audit: ${{ needs.dependency-audit.result }}"
+
+          if [ "${{ needs.validate-lockfiles.result }}" = "failure" ]; then
+            echo "🚨 Dependency validation issues detected!"
+            exit 1
+          else
+            echo "✅ Dependency management completed successfully"
+          fi

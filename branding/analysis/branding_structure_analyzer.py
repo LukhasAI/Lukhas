@@ -192,7 +192,7 @@ class BrandingStructureAnalyzer:
             "validation": ["validate", "check", "verify"],
             "orchestration": ["orchestrate", "coordinate", "manage"],
             "database": ["db", "database", "storage"],
-            "trinity": ["trinity", "framework", "⚛️", "🧠", "🛡️"],
+            "constellation": ["constellation", "framework", "⚛️", "🧠", "🛡️"],
         }
 
         # Find files that might have overlapping functionality

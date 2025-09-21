@@ -122,7 +122,7 @@
     {
       "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-e49f4ab7",
       "priority": "critical",
-      "title": "kept for Trinity Framework consciousness evolution",
+      "title": "kept for Constellation Framework consciousness evolution",
       "file": "./candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py",
       "module": "candidate/governance",
       "trinity": "Identity",
@@ -131,7 +131,7 @@
       "type": "logic",
       "size": "L",
       "evidence": {
-        "grep": "./candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py:from governance.identity.core.colonies import (  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution",
+        "grep": "./candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py:from governance.identity.core.colonies import (  # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution",
         "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
       }
     },
@@ -426,7 +426,7 @@
     {
       "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-b70de571",
       "priority": "critical",
-      "title": "kept for Trinity Framework consciousness evolution",
+      "title": "kept for Constellation Framework consciousness evolution",
       "file": "./candidate/governance/identity/core/events/identity_event_publisher.py",
       "module": "candidate/governance",
       "trinity": "Identity",
@@ -435,7 +435,7 @@
       "type": "logic",
       "size": "L",
       "evidence": {
-        "grep": "./candidate/governance/identity/core/events/identity_event_publisher.py:from .identity_event_types import (  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution",
+        "grep": "./candidate/governance/identity/core/events/identity_event_publisher.py:from .identity_event_types import (  # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution",
         "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
       }
     },

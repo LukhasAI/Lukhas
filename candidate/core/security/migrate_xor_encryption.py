@@ -14,7 +14,7 @@ from typing import Any
 class XORMigration:
     """Migrate XOR encryption to proper crypto"""
 
-    def __init__(self, project_root: str = "/Users/agi_dev/Lukhas"):
+    def __init__(self, project_root: str = "/Users/cognitive_dev/Lukhas"):
         self.project_root = Path(project_root)
         self.xor_patterns = [
             # Pattern for XOR operations

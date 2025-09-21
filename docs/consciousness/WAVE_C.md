@@ -430,7 +430,7 @@ curl -s http://localhost:8000/metrics | grep akaq_
 **Validation Results**: 
 - Smoke Demo: All scenarios successful (High Threat → Peaceful → Confusion → Creative)
 - Quality Metrics: drift_phi=1.0, congruence_index=1.0, neurosis_risk=0.0
-- Architecture: Full Trinity Framework compliance, VIVOX compatible
+- Architecture: Full Constellation Framework compliance, VIVOX compatible
 
 **Next Phase**: C4-C7 ready for implementation
 - C4: Memory Schema + Client → [C4_MEMORY.md](C4_MEMORY.md)

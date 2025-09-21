@@ -119,7 +119,7 @@ deptry . --extend-exclude ".venv,node_modules,__pycache__,.git"
 python -c "import oqs; sig = oqs.Signature('Dilithium3'); print('Dilithium3 ready:', sig.details['name'])"
 ```
 
-## 🎖️ **Trinity Framework Security Compliance**
+## 🎖️ **Constellation Framework Security Compliance**
 
 - **⚛️ Identity**: Cryptographic identity binding with GLYPH seals
 - **🧠 Consciousness**: Security-aware processing with consent validation
@@ -136,7 +136,7 @@ python -c "import oqs; sig = oqs.Signature('Dilithium3'); print('Dilithium3 read
 ### **Monitoring Active**
 - **Daily vulnerability scanning**: Configured
 - **Automated security testing**: Ready for CI/CD
-- **Compliance monitoring**: Trinity Framework aligned
+- **Compliance monitoring**: Constellation Framework aligned
 - **Incident response**: Procedures documented
 
 ---

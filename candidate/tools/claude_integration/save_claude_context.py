@@ -37,7 +37,7 @@ def save_context_manually():
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
 
     # Create contexts directory
-    context_dir = Path("/Users/agi_dev/Lukhas/docs/claude_contexts")
+    context_dir = Path("/Users/cognitive_dev/Lukhas/docs/claude_contexts")
     context_dir.mkdir(parents=True, exist_ok=True)
 
     filename = f"claude_context_{timestamp}.md"
@@ -142,7 +142,7 @@ function extractClaudeContext() {
 extractClaudeContext();
 """
 
-    script_path = Path("/Users/agi_dev/Lukhas/tools/scripts/claude_context_extractor.js")
+    script_path = Path("/Users/cognitive_dev/Lukhas/tools/scripts/claude_context_extractor.js")
     with open(script_path, "w") as f:
         f.write(script_content)
 

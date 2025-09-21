@@ -46,9 +46,9 @@ class ToolExecutorGuardian:
         if AGISecuritySystem:
             try:
                 self.security_system = AGISecuritySystem()
-                logger.info("AGI Security System initialized successfully")
+                logger.info("Cognitive AI Security System initialized successfully")
             except Exception as e:
-                logger.warning(f"Failed to initialize AGI Security System: {e}")
+                logger.warning(f"Failed to initialize Cognitive AI Security System: {e}")
 
     async def validate_tool_execution(
         self,

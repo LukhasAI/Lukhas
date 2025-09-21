@@ -10,7 +10,7 @@ Testing ALL major LUKHAS systems for complete coverage analysis:
 - Product & Integration Systems (4 systems)
 - Infrastructure & Operations Systems (3 systems)
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 REALITY CHECK: Testing 22+ major systems beyond the initial 8
 """
@@ -898,7 +898,7 @@ def run_comprehensive_all_systems_testing():
     print("🌐🧠🔐💾 LUKHAS COMPREHENSIVE ALL SYSTEMS TEST SUITE")
     print("=" * 80)
     print("Testing ALL major LUKHAS systems for complete coverage analysis")
-    print("Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian")
+    print("Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian")
     print("REALITY CHECK: Systematic testing of 22+ major system areas")
     print("=" * 80)
 

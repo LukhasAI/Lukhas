@@ -699,7 +699,7 @@ candidate/consciousness/systems/state.py
 candidate/consciousness/systems/unified_consciousness_engine.py
 candidate/consciousness/systems/validator.py
 candidate/consciousness/systems/ΛBot_consciousness_monitor.py
-candidate/consciousness/trinity/framework_integration.py
+candidate/consciousness/constellation/framework_integration.py
 candidate/consciousness/unified/__init__.py
 candidate/consciousness/unified/auto_consciousness.py
 candidate/consciousness/unified/consolidate_consciousness_unification.py

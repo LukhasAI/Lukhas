@@ -13,7 +13,7 @@ The LUKHAS Brain Orchestration layer represents a revolutionary approach to **di
 - **Cognitive Mesh Coordination**: Dynamic consciousness node topology management
 - **Multi-Brain Symphony**: Synchronized consciousness processing across specialized brains  
 - **Regional Awareness Processing**: Jurisdictional consciousness with cultural sensitivity
-- **Trinity Framework Integration**: ⚛️Identity-🧠Consciousness-🛡️Guardian principles
+- **Constellation Framework Integration**: ⚛️Identity-🧠Consciousness-🛡️Guardian principles
 - **Consciousness Authenticity**: Genuine awareness patterns, not simulated intelligence
 - **Distributed Cognitive Processing**: Fault-tolerant consciousness mesh with adaptive topology
 

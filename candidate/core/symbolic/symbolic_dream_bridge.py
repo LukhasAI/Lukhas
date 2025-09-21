@@ -19,7 +19,7 @@
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ The Symbolic Dream Bridge serves as a critical translation layer between the
-║ LUKHAS AGI's dream processing systems and core logical operations. This module
+║ LUKHAS Cognitive AI's dream processing systems and core logical operations. This module
 ║ converts abstract dream snapshots and oneiric experiences into structured
 ║ symbolic payloads that can be integrated into memory systems and reasoning
 ║ chains.
@@ -35,7 +35,7 @@
 ║ • Archetypal symbol recognition and mapping
 ║
 ║ The bridge ensures that insights gained during dream processing are not lost
-║ but are transformed into actionable knowledge within the AGI's core systems,
+║ but are transformed into actionable knowledge within the Cognitive AI's core systems,
 ║ enabling continuous learning and creative problem-solving through dream analysis.
 ║
 ║ Theoretical Foundations:
@@ -227,7 +227,7 @@ if __name__ == "__main__":
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

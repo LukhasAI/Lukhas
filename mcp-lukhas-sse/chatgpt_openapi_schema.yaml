@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: LUKHAS AI MCP Server
-  description: Access LUKHAS AI Platform capabilities through the Trinity Framework (⚛️🧠🛡️)
+  description: Access LUKHAS AI Platform capabilities through the Constellation Framework (⚛️🧠🛡️)
   version: 1.0.0
 servers:
   - url: https://lukhas-mcp-production.up.railway.app

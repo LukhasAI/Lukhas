@@ -25,14 +25,14 @@ logger = logging.getLogger(__name__)
 class ConsciousnessDreamIntegrator:
     """
     Core integration layer for consciousness-dream coordination.
-    Provides Trinity Framework-compliant consciousness bridging.
+    Provides Constellation Framework-compliant consciousness bridging.
     """
 
     def __init__(self):
         self.integration_sessions: dict[str, dict] = {}
         self.consciousness_states: dict[str, str] = {}
         self.integration_counter = 0
-        logger.info("🌉 Consciousness-Dream Integrator initialized - Trinity Framework active")
+        logger.info("🌉 Consciousness-Dream Integrator initialized - Constellation Framework active")
 
     def initiate_consciousness_dream_bridge(self, consciousness_id: str, dream_context: Optional[dict] = None) -> str:
         """

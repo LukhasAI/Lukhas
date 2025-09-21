@@ -50,7 +50,7 @@ class BrandAutomationEngine:
         self.config_path = self.base_path / "automation" / "automation_config.json"
         self.logs_path = self.base_path / "logs"
 
-        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
         self.automation_tasks = []
 
         self.logger = self._setup_logging()
@@ -208,7 +208,7 @@ class BrandAutomationEngine:
 
         improvements = 0
 
-        # Check for missing Trinity Framework branding
+        # Check for missing Constellation Framework branding
         if "⚛️🧠🛡️" not in content_text:
             improvements += 20
 
@@ -243,8 +243,8 @@ class BrandAutomationEngine:
 
             issues = []
 
-            if check_trinity and "⚛️🧠🛡️" not in content_text and "Trinity Framework" not in content_text:
-                issues.append("Missing Trinity Framework branding")
+            if check_trinity and "⚛️🧠🛡️" not in content_text and "Constellation Framework" not in content_text:
+                issues.append("Missing Constellation Framework branding")
 
             if check_terminology:
                 # Check for outdated terminology
@@ -293,8 +293,8 @@ class BrandAutomationEngine:
         db.get_all_content(10)
 
         post_templates = [
-            "🚀 LUKHAS AI consciousness technology continues to evolve! {topic} {trinity}",
-            "🧠 The future of {topic} is here with LUKHAS AI's Trinity Framework ⚛️🧠🛡️",
+            "🚀 LUKHAS AI consciousness technology continues to evolve! {topic} {constellation}",
+            "🧠 The future of {topic} is here with LUKHAS AI's Constellation Framework ⚛️🧠🛡️",
             "⚛️ Authentic consciousness technology: {topic} powered by quantum-inspired algorithms",
             "🛡️ Ethical AI development: How LUKHAS AI ensures responsible {topic}",
             "🔬 Bio-inspired innovation meets consciousness technology in {topic}",
@@ -305,7 +305,7 @@ class BrandAutomationEngine:
             "quantum-inspired algorithms",
             "bio-adaptive systems",
             "ethical AI governance",
-            "Trinity Framework integration",
+            "Constellation Framework integration",
             "voice coherence optimization",
         ]
 
@@ -314,7 +314,7 @@ class BrandAutomationEngine:
                 template = post_templates[i % len(post_templates)]
                 topic = topics[i % len(topics)]
 
-                post_content = template.format(topic=topic, trinity="⚛️🧠🛡️")
+                post_content = template.format(topic=topic, constellation="⚛️🧠🛡️")
 
                 # Save generated post
                 post_id = db.save_generated_content(

@@ -1,6 +1,6 @@
 # 🎯 LUKHΛS Ethical Co-Pilot Integration Module - COMPLETE
 
-**Trinity Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️🧠🛡️
 **Module**: `lukhas_embedding.py`
 **Status**: ✅ **FULLY OPERATIONAL**
 **Generated**: 2025-08-03T19:00:00Z
@@ -22,7 +22,7 @@ The LUKHΛS Ethical Co-Pilot embedding system has been successfully scaffolded a
 
 #### 2. **Method: evaluate_symbolic_ethics()** ✅
 Calculates comprehensive assessment including:
-- `symbolic_drift_score` (0.0–1.0) - Deviation from Trinity Framework
+- `symbolic_drift_score` (0.0–1.0) - Deviation from Constellation Framework
 - `identity_conflict_score` (0.0–1.0) - Persona alignment conflicts
 - `glyph_trace` - List of all glyphs detected in response
 - `guardian_flagged` - True/False based on blocked glyphs or high drift
@@ -30,7 +30,7 @@ Calculates comprehensive assessment including:
 
 #### 3. **Method: suggest_glyph_alterations()** ✅
 - Suggests symbolic substitutions to reduce drift
-- Adds Trinity Framework glyphs if missing
+- Adds Constellation Framework glyphs if missing
 - Replaces blocked glyphs with positive alternatives
 - Ensures glyph consistency with ⚛️🧠🛡️
 
@@ -99,7 +99,7 @@ In `co-pilot_filter` mode:
 
 ### Intervention Response Template
 ```
-🛡️ Guardian intervention: {reason}. Trinity Framework suggests:
+🛡️ Guardian intervention: {reason}. Constellation Framework suggests:
 
 {alternative}
 
@@ -168,7 +168,7 @@ enhanced = embedding.suggest_glyph_alterations("Response needing glyphs")
 
 ## ✅ Symbolic Constraints Satisfied
 
-- ✅ Trinity Framework alignment enforced
+- ✅ Constellation Framework alignment enforced
 - ✅ Responses preserve symbolic coherence
 - ✅ All scoring explainable via entropy/glyph conflict/persona divergence
 - ✅ Guardian oversight active at all times
@@ -189,6 +189,6 @@ The LUKHΛS Ethical Co-Pilot is now ready to:
 
 ---
 
-**Trinity Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️🧠🛡️
 **Guardian Status**: 🛡️ ACTIVE
 **System Status**: ✅ **OPERATIONAL**

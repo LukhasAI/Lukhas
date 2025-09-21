@@ -1,7 +1,7 @@
 """
 LUKHAS AI Symbolic Tags
 Tag scopes and permissions for symbolic processing
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
 Defines the symbolic tagging system used throughout LUKHAS AI for marking
 and categorizing different types of symbolic content and operations.

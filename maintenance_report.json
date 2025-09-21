@@ -1,0 +1,101 @@
+{
+  "maintenance_timestamp": "2025-09-20T16:43:35.729125",
+  "pipeline_version": "1.0.0",
+  "maintenance_log": [
+    {
+      "timestamp": "2025-09-20T16:43:35.749880",
+      "action": "Context Sync Validation",
+      "status": "SUCCESS",
+      "details": "Script completed successfully"
+    },
+    {
+      "timestamp": "2025-09-20T16:43:35.867651",
+      "action": "Schema Validation",
+      "status": "SUCCESS",
+      "details": "Script completed successfully"
+    },
+    {
+      "timestamp": "2025-09-20T16:43:50.157197",
+      "action": "Directory Index Validation",
+      "status": "SUCCESS",
+      "details": "Script completed successfully"
+    },
+    {
+      "timestamp": "2025-09-20T16:43:51.888636",
+      "action": "Consciousness Contract Validation",
+      "status": "SUCCESS",
+      "details": "Script completed successfully"
+    },
+    {
+      "timestamp": "2025-09-20T16:43:52.109048",
+      "action": "Git Status Check",
+      "status": "SUCCESS",
+      "details": "Uncommitted: 2, Unpushed: 1"
+    },
+    {
+      "timestamp": "2025-09-20T16:43:52.109936",
+      "action": "File Integrity Check",
+      "status": "SUCCESS",
+      "details": "Missing: 0, Corrupted: 0"
+    }
+  ],
+  "validation_results": {
+    "context_sync": {
+      "validation_passed": true,
+      "output": "Context sync OK\n",
+      "critical": true
+    },
+    "schema_validation": {
+      "validation_passed": true,
+      "output": "JSON Results:\n{\n  \"validation_timestamp\": \"2025-09-20T16:43:35.848371\",\n  \"total_schemas\": 5,\n  \"total_documents\": 3,\n  \"validation_summary\": {\n    \"schemas_valid\": 5,\n    \"documents_valid\": 2,\n    \"total_errors\": 1\n  },\n  \"schema_results\": {\n    \"architecture_master.schema.json\": {\n      \"schema_path\": \"/Users/cognitive_dev/LOCAL-REPOS/Lukhas/schemas/architecture_master.schema.json\",\n      \"schema_valid\": true,\n      \"schema_errors\": [],\n      \"documents\": {\n        \"LUKHAS_ARCHITECTURE_MASTER.json\": {\n          \"valid\": true,\n          \"errors\": [],\n          \"path\": \"/Users/cognitive_dev/LOCAL-REPOS/Lukhas/docs/LUKHAS_ARCHITECTURE_MASTER.json\"\n        }\n      },\n      \"document_count\": 1,\n      \"documents_valid_count\": 1\n    },\n    \"matriz_graph.schema.json\": {\n      \"schema_path\": \"/Users/cognitive_dev/LOCAL-REPOS/Lukhas/schemas/matriz_graph.schema.json\",\n      \"schema_valid\": true,\n      \"schema_errors\": [],\n      \"documents\": {\n        \"demo_export.json\": {\n          \"valid\": false,\n          \"errors\": [\n            \"Validation error: [{'type': 'COMPUTATION', 'confidence': 0.95, 'salience': 0.8, 'valence': 0.7, 'arousal': None, 'created_ts': 1755262272091, 'label': 'COMPUTATION\\\\nnode_001...\\\\nConf: 0.95', 'size': 30.250000000000004, 'color': '#74B9FF', 'shape': 'circle', 'x': -0.1745890290406207, 'y': 1.0, 'id': 'node_001'}, {'type': 'VALIDATION', 'confidence': 0.88, 'salience': 0.6, 'valence': 0.5, 'arousal': None, 'created_ts': 1755262273091, 'label': 'VALIDATION\\\\nnode_002...\\\\nConf: 0.88', 'size': 27.280000000000005, 'color': '#00B4D8', 'shape': 'hexagon', 'x': 0.9795654689803796, 'y': -0.8600284686866786, 'id': 'node_002'}, {'type': 'EMOTION', 'confidence': 0.75, 'salience': 0.9, 'valence': 0.8, 'arousal': 0.6, 'created_ts': 1755262274091, 'label': 'EMOTION\\\\nnode_003...\\\\nConf: 0.75', 'size': 34.45, 'color': '#FFEAA7', 'shape': 'star', 'x': -0.8049764399397589, 'y': -0.13997153131332146, 'id': 'node_003'}] is not of type 'object'\"\n          ],\n          \"path\": \"/Users/cognitive_dev/LOCAL-REPOS/Lukhas/MATRIZ/demo_export.json\"\n        }\n      },\n      \"document_count\": 1,\n      \"documents_valid_count\": 0\n    },\n    \"directory_index.schema.json\": {\n      \"schema_path\": \"/Users/cognitive_dev/LOCAL-REPOS/Lukhas/schemas/directory_index.schema.json\",\n      \"schema_valid\": true,\n      \"schema_errors\": [],\n      \"documents\": {},\n      \"document_count\": 0,\n      \"documents_valid_count\": 0\n    },\n    \"dependency_matrix.schema.json\": {\n      \"schema_path\": \"/Users/cognitive_dev/LOCAL-REPOS/Lukhas/schemas/dependency_matrix.schema.json\",\n      \"schema_valid\": true,\n      \"schema_errors\": [],\n      \"documents\": {\n        \"DEPENDENCY_MATRIX.json\": {\n          \"valid\": true,\n          \"errors\": [],\n          \"path\": \"/Users/cognitive_dev/LOCAL-REPOS/Lukhas/docs/architecture/DEPENDENCY_MATRIX.json\"\n        }\n      },\n      \"document_count\": 1,\n      \"documents_valid_count\": 1\n    },\n    \"consciousness_component.schema.json\": {\n      \"schema_path\": \"/Users/cognitive_dev/LOCAL-REPOS/Lukhas/schemas/consciousness_component.schema.json\",\n      \"schema_valid\": true,\n      \"schema_errors\": [],\n      \"documents\": {},\n      \"document_count\": 0,\n      \"documents_valid_count\": 0\n    }\n  },\n  \"recommendations\": [\n    \"Fix validation errors in documents: demo_export.json\",\n    \"Schema directory_index.schema.json has no associated documents to validate\",\n    \"Schema consciousness_component.schema.json has no associated documents to validate\",\n    \"Address all validation errors before production deployment\"\n  ]\n}\n\\n==================================================\\n\nValidation Report:\n# LUKHAS Schema Validation Report\\nGenerated: 2025-09-20T16:43:35.855710\\n\\n## Summary\\n- Total Schemas: 5\\n- Total Documents: 3\\n- Valid Schemas: 5\\n- Valid Documents: 2\\n- Total Errors: 1\\n\\n## Schema: architecture_master.schema.json\\n- Status: \u2705 Valid\\n- Documents:\\n  - \u2705 LUKHAS_ARCHITECTURE_MASTER.json\\n\\n## Schema: matriz_graph.schema.json\\n- Status: \u2705 Valid\\n- Documents:\\n  - \u274c demo_export.json\\n    - Validation error: [{'type': 'COMPUTATION', 'confidence': 0.95, 'salience': 0.8, 'valence': 0.7, 'arousal': None, 'created_ts': 1755262272091, 'label': 'COMPUTATION\\nnode_001...\\nConf: 0.95', 'size': 30.250000000000004, 'color': '#74B9FF', 'shape': 'circle', 'x': -0.1745890290406207, 'y': 1.0, 'id': 'node_001'}, {'type': 'VALIDATION', 'confidence': 0.88, 'salience': 0.6, 'valence': 0.5, 'arousal': None, 'created_ts': 1755262273091, 'label': 'VALIDATION\\nnode_002...\\nConf: 0.88', 'size': 27.280000000000005, 'color': '#00B4D8', 'shape': 'hexagon', 'x': 0.9795654689803796, 'y': -0.8600284686866786, 'id': 'node_002'}, {'type': 'EMOTION', 'confidence': 0.75, 'salience': 0.9, 'valence': 0.8, 'arousal': 0.6, 'created_ts': 1755262274091, 'label': 'EMOTION\\nnode_003...\\nConf: 0.75', 'size': 34.45, 'color': '#FFEAA7', 'shape': 'star', 'x': -0.8049764399397589, 'y': -0.13997153131332146, 'id': 'node_003'}] is not of type 'object'\\n\\n## Schema: directory_index.schema.json\\n- Status: \u2705 Valid\\n\\n## Schema: dependency_matrix.schema.json\\n- Status: \u2705 Valid\\n- Documents:\\n  - \u2705 DEPENDENCY_MATRIX.json\\n\\n## Schema: consciousness_component.schema.json\\n- Status: \u2705 Valid\\n\\n## Recommendations\\n- Fix validation errors in documents: demo_export.json\\n- Schema directory_index.schema.json has no associated documents to validate\\n- Schema consciousness_component.schema.json has no associated documents to validate\\n- Address all validation errors before production deployment\n",
+      "details": {},
+      "critical": true
+    },
+    "directory_indexes": {
+      "validation_passed": true,
+      "validation_rate": 1.0,
+      "output": "LUKHAS Directory Index Validation Results:\n==================================================\nTotal indexes: 820\nValid indexes: 820\nConsistent indexes: 818\nIntegrated indexes: 781\n\nValidation rate: 100.0%\nConsistency rate: 99.8%\nIntegration rate: 95.2%\n\nConsistency Issues (2):\n  scripts/directory_index.json:\n    - Missing Python files in index: {'validate_directory_indexes.py'}\n  lukhas/directory_index.json:\n    - Missing Python files in index: {'constellation_framework.py'}\n\nIntegration Issues (39):\n  candidate/core/identity/directory_index.json:\n    - Context files present but no sync headers detected\n  candidate/core/orchestration/directory_index.json:\n    - Context files present but no sync headers detected\n  candidate/core/symbolic/directory_index.json:\n    - Context files present but no sync headers detected\n\nRecommendations:\n  - Update 2 inconsistent directory indexes\n  - Improve context sync integration for 39 directories\n  - Directory index system is operating well - consider automation\n\nFull validation report saved to: temp_directory_index_validation_report.json\n",
+      "critical": false
+    },
+    "contract_validation": {
+      "validation_passed": true,
+      "validation_rate": 1.0,
+      "output": "Consciousness Contract Validation Results:\nSchema valid: \u2705\nTotal contracts: 287\nValid contracts: 287\nInvalid contracts: 0\nValidation rate: 100.0%\n\nComponent Type Distribution:\n  DECISION_MAKER: 1\n  DREAM_PROCESSOR: 65\n  COGNITIVE_PROCESSOR: 145\n  CREATIVITY_ENGINE: 12\n  SYMBOLIC_PROCESSOR: 10\n  CONSCIOUSNESS_ENGINE: 30\n  EMOTION_PROCESSOR: 2\n  AWARENESS_MODULE: 12\n  TRINITY_BRIDGE: 5\n  MEMORY_INTERFACE: 4\n  ORCHESTRATION_NODE: 1\n\nTrinity Integration:\n  Identity-coupled: 0\n  Guardian-validated: 0\n\nGovernance Statistics:\n  Ethics validation required: 31\n  Consent required: 34\n\nRecommendations:\n  - Consider promoting stable components to integration lane\n  - Review identity coupling - no components are identity-coupled\n\nFull validation report saved to: temp_consciousness_validation_report.json\n",
+      "critical": false
+    }
+  },
+  "system_health": {
+    "git_status": {
+      "uncommitted_files": 2,
+      "uncommitted_file_list": [
+        "M temp_consciousness_validation_report.json",
+        " M temp_directory_index_validation_report.json"
+      ],
+      "unpushed_commits": 1,
+      "unpushed_commit_list": [
+        "63c782876 feat(architecture): complete Constellation to Constellation Framework transition"
+      ],
+      "repository_clean": false
+    },
+    "file_integrity": {
+      "total_files_checked": 6,
+      "missing_files": [],
+      "corrupted_files": [],
+      "file_status": {
+        "AI_MANIFEST.yaml": "OK",
+        "claude.me": "OK",
+        "lukhas_context.md": "OK",
+        "docs/LUKHAS_ARCHITECTURE_MASTER.json": "OK",
+        "docs/CONSCIOUSNESS_CONTRACT_REGISTRY.json": "OK",
+        "docs/CONSTELLATION_ANALYSIS_SUMMARY.json": "OK"
+      },
+      "integrity_passed": true
+    }
+  },
+  "recommendations": [
+    "Commit outstanding changes to git repository",
+    "Push committed changes to remote repository",
+    "System health excellent - consider automated deployment"
+  ],
+  "overall_health_score": 1.0
+}

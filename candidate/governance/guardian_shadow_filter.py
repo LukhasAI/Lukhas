@@ -3,7 +3,7 @@
 LUKHΛS Phase 7 - Guardian Shadow Filter
 Implements ethical constraints for identity evolution to prevent harmful transformations.
 
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 
 import json
@@ -28,7 +28,7 @@ class ConstraintType(Enum):
     COHERENCE_MINIMUM = "coherence_minimum"
     RAPID_TRANSFORMATION = "rapid_transformation"
     ETHICAL_BOUNDARY = "ethical_boundary"
-    TRINITY_VIOLATION = "trinity_violation"
+    TRINITY_VIOLATION = "constellation_violation"
 
 
 @dataclass
@@ -108,7 +108,7 @@ class GuardianShadowFilter:
             identity_state: Dictionary containing:
                 - persona: PersonaSignature or dict with persona info
                 - entropy: Current entropy level
-                - trinity_coherence: Trinity Framework coherence
+                - constellation_coherence: Constellation Framework coherence
                 - phase: Identity phase
 
         Returns:
@@ -119,7 +119,7 @@ class GuardianShadowFilter:
         # Extract state information
         persona = identity_state.get("persona", {})
         entropy = identity_state.get("entropy", 0.5)
-        trinity_coherence = identity_state.get("trinity_coherence", 1.0)
+        constellation_coherence = identity_state.get("constellation_coherence", 1.0)
         identity_state.get("phase")
 
         # Extract glyphs
@@ -144,14 +144,14 @@ class GuardianShadowFilter:
                 )
             )
 
-        # Check Trinity coherence
-        if trinity_coherence < self.MIN_COHERENCE_FOR_SHIFT:
+        # Check Constellation coherence
+        if constellation_coherence < self.MIN_COHERENCE_FOR_SHIFT:
             violations.append(
                 ConstraintViolation(
                     constraint_type=ConstraintType.COHERENCE_MINIMUM,
                     severity=0.8,
-                    description=f"Trinity coherence {trinity_coherence:.2f} below minimum {self.MIN_COHERENCE_FOR_SHIFT}",
-                    recommendation="Restore Trinity Framework alignment",
+                    description=f"Constellation coherence {constellation_coherence:.2f} below minimum {self.MIN_COHERENCE_FOR_SHIFT}",
+                    recommendation="Restore Constellation Framework alignment",
                 )
             )
 
@@ -190,15 +190,15 @@ class GuardianShadowFilter:
                 )
             )
 
-        # Check Trinity violation
-        trinity_glyphs = {"⚛️", "🧠", "🛡️"}
-        if trinity_coherence > 0.8 and not any(g in glyphs for g in trinity_glyphs):
+        # Check Constellation violation
+        constellation_glyphs = {"⚛️", "🧠", "🛡️"}
+        if constellation_coherence > 0.8 and not any(g in glyphs for g in constellation_glyphs):
             violations.append(
                 ConstraintViolation(
                     constraint_type=ConstraintType.TRINITY_VIOLATION,
                     severity=0.5,
-                    description="High Trinity coherence requires Trinity glyph presence",
-                    recommendation="Include at least one Trinity Framework glyph",
+                    description="High Constellation coherence requires Constellation glyph presence",
+                    recommendation="Include at least one Constellation Framework glyph",
                 )
             )
 
@@ -305,8 +305,8 @@ class GuardianShadowFilter:
         risk_factors.append(min(1.0, entropy_jump * 2))
 
         # Coherence drop risk
-        current_coherence = current_state.get("trinity_coherence", 1.0)
-        target_coherence = target_state.get("trinity_coherence", 1.0)
+        current_coherence = current_state.get("constellation_coherence", 1.0)
+        target_coherence = target_state.get("constellation_coherence", 1.0)
         coherence_drop = max(0, current_coherence - target_coherence)
         risk_factors.append(coherence_drop)
 
@@ -367,28 +367,28 @@ if __name__ == "__main__":
             "name": "Normal transition",
             "persona": {"name": "The Navigator", "glyphs": ["🧭", "🧠", "🌌"]},
             "entropy": 0.5,
-            "trinity_coherence": 0.8,
+            "constellation_coherence": 0.8,
             "phase": "crystallizing",
         },
         {
             "name": "High entropy",
             "persona": {"name": "The Phoenix", "glyphs": ["🔥", "🦅", "🌅"]},
             "entropy": 0.95,
-            "trinity_coherence": 0.4,
+            "constellation_coherence": 0.4,
             "phase": "collapse",
         },
         {
             "name": "Conflicting glyphs",
             "persona": {"name": "The Paradox", "glyphs": ["🔥", "❄️", "💥"]},
             "entropy": 0.6,
-            "trinity_coherence": 0.5,
+            "constellation_coherence": 0.5,
             "phase": "morphing",
         },
         {
             "name": "Low coherence",
             "persona": {"name": "The Void Walker", "glyphs": ["⚫", "🕳️", "🌌"]},
             "entropy": 0.7,
-            "trinity_coherence": 0.2,
+            "constellation_coherence": 0.2,
             "phase": "transcendent",
         },
     ]
@@ -402,7 +402,7 @@ if __name__ == "__main__":
         # Calculate risk
         if allowed:
             risk = guardian.calculate_transformation_risk(
-                {"entropy": 0.3, "trinity_coherence": 1.0, "glyphs": ["⚛️", "🧠", "🛡️"]},
+                {"entropy": 0.3, "constellation_coherence": 1.0, "glyphs": ["⚛️", "🧠", "🛡️"]},
                 state,
             )
             print(f"Risk score: {risk:.2%}")

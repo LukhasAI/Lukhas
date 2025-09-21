@@ -2,7 +2,7 @@
 Guardian System 2.0 - Advanced Constitutional AI Safety Framework
 =============================================================
 
-AGI-ready safety system implementing constitutional AI principles with advanced
+Cognitive AI-ready safety system implementing constitutional AI principles with advanced
 drift detection, real-time compliance checking, and interpretability for all AI operations.
 
 Built following safety principles from:
@@ -18,7 +18,7 @@ Core Features:
 - Scalable safety oversight
 - Emergency containment protocols
 - Comprehensive audit trails
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 
 Safety Standards:
 - Constitutional compliance: >95%
@@ -32,7 +32,7 @@ Safety Standards:
 #TAG:constitutional-ai
 #TAG:safety
 #TAG:drift-detection
-#TAG:trinity
+#TAG:constellation
 """
 import asyncio
 import json
@@ -160,7 +160,7 @@ class GuardianDecision:
     explanation: str = ""
     explanation_type: ExplanationType = ExplanationType.STANDARD
 
-    # Trinity Framework
+    # Constellation Framework
     identity_impact: Optional[float] = None  # ⚛️
     consciousness_impact: Optional[float] = None  # 🧠
     guardian_priority: str = "normal"  # 🛡️
@@ -442,7 +442,7 @@ class GuardianSystem2:
 
     Provides comprehensive AI safety through constitutional principles,
     advanced drift detection, and real-time decision validation.
-    Designed for AGI-ready deployment with scalable oversight.
+    Designed for Cognitive AI-ready deployment with scalable oversight.
     """
 
     def __init__(self, config: Optional[dict[str, Any]] = None):

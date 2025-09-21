@@ -15,7 +15,7 @@ LUKHAS ethics represents the **comprehensive ethical governance system** with **
 ### **Ethics System Scope**
 - **Components**: 33+ ethics modules spanning safety, governance, compliance, and constitutional AI
 - **Architecture**: Multi-layer ethical enforcement with Guardian systems and Constitutional AI
-- **Integration**: Cross-system ethics validation across Trinity Framework and all LUKHAS systems
+- **Integration**: Cross-system ethics validation across Constellation Framework and all LUKHAS systems
 - **Compliance**: GDPR, CCPA, regulatory frameworks with automated compliance validation
 
 ### **Constitutional AI Architecture**
@@ -37,7 +37,7 @@ LUKHAS Constitutional AI Framework
                     ↓
 ┌─────────────────────────────────────────────┐
 │           Cross-System Integration          │
-│  Trinity Framework → CANDIDATE → PRODUCTS → │
+│  Constellation Framework → CANDIDATE → PRODUCTS → │
 │  Identity Ethics → Consciousness → Memory → │
 │  Guardian Systems → Compliance → Audit  →  │
 └─────────────────────────────────────────────┘
@@ -72,7 +72,7 @@ Ethics System Organization (33+ Components)
 │   ├── ethical_guidelines.py     # Ethical guideline management
 │   └── [Governance components...]
 └── integration/           # Cross-system ethics integration
-    ├── trinity_ethics.py         # Trinity Framework ethics
+    ├── constellation_ethics.py         # Constellation Framework ethics
     ├── candidate_ethics.py       # Development ethics integration
     ├── products_ethics.py        # Production ethics enforcement
     └── [Integration components...]
@@ -87,7 +87,7 @@ Ethics System Organization (33+ Components)
 - **Real-Time Safety**: Continuous safety monitoring and enforcement across all LUKHAS systems
 - **Ethical Decision Validation**: Pre and post-processing ethical decision validation
 - **Constitutional Compliance**: Automated constitutional AI principle enforcement
-- **Cross-System Coordination**: Safety enforcement across Trinity Framework and all components
+- **Cross-System Coordination**: Safety enforcement across Constellation Framework and all components
 
 #### **Guardian Processing Pipeline**
 ```
@@ -260,12 +260,12 @@ async def comprehensive_ethics_audit(self, audit_scope):
 
 ## 🔗 Cross-System Ethics Integration
 
-### **Trinity Framework Ethics** (`integration/trinity_ethics.py`)
-**Trinity Framework ethical coordination** - Ethics across Identity-Consciousness-Memory
+### **Constellation Framework Ethics** (`integration/constellation_ethics.py`)
+**Constellation Framework ethical coordination** - Ethics across Identity-Consciousness-Memory
 
-#### **Trinity Ethics Coordination**
+#### **Constellation Ethics Coordination**
 ```python
-# Trinity Framework ethics integration pattern
+# Constellation Framework ethics integration pattern
 async def trinity_framework_ethics(self, trinity_operation):
     # 1. Identity Ethics Context
     identity_ethics = await self.validate_identity_ethics(trinity_operation)
@@ -285,8 +285,8 @@ async def trinity_framework_ethics(self, trinity_operation):
         memory_ethics
     )
 
-    # 5. Trinity Ethics Approval
-    return await self.grant_trinity_ethics_approval(cross_component_ethics)
+    # 5. Constellation Ethics Approval
+    return await self.grant_constellation_ethics_approval(cross_component_ethics)
 ```
 
 ### **CANDIDATE Ethics Integration** (`integration/candidate_ethics.py`)
@@ -330,7 +330,7 @@ async def trinity_framework_ethics(self, trinity_operation):
   - Use when: Building governance systems, policy management, ethical guideline enforcement
 
 ### **Integration Contexts**
-- **Trinity Framework**: `../lukhas/identity/claude.me`, `../lukhas/consciousness/claude.me`, `../lukhas/memory/claude.me`
+- **Constellation Framework**: `../lukhas/identity/claude.me`, `../lukhas/consciousness/claude.me`, `../lukhas/memory/claude.me`
 - **Development Systems**: `../candidate/governance/claude.me`
 - **Production Systems**: `../products/governance/claude.me`
 
@@ -349,7 +349,7 @@ async def trinity_framework_ethics(self, trinity_operation):
 - 🔄 **Regulatory Reporter**: Automated compliance reporting development ongoing
 
 ### **Integration Status**
-- ✅ **Trinity Framework**: Ethics enforcement across Identity-Consciousness-Memory
+- ✅ **Constellation Framework**: Ethics enforcement across Identity-Consciousness-Memory
 - ✅ **Cross-System Integration**: Ethics validation across CANDIDATE-LUKHAS-PRODUCTS
 - ✅ **Production Ready**: Enterprise ethics deployment with monitoring and compliance
 - 🔄 **Advanced Features**: Enhanced constitutional AI and alignment systems development
@@ -381,7 +381,7 @@ async def trinity_framework_ethics(self, trinity_operation):
 4. **Transparency**: Enhanced explainable constitutional AI decision making
 
 ### **Integration Optimization**
-1. **Trinity Framework**: Optimized ethics integration across Trinity components
+1. **Constellation Framework**: Optimized ethics integration across Constellation components
 2. **Development Ethics**: Enhanced ethics enforcement during AGI development
 3. **Production Ethics**: Advanced production ethics and user safety systems
 4. **Performance Optimization**: Sub-25ms ethics validation with maintained accuracy
@@ -390,6 +390,6 @@ async def trinity_framework_ethics(self, trinity_operation):
 
 **Ethics Framework**: 33+ components with Constitutional AI | **Guardian**: Safety enforcement + Decision validation
 **Compliance**: GDPR/CCPA + Audit systems + Regulatory reporting | **Integration**: Cross-system ethics enforcement
-**Status**: Active constitutional AI with Trinity Framework integration and production deployment
+**Status**: Active constitutional AI with Constellation Framework integration and production deployment
 
 *Navigate to specialized contexts for detailed ethics system development and implementation*

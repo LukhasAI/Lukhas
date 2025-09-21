@@ -149,12 +149,12 @@ class MemoryHealthDashboard:
         self.metrics_cache = {}
         self.cache_expiry = 300  # 5 minutes
         self.log_paths = {
-            "fold_integrity": "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/fold_integrity_log.jsonl",
-            "emotional_fuse": "/Users/agi_dev/Downloads/Consolidation-Repo/logs/emotion_identity_fuse.jsonl",
-            "dream_traces": "/Users/agi_dev/Downloads/Consolidation-Repo/logs/dream/dream_trace_links.jsonl",
-            "compressed_memory": "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/advanced_compressed_memory.jsonl",
-            "ethical_warnings": "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/ethical_warnings.jsonl",
-            "lineage_log": "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/fold_lineage_log.jsonl",
+            "fold_integrity": "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/fold_integrity_log.jsonl",
+            "emotional_fuse": "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/emotion_identity_fuse.jsonl",
+            "dream_traces": "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/dream/dream_trace_links.jsonl",
+            "compressed_memory": "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/advanced_compressed_memory.jsonl",
+            "ethical_warnings": "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/ethical_warnings.jsonl",
+            "lineage_log": "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/fold_lineage_log.jsonl",
         }
 
     # LUKHAS_TAG: health_metrics_core
@@ -933,7 +933,7 @@ __all__ = [
 ║
 ║ REFERENCES:
 ║   - Docs: docs/memory/memory-dashboard.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=memory-dashboard
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=memory-dashboard
 ║   - Wiki: wiki.lukhas.ai/memory-monitoring
 ║
 ║ COPYRIGHT & LICENSE:
@@ -942,7 +942,7 @@ __all__ = [
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

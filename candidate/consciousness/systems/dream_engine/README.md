@@ -10,4 +10,4 @@ Advanced dream processing, REM cycles, and symbolic consciousness.
 - dream_narrator.py - Dream state narration and storytelling
 - dream_reflection_loop.py - Background dream processing loops
 
-Part of the AI (lukhas General Intelligence) System
+Part of the AI (lukhas Cognitive Intelligence) System

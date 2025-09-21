@@ -15,7 +15,7 @@ Analysis of critical paths within the LUKHAS Identity (ΛiD) system, identifying
 
 ### **Primary Identity Flow**
 ```
-User Authentication → ΛiD Validation → Consciousness Integration → Trinity Framework Compliance
+User Authentication → ΛiD Validation → Consciousness Integration → Constellation Framework Compliance
 ```
 
 **Components**:
@@ -51,7 +51,7 @@ Identity → Agent Authentication → Multi-AI Coordination → Task Execution
    - **Mitigation**: Redundant identity validation systems
    - **Recovery**: Emergency identity bypass protocols
 
-2. **Trinity Framework Breach**
+2. **Constellation Framework Breach**
    - **Impact**: Consciousness integrity compromise
    - **Mitigation**: Guardian system monitoring
    - **Recovery**: Symbolic drift repair procedures
@@ -103,9 +103,9 @@ Identity → Agent Authentication → Multi-AI Coordination → Task Execution
 
 ---
 
-## 🎖️ **Trinity Framework Integration**
+## 🎖️ **Constellation Framework Integration**
 
-Critical paths support Trinity Framework principles:
+Critical paths support Constellation Framework principles:
 - **⚛️ Identity**: Authentic consciousness representation
 - **🧠 Consciousness**: Intelligent identity processing
 - **🛡️ Guardian**: Security and compliance validation
@@ -120,7 +120,7 @@ Critical paths support Trinity Framework principles:
 3. Notify Guardian Crisis Lieutenant
 4. Execute identity system recovery procedures
 
-### **Trinity Framework Compromise**
+### **Constellation Framework Compromise**
 1. Immediate system isolation
 2. Guardian System full activation
 3. Consciousness integrity assessment

@@ -2,7 +2,7 @@
 Inference Engine Integration Adapter
 
 This module provides integration between the LUKHAS identity system and the
-AGI inference engines, enabling identity-aware inference and decision making.
+Cognitive AI inference engines, enabling identity-aware inference and decision making.
 
 Features:
 - Identity-contextualized inference requests
@@ -117,7 +117,7 @@ class InferenceAdapter:
     """
     Inference Engine Integration Adapter
 
-    Provides integration between identity system and AGI inference engines
+    Provides integration between identity system and Cognitive AI inference engines
     for identity-aware reasoning and decision making.
     """
 

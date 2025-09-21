@@ -1,0 +1,162 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "archive/scattered_root_files",
+    "lane": "development",
+    "purpose": "Directory containing 5 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "non_core_module_analysis.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "generate_analysis_summary"
+        ]
+      },
+      {
+        "filename": "public_api.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "validate_auth_implementation.py",
+        "component_type": "IDENTITY_SERVICE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.interfaces.api.v1.common.auth",
+          "candidate.bridge.api.flows",
+          "candidate.bridge.api.flows"
+        ],
+        "exports": [
+          "test_api_key_validation",
+          "test_authentication_flows",
+          "test_session_management",
+          "test_security_compliance",
+          "main"
+        ]
+      },
+      {
+        "filename": "lukhas_paths.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "LukhasPathManager",
+          "migrate_deprecated_path",
+          "config_env",
+          "config_tools",
+          "config_project",
+          "config_node",
+          "deployment_scripts",
+          "deployment_docker",
+          "deployment_cloud",
+          "deployment_platforms",
+          "assets_dreams",
+          "assets_ui",
+          "assets_docs",
+          "reports_api",
+          "reports_security",
+          "reports_deployment",
+          "reports_analysis",
+          "tests_unit",
+          "tests_integration",
+          "tests_e2e",
+          "tests_performance",
+          "tests_enhancements",
+          "demos",
+          "tools",
+          "performance",
+          "ensure_dir",
+          "get_dream_image_path",
+          "get_test_result_path",
+          "get_config_path"
+        ]
+      },
+      {
+        "filename": "test_non_core_modules.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "NonCoreModuleTester",
+          "log_info",
+          "log_success",
+          "log_warning",
+          "log_error",
+          "test_colony_modules",
+          "test_consciousness_modules",
+          "test_dream_systems",
+          "test_bio_symbolic_modules",
+          "test_qi_modules",
+          "test_candidate_core_modules",
+          "check_directory_structures",
+          "run_comprehensive_test",
+          "generate_summary"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": [
+      {
+        "filename": "ex_1.md",
+        "type": "other",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 5,
+    "estimated_complexity": "low",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "standard",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "archive",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

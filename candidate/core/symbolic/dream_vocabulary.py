@@ -18,7 +18,7 @@
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ The Dream Vocabulary module provides symbolic representations for all dream-related
-║ operations within the LUKHAS AGI system. It enables human-readable state expression
+║ operations within the LUKHAS Cognitive system. It enables human-readable state expression
 ║ and consistent communication patterns across the dream processing subsystem.
 ║
 ║ Key Features:
@@ -310,7 +310,7 @@ def get_visual_hint(phase: str) -> str:
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This vocabulary is part of the LUKHAS AGI system. Use only as intended
+║   This vocabulary is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚══════════════════════════════════════════════════════════════════════════════════

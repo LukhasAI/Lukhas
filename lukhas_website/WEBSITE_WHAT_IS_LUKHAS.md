@@ -58,7 +58,7 @@ Imagine a world where every being — biological or digital — speaks the same 
 - **Colony Consensus**: Democratic AI decision-making
 - **Fold Memory**: Causal chain preservation
 - **Quantum Processing**: 128-qubit simulation
-- **Trinity Communication**: Three-layer understanding model
+- **Constellation Communication**: Three-layer understanding model
 
 ---
 

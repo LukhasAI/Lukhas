@@ -56,18 +56,18 @@
     "examples": ["learning process", "decision process", "analysis method"]
   },
   {
-    "term": "Trinity Framework",
-    "preferred": "Trinity Framework",
-    "avoid": ["Trinity System", "Trinity Architecture"],
+    "term": "Constellation Framework",
+    "preferred": "Constellation Framework",
+    "avoid": ["Constellation System", "Constellation Architecture"],
     "notes": "Official LUKHAS AI framework name - always capitalize",
     "readingLevel": "8",
-    "examples": ["LUKHAS Trinity Framework", "the Trinity Framework approach"]
+    "examples": ["LUKHAS Constellation Framework", "the Constellation Framework approach"]
   },
   {
     "term": "Identity pillar",
     "preferred": "Identity component",
     "avoid": ["Identity module", "Identity system"],
-    "notes": "Part of Trinity Framework - use 'component' for clarity",
+    "notes": "Part of Constellation Framework - use 'component' for clarity",
     "readingLevel": "6-8",
     "examples": ["Identity component of LUKHAS", "authentic Identity component"]
   },
@@ -75,7 +75,7 @@
     "term": "Consciousness pillar",
     "preferred": "Awareness component",
     "avoid": ["Consciousness module", "Mind component"],
-    "notes": "Part of Trinity Framework - 'awareness' is more accessible",
+    "notes": "Part of Constellation Framework - 'awareness' is more accessible",
     "readingLevel": "6-8",
     "examples": ["Awareness component", "digital awareness features"]
   },
@@ -83,14 +83,14 @@
     "term": "Guardian pillar",
     "preferred": "Protection component",
     "avoid": ["Guardian module", "Ethics module", "Safety module"],
-    "notes": "Part of Trinity Framework - emphasizes user protection",
+    "notes": "Part of Constellation Framework - emphasizes user protection",
     "readingLevel": "6",
     "examples": ["Protection component", "built-in protection features"]
   },
   {
     "term": "LUKHAS AI",
     "preferred": "LUKHAS AI",
-    "avoid": ["LUKHAS AGI", "Lukhas AI", "lukhas ai"],
+    "avoid": ["LUKHAS Cognitive AI", "Lukhas AI", "lukhas ai"],
     "notes": "Official brand name - always use exact capitalization",
     "readingLevel": "6",
     "examples": ["LUKHAS AI platform", "LUKHAS AI system"]

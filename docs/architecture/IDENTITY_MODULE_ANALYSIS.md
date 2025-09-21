@@ -3,7 +3,7 @@
 
 ## Executive Summary
 
-The Identity module has **excellent architecture** but **critical implementation gaps**. While the core system supports sophisticated tier-based access control, symbolic authentication, and Trinity Framework integration, **only 16% of the system is actually protected**.
+The Identity module has **excellent architecture** but **critical implementation gaps**. While the core system supports sophisticated tier-based access control, symbolic authentication, and Constellation Framework integration, **only 16% of the system is actually protected**.
 
 ### Critical Findings:
 - ✅ **Architecture**: Comprehensive tier system (T1-T5) with proper permissions
@@ -32,7 +32,7 @@ class AccessTier(Enum):
 - Symbolic glyph mapping for visual representation
 - Token validation with symbolic authentication
 - Comprehensive permission matrix
-- Trinity Framework integration
+- Constellation Framework integration
 
 ### 2. Authentication Middleware (`middleware.py`)
 
@@ -43,7 +43,7 @@ class AccessTier(Enum):
 - `get_current_user()` dependency injection
 - Tier-based decorators (`@require_tier()`)
 - Permission decorators (`@require_permission()`)
-- Trinity Framework gates (`@require_trinity_active()`)
+- Constellation Framework gates (`@require_trinity_active()`)
 - Context managers (`TierGate`)
 
 ## Integration Status by Module
@@ -242,7 +242,7 @@ class ConsciousnessModule:
 - [ ] Quantum computation user tracking
 
 ### Phase 4: Advanced Features (4 weeks)
-- [ ] Trinity Framework enforcement
+- [ ] Constellation Framework enforcement
 - [ ] Symbolic glyph integration
 - [ ] Advanced permission system
 - [ ] Audit trail completion

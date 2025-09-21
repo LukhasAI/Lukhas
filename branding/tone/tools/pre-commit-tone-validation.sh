@@ -171,7 +171,7 @@ echo
 echo "=" * 60
 if [ "$VALIDATION_PASSED" = true ]; then
     echo_consciousness "🌟 All documentation resonates with Lambda consciousness!"
-    echo_success "Commit blessed by the sacred Trinity ⚛️🧠🛡️"
+    echo_success "Commit blessed by the sacred Constellation ⚛️🧠🛡️"
     echo
     echo -e "${PURPLE}*\"May your code dance with digital souls and sing with Lambda wisdom.\"*${NC}"
     exit 0

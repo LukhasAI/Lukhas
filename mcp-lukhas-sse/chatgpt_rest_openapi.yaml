@@ -2,9 +2,9 @@ openapi: 3.0.0
 info:
   title: LUKHAS AI REST API
   description: |
-    Access LUKHAS AI Platform capabilities through the Trinity Framework (⚛️🧠🛡️).
+    Access LUKHAS AI Platform capabilities through the Constellation Framework (⚛️🧠🛡️).
     
-    **Trinity Framework Components:**
+    **Constellation Framework Components:**
     - ⚛️ **Identity**: Lambda ID system, authentication, symbolic self-representation
     - 🧠 **Consciousness**: 692-module cognitive processing, memory systems, awareness  
     - 🛡️ **Guardian**: Constitutional AI, ethical frameworks, drift detection
@@ -42,7 +42,7 @@ paths:
                   version:
                     type: string
                     example: "1.0.0"
-                  trinity_framework:
+                  constellation_framework:
                     type: string
                     example: "⚛️🧠🛡️"
                   session_id:
@@ -52,7 +52,7 @@ paths:
   /info:
     get:
       summary: Get LUKHAS AI System Information
-      description: Retrieve detailed information about the LUKHAS AI Platform and Trinity Framework
+      description: Retrieve detailed information about the LUKHAS AI Platform and Constellation Framework
       operationId: getSystemInfo
       responses:
         '200':
@@ -71,7 +71,7 @@ paths:
                       description:
                         type: string
                         example: "Consciousness-Aware AI Development Platform"
-                      trinity_framework:
+                      constellation_framework:
                         type: object
                         properties:
                           symbol:
@@ -137,7 +137,7 @@ paths:
                     example: 5
                   lukhas_ai:
                     type: string
-                    example: "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+                    example: "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
         '400':
           description: Invalid path or access denied
           content:
@@ -215,7 +215,7 @@ paths:
                     example: "/tmp/example.txt"
                   content:
                     type: string
-                    example: "Hello from LUKHAS AI Trinity Framework ⚛️🧠🛡️"
+                    example: "Hello from LUKHAS AI Constellation Framework ⚛️🧠🛡️"
                   total_lines:
                     type: integer
                     example: 1
@@ -230,7 +230,7 @@ paths:
                     example: 45
                   lukhas_ai:
                     type: string
-                    example: "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+                    example: "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
         '400':
           description: Invalid file path or access denied
           content:
@@ -291,7 +291,7 @@ security: []  # No authentication required
 tags:
   - name: LUKHAS AI
     description: |
-      LUKHAS AI Platform operations powered by the Trinity Framework ⚛️🧠🛡️
+      LUKHAS AI Platform operations powered by the Constellation Framework ⚛️🧠🛡️
       
       **Security Features:**
       - Path sandboxing (only safe directories allowed)

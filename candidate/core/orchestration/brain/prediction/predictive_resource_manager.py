@@ -351,8 +351,8 @@ class PredictiveResourceManager:
         usage[ResourceType.MEMORY] = min(100.0, (data_size + context_size) / 1000.0)  # Scale to memory %
 
         # Cognitive load estimate based on component usage
-        agi_enhancements = processing_result.get("agi_enhancements", {})
-        component_count = len(agi_enhancements)
+        cognitive_enhancements = processing_result.get("cognitive_enhancements", {})
+        component_count = len(cognitive_enhancements)
         usage[ResourceType.COGNITIVE_LOAD] = min(100.0, component_count * 12.5)  # 8 components = 100%
 
         # Network usage estimate (simplified)
@@ -383,13 +383,13 @@ class PredictiveResourceManager:
         }
 
         # Component complexity based on AI enhancements
-        agi_enhancements = processing_result.get("agi_enhancements", {})
-        complexity["component_complexity"] = len(agi_enhancements) / 8.0  # Normalize to 0-1
+        cognitive_enhancements = processing_result.get("cognitive_enhancements", {})
+        complexity["component_complexity"] = len(cognitive_enhancements) / 8.0  # Normalize to 0-1
 
         # Integration complexity based on AI summary
-        agi_summary = processing_result.get("agi_summary", {})
-        if agi_summary.get("integration_complete"):
-            complexity["integration_complexity"] = agi_summary.get("overall_score", 0.5)
+        cognitive_summary = processing_result.get("cognitive_summary", {})
+        if cognitive_summary.get("integration_complete"):
+            complexity["integration_complexity"] = cognitive_summary.get("overall_score", 0.5)
 
         # Error complexity
         if processing_result.get("status") == "error":

@@ -102,7 +102,7 @@ docs/
 ├── 📊 planning/                   # Strategic plans & roadmaps
 ├── 📖 guides/                     # User guides & tutorials
 ├── 📈 status/                     # Project status & progress reports
-├── 🧠 consciousness/              # Consciousness & Trinity Framework
+├── 🧠 consciousness/              # Consciousness & Constellation Framework
 ├── 👨‍💻 development/               # Development guides & tools
 ├── 🛡️ administration/             # Security & system administration
 ├── 📚 reference/                  # Technical references & specifications
@@ -115,7 +115,7 @@ docs/
 ├── ADR/                           # Architecture Decision Records
 ├── agents/                        # Agent configuration documentation
 ├── ai_attribution/                # Research attribution & IP documentation
-├── branding/                      # Branding guidelines & Trinity Framework
+├── branding/                      # Branding guidelines & Constellation Framework
 ├── diagrams/                      # System diagrams & visualizations
 ├── presentations/                 # Presentation materials
 ├── troubleshooting/              # Support & troubleshooting guides
@@ -145,7 +145,7 @@ docs/
 - **Organized categories**: 12 professional documentation directories
 - **Specialized documentation**: 32 legitimate specialized directories maintained
 - **Navigation**: Comprehensive README structure with proper categorization
-- **Standards compliance**: Trinity Framework integration maintained
+- **Standards compliance**: Constellation Framework integration maintained
 
 ---
 
@@ -160,7 +160,7 @@ docs/
 ### **📋 Remaining Documentation Structure**
 The remaining 32 specialized directories are **LEGITIMATE DOCUMENTATION** that should stay in docs/:
 - **ADR/** - Architecture Decision Records (standard documentation practice)
-- **branding/** - Official branding and Trinity Framework guidelines
+- **branding/** - Official branding and Constellation Framework guidelines
 - **diagrams/** - System diagrams and visualizations
 - **presentations/** - Presentation materials and slides
 - **troubleshooting/** - Support and help documentation

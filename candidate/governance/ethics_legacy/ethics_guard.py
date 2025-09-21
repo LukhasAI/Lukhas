@@ -3,7 +3,7 @@
 🛡️ PURPOSE     : Enforces symbolic consent, user data access boundaries, and ethical tiers
 📚 COMPLIANCE  : GDPR, EU AI Act, ECHR, ISO/IEC 27001 (Annex A.5.19)
 🧠 PART OF     : LUCAS AI Ethics Core
-🛠️ VERSION     : v1.0.0 • 📅 CREATED: 2025-05-05 • ✍️ AUTHOR: LUCAS AGI TEAM
+🛠️ VERSION     : v1.0.0 • 📅 CREATED: 2025-05-05 • ✍️ AUTHOR: LUCAS Cognitive AI TEAM
 
 ┌─────────────────────────────────────────────────────────────────────┐
 │ This module acts as a real-time ethics firewall and contextual     │

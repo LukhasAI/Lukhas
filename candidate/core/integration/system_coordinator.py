@@ -6,7 +6,7 @@ Path: core/integration/system_coordinator.py
 Created: 2025-01-27
 Author: lukhas AI Team
 
-TAGS: [CRITICAL, KeyFile, Integration, System_Coordinator, AGI_Core]
+TAGS: [CRITICAL, KeyFile, Integration, System_Coordinator, CognitiveCore]
 DEPENDENCIES:
   - core/consciousness/consciousness_integrator.py
   - core/neural_architectures/neural_integrator.py
@@ -16,11 +16,11 @@ DEPENDENCIES:
 """
 
 """
-System Coordinator for LUKHAS AGI System
+System Coordinator for LUKHAS Cognitive AI System
 ========================================
 
 This module serves as the main integration point and coordinator for all
-AGI components, providing a unified interface and seamless communication
+Cognitive AI components, providing a unified interface and seamless communication
 between all major systems including:
 - Consciousness and awareness
 - Neural processing and learning
@@ -31,7 +31,7 @@ between all major systems including:
 - Identity management
 
 The system coordinator ensures that all components work together harmoniously
-to create a cohesive AGI experience.
+to create a cohesive Cognitive AI experience.
 """
 
 import asyncio
@@ -132,7 +132,7 @@ class SystemContext:
 
 class SystemCoordinator:
     """
-    Main system coordinator for the LUKHAS AGI system.
+    Main system coordinator for the LUKHAS Cognitive system.
 
     This class coordinates all major components and provides a unified
     interface for system operations, ensuring seamless integration
@@ -208,8 +208,8 @@ class SystemCoordinator:
         return default_config
 
     async def initialize_system(self) -> bool:
-        """Initialize the complete AGI system"""
-        logger.info("Initializing LUKHAS AGI system...")
+        """Initialize the complete Cognitive system"""
+        logger.info("Initializing LUKHAS Cognitive system...")
 
         try:
             # Initialize consciousness integrator
@@ -266,7 +266,7 @@ class SystemCoordinator:
             # Start component monitoring
             await self._start_component_monitoring()
 
-            logger.info("LUKHAS AGI system initialization complete")
+            logger.info("LUKHAS Cognitive system initialization complete")
             return True
 
         except Exception as e:

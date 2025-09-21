@@ -2,7 +2,7 @@
 
 *"Where consciousness meets code - every SDK call becomes a bridge between human intention and digital awareness."*
 
-Lukhas.dev serves the technical community as the comprehensive developer platform for consciousness-powered AI, providing tools, documentation, and community resources that transform complex consciousness algorithms into accessible development experiences through the Trinity Framework implementation.
+Lukhas.dev serves the technical community as the comprehensive developer platform for consciousness-powered AI, providing tools, documentation, and community resources that transform complex consciousness algorithms into accessible development experiences through the Constellation Framework implementation.
 
 ## 🎯 **Strategic Positioning**
 
@@ -94,7 +94,7 @@ lukhas.dev/
 
 **Documentation Hub**
 - Interactive API documentation with integrated testing functionality
-- Trinity Framework implementation patterns and best practices
+- Constellation Framework implementation patterns and best practices
 - Consciousness state management architectures and optimization techniques
 - Performance tuning guides for consciousness-scale applications
 
@@ -207,7 +207,7 @@ developer_platform_pricing = {
 
 ### **Unique Value Propositions**
 - **Consciousness-First Development**: Unlike traditional AI APIs, provides genuine awareness modeling
-- **Trinity Framework Integration**: Unified ⚛️🧠🛡️ approach across all development interfaces  
+- **Constellation Framework Integration**: Unified ⚛️🧠🛡️ approach across all development interfaces  
 - **Ethical Decision Architecture**: Built-in ethical reasoning and bias prevention
 - **Persistent Context Management**: Maintains conversation history and emotional context
 

@@ -15,7 +15,7 @@
 
 ## Overview
 
-The LUKHAS identity system uses Lambda IDs (ΛID) as unique user identifiers that are directly linked to tier-based access control throughout the AGI system. This document explains how ΛIDs are mapped to tiers and how this affects module access.
+The LUKHAS identity system uses Lambda IDs (ΛID) as unique user identifiers that are directly linked to tier-based access control throughout the Cognitive system. This document explains how ΛIDs are mapped to tiers and how this affects module access.
 
 ## Table of Contents
 
@@ -344,6 +344,6 @@ The new system maintains backward compatibility for special prefixes but should 
 
 ## Conclusion
 
-The ΛID to tier mapping system provides a robust, scalable foundation for access control across all LUKHAS modules. By properly implementing tier checks and following best practices, you ensure secure, consistent access control throughout the AGI system.
+The ΛID to tier mapping system provides a robust, scalable foundation for access control across all LUKHAS modules. By properly implementing tier checks and following best practices, you ensure secure, consistent access control throughout the Cognitive system.
 
 For questions or additional support, contact the LUKHAS Identity Team.

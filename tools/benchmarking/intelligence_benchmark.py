@@ -4,7 +4,7 @@ LUKHAS AI Intelligence Performance Benchmarking
 Comprehensive benchmarking system for intelligence engines and agent coordination.
 Provides performance analysis, optimization recommendations, and competitive benchmarks.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 
 import asyncio
@@ -95,7 +95,7 @@ class BenchmarkType(Enum):
     SCALABILITY = "scalability"  # Load and scale testing
     SAFETY = "safety"  # Safety validation benchmarks
     AGENT_COORDINATION = "agent_coordination"  # Agent coordination efficiency
-    TRINITY_COMPLIANCE = "triad_compliance"  # Trinity Framework compliance
+    TRINITY_COMPLIANCE = "triad_compliance"  # Constellation Framework compliance
     COMPARATIVE = "comparative"  # Comparison against baselines
 
 
@@ -652,7 +652,7 @@ class LukhasIntelligenceBenchmarking:
         }
 
     async def _benchmark_triad_compliance_stress(self, config: BenchmarkConfig, iteration: int) -> dict[str, Any]:
-        """Benchmark Trinity Framework compliance under stress"""
+        """Benchmark Constellation Framework compliance under stress"""
         start_time = time.time()
 
         # Test Trinity compliance with challenging scenarios

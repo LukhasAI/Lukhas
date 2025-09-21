@@ -2,7 +2,7 @@
 Policy Enforcement Engine for LUKHAS AI System - Ethics Integration
 
 This module provides a comprehensive policy enforcement system that
-integrates with Trinity Framework, Guardian System, and compliance
+integrates with Constellation Framework, Guardian System, and compliance
 monitoring to ensure all system operations comply with organizational
 policies, regulatory requirements, and ethical standards.
 
@@ -17,7 +17,7 @@ Features:
 - Multi-layered policy hierarchy (system, user, context-specific)
 - Automated policy violation detection and remediation
 - Integration with Guardian System and constitutional principles
-- Trinity Framework policy alignment (⚛️🧠🛡️)
+- Constellation Framework policy alignment (⚛️🧠🛡️)
 - Comprehensive audit trails and policy change management
 - Performance-optimized policy evaluation engine
 - Context-aware policy application
@@ -55,7 +55,7 @@ class PolicyType(Enum):
     USER_CONSENT = "user_consent"  # User consent management
     CONTENT = "content"  # Content moderation
     SYSTEM_BEHAVIOR = "system_behavior"  # System behavior control
-    TRINITY = "constellation"  # Trinity Framework specific
+    CONSTELLATION = "constellation"  # Constellation Framework specific
 
 
 class PolicyScope(Enum):
@@ -195,7 +195,7 @@ class PolicyViolation:
     resolved_by: Optional[str] = None
     resolved_at: Optional[datetime] = None
 
-    # Trinity Framework integration
+    # Constellation Framework integration
     identity_impact: Optional[str] = None  # ⚛️
     consciousness_impact: Optional[str] = None  # 🧠
     guardian_assessment: Optional[str] = None  # 🛡️

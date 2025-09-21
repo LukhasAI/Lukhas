@@ -11,7 +11,7 @@
 │ 🧾 DESCRIPTION : Generates compliance drift reports (Markdown │
 │                 + drift graph).                               │
 │ 🧩 TYPE        : Governance Utility  🔧 VERSION: v0.2.0       │
-│ 🖋️ AUTHOR      : Lucas AGI             📅 CREATED: 2025-04-27 │
+│ 🖋️ AUTHOR      : Lucas Cognitive AI             📅 CREATED: 2025-04-27 │
 ├──────────────────────────────────────────────────────────────┤
 │ 📚 DEPENDENCIES:                                              │
 │   - pandas                                                    │

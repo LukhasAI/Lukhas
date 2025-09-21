@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-This document outlines the comprehensive plan for developing symbolic vocabularies across all LUKHAS AGI modules. The goal is to create a unified symbolic language that enables intuitive human-AI communication and consistent state representation throughout the system.
+This document outlines the comprehensive plan for developing symbolic vocabularies across all LUKHAS Cognitive modules. The goal is to create a unified symbolic language that enables intuitive human-AI communication and consistent state representation throughout the system.
 
 ## Development Phases
 
@@ -240,7 +240,7 @@ def test_vocabulary_completeness(vocabulary):
 
 ## Conclusion
 
-The Symbolic Vocabulary System is a critical component of LUKHAS AGI's human interface. By following this development plan, we will create a comprehensive, intuitive, and culturally sensitive symbolic language that enhances human-AI communication and understanding.
+The Symbolic Vocabulary System is a critical component of LUKHAS Cognitive AI's human interface. By following this development plan, we will create a comprehensive, intuitive, and culturally sensitive symbolic language that enhances human-AI communication and understanding.
 
 ---
 

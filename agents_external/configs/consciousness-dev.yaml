@@ -21,7 +21,7 @@ context_files:
 
 coding_principles:
   - "Write for AGI-scale performance"
-  - "Trinity Framework in every module"
+  - "Constellation Framework in every module"
   - "Guardian validation for all operations"
   - "Consciousness-aware error handling"
 

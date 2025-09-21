@@ -11,7 +11,7 @@
 ### Component Overview
 - **Purpose**: Identity system component development and Lambda ID implementation
 - **Architecture**: Multi-tier identity, authentication services, credential management
-- **Integration**: Trinity Framework identity pillar ⚛️ coordination
+- **Integration**: Constellation Framework identity pillar ⚛️ coordination
 - **Scale**: Identity components across development ecosystem
 
 ### Core Identity Architecture
@@ -51,7 +51,7 @@ Lambda ID Dev → Auth Services → Credential Mgmt → Governance
   Validation → Protocol Impl → Security Testing → Deployment
 ```
 
-#### **Trinity Framework Identity Integration**
+#### **Constellation Framework Identity Integration**
 ```
 Identity ⚛️ ←→ Consciousness 🧠 ←→ Memory 💾
      │              │                 │

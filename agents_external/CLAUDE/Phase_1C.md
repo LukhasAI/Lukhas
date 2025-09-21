@@ -275,7 +275,7 @@
 │ │ Integration Points with Existing   │ │
 │ │ Architecture                       │ │
 │ │                                    │ │
-│ │ Trinity Framework Integration      │ │
+│ │ Constellation Framework Integration      │ │
 │ │ ⚛️🧠🛡                             │ │
 │ │                                    │ │
 │ │ - Identity (⚛️): Personal data     │ │
@@ -320,7 +320,7 @@
 │ │                                    │ │
 │ │ Week 3: Integration & Testing      │ │
 │ │                                    │ │
-│ │ 1. Trinity Framework integration   │ │
+│ │ 1. Constellation Framework integration   │ │
 │ │ 2. Comprehensive compliance        │ │
 │ │ testing                            │ │
 │ │ 3. Regulatory simulation and       │ │
@@ -391,7 +391,7 @@
 │ │ enforcement hooks                  │ │
 │ │ - Security logging regulatory      │ │
 │ │ audit trail extensions             │ │
-│ │ - Trinity Framework compliance     │ │
+│ │ - Constellation Framework compliance     │ │
 │ │ integration layer                  │ │
 │ │                                    │ │
 │ │ This comprehensive regulatory      │ │

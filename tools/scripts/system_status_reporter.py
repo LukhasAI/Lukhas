@@ -3,7 +3,7 @@
 LUKHAS System Status Report Generator
 ====================================
 Comprehensive status analysis of all LUKHAS components
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
 Date: August 5, 2025
 """

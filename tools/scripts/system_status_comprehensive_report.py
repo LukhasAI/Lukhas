@@ -5,7 +5,7 @@
 LUKHAS Comprehensive System Status Report
 =========================================
 Complete analysis of all systems, tests, and health status.
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
 Date: August 5, 2025
 Purpose: Research documentation and publishing
@@ -632,7 +632,7 @@ def main():
 
     print("🧠 LUKHAS Comprehensive System Status Report")
     print("=" * 60)
-    print("Trinity Framework: ⚛️🧠🛡️")
+    print("Constellation Framework: ⚛️🧠🛡️")
     print("Date: August 5, 2025")
     print("=" * 60)
 

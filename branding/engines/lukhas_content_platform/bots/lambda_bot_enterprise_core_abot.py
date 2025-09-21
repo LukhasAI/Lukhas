@@ -477,13 +477,13 @@ class CoreABot:
     async def _process_with_enhanced_agi(self, user_input: str, context: dict) -> CoreΛBotResponse:
         """Process using Enhanced AI Bot for premium tiers"""
         try:
-            agi_response = await self.enhanced_agi.process_input(user_input, context)
+            cognitive_response = await self.enhanced_agi.process_input(user_input, context)
 
             return CoreΛBotResponse(
-                content=agi_response.content,
-                confidence=agi_response.confidence,
+                content=cognitive_response.content,
+                confidence=cognitive_response.confidence,
                 consciousness_state=ConsciousnessState.QUANTUM,  # Full capability
-                processing_time=agi_response.processing_time,
+                processing_time=cognitive_response.processing_time,
                 features_used=["enhanced_agi", "qi_processing", "metacognition"],
             )
 

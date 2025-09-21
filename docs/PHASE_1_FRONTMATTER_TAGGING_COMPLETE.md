@@ -19,7 +19,7 @@
    - **Priority**: Critical
    - **Category**: Setup Guide
    - **Technical Level**: Advanced
-   - **Trinity Components**: Identity, Consciousness, Guardian
+   - **Constellation Components**: Identity, Consciousness, Guardian
 
 ### **📚 Core Documentation**
 3. **`README.md`**
@@ -52,7 +52,7 @@
    - **Priority**: High
    - **Category**: Consciousness
    - **Technical Level**: Expert
-   - **Trinity Components**: Consciousness, Guardian, Identity
+   - **Constellation Components**: Consciousness, Guardian, Identity
 
 ---
 
@@ -74,7 +74,7 @@
 - **GitHub Copilot**: 0.8-1.0 for coordination files
 - **Documentation Specialist**: 0.7-0.9 for all files
 
-### **Trinity Framework Integration**
+### **Constellation Framework Integration**
 - `trinity_component`: ["identity", "consciousness", "guardian"]
 - `search_keywords`: Optimized for semantic search
 - `priority`: "critical" | "high" | "medium"

@@ -143,7 +143,7 @@ class DreamTraceLinker:
         Args:
             storage_path: Optional path for persistent storage
         """
-        self.storage_path = storage_path or "/Users/agi_dev/Downloads/Consolidation-Repo/logs/dream"
+        self.storage_path = storage_path or "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/dream"
 
         # Core storage
         self.dream_fragments: dict[str, DreamFragment] = {}

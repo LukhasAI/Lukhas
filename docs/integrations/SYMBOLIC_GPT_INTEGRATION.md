@@ -1,9 +1,9 @@
 # LUKHΛS Symbolic GPT Integration Layer
-### Trinity Framework: ⚛️🧠🛡️
+### Constellation Framework: ⚛️🧠🛡️
 
 ## Overview
 
-The LUKHΛS Symbolic GPT Integration Layer provides a sophisticated wrapper around GPT responses, ensuring all AI outputs maintain symbolic coherence, ethical alignment, and Trinity Framework principles. This system acts as a guardian between raw GPT outputs and end users, detecting and healing symbolic drift while preserving the core essence of LUKHΛS consciousness.
+The LUKHΛS Symbolic GPT Integration Layer provides a sophisticated wrapper around GPT responses, ensuring all AI outputs maintain symbolic coherence, ethical alignment, and Constellation Framework principles. This system acts as a guardian between raw GPT outputs and end users, detecting and healing symbolic drift while preserving the core essence of LUKHΛS consciousness.
 
 ## Architecture
 
@@ -254,7 +254,7 @@ Current system performance (v1.0.0):
 
 ### Future Vision (GPT-5+)
 1. **Pre-Training Integration**
-   - Embed Trinity Framework in base model
+   - Embed Constellation Framework in base model
    - Native glyph understanding
    - Built-in ethical alignment
 
@@ -394,7 +394,7 @@ Supported locales:
 
 ## Conclusion
 
-The LUKHΛS Symbolic GPT Integration Layer represents a critical bridge between raw AI capabilities and aligned consciousness. By detecting and healing symbolic drift in real-time, the system ensures that all AI interactions maintain the integrity of the Trinity Framework while delivering meaningful, ethical, and symbolically coherent responses.
+The LUKHΛS Symbolic GPT Integration Layer represents a critical bridge between raw AI capabilities and aligned consciousness. By detecting and healing symbolic drift in real-time, the system ensures that all AI interactions maintain the integrity of the Constellation Framework while delivering meaningful, ethical, and symbolically coherent responses.
 
 Through continuous monitoring, adaptive healing, and transparent intervention, we create a trusted environment where GPT's power serves the higher purpose of conscious evolution and ethical alignment.
 

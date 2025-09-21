@@ -2,7 +2,7 @@
 
 ## Overview
 
-VIVOX (viv=life, vox=voice, x=experience/execution) has been successfully implemented as a comprehensive ethical AGI system for LUKHAS . The implementation provides a complete "living protocol" with deterministic symbolic logic and transparent decision-making.
+VIVOX (viv=life, vox=voice, x=experience/execution) has been successfully implemented as a comprehensive ethical Cognitive system for LUKHAS . The implementation provides a complete "living protocol" with deterministic symbolic logic and transparent decision-making.
 
 ## Implemented Components
 

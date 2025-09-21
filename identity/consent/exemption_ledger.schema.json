@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GuardianExemption",
+  "type": "object",
+  "required": ["plan_id", "tenant", "env", "lambda_id", "action", "rule_name", "tags", "confidences", "band", "created_at"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "plan_id": { "type": "string" },
+    "tenant": { "type": "string" },
+    "env": { "type": "string" },
+    "lambda_id": { "type": "string" },
+    "action": { "type": "string", "enum": ["allow", "warn", "require_human", "block"] },
+    "rule_name": { "type": "string" },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "confidences": { "type": "object", "additionalProperties": { "type": "number", "minimum": 0, "maximum": 1 } },
+    "band": { "type": "string", "enum": ["minor", "major", "high", "critical"] },
+    "purpose": {
+      "$comment": "# ΛTAG: consent_tracking",
+      "type": "string"
+    },
+    "retention_days": { "type": "integer", "minimum": 0 },
+    "justification": { "type": "string" },
+    "override_requested": { "type": "boolean" },
+    "override_granted": { "type": "boolean" },
+    "approver1_id": { "type": "string" },
+    "approver2_id": { "type": "string" },
+    "user_consent_timestamp": {
+      "$comment": "# ΛTAG: consent_tracking",
+      "type": "string",
+      "format": "date-time"
+    },
+    "consent_method": {
+      "$comment": "# ΛTAG: consent_tracking",
+      "type": "string"
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "allOf": [
+    {
+      "$comment": "# ΛTAG: consent_guardrail",
+      "if": {
+        "properties": {
+          "tags": {
+            "contains": { "const": "financial" }
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "user_consent_timestamp",
+          "consent_method"
+        ]
+      }
+    },
+    {
+      "$comment": "# ΛTAG: consent_guardrail",
+      "if": {
+        "properties": {
+          "tags": {
+            "contains": { "const": "pii" }
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "user_consent_timestamp",
+          "consent_method"
+        ]
+      }
+    }
+  ]
+}

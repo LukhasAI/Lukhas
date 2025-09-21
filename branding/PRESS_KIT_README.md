@@ -64,7 +64,7 @@
 
 ### Press Release Language
 - **Product name**: Always "Matriz" in body text
-- **Company**: "LUKHAS AI" (never "LUKHAS AGI")
+- **Company**: "LUKHAS AI" (never "LUKHAS Cognitive AI")
 - **Features**: Focus on capabilities, not superlatives
 - **Limitations**: Include appropriate disclaimers
 

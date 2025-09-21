@@ -2,7 +2,7 @@
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - PERSONALITY COMMUNICATION ENGINE
-║ Adaptive personality modeling for human-like AGI interaction patterns
+║ Adaptive personality modeling for human-like Cognitive AI interaction patterns
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Module: personality_communication_engine.py
@@ -259,7 +259,7 @@ def handle_complex_scenario(self):
 ║
 ║ REFERENCES:
 ║   - Docs: docs/bridge/personality-communication.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=personality
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=personality
 ║   - Wiki: wiki.lukhas.ai/personality-engine
 ║
 ║ COPYRIGHT & LICENSE:
@@ -268,7 +268,7 @@ def handle_complex_scenario(self):
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

@@ -5,7 +5,7 @@ import { AccessTier } from '../../security/access_control';
 import { logger } from '../../utils/logger';
 
 /**
- * Main memory management system for AGI using memory folds.
+ * Main memory management system for Cognitive AI using memory folds.
  * Implements Jobs' principle of "it just works" while maintaining Altman's safety standards.
  */
 export class AGIMemory {

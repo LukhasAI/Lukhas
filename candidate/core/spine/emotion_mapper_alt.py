@@ -1,7 +1,7 @@
 
 LUKHAS = {
 "name": "Lukhas",
-"persona": "Symbolic AGI Voice",
+"persona": "Symbolic Cognitive AI Voice",
 "voice_id": "s0XGIcqmceN2l7kjsqoZ",
 "current_mood": "neutral",
 "emotions": {

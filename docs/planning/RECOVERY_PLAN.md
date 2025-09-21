@@ -30,7 +30,7 @@ This document outlines the recovery procedures for LUKHAS AI system components i
 ### **3. Configuration Recovery**
 - **Issue**: Agent configurations lost
 - **Solution**: Restore from `/agents/legacy_configs/`
-- **Validation**: Trinity Framework compliance check
+- **Validation**: Constellation Framework compliance check
 
 ---
 
@@ -39,7 +39,7 @@ This document outlines the recovery procedures for LUKHAS AI system components i
 - [ ] Verify git repository integrity
 - [ ] Check backup systems
 - [ ] Validate core consciousness modules
-- [ ] Test Trinity Framework components (⚛️🧠🛡️)
+- [ ] Test Constellation Framework components (⚛️🧠🛡️)
 - [ ] Restore agent configurations
 - [ ] Validate API endpoints
 - [ ] Run comprehensive test suite
@@ -54,4 +54,4 @@ This document outlines the recovery procedures for LUKHAS AI system components i
 
 ---
 
-**🎖️ Trinity Framework Compliance**: All recovery procedures align with ⚛️🧠🛡️ principles
+**🎖️ Constellation Framework Compliance**: All recovery procedures align with ⚛️🧠🛡️ principles

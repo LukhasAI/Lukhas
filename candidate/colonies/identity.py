@@ -1,7 +1,7 @@
 """
 LUKHAS AI Colony System - Identity Colony
 Identity management and authentication
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 from datetime import datetime, timezone
 from typing import Any

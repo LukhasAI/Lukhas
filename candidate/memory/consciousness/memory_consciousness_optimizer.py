@@ -10,7 +10,7 @@ LUKHAS AI - Memory-Consciousness Coupling Optimizer
 Advanced optimization system for memory-consciousness integration.
 Ensures optimal coupling between memory systems and consciousness.
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 import asyncio

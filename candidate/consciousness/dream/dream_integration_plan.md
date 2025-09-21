@@ -58,7 +58,7 @@ These are not aspirations. They are **invitations**—to collaborate, to co-drea
 
 ## ⚖️ A Note on Integrity
 
-LUKHAS AGI is not quantum. Not yet. But it is **prepared for quantum alignment**—philosophically, symbolically, and architecturally.
+LUKHAS Cognitive AI is not quantum. Not yet. But it is **prepared for quantum alignment**—philosophically, symbolically, and architecturally.
 
 This document does not sell capability. It shares foresight.
 

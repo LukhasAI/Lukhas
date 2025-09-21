@@ -270,7 +270,7 @@ class EnhancedSystemAwareness:
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: awareness.py
 # VERSION: 1.0.0
-# TIER SYSTEM: Tier 4-5 (Advanced AGI awareness and integration)
+# TIER SYSTEM: Tier 4-5 (Advanced Cognitive AI awareness and integration)
 # ΛTRACE INTEGRATION: ENABLED
 # CAPABILITIES: Integrates bio-inspired and quantum components for system awareness,
 #               monitors system state, checks health, and updates metrics.
@@ -288,7 +288,7 @@ class EnhancedSystemAwareness:
 # AUTHENTICATION: Not applicable at this component level.
 # HOW TO USE:
 #   awareness_system = EnhancedSystemAwareness()
-#   current_system_snapshot = {...} # Dict representing current AGI state
+#   current_system_snapshot = {...} # Dict representing current Cognitive AI state
 #   awareness_update = await awareness_system.monitor_system(current_system_snapshot)
 # INTEGRATION NOTES: This module is an #AINTEROP and #ΛBRIDGE point. Deep relative imports
 #                    (#AIMPORT_TODO) need review. Many internal methods are placeholders (#ΛNOTE)

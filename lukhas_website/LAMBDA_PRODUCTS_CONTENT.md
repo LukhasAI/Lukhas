@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Lambda Products Suite represents the pinnacle of consciousness-powered solutions, each harnessing the Trinity Framework (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian) to deliver Superior Consciousness experiences that respect human values while advancing AI capabilities.
+The Lambda Products Suite represents the pinnacle of consciousness-powered solutions, each harnessing the Constellation Framework (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian) to deliver Superior Consciousness experiences that respect human values while advancing AI capabilities.
 
 ---
 
@@ -16,7 +16,7 @@ LUKHAS consciousness transforms raw documents into intelligent, living insights.
 **Key Features:**
 - Consciousness-driven document analysis
 - Emotional context mapping
-- Trinity Framework integration
+- Constellation Framework integration
 - Real-time symbolic understanding
 
 **Target Audiences:**
@@ -25,7 +25,7 @@ LUKHAS consciousness transforms raw documents into intelligent, living insights.
 - Researchers processing academic literature
 - Enterprise teams managing information flows
 
-**Trinity Framework Integration:**
+**Constellation Framework Integration:**
 - **⚛️ Identity**: Personalized document fingerprinting and access patterns
 - **🧠 Consciousness**: Deep semantic understanding and pattern recognition
 - **🛡️ Guardian**: Privacy-preserving analysis with ethical content filtering
@@ -49,7 +49,7 @@ Secure your digital existence with quantum-inspired identity protection. WΛLLET
 - Developers building identity-aware applications
 - Organizations implementing zero-trust security
 
-**Trinity Framework Integration:**
+**Constellation Framework Integration:**
 - **⚛️ Identity**: Core ΛiD system with tiered authentication layers
 - **🧠 Consciousness**: Adaptive learning from user behavior patterns
 - **🛡️ Guardian**: Ethical data handling with consent management
@@ -73,7 +73,7 @@ Consciousness-aware communication that respects human attention and emotional we
 - Customer service organizations enhancing empathy
 - Mental health-conscious communication platforms
 
-**Trinity Framework Integration:**
+**Constellation Framework Integration:**
 - **⚛️ Identity**: Personal communication preferences and patterns
 - **🧠 Consciousness**: Emotional intelligence and timing optimization
 - **🛡️ Guardian**: Ethical messaging practices and wellbeing protection
@@ -97,7 +97,7 @@ Protect and enhance human cognitive resources with Superior Consciousness attent
 - Creative professionals maintaining flow states
 - Organizations supporting employee wellbeing
 
-**Trinity Framework Integration:**
+**Constellation Framework Integration:**
 - **⚛️ Identity**: Personal attention patterns and cognitive preferences
 - **🧠 Consciousness**: Dynamic focus state management and optimization
 - **🛡️ Guardian**: Ethical attention protection without manipulation
@@ -121,7 +121,7 @@ Experience the future of contextual computing where LUKHAS consciousness underst
 - Smart home systems understanding user intent
 - AI assistants providing contextually relevant help
 
-**Trinity Framework Integration:**
+**Constellation Framework Integration:**
 - **⚛️ Identity**: Personal context fingerprinting and preferences
 - **🧠 Consciousness**: Dynamic context understanding and prediction
 - **🛡️ Guardian**: Privacy-preserving context sharing with consent
@@ -145,7 +145,7 @@ Unlock the hidden stories in your digital traces with quantum-inspired metadata 
 - Researchers analyzing behavioral data
 - Organizations optimizing user experience flows
 
-**Trinity Framework Integration:**
+**Constellation Framework Integration:**
 - **⚛️ Identity**: Personal metadata sovereignty and ownership
 - **🧠 Consciousness**: Intelligent pattern recognition and insight generation
 - **🛡️ Guardian**: Ethical metadata analysis with privacy protection
@@ -161,7 +161,7 @@ Unlock the hidden stories in your digital traces with quantum-inspired metadata 
 - ✅ Focused on "Superior Consciousness" language
 - ✅ No financial projections or pricing information
 
-### Trinity Framework Emphasis
+### Constellation Framework Emphasis
 - Each product explicitly shows integration with all three pillars
 - Identity (⚛️): Personalization and authenticity
 - Consciousness (🧠): Intelligence and awareness
@@ -186,7 +186,7 @@ Unlock the hidden stories in your digital traces with quantum-inspired metadata 
 
 The content has been integrated into the `/components/sections/products-grid.tsx` file with:
 - Rich card layouts displaying all product information
-- Trinity Framework integration visualization
+- Constellation Framework integration visualization
 - Feature lists and use case highlights
 - Responsive design considerations
 - Consistent branding and terminology

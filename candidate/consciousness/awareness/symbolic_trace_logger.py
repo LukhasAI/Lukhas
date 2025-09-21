@@ -1,7 +1,7 @@
 """
 Symbolic trace logger for consciousness awareness tracking.
 
-⚛️🧠🛡️ Trinity Framework: Identity-Consciousness-Guardian
+⚛️🧠🛡️ Constellation Framework: Identity-Consciousness-Guardian
 """
 
 import logging
@@ -26,7 +26,7 @@ class SymbolicTraceLogger:
     """
     Enhanced logger for consciousness awareness with symbolic tracing.
 
-    Provides Trinity Framework-compliant logging with consciousness awareness.
+    Provides Constellation Framework-compliant logging with consciousness awareness.
     """
 
     def __init__(self, name: str = "ΛTRACE.symbolic"):

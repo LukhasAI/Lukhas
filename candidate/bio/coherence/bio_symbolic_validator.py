@@ -10,7 +10,7 @@
 ║ Version: 1.0.0 | Created: 2025-08-26
 ║ Authors: LUKHAS AI Bio-Symbolic Coherence Team
 ╠══════════════════════════════════════════════════════════════════════════════════
-║                             ◊ TRINITY FRAMEWORK ◊
+║                             ◊ CONSTELLATION FRAMEWORK ◊
 ║
 ║ ⚛️ IDENTITY: Validates identity coherence through bio-symbolic patterns
 ║ 🧠 CONSCIOUSNESS: Ensures consciousness coherence via neural oscillations
@@ -101,7 +101,7 @@ class BioRhythm:
     sync_partners: set[str] = field(default_factory=set)  # Synchronized rhythms
     phase_history: deque = field(default_factory=lambda: deque(maxlen=100))
 
-    # Trinity Framework
+    # Constellation Framework
     identity_impact: float = 0.5  # Impact on identity coherence
     consciousness_contribution: float = 0.5  # Contribution to awareness
     guardian_monitored: bool = True  # Under ethical monitoring
@@ -179,7 +179,7 @@ class CoherenceValidationConfig:
     history_length: int = 1000  # Number of historical samples
     trend_analysis_window: int = 100  # Samples for trend analysis
 
-    # Trinity Framework settings
+    # Constellation Framework settings
     identity_coherence_weight: float = 0.4
     consciousness_coherence_weight: float = 0.4
     guardian_safety_weight: float = 0.2
@@ -202,7 +202,7 @@ class CoherenceReport:
     symbolic_pattern_coherence: float = 0.0
     metabolic_efficiency_score: float = 0.0
 
-    # Trinity Framework scores
+    # Constellation Framework scores
     identity_coherence_score: float = 0.0
     consciousness_depth_score: float = 0.0
     guardian_safety_score: float = 1.0
@@ -243,7 +243,7 @@ class BioSymbolicCoherenceValidator:
     - Symbolic pattern consistency checking
     - Metabolic efficiency monitoring
     - Neuroplasticity and adaptation tracking
-    - Trinity Framework compliance validation
+    - Constellation Framework compliance validation
     - Real-time coherence monitoring and alerting
     """
 
@@ -271,7 +271,7 @@ class BioSymbolicCoherenceValidator:
         # Sync mode fallback for environments without event loop
         self._sync_mode = False
 
-        # Trinity Framework integration
+        # Constellation Framework integration
         self.identity_coherence_tracker = IdentityCoherenceTracker()
         self.consciousness_monitor = ConsciousnessCoherenceMonitor()
         self.guardian_safety_validator = GuardianSafetyValidator()
@@ -332,7 +332,7 @@ class BioSymbolicCoherenceValidator:
                     self.oscillator_networks[osc_type] = []
                 self.oscillator_networks[osc_type].append(rhythm.rhythm_id)
 
-            # Initialize Trinity Framework components
+            # Initialize Constellation Framework components
             self.identity_coherence_tracker.initialize()
             self.consciousness_monitor.initialize()
             self.guardian_safety_validator.initialize()
@@ -401,11 +401,11 @@ class BioSymbolicCoherenceValidator:
             # Metabolic efficiency assessment
             report.metabolic_efficiency_score = await self._assess_metabolic_efficiency()
 
-            # Trinity Framework validation
-            trinity_scores = await self._validate_trinity_framework_coherence()
-            report.identity_coherence_score = trinity_scores["identity"]
-            report.consciousness_depth_score = trinity_scores["consciousness"]
-            report.guardian_safety_score = trinity_scores["guardian"]
+            # Constellation Framework validation
+            constellation_scores = await self._validate_trinity_framework_coherence()
+            report.identity_coherence_score = constellation_scores["identity"]
+            report.consciousness_depth_score = constellation_scores["consciousness"]
+            report.guardian_safety_score = constellation_scores["guardian"]
 
             # Calculate overall coherence
             report.overall_coherence = self._calculate_overall_coherence(report)
@@ -606,7 +606,7 @@ class BioSymbolicCoherenceValidator:
         return normalized_efficiency
 
     async def _validate_trinity_framework_coherence(self) -> dict[str, float]:
-        """Validate Trinity Framework component coherence"""
+        """Validate Constellation Framework component coherence"""
         # Identity coherence (⚛️)
         identity_score = 0.0
         identity_weights = []
@@ -1002,7 +1002,7 @@ class BioSymbolicCoherenceValidator:
                     "biological_coherence": current_report.biological_rhythm_coherence,
                     "symbolic_coherence": current_report.symbolic_pattern_coherence,
                     "metabolic_efficiency": current_report.metabolic_efficiency_score,
-                    "trinity_scores": {
+                    "constellation_scores": {
                         "identity": current_report.identity_coherence_score,
                         "consciousness": current_report.consciousness_depth_score,
                         "guardian": current_report.guardian_safety_score,
@@ -1013,23 +1013,23 @@ class BioSymbolicCoherenceValidator:
         return status
 
 
-# Stub classes for Trinity Framework integration
+# Stub classes for Constellation Framework integration
 class IdentityCoherenceTracker:
-    """Trinity Framework identity coherence tracking"""
+    """Constellation Framework identity coherence tracking"""
 
     def initialize(self):
         pass
 
 
 class ConsciousnessCoherenceMonitor:
-    """Trinity Framework consciousness coherence monitoring"""
+    """Constellation Framework consciousness coherence monitoring"""
 
     def initialize(self):
         pass
 
 
 class GuardianSafetyValidator:
-    """Trinity Framework guardian safety validation"""
+    """Constellation Framework guardian safety validation"""
 
     def initialize(self):
         pass

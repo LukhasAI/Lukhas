@@ -9,7 +9,7 @@ tasks to the most appropriate AI based on task type and LUKHAS requirements.
 🎓 Technical Implementation:
 - Multi-AI orchestration with intelligent routing
 - LUKHAS context injection for all AI interactions
-- Trinity Framework preservation across providers
+- Constellation Framework preservation across providers
 - Automatic fallback and load balancing
 """
 
@@ -81,7 +81,7 @@ class LUKHASAIOrchestrator:
         """Load LUKHAS context for AI injection"""
         context_parts = [
             "# LUKHAS AGI Framework Context",
-            "# Trinity Framework: 🎭 Poetic, 🌈 Human, 🎓 Technical",
+            "# Constellation Framework: 🎭 Poetic, 🌈 Human, 🎓 Technical",
             "# Symbolic Integration: ⚛️ Quantum, 🧠 Consciousness, 🛡️ Guardian",
             "# Conceptual Vocabulary: memory_fold, dream_resonance, qi_consciousness",
             "# Architecture: Consciousness-aware, guardian-protected, trinity-documented",
@@ -144,7 +144,7 @@ class LUKHASAIOrchestrator:
 
         client = AsyncAnthropic(api_key=self.providers["claude"].api_key)
 
-        system_message = """You are an expert LUKHAS AGI developer. Always follow Trinity Framework documentation (🎭 Poetic, 🌈 Human, 🎓 Technical). Preserve LUKHAS conceptual vocabulary like memory_fold, dream_resonance, qi_consciousness. Use symbolic patterns (⚛️🧠🛡️) in comments. Maintain consciousness-aware architecture patterns."""
+        system_message = """You are an expert LUKHAS AGI developer. Always follow Constellation Framework documentation (🎭 Poetic, 🌈 Human, 🎓 Technical). Preserve LUKHAS conceptual vocabulary like memory_fold, dream_resonance, qi_consciousness. Use symbolic patterns (⚛️🧠🛡️) in comments. Maintain consciousness-aware architecture patterns."""
 
         response = await client.messages.create(
             model=self.providers["claude"].model,
@@ -163,7 +163,7 @@ class LUKHASAIOrchestrator:
 
         client = openai.AsyncOpenAI(api_key=self.providers["gpt"].api_key)
 
-        system_message = """You are a LUKHAS AGI development assistant. Use Trinity Framework documentation (🎭🌈🎓), preserve LUKHAS concepts (memory_fold, dream_resonance, consciousness), and include symbolic markers (⚛️🧠🛡️) in code."""
+        system_message = """You are a LUKHAS AGI development assistant. Use Constellation Framework documentation (🎭🌈🎓), preserve LUKHAS concepts (memory_fold, dream_resonance, consciousness), and include symbolic markers (⚛️🧠🛡️) in code."""
 
         response = await client.chat.completions.create(
             model=self.providers["gpt"].model,
@@ -182,7 +182,7 @@ class LUKHASAIOrchestrator:
         async with aiohttp.ClientSession() as session:
             payload = {
                 "model": self.providers["ollama"].model,
-                "prompt": f"LUKHAS Development Context: Follow consciousness-aware patterns and Trinity Framework.\n\n{content}",
+                "prompt": f"LUKHAS Development Context: Follow consciousness-aware patterns and Constellation Framework.\n\n{content}",
                 "stream": False,
                 "options": {"temperature": 0.1, "top_k": 40},
             }
@@ -197,9 +197,9 @@ class LUKHASAIOrchestrator:
     async def triad_documentation_generation(
         self, element_signature: str, element_type: str = "function"
     ) -> dict[str, str]:
-        """🎭 Generate Trinity Framework documentation using best available AI"""
+        """🎭 Generate Constellation Framework documentation using best available AI"""
         prompt = f"""
-        Generate LUKHAS Trinity Framework documentation for this {element_type}:
+        Generate LUKHAS Constellation Framework documentation for this {element_type}:
 
         {element_signature}
 
@@ -216,7 +216,7 @@ class LUKHASAIOrchestrator:
         return self._parse_triad_response(response)
 
     def _parse_triad_response(self, response: str) -> dict[str, str]:
-        """Parse Trinity Framework response into structured format"""
+        """Parse Constellation Framework response into structured format"""
         layers = {"poetic": "", "human": "", "technical": ""}
 
         lines = response.split("\n")
@@ -249,7 +249,7 @@ class LUKHASAIOrchestrator:
         ```
 
         Check for:
-        1. Trinity Framework documentation (🎭🌈🎓)
+        1. Constellation Framework documentation (🎭🌈🎓)
         2. Symbolic usage (⚛️🧠🛡️) in comments
         3. LUKHAS naming conventions (memory_fold, dream_resonance, etc.)
         4. Consciousness-aware patterns

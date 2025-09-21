@@ -111,7 +111,7 @@ Focus on "architecture of trust" and "coherence within uncertainty" themes.
 ### For social media:
 1. Use thread-ready format (4 tweets)
 2. Adapt platform-specific versions
-3. Include Trinity Framework emojis: ⚛️🧠🛡️
+3. Include Constellation Framework emojis: ⚛️🧠🛡️
 
 ### For documentation:
 1. Include full fragments in philosophy sections

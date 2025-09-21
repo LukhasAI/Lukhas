@@ -86,7 +86,7 @@ class AuditContext:
     module_type: str
     risk_tier: str
     symbolic_tags: list[str]
-    agi_level: str
+    cognitive_level: str
     audit_priority: str
     timestamp: str
     lambda_id: Optional[str] = None
@@ -176,7 +176,7 @@ MODULE CONTEXT:
 - Name: {context.module_name}
 - Type: {context.module_type}
 - Risk Tier: {context.risk_tier}
-- AI Level: {context.agi_level}
+- AI Level: {context.cognitive_level}
 - Symbolic Tags: {", ".join(context.symbolic_tags)}
 
 AUDIT REQUIREMENTS:
@@ -214,7 +214,7 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
 [MODULE TYPE]: {context.module_type}
 [SYMBOLIC TAGS]: {", ".join(context.symbolic_tags)}
 [RISK ZONE]: {context.risk_tier}
-[AI LEVEL]: {context.agi_level}
+[AI LEVEL]: {context.cognitive_level}
 [AUDIT PRIORITY]: {context.audit_priority}
 [REQUEST]: Comprehensive ethical audit with symbolic explainability enhancement
 
@@ -329,7 +329,7 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
         module_type: str = "core_module",
         risk_tier: str = "Tier 2",
         symbolic_tags: Optional[list[str]] = None,
-        agi_level: str = "production",
+        cognitive_level: str = "production",
     ) -> AuditResult:
         """
         Conduct comprehensive ethical audit of a LUKHAS module
@@ -340,13 +340,13 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
             module_type: Type of module (core, interface, safety, etc.)
             risk_tier: Risk classification (Tier 1-4)
             symbolic_tags: Symbolic metadata tags
-            agi_level: AI operational level
+            cognitive_level: AI operational level
 
         Returns:
             Comprehensive audit result with traceability
         """
         timestamp = datetime.now(timezone.utc).isoformat()
-        symbolic_tags = symbolic_tags or ["ethical_core", "agi_governed"]
+        symbolic_tags = symbolic_tags or ["ethical_core", "cognitive_governed"]
 
         # Create audit context
         context = AuditContext(
@@ -354,7 +354,7 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
             module_type=module_type,
             risk_tier=risk_tier,
             symbolic_tags=symbolic_tags,
-            agi_level=agi_level,
+            cognitive_level=cognitive_level,
             audit_priority="high",
             timestamp=timestamp,
             lambda_id=self.lambda_id,

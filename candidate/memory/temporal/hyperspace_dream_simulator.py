@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 🌌 MODULE: dream.hyperspace_dream_simulator
 📄 FILENAME: hyperspace_dream_simulator.py
 🎯 PURPOSE: HDS with Enterprise Token Profiling & Resource Monitoring
-🧠 CONTEXT: LUKHAS AGI Phase 5 Hyperspace Dream Simulation & Resource Management
+🧠 CONTEXT: LUKHAS Cognitive AI Phase 5 Hyperspace Dream Simulation & Resource Management
 🔮 CAPABILITY: Advanced token profiling, resource monitoring, timeline branching
 🛡️ ETHICS: Token budget enforcement, resource exhaustion prevention
 🚀 VERSION: v2.0.0 • 📅 ENHANCED: 2025-07-20 • ✍️ AUTHOR: CLAUDE-HARMONIZER
@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 🌌 HYPERSPACE DREAM SIMULATOR - ENTERPRISE RESOURCE EDITION
 ────────────────────────────────────────────────────────────────────
 
-The HDS creates a multidimensional sandbox where the AGI can explore
+The HDS creates a multidimensional sandbox where the Cognitive AI can explore
 counterfactual futures and rehearse strategic decisions across multiple
 timeline branches. Enhanced with enterprise-grade token profiling and resource
 monitoring, this system ensures efficient resource utilization while preventing
@@ -1339,7 +1339,7 @@ class HyperspaceDreamSimulator:
         """
         import os
 
-        token_warning_path = "/Users/agi_dev/Downloads/Consolidation-Repo/trace/hds_token_warnings.jsonl"
+        token_warning_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/trace/hds_token_warnings.jsonl"
 
         try:
             os.makedirs(os.path.dirname(token_warning_path), exist_ok=True)

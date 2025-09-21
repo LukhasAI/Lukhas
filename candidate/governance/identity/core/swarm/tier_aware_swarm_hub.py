@@ -16,7 +16,7 @@ from candidate.core.enhanced_swarm import EnhancedSwarmHub
 
 # Import swarm infrastructure
 from candidate.core.swarm import SwarmTask, TaskPriority
-from governance.identity.core.colonies import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution
+from governance.identity.core.colonies import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
 from datetime import timezone
     BiometricVerificationColony,
     ConsciousnessVerificationColony,

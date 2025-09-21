@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 # FILENAME: system_bridge.py
 # MODULE: core.integration.system_bridge
 # DESCRIPTION: Implements a SystemBridge for managing integration functionality
-#              within the LUKHAS AGI system, aiming for connectivity and
+#              within the LUKHAS Cognitive system, aiming for connectivity and
 #              consciousness computing capabilities.
 #              Serves as an #AINTEROP and #ΛBRIDGE point.
 # DEPENDENCIES: structlog, asyncio, typing, datetime
@@ -41,8 +41,8 @@ logger = structlog.get_logger("ΛTRACE.core.integration.SystemBridge")
 
 class SystemBridge:
     """
-    Integration component for the LUKHAS AGI system.
-    (Original docstring had 'AI system', harmonized to LUKHAS AGI)
+    Integration component for the LUKHAS Cognitive system.
+    (Original docstring had 'AI system', harmonized to LUKHAS Cognitive AI)
 
     This component provides critical integration functionality to achieve
     system connectivity and consciousness computing capabilities.

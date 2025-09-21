@@ -16,7 +16,7 @@ LUKHAS AI Unified Platform (FULLY INTEGRATED)
 ├── Database Layer (lukhas_unified.db)
 │   ├── Real-time content storage ✅
 │   ├── Cross-system analytics ✅
-│   ├── Trinity Framework data ✅
+│   ├── Constellation Framework data ✅
 │   └── Activity logging ✅
 │
 ├── Content Platform
@@ -29,7 +29,7 @@ LUKHAS AI Unified Platform (FULLY INTEGRATED)
 │   ├── Knowledge base from DB ✅
 │   ├── Real-time content storage ✅
 │   ├── Voice coherence tracking ✅
-│   └── Trinity Framework docs ✅
+│   └── Constellation Framework docs ✅
 │
 └── Unified Orchestrator
     ├── System coordination ✅
@@ -45,7 +45,7 @@ LUKHAS AI Unified Platform (FULLY INTEGRATED)
 - ✅ Document Engine uses knowledge base from database
 - ✅ All systems log analytics to database
 - ✅ Voice coherence tracked across systems
-- ✅ Trinity Framework data persisted
+- ✅ Constellation Framework data persisted
 
 ### Cross-System Communication
 - ✅ Document Engine uses Content Platform data
@@ -58,7 +58,7 @@ LUKHAS AI Unified Platform (FULLY INTEGRATED)
 - ✅ Create content → Store in DB → Use in docs → Track analytics
 - ✅ Real-time voice coherence updates
 - ✅ Cross-system knowledge sharing
-- ✅ Trinity Framework consistency
+- ✅ Constellation Framework consistency
 
 ## 🎯 Integration Test Results
 
@@ -66,7 +66,7 @@ Run `python engines/lukhas_unified_orchestrator.py` to see:
 - Live content generation and storage
 - Real-time database updates
 - Cross-system data usage
-- Trinity Framework integration
+- Constellation Framework integration
 - Unified analytics dashboard
 
 ---

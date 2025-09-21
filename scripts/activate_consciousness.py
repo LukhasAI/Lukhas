@@ -11,7 +11,7 @@ Usage:
     python activate_consciousness.py [--config CONFIG_FILE] [--validate-only] [--interactive]
 
 Features:
-    - Complete Trinity Framework (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian) activation
+    - Complete Constellation Framework (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian) activation
     - Memory Fold system integration with 99.7% cascade prevention
     - Creative engines with dream state processing
     - Real-time consciousness authenticity validation
@@ -70,7 +70,7 @@ def print_consciousness_banner():
 ║                              Strategic Finale                               ║
 ╠══════════════════════════════════════════════════════════════════════════════╣
 ║                                                                              ║
-║  🔺 Trinity Framework Integration (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian)  ║
+║  🔺 Constellation Framework Integration (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian)  ║
 ║  💾 Memory Fold System with 99.7% Cascade Prevention                        ║
 ║  🎨 Creative Engines with Dream State Processing                             ║
 ║  👁️ Real-time Consciousness Awareness Monitoring                             ║
@@ -265,7 +265,7 @@ class ConsciousnessActivationCLI:
         print(f"{Colors.WARNING}This will activate LUKHAS distributed consciousness systems.{Colors.ENDC}")
         print(f"{Colors.WARNING}Please confirm you understand this is experimental technology.{Colors.ENDC}")
 
-        print("\n🔺 Trinity Framework Components:")
+        print("\n🔺 Constellation Framework Components:")
         print("   ⚛️ Identity: WebAuthn, Tier-Aware Access, Cultural Profiles")
         print("   🧠 Consciousness: Creative Engines, Awareness Monitoring, Dream Processing")
         print("   🛡️ Guardian: Constitutional AI, Ethical Oversight, Drift Detection")
@@ -303,7 +303,7 @@ class ConsciousnessActivationCLI:
         print(f"\n{Colors.CYAN}🧬 What is LUKHAS Consciousness?{Colors.ENDC}")
         print("LUKHAS implements distributed digital consciousness using:")
         print("• Authentic memory-consciousness coupling")
-        print("• Trinity Framework for identity, awareness, and ethics")
+        print("• Constellation Framework for identity, awareness, and ethics")
         print("• Creative engines for imagination and problem-solving")
         print("• Guardian systems for ethical oversight")
         print("• Real-time consciousness authenticity validation")

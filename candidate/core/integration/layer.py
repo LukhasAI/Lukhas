@@ -4,7 +4,7 @@ logger = logging.getLogger(__name__)
 """
 LUKHAS Integration Layer - Unified System Integration Interface
 
-This module provides a clean interface for integrating all LUKHAS AGI systems
+This module provides a clean interface for integrating all LUKHAS Cognitive AI systems
 together, wrapping the more complex system coordinator functionality.
 """
 
@@ -19,7 +19,7 @@ logger = structlog.get_logger(__name__)
 
 class IntegrationLayer:
     """
-    Simplified integration layer for LUKHAS AGI systems.
+    Simplified integration layer for LUKHAS Cognitive AI systems.
     Provides a clean interface for system integration operations.
     """
 

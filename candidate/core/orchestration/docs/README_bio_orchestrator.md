@@ -1,7 +1,7 @@
 # LUKHAS BIO-ORCHESTRATOR MODULE
 
 This module defines the symbolic scaffold for orchestrating biological and emotional state transitions
-within the LUKHAS AGI system. It is one of the central coordination layers and is responsible for:
+within the LUKHAS Cognitive system. It is one of the central coordination layers and is responsible for:
 
 - Regulating internal mood loops (informed by Oneiric states and Drift metrics)
 - Interfacing with compliance, ethical tone, and dream synthesis feedback

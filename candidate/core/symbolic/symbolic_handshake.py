@@ -8,7 +8,7 @@
 #TAG:neuroplastic
 #TAG:colony
 
-Symbolic Communication Protocol for Lukhas AGI System
+Symbolic Communication Protocol for Lukhas Cognitive AI System
 
 This module defines the symbolic handshake patterns and communication signals
 between the orchestrator and sub-agents (dream, intent, emotion, memory).

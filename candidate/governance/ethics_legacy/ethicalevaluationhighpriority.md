@@ -1,7 +1,7 @@
 # ETHICAL EVALUATION: HIGH PRIORITY DOCUMENTATION
 
 ## 1. Overview
-The ethical evaluation subsystem is a core part of the AGI architecture, designed to assess the ethical dimension of actions, intents, or dreams. It provides standardized metrics and hashes for downstream modules to use in memory, dream, and intent processing.
+The ethical evaluation subsystem is a core part of the AI architecture, designed to assess the ethical dimension of actions, intents, or dreams. It provides standardized metrics and hashes for downstream modules to use in memory, dream, and intent processing.
 
 ---
 

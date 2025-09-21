@@ -5,8 +5,8 @@
 ---
 
 
-# Lambda ID Foundation
-*Core Identity Architecture - Authentication Foundation - Identity Security*
+# ΛiD Core Foundation
+*Anchor Star Identity Systems - Multi-Tier Authentication - Constellation Framework*
 
 ## Identity Foundation Overview
 
@@ -15,7 +15,7 @@ Lambda ID Foundation represents the **foundational identity architecture and aut
 ### **Foundation Scope**
 - **Purpose**: Lambda ID core architecture and authentication foundation systems
 - **Architecture**: Base identity processing systems with authentication and security frameworks
-- **Integration**: Foundation systems enabling CANDIDATE identity development and LUKHAS integration
+- **Integration**: Anchor Star ⚛️ foundation enabling ΛiD authentication and MATRIZ Intent stage
 - **Security**: Advanced identity security, authentication validation, and access control systems
 
 ### **Identity Foundation Architecture**
@@ -272,7 +272,7 @@ async def integrate_candidate_identity_foundation(self, candidate_context):
 - **LUKHAS Identity Foundation Architecture**: Foundation architecture enabling LUKHAS identity integration
 - **LUKHAS Lambda ID Integration**: Lambda ID foundation integration with LUKHAS systems
 - **LUKHAS Authentication Foundation**: Authentication foundation for LUKHAS integration
-- **LUKHAS Foundation Coordination**: Foundation coordination with LUKHAS Trinity Framework systems
+- **LUKHAS Foundation Coordination**: Foundation coordination with LUKHAS Constellation Framework systems
 
 ## 📊 Foundation Systems Status
 

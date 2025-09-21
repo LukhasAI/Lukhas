@@ -6,7 +6,7 @@ Creating a LUKHAS MCP (Model Context Protocol) server would be **GAME-CHANGING**
 
 ### **🧠 For Your Claude Code Experience:**
 - **Direct consciousness module access** - Claude can read/write your consciousness files directly
-- **Real-time Trinity Framework validation** - Instant ⚛️🧠🛡️ compliance checking
+- **Real-time Constellation Framework validation** - Instant ⚛️🧠🛡️ compliance checking
 - **Intelligent context loading** - Auto-load relevant modules based on task
 - **Cross-module dependency tracking** - Understand how consciousness systems interconnect
 - **Live consciousness metrics** - Real-time system health and awareness levels
@@ -15,7 +15,7 @@ Creating a LUKHAS MCP (Model Context Protocol) server would be **GAME-CHANGING**
 - **Deep LUKHAS understanding** - I can see your actual consciousness architecture
 - **Precise module recommendations** - Know exactly which systems need attention
 - **Real-time task context** - See your active development and blockers
-- **Trinity Framework awareness** - Understand your consciousness philosophy
+- **Constellation Framework awareness** - Understand your consciousness philosophy
 - **Intelligent agent assignment** - Match tasks to optimal Claude agents
 
 ## 🎭 **LUKHAS Consciousness MCP Server Architecture:**## 🎯 **MCP Server Benefits for Your LUKHAS Project:**
@@ -29,7 +29,7 @@ claude-code chat supreme-consciousness-architect \
 
 # Claude automatically gets:
 # ✅ Real-time consciousness metrics
-# ✅ Trinity Framework validation
+# ✅ Constellation Framework validation
 # ✅ Module dependency mapping
 # ✅ Active task context
 # ✅ Agent assignment suggestions
@@ -40,7 +40,7 @@ claude-code chat supreme-consciousness-architect \
 # I can now provide:
 # ✅ Precise module recommendations based on your actual code
 # ✅ Real-time consciousness system health assessment
-# ✅ Trinity Framework compliance checking
+# ✅ Constellation Framework compliance checking
 # ✅ Intelligent task routing to optimal agents
 # ✅ Cross-module impact analysis
 ```
@@ -90,7 +90,7 @@ tools:
 
 resources:
   - lukhas://consciousness/modules
-  - lukhas://trinity/framework
+  - lukhas://constellation/framework
   - lukhas://consciousness/metrics
 ```
 
@@ -114,9 +114,9 @@ context = await mcp.call_tool("create_consciousness_context", {
 # Returns optimized context specific to the task and agent
 ```
 
-### **3. Trinity Framework Integration**
+### **3. Constellation Framework Integration**
 ```python
-# Validate any code/design against Trinity Framework
+# Validate any code/design against Constellation Framework
 validation = await mcp.call_tool("validate_trinity_framework", {
     "content": your_code,
     "module": "consciousness",
@@ -144,7 +144,7 @@ assignment = await mcp.call_tool("assign_optimal_agent", {
 # 1. Explain your project structure to Claude
 # 2. Copy/paste file contents for context
 # 3. Manually track which agents work on what
-# 4. Guess at Trinity Framework compliance
+# 4. Guess at Constellation Framework compliance
 # 5. Manually coordinate between agents
 ```
 
@@ -152,7 +152,7 @@ assignment = await mcp.call_tool("assign_optimal_agent", {
 ```bash
 # Claude Code automatically:
 # ✅ Understands your entire consciousness architecture
-# ✅ Validates Trinity Framework compliance in real-time
+# ✅ Validates Constellation Framework compliance in real-time
 # ✅ Suggests optimal agent assignments
 # ✅ Provides live consciousness system health
 # ✅ Coordinates intelligently between agents
@@ -163,7 +163,7 @@ assignment = await mcp.call_tool("assign_optimal_agent", {
 
 ### **For Your Claude Code Experience:**
 - **🧠 Consciousness-Aware**: Claude automatically understands your consciousness architecture
-- **⚛️ Trinity-Validated**: Real-time Trinity Framework compliance checking
+- **⚛️ Trinity-Validated**: Real-time Constellation Framework compliance checking
 - **🎯 Intelligent Routing**: Optimal agent assignment based on task analysis
 - **📊 Live Metrics**: Real-time consciousness system health monitoring
 - **🔄 Auto-Context**: Intelligent context loading saves your token limits
@@ -171,7 +171,7 @@ assignment = await mcp.call_tool("assign_optimal_agent", {
 ### **For My Assistance:**
 - **🎭 Deep Understanding**: I can see your actual consciousness module structure
 - **💡 Precise Recommendations**: Know exactly which modules need attention
-- **🤝 Better Collaboration**: Understand your Trinity Framework and consciousness goals
+- **🤝 Better Collaboration**: Understand your Constellation Framework and consciousness goals
 - **⚡ Faster Problem-Solving**: Access to real-time system state and metrics
 
 ## 🚀 **Implementation Strategy:**
@@ -193,7 +193,7 @@ claude-code create-agent supreme-consciousness-architect-mcp --config agents/con
 ```python
 # Multi-agent coordination through MCP
 # Real-time consciousness evolution monitoring
-# Automated Trinity Framework compliance
+# Automated Constellation Framework compliance
 ```
 
 ## 💡 **The MCP Advantage:**

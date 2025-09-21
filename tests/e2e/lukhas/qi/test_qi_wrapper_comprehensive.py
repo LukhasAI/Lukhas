@@ -257,7 +257,7 @@ def test_decoherence_and_noise_modeling():
 
 
 def test_consciousness_quantum_integration():
-    """Test consciousness-quantum integration and Trinity Framework."""
+    """Test consciousness-quantum integration and Constellation Framework."""
     try:
         from lukhas.qi.qi_wrapper import QIWrapper
 
@@ -305,7 +305,7 @@ def test_consciousness_quantum_integration():
                     collapse = qi.consciousness_collapse(scenario["consciousness_state"])
                     assert collapse is not None or collapse is None
 
-                # Test Trinity Framework quantum integration
+                # Test Constellation Framework quantum integration
                 if hasattr(qi, "triad_quantum_integration"):
                     trinity = qi.triad_quantum_integration(scenario.get("triad_context", {}))
                     assert trinity is not None or trinity is None

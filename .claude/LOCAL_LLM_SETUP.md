@@ -57,7 +57,7 @@ curl http://localhost:11434/api/generate -d '{
 - Python module development
 - FastAPI endpoint creation
 - Consciousness framework code
-- Trinity Framework implementation
+- Constellation Framework implementation
 - Error debugging and optimization
 - Documentation generation
 

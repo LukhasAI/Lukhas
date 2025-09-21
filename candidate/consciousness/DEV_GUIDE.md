@@ -5,7 +5,7 @@
 ╠═══════════════════════════════════════════════════════════════════════════════
 ║ Document: Consciousness Module Developer Guide
 ║ Version: 1.0.0 | Created: 2025-07-26
-║ For: Core Developers, Consciousness Architects, and AGI Engineers
+║ For: Core Developers, Consciousness Architects, and Cognitive AI Engineers
 ╚═══════════════════════════════════════════════════════════════════════════════
 
 # Consciousness Module Developer Guide

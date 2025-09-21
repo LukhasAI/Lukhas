@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
  CONTEXT: Strategy Engine Core Module for intelligent decision orchestration
  CAPABILITY: Multi-criteria decision analysis with uncertainty handling
  ETHICS: Ensures ethical considerations in all decision processes
- VERSION: v1.0.0 *  CREATED: 2025-7-20 *  AUTHOR: LUKHAS AGI TEAM
+ VERSION: v1.0.0 *  CREATED: 2025-7-20 *  AUTHOR: LUKHAS Cognitive AI TEAM
  INTEGRATION: NSFL, EAXP, EthicalGovernor, SymbolicReasoning, SelfHealing
 ===================================================================================
 

@@ -2,7 +2,7 @@
 🎯 LUKHAS DAST Engine - Dynamic Attention & Symbolic Tagging System (Enhanced)
 
 Steve Jobs Design Philosophy: "Great technology should be invisible until you need it"
-Sam Altman AGI Vision: "AI should proactively assist in task management and decision-making"
+Sam Altman Cognitive AI Vision: "AI should proactively assist in task management and decision-making"
 
 This is the core engine for AI-powered task management with symbolic reasoning,
 intelligent prioritization, and seamless human-AI collaboration.
@@ -55,7 +55,7 @@ class Task:
 
 class LukhasDASTEngine:
     """
-    🎯 Enhanced DAST Engine with AGI-Powered Task Management
+    🎯 Enhanced DAST Engine with Cognitive AI-Powered Task Management
 
     Features:
     - Sub-100ms task operations with intelligent caching

@@ -277,7 +277,7 @@
     {
       "task_id": "TODO-HIGH-CANDIDATE-GOVERNANCE-506281cd",
       "priority": "high",
-      "title": "[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution",
+      "title": "[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution",
       "file": "candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py",
       "line_hint": 19,
       "module": "candidate/governance",
@@ -285,7 +285,7 @@
       "status": "open",
       "source": "code_scan",
       "evidence": {
-        "grep": "candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py:19:from governance.identity.core.colonies import (  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution",
+        "grep": "candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py:19:from governance.identity.core.colonies import (  # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution",
         "last_commit": null
       },
       "acceptance": [

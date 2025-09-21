@@ -282,7 +282,7 @@ The LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) ecosystem represen
 - Collaboration with the global AI safety community
 
 ### Long-term Vision
-**Goal**: Development of artificial general intelligence (AGI) that:
+**Goal**: Development of artificial general intelligence (Cognitive AI) that:
 - Remains aligned with human values and interests
 - Enhances human flourishing and potential
 - Operates under meaningful human oversight

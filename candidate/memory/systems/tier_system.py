@@ -14,7 +14,7 @@ Metadata:
   LUKHAS_TAGS: memory_access_control, privilege_tiers, symbolic_audit
 
 License:
-  OpenAI-aligned AGI Symbolic Framework (internal use)
+  OpenAI-aligned Cognitive AI Symbolic Framework (internal use)
 """
 
 import hashlib
@@ -111,9 +111,9 @@ class DynamicTierSystem:
     """
 
     def __init__(self):
-        self.access_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/tier_access.jsonl"
-        self.elevation_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/tier_elevations.jsonl"
-        self.audit_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/tier_audit.jsonl"
+        self.access_log_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/tier_access.jsonl"
+        self.elevation_log_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/tier_elevations.jsonl"
+        self.audit_log_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/tier_audit.jsonl"
 
         # Initialize tier permissions matrix
         self.tier_permissions = self._initialize_tier_permissions()
@@ -673,7 +673,7 @@ def create_tier_system() -> DynamicTierSystem:
 
 
 # LUKHAS_TAG: tier_privilege_enforcer
-# Origin: Claude AGI Enhancements
+# Origin: Claude Cognitive AI Enhancements
 # Role: Enforces symbolic access controls
 # Phase: Post-Integration Audit (P4.2)
 

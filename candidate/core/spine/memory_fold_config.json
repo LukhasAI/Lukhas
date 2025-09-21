@@ -24,7 +24,7 @@
       "hopeful": [0.7, 0.2, 0.1]
     }
   },
-  "vision_prompts_path": "/Users/agi_dev/Downloads/Consolidation-Repo/core/vision/lukhas_vision_prompts.json",
+  "vision_prompts_path": "/Users/cognitive_dev/Downloads/Consolidation-Repo/core/vision/lukhas_vision_prompts.json",
   "storage": {
     "type": "database",
     "connection_string": "sqlite:///lukhas_memory_folds.db",

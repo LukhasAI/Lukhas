@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 class DreamMemoryIntegrator:
-    """Integrates dream memories with Trinity Framework compliance."""
+    """Integrates dream memories with Constellation Framework compliance."""
 
     def __init__(self):
         self.integrated_memories: dict[str, dict] = {}
@@ -30,7 +30,7 @@ class DreamMemoryIntegrator:
             "id": integration_id,
             "dream_data": dream_data,
             "integrated_at": datetime.now(timezone.utc).isoformat(),
-            "trinity_validated": True
+            "constellation_validated": True
         }
 
         logger.info(f"🧠 Dream memory integrated: {integration_id}")

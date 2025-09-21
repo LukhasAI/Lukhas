@@ -9,7 +9,7 @@
 Symbolic Boot Module
 ====================
 
-This module provides symbolic boot functionality for the LUKHAS AGI system.
+This module provides symbolic boot functionality for the LUKHAS Cognitive system.
 It handles system initialization and symbolic bootstrapping.
 """
 import logging
@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 
 
 class SymbolicBootstrap:
-    """Handles symbolic bootstrapping of the AGI system."""
+    """Handles symbolic bootstrapping of the Cognitive system."""
 
     def __init__(self, workspace_path: Optional[str] = None):
         """Initialize the symbolic bootstrap system."""
@@ -153,7 +153,7 @@ def symbolic_boot(workspace_path: Optional[str] = None) -> dict[str, Any]:
 
 def main():
     """Main function for testing."""
-    logger.info("🚀 LUKHAS AGI Symbolic Boot")
+    logger.info("🚀 LUKHAS Cognitive AI Symbolic Boot")
     logger.info("=" * 40)
 
     bootstrap = get_bootstrap()

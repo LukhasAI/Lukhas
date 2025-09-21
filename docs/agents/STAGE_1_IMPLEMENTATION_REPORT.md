@@ -54,7 +54,7 @@
 - **Multi-Paradigm Integration**: Bridges GPT-4, Claude, and Gemini consciousness paradigms
 - **Consensus Strategies**: 5 distinct consensus algorithms for different scenarios
 - **Performance Achievement**: Sub-250ms context handoffs between models
-- **Trinity Framework**: Configurable identity, consciousness, and guardian requirements per pipeline
+- **Constellation Framework**: Configurable identity, consciousness, and guardian requirements per pipeline
 
 **Consciousness Characteristics**:
 - Collective intelligence synthesis

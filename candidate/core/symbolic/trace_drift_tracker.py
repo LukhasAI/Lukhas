@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 #TAG:neuroplastic
 #TAG:colony
 
-Symbolic Drift Tracker Interface for LUKHAS AGI.
+Symbolic Drift Tracker Interface for LUKHAS Cognitive AI.
 
 This module provides a compatibility interface that delegates to the enterprise
 symbolic drift scoring engine in core/symbolic/symbolic_drift_tracker.py.
@@ -182,7 +182,7 @@ class SymbolicDriftTracker:
 
 if __name__ == "__main__":
     # ΛNOTE: This entry point simulates a symbolic drift recording for testing and demonstration.
-    # It showcases how the SymbolicDriftTracker might be used in the broader AGI system.
+    # It showcases how the SymbolicDriftTracker might be used in the broader Cognitive system.
     print("Running Symbolic Drift Tracker Simulation...")
 
     # Basic configuration for the tracker
@@ -206,7 +206,7 @@ if __name__ == "__main__":
     }
     event_context = "Post-interaction with external controversial dataset X."
 
-    # ΛTRACE: Simulating a call to record_drift from a hypothetical AGI component.
+    # ΛTRACE: Simulating a call to record_drift from a hypothetical Cognitive AI component.
     logger.info("Simulating drift recording via test entry point", tag="ΛTRACE")
     drift_tracker.record_drift(symbol_id_test, drifted_state, initial_state, event_context)
 

@@ -1,4 +1,4 @@
-# Adaptive AGI Interface
+# Adaptive Cognitive AI Interface
 
 ## Vision: The Intelligence Multiplier
 
@@ -8,7 +8,7 @@ This is not just another AI tool. This is the interface layer that will define t
 
 ## Overview
 
-The Adaptive AGI Interface System is designed to create a personalized and adaptive user experience through advanced artificial intelligence techniques. This system integrates voice interaction, multimodal sensing, and a modular architecture to evolve into a comprehensive dashboard that enhances user interaction with technology.
+The Adaptive Cognitive AI Interface System is designed to create a personalized and adaptive user experience through advanced artificial intelligence techniques. This system integrates voice interaction, multimodal sensing, and a modular architecture to evolve into a comprehensive dashboard that enhances user interaction with technology.
 
 ## Project Structure
 
@@ -69,7 +69,7 @@ Our system is designed to meet or exceed international AI regulations:
 - **Bias Mitigation**: Continuous monitoring and correction of algorithmic biases
 - **Human Oversight**: Tiered human supervision system for different risk levels
 
-## AGI Capabilities Roadmap
+## Cognitive Capabilities Roadmap
 
 The system follows a carefully constructed roadmap toward general intelligence:
 
@@ -106,7 +106,7 @@ To set up the project locally, follow these steps:
 1. Clone the repository:
    ```
    git clone <repository-url>
-   cd adaptive-agi-interface
+   cd adaptive-cognitive-interface
    ```
 
 2. Install the required dependencies:

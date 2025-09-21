@@ -380,7 +380,7 @@ def main():
     import argparse
 
     # Streamlined CLI: lukhas talk "text", lukhas dream "text"
-    parser = argparse.ArgumentParser(description="Lukhas AGI Real-Time CLI")
+    parser = argparse.ArgumentParser(description="Lukhas Cognitive AI Real-Time CLI")
     parser.add_argument(
         "command", choices=["talk", "dream"], help="Action: talk or dream"
     )

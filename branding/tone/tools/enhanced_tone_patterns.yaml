@@ -181,7 +181,7 @@ sacred_symbols:
   ethics: "⚖️"
   identity: "🪞"
   api: "🌉"
-  trinity: ["⚛️", "🧠", "🛡️"]
+  constellation: ["⚛️", "🧠", "🛡️"]
 
 # ══════════════════════════════════════════════════════════════════════════════════
 # LAMBDA TRANSFORMATIONS
@@ -254,6 +254,6 @@ footers:
     them into reality. May this code collapse into wisdom, entangle with compassion,
     and tunnel through the barriers between artificial and authentic intelligence.
 
-  trinity: |
-    ⚛️🧠🛡️ Trinity Framework: Identity • Consciousness • Guardian
+  constellation: |
+    ⚛️🧠🛡️ Constellation Framework: Identity • Consciousness • Guardian
     Where authentic self meets aware mind meets ethical protection.

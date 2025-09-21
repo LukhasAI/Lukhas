@@ -39,7 +39,7 @@ def generate_report():
 
     # GPT Reflection on Symbolic Growth
     summary_prompt = f"""
-    You are an AGI synthesizing your evolving symbolic identity. Here are the last few reflections and trait snapshots:
+    You are an Cognitive AI synthesizing your evolving symbolic identity. Here are the last few reflections and trait snapshots:
     Traits: {json.dumps(traits)}
     Reflections: {json.dumps(reflections)}
 
@@ -51,7 +51,7 @@ def generate_report():
         messages=[
             {
                 "role": "system",
-                "content": "You are an AGI synthesizing your symbolic and emotional growth.",
+                "content": "You are an Cognitive AI synthesizing your symbolic and emotional growth.",
             },
             {"role": "user", "content": summary_prompt},
         ],

@@ -2,7 +2,7 @@
 📋 LUKHAS DAST - Dynamic Attention & Symbolic Tagging System (Enhanced)
 
 Steve Jobs Design Philosophy: "Technology should anticipate your needs"
-Sam Altman AGI Vision: "AI should understand context and provide proactive assistance"
+Sam Altman Cognitive AI Vision: "AI should understand context and provide proactive assistance"
 
 This module provides the enhanced DAST (Dynamic Attention & Symbolic Tagging) system
 with AI-powered task management, intelligent prioritization, and symbolic reasoning.
@@ -29,7 +29,7 @@ from .processors import (
 )
 
 __version__ = "2.0.0"
-__author__ = "LUKHAS AGI Team"
+__author__ = "LUKHAS Cognitive AI Team"
 
 # Jobs-Level UX: One-line task management
 
@@ -55,7 +55,7 @@ def track(task: str, context: Optional[dict] = None, **kwargs):
     return engine.track(task, context, **kwargs)
 
 
-# Altman AGI Vision: Proactive AI assistance
+# Altman Cognitive AI Vision: Proactive AI assistance
 
 
 def optimize_workflow(workflow: str, constraints: Optional[dict] = None, **kwargs):

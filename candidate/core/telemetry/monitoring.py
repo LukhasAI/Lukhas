@@ -1,6 +1,6 @@
 """
 LUKHAS Production Monitoring & Telemetry
-Enterprise-grade observability for AGI systems
+Enterprise-grade observability for Cognitive AI systems
 """
 import asyncio
 import json
@@ -57,7 +57,7 @@ class Alert:
 
 class AGITelemetrySystem:
     """
-    Production-grade telemetry for LUKHAS AGI
+    Production-grade telemetry for LUKHAS Cognitive AI
     Tracks performance, health, and emergent behaviors
     """
 
@@ -78,7 +78,7 @@ class AGITelemetrySystem:
         self.performance_baselines: dict[str, float] = {}
         self.anomaly_detectors: dict[str, Callable] = {}
 
-        # AGI-specific metrics
+        # Cognitive AI-specific metrics
         self.consciousness_metrics = ConsciousnessMetrics()
         self.learning_metrics = LearningMetrics()
         self.emergence_detector = EmergenceDetector()
@@ -200,7 +200,7 @@ class AGITelemetrySystem:
         """Register an alert handler for specific severity"""
         self.alert_handlers[severity].append(handler)
 
-    # AGI-specific monitoring
+    # Cognitive AI-specific monitoring
     async def record_consciousness_state(self, state: dict[str, Any]):
         """Record consciousness state metrics"""
         # Extract key metrics
@@ -441,7 +441,7 @@ class LearningMetrics:
 
 
 class EmergenceDetector:
-    """Detect emergent behaviors in AGI"""
+    """Detect emergent behaviors in Cognitive AI"""
 
     def __init__(self):
         self.pattern_history = deque(maxlen=1000)

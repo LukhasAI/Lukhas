@@ -21,7 +21,7 @@
 ║ dynamics.
 ║
 ║ This file is part of the LUKHAS (LUKHAS Universal Knowledge & Holistic AI System)
-║ Advanced Cognitive Architecture for Artificial General Intelligence
+║ Advanced Cognitive Architecture for Cognitive Artificial Intelligence
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 import logging

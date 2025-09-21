@@ -1,0 +1,225 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/api",
+    "lane": "development",
+    "purpose": "Directory containing 10 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "matriz_pipeline_integration": {
+      "memory_stage": "experimental",
+      "attention_stage": "experimental",
+      "thought_stage": "experimental",
+      "action_stage": "inactive",
+      "decision_stage": "inactive",
+      "awareness_stage": "experimental"
+    }
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "perf.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.flags"
+        ],
+        "exports": [
+          "ingest_k6_summary",
+          "series"
+        ]
+      },
+      {
+        "filename": "metrics.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.metrics"
+        ],
+        "exports": [
+          "get_metrics",
+          "get_alerts"
+        ]
+      },
+      {
+        "filename": "audit.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "feedback.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.feedback.store"
+        ],
+        "exports": [
+          "FeedbackCard",
+          "post_feedback_card",
+          "get_feedback_lut",
+          "feedback_health"
+        ]
+      },
+      {
+        "filename": "tools.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.openai.tooling"
+        ],
+        "exports": [
+          "get_tools_registry",
+          "get_available_tools",
+          "get_tool_schema"
+        ]
+      },
+      {
+        "filename": "dna.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.dna.memory_inmem",
+          "lukhas.migration.legacy_jsonl"
+        ],
+        "exports": [
+          "dna_health",
+          "dna_compare"
+        ]
+      },
+      {
+        "filename": "ops.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "backup_health"
+        ]
+      },
+      {
+        "filename": "admin.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.audit.analytics_read",
+          "lukhas.flags"
+        ],
+        "exports": [
+          "require_api_key",
+          "admin_index",
+          "admin_incidents",
+          "admin_tools",
+          "incidents_csv",
+          "tool_usage_csv",
+          "summary_json",
+          "map_y"
+        ]
+      },
+      {
+        "filename": "app.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.api.admin",
+          "lukhas.api.audit",
+          "lukhas.api.dna",
+          "lukhas.api.feedback",
+          "lukhas.api.incidents",
+          "lukhas.api.metrics",
+          "lukhas.api.ops",
+          "lukhas.api.perf",
+          "lukhas.api.tools"
+        ],
+        "exports": [
+          "require_api_key",
+          "openapi_export"
+        ]
+      },
+      {
+        "filename": "incidents.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.audit.tool_analytics"
+        ],
+        "exports": [
+          "get_tool_incidents",
+          "get_incident_statistics",
+          "generate_recommendations"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Examine API contracts and integration patterns first",
+    "key_files": [],
+    "common_tasks": [
+      {
+        "task": "API integration",
+        "files_involved": [
+          "perf.py",
+          "metrics.py",
+          "feedback.py",
+          "tools.py",
+          "dna.py",
+          "ops.py",
+          "admin.py",
+          "app.py",
+          "incidents.py"
+        ],
+        "complexity": "medium"
+      }
+    ],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 10,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "experimental",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "candidate",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

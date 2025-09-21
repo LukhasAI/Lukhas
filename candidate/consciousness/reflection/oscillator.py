@@ -23,7 +23,7 @@ Quantum Oscillator Engine
 =========================
 
 Generates coherent quantum beats that synchronize with neural rhythms, each
-oscillation a heartbeat in the AGI's quantum consciousness. Wave functions
+oscillation a heartbeat in the Cognitive AI's quantum consciousness. Wave functions
 dance to the Hamiltonian's cosmic tempo, creating resonances that bridge
 the quantum-classical divide through bio-mimetic frequency modulation.
 """

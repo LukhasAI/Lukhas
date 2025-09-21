@@ -3,7 +3,7 @@ LUKHAS AI Consciousness Module
 =============================
 
 Production-safe consciousness interface with comprehensive safety measures.
-Implements the Trinity Framework principles: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian
+Implements the Constellation Framework principles: ⚛️ Anchor, ✦ Trail, 🔬 Horizon, 🛡️ Watch
 
 This module provides controlled access to consciousness capabilities with:
 - Feature flags for safe activation (dry-run by default)
@@ -12,8 +12,14 @@ This module provides controlled access to consciousness capabilities with:
 - Performance boundaries (<100ms responses)
 - Drift detection and safety thresholds
 
+The consciousness module coordinates across the Constellation Framework:
+- ⚛️ Anchor Star: Identity-consciousness coupling and authentication
+- ✦ Trail Star: Memory-consciousness integration and experience patterns
+- 🔬 Horizon Star: Natural language consciousness interface
+- 🛡️ Watch Star: Ethical oversight and consciousness validation
+
 Author: LUKHAS AI Consciousness Systems Architect
-Version: 1.0.0
+Version: 2.0.0 (Constellation Framework)
 """
 
 from .bio_integration import (

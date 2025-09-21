@@ -1,0 +1,385 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/core/glyph",
+    "lane": "development",
+    "purpose": "Directory containing 16 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "integration",
+    "matriz_pipeline_integration": {
+      "memory_stage": "experimental",
+      "attention_stage": "experimental",
+      "thought_stage": "experimental",
+      "action_stage": "inactive",
+      "decision_stage": "inactive",
+      "awareness_stage": "experimental"
+    }
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "dream_glyph_bridge.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DreamPhase",
+          "ArchetypalGlyphMapping",
+          "DreamSeed",
+          "DreamGlyph",
+          "DreamGlyphBridge",
+          "create_glyph_dream_seed",
+          "to_dict",
+          "to_dict",
+          "glyph_to_dream_seed",
+          "dream_to_glyph",
+          "create_memory_consolidation_glyph",
+          "get_archetypal_dream_seeds",
+          "get_dream_glyph_lineage",
+          "get_statistics"
+        ]
+      },
+      {
+        "filename": "glyph.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "GlyphType",
+          "GlyphPriority",
+          "EmotionVector",
+          "TemporalStamp",
+          "CausalLink",
+          "Glyph",
+          "GlyphFactory",
+          "to_dict",
+          "from_dict",
+          "distance_to",
+          "update_access",
+          "is_expired",
+          "age_seconds",
+          "add_child",
+          "remove_child",
+          "set_temporal_link",
+          "calculate_emotional_delta",
+          "set_intent_tag",
+          "update_symbolic_hash",
+          "add_semantic_tag",
+          "remove_semantic_tag",
+          "add_memory_key",
+          "remove_memory_key",
+          "set_retrieval_filter",
+          "get_retrieval_filter",
+          "update_drift_anchor",
+          "assess_collapse_risk",
+          "is_stable",
+          "is_expired",
+          "touch",
+          "to_dict",
+          "from_dict",
+          "create_memory_glyph",
+          "create_drift_anchor",
+          "create_dream_seed",
+          "create_ethical_constraint",
+          "create_emotion_glyph",
+          "create_causal_link_glyph",
+          "create_action_glyph"
+        ]
+      },
+      {
+        "filename": "universal_symbol_protocol.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolModality",
+          "SymbolDomain",
+          "UniversalSymbol",
+          "SymbolTranslator",
+          "UniversalSymbolProtocol",
+          "demo_universal_symbols",
+          "to_glyph_sequence",
+          "translate",
+          "create_symbol",
+          "compress_symbols",
+          "expand_symbol",
+          "find_similar_symbols",
+          "create_causal_chain",
+          "merge_symbols"
+        ]
+      },
+      {
+        "filename": "glyph_exchange.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.glyph.glyph_memory_integration"
+        ],
+        "exports": [
+          "GlyphImportItem",
+          "GlyphImportRequest",
+          "CompressedDreamTagRequest",
+          "APIResponse"
+        ]
+      },
+      {
+        "filename": "symbolic_foundry.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "FusionCandidate",
+          "MutationResult",
+          "SymbolicFoundry",
+          "to_dict",
+          "to_dict",
+          "register_glyph",
+          "fuse_glyphs",
+          "mutate_glyph",
+          "get_fusion_statistics",
+          "get_mutation_statistics"
+        ]
+      },
+      {
+        "filename": "glyph_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EnhancedGlyphEngine",
+          "get_enhanced_glyph_engine",
+          "encode_concept",
+          "translate_for_module",
+          "create_cross_module_link",
+          "get_module_symbols",
+          "compress_module_state",
+          "expand_module_state",
+          "find_related_symbols",
+          "create_cognitive_chain",
+          "get_system_statistics",
+          "decode_glyph",
+          "create_memory_glyph",
+          "create_emotion_glyph",
+          "traverse"
+        ]
+      },
+      {
+        "filename": "symbolic_contextual_mapping_colony.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "glyph_memory_integration.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common.glyph",
+          "candidate.core.glyph.glyphs",
+          "lukhas.memory.folds.memory_fold",
+          "lukhas.consciousness.reflection.unified_memory_manager"
+        ],
+        "exports": [
+          "GlyphBinding",
+          "FoldLineage",
+          "CompressionType",
+          "GlyphMemoryIndex",
+          "EmotionalFoldingEngine",
+          "GlyphAffectCoupler",
+          "DreamMemoryBridge",
+          "GlyphMemorySystem",
+          "get_glyph_memory_system",
+          "create_glyph_memory",
+          "recall_by_glyphs",
+          "fold_recent_memories",
+          "bind_glyph_to_fold",
+          "get_folds_by_glyph",
+          "get_glyphs_by_fold",
+          "calculate_glyph_affinity",
+          "identify_foldable_memories",
+          "fold_memory_group",
+          "couple_glyph_with_memory",
+          "retrieve_by_glyph_affect",
+          "process_dream_state",
+          "get_dream_glyph_landscape",
+          "create_glyph_indexed_memory",
+          "recall_by_glyph_pattern",
+          "perform_temporal_folding",
+          "get_memory_glyph_statistics",
+          "get_glyph_meaning"
+        ]
+      },
+      {
+        "filename": "glyph_ethics_validator.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "multilingual_glyph_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "CulturalGlyph",
+          "MultilingualGlyphEngine",
+          "main",
+          "translate_glyph",
+          "translate_sequence",
+          "detect_cultural_context",
+          "get_locale_preferences",
+          "harmonize_glyphs",
+          "get_trinity_translations",
+          "generate_cultural_report"
+        ]
+      },
+      {
+        "filename": "glyph_sentinel.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DecayState",
+          "PersistencePolicy",
+          "DecayMetrics",
+          "PersistenceProfile",
+          "GlyphSentinel",
+          "update_trend",
+          "register_glyph",
+          "unregister_glyph",
+          "record_access",
+          "start_monitoring",
+          "stop_monitoring",
+          "get_decay_status",
+          "get_endangered_glyphs",
+          "force_refresh",
+          "add_decay_handler",
+          "add_expiry_handler",
+          "add_integrity_handler",
+          "get_statistics"
+        ]
+      },
+      {
+        "filename": "glyphs.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "get_glyph_meaning"
+        ]
+      },
+      {
+        "filename": "personal_symbol_dictionary.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolType",
+          "PersonalSymbol",
+          "PersonalSymbolDictionary",
+          "update_usage",
+          "evolve_meaning",
+          "add_symbol",
+          "get_symbol",
+          "interpret_symbols",
+          "suggest_symbols",
+          "learn_from_usage",
+          "merge_symbols",
+          "export_dictionary",
+          "import_dictionary"
+        ]
+      },
+      {
+        "filename": "api_manager.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "token_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "glyph_redactor_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "IGlyphMetadataProvider",
+          "GlyphRedactorEngine",
+          "get_glyph_sensitivity",
+          "get_all_known_glyphs_regex",
+          "check_access",
+          "redact_glyph"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 16,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "intermediate",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.75,
+    "matriz_compatibility": "experimental",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "candidate/core",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

@@ -694,7 +694,7 @@ if __name__ == "__main__":
     symbolic_access_test()
 
 
-# Tier Conversion Utilities (Trinity Framework Unification)
+# Tier Conversion Utilities (Constellation Framework Unification)
 # These functions provide seamless conversion between LAMBDA_TIER_X strings 
 # and the unified 0-5 integer tier system used throughout LUKHAS
 

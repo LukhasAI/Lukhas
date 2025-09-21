@@ -9,7 +9,7 @@ Testing critical LUKHAS components beyond basic systems:
 - Guardian Security Core (security validation)
 - Bio-Symbolic Systems (bio-inspired processing)
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 import asyncio
@@ -807,9 +807,9 @@ class TestBioSymbolicSystems:
             class SymbolicPatternRecognizer:
                 def __init__(self):
                     self.symbol_database = {
-                        "⚛️": {"meaning": "identity", "category": "trinity", "weight": 1.0},
-                        "🧠": {"meaning": "consciousness", "category": "trinity", "weight": 1.0},
-                        "🛡️": {"meaning": "guardian", "category": "trinity", "weight": 1.0},
+                        "⚛️": {"meaning": "identity", "category": "constellation", "weight": 1.0},
+                        "🧠": {"meaning": "consciousness", "category": "constellation", "weight": 1.0},
+                        "🛡️": {"meaning": "guardian", "category": "constellation", "weight": 1.0},
                         "🌙": {"meaning": "dreams", "category": "consciousness", "weight": 0.8},
                         "⭐": {"meaning": "inspiration", "category": "creativity", "weight": 0.7},
                         "🔮": {"meaning": "prediction", "category": "intelligence", "weight": 0.6},
@@ -848,7 +848,7 @@ class TestBioSymbolicSystems:
                     # Calculate pattern strength
                     pattern_strength = total_weight / len(symbols) if symbols else 0
 
-                    # Detect Trinity Framework pattern
+                    # Detect Constellation Framework pattern
                     triad_symbols = {"⚛️", "🧠", "🛡️"}
                     has_triad_pattern = triad_symbols.issubset(set(symbols))
 
@@ -878,8 +878,8 @@ class TestBioSymbolicSystems:
                     # Calculate relationship strength
                     if data1["category"] == data2["category"]:
                         strength = 0.8  # Same category
-                    elif data1["category"] == "trinity" or data2["category"] == "trinity":
-                        strength = 0.6  # Trinity connection
+                    elif data1["category"] == "constellation" or data2["category"] == "constellation":
+                        strength = 0.6  # Constellation connection
                     else:
                         strength = 0.3  # Weak connection
 
@@ -893,18 +893,18 @@ class TestBioSymbolicSystems:
 
             recognizer = SymbolicPatternRecognizer()
 
-            # Test Trinity Framework pattern recognition
+            # Test Constellation Framework pattern recognition
             triad_symbols = ["⚛️", "🧠", "🛡️"]
             triad_result = recognizer.analyze_symbolic_pattern(triad_symbols)
 
             if not triad_result["valid"]:
-                raise Exception("Trinity pattern analysis failed")
+                raise Exception("Constellation pattern analysis failed")
 
             if not triad_result["has_triad_pattern"]:
-                raise Exception("Trinity pattern not detected")
+                raise Exception("Constellation pattern not detected")
 
-            if triad_result["dominant_category"] != "trinity":
-                raise Exception("Trinity category not detected as dominant")
+            if triad_result["dominant_category"] != "constellation":
+                raise Exception("Constellation category not detected as dominant")
 
             # Test mixed symbolic pattern
             mixed_symbols = ["🧠", "🌙", "⭐", "🔮"]
@@ -919,7 +919,7 @@ class TestBioSymbolicSystems:
             # Test symbolic relationships
             relationship = recognizer.find_symbolic_relationships("⚛️", "🧠")
             if relationship["strength"] < 0.5:
-                raise Exception("Trinity symbol relationship should be strong")
+                raise Exception("Constellation symbol relationship should be strong")
 
             # Test unknown symbol handling
             unknown_symbols = ["unknown_symbol_1", "unknown_symbol_2"]
@@ -1108,7 +1108,7 @@ def run_core_systems_testing():
     print("🎭🔤🔐🧬 LUKHAS CORE SYSTEMS TESTING SUITE")
     print("=" * 70)
     print("Testing critical core components beyond basic systems")
-    print("Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian")
+    print("Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian")
     print("=" * 70)
 
     # Initialize test suites

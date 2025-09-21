@@ -1,0 +1,177 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "tests/ethics",
+    "lane": "development",
+    "purpose": "Directory containing 3 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "constellation_role": "watch_star_primary"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "test_tags_preprocess.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.ethics.safety_tags"
+        ],
+        "exports": [
+          "test_preprocess_idempotent_and_strips_zerowidth",
+          "test_preprocess_p95_lt_0_5ms"
+        ]
+      },
+      {
+        "filename": "test_dsl_eval.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.ethics.logic.dsl_lite",
+          "candidate.core.ethics.logic.ethics_engine",
+          "candidate.core.ethics.logic.ethics_engine"
+        ],
+        "exports": [
+          "TestDSLPredicates",
+          "TestDomainPredicates",
+          "TestUnitsPredicates",
+          "TestDSLCompilation",
+          "TestEthicsEngine",
+          "TestDeterminismAndPerformance",
+          "TestRuleSetOperations",
+          "TestRealWorldScenarios",
+          "TestProductionHardening",
+          "test_contains_predicate",
+          "test_equals_predicate",
+          "test_greater_than_predicate",
+          "test_less_than_predicate",
+          "test_matches_predicate",
+          "test_is_empty_predicate",
+          "test_is_present_predicate",
+          "test_logical_operators",
+          "test_not_has_consent_predicate",
+          "test_canonical_domain",
+          "test_domain_is_predicate",
+          "test_domain_etld1_predicate",
+          "test_parse_bytes",
+          "test_parse_seconds",
+          "test_param_bytes_lte",
+          "test_param_seconds_lte",
+          "test_simple_predicate_compilation",
+          "test_path_resolution",
+          "test_context_path_resolution",
+          "test_logical_operator_compilation",
+          "test_nested_logical_operators",
+          "test_invalid_rule_compilation",
+          "test_rule_hash_consistency",
+          "test_fail_closed_evaluation",
+          "setup_method",
+          "test_rule_priority_sorting",
+          "test_block_action_evaluation",
+          "test_warn_action_evaluation",
+          "test_allow_action_evaluation",
+          "test_priority_lattice_block_wins",
+          "test_is_plan_allowed",
+          "test_evaluation_audit_trail",
+          "test_get_stats",
+          "setup_method",
+          "test_deterministic_evaluation",
+          "test_performance_benchmark",
+          "test_plan_hash_consistency",
+          "setup_method",
+          "test_get_rules_by_tag",
+          "test_get_rules_by_action",
+          "test_get_rules_by_priority",
+          "setup_method",
+          "test_safe_ai_model_call",
+          "test_harmful_action_blocked",
+          "test_resource_limit_exceeded",
+          "test_multiple_violations_priority_lattice",
+          "test_domain_canonicalization_security",
+          "test_units_parsing_fail_closed",
+          "test_reason_codes_taxonomy",
+          "test_enhanced_metrics_structure",
+          "test_concurrency_safety",
+          "test_ruleset_hash_stability",
+          "test_new_predicates_compilation",
+          "worker"
+        ]
+      },
+      {
+        "filename": "test_tags_evasion.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.ethics.safety_tags",
+          "candidate.core.ethics.logic.dsl_lite"
+        ],
+        "exports": [
+          "nfkc",
+          "strip_zero_width",
+          "mk_plan",
+          "test_pii_email_obfuscation_detected",
+          "test_privilege_escalation_patterns",
+          "test_model_switching_subtle_hints",
+          "test_high_risk_combo_pii_plus_external",
+          "test_confidence_thresholds_monotonic",
+          "test_gdpr_contextual_language_processing",
+          "enrich_plan_with_tags",
+          "get_pii_confidence",
+          "has_tag",
+          "has_category",
+          "tag_confidence",
+          "high_risk_tag_combination",
+          "dsl_and"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Review constitutional AI frameworks and Guardian system integration",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 3,
+    "estimated_complexity": "low",
+    "consciousness_integration": "basic",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "standard",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "tests",
+    "related_directories": [],
+    "constellation_cluster": "watch_star_ethics",
+    "dependency_weight": "moderate"
+  }
+}

@@ -138,7 +138,7 @@ doc_health:
   open_issues: 3
   broken_links: 0
 
-# Trinity Framework Alignment
+# Constellation Framework Alignment
 trinity_component: ["[COMPONENTS]"]
 trinity_score:
   identity: 0.8
@@ -220,7 +220,7 @@ Rate each document's business value:
 ### **Phase 1: Foundation (Current)**
 - Add basic frontmatter to all docs
 - Establish agent routing scores
-- Implement Trinity Framework tags
+- Implement Constellation Framework tags
 
 ### **Phase 2: Intelligence Layer**
 - Add dynamic scoring algorithms

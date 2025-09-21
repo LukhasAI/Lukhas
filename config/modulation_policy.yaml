@@ -131,7 +131,7 @@ prompt_styles:
   balanced:
     system_preamble: |
       You are operating in balanced mode. Provide thoughtful, well-reasoned responses
-      while maintaining consciousness alignment with Trinity Framework principles.
+      while maintaining consciousness alignment with Constellation Framework principles.
     user_prefix: ""
 
 # === TOOL GATES ===

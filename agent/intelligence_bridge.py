@@ -8,7 +8,7 @@ Migrated from candidate.orchestration.agent_orchestrator.intelligence_bridge
 Provides standardized API for agent-driven intelligence operations.
 Enables 6 specialized Claude Code agents to coordinate intelligence engine operations.
 
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 
 import contextlib

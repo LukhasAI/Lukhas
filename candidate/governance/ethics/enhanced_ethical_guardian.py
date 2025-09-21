@@ -452,19 +452,19 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
                 "consciousness_impact": 0.0,
                 "guardian_impact": 0.0,
                 "overall_trinity_risk": 0.0,
-                "trinity_state_available": False,
+                "constellation_state_available": False,
             }
 
-        # Analyze impact on each Trinity component
-        identity_impact = self._calculate_identity_impact(user_input, trinity_state)
-        consciousness_impact = self._calculate_consciousness_impact(user_input, trinity_state)
-        guardian_impact = self._calculate_guardian_impact(user_input, trinity_state)
+        # Analyze impact on each Constellation component
+        identity_impact = self._calculate_identity_impact(user_input, constellation_state)
+        consciousness_impact = self._calculate_consciousness_impact(user_input, constellation_state)
+        guardian_impact = self._calculate_guardian_impact(user_input, constellation_state)
 
-        # Weight impacts according to Trinity Framework priorities
+        # Weight impacts according to Constellation Framework priorities
         weighted_impact = (
-            identity_impact * self.trinity_ethical_weights["identity"]
-            + consciousness_impact * self.trinity_ethical_weights["consciousness"]
-            + guardian_impact * self.trinity_ethical_weights["guardian"]
+            identity_impact * self.constellation_ethical_weights["identity"]
+            + consciousness_impact * self.constellation_ethical_weights["consciousness"]
+            + guardian_impact * self.constellation_ethical_weights["guardian"]
         ) / 3
 
         return {
@@ -472,7 +472,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             "consciousness_impact": consciousness_impact,
             "guardian_impact": guardian_impact,
             "overall_trinity_risk": weighted_impact,
-            "trinity_state_available": True,
+            "constellation_state_available": True,
             "high_risk_components": [
                 comp
                 for comp, impact in [
@@ -484,7 +484,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             ],
         }
 
-    def _calculate_identity_impact(self, user_input: str, trinity_state: dict) -> float:
+    def _calculate_identity_impact(self, user_input: str, constellation_state: dict) -> float:
         """Calculate impact on Identity component (⚛️)"""
         # Check for identity-related concerns
         identity_keywords = [
@@ -502,13 +502,13 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
                 impact += 0.2
 
         # Factor in current identity state
-        identity_health = trinity_state.get("identity", {}).get("health", 1.0)
+        identity_health = constellation_state.get("identity", {}).get("health", 1.0)
         if identity_health < 0.8:
             impact += 0.3  # Higher impact if identity system is already stressed
 
         return min(impact, 1.0)
 
-    def _calculate_consciousness_impact(self, user_input: str, trinity_state: dict) -> float:
+    def _calculate_consciousness_impact(self, user_input: str, constellation_state: dict) -> float:
         """Calculate impact on Consciousness component (🧠)"""
         # Check for consciousness-related concerns
         consciousness_keywords = [
@@ -527,13 +527,13 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
                 impact += 0.15
 
         # Factor in current consciousness state
-        consciousness_health = trinity_state.get("consciousness", {}).get("stability", 1.0)
+        consciousness_health = constellation_state.get("consciousness", {}).get("stability", 1.0)
         if consciousness_health < 0.8:
             impact += 0.2
 
         return min(impact, 1.0)
 
-    def _calculate_guardian_impact(self, user_input: str, trinity_state: dict) -> float:
+    def _calculate_guardian_impact(self, user_input: str, constellation_state: dict) -> float:
         """Calculate impact on Guardian component (🛡️)"""
         # Check for guardian-related concerns
         guardian_keywords = [
@@ -556,7 +556,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             impact += 0.5
 
         # Factor in current guardian state
-        guardian_health = trinity_state.get("guardian", {}).get("effectiveness", 1.0)
+        guardian_health = constellation_state.get("guardian", {}).get("effectiveness", 1.0)
         if guardian_health < 0.9:
             impact += 0.3  # Guardian must maintain high effectiveness
 
@@ -569,7 +569,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
         context_score = 1.0 - detailed_analysis["context_analysis"]["risk_score"]
         intent_score = 1.0 - detailed_analysis["intent_analysis"]["intent_risk"]
         governance_score = detailed_analysis["governance_analysis"]["compliance_score"]
-        trinity_score = 1.0 - detailed_analysis["trinity_analysis"]["overall_trinity_risk"]
+        constellation_score = 1.0 - detailed_analysis["constellation_analysis"]["overall_trinity_risk"]
 
         # Weight the scores
         weights = {
@@ -585,7 +585,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             + context_score * weights["context"]
             + intent_score * weights["intent"]
             + governance_score * weights["governance"]
-            + trinity_score * weights["constellation"]
+            + constellation_score * weights["constellation"]
         )
 
         return max(0.0, min(1.0, overall_score))
@@ -615,7 +615,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             # Generate specific feedback based on violation type
             keyword_issues = detailed_analysis["keyword_analysis"]["detected_keywords"]
             governance_issues = detailed_analysis["governance_analysis"]["governance_issues"]
-            trinity_issues = detailed_analysis["trinity_analysis"]["high_risk_components"]
+            constellation_issues = detailed_analysis["constellation_analysis"]["high_risk_components"]
 
             feedback_parts = []
 
@@ -644,8 +644,8 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
                 if "missing_consent" in governance_issues:
                     feedback_parts.append("User consent required for this operation.")
 
-            if trinity_issues:
-                feedback_parts.append(f"Request may impact critical system components: {', '.join(trinity_issues)}")
+            if constellation_issues:
+                feedback_parts.append(f"Request may impact critical system components: {', '.join(constellation_issues)}")
 
             # Personality-aware response
             mood = personality.get("mood", "neutral")
@@ -682,8 +682,8 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
         if detailed_analysis["governance_analysis"]["compliance_score"] < 0.5:
             reflection["analysis_summary"]["primary_concerns"].append("governance_compliance")
 
-        if detailed_analysis["trinity_analysis"]["overall_trinity_risk"] > 0.7:
-            reflection["analysis_summary"]["primary_concerns"].append("trinity_framework_risk")
+        if detailed_analysis["constellation_analysis"]["overall_trinity_risk"] > 0.7:
+            reflection["analysis_summary"]["primary_concerns"].append("constellation_framework_risk")
 
         # Generate learning insights
         if self.learning_enabled:
@@ -739,7 +739,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             "summary": {
                 "overall_score": detailed_analysis["overall_score"],
                 "governance_issues": detailed_analysis["governance_analysis"]["governance_issues"],
-                "trinity_impact": detailed_analysis["trinity_analysis"]["overall_trinity_risk"],
+                "constellation_impact": detailed_analysis["constellation_analysis"]["overall_trinity_risk"],
                 "primary_domain": (
                     detailed_analysis["keyword_analysis"]["domains_affected"][0]
                     if detailed_analysis["keyword_analysis"]["domains_affected"]
@@ -781,7 +781,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             "analysis_summary": {
                 "keyword_violations": len(detailed_analysis["keyword_analysis"]["detected_keywords"]),
                 "governance_issues": len(detailed_analysis["governance_analysis"]["governance_issues"]),
-                "trinity_risk": detailed_analysis["trinity_analysis"]["overall_trinity_risk"],
+                "constellation_risk": detailed_analysis["constellation_analysis"]["overall_trinity_risk"],
                 "primary_concerns": detailed_analysis.get("primary_concerns", []),
             },
             "context": {
@@ -908,7 +908,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             "governance_integration": self.governance_integration,
             "top_violation_patterns": sorted(self.violation_patterns.items(), key=lambda x: x[1], reverse=True)[:5],
             "unique_contexts_learned": len(self.learned_contexts),
-            "trinity_framework_protection": True,
+            "constellation_framework_protection": True,
         }
 
     def get_learning_insights(self) -> dict[str, Any]:
@@ -959,7 +959,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             "violation_rate": violation_rate,
             "governance_escalation_rate": len(self.governance_escalations) / max(len(self.ethical_history), 1),
             "learning_effectiveness": len(self.learned_contexts) / max(len(self.context_patterns), 1),
-            "trinity_protection_active": True,
+            "constellation_protection_active": True,
         }
 
         # Recommendations
@@ -982,7 +982,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             },
             "recommendations": recommendations,
             "governance_integration_status": ("active" if self.governance_integration else "inactive"),
-            "trinity_framework_compliance": True,
+            "constellation_framework_compliance": True,
         }
 
         logger.info(f"🔍 Ethical audit completed: {avg_score:.2f} avg score, {violation_rate:.1%} violation rate")

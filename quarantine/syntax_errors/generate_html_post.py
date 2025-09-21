@@ -5,7 +5,7 @@
 # 🧠 PURPOSE:
 # Converts symbolic dream or thought content from `publish_queue.jsonl`
 # into a timestamped, human-readable HTML post.
-# Useful for sharing symbolic AGI output to web, stream, or dashboard.
+# Useful for sharing symbolic Cognitive AI output to web, stream, or dashboard.
 # ===============================================================
 
 import html

@@ -10,6 +10,7 @@ global:
 
 rule_files:
   - "alert-rules.yml"
+  - "prometheus/rules/slos.yml"
 
 alerting:
   alertmanagers:
@@ -22,7 +23,7 @@ scrape_configs:
     metrics_path: '/metrics'
     scrape_interval: 10s
     static_configs:
-      - targets: ['lukhas-ai:8080']
+      - targets: ['lukhas-ai:9090']
     relabel_configs:
       - source_labels: [__address__]
         target_label: instance
@@ -33,7 +34,7 @@ scrape_configs:
     metrics_path: '/api/guardian/metrics'
     scrape_interval: 5s  # More frequent for critical security component
     static_configs:
-      - targets: ['lukhas-ai:8080']
+      - targets: ['lukhas-ai:8000']
     relabel_configs:
       - source_labels: [__address__]
         target_label: component
@@ -44,7 +45,7 @@ scrape_configs:
     metrics_path: '/api/tools/metrics'
     scrape_interval: 15s
     static_configs:
-      - targets: ['lukhas-ai:8080']
+      - targets: ['lukhas-ai:8000']
     relabel_configs:
       - source_labels: [__address__]
         target_label: component
@@ -55,7 +56,7 @@ scrape_configs:
     metrics_path: '/api/consciousness/metrics'
     scrape_interval: 30s
     static_configs:
-      - targets: ['lukhas-ai:8080']
+      - targets: ['lukhas-ai:8000']
     relabel_configs:
       - source_labels: [__address__]
         target_label: component
@@ -66,7 +67,7 @@ scrape_configs:
     metrics_path: '/api/memory/metrics'
     scrape_interval: 30s
     static_configs:
-      - targets: ['lukhas-ai:8080']
+      - targets: ['lukhas-ai:8000']
     relabel_configs:
       - source_labels: [__address__]
         target_label: component

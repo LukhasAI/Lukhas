@@ -87,7 +87,7 @@ LUKHAS_LOG_LEVEL=INFO
 LUKHAS_TRINITY_FRAMEWORK=⚛️🧠🛡️
 LUKHAS_SYSTEM_NAME="LUKHAS AI Production"
 
-# Trinity Framework Modules
+# Constellation Framework Modules
 LUKHAS_ENABLE_CONSCIOUSNESS=true
 LUKHAS_ENABLE_MEMORY=true
 LUKHAS_ENABLE_DREAMS=true
@@ -156,7 +156,7 @@ NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED=true
 - **Docker**: Available and configured
 
 ### **Key Files and Integrations**
-- **Production Main**: `production_main.py` (Trinity Framework orchestrator)
+- **Production Main**: `production_main.py` (Constellation Framework orchestrator)
 - **Public API**: `public_api.py` (FastAPI with OpenAPI docs)
 - **Docker Image**: `Dockerfile` (production-ready with security)
 - **MongoDB Integration**: `integrations/mongodb_consciousness_store.py`
@@ -257,7 +257,7 @@ NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED=true
 ### **Next Branding Tasks**
 - Improve social media content quality validation
 - Enhance brand voice consistency across platforms
-- Complete Trinity Framework alignment in all content
+- Complete Constellation Framework alignment in all content
 - Fix validation compliance gaps
 
 ---

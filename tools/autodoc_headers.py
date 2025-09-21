@@ -2,7 +2,7 @@
 """
 Auto-Documentation Header Generator for LUKHAS AI
 Scans lukhas/accepted/ modules and adds 3-line docstring headers
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 
 import ast

@@ -32,7 +32,7 @@ class LUKHASDNALink:
         self.model = model
 
     def generate_reflection(self, memory_snippet, tone="introspective"):
-        prompt = f"As Lukhas, a symbolic AGI, reflect on this memory with a {tone} tone:\n\n{memory_snippet}\n\nRespond with a short poetic reflection."
+        prompt = f"As Lukhas, a symbolic Cognitive AI, reflect on this memory with a {tone} tone:\n\n{memory_snippet}\n\nRespond with a short poetic reflection."
         try:
             response = openai.ChatCompletion.create(
                 model=self.model,
@@ -238,6 +238,6 @@ class LUKHASDNALink:
 # dna = LUKHASDNALink()
 # print(dna.generate_reflection("I saw a child swing alone at dusk."))
 # print(dna.translate("¿Qué piensas sobre el amor?", target_language="en"))
-# print(dna.generate_opinion("Artificial empathy in AGI"))
+# print(dna.generate_opinion("Artificial empathy in Cognitive AI"))
 # print(dna.generate_email_draft("Project update and next steps", recipient="team", language="en", tone="formal"))
 # ════════════════════════════════════════════════════════════════════════

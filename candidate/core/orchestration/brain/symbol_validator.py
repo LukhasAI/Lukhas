@@ -206,7 +206,7 @@ class LukhasComplianceChecker:
             "**/storage/**",
             "**/memory/**",
             "**/awareness/**",
-            "**/agi_controller*",
+            "**/cognitive_controller*",
             "**/brain/**",
             "**/core/compliance/**",
             "**/core/security/**",
@@ -855,7 +855,7 @@ class LukhasComplianceChecker:
     def _generate_workspace_recommendations(self, module_reports: list[ModuleComplianceReport]) -> list[str]:
         """Generate workspace-level recommendations."""
         recommendations = [
-            "🚨 CRITICAL: Upgrade non - compliant core systems(AGI Controller, Auth System)",
+            "🚨 CRITICAL: Upgrade non - compliant core systems(Cognitive AI Controller, Auth System)",
             "🔒 HIGH: Implement GlobalInstitutionalCompliantEngine across all modules",
             "📋 MEDIUM: Establish comprehensive compliance monitoring framework",
             "🛡️ Create unified privacy policy and consent management system",
@@ -893,7 +893,7 @@ class LukhasComplianceChecker:
 • {non_compliant_modules} critical modules are non-compliant with global regulations
 
 🎯 PRIORITY ACTIONS:
-1. Upgrade core AGI Controller and Authentication systems
+1. Upgrade core Cognitive AI Controller and Authentication systems
 2. Integrate GlobalInstitutionalCompliantEngine across critical modules
 3. Implement missing GDPR and CCPA compliance features
 4. Establish comprehensive audit logging and monitoring
@@ -1001,7 +1001,7 @@ Immediate action required for institutional deployment readiness.
 
         # Check specific critical files by name
         critical_filenames = [
-            "agi_controller",
+            "cognitive_controller",
             "auth",
             "authentication",
             "identity",

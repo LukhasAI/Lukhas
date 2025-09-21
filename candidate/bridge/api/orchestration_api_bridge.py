@@ -6,7 +6,7 @@ LUKHAS AI - Comprehensive API Orchestration Bridge
 Unified API orchestration system that coordinates multiple AI models
 with function calling, streaming, and consensus mechanisms.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 Performance Target: <100ms orchestration latency
 Supports: Multi-model consensus, function calling, streaming, monitoring
 

@@ -40,7 +40,7 @@ TOKEN="your_jwt_token_here"
 curl -X POST \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{"tool": "list_directory", "args": {"path": "/Users/agi_dev/LOCAL-REPOS/Lukhas"}}' \
+  -d '{"tool": "list_directory", "args": {"path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas"}}' \
   http://localhost:8080/sse
 ```
 
@@ -50,7 +50,7 @@ TOKEN="your_jwt_token_here"
 curl -X POST \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{"tool": "read_file", "args": {"path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/README.md"}}' \
+  -d '{"tool": "read_file", "args": {"path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/README.md"}}' \
   http://localhost:8080/sse
 ```
 
@@ -58,8 +58,8 @@ curl -X POST \
 
 ### Start Server
 ```bash
-cd /Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse
-ALLOWED_ROOTS="/Users/agi_dev/LOCAL-REPOS/Lukhas" python minimal_server.py &
+cd /Users/cognitive_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse
+ALLOWED_ROOTS="/Users/cognitive_dev/LOCAL-REPOS/Lukhas" python minimal_server.py &
 ```
 
 ### Stop Server
@@ -69,14 +69,14 @@ pkill -f minimal_server
 
 ### Generate New Test Token
 ```bash
-cd /Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse
+cd /Users/cognitive_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse
 python generate_test_jwt.py
 cat test-jwt-token.txt
 ```
 
 ## 🔒 Security Features
 
-- **Path Restrictions:** Only allows access to `/Users/agi_dev/LOCAL-REPOS/Lukhas`
+- **Path Restrictions:** Only allows access to `/Users/cognitive_dev/LOCAL-REPOS/Lukhas`
 - **JWT Validation:** All endpoints except `/health` require valid JWT
 - **Bearer Token:** Standard OAuth 2.1 Bearer token authentication
 - **Error Handling:** Proper HTTP status codes (401, 403, etc.)

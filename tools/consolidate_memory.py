@@ -53,7 +53,7 @@ class MemoryConsolidator:
         content = '''"""
 LUKHAS AI Memory - Fold System
 Fold-based memory with 99.7% cascade prevention
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 from typing import List, Dict, Any, Optional
@@ -163,7 +163,7 @@ def get_fold_manager() -> FoldManager:
         content = '''"""
 LUKHAS AI Memory - Causal System
 Preserves causal chains and relationships
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 from typing import List, Dict, Any, Optional, Tuple
@@ -271,7 +271,7 @@ def get_causal_memory() -> CausalMemory:
         content = '''"""
 LUKHAS AI Memory - Episodic System
 Stores and retrieves episodic memories
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 from typing import List, Dict, Any, Optional
@@ -406,7 +406,7 @@ def get_episodic_memory() -> EpisodicMemory:
         content = '''"""
 LUKHAS AI Memory - Consolidation System
 Consolidates and compresses memories
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 from typing import List, Dict, Any, Optional
@@ -542,7 +542,7 @@ def get_consolidator() -> MemoryConsolidator:
         content = '''"""
 LUKHAS AI Memory - Colony System
 Distributed memory across colony nodes
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 from typing import List, Dict, Any, Optional
@@ -705,7 +705,7 @@ def get_memory_colony() -> MemoryColony:
         content = '''"""
 LUKHAS AI Memory Module
 Unified memory system with fold-based storage
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 __version__ = "3.0.0"
@@ -794,9 +794,9 @@ def get_unified_memory() -> UnifiedMemory:
         _unified_memory = UnifiedMemory()
     return _unified_memory
 
-# Trinity integration
+# Constellation integration
 def triad_sync():
-    """Synchronize with Trinity Framework"""
+    """Synchronize with Constellation Framework"""
     return {
         'identity': '⚛️',
         'consciousness': '🧠',
@@ -898,7 +898,7 @@ def test_unified_memory():
     assert status["constellation"] == "synchronized"
 
 def test_triad_integration():
-    """Test Trinity Framework integration"""
+    """Test Constellation Framework integration"""
     from lukhas.accepted.memory import triad_sync
 
     sync_status = triad_sync()
@@ -961,7 +961,7 @@ Generated: {datetime.now(timezone.utc).isoformat()}
 - Episodic memory with timeline
 - Memory consolidation and compression
 - Colony-based distributed storage
-- Trinity Framework integration
+- Constellation Framework integration
 
 ## Next Steps
 1. Run canary tests: `pytest tests/canary/test_memory_consolidation.py`

@@ -7,7 +7,7 @@
 ║ CONSCIOUSNESS_ROLE: System-wide orchestration and coordination
 ║ EVOLUTIONARY_STAGE: Integration - Multi-system coordination
 ║
-║ TRINITY FRAMEWORK:
+║ CONSTELLATION FRAMEWORK:
 ║ ⚛️ IDENTITY: System identity and module relationship management
 ║ 🧠 CONSCIOUSNESS: Consciousness-aware orchestration patterns
 ║ 🛡️ GUARDIAN: System health monitoring and ethical compliance
@@ -22,7 +22,7 @@ LUKHAS AI's distributed system architecture. It provides:
 - System-wide orchestration with awareness patterns
 - Module lifecycle management with consciousness tracking
 - Bio-inspired orchestration patterns
-- Trinity Framework compliance across orchestration
+- Constellation Framework compliance across orchestration
 
 Key Components:
 - MatrizConsciousnessCoordinator: Consciousness-aware coordination

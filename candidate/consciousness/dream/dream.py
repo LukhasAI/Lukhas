@@ -1,6 +1,6 @@
 """
 Dream Module - Simplified entry point for LUKHAS dream system
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
 This module consolidates access to the complex dream system through a simple interface.
 """

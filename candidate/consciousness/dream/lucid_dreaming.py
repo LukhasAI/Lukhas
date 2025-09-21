@@ -14,12 +14,12 @@ logger = logging.getLogger(__name__)
 
 
 class LucidDreamController:
-    """Advanced lucid dreaming control system with Trinity Framework compliance."""
+    """Advanced lucid dreaming control system with Constellation Framework compliance."""
 
     def __init__(self):
         self.lucid_sessions: dict[str, dict] = {}
         self.control_counter = 0
-        logger.info("🌟 Lucid Dream Controller initialized - Trinity Framework active")
+        logger.info("🌟 Lucid Dream Controller initialized - Constellation Framework active")
 
     def initiate_lucid_state(self, user_intent: Optional[dict] = None) -> str:
         """⚛️ Initiate lucid dreaming state with identity preservation."""
@@ -32,7 +32,7 @@ class LucidDreamController:
             "lucidity_level": "emerging",
             "control_depth": "shallow",
             "started_at": datetime.now(timezone.utc).isoformat(),
-            "trinity_validated": True
+            "constellation_validated": True
         }
 
         logger.info(f"🌟 Lucid dream state initiated: {session_id}")
@@ -52,7 +52,7 @@ class LucidDreamController:
             "session_id": session_id,
             "control_status": "enhanced",
             "lucidity_achieved": True,
-            "trinity_validated": True
+            "constellation_validated": True
         }
 
     def validate_lucid_safety(self, session_id: str) -> dict[str, Any]:
@@ -65,7 +65,7 @@ class LucidDreamController:
             "safety_status": "validated",
             "ethical_compliance": True,
             "user_wellbeing": "protected",
-            "trinity_validated": True
+            "constellation_validated": True
         }
 
 

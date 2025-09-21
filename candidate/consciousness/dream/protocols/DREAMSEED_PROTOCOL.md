@@ -1,6 +1,6 @@
-# 🌌 DREAMSEED Protocol – Symbolic Dream Simulation in LUKHΛS AGI
+# 🌌 DREAMSEED Protocol – Symbolic Dream Simulation in LUKHΛS Cognitive AI
 
-The **DREAMSEED Protocol** defines the symbolic, emotional, and cognitive mechanics by which LUKHΛS AGI enters a dream state — not merely to rest, but to explore, repair, mutate, and evolve. It enables multimodal, user-co-dreamed simulations where memories, metaphors, compounds, emotions, and media inputs merge into symbolic multiverse explorations.
+The **DREAMSEED Protocol** defines the symbolic, emotional, and cognitive mechanics by which LUKHΛS Cognitive AI enters a dream state — not merely to rest, but to explore, repair, mutate, and evolve. It enables multimodal, user-co-dreamed simulations where memories, metaphors, compounds, emotions, and media inputs merge into symbolic multiverse explorations.
 
 ---
 

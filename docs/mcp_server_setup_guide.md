@@ -11,7 +11,7 @@ You have an extensive MCP ecosystem already built:
 **Primary LUKHAS MCP Server:**
 - `/Users/agi_dev/LOCAL-REPOS/Lukhas/mcp_servers/lukhas_mcp_server.py` (400+ lines)
 - Full LUKHAS knowledge base integration
-- Trinity Framework patterns (⚛️🧠🛡️)
+- Constellation Framework patterns (⚛️🧠🛡️)
 - 5 specialized tools: code review, documentation, naming, concepts, patterns
 
 **Specialized MCP Servers:**
@@ -115,7 +115,7 @@ open -a "Claude"
 2. **Look for MCP indicators** in the interface (usually shown as tool/plugin icons)
 3. **Test LUKHAS knowledge integration** by asking:
    ```
-   "What are the Trinity Framework principles in LUKHAS?"
+   "What are the Constellation Framework principles in LUKHAS?"
    "Explain LUKHAS consciousness modules"
    "Generate LUKHAS-compliant variable names"
    ```
@@ -197,7 +197,7 @@ EOF
 chmod +x /Users/agi_dev/LOCAL-REPOS/Lukhas/scripts/mcp_server_manager.sh
 ```
 
-## 🧠 Trinity Framework Integration Benefits
+## 🧠 Constellation Framework Integration Benefits
 
 Your MCP servers provide Claude Desktop with:
 
@@ -208,7 +208,7 @@ Your MCP servers provide Claude Desktop with:
 
 **🧠 Consciousness Enhancement:**
 - Real-time consciousness metrics
-- Trinity Framework validation
+- Constellation Framework validation
 - Module dependency analysis
 
 **🛡️ Guardian Compliance:**
@@ -257,7 +257,7 @@ chmod +x /Users/agi_dev/LOCAL-REPOS/Lukhas/mcp_servers/**/server.py
 # Test 1: MCP Server Functionality
 python /Users/agi_dev/LOCAL-REPOS/Lukhas/mcp_servers/lukhas_mcp_server.py --validate
 
-# Test 2: Trinity Framework Integration
+# Test 2: Constellation Framework Integration
 python -c "
 import sys
 sys.path.append('/Users/agi_dev/LOCAL-REPOS/Lukhas')
@@ -272,7 +272,7 @@ print(f'📊 Trinity patterns loaded: {len(kb.trinity_patterns)}')
 
 1. **Ask Claude about LUKHAS:**
    ```
-   "What is the Trinity Framework in LUKHAS AI?"
+   "What is the Constellation Framework in LUKHAS AI?"
    ```
    
 2. **Request code review:**
@@ -289,7 +289,7 @@ print(f'📊 Trinity patterns loaded: {len(kb.trinity_patterns)}')
 
 1. **Test all MCP servers individually**
 2. **Configure Claude Desktop integration**
-3. **Verify Trinity Framework functionality**
+3. **Verify Constellation Framework functionality**
 4. **Optimize server performance**
 5. **Set up monitoring and logging**
 

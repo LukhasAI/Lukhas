@@ -1,9 +1,9 @@
 """
 ═══════════════════════════════════════════════════════════════════════════
-LUKHAS AGI Intelligence Engine Registry
+LUKHAS Cognitive Intelligence Engine Registry
 ═══════════════════════════════════════════════════════════════════════════
 
-Central registry for managing intelligence engines across the LUKHAS AGI
+Central registry for managing intelligence engines across the LUKHAS Cognitive AI
 ecosystem. Provides discovery, registration, health monitoring, and
 load balancing capabilities.
 

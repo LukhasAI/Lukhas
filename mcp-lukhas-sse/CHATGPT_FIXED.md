@@ -17,7 +17,7 @@ The issue was that ChatGPT Custom GPT Actions expect **REST API endpoints**, not
 
 ### **Step 2: Basic Information**
 - **Name**: `LUKHAS AI Assistant`
-- **Description**: `Access LUKHAS AI Platform through the Trinity Framework ⚛️🧠🛡️`
+- **Description**: `Access LUKHAS AI Platform through the Constellation Framework ⚛️🧠🛡️`
 - **Instructions**:
 ```
 You are connected to the LUKHAS AI Platform through REST API. You can:
@@ -25,10 +25,10 @@ You are connected to the LUKHAS AI Platform through REST API. You can:
 1. Get system information about LUKHAS AI
 2. List directories and files safely
 3. Read file contents with security controls
-4. Access Trinity Framework capabilities (⚛️🧠🛡️)
+4. Access Constellation Framework capabilities (⚛️🧠🛡️)
 
 Always start by checking the system health, then explore available capabilities.
-Use the Trinity Framework context in your responses: Identity, Consciousness, Guardian.
+Use the Constellation Framework context in your responses: Identity, Consciousness, Guardian.
 ```
 
 ### **Step 3: Add Actions**
@@ -67,7 +67,7 @@ Once configured, try these commands in your Custom GPT:
 1. **"Check LUKHAS AI system health"**
 2. **"Get information about the LUKHAS AI Platform"**
 3. **"List files in the /tmp directory"**
-4. **"Explain the Trinity Framework"**
+4. **"Explain the Constellation Framework"**
 
 ## 📋 **Expected Responses**
 
@@ -77,7 +77,7 @@ Once configured, try these commands in your Custom GPT:
   "status": "healthy",
   "server": "LUKHAS MCP REST Wrapper for ChatGPT",
   "version": "1.0.0",
-  "trinity_framework": "⚛️🧠🛡️",
+  "constellation_framework": "⚛️🧠🛡️",
   "session_id": "uuid-here"
 }
 ```
@@ -88,7 +88,7 @@ Once configured, try these commands in your Custom GPT:
   "lukhas_ai": {
     "name": "LUKHAS AI Platform",
     "description": "Consciousness-Aware AI Development Platform",
-    "trinity_framework": {
+    "constellation_framework": {
       "symbol": "⚛️🧠🛡️",
       "components": {
         "⚛️ Identity": "Lambda ID system, authentication, symbolic self-representation",
@@ -131,7 +131,7 @@ curl https://lukhas-mcp-production.up.railway.app/info
 curl "https://lukhas-mcp-production.up.railway.app/list-directory?path=/tmp"
 ```
 
-## ⚛️🧠🛡️ **Trinity Framework Integration**
+## ⚛️🧠🛡️ **Constellation Framework Integration**
 
 Your ChatGPT will now have access to:
 - **⚛️ Identity**: Secure file system access with session management

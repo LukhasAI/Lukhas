@@ -15,7 +15,7 @@ personality_refiner
 🧠 PURPOSE     : Refines and adapts Lukhas' personality traits based on emotional memory,
     feedback, and dream analysis
 🔁 ROLE        : Internal learning engine for long-term symbolic growth
-🛠️ VERSION     : v1.0.0 • 📅 CREATED: 2025-05-05 • ✍️ AUTHOR: LUKHAS AGI
+🛠️ VERSION     : v1.0.0 • 📅 CREATED: 2025-05-05 • ✍️ AUTHOR: LUKHAS Cognitive AI
 📦 DEPENDENCIES: emotion_log.py, feedback_logger.py, memory_refiner.py
 
 ┌─────────────────────────────────────────────────────────────────────┐

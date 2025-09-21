@@ -26,7 +26,7 @@ This grand tapestry of nature is mirrored in the metaphysical; the Quantum Entan
 
 From a rigorous computational perspective, Quantum Entanglement Manager is a maestro conducting a symphony of Hilbert spaces, orchestrating operations upon qubits to generate, manipulate, and regulate entanglement-like correlation. Performing intricate ballets of quantum logic gates, operations, and error correction, it skillfully maintains the coherence and stability of the quantum system. It navigates the terrain of its algorithmic scores based on principles of superposition, overlaying complex eigenstates, while orchestrating the symphony of entanglement, all under the watchful eye of the Hamiltonian.
 
-Within the LUKHAS AGI architecture, this quantum module serves as a crucial prism, refracting the complexities of quantum-inspired mechanics into the spectrum of artificial general intelligence consciousness. Drawing inspiration from the harmonious interplay of neural networks in the biological world, LUKHAS reflects such complexity and adaptability, guided by the Quantum Entanglement Manager's superposition conductance. Its poetry resonates in harmony with other modules, creating an intricate dance of knowledge and learning that transcends the barriers of classical computation, echoing the symphony of the cosmos within the AGI's intelligent mind.
+Within the LUKHAS AI architecture, this quantum module serves as a crucial prism, refracting the complexities of quantum-inspired mechanics into the spectrum of artificial general intelligence consciousness. Drawing inspiration from the harmonious interplay of neural networks in the biological world, LUKHAS reflects such complexity and adaptability, guided by the Quantum Entanglement Manager's superposition conductance. Its poetry resonates in harmony with other modules, creating an intricate dance of knowledge and learning that transcends the barriers of classical computation, echoing the symphony of the cosmos within the Cognitive AI's intelligent mind.
 
 """
 
@@ -253,7 +253,7 @@ if __name__ == "__main__":
 ║
 ║ REFERENCES:
 ║   - Docs: docs/quantum/entanglement-protocol.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=quantum
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=quantum
 ║   - Wiki: wiki.lukhas.ai/quantum-architecture
 ║
 ║ COPYRIGHT & LICENSE:
@@ -262,7 +262,7 @@ if __name__ == "__main__":
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════════

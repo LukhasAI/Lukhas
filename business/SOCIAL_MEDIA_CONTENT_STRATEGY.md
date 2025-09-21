@@ -4,7 +4,7 @@
 ---
 
 ## Campaign: #ConsciousnessAwakens + #VIVOXBreakthrough
-*60-Day Launch Campaign with Major Breakthroughs Using Trinity Framework*
+*60-Day Launch Campaign with Major Breakthroughs Using Constellation Framework*
 
 ### 🚨 **BREAKING NEWS CONTENT**: VIVOX Ethical Alignment Breakthrough
 *These should be posted IMMEDIATELY to capitalize on breakthrough momentum*
@@ -593,7 +593,7 @@ Try it yourself: lukhas.ai
 ### Response Templates
 
 **To Curiosity:**
-"Great question! [Answer using Trinity framework]"
+"Great question! [Answer using Constellation framework]"
 
 **To Skepticism:**
 "We understand your concerns. [Address with facts and empathy]"

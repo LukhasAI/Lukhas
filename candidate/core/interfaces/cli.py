@@ -6,7 +6,7 @@ Integration Date: 2025-05-31T07:55:27.732053
 """
 # 📄 MODULE: cli.py
 # 🔎 PURPOSE: Main symbolic entrypoint to launch LUKHAS agent and system ops
-# 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-04-30 • ✍️ AUTHOR: LUKHAS AGI
+# 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-04-30 • ✍️ AUTHOR: LUKHAS Cognitive AI
 import json
 import logging
 import os

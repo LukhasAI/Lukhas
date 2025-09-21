@@ -20,11 +20,11 @@
       }
     },
     {
-      "label": "⚛️ Validate Complete Trinity Framework",
+      "label": "⚛️ Validate Complete Constellation Framework",
       "type": "shell",
       "command": "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv_test/bin/python",
       "args": [
-        "branding/trinity/tools/trinity_validator.py",
+        "branding/constellation/tools/trinity_validator.py",
         "${workspaceFolder}",
         "--comprehensive"
       ],
@@ -128,18 +128,18 @@
       },
       "options": {
         "env": {
-          "CLAUDE_PROMPT": "Review this LUKHAS code for consciousness patterns, Trinity Framework compliance, and agent integration opportunities. Suggest specific improvements."
+          "CLAUDE_PROMPT": "Review this LUKHAS code for consciousness patterns, Constellation Framework compliance, and agent integration opportunities. Suggest specific improvements."
         }
       }
     },
     {
       "label": "Claude: Generate Trinity Documentation",
       "type": "shell",
-      "command": "echo 'Generating Trinity Framework documentation...'",
+      "command": "echo 'Generating Constellation Framework documentation...'",
       "group": "build",
       "options": {
         "env": {
-          "CLAUDE_PROMPT": "Generate Trinity Framework documentation (🎭🌈🎓) for this code: consciousness description, bridge explanation, technical details."
+          "CLAUDE_PROMPT": "Generate Constellation Framework documentation (🎭🌈🎓) for this code: consciousness description, bridge explanation, technical details."
         }
       }
     },
@@ -202,7 +202,7 @@
       "group": "build",
       "options": {
         "env": {
-          "CLAUDE_PROMPT": "Scan for and auto-fix architecture issues: missing agent communication, consciousness state integration, Trinity Framework compliance. Apply consciousness-aware patterns."
+          "CLAUDE_PROMPT": "Scan for and auto-fix architecture issues: missing agent communication, consciousness state integration, Constellation Framework compliance. Apply consciousness-aware patterns."
         }
       }
     },
@@ -303,7 +303,7 @@
         "env": {
           "COPILOT_AUTO_APPROVE": "true",
           "SURGICAL_REPAIR_MODE": "active",
-          "TRINITY_FRAMEWORK": "⚛️🧠🛡️",
+          "CONSTELLATION_FRAMEWORK": "⚛️🧠🛡️",
           "ZERO_ERRORS_GUARANTEE": "enabled"
         }
       }
@@ -322,9 +322,9 @@
       }
     },
     {
-      "label": "🎯 Copilot Trinity Framework Integration",
+      "label": "🎯 Copilot Constellation Framework Integration",
       "type": "shell",
-      "command": "echo 'Copilot Trinity Framework integration activated'",
+      "command": "echo 'Copilot Constellation Framework integration activated'",
       "group": "build",
       "options": {
         "env": {

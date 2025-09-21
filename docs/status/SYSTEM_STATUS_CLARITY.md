@@ -1,5 +1,5 @@
 # 📊 LUKHAS AI - System Status Clarity Report
-## Trinity Framework: ⚛️🧠🛡️
+## Constellation Framework: ⚛️🧠🛡️
 ### Generated: 2025-08-13
 
 ---

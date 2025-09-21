@@ -15,7 +15,7 @@ Features:
 - Utility preservation optimization
 - Re-identification risk assessment
 - GDPR Article 25 compliance
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 - Real-time anonymization monitoring
 
 #TAG:governance
@@ -23,7 +23,7 @@ Features:
 #TAG:anonymization
 #TAG:differential_privacy
 #TAG:gdpr
-#TAG:trinity
+#TAG:constellation
 """
 import time
 import random
@@ -149,7 +149,7 @@ class AnonymizationConfig:
     batch_size: int = 1000
     parallel_processing: bool = True
 
-    # Trinity Framework integration
+    # Constellation Framework integration
     identity_binding: bool = False  # Bind to identity system
     consciousness_aware: bool = False  # Consciousness-aware anonymization
     guardian_oversight: bool = True  # Guardian system oversight
@@ -196,7 +196,7 @@ class AnonymizationResult:
     transformations: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
 
-    # Trinity Framework results
+    # Constellation Framework results
     identity_protected: bool = True
     consciousness_compliance: bool = True
     guardian_approved: bool = True
@@ -486,7 +486,7 @@ class AdvancedAnonymizationEngine:
             result.statistical_accuracy = await self._calculate_statistical_accuracy(dataset, anonymized_data)
             result.pattern_preservation = await self._calculate_pattern_preservation(dataset, anonymized_data)
 
-            # Trinity Framework validation
+            # Constellation Framework validation
             result.identity_protected = await self._validate_identity_protection(anonymized_data, config, context)
             result.consciousness_compliance = await self._validate_consciousness_compliance(config, context)
             result.guardian_approved = await self._validate_guardian_approval(config, result, context)

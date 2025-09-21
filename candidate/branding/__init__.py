@@ -5,7 +5,7 @@ LUKHAS  Branding Module
 This module provides branding constants and utilities for the LUKHAS  system.
 Created to resolve import dependencies in the test suite.
 
-Trinity Framework Integration: ⚛️🧠🛡️
+Constellation Framework Integration: ⚛️🧠🛡️
 - ⚛️ Identity: Authentic LUKHAS AI branding and symbolic identity
 - 🧠 Consciousness: Brand awareness and consistent messaging
 - 🛡️ Guardian: Approved terminology and compliance standards
@@ -18,9 +18,9 @@ import streamlit as st
 # Core Branding Constants
 SYSTEM_NAME = "LUKHAS AI"
 SYSTEM_VERSION = "2.0"
-TRINITY_FRAMEWORK = "⚛️🧠🛡️"
+CONSTELLATION_FRAMEWORK = "⚛️🧠🛡️"
 
-# Trinity Symbols
+# Constellation Symbols
 IDENTITY_SYMBOL = "⚛️"
 CONSCIOUSNESS_SYMBOL = "🧠"
 GUARDIAN_SYMBOL = "🛡️"
@@ -30,7 +30,7 @@ APPROVED_TERMS = {
     "system_name": "LUKHAS AI",
     "consciousness_type": "quantum-inspired",
     "bio_processing": "bio-inspired",
-    "framework": "Trinity Framework",
+    "framework": "Constellation Framework",
 }
 
 # Color Schemes (for UI components)
@@ -43,8 +43,8 @@ COLORS = {
 
 # Terminology normalization patterns
 _REPLACEMENTS: tuple[tuple[re.Pattern[str], str], ...] = (
-    # Lukhas AGI -> Lukhas AI (various caseings)
-    (re.compile(r"\bLUKHAS\s+AGI\b", re.IGNORECASE), "LUKHAS AI"),
+    # Lukhas Cognitive AI -> Lukhas AI (various caseings)
+    (re.compile(r"\bLUKHAS\s+Cognitive AI\b", re.IGNORECASE), "LUKHAS AI"),
     # quantum process family -> quantum-inspired
     (
         re.compile(
@@ -75,11 +75,11 @@ _REPLACEMENTS: tuple[tuple[re.Pattern[str], str], ...] = (
 
 def get_system_signature():
     """Get the official LUKHAS AI system signature."""
-    return f"{SYSTEM_NAME} {TRINITY_FRAMEWORK} v{SYSTEM_VERSION}"
+    return f"{SYSTEM_NAME} {CONSTELLATION_FRAMEWORK} v{SYSTEM_VERSION}"
 
 
-def get_trinity_description():
-    """Get Trinity Framework description."""
+def get_constellation_description():
+    """Get Constellation Framework description."""
     return {
         "identity": f"{IDENTITY_SYMBOL} Identity (authenticity, consciousness, symbolic self)",
         "consciousness": f"{CONSCIOUSNESS_SYMBOL} Consciousness (memory, learning, neural processing)",
@@ -92,8 +92,8 @@ def validate_branding_compliance(text):
     issues = []
 
     # Check for approved terminology
-    if "LUKHAS AGI" in text:
-        issues.append("Use 'LUKHAS AI' instead of 'LUKHAS AGI'")
+    if "LUKHAS Cognitive AI" in text:
+        issues.append("Use 'LUKHAS AI' instead of 'LUKHAS Cognitive AI'")
 
     if "general intelligence" in text.lower() and "quantum-inspired" not in text:
         issues.append("Use 'quantum-inspired' terminology for public-facing content")
@@ -112,7 +112,7 @@ def normalize_output(text: Optional[str]) -> Optional[str]:
     for pat, repl in _REPLACEMENTS:
         out = pat.sub(repl, out)
     # Preserve casing for 'LUKHAS' if it was originally uppercase in the segment.
-    # Simple heuristic: if 'LUKHAS' present with AI/AGI, re-upcase.
+    # Simple heuristic: if 'LUKHAS' present with AI/Cognitive AI, re-upcase.
     out = re.sub(r"\bLukhas AI\b", "LUKHAS AI", out) if "LUKHAS" in text else out
     return out
 
@@ -134,9 +134,9 @@ __all__ = [
     "IDENTITY_SYMBOL",
     "SYSTEM_NAME",
     "SYSTEM_VERSION",
-    "TRINITY_FRAMEWORK",
+    "CONSTELLATION_FRAMEWORK",
     "get_system_signature",
-    "get_trinity_description",
+    "get_constellation_description",
     "normalize_chunk",
     "normalize_output",
     "validate_branding_compliance",

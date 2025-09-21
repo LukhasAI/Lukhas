@@ -2,7 +2,7 @@
 
 Production-safe fold-based memory system with cascade prevention and emotional valence tracking.
 
-**Trinity Framework**: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+**Constellation Framework**: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 ## Overview
 
@@ -360,4 +360,4 @@ export MEMORY_PERF_MONITORING=true
 
 **Version**: 1.0.0
 
-**Trinity Framework**: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+**Constellation Framework**: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian

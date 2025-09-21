@@ -1,0 +1,384 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/consciousness/dream/core",
+    "lane": "development",
+    "purpose": "Directory containing 23 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "constellation_role": "horizon_star_primary",
+    "matriz_pipeline_integration": {
+      "memory_stage": "active",
+      "attention_stage": "active",
+      "thought_stage": "active",
+      "awareness_stage": "active",
+      "decision_stage": "experimental"
+    },
+    "cognitive_domains": [
+      "consciousness_processing",
+      "awareness_patterns",
+      "dream_synthesis",
+      "creative_processing"
+    ]
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "dream_log.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_log.json",
+        "dependencies": [],
+        "exports": [
+          "DreamLog",
+          "log_dream",
+          "get_recent_dreams"
+        ]
+      },
+      {
+        "filename": "dream_memory_integration.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_memory_integration.json",
+        "dependencies": [],
+        "exports": [
+          "DreamMemoryIntegrator",
+          "integrate_dream_memory",
+          "retrieve_integrated_memories"
+        ]
+      },
+      {
+        "filename": "dream_memory_manager.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_memory_manager.json",
+        "dependencies": [
+          "lukhas.memory.folds.fold_engine"
+        ],
+        "exports": [
+          "DreamMemoryManager"
+        ]
+      },
+      {
+        "filename": "dream_loop_generator.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_loop_generator.json",
+        "dependencies": [],
+        "exports": [
+          "DreamLoopGenerator",
+          "generate_loop"
+        ]
+      },
+      {
+        "filename": "dream_seed_simple.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_seed_simple.json",
+        "dependencies": [],
+        "exports": [
+          "DreamSeed",
+          "generate_symbol"
+        ]
+      },
+      {
+        "filename": "dream_stats.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_stats.json",
+        "dependencies": [],
+        "exports": [
+          "DreamStatistics",
+          "update_stats",
+          "get_summary",
+          "get_trends"
+        ]
+      },
+      {
+        "filename": "dream_snapshot.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_snapshot.json",
+        "dependencies": [],
+        "exports": [
+          "DreamSnapshotStore",
+          "save_snapshot",
+          "get_recent_snapshots"
+        ]
+      },
+      {
+        "filename": "dream_replay.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_replay.json",
+        "dependencies": [],
+        "exports": [
+          "replay_recent_dreams"
+        ]
+      },
+      {
+        "filename": "dream_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_engine.json",
+        "dependencies": [
+          "candidate.core.unified.bio_signals",
+          "candidate.core.unified.integration",
+          "candidate.core.unified.orchestration"
+        ],
+        "exports": [
+          "EnhancedDreamEngine",
+          "QIDreamAdapter",
+          "DreamQuantumConfig",
+          "BioOrchestrator",
+          "QIBioOscillator",
+          "UnifiedIntegration",
+          "SimpleDreamEngine",
+          "adapt"
+        ]
+      },
+      {
+        "filename": "voice_parameter.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/voice_parameter.json",
+        "dependencies": [],
+        "exports": [
+          "VoiceParameter"
+        ]
+      },
+      {
+        "filename": "dream_state_manager.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_state_manager.json",
+        "dependencies": [],
+        "exports": [
+          "DreamState",
+          "DreamStateManager",
+          "create_dream_state",
+          "transition_dream_state",
+          "get_dream_state_info",
+          "monitor_dream_state_health",
+          "archive_dream_state",
+          "get_manager_status"
+        ]
+      },
+      {
+        "filename": "dream_feedback_controller.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_feedback_controller.json",
+        "dependencies": [
+          "lukhas.memory.emotional"
+        ],
+        "exports": [
+          "DreamFeedbackController",
+          "check_drift_event",
+          "trigger_redirection"
+        ]
+      },
+      {
+        "filename": "ethics_guard.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/ethics_guard.json",
+        "dependencies": [],
+        "exports": [
+          "LegalComplianceAssistant"
+        ]
+      },
+      {
+        "filename": "dream_export_streamlit.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_export_streamlit.json",
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "dream_emotion_bridge.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_emotion_bridge.json",
+        "dependencies": [
+          "candidate.memory.emotional"
+        ],
+        "exports": [
+          "DreamEmotionBridge",
+          "trigger_dream_replay_if_needed"
+        ]
+      },
+      {
+        "filename": "dream_cli.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_cli.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "run_narrator_queue",
+          "run_voice_narrator",
+          "inject_test_dream",
+          "run_all",
+          "main"
+        ]
+      },
+      {
+        "filename": "dream_reflection_loop_simple.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_reflection_loop_simple.json",
+        "dependencies": [],
+        "exports": [
+          "DreamReflectionLoop",
+          "reflect",
+          "is_stable"
+        ]
+      },
+      {
+        "filename": "dream_log_viewer.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_log_viewer.json",
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "dream_seed.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_seed.json",
+        "dependencies": [],
+        "exports": [
+          "generate_episodic_dream",
+          "generate_semantic_dream",
+          "seed_dream"
+        ]
+      },
+      {
+        "filename": "dream_sequence_coordinator.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_sequence_coordinator.json",
+        "dependencies": [],
+        "exports": [
+          "DreamSequenceCoordinator",
+          "create_dream_sequence",
+          "coordinate_sequence_flow"
+        ]
+      },
+      {
+        "filename": "dream_injector.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_injector.json",
+        "dependencies": [
+          "candidate.core.modules.nias.dream_recorder"
+        ],
+        "exports": [
+          "process_payload",
+          "run_batch_validation",
+          "record_dream_message"
+        ]
+      },
+      {
+        "filename": "dream_limiter.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_limiter.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "DreamLimiterConfig",
+          "DreamLimiter",
+          "filter_dreams"
+        ]
+      },
+      {
+        "filename": "dream_viewer.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_viewer.json",
+        "dependencies": [],
+        "exports": [
+          "load_dreams",
+          "display_dreams"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": [
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README_dream_trace.md",
+        "type": "other",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Start with consciousness architecture documentation, then examine engines and processors",
+    "key_files": [
+      "README.md",
+      "dream_engine.py"
+    ],
+    "common_tasks": [
+      {
+        "task": "Consciousness engine development",
+        "files_involved": [
+          "dream_engine.py"
+        ],
+        "complexity": "high"
+      }
+    ],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "Consciousness architecture patterns",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 23,
+    "estimated_complexity": "high",
+    "consciousness_integration": "advanced",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "native",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true,
+    "cognitive_alignment_score": 0.85
+  },
+  "relationships": {
+    "parent_directory": "candidate/consciousness/dream",
+    "related_directories": [],
+    "constellation_cluster": "horizon_star_consciousness",
+    "dependency_weight": "moderate"
+  }
+}

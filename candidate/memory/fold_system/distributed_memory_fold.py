@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 ║                             ◊ POETIC ESSENCE ◊
 ║
 ║ ║ 🚀 LUKHAS AI - DISTRIBUTED MEMORY FOLD WITH CONSENSUS
-║ ║ Byzantine fault-tolerant distributed memory for AGI consciousness networks
+║ ║ Byzantine fault-tolerant distributed memory for Cognitive AI consciousness networks
 ║ ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ║ ╠══════════════════════════════════════════════════════════════════════════════════
 ║ ║ Module: DISTRIBUTED MEMORY FOLD
@@ -140,7 +140,7 @@ class NodeInfo:
     last_heartbeat: datetime
     term: int = 0
     vote_count: int = 0
-    consciousness_level: float = 0.0  # AGI consciousness metric
+    consciousness_level: float = 0.0  # Cognitive AI consciousness metric
     memory_capacity: int = 0
 
     @property
@@ -154,10 +154,10 @@ class NodeInfo:
 
 class ConsensusProtocol:
     """
-    RAFT-based consensus protocol for distributed AGI memory.
+    RAFT-based consensus protocol for distributed Cognitive AI memory.
 
     Implements Byzantine fault tolerance with consciousness-aware
-    validation for AGI memory networks.
+    validation for Cognitive AI memory networks.
     """
 
     def __init__(
@@ -523,7 +523,7 @@ class ConsensusProtocol:
         """
         Validate memory entry using Byzantine fault tolerance.
 
-        Implements consciousness-aware validation for AGI memories.
+        Implements consciousness-aware validation for Cognitive AI memories.
         """
 
         # Basic validation checks
@@ -547,7 +547,7 @@ class ConsensusProtocol:
                 )
                 return False
 
-        # Additional AGI-specific validation could go here
+        # Additional Cognitive AI-specific validation could go here
 
         return True
 
@@ -556,7 +556,7 @@ class DistributedMemoryFold:
     """
     Distributed memory fold system with consensus protocol.
 
-    Provides distributed AGI memory with Byzantine fault tolerance
+    Provides distributed Cognitive AI memory with Byzantine fault tolerance
     and consciousness-aware validation.
     """
 
@@ -918,7 +918,7 @@ async def create_distributed_memory_fold(
         node_id: Unique identifier for this node
         port: Port for inter-node communication
         bootstrap_nodes: List of (address, port) tuples for existing nodes
-        consciousness_level: AGI consciousness level of this node
+        consciousness_level: Cognitive AI consciousness level of this node
 
     Returns:
         Started DistributedMemoryFold instance
@@ -965,7 +965,7 @@ async def example_distributed_usage():
 
     # Store memory on node1
     memory_id = await node1.store_memory(
-        content="This is a distributed AGI memory that requires consensus across the network.",
+        content="This is a distributed Cognitive AI memory that requires consensus across the network.",
         tags=["distributed", "consensus", "agi"],
         embedding=np.random.randn(1024).astype(np.float32),
         metadata={"importance": 0.9, "type": "test"},
@@ -978,7 +978,7 @@ async def example_distributed_usage():
     await asyncio.sleep(2)
 
     # Query from node2
-    results = await node2.query_memory(query="distributed AGI consensus", top_k=5, include_distributed=True)
+    results = await node2.query_memory(query="distributed Cognitive AI consensus", top_k=5, include_distributed=True)
 
     print(f"📤 Query results: {len(results)} memories found")
 

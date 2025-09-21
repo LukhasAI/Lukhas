@@ -1,0 +1,24 @@
+"""MATRIZ cognitive node implementations."""
+# ΛTAG: matriz_nodes
+import os
+
+from .memory_node import MemoryNode
+from .thought_node import ThoughtNode
+from .decision_node import DecisionNode
+
+_COMPAT_MODE = os.getenv("MATRIZ_COMPAT_IMPORTS", "1") == "1"
+
+if _COMPAT_MODE:
+    CognitiveMemoryNode = MemoryNode
+    CognitiveThoughtNode = ThoughtNode
+    CognitiveDecisionNode = DecisionNode
+    __all__ = [
+        "MemoryNode",
+        "ThoughtNode",
+        "DecisionNode",
+        "CognitiveMemoryNode",
+        "CognitiveThoughtNode",
+        "CognitiveDecisionNode",
+    ]
+else:
+    __all__ = ["MemoryNode", "ThoughtNode", "DecisionNode"]

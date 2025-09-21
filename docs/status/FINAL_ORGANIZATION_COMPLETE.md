@@ -32,7 +32,7 @@ docs/
 ├── planning/ ...................... Strategic plans and roadmaps
 ├── guides/ ........................ User guides and tutorials
 ├── status/ ........................ Project status and progress reports
-├── consciousness/ ................. Consciousness and Trinity Framework
+├── consciousness/ ................. Consciousness and Constellation Framework
 ├── development/ ................... Development guides and tools
 ├── administration/ ................ System administration and security
 ├── reference/ ..................... Technical references and specifications
@@ -57,7 +57,7 @@ docs/
 ### **Documentation Organization Standards**
 - ✅ **Professional categorization**: 12 main categories + 32 specialized
 - ✅ **Clear navigation**: README files with comprehensive indexing
-- ✅ **Trinity Framework integration**: ⚛️🧠🛡️ throughout all documentation
+- ✅ **Constellation Framework integration**: ⚛️🧠🛡️ throughout all documentation
 - ✅ **Logical file placement**: Everything in appropriate directories
 
 ---
@@ -99,7 +99,7 @@ docs/
 - **GitHub Standards**: ✅ All essential GitHub project files at root
 - **Open Source Standards**: ✅ LICENSE, security reporting, contribution guidelines
 - **Professional Standards**: ✅ Enterprise-grade documentation organization
-- **Trinity Framework**: ✅ Consciousness-aware organization throughout
+- **Constellation Framework**: ✅ Consciousness-aware organization throughout
 
 ---
 
@@ -115,7 +115,7 @@ docs/
 - **Root-level discipline**: Only essential project files at root level
 - **Documentation accessibility**: Clear navigation and categorization
 - **GitHub standards**: Proper project file placement for open source projects
-- **Trinity Framework**: Consciousness-aware documentation throughout
+- **Constellation Framework**: Consciousness-aware documentation throughout
 
 ---
 

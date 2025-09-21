@@ -93,7 +93,7 @@ ls -la *.code-workspace
 ### ✅ CLAUDE_ARMY Operational
 - 25 agents configured and ready
 - Inter-agent automation functional
-- Trinity Framework (⚛️🧠🛡️) integrated
+- Constellation Framework (⚛️🧠🛡️) integrated
 - Multi-AI orchestration enabled
 
 ### ✅ Development Environment

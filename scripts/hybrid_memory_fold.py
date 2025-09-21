@@ -2,7 +2,7 @@
 Hybrid Memory Fold System
 Simple wrapper for LUKHAS memory fold components
 
-⚛️🧠🛡️ Trinity Framework: Identity-Consciousness-Guardian
+⚛️🧠🛡️ Constellation Framework: Identity-Consciousness-Guardian
 """
 
 import logging

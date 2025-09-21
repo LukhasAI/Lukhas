@@ -1,14 +1,21 @@
 """
 LUKHAS AI Memory - Fold System
 Fold-based memory with 99.7% cascade prevention
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
+import logging
 import time
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Any, Optional
+
+from .metrics import (
+    increment_cascade_events,
+    observe_fold_count,
+    observe_recall_latency,
+)
 
 try:
     from lukhas.observability.matriz_decorators import matriz_record
@@ -27,6 +34,9 @@ except ImportError:
         return decorator
 
 
+logger = logging.getLogger(__name__)
+
+
 @dataclass
 class MemoryFold:
     """Represents a single memory fold with metadata"""
@@ -38,6 +48,7 @@ class MemoryFold:
     emotional_valence: float = 0.0  # Range: -1.0 to 1.0
     importance: float = 0.5  # Range: 0.0 to 1.0
     accessed_count: int = 0
+    deleted_at: Optional[datetime] = None
 
     def __post_init__(self):
         """Validate fold data after creation"""
@@ -52,18 +63,28 @@ class FoldManager:
 
     MAX_FOLDS = 1000  # Performance limit from CLAUDE.md
     CASCADE_THRESHOLD = 0.997  # 99.7% prevention rate target
+    SOFT_DELETE_RETENTION = timedelta(days=7)
 
     def __init__(self) -> None:
         self.folds: dict[str, MemoryFold] = {}
         self.active_folds: list[str] = []
+        self.deleted_folds: dict[str, MemoryFold] = {}
         self.cascade_prevention_active = True
         self.performance_metrics = {
             "creation_times": [],
             "access_times": [],
             "cascade_events": 0,
             "total_operations": 0,
+            "soft_deletes": 0,
+            "restores": 0,
         }
         self._start_time = time.time()
+        self._update_fold_count_metric()
+
+    def _update_fold_count_metric(self) -> None:
+        """Synchronise Prometheus fold count gauge."""
+        # ΛTAG: memory_metrics
+        observe_fold_count(len(self.folds))
 
     @emit_node("memory:fold:create")
     def create_fold(
@@ -78,6 +99,7 @@ class FoldManager:
         start_time = time.time()
 
         try:
+            self._purge_expired_soft_deletes()
             fold = MemoryFold(
                 content=content,
                 causal_chain=causal_chain or [],
@@ -99,11 +121,15 @@ class FoldManager:
             # Store the fold
             self.folds[fold.id] = fold
             self.active_folds.append(fold.id)
+            if fold.id in self.deleted_folds:
+                del self.deleted_folds[fold.id]
 
             # Record performance metrics
             creation_time = (time.time() - start_time) * 1000
             self.performance_metrics["creation_times"].append(creation_time)
             self.performance_metrics["total_operations"] += 1
+
+            self._update_fold_count_metric()
 
             return fold
 
@@ -120,6 +146,8 @@ class FoldManager:
         """Prevent memory cascade by intelligently pruning folds"""
         if not self.cascade_prevention_active:
             return
+
+        increment_cascade_events()
 
         try:
             # Record cascade event
@@ -138,10 +166,7 @@ class FoldManager:
 
             # Remove least important folds
             for fold in folds_to_remove:
-                if fold.id in self.folds:
-                    del self.folds[fold.id]
-                if fold.id in self.active_folds:
-                    self.active_folds.remove(fold.id)
+                self._soft_delete(fold)
 
         except Exception:
             # If cascade prevention fails, emergency cleanup
@@ -150,10 +175,10 @@ class FoldManager:
             remove_count = max(1, len(oldest_folds) // 10)
 
             for fold in oldest_folds[:remove_count]:
-                if fold.id in self.folds:
-                    del self.folds[fold.id]
-                if fold.id in self.active_folds:
-                    self.active_folds.remove(fold.id)
+                self._soft_delete(fold)
+
+        finally:
+            self._update_fold_count_metric()
 
     @emit_node("memory:fold:access")
     def retrieve_fold(self, fold_id: str, mode: str = "dry_run") -> Optional[MemoryFold]:
@@ -165,6 +190,7 @@ class FoldManager:
                 # Simulate fold retrieval
                 access_time = (time.time() - start_time) * 1000
                 self.performance_metrics["access_times"].append(access_time)
+                observe_recall_latency(access_time / 1000.0, "dry_run")
 
                 # Return mock fold for dry_run
                 if fold_id in self.folds:
@@ -172,17 +198,101 @@ class FoldManager:
                 return None
 
             fold = self.folds.get(fold_id)
+            if fold and fold.deleted_at is not None:
+                # ΛTAG: memory_soft_delete_guard
+                logger.debug("Skipping retrieval for soft-deleted fold", extra={
+                    "fold_id": fold_id,
+                    "deleted_at": fold.deleted_at.isoformat(),
+                    "driftScore": 0.0,
+                    "affect_delta": -0.1,
+                })
+                return None
             if fold:
                 fold.accessed_count += 1
 
             # Record performance
             access_time = (time.time() - start_time) * 1000
             self.performance_metrics["access_times"].append(access_time)
+            result_label = "hit" if fold else "miss"
+            observe_recall_latency(access_time / 1000.0, result_label)
 
             return fold
 
         except Exception:
             return None
+
+    # ΛTAG: memory_soft_delete
+    def _soft_delete(self, fold: MemoryFold) -> None:
+        """Soft delete a fold by marking it deleted and retaining for recovery."""
+        if fold.id not in self.folds:
+            return
+
+        fold.deleted_at = datetime.now()
+        self.deleted_folds[fold.id] = fold
+        self.performance_metrics["soft_deletes"] += 1
+
+        del self.folds[fold.id]
+        if fold.id in self.active_folds:
+            self.active_folds.remove(fold.id)
+
+        logger.info(
+            "Soft-deleted memory fold",
+            extra={
+                "fold_id": fold.id,
+                "deleted_at": fold.deleted_at.isoformat(),
+                "retention_seconds": int(self.SOFT_DELETE_RETENTION.total_seconds()),
+                "driftScore": 0.0,
+                "affect_delta": -0.2,
+            },
+        )
+
+    # ΛTAG: memory_soft_delete
+    def restore_fold(self, fold_id: str) -> Optional[MemoryFold]:
+        """Restore a soft-deleted fold if within retention."""
+        fold = self.deleted_folds.get(fold_id)
+        if not fold:
+            return None
+
+        if fold.deleted_at and datetime.now() - fold.deleted_at > self.SOFT_DELETE_RETENTION:
+            return None
+
+        fold.deleted_at = None
+        self.folds[fold.id] = fold
+        self.active_folds.append(fold.id)
+        self.performance_metrics["restores"] += 1
+        logger.info(
+            "Restored memory fold",
+            extra={
+                "fold_id": fold.id,
+                "driftScore": 0.1,
+                "affect_delta": 0.2,
+            },
+        )
+        return fold
+
+    # ΛTAG: memory_soft_delete
+    def _purge_expired_soft_deletes(self) -> None:
+        """Permanently remove folds past retention window."""
+        if not self.deleted_folds:
+            return
+
+        now = datetime.now()
+        expired = [
+            fold_id
+            for fold_id, fold in self.deleted_folds.items()
+            if fold.deleted_at and now - fold.deleted_at > self.SOFT_DELETE_RETENTION
+        ]
+        for fold_id in expired:
+            fold = self.deleted_folds.pop(fold_id)
+            logger.debug(
+                "Purged expired soft-deleted fold",
+                extra={
+                    "fold_id": fold_id,
+                    "deleted_at": fold.deleted_at.isoformat() if fold.deleted_at else None,
+                    "driftScore": -0.05,
+                    "affect_delta": -0.05,
+                },
+            )
 
     def get_causal_chain(self, fold_id: str) -> list[MemoryFold]:
         """Get full causal chain for a fold"""

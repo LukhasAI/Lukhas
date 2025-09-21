@@ -2,7 +2,7 @@
 """
 LUKHAS Local LLM Code Fixer
 Integrates with Ollama/Deepseek for autonomous code quality improvements
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 import ast
 import asyncio

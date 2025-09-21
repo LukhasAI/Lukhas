@@ -1,7 +1,7 @@
 """
 LUKHAS Ethics Service - Module API Interface
 
-This service provides ethical assessment capabilities for the AGI system.
+This service provides ethical assessment capabilities for the Cognitive system.
 All operations are logged via ΛTRACE and respect user consent and tier access.
 
 Key functions:
@@ -40,7 +40,7 @@ except ImportError:
 
 class EthicsService:
     """
-    Main ethics assessment service for the LUKHAS AGI system.
+    Main ethics assessment service for the LUKHAS Cognitive system.
 
     Provides ethical evaluation capabilities with full integration to
     the identity system for access control and audit logging.

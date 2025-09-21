@@ -1,7 +1,7 @@
 {
   "module": "vivox",
   "version": "1.0.0",
-  "description": "VIVOX - Living Voice and Ethical Conscience System for LUKHAS AGI",
+  "description": "VIVOX - Living Voice and Ethical Conscience System for LUKHAS Cognitive AI",
   "components": {
     "memory_expansion": {
       "name": "VIVOX.ME",

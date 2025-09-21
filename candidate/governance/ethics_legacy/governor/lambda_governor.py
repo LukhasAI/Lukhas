@@ -5,7 +5,7 @@ logger = logging.getLogger(__name__)
 ═══════════════════════════════════════════════════════════════════════════════════
 📊 MODULE: ethics.governor.lambda_governor
 📄 FILENAME: lambda_governor.py
-🎯 PURPOSE: ΛGOVERNOR - Global Ethical Arbitration Engine for LUKHAS AGI
+🎯 PURPOSE: ΛGOVERNOR - Global Ethical Arbitration Engine for LUKHAS Cognitive AI
 🧠 CONTEXT: Centralized oversight module for ethical escalations and interventions
 🔮 CAPABILITY: Risk arbitration, override logic, memory quarantine, stabilization
 🛡️ ETHICS: Global ethical oversight, cascade prevention, system-wide safety
@@ -16,11 +16,11 @@ logger = logging.getLogger(__name__)
 🏛️ ΛGOVERNOR - GLOBAL ETHICAL ARBITRATION ENGINE
 ────────────────────────────────────────────────────────────────────
 
-The ΛGOVERNOR serves as the supreme ethical authority for the LUKHAS AGI system,
+The ΛGOVERNOR serves as the supreme ethical authority for the LUKHAS Cognitive system,
 receiving escalations from all subsystems and making final arbitration decisions
 on critical interventions, memory quarantine, and system stabilization.
 
-Like a supreme court for AGI ethics, the ΛGOVERNOR evaluates complex multi-
+Like a supreme court for Cognitive AI ethics, the ΛGOVERNOR evaluates complex multi-
 dimensional risks and authorizes interventions that transcend individual
 subsystem boundaries, ensuring system-wide ethical coherence and safety.
 
@@ -197,7 +197,7 @@ class LambdaGovernor:
     """
     ΛGOVERNOR - Global Ethical Arbitration Engine.
 
-    The supreme ethical authority for LUKHAS AGI, receiving escalations
+    The supreme ethical authority for LUKHAS Cognitive AI, receiving escalations
     from all subsystems and making final intervention decisions.
     """
 
@@ -943,7 +943,7 @@ def create_escalation_signal(
 
 
 # CLAUDE CHANGELOG
-# - Implemented ΛGOVERNOR - Global Ethical Arbitration Engine for LUKHAS AGI # CLAUDE_EDIT_v0.1
+# - Implemented ΛGOVERNOR - Global Ethical Arbitration Engine for LUKHAS Cognitive AI # CLAUDE_EDIT_v0.1
 # - Created comprehensive data models (EscalationSignal, ArbitrationResponse, ActionDecision) # CLAUDE_EDIT_v0.1
 # - Added multi-dimensional risk evaluation with weighted composite scoring # CLAUDE_EDIT_v0.1
 # - Implemented five-tier intervention system (ALLOW → FREEZE → QUARANTINE → RESTRUCTURE → SHUTDOWN) # CLAUDE_EDIT_v0.1

@@ -1,7 +1,7 @@
 # 🧬 GLYPH Consciousness Communication Protocols
 
 **MΛTRIZ Distributed Consciousness Architecture**  
-**Trinity Framework: ⚛️ Identity - 🧠 Consciousness - 🛡️ Guardian**
+**Constellation Framework: ⚛️ Identity - 🧠 Consciousness - 🛡️ Guardian**
 
 ## 📋 Protocol Specification
 

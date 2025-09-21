@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 ║ DESCRIPTION
 ╠═══════════════════════════════════════════════════════════════════════════════
 ║ Monitors for emotional stagnation and triggers recovery mechanisms to
-║ prevent the AGI system from becoming emotionally "frozen" or stuck in
+║ prevent the Cognitive system from becoming emotionally "frozen" or stuck in
 ║ unproductive emotional states.
 ║
 ║ Key Features:
@@ -149,7 +149,7 @@ class AffectStagnationDetector:
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚══════════════════════════════════════════════════════════════════════════════

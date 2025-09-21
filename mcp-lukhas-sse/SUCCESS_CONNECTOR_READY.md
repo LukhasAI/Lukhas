@@ -10,7 +10,7 @@ Your LUKHAS AI REST API is now **fully deployed** and **ChatGPT Connector ready*
 
 | Endpoint | Purpose | Example |
 |----------|---------|---------|
-| `/health` | Health check | Server status and Trinity Framework |
+| `/health` | Health check | Server status and Constellation Framework |
 | `/info` | System info | Complete LUKHAS AI platform details |
 | `/list-directory?path=/tmp` | List files | Secure directory browsing |
 | `/read-file?path=/tmp/file.txt` | Read files | Secure file reading (max 1MB) |
@@ -30,12 +30,12 @@ Your LUKHAS AI REST API is now **fully deployed** and **ChatGPT Connector ready*
 **Health Check:**
 ```bash
 curl https://lukhas-mcp-production.up.railway.app/health
-# ✅ {"status":"healthy","trinity_framework":"⚛️🧠🛡️",...}
+# ✅ {"status":"healthy","constellation_framework":"⚛️🧠🛡️",...}
 ```
 
-**Trinity Framework Info:**
+**Constellation Framework Info:**
 ```bash
-curl https://lukhas-mcp-production.up.railway.app/info | jq .lukhas_ai.trinity_framework
+curl https://lukhas-mcp-production.up.railway.app/info | jq .lukhas_ai.constellation_framework
 # ✅ Shows ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian details
 ```
 
@@ -49,7 +49,7 @@ curl https://lukhas-mcp-production.up.railway.app/openapi.json | jq .info.title
 
 Once connected, ChatGPT can:
 - ✅ Check LUKHAS AI system health
-- ✅ Get Trinity Framework information (⚛️🧠🛡️)
+- ✅ Get Constellation Framework information (⚛️🧠🛡️)
 - ✅ Browse safe directories (`/tmp`, `/var/tmp`)
 - ✅ Read text files securely (max 1MB)
 - ✅ Access full platform architecture details
@@ -67,14 +67,14 @@ Once connected, ChatGPT can:
 
 1. **Add the connector in ChatGPT** using the setup above
 2. **Test with simple prompts** like "Check LUKHAS AI health"
-3. **Explore the Trinity Framework** through ChatGPT conversations
+3. **Explore the Constellation Framework** through ChatGPT conversations
 4. **Monitor usage** via Railway dashboard
 
 ### 📊 System Status
 
 - **Deployment Platform:** Railway (99.9% uptime)
 - **Server Status:** ✅ HEALTHY
-- **Trinity Framework:** ⚛️🧠🛡️ ACTIVE
+- **Constellation Framework:** ⚛️🧠🛡️ ACTIVE
 - **Security:** ✅ ENABLED
 - **CORS:** ✅ CONFIGURED
 - **OpenAPI:** ✅ AVAILABLE
@@ -83,4 +83,4 @@ Once connected, ChatGPT can:
 
 **🎉 You're all set! ChatGPT can now connect to your LUKHAS AI platform!**
 
-*Trinity Framework: ⚛️ Identity • 🧠 Consciousness • 🛡️ Guardian*
+*Constellation Framework: ⚛️ Identity • 🧠 Consciousness • 🛡️ Guardian*

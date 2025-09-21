@@ -3,7 +3,7 @@
 🧬 LUKHAS Non-Core Module Analysis Summary
 Comprehensive analysis of dream, colony, consciousness, and QI sub-modules
 Generated: August 26, 2025
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 

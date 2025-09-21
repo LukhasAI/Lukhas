@@ -391,4 +391,4 @@ code --install-extension ms-vscode.vscode-json
 **Last Updated**: August 26, 2025 - Added T4 Hygiene System
 **Authority**: Deputy Assistant GitHub Copilot, LUKHAS AI Agent Army
 
-*Part of the Trinity Framework (⚛️🧠🛡️) consciousness development system*
+*Part of the Constellation Framework (⚛️🧠🛡️) consciousness development system*

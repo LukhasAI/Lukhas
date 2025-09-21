@@ -13,7 +13,7 @@ Features:
 - Predictive threat modeling
 - Multi-dimensional surveillance
 - Constitutional compliance monitoring
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 - Automated alert generation
 - Behavioral anomaly detection
 - Performance degradation tracking
@@ -23,7 +23,7 @@ Features:
 #TAG:sentinel
 #TAG:monitoring
 #TAG:surveillance
-#TAG:trinity
+#TAG:constellation
 """
 import asyncio
 import logging

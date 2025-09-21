@@ -1,7 +1,7 @@
 """
 LUKHAS AI Efficient Communication System
 Energy-optimized communication fabric for colony and agent coordination
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
 This module provides efficient communication patterns for the LUKHAS ecosystem,
 supporting event-driven messaging, P2P transfers, and energy optimization.

@@ -1,0 +1,244 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "branding/vocabularies",
+    "lane": "development",
+    "purpose": "Directory containing 10 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "voice_vocabulary.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.symbolic"
+        ],
+        "exports": [
+          "Voicesymbol",
+          "Voicesymbolicvocabulary",
+          "create_symbolic_synthesis_phrase",
+          "get_symbol_for_emotion",
+          "get_symbol_for_provider",
+          "create_synthesis_phrase",
+          "get_quality_indicators",
+          "get_all_symbols",
+          "get_context_symbols",
+          "analyze_emotional_weight"
+        ]
+      },
+      {
+        "filename": "dream_vocabulary.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "BrandingDreamVocabulary",
+          "create_dream_symbolic_narrative",
+          "dream_cycle_start",
+          "dream_phase_transition",
+          "pattern_discovered",
+          "insight_generated",
+          "emotional_context",
+          "memory_processing",
+          "cycle_completion",
+          "get_dream_symbol",
+          "get_dream_narrative",
+          "get_visual_hint",
+          "get_symbol",
+          "get_narrative",
+          "get_visual_hint",
+          "get_branding_context",
+          "cycle_start",
+          "phase_transition",
+          "branded_insight"
+        ]
+      },
+      {
+        "filename": "identity_vocabulary.py",
+        "component_type": "IDENTITY_SERVICE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "usage_examples.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolicLogger",
+          "create_status_display_line",
+          "log_bio_state",
+          "log_dream_phase",
+          "perform_identity_operation",
+          "log_any_symbol",
+          "get_system_status",
+          "log_state",
+          "log_bio"
+        ]
+      },
+      {
+        "filename": "vision_vocabulary.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.symbolic"
+        ],
+        "exports": [
+          "Visualsymbol",
+          "Visionsymbolicvocabulary",
+          "create_visual_quality_indicator",
+          "get_symbol_for_analysis_type",
+          "get_symbol_for_provider",
+          "get_dominant_color_symbol",
+          "create_analysis_phrase",
+          "get_quality_indicators",
+          "get_all_symbols",
+          "get_context_symbols",
+          "calculate_visual_harmony"
+        ]
+      },
+      {
+        "filename": "bio_vocabulary.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "create_bio_metric_summary",
+          "get_bio_symbol",
+          "get_bio_message",
+          "format_bio_log"
+        ]
+      },
+      {
+        "filename": "vocabulary_creativity_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.symbolic"
+        ],
+        "exports": [
+          "VocabularySymbolElement",
+          "VocabularyCreativityEngine",
+          "fix_later",
+          "get_symbol_for_analysis_type",
+          "get_symbol_for_provider",
+          "get_dominant_color_symbol",
+          "create_analysis_phrase",
+          "get_quality_indicators",
+          "get_all_symbols",
+          "get_context_symbols",
+          "calculate_visual_harmony"
+        ]
+      },
+      {
+        "filename": "vocabulary_template.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "get_symbol",
+          "get_guardian_weight"
+        ]
+      },
+      {
+        "filename": "emotion_vocabulary.py",
+        "component_type": "EMOTION_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "get_emotion_symbol",
+          "get_guardian_weight"
+        ]
+      },
+      {
+        "filename": "vocabulary.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.utils.__init__"
+        ],
+        "exports": [
+          "DreamOperation",
+          "fix_later",
+          "get_dream_symbol",
+          "get_dream_narrative",
+          "get_visual_hint",
+          "cycle_start",
+          "phase_transition",
+          "pattern_discovered",
+          "insight_generated",
+          "emotional_context",
+          "memory_processing",
+          "cycle_completion"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": [
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "README.md"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 10,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "intermediate",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "standard",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "branding",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

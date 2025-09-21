@@ -9,7 +9,7 @@ This module provides RESTful API endpoints for:
 - Universal Language API: Multimodal communication interfaces
 - Feedback API: User feedback collection and processing
 
-Trinity Framework Integration: ⚛️🧠🛡️
+Constellation Framework Integration: ⚛️🧠🛡️
 - ⚛️ Identity: Authenticated API access with ΛID integration
 - 🧠 Consciousness: Direct consciousness system interfaces
 - 🛡️ Guardian: API security and compliance monitoring

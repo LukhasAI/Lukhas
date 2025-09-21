@@ -6,10 +6,10 @@
 
 
 # LUKHAS Orchestration
-## Trinity Framework Async Management & Cross-System Coordination
+## Constellation Framework Async Management & Cross-System Coordination
 
 ### LUKHAS Orchestration Overview
-- **Purpose**: Async management and orchestration for Trinity Framework coordination
+- **Purpose**: Async management and orchestration for Constellation Framework coordination
 - **Architecture**: AsyncManager with cross-system workflow orchestration
 - **Integration**: Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️ coordination
 - **Scale**: Production-grade orchestration with enterprise reliability
@@ -22,10 +22,10 @@
 - Async event handling and callback management systems
 - Distributed async processing with fault tolerance and recovery
 
-#### **Trinity Framework Coordination** - Multi-Pillar Orchestration
+#### **Constellation Framework Coordination** - Multi-Pillar Orchestration
 - Identity-consciousness-memory coordination and state synchronization
 - Cross-pillar workflow orchestration and decision coordination
-- Trinity Framework state management and consistency enforcement
+- Constellation Framework state management and consistency enforcement
 - Multi-system integration with unified orchestration patterns
 
 #### **Cross-System Integration** - CANDIDATE-LUKHAS-PRODUCTS Bridge
@@ -42,7 +42,7 @@
 
 ### Orchestration Integration Patterns
 
-#### **Trinity Framework Orchestration**
+#### **Constellation Framework Orchestration**
 ```
 Orchestration Hub ⟷ Identity ⚛️ ⟷ Consciousness 🧠 ⟷ Memory 💾
         │              │              │              │
@@ -63,7 +63,7 @@ CANDIDATE Development → LUKHAS Orchestration → PRODUCTS Deployment
    Local Async ← Cross-System ← Enterprise
          │         Coordination      Orchestration
          │                      │                      │
-   Component ← Trinity Framework ← System
+   Component ← Constellation Framework ← System
    Orchestration    Coordination     Integration
 ```
 
@@ -97,7 +97,7 @@ CANDIDATE Development → LUKHAS Orchestration → PRODUCTS Deployment
 
 #### **Orchestration Development Workflow**
 ```
-Workflow Design → AsyncManager Setup → Trinity Integration
+Workflow Design → AsyncManager Setup → Constellation Integration
        │               │                    │
   Requirements → Orchestration → Cross-System
    Analysis        Engine         Coordination
@@ -148,7 +148,7 @@ Workflow Design → AsyncManager Setup → Trinity Integration
 ### Integration Points
 
 #### **LUKHAS System Integration**
-- Integration with ../claude.me for Trinity Framework coordination
+- Integration with ../claude.me for Constellation Framework coordination
 - Integration with ../consciousness/claude.me for consciousness orchestration
 - Integration with ../memory/claude.me for memory workflow coordination
 - Integration with ../identity/claude.me for identity orchestration
@@ -178,7 +178,7 @@ Workflow Design → AsyncManager Setup → Trinity Integration
 #### **Orchestration Effectiveness Metrics**
 - Workflow execution success rates and completion times
 - Cross-system coordination effectiveness and reliability
-- Trinity Framework orchestration performance metrics
+- Constellation Framework orchestration performance metrics
 - Integration pipeline success rates and deployment metrics
 
 #### **System Performance Metrics**
@@ -188,7 +188,7 @@ Workflow Design → AsyncManager Setup → Trinity Integration
 - Enterprise deployment effectiveness and scaling metrics
 
 ### Related Contexts
-- `../claude.me` - Trinity Framework hub coordination
+- `../claude.me` - Constellation Framework hub coordination
 - `../consciousness/claude.me` - Consciousness integration orchestration
 - `../memory/claude.me` - Memory system orchestration
 - `../identity/claude.me` - Identity workflow orchestration
@@ -196,7 +196,7 @@ Workflow Design → AsyncManager Setup → Trinity Integration
 
 ### LUKHAS Orchestration Capabilities
 - AsyncManager for enterprise-grade async workflow management
-- Trinity Framework coordination and multi-pillar orchestration
+- Constellation Framework coordination and multi-pillar orchestration
 - Cross-system integration and workflow coordination
 - Production-grade orchestration with high availability and performance
 - Intelligent orchestration with AI-powered optimization and adaptation

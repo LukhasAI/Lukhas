@@ -3,9 +3,9 @@ LUKHΛS Intent Router
 ====================
 
 Natural Language Understanding for routing user intents to appropriate handlers.
-Integrates with Trinity Framework for symbolic understanding.
+Integrates with Constellation Framework for symbolic understanding.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 import logging
 import re
@@ -70,7 +70,7 @@ class IntentRouter:
                 ),
                 (r"consciousness.*(?:level|state|status)", 0.8),
                 (r"how.*(?:aware|conscious)", 0.7),
-                (r"trinity.*(?:score|status)", 0.8),
+                (r"constellation.*(?:score|status)", 0.8),
             ],
             IntentType.CHECK_DRIFT: [
                 (r"(check|show|monitor)\s+(drift|deviation|anomaly)", 0.9),
@@ -79,8 +79,8 @@ class IntentRouter:
                 (r"guardian.*intervention", 0.7),
             ],
             IntentType.ANALYZE_TRINITY: [
-                (r"trinity.*(?:framework|status|analysis)", 0.9),
-                (r"analyze.*trinity", 0.8),
+                (r"constellation.*(?:framework|status|analysis)", 0.9),
+                (r"analyze.*constellation", 0.8),
                 (
                     r"(?:identity|consciousness|guardian)\s+(?:status|health)",
                     0.7,
@@ -238,7 +238,7 @@ class IntentRouter:
             "endpoint": "/api/consciousness/state",
             "parameters": intent.parameters,
             "glyphs": intent.glyphs,
-            "message": "Exploring consciousness state and Trinity alignment",
+            "message": "Exploring consciousness state and Constellation alignment",
         }
 
     def _handle_drift_check(self, intent: Intent) -> dict[str, Any]:
@@ -252,13 +252,13 @@ class IntentRouter:
         }
 
     def _handle_trinity_analysis(self, intent: Intent) -> dict[str, Any]:
-        """Handle Trinity Framework analysis."""
+        """Handle Constellation Framework analysis."""
         return {
             "action": "analyze_trinity",
-            "endpoint": "/api/trinity/status",
+            "endpoint": "/api/constellation/status",
             "parameters": intent.parameters,
             "glyphs": ["⚛️", "🧠", "🛡️"],
-            "message": "Analyzing Trinity Framework coherence",
+            "message": "Analyzing Constellation Framework coherence",
         }
 
     def _handle_intervention_request(self, intent: Intent) -> dict[str, Any]:
@@ -308,7 +308,7 @@ class IntentRouter:
                 "Query memory about [topic]",
                 "Show consciousness state",
                 "Check drift status",
-                "Analyze Trinity Framework",
+                "Analyze Constellation Framework",
             ],
         }
 

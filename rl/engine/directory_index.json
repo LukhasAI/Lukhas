@@ -1,0 +1,131 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "rl/engine",
+    "lane": "development",
+    "purpose": "Directory containing 3 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "value_networks.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "ConsciousnessValueNetwork",
+          "ValueNetwork",
+          "forward",
+          "update_accuracy",
+          "get_value_metrics"
+        ]
+      },
+      {
+        "filename": "policy_networks.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common",
+          "candidate.governance.guardian.guardian_system"
+        ],
+        "exports": [
+          "ConsciousnessDecisionType",
+          "ConsciousnessAction",
+          "ConsciousnessActorCritic",
+          "PolicyNetwork",
+          "MockPolicyRegistry",
+          "forward",
+          "get_module",
+          "get_decision_metrics",
+          "update_exploration_epsilon",
+          "get_policy"
+        ]
+      },
+      {
+        "filename": "consciousness_environment.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common",
+          "candidate.memory.temporal.compliance_hooks",
+          "candidate.governance.guardian.guardian_system",
+          "candidate.consciousness.reflection.consciousness_hub",
+          "candidate.core.orchestration.agent_orchestrator"
+        ],
+        "exports": [
+          "MatrizNode",
+          "ConsciousnessState",
+          "ConsciousnessEnvironment",
+          "MockModule",
+          "get_module",
+          "get_current_state",
+          "get_consciousness_metrics",
+          "get_consciousness_state",
+          "get_state"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "consciousness_environment.py"
+    ],
+    "common_tasks": [
+      {
+        "task": "Consciousness engine development",
+        "files_involved": [
+          "consciousness_environment.py"
+        ],
+        "complexity": "high"
+      }
+    ],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 3,
+    "estimated_complexity": "low",
+    "consciousness_integration": "intermediate",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "standard",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "rl",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

@@ -153,7 +153,7 @@ class TestMatrizConsciousnessIntegration:
     @pytest.mark.skipif(not COMPONENTS_AVAILABLE, reason="MΛTRIZ components not available")
     @pytest.mark.asyncio
     async def test_triad_framework_compliance(self):
-        """Test Trinity Framework (⚛️🧠🛡️) compliance"""
+        """Test Constellation Framework (⚛️🧠🛡️) compliance"""
 
         # Create consciousness with Trinity compliance
         consciousness = await create_consciousness_state(
@@ -233,7 +233,7 @@ class TestMatrizConsciousnessIntegration:
         assert hasattr(state, "TRIGGERS")
         assert hasattr(state, "REFLECTIONS")
 
-        # Verify Trinity Framework compliance
+        # Verify Constellation Framework compliance
         assert hasattr(state, "identity_signature")
         assert hasattr(state, "consciousness_depth")
         assert hasattr(state, "guardian_approval")
@@ -266,7 +266,7 @@ class TestMatrizIntegratedDemo:
             assert "summary_metrics" in result
             assert "triad_framework_validation" in result
 
-            # Verify Trinity Framework validation
+            # Verify Constellation Framework validation
             trinity = result["triad_framework_validation"]
             assert "identity" in trinity
             assert "consciousness" in trinity

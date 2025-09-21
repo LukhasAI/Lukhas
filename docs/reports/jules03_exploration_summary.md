@@ -16,7 +16,7 @@ While waiting for my tasks, I have performed a deep dive into the codebase to un
 - `candidate/bridge/external_adapters/oauth_manager.py`
 
 ## Key Findings
-1.  **Authentication Architecture**: The system uses a sophisticated, multi-layered authentication architecture based on the Trinity Framework's **Identity** pillar.
+1.  **Authentication Architecture**: The system uses a sophisticated, multi-layered authentication architecture based on the Constellation Framework's **Identity** pillar.
 2.  **API Gateway**: A central API Gateway handles all incoming requests and enforces authentication and authorization using OAuth2/OIDC and JWTs.
 3.  **Bridge System**: A dedicated "Bridge" system is responsible for connecting to external services, including identity providers for SSO.
 4.  **OAuthManager**: There is a well-structured but incomplete `OAuthManager` class that provides a framework for handling OAuth2 flows, including token management, security, and resilience patterns like circuit breakers. The actual API calls to providers are currently stubbed.

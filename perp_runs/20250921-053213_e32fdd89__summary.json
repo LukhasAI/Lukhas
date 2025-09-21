@@ -1,0 +1,21 @@
+{
+  "meta": {
+    "run_id": "20250921-053213_e32fdd89",
+    "model": "sonar",
+    "premise": "Replace celestial metaphors with 8 diverse families: Neural Gardens (organic), Architectural Bridges (structural), Harmonic Resonance (musical), Woven Patterns (textile), Geological Strata (earth), Fluid Dynamics (liquid), Prismatic Light (optical), Circuit Patterns (electronic). Enforce novelty ≥0.8, clarity ≥0.95, zero repetition. Target: consciousness technology with 3-layer flow (Poetic → Academic → User-Friendly) and MATRIZ integration.",
+    "pipeline_version": "1.0.0",
+    "lukhas_version": "Constellation Framework",
+    "timestamp": 1758429133.031265
+  },
+  "summary": {
+    "run_id": "20250921-053213_e32fdd89",
+    "success": true,
+    "families_generated": 8,
+    "citations_found": 5,
+    "taboo_phrases": 6,
+    "grandma_pass_rate": 0.998,
+    "avg_novelty": 0.876,
+    "issues_found": 8,
+    "output_dir": "/Users/agi_dev/LOCAL-REPOS/Lukhas/perp_runs"
+  }
+}

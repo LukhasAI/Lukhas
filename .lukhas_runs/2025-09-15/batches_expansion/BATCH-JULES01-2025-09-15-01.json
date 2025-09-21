@@ -492,7 +492,7 @@
     {
       "task_id": "TODO-CRIT-CANDIDATE-QI-a24bd36a",
       "priority": "critical",
-      "title": "kept for Trinity Framework consciousness evolution",
+      "title": "kept for Constellation Framework consciousness evolution",
       "file": "./candidate/qi/engines/identity/qi_identity_manager.py",
       "line_hint": 36,
       "module": "candidate/qi",

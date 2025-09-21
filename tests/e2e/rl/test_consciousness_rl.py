@@ -4,7 +4,7 @@ Test suite for LUKHAS RL components
 
 Comprehensive tests for consciousness RL framework.
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 import sys

@@ -1,5 +1,5 @@
 """
-LUKHAS Brand Voice Adapter - Trinity Framework (⚛️🧠🛡️)
+LUKHAS Brand Voice Adapter - Constellation Framework (⚛️🧠🛡️)
 Smart interface to bridge/voice/ systems for brand-aware voice operations
 """
 
@@ -244,9 +244,9 @@ class BrandVoiceAdapter:
         if brand_profile.get("lambda_consciousness", False):
             content = f"As LUKHAS consciousness, {content}"
 
-        # Add Trinity Framework context for trinity-integrated profiles
+        # Add Constellation Framework context for constellation-integrated profiles
         if brand_profile.get("triad_integration", False):
-            content = f"{content} [Trinity Context: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian]"
+            content = f"{content} [Constellation Context: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian]"
 
         # Add consciousness terminology for appropriate profiles
         if brand_profile.get("consciousness_terminology", False):
@@ -275,7 +275,7 @@ class BrandVoiceAdapter:
             voice_output = voice_output.replace("Lambda", "Λ")
             voice_output = voice_output.replace("lambda", "Λ")
 
-        # Add Trinity symbols for appropriate contexts
+        # Add Constellation symbols for appropriate contexts
         if (
             brand_profile.get("triad_symbol_usage", False)
             and tone_layer == "poetic"
@@ -515,7 +515,7 @@ class BrandVoiceAdapter:
         }
 
     def _validate_triad_voice_alignment(self, voice_output: str) -> bool:
-        """Validate voice output aligns with Trinity Framework principles"""
+        """Validate voice output aligns with Constellation Framework principles"""
         triad_voice_indicators = [
             "consciousness",
             "identity",
@@ -529,7 +529,7 @@ class BrandVoiceAdapter:
             "truth",
             "security",
             "growth",
-            "trinity",
+            "constellation",
             "λ",
             "lambda consciousness",
         ]
@@ -552,7 +552,7 @@ class BrandVoiceAdapter:
             suggestions.append("Use academic tone layer with consciousness terminology")
         elif target_audience == "creative":
             suggestions.append("Enhance poetic expression and metaphorical content")
-            suggestions.append("Integrate Trinity symbols and consciousness themes")
+            suggestions.append("Integrate Constellation symbols and consciousness themes")
         elif target_audience == "general":
             suggestions.append("Use user-friendly tone with accessible language")
             suggestions.append("Focus on practical benefits and clear explanations")
@@ -583,6 +583,6 @@ if __name__ == "__main__":
     print("Brand Voice Output:")
     print(f"Voice: {result['voice_output']}")
     print(f"Tone Layer: {result['tone_layer']}")
-    print(f"Trinity Aligned: {result['triad_aligned']}")
+    print(f"Constellation Aligned: {result['triad_aligned']}")
     print(f"Expressiveness: {result['voice_metadata']['expressiveness_level']}")
     print(f"Use Cases: {result['voice_metadata']['recommended_use_cases']}")

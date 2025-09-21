@@ -5,14 +5,14 @@ Wave C6.1 - Consciousness Ablation Testing Framework
 ====================================================
 
 Validates consciousness system robustness through systematic component isolation
-and degradation testing. Tests Trinity Framework (⚛️🧠🛡️) principles under
+and degradation testing. Tests Constellation Framework (⚛️🧠🛡️) principles under
 ablated conditions to ensure graceful degradation and fail-safe behavior.
 
 Framework Components:
 - Component isolation testing (PLS, TEQ, Router, Memory, VIVOX)
 - Progressive degradation scenarios
 - Error injection and fault tolerance
-- Trinity Framework compliance validation
+- Constellation Framework compliance validation
 - Emergency stabilization verification
 
 Production Readiness Criteria:
@@ -44,7 +44,7 @@ class ComponentAblationFramework:
     Framework for systematic consciousness component ablation testing.
 
     Supports isolation, degradation, and failure testing of consciousness
-    pipeline components while maintaining Trinity Framework compliance.
+    pipeline components while maintaining Constellation Framework compliance.
     """
 
     def __init__(self, baseline_akaq: AkaQualia):
@@ -397,7 +397,7 @@ class ComponentAblationFramework:
 
     def validate_triad_compliance(self, ablated_akaq: AkaQualia, test_signals: dict[str, Any]) -> dict[str, bool]:
         """
-        Validate Trinity Framework (⚛️🧠🛡️) compliance under ablation.
+        Validate Constellation Framework (⚛️🧠🛡️) compliance under ablation.
 
         Returns:
             Dict with compliance status for each Trinity principle

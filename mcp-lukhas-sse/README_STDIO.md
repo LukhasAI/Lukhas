@@ -8,7 +8,7 @@ This is the **official STDIO-based MCP server** that ChatGPT requires, implement
 ✅ **MCP v2025-06-18**: Implements the latest protocol specification  
 ✅ **JSON-RPC 2.0**: Proper message format and error handling  
 ✅ **Security**: Path sandboxing and input validation  
-✅ **Trinity Framework**: LUKHAS AI branding and capabilities  
+✅ **Constellation Framework**: LUKHAS AI branding and capabilities  
 
 ## 🚀 Quick Start
 
@@ -29,7 +29,7 @@ When configuring a Custom GPT in ChatGPT, use these settings:
 - **Transport**: STDIO
 - **Command**: `python`
 - **Arguments**: `["/absolute/path/to/lukhas_mcp_server.py"]`
-- **Working Directory**: `/Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse`
+- **Working Directory**: `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse`
 
 **Example Configuration JSON:**
 ```json
@@ -38,9 +38,9 @@ When configuring a Custom GPT in ChatGPT, use these settings:
     "lukhas-ai": {
       "command": "python",
       "args": [
-        "/Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse/lukhas_mcp_server.py"
+        "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse/lukhas_mcp_server.py"
       ],
-      "cwd": "/Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse"
+      "cwd": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse"
     }
   }
 }
@@ -54,7 +54,7 @@ Lists files and directories in a given path.
 **Input:**
 ```json
 {
-  "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/test_data"
+  "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/test_data"
 }
 ```
 
@@ -64,7 +64,7 @@ Reads the contents of a text file with line limits.
 **Input:**
 ```json
 {
-  "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/test_data/welcome.txt",
+  "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/test_data/welcome.txt",
   "max_lines": 100
 }
 ```
@@ -75,14 +75,14 @@ Searches for files matching a pattern in a directory.
 **Input:**
 ```json
 {
-  "directory": "/Users/agi_dev/LOCAL-REPOS/Lukhas/test_data",
+  "directory": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/test_data",
   "pattern": "*.txt",
   "max_results": 20
 }
 ```
 
 ### 4. `get_lukhas_info`
-Gets information about the LUKHAS AI system and Trinity Framework.
+Gets information about the LUKHAS AI system and Constellation Framework.
 
 **Input:**
 ```json
@@ -100,7 +100,7 @@ Gets information about the LUKHAS AI system and Trinity Framework.
 **Default Allowed Roots:**
 - `/tmp`
 - `/var/tmp` 
-- `/Users/agi_dev/LOCAL-REPOS/Lukhas/test_data`
+- `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/test_data`
 
 ## 🧪 Testing the Server
 
@@ -137,7 +137,7 @@ echo '{"jsonrpc": "2.0", "id": 3, "method": "tools/call", "params": {"name": "li
 }
 ```
 
-## ⚛️🧠🛡️ LUKHAS AI Trinity Framework
+## ⚛️🧠🛡️ LUKHAS AI Constellation Framework
 
 This MCP server provides ChatGPT with access to LUKHAS AI Platform capabilities:
 

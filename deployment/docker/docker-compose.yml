@@ -22,12 +22,19 @@ services:
     volumes:
       - ./data:/app/data
       - ./.lukhas_audit:/app/.lukhas_audit
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://loki:3100/loki/api/v1/push"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/feedback/health"]
       interval: 30s
       timeout: 10s
       retries: 3
     restart: unless-stopped
+    depends_on:
+      - loki
+      - promtail
 
   # Optional: Redis for caching
   redis:
@@ -51,6 +58,36 @@ services:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
 
+  loki:
+    image: grafana/loki:2.7.1
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    restart: unless-stopped
+
+  promtail:
+    image: grafana/promtail:2.7.1
+    volumes:
+      - /var/log:/var/log
+      - ./promtail-config.yml:/etc/promtail/config.yml
+    command: -config.file=/etc/promtail/config.yml
+    restart: unless-stopped
+    depends_on:
+      - loki
+
+  grafana:
+    image: grafana/grafana:9.3.6
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    restart: unless-stopped
+    depends_on:
+      - loki
+
 volumes:
   redis_data:
   postgres_data:
+  grafana_data:

@@ -11,7 +11,7 @@ Integration Date: 2025-05-31T07:55:28.263428
 🧾 DESCRIPTION : Emotional oscillator for LUKHAS_AGI_3.8 subsystems (e.g., ethics, risk).
 Handles amplitude, frequency, and phase dynamics for local emotional modulation.
 
-🛠️ NOTE       : This module operates independently of the full AGI-level oscillator prototype,
+🛠️ NOTE       : This module operates independently of the full Cognitive AI-level oscillator prototype,
 which includes prime harmonics, entanglement-like correlation, and tensor collapse logic.
 
 📚 CONTEXT    : Integrated into subsystem layers. Feeds compliance drift and ethics monitoring.

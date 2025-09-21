@@ -49,7 +49,7 @@ class PostConsolidationAuditor:
             "voice": ["voice", "voice_systems", "speech", "audio"],
             "interface": ["interface", "ui", "web", "mobile", "video"],
             "integration": ["integration", "unified", "orchestrator"],
-            "enhancement": ["enhancement", "optimization", "agi_enhancement"],
+            "enhancement": ["enhancement", "optimization", "cognitive_enhancement"],
             "learning": ["learning", "meta_learning", "adaptive", "ml"],
             "security": ["security", "auth", "encryption", "ssl"],
             "network": ["network", "communication", "protocol"],

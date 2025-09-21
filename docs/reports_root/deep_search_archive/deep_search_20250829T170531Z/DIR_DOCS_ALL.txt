@@ -123,7 +123,7 @@ docs/consciousness/bio-inspired-design.md
 docs/consciousness/consciousness-patterns.md
 docs/consciousness/symbolic-vocabulary.md
 docs/consciousness/trinity-framework-guide.md
-docs/consciousness/trinity_framework.md
+docs/consciousness/constellation_framework.md
 docs/consciousness/vivox_capabilities_report.md
 docs/consciousness/vivox_evrn_implementation_report.md
 docs/consciousness/vivox_improvements_summary.md

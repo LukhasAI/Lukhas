@@ -18,7 +18,7 @@
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ The Bio Vocabulary module provides symbolic representations for all biometric
-║ and health-related operations within the LUKHAS AGI system. It enables clear
+║ and health-related operations within the LUKHAS Cognitive system. It enables clear
 ║ communication of physiological states and authentication statuses.
 ║
 ║ Key Features:
@@ -224,7 +224,7 @@ def format_bio_log(operation: str, details: str = "") -> str:
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This vocabulary is part of the LUKHAS AGI system. Use only as intended
+║   This vocabulary is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚══════════════════════════════════════════════════════════════════════════════════

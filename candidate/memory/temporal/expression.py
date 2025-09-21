@@ -14,7 +14,7 @@ Integration Date: 2025-05-31T07:55:27.749623
 
 # 📄 MODULE: lukhas_expression.py
 # 🔎 PURPOSE: Synthesize symbolic opinions, reflections, and visual prompts from recent flashbacks
-# 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-04-30 • ✍️ AUTHOR: LUKHAS AGI
+# 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-04-30 • ✍️ AUTHOR: LUKHAS Cognitive AI
 
 import json
 import os

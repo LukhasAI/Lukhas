@@ -6,11 +6,11 @@
 
 
 # CANDIDATE Core Orchestration Systems
-*266-File Multi-Agent Coordination - Distributed AGI Orchestration*
+*266-File Multi-Agent Coordination - Distributed Cognitive Orchestration*
 
 ## Multi-Agent Orchestration Overview
 
-CANDIDATE core orchestration represents the **largest coordination system** in LUKHAS with **266 files** implementing comprehensive multi-agent coordination, distributed task management, and external service orchestration. This is the primary AGI coordination engine that manages distributed consciousness, reasoning, and integration workflows across the entire LUKHAS ecosystem.
+CANDIDATE core orchestration represents the **largest coordination system** in LUKHAS with **266 files** implementing comprehensive multi-agent coordination, distributed task management, and external service orchestration. This is the primary Cognitive AI coordination engine that manages distributed consciousness, reasoning, and integration workflows across the entire LUKHAS ecosystem.
 
 ### **Orchestration System Scope**
 - **Files**: 266 orchestration files (largest CANDIDATE core domain)
@@ -113,7 +113,7 @@ class AgentOrchestrator:
 
 #### **Integration Agent** (`agents/integration_agent.py`)
 **Cross-system integration coordination**
-- **Trinity Framework**: Identity-Consciousness-Memory integration orchestration
+- **Constellation Framework**: Identity-Consciousness-Memory integration orchestration
 - **LUKHAS Bridge**: CANDIDATE-LUKHAS integration workflow coordination
 - **External Systems**: External service integration and coordination management
 - **State Synchronization**: Cross-system state synchronization and consistency
@@ -327,7 +327,7 @@ async def integrate_external_service(self, service_specification):
 - **Workflow Execution**: Complex workflow orchestration with performance optimization
 
 ### **System Integration**
-- ✅ **Trinity Framework**: Orchestration integration with Identity-Consciousness-Memory
+- ✅ **Constellation Framework**: Orchestration integration with Identity-Consciousness-Memory
 - ✅ **CANDIDATE Integration**: Orchestration coordination across 193 CANDIDATE subdirectories
 - ✅ **LUKHAS Bridge**: Orchestration workflow integration with LUKHAS coordination
 - 🔄 **PRODUCTS Deployment**: Production orchestration deployment patterns development
@@ -354,14 +354,14 @@ async def integrate_external_service(self, service_specification):
 
 ### **Production Integration**
 1. **LUKHAS Integration**: Enhanced CANDIDATE-LUKHAS orchestration coordination
-2. **Trinity Coordination**: Optimized Trinity Framework orchestration integration
+2. **Constellation Coordination**: Optimized Constellation Framework orchestration integration
 3. **Production Scaling**: Enterprise-scale orchestration deployment patterns
 4. **Performance Optimization**: Sub-100ms orchestration coordination optimization
 
 ---
 
 **Orchestration System**: 266 files with multi-agent coordination | **Core**: AgentOrchestrator (24KB) + Base patterns + Specialized agents
-**Integration**: Multi-AI coordination + External APIs + Workflow management | **Status**: Active development with Trinity Framework integration
+**Integration**: Multi-AI coordination + External APIs + Workflow management | **Status**: Active development with Constellation Framework integration
 **Performance**: <100ms coordination + Sub-250ms synthesis + <500ms external integration
 
-*Primary AGI coordination engine - extend through agent specialization and workflow development*
+*Primary Cognitive AI coordination engine - extend through agent specialization and workflow development*

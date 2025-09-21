@@ -61,6 +61,27 @@ The drift pipeline emits Prometheus metrics for monitoring:
 
 This integration ensures the VIVOX system maintains alignment and coherence while providing forensically sound audit trails of all drift events.
 
+## AkaQualia Integrity Micro-Check (Task 7)
+
+The VIVOX architecture includes integrity micro-checks within the AkaQualia processing loop for continuous drift monitoring and autonomous correction:
+
+### Micro-Check Integration
+- **After Each AkaQualia Step**: IntegrityProbe.run_consistency_check() validates state integrity
+- **State Monitoring**: Tracks ethical compliance, memory fold stability, and identity coherence
+- **Automatic Repair**: Triggers on_exceed() when drift ≥ critical threshold (0.15)
+- **Rate Limited**: Maximum 3 repair attempts per 5 minutes per drift type
+
+### Telemetry Metrics
+- `qualia_microcheck_attempts_total`: Total micro-check executions in AkaQualia loop
+- `qualia_microcheck_failures_total`: Micro-checks that detected drift above threshold
+- `qualia_microcheck_duration_seconds`: Performance overhead tracking (target ≤5%)
+
+### Micro-Check Semantics
+1. **Drift Detection**: Compares current vs previous consciousness state snapshots
+2. **Threshold Enforcement**: Fails if any dimension exceeds 0.15 critical threshold
+3. **Autonomous Repair**: Invokes TraceRepairEngine for reconsolidation/realignment
+4. **Ledger Integration**: Records repair rationale and improvement metrics for audit
+
 ### How to Read top_symbols
 
 The `top_symbols` array identifies the primary contributors to drift for root cause analysis:

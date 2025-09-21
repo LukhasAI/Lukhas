@@ -1,7 +1,7 @@
 """
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 🌉 LUKHAS AI - Memory Fold Universal Bridge
-║ Connects the memory fold system to every other system in the LUKHAS AGI
+║ Connects the memory fold system to every other system in the LUKHAS Cognitive AI
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠═══════════════════════════════════════════════════════════════════════════════
 ║ Module: memory_fold_universal_bridge.py

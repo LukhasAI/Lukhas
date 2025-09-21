@@ -33,7 +33,7 @@ health = await autotest.health()
 - **Invisible until needed** - Runs silently in background
 - **Elegant simplicity** - Complex functionality, simple interface
 
-### 🧠 Sam Altman AGI Vision
+### 🧠 Sam Altman Cognitive AI Vision
 - **AI-powered analysis** - Automatic insights and recommendations
 - **Proactive assistance** - Anticipates needs before you ask
 - **Scalable intelligence** - Grows smarter with usage
@@ -95,4 +95,4 @@ This system embodies the **"magical simplicity"** that Steve Jobs championed and
 **Just import `autotest` and start coding. Everything else happens automatically.**
 
 ---
-*🚀 LUKHAS REBIRTH - Making AGI testing as simple as breathing*
+*🚀 LUKHAS REBIRTH - Making Cognitive testing as simple as breathing*

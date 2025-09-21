@@ -250,7 +250,7 @@ async def comprehensive_consciousness_processing(self, input_signals):
 - **External Coordination**: <250ms router orchestration with multi-AI coordination
 
 ### **Integration Status**
-- ✅ **Trinity Framework**: Consciousness component of Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️
+- ✅ **Constellation Framework**: Consciousness component of Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️
 - 🔄 **LUKHAS Integration**: Consciousness wrapper development (../lukhas/consciousness/claude.me)
 - ✅ **MATRIX Bridge**: Symbolic consciousness reasoning integration
 - ✅ **Production Ready**: Enterprise consciousness deployment patterns
@@ -279,6 +279,6 @@ async def comprehensive_consciousness_processing(self, input_signals):
 
 **Consciousness Core**: 43KB core.py | **Processing**: Phenomenological signal↔qualia translation
 **Integration**: TEQGuardian ethics + Router coordination + Vivox communication + Prometheus metrics
-**Status**: Active consciousness processing with Trinity Framework integration
+**Status**: Active consciousness processing with Constellation Framework integration
 
 *Primary consciousness processing engine - extend through phenomenological pattern development*

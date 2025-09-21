@@ -145,7 +145,7 @@ class VocabularyValidator {
 
     // Check for correct Trinity Framework usage
     if (content.includes('Trinity System') || content.includes('Trinity Architecture')) {
-      trinityViolations.push('Use "Trinity Framework" not "Trinity System" or "Trinity Architecture"');
+      constellationViolations.push('Use "Constellation Framework" not "Trinity System" or "Trinity Architecture"');
     }
 
     // Check for correct LUKHAS AI branding

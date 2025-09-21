@@ -1,0 +1,814 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "tools/scripts",
+    "lane": "development",
+    "purpose": "Directory containing 50 Python files and 2 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "bootstrap.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "LUKHASBootstrap",
+          "main",
+          "create_main_py",
+          "create_env_example",
+          "rename_quantum_to_qim",
+          "create_startup_script",
+          "run"
+        ]
+      },
+      {
+        "filename": "migrate_to_common_utils.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "update_imports_in_file",
+          "main"
+        ]
+      },
+      {
+        "filename": "batch_fix.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_directory",
+          "main"
+        ]
+      },
+      {
+        "filename": "generate_final_research_report.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "load_latest_reports",
+          "generate_comprehensive_report",
+          "generate_research_insights",
+          "generate_conclusions",
+          "save_comprehensive_report",
+          "print_report_summary",
+          "main"
+        ]
+      },
+      {
+        "filename": "identity_refactor.py",
+        "component_type": "IDENTITY_SERVICE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "IdentityRefactor",
+          "main",
+          "backup_identity_modules",
+          "remove_legacy_files",
+          "create_simplified_wrappers",
+          "update_imports",
+          "generate_report",
+          "execute"
+        ]
+      },
+      {
+        "filename": "syntax_doctor.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SyntaxDoctor",
+          "main",
+          "find_syntax_errors",
+          "has_syntax_error",
+          "get_syntax_error_details",
+          "fix_file",
+          "apply_specific_fixes",
+          "fix_unclosed_strings",
+          "fix_indentation",
+          "generate_report"
+        ]
+      },
+      {
+        "filename": "module_standardization_checker.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ModuleStandardizationChecker",
+          "print_summary",
+          "main",
+          "check_module",
+          "check_all_modules",
+          "generate_report",
+          "save_report"
+        ]
+      },
+      {
+        "filename": "enhance_modules_simple.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "enhance_module",
+          "main"
+        ]
+      },
+      {
+        "filename": "fix_candidate_imports.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_imports_in_file",
+          "main"
+        ]
+      },
+      {
+        "filename": "count_syntax_errors.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "count_syntax_errors"
+        ]
+      },
+      {
+        "filename": "fix_syntax_errors.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "find_syntax_error_line",
+          "fix_eol_string_literal",
+          "main"
+        ]
+      },
+      {
+        "filename": "AUTO_IDENTITY_FIXER.py",
+        "component_type": "IDENTITY_SERVICE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AutoIdentityFixer",
+          "main",
+          "fix_all"
+        ]
+      },
+      {
+        "filename": "check_progress.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "check_directory",
+          "main"
+        ]
+      },
+      {
+        "filename": "aggressive_file_consolidator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AggressiveFileConsolidator",
+          "main",
+          "analyze_file",
+          "consolidate_files",
+          "add_neuroplastic_tags",
+          "clean_empty_directories",
+          "generate_report"
+        ]
+      },
+      {
+        "filename": "apply_lukhas_naming_conventions.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "LukhasNamingApplicator",
+          "main",
+          "apply_refinements"
+        ]
+      },
+      {
+        "filename": "organize_root_directory.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "organize_root"
+        ]
+      },
+      {
+        "filename": "smart_streamline.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SmartStreamline",
+          "main",
+          "analyze_connectivity",
+          "consolidate_duplicate_utilities",
+          "create_import_fixer_script",
+          "create_connectivity_enhancer",
+          "generate_report",
+          "run"
+        ]
+      },
+      {
+        "filename": "comprehensive_system_report.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "LUKHASSystemDiagnostic",
+          "main",
+          "check_python_environment",
+          "check_core_modules",
+          "check_api_credentials",
+          "test_api_endpoints",
+          "run_test_suite",
+          "analyze_file_structure",
+          "identify_issues",
+          "generate_summary",
+          "run_comprehensive_diagnostic",
+          "save_report",
+          "print_summary"
+        ]
+      },
+      {
+        "filename": "system_status_reporter.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "run_command",
+          "test_import",
+          "test_api_endpoint",
+          "count_files",
+          "get_git_status",
+          "analyze_pytest_results",
+          "check_file_exists",
+          "get_file_size",
+          "generate_system_report",
+          "print_report_summary",
+          "main"
+        ]
+      },
+      {
+        "filename": "FULL_INTEGRATION.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "LukhasLambdaIntegrator",
+          "save_integration_report"
+        ]
+      },
+      {
+        "filename": "system_status_comprehensive_report.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SystemHealthAnalyzer",
+          "main",
+          "run_comprehensive_analysis",
+          "analyze_python_environment",
+          "test_core_modules",
+          "check_api_systems",
+          "analyze_test_results",
+          "check_vivox_systems",
+          "check_identity_systems",
+          "check_file_integrity",
+          "analyze_performance",
+          "generate_final_report",
+          "calculate_health_score",
+          "count_working_systems",
+          "generate_recommendations",
+          "save_report"
+        ]
+      },
+      {
+        "filename": "research_report_generator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "create_comprehensive_research_report",
+          "create_markdown_report",
+          "main"
+        ]
+      },
+      {
+        "filename": "fix_imports.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ImportFixer",
+          "main",
+          "fix_file",
+          "create_missing_init_files",
+          "fix_all_files",
+          "generate_requirements_additions"
+        ]
+      },
+      {
+        "filename": "streamline_implementation.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "StreamlineImplementation",
+          "main",
+          "implement_phase1",
+          "implement_phase2",
+          "create_migration_script",
+          "run"
+        ]
+      },
+      {
+        "filename": "health_monitor.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SystemHealthMonitor",
+          "main",
+          "check_vital_signs",
+          "check_merge_conflicts",
+          "check_syntax_errors",
+          "check_entry_points",
+          "check_module_health",
+          "diagnose_overall_health",
+          "generate_health_report",
+          "save_health_data"
+        ]
+      },
+      {
+        "filename": "fix_eol_errors.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_eol_in_file",
+          "main"
+        ]
+      },
+      {
+        "filename": "bulk_fix_textual_syntax.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "process_text",
+          "main"
+        ]
+      },
+      {
+        "filename": "cleanup_root_directory.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "RootDirectoryCleaner",
+          "main",
+          "scan_root_directory",
+          "categorize_file",
+          "move_file",
+          "cleanup_empty_directories",
+          "create_directory_structure",
+          "generate_report"
+        ]
+      },
+      {
+        "filename": "fix_all_syntax.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_multiline_string_error",
+          "get_syntax_error",
+          "main"
+        ]
+      },
+      {
+        "filename": "final_linting_fix.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "run_command",
+          "fix_syntax_errors",
+          "add_missing_imports",
+          "main"
+        ]
+      },
+      {
+        "filename": "fix_real_issues.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "get_flake8_issues",
+          "fix_undefined_names",
+          "fix_syntax_errors",
+          "main"
+        ]
+      },
+      {
+        "filename": "smart_fix.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SmartFixer",
+          "run_command",
+          "identify_critical_issues",
+          "fix_unused_imports",
+          "format_conservatively",
+          "sort_imports_safely",
+          "validate_fixes",
+          "generate_report",
+          "run"
+        ]
+      },
+      {
+        "filename": "redundancy_remover.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "RedundancyRemover",
+          "main",
+          "remove_duplicate_logger_setup",
+          "remove_duplicate_functions",
+          "consolidate_imports",
+          "remove_unused_imports",
+          "generate_report",
+          "run"
+        ]
+      },
+      {
+        "filename": "apply_naming_dry_run.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "scripts.apply_lukhas_naming_conventions"
+        ],
+        "exports": [
+          "main"
+        ]
+      },
+      {
+        "filename": "auto_fix_linting.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AutoLintFixer",
+          "run_command",
+          "fix_with_black",
+          "fix_with_ruff",
+          "fix_imports_with_isort",
+          "remove_unused_imports",
+          "check_remaining_issues",
+          "generate_report",
+          "run_full_fix",
+          "ensure_tools_installed"
+        ]
+      },
+      {
+        "filename": "system_diagnostic.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SystemDiagnostic",
+          "check_module_imports",
+          "check_data_files",
+          "check_api_functionality",
+          "check_module_health",
+          "check_triad_integration",
+          "generate_report",
+          "run_diagnostic"
+        ]
+      },
+      {
+        "filename": "aggressive_fix.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "aggressive_fix_directory",
+          "main"
+        ]
+      },
+      {
+        "filename": "mesh_implementation.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TagType",
+          "Tag",
+          "MeshNode",
+          "Colony",
+          "UniversalMesh",
+          "decay",
+          "is_alive",
+          "add_node"
+        ]
+      },
+      {
+        "filename": "consolidate_modules.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ModuleConsolidator",
+          "update_module_base_classes",
+          "main",
+          "update_file"
+        ]
+      },
+      {
+        "filename": "smart_naming_refactor.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SmartNamingRefactor",
+          "LUKHASNameTransformer",
+          "main",
+          "backup_file",
+          "refactor_file",
+          "refactor_filename",
+          "run",
+          "generate_report",
+          "visit_ClassDef",
+          "visit_FunctionDef"
+        ]
+      },
+      {
+        "filename": "promote_module.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "PromotionResult",
+          "parse_args",
+          "ensure_parent",
+          "copy_tree",
+          "rewrite_imports",
+          "create_shim",
+          "main"
+        ]
+      },
+      {
+        "filename": "migrate_paths.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas_paths"
+        ],
+        "exports": [
+          "PathMigrator",
+          "find_python_files",
+          "needs_migration",
+          "migrate_file",
+          "run_migration"
+        ]
+      },
+      {
+        "filename": "execute_directory_reorganization.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DirectoryReorganizer",
+          "main",
+          "move_directory",
+          "archive_directory",
+          "update_module_manifest",
+          "create_import_migration_guide",
+          "execute",
+          "create_summary_report"
+        ]
+      },
+      {
+        "filename": "quality_dashboard.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "QualityDashboard",
+          "main",
+          "generate_dashboard",
+          "collect_metrics",
+          "generate_html"
+        ]
+      },
+      {
+        "filename": "fix_post_modularization_imports.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_imports_in_file",
+          "main"
+        ]
+      },
+      {
+        "filename": "execute_codebase_hygiene.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "CodebaseHygieneExecutor",
+          "main",
+          "create_backup",
+          "execute_directory_renames",
+          "execute_file_renames",
+          "update_imports",
+          "consolidate_sparse_modules",
+          "generate_report",
+          "execute"
+        ]
+      },
+      {
+        "filename": "check_syntax.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "check_all_syntax_errors"
+        ]
+      },
+      {
+        "filename": "nuclear_fix.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "nuclear_fix_file",
+          "main"
+        ]
+      },
+      {
+        "filename": "aggressive_syntax_fixer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AggressiveSyntaxFixer",
+          "main",
+          "find_all_syntax_errors",
+          "check_syntax",
+          "aggressive_fix",
+          "fix_indentation",
+          "fix_unclosed",
+          "quarantine_file",
+          "generate_report"
+        ]
+      },
+      {
+        "filename": "timestamp_verification.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TimestampVerifier",
+          "verify_timestamp",
+          "create_timestamp",
+          "hash_with_timestamp"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "docker",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "consolidation",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "CLAUDE_CONTEXT_TOOLS.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "IDENTITY_TOOLS_README.md",
+        "type": "other",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 50,
+    "estimated_complexity": "high",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "standard",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "tools",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

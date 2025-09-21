@@ -54,6 +54,7 @@ datasets/
 models/
 lib/
 bin/
+.tmp.driveupload/
 
 
 # IDE and OS files
@@ -108,6 +109,9 @@ logs/
 *.old
 *_backup*
 .git-agent-backups/
+
+# Drive upload temp files
+.tmp.driveupload/
 
 # Virtual environments (comprehensive exclusion)
 .venv

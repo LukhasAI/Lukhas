@@ -124,7 +124,7 @@ class ModuleEnhancer:
 
                         {module_info['description']}
 
-                        The {module_name.upper()} module is a core component of the LUKHAS AI system, providing essential functionality for the neuroplastic AGI architecture.
+                        The {module_name.upper()} module is a core component of the LUKHAS AI system, providing essential functionality for the neuroplastic Cognitive AI architecture.
 
                         ## Features
 

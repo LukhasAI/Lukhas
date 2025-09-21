@@ -38,7 +38,7 @@ class SignalFilter(Enum):
     NONE = "none"  # No filtering
     COHERENCE_THRESHOLD = "coherence"  # Filter by coherence threshold
     AWARENESS_LEVEL = "awareness"  # Filter by awareness level
-    TRINITY_COMPLIANCE = "trinity"  # Filter by Trinity compliance
+    TRINITY_COMPLIANCE = "constellation"  # Filter by Constellation compliance
     FREQUENCY_BAND = "frequency"  # Filter by frequency band
     SIGNAL_TYPE = "signal_type"  # Filter by signal type
 
@@ -268,10 +268,10 @@ class ConsciousnessSignalRouter:
             )
         )
 
-        # Trinity sync signals route to all core modules
+        # Constellation sync signals route to all core modules
         self.routing_rules.append(
             RoutingRule(
-                rule_id="trinity_sync_broadcast",
+                rule_id="constellation_sync_broadcast",
                 source_pattern=".*",
                 target_modules=["consciousness", "identity", "governance", "orchestration"],
                 signal_types=[ConsciousnessSignalType.TRINITY_SYNC],
@@ -315,19 +315,19 @@ class ConsciousnessSignalRouter:
             """Filter signals by awareness level"""
             return signal.awareness_level >= 0.5
 
-        def trinity_compliance_filter(signal: ConsciousnessSignal) -> bool:
-            """Filter signals by Trinity framework compliance"""
+        def constellation_compliance_filter(signal: ConsciousnessSignal) -> bool:
+            """Filter signals by Constellation framework compliance"""
             if not signal.constellation_alignment:
                 logger.debug(f"Signal {signal.signal_id} has no constellation_alignment, allowing through")
                 return True  # Allow signals without alignment during startup
 
-            trinity = signal.constellation_alignment
+            constellation = signal.constellation_alignment
             avg_compliance = (
-                trinity.identity_auth_score + trinity.consciousness_coherence + trinity.guardian_compliance
+                constellation.identity_auth_score + constellation.consciousness_coherence + constellation.guardian_compliance
             ) / 3
-            compliant = avg_compliance >= 0.8 and len(trinity.violation_flags) == 0
+            compliant = avg_compliance >= 0.8 and len(constellation.violation_flags) == 0
             if not compliant:
-                logger.debug(f"Signal {signal.signal_id} trinity compliance: {avg_compliance:.2f}, violations: {len(trinity.violation_flags)}")
+                logger.debug(f"Signal {signal.signal_id} constellation compliance: {avg_compliance:.2f}, violations: {len(constellation.violation_flags)}")
             return compliant
 
         def frequency_band_filter(signal: ConsciousnessSignal) -> bool:
@@ -346,7 +346,7 @@ class ConsciousnessSignalRouter:
         self.signal_filters = {
             SignalFilter.COHERENCE_THRESHOLD.value: coherence_filter,
             SignalFilter.AWARENESS_LEVEL.value: awareness_filter,
-            SignalFilter.TRINITY_COMPLIANCE.value: trinity_compliance_filter,
+            SignalFilter.TRINITY_COMPLIANCE.value: constellation_compliance_filter,
             SignalFilter.FREQUENCY_BAND.value: frequency_band_filter,
         }
 

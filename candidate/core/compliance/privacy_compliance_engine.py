@@ -17,7 +17,7 @@ Features:
 - Privacy-by-design architectural validation
 
 Integration:
-- Trinity Framework (⚛️🧠🛡️) privacy alignment
+- Constellation Framework (⚛️🧠🛡️) privacy alignment
 - Constitutional AI privacy principle enforcement
 - Guardian System 2.0 privacy violation detection
 - Secure logging for privacy audit trails

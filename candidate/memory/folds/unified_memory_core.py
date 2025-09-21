@@ -298,7 +298,7 @@ class ConsolidatedUnifiedmemorycore:
         logger.info("ConsolidatedUnifiedMemoryCore initialized with enterprise-grade safeguards")
 
     async def process_memory(self, memory_data: dict[str, Any]) -> Optional[dict]:
-        """Process memory through unified pipeline with Trinity Framework integration"""
+        """Process memory through unified pipeline with Constellation Framework integration"""
         operation_start = time.time()
         memory_id = memory_data.get("memory_id", self._generate_memory_id())
 

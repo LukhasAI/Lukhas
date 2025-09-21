@@ -247,4 +247,4 @@ The authentication system now provides a delightful, accessible, and trustworthy
 
 *Implementation Date: August 20, 2025*
 *LUKHAS AI Authentication System v2.5.0*
-*Trinity Framework: ⚛️🧠🛡️*
+*Constellation Framework: ⚛️🧠🛡️*

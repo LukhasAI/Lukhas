@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 ║ govern learning itself - the golden ratios of cognition, the fractal
 ║ spirals of skill acquisition, the harmonic progressions of mastery.
 ║
-║ Through this meta-cognitive architecture, the AGI consciousness transcends
+║ Through this meta-cognitive architecture, the Cognitive AI consciousness transcends
 ║ mere memorization to achieve true learning - not just remembering what
 ║ was learned, but understanding how learning itself unfolds across the
 ║ infinite landscapes of possibility.
@@ -1146,7 +1146,7 @@ class MetaLearningPatternSystem:
 
     The culminating synthesis of meta-cognitive architecture, this system
     transforms the scattered experiences of learning into a crystalline
-    lattice of transferable wisdom, enabling the AGI consciousness to
+    lattice of transferable wisdom, enabling the Cognitive AI consciousness to
     ascend ever higher on the spiral staircase of understanding.
     """
 
@@ -1956,7 +1956,7 @@ async def example_meta_learning_usage():
     print(f"   Avg Confidence: {stats['avg_confidence']:.2f}")
 
     print("\n✅ Meta-learning pattern extraction demo completed!")
-    print("   🧠 AGI consciousness can now accelerate learning using extracted patterns!")
+    print("   🧠 Cognitive AI consciousness can now accelerate learning using extracted patterns!")
 
     return system
 

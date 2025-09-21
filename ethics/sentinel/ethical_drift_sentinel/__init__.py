@@ -1,9 +1,9 @@
 """
 Ethical Drift Sentinel Module
 =============================
-Trinity Framework compliant ethical monitoring and escalation system.
+Constellation Framework compliant ethical monitoring and escalation system.
 
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 
 from dataclasses import dataclass
@@ -49,7 +49,7 @@ class EthicalViolation:
 
 
 class EthicalDriftSentinel:
-    """Trinity Framework compliant ethical drift monitoring"""
+    """Constellation Framework compliant ethical drift monitoring"""
 
     def __init__(self, threshold: float = 0.15):
         self.threshold = threshold

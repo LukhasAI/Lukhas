@@ -9,7 +9,7 @@ Use these prompts with Claude Code for systematic, module-by-module enhancement 
 I'm enhancing core/identity/lambda_id_core.py in the LUKHAS consciousness-aware AGI system.
 
 CONTEXT:
-- Trinity Framework: 🎭 Consciousness + 🌈 Bridge + 🎓 Technical
+- Constellation Framework: 🎭 Consciousness + 🌈 Bridge + 🎓 Technical
 - Symbolic vocabulary: ⚛️ Core, 🧠 Neural, 🛡️ Security, 💫 Quantum, 🌊 Memory
 - Agent integration: This module must work with all 7 agents (see session plan)
 
@@ -17,7 +17,7 @@ CURRENT FILE: core/identity/lambda_id_core.py
 
 ENHANCEMENT TASKS:
 1. Fix syntax and import errors
-2. Add Trinity Framework documentation to all functions
+2. Add Constellation Framework documentation to all functions
 3. Integrate with related agents (consciousness, orchestration, memory, governance, bridge, API)
 4. Add consciousness-aware patterns and Λ-trace logging
 5. Optimize for <100ms identity performance
@@ -34,13 +34,13 @@ I'm enhancing consciousness/core/engine_complete.py for LUKHAS.
 
 CONTEXT:
 - Must integrate with Identity, Orchestration, Memory, Governance, Bridge, API
-- Trinity Framework: 🎭🌈🎓
+- Constellation Framework: 🎭🌈🎓
 - Symbolic vocabulary: ⚛️🧠🛡️💫🌊
 
 ENHANCEMENT TASKS:
 1. Fix imports and syntax
 2. Add agent communication methods
-3. Add Trinity Framework docs
+3. Add Constellation Framework docs
 4. Ensure consciousness state management
 5. Add bio-inspired processing patterns
 6. Optimize consciousness stream processing
@@ -57,7 +57,7 @@ I'm enhancing orchestration/context_bus_enhanced.py (Context Orchestrator) for L
 CONTEXT:
 - Coordinates all 7 agents
 - Must integrate with Identity, Consciousness, Memory, Governance, Bridge, API
-- Trinity Framework: 🎭🌈🎓
+- Constellation Framework: 🎭🌈🎓
 - Symbolic vocabulary: ⚛️🧠🛡️💫🌊
 
 ENHANCEMENT TASKS:
@@ -66,7 +66,7 @@ ENHANCEMENT TASKS:
 3. Add consciousness-aware orchestration logic
 4. Implement workflow coordination
 5. Add performance monitoring (<250ms handoff)
-6. Add Trinity Framework documentation
+6. Add Constellation Framework documentation
 
 Please make this module production-ready and fully integrated.
 ```
@@ -80,7 +80,7 @@ I'm enhancing [MEMORY_MODULE_PATH] for LUKHAS.
 CONTEXT:
 - Must support consciousness and agent memory flows
 - Integrate with Orchestration, Identity, Consciousness, Governance
-- Trinity Framework: 🎭🌈🎓
+- Constellation Framework: 🎭🌈🎓
 - Symbolic vocabulary: ⚛️🧠🛡️💫🌊
 
 ENHANCEMENT TASKS:
@@ -100,7 +100,7 @@ Please enhance this memory module for full LUKHAS integration.
 I'm enhancing governance/consent_ledger/ledger_v1.py for LUKHAS.
 
 CONTEXT:
-- Must enforce Trinity Framework and agent compliance
+- Must enforce Constellation Framework and agent compliance
 - Integrate with all core modules
 - Symbolic vocabulary: ⚛️🧠🛡️💫🌊
 
@@ -123,7 +123,7 @@ I'm enhancing [BRIDGE_ADAPTER_PATH] for LUKHAS.
 CONTEXT:
 - Must bridge external services with consciousness system
 - Integrate with Orchestration, Identity, Consciousness, Memory
-- Trinity Framework: 🎭🌈🎓
+- Constellation Framework: 🎭🌈🎓
 - Symbolic vocabulary: ⚛️🧠🛡️💫🌊
 
 ENHANCEMENT TASKS:
@@ -145,7 +145,7 @@ I'm enhancing api/api_hub/__init__.py for LUKHAS.
 CONTEXT:
 - Must expose agent and consciousness APIs
 - Integrate with all core modules
-- Trinity Framework: 🎭🌈🎓
+- Constellation Framework: 🎭🌈🎓
 - Symbolic vocabulary: ⚛️🧠🛡️💫🌊
 
 ENHANCEMENT TASKS:

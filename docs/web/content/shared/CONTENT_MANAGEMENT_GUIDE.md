@@ -179,7 +179,7 @@ Use sparingly and only in poetic layer context:
 **Documentation Integration**
 - Link to relevant branding/vocabularies/ standards
 - Reference CLAUDE.md guidelines for development context  
-- Connect to Trinity Framework documentation
+- Connect to Constellation Framework documentation
 - Integrate with API documentation and technical specs
 
 **Brand Asset Coordination**

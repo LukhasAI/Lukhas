@@ -42,7 +42,7 @@
 
 ### Compliance Integration Patterns
 
-#### **Trinity Framework Compliance Coordination**
+#### **Constellation Framework Compliance Coordination**
 ```
 Compliance Engine ←→ Identity ⚛️ ←→ Guardian 🛡️ ←→ Memory 💾
         │                │              │              │

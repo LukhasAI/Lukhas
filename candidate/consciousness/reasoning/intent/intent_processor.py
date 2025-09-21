@@ -14,8 +14,8 @@ class IntentNode:
     This is the heart of the system that directs tasks and decisions.
     """
 
-    def __init__(self, agi_system):
-        self.agi = agi_system
+    def __init__(self, cognitive_system):
+        self.agi = cognitive_system
         self.logger = logging.getLogger("IntentNode")
 
     def process(self, input_data: Union[str, dict[str, Any]]) -> dict[str, Any]:

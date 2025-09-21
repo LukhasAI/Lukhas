@@ -5,7 +5,7 @@ Bio-inspired signals that modulate consciousness behavior across systems.
 Signals represent internal state (stress, novelty, alignment_risk, etc.) and
 decay over time to maintain dynamic equilibrium.
 
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 - ⚛️ Identity: Authentic signal emission from consciousness modules
 - 🧠 Consciousness: Memory of signal patterns and learning
 - 🛡️ Guardian: Safety-first signal validation and bounds

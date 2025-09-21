@@ -90,7 +90,7 @@
     {
       "task_id": "TODO-HIGH-CANDIDATE-CORE-c24f150d",
       "priority": "high",
-      "title": "kept for Trinity Framework consciousness evolution",
+      "title": "kept for Constellation Framework consciousness evolution",
       "file": "./candidate/core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py",
       "module": "candidate/core",
       "trinity": "Consciousness",
@@ -346,7 +346,7 @@
     {
       "task_id": "TODO-HIGH-CANDIDATE-CORE-c4d9d42b",
       "priority": "high",
-      "title": "specialist] Implement Trinity identity-consciousness state comparison",
+      "title": "specialist] Implement Constellation identity-consciousness state comparison",
       "file": "./candidate/core/bridges/identity_core_bridge.py",
       "module": "candidate/core",
       "trinity": "Identity",
@@ -355,14 +355,14 @@
       "type": "logic",
       "size": "S",
       "evidence": {
-        "grep": "./candidate/core/bridges/identity_core_bridge.py:        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Trinity identity-consciousness state comparison",
+        "grep": "./candidate/core/bridges/identity_core_bridge.py:        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Constellation identity-consciousness state comparison",
         "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
       }
     },
     {
       "task_id": "TODO-HIGH-CANDIDATE-CORE-007de334",
       "priority": "high",
-      "title": "specialist] Implement Trinity Framework identity-consciousness state comparison",
+      "title": "specialist] Implement Constellation Framework identity-consciousness state comparison",
       "file": "./candidate/core/bridges/identity_core_bridge.py",
       "module": "candidate/core",
       "trinity": "Identity",
@@ -371,7 +371,7 @@
       "type": "logic",
       "size": "S",
       "evidence": {
-        "grep": "./candidate/core/bridges/identity_core_bridge.py:        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Trinity identity-consciousness state comparison",
+        "grep": "./candidate/core/bridges/identity_core_bridge.py:        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Constellation identity-consciousness state comparison",
         "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
       }
     },
@@ -474,7 +474,7 @@
     {
       "task_id": "TODO-HIGH-CANDIDATE-CORE-fc12ea3c",
       "priority": "high",
-      "title": "specialist] Implement Trinity Framework consciousness state comparison logic",
+      "title": "specialist] Implement Constellation Framework consciousness state comparison logic",
       "file": "./candidate/core/bridges/core_safety_bridge.py",
       "module": "candidate/core",
       "trinity": "Consciousness",

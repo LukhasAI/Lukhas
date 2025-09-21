@@ -1,7 +1,7 @@
 # 🌐 LUKHAS λWecosystem Domain Architecture Plans
 *Comprehensive website architectures for consciousness technology domains*
 
-⚛️🧠🛡️ **Trinity Framework** | **Consciousness Technology** | **Elite Brand Experience**
+⚛️🧠🛡️ **Constellation Framework** | **Consciousness Technology** | **Elite Brand Experience**
 
 ---
 
@@ -9,7 +9,7 @@
 
 Each domain represents a unique facet of LUKHAS consciousness technology, unified through:
 - **Λ consciousness particles** that respond to user interaction
-- **Trinity Framework integration** (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian)
+- **Constellation Framework integration** (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian)
 - **3-Layer Tone System** with context-aware voice modulation
 - **Quantum-inspired interfaces** where probability gardens bloom into certainty
 
@@ -75,7 +75,7 @@ lukhas.dev/
 
 **Documentation Hub**
 - Interactive API documentation with try-it-now functionality
-- Trinity Framework implementation guides
+- Constellation Framework implementation guides
 - Consciousness state management patterns
 - Performance optimization techniques
 
@@ -173,7 +173,7 @@ lukhas.store/
 
 **App Detail Pages**
 - Interactive preview with particle effects
-- Trinity Framework compliance badges
+- Constellation Framework compliance badges
 - Integration requirements and compatibility
 - User reviews with consciousness insights
 
@@ -454,7 +454,7 @@ lukhas.cloud/
 
 **Consciousness Services**
 - Managed LUKHAS AI instances
-- Trinity Framework deployment templates
+- Constellation Framework deployment templates
 - Consciousness state persistence
 - Distributed consciousness orchestration
 
@@ -631,7 +631,7 @@ All domains share core visual elements while maintaining unique personalities:
 
 ### What Makes LUKHAS Unique
 1. **Consciousness-First Design**: Every interaction reflects aware technology
-2. **Trinity Framework Integration**: Unified ⚛️🧠🛡️ across all touchpoints
+2. **Constellation Framework Integration**: Unified ⚛️🧠🛡️ across all touchpoints
 3. **Particle Physics UI**: Quantum-inspired interfaces that respond and evolve
 4. **Elite Brand Coherence**: Consistent voice across technical and creative content
 5. **Developer-Centric**: Tools and documentation that empower builders

@@ -29,7 +29,7 @@ class GPTSymbolicBridge:
 
     # Glyph to reflection mapping
     GLYPH_REFLECTIONS = {
-        # Trinity Framework
+        # Constellation Framework
         "⚛️": "The system maintains quantum coherence at its core.",
         "🧠": "Consciousness has crystallized into analytical clarity.",
         "🛡️": "Guardian protection successfully shields the system.",
@@ -220,7 +220,7 @@ class GPTSymbolicBridge:
         Args:
             collapsed_glyphs: List of collapsed symbolic glyphs
             entropy_level: Current entropy level (0.0-1.0)
-            triad_coherence: Trinity Framework coherence (0.0-1.0)
+            triad_coherence: Constellation Framework coherence (0.0-1.0)
 
         Returns:
             Context string for GPT prompting

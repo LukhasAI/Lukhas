@@ -25,13 +25,13 @@ logger = logging.getLogger(__name__)
 class DreamMemoryBridge:
     """
     Advanced dream-memory integration bridge.
-    Provides Trinity Framework-compliant memory persistence for dream states.
+    Provides Constellation Framework-compliant memory persistence for dream states.
     """
 
     def __init__(self):
         self.dream_memories: dict[str, list[dict]] = {}
         self.memory_counter = 0
-        logger.info("🌉 Dream Memory Bridge initialized - Trinity Framework active")
+        logger.info("🌉 Dream Memory Bridge initialized - Constellation Framework active")
 
     def store_dream_memory(self, dream_id: str, memory_content: Any, memory_type: str = "episodic") -> str:
         """

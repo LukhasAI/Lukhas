@@ -6,17 +6,17 @@
 
 
 # CANDIDATE Consciousness Development
-*52+ Components - Trinity Framework 🧠 Consciousness Pillar*
+*52+ Components - Constellation Framework 🧠 Consciousness Pillar*
 
 ## Consciousness Development Overview
 
-CANDIDATE consciousness represents the **development workspace** for the Consciousness pillar of the Trinity Framework, containing **52+ consciousness components** spanning cognitive processing, advanced reasoning, dream integration, and multi-engine architecture. This is where consciousness research transforms into integrated AGI awareness systems.
+CANDIDATE consciousness represents the **development workspace** for consciousness integration across the Constellation Framework, containing **52+ consciousness components** spanning MATRIZ pipeline stages, cognitive processing, and multi-star coordination. This is where consciousness research transforms into integrated Cognitive AI awareness systems with T4/0.01% implementation standards.
 
 ### **Development Scope**
 - **Components**: 52+ consciousness development modules and systems
-- **Trinity Role**: Consciousness 🧠 pillar in Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️ framework
-- **Architecture**: Multi-engine consciousness with adaptive processing and reasoning
-- **Integration**: Memory coupling, identity coordination, dream processing, ethics validation
+- **Constellation Role**: Integrated across the dynamic 8-star system with infinite expansion capability through MATRIZ nodes
+- **Architecture**: MATRIZ pipeline integration with registry-based plugins and parallel orchestration
+- **Integration**: Constellation star coordination, memory fold coupling, guardian validation
 
 ### **Consciousness Development Architecture**
 ```
@@ -118,21 +118,21 @@ Result Synthesis → Consciousness Integration → Unified Output
 
 **Development Context**: [`./dream/claude.me`](./dream/claude.me)
 
-## ⚛️🧠🛡️ Trinity Framework Integration
+## 🌌 Constellation Framework Integration
 
-### **Consciousness 🧠 Pillar Role**
-Consciousness serves as the **central processing pillar** in the Trinity Framework coordination:
+### **Consciousness Flow Star Role**
+Consciousness serves as the **Flow Star 🌊** in the Constellation Framework coordination:
 
 ```
-Trinity Framework Consciousness Integration:
-⚛️ Identity Context → 🧠 Consciousness Processing → 🛡️ Guardian Validation
-        │                      │                         │
-   Lambda ID        →    Multi-Engine         →    Constitutional AI
-   Namespace        →    Reasoning Chain      →    Ethics Check
-   Authentication   →    Decision Making      →    Safety Validation
+Constellation Framework Consciousness Integration:
+⚛️ Anchor Star → 🌊 Flow Star → ✦ Trail Star → 🛡️ Watch Star
+        │              │             │             │
+   Lambda ID    →  Multi-Engine  →  Memory Fold  →  Constitutional AI
+   Namespace    →  Reasoning     →  Experience   →  Ethics Check
+   Identity     →  Decision      →  Pattern      →  Safety Validation
 ```
 
-### **Identity ⚛️ ↔ Consciousness 🧠 Coordination**
+### **Anchor Star ⚛️ ↔ Flow Star 🌊 Coordination**
 **Identity-informed consciousness processing**
 
 ```python
@@ -154,7 +154,7 @@ async def identity_aware_consciousness(self, consciousness_input):
     return coherent_consciousness
 ```
 
-### **Consciousness 🧠 ↔ Guardian 🛡️ Validation**
+### **Flow Star 🌊 ↔ Watch Star 🛡️ Validation**
 **Ethics-validated consciousness processing**
 
 ```python
@@ -262,12 +262,12 @@ async def integrate_consciousness_systems(self, consciousness_components):
         consciousness_components, available_components
     )
 
-    # 3. Trinity Framework Coordination
-    trinity_integration = await self.coordinate_trinity_framework(integration_strategy)
+    # 3. Constellation Framework Coordination
+    constellation_integration = await self.coordinate_constellation_framework(integration_strategy)
 
     # 4. System Validation
     validated_integration = await self.validate_consciousness_integration(
-        trinity_integration
+        constellation_integration
     )
 
     # 5. Production Preparation
@@ -299,7 +299,7 @@ async def integrate_consciousness_systems(self, consciousness_components):
   - Use when: Building comprehensive consciousness systems, advanced engine coordination
 
 ### **Integration Contexts**
-- **Trinity Framework**: `../../lukhas/consciousness/claude.me` - Trinity integration and coordination
+- **Constellation Framework**: `../../lukhas/consciousness/claude.me` - Constellation integration and coordination
 - **Memory Coupling**: `../memory/claude.me` - Memory-consciousness development integration
 - **Identity Coordination**: `../identity/claude.me` - Identity-consciousness development patterns
 - **Guardian Integration**: `../governance/claude.me` - Ethics-consciousness development coordination
@@ -311,16 +311,16 @@ async def integrate_consciousness_systems(self, consciousness_components):
 - ✅ **Cognitive Processing**: Reflective introspection and adaptive processing systems
 - ✅ **Reasoning Systems**: Identity reasoning and oracle integration development
 - 🔄 **Dream Integration**: Dream-emotion bridge development ongoing
-- ✅ **Trinity Framework**: Consciousness pillar integration with Identity and Guardian
+- ✅ **Constellation Framework**: Consciousness pillar integration with Identity and Guardian
 
 ### **Development Performance**
 - **Engine Coordination**: Multi-engine parallel processing with result synthesis
 - **Cognitive Processing**: Real-time self-awareness monitoring and meta-cognitive analysis
 - **Reasoning Integration**: Identity-aware and oracle-coordinated consciousness reasoning
-- **Trinity Integration**: Consciousness coordination with Identity and Guardian systems
+- **Constellation Integration**: Consciousness coordination with Identity and Guardian systems
 
 ### **Integration Status**
-- ✅ **LUKHAS Integration**: Consciousness wrapper and Trinity coordination active
+- ✅ **LUKHAS Integration**: Consciousness wrapper and Constellation coordination active
 - 🔄 **Memory Coupling**: Advanced memory-consciousness co-evolution development
 - ✅ **Identity Coordination**: Lambda ID-informed consciousness processing
 - ✅ **Guardian Validation**: Constitutional AI consciousness validation integration
@@ -333,11 +333,11 @@ async def integrate_consciousness_systems(self, consciousness_components):
 3. **Performance Scaling**: Parallel consciousness processing optimization
 4. **Quality Integration**: Advanced consciousness quality validation
 
-### **Trinity Framework Integration**
+### **Constellation Framework Integration**
 1. **Identity Coupling**: Deeper Lambda ID consciousness integration
 2. **Guardian Coordination**: Enhanced constitutional AI consciousness validation
 3. **Memory Integration**: Advanced consciousness-memory co-evolution
-4. **Cross-System Optimization**: Trinity Framework performance enhancement
+4. **Cross-System Optimization**: Constellation Framework performance enhancement
 
 ### **Advanced Consciousness Features**
 1. **Reflective Enhancement**: Advanced self-awareness and meta-cognitive processing
@@ -347,8 +347,8 @@ async def integrate_consciousness_systems(self, consciousness_components):
 
 ---
 
-**Consciousness Development**: 52+ components | **Trinity Role**: 🧠 Consciousness pillar coordination
-**Architecture**: Multi-engine + Cognitive + Reasoning + Dream integration | **Integration**: Identity ⚛️ + Guardian 🛡️
-**Status**: Active development with Trinity Framework integration and production preparation
+**Consciousness Development**: 52+ components | **Constellation Role**: 🌊 Flow Star consciousness stream coordination
+**Architecture**: Multi-engine + Cognitive + Reasoning + Dream integration | **Integration**: 8-star dynamic system
+**Status**: Active development with Constellation Framework integration and production preparation
 
 *Navigate to specialized contexts for detailed consciousness component development*

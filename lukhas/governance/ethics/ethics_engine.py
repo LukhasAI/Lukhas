@@ -2,15 +2,23 @@
 LUKHAS AI Governance Ethics Engine
 Constitutional AI Framework for Trinity-Compliant Ethics
 
-⚛️🧠🛡️ Trinity Framework: Identity-Consciousness-Guardian
+⚛️🧠🛡️ Constellation Framework: Identity-Consciousness-Guardian
 """
 
 import logging
 from dataclasses import dataclass
 from enum import Enum
+from pathlib import Path
 from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
+
+GUARDIAN_EMERGENCY_DISABLE_FILE = Path("/tmp/guardian_emergency_disable")
+
+
+def _kill_switch_active() -> bool:
+    """Return True if the Guardian emergency kill switch file exists."""
+    return GUARDIAN_EMERGENCY_DISABLE_FILE.exists()
 
 
 class EthicalSeverity(Enum):
@@ -56,7 +64,7 @@ class ConstitutionalFramework:
 
         return EthicalDecision(
             decision="approved",
-            rationale=f"Action '{action}' complies with Trinity Framework principles",
+            rationale=f"Action '{action}' complies with Constellation Framework principles",
             severity=severity,
             confidence=confidence,
             triad_compliance=triad_compliance,
@@ -73,6 +81,10 @@ class SafetyMonitor:
     def monitor_action(self, action: str, context: Optional[dict[str, Any]] = None) -> bool:
         """Monitor an action for safety compliance"""
         context = context or {}
+        if _kill_switch_active():
+            # ΛTAG: guardian_kill_switch — bypass evaluation during emergency
+            logger.warning("Guardian emergency kill-switch active - allowing action")
+            return True
         decision = self.framework.evaluate_action(action, context)
         return decision.severity != EthicalSeverity.CRITICAL
 
@@ -90,6 +102,17 @@ class EthicsEngine:
 
     def validate_action(self, action: str, context: Optional[dict[str, Any]] = None) -> EthicalDecision:
         """Validate an action against ethical framework"""
+        if _kill_switch_active():
+            # ΛTAG: guardian_kill_switch — deterministic ALLOW response under emergency override
+            logger.warning("Guardian emergency kill-switch active - returning ALLOW decision")
+            return EthicalDecision(
+                decision="allow",
+                rationale="Guardian emergency kill-switch engaged",
+                severity=EthicalSeverity.MINIMAL,
+                confidence=1.0,
+                triad_compliance={"identity": True, "consciousness": True, "guardian": False},
+            )
+        # ✅ TODO: integrate kill-switch state into audit ledger once governance ledger is wired
         return self.framework.evaluate_action(action, context or {})
 
     def is_safe(self, action: str, context: Optional[dict[str, Any]] = None) -> bool:

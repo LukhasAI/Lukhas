@@ -592,7 +592,7 @@ async def demonstrate_safety_features():
     safety = MemorySafetySystem()
 
     # Add reality anchors
-    safety.add_reality_anchor("LUKHAS", "LUKHAS is an AGI system")
+    safety.add_reality_anchor("LUKHAS", "LUKHAS is an Cognitive system")
     safety.add_reality_anchor("2025", "Current year is 2025")
 
     # Create safe memory wrapper
@@ -615,7 +615,7 @@ async def demonstrate_safety_features():
     # Test 2: Hallucination attempt
     print("\n2. Attempting to store hallucinated memory...")
     hallucination = {
-        "content": "LUKHAS is not an AGI system",  # Contradicts reality anchor
+        "content": "LUKHAS is not an Cognitive system",  # Contradicts reality anchor
         "type": "false_claim",
         "timestamp": datetime.now(timezone.utc),
     }

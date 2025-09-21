@@ -23,7 +23,7 @@ User Request → GitHub Copilot (Deputy Assistant) → Agent Selection → Speci
 2. GitHub Copilot analyzes complexity and requirements
 3. Optimal agent selected based on expertise
 4. Task routed to specialized agent
-5. Quality assurance and Trinity Framework validation
+5. Quality assurance and Constellation Framework validation
 
 ### **2. Consciousness Development**
 ```
@@ -77,7 +77,7 @@ Critical Issue → Guardian Crisis Lieutenant → Assessment → Response Coordi
 1. **Request Analysis**: GitHub Copilot evaluates request complexity
 2. **Agent Selection**: Optimal agent chosen based on expertise matrix
 3. **Task Delegation**: Specialized agent receives detailed context
-4. **Execution**: Agent performs task with Trinity Framework compliance
+4. **Execution**: Agent performs task with Constellation Framework compliance
 5. **Quality Assurance**: Output validated against standards
 6. **Integration**: Results integrated into LUKHAS system
 7. **Documentation**: Process documented for continuous improvement
@@ -98,16 +98,16 @@ Critical Issue → Guardian Crisis Lieutenant → Assessment → Response Coordi
 - **Architecture Changes**: <60 minutes
 
 ### **Quality Standards**
-- **Trinity Framework Compliance**: 100%
+- **Constellation Framework Compliance**: 100%
 - **Code Quality**: 95%+ automated testing
 - **Documentation**: Complete for all changes
 - **Security**: Zero vulnerabilities introduced
 
 ---
 
-## 🎖️ **Trinity Framework Integration**
+## 🎖️ **Constellation Framework Integration**
 
-All workflows comply with Trinity Framework principles:
+All workflows comply with Constellation Framework principles:
 - **⚛️ Identity**: Authentic agent roles and responsibilities
 - **🧠 Consciousness**: Intelligent task routing and execution
 - **🛡️ Guardian**: Ethical compliance and safety validation

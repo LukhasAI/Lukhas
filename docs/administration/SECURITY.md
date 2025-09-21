@@ -32,9 +32,9 @@ We take security seriously. The following versions of LUKHAS AI are currently su
 
 ## Security Standards
 
-### Trinity Framework Security (⚛️🧠🛡️)
+### Constellation Framework Security (⚛️🧠🛡️)
 
-Our security model is built on Trinity Framework principles:
+Our security model is built on Constellation Framework principles:
 
 - **⚛️ Identity Security**: Authentic consciousness preservation and secure identity management
 - **🧠 Consciousness Protection**: Secure processing of sensitive consciousness data

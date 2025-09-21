@@ -2,7 +2,7 @@
 
 ## 🎯 Purpose
 
-To enable a symbolic, ethical, and user-centric economy within the LUKHAS AGI ecosystem, aligning contributions (dreams, glyphs, memories) with measurable value and agency.
+To enable a symbolic, ethical, and user-centric economy within the LUKHAS Cognitive AI ecosystem, aligning contributions (dreams, glyphs, memories) with measurable value and agency.
 
 ---
 

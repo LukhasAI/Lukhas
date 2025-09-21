@@ -1,9 +1,9 @@
 """
 LUKHAS AI Orchestration Module
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
 Orchestration system with integrated branding compliance for
-multi-agent coordination and Trinity Framework decision making.
+multi-agent coordination and Constellation Framework decision making.
 """
 
 import streamlit as st

@@ -1,5 +1,5 @@
 """
-Unified Security Engine for LUKHAS AGI
+Unified Security Engine for LUKHAS Cognitive AI
 """
 
 from .secure_utils import sanitize_input

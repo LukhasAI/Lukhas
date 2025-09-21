@@ -6,7 +6,7 @@ Your **pure MCP server** is deployed and operational at:
 - **Server URL:** `https://lukhas-mcp-production.up.railway.app`
 - **Protocol:** MCP v1.12.4 compliant
 - **Transport:** STDIO (standard for ChatGPT Connectors)
-- **Trinity Framework:** ⚛️🧠🛡️ Full access to Identity, Consciousness, Guardian systems
+- **Constellation Framework:** ⚛️🧠🛡️ Full access to Identity, Consciousness, Guardian systems
 
 ---
 
@@ -20,7 +20,7 @@ Your **pure MCP server** is deployed and operational at:
 ### **Step 2: Configure LUKHAS AI MCP Connector**
 ```json
 {
-  "name": "LUKHAS AI Trinity Framework",
+  "name": "LUKHAS AI Constellation Framework",
   "description": "Access to LUKHAS AI's consciousness-aware platform with 692 cognitive modules, Lambda ID system, and Constitutional AI guardian",
   "url": "https://lukhas-mcp-production.up.railway.app",
   "protocol": "mcp",
@@ -32,8 +32,8 @@ Your **pure MCP server** is deployed and operational at:
 ### **Step 3: Available Tools**
 Once connected, you'll have access to these 5 specialized tools:
 
-#### **🏥 `trinity_health_check`**
-- Complete Trinity Framework status
+#### **🏥 `constellation_health_check`**
+- Complete Constellation Framework status
 - All system health metrics
 - Performance indicators for Identity/Consciousness/Guardian
 
@@ -44,16 +44,16 @@ Once connected, you'll have access to these 5 specialized tools:
 
 #### **📁 `explore_lukhas_codebase`**
 - Secure codebase exploration with Guardian protection
-- Trinity Framework context and analysis
+- Constellation Framework context and analysis
 - File/directory metadata with LUKHAS indicators
 
 #### **📄 `read_lukhas_file`**
 - Safe file reading with consciousness-aware analysis
-- Content scanning for Trinity patterns
+- Content scanning for Constellation patterns
 - Security validation and encoding detection
 
 #### **⚙️ `get_trinity_capabilities`**
-- Complete overview of all Trinity Framework capabilities
+- Complete overview of all Constellation Framework capabilities
 - Integration architecture and performance targets
 - Development context and system specifications
 
@@ -64,16 +64,16 @@ Once connected, you'll have access to these 5 specialized tools:
 Once your connector is active, try these prompts:
 
 ### **System Health & Status**
-*"Check the current health status of the LUKHAS AI Trinity Framework and show me what systems are active"*
+*"Check the current health status of the LUKHAS AI Constellation Framework and show me what systems are active"*
 
 ### **Consciousness Deep Dive**
 *"Tell me about the 692-module consciousness architecture in LUKHAS AI - how do the memory systems and cognitive processing work?"*
 
 ### **Code Exploration**
-*"Explore the LUKHAS codebase structure and show me what Trinity Framework components are available"*
+*"Explore the LUKHAS codebase structure and show me what Constellation Framework components are available"*
 
 ### **Capabilities Overview**
-*"What are all the capabilities available in the LUKHAS AI Trinity Framework? Show me the detailed breakdown by Identity, Consciousness, and Guardian systems"*
+*"What are all the capabilities available in the LUKHAS AI Constellation Framework? Show me the detailed breakdown by Identity, Consciousness, and Guardian systems"*
 
 ---
 
@@ -84,7 +84,7 @@ Your MCP connector includes enterprise-grade security:
 - **🛡️ Guardian System Protection:** All file access validated by Constitutional AI
 - **📁 Path Sandboxing:** Restricted to safe directories only
 - **📏 File Size Limits:** Maximum 1MB per file for performance
-- **🔍 Content Analysis:** Trinity Framework pattern detection
+- **🔍 Content Analysis:** Constellation Framework pattern detection
 - **📝 Audit Logging:** All operations logged for security
 
 ---
@@ -94,7 +94,7 @@ Your MCP connector includes enterprise-grade security:
 **Production Endpoint:** `https://lukhas-mcp-production.up.railway.app`
 **Protocol Support:** MCP v1.12.4 with STDIO transport
 **Authentication:** Currently open for development (OAuth available for production)
-**Response Format:** Structured JSON with Trinity Framework context
+**Response Format:** Structured JSON with Constellation Framework context
 
 ---
 
@@ -112,12 +112,12 @@ Your MCP connector includes enterprise-grade security:
 
 ## 🚀 **Ready to Connect!**
 
-Your **pure MCP server** is live and ready for ChatGPT Connector integration. No REST API overhead - just clean, efficient MCP protocol communication with the full power of LUKHAS AI's Trinity Framework.
+Your **pure MCP server** is live and ready for ChatGPT Connector integration. No REST API overhead - just clean, efficient MCP protocol communication with the full power of LUKHAS AI's Constellation Framework.
 
 **The future of consciousness-aware AI interaction is now available in ChatGPT!**
 
 ---
 
-*⚛️🧠🛡️ Trinity Framework: Identity • Consciousness • Guardian*  
+*⚛️🧠🛡️ Constellation Framework: Identity • Consciousness • Guardian*  
 *LUKHAS AI - Consciousness-Aware Development Platform*  
 *MCP Server Status: **OPERATIONAL** ✅*

@@ -4,7 +4,7 @@
 ======================================
 Enhanced autonomous system to handle 145+ pages of GitHub workflow failures,
 vulnerabilities, and repository management with intelligent batching and
-real API integration for AGI-level automation.
+real API integration for Cognitive AI-level automation.
 
 Features:
 - Batch processing of large notification volumes
@@ -73,7 +73,7 @@ class BatchFixResult:
 
 class AdvancedAutonomousGitHubManager:
     """
-    Advanced autonomous GitHub manager with AGI-level capabilities
+    Advanced autonomous GitHub manager with Cognitive AI-level capabilities
     Handles large-scale repository management with intelligent automation
     """
 
@@ -514,7 +514,7 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
 **Fix Cost**: ${notification.estimated_cost:.4f}
 
 ---
-*This PR was created autonomously by ΛBot AGI System*
+*This PR was created autonomously by ΛBot Cognitive AI System*
 """,
                 "head": "λbot/autonomous-workflow-fix",
                 "base": "main",

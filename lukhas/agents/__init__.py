@@ -8,7 +8,7 @@ The real LUKHAS consciousness agents are now located in /agent directory.
 This module provides backward compatibility while directing users
 to the consolidated agent system at root level.
 
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 Author: LUKHAS AI Agent Systems
 Version: 2.0.0 (Bridge to /agent)
 """

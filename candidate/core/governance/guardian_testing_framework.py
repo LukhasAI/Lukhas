@@ -3,7 +3,7 @@ Guardian System 2.0 Testing & Validation Framework
 =================================================
 
 Comprehensive testing and validation framework for Guardian System 2.0,
-Constitutional AI compliance, and drift detection systems. Ensures AGI-ready
+Constitutional AI compliance, and drift detection systems. Ensures Cognitive AI-ready
 safety standards through rigorous testing, validation, and continuous monitoring.
 
 Test Categories:
