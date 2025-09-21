@@ -116,6 +116,9 @@ async def run_stage(stage_name, fn, **kw):
 
 ## 5) Security & Supply Chain
 
+**Agents:** Jules (primary), CODEX (CI/CD), Claude Code (policies)
+**T4 extras:** Actions pinned to SHAs; OSSF Scorecard; SBOM per release; SLSA provenance notes.
+
 **Goals:** reproducible env; no secrets; vulnerability visibility.
 
 * [ ] **Pin & lock**
@@ -137,6 +140,9 @@ async def run_stage(stage_name, fn, **kw):
 
 ## 6) Naming & Docs Consistency
 
+**Agents:** CODEX (migration), Claude Code (docs), Copilot (mechanical edits)
+**T4 extras:** vocabulary lint with allowlist; docs CI with link checker; context auto-refresh.
+
 **Goals:** one vocabulary; zero cognitive friction.
 
 * [ ] **Constellation vs Constellation**
@@ -157,6 +163,9 @@ async def run_stage(stage_name, fn, **kw):
 ---
 
 ## 7) Test Strategy Upgrades
+
+**Agents:** Claude Code (primary), CODEX (framework), Jules (CI integration)
+**T4 extras:** flake finder; matrix CI Python 3.9 & 3.11; golden traces; perf budgets in git.
 
 **Goals:** zero-regression; resilience proven; budgets locked.
 
@@ -184,6 +193,9 @@ async def run_stage(stage_name, fn, **kw):
 
 ## 8) CI/CD Enhancements
 
+**Agents:** Jules (primary), CODEX (tooling), Claude Code (policies)
+**T4 extras:** evidence bundle per PR; global acceptance gates; make targets for automation.
+
 **Goals:** keep the bar high; detect drift early.
 
 * [ ] **Plugin discovery in CI**
@@ -199,6 +211,9 @@ async def run_stage(stage_name, fn, **kw):
 ---
 
 ## 9) Lane Assignment Readiness (quick pass)
+
+**Agents:** Jules (primary), CODEX (tooling), Claude Code (validation)
+**T4 extras:** promotion gate GitHub Action; brownout drills; lane metrics mandatory.
 
 **Promote now:** Core, Memory, Identity, Governance/Guardian.
 **Gate on tests/metrics:** Orchestrator routing & Thought/Action nodes.
@@ -232,3 +247,26 @@ pytest --cov=lukhas --cov-fail-under=$(cat .ci/coverage_baseline)
 # Security
 pip-compile -q requirements.in && pip-audit -r requirements.txt
 ```
+
+---
+
+## Agent Handoff Prompts
+
+### For CODEX (Deep System Work)
+"You're inheriting production-ready LUKHAS AI infrastructure. Focus on: registry auto-discovery, orchestrator timeouts, memory cascade prevention, and lane isolation enforcement. Prioritize performance budgets and robust error handling. All changes must maintain <250ms p95 latency and 99.7% cascade prevention rates."
+
+### For Jules (DevOps/Observability)
+"You're enhancing LUKHAS CI/CD and observability stack. Implement: Prometheus metrics, OpenTelemetry tracing, Grafana dashboards, SBOM generation, and security scanning. Target: complete observability with runbook-linked alerts and evidence bundles per PR."
+
+### For Claude Code (Testing/Documentation)
+"You're ensuring LUKHAS production readiness through comprehensive testing and clear documentation. Create: property-based tests, DSL validation, golden datasets, runbooks, and API docs. Goal: 90% coverage with zero-regression test strategy."
+
+### For Copilot (Mechanical Edits)
+"You're supporting LUKHAS modernization through systematic refactoring. Handle: Trinity→Constellation migration, docstring updates, repetitive test patterns, and import cleanup. Maintain consistency across the codebase."
+
+**Context for all agents:**
+- LUKHAS is an enterprise AGI system with T4/0.01% reliability targets
+- Lane isolation (candidate/integration/production) must be preserved
+- All Guardian/safety features require gradual rollout with kill-switches
+- Performance budgets are non-negotiable: <100ms memory recall, <250ms pipeline
+- Evidence-based promotion: metrics + tests + observability required for production

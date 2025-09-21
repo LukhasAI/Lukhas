@@ -1,0 +1,1599 @@
+{
+  "meta": {
+    "document_type": "LUKHAS_AUDIT_TODO",
+    "version": "1.0.0",
+    "created_from": "Executive Summary Audit",
+    "created_date": "2025-09-21",
+    "total_tasks": 62,
+    "priority_levels": {
+      "P0": "Critical - Production blockers",
+      "P1": "High - Safety/Performance issues",
+      "P2": "Medium - Feature completion",
+      "P3": "Low - Documentation/cleanup"
+    },
+    "effort_sizes": {
+      "S": "Small - <2 hours",
+      "M": "Medium - 2-8 hours",
+      "L": "Large - >8 hours"
+    }
+  },
+  "task_categories": {
+    "safety_governance": {
+      "name": "Safety & Governance Critical Fixes",
+      "tasks": [
+        {
+          "id": "SG001",
+          "title": "Enable Guardian DSL enforcement in canary mode",
+          "priority": "P0",
+          "effort": "S",
+          "location": {
+            "files": ["docs/ethics/tags.md", "guardian/emit.py"],
+            "lines": ["L128-L135", "L72-L75"]
+          },
+          "problem": "Guardian safety enforcement is OFF by default (ENFORCE_ETHICS_DSL=0), only logging not blocking unsafe actions",
+          "fix_steps": [
+            "1. Set environment variable ENFORCE_ETHICS_DSL=1 for 10% canary traffic",
+            "2. Update guardian/flag_snapshot.sh to capture canary percentage",
+            "3. Monitor guardian_actions_count and guardian_risk_band metrics",
+            "4. Check guardian_pipeline_ms_bucket p99 stays <5ms overhead"
+          ],
+          "acceptance_criteria": [
+            "Guardian metrics stable with no alert spikes",
+            "P95 DSL evaluation latency <5-10ms added",
+            "No critical user workflow breakages"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "SG002",
+          "title": "Implement Guardian emergency kill-switch check in code",
+          "priority": "P0",
+          "effort": "S",
+          "location": {
+            "files": ["lukhas/governance/ethics/ethics_engine.py", "guardian/emit.py"],
+            "suggested_lines": ["Add check at function start"]
+          },
+          "problem": "Kill-switch mechanism (/tmp/guardian_emergency_disable) documented but actual code implementation not found",
+          "fix_steps": [
+            "1. Add Path check at start of GuardianSystem.validate_action()",
+            "2. Implement: if Path('/tmp/guardian_emergency_disable').exists(): return ALLOW",
+            "3. Cache check result with 1-second TTL for performance",
+            "4. Add unit test for kill-switch activation mid-operation"
+          ],
+          "acceptance_criteria": [
+            "Kill-switch file creation immediately disables enforcement",
+            "Performance impact <0.1ms per request",
+            "Unit test passes for emergency disable scenario"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "SG003",
+          "title": "Enable LLM Guardrail schema validation",
+          "priority": "P1",
+          "effort": "M",
+          "location": {
+            "files": ["lukhas/core/bridge/llm_guardrail.py"],
+            "lines": ["L72-L75", "L94-L102"]
+          },
+          "problem": "LLM guardrail is dark-launched (ENABLE_LLM_GUARDRAIL off), not validating model outputs",
+          "fix_steps": [
+            "1. Set ENABLE_LLM_GUARDRAIL=1 in staging environment",
+            "2. Test with intentionally malformed LLM outputs",
+            "3. Verify schema validation catches violations",
+            "4. Monitor LLM_GUARDRAIL_ATTEMPTS and LLM_GUARDRAIL_REJECTS metrics",
+            "5. Gradually roll out to production after validation"
+          ],
+          "acceptance_criteria": [
+            "Guardrail correctly rejects invalid JSON schemas",
+            "Valid responses pass without false positives",
+            "Latency impact <10ms per LLM call",
+            "Metrics properly incremented"
+          ],
+          "dependencies": ["SG009"]
+        },
+        {
+          "id": "SG004",
+          "title": "Document dual-approval override process",
+          "priority": "P1",
+          "effort": "S",
+          "location": {
+            "files": ["guardian/emit.py", "identity/consent/exemption_ledger.sql"],
+            "lines": ["L74-L83", "L16-L21"]
+          },
+          "problem": "Dual approval code exists but operational process undocumented",
+          "fix_steps": [
+            "1. Create docs/runbooks/guardian_override_playbook.md",
+            "2. Document step-by-step override request process",
+            "3. Include SQL commands for ledger entry creation",
+            "4. Add example of approver ID verification",
+            "5. Create simple CLI tool for override management"
+          ],
+          "acceptance_criteria": [
+            "Complete runbook with screenshots/examples",
+            "CLI tool can create valid override entries",
+            "Process tested in drill scenario"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "SG005",
+          "title": "Fix consent ledger schema for user consent tracking",
+          "priority": "P2",
+          "effort": "M",
+          "location": {
+            "files": ["identity/consent/exemption_ledger.sql"],
+            "lines": ["L12-L20"]
+          },
+          "problem": "No explicit user consent gating before high-impact operations",
+          "fix_steps": [
+            "1. Add user_consent_timestamp field to exemption_ledger",
+            "2. Add consent_method field (explicit/implicit/delegated)",
+            "3. Update guardian/emit.py to require consent for critical actions",
+            "4. Implement consent check before FINANCIAL/PII operations"
+          ],
+          "acceptance_criteria": [
+            "Schema migration successful",
+            "Consent required for high-risk operations",
+            "Audit trail includes consent timestamps"
+          ],
+          "dependencies": ["SG002"]
+        },
+        {
+          "id": "SG006",
+          "title": "Gradual Guardian enforcement rollout",
+          "priority": "P0",
+          "effort": "M",
+          "location": {
+            "files": ["docs/runbooks/safety_tags_go_live_drill.md"],
+            "lines": ["L74-L82"]
+          },
+          "problem": "Need phased rollout plan for safety enforcement",
+          "fix_steps": [
+            "1. Week 1: Enable 10% canary with monitoring",
+            "2. Week 2: Increase to 50% if metrics stable",
+            "3. Week 3: Full 100% enforcement",
+            "4. Monitor guardian_pipeline_ms p99 throughout",
+            "5. Have rollback plan ready at each stage"
+          ],
+          "acceptance_criteria": [
+            "Each phase completes without SLO violations",
+            "Rollback tested and documented",
+            "Metrics dashboards show enforcement percentage"
+          ],
+          "dependencies": ["SG001", "SG002"]
+        },
+        {
+          "id": "SG007",
+          "title": "Create Guardian metrics dashboard",
+          "priority": "P1",
+          "effort": "S",
+          "location": {
+            "files": ["guardian/tags_dashboard.json"],
+            "lines": ["L34-L42", "L96-L105", "L134-L142"]
+          },
+          "problem": "Guardian metrics defined but dashboard not deployed",
+          "fix_steps": [
+            "1. Import tags_dashboard.json to Grafana",
+            "2. Configure Prometheus data source",
+            "3. Set up alerts for high-risk spikes",
+            "4. Add A/B lane comparison panels",
+            "5. Test alert firing with synthetic data"
+          ],
+          "acceptance_criteria": [
+            "Dashboard displays all Guardian metrics",
+            "Alerts fire on threshold breaches",
+            "Lane comparison shows denial deltas"
+          ],
+          "dependencies": ["OB003"]
+        },
+        {
+          "id": "SG008",
+          "title": "Implement safety tag DSL tests",
+          "priority": "P1",
+          "effort": "M",
+          "location": {
+            "files": ["docs/ethics/tags.md"],
+            "lines": ["L86-L94"]
+          },
+          "problem": "No end-to-end tests for critical DSL rules",
+          "fix_steps": [
+            "1. Create tests/integration/test_guardian_dsl.py",
+            "2. Test each drift band (Low/Medium/High/Critical)",
+            "3. Test financial transaction blocking",
+            "4. Test privilege escalation detection",
+            "5. Test PII handling rules"
+          ],
+          "acceptance_criteria": [
+            "All 6 safety categories have tests",
+            "Tests run with ENFORCE_ETHICS_DSL=1",
+            "Edge cases covered (boundary conditions)"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "SG009",
+          "title": "Replace TelemetryCounter stubs with real metrics",
+          "priority": "P1",
+          "effort": "S",
+          "location": {
+            "files": ["lukhas/core/bridge/llm_guardrail.py"],
+            "lines": ["L24-L32"]
+          },
+          "problem": "TelemetryCounter is a stub, not actually exposing Prometheus metrics",
+          "fix_steps": [
+            "1. Import prometheus_client Counter and Histogram",
+            "2. Replace TelemetryCounter with real Counter objects",
+            "3. Define: llm_guardrail_attempt_total = Counter(...)",
+            "4. Register metrics in enable_runtime_exporters()",
+            "5. Verify metrics appear at /metrics endpoint"
+          ],
+          "acceptance_criteria": [
+            "Metrics visible in Prometheus /metrics",
+            "Counters increment correctly",
+            "Labels properly attached (lane, schema, reason)"
+          ],
+          "dependencies": ["OB001"]
+        },
+        {
+          "id": "SG010",
+          "title": "Audit guardian_exemptions ledger entries",
+          "priority": "P2",
+          "effort": "S",
+          "location": {
+            "files": ["identity/consent/exemption_ledger.sql"],
+            "lines": ["L7-L21"]
+          },
+          "problem": "Need regular audit of override usage",
+          "fix_steps": [
+            "1. Create scripts/audit/guardian_overrides.py",
+            "2. Query exemption_ledger for all overrides",
+            "3. Verify dual approvers are different people",
+            "4. Check approvers have T4+ permissions",
+            "5. Generate monthly audit report"
+          ],
+          "acceptance_criteria": [
+            "Script identifies invalid overrides",
+            "Report shows override trends",
+            "Automated monthly execution"
+          ],
+          "dependencies": ["SG004"]
+        }
+      ]
+    },
+    "memory_system": {
+      "name": "Memory System Performance & Reliability",
+      "tasks": [
+        {
+          "id": "MS001",
+          "title": "Implement missing MATRIZ cognitive nodes",
+          "priority": "P0",
+          "effort": "L",
+          "location": {
+            "files": ["candidate/core/matrix/nodes/__init__.py"],
+            "lines": ["L26-L34"]
+          },
+          "problem": "Cognitive nodes (MemoryNode, ThoughtNode, etc.) are stubs/placeholders",
+          "fix_steps": [
+            "1. Create lukhas/core/nodes/memory_node.py with process() method",
+            "2. Create lukhas/core/nodes/thought_node.py with process() method",
+            "3. Create lukhas/core/nodes/decision_node.py with process() method",
+            "4. Implement basic logic returning placeholder results",
+            "5. Add unit tests for each node's process() method",
+            "6. Update __init__.py exports to use real classes"
+          ],
+          "acceptance_criteria": [
+            "No LookupError in orchestrator for any node type",
+            "_select_node_async() always finds requested nodes",
+            "All nodes have passing unit tests",
+            "End-to-end orchestrator test passes"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "MS002",
+          "title": "Test memory cascade prevention at scale",
+          "priority": "P1",
+          "effort": "M",
+          "location": {
+            "files": ["lukhas/memory/fold_system.py"],
+            "lines": ["L120-L129", "L144-L152"]
+          },
+          "problem": "Cascade prevention not tested under heavy load",
+          "fix_steps": [
+            "1. Create tests/stress/test_memory_cascade.py",
+            "2. Simulate adding 10,000+ MemoryItems rapidly",
+            "3. Force multiple _prevent_cascade() triggers",
+            "4. Verify 99.7% cascade prevention rate",
+            "5. Profile performance, ensure <100ms recall"
+          ],
+          "acceptance_criteria": [
+            "10k items handled without failure",
+            "Cascade prevention rate ≥99.7%",
+            "recall_top_k() <100ms at scale",
+            "No data corruption after cascades"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "MS003",
+          "title": "Test fold consolidation edge cases",
+          "priority": "P1",
+          "effort": "M",
+          "location": {
+            "files": ["lukhas/memory/adaptive_memory.py"],
+            "lines": ["L108-L115", "L427-L436"]
+          },
+          "problem": "Consolidation might lose important data",
+          "fix_steps": [
+            "1. Force fold to exceed 100 items and 1MB",
+            "2. Trigger should_consolidate() condition",
+            "3. Verify summary retains key information",
+            "4. Check old fold IDs properly removed",
+            "5. Test emergency fallback (oldest 10% removal)"
+          ],
+          "acceptance_criteria": [
+            "Consolidated items remain searchable",
+            "No orphaned fold references",
+            "Summary quality validation passes",
+            "Fallback strategy works correctly"
+          ],
+          "dependencies": ["MS002"]
+        },
+        {
+          "id": "MS004",
+          "title": "Optimize memory embeddings performance",
+          "priority": "P2",
+          "effort": "M",
+          "location": {
+            "files": ["lukhas/memory/adaptive_memory.py"],
+            "lines": ["L310-L328"]
+          },
+          "problem": "Embeddings similarity might degrade performance",
+          "fix_steps": [
+            "1. Profile get_relevance_score() with embeddings",
+            "2. Implement vector indexing (FAISS/Annoy)",
+            "3. Cache frequently accessed embeddings",
+            "4. Optimize cosine similarity computation",
+            "5. Benchmark with/without embeddings"
+          ],
+          "acceptance_criteria": [
+            "Embeddings add <20ms to recall time",
+            "Vector index reduces search space 10x",
+            "Memory usage stays under 2GB for 10k items"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "MS005",
+          "title": "Add memory quarantine for anomalous entries",
+          "priority": "P3",
+          "effort": "S",
+          "location": {
+            "files": ["lukhas/memory/fold_system.py"],
+            "lines": ["Add new functionality"]
+          },
+          "problem": "No protection against poisoned memory entries",
+          "fix_steps": [
+            "1. Add anomaly detection for extreme importance scores",
+            "2. Create quarantine_fold for suspicious items",
+            "3. Log quarantined items for review",
+            "4. Add manual approval for quarantine release",
+            "5. Monitor quarantine size/frequency"
+          ],
+          "acceptance_criteria": [
+            "Anomalous entries detected and quarantined",
+            "Quarantine log accessible for audit",
+            "No impact on normal memory operations"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "MS006",
+          "title": "Implement soft-delete for memory pruning",
+          "priority": "P2",
+          "effort": "S",
+          "location": {
+            "files": ["lukhas/memory/fold_system.py"],
+            "lines": ["L134-L143"]
+          },
+          "problem": "Pruned memories permanently lost",
+          "fix_steps": [
+            "1. Add deleted_at timestamp instead of removal",
+            "2. Keep deleted items for 7 days",
+            "3. Add undelete capability for recovery",
+            "4. Schedule permanent deletion job",
+            "5. Add metrics for deletion/recovery rates"
+          ],
+          "acceptance_criteria": [
+            "Deleted items recoverable for 7 days",
+            "Permanent deletion after retention period",
+            "Storage overhead <10% increase"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "MS007",
+          "title": "Add memory metrics to Prometheus",
+          "priority": "P2",
+          "effort": "S",
+          "location": {
+            "files": ["lukhas/memory/fold_system.py", "lukhas/memory/adaptive_memory.py"],
+            "lines": ["Throughout files"]
+          },
+          "problem": "Memory operations not instrumented",
+          "fix_steps": [
+            "1. Add fold_count gauge metric",
+            "2. Add cascade_events counter",
+            "3. Add recall_latency histogram",
+            "4. Add consolidation_events counter",
+            "5. Export via metrics_exporters"
+          ],
+          "acceptance_criteria": [
+            "All memory metrics visible in Prometheus",
+            "Grafana dashboard shows memory health",
+            "Alerts configured for anomalies"
+          ],
+          "dependencies": ["OB001"]
+        },
+        {
+          "id": "MS008",
+          "title": "Create memory system integration tests",
+          "priority": "P1",
+          "effort": "M",
+          "location": {
+            "files": ["tests/integration/"],
+            "lines": ["New file"]
+          },
+          "problem": "No end-to-end memory system tests",
+          "fix_steps": [
+            "1. Test FoldManager ↔ AdaptiveMemory interaction",
+            "2. Test memory → orchestrator data flow",
+            "3. Test concurrent read/write operations",
+            "4. Test recovery from cascade events",
+            "5. Test performance under load"
+          ],
+          "acceptance_criteria": [
+            "All components tested together",
+            "Race conditions identified and fixed",
+            "Performance benchmarks documented"
+          ],
+          "dependencies": ["MS001", "MS002"]
+        }
+      ]
+    },
+    "matriz_pipeline": {
+      "name": "MATRIZ Pipeline & Orchestration",
+      "tasks": [
+        {
+          "id": "MP001",
+          "title": "Complete async orchestrator timeout handling",
+          "priority": "P0",
+          "effort": "M",
+          "location": {
+            "files": ["matriz/core/async_orchestrator.py", "lukhas/core/matriz/async_orchestrator.py"],
+            "lines": ["L34-L42", "L96-L105", "L213-L222"]
+          },
+          "problem": "Timeout handling incomplete, could cause pipeline hangs",
+          "fix_steps": [
+            "1. Wrap each stage in asyncio.wait_for()",
+            "2. Set stage timeouts: Intent=50ms, Decision=100ms, etc.",
+            "3. Implement graceful degradation for non-critical stages",
+            "4. Add timeout metrics and logging",
+            "5. Test with artificially delayed stages"
+          ],
+          "acceptance_criteria": [
+            "No stage exceeds its timeout budget",
+            "Pipeline completes within 250ms total",
+            "Timeouts logged with context",
+            "Non-critical failures don't block pipeline"
+          ],
+          "dependencies": ["MS001"]
+        },
+        {
+          "id": "MP002",
+          "title": "Implement adaptive node routing",
+          "priority": "P1",
+          "effort": "M",
+          "location": {
+            "files": ["matriz/core/async_orchestrator.py"],
+            "lines": ["L341-L350", "L245-L254"]
+          },
+          "problem": "No fallback when primary node unhealthy",
+          "fix_steps": [
+            "1. Track node health (success/failure ratio)",
+            "2. Implement circuit breaker pattern",
+            "3. Route to backup node if primary unhealthy",
+            "4. Sort nodes by p95 latency for selection",
+            "5. Add health metrics per node"
+          ],
+          "acceptance_criteria": [
+            "Unhealthy nodes automatically bypassed",
+            "Fallback routing works seamlessly",
+            "Node health visible in metrics",
+            "Recovery after node becomes healthy"
+          ],
+          "dependencies": ["MS001"]
+        },
+        {
+          "id": "MP003",
+          "title": "Add orchestrator stress testing",
+          "priority": "P1",
+          "effort": "M",
+          "location": {
+            "files": ["tests/stress/"],
+            "lines": ["New file"]
+          },
+          "problem": "Orchestrator not tested under concurrent load",
+          "fix_steps": [
+            "1. Simulate 100 concurrent process_query calls",
+            "2. Verify all complete within 250ms budget",
+            "3. Check for event loop saturation",
+            "4. Test with varying workload patterns",
+            "5. Implement adaptive backpressure if needed"
+          ],
+          "acceptance_criteria": [
+            "100 concurrent requests handled",
+            "No resource starvation",
+            "P95 latency within SLO",
+            "Graceful degradation under overload"
+          ],
+          "dependencies": ["MP001", "MP002"]
+        },
+        {
+          "id": "MP004",
+          "title": "Create pipeline stage interfaces",
+          "priority": "P2",
+          "effort": "S",
+          "location": {
+            "files": ["lukhas/core/interfaces.py"],
+            "lines": ["Add to existing file"]
+          },
+          "problem": "No formal interface for pipeline stages",
+          "fix_steps": [
+            "1. Define ICognitiveNode protocol",
+            "2. Add process() method signature",
+            "3. Define input/output types",
+            "4. Add validation decorators",
+            "5. Update all nodes to implement interface"
+          ],
+          "acceptance_criteria": [
+            "All nodes implement ICognitiveNode",
+            "Type checking passes (mypy)",
+            "Runtime validation of inputs/outputs"
+          ],
+          "dependencies": ["MS001"]
+        },
+        {
+          "id": "MP005",
+          "title": "Implement pipeline stage metrics",
+          "priority": "P2",
+          "effort": "S",
+          "location": {
+            "files": ["matriz/core/async_orchestrator.py"],
+            "lines": ["L36-L44"]
+          },
+          "problem": "Individual stage performance not tracked",
+          "fix_steps": [
+            "1. Add histogram for each stage latency",
+            "2. Add counter for stage failures",
+            "3. Add gauge for concurrent executions",
+            "4. Export metrics to Prometheus",
+            "5. Create stage performance dashboard"
+          ],
+          "acceptance_criteria": [
+            "Per-stage metrics in Prometheus",
+            "Dashboard shows stage breakdowns",
+            "Alerts for stage SLO violations"
+          ],
+          "dependencies": ["OB001", "MP001"]
+        },
+        {
+          "id": "MP006",
+          "title": "Add orchestrator distributed tracing",
+          "priority": "P1",
+          "effort": "M",
+          "location": {
+            "files": ["lukhas/core/metrics_exporters.py", "matriz/core/async_orchestrator.py"],
+            "lines": ["L54-L63", "Throughout orchestrator"]
+          },
+          "problem": "No distributed tracing for debugging",
+          "fix_steps": [
+            "1. Initialize OpenTelemetry TracerProvider",
+            "2. Create span for process_query",
+            "3. Create child spans for each stage",
+            "4. Add span attributes (node_type, latency)",
+            "5. Configure trace export to collector"
+          ],
+          "acceptance_criteria": [
+            "Full trace visible in Jaeger/similar",
+            "Stage timings clearly shown",
+            "Trace context propagated correctly",
+            "Sampling configured (1% default)"
+          ],
+          "dependencies": ["OB002"]
+        },
+        {
+          "id": "MP007",
+          "title": "Implement orchestrator cancellation",
+          "priority": "P2",
+          "effort": "M",
+          "location": {
+            "files": ["matriz/core/async_orchestrator.py"],
+            "lines": ["Add functionality"]
+          },
+          "problem": "No way to cancel in-flight requests",
+          "fix_steps": [
+            "1. Add cancellation token support",
+            "2. Propagate cancellation through stages",
+            "3. Clean up resources on cancellation",
+            "4. Add cancellation metrics",
+            "5. Test cancellation at each stage"
+          ],
+          "acceptance_criteria": [
+            "Requests cancellable at any point",
+            "Resources properly cleaned up",
+            "Cancellation completes quickly (<100ms)"
+          ],
+          "dependencies": ["MP001"]
+        },
+        {
+          "id": "MP008",
+          "title": "Add orchestrator request queuing",
+          "priority": "P3",
+          "effort": "M",
+          "location": {
+            "files": ["matriz/core/async_orchestrator.py"],
+            "lines": ["Add functionality"]
+          },
+          "problem": "No queuing under high load",
+          "fix_steps": [
+            "1. Add request queue with max size",
+            "2. Implement priority queuing",
+            "3. Add queue overflow handling",
+            "4. Add queue depth metrics",
+            "5. Configure queue size limits"
+          ],
+          "acceptance_criteria": [
+            "Requests queued when at capacity",
+            "Priority requests processed first",
+            "Queue overflow handled gracefully"
+          ],
+          "dependencies": ["MP003"]
+        },
+        {
+          "id": "MP009",
+          "title": "Create orchestrator health checks",
+          "priority": "P2",
+          "effort": "S",
+          "location": {
+            "files": ["matriz/core/async_orchestrator.py"],
+            "lines": ["Add functionality"]
+          },
+          "problem": "No health check endpoint",
+          "fix_steps": [
+            "1. Add /health endpoint",
+            "2. Check all node availability",
+            "3. Verify stage timeout compliance",
+            "4. Return detailed health status",
+            "5. Add readiness vs liveness checks"
+          ],
+          "acceptance_criteria": [
+            "Health endpoint returns status",
+            "Unhealthy states detected",
+            "K8s integration ready"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "MP010",
+          "title": "Optimize orchestrator memory usage",
+          "priority": "P3",
+          "effort": "M",
+          "location": {
+            "files": ["matriz/core/async_orchestrator.py"],
+            "lines": ["Throughout"]
+          },
+          "problem": "Memory usage not optimized",
+          "fix_steps": [
+            "1. Profile memory allocation patterns",
+            "2. Implement object pooling for contexts",
+            "3. Clear stage outputs after use",
+            "4. Limit concurrent pipeline executions",
+            "5. Add memory usage metrics"
+          ],
+          "acceptance_criteria": [
+            "Memory usage stable under load",
+            "No memory leaks detected",
+            "GC pressure minimized"
+          ],
+          "dependencies": ["MP003"]
+        },
+        {
+          "id": "MP011",
+          "title": "Add orchestrator error recovery",
+          "priority": "P1",
+          "effort": "M",
+          "location": {
+            "files": ["matriz/core/async_orchestrator.py"],
+            "lines": ["L274-L283"]
+          },
+          "problem": "Limited error recovery mechanisms",
+          "fix_steps": [
+            "1. Implement retry logic with exponential backoff",
+            "2. Add circuit breaker per stage",
+            "3. Implement fallback responses",
+            "4. Add error categorization",
+            "5. Log errors with full context"
+          ],
+          "acceptance_criteria": [
+            "Transient errors retried successfully",
+            "Circuit breakers prevent cascading failures",
+            "Fallback responses for critical paths"
+          ],
+          "dependencies": ["MP002"]
+        },
+        {
+          "id": "MP012",
+          "title": "Document orchestrator architecture",
+          "priority": "P3",
+          "effort": "S",
+          "location": {
+            "files": ["docs/architecture/matriz_orchestrator.md"],
+            "lines": ["New file"]
+          },
+          "problem": "Orchestrator design undocumented",
+          "fix_steps": [
+            "1. Document stage pipeline flow",
+            "2. Explain timeout and fallback strategies",
+            "3. Document node selection algorithm",
+            "4. Add sequence diagrams",
+            "5. Include performance considerations"
+          ],
+          "acceptance_criteria": [
+            "Complete architecture document",
+            "Diagrams for all flows",
+            "Performance tuning guide included"
+          ],
+          "dependencies": []
+        }
+      ]
+    },
+    "observability_metrics": {
+      "name": "Observability & Metrics Implementation",
+      "tasks": [
+        {
+          "id": "OB001",
+          "title": "Enable Prometheus metrics export",
+          "priority": "P0",
+          "effort": "S",
+          "location": {
+            "files": ["lukhas/core/metrics_exporters.py"],
+            "lines": ["L26-L34"]
+          },
+          "problem": "Prometheus exporter not enabled by default",
+          "fix_steps": [
+            "1. Set LUKHAS_PROM_PORT=9090 in production",
+            "2. Verify /metrics endpoint accessible",
+            "3. Configure Prometheus scraping",
+            "4. Test metric collection",
+            "5. Set up Grafana data source"
+          ],
+          "acceptance_criteria": [
+            "Metrics endpoint returns data",
+            "Prometheus successfully scraping",
+            "Grafana connected to Prometheus"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "OB002",
+          "title": "Initialize OpenTelemetry tracing",
+          "priority": "P1",
+          "effort": "M",
+          "location": {
+            "files": ["lukhas/core/metrics_exporters.py"],
+            "lines": ["L48-L56", "Add tracer init"]
+          },
+          "problem": "Only metrics configured, no tracing",
+          "fix_steps": [
+            "1. Add TracerProvider initialization",
+            "2. Configure OTLP trace exporter",
+            "3. Set sampling rate (1% default)",
+            "4. Add service name and version",
+            "5. Test trace export to collector"
+          ],
+          "acceptance_criteria": [
+            "Traces exported successfully",
+            "Trace viewer shows spans",
+            "Sampling working correctly"
+          ],
+          "dependencies": ["OB001"]
+        },
+        {
+          "id": "OB003",
+          "title": "Replace metric stubs with real implementations",
+          "priority": "P1",
+          "effort": "M",
+          "location": {
+            "files": ["lukhas/core/bridge/llm_guardrail.py", "Throughout codebase"],
+            "lines": ["L24-L32"]
+          },
+          "problem": "Many TelemetryCounter stubs not real metrics",
+          "fix_steps": [
+            "1. Search for all TelemetryCounter usage",
+            "2. Replace with prometheus_client Counter/Histogram",
+            "3. Register metrics in exporters",
+            "4. Add appropriate labels",
+            "5. Verify in /metrics output"
+          ],
+          "acceptance_criteria": [
+            "No stub metrics remain",
+            "All metrics visible in Prometheus",
+            "Labels correctly applied"
+          ],
+          "dependencies": ["OB001"]
+        },
+        {
+          "id": "OB004",
+          "title": "Create comprehensive Grafana dashboards",
+          "priority": "P2",
+          "effort": "M",
+          "location": {
+            "files": ["guardian/tags_dashboard.json", "dashboards/"],
+            "lines": ["Throughout"]
+          },
+          "problem": "Dashboards defined but not deployed",
+          "fix_steps": [
+            "1. Import all JSON dashboards to Grafana",
+            "2. Create system overview dashboard",
+            "3. Create per-component dashboards",
+            "4. Configure alert rules",
+            "5. Set up alert notification channels"
+          ],
+          "acceptance_criteria": [
+            "All dashboards imported and working",
+            "Alerts configured and tested",
+            "Notification channels verified"
+          ],
+          "dependencies": ["OB001", "OB003"]
+        },
+        {
+          "id": "OB005",
+          "title": "Implement SLO monitoring",
+          "priority": "P1",
+          "effort": "S",
+          "location": {
+            "files": ["docs/slos/"],
+            "lines": ["New files"]
+          },
+          "problem": "SLOs defined but not monitored",
+          "fix_steps": [
+            "1. Define SLO targets (latency, availability)",
+            "2. Create SLI queries in Prometheus",
+            "3. Add error budget tracking",
+            "4. Create SLO dashboard",
+            "5. Configure SLO breach alerts"
+          ],
+          "acceptance_criteria": [
+            "SLO compliance visible",
+            "Error budgets tracked",
+            "Alerts for SLO violations"
+          ],
+          "dependencies": ["OB004"]
+        },
+        {
+          "id": "OB006",
+          "title": "Add custom application metrics",
+          "priority": "P2",
+          "effort": "M",
+          "location": {
+            "files": ["Throughout application"],
+            "lines": ["Add to key functions"]
+          },
+          "problem": "Business metrics not tracked",
+          "fix_steps": [
+            "1. Identify key business metrics",
+            "2. Add counters for user actions",
+            "3. Add histograms for processing times",
+            "4. Add gauges for queue depths",
+            "5. Create business metrics dashboard"
+          ],
+          "acceptance_criteria": [
+            "Business metrics defined and collected",
+            "Dashboard shows business KPIs",
+            "Trends visible over time"
+          ],
+          "dependencies": ["OB003"]
+        },
+        {
+          "id": "OB007",
+          "title": "Implement log aggregation",
+          "priority": "P2",
+          "effort": "M",
+          "location": {
+            "files": ["Configuration files"],
+            "lines": ["New configuration"]
+          },
+          "problem": "Logs not centrally aggregated",
+          "fix_steps": [
+            "1. Configure structured logging (JSON)",
+            "2. Set up log shipper (Fluentd/Filebeat)",
+            "3. Configure log aggregation (ELK/Loki)",
+            "4. Add log correlation with traces",
+            "5. Create log analysis dashboards"
+          ],
+          "acceptance_criteria": [
+            "All logs centrally collected",
+            "Logs correlated with traces",
+            "Search and analysis working"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "OB008",
+          "title": "Run observability drill",
+          "priority": "P2",
+          "effort": "S",
+          "location": {
+            "files": ["docs/runbooks/observability_drill.md"],
+            "lines": ["New file"]
+          },
+          "problem": "Observability not tested in practice",
+          "fix_steps": [
+            "1. Simulate known failure scenarios",
+            "2. Verify alerts fire correctly",
+            "3. Test incident response using dashboards",
+            "4. Validate trace-based debugging",
+            "5. Document lessons learned"
+          ],
+          "acceptance_criteria": [
+            "All alerts tested and working",
+            "Team can diagnose issues quickly",
+            "Runbook created from drill"
+          ],
+          "dependencies": ["OB004", "OB005"]
+        }
+      ]
+    },
+    "security_supply_chain": {
+      "name": "Security & Supply Chain Hardening",
+      "tasks": [
+        {
+          "id": "SC001",
+          "title": "Integrate SBOM generation in CI",
+          "priority": "P1",
+          "effort": "S",
+          "location": {
+            "files": [".github/workflows/security-audit.yml", "mk/audit.mk"],
+            "lines": ["Add to workflow", "L46-L53"]
+          },
+          "problem": "SBOM not automatically generated",
+          "fix_steps": [
+            "1. Add 'make sbom' step to CI workflow",
+            "2. Generate cyclonedx.json on each build",
+            "3. Upload SBOM as artifact",
+            "4. Parse SBOM for security review",
+            "5. Fail build if generation fails"
+          ],
+          "acceptance_criteria": [
+            "SBOM generated on every build",
+            "SBOM accessible as artifact",
+            "Security team has access to SBOMs"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "SC002",
+          "title": "Implement license policy checking",
+          "priority": "P1",
+          "effort": "S",
+          "location": {
+            "files": [".github/workflows/security-audit.yml"],
+            "lines": ["Add new step"]
+          },
+          "problem": "No license compliance checking",
+          "fix_steps": [
+            "1. Install pip-licenses in CI",
+            "2. Define license allowlist (MIT, Apache, BSD)",
+            "3. Add license check step",
+            "4. Fail build on disallowed license",
+            "5. Document in SECURITY.md"
+          ],
+          "acceptance_criteria": [
+            "License check runs on every build",
+            "Disallowed licenses block merge",
+            "Allowlist documented"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "SC003",
+          "title": "Add secret scanning to CI",
+          "priority": "P0",
+          "effort": "S",
+          "location": {
+            "files": [".github/workflows/", "tools/security/hardcoded_secrets_fixer.py"],
+            "lines": ["New workflow", "L42-L50"]
+          },
+          "problem": "No automated secret detection",
+          "fix_steps": [
+            "1. Add TruffleHog to CI pipeline",
+            "2. Use patterns from hardcoded_secrets_fixer.py",
+            "3. Scan all branches on push",
+            "4. Block merge if secrets detected",
+            "5. Set up secret rotation process"
+          ],
+          "acceptance_criteria": [
+            "Secrets detected before merge",
+            "No false positives on test data",
+            "Clear remediation process"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "SC004",
+          "title": "Harden GitHub Actions",
+          "priority": "P2",
+          "effort": "S",
+          "location": {
+            "files": [".github/workflows/"],
+            "lines": ["All workflow files"]
+          },
+          "problem": "Actions use tags not commit SHAs",
+          "fix_steps": [
+            "1. Replace action tags with commit SHAs",
+            "2. Pin all action versions",
+            "3. Add dependabot for actions",
+            "4. Review action permissions",
+            "5. Use GITHUB_TOKEN with minimal scope"
+          ],
+          "acceptance_criteria": [
+            "All actions use commit SHAs",
+            "Dependabot configured for actions",
+            "Minimal permissions granted"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "SC005",
+          "title": "Implement dependency freshness check",
+          "priority": "P2",
+          "effort": "S",
+          "location": {
+            "files": [".github/workflows/dependency-pinning.yml"],
+            "lines": ["L63-L72", "L128-L137"]
+          },
+          "problem": "Dependencies might become stale",
+          "fix_steps": [
+            "1. Enhance weekly freshness check",
+            "2. Create automated PR for updates",
+            "3. Run full test suite on updates",
+            "4. Add security impact assessment",
+            "5. Configure auto-merge for patches"
+          ],
+          "acceptance_criteria": [
+            "Weekly dependency updates proposed",
+            "Security updates prioritized",
+            "Automated testing of updates"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "SC006",
+          "title": "Create security incident response plan",
+          "priority": "P2",
+          "effort": "M",
+          "location": {
+            "files": ["docs/security/incident_response.md"],
+            "lines": ["New file"]
+          },
+          "problem": "No documented incident response",
+          "fix_steps": [
+            "1. Define security incident types",
+            "2. Create response team structure",
+            "3. Document escalation procedures",
+            "4. Add communication templates",
+            "5. Schedule regular drills"
+          ],
+          "acceptance_criteria": [
+            "Complete incident response plan",
+            "Team trained on procedures",
+            "First drill completed successfully"
+          ],
+          "dependencies": []
+        }
+      ]
+    },
+    "lane_management": {
+      "name": "Lane Management & Deployment Control",
+      "tasks": [
+        {
+          "id": "LM001",
+          "title": "Enforce lane import restrictions",
+          "priority": "P0",
+          "effort": "S",
+          "location": {
+            "files": ["config/tools/.importlinter"],
+            "lines": ["L4-L9", "L10-L15"]
+          },
+          "problem": "Lane isolation might be violated",
+          "fix_steps": [
+            "1. Run import-linter in CI",
+            "2. Fail build on violations",
+            "3. Add pre-commit hook",
+            "4. Document lane boundaries",
+            "5. Regular audit of imports"
+          ],
+          "acceptance_criteria": [
+            "No cross-lane imports allowed",
+            "CI blocks violations",
+            "Zero entries in lane_waivers.txt"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "LM002",
+          "title": "Implement canary deployment system",
+          "priority": "P1",
+          "effort": "M",
+          "location": {
+            "files": ["guardian/flag_snapshot.sh", "deployment/"],
+            "lines": ["L8-L16"]
+          },
+          "problem": "No systematic canary deployment",
+          "fix_steps": [
+            "1. Add LUKHAS_CANARY_PERCENT handling",
+            "2. Implement traffic splitting logic",
+            "3. Add canary metrics collection",
+            "4. Create canary promotion criteria",
+            "5. Add automatic rollback triggers"
+          ],
+          "acceptance_criteria": [
+            "Canary deployments working",
+            "Metrics show canary vs stable",
+            "Automatic rollback on errors"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "LM003",
+          "title": "Create lane promotion checklist",
+          "priority": "P2",
+          "effort": "S",
+          "location": {
+            "files": ["docs/lanes/promotion_checklist.md"],
+            "lines": ["New file"]
+          },
+          "problem": "No formal promotion process",
+          "fix_steps": [
+            "1. Define promotion criteria",
+            "2. Create automated checks",
+            "3. Add manual review gates",
+            "4. Document rollback procedures",
+            "5. Create promotion automation"
+          ],
+          "acceptance_criteria": [
+            "Checklist covers all aspects",
+            "Automation where possible",
+            "Clear rollback process"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "LM004",
+          "title": "Add lane labels to metrics",
+          "priority": "P2",
+          "effort": "S",
+          "location": {
+            "files": ["Throughout metrics code"],
+            "lines": ["Add lane label"]
+          },
+          "problem": "Metrics not segregated by lane",
+          "fix_steps": [
+            "1. Add 'lane' label to all metrics",
+            "2. Use LUKHAS_LANE env variable",
+            "3. Update dashboards for lane filtering",
+            "4. Add lane comparison panels",
+            "5. Configure lane-specific alerts"
+          ],
+          "acceptance_criteria": [
+            "All metrics have lane label",
+            "Dashboards filter by lane",
+            "Lane comparison visible"
+          ],
+          "dependencies": ["OB003"]
+        },
+        {
+          "id": "LM005",
+          "title": "Document lane architecture",
+          "priority": "P3",
+          "effort": "S",
+          "location": {
+            "files": ["docs/architecture/lanes.md"],
+            "lines": ["New file"]
+          },
+          "problem": "Lane design not documented",
+          "fix_steps": [
+            "1. Document lane purposes",
+            "2. Explain isolation mechanisms",
+            "3. Add deployment flow diagrams",
+            "4. Document promotion process",
+            "5. Include troubleshooting guide"
+          ],
+          "acceptance_criteria": [
+            "Complete lane documentation",
+            "Diagrams for all flows",
+            "Examples included"
+          ],
+          "dependencies": []
+        }
+      ]
+    },
+    "documentation_cleanup": {
+      "name": "Documentation & Naming Consistency",
+      "tasks": [
+        {
+          "id": "DC001",
+          "title": "Complete Trinity to Constellation migration",
+          "priority": "P2",
+          "effort": "S",
+          "location": {
+            "files": ["scripts/codemods/trinity_to_constellation_focused.py", "Throughout"],
+            "lines": ["L38-L46"]
+          },
+          "problem": "Some Trinity references remain",
+          "fix_steps": [
+            "1. Run trinity_to_constellation_focused.py",
+            "2. Grep for remaining 'Trinity' references",
+            "3. Update all found references",
+            "4. Archive README_TRINITY.md",
+            "5. Update all documentation"
+          ],
+          "acceptance_criteria": [
+            "Zero 'Trinity' references in active code",
+            "Documentation fully updated",
+            "Legacy docs clearly marked"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "DC002",
+          "title": "Automate context header updates",
+          "priority": "P3",
+          "effort": "S",
+          "location": {
+            "files": ["context_headers.md", "tools/context_updater.py"],
+            "lines": ["L6-L14"]
+          },
+          "problem": "Component count (692) might be stale",
+          "fix_steps": [
+            "1. Create script to count components",
+            "2. Update context_headers.md automatically",
+            "3. Add to release process",
+            "4. Include in CI checks",
+            "5. Generate weekly reports"
+          ],
+          "acceptance_criteria": [
+            "Component count auto-updated",
+            "CI validates accuracy",
+            "Weekly reports generated"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "DC003",
+          "title": "Create operational runbooks",
+          "priority": "P2",
+          "effort": "M",
+          "location": {
+            "files": ["docs/runbooks/"],
+            "lines": ["New files"]
+          },
+          "problem": "Missing operational documentation",
+          "fix_steps": [
+            "1. Create Guardian override runbook",
+            "2. Create emergency shutdown runbook",
+            "3. Create performance tuning runbook",
+            "4. Create incident response runbook",
+            "5. Test all runbooks in drills"
+          ],
+          "acceptance_criteria": [
+            "All critical operations documented",
+            "Runbooks tested in practice",
+            "Team trained on procedures"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "DC004",
+          "title": "Update architecture documentation",
+          "priority": "P3",
+          "effort": "M",
+          "location": {
+            "files": ["ARCHITECTURE.md", "docs/architecture/"],
+            "lines": ["Throughout"]
+          },
+          "problem": "Architecture docs might be outdated",
+          "fix_steps": [
+            "1. Review current architecture",
+            "2. Update component diagrams",
+            "3. Document data flows",
+            "4. Add sequence diagrams",
+            "5. Include decision records"
+          ],
+          "acceptance_criteria": [
+            "Architecture docs current",
+            "All components documented",
+            "Diagrams match implementation"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "DC005",
+          "title": "Create API documentation",
+          "priority": "P3",
+          "effort": "M",
+          "location": {
+            "files": ["docs/api/"],
+            "lines": ["New files"]
+          },
+          "problem": "No API documentation",
+          "fix_steps": [
+            "1. Generate OpenAPI schemas",
+            "2. Document all endpoints",
+            "3. Add example requests/responses",
+            "4. Include authentication guide",
+            "5. Set up interactive API docs"
+          ],
+          "acceptance_criteria": [
+            "Complete API documentation",
+            "Interactive docs available",
+            "Examples for all endpoints"
+          ],
+          "dependencies": []
+        }
+      ]
+    },
+    "testing_performance": {
+      "name": "Testing & Performance Validation",
+      "tasks": [
+        {
+          "id": "TP001",
+          "title": "Create comprehensive test suite",
+          "priority": "P1",
+          "effort": "L",
+          "location": {
+            "files": ["tests/"],
+            "lines": ["Throughout"]
+          },
+          "problem": "Test coverage incomplete",
+          "fix_steps": [
+            "1. Add unit tests for all components",
+            "2. Create integration test suite",
+            "3. Add end-to-end tests",
+            "4. Implement property-based tests",
+            "5. Set coverage target (90%)"
+          ],
+          "acceptance_criteria": [
+            "90% code coverage achieved",
+            "All critical paths tested",
+            "Tests run in CI"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "TP002",
+          "title": "Implement performance benchmarks",
+          "priority": "P1",
+          "effort": "M",
+          "location": {
+            "files": ["benchmarks/"],
+            "lines": ["New files"]
+          },
+          "problem": "Performance not benchmarked",
+          "fix_steps": [
+            "1. Create benchmark suite",
+            "2. Test memory operations",
+            "3. Test orchestrator latency",
+            "4. Test Guardian overhead",
+            "5. Track performance over time"
+          ],
+          "acceptance_criteria": [
+            "All SLOs have benchmarks",
+            "Performance tracked in CI",
+            "Regressions detected automatically"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "TP003",
+          "title": "Add load testing",
+          "priority": "P1",
+          "effort": "M",
+          "location": {
+            "files": ["tests/load/"],
+            "lines": ["New files"]
+          },
+          "problem": "System not load tested",
+          "fix_steps": [
+            "1. Set up load testing framework",
+            "2. Define load scenarios",
+            "3. Test sustained load",
+            "4. Test spike scenarios",
+            "5. Find breaking points"
+          ],
+          "acceptance_criteria": [
+            "Load tests automated",
+            "Breaking points documented",
+            "Capacity planning data available"
+          ],
+          "dependencies": ["TP002"]
+        },
+        {
+          "id": "TP004",
+          "title": "Implement chaos testing",
+          "priority": "P2",
+          "effort": "L",
+          "location": {
+            "files": ["tests/chaos/"],
+            "lines": ["New files"]
+          },
+          "problem": "Resilience not tested",
+          "fix_steps": [
+            "1. Set up chaos testing framework",
+            "2. Test network failures",
+            "3. Test node failures",
+            "4. Test resource exhaustion",
+            "5. Document failure modes"
+          ],
+          "acceptance_criteria": [
+            "System handles failures gracefully",
+            "Recovery procedures validated",
+            "Failure modes documented"
+          ],
+          "dependencies": ["TP003"]
+        },
+        {
+          "id": "TP005",
+          "title": "Create test data generators",
+          "priority": "P2",
+          "effort": "M",
+          "location": {
+            "files": ["tests/fixtures/"],
+            "lines": ["New files"]
+          },
+          "problem": "No systematic test data",
+          "fix_steps": [
+            "1. Create data generators",
+            "2. Generate edge case data",
+            "3. Create realistic datasets",
+            "4. Add data validation",
+            "5. Document data patterns"
+          ],
+          "acceptance_criteria": [
+            "Comprehensive test data available",
+            "Edge cases covered",
+            "Data generation automated"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "TP006",
+          "title": "Add contract testing",
+          "priority": "P2",
+          "effort": "M",
+          "location": {
+            "files": ["tests/contracts/"],
+            "lines": ["New files"]
+          },
+          "problem": "No API contract validation",
+          "fix_steps": [
+            "1. Define API contracts",
+            "2. Create contract tests",
+            "3. Add to CI pipeline",
+            "4. Version contracts properly",
+            "5. Monitor contract compliance"
+          ],
+          "acceptance_criteria": [
+            "All APIs have contracts",
+            "Contract tests in CI",
+            "Breaking changes detected"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "TP007",
+          "title": "Implement security testing",
+          "priority": "P1",
+          "effort": "M",
+          "location": {
+            "files": ["tests/security/"],
+            "lines": ["New files"]
+          },
+          "problem": "Security not systematically tested",
+          "fix_steps": [
+            "1. Add SAST scanning",
+            "2. Implement DAST tests",
+            "3. Add penetration tests",
+            "4. Test authentication/authorization",
+            "5. Scan for vulnerabilities"
+          ],
+          "acceptance_criteria": [
+            "Security tests automated",
+            "Vulnerabilities detected early",
+            "Compliance validated"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "TP008",
+          "title": "Create test environment management",
+          "priority": "P3",
+          "effort": "M",
+          "location": {
+            "files": ["tests/environments/"],
+            "lines": ["New files"]
+          },
+          "problem": "Test environments not managed",
+          "fix_steps": [
+            "1. Define test environment configs",
+            "2. Automate environment provisioning",
+            "3. Add data seeding",
+            "4. Implement cleanup procedures",
+            "5. Document environment usage"
+          ],
+          "acceptance_criteria": [
+            "Test environments automated",
+            "Consistent test data",
+            "Easy environment reset"
+          ],
+          "dependencies": []
+        }
+      ]
+    }
+  },
+  "execution_order": {
+    "immediate": [
+      "SG001", "SG002", "MS001", "MP001", "OB001", "SC003", "LM001"
+    ],
+    "week_1": [
+      "SG003", "SG004", "SG006", "SG009", "MS002", "MP002", "MP003",
+      "OB002", "OB003", "SC001", "SC002", "LM002"
+    ],
+    "week_2": [
+      "SG005", "SG007", "SG008", "MS003", "MS004", "MP004", "MP005",
+      "MP006", "OB004", "OB005", "SC004", "SC005", "LM003", "DC001"
+    ],
+    "week_3": [
+      "SG010", "MS005", "MS006", "MS007", "MS008", "MP007", "MP008",
+      "MP009", "MP011", "OB006", "OB007", "OB008", "SC006", "LM004",
+      "LM005", "DC002", "DC003", "TP001", "TP002", "TP003"
+    ],
+    "week_4": [
+      "MP010", "MP012", "DC004", "DC005", "TP004", "TP005", "TP006",
+      "TP007", "TP008"
+    ]
+  },
+  "risk_mitigation": {
+    "notes": "Tasks are ordered to minimize risk. Critical safety and production blockers are addressed first, followed by performance and reliability improvements, then documentation and testing.",
+    "rollback_points": [
+      "After SG001 - Can disable Guardian enforcement",
+      "After MS001 - Can revert to stub nodes",
+      "After MP001 - Can increase timeouts temporarily",
+      "After LM002 - Can disable canary deployments"
+    ]
+  },
+  "success_metrics": {
+    "target_completion": "4 weeks",
+    "critical_path": ["SG001", "SG002", "MS001", "MP001", "OB001"],
+    "kpis": [
+      "Guardian enforcement at 100%",
+      "Memory recall <100ms",
+      "Pipeline latency <250ms p95",
+      "90% test coverage",
+      "Zero cross-lane imports",
+      "All metrics instrumented"
+    ]
+  }
+}

@@ -282,6 +282,30 @@ CANDIDATE Research → LUKHAS Integration → PRODUCTS Deployment
 
 ---
 
+## 🤖 T4/0.01% Agent Delegation System
+
+**Agent Coordination Hub**: See **[AGENTS.md](./AGENTS.md)** for specialized agent delegation matrix
+
+### Strategic Documents
+- 📋 **[AUDIT_TODO_TASKS.md](./AUDIT_TODO_TASKS.md)** - 62 precision tasks from executive audit
+- 🗂️ **[directory_index.json](./directory_index.json)** - Live codebase navigation (auto-updated)
+- 📝 **[TODO.md](./TODO.md)** - Operational handoff prompts per agent
+
+### Agent Specializations
+- **CODEX**: Deep system infrastructure (registry, orchestrator, memory)
+- **Jules**: DevOps/observability (CI/CD, monitoring, security)
+- **Claude Code**: Testing/documentation (DSL validation, runbooks)
+- **Copilot**: Mechanical refactoring (migration, cleanup)
+
+### Benefits of Integration
+1. **Architecture Awareness**: Agents understand 692-component system structure
+2. **Lane Compliance**: Automatic respect for production/integration/candidate boundaries
+3. **Performance Budgets**: Built-in knowledge of <100ms memory, <250ms pipeline SLOs
+4. **Precise Navigation**: directory_index.json eliminates exploration time
+5. **Evidence-Based**: All changes backed by metrics and performance data
+
+---
+
 ## 📚 Context Navigation Quick Reference
 
 **Primary Development**: `candidate/` → Development workspace
@@ -298,5 +322,5 @@ CANDIDATE Research → LUKHAS Integration → PRODUCTS Deployment
 
 ---
 
-**Architecture Status**: Constellation Framework Active | Constitutional AI Integrated | 71.4% → 100% Roadmap
-**Last Updated**: 2025-09-12 | **Total Files**: 7,000+ | **Context Files**: 35+
+**Architecture Status**: Constellation Framework Active | Constitutional AI Integrated | T4/0.01% Agent System Active
+**Last Updated**: 2025-09-21 | **Total Files**: 7,000+ | **Context Files**: 35+ | **Agent Tasks**: 62
