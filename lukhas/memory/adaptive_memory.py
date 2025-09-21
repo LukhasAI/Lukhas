@@ -13,15 +13,21 @@ Features:
 
 import asyncio
 import heapq
-import time
+import logging
 import threading
+import time
 from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional, Tuple
 from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple
+
 import hashlib
 import json
+
+from lukhas.memory.embedding_index import EmbeddingIndex
+
+logger = logging.getLogger(__name__)
 
 
 class MemoryType(Enum):
@@ -210,6 +216,10 @@ class AdaptiveMemorySystem:
         self._stop_consolidation = threading.Event()
         self._start_background_consolidation()
 
+        self.embedding_index: Optional[EmbeddingIndex] = (
+            EmbeddingIndex() if self.enable_embeddings else None
+        )
+
     def store(
         self,
         content: Any,
@@ -257,6 +267,10 @@ class AdaptiveMemorySystem:
         # Add to recent items cache
         self.recent_items.append(item.id)
 
+        if self.enable_embeddings and item.embedding and self.embedding_index:
+            # ΛTAG: memory_embedding_index_store
+            self.embedding_index.add(item.id, item.embedding)
+
         # Add to active fold
         if not self.active_fold:
             self.active_fold = MemoryFold(id=f"fold_{int(time.time())}")
@@ -296,6 +310,30 @@ class AdaptiveMemorySystem:
 
         # Get candidate items
         candidate_ids = self._get_candidates(memory_type, tags, max_age_days)
+
+        if (
+            self.enable_embeddings
+            and query_embedding
+            and self.embedding_index is not None
+        ):
+            # ΛTAG: memory_embedding_index_recall
+            embedding_candidates = set(
+                self.embedding_index.query(query_embedding, k=max(k * 3, 50))
+            )
+            logger.debug(
+                "Embedding index candidate set",
+                extra={
+                    "candidate_count": len(embedding_candidates),
+                    "driftScore": 0.0,
+                    "affect_delta": 0.0,
+                },
+            )
+            if candidate_ids:
+                candidate_ids = [
+                    cid for cid in candidate_ids if cid in embedding_candidates
+                ] or list(embedding_candidates)
+            else:
+                candidate_ids = list(embedding_candidates)
 
         # Quick return if few candidates
         if len(candidate_ids) <= k:
@@ -424,6 +462,9 @@ class AdaptiveMemorySystem:
         # Remove from storage
         del self.items[item_id]
 
+        if self.enable_embeddings and self.embedding_index is not None:
+            self.embedding_index.remove(item_id)
+
     def _consolidate_fold(self, fold: MemoryFold):
         """Consolidate a fold into a single item"""
         consolidated = fold.consolidate()
@@ -441,6 +482,9 @@ class AdaptiveMemorySystem:
             if tag not in self.tag_index:
                 self.tag_index[tag] = []
             self.tag_index[tag].append(consolidated.id)
+
+        if self.enable_embeddings and consolidated.embedding and self.embedding_index:
+            self.embedding_index.add(consolidated.id, consolidated.embedding)
 
         self.metrics["consolidations"] += 1
 
