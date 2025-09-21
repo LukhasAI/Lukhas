@@ -7,8 +7,6 @@ import asyncio
 import time
 import statistics
 import pytest
-from typing import List, Dict, Any
-from unittest.mock import patch, MagicMock
 
 # Performance thresholds from architectural audit
 MATRIZ_LATENCY_THRESHOLD_MS = 250  # <250ms requirement

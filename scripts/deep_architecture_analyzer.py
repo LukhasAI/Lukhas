@@ -4,12 +4,10 @@ LUKHAS Deep Architecture Analyzer
 Exposes the true module structure and duplications
 """
 
-import os
 import json
 from pathlib import Path
-from collections import defaultdict, Counter
-from typing import Dict, List, Set, Tuple
-import ast
+from collections import defaultdict
+from typing import Dict, List
 
 
 class DeepArchitectureAnalyzer:

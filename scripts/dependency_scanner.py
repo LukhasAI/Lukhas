@@ -6,10 +6,9 @@ Scans actual Python imports to build real dependency matrix
 
 import ast
 import json
-import os
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, Set, List
+from typing import Dict, Set
 
 
 class DependencyScanner:

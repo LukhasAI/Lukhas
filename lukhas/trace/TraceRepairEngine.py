@@ -40,6 +40,32 @@ def _lazy_hash(obj, fast_tag=None):
 # Metrics are handled by the drift_manager to avoid duplication
 METRICS_AVAILABLE = False
 
+# Mock metrics if not available
+if METRICS_AVAILABLE:
+    try:
+        from prometheus_client import Counter, Histogram
+        REPAIR_ATTEMPTS = Counter('lukhas_repair_attempts_total', 'Total repair attempts', ['kind', 'method'])
+        REPAIR_SUCCESSES = Counter('lukhas_repair_successes_total', 'Successful repairs', ['kind', 'method'])
+        REPAIR_ERRORS = Counter('lukhas_repair_errors_total', 'Failed repairs', ['kind', 'method'])
+        REPAIR_DURATION = Histogram('lukhas_repair_duration_seconds', 'Repair duration')
+    except ImportError:
+        METRICS_AVAILABLE = False
+
+if not METRICS_AVAILABLE:
+    # Mock metrics objects
+    class MockMetric:
+        def labels(self, **kwargs):
+            return self
+        def inc(self):
+            pass
+        def observe(self, value):
+            pass
+
+    REPAIR_ATTEMPTS = MockMetric()
+    REPAIR_SUCCESSES = MockMetric()
+    REPAIR_ERRORS = MockMetric()
+    REPAIR_DURATION = MockMetric()
+
 
 class RepairMethod(Enum):
     """Available repair methods"""

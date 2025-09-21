@@ -6,9 +6,8 @@ Analyzes consciousness components and generates contracts
 
 import json
 import ast
-import re
 from pathlib import Path
-from typing import Dict, List, Set, Optional
+from typing import Dict, List
 from datetime import datetime
 
 

@@ -15,11 +15,9 @@ architectural state with proper metadata for the enhanced plugin registry.
 """
 
 import json
-import os
-import glob
 from pathlib import Path
 from typing import Dict, Any, List, Optional
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 import datetime
 
 @dataclass

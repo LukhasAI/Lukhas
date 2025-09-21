@@ -10,7 +10,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from lukhas.core.registry import register, resolve, _instantiate_plugin, auto_discover
+from lukhas.core.registry import register, resolve, _instantiate_plugin
 
 
 class DemoNode:

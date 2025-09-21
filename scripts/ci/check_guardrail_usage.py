@@ -11,7 +11,6 @@ Blocks common SDKs unless:
 Extendable: add vendors as needed.
 """
 
-import os
 import re
 import sys
 from pathlib import Path

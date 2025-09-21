@@ -462,17 +462,7 @@ def get_constellation_context(emphasis: str = "balanced") -> dict[str, Any]:
     return get_bridge().get_constellation_context(emphasis)
 
 
-def get_constellation_context(emphasis: str = "balanced") -> dict[str, Any]:
-    """Backward-compatible wrapper for older name `get_constellation_context`.
-
-    Emits a DeprecationWarning and delegates to the new `get_constellation_context` API.
-    """
-    warnings.warn(
-        "get_constellation_context is deprecated and will be removed in a future release; use get_constellation_context()",
-        DeprecationWarning,
-        stacklevel=2,
-    )
-    return get_bridge().get_constellation_context(emphasis)
+# Removed duplicate function definition
 
 
 def validate_output(text: str, context: Optional[BrandContext] = None) -> dict[str, Any]:

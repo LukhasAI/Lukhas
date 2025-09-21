@@ -7,7 +7,6 @@ Ensures all import styles work and resolve to lukhas.core correctly.
 
 import os
 import importlib
-import pytest
 import sys
 import warnings
 

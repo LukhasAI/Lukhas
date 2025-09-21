@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
 import asyncio
+import logging
+
+# Silence noisy optional imports for clean demo
+for noisy in [
+    "candidate.core.colonies",
+    "candidate.core.symbolism",
+    "candidate.memory.systems",
+]:
+    logging.getLogger(noisy).setLevel(logging.ERROR)
+
 from candidate.memory.consolidation import ConsolidationOrchestrator, ConsolidationMode, InMemoryStore
 from candidate.memory.structural_conscience import StructuralConscience
 
@@ -19,6 +29,11 @@ async def main():
         for i, r in enumerate(reports):
             if not r.ok:
                 print(i, r)
+
+    # Honest cascade prevention rate calculation
+    ok_count = sum(1 for r in reports if r.ok)
+    prevention_rate = round(ok_count / max(1, len(reports)), 4)
+    print("CASCADE_PREVENTION_RATE:", prevention_rate)
 
 if __name__ == "__main__":
     asyncio.run(main())

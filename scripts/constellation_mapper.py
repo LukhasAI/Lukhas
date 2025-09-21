@@ -8,9 +8,8 @@ import ast
 import json
 import networkx as nx
 from pathlib import Path
-from typing import Dict, List, Set, Tuple
+from typing import Dict, Set
 from datetime import datetime
-import re
 
 
 class ConstellationMapper:

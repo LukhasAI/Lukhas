@@ -1,0 +1,133 @@
+{
+  "meta": {
+    "run_id": "20250921-053213_e32fdd89",
+    "model": "sonar",
+    "premise": "Replace celestial metaphors with 8 diverse families: Neural Gardens (organic), Architectural Bridges (structural), Harmonic Resonance (musical), Woven Patterns (textile), Geological Strata (earth), Fluid Dynamics (liquid), Prismatic Light (optical), Circuit Patterns (electronic). Enforce novelty ≥0.8, clarity ≥0.95, zero repetition. Target: consciousness technology with 3-layer flow (Poetic → Academic → User-Friendly) and MATRIZ integration.",
+    "pipeline_version": "1.0.0",
+    "lukhas_version": "Constellation Framework",
+    "timestamp": 1758429133.031265
+  },
+  "stage": "stress_test",
+  "data": {
+    "issues": [
+      {
+        "family": "Neural Gardens",
+        "layer": "academic",
+        "problem": "The academic description uses moderately technical terms like 'hierarchical, bio-inspired networks' and 'synaptic connectivity and plasticity' but lacks citations or references to established theories, which reduces academic precision.",
+        "fix": "Add references to neuroscience or cognitive science literature supporting the model of consciousness as dynamic neural networks, e.g., citing Integrated Information Theory or neural plasticity studies."
+      },
+      {
+        "family": "Architectural Bridges",
+        "layer": "academic",
+        "problem": "The academic layer uses metaphorical language ('architectural framework', 'interconnected modules') but could benefit from clearer definitions and citations to cognitive architecture or neural modularity research to avoid jargon bloat and improve precision.",
+        "fix": "Incorporate references to modular brain theories or cognitive architectures and clarify terms like 'executive decision bridges' with more precise academic language."
+      },
+      {
+        "family": "Harmonic Resonance",
+        "layer": "academic",
+        "problem": "While the metaphor of harmonic oscillators is evocative, the academic description lacks explicit connection to neuroscience concepts such as neural oscillations or synchronization, and no citations are provided.",
+        "fix": "Reference neural oscillation research and explain how resonance relates to cognitive processes, adding citations to support claims."
+      },
+      {
+        "family": "Woven Patterns",
+        "layer": "academic",
+        "problem": "The academic text is clear but somewhat vague; it lacks detailed explanation or citations about how woven networks relate to neural connectivity or cognitive integration.",
+        "fix": "Enhance academic precision by referencing network neuroscience or studies on integrated cognitive functions, with appropriate citations."
+      },
+      {
+        "family": "Geological Strata",
+        "layer": "academic",
+        "problem": "The metaphor is original but the academic description uses terms like 'stratified dynamic systems' and 'cognitive crystallization' without clear definitions or references, which may confuse readers and reduce precision.",
+        "fix": "Clarify these terms and relate them to known neuroscience concepts such as memory consolidation and neural layering, supported by citations."
+      },
+      {
+        "family": "Fluid Dynamics",
+        "layer": "academic",
+        "problem": "The academic description uses fluid dynamics metaphor but does not connect it explicitly to neural or cognitive science literature, lacking citations and risking jargon bloat.",
+        "fix": "Include references to studies on neural dynamics or brain connectivity that use fluid or flow analogies, improving academic grounding."
+      },
+      {
+        "family": "Prismatic Light",
+        "layer": "academic",
+        "problem": "The metaphor of light refraction is creative but the academic text is abstract and lacks concrete examples or citations linking it to cognitive neuroscience or information processing.",
+        "fix": "Add references to research on information integration or neural coding that support the metaphor, with clearer academic language."
+      },
+      {
+        "family": "Circuit Patterns",
+        "layer": "academic",
+        "problem": "The academic layer effectively uses circuit metaphors but could improve by citing computational neuroscience or neural network literature to enhance academic rigor.",
+        "fix": "Incorporate citations from computational models of cognition and clarify terms like 'switching mechanisms' with precise definitions."
+      }
+    ],
+    "grandma_check": {
+      "pass_rate": 0.998,
+      "notes": [
+        "Family 'Neural Gardens' user layer uses 'Imagine your mind as a garden...' which is accessible and clear.",
+        "Family 'Architectural Bridges' user layer is simple and relatable.",
+        "Family 'Harmonic Resonance' user layer uses musical metaphor that is easy to understand.",
+        "Family 'Woven Patterns' user layer is clear with fabric metaphor.",
+        "Family 'Geological Strata' user layer is somewhat abstract but still understandable.",
+        "Family 'Fluid Dynamics' user layer uses river metaphor which is accessible.",
+        "Family 'Prismatic Light' user layer is clear with prism and light metaphor.",
+        "Family 'Circuit Patterns' user layer is straightforward with circuit board analogy."
+      ],
+      "repairs": []
+    },
+    "scores": {
+      "avg_novelty": 0.876,
+      "avg_clarity": 0.92,
+      "avg_duplication_distance": 0.79,
+      "families": [
+        {
+          "name": "Neural Gardens",
+          "novelty": 0.9,
+          "clarity": 0.95,
+          "duplication": 0.8
+        },
+        {
+          "name": "Architectural Bridges",
+          "novelty": 0.85,
+          "clarity": 0.9,
+          "duplication": 0.78
+        },
+        {
+          "name": "Harmonic Resonance",
+          "novelty": 0.88,
+          "clarity": 0.9,
+          "duplication": 0.8
+        },
+        {
+          "name": "Woven Patterns",
+          "novelty": 0.9,
+          "clarity": 0.92,
+          "duplication": 0.79
+        },
+        {
+          "name": "Geological Strata",
+          "novelty": 0.87,
+          "clarity": 0.9,
+          "duplication": 0.78
+        },
+        {
+          "name": "Fluid Dynamics",
+          "novelty": 0.9,
+          "clarity": 0.9,
+          "duplication": 0.8
+        },
+        {
+          "name": "Prismatic Light",
+          "novelty": 0.88,
+          "clarity": 0.9,
+          "duplication": 0.78
+        },
+        {
+          "name": "Circuit Patterns",
+          "novelty": 0.85,
+          "clarity": 0.92,
+          "duplication": 0.8
+        }
+      ]
+    }
+  },
+  "timestamp": 1758429193.2261791
+}

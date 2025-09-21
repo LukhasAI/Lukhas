@@ -19,16 +19,13 @@ import argparse
 import asyncio
 import json
 import time
-import uuid
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List
 
-import requests
 from dotenv import load_dotenv
 
 # Load T4 research pipeline
-from perp_research import run_pipeline
 
 # Load vocabulary rotation engine
 from branding.vocabularies.vocabulary_rotation_engine import VocabularyRotationEngine

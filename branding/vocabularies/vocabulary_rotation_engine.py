@@ -22,7 +22,7 @@ import json
 import random
 import time
 from pathlib import Path
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, Tuple, Optional
 
 
 class VocabularyRotationEngine:

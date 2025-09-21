@@ -7,11 +7,9 @@ that the 99.7% cascade prevention rate is maintained.
 """
 
 import pytest
-from hypothesis import given, strategies as st, settings, HealthCheck
-from unittest.mock import Mock
 import time
 import asyncio
-from typing import Dict, Any, List
+from typing import Dict, Any
 
 
 # Simple memory simulator for testing cascade prevention

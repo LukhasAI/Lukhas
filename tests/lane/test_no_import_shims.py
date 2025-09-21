@@ -2,7 +2,6 @@
 """AST scan to ensure no importlib.import_module("candidate.") outside registry/loader."""
 
 import ast
-import os
 from pathlib import Path
 
 

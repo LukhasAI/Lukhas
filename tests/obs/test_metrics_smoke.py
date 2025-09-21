@@ -1,5 +1,4 @@
 # tests/obs/test_metrics_smoke.py
-import os
 from lukhas import metrics
 
 def test_metrics_noop_labels_inc_ok(monkeypatch):

@@ -95,13 +95,14 @@ class InMemoryStore:
         self.long_term: List[MemoryFold] = []
 
     @classmethod
-    def seed_demo(cls, n: int = 32) -> "InMemoryStore":
+    def seed_demo(cls, n: int = 32, seed: int | None = None) -> "InMemoryStore":
+        rng = random.Random(seed)
         traces = [
             MemoryTrace(
                 trace_id=f"t{i}",
-                salience=random.random(),
-                domain=random.choice(["episodic", "semantic", "procedural"]),
-                payload={"tokens": random.randint(8, 128)},
+                salience=rng.random(),
+                domain=rng.choice(["episodic", "semantic", "procedural"]),
+                payload={"tokens": rng.randint(8, 128)},
             )
             for i in range(n)
         ]
@@ -144,17 +145,19 @@ class ConsolidationOrchestrator:
         self.sleep_stage = SleepStage.NREM_1
         self.consolidation_active = False
         self.cycle_count = 0
+        self.max_folds_per_run = 1000
         self._metrics = {
             "batches": 0,
             "folds_created": 0,
             "traces_consolidated": 0,
+            "quarantined_folds": 0,
             "last_run_s": None,
         }
 
     # -------- Public API -------- #
 
     async def orchestrate_consolidation(self, num_cycles: int = 1) -> None:
-        start = time.time()
+        start = time.perf_counter()
         self.consolidation_active = True
         self.consciousness.publish_event("consolidation_start", {"mode": self.mode.value})
         try:
@@ -165,7 +168,7 @@ class ConsolidationOrchestrator:
                 self.cycle_count += 1
         finally:
             self.consolidation_active = False
-            self._metrics["last_run_s"] = round(time.time() - start, 3)
+            self._metrics["last_run_s"] = round(time.perf_counter() - start, 4)
             self.consciousness.publish_event("consolidation_end", {"cycles": self.cycle_count, **self._metrics})
 
     def metrics_snapshot(self) -> Dict[str, Any]:
@@ -179,15 +182,36 @@ class ConsolidationOrchestrator:
             if not batch:
                 return
             folds = self._consolidate_batch(batch)
-            self.store.write_long_term(folds)
+
+            # Quarantine failing folds and enforce fold cap
+            from candidate.memory.structural_conscience import StructuralConscience
+            validator = StructuralConscience()
+            validated = []
+            for f in folds:
+                r = validator.validate_memory_structure(f)
+                if r.ok:
+                    validated.append(f)
+                else:
+                    self._metrics["quarantined_folds"] += 1
+                    self.consciousness.publish_event("fold_quarantined", {
+                        "issues": r.issues, "domain": f.domain
+                    })
+
+            # Cap per run
+            remaining = max(0, self.max_folds_per_run - self._metrics["folds_created"])
+            validated = validated[:remaining]
+            if not validated:
+                return
+
+            self.store.write_long_term(validated)
             self.store.mark_consolidated([t.trace_id for t in batch])
             self._metrics["batches"] += 1
-            self._metrics["folds_created"] += len(folds)
+            self._metrics["folds_created"] += len(validated)
             self._metrics["traces_consolidated"] += len(batch)
             self.consciousness.publish_event("stage_consolidated", {
                 "stage": stage.value,
                 "batch": len(batch),
-                "folds": len(folds)
+                "folds": len(validated)
             })
         elif stage is SleepStage.REM:
             # Cross-domain integration / association strengthening

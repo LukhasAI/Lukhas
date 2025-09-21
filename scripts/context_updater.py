@@ -4,8 +4,6 @@ LUKHAS Context File Updater
 Updates claude.me and lukhas_context.md files with current architecture reality
 """
 
-import os
-import re
 from pathlib import Path
 from typing import List, Dict, Tuple
 from datetime import datetime

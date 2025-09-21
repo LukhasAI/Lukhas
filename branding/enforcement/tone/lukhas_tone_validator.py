@@ -65,8 +65,8 @@ class LukhasToneValidator:
 
         # T4/0.01% standards check
         has_t4_standards = any(term in content.lower() for term in ["t4", "0.01%", "constructor-aware", "registry-based"])
-        if filepath.endswith(".md") and len(content) > 1000 and not has_trinity:
-            issues.append("Large documentation file missing Constellation Framework symbols (⚛️🧠🛡️)")
+        if filepath.endswith(".md") and len(content) > 1000 and not has_constellation:
+            issues.append("Large documentation file missing Constellation Framework symbols (⚛️✦🔬🛡️)")
 
         # Success if no critical issues
         return len(issues) == 0, issues

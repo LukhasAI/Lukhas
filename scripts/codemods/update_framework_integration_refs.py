@@ -3,8 +3,6 @@
 Update trinity_framework_integration references to constellation_framework_integration
 """
 import os
-import re
-from pathlib import Path
 
 def update_framework_integration_refs():
     """Update trinity_framework_integration to constellation_framework_integration"""

@@ -6,9 +6,8 @@ Creates machine-readable JSON indexes for AI agent discovery and coordination
 
 import ast
 import json
-import re
 from pathlib import Path
-from typing import Dict, List, Set, Optional
+from typing import Dict, List, Optional
 from datetime import datetime
 
 

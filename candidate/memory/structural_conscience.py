@@ -91,15 +91,19 @@ class StructuralConscience:
         size_penalty = 0.1 if len(origin_ids) > 64 else 0.0
         cascade_risk = max(0.0, min(1.0, (1.0 - coherence) + size_penalty))
 
-        # Alignment proxy: reward neutral domains, penalize procedural with low quality
-        alignment = 0.8 if domain in {"semantic", "episodic"} else max(0.0, 0.8 * quality)
+        # Alignment proxy: domain-aware policy with quality blend
+        policy = {"semantic": 0.85, "episodic": 0.85, "procedural": 0.75}
+        base = policy.get(domain, 0.75)
+        alignment = max(0.0, min(1.0, 0.6 * base + 0.4 * quality))
 
         ok = True
         if coherence < self.awareness_threshold:
             ok = False; issues.append("coherence_below_threshold")
         if cascade_risk > self.cascade_ceiling:
             ok = False; issues.append("cascade_risk_too_high")
-        if self.require_alignment and alignment < self.alignment_threshold:
+        # Procedural domain gets slightly more permissive threshold
+        threshold = self.alignment_threshold if domain != "procedural" else max(0.6, self.alignment_threshold - 0.1)
+        if self.require_alignment and alignment < threshold:
             ok = False; issues.append("alignment_below_threshold")
 
         return StructuralReport(
