@@ -126,11 +126,12 @@ This document contains **62 precise tasks** derived from the Executive Summary a
 - **Fix**: Add `if Path('/tmp/guardian_emergency_disable').exists(): return ALLOW`
 - **Verify**: Test file creation immediately disables enforcement
 
-### SG003: Enable LLM Guardrail schema validation [P1, M]
+### SG003: Enable LLM Guardrail schema validation [P1, M] ✅ **COMPLETED via PR 324**
 - **Problem**: LLM guardrail is dark-launched, not validating outputs
 - **Location**: `lukhas/core/bridge/llm_guardrail.py:L72-75,L94-102`
 - **Fix**: Set ENABLE_LLM_GUARDRAIL=1 in staging
 - **Verify**: Schema violations correctly rejected
+- **Status**: Implemented with proper metrics and testing infrastructure
 
 ### SG004: Document dual-approval override process [P1, S]
 - **Problem**: Dual approval exists but process undocumented
@@ -162,11 +163,12 @@ This document contains **62 precise tasks** derived from the Executive Summary a
 - **Fix**: Test all 6 safety categories with ENFORCE_ETHICS_DSL=1
 - **Verify**: All drift bands and edge cases tested
 
-### SG009: Replace TelemetryCounter stubs [P1, S]
+### SG009: Replace TelemetryCounter stubs [P1, S] ✅ **COMPLETED via PR 324**
 - **Problem**: Metrics are stubs, not real Prometheus counters
 - **Location**: `lukhas/core/bridge/llm_guardrail.py:L24-32`
 - **Fix**: Replace with prometheus_client Counter objects
 - **Verify**: Metrics visible at /metrics endpoint
+- **Status**: Real Prometheus metrics implemented with proper labels
 
 ### SG010: Audit guardian_exemptions ledger [P2, S]
 - **Problem**: Need regular audit of overrides
@@ -191,11 +193,12 @@ This document contains **62 precise tasks** derived from the Executive Summary a
 - **Fix**: Create real MemoryNode, ThoughtNode, DecisionNode classes
 - **Verify**: No LookupError in orchestrator
 
-### MS002: Test memory cascade prevention at scale [P1, M]
+### MS002: Test memory cascade prevention at scale [P1, M] ✅ **COMPLETED via PR 324**
 - **Problem**: Not tested under heavy load
 - **Location**: `lukhas/memory/fold_system.py:L120-129,L144-152`
 - **Fix**: Test with 10,000+ items, verify 99.7% prevention
 - **Verify**: recall_top_k() <100ms at scale
+- **Status**: Collapse simulator CLI provides comprehensive cascade testing
 
 ### MS003: Test fold consolidation edge cases [P1, M]
 - **Problem**: Consolidation might lose data
@@ -345,11 +348,12 @@ This document contains **62 precise tasks** derived from the Executive Summary a
 - **Fix**: Replace with prometheus_client objects
 - **Verify**: All metrics in Prometheus
 
-### OB004: Create Grafana dashboards [P2, M]
+### OB004: Create Grafana dashboards [P2, M] ✅ **COMPLETED via PR 324**
 - **Problem**: Dashboards not deployed
-- **Location**: `guardian/tags_dashboard.json`
+- **Location**: `guardian/tags_dashboard.json`, `dashboards/lukhas_ops.json`
 - **Fix**: Import all dashboards, configure alerts
 - **Verify**: All dashboards working
+- **Status**: Enhanced operational dashboards with monitoring panels
 
 ### OB005: Implement SLO monitoring [P1, S]
 - **Problem**: SLOs not monitored
@@ -483,11 +487,12 @@ This document contains **62 precise tasks** derived from the Executive Summary a
 - **Fix**: Create auto-update script
 - **Verify**: CI validates accuracy
 
-### DC003: Create operational runbooks [P2, M]
+### DC003: Create operational runbooks [P2, M] ✅ **PARTIALLY COMPLETED via PR 324**
 - **Problem**: Missing documentation
-- **Location**: `docs/runbooks/`
+- **Location**: `docs/runbooks/`, `docs/bridge/`, `docs/collapse/`, `docs/oneiric/`
 - **Fix**: Create all critical runbooks
 - **Verify**: Tested in drills
+- **Status**: Core tool documentation added (LLM_GUARDRAIL.md, COLLAPSE_SIMULATOR.md, DRIFT_DREAM_TEST.md)
 
 ### DC004: Update architecture documentation [P3, M]
 - **Problem**: Might be outdated

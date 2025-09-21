@@ -2,7 +2,19 @@
   "permissions": {
     "allow": [
       "Bash(PYTHONPATH=. python3:*)",
-      "Bash(PYTHONPATH=. .venv/bin/pytest tests/e2e/test_matriz_orchestration.py::TestMATRIZE2E::test_e2e_performance_targets -v --tb=short)"
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/e2e/test_matriz_orchestration.py::TestMATRIZE2E::test_e2e_performance_targets -v --tb=short)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/reliability/test_0_01_percent_features.py -v --tb=short)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/reliability/test_0_01_percent_features.py::TestAdaptiveCircuitBreaker::test_successful_operations -v)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/reliability/test_0_01_percent_features.py -q --tb=no)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/core/test_import_budget.py -v)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/memory/test_topk_recall.py::TestTopKRecall::test_relevance_scoring -v)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/e2e/test_matriz_orchestration.py::TestMATRIZE2E::test_e2e_stress_performance -v)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/e2e/test_matriz_orchestration.py::TestMATRIZPerformanceBudgets::test_cpu_efficiency_budget -v)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/reliability/ tests/e2e/test_matriz_orchestration.py tests/performance/test_performance_budgets.py tests/observability/test_prometheus_metrics.py tests/memory/test_topk_recall.py tests/memory/test_scheduled_folding.py --tb=no -q --disable-warnings)",
+      "Read(//Users/agi_dev/Downloads/**)",
+      "Bash(gh pr merge:*)",
+      "Bash(gh pr checkout:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

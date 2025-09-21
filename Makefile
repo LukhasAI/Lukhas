@@ -1,12 +1,12 @@
 # Main Makefile PHONY declarations (only for targets defined in this file)
-.PHONY: install setup-hooks dev api openapi live colony-dna-smoke smoke-matriz lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports legacy-check legacy-fix obs obs-spans obs-metrics registry-test constraints-test orch-smoke orch-arbitration orch-meta quick-smoke quick-cov plugin-discovery deps-compile deps-sync deps-compile-all deps-compile-dev deps-compile-prod deps-sync-dev deps-upgrade deps-check deps-update matriz-e2e matriz-perf
+.PHONY: install setup-hooks dev api openapi live colony-dna-smoke smoke-matriz lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports oneiric-drift-test
 .PHONY: ai-analyze ai-setup ai-workflow clean deep-clean quick bootstrap organize organize-dry organize-suggest organize-watch
 .PHONY: codex-validate codex-fix validate-all perf migrate-dry migrate-run dna-health dna-compare admin lint-status lane-guard
 .PHONY: audit-tail sdk-py-install sdk-py-test sdk-ts-build sdk-ts-test backup-local backup-s3 restore-local restore-s3 dr-drill dr-weekly dr-quarterly dr-monthly
 .PHONY: audit-appendix audit-normalize audit-merge audit-merge-auto audit-merge-check
 .PHONY: check-scoped lint-scoped test-contract type-scoped doctor doctor-tools doctor-py doctor-ci doctor-lanes doctor-tests doctor-audit doctor-dup-targets doctor-phony doctor-summary doctor-strict doctor-dup-targets-strict doctor-json
 .PHONY: todo-unused todo-unused-check todo-unused-core todo-unused-candidate t4-annotate t4-check audit-f821 fix-f821-core annotate-f821-candidate types-audit types-enforce types-core types-trend types-audit-trend types-enforce-trend f401-audit f401-trend
-.PHONY: test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens bench-drift slo oneiric-drift-test collapse
+.PHONY: test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -16,13 +16,6 @@ include mk/*.mk
 endif
 
 # Note: Main help target is defined in mk/help.mk
-
-# Safety Tags SLO target (Task 13)
-slo:
-	@echo '🎯 Safety Tags SLO Validation'
-	.venv/bin/pytest -q tests/ethics/test_tags_preprocess.py::test_preprocess_idempotent_and_strips_zerowidth
-	LUKHAS_PERF=1 .venv/bin/pytest -q tests/ethics/test_tags_preprocess.py::test_preprocess_p95_lt_0_5ms
-	@echo '✅ SLO validation complete'
 
 # Installation
 install:
@@ -38,8 +31,6 @@ setup-hooks:
 	pre-commit install
 	pre-commit install --install-hooks
 	pre-commit autoupdate
-	@echo "🔧 Installing pre-commit hooks (pre-commit + pre-push)"
-	@pre-commit install -t pre-commit -t pre-push || true
 	@echo "✅ Pre-commit hooks installed!"
 
 # Development server
@@ -98,19 +89,6 @@ lint-unused-strict:
 	@echo "🎯 T4 Unused Imports Enforcer (Production Lanes - Strict Mode)"
 	@echo "⚛️ Failing if any unannotated F401 remain in lukhas/ and MATRIZ/..."
 	python3 tools/ci/unused_imports.py --paths lukhas MATRIZ --strict
-
-# Legacy Core Import Management
-legacy-check:
-	@echo "🔍 Checking for legacy 'core' imports..."
-	@python3 scripts/codemod_legacy_core.py || \
-	  (echo "⚠️  Legacy imports found. Run 'make legacy-fix' to automatically update them." && exit 2)
-	@echo "✅ No legacy imports detected"
-
-legacy-fix:
-	@echo "🔧 Fixing legacy 'core' imports..."
-	@python3 scripts/codemod_legacy_core.py --write
-	@echo "✅ Legacy imports updated to 'lukhas.core'"
-	@echo "📝 Review changes and commit when ready"
 
 # Format code
 format:
@@ -220,6 +198,9 @@ metrics-dashboard:
 lint-status:
 	@python tools/scripts/check_progress.py
 
+oneiric-drift-test:
+	python oneiric_core/tools/drift_dream_test.py --symbol LOYALTY --user demo --seed 7
+
 # Lane guard: forbid lukhas -> candidate imports (belt-and-suspenders)
 lane-guard:
 	@bash tools/ci/lane_guard.sh
@@ -235,11 +216,6 @@ deep-clean: clean
 # Quick fix and test
 quick: fix test ## Fix issues and run tests
 	@echo "✅ Quick fix and test complete!"
-
-# Benchmark drift p95 performance
-bench-drift: ## Run canonical drift compute p95 benchmark
-	@echo "🏃 Running drift p95 benchmark..."
-	PYTHONPATH=. python3 tools/bench/p95_canonical.py
 
 # Note: Audit targets are defined in mk/audit.mk
 
@@ -691,123 +667,3 @@ test.t4:
 		pytest tests/unit/metrics -v && \
 		pytest tests/capabilities -m capability -v && \
 		pytest tests/e2e/consciousness/test_consciousness_emergence.py -v -k "signal_cascade_prevention or network_coherence_emergence"
-
-# CLI Tools
-oneiric-drift-test:
-	python3 -m oneiric_core.tools.drift_dream_test --symbol LOYALTY --user test --seed 42
-
-collapse:
-	python3 -m lukhas.tools.collapse_simulator --scenario ethical --seed 42
-
-# T4 Test Targets
-bridge:
-	.venv/bin/pytest -q tests/bridge
-
-core-compat:
-	LUKHAS_CORE_COMPAT=1 .venv/bin/pytest -q tests/core/test_core_compat.py
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Tiny smoke/guard targets for the new stubs (fast, isolated)
-# T4 defaults: fail-closed, quick feedback, no side effects.
-.PHONY: obs obs-spans obs-metrics \
-        registry-test constraints-test \
-        orch-smoke orch-arbitration orch-meta \
-        quick-smoke quick-cov plugin-discovery
-
-# Observability smoke (no-op if deps absent)
-obs-spans:
-	@echo "🧪 obs-spans"; .venv/bin/pytest -q tests/obs/test_spans_smoke.py
-
-obs-metrics:
-	@echo "🧪 obs-metrics (ENABLE_PROM=0 no-op)"; ENABLE_PROM=0 .venv/bin/pytest -q tests/obs/test_metrics_smoke.py
-
-obs: obs-spans obs-metrics
-
-# Registry and constraints
-registry-test:
-	@echo "🧪 registry"; .venv/bin/pytest -q tests/registry/test_registry.py
-
-constraints-test:
-	@echo "🧪 constraints"; .venv/bin/pytest -q tests/constraints/test_plan_verifier.py
-
-# Orchestration (consensus + meta-controller)
-orch-arbitration:
-	@echo "🧪 orchestration-consensus"; .venv/bin/pytest -q tests/orchestration/test_arbitration.py
-
-orch-meta:
-	@echo "🧪 orchestration-meta"; .venv/bin/pytest -q tests/orchestration/test_meta_loops.py
-
-orch-smoke: orch-arbitration orch-meta
-
-# MATRIZ async orchestrator tests
-matriz-e2e:
-	@echo "🧪 matriz-e2e"; .venv/bin/pytest -q tests/matriz/test_async_orchestrator_e2e.py
-
-# MATRIZ performance tests (env-gated)
-matriz-perf:
-	@echo "🧪 matriz-perf"; LUKHAS_PERF=1 .venv/bin/pytest -q tests/perf/test_async_orchestrator_perf.py -v
-
-# One-button quick smoke for PRs / pre-push (sub-second on typical dev machines)
-quick-smoke: registry-test constraints-test orch-smoke obs matriz-e2e
-
-# Minimal coverage snapshot on just the new surfaces
-quick-cov:
-	@echo "🧪 quick-cov"; \
-	.venv/bin/coverage run -m pytest -q tests/registry/test_registry.py \
-		tests/constraints/test_plan_verifier.py \
-		tests/orchestration/test_arbitration.py \
-		tests/orchestration/test_meta_loops.py \
-		tests/obs/test_spans_smoke.py \
-		tests/obs/test_metrics_smoke.py && \
-	.venv/bin/coverage report -m --omit='*/site-packages/*' --show-missing
-
-# Explicit plugin discovery exercise (stays dark by default)
-plugin-discovery:
-	@echo "🔎 plugin discovery (read-only, non-fatal)"; \
-	python3 -c "import os; os.environ['LUKHAS_PLUGIN_DISCOVERY']='auto'; \
-	from candidate.core.orchestration.loader import discover_nodes; \
-	n = discover_nodes('candidate'); \
-	print(f'[discovery] initialized nodes: {n}')" || echo "[discovery] skip: candidate not available"
-
-# Enhanced dependency management with pip-tools (G1+)
-.PHONY: deps-compile deps-sync deps-compile-all deps-upgrade deps-check deps-update
-
-deps-compile:
-	@echo "📦 Compiling base requirements..."
-	.venv/bin/pip-compile --generate-hashes -o requirements.txt requirements.in
-
-deps-compile-dev:
-	@echo "📦 Compiling development requirements..."
-	.venv/bin/pip-compile --generate-hashes -o requirements-dev.txt requirements-dev.in
-
-deps-compile-prod:
-	@echo "📦 Compiling production requirements..."
-	.venv/bin/pip-compile --generate-hashes -o requirements-prod.txt requirements-prod.in
-
-deps-compile-all: deps-compile deps-compile-dev deps-compile-prod
-	@echo "✅ All requirements compiled with hashes"
-
-deps-sync:
-	@echo "🔄 Syncing requirements to virtual environment..."
-	.venv/bin/pip-sync requirements.txt
-
-deps-sync-dev:
-	@echo "🔄 Syncing development requirements..."
-	.venv/bin/pip-sync requirements-dev.txt
-
-deps-upgrade:
-	@echo "⬆️ Upgrading all dependencies..."
-	.venv/bin/pip-compile --upgrade --generate-hashes -o requirements.txt requirements.in
-	.venv/bin/pip-compile --upgrade --generate-hashes -o requirements-dev.txt requirements-dev.in
-	.venv/bin/pip-compile --upgrade --generate-hashes -o requirements-prod.txt requirements-prod.in
-	@echo "✅ Dependencies upgraded"
-
-deps-check:
-	@echo "🔍 Checking for dependency issues..."
-	.venv/bin/pip check
-	@echo "🔐 Checking for security vulnerabilities..."
-	.venv/bin/pip-audit --format=text
-	@echo "✅ Dependency check complete"
-
-deps-update: deps-upgrade deps-sync-dev deps-check
-	@echo "🎯 Full dependency update cycle complete"

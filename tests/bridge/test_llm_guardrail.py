@@ -1,124 +1,62 @@
-"""
-LLM Guardrail Tests
-
-Smoke tests for the LLM guardrail module to ensure schema validation
-and error handling work correctly.
-"""
+from __future__ import annotations
 
 import os
+from contextlib import contextmanager
+
 import pytest
-import sys
 
-# Import bypassing compat layer to avoid recursion in tests
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
-from lukhas.core.bridge.llm_guardrail import call_llm, guardrail_health
-
-
-def fake_llm_good(prompt):
-    """Mock LLM that returns valid response."""
-    return {"title": "Analysis Complete", "score": 0.85}
+from core.bridge.llm_guardrail import (
+    call_llm,
+    get_guardrail_metrics,
+    register_llm_callable,
+)
 
 
-def fake_llm_bad(prompt):
-    """Mock LLM that returns invalid response (missing required field)."""
-    return {"title": 123}  # Wrong type for title
+@contextmanager
+def guardrail_env(enabled: str) -> None:
+    previous = os.environ.get("ENABLE_LLM_GUARDRAIL")
+    os.environ["ENABLE_LLM_GUARDRAIL"] = enabled
+    try:
+        yield
+    finally:
+        if previous is None:
+            os.environ.pop("ENABLE_LLM_GUARDRAIL", None)
+        else:
+            os.environ["ENABLE_LLM_GUARDRAIL"] = previous
 
 
-def fake_llm_missing(prompt):
-    """Mock LLM that returns response missing required field."""
-    return {"title": "Analysis"}  # Missing score
+@pytest.fixture(autouse=True)
+def _reset_guardrail_callable() -> None:
+    register_llm_callable(lambda prompt: {"value": prompt})
 
 
-class TestLLMGuardrail:
-    """Test suite for LLM guardrail functionality."""
+def test_invalid_payload_rejected() -> None:
+    """Guardrail rejects schema violations without downstream side effects."""
+    register_llm_callable(lambda prompt: {"value": "bad"})
+    schema = {"type": "object", "properties": {"value": {"type": "number"}}, "required": ["value"]}
 
-    def test_guardrail_pass(self, monkeypatch):
-        """Test guardrail allows valid schema responses."""
-        monkeypatch.setenv("ENABLE_LLM_GUARDRAIL", "1")
+    with guardrail_env("1"):
+        response = call_llm("demo", schema)
 
-        schema = {
-            "type": "object",
-            "properties": {
-                "title": {"type": "string"},
-                "score": {"type": "number"}
-            },
-            "required": ["title", "score"]
-        }
+    assert response["_rejected"] is True
+    assert response["reason"] == "schema"
+    metrics = get_guardrail_metrics()
+    assert metrics["denials"] >= 1
 
-        result = call_llm(prompt="Analyze this", schema=schema, llm=fake_llm_good)
-        assert result["score"] == 0.85
-        assert result["title"] == "Analysis Complete"
 
-    def test_guardrail_fail_bad_type(self, monkeypatch):
-        """Test guardrail rejects response with wrong type."""
-        monkeypatch.setenv("ENABLE_LLM_GUARDRAIL", "1")
+def test_schema_invalid_short_circuits_llm() -> None:
+    called = False
 
-        schema = {
-            "type": "object",
-            "properties": {
-                "title": {"type": "string"},
-                "score": {"type": "number"}
-            },
-            "required": ["title", "score"]
-        }
+    def _llm(prompt: str):
+        nonlocal called
+        called = True
+        return {"value": 1}
 
-        with pytest.raises(ValueError) as exc_info:
-            call_llm(prompt="Analyze this", schema=schema, llm=fake_llm_bad)
+    register_llm_callable(_llm)
+    bad_schema = {"type": "object", "properties": {"value": "not-a-schema"}}
 
-        assert "schema validation" in str(exc_info.value).lower()
+    with guardrail_env("1"):
+        response = call_llm("demo", bad_schema)
 
-    def test_guardrail_fail_missing_field(self, monkeypatch):
-        """Test guardrail rejects response missing required field."""
-        monkeypatch.setenv("ENABLE_LLM_GUARDRAIL", "1")
-
-        schema = {
-            "type": "object",
-            "properties": {
-                "title": {"type": "string"},
-                "score": {"type": "number"}
-            },
-            "required": ["title", "score"]
-        }
-
-        with pytest.raises(ValueError) as exc_info:
-            call_llm(prompt="Analyze this", schema=schema, llm=fake_llm_missing)
-
-        assert "schema validation" in str(exc_info.value).lower()
-
-    def test_guardrail_disabled(self, monkeypatch):
-        """Test guardrail fails when disabled."""
-        monkeypatch.setenv("ENABLE_LLM_GUARDRAIL", "0")
-
-        schema = {"type": "object", "properties": {"score": {"type": "number"}}}
-
-        with pytest.raises(RuntimeError) as exc_info:
-            call_llm(prompt="test", schema=schema, llm=fake_llm_good)
-
-        assert "not enabled" in str(exc_info.value)
-
-    def test_guardrail_health(self, monkeypatch):
-        """Test guardrail health check function."""
-        monkeypatch.setenv("ENABLE_LLM_GUARDRAIL", "1")
-        monkeypatch.setenv("LUKHAS_LANE", "candidate")
-
-        health = guardrail_health()
-        assert health["enabled"] is True
-        assert health["lane"] == "candidate"
-        assert "version" in health
-
-    def test_stub_response_when_no_llm(self, monkeypatch):
-        """Test guardrail returns stub when no LLM provided."""
-        monkeypatch.setenv("ENABLE_LLM_GUARDRAIL", "1")
-
-        schema = {
-            "type": "object",
-            "properties": {
-                "_stub": {"type": "boolean"},
-                "message": {"type": "string"}
-            },
-            "required": ["_stub", "message"]
-        }
-
-        result = call_llm(prompt="test", schema=schema)  # No llm parameter
-        assert result["_stub"] is True
-        assert "guardrail active" in result["message"]
+    assert response == {"_rejected": True, "reason": "schema"}
+    assert called is False

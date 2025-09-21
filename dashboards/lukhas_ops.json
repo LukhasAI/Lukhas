@@ -7,7 +7,10 @@
   "version": 1,
   "editable": true,
   "style": "dark",
-  "time": { "from": "now-1h", "to": "now" },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
   "templating": {
     "list": [
       {
@@ -16,10 +19,16 @@
         "datasource": null,
         "refresh": 2,
         "query": "label_values(lukhas_drift_ema, lane)",
-        "current": { "selected": true, "text": "candidate", "value": "candidate" },
+        "current": {
+          "selected": true,
+          "text": "candidate",
+          "value": "candidate"
+        },
         "hide": 0,
         "includeAll": true,
-        "multi": true
+        "multi": true,
+        "label": "Candidate lane",
+        "definition": "LUKHAS_LANE"
       }
     ]
   },
@@ -28,9 +37,16 @@
       "type": "timeseries",
       "title": "Consciousness Tick p95 (ms)",
       "id": 1,
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
       "fieldConfig": {
-        "defaults": { "unit": "ms" },
+        "defaults": {
+          "unit": "ms"
+        },
         "overrides": []
       },
       "targets": [
@@ -39,80 +55,185 @@
           "expr": "1000 * histogram_quantile(0.95, sum by (le, lane) (rate(lukhas_tick_duration_seconds_bucket{lane=~\"$lane\"}[5m])))"
         }
       ],
-      "options": { "legend": { "displayMode": "table", "placement": "bottom" } }
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom"
+        }
+      }
     },
     {
       "type": "timeseries",
       "title": "Drift EMA by Lane",
       "id": 2,
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
       "fieldConfig": {
-        "defaults": { "unit": "none", "min": 0, "max": 1 },
+        "defaults": {
+          "unit": "none",
+          "min": 0,
+          "max": 1
+        },
         "overrides": []
       },
       "targets": [
-        { "refId": "A", "expr": "lukhas_drift_ema{lane=~\"$lane\"}" }
+        {
+          "refId": "A",
+          "expr": "lukhas_drift_ema{lane=~\"$lane\"}"
+        }
       ],
       "thresholds": {
         "mode": "absolute",
         "steps": [
-          { "color": "green", "value": 0.0 },
-          { "color": "yellow", "value": 0.2 },
-          { "color": "red", "value": 0.35 }
+          {
+            "color": "green",
+            "value": 0.0
+          },
+          {
+            "color": "yellow",
+            "value": 0.2
+          },
+          {
+            "color": "red",
+            "value": 0.35
+          }
         ]
       },
-      "options": { "legend": { "displayMode": "table", "placement": "bottom" } }
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom"
+        }
+      }
     },
     {
       "type": "timeseries",
       "title": "Memory Circuit Breaks (rate / min)",
       "id": 3,
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
       "fieldConfig": {
-        "defaults": { "unit": "1/min" },
+        "defaults": {
+          "unit": "1/min"
+        },
         "overrides": []
       },
       "targets": [
-        { "refId": "A", "expr": "rate(lukhas_memory_circuit_breaks_total[5m]) * 60" }
+        {
+          "refId": "A",
+          "expr": "rate(lukhas_memory_circuit_breaks_total[5m]) * 60"
+        }
       ],
-      "options": { "legend": { "displayMode": "table", "placement": "bottom" } }
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom"
+        }
+      }
     },
     {
       "type": "timeseries",
       "title": "Breakthroughs / min",
       "id": 4,
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
       "fieldConfig": {
-        "defaults": { "unit": "1/min" },
+        "defaults": {
+          "unit": "1/min"
+        },
         "overrides": []
       },
       "targets": [
-        { "refId": "A", "expr": "rate(lukhas_breakthrough_flags_total[5m]) * 60" }
+        {
+          "refId": "A",
+          "expr": "rate(lukhas_breakthrough_flags_total[5m]) * 60"
+        }
       ],
-      "options": { "legend": { "displayMode": "table", "placement": "bottom" } }
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom"
+        }
+      }
+    },
+    {
+      "type": "row",
+      "title": "Governance",
+      "id": 50,
+      "collapsed": false,
+      "panels": [],
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 16
+      }
     },
     {
       "type": "timeseries",
       "title": "Policy Denials / min",
       "id": 5,
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 17
+      },
       "fieldConfig": {
-        "defaults": { "unit": "1/min", "color": { "mode": "palette-classic" } },
+        "defaults": {
+          "unit": "1/min",
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
         "overrides": []
       },
       "targets": [
-        { "refId": "A", "expr": "rate(lukhas_replay_policy_denials_total{lane=~\"$lane\"}[5m]) * 60" }
+        {
+          "refId": "A",
+          "expr": "rate(lukhas_replay_policy_denials_total{lane=~\"$lane\"}[5m]) * 60"
+        }
       ],
       "options": {
-        "legend": { "displayMode": "table", "placement": "bottom", "values": ["last"] },
-        "tooltip": { "mode": "multi", "sort": "desc" }
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "values": [
+            "last"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "thresholds": {
         "mode": "absolute",
         "steps": [
-          { "color": "green", "value": 0.0 },
-          { "color": "yellow", "value": 5.0 },
-          { "color": "red", "value": 20.0 }
+          {
+            "color": "green",
+            "value": 0.0
+          },
+          {
+            "color": "yellow",
+            "value": 5.0
+          },
+          {
+            "color": "red",
+            "value": 20.0
+          }
         ]
       }
     },
@@ -120,13 +241,20 @@
       "type": "timeseries",
       "title": "Promotion Success Rate",
       "id": 6,
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 16 },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 17
+      },
       "fieldConfig": {
         "defaults": {
           "unit": "percentunit",
           "min": 0,
           "max": 1,
-          "color": { "mode": "palette-classic" }
+          "color": {
+            "mode": "palette-classic"
+          }
         },
         "overrides": []
       },
@@ -137,15 +265,34 @@
         }
       ],
       "options": {
-        "legend": { "displayMode": "table", "placement": "bottom", "values": ["last", "mean"] },
-        "tooltip": { "mode": "multi", "sort": "desc" }
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "values": [
+            "last",
+            "mean"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "thresholds": {
         "mode": "absolute",
         "steps": [
-          { "color": "red", "value": 0.0 },
-          { "color": "yellow", "value": 0.7 },
-          { "color": "green", "value": 0.9 }
+          {
+            "color": "red",
+            "value": 0.0
+          },
+          {
+            "color": "yellow",
+            "value": 0.7
+          },
+          {
+            "color": "green",
+            "value": 0.9
+          }
         ]
       }
     },
@@ -153,24 +300,57 @@
       "type": "timeseries",
       "title": "Memory Sync Operations & Budget Utilization",
       "id": 7,
-      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 24 },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 25
+      },
       "fieldConfig": {
-        "defaults": { "color": { "mode": "palette-classic" } },
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
         "overrides": [
           {
-            "matcher": { "id": "byName", "options": "Operations/min" },
+            "matcher": {
+              "id": "byName",
+              "options": "Operations/min"
+            },
             "properties": [
-              { "id": "unit", "value": "1/min" },
-              { "id": "custom.axisPlacement", "value": "left" }
+              {
+                "id": "unit",
+                "value": "1/min"
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "left"
+              }
             ]
           },
           {
-            "matcher": { "id": "byName", "options": "Budget Utilization" },
+            "matcher": {
+              "id": "byName",
+              "options": "Budget Utilization"
+            },
             "properties": [
-              { "id": "unit", "value": "percentunit" },
-              { "id": "min", "value": 0 },
-              { "id": "max", "value": 1 },
-              { "id": "custom.axisPlacement", "value": "right" }
+              {
+                "id": "unit",
+                "value": "percentunit"
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "max",
+                "value": 1
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              }
             ]
           }
         ]
@@ -179,7 +359,7 @@
         {
           "refId": "A",
           "expr": "rate(lukhas_memory_sync_ops_total{source_lane=~\"$lane\"}[5m]) * 60",
-          "legendFormat": "Operations/min - {{source_lane}}→{{target_lane}}"
+          "legendFormat": "Operations/min - {{source_lane}}\u2192{{target_lane}}"
         },
         {
           "refId": "B",
@@ -188,15 +368,34 @@
         }
       ],
       "options": {
-        "legend": { "displayMode": "table", "placement": "bottom", "values": ["last", "mean"] },
-        "tooltip": { "mode": "multi", "sort": "desc" }
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "values": [
+            "last",
+            "mean"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "thresholds": {
         "mode": "absolute",
         "steps": [
-          { "color": "green", "value": 0.0 },
-          { "color": "yellow", "value": 0.8 },
-          { "color": "red", "value": 0.95 }
+          {
+            "color": "green",
+            "value": 0.0
+          },
+          {
+            "color": "yellow",
+            "value": 0.8
+          },
+          {
+            "color": "red",
+            "value": 0.95
+          }
         ]
       }
     }

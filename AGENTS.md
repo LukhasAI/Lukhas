@@ -111,6 +111,19 @@ make ci-plugin-smoke # Plugin discovery validation
 make ci-import-lint  # Lane isolation checks
 make sbom           # Security bill of materials
 make perf           # Performance budget validation
+make oneiric-drift-test # Drift dream testing CLI ✅ (PR 324)
+```
+
+### New T4/0.01% Tools (PR 324 Integration)
+```bash
+# LLM Guardrail Testing
+python -m lukhas.core.bridge.llm_guardrail --test-mode
+
+# Collapse Simulation (Memory cascade testing)
+python -m lukhas.tools.collapse_simulator --scenarios=memory,ethics,identity
+
+# Drift Dream Testing (Oneiric stack validation)
+python -m oneiric_core.tools.drift_dream_test --symbol=test --user=testuser
 ```
 
 ### Global Acceptance Gates
@@ -181,6 +194,9 @@ export ENABLE_LLM_GUARDRAIL=0
 - Lane isolation: Zero violations
 - Test coverage: ≥90% core systems
 - Security posture: All scans green
+- **✅ LLM Guardrails**: Schema validation active (PR 324)
+- **✅ Collapse Testing**: Memory cascade simulator operational (PR 324)
+- **✅ Drift Monitoring**: Oneiric dream testing available (PR 324)
 
 ### Agent Performance Metrics
 - Task completion velocity
