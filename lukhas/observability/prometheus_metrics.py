@@ -546,6 +546,55 @@ class LUKHASMetrics:
         elif component == "tracing" and operation == "span_created":
             self.spans_created_total.labels(operation_type="lukhas").inc()
 
+    # Reliability metrics for 0.01% features
+    def record_performance_regression(self, operation: str, metric: str, severity: str, degradation_percent: float):
+        """Record performance regression detection"""
+        if not self.enabled:
+            return
+        # Use existing error metric with additional labels
+        self.errors_total.labels(
+            component="performance_monitor",
+            error_type=f"regression_{severity}"
+        ).inc()
+
+    def record_error_context(self, category: str, severity: str, operation: str, correlation_id: str):
+        """Record error context capture"""
+        if not self.enabled:
+            return
+        self.errors_total.labels(
+            component="error_context",
+            error_type=f"{category}_{severity}"
+        ).inc()
+
+    def record_timeout(self, operation: str, timeout_ms: float):
+        """Record timeout event"""
+        if not self.enabled:
+            return
+        self.errors_total.labels(
+            component="timeout_manager",
+            error_type="timeout"
+        ).inc()
+
+    def record_backoff_success(self, operation: str, attempts: int):
+        """Record successful backoff operation"""
+        if not self.enabled:
+            return
+        # Use existing request counter
+        self.requests_total.labels(
+            endpoint=operation,
+            method="backoff",
+            status="success"
+        ).inc()
+
+    def record_backoff_failure(self, operation: str, max_attempts: int):
+        """Record failed backoff operation"""
+        if not self.enabled:
+            return
+        self.errors_total.labels(
+            component="backoff_manager",
+            error_type="max_attempts_exceeded"
+        ).inc()
+
     def update_system_uptime(self):
         """Update system uptime metric"""
         if self.enabled:
