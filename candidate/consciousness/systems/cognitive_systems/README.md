@@ -8,4 +8,4 @@ Advanced cognitive processing, creativity, and consciousness monitoring.
 - demo_reflection_layer.py - Consciousness reflection and monitoring
 - voice_personality.py - Voice-based personality expression
 
-Part of the AI (lukhas General Intelligence) System
+Part of the AI (lukhas Cognitive Intelligence) System

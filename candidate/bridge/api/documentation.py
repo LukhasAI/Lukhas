@@ -6,7 +6,7 @@ LUKHAS AI - Comprehensive API Documentation Generator
 Advanced API documentation system with interactive examples,
 OpenAPI specification generation, and comprehensive guides.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 Features: OpenAPI 3.0, interactive examples, SDK generation support
 
 Features:
@@ -78,9 +78,9 @@ healthcare compliance, and comprehensive validation.
 - **Function Calling**: Secure function execution with validation
 - **Comprehensive Validation**: Request/response validation with security checks
 
-## Trinity Framework Integration
+## Constellation Framework Integration
 
-The API is built around the Trinity Framework:
+The API is built around the Constellation Framework:
 - ⚛️ **Identity**: Secure authentication and user management
 - 🧠 **Consciousness**: Intelligent orchestration and decision-making
 - 🛡️ **Guardian**: Security, validation, and compliance protection

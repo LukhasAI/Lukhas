@@ -15,7 +15,7 @@ Consciousness Research Foundation represents the **foundational consciousness re
 ### **Foundation Scope**
 - **Purpose**: Foundational consciousness research and decision engine architecture
 - **Architecture**: Base consciousness processing systems and research frameworks
-- **Integration**: Foundation systems enabling CANDIDATE consciousness development
+- **Integration**: Constellation Framework foundation enabling MATRIZ Thought stage and multi-star coordination
 - **Research**: Core consciousness research patterns and experimental frameworks
 
 ### **Foundation Architecture**
@@ -242,7 +242,7 @@ async def integrate_candidate_consciousness_foundation(self, candidate_context):
 - **LUKHAS Foundation Architecture**: Foundation architecture enabling LUKHAS consciousness integration
 - **LUKHAS Foundation Research**: Research foundation systems for LUKHAS consciousness coordination
 - **LUKHAS Foundation Validation**: Foundation validation systems for LUKHAS consciousness integration
-- **LUKHAS Foundation Coordination**: Foundation coordination with LUKHAS Trinity Framework systems
+- **LUKHAS Foundation Coordination**: Foundation coordination with LUKHAS Constellation Framework systems
 
 ## 📊 Foundation Systems Status
 

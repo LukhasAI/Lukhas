@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LUKHAS AI Voice Coherence Engine - Trinity Framework (⚛️🧠🛡️)
+LUKHAS AI Voice Coherence Engine - Constellation Framework (⚛️🧠🛡️)
 Real-time voice consistency and personality alignment system
 
 Target: 85%+ voice coherence across all LUKHAS AI communications
@@ -175,7 +175,7 @@ class LUKHASVoiceCoherenceEngine:
                     r"\b(understanding|comprehension|insight|perceive)\b",
                     r"\b(thoughtful|considerate|empathetic|compassionate)\b",
                     r"\b(sophisticated|intelligent|advanced|evolved)\b",
-                    r"\b(lukhas|trinity|framework)\b",  # Brand-specific
+                    r"\b(lukhas|constellation|framework)\b",  # Brand-specific
                     r"\b(ai|technology|digital|quantum)\b",  # Tech context
                 ],
                 "negative_patterns": [
@@ -191,21 +191,21 @@ class LUKHASVoiceCoherenceEngine:
                     r"\b(authentic|genuine|true|real)\b",
                     r"\b(identity|self|being|essence)\b",
                     r"\b(unique|individual|personal)\b",
-                    r"⚛️",  # Direct Trinity symbol
+                    r"⚛️",  # Direct Constellation symbol
                     r"\b(lukhas ai|our|we)\b",  # Brand identity
                 ],
                 "consciousness_patterns": [
                     r"\b(conscious|aware|mindful|perceptive)\b",
                     r"\b(thinking|reasoning|understanding)\b",
                     r"\b(learning|evolving|growing)\b",
-                    r"🧠",  # Direct Trinity symbol
+                    r"🧠",  # Direct Constellation symbol
                     r"\b(intelligence|wisdom|insight)\b",  # Consciousness expressions
                 ],
                 "guardian_patterns": [
                     r"\b(safe|secure|protected|ethical)\b",
                     r"\b(responsible|trustworthy|reliable)\b",
                     r"\b(careful|thoughtful|considerate)\b",
-                    r"🛡️",  # Direct Trinity symbol
+                    r"🛡️",  # Direct Constellation symbol
                     r"\b(guardian|ethics|principles)\b",  # Guardian expressions
                 ],
                 "weight": 0.30,
@@ -257,7 +257,7 @@ class LUKHASVoiceCoherenceEngine:
         }
 
     def _initialize_triad_weights(self) -> dict[str, float]:
-        """Initialize Trinity Framework balance weights"""
+        """Initialize Constellation Framework balance weights"""
         return {
             "identity": 0.33,  # ⚛️ Authentic consciousness identity
             "consciousness": 0.34,  # 🧠 Aware intelligence (slight emphasis)
@@ -292,7 +292,7 @@ class LUKHASVoiceCoherenceEngine:
         # Calculate overall coherence (weighted average)
         overall_coherence = self._calculate_overall_coherence(coherence_metrics)
 
-        # Analyze Trinity Framework balance
+        # Analyze Constellation Framework balance
         triad_balance = self._analyze_triad_balance(content)
 
         # Calculate personality alignment
@@ -400,7 +400,7 @@ class LUKHASVoiceCoherenceEngine:
         return max(0.0, min(1.0, consistency_score))
 
     def _analyze_triad_alignment(self, content: str, pattern_config: dict[str, Any]) -> float:
-        """Analyze Trinity Framework (⚛️🧠🛡️) alignment"""
+        """Analyze Constellation Framework (⚛️🧠🛡️) alignment"""
 
         content_lower = content.lower()
         word_count = len(content.split())
@@ -408,7 +408,7 @@ class LUKHASVoiceCoherenceEngine:
         if word_count == 0:
             return 0.0
 
-        # Analyze each Trinity component
+        # Analyze each Constellation component
         triad_scores = {}
 
         for component in ["identity", "consciousness", "guardian"]:
@@ -523,7 +523,7 @@ class LUKHASVoiceCoherenceEngine:
             return 0.0
 
     def _analyze_triad_balance(self, content: str) -> dict[str, float]:
-        """Analyze Trinity Framework balance in content"""
+        """Analyze Constellation Framework balance in content"""
 
         content_lower = content.lower()
 
@@ -595,7 +595,7 @@ class LUKHASVoiceCoherenceEngine:
             suggestions.append("Add more consciousness-focused language (aware, mindful, understanding)")
             suggestions.append("Remove robotic or mechanical terminology")
 
-        # Trinity alignment suggestions
+        # Constellation alignment suggestions
         if coherence_metrics.get(CoherenceMetric.TRINITY_ALIGNMENT, 0) < 0.7:
             # Check which component is lacking
             min_component = min(triad_balance.items(), key=lambda x: x[1])

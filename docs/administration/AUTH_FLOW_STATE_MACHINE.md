@@ -533,4 +533,4 @@ describe('Complete Auth Flows', () => {
 
 ---
 
-*This state machine integrates with the LUKHAS Trinity Framework (⚛️🧠🛡️) and follows LUKHAS branding guidelines.*
+*This state machine integrates with the LUKHAS Constellation Framework (⚛️🧠🛡️) and follows LUKHAS branding guidelines.*

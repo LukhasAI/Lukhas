@@ -53,7 +53,7 @@ class LUKHASConceptValidator:
             # Special Terms
             "lukhas": "The system name itself",
             "": "Pack What Matters",
-            "sgi": "Symbolic General Intelligence",
+            "sgi": "Symbolic Cognitive Intelligence",
         }
 
         self.concept_usage = defaultdict(list)

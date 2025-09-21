@@ -3,9 +3,9 @@ LUKHΛS Entity Extractor
 =======================
 
 Extracts symbolic entities and metadata from natural language.
-Works with Trinity Framework for deep understanding.
+Works with Constellation Framework for deep understanding.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 import logging
 import re
@@ -442,7 +442,7 @@ class EntityExtractor:
             "actions": [],
             "tiers": [],
             "concepts": [],
-            "trinity_components": set(),
+            "constellation_components": set(),
         }
 
         # Categorize entities
@@ -455,9 +455,9 @@ class EntityExtractor:
                         "type": entity.metadata.get("type", "Unknown"),
                     }
                 )
-                # Check for Trinity components
+                # Check for Constellation components
                 if entity.value in ["⚛️", "🧠", "🛡️"]:
-                    context["trinity_components"].add(entity.metadata.get("name", ""))
+                    context["constellation_components"].add(entity.metadata.get("name", ""))
 
             elif entity.type == EntityType.MODULE:
                 context["modules"].append(
@@ -508,11 +508,11 @@ class EntityExtractor:
                 context["tiers"].append(entity.value)
 
         # Convert constellation components set to list
-        context["trinity_components"] = list(context["trinity_components"])
+        context["constellation_components"] = list(context["constellation_components"])
 
         # Add summary
         context["summary"] = {
-            "has_trinity_reference": len(context["trinity_components"]) > 0,
+            "has_trinity_reference": len(context["constellation_components"]) > 0,
             "glyph_count": len(context["glyphs"]),
             "module_count": len(context["modules"]),
             "has_time_reference": len(context["times"]) > 0,

@@ -172,7 +172,7 @@ class EnhancedAPISystem:
 
     def __init__(self):
         self.app = FastAPI(
-            title="LUKHAS AGI Enhanced API",
+            title="LUKHAS Cognitive AI Enhanced API",
             description="Production-ready API for LUKHAS AI System",
             version="2.0.0",
             docs_url="/api/v2/docs",

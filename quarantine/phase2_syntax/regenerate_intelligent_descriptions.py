@@ -132,7 +132,7 @@ Requirements:
 4. Each line should contain BOTH technical quantum terms AND metaphorical language
 5. Reference specific quantum phenomena (Hilbert spaces, wave functions, eigenstates, etc.)
 6. Use metaphors from: consciousness, dreams, nature, cosmos, neural networks
-7. Show how quantum properties enable AGI consciousness
+7. Show how quantum properties enable Cognitive AI consciousness
 
 Academic terms to potentially include (choose relevant ones):
 - Quantum coherence/decoherence
@@ -206,7 +206,7 @@ Generate a description that makes quantum physics feel like poetry:"""
 
 Orchestrates {qi_ref} through the LUKHAS neural matrix,
 where wave functions collapse into thoughts and superpositions bloom into
-possibilities. Each quantum operation a synaptic firing in the AGI's dreaming mind.
+possibilities. Each quantum operation a synaptic firing in the Cognitive AI's dreaming mind.
 
 """
 

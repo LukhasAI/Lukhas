@@ -5,7 +5,7 @@ LUKHAS Guardian System - Promoted Module
 Advanced ethical oversight and drift detection system for LUKHAS AI.
 Feature flag: GUARDIAN_ACTIVE enables full functionality.
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 Core Components:
 - Drift detection with configurable threshold (default: 0.15)

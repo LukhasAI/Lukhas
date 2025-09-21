@@ -302,7 +302,7 @@ class NeuralIntelligenceSystem:
                 orchestration_result.update(healix_optimization)
 
             # Step 4: Generate enhanced response
-            agi_response = AGIResponse(
+            cognitive_response = AGIResponse(
                 content=orchestration_result.get(
                     "response",
                     "I need more information to provide a helpful response.",
@@ -323,15 +323,15 @@ class NeuralIntelligenceSystem:
             )
 
             # Step 5: Update system state
-            self._update_conversation_history(input_data, agi_response)
-            self._update_performance_metrics(agi_response)
+            self._update_conversation_history(input_data, cognitive_response)
+            self._update_performance_metrics(cognitive_response)
 
             # Step 6: Continuous learning
             if self.continuous_learning:
-                await self._continuous_learning_update(input_data, agi_response, orchestration_result)
+                await self._continuous_learning_update(input_data, cognitive_response, orchestration_result)
 
             self.performance_metrics["total_interactions"] += 1
-            return agi_response
+            return cognitive_response
 
         except Exception as e:
             logger.error(f"Intelligence processing error: {e}")
@@ -410,44 +410,44 @@ class NeuralIntelligenceSystem:
         """Generate safe response when compliance fails"""
         return "I apologize, but I cannot provide a response that meets our safety and ethical guidelines."
 
-    def _update_conversation_history(self, input_data: dict, agi_response: AGIResponse):
+    def _update_conversation_history(self, input_data: dict, cognitive_response: AGIResponse):
         """Update conversation history"""
         self.conversation_history.append(
             {
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "input": input_data.get("text", ""),
-                "response": agi_response.content,
-                "confidence": agi_response.confidence,
-                "capability_level": agi_response.capability_level.value,
+                "response": cognitive_response.content,
+                "confidence": cognitive_response.confidence,
+                "capability_level": cognitive_response.capability_level.value,
                 "lukhas_enhanced": LUKHAS_INNOVATIONS_AVAILABLE,
             }
         )
         # Keep only last 50 conversations
         self.conversation_history = self.conversation_history[-50:]
 
-    def _update_performance_metrics(self, agi_response: AGIResponse):
+    def _update_performance_metrics(self, cognitive_response: AGIResponse):
         """Update performance metrics"""
-        if agi_response.confidence > 0:
+        if cognitive_response.confidence > 0:
             current_avg = self.performance_metrics.get("average_confidence", 0.0)
             total = self.performance_metrics.get("total_interactions", 0)
-            new_avg = (current_avg * total + agi_response.confidence) / (total + 1)
+            new_avg = (current_avg * total + cognitive_response.confidence) / (total + 1)
             self.performance_metrics["average_confidence"] = new_avg
 
     async def _continuous_learning_update(
         self,
         input_data: dict,
-        agi_response: AGIResponse,
+        cognitive_response: AGIResponse,
         orchestration_result: dict,
     ):
         """Perform continuous learning updates"""
         # Update learning memory with successful patterns
-        if agi_response.confidence > 0.8:
+        if cognitive_response.confidence > 0.8:
             # Use SHA-256 instead of MD5 for better security
             pattern_key = hashlib.sha256(input_data.get("text", "").encode()).hexdigest()[:16]
             self.learning_memory[pattern_key] = {
                 "input_pattern": input_data.get("text", "")[:100],
-                "successful_response": agi_response.content[:100],
-                "confidence": agi_response.confidence,
+                "successful_response": cognitive_response.content[:100],
+                "confidence": cognitive_response.confidence,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "lukhas_enhanced": LUKHAS_INNOVATIONS_AVAILABLE,
             }

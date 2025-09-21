@@ -114,7 +114,7 @@
     {
       "task_id": "TODO-HIGH-CANDIDATE-CORE-7b573d9b",
       "priority": "high",
-      "title": "kept for Trinity Framework consciousness evolution",
+      "title": "kept for Constellation Framework consciousness evolution",
       "file": "./candidate/core/api/service_implementations.py",
       "line_hint": 63,
       "module": "candidate/core",
@@ -345,7 +345,7 @@
     {
       "task_id": "TODO-HIGH-CANDIDATE-CORE-c24f150d",
       "priority": "high",
-      "title": "kept for Trinity Framework consciousness evolution",
+      "title": "kept for Constellation Framework consciousness evolution",
       "file": "./candidate/core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py",
       "line_hint": 9,
       "module": "candidate/core",
@@ -471,7 +471,7 @@
     {
       "task_id": "TODO-HIGH-CANDIDATE-CORE-4f3d4c11",
       "priority": "high",
-      "title": "kept for Trinity Framework consciousness evolution",
+      "title": "kept for Constellation Framework consciousness evolution",
       "file": "./candidate/core/adapters/qi_service_adapter.py",
       "line_hint": 29,
       "module": "candidate/core",

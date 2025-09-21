@@ -16,7 +16,7 @@
 **Authentication:** No Authentication (public API)
 
 **Name:** LUKHAS AI Platform
-**Description:** Access the LUKHAS AI Trinity Framework (⚛️🧠🛡️) for consciousness-aware AI capabilities
+**Description:** Access the LUKHAS AI Constellation Framework (⚛️🧠🛡️) for consciousness-aware AI capabilities
 
 ### 2. Test the Connection
 Once the connector is added and enabled, you can test with these example prompts in ChatGPT:
@@ -29,7 +29,7 @@ Once the connector is added and enabled, you can test with these example prompts
 
 **System Information:**
 ```
-"Tell me about the LUKHAS AI system and Trinity Framework"
+"Tell me about the LUKHAS AI system and Constellation Framework"
 ```
 → Will call `/info` endpoint and explain the platform architecture
 
@@ -58,12 +58,12 @@ curl https://lukhas-mcp-production.up.railway.app/openapi.json
 ### Health Check
 - **GET** `/health`
 - **Purpose:** Check if LUKHAS AI server is operational
-- **Response:** Server status, version, Trinity Framework symbol
+- **Response:** Server status, version, Constellation Framework symbol
 
 ### System Information  
 - **GET** `/info`
 - **Purpose:** Get detailed LUKHAS AI platform information
-- **Response:** Full Trinity Framework details, capabilities, architecture
+- **Response:** Full Constellation Framework details, capabilities, architecture
 
 ### Directory Listing
 - **GET** `/list-directory?path={path}`
@@ -77,7 +77,7 @@ curl https://lukhas-mcp-production.up.railway.app/openapi.json
 - **Purpose:** Read text file contents (security-restricted)
 - **Security:** Max 1MB files, safe directories only
 
-## ⚛️🧠🛡️ Trinity Framework Access
+## ⚛️🧠🛡️ Constellation Framework Access
 
 Once connected, ChatGPT will have access to:
 
@@ -98,7 +98,7 @@ Once connected, ChatGPT will have access to:
 
 Ask ChatGPT to:
 - "Check LUKHAS AI system health"
-- "Get information about the Trinity Framework"
+- "Get information about the Constellation Framework"
 - "List available files in safe directories"
 - "Read configuration or log files"
 - "Monitor system status and capabilities"
@@ -116,4 +116,4 @@ ChatGPT can combine multiple API calls:
 **Status:** ✅ PRODUCTION READY  
 **Last Updated:** September 18, 2025  
 **Railway URL:** https://lukhas-mcp-production.up.railway.app  
-**Trinity Framework:** ⚛️🧠🛡️ LUKHAS AI Platform
+**Constellation Framework:** ⚛️🧠🛡️ LUKHAS AI Platform

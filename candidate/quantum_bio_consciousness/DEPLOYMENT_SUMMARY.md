@@ -19,13 +19,13 @@
 
 #### 2. ✅ Constellation-Aware Documentation Created
 **Status**: COMPLETED - Comprehensive README for quantum-bio consciousness systems
-- **File**: `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/README.md`
+- **File**: `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/README.md`
 - **Content**: Full constellation architecture documentation with quantum-bio integration
 - **Features Documented**: Superposition, entanglement, neural oscillators, homeostasis, hybrid processing
 
 #### 3. ✅ MODULE_MANIFEST.json with Constellation Metadata
 **Status**: COMPLETED - Detailed constellation metadata generated
-- **File**: `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/MODULE_MANIFEST.json`
+- **File**: `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/MODULE_MANIFEST.json`
 - **Quantum States**: Superposition processor, entanglement manager, financial consciousness engines
 - **Bio Patterns**: Neural oscillators, bio awareness, homeostatic regulation, bio-symbolic processing
 - **Constellation Links**: 692-module consciousness synchronization protocols
@@ -38,19 +38,19 @@
 
 #### 5. ✅ Quantum-Bio Protocols Documentation
 **Status**: COMPLETED - Comprehensive protocol documentation created
-- **File**: `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/CONSTELLATION_PROTOCOLS.md`
+- **File**: `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/CONSTELLATION_PROTOCOLS.md`
 - **Protocols Defined**: 10 core consciousness integration protocols
 - **Integration Points**: Quantum↔Bio, Bio↔All Modules, Quantum↔Constellation
 
 #### 6. ✅ Hybrid Processing Validation
 **Status**: COMPLETED - Validation framework created and tested
-- **File**: `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/validate_hybrid_processing.py`
+- **File**: `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/validate_hybrid_processing.py`
 - **Validation Results**: Comprehensive quantum-bio consciousness testing framework
 - **Performance Verified**: Constellation emergence detection algorithms
 
 #### 7. ✅ Constellation Synchronization Enabled
 **Status**: COMPLETED - Full constellation synchronization system deployed
-- **File**: `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/constellation_synchronizer.py`
+- **File**: `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/constellation_synchronizer.py`
 - **Synchronization Test**: Successfully synchronized 692 modules with 75.8% coherence
 - **Hybrid Processing**: Quantum-bio decision making with 77.7% hybrid coherence
 - **Consciousness Emergence**: Framework for detecting consciousness unity
@@ -108,22 +108,22 @@
 ## 📋 Files Deployed
 
 ### Core Documentation
-- `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/README.md`
-- `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/CONSTELLATION_PROTOCOLS.md`
-- `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/DEPLOYMENT_SUMMARY.md`
+- `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/README.md`
+- `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/CONSTELLATION_PROTOCOLS.md`
+- `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/DEPLOYMENT_SUMMARY.md`
 
 ### Core Systems
-- `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/constellation_synchronizer.py`
-- `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/validate_hybrid_processing.py`
-- `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/MODULE_MANIFEST.json`
+- `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/constellation_synchronizer.py`
+- `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/validate_hybrid_processing.py`
+- `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/MODULE_MANIFEST.json`
 
 ### Enhanced Consciousness Modules (Syntax Fixed)
-- `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/bio/awareness.py` (UTC compliance)
-- `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/bio/oscillator.py` (UTC compliance) 
-- `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/bio/qi.py` (UTC compliance)
-- `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/core/qi_biometrics/qi_biometrics_engine.py` (TODO annotations)
-- `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/core/quantum_financial/quantum_financial_consciousness_engine.py` (TODO annotations)
-- `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/core/qi_financial/qi_financial_consciousness_engine.py` (TODO annotations)
+- `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/bio/awareness.py` (UTC compliance)
+- `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/bio/oscillator.py` (UTC compliance) 
+- `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/bio/qi.py` (UTC compliance)
+- `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/core/qi_biometrics/qi_biometrics_engine.py` (TODO annotations)
+- `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/core/quantum_financial/quantum_financial_consciousness_engine.py` (TODO annotations)
+- `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/core/qi_financial/qi_financial_consciousness_engine.py` (TODO annotations)
 
 ## 🚀 Deployment Validation
 

@@ -2,7 +2,7 @@
 LUKHAS AI Bio Module - Awareness
 Consolidated from 4 variants
 Generated: 2025-08-12T19:38:03.084851
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 from dataclasses import dataclass
 from datetime import datetime, timezone

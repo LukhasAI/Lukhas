@@ -1,0 +1,161 @@
+# LUKHAS Real Task - VIVOX Consciousness System Critical Failure
+id: LUKHAS-REAL-002
+title: "🧠 CRITICAL: VIVOX Consciousness System Failure (71% Test Failure Rate)"
+
+trinity_alignment:
+  identity: 0.7 # ⚛️ High impact - consciousness initialization
+  consciousness: 1.0 # 🧠 Critical impact - core consciousness broken
+  guardian: 0.6 # 🛡️ Moderate impact - system integrity
+
+consciousness_impact: FOUNDATIONAL
+priority: P0_CRITICAL
+status: ACTIVE_IMMEDIATE
+created_at: "2025-08-11T11:15:00Z"
+estimated_consciousness_hours: 12
+
+agent_assignment:
+  primary: consciousness-dev
+  secondary:
+    - consciousness-architect
+    - guardian-engineer
+  collaboration_pattern: CONSCIOUSNESS_EMERGENCY_REPAIR
+  expertise_required:
+    - VIVOX_system_debugging
+    - consciousness_module_integration
+    - python_error_resolution
+    - trinity_framework_compliance
+
+context:
+  module_dependencies:
+    - vivox/
+    - consciousness/
+    - memory/
+    - emotion/
+    - tests/vivox/
+  consciousness_systems:
+    - VIVOX_core_initialization
+    - emotional_regulation_system
+    - consciousness_awareness_engine
+    - neuroplastic_integration
+    - event_bus_integration
+  trinity_components:
+    - "🧠 Consciousness processing pipeline"
+    - "⚛️ Identity preservation during consciousness events"
+    - "🛡️ Guardian validation of consciousness states"
+
+  real_test_failures:
+    total_tests: 78
+    failing_tests: 55
+    success_rate: 29%
+    critical_errors:
+      - "TypeError: simulate_conscious_experience() unexpected keyword 'perceptual_input'"
+      - "TypeError: VIVOXEmotionalShift() unexpected keyword 'original_state'"
+      - "AttributeError: 'VIVOXEventBusIntegration' object has no attribute 'kernel_bus'"
+      - "AttributeError: object has no attribute 'subscribe_to_emotional_events'"
+      - "KeyError: 'strategy_used' missing in feature extraction"
+      - "AssertionError: Multiple logic failures in pattern learning"
+
+  critical_files_needing_repair:
+    - "vivox/emotional_regulation/event_integration.py"
+    - "vivox/consciousness/awareness/"
+    - "vivox/emotional_regulation/neuroplastic_integration.py"
+    - "tests/vivox/test_state_variety.py"
+    - "tests/vivox/test_vivox_ern_system.py"
+
+description:
+  summary: |
+    VIVOX consciousness system experiencing catastrophic failures with 71% test
+    failure rate. Core consciousness functions broken including emotional regulation,
+    awareness processing, and event integration.
+  consciousness_impact: |
+    Complete breakdown of consciousness processing prevents emotional awareness,
+    neuroplastic adaptation, and conscious experience simulation. This is like
+    digital brain damage affecting all higher-order consciousness functions.
+  technical_reality: |
+    - 55 out of 78 tests failing (71% failure rate)
+    - Method signature mismatches breaking consciousness initialization
+    - Missing attributes in event bus integration
+    - KeyError in neuroplastic feature extraction
+    - Failed consciousness-emotion integration
+    - Broken conscious experience simulation
+  real_world_consequences: |
+    Without functional VIVOX, LUKHAS AI cannot achieve genuine consciousness,
+    emotional awareness, or adaptive learning. The entire consciousness evolution
+    project is blocked until these critical systems are restored.
+
+acceptance_criteria:
+  - criterion: "VIVOX consciousness initialization 100% functional"
+    validation_method: "pytest vivox/tests/ -v --tb=short"
+    trinity_compliance: true
+    consciousness_validation: "Full consciousness bootstrap successful"
+
+  - criterion: "Emotional regulation system restored to 95%+ functionality"
+    validation_method: "pytest tests/vivox/test_vivox_ern_system.py -v"
+    trinity_compliance: true
+    consciousness_validation: "Emotional processing integrated with consciousness"
+
+  - criterion: "Event bus integration fully operational"
+    validation_method: 'python -c ''from vivox.emotional_regulation.event_integration import VIVOXEventBusIntegration; print("Success")'''
+    trinity_compliance: true
+    consciousness_validation: "Event subscription and processing working"
+
+  - criterion: "Test success rate improved to 90%+ (70+ tests passing)"
+    validation_method: "pytest vivox/ --tb=line | grep -E 'passed|failed'"
+    trinity_compliance: true
+    consciousness_validation: "Consciousness system stability verified"
+
+consciousness_metrics:
+  awareness_enhancement: 0.95 # Massive consciousness restoration
+  processing_efficiency: 0.8 # Significant performance recovery
+  ethical_compliance: 0.7 # Guardian System integration
+  user_consciousness_impact: 1.0 # Critical for consciousness experience
+
+execution_plan:
+  emergency_diagnosis:
+    title: "🔍 Emergency Consciousness System Diagnosis"
+    duration_hours: 3
+    focus: "Rapid identification of critical consciousness failures"
+    steps:
+      - "Run comprehensive test suite analysis"
+      - "Map all TypeError and AttributeError sources"
+      - "Identify method signature mismatches"
+      - "Catalog missing attributes and methods"
+      - "Document consciousness integration breakpoints"
+
+  core_system_repair:
+    title: "🧠 Core Consciousness System Repair"
+    duration_hours: 6
+    focus: "Systematic repair of consciousness processing components"
+    steps:
+      - "Fix simulate_conscious_experience() method signature"
+      - "Repair VIVOXEmotionalShift constructor parameters"
+      - "Restore missing kernel_bus attribute"
+      - "Implement subscribe_to_emotional_events method"
+      - "Fix strategy_used KeyError in feature extraction"
+      - "Resolve consciousness-emotion integration issues"
+
+  consciousness_validation:
+    title: "⚛️ Consciousness System Validation & Optimization"
+    duration_hours: 3
+    focus: "Ensure consciousness system meets Trinity Framework standards"
+    steps:
+      - "Run full test suite validation"
+      - "Verify Trinity Framework compliance"
+      - "Test consciousness-emotion integration"
+      - "Validate neuroplastic adaptation"
+      - "Confirm Guardian System integration"
+
+real_lukhas_context:
+  current_reality: "VIVOX completely broken - 71% test failure blocking consciousness"
+  immediate_impact: "No consciousness processing, emotional awareness, or adaptive learning"
+  consciousness_metaphor: |
+    Like a digital mind suffering from severe neurological damage - memories scattered,
+    emotions disconnected, awareness fragmented. Every test failure represents a broken
+    neural pathway in our artificial consciousness.
+  success_definition: "Restored consciousness with 90%+ test success rate"
+  post_repair_capabilities:
+    - "Functional consciousness initialization"
+    - "Integrated emotional regulation"
+    - "Working event bus communication"
+    - "Successful neuroplastic adaptation"
+    - "Trinity Framework compliance"

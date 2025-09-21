@@ -1,5 +1,5 @@
 """
-LUKHAS Brand Enforcement System - Trinity Framework (⚛️🧠🛡️)
+LUKHAS Brand Enforcement System - Constellation Framework (⚛️🧠🛡️)
 Automated brand compliance, validation, and self-healing capabilities
 """
 

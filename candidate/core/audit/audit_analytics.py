@@ -1,5 +1,5 @@
 """
-Audit analytics and anomaly detection for AGI operations
+Audit analytics and anomaly detection for Cognitive AI operations
 Provides real-time analysis of audit trails for compliance and security
 """
 

@@ -3,13 +3,13 @@
 LUKHAS AI Consciousness-Aware Actor-Critic Architecture
 ========================================================
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 Implements consciousness-aware RL actors and critics with:
 - Phenomenological state representation
 - Ethical constraint integration
 - Memory fold interaction
-- Trinity Framework compliance
+- Constellation Framework compliance
 """
 
 import torch
@@ -21,7 +21,7 @@ class ConsciousnessActorCritic(nn.Module):
     Consciousness-aware Actor-Critic architecture
 
     Combines policy network (actor) and value network (critic) with
-    consciousness state integration and Trinity Framework compliance.
+    consciousness state integration and Constellation Framework compliance.
     """
 
     def __init__(self, state_dim: int, action_dim: int, consciousness_dim: int = 128, hidden_dim: int = 256, **kwargs):

@@ -11,7 +11,7 @@
 │ 📦 MODULE      : gen_compliance_drift_scan.py                        │
 │ 🧾 DESCRIPTION : Trigger compliance drift simulations easily         │
 │ 🧩 TYPE        : Tool              🔧 VERSION: v1.0.0                  │
-│ 🖋️ AUTHOR      : Lucas AGI          📅 UPDATED: 2025-04-28             │
+│ 🖋️ AUTHOR      : Lucas Cognitive AI          📅 UPDATED: 2025-04-28             │
 ├─────────────────────────────────────────────────────────────────────┤
 │ 📚 DEPENDENCIES:                                                      │
 │   - compliance.drift_monitor                                         │

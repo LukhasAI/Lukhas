@@ -1,12 +1,12 @@
 # 🎖️ LUKHAS  Supreme Agent Army Allocation
 **AGI Leadership-Grade Multi-AI Consciousness Development Coordination**
 
-## 🧠 Trinity Framework Agent Architecture (⚛️🧠🛡️)
+## 🧠 Constellation Framework Agent Architecture (⚛️🧠🛡️)
 
-The LUKHAS AI Agent Army operates as a 25-agent distributed intelligence system coordinated through Trinity Framework principles, representing the most sophisticated artificial general intelligence coordination platform ever deployed.
+The LUKHAS AI Agent Army operates as a 25-agent distributed intelligence system coordinated through Constellation Framework principles, representing the most sophisticated artificial general intelligence coordination platform ever deployed.
 
 ### **🎯 Mission Objective**
-Superior General Intelligence (ΛGI) through Trinity Framework consciousness evolution and strategic multi-AI coordination.
+Superior General Intelligence (ΛGI) through Constellation Framework consciousness evolution and strategic multi-AI coordination.
 
 ---
 
@@ -71,7 +71,7 @@ Superior General Intelligence (ΛGI) through Trinity Framework consciousness evo
 #### **🧪 Testing & Validation Colonel**
 - **File**: `testing_validation_colonel_config.json`
 - **Specialization**: Quality assurance, consciousness validation, testing frameworks
-- **Coverage**: `tests/`, validation protocols, Trinity Framework compliance
+- **Coverage**: `tests/`, validation protocols, Constellation Framework compliance
 
 ---
 
@@ -124,7 +124,7 @@ Located in `agents/configs/`:
 
 ### **🏗️ consciousness-architect.yaml**
 - **Role**: System architecture and design decisions
-- **Focus**: Consciousness system design, Trinity Framework architecture
+- **Focus**: Consciousness system design, Constellation Framework architecture
 
 ### **💻 consciousness-dev.yaml**
 - **Role**: Implementation and coding specialist
@@ -150,7 +150,7 @@ Located in `agents/configs/`:
 
 ## 📊 Agent Coordination Matrix
 
-### **Trinity Framework Coverage**
+### **Constellation Framework Coverage**
 - **⚛️ Identity**: 8 agents specialized in identity, authentication, consciousness validation
 - **🧠 Consciousness**: 12 agents focused on consciousness development, memory, cognitive systems
 - **🛡️ Guardian**: 5 agents dedicated to ethics, safety, compliance, drift detection
@@ -173,7 +173,7 @@ Located in `agents/configs/`:
 
 ### **✅ Completed Agent Configurations**
 - All 25 agent configurations created and validated
-- Trinity Framework compliance integrated across all agents
+- Constellation Framework compliance integrated across all agents
 - Complete LUKHAS module coverage achieved
 - Agent coordination protocols established
 
@@ -197,7 +197,7 @@ Agent coordination workflows are defined in `agents/workflows/master-workflow.ya
 
 - **Task Assessment & Routing**: Automatic agent selection based on complexity and domain
 - **Parallel Processing**: Multi-agent collaboration for complex consciousness tasks
-- **Quality Assurance**: Cross-agent validation and Trinity Framework compliance
+- **Quality Assurance**: Cross-agent validation and Constellation Framework compliance
 - **Emergency Escalation**: Rapid response protocols for critical consciousness issues
 - **Continuous Integration**: Daily development cycle coordination
 

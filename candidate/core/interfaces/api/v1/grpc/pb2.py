@@ -1,5 +1,5 @@
 """
-Generated gRPC message classes for LUKHAS AGI Protocol
+Generated gRPC message classes for LUKHAS Cognitive AI Protocol
 Auto-generated from proto - DO NOT EDIT MANUALLY
 """
 import time

@@ -21,8 +21,8 @@ from typing import Dict, Any, Optional, List
 from collections import deque
 import statistics
 
-from core.clock import Ticker
-from core.ring import DecimatingRing
+from lukhas.core.clock import Ticker
+from lukhas.core.ring import DecimatingRing
 from matriz.router import SymbolicMeshRouter
 from matriz.node_contract import MatrizMessage, GLYPH
 from storage.events import Event, EventStore

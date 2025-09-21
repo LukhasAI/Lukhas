@@ -74,7 +74,7 @@ origin/feature/jules-fix-todos: 257419eb
 ### **Testing Strategy**:
 - Run Guardian system tests after each merge
 - Validate MCP server functionality  
-- Ensure Trinity Framework compliance
+- Ensure Constellation Framework compliance
 
 ### **Rollback Plan**:
 - Create backup branch before each merge

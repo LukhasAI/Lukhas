@@ -39,7 +39,7 @@ MODULE_NAME = "lukhas_es_creativo"
 
 class LucasAGI:
     """
-    Lukhas AGI - Creative and Ethical AI System
+    Lukhas Cognitive AI - Creative and Ethical AI System
     Integrates meta-learning, federated learning, and reflective introspection
     """
 
@@ -268,7 +268,7 @@ class HarmonyEngine:
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

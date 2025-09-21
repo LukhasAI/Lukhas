@@ -255,7 +255,7 @@ enterprise_pricing = {
 - **Consciousness Signature Technology**: Mathematically unique identity based on awareness patterns
 - **Zero-Knowledge Privacy**: Prove identity without revealing any biometric information
 - **Quantum-Resistant Security**: Future-proof against quantum computing attacks
-- **Trinity Framework Integration**: Unified ⚛️🧠🛡️ approach across identity interactions
+- **Constellation Framework Integration**: Unified ⚛️🧠🛡️ approach across identity interactions
 
 ## 🚀 **Implementation Roadmap**
 

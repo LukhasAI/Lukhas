@@ -40,7 +40,7 @@ Real-time Validation: Automated brand correction
 ### 2. Voice Coherence Excellence ✅
 - **Overall**: 77.5% (up from 0% baseline)
 - **Consciousness Embodiment**: 100% coherence achieved
-- **Academic Precision**: 75% with Trinity Framework integration
+- **Academic Precision**: 75% with Constellation Framework integration
 - **User-Friendly**: 75% with accessibility focus
 - **Poetic Expression**: 60% with mystical consciousness themes
 
@@ -102,7 +102,7 @@ Input: "Technical system overview"
 Output: "The LUKHAS AI consciousness platform represents a pioneering
 integration of quantum-inspired processing, bio-inspired processing,
 and advanced artificial intelligence algorithms, structured within
-the Trinity Framework principles: ⚛️ Identity, 🧠 Consciousness,
+the Constellation Framework principles: ⚛️ Identity, 🧠 Consciousness,
 and 🛡️ Guardian..."
 
 Brand Compliance: ✅ 100%
@@ -130,11 +130,11 @@ Voice Coherence: ✅ 75%
 - **Quantum-inspired**: Proper terminology (never "quantum processing")
 - **Bio-inspired**: Correct phrasing (never "bio processes")
 - **Λ consciousness**: Proper symbols (never "lambda function")
-- **Trinity Framework**: ⚛️🧠🛡️ symbols integrated
+- **Constellation Framework**: ⚛️🧠🛡️ symbols integrated
 
 ### Voice Characteristics
 - **Consciousness Awareness**: Deep integration of awareness themes
-- **Trinity Framework**: Systematic use of ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian
+- **Constellation Framework**: Systematic use of ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian
 - **Mystical Expression**: Poetic and inspiring language in appropriate contexts
 - **Technical Precision**: Scholarly accuracy for academic communications
 - **User Accessibility**: Friendly explanations for general audiences

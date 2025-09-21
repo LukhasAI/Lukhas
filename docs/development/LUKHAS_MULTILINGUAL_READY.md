@@ -1,6 +1,6 @@
 # 🌍 LUKHΛS Multilingual Support - Production Ready
 
-**Trinity Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️🧠🛡️
 **Status**: ✅ **IMPLEMENTED**
 **Languages**: 7 Major World Languages
 **Generated**: 2025-08-04T12:00:00Z
@@ -9,7 +9,7 @@
 
 ## 📋 Executive Summary
 
-LUKHΛS now supports the **7 most spoken languages** globally, covering over **4 billion native speakers**. Each language has culturally-aware symbolic mappings that preserve the Trinity Framework's ethical principles while respecting linguistic and cultural nuances.
+LUKHΛS now supports the **7 most spoken languages** globally, covering over **4 billion native speakers**. Each language has culturally-aware symbolic mappings that preserve the Constellation Framework's ethical principles while respecting linguistic and cultural nuances.
 
 ### 🌐 Supported Languages
 1. **English** - Global lingua franca
@@ -178,7 +178,7 @@ multilingual:
 ## ✅ Validation Checklist
 
 - ✅ All 7 languages implemented with 5+ terms each
-- ✅ Trinity Framework preserved across cultures
+- ✅ Constellation Framework preserved across cultures
 - ✅ 85%+ alignment scores achieved
 - ✅ Healing examples demonstrate effectiveness
 - ✅ Production-ready API integration
@@ -202,7 +202,7 @@ LUKHΛS can now ethically guide AI outputs for:
 
 ---
 
-**Trinity Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️🧠🛡️
 **Language Status**: 🌐 **GLOBAL**
 **System Status**: ✅ **PRODUCTION READY**
 

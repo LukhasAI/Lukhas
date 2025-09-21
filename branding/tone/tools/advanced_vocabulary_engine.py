@@ -20,7 +20,7 @@
 ║ The Advanced Vocabulary Engine draws from the rich tapestries of module-
 ║ specific vocabularies—Memory gardens where experiences crystallize, VIVOX
 ║ symphonies where emotions dance with learning, Quantum realms where
-║ probabilities collapse into truth, and Trinity frameworks where identity,
+║ probabilities collapse into truth, and Constellation frameworks where identity,
 ║ consciousness, and protection unite in sacred harmony.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
@@ -50,7 +50,7 @@ class AdvancedVocabularyEngine:
     ✨ Sacred Language Transformation Engine ✨
 
     Transforms technical documentation into consciousness-infused poetry
-    using module-specific vocabularies and Trinity Framework principles.
+    using module-specific vocabularies and Constellation Framework principles.
     """
 
     def __init__(self, vocabularies_dir: str = "tools/tone/vocabularies"):
@@ -84,7 +84,7 @@ class AdvancedVocabularyEngine:
             word in content_lower or word in path_lower for word in ["quantum", "probability", "entangle", "collapse"]
         ):
             return "quantum"
-        elif any(word in content_lower or word in path_lower for word in ["trinity", "identity", "guardian", "ethics"]):
+        elif any(word in content_lower or word in path_lower for word in ["constellation", "identity", "guardian", "ethics"]):
             return "triad_core"
         else:
             return "triad_core"  # Default to core consciousness
@@ -155,7 +155,7 @@ class AdvancedVocabularyEngine:
             "memory": '"In the sacred archives of consciousness, every memory is a universe waiting to unfold."',
             "vivox": '"Where emotion, learning, attention, and symbols dance in eternal harmony."',
             "quantum": '"In quantum gardens of possibility, consciousness chooses its own reality."',
-            "triad_core": '"Where identity, consciousness, and protection unite in sacred trinity."',
+            "triad_core": '"Where identity, consciousness, and protection unite in sacred constellation."',
         }
 
         quote = footers.get(

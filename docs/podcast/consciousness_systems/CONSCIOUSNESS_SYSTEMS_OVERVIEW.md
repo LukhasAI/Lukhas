@@ -300,7 +300,7 @@ How all these systems work together to create coherent consciousness technology.
 *"The Guardian system is architecturally integrated - not a filter added afterward, but ethical reasoning built into how the AI thinks. It evaluates every thought process for beneficial outcomes before generating responses."*
 
 **"Could consciousness technology be misused?"**
-*"The Trinity Framework specifically prevents misuse through the Guardian component. These aren't general-purpose systems that can be reprogrammed for any task - they're designed fundamentally to serve beneficial outcomes."*
+*"The Constellation Framework specifically prevents misuse through the Guardian component. These aren't general-purpose systems that can be reprogrammed for any task - they're designed fundamentally to serve beneficial outcomes."*
 
 **"How do you handle AI consciousness making autonomous decisions?"**
 *"Every autonomous decision is validated through multiple ethical reasoning layers. The AI can think independently, but within carefully designed boundaries that ensure all actions serve human welfare and values."*

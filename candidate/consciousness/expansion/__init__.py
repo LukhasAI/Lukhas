@@ -2,7 +2,7 @@
 Consciousness Expansion Module
 
 Provides systematic consciousness expansion and transcendence capabilities.
-Part of the LUKHAS Trinity Framework (⚛️🧠🛡️)
+Part of the LUKHAS Constellation Framework (⚛️🧠🛡️)
 """
 import streamlit as st
 

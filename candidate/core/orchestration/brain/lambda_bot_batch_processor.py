@@ -314,7 +314,7 @@ class BatchProcessor:
                 "- Allow unauthorized access",
                 "",
                 "---",
-                "**🤖 This PR was created autonomously by ΛBot AGI Batch Processing System**",
+                "**🤖 This PR was created autonomously by ΛBot Cognitive AI Batch Processing System**",
                 "**⚡ Comprehensive security fix - immediate review recommended**",
             ]
         )
@@ -377,7 +377,7 @@ class BatchProcessor:
                 "- ✅ Error handling improved",
                 "",
                 "---",
-                "**🤖 This PR was created autonomously by ΛBot AGI Batch Processing System**",
+                "**🤖 This PR was created autonomously by ΛBot Cognitive AI Batch Processing System**",
             ]
         )
 
@@ -421,7 +421,7 @@ class BatchProcessor:
                 "- ✅ Single review process",
                 "",
                 "---",
-                "**🤖 This PR was created autonomously by ΛBot AGI Batch Processing System**",
+                "**🤖 This PR was created autonomously by ΛBot Cognitive AI Batch Processing System**",
             ]
         )
 

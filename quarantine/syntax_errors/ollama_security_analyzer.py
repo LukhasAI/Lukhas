@@ -2,7 +2,7 @@
 """
 LUKHAS Ollama Security Analyzer
 Automated vulnerability analysis and fixing using local Ollama models
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 
 import asyncio

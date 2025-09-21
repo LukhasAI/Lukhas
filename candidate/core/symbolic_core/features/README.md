@@ -2,7 +2,7 @@
 
 ## Overview
 
-The LUKHAS symbolic system provides the core symbolic reasoning, GLYPH processing, and drift/collapse detection capabilities for the AGI architecture. This module handles symbolic representation, drift detection, and the complex symbolic collapse mechanisms that ensure system stability.
+The LUKHAS symbolic system provides the core symbolic reasoning, GLYPH processing, and drift/collapse detection capabilities for the AI architecture. This module handles symbolic representation, drift detection, and the complex symbolic collapse mechanisms that ensure system stability.
 
 ## Quick Start
 

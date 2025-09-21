@@ -61,7 +61,7 @@ def create_hybrid_memory_fold(
     **kwargs,
 ) -> HybridMemoryFold:
     """
-    Create an AGI-ready hybrid memory fold system.
+    Create an Cognitive AI-ready hybrid memory fold system.
 
     Args:
         embedding_dim: Dimension of vector embeddings
@@ -163,7 +163,7 @@ def create_optimized_hybrid_memory_fold(
     **kwargs,
 ) -> OptimizedHybridMemoryFold:
     """
-    Create an ultra-optimized AGI-ready hybrid memory fold system.
+    Create an ultra-optimized Cognitive AI-ready hybrid memory fold system.
 
     Args:
         embedding_dim: Dimension of vector embeddings (512 or 1024 supported)
@@ -215,7 +215,7 @@ def create_optimized_hybrid_memory_fold_512(
     Create ultra-optimized hybrid memory fold with 512-dimensional embeddings.
 
     This provides additional 50% memory savings compared to 1024-dim while
-    maintaining good semantic quality for most AGI applications.
+    maintaining good semantic quality for most Cognitive AI applications.
 
     Perfect for:
     - Resource-constrained environments
@@ -400,7 +400,7 @@ class ReflectionHybridMemoryFold(MemoryFoldSystem):
     Enhanced memory fold system with neural-symbolic integration.
 
     Combines the efficiency of symbolic tags with the semantic
-    richness of vector embeddings for AGI-ready memory.
+    richness of vector embeddings for Cognitive AI-ready memory.
     """
 
     def __init__(
@@ -1179,10 +1179,10 @@ class NodeInfo:
 
 class ConsensusProtocol:
     """
-    RAFT-based consensus protocol for distributed AGI memory.
+    RAFT-based consensus protocol for distributed Cognitive AI memory.
 
     Implements Byzantine fault tolerance with consciousness-aware
-    validation for AGI memory networks.
+    validation for Cognitive AI memory networks.
     """
 
     def __init__(
@@ -1451,7 +1451,7 @@ class ConsensusProtocol:
         """
         Validate memory entry using Byzantine fault tolerance.
 
-        Implements consciousness-aware validation for AGI memories.
+        Implements consciousness-aware validation for Cognitive AI memories.
         """
         if not entry.memory_id or not entry.content_hash:
             return False
@@ -1475,7 +1475,7 @@ class DistributedMemoryFold:
     """
     Distributed memory fold system with consensus protocol.
 
-    Provides distributed AGI memory with Byzantine fault tolerance
+    Provides distributed Cognitive AI memory with Byzantine fault tolerance
     and consciousness-aware validation.
     """
 

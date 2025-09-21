@@ -7,7 +7,7 @@ Based on comprehensive architectural analysis of 7,000+ Python files across 133 
 
 1. **Cognitive Load Management**: No claude.me exceeds 15KB context
 2. **Development Workflow Alignment**: Matches CANDIDATE → LUKHAS → PRODUCTS pipeline
-3. **Dependency Cluster Recognition**: Groups tightly coupled Trinity Framework components
+3. **Dependency Cluster Recognition**: Groups tightly coupled Constellation Framework components
 4. **Context Boundary Optimization**: Minimizes cross-boundary references
 5. **Production Pipeline Support**: Enables 71.4% → 100% consciousness integration
 
@@ -53,9 +53,9 @@ Based on comprehensive architectural analysis of 7,000+ Python files across 133 
 │           └── claude.me                       # Privacy Systems
 │
 ├── lukhas/
-│   ├── claude.me                               # Trinity Framework Hub
+│   ├── claude.me                               # Constellation Framework Hub
 │   ├── consciousness/
-│   │   └── claude.me                           # Trinity Consciousness
+│   │   └── claude.me                           # Constellation Consciousness
 │   ├── memory/
 │   │   └── claude.me                           # Memory Integration
 │   ├── identity/
@@ -126,7 +126,7 @@ Based on comprehensive architectural analysis of 7,000+ Python files across 133 
 
 **`claude.me` - Master AGI System Overview**
 - **Purpose**: Navigation hub and system introduction
-- **Scope**: Trinity Framework, development pipeline, architecture overview  
+- **Scope**: Constellation Framework, development pipeline, architecture overview  
 - **Content**: 8-10KB overview with references to all secondary contexts
 - **Excludes**: Implementation details, specific code patterns
 
@@ -136,8 +136,8 @@ Based on comprehensive architectural analysis of 7,000+ Python files across 133 
 - **Content**: Development workflow, component relationships, integration patterns
 - **Excludes**: Deep implementation details (delegated to subdirectory contexts)
 
-**`lukhas/claude.me` - Trinity Framework Hub**
-- **Purpose**: Trinity Framework coordination (Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️)
+**`lukhas/claude.me` - Constellation Framework Hub**
+- **Purpose**: Constellation Framework coordination (Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️)
 - **Scope**: 148 integration files, async management, orchestration patterns
 - **Content**: Integration patterns, wrapper interfaces, cross-system coordination
 - **Excludes**: Development details (in candidate/), production details (in products/)
@@ -159,7 +159,7 @@ Based on comprehensive architectural analysis of 7,000+ Python files across 133 
 **Consciousness Domain** (4 files)
 - `consciousness/claude.me`: Research foundations, decision engines
 - `candidate/consciousness/claude.me`: Development workspace (52+ components)  
-- `lukhas/consciousness/claude.me`: Trinity integration, activation orchestration
+- `lukhas/consciousness/claude.me`: Constellation integration, activation orchestration
 - `candidate/consciousness/cognitive/claude.me`: Cognitive processing, reflection
 
 **Memory Domain** (4 files)
@@ -207,7 +207,7 @@ Based on comprehensive architectural analysis of 7,000+ Python files across 133 
 # [System Name] - [Purpose]
 
 ## System Overview
-- **Architecture**: [Trinity Framework relationship]
+- **Architecture**: [Constellation Framework relationship]
 - **Scale**: [File counts, complexity metrics]
 - **Integration**: [Cross-system relationships]
 
@@ -236,7 +236,7 @@ Based on comprehensive architectural analysis of 7,000+ Python files across 133 
 ## Domain Scope
 - **Files**: [Count] Python files across [Count] subdirectories
 - **Purpose**: [Primary development focus]
-- **Integration**: [Trinity Framework role]
+- **Integration**: [Constellation Framework role]
 
 ## Architecture Overview
 - **Core Components**: [List key abstractions]
@@ -293,7 +293,7 @@ Based on comprehensive architectural analysis of 7,000+ Python files across 133 
 #### **Phase 1: Foundation (Priority 1-5)**
 1. `/claude.me` - Master system overview and navigation
 2. `candidate/claude.me` - Development workspace hub  
-3. `lukhas/claude.me` - Trinity Framework integration hub
+3. `lukhas/claude.me` - Constellation Framework integration hub
 4. `matriz/claude.me` - Cognitive DNA engine context
 5. `products/claude.me` - Production deployment overview
 
@@ -302,7 +302,7 @@ Based on comprehensive architectural analysis of 7,000+ Python files across 133 
 7. `candidate/core/claude.me` - Component ecosystem
 8. `candidate/consciousness/claude.me` - Consciousness development  
 9. `candidate/memory/claude.me` - Memory systems development
-10. `lukhas/consciousness/claude.me` - Trinity consciousness integration
+10. `lukhas/consciousness/claude.me` - Constellation consciousness integration
 11. `lukhas/memory/claude.me` - Memory integration
 12. `lukhas/identity/claude.me` - Identity integration
 13. `ethics/claude.me` - Ethics framework (33+ components)
@@ -354,7 +354,7 @@ Based on comprehensive architectural analysis of 7,000+ Python files across 133 
 
 #### **Coverage Validation**
 - [ ] All 133 root directories have context coverage (direct or inherited)
-- [ ] Trinity Framework properly contextualized across boundaries
+- [ ] Constellation Framework properly contextualized across boundaries
 - [ ] Development pipeline (CANDIDATE → LUKHAS → PRODUCTS) fully supported
 - [ ] No critical integration points lack context
 - [ ] Constitutional AI framework properly distributed
@@ -399,7 +399,7 @@ Based on comprehensive architectural analysis of 7,000+ Python files across 133 
 
 #### **Development Workflow Support**
 - ✅ 100% coverage of critical development paths
-- ✅ Trinity Framework coordination fully supported
+- ✅ Constellation Framework coordination fully supported
 - ✅ CANDIDATE → LUKHAS → PRODUCTS pipeline enabled
 - ✅ Constitutional AI integration properly contextualized
 
@@ -414,4 +414,4 @@ Based on comprehensive architectural analysis of 7,000+ Python files across 133 
 *Implementation Date: 2025-09-12*  
 *Total claude.me Files: 35+ strategic placements*  
 *Coverage: 7,000+ Python files across 133 directories*  
-*Framework: Trinity Framework (Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️)*
+*Framework: Constellation Framework (Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️)*

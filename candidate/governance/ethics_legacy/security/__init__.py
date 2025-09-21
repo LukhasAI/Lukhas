@@ -1,6 +1,6 @@
 import streamlit as st
 
-"""Security utilities and engines for LUKHAS AGI."""
+"""Security utilities and engines for LUKHAS Cognitive AI."""
 
 from .emergency_override import check_safety_flags, log_incident, shutdown_systems
 from .secure_utils import SecurityError, safe_eval, safe_subprocess_run, sanitize_input

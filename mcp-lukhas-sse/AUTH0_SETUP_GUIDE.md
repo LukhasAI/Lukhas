@@ -34,7 +34,7 @@ OAUTH_AUDIENCE=https://api.lukhas.ai
 PUBLIC_BASE_URL=http://localhost:8080
 
 # Your filesystem access
-LUKHAS_MCP_ROOTS=/Users/agi_dev/LOCAL-REPOS/Lukhas
+LUKHAS_MCP_ROOTS=/Users/cognitive_dev/LOCAL-REPOS/Lukhas
 WRITE_ENABLED=false
 ```
 

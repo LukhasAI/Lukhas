@@ -35,7 +35,7 @@ def print_banner():
     """Print the LUKHAS banner"""
     print(f"{Colors.CYAN}{Colors.BOLD}")
     print("🧠 LUKHAS Local LLM Code Quality Improvement")
-    print("⚛️🧠🛡️ Trinity Framework Consciousness Technology")
+    print("⚛️🧠🛡️ Constellation Framework Consciousness Technology")
     print("=" * 55)
     print(f"{Colors.END}")
 

@@ -9,7 +9,7 @@
     {
       "task_id": "TODO-HIGH-CANDIDATE-CORE-007de334",
       "priority": "high",
-      "title": "specialist] Implement Trinity Framework identity-consciousness state comparison",
+      "title": "specialist] Implement Constellation Framework identity-consciousness state comparison",
       "file": "./candidate/core/bridges/identity_core_bridge.py",
       "line_hint": 176,
       "module": "candidate/core",
@@ -17,7 +17,7 @@
       "status": "open",
       "source": "high_todos.md",
       "evidence": {
-        "grep": "./candidate/core/bridges/identity_core_bridge.py:        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Trinity identity-consciousness state comparison",
+        "grep": "./candidate/core/bridges/identity_core_bridge.py:        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Constellation identity-consciousness state comparison",
         "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
       },
       "acceptance": [],
@@ -135,7 +135,7 @@
     {
       "task_id": "TODO-HIGH-CANDIDATE-CORE-fc12ea3c",
       "priority": "high",
-      "title": "specialist] Implement Trinity Framework consciousness state comparison logic",
+      "title": "specialist] Implement Constellation Framework consciousness state comparison logic",
       "file": "./candidate/core/bridges/core_safety_bridge.py",
       "line_hint": 176,
       "module": "candidate/core",
@@ -219,7 +219,7 @@
     {
       "task_id": "TODO-HIGH-CANDIDATE-CORE-4f3d4c11",
       "priority": "high",
-      "title": "kept for Trinity Framework consciousness evolution",
+      "title": "kept for Constellation Framework consciousness evolution",
       "file": "./candidate/core/adapters/qi_service_adapter.py",
       "line_hint": 29,
       "module": "candidate/core",

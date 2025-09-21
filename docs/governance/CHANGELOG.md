@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Trinity Framework path management system (`lukhas_paths.py`)
+- Constellation Framework path management system (`lukhas_paths.py`)
 - Automated script path migration tool (`migrate_paths.py`)
 - Comprehensive file delivery matrix documentation
 - Professional directory organization structure
@@ -28,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Initial LUKHAS AI consciousness platform release
-- Trinity Framework implementation (⚛️🧠🛡️)
+- Constellation Framework implementation (⚛️🧠🛡️)
 - 25-agent AI coordination system (18 Supreme Army + 6 Claude Desktop + 1 Workflow)
 - 200+ consciousness and intelligence modules
 - Advanced consciousness processing with VIVOX system
@@ -51,7 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Comprehensive API documentation
 - Architecture guides and diagrams
 - Developer setup and contribution guides
-- Trinity Framework academic specifications
+- Constellation Framework academic specifications
 - Agent coordination documentation
 
 ### Infrastructure

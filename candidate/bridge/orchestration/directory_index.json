@@ -1,0 +1,156 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/bridge/orchestration",
+    "lane": "development",
+    "purpose": "Directory containing 6 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "matriz_pipeline_integration": {
+      "memory_stage": "experimental",
+      "attention_stage": "experimental",
+      "thought_stage": "experimental",
+      "action_stage": "inactive",
+      "decision_stage": "inactive",
+      "awareness_stage": "experimental"
+    }
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "ai_provider.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AIProvider",
+          "TaskType",
+          "OrchestrationRequest",
+          "OrchestrationResponse",
+          "Config",
+          "Config",
+          "from_string",
+          "from_string",
+          "from_dict"
+        ]
+      },
+      {
+        "filename": "context_manager.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ContextEntry",
+          "ContextSummary",
+          "ContextManager",
+          "enhance_prompt"
+        ]
+      },
+      {
+        "filename": "performance_monitor.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ProviderStatus",
+          "PerformanceMetric",
+          "ProviderStats",
+          "SystemPerformanceSnapshot",
+          "PerformanceMonitor",
+          "get_provider_score"
+        ]
+      },
+      {
+        "filename": "multi_ai_orchestrator.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.bridge.llm_wrappers.anthropic_wrapper",
+          "candidate.bridge.llm_wrappers.base",
+          "candidate.bridge.llm_wrappers.gemini_wrapper",
+          "candidate.bridge.llm_wrappers.unified_openai_client"
+        ],
+        "exports": [
+          "ModelOrchestrator",
+          "get_available_providers"
+        ]
+      },
+      {
+        "filename": "test_integration.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "test_orchestration_components",
+          "test_api_gateway",
+          "test_external_adapters",
+          "test_workflow_orchestration",
+          "performance_benchmark",
+          "main"
+        ]
+      },
+      {
+        "filename": "consensus_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ConsensusMethod",
+          "ConsensusResult",
+          "ConsensusEngine"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 6,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "experimental",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "candidate/bridge",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

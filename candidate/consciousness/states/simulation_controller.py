@@ -8,7 +8,7 @@
 
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧬 LUKHAS AI - BIO-SIMULATION ENDOCRINE SYSTEM
-║ Advanced Hormonal Dynamics for Adaptive AGI Behavior
+║ Advanced Hormonal Dynamics for Adaptive Cognitive AI Behavior
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Module: bio_simulation_controller.py
@@ -21,7 +21,7 @@
 ║ CRITICAL FILE - DO NOT MODIFY WITHOUT APPROVAL
 ║
 ║ Comprehensive endocrine system simulation that creates biologically-inspired
-║ behavioral modulation for the LUKHAS AGI. This module implements:
+║ behavioral modulation for the LUKHAS Cognitive AI. This module implements:
 ║
 ║ CORE FEATURES:
 ║ - 8 hormones with complex interaction dynamics
@@ -31,7 +31,7 @@
 ║ - Real-time behavioral modulation
 ║ - Integration hooks for all LUKHAS subsystems
 ║
-║ HORMONES AND THEIR AGI EFFECTS:
+║ HORMONES AND THEIR Cognitive AI EFFECTS:
 ║ - Cortisol: Stress response, resource allocation, emergency processing
 ║ - Dopamine: Reward processing, motivation, learning reinforcement
 ║ - Serotonin: Mood stabilization, cooperative behavior, long-term planning
@@ -116,7 +116,7 @@ class Hormone:
 # ΛTAG: symbolic_recovery
 class BioSimulationController:
     """
-    Advanced endocrine system controller that simulates hormone dynamics for AGI operations.
+    Advanced endocrine system controller that simulates hormone dynamics for Cognitive AI operations.
 
     This controller manages complex hormone interactions, circadian rhythms, and provides
     interfaces for other LUKHAS systems to query and influence hormonal states.
@@ -266,7 +266,7 @@ class BioSimulationController:
         asyncio.create_task(oscillator._synchronize())
 
     def _initialize_default_hormones(self):
-        """Initialize the default hormone set with AGI-specific parameters."""
+        """Initialize the default hormone set with Cognitive AI-specific parameters."""
         # Stress and resource management
         self.hormones[HormoneType.CORTISOL.value] = Hormone(
             name=HormoneType.CORTISOL.value,
@@ -382,7 +382,7 @@ class BioSimulationController:
         """Update the current circadian phase based on elapsed time."""
         elapsed = (datetime.now(timezone.utc) - self.start_time).total_seconds()
         # Convert to 24-hour cycle (86400 seconds = 24 hours)
-        # For AGI, we can speed this up for faster cycles
+        # For Cognitive AI, we can speed this up for faster cycles
         cycle_speed = 10.0  # 10x speed: 2.4 hour real time = 24 hour cycle
         self.current_phase = (elapsed * cycle_speed / 3600) % 24
 
@@ -449,7 +449,7 @@ class BioSimulationController:
             except Exception as e:
                 logger.error(f"Error in state callback for {state}: {e}")
 
-    # Public API methods for AGI integration
+    # Public API methods for Cognitive AI integration
 
     def get_hormone_state(self) -> dict[str, float]:
         """Get current hormone levels for external systems."""
@@ -594,7 +594,7 @@ class BioSimulationController:
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚══════════════════════════════════════════════════════════════════════════════

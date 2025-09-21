@@ -9,7 +9,7 @@
 ### Architecture & System Design
 - **System Overview**: [`AUDIT/SYSTEM_MAP.md`](AUDIT/SYSTEM_MAP.md) - Architecture with Mermaid diagrams
 - **Lane System**: `candidate/` → `lukhas/` promotion architecture (see System Map)
-- **Trinity Framework**: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian principles
+- **Constellation Framework**: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian principles
 
 ### Technical Specifications
 - **MATRIZ System**: [`AUDIT/MATRIZ_READINESS.md`](AUDIT/MATRIZ_READINESS.md) - Interface contracts & invariants
@@ -39,7 +39,7 @@ make test-cov     # Run tests with coverage report
 ## 🎯 **Audit Focus Areas**
 
 1. **Cross-Lane Dependencies** - Check `CANDIDATE_USED_BY_LUKHAS.txt` for violations
-2. **System Architecture** - Verify Trinity Framework adherence (⚛️🧠🛡️)
+2. **System Architecture** - Verify Constellation Framework adherence (⚛️🧠🛡️)
 3. **API Contracts** - Validate OpenAPI spec against implementation
 4. **Memory System** - 1000-fold limit with 99.7% cascade prevention
 5. **Security Posture** - Guardian System drift detection (0.15 threshold)

@@ -991,7 +991,7 @@ class DocumentationAnalytics:
         doc_patterns = ["*.md", "*.rst", "*.txt", "*.html"]
         doc_files = []
 
-        workspace_root = Path("/Users/agi_dev/Lukhas")
+        workspace_root = Path("/Users/cognitive_dev/Lukhas")
         for pattern in doc_patterns:
             doc_files.extend(str(f) for f in workspace_root.rglob(pattern))
 

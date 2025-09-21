@@ -1,7 +1,7 @@
 """
 LUKHAS AI Bio Module - Symbolic
 Consolidated from 30 variants
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 from dataclasses import dataclass
 from typing import Any
@@ -43,7 +43,7 @@ class BioSymbolicProcessor:
         result = {
             "processed": True,
             "symbols_active": len([s for s in self.symbols.values() if s.active]),
-            "trinity_aligned": True,
+            "constellation_aligned": True,
         }
 
         return result

@@ -13,7 +13,7 @@ Generated: 2025-08-12T19:53:58.143380
 - Episodic memory with timeline
 - Memory consolidation and compression
 - Colony-based distributed storage
-- Trinity Framework integration
+- Constellation Framework integration
 
 ## Next Steps
 1. Run canary tests: `pytest tests/canary/test_memory_consolidation.py`

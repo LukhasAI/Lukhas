@@ -13,7 +13,7 @@
 ╠═══════════════════════════════════════════════════════════════════════════════
 ║ The Collapse Tracker provides a unified system for monitoring symbolic collapse
 ║ conditions, computing entropy scores, and managing alert levels throughout the
-║ LUKHAS AGI system. This module is critical for system safety and stability.
+║ LUKHAS Cognitive system. This module is critical for system safety and stability.
 ║
 ║ Key Features:
 ║ • Entropy score calculation using Shannon entropy
@@ -87,7 +87,7 @@ class CollapseTracker:
     Unified collapse tracking and entropy monitoring system.
 
     This class manages the detection, tracking, and alerting of symbolic
-    collapse conditions within the LUKHAS AGI system.
+    collapse conditions within the LUKHAS Cognitive system.
     """
 
     def __init__(
@@ -505,7 +505,7 @@ def get_global_tracker() -> CollapseTracker:
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is critical for AGI safety. Modifications require approval
+║   This module is critical for Cognitive AI safety. Modifications require approval
 ║   from the LUKHAS Safety Board and must maintain all alert thresholds.
 ╚═══════════════════════════════════════════════════════════════════════════════
 """

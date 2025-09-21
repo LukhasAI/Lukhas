@@ -8,7 +8,7 @@ REAL coverage progress including all functional tests implemented:
 - System integration tests
 - Quality assessment
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 GOAL: Accurate coverage reporting including our new test implementations
 """
@@ -106,7 +106,7 @@ class ComprehensiveCoverageSummary:
             "core": {
                 "status": "🟡 FUNCTIONAL TESTS ADDED",
                 "coverage_type": "Functional structure validation",
-                "tests": ["module imports", "symbolic processing", "orchestration", "Trinity integration"],
+                "tests": ["module imports", "symbolic processing", "orchestration", "Constellation integration"],
                 "success_rate": "50.0% (2/4 tests passing)",
                 "needs": "Fix import structure and orchestration paths",
             },
@@ -127,7 +127,7 @@ class ComprehensiveCoverageSummary:
             "consciousness": {
                 "status": "✅ COMPREHENSIVE COVERAGE",
                 "coverage_type": "Full functional testing",
-                "tests": ["module structure", "state management", "processing pipeline", "Trinity integration"],
+                "tests": ["module structure", "state management", "processing pipeline", "Constellation integration"],
                 "success_rate": "100.0% (4/4 tests passing)",
                 "needs": "Maintained - excellent coverage",
             },
@@ -138,7 +138,7 @@ class ComprehensiveCoverageSummary:
                     "module structure",
                     "FastAPI structure",
                     "endpoints",
-                    "Trinity integration",
+                    "Constellation integration",
                     "middleware",
                     "streaming",
                 ],

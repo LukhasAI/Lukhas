@@ -7,7 +7,7 @@ Created: 2025-06-20
 Author: lukhas AI Team
 Version: 1.0
 This file is part of the LUKHAS (Logical Unified Knowledge Hyper-Adaptable System)
-Advanced Cognitive Architecture for Artificial General Intelligence
+Advanced Cognitive Architecture for Cognitive Artificial Intelligence
 Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 TAGS: [CRITICAL, KeyFile, Emotion]
@@ -254,8 +254,8 @@ class VoiceProfilingEmotionEngine:
     - Profile evolution based on feedback
     """
 
-    def __init__(self, agi_system=None):
-        self.ai = agi_system
+    def __init__(self, cognitive_system=None):
+        self.ai = cognitive_system
         self.logger = logging.getLogger("VoiceProfileManager")
         self.profiles = {}
         self.profiles_dir = os.path.join(os.path.dirname(__file__), "voice_profiles")

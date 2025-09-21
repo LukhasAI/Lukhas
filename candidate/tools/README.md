@@ -418,6 +418,6 @@ make test-tools
 
 ---
 
-**Built with Trinity Framework principles: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian**
+**Built with Constellation Framework principles: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian**
 
 *LUKHAS AI Tool Execution System - Enterprise-grade tool orchestration for safe, ethical, and performant AI operations.*

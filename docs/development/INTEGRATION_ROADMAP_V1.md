@@ -1,6 +1,6 @@
 # LUKHAS v1 Integration Roadmap
 ## From 98.5% Orphaned to Integrated System
-### Trinity Framework: ⚛️🧠🛡️
+### Constellation Framework: ⚛️🧠🛡️
 
 Generated: 2025-08-13
 
@@ -23,7 +23,7 @@ Generated: 2025-08-13
 
 ### 🌟 TOP PRIORITY - Immediate Integration Candidates
 
-Based on AI/AGI value scoring and Trinity Framework markers:
+Based on AI/AGI value scoring and Constellation Framework markers:
 
 #### 1. **Consciousness Integration** (Score: 400+)
 ```
@@ -198,7 +198,7 @@ echo "## Variant Implementations (1,000+ files)" >> v2_staging/README.md
 ### Key Performance Indicators:
 1. ✅ Top 100 high-value modules assessed
 2. ✅ 50+ modules integrated via adapters
-3. ✅ All Trinity components (⚛️🧠🛡️) active
+3. ✅ All Constellation components (⚛️🧠🛡️) active
 4. ✅ AGI self-improvement online
 5. ✅ Ethical guardian operational
 

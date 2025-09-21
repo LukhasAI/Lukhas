@@ -10,7 +10,7 @@
       "old_method": "append",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/test_ai_functionality.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/test_ai_functionality.py",
       "line_number": 143
     },
     {
@@ -18,7 +18,7 @@
       "old_method": "values",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/lukhus_ultimate_test_suite.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/lukhus_ultimate_test_suite.py",
       "line_number": 487
     },
     {
@@ -26,7 +26,7 @@
       "old_method": "items",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/migrated/test_migrations.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/migrated/test_migrations.py",
       "line_number": 323
     },
     {
@@ -34,7 +34,7 @@
       "old_method": "get",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 594
     },
     {
@@ -42,7 +42,7 @@
       "old_method": "create_memory_fold",
       "new_method": "create_colony",
       "confidence": 0.5806451612903226,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py",
       "line_number": 36
     },
     {
@@ -50,7 +50,7 @@
       "old_method": "recall_memory_folds",
       "new_method": "NO_MATCH_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py",
       "line_number": 65
     },
     {
@@ -58,7 +58,7 @@
       "old_method": "enhanced_recall_memory_folds",
       "new_method": "NO_MATCH_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py",
       "line_number": 76
     },
     {
@@ -66,7 +66,7 @@
       "old_method": "dream_consolidate_memories",
       "new_method": "NO_MATCH_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py",
       "line_number": 95
     },
     {
@@ -74,7 +74,7 @@
       "old_method": "get_emotional_neighborhood",
       "new_method": "NO_MATCH_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py",
       "line_number": 109
     },
     {
@@ -82,7 +82,7 @@
       "old_method": "create_emotion_clusters",
       "new_method": "create_colony",
       "confidence": 0.5555555555555556,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py",
       "line_number": 120
     },
     {
@@ -90,7 +90,7 @@
       "old_method": "create_actor",
       "new_method": "create_colony",
       "confidence": 0.72,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py",
       "line_number": 31
     },
     {
@@ -98,7 +98,7 @@
       "old_method": "get_actor",
       "new_method": "NO_MATCH_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py",
       "line_number": 32
     },
     {
@@ -106,7 +106,7 @@
       "old_method": "create_glyph_indexed_memory",
       "new_method": "NO_MATCH_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_glyph_memory_integration.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_glyph_memory_integration.py",
       "line_number": 604
     },
     {
@@ -114,7 +114,7 @@
       "old_method": "perform_temporal_folding",
       "new_method": "NO_MATCH_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_glyph_memory_integration.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_glyph_memory_integration.py",
       "line_number": 612
     },
     {
@@ -122,7 +122,7 @@
       "old_method": "recall_by_glyph_pattern",
       "new_method": "NO_MATCH_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_glyph_memory_integration.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_glyph_memory_integration.py",
       "line_number": 694
     },
     {
@@ -130,7 +130,7 @@
       "old_method": "get_memory_glyph_statistics",
       "new_method": "get_system_statistics",
       "confidence": 0.7083333333333334,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_glyph_memory_integration.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_glyph_memory_integration.py",
       "line_number": 723
     },
     {
@@ -138,7 +138,7 @@
       "old_method": "get",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/test_knowledge_integration.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/test_knowledge_integration.py",
       "line_number": 179
     },
     {
@@ -146,7 +146,7 @@
       "old_method": "returncode",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py",
       "line_number": 278
     },
     {
@@ -154,7 +154,7 @@
       "old_method": "status",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py",
       "line_number": 464
     },
     {
@@ -162,7 +162,7 @@
       "old_method": "test_name",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py",
       "line_number": 466
     },
     {
@@ -170,7 +170,7 @@
       "old_method": "duration",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py",
       "line_number": 466
     },
     {
@@ -178,7 +178,7 @@
       "old_method": "stdout",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py",
       "line_number": 532
     },
     {
@@ -186,7 +186,7 @@
       "old_method": "stderr",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py",
       "line_number": 532
     },
     {
@@ -194,7 +194,7 @@
       "old_method": "testsRun",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/parsers/test_knowledge_loader.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/parsers/test_knowledge_loader.py",
       "line_number": 411
     },
     {
@@ -202,7 +202,7 @@
       "old_method": "failures",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/parsers/test_knowledge_loader.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/parsers/test_knowledge_loader.py",
       "line_number": 412
     },
     {
@@ -210,7 +210,7 @@
       "old_method": "errors",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/parsers/test_knowledge_loader.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/parsers/test_knowledge_loader.py",
       "line_number": 413
     },
     {
@@ -218,7 +218,7 @@
       "old_method": "wasSuccessful",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/parsers/test_knowledge_loader.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/parsers/test_knowledge_loader.py",
       "line_number": 415
     },
     {
@@ -226,7 +226,7 @@
       "old_method": "test_case",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/testing/plugin_test_framework.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/testing/plugin_test_framework.py",
       "line_number": 384
     },
     {
@@ -234,7 +234,7 @@
       "old_method": "message",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/testing/plugin_test_framework.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/testing/plugin_test_framework.py",
       "line_number": 447
     },
     {
@@ -242,7 +242,7 @@
       "old_method": "qr_type",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py",
       "line_number": 80
     },
     {
@@ -250,7 +250,7 @@
       "old_method": "pattern_data",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py",
       "line_number": 81
     },
     {
@@ -258,7 +258,7 @@
       "old_method": "metadata",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py",
       "line_number": 83
     },
     {
@@ -266,7 +266,7 @@
       "old_method": "compliance_score",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py",
       "line_number": 85
     },
     {
@@ -274,7 +274,7 @@
       "old_method": "consciousness_resonance",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py",
       "line_number": 144
     },
     {
@@ -282,7 +282,7 @@
       "old_method": "expiration",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py",
       "line_number": 157
     },
     {
@@ -290,7 +290,7 @@
       "old_method": "security_signature",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py",
       "line_number": 321
     },
     {
@@ -298,7 +298,7 @@
       "old_method": "cultural_safety_score",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py",
       "line_number": 416
     },
     {
@@ -306,7 +306,7 @@
       "old_method": "generation_metrics",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py",
       "line_number": 580
     },
     {
@@ -314,7 +314,7 @@
       "old_method": "name",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/lukhus_ultimate_test_suite.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/lukhus_ultimate_test_suite.py",
       "line_number": 593
     },
     {
@@ -322,7 +322,7 @@
       "old_method": "details",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/lukhus_ultimate_test_suite.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/lukhus_ultimate_test_suite.py",
       "line_number": 593
     },
     {
@@ -330,7 +330,7 @@
       "old_method": "success",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
       "line_number": 67
     },
     {
@@ -338,7 +338,7 @@
       "old_method": "lambda_id",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
       "line_number": 68
     },
     {
@@ -346,7 +346,7 @@
       "old_method": "tier",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
       "line_number": 70
     },
     {
@@ -354,7 +354,7 @@
       "old_method": "entropy_score",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
       "line_number": 71
     },
     {
@@ -362,7 +362,7 @@
       "old_method": "error",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
       "line_number": 154
     },
     {
@@ -370,7 +370,7 @@
       "old_method": "valid",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
       "line_number": 221
     },
     {
@@ -378,7 +378,7 @@
       "old_method": "validation_level",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
       "line_number": 246
     },
     {
@@ -386,7 +386,7 @@
       "old_method": "brand_prefix",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
       "line_number": 557
     },
     {
@@ -394,7 +394,7 @@
       "old_method": "commercial_tier",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
       "line_number": 558
     },
     {
@@ -402,7 +402,7 @@
       "old_method": "integrity_score",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_identity_lineage_validation.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_identity_lineage_validation.py",
       "line_number": 441
     },
     {
@@ -410,7 +410,7 @@
       "old_method": "approved",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
       "line_number": 496
     },
     {
@@ -418,7 +418,7 @@
       "old_method": "ethics_score",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
       "line_number": 497
     },
     {
@@ -426,7 +426,7 @@
       "old_method": "safety_score",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
       "line_number": 502
     },
     {
@@ -434,7 +434,7 @@
       "old_method": "items",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/migrated/test_migrations.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/migrated/test_migrations.py",
       "line_number": 326
     },
     {
@@ -442,7 +442,7 @@
       "old_method": "novelty_score",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 708
     },
     {
@@ -450,7 +450,7 @@
       "old_method": "reproducibility_score",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 709
     },
     {
@@ -458,7 +458,7 @@
       "old_method": "publication_ready",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 710
     },
     {
@@ -466,7 +466,7 @@
       "old_method": "discovered_patterns",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 711
     },
     {
@@ -474,7 +474,7 @@
       "old_method": "processing_time_ms",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 712
     },
     {
@@ -482,7 +482,7 @@
       "old_method": "processing_timestamp",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 827
     },
     {
@@ -490,7 +490,7 @@
       "old_method": "research_id",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 960
     },
     {
@@ -498,7 +498,7 @@
       "old_method": "learning_progress",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 963
     },
     {
@@ -506,7 +506,7 @@
       "old_method": "exploration_efficiency",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 964
     },
     {
@@ -514,7 +514,7 @@
       "old_method": "adaptation_success",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 965
     },
     {
@@ -522,7 +522,7 @@
       "old_method": "technique_performance",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 968
     },
     {
@@ -530,7 +530,7 @@
       "old_method": "quantum_results",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 972
     },
     {
@@ -538,7 +538,7 @@
       "old_method": "bio_symbolic_insights",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 977
     },
     {
@@ -546,7 +546,7 @@
       "old_method": "swarm_coordination_metrics",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 984
     },
     {
@@ -554,7 +554,7 @@
       "old_method": "reliability_score",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 992
     },
     {
@@ -562,7 +562,7 @@
       "old_method": "validity_score",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 993
     },
     {
@@ -570,7 +570,7 @@
       "old_method": "ethics_compliance_score",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 994
     },
     {
@@ -578,7 +578,7 @@
       "old_method": "open_science_compliance",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 998
     },
     {
@@ -586,7 +586,7 @@
       "old_method": "research_recommendations",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 1000
     },
     {
@@ -594,7 +594,7 @@
       "old_method": "next_experiments",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 1005
     },
     {
@@ -602,7 +602,7 @@
       "old_method": "lower",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/prediction/test_prophet.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/prediction/test_prophet.py",
       "line_number": 656
     },
     {
@@ -610,7 +610,7 @@
       "old_method": "get",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/autotest_validation.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/autotest_validation.py",
       "line_number": 150
     },
     {
@@ -618,7 +618,7 @@
       "old_method": "get",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/autotest_validation.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/autotest_validation.py",
       "line_number": 183
     },
     {
@@ -626,7 +626,7 @@
       "old_method": "append",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/autotest_validation.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/autotest_validation.py",
       "line_number": 376
     },
     {
@@ -634,7 +634,7 @@
       "old_method": "coord_hub",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py",
       "line_number": 43
     },
     {
@@ -642,7 +642,7 @@
       "old_method": "skills",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py",
       "line_number": 48
     },
     {
@@ -650,7 +650,7 @@
       "old_method": "actor_system",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py",
       "line_number": 60
     },
     {
@@ -658,7 +658,7 @@
       "old_method": "announce_task",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py",
       "line_number": 64
     },
     {
@@ -666,7 +666,7 @@
       "old_method": "tell",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_mailbox_simple.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_mailbox_simple.py",
       "line_number": 47
     },
     {
@@ -674,7 +674,7 @@
       "old_method": "returncode",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/automatic_testing_system.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/automatic_testing_system.py",
       "line_number": 832
     },
     {
@@ -682,7 +682,7 @@
       "old_method": "stdout",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/automatic_testing_system.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/automatic_testing_system.py",
       "line_number": 833
     },
     {
@@ -690,7 +690,7 @@
       "old_method": "stderr",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/automatic_testing_system.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/automatic_testing_system.py",
       "line_number": 834
     },
     {
@@ -698,7 +698,7 @@
       "old_method": "start",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_image_processing_pipeline.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_image_processing_pipeline.py",
       "line_number": 96
     },
     {
@@ -706,7 +706,7 @@
       "old_method": "stop",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_image_processing_pipeline.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_image_processing_pipeline.py",
       "line_number": 140
     },
     {
@@ -714,7 +714,7 @@
       "old_method": "get",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_image_processing_pipeline.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_image_processing_pipeline.py",
       "line_number": 229
     },
     {
@@ -722,7 +722,7 @@
       "old_method": "values",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_image_processing_pipeline.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_image_processing_pipeline.py",
       "line_number": 443
     },
     {
@@ -730,7 +730,7 @@
       "old_method": "items",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_image_processing_pipeline.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_image_processing_pipeline.py",
       "line_number": 482
     },
     {
@@ -738,7 +738,7 @@
       "old_method": "__sizeof__",
       "new_method": "NO_MATCH_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/memory/test_lightweight_concurrency.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/memory/test_lightweight_concurrency.py",
       "line_number": 29
     },
     {
@@ -746,7 +746,7 @@
       "old_method": "append",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/memory/test_lightweight_concurrency.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/memory/test_lightweight_concurrency.py",
       "line_number": 157
     },
     {
@@ -754,7 +754,7 @@
       "old_method": "success",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
       "line_number": 197
     },
     {
@@ -762,7 +762,7 @@
       "old_method": "lambda_id",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
       "line_number": 201
     },
     {
@@ -770,7 +770,7 @@
       "old_method": "valid",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
       "line_number": 204
     },
     {
@@ -778,7 +778,7 @@
       "old_method": "errors",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
       "line_number": 205
     },
     {
@@ -786,7 +786,7 @@
       "old_method": "append",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
       "line_number": 700
     },
     {
@@ -794,7 +794,7 @@
       "old_method": "extend",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
       "line_number": 752
     },
     {
@@ -802,7 +802,7 @@
       "old_method": "success",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
       "line_number": 881
     },
     {
@@ -810,7 +810,7 @@
       "old_method": "tier",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
       "line_number": 882
     },
     {
@@ -818,7 +818,7 @@
       "old_method": "lambda_id",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
       "line_number": 895
     },
     {
@@ -826,7 +826,7 @@
       "old_method": "success",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
       "line_number": 898
     },
     {
@@ -834,7 +834,7 @@
       "old_method": "new_tier",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
       "line_number": 899
     },
     {
@@ -842,7 +842,7 @@
       "old_method": "new_lambda_id",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py",
       "line_number": 900
     },
     {
@@ -850,7 +850,7 @@
       "old_method": "create_memory_glyph",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tests/test_glyph_recall_drift_correlation.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tests/test_glyph_recall_drift_correlation.py",
       "line_number": 132
     },
     {
@@ -858,7 +858,7 @@
       "old_method": "create_action_glyph",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tests/test_glyph_memory_timeline.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tests/test_glyph_memory_timeline.py",
       "line_number": 289
     },
     {
@@ -866,7 +866,7 @@
       "old_method": "create_ethical_glyph",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tests/test_glyph_memory_timeline.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tests/test_glyph_memory_timeline.py",
       "line_number": 294
     },
     {
@@ -874,7 +874,7 @@
       "old_method": "create_dream_glyph",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tests/test_glyph_memory_timeline.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tests/test_glyph_memory_timeline.py",
       "line_number": 299
     },
     {
@@ -882,7 +882,7 @@
       "old_method": "append",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_identity_lineage_validation.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_identity_lineage_validation.py",
       "line_number": 399
     },
     {
@@ -890,7 +890,7 @@
       "old_method": "approved",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
       "line_number": 95
     },
     {
@@ -898,7 +898,7 @@
       "old_method": "ethics_score",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
       "line_number": 96
     },
     {
@@ -906,7 +906,7 @@
       "old_method": "bio_symbolic_score",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
       "line_number": 97
     },
     {
@@ -914,7 +914,7 @@
       "old_method": "reasons",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
       "line_number": 98
     },
     {
@@ -922,7 +922,7 @@
       "old_method": "approved",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
       "line_number": 193
     },
     {
@@ -930,7 +930,7 @@
       "old_method": "safety_score",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
       "line_number": 194
     },
     {
@@ -938,7 +938,7 @@
       "old_method": "emotional_state",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
       "line_number": 195
     },
     {
@@ -946,7 +946,7 @@
       "old_method": "bio_symbolic_score",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
       "line_number": 196
     },
     {
@@ -954,7 +954,7 @@
       "old_method": "status",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
       "line_number": 241
     },
     {
@@ -962,7 +962,7 @@
       "old_method": "quantum_coherence",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
       "line_number": 242
     },
     {
@@ -970,7 +970,7 @@
       "old_method": "symbolic_reasoning",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py",
       "line_number": 244
     },
     {
@@ -978,7 +978,7 @@
       "old_method": "get",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/migrated/test_migrations.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/migrated/test_migrations.py",
       "line_number": 81
     },
     {
@@ -986,7 +986,7 @@
       "old_method": "get",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/migrated/test_migrations.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/migrated/test_migrations.py",
       "line_number": 172
     },
     {
@@ -994,7 +994,7 @@
       "old_method": "items",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/migrated/test_migrations.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/migrated/test_migrations.py",
       "line_number": 321
     },
     {
@@ -1002,7 +1002,7 @@
       "old_method": "PASS",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py",
       "line_number": 189
     },
     {
@@ -1010,7 +1010,7 @@
       "old_method": "UNCERTAIN",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py",
       "line_number": 199
     },
     {
@@ -1018,7 +1018,7 @@
       "old_method": "FAIL",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py",
       "line_number": 213
     },
     {
@@ -1026,7 +1026,7 @@
       "old_method": "value",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py",
       "line_number": 282
     },
     {
@@ -1034,7 +1034,7 @@
       "old_method": "value",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py",
       "line_number": 337
     },
     {
@@ -1042,7 +1042,7 @@
       "old_method": "value",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py",
       "line_number": 340
     },
     {
@@ -1050,7 +1050,7 @@
       "old_method": "value",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/quantum/systems/bio_integration/test_oracle.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/quantum/systems/bio_integration/test_oracle.py",
       "line_number": 361
     },
     {
@@ -1058,7 +1058,7 @@
       "old_method": "value",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/quantum/systems/bio_integration/test_oracle.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/quantum/systems/bio_integration/test_oracle.py",
       "line_number": 456
     },
     {
@@ -1066,7 +1066,7 @@
       "old_method": "value",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/quantum/systems/bio_integration/test_oracle.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/quantum/systems/bio_integration/test_oracle.py",
       "line_number": 523
     },
     {
@@ -1074,7 +1074,7 @@
       "old_method": "value",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/quantum/systems/bio_integration/test_oracle.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/quantum/systems/bio_integration/test_oracle.py",
       "line_number": 536
     },
     {
@@ -1082,7 +1082,7 @@
       "old_method": "get",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 741
     },
     {
@@ -1090,7 +1090,7 @@
       "old_method": "get",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 762
     },
     {
@@ -1098,7 +1098,7 @@
       "old_method": "get",
       "new_method": "NO_METHODS_FOUND",
       "confidence": 0.0,
-      "test_file": "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
+      "test_file": "/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py",
       "line_number": 772
     }
   ]

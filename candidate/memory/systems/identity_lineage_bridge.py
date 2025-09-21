@@ -116,8 +116,8 @@ class IdentityLineageBridge:
         self.identity_module_available = self._check_identity_module()
 
         # Storage paths
-        self.threats_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/identity/detected_threats.jsonl"
-        self.protection_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/identity/protection_actions.jsonl"
+        self.threats_log_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/identity/detected_threats.jsonl"
+        self.protection_log_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/identity/protection_actions.jsonl"
 
         logger.info(
             "IdentityLineageBridge_initialized",
@@ -452,7 +452,7 @@ class IdentityLineageBridge:
         try:
             # Try to import identity module components
             # This is a mock check - replace with actual identity module detection
-            return os.path.exists("/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity")
+            return os.path.exists("/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity")
         except Exception:
             return False
 

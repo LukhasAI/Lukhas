@@ -12,7 +12,7 @@ Mark unused imports with TODOs instead of deleting them.
 - Default paths: lukhas core api consciousness memory identity MATRIZ (production lanes only)
 - Always skips: .git, .venv, node_modules, archive, quarantine, candidate
 
-⚛️ LUKHAS AI Trinity Framework Integration:
+⚛️ LUKHAS AI Constellation Framework Integration:
 - 🧠 Consciousness: Preserves developer intent and future planning
 - ⚛️ Identity: Maintains module identity while documenting purpose
 - 🛡️ Guardian: Protects against accidental deletion of future-needed imports
@@ -152,9 +152,9 @@ def determine_smart_reason(file_path: str, line_content: str, message: str) -> s
     if "agent" in line_lower or "orchestrat" in line_lower:
         return "kept for multi-AI agent coordination"
 
-    # Consciousness/Trinity Framework
-    if any(word in line_lower for word in ["consciousness", "trinity", "guardian", "identity"]):
-        return "kept for Trinity Framework consciousness evolution"
+    # Consciousness/Constellation Framework
+    if any(word in line_lower for word in ["consciousness", "constellation", "guardian", "identity"]):
+        return "kept for Constellation Framework consciousness evolution"
 
     # API/Interface definitions
     if "api" in file_path_lower or "interface" in line_lower:

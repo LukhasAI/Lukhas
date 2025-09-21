@@ -4,7 +4,7 @@ logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: core/fallback_services.py
 # MODULE: core.fallback_services
-# DESCRIPTION: Provides fallback service implementations for LUKHAS AGI system
+# DESCRIPTION: Provides fallback service implementations for LUKHAS Cognitive system
 #              when core services are unavailable during development/testing.
 # DEPENDENCIES: structlog, typing
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
@@ -24,7 +24,7 @@ logger.info("ΛTRACE: Initializing fallback_services module.")
 # ΛCAUTION: The following fallback service classes provide placeholder functionality
 # if real services fail to import. They log their use and return simplified responses,
 # bypassing actual logic and symbolic audit paths. This is for development convenience
-# and API availability but means core AGI functions are not engaged.
+# and API availability but means core Cognitive AI functions are not engaged.
 
 
 class FallbackEthicsService:

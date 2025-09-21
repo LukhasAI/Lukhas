@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 Orphaned Module Auditor for LUKHAS AI
-Helps audit AI/AGI system logic that appears unused but may be valuable
-Trinity Framework: ⚛️🧠🛡️
+Helps audit AI/Cognitive system logic that appears unused but may be valuable
+Constellation Framework: ⚛️🧠🛡️
 """
 
 import ast
@@ -16,7 +16,7 @@ class OrphanedModuleAuditor:
         with open("module_usage_report.json") as f:
             self.report = json.load(f)
 
-        # Critical AI/AGI modules that should NEVER be auto-archived
+        # Critical AI/Cognitive modules that should NEVER be auto-archived
         self.critical_modules = {
             "consciousness",
             "memory",
@@ -194,7 +194,7 @@ class OrphanedModuleAuditor:
         """Generate a detailed audit report"""
         print("\n🔍 ORPHANED MODULE AUDIT REPORT")
         print("=" * 80)
-        print("⚠️  IMPORTANT: All AI/AGI system logic must be audited individually")
+        print("⚠️  IMPORTANT: All AI/Cognitive system logic must be audited individually")
         print("=" * 80)
 
         # High value files

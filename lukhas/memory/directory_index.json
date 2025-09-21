@@ -1,0 +1,241 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "lukhas/memory",
+    "lane": "development",
+    "purpose": "Directory containing 6 Python files and 1 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "production",
+    "constellation_role": "trail_star_primary",
+    "matriz_pipeline_integration": {
+      "memory_stage": "primary",
+      "attention_stage": "supporting",
+      "awareness_stage": "supporting"
+    },
+    "cognitive_domains": [
+      "memory_management",
+      "temporal_processing"
+    ],
+    "memory_architecture": {
+      "fold_based_storage": true,
+      "cascade_prevention": "99.7%",
+      "temporal_memory": true,
+      "consciousness_integration": true
+    }
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "sync.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SyncResult",
+          "SyncOperation",
+          "SyncBudgetConfig",
+          "MemorySynchronizer",
+          "_NoopMetric",
+          "create_memory_synchronizer",
+          "to_dict",
+          "sync_fold",
+          "get_sync_stats",
+          "get_sync_log",
+          "reset_stats",
+          "labels",
+          "inc",
+          "observe",
+          "set"
+        ]
+      },
+      {
+        "filename": "config.py",
+        "component_type": "CONFIGURATION",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/config.json",
+        "dependencies": [],
+        "exports": [
+          "MemoryConfig",
+          "get_memory_config",
+          "reload_config",
+          "from_environment",
+          "to_dict",
+          "validate"
+        ]
+      },
+      {
+        "filename": "memory_wrapper.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.observability.matriz_decorators"
+        ],
+        "exports": [
+          "MemoryWrapper",
+          "get_memory_manager",
+          "emit_node",
+          "create_fold",
+          "consolidate_memory",
+          "access_memory",
+          "get_status",
+          "extend_causal_chain",
+          "update_valence",
+          "emit_node",
+          "decorator"
+        ]
+      },
+      {
+        "filename": "fold_system.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.observability.matriz_decorators"
+        ],
+        "exports": [
+          "MemoryFold",
+          "FoldManager",
+          "get_fold_manager",
+          "emit_node",
+          "create_fold",
+          "retrieve_fold",
+          "get_causal_chain",
+          "consolidate",
+          "get_status",
+          "emit_node",
+          "decorator"
+        ]
+      },
+      {
+        "filename": "matriz_adapter.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/matriz_adapter.json",
+        "dependencies": [
+          "lukhas.observability.matriz_decorators",
+          "lukhas.observability.matriz_emit"
+        ],
+        "exports": [
+          "MemoryMatrizAdapter",
+          "get_matriz_adapter",
+          "emit_node",
+          "get_matriz_context",
+          "create_node",
+          "emit_fold_created",
+          "emit_memory_accessed",
+          "emit_consolidation",
+          "emit_cascade_prevention",
+          "emit_performance_metrics",
+          "emit_error",
+          "emit_node",
+          "get_matriz_context",
+          "make_node",
+          "emit",
+          "decorator"
+        ]
+      },
+      {
+        "filename": "consciousness_memory_integration.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.async_manager",
+          "lukhas.consciousness.registry",
+          "lukhas.consciousness.constellation_integration",
+          "lukhas.core.common.config"
+        ],
+        "exports": [
+          "MemoryFoldType",
+          "FoldStatus",
+          "EmotionalContext",
+          "MemoryFold",
+          "ConsciousnessMemoryState",
+          "ConsciousnessMemoryIntegrator",
+          "get_memory_integrator",
+          "get_memory_consciousness_metrics",
+          "get_consciousness_registry",
+          "get_triad_integrator",
+          "get_consciousness_manager",
+          "get_config"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "emotional",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "lukhas_context.md",
+        "type": "lukhas_context.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "claude.me",
+        "type": "claude.me",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "README.md",
+      "lukhas_context.md",
+      "claude.me"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 6,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.95,
+    "matriz_compatibility": "native",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true,
+    "fold_architecture_enabled": true,
+    "cascade_prevention_rate": 0.997
+  },
+  "relationships": {
+    "parent_directory": "lukhas",
+    "related_directories": [],
+    "constellation_cluster": "trail_star_memory",
+    "dependency_weight": "moderate"
+  }
+}

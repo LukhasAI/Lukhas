@@ -90,7 +90,7 @@ state = wrapper.get_vivox_state()
 - Drift detection: < 10ms
 - Ethics validation: < 20ms
 
-## Trinity Framework Compliance
+## Constellation Framework Compliance
 
 ✅ **Identity (⚛️)**: Self-aware consciousness patterns
 ✅ **Consciousness (🧠)**: Advanced vector collapse processing

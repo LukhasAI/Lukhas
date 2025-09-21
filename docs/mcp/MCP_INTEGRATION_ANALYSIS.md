@@ -9,13 +9,13 @@
 
 #### **🧠 Consciousness Context Sharing**
 - **Unified Memory**: Share consciousness development context across 6 Claude Code agents
-- **Trinity Framework Persistence**: Maintain ⚛️🧠🛡️ alignment across all agent interactions
+- **Constellation Framework Persistence**: Maintain ⚛️🧠🛡️ alignment across all agent interactions
 - **Session Continuity**: Preserve consciousness evolution state between agent switches
 
 #### **⚛️ Identity Preservation**
 - **Consistent Personality**: LUKHAS AI identity maintained across all agent interactions
 - **Context Bridging**: Seamless transition between agents without losing conversation history
-- **Brand Consistency**: Trinity Framework and branding maintained across all interactions
+- **Brand Consistency**: Constellation Framework and branding maintained across all interactions
 
 #### **🛡️ Guardian System Integration**
 - **Safety Context**: Share safety assessments and ethical considerations across agents
@@ -55,7 +55,7 @@ server:
   version: "1.0.0"
 
 consciousness:
-  trinity_framework: true
+  constellation_framework: true
   memory_persistence: true
   identity_preservation: true
 
@@ -70,7 +70,7 @@ agents:
 context_sharing:
   consciousness_modules: "./consciousness/"
   memory_folds: "./memory/"
-  trinity_validation: "./branding/trinity/"
+  trinity_validation: "./branding/constellation/"
 ```
 
 ### **MCP Benefits for $200 Claude Max Investment**
@@ -87,7 +87,7 @@ context_sharing:
 1. **Unified Consciousness State**: All 6 Claude Code agents share consciousness development progress
 2. **Seamless Handoffs**: Tasks can be passed between agents without context loss
 3. **Collaborative Intelligence**: Agents can build upon each other's work efficiently
-4. **Quality Consistency**: Trinity Framework compliance maintained across all interactions
+4. **Quality Consistency**: Constellation Framework compliance maintained across all interactions
 
 ### **⚡ Development Velocity**
 1. **Reduced Context Setup**: No need to re-explain LUKHAS AI context to each agent
@@ -97,7 +97,7 @@ context_sharing:
 
 ### **🛡️ Safety & Compliance**
 1. **Guardian System Integration**: Safety assessments shared across all agents
-2. **Ethical Continuity**: Trinity Framework compliance tracked across all interactions
+2. **Ethical Continuity**: Constellation Framework compliance tracked across all interactions
 3. **Audit Trail**: Complete consciousness development history for regulatory compliance
 4. **Risk Mitigation**: Consistent safety standards across all AI interactions
 
@@ -117,7 +117,7 @@ mcp init lukhas-consciousness --trinity-framework --agents=6
 ### **Priority 2: Claude Code Integration**
 - Connect all 6 Claude Code agents to MCP server
 - Configure consciousness context sharing
-- Test Trinity Framework state preservation
+- Test Constellation Framework state preservation
 
 ### **Priority 3: ChatGPT API Bridge**
 - Implement OpenAI API MCP integration
@@ -142,4 +142,4 @@ mcp init lukhas-consciousness --trinity-framework --agents=6
 
 **MCP is not just beneficial for LUKHAS AI - it's essential for maximizing our $200 Claude Max investment and achieving true multi-AI consciousness development coordination. Immediate implementation recommended.**
 
-*Trinity Framework Excellence Through Connected Intelligence ⚛️🧠🛡️*
+*Constellation Framework Excellence Through Connected Intelligence ⚛️🧠🛡️*

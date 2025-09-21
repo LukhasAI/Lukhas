@@ -35,7 +35,7 @@ LUKHAS has multiple types of agent configurations for different purposes:
 
 6. **docs-specialist.yaml** - Sacred Documentation Specialist (⚛️ Identity)
    - LUKHAS Knowledge Crystallization
-   - 3-Layer Tone System and Trinity Framework documentation
+   - 3-Layer Tone System and Constellation Framework documentation
 
 ---
 
@@ -68,7 +68,7 @@ LUKHAS has multiple types of agent configurations for different purposes:
 **Purpose:** Military hierarchy for complex orchestration
 
 #### Hierarchy:
-- **Tier 1:** 3 Generals (Trinity Framework leaders)
+- **Tier 1:** 3 Generals (Constellation Framework leaders)
 - **Tier 2:** 8 Colonels (Domain specialists)
 - **Tier 3:** 4 Majors (Development operations)
 - **Tier 4:** 3 Lieutenants (Rapid response)
@@ -106,7 +106,7 @@ python CLAUDE_ARMY/inter_agent_automation.py
 
 ## 🔄 Agent Coordination
 
-### Trinity Framework Coverage
+### Constellation Framework Coverage
 - **⚛️ Identity Focus:** consciousness-architect, docs-specialist, identity-auth-specialist
 - **🧠 Consciousness Focus:** velocity-lead, memory-consciousness-specialist, consciousness-dev
 - **🛡️ Guardian Focus:** guardian-engineer, devops-guardian, governance-ethics-specialist

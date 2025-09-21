@@ -13,7 +13,7 @@ Features:
 - Consciousness awareness state tracking
 - System health and performance monitoring
 - Interactive debug interfaces
-- Trinity Framework monitoring (⚛️🧠🛡️)
+- Constellation Framework monitoring (⚛️🧠🛡️)
 - Compliance and audit trail visualization
 - Alert management and notification center
 - Predictive analytics dashboard
@@ -24,7 +24,7 @@ Features:
 #TAG:dashboard
 #TAG:monitoring
 #TAG:unified
-#TAG:trinity
+#TAG:constellation
 """
 
 import asyncio
@@ -187,8 +187,8 @@ class UnifiedAlert:
     affected_systems: list[str] = field(default_factory=list)
     recommended_actions: list[str] = field(default_factory=list)
 
-    # Trinity Framework context
-    trinity_impact: dict[str, float] = field(default_factory=dict)  # ⚛️🧠🛡️
+    # Constellation Framework context
+    constellation_impact: dict[str, float] = field(default_factory=dict)  # ⚛️🧠🛡️
 
 
 @dataclass
@@ -231,8 +231,8 @@ class DashboardData:
     active_alerts: list[UnifiedAlert] = field(default_factory=list)
     alert_counts_by_priority: dict[str, int] = field(default_factory=dict)
 
-    # Trinity Framework status
-    trinity_status: dict[str, dict[str, Any]] = field(default_factory=dict)
+    # Constellation Framework status
+    constellation_status: dict[str, dict[str, Any]] = field(default_factory=dict)
 
     # Predictive insights
     predictions: list[dict[str, Any]] = field(default_factory=list)
@@ -532,8 +532,8 @@ class UnifiedMonitoringDashboard:
                     alert_counts[alert.priority.value] += 1
             dashboard_data.alert_counts_by_priority = dict(alert_counts)
 
-            # Trinity Framework status
-            dashboard_data.trinity_status = {
+            # Constellation Framework status
+            dashboard_data.constellation_status = {
                 "identity": {  # ⚛️
                     "health": dashboard_data.component_health.get("identity", 1.0),
                     "status": "operational",
@@ -585,7 +585,7 @@ class UnifiedMonitoringDashboard:
                             category="guardian",
                             created_at=datetime.fromisoformat(alert_data.get("created_at", datetime.now(timezone.utc).isoformat())),
                             source_data=alert_data,
-                            trinity_impact={"guardian": 1.0},  # 🛡️
+                            constellation_impact={"guardian": 1.0},  # 🛡️
                         )
                         new_alerts.append(unified_alert)
 
@@ -605,7 +605,7 @@ class UnifiedMonitoringDashboard:
                         category="health",
                         created_at=datetime.now(timezone.utc),
                         source_data=alerts_data,
-                        trinity_impact={
+                        constellation_impact={
                             "identity": 0.3,
                             "consciousness": 0.3,
                             "guardian": 0.3,
@@ -629,7 +629,7 @@ class UnifiedMonitoringDashboard:
                         category="consciousness",
                         created_at=datetime.now(timezone.utc),
                         source_data=consciousness_status,
-                        trinity_impact={"consciousness": 1.0},  # 🧠
+                        constellation_impact={"consciousness": 1.0},  # 🧠
                     )
                     new_alerts.append(unified_alert)
 
@@ -726,11 +726,11 @@ class UnifiedMonitoringDashboard:
         if memory_usage > 85:
             recommendations.append("Memory usage high - consider cleanup procedures")
 
-        # Trinity Framework recommendations
-        trinity_health_avg = sum(component["health"] for component in dashboard_data.trinity_status.values()) / 3
+        # Constellation Framework recommendations
+        constellation_health_avg = sum(component["health"] for component in dashboard_data.constellation_status.values()) / 3
 
-        if trinity_health_avg < 0.8:
-            recommendations.append("Trinity Framework health below optimal - review all components")
+        if constellation_health_avg < 0.8:
+            recommendations.append("Constellation Framework health below optimal - review all components")
 
         return recommendations
 

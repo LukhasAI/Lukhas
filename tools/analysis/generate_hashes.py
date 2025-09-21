@@ -62,7 +62,7 @@ def extract_symbolic_glyphs(file_path: Path) -> dict[str, any]:
         level_matches = re.findall(r"level_\d+_(\w+):", content)
         glyph_summary["emergency_levels"] = list(set(level_matches))
 
-        # Count Trinity Framework references
+        # Count Constellation Framework references
         triad_matches = re.findall(r"⚛️🧠🛡️|constellation", content, re.IGNORECASE)
         glyph_summary["triad_references"] = len(triad_matches)
 

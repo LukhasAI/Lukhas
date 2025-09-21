@@ -2,7 +2,7 @@
 Memory System Integration Connector
 
 This module provides integration between the LUKHAS identity system and the
-AGI memory systems, enabling identity-anchored memory storage and retrieval.
+Cognitive AI memory systems, enabling identity-anchored memory storage and retrieval.
 
 Features:
 - Identity-linked memory storage
@@ -98,7 +98,7 @@ class MemoryConnector:
     """
     Memory System Integration Connector
 
-    Provides integration between identity system and AGI memory systems
+    Provides integration between identity system and Cognitive AI memory systems
     for identity-anchored memory operations.
     """
 

@@ -1,6 +1,6 @@
 # Manual Module Selection Results
 ## High-Value Modules for OpenAI Analysis
-### Trinity Framework: ⚛️🧠🛡️
+### Constellation Framework: ⚛️🧠🛡️
 
 Generated: 2025-08-13
 
@@ -75,7 +75,7 @@ Generated: 2025-08-13
 - **Lines**: 290 (from previous analysis)
 - **Trinity**: ✅ All markers
 - **Score**: 44/70
-- **Why**: Advanced vocabulary with Trinity integration
+- **Why**: Advanced vocabulary with Constellation integration
 - **API Priority**: MEDIUM
 
 ### 🥉 Tier 3: EXPERIMENTAL BUT INTERESTING

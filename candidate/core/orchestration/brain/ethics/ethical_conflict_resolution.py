@@ -26,7 +26,7 @@ def analyze_historical_impact(self, protest_data: dict):
 
 
 # Initialize with federated learning
-protest_module = EthicalProtestModule(federated_model=agi_core.federated_learning.get_model("eu_protest"))
+protest_module = EthicalProtestModule(federated_model=cognitive_core.federated_learning.get_model("eu_protest"))
 
 # Plan protest with real-time compliance check
 protest_plan = {
@@ -39,6 +39,6 @@ result = protest_module.plan_protest(protest_plan)
 
 # Handle approval/rejection
 if result["status"] == "approved":
-    agi_core.execute_protest(result["blueprint"])
+    cognitive_core.execute_protest(result["blueprint"])
 else:
-    agi_core.refine_protest_plan(result["suggested_modifications"])
+    cognitive_core.refine_protest_plan(result["suggested_modifications"])

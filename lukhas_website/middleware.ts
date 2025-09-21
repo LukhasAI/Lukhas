@@ -644,7 +644,7 @@ export async function middleware(request: NextRequest) {
     }
     // Only rewrite specific paths that need domain routing (much more conservative)
     else if (pathname.startsWith('/consciousness') || 
-             pathname.startsWith('/trinity') || 
+             pathname.startsWith('/constellation') || 
              pathname.startsWith('/tools') ||
              pathname.startsWith('/api-docs')) {
       // Only these specific AI-related paths get routed to /ai

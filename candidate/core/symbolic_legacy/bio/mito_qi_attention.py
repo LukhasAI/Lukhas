@@ -10,7 +10,7 @@ TODO[T4-AUDIT]:triage - Large legacy symbolic processing system. Need migration 
 
 """
 📦 MODULE      : qi_attention.py
-🧠 DESCRIPTION : Quantum-biological inspired AGI modules based on mitochondrial mechanisms
+🧠 DESCRIPTION : Quantum-biological inspired Cognitive modules based on mitochondrial mechanisms
 🧩 PART OF     : LUKHAS_AGI bio-symbolic layer
 🔢 VERSION     : 1.0.0
 📅 UPDATED     : 2025-05-07
@@ -47,7 +47,7 @@ class CristaGate(nn.Module):
 
 
 # ──────────────────────────────────────────────────────────────────────────────
-# 2. RespiModule – Modular AGI Supercomplex Inspired by Respirasomes
+# 2. RespiModule – Modular Cognitive AI Supercomplex Inspired by Respirasomes
 # ──────────────────────────────────────────────────────────────────────────────
 
 
@@ -117,7 +117,7 @@ def generate_cl_signature(system_state):
 
 
 # ──────────────────────────────────────────────────────────────────────────────
-# 5. Mitochondrial Orchestra – Distributed AGI Playback System
+# 5. Mitochondrial Orchestra – Distributed Cognitive AI Playback System
 # ──────────────────────────────────────────────────────────────────────────────
 
 

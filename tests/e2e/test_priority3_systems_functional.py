@@ -12,7 +12,7 @@ Comprehensive functional testing for:
 Part of the LUKHAS comprehensive coverage initiative.
 Target: Push coverage from 40.3% → 60%+ with real functional validation.
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 import importlib

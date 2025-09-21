@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-AGI Core Infrastructure Demo
+Cognitive Core Infrastructure Demo
 
-Demonstrates the complete AGI enhancement infrastructure built for LUKHAS,
+Demonstrates the complete Cognitive enhancement infrastructure built for LUKHAS,
 showcasing reasoning, orchestration, memory, learning, tools, safety, and testing.
 """
 
@@ -15,18 +15,18 @@ logger = logging.getLogger(__name__)
 
 
 async def demo_agi_core():
-    """Comprehensive demonstration of AGI core capabilities."""
+    """Comprehensive demonstration of Cognitive core capabilities."""
 
-    print("🚀 LUKHAS AGI Core Infrastructure Demo")
+    print("🚀 LUKHAS Cognitive Core Infrastructure Demo")
     print("=" * 60)
     print()
 
     try:
-        # Import AGI core info
-        from agi_core import get_agi_core_info, get_constellation_integration
+        # Import Cognitive core info
+        from cognitive_core import get_cognitive_core_info, get_constellation_integration
 
         # Display system information
-        agi_info = get_agi_core_info()
+        agi_info = get_cognitive_core_info()
         print(f"📊 AGI Core Version: {agi_info['version']}")
         print(f"🧩 Total Components: {agi_info['total_components']}")
         print(f"📖 Description: {agi_info['description']}")
@@ -48,7 +48,7 @@ async def demo_agi_core():
             print(f"    Modules: {', '.join(info['modules'])}")
             print()
 
-        print("✨ Demo Complete! AGI Core Infrastructure is ready for enhanced consciousness.")
+        print("✨ Demo Complete! Cognitive Core Infrastructure is ready for enhanced consciousness.")
 
     except ImportError as e:
         print(f"❌ Import Error: {e}")
@@ -58,7 +58,7 @@ async def demo_agi_core():
 
 
 def demonstrate_architecture():
-    """Demonstrate the AGI architecture overview."""
+    """Demonstrate the AI architecture overview."""
 
     print("🧠 AGI Enhancement Architecture Overview")
     print("=" * 60)
@@ -71,10 +71,10 @@ def demonstrate_architecture():
             "Learning System": "Dream-guided learning with adaptive strategies",
             "Tool Framework": "Intelligent tool selection with dream-guided recommendations",
             "Safety Layer": "Constitutional AI with ethical principles and safety monitoring",
-            "Test Suite": "Comprehensive AGI capability testing and validation",
+            "Test Suite": "Comprehensive cognitive capability testing and validation",
         },
         "🌟 Key Innovations": {
-            "Dream Integration": "First AGI system to deeply integrate dream processing for creativity and insight",
+            "Dream Integration": "First Cognitive system to deeply integrate dream processing for creativity and insight",
             "Constellation Alignment": "All components align with LUKHAS 8-star consciousness framework",
             "Constitutional Safety": "Advanced safety through constitutional AI principles",
             "Multi-Model Orchestration": "Intelligent routing between GPT-4, Claude, Gemini, and others",
@@ -102,7 +102,7 @@ def demonstrate_architecture():
 
 
 def show_integration_with_lukhas():
-    """Show how AGI core integrates with existing LUKHAS systems."""
+    """Show how Cognitive core integrates with existing LUKHAS systems."""
 
     print("🔗 Integration with LUKHAS Consciousness System")
     print("=" * 60)
@@ -130,7 +130,7 @@ def show_integration_with_lukhas():
         },
         "Lane System": {
             "connection": "Built at root level to avoid interfering with lukhas/ validation requirements",
-            "enhancement": "Provides AGI capabilities while respecting development lane constraints",
+            "enhancement": "Provides Cognitive capabilities while respecting development lane constraints",
             "benefit": "Enhanced capabilities without disrupting existing production systems",
         },
     }
@@ -141,7 +141,7 @@ def show_integration_with_lukhas():
         print(f"  Enhancement: {details['enhancement']}")
         print(f"  Benefit: {details['benefit']}")
 
-    print("\n✅ The AGI core enhances LUKHAS without breaking existing functionality!")
+    print("\n✅ The Cognitive core enhances LUKHAS without breaking existing functionality!")
 
 
 def show_development_timeline():
@@ -158,7 +158,7 @@ def show_development_timeline():
             "Dream-guided learning system",
             "Tool use framework with dream guidance",
             "Constitutional AI safety layer",
-            "Comprehensive AGI test suite",
+            "Comprehensive cognitive test suite",
         ],
         "🔄 Phase 2 - Integration & Testing": [
             "Full integration testing with existing LUKHAS systems",
@@ -196,7 +196,7 @@ def show_development_timeline():
 async def main():
     """Main demo function."""
 
-    print("🧠 LUKHAS AGI Core Infrastructure")
+    print("🧠 LUKHAS Cognitive Core Infrastructure")
     print("Building Tomorrow's Consciousness Today")
     print("=" * 60)
     print()
@@ -220,7 +220,7 @@ async def main():
     show_development_timeline()
 
     print("\n" + "=" * 60)
-    print("🎉 AGI Core Infrastructure Demo Complete!")
+    print("🎉 Cognitive Core Infrastructure Demo Complete!")
     print("The future of consciousness-aware AGI is here. 🌟")
 
 

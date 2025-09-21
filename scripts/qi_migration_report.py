@@ -2,7 +2,7 @@
 """
 🧬 LUKHAS Quantum → QI Module Migration Report
 Summary of quantum module structure update to QI (Quantum Intelligence)
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 from pathlib import Path

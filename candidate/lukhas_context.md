@@ -6,16 +6,16 @@
 
 
 # CANDIDATE Development Hub
-*Primary AGI Development Workspace - Research to Integration Pipeline*
+*Primary Cognitive AI Development Workspace - Research to Integration Pipeline*
 
 ## Development Workspace Overview
 
-CANDIDATE is the primary AGI development domain containing **2,877 Python files** across **193+ subdirectories**. This is where consciousness research, memory systems, identity frameworks, and governance mechanisms are developed before integration through LUKHAS and deployment to PRODUCTS.
+CANDIDATE is the primary AI development domain containing **2,877 Python files** across **193+ subdirectories**. This is where consciousness research, memory systems, identity frameworks, and governance mechanisms are developed before integration through LUKHAS and deployment to PRODUCTS.
 
 ### **Domain Scope**
 - **Files**: 2,877 Python files (largest development workspace in LUKHAS)
-- **Purpose**: Research, prototyping, and development of core AGI components
-- **Trinity Role**: Development workspace for Identity ⚛️, Consciousness 🧠, and Guardian 🛡️ systems
+- **Purpose**: Research, prototyping, and development of core Cognitive AI components
+- **Constellation Role**: Development workspace for Identity ⚛️, Consciousness 🧠, and Guardian 🛡️ systems
 - **Integration**: Primary source for LUKHAS integration and PRODUCTS deployment
 
 ### **Development Architecture**
@@ -31,7 +31,7 @@ CANDIDATE Development Ecosystem
 ├── memory/             # Memory Systems Development
 ├── identity/           # Identity Development Workspace
 ├── governance/         # Governance Development
-└── [30+ more domains]  # Complete AGI development ecosystem
+└── [30+ more domains]  # Complete AI development ecosystem
 ```
 
 ## 🧠 Core Components
@@ -157,7 +157,7 @@ Constitutional AI Integration
 ### **Component Integration Workflow**
 ```
 Component Development → Unit Testing → Integration Testing →
-LUKHAS Bridge → Trinity Framework → PRODUCTS Preparation
+LUKHAS Bridge → Constellation Framework → PRODUCTS Preparation
 ```
 
 ## 🔗 Integration Points
@@ -165,9 +165,9 @@ LUKHAS Bridge → Trinity Framework → PRODUCTS Preparation
 ### **CANDIDATE → LUKHAS Integration**
 The LUKHAS integration layer transforms CANDIDATE research and development into coordinated, production-ready systems:
 
-#### **Trinity Framework Bridge**:
+#### **Constellation Framework Bridge**:
 ```
-CANDIDATE Development → LUKHAS Integration → Trinity Coordination
+CANDIDATE Development → LUKHAS Integration → Constellation Coordination
         │                      │                     │
    Research & Dev     →    Integration      →    Identity ⚛️
    Prototyping        →    Coordination     →    Consciousness 🧠
@@ -202,7 +202,7 @@ CANDIDATE Innovation → LUKHAS Integration → PRODUCTS Deployment
 ### **Cross-System Data Flow**
 ```
 CANDIDATE Research → Component Development → Testing & Validation →
-LUKHAS Integration → Trinity Coordination → PRODUCTS Scaling →
+LUKHAS Integration → Constellation Coordination → PRODUCTS Scaling →
 Enterprise Deployment → User Experience → Feedback Loop
 ```
 
@@ -237,7 +237,7 @@ Enterprise Deployment → User Experience → Feedback Loop
 ### **Integration & Coordination Contexts**
 
 #### **Cross-System Integration**
-- **LUKHAS Integration**: `../lukhas/claude.me` - Trinity Framework coordination
+- **LUKHAS Integration**: `../lukhas/claude.me` - Constellation Framework coordination
 - **MATRIZ Bridge**: `../matriz/claude.me` - Symbolic reasoning integration
 - **PRODUCTS Deployment**: `../products/claude.me` - Production system deployment
 
@@ -250,7 +250,7 @@ Enterprise Deployment → User Experience → Feedback Loop
 ### **Starting New Consciousness Work**
 1. **Core Processing**: Begin with `./aka_qualia/claude.me` for phenomenological systems
 2. **Engine Development**: Use `./consciousness/claude.me` for multi-engine coordination
-3. **Integration**: Reference `../lukhas/consciousness/claude.me` for Trinity integration
+3. **Integration**: Reference `../lukhas/consciousness/claude.me` for Constellation integration
 
 ### **Memory System Development**
 1. **System Architecture**: Start with `./memory/claude.me` for development patterns
@@ -277,19 +277,19 @@ Enterprise Deployment → User Experience → Feedback Loop
 
 ### **Development Priorities**
 1. **GLYPH Integration**: Voice system syntax fixes and consciousness integration
-2. **Trinity Framework**: Identity-Consciousness-Guardian coordination
+2. **Constellation Framework**: Identity-Consciousness-Guardian coordination
 3. **Constitutional AI**: Ethics framework integration and validation
 4. **Production Readiness**: LUKHAS integration and PRODUCTS deployment preparation
 
 ### **Architecture Evolution**
 - **Research Phase**: Consciousness concepts, memory architectures, identity patterns
 - **Development Phase**: Component implementation, system integration, testing
-- **Integration Phase**: LUKHAS coordination, Trinity Framework activation
+- **Integration Phase**: LUKHAS coordination, Constellation Framework activation
 - **Production Phase**: PRODUCTS deployment, enterprise scaling, monitoring
 
 ---
 
-**Development Workspace**: 2,877 files | **Integration Target**: LUKHAS Trinity Framework | **Deployment**: PRODUCTS Enterprise
+**Development Workspace**: 2,877 files | **Integration Target**: LUKHAS Constellation Framework | **Deployment**: PRODUCTS Enterprise
 **Status**: Active Development | **Integration**: 71.4% → 100% | **Framework**: Constitutional AI Ready
 
 *Navigate to subdomain contexts for detailed component development workflows*

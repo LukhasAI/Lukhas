@@ -25,14 +25,14 @@ logger = logging.getLogger(__name__)
 class DreamOrchestrator:
     """
     Master orchestrator for dream consciousness systems.
-    Provides Trinity Framework-compliant dream lifecycle management.
+    Provides Constellation Framework-compliant dream lifecycle management.
     """
 
     def __init__(self):
         self.active_sessions: dict[str, dict] = {}
         self.orchestration_history: list[dict] = []
         self.session_counter = 0
-        logger.info("🎭 Dream Orchestrator initialized - Trinity Framework active")
+        logger.info("🎭 Dream Orchestrator initialized - Constellation Framework active")
 
     def orchestrate_dream_session(self, user_context: Optional[dict] = None, dream_type: str = "lucid") -> str:
         """

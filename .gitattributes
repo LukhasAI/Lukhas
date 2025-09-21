@@ -1,0 +1,128 @@
+# LUKHAS AI Git Attributes
+# Controls how Git handles files and enables proper language detection
+
+# === GENERATED/VENDORED FILES ===
+
+# Dependencies and lock files
+requirements.txt linguist-generated=true
+constraints.txt linguist-generated=true
+package-lock.json linguist-generated=true
+pnpm-lock.yaml linguist-generated=true
+yarn.lock linguist-generated=true
+
+# Build artifacts
+htmlcov/** linguist-generated=true
+.coverage linguist-generated=true
+coverage.xml linguist-generated=true
+*.egg-info/** linguist-generated=true
+dist/** linguist-generated=true
+build/** linguist-generated=true
+
+# Test artifacts
+.pytest_cache/** linguist-generated=true
+.mypy_cache/** linguist-generated=true
+.ruff_cache/** linguist-generated=true
+
+# Backup and healing files
+healing/** linguist-vendored=true
+*backup* linguist-vendored=true
+*.backup linguist-vendored=true
+quarantine/** linguist-vendored=true
+
+# === DOCUMENTATION OVERRIDES ===
+
+# Force documentation files to be counted
+*.md linguist-documentation=false
+README.md linguist-documentation=false
+ARCHITECTURE.md linguist-documentation=false
+SEARCH_MAP.md linguist-documentation=false
+ENV_VARS.md linguist-documentation=false
+
+# Keep API documentation visible
+docs/api/** linguist-documentation=false
+docs/architecture/** linguist-documentation=false
+
+# === LANGUAGE DETECTION ===
+
+# Python files
+*.py linguist-language=Python
+*.pyi linguist-language=Python
+
+# Configuration files
+*.toml linguist-language=TOML
+*.yaml linguist-language=YAML
+*.yml linguist-language=YAML
+*.json linguist-language=JSON
+*.ini linguist-language=INI
+
+# Shell scripts
+*.sh linguist-language=Shell
+*.bash linguist-language=Shell
+
+# === DIFF HANDLING ===
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.tar.gz binary
+
+# Large data files
+*.jsonl diff=json
+*.log diff=text
+
+# === MERGE STRATEGIES ===
+
+# Configuration files that should not be merged
+.env merge=ours
+.env.local merge=ours
+.env.*.local merge=ours
+
+# Generated files that should be regenerated
+requirements.txt merge=ours
+constraints.txt merge=ours
+
+# === EXPORT IGNORES ===
+
+# Files to exclude from archives
+.git* export-ignore
+.venv export-ignore
+.venv* export-ignore
+__pycache__ export-ignore
+*.pyc export-ignore
+.DS_Store export-ignore
+Thumbs.db export-ignore
+
+# Development files
+.pytest_cache export-ignore
+.mypy_cache export-ignore
+.ruff_cache export-ignore
+htmlcov export-ignore
+.coverage export-ignore
+
+# === LUKE LANGUAGE OVERRIDES ===
+
+# Ensure critical files are properly categorized
+lukhas/** linguist-vendored=false
+MATRIZ/** linguist-vendored=false
+candidate/** linguist-vendored=false
+
+# Mark experimental as research code
+candidate/** linguist-language=Python
+
+# === SPECIAL HANDLING ===
+
+# Sample logs should be treated as data
+samples/logs/*.jsonl linguist-language=JSON
+
+# Configuration templates
+.env.example linguist-language=Shell
+*.env.example linguist-language=Shell
+
+# Monitoring configurations
+monitoring/*.yml linguist-language=YAML
+monitoring/*.yaml linguist-language=YAML

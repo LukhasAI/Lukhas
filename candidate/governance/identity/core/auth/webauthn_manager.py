@@ -3,14 +3,14 @@ LUKHAS WebAuthn/FIDO2 Manager
 ============================
 
 Comprehensive WebAuthn/FIDO2 implementation for LUKHAS Identity system.
-Provides passwordless authentication with Trinity Framework compliance.
+Provides passwordless authentication with Constellation Framework compliance.
 
 Features:
 - WebAuthn credential registration and authentication
 - FIDO2 platform and roaming authenticator support
 - Biometric authentication integration
 - Tier-based authenticator requirements
-- Trinity Framework compliance (⚛️🧠🛡️)
+- Constellation Framework compliance (⚛️🧠🛡️)
 - <100ms p95 latency for credential validation
 """
 
@@ -67,7 +67,7 @@ class WebAuthnCredential:
 
 
 class WebAuthnManager:
-    """⚛️🧠🛡️ Trinity-compliant WebAuthn/FIDO2 authentication manager"""
+    """⚛️🧠🛡️ Constellation-compliant WebAuthn/FIDO2 authentication manager"""
 
     def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
@@ -84,7 +84,7 @@ class WebAuthnManager:
         self.validation_cache = {}
         self.challenge_cache = {}
 
-        # Trinity Framework integration
+        # Constellation Framework integration
         self.guardian_validator = None  # 🛡️ Guardian
         self.consciousness_tracker = None  # 🧠 Consciousness
         self.identity_verifier = None  # ⚛️ Identity
@@ -267,7 +267,7 @@ class WebAuthnManager:
                     "device_type": credential.device_type,
                     "verification_time_ms": verification_time,
                     "guardian_approved": True,
-                    "trinity_compliant": True,
+                    "constellation_compliant": True,
                 }
 
             except (json.JSONDecodeError, ValueError) as e:
@@ -437,7 +437,7 @@ class WebAuthnManager:
                     "sign_count": credential.sign_count,
                     "verification_time_ms": verification_time,
                     "guardian_approved": True,
-                    "trinity_compliant": True,
+                    "constellation_compliant": True,
                     "authentication_method": "webauthn_fido2",
                 }
 
@@ -623,7 +623,7 @@ class WebAuthnManager:
                     },
                     "tier_distribution": self._get_tier_distribution(),
                     "device_type_distribution": self._get_device_type_distribution(),
-                    "trinity_compliance": {
+                    "constellation_compliance": {
                         "⚛️_identity": "INTEGRATED",
                         "🧠_consciousness": "MONITORED",
                         "🛡️_guardian": "PROTECTED",

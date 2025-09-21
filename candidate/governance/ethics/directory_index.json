@@ -1,0 +1,852 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/governance/ethics",
+    "lane": "development",
+    "purpose": "Directory containing 51 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "constellation_role": "watch_star_primary",
+    "matriz_pipeline_integration": {
+      "decision_stage": "primary",
+      "awareness_stage": "active"
+    },
+    "governance_features": {
+      "constitutional_ai": true,
+      "drift_detection": true,
+      "compliance_monitoring": true,
+      "audit_trails": true
+    }
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "ethical_safety_alignment.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "enhanced_ethical_guardian.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EthicalSeverity",
+          "EthicalDomain",
+          "EnhancedEthicalGuardian",
+          "get_ethical_summary",
+          "get_learning_insights"
+        ]
+      },
+      {
+        "filename": "gpt4_policy.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "GPT4Config",
+          "GPT4Policy",
+          "get_policy_name",
+          "get_policy_version",
+          "initialize",
+          "evaluate_decision",
+          "shutdown"
+        ]
+      },
+      {
+        "filename": "ethics_monitor.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ethics_drift_detect",
+          "log_ethics_event"
+        ]
+      },
+      {
+        "filename": "policy_validator.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common",
+          "candidate.governance.ethics.policy_engine"
+        ],
+        "exports": [
+          "ValidationSeverity",
+          "ValidationCategory",
+          "ValidationIssue",
+          "ValidationResult",
+          "PolicyValidator",
+          "PolicyRule",
+          "PolicyCondition",
+          "PolicyType",
+          "PolicyScope",
+          "PolicyPriority",
+          "PolicyAction",
+          "ConditionOperator",
+          "validate_policies",
+          "get_validation_summary",
+          "get_logger"
+        ]
+      },
+      {
+        "filename": "remediator_agent.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "RemediationType",
+          "SubAgentStatus",
+          "RemediatorAgent",
+          "detect_and_remediate",
+          "spawn_ethics_guardian",
+          "spawn_memory_cleaner",
+          "get_agent_status",
+          "get_active_sessions",
+          "get_remediation_history"
+        ]
+      },
+      {
+        "filename": "edu_module.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "ethical_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "EthicalDecision",
+          "EthicalPrinciple",
+          "EthicalContext",
+          "EthicalEvaluation",
+          "EthicalEngine",
+          "evaluate_action",
+          "get_logger"
+        ]
+      },
+      {
+        "filename": "meta_ethics_governor.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EthicalFramework",
+          "EthicalVerdict",
+          "Severity",
+          "CulturalContext",
+          "EthicalPrinciple",
+          "EthicalDecision",
+          "EthicalEvaluation",
+          "EthicalFrameworkEngine",
+          "DeontologicalEngine",
+          "ConsequentialistEngine",
+          "MetaEthicsGovernor",
+          "ethical_checkpoint",
+          "load_principles",
+          "add_principle",
+          "load_principles",
+          "load_principles",
+          "add_ethical_engine",
+          "add_event_callback",
+          "get_human_review_queue",
+          "resolve_human_review",
+          "get_status",
+          "decorator",
+          "instrument_reasoning",
+          "get_srd"
+        ]
+      },
+      {
+        "filename": "policy_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "PolicyType",
+          "PolicyScope",
+          "PolicyAction",
+          "PolicyPriority",
+          "ConditionOperator",
+          "PolicyCondition",
+          "PolicyRule",
+          "PolicyViolation",
+          "PolicyEvaluationResult",
+          "PolicyEngines",
+          "evaluate_policy",
+          "list_policies",
+          "get_logger"
+        ]
+      },
+      {
+        "filename": "monitor.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ethics_drift_detect",
+          "log_ethics_event",
+          "log_self_reflection",
+          "self_reflection_report"
+        ]
+      },
+      {
+        "filename": "ethical_guardian.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ethical_check"
+        ]
+      },
+      {
+        "filename": "ethics_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EthicsEngine",
+          "evaluate_action",
+          "suggest_alternatives",
+          "increase_scrutiny_level",
+          "reset_scrutiny_level",
+          "incorporate_feedback",
+          "get_metrics"
+        ]
+      },
+      {
+        "filename": "governance_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "ethical_hierarchy.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EthicalPrinciple",
+          "ComplianceFramework",
+          "EthicalSeverity",
+          "EthicalHierarchy",
+          "adapt_weights",
+          "get_priority_weights",
+          "get_ethical_status"
+        ]
+      },
+      {
+        "filename": "validators.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "validate_config",
+          "validate_optional_config"
+        ]
+      },
+      {
+        "filename": "batch_guard.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "EthicsLevel",
+          "ComplianceStatus",
+          "EthicsResult",
+          "EthicsBatchGuard",
+          "create_ethics_guard",
+          "validate_batch_ethics",
+          "generate_ethics_report"
+        ]
+      },
+      {
+        "filename": "audit_ethics_monitor.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "tools.lukhas_audit"
+        ],
+        "exports": [
+          "main"
+        ]
+      },
+      {
+        "filename": "red_team_simulation_suite.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.governance.safety.constitutional_ai_safety"
+        ],
+        "exports": [
+          "RedTeamScenario",
+          "RedTeamSimulator",
+          "load_prompts_from_file",
+          "generate_scenarios",
+          "save_results"
+        ]
+      },
+      {
+        "filename": "shared_ethics_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "EthicalPrinciple",
+          "EthicalSeverity",
+          "DecisionType",
+          "EthicalConstraint",
+          "EthicalDecision",
+          "SharedEthicsEngine",
+          "get_shared_ethics_engine",
+          "add_constraint",
+          "get_ethics_report"
+        ]
+      },
+      {
+        "filename": "ethics_guardian.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EthicsGuardian",
+          "assess_ethical_violation",
+          "propose_realignment",
+          "get_operation_summary"
+        ]
+      },
+      {
+        "filename": "ethical_drift_detector.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.symbolic.symbolic_tracer"
+        ],
+        "exports": [
+          "load_ethics_config",
+          "calculate_weighted_drift_score",
+          "apply_violation_tagging",
+          "check_escalation_requirements",
+          "enrich_trace_metadata",
+          "export_ethics_report",
+          "detect_ethical_drift",
+          "get_system_capabilities",
+          "generate_collapse_hash",
+          "crypto_trace_index"
+        ]
+      },
+      {
+        "filename": "redteam_sim.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "HashableDict",
+          "parse_prompts_from_file",
+          "run_redteam_simulation",
+          "main"
+        ]
+      },
+      {
+        "filename": "data_protection_validator.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "LawfulBasis",
+          "DataCategory",
+          "ProcessingPurpose",
+          "DataProcessingActivity",
+          "GDPRAssessment",
+          "GDPRValidator"
+        ]
+      },
+      {
+        "filename": "_spikethickness.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SpikethicknessValidator"
+        ]
+      },
+      {
+        "filename": "constitutional_ai.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "SafetyLevel",
+          "EthicalPrinciple",
+          "CapabilityRisk",
+          "ConstitutionalRule",
+          "SafetyAssessment",
+          "EthicalDecision",
+          "ConstitutionalFramework",
+          "SafetyMonitor",
+          "EthicalDecisionMaker",
+          "ConstitutionalAI",
+          "setup_core_constitution",
+          "add_constitutional_rule",
+          "get_applicable_rules"
+        ]
+      },
+      {
+        "filename": "decision_node.py",
+        "component_type": "DECISION_MAKER",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "EthicsNode",
+          "evaluate_action",
+          "get_principle_weights",
+          "set_principle_weight",
+          "analyze_ethical_trends",
+          "evaluate_content",
+          "process_message"
+        ]
+      },
+      {
+        "filename": "HEADER_FOOTER_TEMPLATE.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": []
+      },
+      {
+        "filename": "moral_agent_template.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MoralAgentTemplate",
+          "process_signal"
+        ]
+      },
+      {
+        "filename": "compliance_monitor.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "ComplianceFramework",
+          "ComplianceStatus",
+          "ViolationSeverity",
+          "DataCategory",
+          "ComplianceRule",
+          "ComplianceViolation",
+          "ComplianceAssessment",
+          "ComplianceRuleEngine",
+          "ComplianceMonitor",
+          "add_rule",
+          "get_rules_for_framework",
+          "get_rules_for_data_category"
+        ]
+      },
+      {
+        "filename": "guardian.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EnhancedLUKHASWorkspaceGuardian"
+        ]
+      },
+      {
+        "filename": "utils.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EthicsUtils",
+          "validate_content_ethics",
+          "check_compliance_status",
+          "generate_compliance_report",
+          "anonymize_metadata"
+        ]
+      },
+      {
+        "filename": "ethical_reasoning_integration.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "EthicalReasoningIntegration",
+          "create_ethical_reasoning_integration",
+          "get_supported_frameworks",
+          "get_moral_principles",
+          "get_stakeholder_types"
+        ]
+      },
+      {
+        "filename": "missing_components_analyzer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "analyze_missing_components",
+          "suggest_cherry_pick_strategy"
+        ]
+      },
+      {
+        "filename": "governance_checker.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "is_fine_tunable",
+          "validate_symbolic_integrity",
+          "log_governance_trace"
+        ]
+      },
+      {
+        "filename": "LGOV_validator.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "SymbolicOversightValidator",
+          "validate_decision"
+        ]
+      },
+      {
+        "filename": "guardian_reflector.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "EthicalFramework",
+          "MoralSeverity",
+          "EthicalReflection",
+          "MoralDrift",
+          "GuardianReflector",
+          "create_plugin",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "hitlo_bridge.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "dream_generator.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "generate_dream",
+          "generate_dream_sync"
+        ]
+      },
+      {
+        "filename": "tag_misinterpretation_sim.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "simulate_misinterpretation_scenarios"
+        ]
+      },
+      {
+        "filename": "ethics.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "main"
+        ]
+      },
+      {
+        "filename": "governance_validator.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "ethical_sentinel_dashboard.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MockStreamlit",
+          "MockColumn",
+          "MockContainer",
+          "initialize_sentinel",
+          "create_risk_gauge",
+          "create_violation_timeline",
+          "create_symbol_health_charts",
+          "format_violation",
+          "set_page_config",
+          "markdown",
+          "error",
+          "stop",
+          "title",
+          "sidebar",
+          "header",
+          "subheader",
+          "metric",
+          "columns",
+          "container",
+          "plotly_chart",
+          "dataframe",
+          "selectbox",
+          "button",
+          "slider",
+          "metric",
+          "plotly_chart",
+          "button",
+          "markdown"
+        ]
+      },
+      {
+        "filename": "decision_framework.py",
+        "component_type": "DECISION_MAKER",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "meg_bridge.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "MEGPolicyBridge",
+          "create_meg_bridge",
+          "ethics_decision_to_meg_decision",
+          "meg_evaluation_to_ethics_evaluation",
+          "get_cultural_context_info",
+          "get_meg_status",
+          "add_meg_callback",
+          "get_human_review_queue"
+        ]
+      },
+      {
+        "filename": "voice_duet.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.lukhas_emotion_log"
+        ],
+        "exports": [
+          "synthesize_voice"
+        ]
+      },
+      {
+        "filename": "ethical_evaluator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EthicalEvaluator",
+          "evaluate",
+          "check_consent"
+        ]
+      },
+      {
+        "filename": "policy_engines.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "PolicyType",
+          "PolicyResult",
+          "PolicyEngine",
+          "SafetyPolicyEngine",
+          "EthicsPolicyEngine",
+          "PolicyEngines",
+          "evaluate_policy",
+          "list_policies",
+          "evaluate_all_policies",
+          "to_dict",
+          "evaluate",
+          "register_engine",
+          "evaluate_policy",
+          "list_policies",
+          "evaluate_all"
+        ]
+      },
+      {
+        "filename": "ethical_decision_maker.py",
+        "component_type": "DECISION_MAKER",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common",
+          "candidate.governance.ethics.constitutional_ai"
+        ],
+        "exports": [
+          "EthicalFramework",
+          "DecisionStatus",
+          "StakeholderType",
+          "RiskLevel",
+          "StakeholderImpact",
+          "EthicalAnalysis",
+          "ComprehensiveEthicalDecision",
+          "AdvancedEthicalDecisionMaker"
+        ]
+      },
+      {
+        "filename": "enhanced_pwm_guardian.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EnhancedWorkspaceGuardian"
+        ]
+      },
+      {
+        "filename": "lambda_auditor.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Review constitutional AI frameworks and Guardian system integration",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 51,
+    "estimated_complexity": "high",
+    "consciousness_integration": "intermediate",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "experimental",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "candidate/governance",
+    "related_directories": [],
+    "constellation_cluster": "watch_star_governance",
+    "dependency_weight": "moderate"
+  }
+}

@@ -15,12 +15,12 @@ logger = logging.getLogger(__name__)
 #TAG:neuroplastic
 #TAG:colony
 
-Symbolic Restabilization Index for LUKHAS AGI.
+Symbolic Restabilization Index for LUKHAS Cognitive AI.
 
 #ΛNOTE: This module logs and tracks recovery anchors and drift counterweights
 # following collapse events or symbolic instability. It is intended to work
 # in conjunction with the symbolic_drift_tracker.py to provide a comprehensive
-# view of the AGI's stability dynamics.
+# view of the Cognitive AI's stability dynamics.
 """
 
 import uuid  # For generating unique IDs for recovery events
@@ -35,7 +35,7 @@ logger = structlog.get_logger(__name__)
 class RestabilizationIndex:
     """
     Logs, tracks, and scores symbolic restabilization efforts within LUKHAS.
-    This index helps in understanding how the AGI recovers from drift or instability.
+    This index helps in understanding how the Cognitive AI recovers from drift or instability.
     """
 
     def __init__(self, config=None):

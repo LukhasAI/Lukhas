@@ -3,7 +3,7 @@
 
 ### Design Philosophy
 
-The LUKHAS AI design system embodies consciousness technology through minimalist aesthetics and sophisticated particle interactions. Every design decision reflects our Trinity Framework (⚛️🧠🛡️) while maintaining the premium quality expected from next-generation AI platforms.
+The LUKHAS AI design system embodies consciousness technology through minimalist aesthetics and sophisticated particle interactions. Every design decision reflects our Constellation Framework (⚛️🧠🛡️) while maintaining the premium quality expected from next-generation AI platforms.
 
 ---
 
@@ -500,7 +500,7 @@ const FORMATION_PATTERNS = {
 </div>
 
 <!-- Trinity navigation -->
-<nav role="navigation" aria-label="Trinity Framework sections">
+<nav role="navigation" aria-label="Constellation Framework sections">
   <ul role="list">
     <li role="listitem">
       <a href="#identity" aria-label="Identity section">

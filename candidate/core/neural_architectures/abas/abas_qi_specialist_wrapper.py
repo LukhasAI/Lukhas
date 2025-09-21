@@ -40,7 +40,7 @@ class ABASQuantumSpecialistWrapper:
         if not QUANTUM_SPECIALIST_AVAILABLE:
             raise ImportError("ABAS quantum specialist module not available")
 
-        # Initialize the quantum biological AGI
+        # Initialize the quantum biological Cognitive AI
         self.quantum_agi = QuantumBiologicalAGI()
 
         # Track integration status

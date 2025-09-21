@@ -4,7 +4,7 @@
 # ===============================================================
 # 🧠 PURPOSE:
 # This module enables real-time symbolic input via sockets (CLI, web, agent loop).
-# It is designed for future live AGI loops, symbolic chat relay, and reflex response simulation.
+# It is designed for future live Cognitive AI loops, symbolic chat relay, and reflex response simulation.
 #
 # 🛡️ SECURITY:
 # Tier 4+ access required to trigger publish_queue injection or dream synthesis.

@@ -18,7 +18,7 @@ Features:
 - Algorithmic decision transparency for public accountability
 
 Integration:
-- Trinity Framework (⚛️🧠🛡️) democratic values alignment
+- Constellation Framework (⚛️🧠🛡️) democratic values alignment
 - Constitutional AI democratic principle enforcement
 - Guardian System 2.0 democratic oversight violation detection
 - Secure logging for public accountability audit trails

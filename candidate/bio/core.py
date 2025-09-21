@@ -1,7 +1,7 @@
 """
 LUKHAS AI Bio Module - Core Engine
 Central bio processing engine
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 from typing import Any
 
@@ -44,7 +44,7 @@ class BioEngine:
             "oscillations": oscillations,
             "symbolic": symbolic_result,
             "awareness": awareness_result,
-            "trinity": "aligned",
+            "constellation": "aligned",
         }
 
     def reset(self):

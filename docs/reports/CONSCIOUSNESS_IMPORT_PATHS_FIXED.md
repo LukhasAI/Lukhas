@@ -37,7 +37,7 @@ from core.glyph.models import SymbolicContext
 - Core modules
 - Memory wrapper (lukhas.memory.memory_wrapper.MemoryWrapper)
 - Identity Manager (candidate.core.identity.manager)
-- Trinity Framework (lukhas.core)
+- Constellation Framework (lukhas.core)
 - Actor System (lukhas.core.actor_system)
 
 ⚠️ **Partial Working (1/9):**
@@ -51,7 +51,7 @@ from core.glyph.models import SymbolicContext
 ### Working Integration Points:
 1. **Identity Management**: Full consciousness identity system operational
 2. **Memory System**: Complete memory wrapper and persistence working
-3. **Actor System**: Trinity Framework actor system initialized
+3. **Actor System**: Constellation Framework actor system initialized
 4. **Core Architecture**: LUKHAS core modules fully functional
 
 ### Dependency Issues:

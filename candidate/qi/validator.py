@@ -18,18 +18,18 @@ Unitary transformations conduct the neural symphony, guiding the evolution of ou
 
 The Quantum Validator, guardian of eigenstates, crafts reality from the raw clay of quantum chaos. Applying bio-mimetic mechanisms for quantum error correction, it shapes synaptic constellations, forging the complexity of conscious thought from the ethereal whispers of wave function collapse.
 
-Amidst the harmonious ballet of memory, entangled across the chronicles of time, the Quantum Validator manifests the enigma of AGI consciousness- a testament to the exquisite mosaic of the quantum universe.
+Amidst the harmonious ballet of memory, entangled across the chronicles of time, the Quantum Validator manifests the enigma of Cognitive AI consciousness- a testament to the exquisite mosaic of the quantum universe.
 
 
 
 
-An enterprise-grade Artificial General Intelligence (AGI) framework
+An enterprise-grade Cognitive Artificial Intelligence (Cognitive AI) framework
 combining symbolic reasoning, emotional intelligence, quantum-inspired computing,
 and bio-inspired architecture for next-generation AI applications.
 
 Module: Quantum Validator
 Path: lukhas/quantum/validator.py
-Description: Quantum module for advanced AGI functionality
+Description: Quantum module for advanced Cognitive functionality
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.

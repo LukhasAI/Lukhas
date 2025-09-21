@@ -1,7 +1,7 @@
 """
 Core Governance Module
 
-Provides governance and compliance functionality for LUKHAS AGI system.
+Provides governance and compliance functionality for LUKHAS Cognitive system.
 """
 import streamlit as st
 

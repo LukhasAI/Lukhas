@@ -44,7 +44,7 @@ C7 executes the promotion of Wave C Aka Qualia consciousness processing from can
 
 ### Changed
 - Enhanced akaq_ metrics with consciousness quality tracking
-- Extended Trinity Framework compliance validation
+- Extended Constellation Framework compliance validation
 
 ### Deprecated
 - None (fully additive integration)

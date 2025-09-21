@@ -1,0 +1,259 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/governance/policy",
+    "lane": "development",
+    "purpose": "Directory containing 13 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "constellation_role": "watch_star_primary",
+    "matriz_pipeline_integration": {
+      "decision_stage": "primary",
+      "awareness_stage": "active"
+    },
+    "governance_features": {
+      "constitutional_ai": true,
+      "drift_detection": true,
+      "compliance_monitoring": true,
+      "audit_trails": true
+    }
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "policy_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "session_logger.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "is_access_allowed",
+          "log_session_event"
+        ]
+      },
+      {
+        "filename": "evolution.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/evolution.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "EvolutionType",
+          "EvolutionEvent",
+          "MemoryEvolutionEngine",
+          "get_global_evolution_engine",
+          "evolve_memory_globally",
+          "evolve_memory",
+          "get_evolution_history",
+          "add_evolution_rule",
+          "get_evolution_stats"
+        ]
+      },
+      {
+        "filename": "policy_manager.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "determine_active_regulations",
+          "log_active_regulations"
+        ]
+      },
+      {
+        "filename": "community_feedback.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "load_rules",
+          "save_rules",
+          "apply_proposal"
+        ]
+      },
+      {
+        "filename": "integration.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "GovernanceDecision",
+          "PolicyEngineIntegration",
+          "get_policy_engine",
+          "evaluate_with_policies",
+          "to_policy_decision",
+          "initialize_default_policies",
+          "evaluate_governance_decision",
+          "add_custom_policy",
+          "get_policy_metrics",
+          "shutdown"
+        ]
+      },
+      {
+        "filename": "ethics_guard.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/ethics_guard.json",
+        "dependencies": [],
+        "exports": [
+          "LegalComplianceAssistant",
+          "check_content_safety",
+          "check_privacy_compliance",
+          "ethical_review",
+          "comprehensive_compliance_check",
+          "get_compliance_report",
+          "update_rules",
+          "anonymize_data"
+        ]
+      },
+      {
+        "filename": "HEADER_FOOTER_STANDARD.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "generate_header"
+        ]
+      },
+      {
+        "filename": "rule_validator.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "base.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "RiskLevel",
+          "Decision",
+          "EthicsEvaluation",
+          "PolicyValidationError",
+          "EthicsPolicy",
+          "PolicyRegistry",
+          "evaluate_decision",
+          "get_policy_name",
+          "get_policy_version",
+          "validate_symbolic_alignment",
+          "assess_drift_risk",
+          "assess_collapse_risk",
+          "initialize",
+          "shutdown",
+          "get_metrics",
+          "register_policy",
+          "unregister_policy",
+          "evaluate_decision",
+          "get_consensus_evaluation",
+          "get_active_policies",
+          "get_policy_metrics"
+        ]
+      },
+      {
+        "filename": "risk_management_hooks.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "risk_mitigation_check"
+        ]
+      },
+      {
+        "filename": "bases.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ComplianceEngine",
+          "ComplianceFramework",
+          "ComplianceViolation",
+          "add_compliance_rule",
+          "check_compliance",
+          "add_rule",
+          "validate_action",
+          "to_dict"
+        ]
+      },
+      {
+        "filename": "governance.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "GovernanceLayer",
+          "add_rule",
+          "validate_action"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Review constitutional AI frameworks and Guardian system integration",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 13,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "basic",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "experimental",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "candidate/governance",
+    "related_directories": [],
+    "constellation_cluster": "watch_star_governance",
+    "dependency_weight": "moderate"
+  }
+}

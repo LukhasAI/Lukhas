@@ -1,0 +1,329 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "lukhas",
+    "lane": "development",
+    "purpose": "Directory containing 6 Python files and 26 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "production"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "async_manager.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TaskPriority",
+          "TaskMetadata",
+          "ConsciousnessTaskManager",
+          "get_task_manager",
+          "get_consciousness_manager",
+          "get_orchestration_manager",
+          "get_background_manager",
+          "get_guardian_manager",
+          "create_task",
+          "get_stats",
+          "get_active_tasks"
+        ]
+      },
+      {
+        "filename": "test_import_violation.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "branding_bridge.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "BrandContext",
+          "LUKHASBrandingBridge",
+          "get_triad_description",
+          "validate_branding_compliance",
+          "normalize_output",
+          "normalize_chunk",
+          "get_bridge",
+          "get_system_signature",
+          "get_constellation_context",
+          "get_triad_context",
+          "validate_output",
+          "normalize_output_text",
+          "get_brand_voice",
+          "generate_branded_content",
+          "monitor_brand_drift",
+          "get_brand_status",
+          "get_system_signature",
+          "get_constellation_context",
+          "validate_output",
+          "normalize_output",
+          "get_brand_voice",
+          "generate_branded_content",
+          "monitor_brand_drift",
+          "get_brand_status"
+        ]
+      },
+      {
+        "filename": "async_utils.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ContextTaskCreator",
+          "consciousness_task",
+          "decorator",
+          "wrapper",
+          "create_task"
+        ]
+      },
+      {
+        "filename": "__main__.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.metrics_exporters"
+        ],
+        "exports": [
+          "main"
+        ]
+      },
+      {
+        "filename": "tiers.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TierMappingError",
+          "GlobalTier",
+          "get_tier"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "branding",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "tools",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "bio",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "trace",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "core",
+        "has_index": true,
+        "purpose": "Subdirectory with 22 Python files",
+        "component_count": 22
+      },
+      {
+        "name": "trinity",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "memory",
+        "has_index": true,
+        "purpose": "Subdirectory with 7 Python files",
+        "component_count": 7
+      },
+      {
+        "name": "identity",
+        "has_index": true,
+        "purpose": "Subdirectory with 8 Python files",
+        "component_count": 8
+      },
+      {
+        "name": "security",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "constellation",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "bridge",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "consciousness",
+        "has_index": true,
+        "purpose": "Subdirectory with 6 Python files",
+        "component_count": 6
+      },
+      {
+        "name": "agents",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "utils",
+        "has_index": true,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "accepted",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "matriz",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "observability",
+        "has_index": true,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "qi",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "shims",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "vivox",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "orchestration",
+        "has_index": true,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "governance",
+        "has_index": true,
+        "purpose": "Subdirectory with 10 Python files",
+        "component_count": 10
+      },
+      {
+        "name": "api",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "rl",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "emotion",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "interfaces",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "lukhas_context.md",
+        "type": "lukhas_context.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "claude.me",
+        "type": "claude.me",
+        "has_sync_header": true
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "lukhas_context.md",
+      "claude.me"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 6,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.95,
+    "matriz_compatibility": "standard",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": null,
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

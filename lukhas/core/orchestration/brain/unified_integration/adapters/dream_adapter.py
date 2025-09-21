@@ -25,13 +25,13 @@ logger = logging.getLogger(__name__)
 class DreamAdapter:
     """
     Advanced dream state adapter for consciousness orchestration.
-    Provides Trinity Framework-compliant dream state management.
+    Provides Constellation Framework-compliant dream state management.
     """
 
     def __init__(self):
         self.active_dreams: dict[str, Any] = {}
         self.dream_counter = 0
-        logger.info("🌙 Dream Adapter initialized - Trinity Framework active")
+        logger.info("🌙 Dream Adapter initialized - Constellation Framework active")
 
     def initiate_dream_state(self, user_context: Optional[dict] = None) -> str:
         """

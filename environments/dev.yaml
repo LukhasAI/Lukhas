@@ -34,8 +34,8 @@ api_keys:
     rate_limit: 60
     timeout: 30
     
-# Trinity Framework Settings
-trinity_framework:
+# Constellation Framework Settings
+constellation_framework:
   identity:
     tier_validation: false # Relaxed for dev
     session_timeout: 3600

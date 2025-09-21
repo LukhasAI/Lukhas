@@ -17,7 +17,7 @@ from .models import PhenomenalScene, ProtoQualia, RiskProfile, SeverityLevel
 
 class TEQGuardian:
     """
-    TEQ (Trinity Ethical Qualia) Guardian - Ethical oversight for phenomenology
+    TEQ (Constellation Ethical Qualia) Guardian - Ethical oversight for phenomenology
 
     Provides:
     - Configurable risk assessment based on proto-qualia patterns

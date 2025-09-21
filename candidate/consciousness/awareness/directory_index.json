@@ -1,0 +1,357 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/consciousness/awareness",
+    "lane": "development",
+    "purpose": "Directory containing 13 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "constellation_role": "horizon_star_primary",
+    "matriz_pipeline_integration": {
+      "memory_stage": "active",
+      "attention_stage": "active",
+      "thought_stage": "active",
+      "awareness_stage": "active",
+      "decision_stage": "experimental"
+    },
+    "cognitive_domains": [
+      "consciousness_processing",
+      "awareness_patterns"
+    ]
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "awareness_monitoring_system.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/awareness_monitoring_system.json",
+        "dependencies": [],
+        "exports": [
+          "AwarenessLevel",
+          "AttentionMode",
+          "ConsciousnessState",
+          "CognitiveLoadLevel",
+          "AwarenessSnapshot",
+          "AttentionPattern",
+          "ConsciousnessInsight",
+          "AwarenessReport",
+          "AwarenessMonitoringSystem"
+        ]
+      },
+      {
+        "filename": "lukhas_awareness_protocol.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/lukhas_awareness_protocol.json",
+        "dependencies": [],
+        "exports": [
+          "LucasAwarenessProtocol",
+          "process_awareness_signal",
+          "update_consciousness_level",
+          "get_awareness_state"
+        ]
+      },
+      {
+        "filename": "awareness_engine_elevated.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/awareness_engine_elevated.json",
+        "dependencies": [],
+        "exports": [
+          "ComplianceStatus",
+          "AwarenessType",
+          "AlignmentMetric",
+          "LukhasConfig",
+          "AwarenessInput",
+          "AwarenessOutput",
+          "Reasoner",
+          "AwarenessModule",
+          "EnvironmentalAwarenessInput",
+          "EnhancedEnvReasoner",
+          "EnvironmentalAwarenessModule",
+          "CognitiveAwarenessInput",
+          "EnhancedCognitiveReasoner",
+          "CognitiveAwarenessModule",
+          "EmotionalAwarenessInput",
+          "EnhancedEmotionalReasoner",
+          "EmotionalAwarenessModule",
+          "SocialAwarenessInput",
+          "SocialReasoner",
+          "SocialAwarenessModule",
+          "LukhasAwarenessEngine",
+          "now_iso",
+          "structured_log",
+          "is_sustainable_location",
+          "is_indoor_location",
+          "qi_anomaly_check",
+          "process",
+          "get_confidence",
+          "evaluate_alignment",
+          "generate_recommendations",
+          "calculate_sustainability_impact",
+          "process",
+          "get_confidence",
+          "evaluate_alignment",
+          "generate_recommendations",
+          "calculate_sustainability_impact",
+          "process",
+          "get_confidence",
+          "evaluate_alignment",
+          "generate_recommendations",
+          "calculate_sustainability_impact",
+          "process",
+          "get_confidence",
+          "evaluate_alignment",
+          "generate_recommendations",
+          "calculate_sustainability_impact",
+          "process",
+          "get_confidence",
+          "evaluate_alignment",
+          "process_awareness",
+          "get_system_status",
+          "normalize_with_optimal"
+        ]
+      },
+      {
+        "filename": "symbolic_trace_logger.py",
+        "component_type": "AWARENESS_MODULE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/symbolic_trace_logger.json",
+        "dependencies": [],
+        "exports": [
+          "SymbolicTrace",
+          "SymbolicTraceLogger",
+          "trace",
+          "info",
+          "warning",
+          "error",
+          "debug",
+          "get_traces",
+          "clear_traces"
+        ]
+      },
+      {
+        "filename": "awareness_protocol.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/awareness_protocol.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "LUKHASAwarenessProtocol",
+          "lukhas_tier_required",
+          "decorator",
+          "update_bio_metrics",
+          "wrapper_sync"
+        ]
+      },
+      {
+        "filename": "bio_symbolic_awareness_adapter.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/bio_symbolic_awareness_adapter.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "BioSymbolicAwarenessAdapter",
+          "MockNumpy",
+          "ProtonGradient",
+          "QIAttentionGate",
+          "CristaFilter",
+          "CardiolipinEncoder",
+          "mean",
+          "std",
+          "clip",
+          "corrcoef",
+          "process",
+          "attend",
+          "filter",
+          "encode",
+          "create_base_pattern"
+        ]
+      },
+      {
+        "filename": "attention_monitor.py",
+        "component_type": "AWARENESS_MODULE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/attention_monitor.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "AttentionState",
+          "InputModality",
+          "AttentionMetrics",
+          "EyeTrackingData",
+          "InputEvent",
+          "AttentionMonitor",
+          "process_eye_tracking_data",
+          "process_input_event",
+          "get_current_attention_state",
+          "update_attention_metrics",
+          "get_attention_status"
+        ]
+      },
+      {
+        "filename": "symbolic_qi_attention.py",
+        "component_type": "AWARENESS_MODULE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/symbolic_qi_attention.json",
+        "dependencies": [],
+        "exports": [
+          "QIInspiredAttention",
+          "QIAttentionEnsemble",
+          "enhanced_attention_hook",
+          "process",
+          "adaptive_tune",
+          "repair",
+          "get_diagnostics",
+          "process",
+          "repair",
+          "get_diagnostics",
+          "wrapped_attention"
+        ]
+      },
+      {
+        "filename": "awareness_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/awareness_engine.json",
+        "dependencies": [],
+        "exports": [
+          "AwarenessEngine",
+          "lukhas_tier_required",
+          "create_awareness_component",
+          "decorator",
+          "get_status",
+          "wrapper_sync"
+        ]
+      },
+      {
+        "filename": "system_awareness.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/system_awareness.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "SystemAwareness"
+        ]
+      },
+      {
+        "filename": "awareness_log_synchronizer.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/awareness_log_synchronizer.json",
+        "dependencies": [
+          "lukhas.tiers"
+        ],
+        "exports": [
+          "AwarenessLogSynchronizer",
+          "sync_for_user"
+        ]
+      },
+      {
+        "filename": "awareness_processor.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/awareness_processor.json",
+        "dependencies": [],
+        "exports": [
+          "AwarenessProcessor",
+          "lukhas_tier_required",
+          "create_awareness_processor",
+          "decorator",
+          "get_status",
+          "get_monitoring_status",
+          "wrapper_sync"
+        ]
+      },
+      {
+        "filename": "awareness_tracker.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/awareness_tracker.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "AwarenessTracker",
+          "create_consciousness_component",
+          "create_consciousness_component_alt",
+          "get_status"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": [
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Start with consciousness architecture documentation, then examine engines and processors",
+    "key_files": [
+      "README.md",
+      "awareness_engine_elevated.py",
+      "awareness_engine.py"
+    ],
+    "common_tasks": [
+      {
+        "task": "Consciousness engine development",
+        "files_involved": [
+          "awareness_engine_elevated.py",
+          "awareness_engine.py"
+        ],
+        "complexity": "high"
+      }
+    ],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "Consciousness architecture patterns",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 13,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "intermediate",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "native",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true,
+    "cognitive_alignment_score": 0.85
+  },
+  "relationships": {
+    "parent_directory": "candidate/consciousness",
+    "related_directories": [],
+    "constellation_cluster": "horizon_star_consciousness",
+    "dependency_weight": "moderate"
+  }
+}

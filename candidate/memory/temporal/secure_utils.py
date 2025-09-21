@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 #TAG:colony
 
 
-Security utilities for AGI Consolidation Repo
+Security utilities for Cognitive AI Consolidation Repo
 Provides secure alternatives to dangerous functions like exec(), eval(), subprocess.call()
 """
 

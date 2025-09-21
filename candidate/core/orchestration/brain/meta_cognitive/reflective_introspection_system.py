@@ -505,8 +505,8 @@ class ReflectiveIntrospectionSystem:
     def _calculate_awareness_level(self, processing_result: dict[str, Any]) -> float:
         """Calculate the system's awareness level of its processing"""
         # Base awareness on successful component integration
-        agi_enhancements = processing_result.get("agi_enhancements", {})
-        component_count = len(agi_enhancements)
+        cognitive_enhancements = processing_result.get("cognitive_enhancements", {})
+        component_count = len(cognitive_enhancements)
 
         # More components involved = higher awareness
         base_awareness = min(0.9, component_count / 8.0)  # Max at 8 components
@@ -523,8 +523,8 @@ class ReflectiveIntrospectionSystem:
             return 0.2
         elif processing_result.get("status") == "completed":
             # Check for comprehensive results
-            agi_summary = processing_result.get("agi_summary", {})
-            overall_score = agi_summary.get("overall_score", 0.5)
+            cognitive_summary = processing_result.get("cognitive_summary", {})
+            overall_score = cognitive_summary.get("overall_score", 0.5)
             return overall_score
         else:
             return 0.5
@@ -546,11 +546,11 @@ class ReflectiveIntrospectionSystem:
             opportunities.append("ethical_reasoning_refinement")
 
         # Check for missing components
-        agi_enhancements = processing_result.get("agi_enhancements", {})
+        cognitive_enhancements = processing_result.get("cognitive_enhancements", {})
         expected_components = ["compliance", "ethics", "memory", "prediction"]
 
         for component in expected_components:
-            if component not in agi_enhancements:
+            if component not in cognitive_enhancements:
                 opportunities.append(f"{component}_integration_enhancement")
 
         # Learning from context richness
@@ -584,13 +584,13 @@ class ReflectiveIntrospectionSystem:
             suggestions.append("optimize_processing_pipeline")
 
         # Integration-based suggestions
-        agi_summary = processing_result.get("agi_summary", {})
-        overall_score = agi_summary.get("overall_score", 0.5)
+        cognitive_summary = processing_result.get("cognitive_summary", {})
+        overall_score = cognitive_summary.get("overall_score", 0.5)
 
         if overall_score < 0.7:
             suggestions.append("enhance_component_coordination")
 
-        recommendations = agi_summary.get("recommendations", [])
+        recommendations = cognitive_summary.get("recommendations", [])
         if recommendations:
             suggestions.append("implement_agi_recommendations")
 

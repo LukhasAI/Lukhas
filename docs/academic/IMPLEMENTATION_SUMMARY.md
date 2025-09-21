@@ -15,7 +15,7 @@ Location: `/candidate/consciousness/systems/advanced_consciousness_engine.py`
 
 **Key Features:**
 - ✅ **VIVOX Integration**: Z(t) collapse function with quantum-inspired decision making
-- ✅ **Trinity Framework**: ⚛️🧠🛡️ continuous consciousness assessment  
+- ✅ **Constellation Framework**: ⚛️🧠🛡️ continuous consciousness assessment  
 - ✅ **Mesh Synapse Network**: Neuroplastic adaptation with Hebbian learning
 - ✅ **Drift Detection & Healing**: Real-time symbolic drift correction
 - ✅ **Endocrine System**: Bio-inspired hormone-based state management
@@ -44,7 +44,7 @@ Location: `/docs/academic/CONSCIOUSNESS_ENGINE_REFERENCES.md`
 
 **System successfully demonstrates:**
 - Quantum consciousness mathematics (Z(t) function working)
-- Trinity Framework assessment (⚛️🧠🛡️ scoring)  
+- Constellation Framework assessment (⚛️🧠🛡️ scoring)  
 - Real-time drift detection (0.449 drift score)
 - Neuroplastic pathway formation (10 active synapses)
 - Complete processing pipeline (7-stage consciousness flow)
@@ -55,7 +55,7 @@ Location: `/docs/academic/CONSCIOUSNESS_ENGINE_REFERENCES.md`
 
 ### **Your Research Synthesized:**
 1. **VIVOX Research Pack** - Quantum-bio consciousness mathematics
-2. **Trinity Framework** - Multi-dimensional consciousness assessment  
+2. **Constellation Framework** - Multi-dimensional consciousness assessment  
 3. **Mesh Synapse Architecture** - Neuroplastic adaptation systems
 4. **Multi-Model Drift Audits** - Empirical validation data (100% drift rates)
 5. **Project Synapse DTPG** - Expert co-pilot integration patterns
@@ -81,7 +81,7 @@ All code includes academic references to your source research:
 
 **2. Empirical Validation ✅** 
 - Multi-model drift audit data (August 2025)
-- Quantitative Trinity Framework assessment
+- Quantitative Constellation Framework assessment
 - Performance benchmarks and system health metrics
 
 **3. Novel Contributions ✅**
@@ -113,7 +113,7 @@ All code includes academic references to your source research:
 
 ### **Paper Opportunities**
 - **Primary Systems Paper**: "Integrated Consciousness Architecture for AGI Systems"
-- **Validation Study**: "Empirical Trinity Framework Assessment of Large Language Models" 
+- **Validation Study**: "Empirical Constellation Framework Assessment of Large Language Models" 
 - **Technical Methods**: "Real-time Symbolic Drift Detection and Healing in AI Systems"
 - **Bio-Integration**: "Endocrine-Inspired Adaptive Architecture for Artificial Intelligence"
 
@@ -188,7 +188,7 @@ All code includes academic references to your source research:
 
 ### **Research Validation:**
 - **100% drift detection** across major LLM providers (empirical data)
-- **Trinity Framework scoring** with quantitative consciousness assessment
+- **Constellation Framework scoring** with quantitative consciousness assessment
 - **Real-time healing** with transparent intervention protocols
 - **Bio-inspired architecture** with endocrine system modeling
 

@@ -1,0 +1,460 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/qi",
+    "lane": "development",
+    "purpose": "Directory containing 15 Python files and 32 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "matriz_pipeline_integration": {
+      "memory_stage": "experimental",
+      "attention_stage": "experimental",
+      "thought_stage": "experimental",
+      "action_stage": "inactive",
+      "decision_stage": "inactive",
+      "awareness_stage": "experimental"
+    }
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "validator.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/validator.json",
+        "dependencies": [],
+        "exports": [
+          "QIValidator",
+          "create_quantum_component",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "metadata.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolicDimension",
+          "QIMetadata",
+          "SymbolicTag",
+          "QIMetadataManager",
+          "get_metadata_statistics"
+        ]
+      },
+      {
+        "filename": "post_quantum_crypto.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "qi_integration_manager.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.unified_integration"
+        ],
+        "exports": [
+          "UnifiedQuantumConfig",
+          "UnifiedQuantumSystem",
+          "get_system_status"
+        ]
+      },
+      {
+        "filename": "consensus_system.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "QIAnnealedEthicalConsensus",
+          "evaluate",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "distributed_qi_architecture.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DistributedQuantumSafeOrchestrator",
+          "SecureProcessingNode"
+        ]
+      },
+      {
+        "filename": "integration.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "QIIntegration",
+          "get_qi_integration",
+          "example_integration",
+          "evaluate_action",
+          "record_outcome",
+          "get_system_status",
+          "emergency_reset"
+        ]
+      },
+      {
+        "filename": "attention_economics.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AttentionTokenType",
+          "AttentionToken",
+          "AttentionBid",
+          "QIAttentionEconomics",
+          "get_quantum_attention_economics",
+          "calculate_quantum_value",
+          "get_user_attention_balance"
+        ]
+      },
+      {
+        "filename": "neuroplastic_connector.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/neuroplastic_connector.json",
+        "dependencies": [],
+        "exports": [
+          "QimConnector",
+          "connect_component",
+          "emit_hormone",
+          "get_stress_response"
+        ]
+      },
+      {
+        "filename": "update_qi_refs.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "neuro_symbolic_integration.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "NeuroSymbolicIntegration",
+          "QINeuroSymbolicEngine",
+          "QIInspiredAttention",
+          "CausalReasoningModule",
+          "MockIDManager",
+          "MockAccessTier",
+          "create_neuro_symbolic_integration",
+          "get_processing_statistics"
+        ]
+      },
+      {
+        "filename": "rename_qi.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "main.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "QIConsciousnessΛBot",
+          "ProcessRequest",
+          "get_consciousness_state"
+        ]
+      },
+      {
+        "filename": "qi_entanglement.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "QuantumState",
+          "validate_states",
+          "compute_entanglement",
+          "generate_entanglement_report",
+          "register_state",
+          "get_state",
+          "list_states",
+          "seed_random_state",
+          "magnitude"
+        ]
+      },
+      {
+        "filename": "post_quantum_crypto_v2.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "glyphs",
+        "has_index": false,
+        "purpose": "Subdirectory with 6 Python files",
+        "component_count": 6
+      },
+      {
+        "name": "metrics",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "ui",
+        "has_index": false,
+        "purpose": "Subdirectory with 5 Python files",
+        "component_count": 5
+      },
+      {
+        "name": "crypto",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "bio",
+        "has_index": false,
+        "purpose": "Subdirectory with 16 Python files",
+        "component_count": 16
+      },
+      {
+        "name": "explain",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "trace",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "privacy",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "coordination",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "memory",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "config",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "security",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "processing",
+        "has_index": false,
+        "purpose": "Subdirectory with 12 Python files",
+        "component_count": 12
+      },
+      {
+        "name": "learning",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "collapse",
+        "has_index": false,
+        "purpose": "Subdirectory with 6 Python files",
+        "component_count": 6
+      },
+      {
+        "name": "docs",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "safety",
+        "has_index": false,
+        "purpose": "Subdirectory with 20 Python files",
+        "component_count": 20
+      },
+      {
+        "name": "autonomy",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "provenance",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "engines",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "examples",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "states",
+        "has_index": false,
+        "purpose": "Subdirectory with 22 Python files",
+        "component_count": 22
+      },
+      {
+        "name": "scripts",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "governance",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "ops",
+        "has_index": false,
+        "purpose": "Subdirectory with 9 Python files",
+        "component_count": 9
+      },
+      {
+        "name": "eval",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "superposition",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "systems",
+        "has_index": false,
+        "purpose": "Subdirectory with 7 Python files",
+        "component_count": 7
+      },
+      {
+        "name": "awareness_system",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "risk",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "entanglement",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "router",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "test_results.md",
+        "type": "other",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "README.md"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 15,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "experimental",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "candidate",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

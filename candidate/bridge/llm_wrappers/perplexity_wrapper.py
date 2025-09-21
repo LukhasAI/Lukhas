@@ -12,7 +12,7 @@
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ The Perplexity Wrapper provides integration with Perplexity AI's web-enhanced
-║ language models, enabling LUKHAS AGI to access real-time information from
+║ language models, enabling LUKHAS Cognitive AI to access real-time information from
 ║ the internet while generating responses. This unique capability makes it
 ║ ideal for current events, fact-checking, and up-to-date information retrieval.
 ║
@@ -141,7 +141,7 @@ class PerplexityWrapper:
 ║
 ║ REFERENCES:
 ║   - Docs: docs/bridge/llm-wrappers/perplexity.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=perplexity-wrapper
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=perplexity-wrapper
 ║   - Wiki: wiki.lukhas.ai/perplexity-integration
 ║
 ║ COPYRIGHT & LICENSE:
@@ -150,7 +150,7 @@ class PerplexityWrapper:
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

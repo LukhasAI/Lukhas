@@ -96,7 +96,7 @@ QUANTUM_DESCRIPTIONS = {
 # Default description for files not in the mapping
 DEFAULT_INFO = {
     "tier": "2",
-    "description": "Quantum module for advanced AGI functionality",
+    "description": "Quantum module for advanced cognitive AI functionality",
 }
 
 HEADER_TEMPLATE = '''#!/usr/bin/env python3
@@ -122,7 +122,7 @@ possibilities dance in superposition until observation births reality.
 LUKHAS - {module_name}
 {separator}
 
-An enterprise-grade Artificial General Intelligence (AGI) framework
+An enterprise-grade Cognitive Artificial Intelligence (Cognitive AI) framework
 combining symbolic reasoning, emotional intelligence, quantum-inspired computing,
 and bio-inspired architecture for next-generation AI applications.
 

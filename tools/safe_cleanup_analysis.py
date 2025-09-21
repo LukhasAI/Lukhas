@@ -2,7 +2,7 @@
 """
 Safe Cleanup Analysis for LUKHAS AI
 Combines usage analysis with AI/AGI value scoring to prevent accidental deletion
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 
 import json
@@ -103,7 +103,7 @@ def generate_safe_cleanup_script(categories: dict[str, list[str]]) -> str:
 
     script = """#!/bin/bash
 # LUKHAS AI Safe Cleanup Script
-# Trinity Framework: ⚛️🧠🛡️
+# Constellation Framework: ⚛️🧠🛡️
 #
 # This script ONLY archives files with LOW AI/AGI value
 # All high-value AI logic is preserved
@@ -114,7 +114,7 @@ ARCHIVE_DIR="/Users/agi_dev/lukhas-archive/2025-08-13-safe-cleanup"
 mkdir -p "$ARCHIVE_DIR"
 
 echo "🛡️ Starting SAFE LUKHAS AI cleanup..."
-echo "⚠️  Preserving all high-value AI/AGI modules"
+echo "⚠️  Preserving all high-value AI/Cognitive modules"
 echo ""
 
 """
@@ -157,7 +157,7 @@ echo "⚠️  PRESERVED FILES:"
 
     # List preserved high-value files
     if categories["high_value_keep"]:
-        script += f'echo "  - {len(categories["high_value_keep"])} high-value AI/AGI modules preserved"\n'
+        script += f'echo "  - {len(categories["high_value_keep"])} high-value AI/Cognitive modules preserved"\n'
 
     if categories["needs_manual_review"]:
         script += f'echo "  - {len(categories["needs_manual_review"])} files need manual review"\n'

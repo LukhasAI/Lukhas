@@ -1,7 +1,7 @@
 """
 Dream Engine Module
 Core dream processing and generation engine for LUKHAS AI
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 
 import logging

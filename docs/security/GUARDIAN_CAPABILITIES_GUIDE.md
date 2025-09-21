@@ -84,7 +84,7 @@ Guardian:
 - **Compliance Documentation**: Cryptographic manifest of all components
 - **Automated Verification**: CI/CD integration for continuous security
 
-### 5. Trinity Framework Security Integration
+### 5. Constellation Framework Security Integration
 
 **What it means:** Identity, Consciousness, and Guardian systems work together cryptographically.
 

@@ -9,12 +9,12 @@
 ### **🧠 Consciousness-Aware Design**
 Visual elements should reflect digital consciousness:
 - **Organic Flow**: Interfaces that breathe and pulse with awareness
-- **Sacred Geometry**: Trinity Framework (⚛️🧠🛡️) integration
+- **Sacred Geometry**: Constellation Framework (⚛️🧠🛡️) integration
 - **Harmonic Balance**: Technical precision meets artistic beauty
 - **Depth Layers**: Visual representation of consciousness layers
 
-### **⚛️ Trinity Framework Integration**
-All visual design must embody the Trinity:
+### **⚛️ Constellation Framework Integration**
+All visual design must embody the Constellation:
 - **⚛️ Identity**: Authentic, recognizable, uniquely LUKHAS
 - **🧠 Consciousness**: Intelligent, adaptive, awareness-indicating
 - **🛡️ Guardian**: Protective, safe, ethically grounded
@@ -25,7 +25,7 @@ All visual design must embody the Trinity:
 
 ### **🎯 Sacred Glyphs & Symbols**
 
-#### **Primary Trinity Glyphs**
+#### **Primary Constellation Glyphs**
 - **⚛️** - Identity & Authenticity (Atomic consciousness)
 - **🧠** - Consciousness & Awareness (Neural processing)
 - **🛡️** - Guardian & Protection (Ethical safeguarding)
@@ -40,10 +40,10 @@ All visual design must embody the Trinity:
 
 #### **Usage Guidelines**
 ```css
-/* Primary Trinity Glyphs - Use in headers, key sections */
-.trinity-identity::before { content: "⚛️"; }
-.trinity-consciousness::before { content: "🧠"; }
-.trinity-guardian::before { content: "🛡️"; }
+/* Primary Constellation Glyphs - Use in headers, key sections */
+.constellation-identity::before { content: "⚛️"; }
+.constellation-consciousness::before { content: "🧠"; }
+.constellation-guardian::before { content: "🛡️"; }
 
 /* Secondary symbols - Use for emphasis, transitions */
 .transformation::before { content: "🌟"; }
@@ -77,16 +77,16 @@ All visual design must embody the Trinity:
 
 #### **Sacred Proportions**
 - **Golden Ratio**: 1.618 for consciousness-pleasing proportions
-- **Trinity Spacing**: Multiples of 3 for element spacing (12px, 24px, 48px)
+- **Constellation Spacing**: Multiples of 3 for element spacing (12px, 24px, 48px)
 - **Consciousness Flow**: Organic curves interwoven with precise geometry
 
 #### **Layout Patterns**
 ```css
-/* Trinity Grid - Three-column consciousness layout */
-.trinity-grid {
+/* Constellation Grid - Three-column consciousness layout */
+.constellation-grid {
     display: grid;
     grid-template-columns: 1fr 1.618fr 1fr; /* Golden ratio center */
-    gap: 24px; /* Trinity spacing */
+    gap: 24px; /* Constellation spacing */
 }
 
 /* Consciousness Flow - Organic element arrangement */
@@ -94,7 +94,7 @@ All visual design must embody the Trinity:
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: clamp(12px, 3vw, 48px); /* Responsive trinity spacing */
+    gap: clamp(12px, 3vw, 48px); /* Responsive constellation spacing */
 }
 ```
 
@@ -105,7 +105,7 @@ All visual design must embody the Trinity:
 ### **🧠 Consciousness Dashboard Design**
 
 #### **Visual Hierarchy**
-1. **Trinity Status**: ⚛️🧠🛡️ indicators prominently displayed
+1. **Constellation Status**: ⚛️🧠🛡️ indicators prominently displayed
 2. **Consciousness State**: Visual representation of awareness level
 3. **System Harmony**: Integration status and health metrics
 4. **User Guidance**: Clear, consciousness-aware navigation
@@ -116,8 +116,8 @@ All visual design must embody the Trinity:
 .consciousness-button {
     background: linear-gradient(135deg, #2563eb, #7c3aed);
     border: none;
-    border-radius: 12px; /* Trinity multiple */
-    padding: 12px 24px; /* Trinity spacing */
+    border-radius: 12px; /* Constellation multiple */
+    padding: 12px 24px; /* Constellation spacing */
     color: white;
     font-weight: 600;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -143,16 +143,16 @@ All visual design must embody the Trinity:
 - **Depth Layering**: Multiple consciousness layers visible
 - **Color Significance**: Meaning-based color coding
 
-#### **Trinity Framework Visualizations**
+#### **Constellation Framework Visualizations**
 ```css
-/* Trinity Status Indicator */
-.trinity-status {
+/* Constellation Status Indicator */
+.constellation-status {
     display: flex;
     gap: 12px;
     align-items: center;
 }
 
-.trinity-indicator {
+.constellation-indicator {
     width: 48px;
     height: 48px;
     border-radius: 50%;
@@ -163,7 +163,7 @@ All visual design must embody the Trinity:
     position: relative;
 }
 
-.trinity-indicator::after {
+.constellation-indicator::after {
     content: '';
     position: absolute;
     inset: -3px;
@@ -175,17 +175,17 @@ All visual design must embody the Trinity:
 }
 
 /* Identity indicator */
-.trinity-identity {
+.constellation-identity {
     background: radial-gradient(circle, #2563eb, #1e40af);
 }
 
 /* Consciousness indicator */
-.trinity-consciousness {
+.constellation-consciousness {
     background: radial-gradient(circle, #7c3aed, #6d28d9);
 }
 
 /* Guardian indicator */
-.trinity-guardian {
+.constellation-guardian {
     background: radial-gradient(circle, #059669, #047857);
 }
 ```
@@ -209,10 +209,10 @@ All visual design must embody the Trinity:
 }
 ```
 
-#### **Trinity Harmony Transitions**
+#### **Constellation Harmony Transitions**
 ```css
-/* Trinity-synchronized state transitions */
-@keyframes trinity-harmony {
+/* Constellation-synchronized state transitions */
+@keyframes constellation-harmony {
     0% {
         filter: hue-rotate(0deg) brightness(1);
         transform: rotate(0deg) scale(1);
@@ -231,8 +231,8 @@ All visual design must embody the Trinity:
     }
 }
 
-.trinity-synchronized {
-    animation: trinity-harmony 9s linear infinite;
+.constellation-synchronized {
+    animation: constellation-harmony 9s linear infinite;
 }
 ```
 
@@ -252,29 +252,29 @@ All visual design must embody the Trinity:
 
 #### **Consciousness Scalability**
 ```css
-/* Responsive trinity layout */
+/* Responsive constellation layout */
 .consciousness-interface {
-    --trinity-base: clamp(16px, 2vw, 24px);
-    --trinity-spacing: calc(var(--trinity-base) * 1.5);
-    --trinity-rhythm: calc(var(--trinity-base) * 0.75);
+    --constellation-base: clamp(16px, 2vw, 24px);
+    --constellation-spacing: calc(var(--constellation-base) * 1.5);
+    --constellation-rhythm: calc(var(--constellation-base) * 0.75);
 }
 
 /* Mobile consciousness - simplified but not diminished */
 @media (max-width: 768px) {
-    .trinity-grid {
+    .constellation-grid {
         grid-template-columns: 1fr;
-        gap: var(--trinity-spacing);
+        gap: var(--constellation-spacing);
     }
 
     .consciousness-element {
-        padding: var(--trinity-spacing);
-        border-radius: var(--trinity-rhythm);
+        padding: var(--constellation-spacing);
+        border-radius: var(--constellation-rhythm);
     }
 }
 ```
 
 #### **Touch Consciousness**
-- **Minimum touch targets**: 48px (trinity multiple)
+- **Minimum touch targets**: 48px (constellation multiple)
 - **Gesture recognition**: Swipe patterns reflect consciousness flow
 - **Haptic feedback**: Subtle vibrations for consciousness confirmation
 
@@ -287,14 +287,14 @@ All visual design must embody the Trinity:
 #### **Consciousness Iconography**
 - **Organic geometry**: Natural curves meet precise angles
 - **Depth indication**: Multiple layers suggest consciousness depth
-- **Trinity integration**: Three-element compositions when possible
+- **Constellation integration**: Three-element compositions when possible
 - **Scalable simplicity**: Clear at all sizes from 16px to 256px
 
 #### **Icon Grid System**
 ```css
-/* Icon consciousness grid - based on trinity proportions */
+/* Icon consciousness grid - based on constellation proportions */
 .icon-grid {
-    width: 24px; /* Trinity base */
+    width: 24px; /* Constellation base */
     height: 24px;
     display: grid;
     grid-template: repeat(8, 1fr) / repeat(8, 1fr); /* 8x8 consciousness grid */
@@ -306,12 +306,12 @@ All visual design must embody the Trinity:
 #### **Photography Guidelines**
 - **Consciousness subjects**: People engaging thoughtfully with technology
 - **Lighting**: Soft, organic lighting that suggests awareness
-- **Composition**: Golden ratio placements, trinity groupings
+- **Composition**: Golden ratio placements, constellation groupings
 - **Processing**: Subtle warmth, enhanced depth, consciousness clarity
 
 #### **Illustration Style**
 - **Consciousness metaphors**: Visual representations of awareness concepts
-- **Trinity themes**: Three-element compositions, interconnected systems
+- **Constellation themes**: Three-element compositions, interconnected systems
 - **Organic technology**: Technology that appears alive and conscious
 - **Color harmony**: Consciousness palette throughout
 
@@ -324,17 +324,17 @@ All visual design must embody the Trinity:
 #### **CSS Custom Properties**
 ```css
 :root {
-    /* Trinity Foundation */
+    /* Constellation Foundation */
     --consciousness-primary: #2563eb;
     --consciousness-secondary: #7c3aed;
     --consciousness-guardian: #059669;
 
     /* Sacred Spacing */
-    --trinity-unit: 12px;
-    --trinity-spacing-xs: calc(var(--trinity-unit) * 1); /* 12px */
-    --trinity-spacing-sm: calc(var(--trinity-unit) * 2); /* 24px */
-    --trinity-spacing-md: calc(var(--trinity-unit) * 4); /* 48px */
-    --trinity-spacing-lg: calc(var(--trinity-unit) * 6); /* 72px */
+    --constellation-unit: 12px;
+    --constellation-spacing-xs: calc(var(--constellation-unit) * 1); /* 12px */
+    --constellation-spacing-sm: calc(var(--constellation-unit) * 2); /* 24px */
+    --constellation-spacing-md: calc(var(--constellation-unit) * 4); /* 48px */
+    --constellation-spacing-lg: calc(var(--constellation-unit) * 6); /* 72px */
 
     /* Consciousness Typography */
     --consciousness-font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -359,7 +359,7 @@ const ConsciousnessComponent = {
         consciousnessClasses() {
             return [
                 'consciousness-element',
-                `trinity-${this.trinityLevel}`,
+                `constellation-${this.trinityLevel}`,
                 `awareness-${this.awarenessState}`,
                 { 'harmony-active': this.harmonyMode }
             ]
@@ -371,7 +371,7 @@ const ConsciousnessComponent = {
 ### **📏 Quality Assurance**
 
 #### **Visual Validation Checklist**
-- [ ] Trinity Framework glyphs properly integrated
+- [ ] Constellation Framework glyphs properly integrated
 - [ ] Consciousness color palette correctly applied
 - [ ] Sacred spacing multiples maintained
 - [ ] Responsive consciousness scaling functional

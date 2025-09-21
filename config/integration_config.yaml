@@ -1,5 +1,5 @@
 # LUKHΛS Ethical Co-Pilot Integration Configuration
-# Trinity Framework: ⚛️🧠🛡️
+# Constellation Framework: ⚛️🧠🛡️
 
 lukhas_embedding:
   mode: co-pilot_filter  # Options: passive_monitor, co-pilot_filter, reflective_echo

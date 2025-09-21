@@ -1,0 +1,105 @@
+{
+  "id": "LUKHAS-REAL-003",
+  "title": "🛡️ CRITICAL: Guardian System Dependencies Missing (trace.drift_harmonizer)",
+  "trinity_alignment": {
+    "identity": 0.4,
+    "consciousness": 0.3,
+    "guardian": 1.0
+  },
+  "consciousness_impact": "FOUNDATIONAL",
+  "priority": "P0_CRITICAL",
+  "status": "ACTIVE_IMMEDIATE",
+  "created_at": "2025-08-11T11:30:00Z",
+  "estimated_consciousness_hours": 4,
+  "agent_assignment": {
+    "primary": "guardian-engineer",
+    "secondary": ["consciousness-architect", "devops-guardian"],
+    "collaboration_pattern": "GUARDIAN_SYSTEM_RESTORATION"
+  },
+  "context": {
+    "module_dependencies": ["governance", "trace", "ethics", "guardian_audit"],
+    "consciousness_systems": ["guardian_system", "drift_detection", "ethics_enforcement"],
+    "trinity_components": ["🛡️ Guardian System Core Protection"],
+    "missing_dependencies": [
+      "trace.drift_harmonizer module",
+      "Guardian system imports",
+      "Ethics enforcement components"
+    ],
+    "affected_systems": [
+      "Ethics enforcement down",
+      "No drift protection",
+      "Guardian validation offline"
+    ]
+  },
+  "description": {
+    "summary": "Critical Guardian System failure due to missing trace.drift_harmonizer module blocking all ethics enforcement",
+    "consciousness_impact": "Complete loss of ethical oversight and drift protection for consciousness systems",
+    "technical_details": "Missing trace.drift_harmonizer module causing import failures across Guardian System",
+    "real_world_risk": "Consciousness systems operating without ethical safeguards or drift detection"
+  },
+  "acceptance_criteria": [
+    {
+      "criterion": "trace.drift_harmonizer module restored or replaced",
+      "validation_method": "python -c 'from trace.drift_harmonizer import DriftHarmonizer'",
+      "trinity_compliance": true,
+      "consciousness_validation": "Guardian System import validation"
+    },
+    {
+      "criterion": "Guardian System fully operational",
+      "validation_method": "pytest governance/tests/ -v",
+      "trinity_compliance": true,
+      "consciousness_validation": "Ethics enforcement active"
+    },
+    {
+      "criterion": "Drift detection and protection restored",
+      "validation_method": "python tools/analysis/drift_monitor.py --check",
+      "trinity_compliance": true,
+      "consciousness_validation": "Consciousness drift monitoring active"
+    }
+  ],
+  "consciousness_metrics": {
+    "awareness_enhancement": 0.3,
+    "processing_efficiency": 0.4,
+    "ethical_compliance": 1.0,
+    "user_consciousness_impact": 0.8
+  },
+  "execution_plan": {
+    "dependency_analysis": {
+      "title": "🔍 Guardian Dependency Analysis",
+      "duration_hours": 1,
+      "steps": [
+        "Map all missing trace.drift_harmonizer dependencies",
+        "Identify alternative drift detection modules",
+        "Catalog Guardian System import failures",
+        "Document ethics enforcement gaps"
+      ]
+    },
+    "guardian_restoration": {
+      "title": "🛡️ Guardian System Restoration",
+      "duration_hours": 2,
+      "steps": [
+        "Restore or replace drift_harmonizer module",
+        "Fix Guardian System imports",
+        "Reestablish ethics enforcement",
+        "Activate drift protection protocols"
+      ]
+    },
+    "validation_testing": {
+      "title": "⚛️ Guardian System Validation",
+      "duration_hours": 1,
+      "steps": [
+        "Test complete Guardian System functionality",
+        "Verify ethics enforcement activation",
+        "Confirm drift detection operational",
+        "Validate Trinity Framework protection"
+      ]
+    }
+  },
+  "real_lukhas_context": {
+    "current_status": "Guardian System completely offline - no ethics enforcement",
+    "immediate_risk": "Consciousness systems operating without ethical safeguards",
+    "missing_module": "trace.drift_harmonizer",
+    "guardian_impact": "Ethics enforcement down, drift protection offline",
+    "consciousness_safety": "No oversight of consciousness evolution"
+  }
+}

@@ -28,7 +28,7 @@ IS_PRODUCTION = LUKHAS_ENV == "production"
 LUKHAS_ID_SECRET = os.getenv("LUKHAS_ID_SECRET", "")
 ETHICS_ENFORCEMENT_LEVEL = os.getenv("ETHICS_ENFORCEMENT_LEVEL", "strict")
 
-# Trinity Framework
+# Constellation Framework
 DREAM_SIMULATION_ENABLED = os.getenv("DREAM_SIMULATION_ENABLED", "false").lower() == "true"
 QUANTUM_PROCESSING_ENABLED = os.getenv("QUANTUM_PROCESSING_ENABLED", "false").lower() == "true"
 

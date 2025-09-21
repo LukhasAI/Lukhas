@@ -62,7 +62,7 @@ logger = logging.getLogger(__name__)
 
 class IdentityManager:
     """
-    Manages the identity framework for the adaptive AGI system.
+    Manages the identity framework for the adaptive Cognitive system.
 
     This system coordinates personal identity, emotional memory,
     and secure access to sensitive memories. It enables the system
@@ -85,7 +85,7 @@ class IdentityManager:
         self.identity = {
             "id": str(uuid.uuid4()),
             "created_at": time.time(),
-            "name": "Adaptive AGI System",
+            "name": "Adaptive Cognitive AI System",
             "version": "0.1.0",
             "description": "An adaptive artificial general intelligence system",
             "core_values": [

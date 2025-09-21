@@ -1,7 +1,7 @@
 """
 AGI-Enhanced Consciousness API for LUKHAS
 
-Enhanced consciousness endpoints that integrate AGI core reasoning,
+Enhanced consciousness endpoints that integrate Cognitive core reasoning,
 memory, learning, and safety capabilities with existing LUKHAS systems.
 """
 
@@ -15,20 +15,20 @@ from pydantic import BaseModel
 
 # Third-party / local AGI imports (graceful fallback)
 try:
-    from agi_core.learning.dream_guided_learner import (
+    from cognitive_core.learning.dream_guided_learner import (
         DreamGuidedLearner,
         LearningMode,
         LearningObjective,
     )
-    from agi_core.memory.dream_memory import DreamMemoryBridge, DreamPhase
-    from agi_core.memory.vector_memory import (
+    from cognitive_core.memory.dream_memory import DreamMemoryBridge, DreamPhase
+    from cognitive_core.memory.vector_memory import (
         MemoryType,
         VectorMemoryStore,
     )
-    from agi_core.reasoning.chain_of_thought import ChainOfThought
+    from cognitive_core.reasoning.chain_of_thought import ChainOfThought
 
     # dream integration bridge is optional and not used directly here
-    from agi_core.safety.constitutional_ai import ConstitutionalAI
+    from cognitive_core.safety.constitutional_ai import ConstitutionalAI
 
     AGI_AVAILABLE = True
 except ImportError:
@@ -522,7 +522,7 @@ async def _run_memory_consolidation():
     try:
         if agi_memory and agi_dream_bridge:
             # Import consolidator
-            from agi_core.memory.memory_consolidation import MemoryConsolidator
+            from cognitive_core.memory.memory_consolidation import MemoryConsolidator
 
             consolidator = MemoryConsolidator(agi_memory)
             await consolidator.run_consolidation_cycle()

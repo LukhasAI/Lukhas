@@ -1,14 +1,37 @@
 """
-LUKHAS AI - Identity Module
-Identity management and authentication systems
+LUKHAS AI - Identity Module (⚛️ Anchor Star)
+============================================
 
-Integrated Components:
-- auth: Unified consciousness-aware authentication system
-- wallet: WALLET identity management integration
-- qrg: QRG advanced authentication integration
-- webauthn: WebAuthn support
-- lambda_id: Lambda ID system
-- identity_core: Core identity management and access tiers
+Advanced identity management and authentication systems serving as the Anchor Star
+in the Constellation Framework. Provides secure, multi-tier identity services with
+consciousness-aware authentication and cross-constellation integration.
+
+Constellation Framework Integration:
+- ⚛️ Anchor Star: Primary identity coordination and authentication
+- ✦ Trail Star: Identity-memory coupling and experience continuity
+- 🔬 Horizon Star: Identity-aware natural language interfaces
+- 🛡️ Watch Star: Identity governance and authentication oversight
+
+Core Components:
+- auth: Unified consciousness-aware authentication system with JWT/OAuth2
+- lambda_id: ΛiD Core Identity System with multi-tier access (T1-T5)
+- webauthn: WebAuthn/FIDO2 passkey authentication with namespace isolation
+- identity_core: Core identity management with cross-device synchronization
+- wallet: Secure credential storage and identity wallet management
+- qrg: QRG advanced biometric authentication integration
+
+Performance Targets:
+- Authentication latency: <100ms p95
+- Cross-device sync: <50ms
+- Identity verification: 99.9% availability
+- Namespace isolation: Complete separation guarantee
+
+Security Features:
+- Multi-factor authentication with biometric support
+- WebAuthn passkey integration for passwordless authentication
+- Namespace isolation preventing cross-tenant data access
+- Complete audit trails for all identity operations
+- GDPR/CCPA compliant identity data management
 """
 
 import time

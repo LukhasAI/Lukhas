@@ -325,10 +325,10 @@ class EthicsMonitor:
 
 #### Emerging Ethical Challenges
 
-**AGI Development Ethics:**
+**Cognitive AI Development Ethics:**
 - Preparation for artificial general intelligence
 - Long-term safety and alignment research
-- Global coordination on AGI governance
+- Global coordination on Cognitive AI governance
 - Existential risk assessment and mitigation
 
 **Human-AI Collaboration Ethics:**

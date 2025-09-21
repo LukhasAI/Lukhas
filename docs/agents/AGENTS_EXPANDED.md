@@ -498,7 +498,7 @@ lukhas_config.yaml                    # Main LUKHAS system configuration
 lukhas/__init__.py                    # New namespace entry point and initialization
 lukhas.py                        # Backwards compatibility module and legacy support
 .github/copilot-instructions.md       # GitHub Copilot coordination guidelines
-branding/trinity/                     # consciousness development framework standards and validation tools
+branding/constellation/                     # consciousness development framework standards and validation tools
 modulation_policy.yaml                # Endocrine signal modulation policy configuration
 ```
 

@@ -1,7 +1,7 @@
 """
 LUKHAS AI Import Router
 Smart import resolution system with fallback chains
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
 This module provides a future-proof import system that handles:
 - Lane transitions (lukhas → candidate → legacy)

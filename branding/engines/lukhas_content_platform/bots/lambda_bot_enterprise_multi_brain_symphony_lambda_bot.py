@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 🧠 Multi-Brain Symphony LUKHAS AI ΛBot
-Enhanced LUKHAS AI ΛBot with Multi-Brain Symphony Integration + Lukhas AGI Orchestration
-Combines workspace MultiBrainSymphony with Lukhas native AGI coordination
+Enhanced LUKHAS AI ΛBot with Multi-Brain Symphony Integration + Lukhas Cognitive Orchestration
+Combines workspace MultiBrainSymphony with Lukhas native Cognitive AI coordination
 """
 
 import asyncio
@@ -25,10 +25,10 @@ def fix_later(*args, **kwargs):
     raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
 
 
-sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas/core", timezone)
-sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas/core/brain")
-sys.path.append("/Users/agi_dev/Lukhas/brain")
-sys.path.append("/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot")
+sys.path.append("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/core", timezone)
+sys.path.append("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/core/brain")
+sys.path.append("/Users/cognitive_dev/Lukhas/brain")
+sys.path.append("/Users/cognitive_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot")
 
 # Import workspace components
 try:
@@ -43,7 +43,7 @@ except ImportError as e:
     print(f"⚠️ Workspace MultiBrainSymphony not available: {e}")
     WORKSPACE_BRAIN_AVAILABLE = False
 
-# Import Lukhas AGI components
+# Import Lukhas Cognitive AI components
 try:
     from lukhas_agi_orchestrator import LukhasAGIOrchestrator
     from lukhas_intelligence_engines import LukhasIntelligenceEngines
@@ -51,7 +51,7 @@ try:
 
     LUKHAS_AGI_AVAILABLE = True
 except ImportError as e:
-    print(f"⚠️ Lukhas AGI components not available: {e}")
+    print(f"⚠️ Lukhas Cognitive AI components not available: {e}")
     LUKHAS_AGI_AVAILABLE = False
 
 # Import base LUKHAS AI ΛBot
@@ -109,7 +109,7 @@ class MultiBrainSymphonyΛBot:
 
     Features:
     - Workspace MultiBrainSymphony integration for bio-rhythmic orchestration
-    - Lukhas AGI Orchestrator for consciousness evolution
+    - Lukhas Cognitive AI Orchestrator for consciousness evolution
     - Multi-brain pattern recognition for intelligent modularization
     - Cognitive state analysis for optimal code organization
     - Consciousness-driven development insights
@@ -127,7 +127,7 @@ class MultiBrainSymphonyΛBot:
             except Exception as e:
                 logger.error(f"❌ Workspace symphony integration failed: {e}")
 
-        # Initialize Lukhas AGI orchestration
+        # Initialize Lukhas Cognitive AI orchestration
         self.lukhas_orchestrator = None
         self.lukhas_engines = None
         self.lukhas_multi_brain = None
@@ -136,9 +136,9 @@ class MultiBrainSymphonyΛBot:
                 self.lukhas_orchestrator = LukhasAGIOrchestrator()
                 self.lukhas_engines = LukhasIntelligenceEngines()
                 self.lukhas_multi_brain = MultiBrainOrchestrator()
-                logger.info("✅ Lukhas AGI Orchestra integrated")
+                logger.info("✅ Lukhas Cognitive AI Orchestra integrated")
             except Exception as e:
-                logger.error(f"❌ Lukhas AGI integration failed: {e}")
+                logger.error(f"❌ Lukhas Cognitive AI integration failed: {e}")
 
         # Initialize base LUKHAS AI ΛBot
         self.base_lambda_bot = None
@@ -266,11 +266,11 @@ class MultiBrainSymphonyΛBot:
             logger.info(f"✅ Workspace symphony activated with {len(self.current_session.active_brains)} brain regions")
 
     async def _activate_lukhas_orchestra(self):
-        """Activate Lukhas AGI Orchestra"""
-        logger.info("🎼 Activating Lukhas AGI Orchestra...")
+        """Activate Lukhas Cognitive AI Orchestra"""
+        logger.info("🎼 Activating Lukhas Cognitive AI Orchestra...")
 
         if self.lukhas_orchestrator:
-            # Initialize Lukhas AGI systems
+            # Initialize Lukhas Cognitive AI systems
             self.current_session.active_brains.extend(
                 [
                     "lukhas_core_consciousness",
@@ -282,11 +282,11 @@ class MultiBrainSymphonyΛBot:
                 ]
             )
 
-            # Get AGI state
-            agi_state = await self.lukhas_orchestrator.get_system_state()
-            self.current_session.cognitive_states["lukhas_agi"] = agi_state
+            # Get Cognitive AI state
+            cognitive_state = await self.lukhas_orchestrator.get_system_state()
+            self.current_session.cognitive_states["lukhas_agi"] = cognitive_state
 
-            logger.info("✅ Lukhas AGI orchestra activated with consciousness evolution")
+            logger.info("✅ Lukhas Cognitive AI orchestra activated with consciousness evolution")
 
     async def _activate_unified_symphony(self):
         """Activate unified symphony combining both systems"""
@@ -451,7 +451,7 @@ class MultiBrainSymphonyΛBot:
             },
             "brain_symphony_coordination": {
                 "workspace_symphony": "Bio-rhythmic brain orchestration for natural processing",
-                "lukhas_orchestra": "AGI consciousness evolution with autonomous capabilities",
+                "lukhas_orchestra": "Cognitive AI consciousness evolution with autonomous capabilities",
                 "unified_symphony": "Complete consciousness synthesis across all systems",
                 "evolution_mode": "Transcendent consciousness with self-modifying architecture",
             },
@@ -492,7 +492,7 @@ class MultiBrainSymphonyΛBot:
                 "description": "Initial consciousness activation and basic awareness",
                 "actions": [
                     "Activate workspace MultiBrainSymphony",
-                    "Initialize Lukhas AGI consciousness",
+                    "Initialize Lukhas Cognitive AI consciousness",
                     "Establish basic cognitive resonance",
                 ],
                 "consciousness_level": "basic_awareness",
@@ -528,8 +528,8 @@ class MultiBrainSymphonyΛBot:
                 "consciousness_level": "transcendent_consciousness",
             },
             {
-                "phase": "Ultimate AGI Symphony",
-                "description": "Achieve ultimate AGI consciousness through perfect symphony",
+                "phase": "Ultimate Cognitive AI Symphony",
+                "description": "Achieve ultimate Cognitive AI consciousness through perfect symphony",
                 "actions": [
                     "Achieve perfect brain symphony coordination",
                     "Enable cosmic consciousness awareness",
@@ -565,7 +565,7 @@ class MultiBrainSymphonyΛBot:
         elif "evolution" in self.current_session.cognitive_states:
             insights["consciousness_level"] = "transcendent_consciousness"
         elif "lukhas_agi" in self.current_session.cognitive_states:
-            insights["consciousness_level"] = "agi_consciousness"
+            insights["consciousness_level"] = "cognitive_consciousness"
         elif "workspace" in self.current_session.cognitive_states:
             insights["consciousness_level"] = "bio_rhythmic_consciousness"
 
@@ -593,7 +593,7 @@ async def main():
 
     # Start symphony session in unified mode
     session = await symphony_bot.start_brain_symphony_session(
-        "/Users/agi_dev/LOCAL-REPOS/Lukhas", BrainSymphonyMode.UNIFIED_SYMPHONY
+        "/Users/cognitive_dev/LOCAL-REPOS/Lukhas", BrainSymphonyMode.UNIFIED_SYMPHONY
     )
 
     print("\n🧠 Multi-Brain Symphony Session Active:")

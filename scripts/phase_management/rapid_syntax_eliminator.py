@@ -4,7 +4,7 @@
 =====================================
 
 Quick targeted fixes for the most common syntax error patterns.
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
 Author: LUKHAS AI Agent Army - GitHub Copilot Deputy Assistant
 Date: September 9, 2025
@@ -29,7 +29,7 @@ F_STRING_FIXES = {
 }
 
 print("🎯 RAPID-FIRE SYNTAX ERROR ELIMINATION")
-print("⚛️🧠🛡️ Trinity Framework Active")
+print("⚛️🧠🛡️ Constellation Framework Active")
 print("=" * 50)
 
 print(f"🎯 Priority targets: {len(PRIORITY_FILES)} files")

@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 ║ CONSCIOUSNESS_ROLE: Multi-tier consciousness authentication validation
 ║ EVOLUTIONARY_STAGE: Advanced - Consciousness biometric integration
 ║
-║ TRINITY FRAMEWORK:
+║ CONSTELLATION FRAMEWORK:
 ║ ⚛️ IDENTITY: Advanced multi-tier identity authentication
 ║ 🧠 CONSCIOUSNESS: Consciousness-aware biometric validation
 ║ 🛡️ GUARDIAN: Security validation and anti-spoofing protection

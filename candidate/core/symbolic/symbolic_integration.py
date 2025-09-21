@@ -19,7 +19,7 @@
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ The Symbolic Integration Module manages the integration of symbolic patterns
 ║ within the LUKHAS memory subsystem. It provides initialization patterns,
-║ drift point management, and symbolic memory seeds for the AGI system.
+║ drift point management, and symbolic memory seeds for the Cognitive system.
 ║
 ║ This placeholder module was created by Jules-08 and is pending full
 ║ implementation. It will serve as the connection point between symbolic
@@ -88,7 +88,7 @@ DRIFT_POINTS = [
 ║
 ║ REFERENCES:
 ║   - Docs: docs/memory/symbolic-integration.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=symbolic-integration
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=symbolic-integration
 ║   - Wiki: wiki.lukhas.ai/symbolic-memory-architecture
 ║
 ║ COPYRIGHT & LICENSE:
@@ -97,7 +97,7 @@ DRIFT_POINTS = [
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

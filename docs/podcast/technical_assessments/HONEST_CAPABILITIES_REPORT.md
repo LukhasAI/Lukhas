@@ -24,7 +24,7 @@
 
 #### **Core Infrastructure**
 - **GLYPH Engine**: ✅ Functional symbolic processing system
-- **Trinity Framework**: ✅ Architectural principles implemented ⚛️🧠🛡️
+- **Constellation Framework**: ✅ Architectural principles implemented ⚛️🧠🛡️
 - **Guardian System**: ✅ Basic ethical validation (v1.0.0, 280+ files)
 - **Memory Folds**: ✅ 99.7% cascade prevention in testing
 - **Multi-Agent Architecture**: ✅ 25+ specialized AI agents operational
@@ -146,7 +146,7 @@
 #### **What We Can Say**
 - *"LUKHAS AI represents cutting-edge research in consciousness-inspired AI architecture"*
 - *"Our systems demonstrate measurable improvements in memory, learning, and ethical reasoning"*
-- *"The Trinity Framework provides a new approach to beneficial AI development"*
+- *"The Constellation Framework provides a new approach to beneficial AI development"*
 - *"We've achieved 99.7% cascade prevention in our memory fold system"*
 - *"The Guardian system integrates ethics into AI thinking processes"*
 
@@ -302,7 +302,7 @@
 
 #### **Technical Achievements**
 - *"We've demonstrated measurable improvements in AI memory, learning, and ethical reasoning"*
-- *"The Trinity Framework provides a new approach to AI safety and capability"*
+- *"The Constellation Framework provides a new approach to AI safety and capability"*
 - *"Our systems show promising results in consciousness-inspired processing"*
 - *"We've achieved significant milestones in beneficial AI research"*
 - *"LUKHAS AI discovered the original Z_C collapse formula for mathematically provable ethical AI"*

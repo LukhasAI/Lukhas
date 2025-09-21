@@ -233,7 +233,7 @@ class CognitiveEngine:
         """Generate a safe response when compliance fails (ORIGINAL LOGIC)"""
         return "I apologize, but I cannot provide a response that meets our safety and ethical guidelines."
 
-    def _update_conversation_history(self, input_data: dict, agi_response: AGIResponse):
+    def _update_conversation_history(self, input_data: dict, cognitive_response: AGIResponse):
         """Update conversation history (ORIGINAL LOGIC)"""
         # Ensure input_data is a dict
         if isinstance(input_data, str):
@@ -243,28 +243,28 @@ class CognitiveEngine:
             {
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "input": input_data.get("text", ""),
-                "response": agi_response.content,
-                "confidence": agi_response.confidence,
+                "response": cognitive_response.content,
+                "confidence": cognitive_response.confidence,
                 "capability_level": getattr(
-                    agi_response, "capability_level", AGICapabilityLevel.BASIC
+                    cognitive_response, "capability_level", AGICapabilityLevel.BASIC
                 ).value,
             }
         )
         # Keep only last 50 conversations
         self.conversation_history = self.conversation_history[-50:]
 
-    def _update_performance_metrics(self, agi_response: AGIResponse):
+    def _update_performance_metrics(self, cognitive_response: AGIResponse):
         """Update performance metrics (ORIGINAL LOGIC)"""
-        if agi_response.confidence > 0:
+        if cognitive_response.confidence > 0:
             current_avg = self.performance_metrics.get("average_confidence", 0.0)
             total = self.performance_metrics.get("total_interactions", 0)
-            new_avg = (current_avg * total + agi_response.confidence) / (total + 1)
+            new_avg = (current_avg * total + cognitive_response.confidence) / (total + 1)
             self.performance_metrics["average_confidence"] = new_avg
 
     async def _continuous_learning_update(
         self,
         input_data: dict,
-        agi_response: AGIResponse,
+        cognitive_response: AGIResponse,
         orchestration_result: dict
     ):
         """Perform continuous learning updates (ORIGINAL LOGIC)"""
@@ -273,14 +273,14 @@ class CognitiveEngine:
             input_data = {"text": input_data}
 
         # Update learning memory with successful patterns
-        if agi_response.confidence > 0.8:
+        if cognitive_response.confidence > 0.8:
             pattern_key = hashlib.sha256(
                 input_data.get("text", "").encode()
             ).hexdigest()[:16]
             self.learning_memory[pattern_key] = {
                 "input_pattern": input_data.get("text", "")[:100],
-                "successful_response": agi_response.content[:100],
-                "confidence": agi_response.confidence,
+                "successful_response": cognitive_response.content[:100],
+                "confidence": cognitive_response.confidence,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }
             # Keep only last 1000 patterns
@@ -453,7 +453,7 @@ class CognitiveEngine:
             processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
             # Create AI response
-            agi_response = AGIResponse(
+            cognitive_response = AGIResponse(
                 content=response_content,
                 confidence=orchestration_result.get("overall_confidence", 0.8),
                 reasoning_path=orchestration_result.get("reasoning_path", []),
@@ -473,17 +473,17 @@ class CognitiveEngine:
                     trace.add_reasoning_step(
                         "Finalizing response with all cognitive components",
                         {
-                            "final_confidence": agi_response.confidence,
+                            "final_confidence": cognitive_response.confidence,
                             "processing_time_seconds": processing_time,
                             "compliance_passed": compliance_result.get(
                                 "is_compliant", True
                             ),
                             "components_used": {
                                 "openai_enhanced": getattr(
-                                    agi_response, "openai_enhanced", False
+                                    cognitive_response, "openai_enhanced", False
                                 ),
                                 "brain_integration": getattr(
-                                    agi_response,
+                                    cognitive_response,
                                     "brain_integration_enhanced",
                                     False,
                                 ),
@@ -502,8 +502,8 @@ class CognitiveEngine:
                     # Add confidence factors
                     trace.add_confidence_factor(
                         "Orchestration confidence",
-                        agi_response.confidence - 0.5,
-                        f"Base orchestration confidence: {agi_response.confidence}",
+                        cognitive_response.confidence - 0.5,
+                        f"Base orchestration confidence: {cognitive_response.confidence}",
                     )
 
                     trace.add_confidence_factor(
@@ -529,19 +529,19 @@ class CognitiveEngine:
                     transparency_explanation = transparency_orchestrator.complete_trace(
                         trace_id,
                         response_content,
-                        agi_response.confidence,
+                        cognitive_response.confidence,
                         f"Cognitive processing completed successfully with {len(trace.reasoning_steps)} reasoning steps",
                     )
 
                     # Add transparency to response
-                    agi_response.transparency = transparency_explanation
-                    agi_response.eu_ai_act_compliant = True
-                    agi_response.decision_trace_id = trace_id
+                    cognitive_response.transparency = transparency_explanation
+                    cognitive_response.eu_ai_act_compliant = True
+                    cognitive_response.decision_trace_id = trace_id
 
             # Add OpenAI enhancement data if available
             if openai_enhancement and not openai_enhancement.get("error"):
-                agi_response.openai_enhanced = True
-                agi_response.enhancement_data = {
+                cognitive_response.openai_enhanced = True
+                cognitive_response.enhancement_data = {
                     "reasoning": openai_enhancement.get("reasoning_data", {}),
                     "consciousness": openai_enhancement.get("consciousness_data", {}),
                     "ethics": openai_enhancement.get("ethics_data", {}),
@@ -551,12 +551,12 @@ class CognitiveEngine:
                     ),
                 }
             else:
-                agi_response.openai_enhanced = False
+                cognitive_response.openai_enhanced = False
 
             # Add Brain Integration results if available (NEW)
             if brain_integration_result:
-                agi_response.brain_integration_enhanced = True
-                agi_response.brain_integration_data = {
+                cognitive_response.brain_integration_enhanced = True
+                cognitive_response.brain_integration_data = {
                     "processing_type": brain_integration_result.get("processing_type"),
                     "coordination_quality": brain_integration_result.get(
                         "coordination_quality", 0.0
@@ -575,28 +575,28 @@ class CognitiveEngine:
                     ).get("voice_modulation", {}),
                 }
             else:
-                agi_response.brain_integration_enhanced = False
+                cognitive_response.brain_integration_enhanced = False
 
             # Update conversation history and metrics
-            self._update_conversation_history(input_data, agi_response)
-            self._update_performance_metrics(agi_response)
+            self._update_conversation_history(input_data, cognitive_response)
+            self._update_performance_metrics(cognitive_response)
 
             # Continuous learning
             if self.continuous_learning:
                 await self._continuous_learning_update(
-                    input_data, agi_response, orchestration_result
+                    input_data, cognitive_response, orchestration_result
                 )
 
             self.performance_metrics["total_interactions"] += 1
-            if agi_response.confidence > 0.6:
+            if cognitive_response.confidence > 0.6:
                 self.performance_metrics["successful_responses"] += 1
 
             logger.info(
-                f"✅ Response generated - Confidence: {agi_response.confidence:.2f}, "
-                f"Level: {agi_response.capability_level.value}"
+                f"✅ Response generated - Confidence: {cognitive_response.confidence:.2f}, "
+                f"Level: {cognitive_response.capability_level.value}"
             )
 
-            return agi_response
+            return cognitive_response
 
         except Exception as e:
             logger.error(f"❌ Error processing input: {e}")
@@ -786,7 +786,7 @@ class CognitiveEngine:
 
         return {
             "demonstration_timestamp": datetime.now(timezone.utc).isoformat(),
-            "agi_session_id": self.session_id,
+            "cognitive_session_id": self.session_id,
             "current_capability_level": self.orchestrator.capability_level.value,
             "demonstrations": demonstrations,
             "overall_performance": {
@@ -812,11 +812,11 @@ async def main():
         logger.info("🚀 Starting Enhanced AI Bot Test")
 
         # Initialize AI Bot
-        agi_bot = CognitiveEngine()
+        cognitive_bot = CognitiveEngine()
 
         # Test basic functionality
         test_input = "Hello! Can you demonstrate your AI capabilities?"
-        response = await agi_bot.process_input(test_input)
+        response = await cognitive_bot.process_input(test_input)
 
         print(f"\n🎯 Input: {test_input}")
         print(f"🤖 Response: {response.content}")
@@ -829,7 +829,7 @@ async def main():
         print("🎭 DEMONSTRATING AI CAPABILITIES")
         print("=" * 50)
 
-        demo_results = await agi_bot.demonstrate_agi_capabilities()
+        demo_results = await cognitive_bot.demonstrate_agi_capabilities()
 
         for demo in demo_results["demonstrations"]:
             print(f"\n🧪 Test: {demo['test']}")
@@ -974,19 +974,19 @@ HOW TO USE:
 from brain.main_agi_bot import EnhancedAGIBot
 
 # Initialize AI bot
-agi_bot = EnhancedAGIBot()
+cognitive_bot = EnhancedAGIBot()
 
 # Process input
-response = await agi_bot.process_input("Hello, demonstrate your capabilities")
+response = await cognitive_bot.process_input("Hello, demonstrate your capabilities")
 print(f"Response: {response.content}")
 print(f"Confidence: {response.confidence}")
 
 # Get status
-status = agi_bot.get_agi_status()
+status = cognitive_bot.get_agi_status()
 print(f"Capability Level: {status['capability_level']}")
 
 # Demonstrate capabilities
-demo = await agi_bot.demonstrate_agi_capabilities()
+demo = await cognitive_bot.demonstrate_agi_capabilities()
 print(f"Demo Results: {demo['overall_performance']}")
 ```
 

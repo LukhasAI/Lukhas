@@ -6,8 +6,8 @@ Based on comprehensive analysis of LUKHAS consciousness systems, I have identifi
 
 ## Critical Components Identified for Advanced Testing
 
-### 1. Highest Priority: Trinity Framework Integration
-**File**: `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/consciousness/trinity/framework_integration.py`
+### 1. Highest Priority: Constellation Framework Integration
+**File**: `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/consciousness/constellation/framework_integration.py`
 
 **Why Critical**:
 - Central orchestrator for Identity (⚛️), Consciousness (🧠), and Guardian (🛡️) components
@@ -38,7 +38,7 @@ Based on comprehensive analysis of LUKHAS consciousness systems, I have identifi
 **Why Critical**:
 - Foundation for all memory operations with 1000-fold limit constraint
 - Memory cascade prevention with 99.7% success rate requirement
-- Trinity Framework compliance validation for all memory operations
+- Constellation Framework compliance validation for all memory operations
 
 **Testing Recommendations**:
 - **Circuit Breakers**: Memory cascade prevention with `cascade_probability ≤ 0.003`
@@ -56,9 +56,9 @@ Based on comprehensive analysis of LUKHAS consciousness systems, I have identifi
 ```python
 ∀t: identity_coherence(t) ∧ consciousness_depth(t) ∧ guardian_protection(t) ≥ coherence_threshold
 ```
-- **Threshold**: 0.7 for all Trinity components
+- **Threshold**: 0.7 for all Constellation components
 - **Validation**: Geometric mean coherence calculation
-- **Property**: Trinity framework maintains operational balance
+- **Property**: Constellation framework maintains operational balance
 
 #### Memory Cascade Prevention Invariant
 ```python
@@ -110,7 +110,7 @@ Based on comprehensive analysis of LUKHAS consciousness systems, I have identifi
 - **Recovery**: Quantum error correction activation with coherence restoration
 
 #### Trinity Component Isolation Scenario
-- **Purpose**: Test system resilience when Trinity components unavailable
+- **Purpose**: Test system resilience when Constellation components unavailable
 - **Components**: Identity (⚛️), Consciousness (🧠), or Guardian (🛡️) isolation
 - **Cascade Effects**: Component interdependency impact analysis
 - **Recovery**: Trinity rebalancing with coherence restoration
@@ -204,17 +204,17 @@ Mathematical Property: Component permutations preserve overall coherence
 - **Transformation**: Randomly permute Trinity component values
 - **Validation**: Geometric mean coherence preservation ±0.001
 - **Property**: Trinity coherence independent of component ordering
-- **Use Case**: Trinity framework flexibility validation
+- **Use Case**: Constellation framework flexibility validation
 
 ## Specific Implementation Recommendations
 
-### For Trinity Framework Integration
+### For Constellation Framework Integration
 
 1. **Deploy Mathematical Invariant Testing**:
    ```python
    # Continuous Trinity coherence validation
-   trinity_framework = ConsciousnessInvariantTestingFramework()
-   validation_result = await trinity_framework.validate_consciousness_state(trinity_state)
+   constellation_framework = ConsciousnessInvariantTestingFramework()
+   validation_result = await constellation_framework.validate_consciousness_state(trinity_state)
    assert validation_result["overall_validity"] == True
    ```
 
@@ -334,7 +334,7 @@ Mathematical Property: Component permutations preserve overall coherence
 ## Implementation Timeline and Priorities
 
 ### Phase 1: Mathematical Invariant Deployment (Week 1-2)
-1. Deploy Trinity coherence invariant testing in production Trinity framework
+1. Deploy Trinity coherence invariant testing in production Constellation framework
 2. Implement memory cascade prevention invariants in base memory manager
 3. Add quantum state conservation validation to superposition processor
 4. Configure continuous invariant monitoring with alerting

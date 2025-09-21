@@ -8,7 +8,7 @@ Components:
 - SystemHealthMetrics: Health monitoring data structures
 - DashboardState: Configuration and state management
 
-Trinity Framework Integration: ⚛️🧠🛡️
+Constellation Framework Integration: ⚛️🧠🛡️
 """
 
 from .self_healing_dashboard import DashboardState, SelfHealingDashboard, SystemHealthMetrics

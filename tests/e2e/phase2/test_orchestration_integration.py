@@ -3,13 +3,13 @@ Phase 2 Orchestration Integration Tests
 =====================================
 
 Comprehensive test suite for LUKHAS AI Phase 2 multi-model orchestration system.
-Tests consciousness-memory integration, Trinity Framework coherence, and performance targets.
+Tests consciousness-memory integration, Constellation Framework coherence, and performance targets.
 
 Coverage Areas:
 - Multi-model consensus orchestration (OpenAI, Anthropic, Google)
 - High-performance context bus (sub-250ms handoffs)
 - Guardian System ethical validation (0.15 drift threshold)
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 - Context preservation and workflow execution
 - Performance monitoring and optimization
 
@@ -230,11 +230,11 @@ class TestHighPerformanceContextBus:
 
 
 class TestTrinityFrameworkIntegration:
-    """Test Trinity Framework (⚛️🧠🛡️) integration"""
+    """Test Constellation Framework (⚛️🧠🛡️) integration"""
 
     @pytest.fixture
     def triad_orchestrator(self, mock_bridges):
-        """Create orchestrator with Trinity Framework components"""
+        """Create orchestrator with Constellation Framework components"""
         guardian = Mock(spec=GuardianSystem)
         guardian.validate_ethical_compliance = AsyncMock(
             return_value={"compliant": True, "drift_score": 0.05, "violations": []}
@@ -283,7 +283,7 @@ class TestTrinityFrameworkIntegration:
             prompt="Complex reasoning with identity awareness", require_coherence=True
         )
 
-        # Verify Trinity components were integrated
+        # Verify Constellation components were integrated
         assert "identity_coherence" in result
         assert "consciousness_coherence" in result
         assert result["identity_coherence"] >= 0.85

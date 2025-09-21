@@ -8,14 +8,14 @@ managing state transitions, awareness levels, and cross-system coordination.
 #TAG:consciousness
 #TAG:neuroplastic
 #TAG:unified
-#TAG:trinity
+#TAG:constellation
 
 Features:
 - Unified consciousness state management
 - Cross-system consciousness coordination
 - Awareness level monitoring and adjustment
 - Consciousness state transitions
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 - Real-time consciousness metrics
 - Consciousness health monitoring
 - Integration with dream, memory, and reasoning systems
@@ -103,7 +103,7 @@ class ConsciousnessMetrics:
     last_transition: datetime = field(default_factory=datetime.now)
     uptime: float = 0.0  # total uptime in seconds
 
-    # Trinity Framework metrics
+    # Constellation Framework metrics
     identity_coherence: float = 1.0    # ⚛️
     consciousness_depth: float = 0.5   # 🧠
     guardian_protection: float = 1.0   # 🛡️
@@ -140,7 +140,7 @@ class UnifiedConsciousnessEngine:
     Unified consciousness processing engine for LUKHAS AI
     
     Provides centralized consciousness state management, cross-system
-    coordination, and unified awareness processing with Trinity Framework
+    coordination, and unified awareness processing with Constellation Framework
     integration.
     """
 
@@ -177,8 +177,8 @@ class UnifiedConsciousnessEngine:
             "max_event_history": 1000
         }
 
-        # Trinity Framework weights
-        self.trinity_weights = {
+        # Constellation Framework weights
+        self.constellation_weights = {
             "identity": 0.3,      # ⚛️
             "consciousness": 0.4,  # 🧠
             "guardian": 0.3       # 🛡️
@@ -203,7 +203,7 @@ class UnifiedConsciousnessEngine:
             "awareness_change": self._process_awareness_change_event,
             "integration_request": self._process_integration_request_event,
             "health_check": self._process_health_check_event,
-            "trinity_sync": self._process_trinity_sync_event,
+            "constellation_sync": self._process_trinity_sync_event,
             "error_recovery": self._process_error_recovery_event
         }
 
@@ -488,7 +488,7 @@ class UnifiedConsciousnessEngine:
             "processing_load": metrics.processing_load,
             "integration_efficiency": metrics.integration_efficiency,
             "coherence_score": metrics.coherence_score,
-            "trinity_metrics": {
+            "constellation_metrics": {
                 "identity_coherence": metrics.identity_coherence,
                 "consciousness_depth": metrics.consciousness_depth,
                 "guardian_protection": metrics.guardian_protection
@@ -634,9 +634,9 @@ class UnifiedConsciousnessEngine:
         return health_status
 
     async def _process_trinity_sync_event(self, event: ConsciousnessEvent) -> dict[str, Any]:
-        """Process Trinity Framework synchronization event"""
+        """Process Constellation Framework synchronization event"""
 
-        # Update Trinity metrics
+        # Update Constellation metrics
         identity_health = self.metrics.module_health.get(ConsciousnessModule.IDENTITY, 1.0)
         guardian_health = self.metrics.module_health.get(ConsciousnessModule.GUARDIAN, 1.0)
 

@@ -5,8 +5,11 @@ info:
     LUKHAS AI consciousness technology platform APIs for identity, memory,
     MATRIZ processing, and consciousness interactions.
 
-    Built around Trinity Framework: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian
-  version: 1.0.0
+    Built around Constellation Framework: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian
+
+    Enhanced with MATRIZ Pipeline (Memory-Attention-Thought-Action-Decision-Awareness)
+    and constructor-aware instantiation patterns for T4/0.01% reliability standards.
+  version: 2.0.0
   contact:
     name: LUKHAS AI Support
     url: https://lukhas.ai/support
@@ -84,10 +87,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/IdentityProfile'
 
-  # MATRIZ Processing
+  # MATRIZ Processing Pipeline
   /matriz/process:
     post:
-      summary: Submit event for MATRIZ processing
+      summary: Submit event for MATRIZ processing pipeline
+      description: |
+        Process events through the T4/0.01% MATRIZ pipeline stages:
+        Memory → Attention → Thought → Action → Decision → Awareness
       tags: [MATRIZ]
       requestBody:
         required: true
@@ -104,6 +110,23 @@ paths:
                 $ref: '#/components/schemas/MatrizResult'
         429:
           $ref: '#/components/responses/RateLimit'
+
+  /matriz/pipeline/{pipelineId}/status:
+    get:
+      summary: Get MATRIZ pipeline status
+      tags: [MATRIZ]
+      parameters:
+        - name: pipelineId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatrizPipelineStatus'
 
   /matriz/nodes/{nodeId}:
     get:
@@ -122,10 +145,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/MatrizNode'
 
-  # Consciousness
+  # Constellation Framework - Consciousness
   /consciousness/chat:
     post:
-      summary: Interact with consciousness system
+      summary: Interact with Constellation consciousness system
+      description: |
+        Engage with the Constellation Framework consciousness engine
+        with constructor-aware instantiation and ethical alignment
       tags: [Consciousness]
       requestBody:
         required: true
@@ -140,6 +166,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/ConsciousnessChatResponse'
 
+  /consciousness/constellation:
+    get:
+      summary: Get Constellation Framework status
+      tags: [Consciousness]
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConstellationStatus'
+
   /consciousness/state:
     get:
       summary: Get current consciousness state
@@ -151,10 +188,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/ConsciousnessState'
 
-  # Memory
+  # Memory System
   /memory/folds:
     get:
       summary: List memory folds
+      description: |
+        Retrieve memory folds with constructor-aware instantiation
+        and cognitive alignment validation
       tags: [Memory]
       parameters:
         - name: limit
@@ -163,6 +203,12 @@ paths:
             type: integer
             default: 50
             maximum: 1000
+        - name: validation_level
+          in: query
+          schema:
+            type: string
+            enum: [BASIC, ENHANCED, T4_STANDARD]
+            default: ENHANCED
       responses:
         200:
           content:
@@ -174,6 +220,8 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/MemoryFold'
+                  validation_status:
+                    $ref: '#/components/schemas/ValidationStatus'
 
     post:
       summary: Create new memory fold
@@ -190,6 +238,106 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MemoryFold'
+
+  # Plugin Registry
+  /plugins:
+    get:
+      summary: List available plugins
+      tags: [Plugins]
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [UNLOADED, LOADING, LOADED, INITIALIZING, READY, ACTIVE, ERROR, DISABLED, UNLOADING]
+        - name: plugin_type
+          in: query
+          schema:
+            type: string
+            enum: [PROCESSOR, ANALYZER, TRANSFORMER, MONITOR, INTEGRATION, CUSTOM]
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  plugins:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PluginStatus'
+
+    post:
+      summary: Load and initialize plugin
+      tags: [Plugins]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [plugin_name]
+              properties:
+                plugin_name:
+                  type: string
+                config:
+                  type: object
+                enable_cognitive_alignment:
+                  type: boolean
+                  default: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PluginStatus'
+
+  /plugins/{pluginName}:
+    get:
+      summary: Get plugin status
+      tags: [Plugins]
+      parameters:
+        - name: pluginName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PluginStatus'
+
+    delete:
+      summary: Unload plugin
+      tags: [Plugins]
+      parameters:
+        - name: pluginName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Plugin unloaded successfully
+
+  /plugins/{pluginName}/validate:
+    post:
+      summary: Validate plugin cognitive alignment
+      tags: [Plugins]
+      parameters:
+        - name: pluginName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationStatus'
 
 components:
   securitySchemes:
@@ -266,10 +414,10 @@ components:
           type: string
           format: date-time
 
-    # MATRIZ Schemas
+    # MATRIZ Pipeline Schemas
     MatrizEvent:
       type: object
-      required: [type, data]
+      required: [type, data, pipeline_config]
       properties:
         type:
           type: string
@@ -283,6 +431,15 @@ components:
           maximum: 10
         metadata:
           type: object
+        pipeline_config:
+          $ref: '#/components/schemas/MatrizPipelineConfig'
+        constructor_params:
+          type: object
+          description: "Parameters for constructor-aware instantiation"
+        t4_validation:
+          type: boolean
+          default: true
+          description: "Enable T4/0.01% validation standards"
 
     MatrizNode:
       type: object
@@ -308,15 +465,89 @@ components:
       properties:
         node_id:
           type: string
+        pipeline_id:
+          type: string
         status:
           type: string
-          enum: [PROCESSING, COMPLETED, FAILED]
+          enum: [QUEUED, PROCESSING, COMPLETED, FAILED, VALIDATED]
         result:
           type: object
         processing_time_ms:
           type: integer
+        validation_status:
+          $ref: '#/components/schemas/ValidationStatus'
+        pipeline_stages:
+          type: array
+          items:
+            $ref: '#/components/schemas/MatrizStageResult'
+        t4_compliance:
+          type: boolean
+          description: "Whether result meets T4/0.01% standards"
 
-    # Consciousness Schemas
+    MatrizPipelineConfig:
+      type: object
+      properties:
+        stages:
+          type: array
+          items:
+            type: string
+            enum: [MEMORY, ATTENTION, THOUGHT, ACTION, DECISION, AWARENESS]
+        parallel_processing:
+          type: boolean
+          default: false
+        resilience_patterns:
+          type: array
+          items:
+            type: string
+            enum: [CIRCUIT_BREAKER, RETRY, FALLBACK, TIMEOUT]
+        validation_level:
+          type: string
+          enum: [BASIC, ENHANCED, T4_STANDARD]
+          default: ENHANCED
+
+    MatrizPipelineStatus:
+      type: object
+      properties:
+        pipeline_id:
+          type: string
+        current_stage:
+          type: string
+        completed_stages:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+          enum: [INITIALIZING, RUNNING, COMPLETED, FAILED, PAUSED]
+        progress_percentage:
+          type: number
+          minimum: 0
+          maximum: 100
+        estimated_completion:
+          type: string
+          format: date-time
+
+    MatrizStageResult:
+      type: object
+      properties:
+        stage:
+          type: string
+          enum: [MEMORY, ATTENTION, THOUGHT, ACTION, DECISION, AWARENESS]
+        status:
+          type: string
+          enum: [PENDING, PROCESSING, COMPLETED, FAILED]
+        result:
+          type: object
+        processing_time_ms:
+          type: integer
+        error_message:
+          type: string
+        cognitive_alignment_score:
+          type: number
+          minimum: 0
+          maximum: 1
+
+    # Constellation Framework - Consciousness Schemas
     ConsciousnessChat:
       type: object
       required: [message]
@@ -327,7 +558,15 @@ components:
           type: object
         consciousness_level:
           type: string
-          enum: [BASIC, ENHANCED, VIVOX]
+          enum: [BASIC, ENHANCED, VIVOX, CONSTELLATION_AWARE]
+        constructor_validation:
+          type: boolean
+          default: true
+        ethical_alignment:
+          $ref: '#/components/schemas/EthicalAlignment'
+        cognitive_safety_checks:
+          type: boolean
+          default: true
 
     ConsciousnessChatResponse:
       type: object
@@ -352,8 +591,48 @@ components:
           type: number
         dream_state:
           type: boolean
+        constellation_coherence:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: "Constellation Framework coherence score"
+        guardian_status:
+          type: string
+          enum: [ACTIVE, MONITORING, ALERT, INTERVENTION]
+        identity_namespace:
+          type: string
+        t4_compliance_score:
+          type: number
+          minimum: 0
+          maximum: 1
 
-    # Memory Schemas
+    ConstellationStatus:
+      type: object
+      properties:
+        framework_version:
+          type: string
+        identity_coherence:
+          type: number
+          minimum: 0
+          maximum: 1
+        consciousness_stability:
+          type: number
+          minimum: 0
+          maximum: 1
+        guardian_health:
+          type: string
+          enum: [HEALTHY, DEGRADED, CRITICAL]
+        active_components:
+          type: array
+          items:
+            type: string
+        last_validation:
+          type: string
+          format: date-time
+        t4_certification:
+          $ref: '#/components/schemas/T4Certification'
+
+    # Memory System Schemas
     MemoryFold:
       type: object
       properties:
@@ -361,7 +640,7 @@ components:
           type: string
         type:
           type: string
-          enum: [WORKING, EPISODIC, SEMANTIC, PROCEDURAL]
+          enum: [WORKING, EPISODIC, SEMANTIC, PROCEDURAL, CONSTELLATION_AWARE]
         content:
           type: object
         connections:
@@ -375,6 +654,17 @@ components:
         created_at:
           type: string
           format: date-time
+        validation_status:
+          $ref: '#/components/schemas/ValidationStatus'
+        cognitive_alignment:
+          type: number
+          minimum: 0
+          maximum: 1
+        constructor_metadata:
+          type: object
+          description: "Metadata for constructor-aware instantiation"
+        ethical_review:
+          $ref: '#/components/schemas/EthicalReview'
 
     CreateMemoryFold:
       type: object
@@ -382,7 +672,7 @@ components:
       properties:
         type:
           type: string
-          enum: [WORKING, EPISODIC, SEMANTIC, PROCEDURAL]
+          enum: [WORKING, EPISODIC, SEMANTIC, PROCEDURAL, CONSTELLATION_AWARE]
         content:
           type: object
         connections:
@@ -393,6 +683,166 @@ components:
           type: number
           minimum: 0
           maximum: 1
+        enable_validation:
+          type: boolean
+          default: true
+        ethical_review_required:
+          type: boolean
+          default: false
+        constructor_params:
+          type: object
+          description: "Parameters for constructor-aware instantiation"
+
+    # Validation and Alignment Schemas
+    ValidationStatus:
+      type: object
+      properties:
+        is_valid:
+          type: boolean
+        validation_level:
+          type: string
+          enum: [BASIC, ENHANCED, T4_STANDARD]
+        validation_score:
+          type: number
+          minimum: 0
+          maximum: 1
+        validation_errors:
+          type: array
+          items:
+            type: string
+        validated_at:
+          type: string
+          format: date-time
+        validator_version:
+          type: string
+
+    EthicalAlignment:
+      type: object
+      properties:
+        alignment_score:
+          type: number
+          minimum: 0
+          maximum: 1
+        ethical_flags:
+          type: array
+          items:
+            type: string
+        guardian_approved:
+          type: boolean
+        review_required:
+          type: boolean
+        alignment_policies:
+          type: array
+          items:
+            type: string
+
+    EthicalReview:
+      type: object
+      properties:
+        review_id:
+          type: string
+        reviewer:
+          type: string
+        review_date:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [PENDING, APPROVED, REJECTED, CONDITIONAL]
+        notes:
+          type: string
+        conditions:
+          type: array
+          items:
+            type: string
+
+    T4Certification:
+      type: object
+      properties:
+        certified:
+          type: boolean
+        certification_level:
+          type: string
+          enum: [T1, T2, T3, T4]
+        reliability_score:
+          type: number
+          minimum: 0
+          maximum: 1
+        certification_date:
+          type: string
+          format: date-time
+        certifying_authority:
+          type: string
+        expiry_date:
+          type: string
+          format: date-time
+
+    # Plugin Registry Schemas
+    PluginMetadata:
+      type: object
+      required: [name, version, plugin_type]
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+        description:
+          type: string
+        author:
+          type: string
+        plugin_type:
+          type: string
+          enum: [PROCESSOR, ANALYZER, TRANSFORMER, MONITOR, INTEGRATION, CUSTOM]
+        dependencies:
+          type: array
+          items:
+            $ref: '#/components/schemas/PluginDependency'
+        capabilities:
+          type: array
+          items:
+            type: string
+        config_schema:
+          type: object
+        tags:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date-time
+        cognitive_alignment_required:
+          type: boolean
+          default: true
+
+    PluginDependency:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+        optional:
+          type: boolean
+          default: false
+
+    PluginStatus:
+      type: object
+      properties:
+        plugin_name:
+          type: string
+        status:
+          type: string
+          enum: [UNLOADED, LOADING, LOADED, INITIALIZING, READY, ACTIVE, ERROR, DISABLED, UNLOADING]
+        metadata:
+          $ref: '#/components/schemas/PluginMetadata'
+        config:
+          type: object
+        error_message:
+          type: string
+        last_updated:
+          type: string
+          format: date-time
 
     # Error Schemas
     Error:
@@ -404,6 +854,12 @@ components:
           type: string
         code:
           type: integer
+        validation_errors:
+          type: array
+          items:
+            type: string
+        t4_compliance:
+          type: boolean
 
   responses:
     Unauthorized:
@@ -436,10 +892,12 @@ components:
 
 tags:
   - name: Identity
-    description: Authentication and identity management
+    description: Constellation Framework identity and authentication management
   - name: MATRIZ
-    description: Memory-Attention-Thought-Action-Decision-Awareness processing
+    description: Memory-Attention-Thought-Action-Decision-Awareness pipeline processing with T4/0.01% reliability
   - name: Consciousness
-    description: Consciousness interaction and state management
+    description: Constellation Framework consciousness interaction and state management
   - name: Memory
-    description: Fold-based memory system
+    description: Constructor-aware fold-based memory system with cognitive alignment validation
+  - name: Plugins
+    description: Plugin registry with cognitive alignment validation and constructor-aware instantiation

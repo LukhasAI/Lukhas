@@ -1,5 +1,5 @@
 # 🏗️ LUKHAS AI Submodular Architecture Deep Dive
-## Trinity Framework: ⚛️🧠🛡️
+## Constellation Framework: ⚛️🧠🛡️
 ### Date: 2025-08-13
 
 ---

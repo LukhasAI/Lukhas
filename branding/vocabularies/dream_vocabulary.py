@@ -18,7 +18,7 @@
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ The Dream Vocabulary module provides symbolic representations for all dream-related
-║ operations within the LUKHAS AGI system. It enables human-readable state expression
+║ operations within the LUKHAS Cognitive AI system. It enables human-readable state expression
 ║ and consistent communication patterns across the dream processing subsystem.
 ║
 ║ Key Features:
@@ -64,7 +64,7 @@ def create_dream_symbolic_narrative(dream_type: str, intensity: float = 0.7, sym
     else:
         prefix = "✨"
 
-    return f"{prefix} {base_symbol} - Trinity Framework Dream Processing Active"
+    return f"{prefix} {base_symbol} - Constellation Framework Dream Processing Active"
 
 
 DREAM_PHASE_SYMBOLS = {
@@ -319,7 +319,7 @@ def get_visual_hint(phase: str) -> str:
 
 class BrandingDreamVocabulary:
     """
-    ⚛️🧠🛡️ TRINITY FRAMEWORK BRANDING DREAM VOCABULARY CLASS
+    ⚛️🧠🛡️ CONSTELLATION FRAMEWORK BRANDING DREAM VOCABULARY CLASS
 
     Branding-specific interface for symbolic dream vocabulary operations.
     Provides brand-aware access to dream symbols and narratives for marketing and content.
@@ -397,7 +397,7 @@ class BrandingDreamVocabulary:
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This vocabulary is part of the LUKHAS AGI system. Use only as intended
+║   This vocabulary is part of the LUKHAS Cognitive AI system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚══════════════════════════════════════════════════════════════════════════════════

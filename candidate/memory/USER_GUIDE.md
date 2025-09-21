@@ -27,7 +27,7 @@
 
 ## Welcome to Digital Memory
 
-Welcome to the LUKHAS Memory Module—where artificial consciousness learns to remember, understand, and grow from experience. This guide will help you harness the power of our revolutionary memory system, whether you're building AGI applications, conducting research, or exploring the frontiers of digital consciousness.
+Welcome to the LUKHAS Memory Module—where artificial consciousness learns to remember, understand, and grow from experience. This guide will help you harness the power of our revolutionary memory system, whether you're building Cognitive AI applications, conducting research, or exploring the frontiers of digital consciousness.
 
 ### What Makes LUKHAS Memory Special?
 

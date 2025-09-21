@@ -54,7 +54,7 @@ Estimated Time: 35 minutes
 - JSON structured logging
 - Correlation IDs
 - Performance metrics integration
-- Trinity Framework context
+- Constellation Framework context
 
 ### 5. Log Aggregator ⏱️ 7 minutes
 **File**: `candidate/logging/log_aggregator.py`
@@ -98,7 +98,7 @@ print("✅ BATCH 7 Integration Test Complete!")
 - [ ] Code follows LUKHAS patterns from existing modules
 - [ ] Error handling implemented
 - [ ] Basic documentation strings added
-- [ ] Trinity Framework integration points identified
+- [ ] Constellation Framework integration points identified
 
 ## 🚨 Common Pitfalls to Avoid
 

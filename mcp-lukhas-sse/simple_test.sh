@@ -31,7 +31,7 @@ if [ ! -f "test-jwt-token.txt" ]; then
 fi
 
 # Set environment
-export ALLOWED_ROOTS="/Users/agi_dev/LOCAL-REPOS/Lukhas"
+export ALLOWED_ROOTS="/Users/cognitive_dev/LOCAL-REPOS/Lukhas"
 
 # Start simple server
 echo "🚀 Starting simple MCP server (port 8080)..."

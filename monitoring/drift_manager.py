@@ -18,10 +18,11 @@ Features:
 """
 import logging
 import os
+import threading
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -103,9 +104,15 @@ class DriftManager:
     with symbol attribution tracking for root cause analysis.
     """
 
-    # Critical thresholds per Guardian System spec
-    CRITICAL_THRESHOLD = 0.15
-    WARNING_THRESHOLD = 0.10
+    # Critical thresholds per Guardian System spec (env-configurable for consistency)
+    # Note: These are read at instance creation time for env consistency
+    @property
+    def default_critical_threshold(self):
+        return float(os.getenv("DRIFT_SAFE_THRESHOLD", "0.15"))
+
+    @property
+    def default_warning_threshold(self):
+        return float(os.getenv("DRIFT_WARNING_THRESHOLD", "0.10"))
 
     # Weights for unified drift calculation
     ETHICAL_WEIGHT = 0.4
@@ -121,12 +128,12 @@ class DriftManager:
         """
         self.config = config or {}
 
-        # Override thresholds if provided
+        # Override thresholds if provided (reads env vars at runtime)
         self.critical_threshold = self.config.get(
-            'critical_threshold', self.CRITICAL_THRESHOLD
+            'critical_threshold', self.default_critical_threshold
         )
         self.warning_threshold = self.config.get(
-            'warning_threshold', self.WARNING_THRESHOLD
+            'warning_threshold', self.default_warning_threshold
         )
 
         # Weight configuration
@@ -143,22 +150,52 @@ class DriftManager:
         self._compute_durations_ms = []      # ring buffer for durations (ms)
         self._flush_every = _FLUSH_N
         self._repair_engine = None  # lazy; set on first real repair
+        self._lock = threading.Lock()  # protects compute timer buffer and lazy engine init
+
+        # Dwell after successful repair (prevents ping-pong around threshold)
+        self._successful_repairs = {}  # kind -> timestamp of last successful repair
+        self._dwell_cycles = int(os.getenv("DRIFT_DWELL_CYCLES", "3"))  # cycles to wait
 
         logger.info(f"DriftManager initialized with thresholds: critical={self.critical_threshold}, warning={self.warning_threshold}")
 
-    def _flush_timer_if_needed(self):
-        """Flush the batched durations to the histogram every N calls."""
-        if len(self._compute_durations_ms) >= self._flush_every:
-            for ms in self._compute_durations_ms:
-                DRIFT_COMPUTE_DURATION_SECONDS.observe(ms / 1000.0)  # seconds
-            self._compute_durations_ms.clear()
+    def _record_duration_and_flush(self, duration_ms: float):
+        """Thread-safe timer recording with batched flushing."""
+        with self._lock:
+            self._compute_durations_ms.append(duration_ms)
+            if len(self._compute_durations_ms) >= self._flush_every:
+                for ms in self._compute_durations_ms:
+                    DRIFT_COMPUTE_DURATION_SECONDS.observe(ms / 1000.0)  # seconds
+                self._compute_durations_ms.clear()
 
     def _lazy_repair_engine(self):
         """Initialize the repair engine only when actually repairing."""
-        if self._repair_engine is None:
-            # reuse existing internal initializer; behavior unchanged
-            self._repair_engine = self._initialize_repair_engine()
-        return self._repair_engine
+        with self._lock:
+            if self._repair_engine is None:
+                # reuse existing internal initializer; behavior unchanged
+                self._repair_engine = self._initialize_repair_engine()
+            return self._repair_engine
+
+    def _is_in_dwell_period(self, kind: str) -> bool:
+        """Check if we're still in dwell period after successful repair."""
+        if kind not in self._successful_repairs:
+            return False
+
+        last_repair_time = self._successful_repairs[kind]
+        # Use a simple cycle-based cooldown (each call represents one cycle)
+        # In production, you'd want to use actual time-based dwell
+        cycles_since_repair = getattr(self, f'_cycles_since_{kind}', 0)
+        return cycles_since_repair < self._dwell_cycles
+
+    def _record_successful_repair(self, kind: str):
+        """Record successful repair and reset dwell counter."""
+        self._successful_repairs[kind] = time.time()
+        setattr(self, f'_cycles_since_{kind}', 0)
+
+    def _increment_cycle_counter(self, kind: str):
+        """Increment cycle counter for dwell tracking."""
+        if kind in self._successful_repairs:
+            current = getattr(self, f'_cycles_since_{kind}', 0)
+            setattr(self, f'_cycles_since_{kind}', current + 1)
 
     def compute(self, kind: str, prev: Any, curr: Any) -> Dict[str, Any]:
         """
@@ -184,6 +221,9 @@ class DriftManager:
         DRIFT_COMPUTE_ATTEMPTS_LEGACY.labels(kind=kind).inc()
 
         try:
+            # Increment cycle counter for dwell tracking
+            self._increment_cycle_counter(kind)
+
             # Parse kind
             drift_kind = DriftKind(kind.lower())
 
@@ -207,8 +247,7 @@ class DriftManager:
                 DRIFT_COMPUTE_SUCCESSES.labels(kind=kind).inc()
                 DRIFT_COMPUTE_SUCCESSES_LEGACY.labels(kind=kind).inc()
                 dt_ms = (time.perf_counter_ns() - _start_ns) / 1e6
-                self._compute_durations_ms.append(dt_ms)
-                self._flush_timer_if_needed()
+                self._record_duration_and_flush(dt_ms)
                 return {"score": score, "top_symbols": top_symbols, "confidence": result.confidence,
                        "kind": result.kind.value, "metadata": result.metadata}
 
@@ -219,8 +258,7 @@ class DriftManager:
             DRIFT_COMPUTE_SUCCESSES.labels(kind=kind).inc()
             DRIFT_COMPUTE_SUCCESSES_LEGACY.labels(kind=kind).inc()
             dt_ms = (time.perf_counter_ns() - _start_ns) / 1e6
-            self._compute_durations_ms.append(dt_ms)
-            self._flush_timer_if_needed()
+            self._record_duration_and_flush(dt_ms)
 
             # Return standardized format
             return {
@@ -236,8 +274,7 @@ class DriftManager:
             DRIFT_COMPUTE_ERRORS.labels(kind=kind).inc()
             DRIFT_COMPUTE_ERRORS_LEGACY.labels(kind=kind).inc()
             dt_ms = (time.perf_counter_ns() - _start_ns) / 1e6
-            self._compute_durations_ms.append(dt_ms)
-            self._flush_timer_if_needed()
+            self._record_duration_and_flush(dt_ms)
 
             # Return safe default
             return {
@@ -274,6 +311,25 @@ class DriftManager:
             'timestamp': time.time()
         }
         self.drift_ledger.append(exceedance_event)
+
+        # Check if we're in dwell period after recent successful repair
+        if self._is_in_dwell_period(kind):
+            logger.info(
+                f"Skipping repair for {kind}: still in dwell period after recent successful repair "
+                f"(cycles since repair: {getattr(self, f'_cycles_since_{kind}', 0)}/{self._dwell_cycles})"
+            )
+
+            # Record dwell skip in ledger
+            dwell_event = {
+                'event': 'repair_skipped_dwell',
+                'kind': kind,
+                'score': score,
+                'cycles_since_repair': getattr(self, f'_cycles_since_{kind}', 0),
+                'dwell_cycles': self._dwell_cycles,
+                'timestamp': time.time()
+            }
+            self.drift_ledger.append(dwell_event)
+            return
 
         # Attempt autonomous repair if TraceRepairEngine is available
         repair_result = None
@@ -337,7 +393,9 @@ class DriftManager:
                             ).inc()
                             DRIFT_AUTOREPAIR_DURATION.observe(time.time() - repair_start_time)
 
-                        # Record successful repair
+                        # Record successful repair and start dwell period
+                        self._record_successful_repair(kind)
+
                         repair_event = {
                             'event': 'auto_repair_success',
                             'kind': kind,

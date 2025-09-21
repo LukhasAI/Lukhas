@@ -6,7 +6,7 @@ Integration Date: 2025-05-31T07:55:27.735633
 """
 
 # ╔════════════════════════════════════════════════════════════╗
-# ║ 🌿 LUKHAS AGI MAIN INTERFACE - symbolic_brainstem v1.0      ║
+# ║ 🌿 LUKHAS Cognitive AI MAIN INTERFACE - symbolic_brainstem v1.0      ║
 # ║ 🧠 CLI | GUI | SOCKET | VOICE | DAO-SAFE ENTRY             ║
 # ║ 📦 Designed by LUKHAS Systems • Inspired by Sam + Steve     ║
 # ╚════════════════════════════════════════════════════════════╝
@@ -38,7 +38,7 @@ def log_event(timezone, source, event, tier="sys"):
 def symbolic_intro():
     cmd = ["clear"] if platform.system() != "Windows" else ["cls"]
     subprocess.run(cmd, shell=(platform.system() == "Windows"), check=False)
-    print(pyfiglet.figlet_format("LUKHAS AGI", font="slant"))
+    print(pyfiglet.figlet_format("LUKHAS Cognitive AI", font="slant"))
     print("🌱 Welcome back. Lukhas is awake.\n")
     try:
         import asyncio
@@ -81,7 +81,7 @@ def launch_narration():
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Symbolic AGI entry hub.")
+    parser = argparse.ArgumentParser(description="Symbolic Cognitive AI entry hub.")
     parser.add_argument("--gui", action="store_true", help="Launch GUI dashboard")
     parser.add_argument("--cli", action="store_true", help="Launch symbolic CLI")
     parser.add_argument("--socket", action="store_true", help="Start symbolic socket listener")

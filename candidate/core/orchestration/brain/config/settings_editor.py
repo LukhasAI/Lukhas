@@ -41,7 +41,7 @@ st.title("⚙️ Lukhas Settings Editor")
 settings = load_settings()
 
 if settings:
-    st.markdown("Edit your symbolic AGI configuration values below:")
+    st.markdown("Edit your symbolic Cognitive AI configuration values below:")
 
     # General
     st.subheader("General Settings")

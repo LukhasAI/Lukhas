@@ -1,5 +1,5 @@
 # 📊 Module Connection Status Report
-## Trinity Framework: ⚛️🧠🛡️
+## Constellation Framework: ⚛️🧠🛡️
 ### Date: 2025-08-13
 
 ---

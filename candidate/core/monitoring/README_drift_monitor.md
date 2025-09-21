@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Unified Drift Monitor (`drift_monitor.py`) is the centralized drift detection, analysis, and intervention system for LUKHAS AGI. This module consolidates all drift-related functionality into a single, orchestrated engine that monitors symbolic, emotional, ethical, temporal, and entropy drift across the system.
+The Unified Drift Monitor (`drift_monitor.py`) is the centralized drift detection, analysis, and intervention system for LUKHAS Cognitive AI. This module consolidates all drift-related functionality into a single, orchestrated engine that monitors symbolic, emotional, ethical, temporal, and entropy drift across the system.
 
 ## Architecture
 

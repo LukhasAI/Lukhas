@@ -2,19 +2,26 @@
 title: LUKHAS AI Documentation Hub
 status: stable
 owner: docs-maintainer
-last_review: 2025-09-09
-tags: [documentation, overview, lukhas, index]
+last_review: 2025-09-20
+tags: [documentation, constellation-framework, matriz-pipeline, t4-standards]
 ---
 
 # LUKHAS AI Documentation Hub
 
-🏛️ **Comprehensive Documentation Center** | **Trinity Framework** ⚛️🧠🛡️
+🏛️ **Comprehensive Documentation Center** | **Constellation Framework** ⚛️🧠🛡️ | **MATRIZ Pipeline** | **T4/0.01% Standards**
 
 ---
 
 ## 🌟 **Welcome to LUKHAS AI Documentation**
 
-This is the central documentation hub for LUKHAS AI, a consciousness-aware artificial general intelligence platform built on the Trinity Framework. All documentation is organized into professional categories for easy navigation and comprehensive coverage.
+This is the central documentation hub for LUKHAS AI, a consciousness-aware artificial general intelligence platform built on the **Constellation Framework** with **MATRIZ Pipeline** integration. The system implements dynamic star-node architecture with T4/0.01% performance standards and constructor-aware instantiation patterns.
+
+### 🏗️ **System Architecture Overview**
+- **⚛️ Identity Pillar**: ΛiD (Lambda Identity) authentication and symbolic self-representation
+- **🧠 Consciousness Pillar**: MATRIZ pipeline (Memory-Attention-Thought-Risk-Intent-Action) processing
+- **🛡️ Guardian Pillar**: Constitutional AI with drift detection and ethical governance
+- **🔄 Dynamic Registry**: Plugin system with constructor-aware instantiation
+- **🚀 T4/0.01% Standards**: Performance excellence and audit compliance
 
 ## 🗂️ **Quick Navigation Index**
 
@@ -83,9 +90,9 @@ Project status, progress reports, and system status documentation
 - Performance metrics and analytics
 
 ### 🧠 **[Consciousness](./consciousness/)**
-Consciousness system documentation and Trinity Framework specifications
+Consciousness system documentation and Constellation Framework specifications
 - Consciousness module specifications and patterns
-- Trinity Framework implementation guides
+- Constellation Framework implementation guides
 - AI consciousness development and evolution
 
 ### 👨‍💻 **[Development](./development/)**
@@ -120,9 +127,9 @@ Project governance, contribution guidelines, and policy documentation
 
 ---
 
-## 🎯 **Trinity Framework Integration**
+## 🎯 **Constellation Framework Integration**
 
-All documentation follows the Trinity Framework (⚛️🧠🛡️) principles:
+All documentation follows the Constellation Framework (⚛️🧠🛡️) principles:
 
 - **⚛️ Identity**: Authentic consciousness documentation with proper attribution
 - **🧠 Consciousness**: Intelligent organization with awareness of relationships
@@ -135,7 +142,7 @@ All documentation follows the Trinity Framework (⚛️🧠🛡️) principles:
 ### **For New Users**
 1. **[Getting Started Guide](./guides/GETTING_STARTED.md)** - First steps with LUKHAS AI
 2. **[Architecture Overview](./architecture/SYSTEM_ARCHITECTURE.md)** - Understanding the system design
-3. **[Trinity Framework](./consciousness/TRINITY_FRAMEWORK.md)** - Core consciousness principles
+3. **[Constellation Framework](./consciousness/CONSTELLATION_FRAMEWORK.md)** - Core consciousness principles
 
 ### **For Developers**
 1. **[Development Guide](./development/DEVELOPMENT_GUIDE.md)** - Development workflow and standards
@@ -158,14 +165,14 @@ All documentation follows the Trinity Framework (⚛️🧠🛡️) principles:
 
 - **Total Categories**: 11 professional documentation categories
 - **Comprehensive Coverage**: Architecture, Development, Administration, Integration
-- **Trinity Framework**: Full consciousness-aware documentation organization
+- **Constellation Framework**: Full consciousness-aware documentation organization
 - **Professional Standards**: Enterprise-grade documentation structure and navigation
 
 ---
 
 ## 🔄 **Documentation Updates**
 
-This documentation hub is regularly updated to reflect the latest LUKHAS AI developments, features, and improvements. All changes are tracked and documented according to Trinity Framework principles.
+This documentation hub is regularly updated to reflect the latest LUKHAS AI developments, features, and improvements. All changes are tracked and documented according to Constellation Framework principles.
 
 ### **Recent Organization**
 - ✅ **Phase 1**: Architecture, API, and presentation documentation

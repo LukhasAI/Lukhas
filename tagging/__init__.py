@@ -2,7 +2,7 @@
 Tagging System Module
 Symbolic tagging and resolution system for LUKHAS consciousness
 
-⚛️🧠🛡️ Trinity Framework: Identity-Consciousness-Guardian
+⚛️✦🔬🛡️ Constellation Framework: Anchor-Trail-Horizon-Watch
 """
 
 import logging
@@ -134,8 +134,8 @@ class AdvancedTagResolver(SimpleTagResolver):
                 context[tag_key] = self.tags[tag_key].value
         return context
 
-    def resolve_triad_context(self) -> dict[str, Any]:
-        """Resolve Trinity Framework tags"""
+    def resolve_constellation_context(self) -> dict[str, Any]:
+        """Resolve Constellation Framework tags"""
         context = {}
         for tag_key in self.triad_tags:
             if tag_key in self.tags:

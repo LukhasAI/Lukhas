@@ -6,7 +6,7 @@
 #TAG:colony
 
 
-Symbolic Entropy for LUKHAS AGI system.
+Symbolic Entropy for LUKHAS Cognitive system.
 
 This module implements an entropy delta calculator from memory and affect traces.
 """

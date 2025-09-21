@@ -12,7 +12,7 @@ Components tested:
 - Memory SQL System (database operations, privacy features)
 - Main Application (bootstrap, initialization)
 
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 
 import logging

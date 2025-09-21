@@ -40,7 +40,7 @@ SCOPE: Global decision orchestration with human wisdom integration
 - Reviewer expertise matching
 - Decision impact assessment
 
-VERSION: v1.0.0 • CREATED: 2025-07-19 • AUTHOR: LUKHAS AGI TEAM
+VERSION: v1.0.0 • CREATED: 2025-07-19 • AUTHOR: LUKHAS Cognitive AI TEAM
 SYMBOLIC TAGS: ΛHITLO, ΛHUMAN, ΛORCHESTRATOR, ΛDECISION, ΛESCROW
 """
 

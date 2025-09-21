@@ -138,8 +138,8 @@ class LUKHASLexicon:
         ],
     }
 
-    # Trinity Framework Specific
-    TRINITY_FRAMEWORK = {
+    # Constellation Framework Specific
+    CONSTELLATION_FRAMEWORK = {
         "components": ["Identity", "Consciousness", "Guardian"],
         "identity": ["ΛID", "identity resonance", "self-recognition signature"],
         "guardian": ["drift detection", "ethical guardian", "value alignment"],
@@ -194,7 +194,7 @@ class LUKHASLexicon:
         "emotional resonance pattern",
         "liminal consciousness state",
         "oneiric engine activation",
-        "Trinity Framework harmonics",
+        "Constellation Framework harmonics",
         "bio-inspired adaptation rate",
         "quantum-inspired coherence",
     ]
@@ -294,7 +294,7 @@ class LUKHASLexicon:
             property=random.choice(cls.QUANTUM_INSPIRED["properties"]),
             emergence=random.choice(["wisdom", "understanding", "awareness", "insight"]),
             mechanism=random.choice(cls.BIO_INSPIRED["neural"]),
-            system=random.choice(cls.TRINITY_FRAMEWORK["components"]),
+            system=random.choice(cls.CONSTELLATION_FRAMEWORK["components"]),
             consciousness=random.choice(["awareness", "consciousness", "the mind"]),
             transform=random.choice(["awakens", "emerges", "crystallizes", "transcends"]),
         )

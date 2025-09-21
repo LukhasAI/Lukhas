@@ -58,6 +58,19 @@ jobs:
           ruff --version || true
           ruff check --config pyproject.toml serve tests/contract || true
           PYTHONPATH=. lint-imports || true
+      - name: Secret scanning (GitLeaks)
+        run: |
+          # Install GitLeaks for quick secret scan in CI
+          GITLEAKS_VERSION="8.18.4"
+          wget -q "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          tar -xzf "gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          sudo mv gitleaks /usr/local/bin/
+
+          # Quick secret scan - fail fast on secrets
+          gitleaks detect --no-git --verbose || {
+            echo "🚨 Secrets detected in code! Check the secret-scanning workflow for details."
+            exit 1
+          }
       - name: Run smoke/unit selection
         run: |
           pytest -q -n auto -m "smoke or not integration and not e2e and not bench and not cloud and not enterprise" --maxfail=1 --disable-warnings --durations=10
@@ -65,8 +78,21 @@ jobs:
         run: |
           pip install coverage
           coverage run --branch -m pytest -q -m "smoke" --disable-warnings
-          coverage report --fail-under=60
+          coverage report --fail-under=75 --show-missing
           coverage xml -o coverage.xml || true
+
+          # Generate coverage badge data
+          COVERAGE=$(coverage report --format=total)
+          echo "COVERAGE_PERCENT=$COVERAGE" >> $GITHUB_ENV
+
+          # Fail if coverage drops below enterprise threshold
+          if [ "$COVERAGE" -lt 75 ]; then
+            echo "🚨 Coverage $COVERAGE% below 75% enterprise threshold"
+            echo "📊 Add tests or adjust threshold if necessary"
+            exit 1
+          fi
+
+          echo "✅ Coverage: $COVERAGE% (meets 75% enterprise standard)"
       - name: Generate JUnit + Coverage (always)
         if: always()
         run: |

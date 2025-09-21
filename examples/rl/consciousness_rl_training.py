@@ -5,7 +5,7 @@ LUKHAS RL Training Example
 Complete example of training consciousness RL agents across LUKHAS modules.
 This demonstrates the full training pipeline from initialization to evaluation.
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 import asyncio

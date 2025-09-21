@@ -2,7 +2,7 @@
 
 > **Last Updated**: August 11, 2025
 > **Version**: 1.0.0
-> **Trinity Framework**: ⚛️🧠🛡️ Active
+> **Constellation Framework**: ⚛️🧠🛡️ Active
 
 ## 📊 System Transparency Cards
 
@@ -33,7 +33,7 @@
 │ Last Test Run:        August 11, 2025                  │
 │ CI/CD:               In Development                    │
 │ Test Categories:      Unit, Integration, E2E           │
-│ Metadata Required:    Yes (Trinity Framework)          │
+│ Metadata Required:    Yes (Constellation Framework)          │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -155,7 +155,7 @@
 ┌─────────────────────────────────────────────────────────┐
 │ Ethical Framework & Compliance                         │
 ├─────────────────────────────────────────────────────────┤
-│ Trinity Framework:   ⚛️🧠🛡️ Fully Integrated           │
+│ Constellation Framework:   ⚛️🧠🛡️ Fully Integrated           │
 │ Guardian System:     Active (v1.0.0)                   │
 │ Drift Detection:     Threshold 0.15                    │
 │ Ethical Review:      Every operation validated         │

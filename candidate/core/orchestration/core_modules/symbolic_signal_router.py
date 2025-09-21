@@ -2,7 +2,7 @@
 # ΛLOCKED: true
 
 """
-Symbolic Signal Router for the Lukhas AGI System.
+Symbolic Signal Router for the Lukhas Cognitive AI System.
 
 This module provides a centralized signal routing and logging mechanism
 with sub-100ms routing latency and transparent logging.

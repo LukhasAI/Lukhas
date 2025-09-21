@@ -1,0 +1,1931 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/consciousness/reflection",
+    "lane": "development",
+    "purpose": "Directory containing 69 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "constellation_role": "horizon_star_primary",
+    "matriz_pipeline_integration": {
+      "memory_stage": "active",
+      "attention_stage": "active",
+      "thought_stage": "active",
+      "awareness_stage": "active",
+      "decision_stage": "experimental"
+    },
+    "cognitive_domains": [
+      "consciousness_processing",
+      "awareness_patterns"
+    ]
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "id_reasoning_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/id_reasoning_engine.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "AccessTier",
+          "ComplianceRegion",
+          "EmotionalMemoryVector",
+          "QISignature",
+          "AuditLogEntry",
+          "TraumaLockedMemory",
+          "ComplianceMonitor",
+          "LukhasIdManager",
+          "to_dict",
+          "to_dict",
+          "lock_memory",
+          "unlock_memory",
+          "check_compliance",
+          "get_compliance_status"
+        ]
+      },
+      {
+        "filename": "dream_narrator.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_narrator.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "DreamPhase",
+          "DreamNarrationType",
+          "DreamElement",
+          "DreamSequence",
+          "DreamNarration",
+          "DreamNarrator"
+        ]
+      },
+      {
+        "filename": "consciousness_api.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/consciousness_api.json",
+        "dependencies": [],
+        "exports": [
+          "ConsciousnessLevel",
+          "AwarenessType",
+          "ConsciousnessState",
+          "AwarenessQuery",
+          "ReflectionRequest",
+          "ConsciousnessPlatformAPI"
+        ]
+      },
+      {
+        "filename": "federated_meta_learning.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/federated_meta_learning.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "FederatedModel",
+          "FederatedLearningManager",
+          "ReflectiveIntrospectionSystem",
+          "MetaLearningSystem",
+          "update_with_gradients",
+          "get_parameters",
+          "serialize",
+          "deserialize",
+          "register_model",
+          "get_model",
+          "contribute_gradients",
+          "save_model",
+          "load_models",
+          "get_client_status",
+          "log_interaction",
+          "reflect",
+          "get_status_report",
+          "optimize_learning_approach",
+          "incorporate_feedback",
+          "generate_learning_report",
+          "get_federated_model",
+          "trigger_reflection"
+        ]
+      },
+      {
+        "filename": "swarm.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/swarm.json",
+        "dependencies": [
+          "candidate.core.actor_system",
+          "candidate.core.common",
+          "candidate.core.distributed_tracing",
+          "candidate.core.colonies.base_colony"
+        ],
+        "exports": [
+          "AgentState",
+          "MessageType",
+          "AgentCapability",
+          "AgentMemory",
+          "EnhancedSwarmAgent",
+          "EnhancedColony",
+          "EnhancedSwarmHub",
+          "remember",
+          "recall",
+          "receive",
+          "get_status",
+          "detect_emergent_patterns",
+          "get_colony_status",
+          "create_colony",
+          "get_swarm_status"
+        ]
+      },
+      {
+        "filename": "service.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/service.json",
+        "dependencies": [
+          "lukhas.governance.identity.interface"
+        ],
+        "exports": [
+          "ConsciousnessService",
+          "IdentityClient",
+          "lukhas_tier_required",
+          "process_awareness_api",
+          "perform_introspection_api",
+          "get_consciousness_state_api",
+          "decorator",
+          "initialize",
+          "process_awareness_stream",
+          "perform_introspection",
+          "get_current_consciousness_state_report",
+          "direct_attention_focus",
+          "engage_metacognitive_analysis",
+          "wrapper_sync",
+          "verify_user_access",
+          "check_consent",
+          "log_activity"
+        ]
+      },
+      {
+        "filename": "system.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/system.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "FederatedModel",
+          "FederatedLearningManager",
+          "ReflectiveIntrospectionSystem",
+          "MetaLearningSystem",
+          "update_with_gradients",
+          "get_parameters",
+          "serialize",
+          "deserialize",
+          "register_model",
+          "get_model",
+          "contribute_gradients",
+          "save_model",
+          "load_models",
+          "get_client_status",
+          "log_interaction",
+          "reflect",
+          "get_status_report",
+          "optimize_learning_approach",
+          "incorporate_feedback",
+          "generate_learning_report",
+          "get_federated_model",
+          "trigger_reflection"
+        ]
+      },
+      {
+        "filename": "brain_integration.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/brain_integration.json",
+        "dependencies": [],
+        "exports": [
+          "EmotionVector",
+          "EmotionalOscillator",
+          "MemoryEmotionalIntegrator",
+          "MemoryVoiceIntegrator",
+          "LucasBrainIntegration",
+          "AccessTier",
+          "calculate_distance",
+          "closest_emotion",
+          "get_vector",
+          "update_emotional_state",
+          "get_current_state",
+          "get_voice_modulation_params",
+          "store_memory_with_emotion",
+          "retrieve_with_emotional_context",
+          "find_emotionally_similar_memories",
+          "dream_consolidate_memories",
+          "speak_with_emotional_context",
+          "process_message",
+          "start_consolidation_thread",
+          "stop_consolidation_thread",
+          "store_memory",
+          "retrieve_memory",
+          "speak",
+          "consolidation_loop"
+        ]
+      },
+      {
+        "filename": "reflection_layer.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/reflection_layer.json",
+        "dependencies": [
+          "candidate.core.monitoring.drift_monitor",
+          "candidate.core.user_interface_manager.voice_handler",
+          "candidate.core.interfaces.logic.voice.voice_renderer"
+        ],
+        "exports": [
+          "ReflectionType",
+          "SymbolicMood",
+          "ReflectiveStatement",
+          "ConscienceSnapshot",
+          "ReflectionLayer",
+          "SeverityLevel",
+          "create_reflection_layer",
+          "reflect_on_drift_score",
+          "reflect_on_intent_deviation",
+          "reflect_on_emotional_state",
+          "contemplate_ethical_conflict",
+          "model_symbolic_future",
+          "synthesize_memory_insights",
+          "log_reflection",
+          "vocalize_conscience",
+          "capture_consciousness_snapshot",
+          "get_reflection_history",
+          "get_consciousness_trend",
+          "get_trend_direction"
+        ]
+      },
+      {
+        "filename": "controller.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/controller.json",
+        "dependencies": [
+          "candidate.orchestration.brain.privacy_manager",
+          "lukhas.governance.identity.auth_backend.audit_logger"
+        ],
+        "exports": [
+          "ComplianceContext",
+          "PrivacyControls",
+          "AGIState",
+          "AGIRequest",
+          "AGIResponse",
+          "AGISession",
+          "InteractionMode",
+          "CognitiveController"
+        ]
+      },
+      {
+        "filename": "MetaLearningAdapter.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/MetaLearningAdapter.json",
+        "dependencies": [],
+        "exports": [
+          "LearningPhase",
+          "FederatedState",
+          "MetaLearningMetrics",
+          "LearningRateBounds",
+          "MetaLearningEnhancementAdapter"
+        ]
+      },
+      {
+        "filename": "integration_manager.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/integration_manager.json",
+        "dependencies": [
+          "candidate.orchestration.brain.cognitive_agi_enhancement"
+        ],
+        "exports": [
+          "LukhasAGIIntegrationManager",
+          "get_integration_status"
+        ]
+      },
+      {
+        "filename": "cognitive_architecture_controller.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/cognitive_architecture_controller.json",
+        "dependencies": [],
+        "exports": [
+          "CognitiveConfig",
+          "CognitiveProcessType",
+          "MemoryType",
+          "ProcessPriority",
+          "ProcessState",
+          "ResourceType",
+          "CognitiveResource",
+          "MemoryItem",
+          "CognitiveProcess",
+          "MemorySystem",
+          "WorkingMemory",
+          "EpisodicMemory",
+          "SemanticMemory",
+          "ProceduralMemory",
+          "CognitiveResourceManager",
+          "CognitiveProcessScheduler",
+          "CognitiveMonitor",
+          "CognitiveArchitectureController",
+          "lukhas_tier_required",
+          "get_int",
+          "get_float",
+          "get_dict",
+          "decorator",
+          "available",
+          "allocate",
+          "release",
+          "store",
+          "retrieve",
+          "forget",
+          "consolidate",
+          "store",
+          "retrieve",
+          "forget",
+          "consolidate",
+          "store",
+          "retrieve",
+          "retrieve_by_time_range",
+          "forget",
+          "consolidate",
+          "store",
+          "retrieve",
+          "find_related_concepts",
+          "forget",
+          "consolidate",
+          "store",
+          "retrieve",
+          "update_skill_level",
+          "forget",
+          "consolidate",
+          "allocate",
+          "release",
+          "get_availability",
+          "submit_process",
+          "shutdown",
+          "shutdown",
+          "think",
+          "remember",
+          "recall",
+          "learn",
+          "plan",
+          "decide",
+          "create",
+          "reflect",
+          "get_status",
+          "shutdown",
+          "recharge_loop",
+          "consolidation_loop",
+          "wrapper_sync"
+        ]
+      },
+      {
+        "filename": "awareness_system.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/awareness_system.json",
+        "dependencies": [
+          "candidate.core.unified.integration"
+        ],
+        "exports": [
+          "AwarenessQuantumConfig",
+          "SystemState",
+          "QIAwarenessSystem",
+          "get_system_state",
+          "get_state_history"
+        ]
+      },
+      {
+        "filename": "metalearningenhancementsystem.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/metalearningenhancementsystem.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "EnhancementMode",
+          "Systemintegrationstatus",
+          "MetaLearningEnhancementsystem"
+        ]
+      },
+      {
+        "filename": "memory_hub.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/memory_hub.json",
+        "dependencies": [
+          "candidate.core.bridges.memory_consciousness_bridge",
+          "candidate.core.bridges.memory_learning_bridge",
+          "candidate.core.common",
+          "lukhas.memory.core.base_manager",
+          "lukhas.memory.distributed_state_manager",
+          "lukhas.memory.qi_manager",
+          "lukhas.memory.voice_memory_manager",
+          "candidate.core.core_hub",
+          "candidate.bridge.symbolic_memory_mapper",
+          "lukhas.memory.systems.memory_helix_golden",
+          "lukhas.memory.systems.symbolic_delta_compression",
+          "lukhas.memory.emotional_memory_manager_unified",
+          "lukhas.memory.systems.memory_planning_wrapper",
+          "lukhas.memory.systems.memory_profiler_wrapper",
+          "lukhas.memory.repair.trauma_repair_wrapper",
+          "lukhas.memory.systems.multimodal_memory_integration",
+          "lukhas.memory.colonies.episodic_memory_integration",
+          "lukhas.memory.systems.memory_tracker_integration",
+          "lukhas.memory.systems.memory_planning_mock",
+          "lukhas.memory.systems.memory_profiler_mock",
+          "lukhas.memory.systems.neurosymbolic_integration",
+          "candidate.core.integration.service_discovery",
+          "lukhas.memory.distributed_state_manager",
+          "lukhas.memory.systems.memory_helix_golden",
+          "lukhas.memory.systems.memory_helix_golden",
+          "lukhas.memory.systems.memory_helix_golden"
+        ],
+        "exports": [
+          "MemoryHub",
+          "get_memory_hub",
+          "register_service",
+          "get_service",
+          "list_services",
+          "register_event_handler",
+          "broadcast_to_all_hubs",
+          "receive_message"
+        ]
+      },
+      {
+        "filename": "symbolic_drift_analyzer.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/symbolic_drift_analyzer.json",
+        "dependencies": [
+          "candidate.core.common",
+          "candidate.core.glyph.glyphs"
+        ],
+        "exports": [
+          "DriftAlertLevel",
+          "PatternTrend",
+          "EntropyMetrics",
+          "TagVarianceMetrics",
+          "DriftAlert",
+          "SymbolicDriftAnalyzer",
+          "to_dict",
+          "to_dict",
+          "to_dict",
+          "calculate_shannon_entropy",
+          "calculate_tag_entropy",
+          "calculate_temporal_entropy",
+          "calculate_semantic_entropy",
+          "calculate_tag_variance",
+          "detect_pattern_trend",
+          "check_ethical_drift",
+          "register_alert_callback",
+          "generate_cli_summary",
+          "export_analysis_report",
+          "print_alert",
+          "print_alert"
+        ]
+      },
+      {
+        "filename": "abas_qi_specialist.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/abas_qi_specialist.json",
+        "dependencies": [],
+        "exports": [
+          "QIBioCapabilityLevel",
+          "QIBioResponse",
+          "QITunnelingEthics",
+          "ProtonMotiveProcessor",
+          "CristaeTopologyManager",
+          "QIBiologicalAGI",
+          "qi_ethical_arbitration",
+          "create_attention_gradient",
+          "synthesize_symbolic_atp",
+          "optimize_cristae_topology",
+          "get_biological_status"
+        ]
+      },
+      {
+        "filename": "research_awareness_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/research_awareness_engine.json",
+        "dependencies": [],
+        "exports": [
+          "ResearchType",
+          "ExperimentalTechnique",
+          "ResearchEthicsLevel",
+          "DataSharingLevel",
+          "ResearchPhase",
+          "ResearchConfig",
+          "ResearchAwarenessInput",
+          "ResearchAwarenessOutput",
+          "QIInspiredProcessor",
+          "BioSymbolicReasoner",
+          "SwarmIntelligenceCoordinator",
+          "ResearchAwarenessReasoner",
+          "ResearchAwarenessEngine",
+          "Config",
+          "research_audit_log",
+          "certify_research_compliance",
+          "process",
+          "process",
+          "process",
+          "process",
+          "conduct_research",
+          "get_research_summary"
+        ]
+      },
+      {
+        "filename": "client.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/client.json",
+        "dependencies": [],
+        "exports": [
+          "UseClientDefault",
+          "ClientState",
+          "BoundSyncStream",
+          "BoundAsyncStream",
+          "BaseClient",
+          "Client",
+          "AsyncClient",
+          "close",
+          "is_closed",
+          "trust_env",
+          "timeout",
+          "timeout",
+          "event_hooks",
+          "event_hooks",
+          "auth",
+          "auth",
+          "base_url",
+          "base_url",
+          "headers",
+          "headers",
+          "cookies",
+          "cookies",
+          "params",
+          "params",
+          "build_request",
+          "request",
+          "stream",
+          "send",
+          "get",
+          "options",
+          "head",
+          "post",
+          "put",
+          "patch",
+          "delete",
+          "close"
+        ]
+      },
+      {
+        "filename": "integrated_safety_system.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/integrated_safety_system.json",
+        "dependencies": [
+          "candidate.core.colonies.base_colony",
+          "candidate.core.colonies.ethics_swarm_colony",
+          "candidate.core.colonies.governance_colony_enhanced",
+          "candidate.core.quantized_thought_cycles",
+          "lukhas.memory.systems.memory_safety_features"
+        ],
+        "exports": [
+          "SafetyEventType",
+          "SafetyLevel",
+          "SafetyEvent",
+          "SafetyValidationResult",
+          "SafetyEventBus",
+          "SafetyColony",
+          "IntegratedSafetySystem",
+          "get_event_metrics",
+          "check_circuit_breaker",
+          "trip_circuit_breaker",
+          "get_system_status"
+        ]
+      },
+      {
+        "filename": "oscillator.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/oscillator.json",
+        "dependencies": [],
+        "exports": [
+          "OscillatorState",
+          "QIInspiredGateType",
+          "QIOscillatorMetrics",
+          "CORDICProcessor",
+          "FresnelErrorCorrector",
+          "QIAnnealing",
+          "LatticeBasedSecurity",
+          "BiomimeticResonanceEngine",
+          "EnhancedBaseOscillator",
+          "BaseOscillator",
+          "rotate_vector",
+          "calculate_phase_alignment",
+          "verify_quantum_security"
+        ]
+      },
+      {
+        "filename": "dreamseed_unified.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dreamseed_unified.json",
+        "dependencies": [
+          "candidate.core.identity_integration",
+          "candidate.core.tier_unification_adapter",
+          "lukhas.memory.emotional",
+          "lukhas.memory.governance.ethical_drift_governor",
+          "lukhas.governance.identity.core.user_tier_mapping",
+          "lukhas.governance.identity.core.user_tier_mapping"
+        ],
+        "exports": [
+          "EmotionalTier",
+          "SymbolicEmotionTag",
+          "EmotionalSafetyLevel",
+          "UnifiedEmotionalAccessContext",
+          "UnifiedSymbolicEmotionState",
+          "UnifiedDreamSeedEmotionEngine",
+          "create_unified_dreamseed_emotion_engine",
+          "assign_unified_emotional_tier",
+          "process_unified_dreamseed_emotion",
+          "analyze_emotional_patterns_unified",
+          "modulate_emotional_state_unified",
+          "inject_symbolic_tags",
+          "isolate_codreamer_affect",
+          "enforce_emotional_safety",
+          "regulate_drift_feedback"
+        ]
+      },
+      {
+        "filename": "lambda_dependa_bot.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/lambda_dependa_bot.json",
+        "dependencies": [
+          "candidate.core.common.config",
+          "candidate.core.common.config"
+        ],
+        "exports": [
+          "ΛSelfHealingAction",
+          "ΛCodeFixSuggestion",
+          "ΛSelfHealingReport",
+          "ΛDependencyProfile",
+          "ΛArchitecturalInsight",
+          "ΛModularityReport",
+          "ΛDependaBoT",
+          "CodeFixerBase",
+          "OllamaCodeFixer",
+          "TransformersCodeFixer",
+          "OpenAICodeFixer",
+          "BotProtocol",
+          "QIBotConfig",
+          "QINetworkEngine",
+          "nx",
+          "add_node",
+          "add_edge",
+          "calculate_quantum_modularity",
+          "nodes",
+          "edges",
+          "in_degree",
+          "out_degree",
+          "degree"
+        ]
+      },
+      {
+        "filename": "identity_hub.py",
+        "component_type": "IDENTITY_SERVICE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/identity_hub.json",
+        "dependencies": [
+          "candidate.core.bridges.identity_core_bridge",
+          "candidate.core.common",
+          "lukhas.governance.identity.auth_backend.trust_scorer",
+          "lukhas.governance.identity.core.auth.biometric_integration",
+          "lukhas.governance.identity.core.qrs_manager",
+          "lukhas.governance.identity.core.sent.consent_manager",
+          "lukhas.governance.identity.core.swarm.tier_aware_swarm_hub",
+          "lukhas.governance.identity.interface",
+          "lukhas.governance.identity.auth_utils.attention_monitor",
+          "lukhas.governance.identity.auth_utils.grid_size_calculator",
+          "candidate.core.identity.persona_engine",
+          "candidate.core.core_hub",
+          "lukhas.governance.identity.core.brain_identity_integration",
+          "lukhas.governance.identity.auth_utils.attention_monitor"
+        ],
+        "exports": [
+          "IdentityHub",
+          "AuthenticationMethod",
+          "UserRole",
+          "AuthenticationStatus",
+          "EnterpriseUser",
+          "AuthenticationResult",
+          "SAMLConfiguration",
+          "OAuthConfiguration",
+          "LDAPConfiguration",
+          "EnterpriseAuthenticationModule",
+          "AttentionMonitor",
+          "AttentionState",
+          "AttentionMetrics",
+          "InputModality",
+          "EyeTrackingData",
+          "InputEvent",
+          "GridPattern",
+          "SizingMode",
+          "ScreenDimensions",
+          "GridConstraints",
+          "GridCalculationResult",
+          "GridSizeCalculator",
+          "PersonaEngine",
+          "get_identity_hub",
+          "get_enterprise_auth_config_template",
+          "register_service",
+          "get_service",
+          "list_services",
+          "register_event_handler",
+          "get_persona_engine_status",
+          "create_identity_component",
+          "calculate_optimal_grid_size",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "colony_orchestrator.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/colony_orchestrator.json",
+        "dependencies": [
+          "candidate.core.colonies.base_colony",
+          "candidate.core.colonies.creativity_colony",
+          "candidate.core.colonies.ethics_swarm_colony",
+          "candidate.core.colonies.memory_colony",
+          "candidate.core.colonies.oracle_colony",
+          "candidate.core.colonies.reasoning_colony",
+          "candidate.core.colonies.temporal_colony",
+          "candidate.core.tier_aware_colony_proxy"
+        ],
+        "exports": [
+          "ColonyType",
+          "ColonyState",
+          "ColonyPriority",
+          "ColonyConfig",
+          "ColonyTask",
+          "ColonyMetrics",
+          "ColonyOrchestrator",
+          "BaseColony",
+          "get_colony_status"
+        ]
+      },
+      {
+        "filename": "emotional.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/emotional.json",
+        "dependencies": [
+          "candidate.core.symbolic.drift.symbolic_drift_tracker"
+        ],
+        "exports": [
+          "EmotionVector",
+          "EmotionalMemory",
+          "SymbolicDriftTracker",
+          "lukhas_tier_required",
+          "decorator",
+          "blend",
+          "to_dict",
+          "get_primary_emotion",
+          "from_dict",
+          "process_experience",
+          "check_identity_emotion_cascade",
+          "is_fuse_active",
+          "get_emotional_response",
+          "get_associated_emotion",
+          "get_current_emotional_state",
+          "get_emotional_history",
+          "affect_delta",
+          "symbolic_affect_trace",
+          "affect_vector_velocity",
+          "store_emotional_memory",
+          "track_drift",
+          "register_drift",
+          "record_drift"
+        ]
+      },
+      {
+        "filename": "core.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/core.json",
+        "dependencies": [
+          "lukhas.memory.structural_conscience",
+          "lukhas.memory.structural_conscience",
+          "lukhas.memory.structural_conscience"
+        ],
+        "exports": [
+          "HybridMemoryItem",
+          "ReflectionVectorStorageLayer",
+          "ReflectionMemoryAttentionLayer",
+          "ReflectionContinuousLearningEngine",
+          "ReflectionHybridMemoryFold",
+          "OptimizedVectorStorageLayer",
+          "ReflectionOptimizedHybridMemoryFold",
+          "NodeState",
+          "MessageType",
+          "DistributedMemoryEntry",
+          "NodeInfo",
+          "ConsensusProtocol",
+          "DistributedMemoryFold",
+          "ReflectionQuantizationCodec",
+          "create_hybrid_memory_fold",
+          "create_optimized_hybrid_memory_fold_with_lazy_loading",
+          "create_optimized_hybrid_memory_fold",
+          "create_optimized_hybrid_memory_fold_512",
+          "add_vector",
+          "search_similar",
+          "compute_attention_scores",
+          "update_tag_importance",
+          "get_tag_importance",
+          "decay_all_weights",
+          "get_enhanced_statistics",
+          "add_vector",
+          "get_memory_usage_stats",
+          "get_optimization_statistics",
+          "get_enhanced_statistics",
+          "to_dict",
+          "from_dict",
+          "endpoint",
+          "is_alive",
+          "get_network_status",
+          "trace_recursive"
+        ]
+      },
+      {
+        "filename": "openai_core_service.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/openai_core_service.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "OpenAICapability",
+          "ModelType",
+          "OpenAIRequest",
+          "OpenAIResponse",
+          "OpenAICoreService",
+          "OpenAIMockProvider",
+          "RateLimiter",
+          "AsyncOpenAI",
+          "OpenAI",
+          "get_usage_report"
+        ]
+      },
+      {
+        "filename": "EthicalReasoningSystem.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/EthicalReasoningSystem.json",
+        "dependencies": [],
+        "exports": [
+          "EthicalFramework",
+          "MoralPrinciple",
+          "StakeholderType",
+          "EthicalDilemmaType",
+          "MoralJudgment",
+          "ValueAlignment",
+          "EthicalConstraint",
+          "DeontologicalReasoner",
+          "ConsequentialistReasoner",
+          "ValueAlignmentSystem",
+          "EthicalReasoningSystem"
+        ]
+      },
+      {
+        "filename": "meta_learning.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/meta_learning.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "FederatedModel",
+          "FederatedLearningManager",
+          "ReflectiveIntrospectionSystem",
+          "MetaLearningSystem",
+          "update_with_gradients",
+          "get_parameters",
+          "serialize",
+          "deserialize",
+          "register_model",
+          "get_model",
+          "contribute_gradients",
+          "save_model",
+          "load_models",
+          "get_client_status",
+          "log_interaction",
+          "reflect",
+          "get_status_report",
+          "optimize_learning_approach",
+          "incorporate_feedback",
+          "generate_learning_report",
+          "get_federated_model",
+          "trigger_reflection"
+        ]
+      },
+      {
+        "filename": "practical_optimizations.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/practical_optimizations.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "OptimizationStrategy",
+          "CacheEntry",
+          "AdaptiveCache",
+          "ObjectPool",
+          "LazyComputation",
+          "DeferredComputation",
+          "BatchProcessor",
+          "MemoryMappedStorage",
+          "ComputationReuse",
+          "ResourceManager",
+          "ExpensiveObject",
+          "optimize_swarm_communication",
+          "deserialize_swarm_message",
+          "apply",
+          "get_metrics",
+          "is_expired",
+          "access",
+          "score",
+          "get",
+          "put",
+          "clear_expired",
+          "apply",
+          "get_metrics",
+          "acquire",
+          "release",
+          "borrowed",
+          "apply",
+          "get_metrics",
+          "lazy_property",
+          "defer",
+          "apply",
+          "get_metrics",
+          "get",
+          "is_computed",
+          "add",
+          "flush",
+          "apply",
+          "get_metrics",
+          "shutdown",
+          "store_array",
+          "get_array",
+          "apply",
+          "get_metrics",
+          "cleanup",
+          "memoize",
+          "share_computation",
+          "invalidate_dependents",
+          "apply",
+          "get_metrics",
+          "get_strategy",
+          "get_all_metrics",
+          "optimize_computation",
+          "optimize_memory_access",
+          "create_resource_report",
+          "expensive_computation",
+          "fibonacci",
+          "wrapper",
+          "decorator",
+          "reset",
+          "wrapper"
+        ]
+      },
+      {
+        "filename": "lambda_mirror.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/lambda_mirror.json",
+        "dependencies": [],
+        "exports": [
+          "ReflectionType",
+          "EmotionalTone",
+          "AlignmentStatus",
+          "ExperienceEntry",
+          "EmotionalDrift",
+          "AlignmentScore",
+          "ReflectionEntry",
+          "LambdaMirror",
+          "main",
+          "to_dict",
+          "to_dict",
+          "to_dict",
+          "to_dict",
+          "identify_reflection_prompts"
+        ]
+      },
+      {
+        "filename": "self_reflection_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/self_reflection_engine.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "SelfReflectionEngine",
+          "create_consciousness_component",
+          "create_consciousness_component",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "visionary_orchestrator.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/visionary_orchestrator.json",
+        "dependencies": [
+          "candidate.core.advanced_symbolic_loop",
+          "candidate.core.logging",
+          "candidate.core.memory.memory_manager"
+        ],
+        "exports": [
+          "VisionaryMode",
+          "ConsciousnessLevel",
+          "VisionaryMetrics",
+          "VisionaryAGIOrchestrator",
+          "VisionaryFormatter",
+          "overall_vision_score",
+          "format",
+          "deep_merge"
+        ]
+      },
+      {
+        "filename": "master_orchestrator.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/master_orchestrator.json",
+        "dependencies": [
+          "candidate.orchestration.bio_symbolic_orchestrator",
+          "candidate.orchestration.colony_orchestrator",
+          "candidate.orchestration.swarm_orchestration_adapter",
+          "candidate.memory.consolidation.memory_colonies",
+          "candidate.memory.consolidation.memory_visualization",
+          "candidate.memory.folds.unified_memory_core",
+          "candidate.orchestration.brain.primary_hub",
+          "candidate.core.utils.orchestration_energy_aware_execution_planner",
+          "candidate.orchestration.workflow_engine"
+        ],
+        "exports": [
+          "LukhasCyclePhase",
+          "OrchestrationPriority",
+          "OrchestrationType",
+          "OrchestrationRequest",
+          "OrchestrationMetrics",
+          "MasterOrchestrator",
+          "get_master_status"
+        ]
+      },
+      {
+        "filename": "bio_crista_optimizer_adapter.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/bio_crista_optimizer_adapter.json",
+        "dependencies": [],
+        "exports": [
+          "CristaeTopologyType",
+          "CristaeState",
+          "CristaOptimizerAdapter",
+          "lukhas_tier_required",
+          "decorator"
+        ]
+      },
+      {
+        "filename": "certificate_manager.py",
+        "component_type": "TEST",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/certificate_manager.json",
+        "dependencies": [],
+        "exports": [
+          "CertificateStatus",
+          "QIAlgorithm",
+          "QICertificateManager",
+          "lukhas_tier_required",
+          "decorator",
+          "get_certificate_status",
+          "get_all_certificates_status"
+        ]
+      },
+      {
+        "filename": "qrg_100_percent_coverage.py",
+        "component_type": "TEST",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/qrg_100_percent_coverage.json",
+        "dependencies": [
+          "lukhas.qi.steganographic_demo"
+        ],
+        "exports": [
+          "TestQRGEdgeCases",
+          "TestQRGErrorHandling",
+          "TestQRGSecurityValidation",
+          "TestQRGCulturalValidation",
+          "TestQuantumSteganographicCoverage",
+          "TestPerformanceOptimization",
+          "TestIntegrationBoundaries",
+          "run_100_percent_coverage_suite",
+          "setUp",
+          "test_extreme_consciousness_levels",
+          "test_invalid_security_levels",
+          "test_empty_and_null_inputs",
+          "test_extremely_long_user_ids",
+          "test_unicode_and_special_characters",
+          "test_concurrent_stress_test",
+          "setUp",
+          "test_missing_dependencies_graceful_handling",
+          "test_memory_exhaustion_protection",
+          "test_circular_reference_protection",
+          "test_exception_recovery",
+          "setUp",
+          "test_entropy_quality_validation",
+          "test_temporal_security",
+          "test_security_level_escalation",
+          "setUp",
+          "test_all_cultural_contexts",
+          "test_cultural_safety_edge_cases",
+          "test_cultural_preferences_respect",
+          "setUp",
+          "test_all_quantum_influence_types",
+          "test_all_glyph_styles",
+          "test_constellation_encoding_completeness",
+          "setUp",
+          "test_large_scale_generation",
+          "test_memory_efficiency",
+          "test_configuration_optimization",
+          "setUp",
+          "test_session_management",
+          "test_statistics_collection",
+          "test_adaptive_qrg_selection_logic",
+          "generate_qrg",
+          "failing_method"
+        ]
+      },
+      {
+        "filename": "distributed_state_manager.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/distributed_state_manager.json",
+        "dependencies": [
+          "candidate.core.cluster_sharding",
+          "candidate.core.common",
+          "candidate.core.event_sourcing"
+        ],
+        "exports": [
+          "StateType",
+          "StateEntry",
+          "StateSnapshot",
+          "DistributedStateManager",
+          "MultiNodeStateManager",
+          "is_expired",
+          "access",
+          "set",
+          "get",
+          "delete",
+          "get_shard_keys",
+          "get_shard_stats",
+          "get_global_stats",
+          "shutdown",
+          "get_node",
+          "set",
+          "get",
+          "get_cluster_stats",
+          "shutdown_all"
+        ]
+      },
+      {
+        "filename": "ethical_drift_sentinel.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/ethical_drift_sentinel.json",
+        "dependencies": [],
+        "exports": [
+          "EscalationTier",
+          "ViolationType",
+          "EthicalViolation",
+          "InterventionAction",
+          "EthicalState",
+          "EthicalDriftSentinel",
+          "phase_harmonics_score",
+          "to_dict",
+          "to_dict",
+          "calculate_risk_score",
+          "get_sentinel_status",
+          "register_symbol",
+          "unregister_symbol"
+        ]
+      },
+      {
+        "filename": "orchestration_service.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/orchestration_service.json",
+        "dependencies": [
+          "lukhas.governance.identity.interface",
+          "candidate.bridge.message_bus",
+          "candidate.core.performance.performance_orchestrator",
+          "lukhas.governance.identity.interface"
+        ],
+        "exports": [
+          "OrchestrationService",
+          "IdentityClient",
+          "coordinate_modules",
+          "execute_workflow",
+          "get_system_status",
+          "coordinate_modules",
+          "execute_workflow",
+          "manage_resources",
+          "route_event",
+          "get_message_bus_stats",
+          "get_system_status",
+          "get_health_level",
+          "verify_user_access",
+          "check_consent",
+          "log_activity"
+        ]
+      },
+      {
+        "filename": "privacy_preserving_memory_vault.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/privacy_preserving_memory_vault.json",
+        "dependencies": [
+          "candidate.core.integration.governance.__init__",
+          "lukhas.memory.emotional"
+        ],
+        "exports": [
+          "PrivacyLevel",
+          "EncryptionScheme",
+          "PrivacyTechnique",
+          "ComplianceStandard",
+          "PrivacyPolicy",
+          "EncryptedMemory",
+          "EncryptionProvider",
+          "AESGCMProvider",
+          "FernetProvider",
+          "DifferentialPrivacyProvider",
+          "PrivacyPreservingMemoryVault",
+          "update_access_tracking",
+          "is_expired",
+          "should_be_deleted",
+          "add_noise",
+          "add_gaussian_noise",
+          "privatize_histogram",
+          "get_compliance_status",
+          "get_vault_status"
+        ]
+      },
+      {
+        "filename": "unified_memory_manager.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/unified_memory_manager.json",
+        "dependencies": [
+          "lukhas.memory.memory_fold",
+          "lukhas.memory.systems.memory_visualizer"
+        ],
+        "exports": [
+          "EnhancedMemoryManager",
+          "EnhancedMemoryManager",
+          "QIMemoryManager",
+          "DriftMemoryManager",
+          "get_active_folds",
+          "get_active_folds"
+        ]
+      },
+      {
+        "filename": "circuit_breaker.py",
+        "component_type": "TEST",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/circuit_breaker.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "CircuitState",
+          "FailureType",
+          "FailureRecord",
+          "HealthCheck",
+          "AdvancedCircuitBreaker",
+          "CircuitBreakerOpen",
+          "AnomalyDetector",
+          "ErrorPropagationTracker",
+          "ConsensusValidator",
+          "CascadePreventionSystem",
+          "ActorQuarantined",
+          "AnomalyDetected",
+          "TestActor",
+          "ActorRef",
+          "call",
+          "force_open",
+          "force_close",
+          "add_health_check",
+          "get_metrics",
+          "record_metric",
+          "detect_anomalies",
+          "get_anomaly_score",
+          "record_failure",
+          "is_actor_infected",
+          "quarantine_actor",
+          "is_quarantined",
+          "analyze_propagation_patterns",
+          "get_or_create_circuit_breaker",
+          "report_failure",
+          "get_system_status"
+        ]
+      },
+      {
+        "filename": "openai_modulated_service.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "content_enterprise_orchestrator.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/content_enterprise_orchestrator.json",
+        "dependencies": [],
+        "exports": [
+          "ServiceStatus",
+          "ScalingAction",
+          "Priority",
+          "ServiceMetrics",
+          "ServiceHealth",
+          "ScalingDecision",
+          "OrchestrationTask",
+          "ServiceRegistry",
+          "LoadBalancer",
+          "AutoScaler",
+          "CircuitBreaker",
+          "TaskQueue",
+          "ContentEnterpriseOrchestrator",
+          "register_service",
+          "discover_service",
+          "deregister_service",
+          "get_endpoint",
+          "mark_endpoint_unhealthy",
+          "mark_endpoint_healthy",
+          "analyze_scaling_need",
+          "execute_scaling",
+          "call",
+          "enqueue_task",
+          "get_next_task",
+          "complete_task",
+          "setup_prometheus_metrics",
+          "get_orchestration_status"
+        ]
+      },
+      {
+        "filename": "layer.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/layer.json",
+        "dependencies": [],
+        "exports": [
+          "QILikeState",
+          "QIBioConfig",
+          "QIBioOscillator",
+          "measure",
+          "entangle",
+          "oscillate",
+          "create_entanglement",
+          "apply_entanglement_effects",
+          "measure_quantum_property",
+          "evolve_quantum_like_state",
+          "get_oscillator_metrics",
+          "reset_oscillator",
+          "synchronize_with_rhythm",
+          "create_coherence_field"
+        ]
+      },
+      {
+        "filename": "event_replay_snapshot.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/event_replay_snapshot.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "EventType",
+          "Event",
+          "ActorStateSnapshot",
+          "EventStore",
+          "SnapshotStore",
+          "EventSourcedActor",
+          "ReplayController",
+          "DemoActor",
+          "to_json",
+          "from_json",
+          "create_from_actor",
+          "restore_to_actor"
+        ]
+      },
+      {
+        "filename": "bio_system.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/bio_system.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "MitochondrialQIBridge",
+          "QISynapticGate",
+          "NeuroplasticityModulator",
+          "SelfAwareAgent",
+          "EnhancedMitochondrialQIBridge",
+          "evaluate_performance",
+          "calculate_coherence",
+          "adapt_models",
+          "get_self_assessment_report",
+          "cached_quantum_modulate",
+          "process_with_awareness"
+        ]
+      },
+      {
+        "filename": "MetaLearningEnhancement.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/MetaLearningEnhancement.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "EnhancementMode",
+          "SystemIntegrationStatus",
+          "MetaLearningEnhancementSystem"
+        ]
+      },
+      {
+        "filename": "meta_learning_adapter.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/meta_learning_adapter.json",
+        "dependencies": [],
+        "exports": [
+          "LearningPhase",
+          "FederatedState",
+          "MetaLearningMetrics",
+          "LearningRateBounds",
+          "MetaLearningEnhancementAdapter"
+        ]
+      },
+      {
+        "filename": "qi_dream_adapter.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/qi_dream_adapter.json",
+        "dependencies": [],
+        "exports": [
+          "DreamQuantumConfig",
+          "QIDreamAdapter"
+        ]
+      },
+      {
+        "filename": "meta_cognitive_orchestrator_alt.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/meta_cognitive_orchestrator_alt.json",
+        "dependencies": [],
+        "exports": [
+          "AGICapabilityLevel",
+          "AGIResponse",
+          "QIInspiredAttention",
+          "CausalReasoningModule",
+          "SymbolicEngine",
+          "MetaCognitiveOrchestrator",
+          "ComplianceEngine",
+          "EnhancedAGIBot",
+          "attend",
+          "reason",
+          "reason",
+          "register_component",
+          "orchestrate",
+          "check_compliance",
+          "get_agi_status"
+        ]
+      },
+      {
+        "filename": "monitoring_observability.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/monitoring_observability.json",
+        "dependencies": [],
+        "exports": [
+          "AlertSeverity",
+          "MetricType",
+          "DriftType",
+          "Alert",
+          "MetricThreshold",
+          "MonitoringConfig",
+          "DistributedTracer",
+          "ModelDriftDetector",
+          "AlertManager",
+          "PerformanceProfiler",
+          "ObservabilitySystem",
+          "add_span_event",
+          "get_performance_summary"
+        ]
+      },
+      {
+        "filename": "ethical_reasoning_system.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/ethical_reasoning_system.json",
+        "dependencies": [],
+        "exports": [
+          "EthicalFramework",
+          "MoralPrinciple",
+          "StakeholderType",
+          "EthicalDilemmaType",
+          "MoralJudgment",
+          "ValueAlignmentAssessment",
+          "EthicalConstraint",
+          "DeontologicalReasoner",
+          "ConsequentialistReasoner",
+          "ValueAlignmentSystem",
+          "EthicalReasoningSystem"
+        ]
+      },
+      {
+        "filename": "learning_system.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/learning_system.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "LearningType",
+          "LearningStrategy",
+          "LearningEpisode",
+          "MetaLearningResult",
+          "BaseMetaLearner",
+          "ModelAgnosticMetaLearner",
+          "FewShotLearner",
+          "ContinualLearner",
+          "AdvancedLearningSystem"
+        ]
+      },
+      {
+        "filename": "processing_core.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "_dict_learning.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/_dict_learning.json",
+        "dependencies": [],
+        "exports": [
+          "_BaseSparseCoding",
+          "SparseCoder",
+          "DictionaryLearning",
+          "MiniBatchDictionaryLearning",
+          "sparse_encode",
+          "dict_learning_online",
+          "dict_learning",
+          "transform",
+          "inverse_transform",
+          "fit",
+          "transform",
+          "inverse_transform",
+          "n_components_",
+          "n_features_in_",
+          "fit",
+          "fit_transform",
+          "fit",
+          "partial_fit"
+        ]
+      },
+      {
+        "filename": "qi_memory_manager.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/qi_memory_manager.json",
+        "dependencies": [],
+        "exports": [
+          "QIMemoryManager"
+        ]
+      },
+      {
+        "filename": "token_budget_controller.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/token_budget_controller.json",
+        "dependencies": [],
+        "exports": [
+          "BudgetPriority",
+          "CallUrgency",
+          "APICallContext",
+          "BudgetDecision",
+          "TokenBudgetController",
+          "main",
+          "load_state",
+          "save_state",
+          "check_daily_reset",
+          "track_conservation",
+          "update_efficiency_score",
+          "can_use_flex_budget",
+          "rate_limit_check",
+          "analyze_call_necessity",
+          "record_api_call",
+          "mark_recommendation_applied",
+          "refresh_daily_budget",
+          "get_financial_intelligence_report"
+        ]
+      },
+      {
+        "filename": "agent_coordination.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/agent_coordination.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "TaskStatus",
+          "SkillLevel",
+          "Skill",
+          "TaskAnnouncement",
+          "SkillOffer",
+          "WorkingGroup",
+          "CoordinationProtocol",
+          "SkillRegistry",
+          "CoordinationHub",
+          "AutonomousAgent",
+          "DataProcessorAgent",
+          "AnalyticsAgent",
+          "MLModelAgent",
+          "actorref_to_dict",
+          "actorref_from_dict",
+          "update_metrics",
+          "is_expired",
+          "add_member",
+          "all_skills_covered",
+          "get_ref"
+        ]
+      },
+      {
+        "filename": "full_connectivity_resolver.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/full_connectivity_resolver.json",
+        "dependencies": [],
+        "exports": [
+          "LambdaConnectivityResolver",
+          "main",
+          "load_analysis",
+          "create_missing_core_modules",
+          "create_bio_symbolic_module",
+          "create_bio_awareness_module",
+          "create_bio_core_module",
+          "standardize_voice_synthesis",
+          "create_voice_safety_guard",
+          "create_voice_profiling",
+          "create_voice_modulator",
+          "fix_broken_imports",
+          "fix_file_imports",
+          "apply_import_fix",
+          "create_missing_init_files",
+          "create_init_file",
+          "write_file",
+          "validate_connectivity",
+          "generate_report",
+          "print_summary"
+        ]
+      },
+      {
+        "filename": "awareness.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/awareness.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "CardiolipinEncoder",
+          "CristaFilter",
+          "ProtonGradient",
+          "QIAttentionGate",
+          "SystemAwareness"
+        ]
+      },
+      {
+        "filename": "qi_layer.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/qi_layer.json",
+        "dependencies": [],
+        "exports": [
+          "QIBioConfig",
+          "QIBioOscillator",
+          "oscillate",
+          "create_entanglement",
+          "apply_entanglement_effects",
+          "measure_quantum_property",
+          "get_oscillator_metrics",
+          "reset_oscillator",
+          "synchronize_with_rhythm",
+          "create_coherence_field"
+        ]
+      },
+      {
+        "filename": "core_integrator.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/core_integrator.json",
+        "dependencies": [
+          "candidate.orchestration.brain.integration.brain_integration"
+        ],
+        "exports": [
+          "AccessTier",
+          "CoreMessageType",
+          "LUKHASCoreIntegrator",
+          "lukhas_tier_required",
+          "decorator",
+          "register_component",
+          "register_message_handler",
+          "subscribe_to_events",
+          "send_message",
+          "broadcast_event",
+          "initialize_awareness_protocol",
+          "process_awareness_alert",
+          "get_component_status",
+          "get_system_status",
+          "wrapper"
+        ]
+      },
+      {
+        "filename": "consciousness_hub.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/consciousness_hub.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "ConsciousnessState",
+          "ConsciousnessMetrics",
+          "ConsciousnessHub"
+        ]
+      },
+      {
+        "filename": "actor_system.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/actor_system.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "ActorState",
+          "SupervisionStrategy",
+          "ActorMessage",
+          "ActorRef",
+          "Actor",
+          "ActorSystem",
+          "AIAgentActor",
+          "to_dict",
+          "register_handler",
+          "become",
+          "supervision_strategy",
+          "get_stats",
+          "get_actor_ref",
+          "get_actor",
+          "register_response_handler",
+          "unregister_response_handler",
+          "handle_response",
+          "get_system_stats"
+        ]
+      },
+      {
+        "filename": "symbolic_weaver.py",
+        "component_type": "COGNITIVE_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/symbolic_weaver.json",
+        "dependencies": [],
+        "exports": [
+          "FragmentType",
+          "NarrativeArc",
+          "ThreadSeverity",
+          "SymbolicFragment",
+          "NarrativeMotif",
+          "NarrativeThread",
+          "ThreadTrace",
+          "WeavingReport",
+          "SymbolicPatternExtractor",
+          "ArchetypalAnalyzer",
+          "SymbolicWeaver",
+          "main",
+          "extract_symbols",
+          "extract_glyphs",
+          "extract_emotions",
+          "analyze_archetypal_pattern",
+          "load_symbolic_fragments",
+          "thread_memory_sequence",
+          "synthesize_narrative_thread",
+          "evaluate_thread_alignment",
+          "log_thread_metadata",
+          "generate_narrative_markdown",
+          "generate_thread_trace_json",
+          "generate_thread_map",
+          "get_weaver_status"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Start with consciousness architecture documentation, then examine engines and processors",
+    "key_files": [
+      "id_reasoning_engine.py",
+      "research_awareness_engine.py"
+    ],
+    "common_tasks": [
+      {
+        "task": "Consciousness engine development",
+        "files_involved": [
+          "id_reasoning_engine.py",
+          "research_awareness_engine.py",
+          "self_reflection_engine.py"
+        ],
+        "complexity": "high"
+      }
+    ],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "Consciousness architecture patterns",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 69,
+    "estimated_complexity": "high",
+    "consciousness_integration": "advanced",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "native",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true,
+    "cognitive_alignment_score": 0.85
+  },
+  "relationships": {
+    "parent_directory": "candidate/consciousness",
+    "related_directories": [],
+    "constellation_cluster": "horizon_star_consciousness",
+    "dependency_weight": "moderate"
+  }
+}

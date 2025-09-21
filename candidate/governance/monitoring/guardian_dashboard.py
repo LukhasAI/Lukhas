@@ -3,7 +3,7 @@
 Real-Time Governance Dashboard - Advanced Guardian monitoring interface
 
 Provides comprehensive threat visualization with symbolic analysis, predictive modeling,
-and governance oversight. Integrated with LUKHAS Trinity Framework (⚛️🧠🛡️).
+and governance oversight. Integrated with LUKHAS Constellation Framework (⚛️🧠🛡️).
 """
 import random
 import streamlit as st
@@ -734,7 +734,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
             "escalation_path": "auto" if time.time() % 3 < 2 else "manual",
             "governance_validated": True,
             "compliance_checked": True,
-            "trinity_framework_impact": {
+            "constellation_framework_impact": {
                 "identity": threat_type in ["governance_drift", "ethics_violation"],
                 "consciousness": threat_type in ["consciousness_instability", "pattern_anomaly"],
                 "guardian": True,  # All threats affect guardian
@@ -790,7 +790,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
 
         print(Console.move_cursor(2, 1), end="")
         print(
-            f"{Console.BOLD}{Console.CYAN}║ 🛡️ LUKHAS GOVERNANCE MONITOR - TRINITY FRAMEWORK STATUS ⚛️🧠🛡️            ║{Console.RESET}",
+            f"{Console.BOLD}{Console.CYAN}║ 🛡️ LUKHAS GOVERNANCE MONITOR - CONSTELLATION FRAMEWORK STATUS ⚛️🧠🛡️            ║{Console.RESET}",
             end="",
         )
 
@@ -831,17 +831,17 @@ class GuardianDashboard(GlyphIntegrationMixin):
             end="",
         )
 
-        # Trinity Framework Status
+        # Constellation Framework Status
         print(Console.move_cursor(9, 5), end="")
-        print(f"{Console.BOLD}TRINITY FRAMEWORK STATUS{Console.RESET}", end="")
+        print(f"{Console.BOLD}CONSTELLATION FRAMEWORK STATUS{Console.RESET}", end="")
 
-        trinity_status = {
+        constellation_status = {
             "⚛️ Identity": self.current_metrics.governance_health,
             "🧠 Consciousness": self.current_metrics.consciousness_stability,
             "🛡️ Guardian": 1.0 - self.current_metrics.guardian_load,
         }
 
-        for i, (component, health) in enumerate(trinity_status.items()):
+        for i, (component, health) in enumerate(constellation_status.items()):
             color = Console.GREEN if health > 0.8 else Console.YELLOW if health > 0.6 else Console.RED
             bar = "█" * int(health * 15) + "░" * (15 - int(health * 15))
 
@@ -943,15 +943,15 @@ class GuardianDashboard(GlyphIntegrationMixin):
                 end="",
             )
         else:
-            # Trinity Framework status with governance
-            trinity_color = (
+            # Constellation Framework status with governance
+            constellation_color = (
                 Console.GREEN
                 if (
                     self.current_metrics.consciousness_stability > 0.8 and self.current_metrics.governance_health > 0.95
                 )
                 else Console.YELLOW
             )
-            print(f"Trinity Framework: ⚛️🧠🛡️ {trinity_color}ACTIVE{Console.RESET}", end="")
+            print(f"Constellation Framework: ⚛️🧠🛡️ {constellation_color}ACTIVE{Console.RESET}", end="")
 
             # Governance health
             gov_color = (
@@ -1143,7 +1143,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
                 "human_oversight_required": self.emergency_state.human_oversight_required,
             },
             "governance_actions_logged": len(self.governance_log),
-            "trinity_framework_status": {
+            "constellation_framework_status": {
                 "identity": self.current_metrics.governance_health,
                 "consciousness": self.current_metrics.consciousness_stability,
                 "guardian": 1.0 - self.current_metrics.guardian_load,

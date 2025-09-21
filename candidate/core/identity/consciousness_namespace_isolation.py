@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 ║ CONSCIOUSNESS_ROLE: Consciousness domain isolation and security boundaries
 ║ EVOLUTIONARY_STAGE: Isolation - Multi-domain consciousness separation
 ║
-║ TRINITY FRAMEWORK:
+║ CONSTELLATION FRAMEWORK:
 ║ ⚛️ IDENTITY: Domain-specific identity isolation and access control
 ║ 🧠 CONSCIOUSNESS: Consciousness-aware domain management
 ║ 🛡️ GUARDIAN: Security boundary enforcement and audit compliance
@@ -98,7 +98,7 @@ class NamespacePolicy:
 
     # Security and compliance
     audit_requirements: list[str] = field(default_factory=lambda: ["access_log", "identity_verification"])
-    compliance_frameworks: list[str] = field(default_factory=lambda: ["constitutional_ai", "trinity_framework"])
+    compliance_frameworks: list[str] = field(default_factory=lambda: ["constitutional_ai", "constellation_framework"])
 
     # Temporal policies
     access_time_limits: dict[str, int] = field(default_factory=dict)  # Minutes
@@ -141,7 +141,7 @@ class NamespaceInstance:
     # Audit trail
     audit_events: list[dict[str, Any]] = field(default_factory=list)
     compliance_status: dict[str, bool] = field(
-        default_factory=lambda: {"constitutional_ai": True, "trinity_framework": True}
+        default_factory=lambda: {"constitutional_ai": True, "constellation_framework": True}
     )
 
 

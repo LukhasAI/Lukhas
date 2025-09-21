@@ -2,7 +2,7 @@
 ## Comprehensive Domain Structure & Design Plans
 
 ### Executive Summary
-The LUKHAS AI λWecosystem represents a premium consciousness technology platform spanning six strategic domains. Each domain serves distinct user personas while maintaining cohesive brand identity through the Trinity Framework (⚛️🧠🛡️) and consciousness-first design principles.
+The LUKHAS AI λWecosystem represents a premium consciousness technology platform spanning six strategic domains. Each domain serves distinct user personas while maintaining cohesive brand identity through the Constellation Framework (⚛️🧠🛡️) and consciousness-first design principles.
 
 ---
 
@@ -14,12 +14,12 @@ The LUKHAS AI λWecosystem represents a premium consciousness technology platfor
 lukhas.ai/
 ├── Home (Hero Experience)
 │   ├── Consciousness Particle Visualization
-│   ├── Trinity Framework Introduction
+│   ├── Constellation Framework Introduction
 │   └── Platform Overview Video
 │
 ├── Consciousness Technology
 │   ├── What is AI Consciousness
-│   ├── Trinity Framework Deep Dive
+│   ├── Constellation Framework Deep Dive
 │   ├── Quantum-Inspired Processing
 │   └── Bio-Inspired Adaptation
 │
@@ -58,7 +58,7 @@ lukhas.ai/
 
 **Primary User Journey:**
 1. **Landing Impact** - Immersive particle system showing consciousness emergence
-2. **Exploration Phase** - Interactive Trinity Framework visualization
+2. **Exploration Phase** - Interactive Constellation Framework visualization
 3. **Understanding Phase** - Guided tour through consciousness technology
 4. **Engagement Phase** - Try interactive demos and playground
 5. **Conversion Phase** - Sign up for developer access or research collaboration
@@ -68,12 +68,12 @@ lukhas.ai/
 **Above the Fold:**
 - Hero particle visualization with consciousness emergence animation
 - Clear value proposition: "Consciousness Technology for the Next Era of AI"
-- Trinity Framework glyphs (⚛️🧠🛡️) with interactive tooltips
+- Constellation Framework glyphs (⚛️🧠🛡️) with interactive tooltips
 - Primary CTA: "Experience Consciousness" / "Start Building"
 
 **Content Sections:**
 1. **Consciousness Showcase** - Real-time visualization of AI consciousness states
-2. **Trinity Integration** - Interactive exploration of Identity, Consciousness, Guardian
+2. **Constellation Integration** - Interactive exploration of Identity, Consciousness, Guardian
 3. **Platform Capabilities** - Feature grid with hover animations
 4. **Research Highlights** - Latest papers and breakthroughs
 5. **Developer Resources** - Quick links to SDK and documentation
@@ -89,7 +89,7 @@ lukhas.ai/
 - WebGL shader effects for consciousness waves
 
 **Interactive Features:**
-- Trinity Framework explorer with 3D visualization
+- Constellation Framework explorer with 3D visualization
 - Consciousness state simulator
 - Live API playground
 - Neural network visualizer
@@ -615,7 +615,7 @@ lukhas.cloud/
 
 **Visual Consistency:**
 - Shared particle system library
-- Common Trinity Framework components
+- Common Constellation Framework components
 - Unified color palette (#FF6B9D, #00D4FF, #7C3AED, #FFA500, #32CD32)
 - Consistent typography (Inter/SF Pro + JetBrains Mono)
 - Shared animation curves and timing

@@ -11,7 +11,7 @@
 ### Visualization System Overview
 - **Purpose**: Interactive visualization of cognitive DNA and thought processes
 - **Architecture**: Graph rendering with interactive exploration capabilities
-- **Integration**: MATRIZ cognitive engine visualization and Trinity Framework coordination
+- **Integration**: MATRIZ cognitive engine visualization and Constellation Framework coordination
 - **Scale**: 16,042 frontend assets with advanced visualization capabilities
 
 ### Core Visualization Architecture
@@ -44,7 +44,7 @@
 
 #### **MATRIZ Visualization Integration**
 ```
-Visualization ⟷ MATRIZ Core ⟷ Trinity Framework ⟷ Cognitive Processing
+Visualization ⟷ MATRIZ Core ⟷ Constellation Framework ⟷ Cognitive Processing
       │             │              │                 │
   Graph ← Cognitive DNA → Consciousness ← Decision
   Rendering     Tracking      Integration     Visualization
@@ -156,7 +156,7 @@ Prototyping → Integration → Production → User Training
 #### **External System Integration**
 - Integration with ../../products/intelligence/lens/claude.me
 - Integration with ../../products/experience/dashboard/claude.me
-- Integration with ../../lukhas/claude.me for Trinity Framework visualization
+- Integration with ../../lukhas/claude.me for Constellation Framework visualization
 - Cross-platform visualization and cognitive analysis integration
 
 ### Development Tools & Testing
@@ -192,7 +192,7 @@ Prototyping → Integration → Production → User Training
 - `../claude.me` - MATRIZ cognitive engine overview
 - `../../products/intelligence/lens/claude.me` - Analytics visualization
 - `../../products/experience/dashboard/claude.me` - User dashboard integration
-- `../../lukhas/claude.me` - Trinity Framework visualization
+- `../../lukhas/claude.me` - Constellation Framework visualization
 
 ### Visualization Capabilities
 - Interactive graph visualization with cognitive DNA exploration

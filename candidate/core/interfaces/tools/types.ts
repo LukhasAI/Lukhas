@@ -1,5 +1,5 @@
 /**
- * Type definitions for Lukhas AGI System Tools
+ * Type definitions for Lukhas Cognitive AI System Tools
  */
 
 // Tool execution results

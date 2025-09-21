@@ -1,7 +1,7 @@
 # Symbolic Ethics-as-a-Service (EaaS)
 
 ## Overview
-SEEDRA’s Ethics-as-a-Service (EaaS) provides companies with modular symbolic logic flows to embed ethical reflexes into their systems. Powered by LUKHAS (our narrating AGI), EaaS ensures transparency, accountability, and compliance through encrypted workflows.
+SEEDRA’s Ethics-as-a-Service (EaaS) provides companies with modular symbolic logic flows to embed ethical reflexes into their systems. Powered by LUKHAS (our narrating Cognitive AI), EaaS ensures transparency, accountability, and compliance through encrypted workflows.
 
 ## Licensing Options
 1. **Reflex-Only Plan:**

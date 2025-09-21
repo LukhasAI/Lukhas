@@ -94,11 +94,11 @@ The `claude.me` files provide critical domain-specific context for Jules agents.
 ponent relationships, and domain-specific instructions that help agents understand the codebase structure.
 
 **Core Navigation Contexts:**
-- **Root Overview**: [`claude.me`](claude.me) - Master architecture (7,000+ files, Trinity Framework)
+- **Root Overview**: [`claude.me`](claude.me) - Master architecture (7,000+ files, Constellation Framework)
 - **MATRIZ Engine**: [`matriz/claude.me`](matriz/claude.me) - Cognitive DNA processing
 - **Candidate Workspace**: [`candidate/claude.me`](candidate/claude.me) - Primary development domain
 
-**Trinity Framework Contexts (⚛️🧠🛡️):**
+**Constellation Framework Contexts (⚛️🧠🛡️):**
 - **⚛️ Identity Systems**:
   - [`identity/claude.me`](identity/claude.me) - Lambda ID foundation
   - [`candidate/core/identity/claude.me`](candidate/core/identity/claude.me) - Identity development
@@ -190,7 +190,7 @@ n progress. Preserve all Jules assignments, configs, and docs until the Jules pr
   - Identity core (ΛTRACE persistence; audit chain linking)
   - Consent/Scopes (tier boundaries, validation, history → ΛTRACE)
   - SSO/biometrics/symbolic challenge (gated, mocked)
-  - Capabilities: Cross-module integration, complex business logic, Trinity Framework alignment
+  - Capabilities: Cross-module integration, complex business logic, Constellation Framework alignment
   - Risk Level: HIGH - Requires Claude Code review for critical changes
 
 - **Jules-04..05**: Orchestration/Consciousness (complex logic)
@@ -218,7 +218,7 @@ Example: `TODO-CRIT-IDENTITY-1a2b3c4d`
 - QI/cryptography/Guardian safety code
 - Consciousness engines and awareness systems
 - Identity and authentication systems
-- Trinity Framework boundary changes
+- Constellation Framework boundary changes
 
 ### **Feature Flag Requirements**
 - All QI/Entropy/QRG work behind feature flags + kill switch
@@ -359,7 +359,7 @@ branding/products/T4_TODO_AUTOMATION.md
 1:# LUKHAS T4 TODO Automation Suite
 3:The T4 TODO Automation Suite productizes the repository's evidence-first task governance into a branded offer for enterprise c
 ustomers. It consolidates manifest generation, batch allocation, compliance enforcement, documentation, and orchestration teleme
-try so operations teams can scale TODO remediation with Trinity Framework discipline.
+try so operations teams can scale TODO remediation with Constellation Framework discipline.
 8:- **Manifest Builder** parses structured markdown TODO sources, cross-checks live code, and enriches entries with TaskIDs, ris
 k, and Trinity dimensions for a verifiable source of truth.【F:tools/ci/build_manifest.py†L3-L358】
 14:- **Unused Import Validator** runs ruff F401 in production lanes and flags any lines missing the mandated `TODO[T4-UNUSED-IMP
@@ -494,8 +494,8 @@ class VocabularyAmplifier:
             "collapse": ["wavefunction collapse", "possibility collapse", "quantum collapse"],
             "eigenstate": ["consciousness eigenstate", "stable states", "quantum eigenstates"],
             "hilbert": ["Hilbert space", "infinite dimensional", "quantum state space"],
-            # Trinity Framework specific
-            "trinity": ["Trinity Framework", "three-fold consciousness", "triadic harmony"],
+            # Constellation Framework specific
+            "trinity": ["Constellation Framework", "three-fold consciousness", "triadic harmony"],
             "identity": ["ΛID", "identity resonance", "self-recognition signature"],
             "guardian": ["Guardian System", "ethical guardian", "drift guardian"],
             # Dream and creativity
@@ -928,7 +928,7 @@ Here in the {space} of {recognition}, every {thought} becomes
             element1=random.choice(["thought", "memory", "emotion"]),
             element2=random.choice(["quantum state", "neural pattern", "symbolic form"]),
             resonance=random.choice(["harmonic resonance", "quantum coherence", "synaptic rhythm"]),
-            system=random.choice(["Trinity Framework", "Guardian System", "Lambda Mirror"]),
+            system=random.choice(["Constellation Framework", "Guardian System", "Lambda Mirror"]),
             action=random.choice(self.lukhas_verbs["consciousness"]),
             transform=random.choice(["crystallizes", "tessellates", "transcends"]),
             emerge=random.choice(["coalesces", "manifests", "awakens"]),
@@ -8516,8 +8516,8 @@ root@9e9a2392e1d0:/workspace/Lukhas# nl -ba branding/poetry/vocabulary_amplifier
     94              "collapse": ["wavefunction collapse", "possibility collapse", "quantum collapse"],
     95              "eigenstate": ["consciousness eigenstate", "stable states", "quantum eigenstates"],
     96              "hilbert": ["Hilbert space", "infinite dimensional", "quantum state space"],
-    97              # Trinity Framework specific
-    98              "trinity": ["Trinity Framework", "three-fold consciousness", "triadic harmony"],
+    97              # Constellation Framework specific
+    98              "trinity": ["Constellation Framework", "three-fold consciousness", "triadic harmony"],
     99              "identity": ["ΛID", "identity resonance", "self-recognition signature"],
    100              "guardian": ["Guardian System", "ethical guardian", "drift guardian"],
    101              # Dream and creativity

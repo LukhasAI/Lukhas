@@ -16,7 +16,7 @@ This Symbolic Glyph Guidance Handbook serves as a companion to the `GLYPH_MAP` (
 -   **Enhance Symbolic Clarity**: Ensure glyphs contribute effectively to LUKHAS's goal of `#ΛSYMBOLIC_UNITY` by reducing ambiguity and fostering shared understanding.
 -   **Mitigate Misuse**: Provide context to help avoid semantic drift or the misapplication of glyphs.
 
-Glyphs in LUKHAS are more than mere icons; they are intended as concise, potent carriers of symbolic meaning, designed to make system states, processes, and logs more immediately intelligible and to provide a common visual language for complex AGI concepts.
+Glyphs in LUKHAS are more than mere icons; they are intended as concise, potent carriers of symbolic meaning, designed to make system states, processes, and logs more immediately intelligible and to provide a common visual language for complex Cognitive AI concepts.
 
 ## 2. Interpretation Layers
 
@@ -74,7 +74,7 @@ Glyphs can be grouped by their primary function or the type of concept they repr
     *   **Tag Chain Example**: `#ΛNLP_PROCESS → #AINFER ✨ (intent: query_balance) → #ΛACTION_DISPATCH`
 
 ### Class: Symbolic & Cognitive Concepts
-*Purpose: Represent abstract AGI concepts, learning, or internal states.*
+*Purpose: Represent abstract Cognitive AI concepts, learning, or internal states.*
 
 -   **`🪞` (`#ΛREFLECT`): Symbolic Self-Reflection / Introspection**
     *   **Usage Example**: `log.info(f"{GLYPH_MAP.get('🪞')} Initiating self-reflection on recent performance anomalies.", context="performance_review")`

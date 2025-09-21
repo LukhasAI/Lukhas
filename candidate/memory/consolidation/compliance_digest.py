@@ -87,7 +87,7 @@ def generate_digest():
     top_reason = reasons.most_common(1)[0] if reasons else ("none", 0)
 
     digest = (
-        f"""# 📊 Lukhas AGI — Weekly Compliance Digest
+        f"""# 📊 Lukhas Cognitive AI — Weekly Compliance Digest
 **Generated:** {timestamp}
 
 ## Summary:

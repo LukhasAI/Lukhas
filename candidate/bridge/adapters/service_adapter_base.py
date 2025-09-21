@@ -1,7 +1,7 @@
 """
 ⚛️🧠🛡️ LUKHAS AI Service Adapter Base
 
-Trinity Framework Integration:
+Constellation Framework Integration:
 - ⚛️ Identity: Secure authentication and capability token validation
 - 🧠 Consciousness: Agent communication and state awareness
 - 🛡️ Guardian: Ethical oversight and consent validation
@@ -26,7 +26,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../../"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../core"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../orchestration"))
 
-# Import LUKHAS AI modules - Trinity Framework Integration
+# Import LUKHAS AI modules - Constellation Framework Integration
 try:
     from lukhas.governance.consent_ledger.ledger_v1 import (
         ConsentLedgerV1,
@@ -235,13 +235,13 @@ class TelemetryCollector:
             "trace_id": None,  # Will be filled by Λ-trace
         }
 
-        # Emit Λ-trace if ledger available - Enhanced Trinity Framework integration
+        # Emit Λ-trace if ledger available - Enhanced Constellation Framework integration
         if self.ledger and PolicyVerdict:
             trace_context = {
                 "adapter": self.adapter_name,
                 "latency_ms": latency_ms,
                 "success": success,
-                "trinity_framework": "⚛️🧠🛡️",
+                "constellation_framework": "⚛️🧠🛡️",
                 "audit_entry_id": len(self.audit_trail),
                 "security_level": self._assess_security_level(action, context),
             }
@@ -351,7 +351,7 @@ def with_resilience(func):
 class BaseServiceAdapter(ABC):
     """⚛️🧠🛡️ Base adapter class for all external services
 
-    Trinity Framework Integration:
+    Constellation Framework Integration:
     - ⚛️ Identity: Secure authentication and access control
     - 🧠 Consciousness: State awareness and agent communication
     - 🛡️ Guardian: Ethical oversight and consent validation
@@ -369,7 +369,7 @@ class BaseServiceAdapter(ABC):
         self.resilience = ResilienceManager()
         self.telemetry = TelemetryCollector(service_name)
 
-        # Trinity Framework integration - Defensive initialization
+        # Constellation Framework integration - Defensive initialization
         self.ledger = self._safe_init(ConsentLedgerV1)
         self.identity_core = self._safe_init(IdentityCore)
         self.kernel_bus = self._safe_init(SymbolicKernelBus)
@@ -398,7 +398,7 @@ class BaseServiceAdapter(ABC):
             return None
 
     def _register_scopes(self):
-        """Contribute to central capability scope registry - Trinity Framework"""
+        """Contribute to central capability scope registry - Constellation Framework"""
         self.supported_scopes = {
             "read": "Read access to resources",
             "write": "Write/modify resources",
@@ -419,7 +419,7 @@ class BaseServiceAdapter(ABC):
                     {
                         "type": "service_adapter",
                         "capabilities": list(self.supported_scopes.keys()),
-                        "trinity_integration": True,
+                        "constellation_integration": True,
                     },
                 )
                 self.consciousness_active = True
@@ -508,13 +508,13 @@ class BaseServiceAdapter(ABC):
         pass
 
     def get_health_status(self) -> dict:
-        """⚛️🧠🛡️ Get adapter health status with Trinity Framework integration"""
+        """⚛️🧠🛡️ Get adapter health status with Constellation Framework integration"""
         status = {
             "service": self.service_name,
             "circuit_state": self.resilience.get_state(),
             "metrics": self.telemetry.get_metrics(),
             "dry_run_mode": self.dry_run_mode,
-            "trinity_framework": {
+            "constellation_framework": {
                 "identity_active": self.identity_core is not None,
                 "consciousness_active": self.consciousness_active,
                 "guardian_active": self.guardian is not None,

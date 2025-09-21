@@ -13,13 +13,13 @@
 LUKHAS - Quantum Quantum Engine
 ======================
 
-An enterprise-grade Artificial General Intelligence (AGI) framework
+An enterprise-grade Cognitive Artificial Intelligence (Cognitive AI) framework
 combining symbolic reasoning, emotional intelligence, quantum-inspired computing,
 and bio-inspired architecture for next-generation AI applications.
 
 Module: Quantum Quantum Engine
 Path: lukhas/quantum/qi_engine.py
-Description: Quantum module for advanced AGI functionality
+Description: Quantum module for advanced Cognitive functionality
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.
@@ -72,7 +72,7 @@ class QIoscillator:
 
 class QIEngine:
     """
-    Main quantum-inspired processing engine for LUKHAS AGI.
+    Main quantum-inspired processing engine for LUKHAS Cognitive AI.
     Provides quantum-enhanced computation and processing capabilities.
     """
 

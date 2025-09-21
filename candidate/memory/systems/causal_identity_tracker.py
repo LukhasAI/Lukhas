@@ -121,9 +121,9 @@ class CausalIdentityTracker:
         self.chain_validations: dict[str, EventChainValidation] = {}
 
         # Storage paths
-        self.identity_anchor_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/identity/identity_anchors.jsonl"
-        self.causal_origin_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/identity/causal_origins.jsonl"
-        self.validation_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/identity/chain_validations.jsonl"
+        self.identity_anchor_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/identity/identity_anchors.jsonl"
+        self.causal_origin_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/identity/causal_origins.jsonl"
+        self.validation_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/identity/chain_validations.jsonl"
 
         # Load existing data
         self._load_existing_data()

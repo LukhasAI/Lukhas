@@ -18,7 +18,7 @@ logger = logging.getLogger("bio_adapter")
 
 class BioInspiredAdapter:
     """
-    Bio-inspired adapter implementing quantum-biological metaphors for LUKHAS AGI integration.
+    Bio-inspired adapter implementing quantum-biological metaphors for LUKHAS Cognitive AI integration.
     Provides biological system-inspired functionality like:
     - Quantum attention gates
     - Proton gradient analogs

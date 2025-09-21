@@ -5,7 +5,7 @@
 Automatically fixes security vulnerabilities found in the Safety CLI scan.
 Uses Ollama AI to provide intelligent fix suggestions and validates changes.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 
 import asyncio

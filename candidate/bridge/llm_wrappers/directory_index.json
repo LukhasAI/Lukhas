@@ -1,0 +1,312 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/bridge/llm_wrappers",
+    "lane": "development",
+    "purpose": "Directory containing 14 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "matriz_pipeline_integration": {
+      "memory_stage": "experimental",
+      "attention_stage": "experimental",
+      "thought_stage": "experimental",
+      "action_stage": "inactive",
+      "decision_stage": "inactive",
+      "awareness_stage": "experimental"
+    }
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "perplexity_wrapper.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.branding.terminology"
+        ],
+        "exports": [
+          "PerplexityWrapper",
+          "generate_response",
+          "is_available"
+        ]
+      },
+      {
+        "filename": "unified_openai_client.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ConversationMessage",
+          "ConversationState",
+          "UnifiedOpenAIClient",
+          "create_conversation",
+          "add_message",
+          "get_conversation_messages",
+          "chat_completion_sync",
+          "get_model_info",
+          "is_available"
+        ]
+      },
+      {
+        "filename": "embedding.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "OperatingMode",
+          "EthicalAssessment",
+          "LukhasEmbedding",
+          "evaluate_symbolic_ethics",
+          "suggest_glyph_alterations",
+          "log_reflection",
+          "intervene_if_needed",
+          "batch_evaluate",
+          "get_mode",
+          "set_mode",
+          "get_stats",
+          "get_meta_metrics"
+        ]
+      },
+      {
+        "filename": "openai_function_bridge.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "FunctionCallMode",
+          "FunctionDefinition",
+          "FunctionCall",
+          "OpenAIResponse",
+          "OpenAIFunctionBridge",
+          "to_openai_format",
+          "register_function",
+          "register_functions_from_dict",
+          "get_available_functions",
+          "get_metrics"
+        ]
+      },
+      {
+        "filename": "gemini_wrapper.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.branding.terminology"
+        ],
+        "exports": [
+          "GeminiWrapper",
+          "is_available"
+        ]
+      },
+      {
+        "filename": "anthropic_wrapper.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.branding.terminology"
+        ],
+        "exports": [
+          "AnthropicWrapper",
+          "is_available"
+        ]
+      },
+      {
+        "filename": "openai_modulated_service.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.bridge.llm_wrappers.tool_executor",
+          "candidate.metrics",
+          "candidate.openai.tooling",
+          "candidate.orchestration.signals.homeostasis",
+          "candidate.orchestration.signals.modulator",
+          "candidate.orchestration.signals.signal_bus",
+          "candidate.orchestration.signals.homeostasis",
+          "candidate.orchestration.signals.signal_bus",
+          "lukhas.audit.tool_analytics",
+          "lukhas.tools.tool_executor",
+          "lukhas.audit.store",
+          "lukhas.governance.guardian_sentinel",
+          "lukhas.governance.guardian_sentinel",
+          "lukhas.memory.memory_service",
+          "lukhas.memory.embeddings",
+          "lukhas.memory.vector_store"
+        ],
+        "exports": [
+          "OpenAIModulatedService",
+          "_Msg",
+          "_Choice",
+          "_Usage",
+          "_Completion",
+          "_DuckOpenAIAdapter",
+          "get_analytics",
+          "run_modulated_completion",
+          "resume_with_tools"
+        ]
+      },
+      {
+        "filename": "azure_openai_wrapper.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.branding.terminology"
+        ],
+        "exports": [
+          "AzureOpenaiWrapper",
+          "generate_response",
+          "is_available"
+        ]
+      },
+      {
+        "filename": "openai_optimized.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "CacheStrategy",
+          "CacheEntry",
+          "RateLimitConfig",
+          "OptimizedOpenAIClient",
+          "BatchProcessor",
+          "is_expired",
+          "get_statistics",
+          "clear_cache"
+        ]
+      },
+      {
+        "filename": "gpt_integration_layer.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "GuardianOverlay",
+          "GPTIntegrationLayer",
+          "to_dict",
+          "process_gpt_response",
+          "batch_process",
+          "export_training_data",
+          "get_stats"
+        ]
+      },
+      {
+        "filename": "anthropic_function_bridge.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ToolUseMode",
+          "ClaudeModel",
+          "ToolDefinition",
+          "ToolUse",
+          "ClaudeResponse",
+          "AnthropicFunctionBridge",
+          "to_anthropic_format",
+          "register_tool",
+          "register_tools_from_dict",
+          "get_available_tools",
+          "get_metrics"
+        ]
+      },
+      {
+        "filename": "env_loader.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "load_lukhas_env",
+          "get_api_key",
+          "get_openai_config",
+          "get_azure_openai_config"
+        ]
+      },
+      {
+        "filename": "tool_executor.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.tools.tool_executor"
+        ],
+        "exports": [
+          "ToolExecutionError"
+        ]
+      },
+      {
+        "filename": "base.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "LLMProvider",
+          "LLMWrapper",
+          "is_available"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": [
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "README.md"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 14,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "experimental",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "candidate/bridge",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

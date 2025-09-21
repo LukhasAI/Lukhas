@@ -11,7 +11,7 @@
 ### Dream System Overview
 - **Purpose**: Dream processing, REM state simulation, and consciousness integration
 - **Architecture**: Dream engines, state management, memory consolidation systems
-- **Integration**: Trinity Framework consciousness-memory coordination
+- **Integration**: Constellation Framework consciousness-memory coordination
 - **Scale**: Dream processing systems with multi-engine architecture
 
 ### Core Dream Architecture
@@ -42,7 +42,7 @@
 
 ### Dream Integration Patterns
 
-#### **Trinity Framework Dream Integration**
+#### **Constellation Framework Dream Integration**
 ```
 Consciousness 🧠 ←→ Dream Processing ←→ Memory 💾
         │              │                 │

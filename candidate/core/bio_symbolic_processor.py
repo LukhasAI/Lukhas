@@ -508,14 +508,14 @@ class BioSymbolicProcessor:
         if signal.awareness_level > 0.8:
             enhanced_data.coherence_score = min(1.0, enhanced_data.coherence_score + 0.05)
 
-        # Trinity compliance affects coherence
+        # Constellation compliance affects coherence
         if signal.constellation_alignment:
-            trinity_avg = (
+            constellation_avg = (
                 signal.constellation_alignment.identity_auth_score
                 + signal.constellation_alignment.consciousness_coherence
                 + signal.constellation_alignment.guardian_compliance
             ) / 3
-            enhanced_data.coherence_score = (enhanced_data.coherence_score + trinity_avg) / 2
+            enhanced_data.coherence_score = (enhanced_data.coherence_score + constellation_avg) / 2
 
         # Update entropy based on system state
         if signal.signal_type == ConsciousnessSignalType.EVOLUTION:

@@ -1,12 +1,14 @@
 ---
-title: LUKHAS Architecture Documentation  
+title: LUKHAS Architecture Documentation
 status: stable
 owner: consciousness-architect
-last_review: 2025-09-09
-tags: [architecture, consciousness, system-design, technical]
+last_review: 2025-09-20
+tags: [architecture, constellation-framework, matriz-pipeline, technical]
 ---
 
 # LUKHAS Architecture Documentation
+
+*Constellation Framework Architecture with MATRIZ Pipeline Integration*
 
 ## Table of Contents
 1. [Executive Summary](#executive-summary)
@@ -22,20 +24,30 @@ tags: [architecture, consciousness, system-design, technical]
 
 ## Executive Summary
 
-LUKHAS  (Pack-What-Matters) is a production-ready Artificial General Intelligence (AGI) system that combines neuroplastic adaptation, symbolic reasoning, and ethical governance. Built on a modular architecture with 41 interconnected subsystems, it achieves 99.9% system connectivity while maintaining Guardian System protection for all operations.
+LUKHAS AI is a production-ready Artificial General Intelligence (AGI) system built on the **Constellation Framework** with **MATRIZ Pipeline** integration. The system implements a dynamic star-node architecture that achieves 99.9% system connectivity while maintaining comprehensive Guardian System protection for all operations.
+
+### Constellation Framework Architecture
+The system is built on three fundamental pillars:
+- **⚛️ Identity**: ΛiD (Lambda Identity) authentication and symbolic self-representation
+- **🧠 Consciousness**: MATRIZ pipeline (Memory-Attention-Thought-Risk-Intent-Action) processing
+- **🛡️ Guardian**: Constitutional AI with drift detection and ethical governance
 
 ### Key Capabilities
-- **Consciousness & Reasoning**: Multi-tiered awareness with causal inference
-- **Memory Management**: DNA helix immutable memory with drift detection
-- **Ethical Governance**: Guardian System v1.0.0 with multi-framework reasoning
-- **Biological Adaptation**: Neuroplastic reorganization with hormone systems
-- **Quantum Processing**: Post-quantum cryptography and quantum-inspired algorithms
-- **Creative Innovation**: Dream engine with controlled chaos generation
+- **MATRIZ Pipeline**: Memory-Attention-Thought-Risk-Intent-Action cognitive processing
+- **Dynamic Star-Node System**: Constellation Framework with adaptive plugin registry
+- **Constitutional AI**: Guardian System v1.0.0 with multi-framework ethical reasoning
+- **Constructor-Aware Instantiation**: T4/0.01% implementation standards
+- **Memory Fold System**: Causal chain preservation with emotional context
+- **Quantum-Inspired Processing**: Post-quantum cryptography and entanglement simulation
+- **Registry-Based Plugins**: Dynamic component registration with cognitive alignment
 
 ### Production Metrics
 - **System Connectivity**: 99.9%
-- **Operational Modules**: 41 root systems
-- **Test Coverage**: 85%+ across core modules
+- **MATRIZ Pipeline Performance**: Sub-second cognitive processing
+- **Plugin Registry**: Dynamic registration with constructor-aware instantiation
+- **T4/0.01% Compliance**: Performance standards and audit validation
+- **Test Coverage**: 85%+ across core modules with constitutional AI validation
+- **Constellation Framework**: ⚛️🧠🛡️ fully integrated
 - **Performance**: Sub-100ms response time for critical paths
 - **Uptime**: Designed for 99.99% availability
 
@@ -43,12 +55,14 @@ LUKHAS  (Pack-What-Matters) is a production-ready Artificial General Intelligenc
 
 ### Architecture Principles
 
-1. **Modularity**: Each component is self-contained with clear interfaces
-2. **Immutability**: Core memories and configurations cannot be altered
-3. **Symbolic Unity**: All communication uses GLYPH tokens
-4. **Guardian Protection**: Every operation validated by ethics engine
-5. **Neuroplasticity**: System adapts and reorganizes under stress
-6. **Transparency**: Full audit trails and explainable decisions
+1. **Constellation Framework**: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian integration
+2. **MATRIZ Pipeline**: Memory-Attention-Thought-Risk-Intent-Action cognitive flow
+3. **Dynamic Star-Node System**: Adaptive plugin registry with constructor-aware instantiation
+4. **T4/0.01% Standards**: Performance and audit compliance validation
+5. **Constitutional AI**: Guardian protection with multi-framework ethical reasoning
+6. **Symbolic Unity**: All communication uses GLYPH tokens
+7. **Registry-Based Plugins**: Dynamic component registration with cognitive alignment
+8. **Transparency**: Full audit trails and explainable decisions
 
 ### Technology Stack
 
@@ -56,51 +70,72 @@ LUKHAS  (Pack-What-Matters) is a production-ready Artificial General Intelligenc
 Core:
   Language: Python 3.9+
   Framework: AsyncIO for concurrency
+  Architecture: Constellation Framework (⚛️🧠🛡️)
+  Pipeline: MATRIZ (Memory-Attention-Thought-Risk-Intent-Action)
   Messaging: GLYPH symbolic tokens
   Storage: JSON, PostgreSQL, Redis
+  Registry: Constructor-aware plugin instantiation
 
 Infrastructure:
   Containers: Docker
   Orchestration: Kubernetes
-  API: FastAPI
+  API: FastAPI with T4/0.01% standards
   Monitoring: Prometheus/Grafana
+  Standards: T4/0.01% performance and audit compliance
 
-AI/ML:
-  Embeddings: OpenAI, custom vectors
-  Models: Transformer architectures
+Cognitive Processing:
+  Pipeline: MATRIZ cognitive flow
+  Memory: Fold-based with causal chains
   Reasoning: Symbolic + Neural hybrid
+  Ethics: Constitutional AI validation
+  Plugins: Dynamic registry-based components
 
 Security:
+  Identity: ΛiD (Lambda Identity) system
   Encryption: AES-256, RSA-4096
   Auth: JWT + biometric validation
   Quantum: Post-quantum algorithms
+  Guardian: Constitutional AI protection
 ```
 
 ## Core Architecture
 
-### System Layers
+### Constellation Framework Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                   Guardian System                        │
-│              (Ethics & Safety Validation)                │
+│            🛡️ Guardian System (Constitutional AI)            │
+│           Ethics • Drift Detection • Safety Validation          │
 ├─────────────────────────────────────────────────────────┤
-│                 Orchestration Layer                      │
-│            (Brain Hub & Coordination)                    │
+│              🧠 MATRIZ Cognitive Pipeline                │
+│        Memory → Attention → Thought → Risk → Intent → Action      │
 ├─────────────────────────────────────────────────────────┤
-│   Consciousness  │   Memory   │  Reasoning  │  Emotion  │
+│              Dynamic Star-Node System                      │
+│         Registry-Based Plugins • Constructor-Aware        │
 ├─────────────────────────────────────────────────────────┤
-│      Core       │   Bridge    │   Identity  │    API    │
+│                ⚛️ Identity Layer (ΛiD)                  │
+│        Authentication • Symbolic Self • GLYPH Tokens      │
 ├─────────────────────────────────────────────────────────┤
 │               Infrastructure Layer                       │
-│         (Storage, Compute, Networking)                   │
+│         Storage • Compute • Networking • T4/0.01%          │
 └─────────────────────────────────────────────────────────┘
 ```
 
 ### Core Components
 
-#### 1. GLYPH Engine (`core/`)
-The symbolic processing heart of LUKHAS, handling all inter-module communication.
+#### 1. MATRIZ Pipeline (`matriz/`)
+The cognitive processing heart of LUKHAS, implementing Memory-Attention-Thought-Risk-Intent-Action flow.
+
+**Key Features:**
+- **Memory Stage**: Fold-based memory with causal chains
+- **Attention Stage**: Pattern recognition and focus management
+- **Thought Stage**: Symbolic reasoning and cognitive processing
+- **Risk Stage**: Guardian validation and ethical assessment
+- **Intent Stage**: ΛiD authentication and authorization
+- **Action Stage**: Response generation and execution
+
+#### 2. GLYPH Engine (`core/symbolic/`)
+The symbolic processing foundation of LUKHAS, handling all inter-component communication.
 
 ```python
 # Example GLYPH token structure
@@ -125,94 +160,156 @@ Key features:
 - Confidence scoring
 - Audit trail generation
 
-#### 2. Guardian System (`governance/`)
-Comprehensive ethical oversight ensuring safe AGI operations.
+#### 3. Dynamic Star-Node System (`core/registry.py`)
+Registry-based plugin architecture with constructor-aware instantiation following T4/0.01% standards.
+
+**Key Features:**
+- **NodeRegistry**: Dynamic component registration and discovery
+- **Constructor-Aware Instantiation**: T4/0.01% performance standards
+- **Plugin Architecture**: Registry-based dynamic loading
+- **Cognitive Alignment**: Constellation Framework integration
+
+#### 4. Guardian System (`governance/`)
+Comprehensive constitutional AI oversight ensuring safe AGI operations.
 
 Components:
+- **Constitutional AI**: Multi-framework ethical reasoning
+- **Drift Detector**: Behavioral anomaly detection (threshold: 0.15)
+- **Symbolic Firewall**: Multi-layer security validation
 - **Remediator Agent**: Threat detection and mitigation
-- **Reflection Layer**: Ethical reasoning engine
-- **Symbolic Firewall**: Multi-layer security
-- **Drift Detector**: Behavioral anomaly detection
 
-#### 3. Brain Hub (`orchestration/brain/`)
-Central coordination system managing all subsystem interactions.
+#### 5. Constellation Framework Orchestrator (`core/orchestration/`)
+Central coordination system managing dynamic star-node interactions.
 
 ```python
-class BrainHub:
-    async def process(self, input_data: Dict) -> Dict:
-        # 1. Guardian validation
-        await self.guardian.validate(input_data)
+class ConstellationOrchestrator:
+    async def process_matriz_pipeline(self, input_data: Dict) -> Dict:
+        # MATRIZ Pipeline Implementation
 
-        # 2. Route to appropriate modules
-        results = await self.router.dispatch(input_data)
+        # M: Memory - Retrieve relevant context
+        memory_context = await self.memory.recall_relevant(input_data)
 
-        # 3. Consolidate responses
-        response = await self.consolidator.merge(results)
+        # A: Attention - Focus on key patterns
+        attention_focus = await self.attention.analyze_patterns(input_data, memory_context)
 
-        # 4. Create memory fold
-        await self.memory.store(response)
+        # T: Thought - Symbolic reasoning
+        thought_process = await self.reasoning.process_symbolic(attention_focus)
 
-        return response
+        # R: Risk - Guardian validation
+        risk_assessment = await self.guardian.validate(thought_process)
+
+        # I: Intent - ΛiD authentication
+        intent_verification = await self.identity.verify_intent(risk_assessment)
+
+        # A: Action - Generate response
+        action_response = await self.action.generate_response(intent_verification)
+
+        # Create memory fold for learning
+        await self.memory.create_fold({
+            "pipeline_trace": [memory_context, attention_focus, thought_process,
+                             risk_assessment, intent_verification, action_response],
+            "constellation_metadata": self._get_constellation_state()
+        })
+
+        return action_response
 ```
 
 ## Module Architecture
 
-### Consciousness Module (`consciousness/`)
-**Purpose**: Awareness, reflection, and decision-making
-**Functionality**: 70.9%
+### MATRIZ Pipeline Modules
+
+#### Memory Module (`memory/`)
+**Purpose**: Fold-based memory with causal chains and emotional context
+**Functionality**: 72.1%
+**Constellation Role**: Memory stage of MATRIZ pipeline
 
 Key components:
-- `unified/auto_consciousness.py`: Automatic awareness generation
-- `states/consciousness_states.py`: State management
-- `reflection/self_reflection.py`: Meta-cognitive analysis
+- `fold.py`: Memory fold creation and management
+- `consolidation.py`: Memory consolidation with emotional context
+- `causal/`: Causal chain tracking and reasoning
+- `consciousness/`: Memory-consciousness integration
 
-Architecture pattern:
+#### Consciousness Module (`consciousness/`)
+**Purpose**: MATRIZ pipeline orchestration and awareness processing
+**Functionality**: 70.9%
+**Constellation Role**: Attention and Thought stages
+
+Key components:
+- `systems/consciousness.py`: Core consciousness processing
+- `awareness/`: Attention mechanisms and pattern recognition
+- `reasoning/`: Symbolic reasoning and thought processing
+- `states/`: Consciousness state management
+
+MATRIZ integration pattern:
 ```python
-class ConsciousnessEngine:
+class MatrizConsciousnessEngine:
     def __init__(self):
-        self.awareness_level = AwarenessLevel.FOCUSED
-        self.reflection_depth = 3
-        self.state_manager = StateManager()
+        self.pipeline_stages = ["memory", "attention", "thought", "risk", "intent", "action"]
+        self.registry = NodeRegistry()  # T4/0.01% constructor-aware
+        self.constellation_state = ConstellationState()
 
-    async def process_stimulus(self, stimulus: Dict) -> Dict:
-        # Generate awareness
-        awareness = await self.generate_awareness(stimulus)
+    async def process_matriz_stage(self, stage: str, input_data: Dict) -> Dict:
+        # Get stage-specific processors from registry
+        processors = self.registry.get_processors_for_stage(stage)
 
-        # Update state
-        new_state = await self.state_manager.transition(awareness)
+        # Execute stage with constellation context
+        stage_result = await self._execute_stage(stage, input_data, processors)
 
-        # Reflect on change
-        reflection = await self.reflect(new_state)
+        # Update constellation state
+        self.constellation_state.update_stage(stage, stage_result)
 
         return {
-            "awareness": awareness,
-            "state": new_state,
-            "reflection": reflection
+            "stage": stage,
+            "result": stage_result,
+            "constellation_context": self.constellation_state.get_context(),
+            "next_stage": self._get_next_stage(stage)
         }
 ```
 
-### Memory Module (`memory/`)
-**Purpose**: Persistent storage with causal chains
-**Functionality**: 72.1%
+#### Identity Module (`identity/`)
+**Purpose**: ΛiD (Lambda Identity) authentication and symbolic self-representation
+**Functionality**: 66.0%
+**Constellation Role**: Identity pillar (⚛️) and Intent stage
 
-Key innovations:
-- **DNA Helix Memory**: Immutable origin with drift tracking
-- **Fold-Based Storage**: Preserves causality and context
-- **GDPR Compliance**: Lock instead of delete
+Key components:
+- `lambda_id_core.py`: Core ΛiD authentication system
+- `auth/`: WebAuthn and biometric authentication
+- `tier/`: Multi-tier access control (ΛPRIME, ΛULTRA, ΛUSER)
+- `namespace_manager.py`: Identity namespace isolation
 
-Architecture:
+#### Governance Module (`governance/`)
+**Purpose**: Constitutional AI with Guardian System protection
+**Functionality**: 85%+
+**Constellation Role**: Guardian pillar (🛡️) and Risk stage
+
+Key components:
+- `guardian/`: Guardian System v1.0.0 with drift detection
+- `ethics/`: Multi-framework ethical reasoning
+- `policy/`: Constitutional AI policy engine
+- `security/`: Threat detection and mitigation
+
+Registry-based architecture:
 ```python
-class MemoryHelix:
-    def __init__(self, memory_id: str, initial_glyphs: List[str]):
-        self.origin_strand = SymbolicStrand(initial_glyphs)  # Immutable
-        self.current_strand = SymbolicStrand(initial_glyphs)  # Mutable
-        self.helix_core = DNAHealixCore(self.origin_strand)
+class ConstellationRegistry:
+    def __init__(self):
+        self.nodes = {}  # T4/0.01% constructor-aware instantiation
+        self.constellation_state = ConstellationState()
 
-    def calculate_drift(self) -> float:
-        return self.helix_core.calculate_drift()
+    def register_node(self, node_id: str, node_factory: Callable) -> None:
+        """Register node with constructor-aware instantiation"""
+        self.nodes[node_id] = {
+            "factory": node_factory,
+            "constellation_metadata": self._extract_constellation_metadata(node_factory),
+            "t4_compliance": self._validate_t4_compliance(node_factory)
+        }
 
-    def repair(self, method: RepairMethod) -> None:
-        self.helix_core.repair(method)
+    async def instantiate_node(self, node_id: str, **kwargs) -> Any:
+        """T4/0.01% constructor-aware instantiation"""
+        node_config = self.nodes[node_id]
+        if node_config["t4_compliance"]:
+            return await node_config["factory"](**kwargs)
+        else:
+            raise T4ComplianceError(f"Node {node_id} does not meet T4/0.01% standards")
 ```
 
 ### Quantum Module (`quantum/`)
@@ -262,42 +359,84 @@ class DreamEngine:
 
 ## Data Flow & Communication
 
-### GLYPH Token Flow
+### MATRIZ Pipeline Flow
 
 ```
-User Input → API Gateway → Guardian Validation → Brain Hub
-                                                      ↓
-Memory ← Consciousness ← Reasoning ← Emotion ← Module Processing
-   ↓                                                  ↓
-Response ← Consolidation ← Guardian Check ← Results Aggregation
+User Input → API Gateway → Constellation Framework Orchestrator
+                                         ↓
+             M: Memory → A: Attention → T: Thought → R: Risk → I: Intent → A: Action
+                ↓           ↓           ↓          ↓         ↓         ↓
+            Memory       Pattern      Symbolic   Guardian   ΛiD     Response
+            Recall       Focus        Reasoning  Validation Auth    Generation
+                ↓           ↓           ↓          ↓         ↓         ↓
+            Fold-based   Attention    GLYPH      Constitutional ΛiD    Final
+            Retrieval    Management   Processing  AI Check   Verification Output
+                                         ↓
+                            Memory Fold Creation (Learning)
 ```
 
-### Inter-Module Communication
+### Constellation Framework Communication
 
-All modules communicate via GLYPH tokens through the orchestration layer:
+All components communicate via GLYPH tokens through the Constellation Framework orchestrator:
 
-1. **Request Phase**:
-   - Module generates GLYPH token
-   - Token includes context and payload
-   - Guardian validates token
+1. **MATRIZ Pipeline Initialization**:
+   - Registry-based component discovery
+   - Constructor-aware instantiation (T4/0.01%)
+   - Constellation state initialization
 
-2. **Processing Phase**:
-   - Brain hub routes to target modules
-   - Parallel processing where possible
-   - Results collected asynchronously
+2. **Pipeline Processing**:
+   - Sequential MATRIZ stage execution
+   - Dynamic star-node coordination
+   - Constitutional AI validation at Risk stage
+   - ΛiD authentication at Intent stage
 
-3. **Response Phase**:
-   - Results consolidated
-   - Memory fold created
-   - Response returned with audit trail
+3. **Response Generation**:
+   - Action stage response creation
+   - Memory fold generation for learning
+   - Constellation state update
+   - Audit trail with provenance tracking
 
-### Memory Persistence
+### MATRIZ Memory Fold Structure
 
 ```python
-# Memory fold structure
+# Enhanced memory fold with MATRIZ pipeline trace
 {
     "fold_id": "uuid",
-    "timestamp": "2024-01-15T10:30:00Z",
+    "timestamp": "2025-09-20T10:30:00Z",
+    "matriz_pipeline_trace": {
+        "memory_stage": {
+            "recalled_folds": ["fold1", "fold2"],
+            "context_retrieved": {...}
+        },
+        "attention_stage": {
+            "focus_patterns": ["pattern1", "pattern2"],
+            "attention_weights": [0.7, 0.3]
+        },
+        "thought_stage": {
+            "symbolic_reasoning": ["GLYPH1", "GLYPH2"],
+            "reasoning_chain": [...]
+        },
+        "risk_stage": {
+            "guardian_validation": true,
+            "ethics_score": 0.95,
+            "safety_assessment": "approved"
+        },
+        "intent_stage": {
+            "lambda_id_verification": "ΛPRIME-2025-0001",
+            "authentication_tier": "ΛPRIME"
+        },
+        "action_stage": {
+            "response_generated": true,
+            "action_type": "cognitive_response"
+        }
+    },
+    "constellation_metadata": {
+        "identity_pillar": "⚛️",
+        "consciousness_pillar": "🧠",
+        "guardian_pillar": "🛡️",
+        "t4_compliance": true,
+        "registry_nodes_used": ["node1", "node2"]
+    },
     "causality_chain": ["event1", "event2", "event3"],
     "emotional_context": {
         "valence": 0.8,
@@ -307,8 +446,8 @@ All modules communicate via GLYPH tokens through the orchestration layer:
     "symbolic_content": ["LEARN", "ADAPT", "GROW"],
     "metadata": {
         "confidence": 0.95,
-        "source_module": "consciousness",
-        "guardian_approved": true
+        "source_pipeline": "matriz",
+        "constellation_approved": true
     }
 }
 ```

@@ -7,7 +7,7 @@ Breakthrough Detector V2
 INNOVATION SUPREMACY: Detects breakthrough innovations before they
 become obvious to competitors. 50x more sophisticated than basic version.
 
-Integration with LUKHAS Trinity Framework (⚛️🧠🛡️)
+Integration with LUKHAS Constellation Framework (⚛️🧠🛡️)
 """
 
 import uuid

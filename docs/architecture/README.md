@@ -23,8 +23,8 @@ This directory contains comprehensive documentation of LUKHAS AI's system archit
 
 ## 🎯 **Architecture Principles**
 
-### **Trinity Framework Integration**
-All LUKHAS AI architecture follows the Trinity Framework (⚛️🧠🛡️):
+### **Constellation Framework Integration**
+All LUKHAS AI architecture follows the Constellation Framework (⚛️🧠🛡️):
 - **⚛️ Identity**: Authentic consciousness characteristics
 - **🧠 Consciousness**: Memory, learning, neural processing
 - **🛡️ Guardian**: Ethics, drift detection, safety

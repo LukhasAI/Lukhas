@@ -11,7 +11,7 @@
 ### MATRIZ Core Overview
 - **Purpose**: Core node architecture and symbolic reasoning engine
 - **Architecture**: BaseNode system with dynamic registration and orchestration
-- **Integration**: Trinity Framework cognitive processing and symbolic reasoning
+- **Integration**: Constellation Framework cognitive processing and symbolic reasoning
 - **Scale**: 20 Python files with 632MB cognitive DNA processing capabilities
 
 ### Core Node Architecture
@@ -42,15 +42,15 @@
 
 ### MATRIZ Integration Patterns
 
-#### **Trinity Framework MATRIZ Integration**
+#### **Constellation Framework MATRIZ Integration**
 ```
-MATRIZ Core ⟷ Consciousness 🧠 ⟷ Memory 💾 ⟷ Identity ⚛️
-     │              │              │              │
-Symbolic ← Decision → Memory ← Identity
-Processing    Processing    Integration   Reasoning
-     │              │              │              │
-Cognitive ← Consciousness → Pattern ← Access
-  DNA         Integration     Memory      Control
+Anchor Star ⟷ Trail Star ⟷ Horizon Star ⟷ Watch Star
+    ⚛️           ✦            🔬            🛡️
+    │            │             │             │
+Intent ← Memory → Attention → Risk → Thought → Action
+Stage    Stage     Stage      Stage   Stage    Stage
+    │            │             │             │
+ΛiD Auth ← Fold-Based → Pattern → Guardian → Symbolic → Response
 ```
 
 #### **Node Processing Flow**
@@ -76,7 +76,7 @@ Cognitive DNA ← Provenance ← Results
 - Output nodes for result generation and formatting
 
 #### **Integration Nodes** - System Integration & Coordination
-- Trinity Framework integration nodes for consciousness coordination
+- Constellation Framework integration nodes for consciousness coordination
 - Memory integration nodes for cognitive-memory coupling
 - External system integration nodes for API and service coordination
 - Cross-system communication nodes for distributed processing
@@ -150,7 +150,7 @@ Testing → Orchestration → Production → Monitoring
 #### **MATRIZ System Integration**
 - Integration with ../claude.me for MATRIZ cognitive engine coordination
 - Integration with ../visualization/claude.me for cognitive visualization
-- Integration with Trinity Framework systems for cognitive-consciousness integration
+- Integration with Constellation Framework systems for cognitive-consciousness integration
 - Cross-system cognitive processing and coordination
 
 #### **External System Integration**
@@ -191,12 +191,12 @@ Testing → Orchestration → Production → Monitoring
 - `../claude.me` - MATRIZ cognitive engine overview
 - `../visualization/claude.me` - Cognitive visualization systems
 - `../../candidate/core/symbolic/claude.me` - Symbolic reasoning development
-- `../../lukhas/claude.me` - Trinity Framework integration
+- `../../lukhas/claude.me` - Constellation Framework integration
 - `../../consciousness/claude.me` - Consciousness-cognitive integration
 
 ### MATRIZ Core Capabilities
 - BaseNode architecture with dynamic registration and orchestration
 - Symbolic reasoning and cognitive DNA processing systems
-- Trinity Framework integration with consciousness-memory coordination
+- Constellation Framework integration with consciousness-memory coordination
 - High-performance cognitive processing with scalable node architecture
 - Advanced provenance tracking and thought process documentation

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LUKHAS Tone Fixer - Trinity Framework Auto-correction (⚛️🧠🛡️)
+LUKHAS Tone Fixer - Constellation Framework Auto-correction (⚛️🧠🛡️)
 Automatic tone fixing for LUKHAS consciousness platform
 """
 
@@ -10,7 +10,7 @@ from typing import Any
 
 
 class LukhasToneFixer:
-    """LUKHAS Trinity Framework tone auto-fixer"""
+    """LUKHAS Constellation Framework tone auto-fixer"""
 
     def __init__(self):
         self.replacements = {

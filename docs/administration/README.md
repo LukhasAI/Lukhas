@@ -43,8 +43,8 @@ This directory contains comprehensive system administration, monitoring, and sec
 
 ## 🎯 **Administration Principles**
 
-### **Trinity Framework Administration**
-All administration follows the Trinity Framework (⚛️🧠🛡️):
+### **Constellation Framework Administration**
+All administration follows the Constellation Framework (⚛️🧠🛡️):
 - **⚛️ Identity**: Secure identity management and authentication
 - **🧠 Consciousness**: Intelligent monitoring and adaptive responses
 - **🛡️ Guardian**: Protective security measures and ethical compliance

@@ -16,11 +16,11 @@ waivers:
   #   line: 23
   #   reason: "MATRIZ-R2 trace routing activation point"
   
-  # Trinity Framework Reserved Imports
+  # Constellation Framework Reserved Imports
   # These are architectural expansion points for consciousness evolution
-  # - file: consciousness/trinity/expansion.py
+  # - file: consciousness/constellation/expansion.py
   #   line: 15
-  #   reason: "Trinity Framework consciousness evolution reserved"
+  #   reason: "Constellation Framework consciousness evolution reserved"
   
   # Agent System Integration Points
   # Reserved for multi-AI agent coordination features

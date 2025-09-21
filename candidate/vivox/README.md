@@ -2,7 +2,7 @@
 
 ## Overview
 
-VIVOX (viv=life, vox=voice, x=experience/execution) serves as the **living protocol** for ethical AGI, featuring deterministic symbolic logic for transparent decision-making within the LUKHAS  ecosystem.
+VIVOX (viv=life, vox=voice, x=experience/execution) serves as the **living protocol** for ethical Cognitive AI, featuring deterministic symbolic logic for transparent decision-making within the LUKHAS  ecosystem.
 
 ## Architecture Components
 

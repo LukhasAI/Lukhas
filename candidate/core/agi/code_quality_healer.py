@@ -2,7 +2,7 @@
 """
 LUKHAS Code Quality Self-Healing Extension
 Autonomous code quality improvement using consciousness principles
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 
 import asyncio
@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 from candidate.bridge.local_llm_fixer import CodeIssue, FixType, LocalLLMFixer
-from candidate.core.agi.self_healing import FailureType, HealingAction, HealingStrategy, SystemFailure
+from candidate.core.cognitive.self_healing import FailureType, HealingAction, HealingStrategy, SystemFailure
 from lukhas.governance.guardian import GuardianSystem
 
 logger = logging.getLogger(__name__)

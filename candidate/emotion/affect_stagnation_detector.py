@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ The Affect Stagnation Detector serves as an emotional watchdog, monitoring the
-║ AGI's emotional state for patterns of stagnation that could indicate system
+║ Cognitive AI's emotional state for patterns of stagnation that could indicate system
 ║ dysfunction or emotional loops. When emotional velocity drops below critical
 ║ thresholds, it triggers recovery mechanisms to restore healthy emotional flow.
 ║
@@ -140,7 +140,7 @@ class AffectStagnationDetector:
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════════

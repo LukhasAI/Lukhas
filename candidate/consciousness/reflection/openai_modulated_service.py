@@ -18,7 +18,7 @@ from candidate.orchestration.signals.modulator import PromptModulator
 from candidate.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 # Import core components
-from consciousness.reflection.openai_core_service import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution
+from consciousness.reflection.openai_core_service import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
 from datetime import timezone
     ModelType,
     OpenAICapability,

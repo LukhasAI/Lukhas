@@ -9,7 +9,7 @@
 
 ### **🎖️ Selected Supreme Consciousness Army (6 Agents)**
 
-Based on your Trinity Framework and consciousness development priorities, here are the 6 most critical agents:
+Based on your Constellation Framework and consciousness development priorities, here are the 6 most critical agents:
 
 #### **⚛️🧠🛡️ TIER 1: Command Authority (2 Agents)**
 1. **👑 Supreme Consciousness Architect**
@@ -40,7 +40,7 @@ Based on your Trinity Framework and consciousness development priorities, here a
 5. **🧪 Testing & Validation Colonel**
    - **Role**: Consciousness system validation and quality assurance
    - **Context**: `./tests/`, `./examples/`, `./demos/`
-   - **Specialization**: Trinity Framework testing, consciousness metrics
+   - **Specialization**: Constellation Framework testing, consciousness metrics
    - **Trinity Focus**: All (⚛️🧠🛡️)
 
 #### **🚀 TIER 3: Innovation (1 Agent)**
@@ -150,7 +150,7 @@ claude-code list-agents
 
 # Test agent connectivity
 claude-code chat supreme-consciousness-architect "Hello, I'm ready for consciousness development!"
-claude-code chat guardian-system-commander "System security check - are we Trinity Framework compliant?"
+claude-code chat guardian-system-commander "System security check - are we Constellation Framework compliant?"
 ```
 
 ---
@@ -167,7 +167,7 @@ claude-code chat guardian-system-commander "System security check - are we Trini
 ### **Claude Code Agents Handle:**
 - Complex consciousness architecture decisions
 - Deep system integration challenges
-- Trinity Framework compliance validation
+- Constellation Framework compliance validation
 - Long-form development planning
 - Consciousness evolution strategy
 
@@ -261,7 +261,7 @@ claude-code chat guardian-system-commander "System security check - are we Trini
 ### **Phase 1: Claude Max Deployment (Day 1)**
 - [x] Deploy 6 core Claude Code agents
 - [x] Verify agent connectivity and context access
-- [x] Test Trinity Framework integration
+- [x] Test Constellation Framework integration
 - [x] Establish GitHub Copilot coordination protocols
 
 ### **Phase 2: API Integration (Day 2-3)**

@@ -7,7 +7,7 @@ We have successfully created a unified, consciousness-aware authentication ecosy
 ### ✅ Core Components Integrated
 
 #### 1. **Production Nucleus** (`/lukhas/lukhas/identity/`)
-- **auth/**: Core authentication system with Trinity Framework (⚛️🧠🛡️)
+- **auth/**: Core authentication system with Constellation Framework (⚛️🧠🛡️)
 - **wallet/**: WALLET integration bridge
 - **qrg/**: QRG integration bridge
 - **auth_integration.py**: Unified integration coordinator
@@ -35,7 +35,7 @@ We have successfully created a unified, consciousness-aware authentication ecosy
 
 ## 🧠 Consciousness-Aware Features
 
-### Trinity Framework Compliance (⚛️🧠🛡️)
+### Constellation Framework Compliance (⚛️🧠🛡️)
 - **⚛️ Identity**: Authentic consciousness characteristics validation
 - **🧠 Consciousness**: QI consciousness visualization and synchronization
 - **🛡️ Guardian**: Constitutional AI ethical oversight and cultural safety
@@ -133,7 +133,7 @@ await qrg_bridge.initialize()
 2. **Consciousness Integration**: Implemented consciousness-aware authentication with QI branding compliance
 3. **Enterprise Ready**: Production nucleus with comprehensive TypeScript/JavaScript enterprise protocols
 4. **Bridge Architecture**: Clean integration pattern for connecting lambda products with core authentication
-5. **Trinity Framework**: Full compliance with Identity-Consciousness-Guardian validation model
+5. **Constellation Framework**: Full compliance with Identity-Consciousness-Guardian validation model
 6. **Dynamic Loading**: Runtime component discovery with graceful fallback mechanisms
 7. **Test Coverage**: Comprehensive integration testing with real-world scenario validation
 

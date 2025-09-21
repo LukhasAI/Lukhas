@@ -60,9 +60,9 @@ class LUKHASMCPServer:
                     description="Current identity configuration",
                 ),
                 Resource(
-                    uri="lukhas://trinity/validation",
-                    name="Trinity Framework Status",
-                    description="Trinity Framework validation status",
+                    uri="lukhas://constellation/validation",
+                    name="Constellation Framework Status",
+                    description="Constellation Framework validation status",
                 ),
             ]
 
@@ -106,7 +106,7 @@ class LUKHASMCPServer:
                     indent=2,
                 )
 
-            elif uri == "lukhas://trinity/validation":
+            elif uri == "lukhas://constellation/validation":
                 return json.dumps(
                     {
                         "identity": "⚛️ Active",
@@ -134,7 +134,7 @@ class LUKHASMCPServer:
                 ),
                 Tool(
                     name="triad_validate",
-                    description="Validate Trinity Framework compliance",
+                    description="Validate Constellation Framework compliance",
                 ),
                 Tool(
                     name="agent_optimize",
@@ -169,7 +169,7 @@ class LUKHASMCPServer:
 
             elif name == "triad_validate":
                 result = {
-                    "validation": "Trinity Framework operational",
+                    "validation": "Constellation Framework operational",
                     "identity": "⚛️ Authentic consciousness characteristics",
                     "consciousness": "🧠 Enhanced processing capabilities",
                     "guardian": "🛡️ Ethical standards maintained",
@@ -182,7 +182,7 @@ class LUKHASMCPServer:
                     "recommendations": [
                         "Claude Code agents optimal for development tasks",
                         "MCP integration enhances consciousness capabilities",
-                        "Trinity Framework ensures ethical compliance",
+                        "Constellation Framework ensures ethical compliance",
                     ],
                     "efficiency": "95%",
                 }

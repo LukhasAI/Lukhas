@@ -1,7 +1,7 @@
 # 🚀 LUKHAS Demo Suite
 
 **Complete end-to-end demonstration of LUKHAS Next Generation Phase 5**
-**Trinity Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️🧠🛡️
 **Version**: 1.0.0
 
 ## 🎯 Overview
@@ -83,7 +83,7 @@ chmod +x lukhas_demo_suite/demo.sh
 ### Phase 5: Transmission Launch 🌌
 - Complete system orchestration
 - Component startup sequencing
-- Trinity Framework activation
+- Constellation Framework activation
 - Production readiness validation
 
 ### Phase 6: Integration Tests 🧪
@@ -123,7 +123,7 @@ docker run --rm -it lukhas-demo:latest /bin/bash
 ```
 🚀 LUKHAS Next Generation - Phase 5 Demo Suite
 Version: 1.0.0
-Trinity Framework: ⚛️🧠🛡️ Active
+Constellation Framework: ⚛️🧠🛡️ Active
 
 ✅ Phase 1: System Validation - PASSED
 ✅ Phase 2: Guardian System Demo - COMPLETED
@@ -133,7 +133,7 @@ Trinity Framework: ⚛️🧠🛡️ Active
 ✅ Phase 6: Integration Tests - PASSED
 
 🎉 Demo Status: SUCCESSFUL
-Trinity Framework: ⚛️🧠🛡️ OPERATIONAL
+Constellation Framework: ⚛️🧠🛡️ OPERATIONAL
 ```
 
 ## 🔧 Configuration
@@ -252,7 +252,7 @@ A successful demo should demonstrate:
 - ✅ All 6 phases complete without errors
 - ✅ Symbolic sequences validate correctly
 - ✅ Guardian interventions function properly
-- ✅ Trinity Framework activation successful
+- ✅ Constellation Framework activation successful
 - ✅ Integration tests pass
 
 ## 🔮 Future Enhancements

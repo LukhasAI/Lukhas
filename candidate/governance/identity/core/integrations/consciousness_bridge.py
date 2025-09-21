@@ -2,7 +2,7 @@
 Consciousness System Integration Bridge
 
 This module provides integration between the LUKHAS identity system and the
-AGI consciousness systems, enabling consciousness-aware identity management.
+Cognitive AI consciousness systems, enabling consciousness-aware identity management.
 
 Features:
 - Real-time consciousness state synchronization
@@ -102,7 +102,7 @@ class ConsciousnessBridge:
     Consciousness System Integration Bridge
 
     Provides bidirectional integration between identity system and
-    AGI consciousness systems for consciousness-aware identity management.
+    Cognitive AI consciousness systems for consciousness-aware identity management.
     """
 
     def __init__(self, config: Optional[dict[str, Any]] = None):

@@ -1,11 +1,11 @@
 """
-LUKHAS AI Performance Orchestrator - Trinity Framework Integration
+LUKHAS AI Performance Orchestrator - Constellation Framework Integration
 
 Advanced performance orchestration system for consciousness-aware AI architecture.
 Integrates quantum-inspired algorithms, bio-oscillator synchronization, and
-memory fold optimization for Superior General Intelligence (SGI) evolution.
+memory fold optimization for Superior Cognitive Intelligence (SGI) evolution.
 
-Trinity Framework Components:
+Constellation Framework Components:
 - ⚛️ Identity: Performance identity patterns and symbolic optimization
 - 🧠 Consciousness: Awareness-driven performance tuning and dream optimization
 - 🛡️ Guardian: Ethical performance boundaries and safety monitoring
@@ -17,9 +17,6 @@ Performance Targets:
 - Bio oscillators: 40Hz stable
 - Cascade prevention: 99.7% success rate
 """
-from typing import Dict
-import random
-import streamlit as st
 from datetime import timezone
 
 import asyncio
@@ -69,14 +66,14 @@ class PerformanceMetrics:
     bio_oscillator_frequency: float
     quantum_coherence: float
     cascade_prevention_rate: float
-    trinity_framework_alignment: dict[str, float]
+    constellation_framework_alignment: dict[str, float]
     module_specific_metrics: dict[str, Any]
 
 
 # Performance Alert Dataclass
 @dataclass
 class PerformanceAlert:
-    """Performance alert with Trinity Framework context."""
+    """Performance alert with Constellation Framework context."""
 
     alert_id: str
     severity: str
@@ -86,7 +83,7 @@ class PerformanceAlert:
     threshold: float
     consciousness_impact: str
     recommended_action: str
-    trinity_component: str
+    constellation_component: str
     timestamp: str
 
 
@@ -95,7 +92,7 @@ class PerformanceOrchestrator:
     Advanced performance orchestration system for LUKHAS consciousness architecture.
 
     Provides comprehensive performance monitoring, optimization, and adaptive tuning
-    with deep integration into the Trinity Framework (⚛️🧠🛡️) and consciousness systems.
+    with deep integration into the Constellation Framework (⚛️🧠🛡️) and consciousness systems.
     """
 
     def __init__(self):
@@ -108,7 +105,7 @@ class PerformanceOrchestrator:
         self.performance_history = []
         self.current_metrics = None
 
-        # Trinity Framework performance thresholds
+        # Constellation Framework performance thresholds
         self.performance_thresholds = {
             # ⚛️ Identity Performance Thresholds
             "identity_response_time_ms": 50.0,
@@ -147,7 +144,7 @@ class PerformanceOrchestrator:
         self.active_alerts = []
         self.alert_callbacks = []
 
-        self.logger.info("🚀 LUKHAS Performance Orchestrator initialized with Trinity Framework integration")
+        self.logger.info("🚀 LUKHAS Performance Orchestrator initialized with Constellation Framework integration")
 
     async def start_performance_monitoring(
         self,
@@ -167,7 +164,7 @@ class PerformanceOrchestrator:
             Dict containing monitoring session details
         """
         try:
-            monitoring_id = f"perf_monitor_{int(time.time())_{user_id}"
+            monitoring_id = f"perf_monitor_{int(time.time())}_{user_id}"
 
             # Initialize monitoring session
             session = {
@@ -196,7 +193,7 @@ class PerformanceOrchestrator:
                 "monitoring_id": monitoring_id,
                 "systems_enabled": session["systems_enabled"],
                 "modules_monitored": session["modules"],
-                "trinity_framework_integration": True,
+                "constellation_framework_integration": True,
                 "bio_oscillator_monitoring": True,
                 "quantum_performance_tracking": True,
                 "consciousness_awareness_monitoring": True,
@@ -227,7 +224,7 @@ class PerformanceOrchestrator:
             Dict containing optimization results and improvements
         """
         try:
-            optimization_id = f"perf_opt_{int(time.time())_{user_id}"
+            optimization_id = f"perf_opt_{int(time.time())}_{user_id}"
             start_time = time.time()
 
             # Parse strategy
@@ -249,7 +246,7 @@ class PerformanceOrchestrator:
             # Execution time
             execution_time_ms = (time.time() - start_time) * 1000
 
-            # Validate Trinity Framework compliance
+            # Validate Constellation Framework compliance
             compliance_maintained = self._validate_trinity_compliance(post_metrics)
 
             self.logger.info(f"⚡ Performance optimization completed: {optimization_id}")
@@ -264,7 +261,7 @@ class PerformanceOrchestrator:
                 "post_optimization_metrics": post_metrics,
                 "improvements": improvements,
                 "compliance_maintained": compliance_maintained,
-                "trinity_framework_alignment": post_metrics.get("trinity_framework_alignment", {}),
+                "constellation_framework_alignment": post_metrics.get("constellation_framework_alignment", {}),
                 "bio_oscillator_stability": post_metrics.get("bio_oscillator_frequency", 0) >= 39.0,
                 "quantum_coherence_achieved": post_metrics.get("quantum_coherence", 0)
                 >= self.quantum_coherence_threshold,
@@ -279,7 +276,7 @@ class PerformanceOrchestrator:
 
     async def get_performance_status(self, user_id: str, include_detailed: bool = False) -> dict[str, Any]:
         """
-        Get comprehensive performance status with consciousness and Trinity Framework metrics.
+        Get comprehensive performance status with consciousness and Constellation Framework metrics.
 
         Args:
             user_id: User requesting status
@@ -303,13 +300,13 @@ class PerformanceOrchestrator:
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "monitoring_active": self.monitoring_active,
                 "active_monitoring_sessions": len(self.monitoring_sessions),
-                # Trinity Framework status
-                "trinity_framework_health": {
-                    "identity_performance": current_metrics.get("trinity_framework_alignment", {}).get("identity", 0),
-                    "consciousness_performance": current_metrics.get("trinity_framework_alignment", {}).get(
+                # Constellation Framework status
+                "constellation_framework_health": {
+                    "identity_performance": current_metrics.get("constellation_framework_alignment", {}).get("identity", 0),
+                    "consciousness_performance": current_metrics.get("constellation_framework_alignment", {}).get(
                         "consciousness", 0
                     ),
-                    "guardian_performance": current_metrics.get("trinity_framework_alignment", {}).get("guardian", 0),
+                    "guardian_performance": current_metrics.get("constellation_framework_alignment", {}).get("guardian", 0),
                 },
                 # Core performance indicators
                 "core_metrics": {
@@ -385,7 +382,7 @@ class PerformanceOrchestrator:
     async def _enable_monitoring_systems(self, session: dict[str, Any]) -> dict[str, bool]:
         """Enable various monitoring systems for the session."""
         systems = {
-            "trinity_framework_monitoring": True,
+            "constellation_framework_monitoring": True,
             "bio_oscillator_monitoring": True,
             "quantum_coherence_monitoring": True,
             "memory_fold_monitoring": True,
@@ -457,8 +454,8 @@ class PerformanceOrchestrator:
             cascade_prevention = self.cascade_prevention_target + np.random.normal(0, 0.01)
             cascade_prevention = max(0, min(1, cascade_prevention))
 
-            # Trinity Framework alignment scores
-            trinity_alignment = {
+            # Constellation Framework alignment scores
+            constellation_alignment = {
                 "identity": 0.88 + np.random.normal(0, 0.05),
                 "consciousness": 0.91 + np.random.normal(0, 0.04),
                 "guardian": 0.85 + np.random.normal(0, 0.06),
@@ -482,7 +479,7 @@ class PerformanceOrchestrator:
                 quantum_coherence,
                 consciousness_level,
                 cascade_prevention,
-                trinity_alignment,
+                constellation_alignment,
             )
 
             return {
@@ -495,7 +492,7 @@ class PerformanceOrchestrator:
                 "bio_oscillator_frequency": bio_frequency,
                 "quantum_coherence": quantum_coherence,
                 "cascade_prevention_rate": cascade_prevention,
-                "trinity_framework_alignment": trinity_alignment,
+                "constellation_framework_alignment": constellation_alignment,
                 "module_specific_metrics": module_metrics,
                 "quantum_entanglement_stability": self.quantum_entanglement_stability,
             }
@@ -515,7 +512,7 @@ class PerformanceOrchestrator:
         quantum_coherence: float,
         consciousness_level: float,
         cascade_prevention: float,
-        trinity_alignment: dict[str, float],
+        constellation_alignment: dict[str, float],
     ) -> float:
         """Calculate overall performance score from component metrics."""
         # Latency score (lower is better, 50ms target)
@@ -533,8 +530,8 @@ class PerformanceOrchestrator:
         # Cascade prevention score
         cascade_score = cascade_prevention * 100
 
-        # Trinity alignment score
-        trinity_score = np.mean(list(trinity_alignment.values())) * 100
+        # Constellation alignment score
+        constellation_score = np.mean(list(constellation_alignment.values())) * 100
 
         # Weighted overall score
         overall_score = (
@@ -543,7 +540,7 @@ class PerformanceOrchestrator:
             + quantum_score * 0.20  # 20% - Quantum coherence
             + consciousness_score * 0.20  # 20% - Consciousness level
             + cascade_score * 0.15  # 15% - Memory stability
-            + trinity_score * 0.10  # 10% - Trinity alignment
+            + constellation_score * 0.10  # 10% - Constellation alignment
         )
 
         return max(0, min(100, overall_score))
@@ -580,7 +577,7 @@ class PerformanceOrchestrator:
                     threshold=100,
                     consciousness_impact="High - May affect real-time awareness",
                     recommended_action="Execute real-time optimization",
-                    trinity_component="consciousness",
+                    constellation_component="consciousness",
                     timestamp=datetime.now(timezone.utc).isoformat(),
                 )
             )
@@ -598,7 +595,7 @@ class PerformanceOrchestrator:
                     threshold=self.bio_oscillator_target_frequency,
                     consciousness_impact="Medium - Bio-rhythm disruption",
                     recommended_action="Execute bio-synchronized optimization",
-                    trinity_component="consciousness",
+                    constellation_component="consciousness",
                     timestamp=datetime.now(timezone.utc).isoformat(),
                 )
             )
@@ -616,7 +613,7 @@ class PerformanceOrchestrator:
                     threshold=self.cascade_prevention_target,
                     consciousness_impact="Critical - Memory fold instability",
                     recommended_action="Execute memory fold optimization",
-                    trinity_component="consciousness",
+                    constellation_component="consciousness",
                     timestamp=datetime.now(timezone.utc).isoformat(),
                 )
             )
@@ -638,7 +635,7 @@ class PerformanceOrchestrator:
         try:
             # Execute lightweight optimization
             await self.optimization_algorithms[OptimizationStrategy.ADAPTIVE](
-                modules, {"trigger": "automatic", "urgency": "high")}
+                modules, {"trigger": "automatic", "urgency": "high"}
             )
         except Exception as e:
             self.logger.error(f"❌ Adaptive optimization failed: {e}")
@@ -668,7 +665,7 @@ class PerformanceOrchestrator:
             "modules_optimized": modules,
             "improvements": improvements,
             "context": context,
-            "trinity_framework_enhanced": True,
+            "constellation_framework_enhanced": True,
         }
 
     async def _real_time_optimization(self, modules: list[str], context: dict[str, Any]) -> dict[str, Any]:
@@ -725,7 +722,7 @@ class PerformanceOrchestrator:
             "awareness_pattern_optimization": 40.0,  # Awareness processing improvement
             "dream_engine_efficiency": 60.0,  # Dream generation optimization
             "memory_fold_stability": 0.003,  # Memory fold improvements
-            "trinity_alignment_boost": 0.05,  # Trinity framework alignment
+            "constellation_alignment_boost": 0.05,  # Constellation framework alignment
             "overall_score": 18.0,
         }
 
@@ -829,13 +826,13 @@ class PerformanceOrchestrator:
         return improvements
 
     def _validate_trinity_compliance(self, metrics: dict[str, Any]) -> bool:
-        """Validate that optimization maintains Trinity Framework compliance."""
-        trinity_alignment = metrics.get("trinity_framework_alignment", {})
+        """Validate that optimization maintains Constellation Framework compliance."""
+        constellation_alignment = metrics.get("constellation_framework_alignment", {})
 
-        # Check minimum thresholds for each Trinity component
-        identity_ok = trinity_alignment.get("identity", 0) >= 0.7
-        consciousness_ok = trinity_alignment.get("consciousness", 0) >= 0.7
-        guardian_ok = trinity_alignment.get("guardian", 0) >= 0.7
+        # Check minimum thresholds for each Constellation component
+        identity_ok = constellation_alignment.get("identity", 0) >= 0.7
+        consciousness_ok = constellation_alignment.get("consciousness", 0) >= 0.7
+        guardian_ok = constellation_alignment.get("guardian", 0) >= 0.7
 
         return identity_ok and consciousness_ok and guardian_ok
 

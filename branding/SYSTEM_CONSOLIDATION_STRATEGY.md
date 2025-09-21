@@ -29,19 +29,19 @@
 **→ Consolidated Target**: `/branding/databases/lukhas_unified.db`
 - Merge all content, user data, analytics into single optimized database
 - Maintain data integrity and relationships
-- Add Trinity Framework schema integration
+- Add Constellation Framework schema integration
 
 #### **Document Generation Consolidation** (4 systems → 1 premium)
 **Current Doc Gen Systems**:
 1. **ΛUCTOR Commercial Engine** (Production-ready, 12 formats)
 2. **Lucas Document Management** (Comprehensive knowledge base)
-3. **DocuTutor Content Engine** (Technical docs, AGI capabilities)
+3. **DocuTutor Content Engine** (Technical docs, Cognitive AI capabilities)
 4. **Document Generation System** (Research integration)
 
 **→ Consolidated Target**: `/branding/engines/lukhas_doc_engine/`
 - Merge ΛUCTOR's 12 formats + Lucas knowledge base + DocuTutor templates
 - Unified 3-Layer Tone System (Poetic, User-Friendly, Academic)
-- Trinity Framework integration for all documents
+- Constellation Framework integration for all documents
 
 #### **Content Platform Consolidation** (3 systems → 1 elite)
 **Current Content Platforms**:
@@ -87,7 +87,7 @@
 ### **Phase 2: Database Unification** (1 day)
 1. **Create unified database schema**
 2. **Migrate data from 7 database systems**
-3. **Optimize for performance and Trinity Framework**
+3. **Optimize for performance and Constellation Framework**
 4. **Validate data integrity across migrations**
 
 ### **Phase 3: Engine Consolidation** (2 days)
@@ -99,7 +99,7 @@
 ### **Phase 4: Final Optimization** (1 day)
 1. **Remove redundant systems**
 2. **Optimize performance across unified platform**
-3. **Deploy Trinity Framework integration**
+3. **Deploy Constellation Framework integration**
 4. **Final elite voice coherence optimization**
 
 ---
@@ -118,7 +118,7 @@
 ├── orchestration/
 │   ├── unified_platform_orchestrator.py
 │   ├── consolidated_voice_optimizer.py
-│   └── trinity_framework_manager.py
+│   └── constellation_framework_manager.py
 └── mobile/
     └── lukhas_ai_app/                 (Single premium mobile app)
 ```
@@ -141,7 +141,7 @@
 
 ### **Elite User Experience**
 - **Single coherent interface**
-- **Unified Trinity Framework messaging**
+- **Unified Constellation Framework messaging**
 - **Consistent consciousness technology branding**
 - **Premium mobile experience**
 

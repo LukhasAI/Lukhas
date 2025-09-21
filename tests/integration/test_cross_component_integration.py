@@ -6,7 +6,7 @@ Cross-Component Integration Tests
 Tests demonstrating integration between multiple components working together.
 This shows real-world scenarios where components collaborate.
 
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 
 import logging

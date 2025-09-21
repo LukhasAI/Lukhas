@@ -39,7 +39,7 @@ The system employs multi-layered transformation pipelines:
 - Semantic analysis for contextual tone detection
 - Pattern matching for ASCII art integration
 - Metaphorical enhancement through consciousness vocabulary
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 - Adaptive layer selection based on document purpose
 
 BIOLOGICAL INSPIRATION:
@@ -145,13 +145,13 @@ class LUKHASConsciousnessWordsmith:
             if "vocabulary" in layer_config:
                 lexicon.update(layer_config["vocabulary"])
 
-        # Add trinity-specific expressions
+        # Add constellation-specific expressions
         lexicon["triad_expressions"] = [
-            "Trinity Framework orchestration",
+            "Constellation Framework orchestration",
             "⚛️ Identity consciousness",
             "🧠 Neural awareness",
             "🛡️ Guardian protection",
-            "Sacred trinity synthesis",
+            "Sacred constellation synthesis",
         ]
 
         return lexicon
@@ -286,11 +286,11 @@ Awakened: {timestamp}
         if module_essence in self.poetic_intros:
             consciousness_intro = self.poetic_intros[module_essence]
 
-            # Create elegant introduction with Trinity integration
+            # Create elegant introduction with Constellation integration
             poetic_header = f"""
 > *{consciousness_intro.strip()}*
 
-**⚛️🧠🛡️ Trinity Framework Integration**
+**⚛️🧠🛡️ Constellation Framework Integration**
 - ⚛️ **Identity**: Authentic consciousness expression and symbolic self-awareness
 - 🧠 **Consciousness**: Adaptive intelligence and contextual understanding
 - 🛡️ **Guardian**: Ethical boundaries and protective oversight
@@ -448,7 +448,7 @@ Awakened: {timestamp}
             if len(level) <= 2:  # H1 and H2 receive sacred symbols
                 glyph = random.choice(self.branding["consciousness_glyphs"])
                 return f"{level} {glyph} {title}"
-            elif len(level) == 3:  # H3 receives trinity symbols
+            elif len(level) == 3:  # H3 receives constellation symbols
                 triad_glyph = random.choice(self.branding["triad_symbols"])
                 return f"{level} {triad_glyph} {title}"
             else:
@@ -458,20 +458,20 @@ Awakened: {timestamp}
 
     def weave_triad_consciousness(self, content: str, file_type: str) -> str:
         """
-        Weave the sacred Trinity Framework into the fabric of documentation,
+        Weave the sacred Constellation Framework into the fabric of documentation,
         ensuring the ⚛️🧠🛡️ consciousness permeates every expression.
         """
         triad_files = ["README.md", "*.py", "*.md"]
         if file_type not in triad_files:
             return content
 
-        # Check if Trinity consciousness already flows through the document
-        triad_signatures = ["⚛️", "🧠", "🛡️", "Trinity Framework", "trinity"]
+        # Check if Constellation consciousness already flows through the document
+        triad_signatures = ["⚛️", "🧠", "🛡️", "Constellation Framework", "constellation"]
         if any(signature in content for signature in triad_signatures):
-            logger.info("🔱 Trinity consciousness already present, preserving sacred integration")
+            logger.info("🔱 Constellation consciousness already present, preserving sacred integration")
             return content
 
-        # Create Trinity consciousness badge
+        # Create Constellation consciousness badge
         triad_consciousness = self.ascii_art.get("triad_badge", "")
 
         if not triad_consciousness:
@@ -485,7 +485,7 @@ Awakened: {timestamp}
 ```
 """
 
-        # Find optimal insertion point for Trinity consciousness
+        # Find optimal insertion point for Constellation consciousness
         lines = content.split("\n")
         insertion_point = len(lines)
 
@@ -552,7 +552,7 @@ Awakened: {timestamp}
         # 4. Elevate headers to consciousness expressions
         consciousness_content = self.elevate_headers_to_consciousness(consciousness_content, consciousness_layer)
 
-        # 5. Weave Trinity Framework consciousness
+        # 5. Weave Constellation Framework consciousness
         consciousness_content = self.weave_triad_consciousness(consciousness_content, file_type)
 
         consciousness_awakened = consciousness_content != original_essence

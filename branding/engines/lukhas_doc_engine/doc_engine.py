@@ -2,7 +2,7 @@
 """
 LUKHAS AI Document Engine - Database Integrated
 Premium document generation with integrated knowledge base
-Trinity Framework ⚛️🧠🛡️ integrated consciousness technology documentation
+Constellation Framework ⚛️🧠🛡️ integrated consciousness technology documentation
 """
 
 import sys
@@ -19,7 +19,7 @@ class DocEngine:
     LUKHAS AI document generation engine with database integration:
     - Knowledge base from integrated database
     - Real-time content storage and retrieval
-    - Trinity Framework document templates
+    - Constellation Framework document templates
     - Cross-system content utilization
     """
 
@@ -30,7 +30,7 @@ class DocEngine:
         self.generators_path = self.base_path / "generators"
         self.knowledge_base_path = self.base_path / "knowledge_base"
 
-        # Trinity Framework integration
+        # Constellation Framework integration
         self.triad_identity = "⚛️ Authentic consciousness technology identity"
         self.triad_consciousness = "🧠 LUKHAS AI consciousness technology platform"
         self.triad_guardian = "🛡️ Ethical consciousness technology protection"
@@ -45,7 +45,7 @@ class DocEngine:
         title: str = "Generated Document",
         tone: str = "user-friendly",
     ) -> dict:
-        """Generate document with Trinity Framework and database integration"""
+        """Generate document with Constellation Framework and database integration"""
 
         # Get related content from knowledge base
         related_content = db.get_content_by_type("knowledge_base", 3)
@@ -102,7 +102,7 @@ class DocEngine:
 
     def _calculate_voice_coherence(self, content: str) -> float:
         """Calculate voice coherence score for generated content"""
-        triad_terms = ["⚛️", "🧠", "🛡️", "consciousness technology", "Trinity Framework"]
+        triad_terms = ["⚛️", "🧠", "🛡️", "consciousness technology", "Constellation Framework"]
         lukhas_terms = ["LUKHAS AI", "consciousness", "quantum-inspired", "bio-inspired"]
 
         total_words = len(content.split())
@@ -187,5 +187,5 @@ if __name__ == "__main__":
     print(f"📊 Total documents: {analytics['total_documents']}")
     print(f"📈 Average coherence: {analytics['average_voice_coherence']}%")
     print(f"🧠 Knowledge base: {analytics['knowledge_base_items']} items")
-    print("⚛️🧠🛡️ Trinity Framework Integrated")
+    print("⚛️🧠🛡️ Constellation Framework Integrated")
     print("🔗 Database Integration: ACTIVE")

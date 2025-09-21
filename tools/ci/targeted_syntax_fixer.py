@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-🎯 T4 TARGETED SYNTAX FIXER - LUKHAS Trinity Framework
+🎯 T4 TARGETED SYNTAX FIXER - LUKHAS Constellation Framework
 ================================================================
 More conservative approach to fixing only clear syntax errors.
-⚛️🧠🛡️ Trinity Framework compliant with Guardian validation.
+⚛️🧠🛡️ Constellation Framework compliant with Guardian validation.
 """
 
 import json
@@ -156,7 +156,7 @@ class TargetedSyntaxFixer:
 
     def run_targeted_fixes(self):
         """Run targeted syntax fixes."""
-        print("🎯 T4 TARGETED SYNTAX FIXER - LUKHAS Trinity Framework")
+        print("🎯 T4 TARGETED SYNTAX FIXER - LUKHAS Constellation Framework")
         print("=" * 65)
         print("⚛️ Conservative syntax error resolution with Guardian validation")
 

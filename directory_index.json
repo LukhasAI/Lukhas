@@ -1,0 +1,998 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": ".",
+    "lane": "development",
+    "purpose": "Directory containing 4 Python files and 131 subdirectories with T4/0.01% agent delegation system",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "active",
+    "agent_system_version": "1.0.0",
+    "audit_tasks_count": 62
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "smart_syntax_fixer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "has_syntax_error",
+          "get_syntax_error_details",
+          "fix_common_fstring_errors",
+          "fix_return_outside_function",
+          "is_inside_function",
+          "apply_smart_fixes",
+          "find_syntax_error_files",
+          "main",
+          "fix_fstring_slice"
+        ]
+      },
+      {
+        "filename": "sitecustomize.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "fix_test_failures.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "run_command",
+          "fix_setuptools_security",
+          "fix_pytest_deprecation",
+          "fix_import_issues",
+          "create_pytest_ini_fix",
+          "run_smoke_test",
+          "main"
+        ]
+      },
+      {
+        "filename": "main.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.bootstrap",
+          "candidate.branding_bridge",
+          "lukhas.core.bootstrap",
+          "lukhas.branding_bridge"
+        ],
+        "exports": [
+          "SystemHealthMonitor",
+          "LUKHAS",
+          "main",
+          "check_vital_signs",
+          "generate_health_report",
+          "show_help",
+          "fallback_get_bootstrap",
+          "fallback_initialize_lukhas",
+          "fallback_shutdown_lukhas",
+          "fallback_initialize_branding",
+          "fallback_get_system_signature"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "tone",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "modulation",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "mcp-lukhas-sse",
+        "has_index": false,
+        "purpose": "Subdirectory with 17 Python files",
+        "component_count": 17
+      },
+      {
+        "name": "vocabularies",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "candidate",
+        "has_index": false,
+        "purpose": "Subdirectory with 6 Python files",
+        "component_count": 6
+      },
+      {
+        "name": "quarantine",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "cognitive_core",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "branding",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "phase1_verification_pack",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "temp",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "oneiric_core",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "lukhas_website",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "delegation_reports",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "tools",
+        "has_index": false,
+        "purpose": "Subdirectory with 81 Python files",
+        "component_count": 81
+      },
+      {
+        "name": "docker",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "bio",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "lukhas-ai-intro",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "products",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "trace",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "core",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "memory",
+        "has_index": false,
+        "purpose": "Subdirectory with 8 Python files",
+        "component_count": 8
+      },
+      {
+        "name": "identity",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "archive",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "enterprise",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "out",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "snapshots",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "config",
+        "has_index": false,
+        "purpose": "Subdirectory with 10 Python files",
+        "component_count": 10
+      },
+      {
+        "name": "next_gen",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "security",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "ci",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "health_reports",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "environments",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "lukhas_ai.egg-info",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "contracts",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "personality",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "recovered_components",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "test_data",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "tests_new",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "consciousness",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "CLAUDE_ARMY",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "mcp-server",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "business",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "tests",
+        "has_index": false,
+        "purpose": "Subdirectory with 21 Python files",
+        "component_count": 21
+      },
+      {
+        "name": "website_v1",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "completion",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "trace_logs",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "agents",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "var",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "grafana",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "server",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "agent",
+        "has_index": false,
+        "purpose": "Subdirectory with 5 Python files",
+        "component_count": 5
+      },
+      {
+        "name": "__pycache__",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "docs",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "ai_orchestration",
+        "has_index": false,
+        "purpose": "Subdirectory with 6 Python files",
+        "component_count": 6
+      },
+      {
+        "name": "matriz",
+        "has_index": false,
+        "purpose": "Subdirectory with 8 Python files",
+        "component_count": 8
+      },
+      {
+        "name": "observability",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "reasoning",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "qi",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "tagging",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "schemas",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "feedback",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "storage",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "TODO",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "dreamweaver_helpers_bundle",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "SYSTEM_CLAUDE_AUDIT",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "exports",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "alerts",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "integrations",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "samples",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "adapters",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "system",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "Jules--branch",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "gymnasium_local",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "presentations",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "logs",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "ethics",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "consent",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "audit",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "dashboards",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "sdk",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "mk",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "deployment",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "hooks",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "examples",
+        "has_index": false,
+        "purpose": "Subdirectory with 12 Python files",
+        "component_count": 12
+      },
+      {
+        "name": "benchmarks",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "transmission_bundle",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "scripts",
+        "has_index": false,
+        "purpose": "Subdirectory with 67 Python files",
+        "component_count": 67
+      },
+      {
+        "name": "packages",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "final-sweep",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "diagnostics",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "mcp_servers",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "orchestration",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "governance",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "rules",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "api",
+        "has_index": false,
+        "purpose": "Subdirectory with 8 Python files",
+        "component_count": 8
+      },
+      {
+        "name": "brain",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "templates",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "doc",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "ops",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "test_results",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "healing",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "prometheus",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "graphs",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "security-reports",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "symbolic",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "dreams",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "guardian",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "enforcement",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "serve",
+        "has_index": false,
+        "purpose": "Subdirectory with 14 Python files",
+        "component_count": 14
+      },
+      {
+        "name": "monitoring",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "htmlcov",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "mcp-servers",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "eval_runs",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "performance",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "modules",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "agents_external",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "data",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "assets",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "design-system",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "dream",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "demos",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "lukhas",
+        "has_index": false,
+        "purpose": "Subdirectory with 7 Python files",
+        "component_count": 7
+      },
+      {
+        "name": "governance_extended",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "rl",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "emotion",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "universal_language",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "analytics",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "reports",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "gtpsi",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "quantum",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "src",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "CHANGELOG.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "SEARCH_MAP.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "RELEASE_NOTES_SAFETY_TAGS_V1.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": " CLAUDE_TASKS.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": ".copilot_tasks.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "lukhas_context.md",
+        "type": "lukhas_context.md",
+        "has_sync_header": true
+      },
+      {
+        "filename": "context_headers.md",
+        "type": "other",
+        "has_sync_header": true
+      },
+      {
+        "filename": "LABELS.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "AGENTS.md",
+        "type": "other",
+        "has_sync_header": false,
+        "description": "T4/0.01% agent delegation matrix for enterprise AGI tasks"
+      },
+      {
+        "filename": "AUDIT_TODO_TASKS.md",
+        "type": "other",
+        "has_sync_header": false,
+        "description": "62 precision tasks from executive audit with agent assignments"
+      },
+      {
+        "filename": "AUDIT_TODO_TASKS.json",
+        "type": "other",
+        "has_sync_header": false,
+        "description": "Structured JSON format of audit tasks with metadata"
+      },
+      {
+        "filename": "ENV_VARS.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "temp_context_update_report.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "claude.me",
+        "type": "claude.me",
+        "has_sync_header": true
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "README.md",
+      "lukhas_context.md",
+      "claude.me"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 4,
+    "estimated_complexity": "low",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "standard",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": null,
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

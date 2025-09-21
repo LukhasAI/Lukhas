@@ -1,6 +1,6 @@
 """
 Ethical Evaluator Module
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
 #TAG:governance
 #TAG:ethics
@@ -13,7 +13,7 @@ from typing import Any
 class EthicalEvaluator:
     """
     Ethical evaluation system for LUKHAS AI
-    🛡️ Guardian component of Trinity Framework
+    🛡️ Guardian component of Constellation Framework
     """
 
     def __init__(self):

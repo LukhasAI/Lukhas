@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 │ 📦 MODULE      : compliance_drift_monitor.py                         │
 │ 🧾 DESCRIPTION : Monitors and mitigates compliance drift             │
 │ 🧩 TYPE        : Governance Core        🔧 VERSION: v0.5.0            │
-│ 🖋️ AUTHOR      : Lucas AGI              📅 UPDATED: 2025-04-28        │
+│ 🖋️ AUTHOR      : Lucas Cognitive AI              📅 UPDATED: 2025-04-28        │
 ├─────────────────────────────────────────────────────────────────────┤
 │ 📚 DEPENDENCIES:                                                     │
 │   - Core Python (datetime, csv, json, os)                            │

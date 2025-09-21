@@ -1,0 +1,379 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/consciousness/creativity",
+    "lane": "development",
+    "purpose": "Directory containing 12 Python files and 5 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "constellation_role": "horizon_star_primary",
+    "matriz_pipeline_integration": {
+      "memory_stage": "active",
+      "attention_stage": "active",
+      "thought_stage": "active",
+      "awareness_stage": "active",
+      "decision_stage": "experimental"
+    },
+    "cognitive_domains": [
+      "consciousness_processing",
+      "awareness_patterns"
+    ]
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "service.py",
+        "component_type": "CREATIVITY_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/service.json",
+        "dependencies": [
+          "lukhas.governance.identity.interface"
+        ],
+        "exports": [
+          "CreativityService",
+          "IdentityClient",
+          "generate_content",
+          "synthesize_dream",
+          "generate_emotional_content",
+          "generate_content",
+          "synthesize_dream",
+          "generate_emotional_content",
+          "collaborate_creatively",
+          "verify_user_access",
+          "check_consent",
+          "log_activity"
+        ]
+      },
+      {
+        "filename": "creative_expression_core.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/creative_expression_core.json",
+        "dependencies": [],
+        "exports": [
+          "NeuroHaikuGenerator",
+          "generate_haiku",
+          "load_inspiration_profile"
+        ]
+      },
+      {
+        "filename": "services.py",
+        "component_type": "CREATIVITY_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/services.json",
+        "dependencies": [],
+        "exports": [
+          "CreativityService",
+          "create_creativity_service"
+        ]
+      },
+      {
+        "filename": "haiku_generator.py",
+        "component_type": "CREATIVITY_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/haiku_generator.json",
+        "dependencies": [
+          "candidate.core.common",
+          "lukhas.branding_bridge"
+        ],
+        "exports": [
+          "AdvancedHaikuGenerator",
+          "QIHaikuGenerator",
+          "NeuroHaikuGenerator",
+          "generate_neural_haiku"
+        ]
+      },
+      {
+        "filename": "creative_expression_processor.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/creative_expression_processor.json",
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "healix_visualizer.py",
+        "component_type": "CREATIVITY_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/healix_visualizer.json",
+        "dependencies": [],
+        "exports": [
+          "HealixVisualizer",
+          "animate_frame"
+        ]
+      },
+      {
+        "filename": "creative_expressions_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/creative_expressions_engine.json",
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "personality_refiner.py",
+        "component_type": "CREATIVITY_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/personality_refiner.json",
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "qi_creative_types.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/qi_creative_types.json",
+        "dependencies": [],
+        "exports": [
+          "CreativeExpression",
+          "QIContext",
+          "QIHaiku",
+          "QIMusicalPiece",
+          "SemanticField",
+          "QIWordState",
+          "CognitiveState",
+          "EnhancedCreativeState",
+          "CreatorIdentity",
+          "ProtectedCreativeWork",
+          "CreativeParticipant",
+          "CreativeGoal",
+          "SessionConfig",
+          "CollaborativeCreation",
+          "UserCreativeProfile",
+          "CreativeInteraction",
+          "PersonalizedCreation",
+          "CreativeRequest",
+          "UserSession",
+          "CollaborativeSessionRequest",
+          "QICreativeComponent",
+          "QIImaginationProcessor",
+          "QIEmotionEncoder",
+          "CulturalQIMemory",
+          "NeuralCreativityNetwork",
+          "SynapticInspirationPool",
+          "DopamineRewardSystem",
+          "ZeroKnowledgeCreativityValidator",
+          "QIVisualArtist",
+          "QIStoryWeaver",
+          "QICodePoet",
+          "QIChoreographer",
+          "QI3DSculptor",
+          "SwarmCreativityOrchestrator",
+          "CrossCulturalSynthesizer",
+          "QISyllableCounter",
+          "SemanticEntangler",
+          "EmotionImageryQuantumMapper",
+          "PhoneticHarmonyAnalyzer",
+          "KirejiQuantumSelector",
+          "SeasonalReferenceEncoder",
+          "HarmonicQuantumInspiredProcessor",
+          "RhythmPatternSuperposer",
+          "EmotionalMelodyWeaver",
+          "CulturalScaleQuantumLibrary",
+          "NeuralOscillator",
+          "DopamineCreativityModulator",
+          "SerotoninMoodHarmonizer",
+          "NorepinephrineFocusEnhancer",
+          "AcetylcholineLearningBridge",
+          "SynapticPlasticityEngine",
+          "REMDreamSynthesizer",
+          "CreativeBlockchain",
+          "QIWatermarkEmbedder",
+          "CreativityMeshNetwork",
+          "QIIdeaSynthesizer",
+          "CreativeConflictHarmonizer",
+          "EmergenceDetector",
+          "QIAestheticProfiler",
+          "CulturalResonanceTuner",
+          "EmotionalPreferenceLearner",
+          "CreativityStyleEvolver",
+          "CreativityMonitor",
+          "CreativeEvolutionEngine",
+          "NeuroHaikuGenerator",
+          "generate_haiku"
+        ]
+      },
+      {
+        "filename": "creative_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/creative_engine.json",
+        "dependencies": [],
+        "exports": [
+          "MockCounter",
+          "MockGauge",
+          "MockHistogram",
+          "CreativeStyle",
+          "ExpansionStrategy",
+          "CreativeConfig",
+          "CreativeMetrics",
+          "CreativeContext",
+          "NeuralCreativeModel",
+          "SymbolicKnowledgeBase",
+          "FederatedLearningClient",
+          "CircuitBreaker",
+          "AdvancedSyllableAnalyzer",
+          "EnterpriseNeuralHaikuGenerator",
+          "CreativeEngineFactory",
+          "MockNeuralModel",
+          "MockSymbolicKB",
+          "MockFederatedClient",
+          "labels",
+          "inc",
+          "inc",
+          "dec",
+          "observe",
+          "count_syllables"
+        ]
+      },
+      {
+        "filename": "voice_integrator.py",
+        "component_type": "CREATIVITY_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/voice_integrator.json",
+        "dependencies": [],
+        "exports": [
+          "EnhancedVoiceConfig",
+          "EnhancedVoiceIntegrator"
+        ]
+      },
+      {
+        "filename": "creative_core.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/creative_core.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "CreativeCore",
+          "Placeholder",
+          "spark_inspiration",
+          "synthesize_ideas",
+          "activate_creative_mode",
+          "generate_novel_patterns",
+          "create_artistic_composition",
+          "get_creative_summary"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "personality",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "engines",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "systems",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "dream_engine",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "emotion",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "README_ENHANCED.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "USER_GUIDE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "DEV_GUIDE.md",
+        "type": "other",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Start with consciousness architecture documentation, then examine engines and processors",
+    "key_files": [
+      "README.md",
+      "creative_expressions_engine.py",
+      "creative_engine.py"
+    ],
+    "common_tasks": [
+      {
+        "task": "Consciousness engine development",
+        "files_involved": [
+          "creative_expressions_engine.py",
+          "creative_engine.py"
+        ],
+        "complexity": "high"
+      }
+    ],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "Consciousness architecture patterns",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 12,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "intermediate",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "native",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true,
+    "cognitive_alignment_score": 0.85
+  },
+  "relationships": {
+    "parent_directory": "candidate/consciousness",
+    "related_directories": [],
+    "constellation_cluster": "horizon_star_consciousness",
+    "dependency_weight": "moderate"
+  }
+}

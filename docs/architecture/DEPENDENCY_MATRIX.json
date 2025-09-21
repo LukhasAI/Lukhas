@@ -1,747 +1,638 @@
 {
+  "schema_version": "1.2.0",
   "metadata": {
-    "schema_version": "1.1.0-enterprise",
-    "schema_url": "schemas/dependency_matrix.schema.json",
-    "generated_at": "2025-08-28T00:00:00Z",
-    "dependency_analysis": "T4_Network_Intelligence",
-    "graph_complexity": "692_nodes_enterprise_scale",
-    "validation_status": "architecture_verified",
-    "analysis_methodology": "static_dynamic_runtime_analysis",
-    "last_updated": "2025-08-28"
+    "generated_at": "2025-09-20T23:20:00Z",
+    "analysis_type": "actual_import_scanning",
+    "total_modules": 56,
+    "scan_method": "AST_python_import_analysis"
   },
   "provenance": {
-    "git_sha": "fbc85a57b77b28a3d5db637f10bd4c54d85e7f47",
+    "git_sha": "b26dd0b43",
+    "timestamp_utc": "2025-09-20T23:20:00Z",
     "generated_by": {
-      "tool": "claude-code",
-      "model": "Claude Sonnet 4",
-      "temperature": 0.2
-    },
-    "timestamp_utc": "2025-08-28T13:15:58Z",
-    "scope_hash": "sha256:7bb885a1ec2cc95bb5caacf121008859e32943172fbe97c61aae7684a0ce757f"
-  },
-  "notes": [],
-  "dependency_graph_overview": {
-    "total_modules": 692,
-    "total_dependencies": 1847,
-    "dependency_depth_max": 12,
-    "circular_dependencies": 3,
-    "critical_path_modules": 15,
-    "architectural_coupling": "moderate",
-    "system_resilience_score": 87.4
-  },
-  "core_dependency_architecture": {
-    "foundational_layer": {
-      "modules": [
-        "core",
-        "governance"
-      ],
-      "dependency_count": 0,
-      "provides_services_to": [
-        "all_other_modules"
-      ],
-      "criticality_level": "maximum",
-      "failure_impact": "system_wide",
-      "replacement_complexity": "extreme"
-    },
-    "infrastructure_layer": {
-      "modules": [
-        "bridge",
-        "orchestration",
-        "memory"
-      ],
-      "depends_on": [
-        "core",
-        "governance"
-      ],
-      "provides_services_to": [
-        "application_layer"
-      ],
-      "criticality_level": "high",
-      "failure_impact": "service_degradation",
-      "replacement_complexity": "high"
-    },
-    "application_layer": {
-      "modules": [
-        "consciousness",
-        "emotion",
-        "qi",
-        "vivox",
-        "bio"
-      ],
-      "depends_on": [
-        "infrastructure_layer",
-        "foundational_layer"
-      ],
-      "provides_services_to": [
-        "user_interfaces"
-      ],
-      "criticality_level": "medium",
-      "failure_impact": "feature_loss",
-      "replacement_complexity": "medium"
-    },
-    "interface_layer": {
-      "modules": [
-        "api",
-        "monitoring",
-        "tools"
-      ],
-      "depends_on": [
-        "all_layers"
-      ],
-      "provides_services_to": [
-        "external_systems"
-      ],
-      "criticality_level": "low",
-      "failure_impact": "interface_degradation",
-      "replacement_complexity": "low"
+      "tool": "claude-code-dependency-scanner",
+      "model": "claude-sonnet-4"
     }
   },
   "module_dependency_matrix": {
-    "candidate.core": {
+    "lukhas.branding": {
       "internal_dependencies": [],
-      "external_dependencies": [
-        "python_stdlib",
-        "asyncio",
-        "pydantic"
-      ],
-      "dependents": [
-        "candidate.consciousness",
-        "candidate.memory",
-        "candidate.governance",
-        "candidate.bridge",
-        "candidate.orchestration",
-        "candidate.qi",
-        "candidate.emotion",
-        "candidate.bio",
-        "candidate.vivox",
-        "lukhas.core"
-      ],
-      "dependency_weight": 100,
-      "coupling_strength": "strong",
-      "interface_stability": "stable",
-      "breaking_change_impact": "catastrophic",
-      "circular_dependencies": [],
-      "optional_dependencies": [],
-      "runtime_dependencies": [
-        "symbolic_engine",
-        "glyph_processor",
-        "actor_system"
-      ],
-      "configuration_dependencies": [
-        "core_config.yaml"
-      ],
-      "coupling_metrics": {
-        "afferent": 10,
-        "efferent": 0,
-        "instability_index": 0.0
-      },
-      "risk": {
-        "spof": true,
-        "cycle_member": false,
-        "notes": [
-          "Single point of failure - system-wide impact if fails"
-        ]
-      },
-      "sbom_refs": [
-        "reports/sbom/cyclonedx.json"
-      ],
-      "slo_refs": [
-        "reports/slo/candidate_core.json"
+      "file_count": 2,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/branding/__init__.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/branding/terminology.py"
       ]
     },
-    "candidate.consciousness": {
-      "internal_dependencies": [
-        "candidate.core",
-        "candidate.memory",
-        "candidate.emotion"
-      ],
-      "external_dependencies": [
-        "numpy",
-        "scipy",
-        "transformers"
-      ],
-      "dependents": [
-        "candidate.orchestration",
-        "candidate.bridge",
-        "candidate.vivox",
-        "lukhas.consciousness"
-      ],
-      "dependency_weight": 85,
-      "coupling_strength": "strong",
-      "interface_stability": "evolving",
-      "breaking_change_impact": "major",
-      "circular_dependencies": [
-        "candidate.memory.consciousness_integration"
-      ],
-      "optional_dependencies": [
-        "candidate.bio.neural_integration"
-      ],
-      "runtime_dependencies": [
-        "awareness_engine",
-        "reasoning_system",
-        "dream_processor"
-      ],
-      "configuration_dependencies": [
-        "consciousness_config.yaml",
-        "awareness_thresholds.json"
-      ],
-      "coupling_metrics": {
-        "afferent": 4,
-        "efferent": 3,
-        "instability_index": 0.43
-      },
-      "risk": {
-        "spof": false,
-        "cycle_member": true,
-        "notes": [
-          "Circular dependency with memory module requires careful orchestration"
-        ]
-      },
-      "sbom_refs": [
-        "reports/sbom/cyclonedx.json"
-      ],
-      "slo_refs": [
-        "reports/slo/candidate_consciousness.json"
+    "lukhas.tools": {
+      "internal_dependencies": [],
+      "file_count": 2,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/tools/__init__.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/tools/collapse_simulator.py"
       ]
     },
-    "candidate.memory": {
+    "lukhas.bio": {
       "internal_dependencies": [
-        "candidate.core",
-        "candidate.emotion",
-        "candidate.governance"
+        "lukhas"
       ],
-      "external_dependencies": [
-        "redis",
-        "postgresql",
-        "lmdb"
-      ],
-      "dependents": [
-        "candidate.consciousness",
-        "candidate.orchestration",
-        "candidate.qi",
-        "lukhas.memory"
-      ],
-      "dependency_weight": 78,
-      "coupling_strength": "strong",
-      "interface_stability": "stable",
-      "breaking_change_impact": "major",
-      "circular_dependencies": [
-        "candidate.consciousness.memory_integration"
-      ],
-      "optional_dependencies": [
-        "candidate.bio.temporal_integration"
-      ],
-      "runtime_dependencies": [
-        "fold_processor",
-        "cascade_prevention",
-        "temporal_indexer"
-      ],
-      "configuration_dependencies": [
-        "memory_config.yaml",
-        "fold_limits.json"
+      "file_count": 5,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/bio/__init__.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/bio/utilities.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/bio/core/architecture_analyzer.py"
       ]
     },
-    "candidate.governance": {
-      "internal_dependencies": [
-        "candidate.core"
-      ],
-      "external_dependencies": [
-        "cryptography",
-        "jwt",
-        "passlib"
-      ],
-      "dependents": [
-        "candidate.consciousness",
-        "candidate.memory",
-        "candidate.qi",
-        "candidate.bridge",
-        "candidate.identity",
-        "lukhas.governance"
-      ],
-      "dependency_weight": 92,
-      "coupling_strength": "moderate",
-      "interface_stability": "stable",
-      "breaking_change_impact": "critical",
-      "circular_dependencies": [],
-      "optional_dependencies": [],
-      "runtime_dependencies": [
-        "guardian_engine",
-        "drift_detector",
-        "consent_ledger"
-      ],
-      "configuration_dependencies": [
-        "governance_policies.yaml",
-        "compliance_rules.json"
+    "lukhas.trace": {
+      "internal_dependencies": [],
+      "file_count": 2,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/trace/__init__.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/trace/TraceRepairEngine.py"
       ]
     },
-    "candidate.bridge": {
+    "lukhas.core": {
       "internal_dependencies": [
-        "candidate.core",
-        "candidate.governance"
+        "lukhas"
       ],
-      "external_dependencies": [
-        "httpx",
-        "websockets",
-        "openai",
-        "anthropic"
-      ],
-      "dependents": [
-        "candidate.consciousness",
-        "candidate.orchestration",
-        "lukhas.bridge"
-      ],
-      "dependency_weight": 45,
-      "coupling_strength": "loose",
-      "interface_stability": "stable",
-      "breaking_change_impact": "moderate",
-      "circular_dependencies": [],
-      "optional_dependencies": [
-        "candidate.voice.integration"
-      ],
-      "runtime_dependencies": [
-        "api_clients",
-        "protocol_handlers",
-        "connection_pools"
-      ],
-      "configuration_dependencies": [
-        "bridge_config.yaml",
-        "api_credentials.env"
+      "file_count": 45,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/core/swarm.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/core/trace.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/core/consciousness_stream.py"
       ]
     },
-    "candidate.qi": {
+    "lukhas.trinity": {
       "internal_dependencies": [
-        "candidate.core",
-        "candidate.governance",
-        "candidate.memory"
+        "lukhas"
       ],
-      "external_dependencies": [
-        "cryptography",
-        "numpy",
-        "scipy"
-      ],
-      "dependents": [
-        "candidate.consciousness",
-        "candidate.bio",
-        "lukhas.qi"
-      ],
-      "dependency_weight": 67,
-      "coupling_strength": "moderate",
-      "interface_stability": "stable",
-      "breaking_change_impact": "moderate",
-      "circular_dependencies": [],
-      "optional_dependencies": [
-        "candidate.bio.quantum_bio_integration"
-      ],
-      "runtime_dependencies": [
-        "teq_gates",
-        "security_scanner",
-        "provenance_tracker"
-      ],
-      "configuration_dependencies": [
-        "qi_config.yaml",
-        "security_policies.json"
+      "file_count": 1,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/constellation/__init__.py"
       ]
     },
-    "candidate.emotion": {
+    "lukhas.memory": {
       "internal_dependencies": [
-        "candidate.core"
+        "lukhas"
       ],
-      "external_dependencies": [
-        "numpy",
-        "pandas",
-        "scikit-learn"
+      "file_count": 8,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/sync.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/__init__.py"
+      ]
+    },
+    "lukhas.identity": {
+      "internal_dependencies": [
+        "lukhas"
       ],
-      "dependents": [
-        "candidate.consciousness",
-        "candidate.memory",
-        "candidate.bio",
-        "lukhas.emotion"
+      "file_count": 16,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/lambda_id.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/auth_service.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/compat.py"
+      ]
+    },
+    "lukhas.security": {
+      "internal_dependencies": [],
+      "file_count": 2,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/security/__init__.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/security/secure_random.py"
+      ]
+    },
+    "lukhas.constellation": {
+      "internal_dependencies": [],
+      "file_count": 2,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/constellation/__init__.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/constellation/triad/__init__.py"
+      ]
+    },
+    "lukhas.bridge": {
+      "internal_dependencies": [
+        "lukhas"
       ],
-      "dependency_weight": 71,
-      "coupling_strength": "moderate",
-      "interface_stability": "stable",
-      "breaking_change_impact": "moderate",
-      "circular_dependencies": [],
-      "optional_dependencies": [],
-      "runtime_dependencies": [
-        "vad_processor",
-        "mood_regulator",
-        "affect_analyzer"
+      "file_count": 5,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/bridge/bridge_wrapper.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/bridge/__init__.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/bridge/llm_wrappers/unified_openai_client.py"
+      ]
+    },
+    "lukhas.consciousness": {
+      "internal_dependencies": [
+        "lukhas"
       ],
-      "configuration_dependencies": [
-        "emotion_config.yaml",
-        "vad_mappings.json"
+      "file_count": 6,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/consciousness/registry.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/consciousness/__init__.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/consciousness/bio_integration.py"
+      ]
+    },
+    "lukhas.agents": {
+      "internal_dependencies": [],
+      "file_count": 1,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/agents/__init__.py"
+      ]
+    },
+    "lukhas.utils": {
+      "internal_dependencies": [],
+      "file_count": 3,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/utils/optional_import.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/utils/logging_config.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/utils/runtime_paths.py"
+      ]
+    },
+    "lukhas.accepted": {
+      "internal_dependencies": [],
+      "file_count": 4,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/accepted/bio.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/accepted/__init__.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/accepted/bio/__init__.py"
+      ]
+    },
+    "lukhas.matriz": {
+      "internal_dependencies": [
+        "lukhas"
+      ],
+      "file_count": 4,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/matriz/__init__.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/matriz/runtime/supervisor.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/matriz/runtime/policy.py"
+      ]
+    },
+    "lukhas.observability": {
+      "internal_dependencies": [
+        "MATRIZ"
+      ],
+      "file_count": 3,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/observability/matriz_decorators.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/observability/__init__.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/observability/matriz_emit.py"
+      ]
+    },
+    "lukhas.qi": {
+      "internal_dependencies": [
+        "lukhas"
+      ],
+      "file_count": 2,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/qi/qi_wrapper.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/qi/__init__.py"
+      ]
+    },
+    "lukhas.shims": {
+      "internal_dependencies": [],
+      "file_count": 1,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/shims/core_swarm.py"
+      ]
+    },
+    "lukhas.vivox": {
+      "internal_dependencies": [],
+      "file_count": 2,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/vivox/__init__.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/vivox/vivox_wrapper.py"
+      ]
+    },
+    "lukhas.orchestration": {
+      "internal_dependencies": [
+        "lukhas"
+      ],
+      "file_count": 5,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/orchestration/context_bus.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/orchestration/kernel_bus.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/orchestration/__init__.py"
+      ]
+    },
+    "lukhas.governance": {
+      "internal_dependencies": [
+        "lukhas"
+      ],
+      "file_count": 31,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/auth_governance_policies.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/auth_guardian_integration.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/auth_glyph_registry.py"
+      ]
+    },
+    "lukhas.api": {
+      "internal_dependencies": [],
+      "file_count": 1,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/api/__init__.py"
+      ]
+    },
+    "lukhas.rl": {
+      "internal_dependencies": [
+        "lukhas"
+      ],
+      "file_count": 11,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/rl/__init__.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/rl/experience/__init__.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/rl/experience/consciousness_buffer.py"
+      ]
+    },
+    "lukhas.emotion": {
+      "internal_dependencies": [
+        "lukhas"
+      ],
+      "file_count": 2,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/emotion/__init__.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/emotion/emotion_wrapper.py"
+      ]
+    },
+    "lukhas.interfaces": {
+      "internal_dependencies": [],
+      "file_count": 1,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/interfaces/identity.py"
+      ]
+    },
+    "candidate.modulation": {
+      "internal_dependencies": [
+        "lukhas"
+      ],
+      "file_count": 3,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/modulation/dispatcher.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/modulation/__init__.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/modulation/lut_adapter.py"
+      ]
+    },
+    "candidate.branding": {
+      "internal_dependencies": [],
+      "file_count": 2,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/branding/__init__.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/branding/terminology.py"
+      ]
+    },
+    "candidate.tools": {
+      "internal_dependencies": [
+        "candidate"
+      ],
+      "file_count": 11,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/tools/performance_monitor.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/tools/__init__.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/tools/external_service_integration.py"
       ]
     },
     "candidate.bio": {
       "internal_dependencies": [
-        "candidate.core",
-        "candidate.qi"
+        "lukhas"
       ],
-      "external_dependencies": [
-        "numpy",
-        "scipy",
-        "matplotlib"
+      "file_count": 52,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/bio/compound_governor.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/bio/oscillator.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/bio/__init__.py"
+      ]
+    },
+    "candidate.quantum_bio_consciousness": {
+      "internal_dependencies": [
+        "lukhas",
+        "candidate"
       ],
-      "dependents": [
-        "candidate.consciousness",
-        "candidate.emotion"
+      "file_count": 2,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/validate_hybrid_processing.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/quantum_bio_consciousness/constellation_synchronizer.py"
+      ]
+    },
+    "candidate.colonies": {
+      "internal_dependencies": [],
+      "file_count": 9,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/colonies/memory.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/colonies/consciousness.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/colonies/__init__.py"
+      ]
+    },
+    "candidate.flags": {
+      "internal_dependencies": [],
+      "file_count": 2,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/flags/ff.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/flags/__init__.py"
+      ]
+    },
+    "candidate.core": {
+      "internal_dependencies": [
+        "lukhas",
+        "candidate"
       ],
-      "dependency_weight": 56,
-      "coupling_strength": "loose",
-      "interface_stability": "evolving",
-      "breaking_change_impact": "low",
-      "circular_dependencies": [],
-      "optional_dependencies": [
-        "candidate.qi.quantum_bio_resonance"
+      "file_count": 1042,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/core/bootstrap.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/core/minimal_actor.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/core/fault_tolerance.py"
+      ]
+    },
+    "candidate.memory": {
+      "internal_dependencies": [
+        "lukhas",
+        "candidate"
       ],
-      "runtime_dependencies": [
-        "neural_oscillators",
-        "endocrine_simulator",
-        "homeostasis_regulator"
+      "file_count": 421,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/memory/service.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/memory/voice_memory_manager.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/memory/memory_chain.py"
+      ]
+    },
+    "candidate.identity": {
+      "internal_dependencies": [
+        "candidate"
       ],
-      "configuration_dependencies": [
-        "bio_config.yaml",
-        "oscillator_frequencies.json"
+      "file_count": 1,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/identity/__init__.py"
+      ]
+    },
+    "candidate.nias": {
+      "internal_dependencies": [
+        "candidate"
+      ],
+      "file_count": 3,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/nias/__init__.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/nias/transcendence_qi.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/nias/transcendence_quantum.py"
+      ]
+    },
+    "candidate.bridge": {
+      "internal_dependencies": [
+        "lukhas",
+        "candidate"
+      ],
+      "file_count": 136,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/bridge/message_bus.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/bridge/adapter.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/bridge/explainability_interface_layer.py"
+      ]
+    },
+    "candidate.colony": {
+      "internal_dependencies": [
+        "lukhas"
+      ],
+      "file_count": 4,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/colony/__init__.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/colony/contracts.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/colony/adapters/__init__.py"
+      ]
+    },
+    "candidate.consciousness": {
+      "internal_dependencies": [
+        "lukhas",
+        "candidate"
+      ],
+      "file_count": 381,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/consciousness/orchestration_bridge.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/consciousness/services.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/consciousness/bridge.py"
+      ]
+    },
+    "candidate.utils": {
+      "internal_dependencies": [],
+      "file_count": 1,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/utils/time.py"
+      ]
+    },
+    "candidate.compliance": {
+      "internal_dependencies": [
+        "lukhas",
+        "candidate"
+      ],
+      "file_count": 25,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/compliance/entropy_tuning.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/compliance/symbolic_governance_checker.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/compliance/compliance_dashboard.py"
+      ]
+    },
+    "candidate.qi": {
+      "internal_dependencies": [
+        "lukhas",
+        "candidate"
+      ],
+      "file_count": 203,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/qi/validator.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/qi/metadata.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/qi/post_quantum_crypto.py"
+      ]
+    },
+    "candidate.feedback": {
+      "internal_dependencies": [],
+      "file_count": 2,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/feedback/store.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/feedback/__init__.py"
+      ]
+    },
+    "candidate.adapters": {
+      "internal_dependencies": [],
+      "file_count": 1,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/adapters/__init__.py"
+      ]
+    },
+    "candidate.audit": {
+      "internal_dependencies": [
+        "lukhas"
+      ],
+      "file_count": 4,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/audit/store.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/audit/tool_analytics.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/audit/__init__.py"
       ]
     },
     "candidate.vivox": {
       "internal_dependencies": [
-        "candidate.consciousness",
-        "candidate.memory",
-        "candidate.governance"
+        "lukhas",
+        "candidate"
       ],
-      "external_dependencies": [
-        "cryptography",
-        "pydantic"
-      ],
-      "dependents": [
-        "lukhas.vivox"
-      ],
-      "dependency_weight": 78,
-      "coupling_strength": "strong",
-      "interface_stability": "experimental",
-      "breaking_change_impact": "low",
-      "circular_dependencies": [],
-      "optional_dependencies": [],
-      "runtime_dependencies": [
-        "vivox_me",
-        "vivox_mae",
-        "vivox_cil",
-        "vivox_srm"
-      ],
-      "configuration_dependencies": [
-        "vivox_config.yaml",
-        "ethical_constraints.json"
+      "file_count": 46,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/vivox/__init__.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/vivox/crypto/__init__.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/vivox/crypto/timestamp_verification.py"
       ]
     },
     "candidate.orchestration": {
       "internal_dependencies": [
-        "candidate.core",
-        "candidate.consciousness",
-        "candidate.memory"
+        "lukhas",
+        "candidate"
       ],
-      "external_dependencies": [
-        "asyncio",
-        "celery",
-        "redis"
+      "file_count": 100,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/orchestration/kernel_bus_examples.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/orchestration/high_performance_context_bus.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/orchestration/context_bus.py"
+      ]
+    },
+    "candidate.governance": {
+      "internal_dependencies": [
+        "lukhas",
+        "candidate"
       ],
-      "dependents": [
-        "candidate.bridge",
-        "lukhas.orchestration"
+      "file_count": 362,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/guardian_shadow_filter.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/drift_dashboard_visual.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/auth_governance_policies.py"
+      ]
+    },
+    "candidate.api": {
+      "internal_dependencies": [
+        "lukhas"
       ],
-      "dependency_weight": 82,
-      "coupling_strength": "strong",
-      "interface_stability": "evolving",
-      "breaking_change_impact": "moderate",
-      "circular_dependencies": [],
-      "optional_dependencies": [],
-      "runtime_dependencies": [
-        "brain_hub",
-        "context_bus",
-        "workflow_engine"
+      "file_count": 11,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/api/perf.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/api/metrics.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/api/audit.py"
+      ]
+    },
+    "candidate.dna": {
+      "internal_dependencies": [
+        "lukhas"
       ],
-      "configuration_dependencies": [
-        "orchestration_config.yaml",
-        "workflow_definitions.json"
+      "file_count": 7,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/dna/interfaces.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/dna/memory_inmem.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/dna/__init__.py"
+      ]
+    },
+    "candidate.migration": {
+      "internal_dependencies": [
+        "lukhas"
+      ],
+      "file_count": 5,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/migration/dual_write.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/migration/legacy_jsonl.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/migration/read_strategy.py"
+      ]
+    },
+    "candidate.orchestrator": {
+      "internal_dependencies": [],
+      "file_count": 1,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/orchestrator/__init__.py"
+      ]
+    },
+    "candidate.emotion": {
+      "internal_dependencies": [
+        "lukhas",
+        "candidate"
+      ],
+      "file_count": 34,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/emotion/affect_stagnation_detector.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/emotion/dreamseed_upgrade.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/emotion/models.py"
+      ]
+    },
+    "candidate.openai": {
+      "internal_dependencies": [],
+      "file_count": 2,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/openai/__init__.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/openai/tooling.py"
+      ]
+    },
+    "candidate.aka_qualia": {
+      "internal_dependencies": [
+        "candidate"
+      ],
+      "file_count": 43,
+      "sample_files": [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/aka_qualia/oneiric_hook.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/aka_qualia/prometheus_exporter.py",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/aka_qualia/metrics.py"
       ]
     }
   },
-  "lukhas_production_dependencies": {
-    "lukhas.core": {
-      "wraps": "candidate.core",
-      "production_dependencies": [
-        "candidate.core"
-      ],
-      "stability_layer": "production_wrapper",
-      "api_contract": "stable_v2.0",
-      "backward_compatibility": "guaranteed"
-    },
-    "lukhas.consciousness": {
-      "wraps": "candidate.consciousness",
-      "production_dependencies": [
-        "candidate.consciousness",
-        "lukhas.core"
-      ],
-      "stability_layer": "production_interface",
-      "api_contract": "stable_v2.0",
-      "backward_compatibility": "guaranteed"
-    },
-    "lukhas.memory": {
-      "wraps": "candidate.memory",
-      "production_dependencies": [
-        "candidate.memory",
-        "lukhas.core"
-      ],
-      "stability_layer": "production_wrapper",
-      "api_contract": "stable_v2.0",
-      "backward_compatibility": "guaranteed"
-    },
-    "lukhas.governance": {
-      "wraps": "candidate.governance",
-      "production_dependencies": [
-        "candidate.governance",
-        "lukhas.core"
-      ],
-      "stability_layer": "production_interface",
-      "api_contract": "stable_v2.0",
-      "backward_compatibility": "guaranteed"
+  "statistics": {
+    "total_dependencies": 47,
+    "lukhas_modules": 26,
+    "candidate_modules": 30,
+    "file_count": {
+      "lukhas.branding": 2,
+      "lukhas.tools": 2,
+      "lukhas.bio": 5,
+      "lukhas.trace": 2,
+      "lukhas.core": 45,
+      "lukhas.trinity": 1,
+      "lukhas.memory": 8,
+      "lukhas.identity": 16,
+      "lukhas.security": 2,
+      "lukhas.constellation": 2,
+      "lukhas.bridge": 5,
+      "lukhas.consciousness": 6,
+      "lukhas.agents": 1,
+      "lukhas.utils": 3,
+      "lukhas.accepted": 4,
+      "lukhas.matriz": 4,
+      "lukhas.observability": 3,
+      "lukhas.qi": 2,
+      "lukhas.shims": 1,
+      "lukhas.vivox": 2,
+      "lukhas.orchestration": 5,
+      "lukhas.governance": 31,
+      "lukhas.api": 1,
+      "lukhas.rl": 11,
+      "lukhas.emotion": 2,
+      "lukhas.interfaces": 1,
+      "candidate.modulation": 3,
+      "candidate.branding": 2,
+      "candidate.tools": 11,
+      "candidate.bio": 52,
+      "candidate.quantum_bio_consciousness": 2,
+      "candidate.colonies": 9,
+      "candidate.flags": 2,
+      "candidate.core": 1042,
+      "candidate.memory": 421,
+      "candidate.identity": 1,
+      "candidate.nias": 3,
+      "candidate.bridge": 136,
+      "candidate.colony": 4,
+      "candidate.consciousness": 381,
+      "candidate.utils": 1,
+      "candidate.compliance": 25,
+      "candidate.qi": 203,
+      "candidate.feedback": 2,
+      "candidate.adapters": 1,
+      "candidate.audit": 4,
+      "candidate.vivox": 46,
+      "candidate.orchestration": 100,
+      "candidate.governance": 362,
+      "candidate.api": 11,
+      "candidate.dna": 7,
+      "candidate.migration": 5,
+      "candidate.orchestrator": 1,
+      "candidate.emotion": 34,
+      "candidate.openai": 2,
+      "candidate.aka_qualia": 43
     }
-  },
-  "critical_path_analysis": {
-    "system_boot_sequence": [
-      "candidate.core",
-      "candidate.governance",
-      "candidate.memory",
-      "candidate.consciousness",
-      "candidate.orchestration",
-      "candidate.bridge"
-    ],
-    "failure_propagation_paths": {
-      "candidate.core_failure": {
-        "immediate_impact": [
-          "all_modules"
-        ],
-        "cascade_time": "<1_second",
-        "recovery_complexity": "system_restart_required",
-        "mitigation": "redundant_core_instances"
-      },
-      "candidate.memory_failure": {
-        "immediate_impact": [
-          "consciousness",
-          "orchestration",
-          "qi"
-        ],
-        "cascade_time": "<5_seconds",
-        "recovery_complexity": "state_recovery_required",
-        "mitigation": "memory_clustering"
-      },
-      "candidate.consciousness_failure": {
-        "immediate_impact": [
-          "orchestration",
-          "vivox"
-        ],
-        "cascade_time": "<10_seconds",
-        "recovery_complexity": "consciousness_state_rebuild",
-        "mitigation": "consciousness_checkpointing"
-      }
-    }
-  },
-  "circular_dependency_analysis": {
-    "identified_cycles": {
-      "consciousness_memory_cycle": {
-        "path": [
-          "consciousness",
-          "memory",
-          "consciousness"
-        ],
-        "cycle_type": "bidirectional_integration",
-        "severity": "low",
-        "resolution": "interface_abstraction_layer",
-        "status": "managed"
-      },
-      "orchestration_bridge_cycle": {
-        "path": [
-          "orchestration",
-          "bridge",
-          "consciousness",
-          "orchestration"
-        ],
-        "cycle_type": "coordination_loop",
-        "severity": "medium",
-        "resolution": "event_driven_decoupling",
-        "status": "under_review"
-      },
-      "governance_identity_cycle": {
-        "path": [
-          "governance",
-          "identity",
-          "governance"
-        ],
-        "cycle_type": "mutual_validation",
-        "severity": "low",
-        "resolution": "validation_pipeline",
-        "status": "resolved"
-      }
-    },
-    "cycle_prevention_strategies": [
-      "Dependency injection containers",
-      "Event-driven architecture patterns",
-      "Interface abstraction layers",
-      "Lazy initialization patterns",
-      "Observer pattern implementations"
-    ]
-  },
-  "integration_points": {
-    "api_contracts": {
-      "core_to_consciousness": {
-        "interface_type": "symbolic_glyph_protocol",
-        "stability": "stable",
-        "version": "v2.0",
-        "breaking_change_policy": "major_version_increment"
-      },
-      "memory_to_consciousness": {
-        "interface_type": "fold_based_memory_api",
-        "stability": "stable",
-        "version": "v2.0",
-        "breaking_change_policy": "backward_compatible"
-      },
-      "governance_to_all": {
-        "interface_type": "guardian_system_api",
-        "stability": "stable",
-        "version": "v1.0",
-        "breaking_change_policy": "security_driven_changes"
-      }
-    },
-    "data_flow_contracts": {
-      "consciousness_data_flow": {
-        "input_sources": [
-          "memory",
-          "emotion",
-          "bridge"
-        ],
-        "output_targets": [
-          "orchestration",
-          "governance",
-          "vivox"
-        ],
-        "data_format": "consciousness_state_objects",
-        "validation": "trinity_framework_compliance"
-      },
-      "memory_data_flow": {
-        "input_sources": [
-          "consciousness",
-          "emotion",
-          "governance"
-        ],
-        "output_targets": [
-          "consciousness",
-          "orchestration",
-          "qi"
-        ],
-        "data_format": "fold_based_memory_structures",
-        "validation": "causal_chain_integrity"
-      }
-    }
-  },
-  "dependency_health_metrics": {
-    "coupling_measurements": {
-      "afferent_coupling_avg": 12.4,
-      "efferent_coupling_avg": 8.7,
-      "instability_index": 0.41,
-      "abstractness_index": 0.73,
-      "distance_from_main_sequence": 0.14
-    },
-    "dependency_stability": {
-      "stable_dependencies": 567,
-      "evolving_dependencies": 98,
-      "experimental_dependencies": 27,
-      "deprecated_dependencies": 0,
-      "stability_trend": "improving"
-    },
-    "architectural_debt": {
-      "high_coupling_modules": [
-        "orchestration",
-        "consciousness"
-      ],
-      "low_cohesion_modules": [
-        "tools",
-        "adapters"
-      ],
-      "refactoring_priority": [
-        "orchestration",
-        "bio"
-      ],
-      "technical_debt_score": 23.7
-    }
-  },
-  "upgrade_impact_analysis": {
-    "major_version_changes": {
-      "candidate.core_v3.0": {
-        "affected_modules": [
-          "all_modules"
-        ],
-        "migration_complexity": "high",
-        "estimated_effort": "3_months",
-        "breaking_changes": [
-          "glyph_protocol_v3",
-          "actor_model_v2"
-        ],
-        "mitigation_strategy": "phased_rollout"
-      },
-      "candidate.consciousness_v3.0": {
-        "affected_modules": [
-          "orchestration",
-          "vivox",
-          "bridge"
-        ],
-        "migration_complexity": "medium",
-        "estimated_effort": "6_weeks",
-        "breaking_changes": [
-          "awareness_api_v3",
-          "reasoning_engine_v2"
-        ],
-        "mitigation_strategy": "backward_compatibility_layer"
-      }
-    },
-    "minor_version_changes": {
-      "candidate.memory_v2.1": {
-        "affected_modules": [
-          "consciousness",
-          "qi"
-        ],
-        "migration_complexity": "low",
-        "estimated_effort": "1_week",
-        "breaking_changes": [],
-        "mitigation_strategy": "automatic_migration"
-      }
-    }
-  },
-  "network_resilience": {
-    "fault_tolerance": {
-      "single_point_of_failure": [
-        "candidate.core"
-      ],
-      "redundancy_strategy": "active_passive_clustering",
-      "graceful_degradation": "feature_based_failover",
-      "circuit_breaker_pattern": "implemented",
-      "retry_mechanisms": "exponential_backoff"
-    },
-    "load_distribution": {
-      "horizontal_scaling_modules": [
-        "bridge",
-        "api",
-        "monitoring"
-      ],
-      "vertical_scaling_modules": [
-        "core",
-        "consciousness",
-        "memory"
-      ],
-      "load_balancing_strategy": "intelligent_routing",
-      "capacity_planning": "predictive_scaling"
-    }
-  },
-  "schema_url": "schemas/dependency_matrix.schema.json",
-  "schema_version": "0.1.0"
+  }
 }

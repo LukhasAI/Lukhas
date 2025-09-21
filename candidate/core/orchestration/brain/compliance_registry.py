@@ -13,7 +13,7 @@ from typing import Any, Optional
 
 
 class ComplianceRegistry:
-    """Central registry for LUKHAS AGI compliance management"""
+    """Central registry for LUKHAS Cognitive AI compliance management"""
 
     def __init__(self, registry_path: Optional[str] = None):
         self.logger = logging.getLogger("compliance_registry")

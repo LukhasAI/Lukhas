@@ -142,7 +142,7 @@ class DreamState:
 
 class DreamReflectionLoop:
     """
-    Unified Dream Reflection Loop for LUKHAS AGI System.
+    Unified Dream Reflection Loop for LUKHAS Cognitive AI System.
 
     This class consolidates all dream reflection loop implementations,
     providing a canonical interface for dream processing, reflection,
@@ -1051,7 +1051,7 @@ def create_dream_reflection_loop(**kwargs):
 ║
 ║ REFERENCES:
 ║   - Docs: docs/consciousness/dream-reflection-architecture.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=dream-engine
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=dream-engine
 ║   - Wiki: wiki.lukhas.ai/dream-reflection-loop
 ║
 ║ COPYRIGHT & LICENSE:
@@ -1060,7 +1060,7 @@ def create_dream_reflection_loop(**kwargs):
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI consciousness system. Use only
+║   This module is part of the LUKHAS Cognitive AI consciousness system. Use only
 ║   as intended within the system architecture. Modifications may affect
 ║   consciousness stability and require approval from the Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════════

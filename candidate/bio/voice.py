@@ -2,7 +2,7 @@
 LUKHAS AI Bio Module - Voice
 Consolidated from 4 variants
 Generated: 2025-08-12T19:38:03.079565
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 from datetime import datetime, timezone
 

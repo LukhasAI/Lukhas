@@ -11,7 +11,7 @@
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
-║ Central registry for all LUKHAS AGI modules with integrated tier-based access
+║ Central registry for all LUKHAS Cognitive modules with integrated tier-based access
 ║ control. Ensures that module access is properly gated based on user tier levels
 ║ from the identity system.
 ║
@@ -538,7 +538,7 @@ MODULE_SIGNATURE = {
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

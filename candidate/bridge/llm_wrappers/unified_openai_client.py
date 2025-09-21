@@ -53,7 +53,7 @@ class ConversationState:
 
 class UnifiedOpenAIClient(LLMWrapper):
     """
-    Unified OpenAI client for LUKHAS AGI system.
+    Unified OpenAI client for LUKHAS Cognitive system.
     Combines best features from all previous implementations.
     """
 

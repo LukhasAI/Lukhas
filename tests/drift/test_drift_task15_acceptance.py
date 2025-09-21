@@ -21,7 +21,6 @@ os.environ['LUKHAS_LANE'] = 'candidate'
 os.environ['ENABLE_LLM_GUARDRAIL'] = '1'
 
 from monitoring.drift_manager import DriftManager
-from lukhas.trace.TraceRepairEngine import TraceRepairEngine
 
 
 def test_injected_drift_reduction():

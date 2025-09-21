@@ -1,0 +1,363 @@
+updare{
+  "meta": {
+    "run_id": "20250921-053213_e32fdd89",
+    "model": "sonar",
+    "premise": "Replace celestial metaphors with 8 diverse families: Neural Gardens (organic), Architectural Bridges (structural), Harmonic Resonance (musical), Woven Patterns (textile), Geological Strata (earth), Fluid Dynamics (liquid), Prismatic Light (optical), Circuit Patterns (electronic). Enforce novelty ≥0.8, clarity ≥0.95, zero repetition. Target: consciousness technology with 3-layer flow (Poetic → Academic → User-Friendly) and MATRIZ integration.",
+    "pipeline_version": "1.0.0",
+    "lukhas_version": "Constellation Framework",
+    "timestamp": 1758429133.031265
+  },
+  "stage": "synthesize",
+  "data": {
+    "families": [
+      {
+        "family": "Neural Gardens",
+        "poetic": "In the fertile soil of the mind, synaptic blooms unfold consciousness technology as a wild garden of dynamic systems, where roots of memory intertwine with tendrils of attention, and thoughts blossom into vibrant, living networks.",
+        "academic": "Consciousness technology models neural architectures as hierarchical, bio-inspired networks, where dynamic systems of synaptic connectivity and plasticity cultivate memory encoding, attentional selection, and cognitive processing.",
+        "user": "Imagine your mind as a garden where thoughts grow like flowers, memories take root deep in the soil, and your focus helps prune and nurture this living space of ideas.",
+        "MATRIZ": {
+          "Memory": [
+            "rooted experiences",
+            "neural soil"
+          ],
+          "Attention": [
+            "selective pruning",
+            "focused cultivation"
+          ],
+          "Thought": [
+            "branching insights",
+            "cognitive blossoming"
+          ],
+          "Risk": [
+            "toxic detection",
+            "growth boundaries"
+          ],
+          "Intent": [
+            "directional growth",
+            "purposeful flowering"
+          ],
+          "Action": [
+            "fruit bearing",
+            "seed dispersal"
+          ]
+        },
+        "axes": {
+          "concreteness": 0.85,
+          "technicality": 0.6,
+          "novelty": 0.9,
+          "sensory": [
+            "tactile",
+            "visual",
+            "olfactory"
+          ]
+        },
+        "violations": [],
+        "repaired": false
+      },
+      {
+        "family": "Architectural Bridges",
+        "poetic": "Consciousness technology spans the chasms of thought with architectural bridges—dynamic systems of memory vaults and attention pillars, connecting the fragmented rooms of intent and action in a living edifice of mind.",
+        "academic": "This approach conceptualizes consciousness technology as an architectural framework where dynamic systems form interconnected modules analogous to memory storage, attentional gateways, and executive decision bridges facilitating cognitive integration.",
+        "user": "Think of your mind like a building with bridges connecting different rooms—each room holds memories or ideas, and the bridges help your thoughts move and work together.",
+        "MATRIZ": {
+          "Memory": [
+            "vaulted chambers",
+            "archive walls"
+          ],
+          "Attention": [
+            "gateway arches",
+            "focus corridors"
+          ],
+          "Thought": [
+            "spanning beams",
+            "idea bridges"
+          ],
+          "Risk": [
+            "structural cracks",
+            "load limits"
+          ],
+          "Intent": [
+            "blueprint design",
+            "planned pathways"
+          ],
+          "Action": [
+            "open doors",
+            "crossing steps"
+          ]
+        },
+        "axes": {
+          "concreteness": 0.8,
+          "technicality": 0.65,
+          "novelty": 0.85,
+          "sensory": [
+            "visual",
+            "spatial"
+          ]
+        },
+        "violations": [],
+        "repaired": false
+      },
+      {
+        "family": "Harmonic Resonance",
+        "poetic": "Consciousness technology hums in harmonic resonance, dynamic systems vibrating through memory strings and attention chambers, composing a symphony of thought, intent, and action tuned to the frequencies of the mind.",
+        "academic": "This metaphor frames consciousness technology as a system of harmonic oscillators where dynamic systems resonate across neural circuits, encoding memory traces, focusing attention, and orchestrating cognitive and behavioral outputs.",
+        "user": "Imagine your mind like a musical instrument, where memories are strings, attention is the tuning, and your thoughts and actions create a beautiful song.",
+        "MATRIZ": {
+          "Memory": [
+            "resonant strings",
+            "echo chambers"
+          ],
+          "Attention": [
+            "tuning forks",
+            "focus harmonics"
+          ],
+          "Thought": [
+            "melodic waves",
+            "cognitive chords"
+          ],
+          "Risk": [
+            "dissonant notes",
+            "feedback loops"
+          ],
+          "Intent": [
+            "composed motifs",
+            "directional beats"
+          ],
+          "Action": [
+            "rhythmic pulses",
+            "performance cues"
+          ]
+        },
+        "axes": {
+          "concreteness": 0.75,
+          "technicality": 0.7,
+          "novelty": 0.88,
+          "sensory": [
+            "auditory",
+            "vibrational"
+          ]
+        },
+        "violations": [],
+        "repaired": false
+      },
+      {
+        "family": "Woven Patterns",
+        "poetic": "Consciousness technology weaves dynamic systems into intricate patterns, interlacing threads of memory, attention, and thought into a tapestry alive with intent and action.",
+        "academic": "This metaphor models consciousness technology as interdependent dynamic systems forming woven networks, where memory and attention act as threads integrating cognitive functions into coherent patterns.",
+        "user": "Picture your mind as a fabric, where different threads of memories and focus are woven together to make the cloth of your thoughts and actions.",
+        "MATRIZ": {
+          "Memory": [
+            "woven threads",
+            "patterned fibers"
+          ],
+          "Attention": [
+            "tightening weaves",
+            "focused strands"
+          ],
+          "Thought": [
+            "interlaced motifs",
+            "cognitive textures"
+          ],
+          "Risk": [
+            "frayed edges",
+            "loose knots"
+          ],
+          "Intent": [
+            "design motifs",
+            "pattern direction"
+          ],
+          "Action": [
+            "woven movement",
+            "fabric flow"
+          ]
+        },
+        "axes": {
+          "concreteness": 0.8,
+          "technicality": 0.65,
+          "novelty": 0.9,
+          "sensory": [
+            "tactile",
+            "visual"
+          ]
+        },
+        "violations": [],
+        "repaired": false
+      },
+      {
+        "family": "Geological Strata",
+        "poetic": "Consciousness technology is carved in geological strata—dynamic systems layering memory sediments, attention faults, and thought crystals, revealing the deep time of intent and action beneath the surface.",
+        "academic": "This metaphor conceptualizes consciousness technology as stratified dynamic systems, where layered neural processes represent memory accumulation, attentional shifts, and cognitive crystallization over temporal scales.",
+        "user": "Think of your mind like layers of rock built over time, each layer holding memories and thoughts, with attention acting like shifts and cracks shaping how you act.",
+        "MATRIZ": {
+          "Memory": [
+            "sedimentary layers",
+            "fossil records"
+          ],
+          "Attention": [
+            "fault lines",
+            "pressure zones"
+          ],
+          "Thought": [
+            "crystalline formations",
+            "mineral veins"
+          ],
+          "Risk": [
+            "earthquakes",
+            "erosion"
+          ],
+          "Intent": [
+            "tectonic shifts",
+            "geological planning"
+          ],
+          "Action": [
+            "landscape changes",
+            "surface flows"
+          ]
+        },
+        "axes": {
+          "concreteness": 0.85,
+          "technicality": 0.7,
+          "novelty": 0.87,
+          "sensory": [
+            "visual",
+            "tactile"
+          ]
+        },
+        "violations": [],
+        "repaired": false
+      },
+      {
+        "family": "Fluid Dynamics",
+        "poetic": "Consciousness technology flows like fluid dynamics—dynamic systems of memory currents and attention eddies merging into thought waves, shaping intent and actions in ceaseless motion.",
+        "academic": "This metaphor models consciousness technology as fluid dynamic systems, where memory and attention form currents and vortices that influence the emergent properties of thought and behavior.",
+        "user": "Imagine your thoughts and memories flowing like water in a river, sometimes calm, sometimes swirling, always moving and shaping what you do.",
+        "MATRIZ": {
+          "Memory": [
+            "steady currents",
+            "depth pools"
+          ],
+          "Attention": [
+            "eddies",
+            "focused streams"
+          ],
+          "Thought": [
+            "wave patterns",
+            "flowing ideas"
+          ],
+          "Risk": [
+            "turbulence",
+            "whirlpools"
+          ],
+          "Intent": [
+            "directional flow",
+            "channeling"
+          ],
+          "Action": [
+            "ripples",
+            "waterfalls"
+          ]
+        },
+        "axes": {
+          "concreteness": 0.8,
+          "technicality": 0.6,
+          "novelty": 0.9,
+          "sensory": [
+            "kinesthetic",
+            "auditory",
+            "visual"
+          ]
+        },
+        "violations": [],
+        "repaired": false
+      },
+      {
+        "family": "Prismatic Light",
+        "poetic": "Consciousness technology refracts like prismatic light—dynamic systems splitting memory beams, attention rays, and thought spectrums into vibrant facets of intent and action.",
+        "academic": "This metaphor frames consciousness technology as dynamic systems of light refraction and dispersion, where cognitive processes split and integrate information akin to spectral analysis.",
+        "user": "Think of your mind like a prism breaking light into many colors—your memories, focus, and thoughts split and shine together to guide what you want and do.",
+        "MATRIZ": {
+          "Memory": [
+            "refracted beams",
+            "color layers"
+          ],
+          "Attention": [
+            "focused rays",
+            "light filters"
+          ],
+          "Thought": [
+            "spectral facets",
+            "prismatic shifts"
+          ],
+          "Risk": [
+            "shadow zones",
+            "diffusion loss"
+          ],
+          "Intent": [
+            "light direction",
+            "beam shaping"
+          ],
+          "Action": [
+            "color bursts",
+            "radiant moves"
+          ]
+        },
+        "axes": {
+          "concreteness": 0.75,
+          "technicality": 0.7,
+          "novelty": 0.88,
+          "sensory": [
+            "visual",
+            "color"
+          ]
+        },
+        "violations": [],
+        "repaired": false
+      },
+      {
+        "family": "Circuit Patterns",
+        "poetic": "Consciousness technology pulses through circuit patterns—dynamic systems of memory nodes and attention switches, sparking thought currents that drive intent and action in a digital dance of the mind.",
+        "academic": "This metaphor models consciousness technology as integrated circuits with dynamic systems of neural nodes and switching mechanisms encoding memory, directing attention, and generating cognitive outputs.",
+        "user": "Imagine your brain like an electric circuit board where memories are nodes and focus flips switches to power your thoughts and actions.",
+        "MATRIZ": {
+          "Memory": [
+            "storage nodes",
+            "data banks"
+          ],
+          "Attention": [
+            "switches",
+            "signal gates"
+          ],
+          "Thought": [
+            "current flows",
+            "logic paths"
+          ],
+          "Risk": [
+            "short circuits",
+            "signal noise"
+          ],
+          "Intent": [
+            "programmed sequences",
+            "control signals"
+          ],
+          "Action": [
+            "output pulses",
+            "triggered events"
+          ]
+        },
+        "axes": {
+          "concreteness": 0.8,
+          "technicality": 0.75,
+          "novelty": 0.85,
+          "sensory": [
+            "visual",
+            "kinesthetic",
+            "auditory"
+          ]
+        },
+        "violations": [],
+        "repaired": false
+      }
+    ]
+  },
+  "timestamp": 1758429181.2363389
+}

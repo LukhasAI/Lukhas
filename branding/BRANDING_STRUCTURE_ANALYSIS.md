@@ -30,7 +30,7 @@
 - tone/tools/advanced_vocabulary_engine.py
 - tone/tools/consciousness_wordsmith.py
 - tone/tools/lukhas_tone_validator.py
-- design/trinity_visual_system.py
+- design/constellation_visual_system.py
 - analysis/voice_coherence_analyzer.py
 - analysis/branding_structure_analyzer.py
 - intelligence/brand_monitor.py
@@ -69,7 +69,7 @@
 - engines/lukhas_doc_engine/lukhas_unified_doc_engine.py
 - orchestration/elite_voice_coherence_upgrader.py
 - orchestration/elite_content_orchestrator.py
-- orchestration/trinity_framework_deployer.py
+- orchestration/constellation_framework_deployer.py
 - orchestration/system_consolidator.py
 - orchestration/unified_system_integrator.py
 - enforcement/real_time_validator.py
@@ -90,7 +90,7 @@
 - tone/tools/advanced_vocabulary_engine.py
 - tone/tools/consciousness_wordsmith.py
 - tone/tools/lukhas_tone_validator.py
-- design/trinity_visual_system.py
+- design/constellation_visual_system.py
 - analysis/voice_coherence_analyzer.py
 - analysis/branding_structure_analyzer.py
 - intelligence/brand_monitor.py
@@ -154,7 +154,7 @@
 - storytelling/consciousness_narratives.py
 - orchestration/elite_voice_coherence_upgrader.py
 - orchestration/elite_content_orchestrator.py
-- orchestration/trinity_framework_deployer.py
+- orchestration/constellation_framework_deployer.py
 - orchestration/system_consolidator.py
 - orchestration/unified_system_integrator.py
 - enforcement/real_time_validator.py
@@ -280,7 +280,7 @@
 - orchestration/unified_system_integrator.py
 - ai_agents/brand_orchestrator.py
 
-### Trinity
+### Constellation
 **Files with overlap**: 71
 - test_elite_brand_system.py
 - tone/tools/lukhas_tone_fixer.py
@@ -288,7 +288,7 @@
 - tone/tools/advanced_vocabulary_engine.py
 - tone/tools/consciousness_wordsmith.py
 - tone/tools/lukhas_tone_validator.py
-- design/trinity_visual_system.py
+- design/constellation_visual_system.py
 - analysis/voice_coherence_analyzer.py
 - analysis/branding_structure_analyzer.py
 - intelligence/brand_monitor.py
@@ -340,7 +340,7 @@
 - storytelling/consciousness_narratives.py
 - orchestration/elite_voice_coherence_upgrader.py
 - orchestration/elite_content_orchestrator.py
-- orchestration/trinity_framework_deployer.py
+- orchestration/constellation_framework_deployer.py
 - orchestration/system_consolidator.py
 - orchestration/unified_system_integrator.py
 - enforcement/__init__.py

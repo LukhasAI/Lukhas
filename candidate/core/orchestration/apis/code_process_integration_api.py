@@ -16,7 +16,7 @@ ARCHITECTURE: Secure sandbox-based code execution with version control,
              testing frameworks, and automated quality assurance integration
 
 INTEGRATION: Connects with Codex agents, testing frameworks, and deployment
-            pipelines for seamless development automation in LUKHAS AGI
+            pipelines for seamless development automation in LUKHAS Cognitive AI
 
 ⚡ CPI CORE FEATURES:
 - Dynamic code generation from natural language requirements
@@ -56,7 +56,7 @@ INTEGRATION: Connects with Codex agents, testing frameworks, and deployment
 - Security scanners (bandit, eslint, etc.)
 - Performance monitoring tools
 
-VERSION: v1.0.0 • CREATED: 2025-01-21 • AUTHOR: LUKHAS AGI TEAM
+VERSION: v1.0.0 • CREATED: 2025-01-21 • AUTHOR: LUKHAS Cognitive AI TEAM
 SYMBOLIC TAGS: ΛCPI, ΛCODE, AINTEGRATION, ΛAUTOMATION, ΛSANDBOX
 """
 

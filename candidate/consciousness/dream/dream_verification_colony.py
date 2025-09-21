@@ -19,7 +19,7 @@ class VerificationLevel(Enum):
     BASIC = "basic"
     STANDARD = "standard"
     COMPREHENSIVE = "comprehensive"
-    TRINITY_CERTIFIED = "trinity_certified"
+    TRINITY_CERTIFIED = "constellation_certified"
 
 
 class VerificationStatus(Enum):
@@ -28,17 +28,17 @@ class VerificationStatus(Enum):
     IN_PROGRESS = "in_progress"
     VERIFIED = "verified"
     FAILED = "failed"
-    TRINITY_APPROVED = "trinity_approved"
+    TRINITY_APPROVED = "constellation_approved"
 
 
 class DreamVerificationColony:
-    """Advanced dream verification system with Trinity Framework compliance."""
+    """Advanced dream verification system with Constellation Framework compliance."""
 
     def __init__(self):
         self.verification_records: dict[str, dict] = {}
         self.verification_rules = self._initialize_verification_rules()
         self.verification_counter = 0
-        logger.info("🔍 Dream Verification Colony initialized - Trinity Framework active")
+        logger.info("🔍 Dream Verification Colony initialized - Constellation Framework active")
 
     def _initialize_verification_rules(self) -> dict[str, dict]:
         """Initialize verification rules for different levels."""
@@ -46,22 +46,22 @@ class DreamVerificationColony:
             VerificationLevel.BASIC.value: {
                 "required_checks": ["structure_validity", "content_coherence"],
                 "threshold_score": 0.6,
-                "trinity_requirement": False
+                "constellation_requirement": False
             },
             VerificationLevel.STANDARD.value: {
                 "required_checks": ["structure_validity", "content_coherence", "symbolic_integrity"],
                 "threshold_score": 0.75,
-                "trinity_requirement": True
+                "constellation_requirement": True
             },
             VerificationLevel.COMPREHENSIVE.value: {
                 "required_checks": ["structure_validity", "content_coherence", "symbolic_integrity", "consciousness_alignment", "memory_integration"],
                 "threshold_score": 0.85,
-                "trinity_requirement": True
+                "constellation_requirement": True
             },
             VerificationLevel.TRINITY_CERTIFIED.value: {
-                "required_checks": ["structure_validity", "content_coherence", "symbolic_integrity", "consciousness_alignment", "memory_integration", "trinity_compliance", "guardian_validation"],
+                "required_checks": ["structure_validity", "content_coherence", "symbolic_integrity", "consciousness_alignment", "memory_integration", "constellation_compliance", "guardian_validation"],
                 "threshold_score": 0.95,
-                "trinity_requirement": True
+                "constellation_requirement": True
             }
         }
 
@@ -78,7 +78,7 @@ class DreamVerificationColony:
             "initiated_at": datetime.now(timezone.utc).isoformat(),
             "checks_completed": [],
             "verification_score": 0.0,
-            "trinity_validated": False
+            "constellation_validated": False
         }
 
         self.verification_records[verification_id] = verification_record
@@ -109,12 +109,12 @@ class DreamVerificationColony:
 
         # Determine verification status
         threshold = rules["threshold_score"]
-        trinity_required = rules["trinity_requirement"]
+        constellation_required = rules["constellation_requirement"]
 
         if record["verification_score"] >= threshold:
-            if trinity_required and self._validate_trinity_compliance(record["dream_id"]):
+            if constellation_required and self._validate_trinity_compliance(record["dream_id"]):
                 record["status"] = VerificationStatus.TRINITY_APPROVED.value
-                record["trinity_validated"] = True
+                record["constellation_validated"] = True
             else:
                 record["status"] = VerificationStatus.VERIFIED.value
         else:
@@ -127,7 +127,7 @@ class DreamVerificationColony:
             "status": record["status"],
             "score": record["verification_score"],
             "check_results": check_results,
-            "trinity_validated": record["trinity_validated"]
+            "constellation_validated": record["constellation_validated"]
         }
 
         logger.info(f"🧠 Dream verification executed: {verification_id} - Status: {record['status']}")
@@ -142,15 +142,15 @@ class DreamVerificationColony:
             "symbolic_integrity": 0.8,
             "consciousness_alignment": 0.88,
             "memory_integration": 0.82,
-            "trinity_compliance": 0.95,
+            "constellation_compliance": 0.95,
             "guardian_validation": 0.92
         }
 
         return check_scores.get(check_name, 0.7)
 
     def _validate_trinity_compliance(self, dream_id: str) -> bool:
-        """Validate Trinity Framework compliance."""
-        # Simplified Trinity validation
+        """Validate Constellation Framework compliance."""
+        # Simplified Constellation validation
         return True
 
     def get_verification_status(self, verification_id: str) -> dict[str, Any]:
@@ -167,7 +167,7 @@ class DreamVerificationColony:
             "level": record["level"],
             "score": record["verification_score"],
             "checks_completed": len(record["checks_completed"]),
-            "trinity_validated": record["trinity_validated"],
+            "constellation_validated": record["constellation_validated"],
             "guardian_approved": record["status"] in [VerificationStatus.VERIFIED.value, VerificationStatus.TRINITY_APPROVED.value]
         }
 
@@ -200,7 +200,7 @@ class DreamVerificationColony:
                 "level": record["level"],
                 "status": record["status"],
                 "score": record["verification_score"],
-                "trinity_validated": record["trinity_validated"]
+                "constellation_validated": record["constellation_validated"]
             },
             "timeline": {
                 "initiated": record["initiated_at"],
@@ -222,16 +222,16 @@ class DreamVerificationColony:
         status = record["status"]
 
         if status == VerificationStatus.TRINITY_APPROVED.value:
-            recommendations.append("Excellent verification - dream meets highest Trinity Framework standards")
+            recommendations.append("Excellent verification - dream meets highest Constellation Framework standards")
         elif status == VerificationStatus.VERIFIED.value:
-            recommendations.append("Good verification - consider enhancing Trinity Framework compliance")
+            recommendations.append("Good verification - consider enhancing Constellation Framework compliance")
         elif score > 0.7:
             recommendations.append("Partial verification - address specific check failures")
         else:
             recommendations.append("Low verification score - comprehensive review recommended")
 
-        if not record["trinity_validated"]:
-            recommendations.append("Enhance Trinity Framework integration for higher certification")
+        if not record["constellation_validated"]:
+            recommendations.append("Enhance Constellation Framework integration for higher certification")
 
         return recommendations
 

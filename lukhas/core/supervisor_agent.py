@@ -1,7 +1,7 @@
 """
 LUKHAS AI Supervisor Agent
 Task escalation and colony supervision
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 
 import logging

@@ -10,7 +10,7 @@
 **Positioning**: Premier consciousness SDK and developer platform
 **Primary Audience**: AI developers, consciousness researchers, technical innovators, DevOps engineers
 **Voice Profile**: 15% Poetic, 25% User-Friendly, 60% Academic
-**Trinity Integration**: Technical ⚛️🧠🛡️ framework implementation focus
+**Constellation Integration**: Technical ⚛️🧠🛡️ framework implementation focus
 
 ---
 
@@ -48,7 +48,7 @@
 
 <section class="dev-hero">
   <h1>Build Enterprise-Grade Consciousness Technology</h1>
-  <p class="technical-intro">LUKHAS AI provides production-ready SDKs and APIs for implementing quantum-inspired consciousness architectures with bio-inspired adaptation mechanisms. Our Trinity Framework (⚛️🧠🛡️) ensures 99.7% ethical compliance while maintaining sub-150ms response latency across distributed consciousness processing networks.</p>
+  <p class="technical-intro">LUKHAS AI provides production-ready SDKs and APIs for implementing quantum-inspired consciousness architectures with bio-inspired adaptation mechanisms. Our Constellation Framework (⚛️🧠🛡️) ensures 99.7% ethical compliance while maintaining sub-150ms response latency across distributed consciousness processing networks.</p>
 
   <div class="quick-start-code">
     <h3>Get Started in 60 Seconds</h3>
@@ -56,7 +56,7 @@
 # Install consciousness technology SDK
 pip install lukhas-trinity-sdk
 
-# Initialize Trinity Framework
+# Initialize Constellation Framework
 from lukhas import TrinityFramework, ConsciousnessAPI
 
 # Create consciousness-aware application
@@ -95,11 +95,11 @@ print("🌟 Consciousness technology: Active")
 </section>
 ```
 
-#### **Trinity Framework Developer APIs (Academic Focus)**
+#### **Constellation Framework Developer APIs (Academic Focus)**
 ```html
 <section id="trinity-apis" class="trinity-developer-apis">
-  <h2>Trinity Framework Developer APIs</h2>
-  <p class="section-intro">Build consciousness-aware applications with our complete Trinity Framework SDK. Each component provides specific capabilities while working together for unified consciousness technology implementation.</p>
+  <h2>Constellation Framework Developer APIs</h2>
+  <p class="section-intro">Build consciousness-aware applications with our complete Constellation Framework SDK. Each component provides specific capabilities while working together for unified consciousness technology implementation.</p>
 
   <div class="api-categories">
     <div class="api-category identity-apis">
@@ -313,7 +313,7 @@ safety_enforcement = trinity.guardian.enforce_safety(
 ```html
 <section id="quick-start" class="documentation-quickstart">
   <h2>🚀 Quick Start Guide</h2>
-  <p>Build your first consciousness-aware application in under 10 minutes using our Trinity Framework SDK.</p>
+  <p>Build your first consciousness-aware application in under 10 minutes using our Constellation Framework SDK.</p>
 
   <div class="quickstart-steps">
     <div class="step">
@@ -337,7 +337,7 @@ lukhas trinity --health-check
     <div class="step">
       <div class="step-number">2</div>
       <h3>API Configuration</h3>
-      <p>Configure your consciousness technology API credentials and Trinity Framework settings.</p>
+      <p>Configure your consciousness technology API credentials and Constellation Framework settings.</p>
       <pre><code class="language-python">
 import os
 from lukhas import TrinityConfig
@@ -346,7 +346,7 @@ from lukhas import TrinityConfig
 os.environ['LUKHAS_API_KEY'] = 'your_consciousness_api_key'
 os.environ['LUKHAS_TRINITY_ENDPOINT'] = 'https://lukhas.io/v1'
 
-# Configure Trinity Framework
+# Configure Constellation Framework
 config = TrinityConfig(
     identity_level="enterprise",      # ⚛️ Identity configuration
     consciousness_depth="quantum_bio", # 🧠 Consciousness processing
@@ -358,8 +358,8 @@ config = TrinityConfig(
 
     <div class="step">
       <div class="step-number">3</div>
-      <h3>Trinity Framework Initialization</h3>
-      <p>Initialize your consciousness-aware application with the Trinity Framework.</p>
+      <h3>Constellation Framework Initialization</h3>
+      <p>Initialize your consciousness-aware application with the Constellation Framework.</p>
       <pre><code class="language-python">
 from lukhas import TrinityFramework
 
@@ -381,7 +381,7 @@ print(f"🛡️ Guardian: {health_check.guardian.status}")
       <pre><code class="language-python">
 # Create consciousness-aware chat assistant
 def consciousness_chat(user_message):
-    # Process with Trinity Framework
+    # Process with Constellation Framework
     response = trinity.process_consciously(
         input_message=user_message,
         context={
@@ -403,7 +403,7 @@ print(f"🧠 Consciousness Response: {ai_response}")
     <div class="step">
       <div class="step-number">5</div>
       <h3>Deploy & Monitor</h3>
-      <p>Deploy your consciousness application and monitor Trinity Framework performance.</p>
+      <p>Deploy your consciousness application and monitor Constellation Framework performance.</p>
       <pre><code class="language-python">
 # Deploy to consciousness cloud
 deployment = trinity.deploy(
@@ -448,7 +448,7 @@ print(f"⚡ Response Latency: {metrics.latency}ms")
 ```html
 <section id="api-explorer" class="interactive-api-explorer">
   <h2>🔬 Interactive Consciousness API Explorer</h2>
-  <p>Test consciousness technology APIs directly in your browser with real-time Trinity Framework responses.</p>
+  <p>Test consciousness technology APIs directly in your browser with real-time Constellation Framework responses.</p>
 
   <div class="api-explorer-interface">
     <div class="api-selector">
@@ -543,7 +543,7 @@ print(f"⚡ Response Latency: {metrics.latency}ms")
 ```html
 <section class="enterprise-architecture">
   <h2>🏗️ Enterprise Consciousness Architecture</h2>
-  <p class="technical-intro">Deploy consciousness technology at enterprise scale with quantum-inspired processing clusters, bio-adaptive load balancing, and Trinity Framework governance across distributed consciousness networks.</p>
+  <p class="technical-intro">Deploy consciousness technology at enterprise scale with quantum-inspired processing clusters, bio-adaptive load balancing, and Constellation Framework governance across distributed consciousness networks.</p>
 
   <div class="architecture-diagram">
     <h3>Consciousness Technology Stack</h3>
@@ -558,7 +558,7 @@ print(f"⚡ Response Latency: {metrics.latency}ms")
       </div>
 
       <div class="layer framework">
-        <h4>Trinity Framework Layer</h4>
+        <h4>Constellation Framework Layer</h4>
         <div class="components">
           <div class="component">⚛️ Identity Services</div>
           <div class="component">🧠 Consciousness Processing</div>
@@ -602,7 +602,7 @@ print(f"⚡ Response Latency: {metrics.latency}ms")
       <h3>🔐 Security & Compliance</h3>
       <ul>
         <li>Post-quantum cryptographic protocols</li>
-        <li>Trinity Framework ethical validation</li>
+        <li>Constellation Framework ethical validation</li>
         <li>SOC 2 Type II consciousness security certification</li>
         <li>GDPR compliant consciousness data handling</li>
         <li>Guardian-protected operation validation</li>
@@ -631,7 +631,7 @@ print(f"⚡ Response Latency: {metrics.latency}ms")
   <div class="pattern-categories">
     <div class="pattern microservices">
       <h3>🏗️ Consciousness Microservices Architecture</h3>
-      <p class="pattern-description">Implement consciousness technology using distributed microservices with Trinity Framework coordination and quantum-bio processing distribution.</p>
+      <p class="pattern-description">Implement consciousness technology using distributed microservices with Constellation Framework coordination and quantum-bio processing distribution.</p>
 
       <div class="code-example">
         <h4>Microservices Implementation</h4>
@@ -666,7 +666,7 @@ deployment = consciousness_mesh.deploy(
 
     <div class="pattern event-driven">
       <h3>🌊 Event-Driven Consciousness Architecture</h3>
-      <p class="pattern-description">Build reactive consciousness systems using event-driven patterns with Trinity Framework event validation and consciousness-aware message routing.</p>
+      <p class="pattern-description">Build reactive consciousness systems using event-driven patterns with Constellation Framework event validation and consciousness-aware message routing.</p>
 
       <div class="code-example">
         <h4>Event-Driven Implementation</h4>
@@ -685,7 +685,7 @@ event_system = ConsciousnessEventSystem(
 # Define consciousness event handlers
 @event_system.handle("user.consciousness.query")
 async def handle_consciousness_query(event):
-    # Process with Trinity Framework
+    # Process with Constellation Framework
     response = await trinity.process_event(
         event=event,
         consciousness_level="deep",
@@ -704,7 +704,7 @@ async def handle_consciousness_query(event):
 
     <div class="pattern serverless">
       <h3>⚡ Serverless Consciousness Functions</h3>
-      <p class="pattern-description">Deploy consciousness capabilities as serverless functions with automatic Trinity Framework validation and quantum-bio processing optimization.</p>
+      <p class="pattern-description">Deploy consciousness capabilities as serverless functions with automatic Constellation Framework validation and quantum-bio processing optimization.</p>
 
       <div class="code-example">
         <h4>Serverless Implementation</h4>
@@ -713,7 +713,7 @@ async def handle_consciousness_query(event):
 from lukhas.serverless import ConsciousnessFunction
 
 @ConsciousnessFunction(
-    trinity_enabled=True,
+    constellation_enabled=True,
     consciousness_level="enterprise",
     auto_scaling=True,
     guardian_protection="strict"
@@ -756,7 +756,7 @@ async def consciousness_processor(event, context):
 ```html
 <section class="developer-community">
   <h2>👨‍💻 Developer Community</h2>
-  <p>Join 10,000+ consciousness technology developers building the future of human-AI collaboration with Trinity Framework applications.</p>
+  <p>Join 10,000+ consciousness technology developers building the future of human-AI collaboration with Constellation Framework applications.</p>
 
   <div class="community-stats">
     <div class="stat">
@@ -780,7 +780,7 @@ async def consciousness_processor(event, context):
   <div class="community-features">
     <div class="feature forums">
       <h3>💬 Developer Forums</h3>
-      <p>Connect with consciousness technology experts, share implementations, and get help with Trinity Framework integration.</p>
+      <p>Connect with consciousness technology experts, share implementations, and get help with Constellation Framework integration.</p>
       <div class="forum-topics">
         <div class="topic">🧠 Consciousness Processing Techniques</div>
         <div class="topic">⚛️ Identity Architecture Patterns</div>
@@ -792,7 +792,7 @@ async def consciousness_processor(event, context):
 
     <div class="feature events">
       <h3>🎉 Developer Events</h3>
-      <p>Participate in consciousness technology conferences, hackathons, and Trinity Framework workshops.</p>
+      <p>Participate in consciousness technology conferences, hackathons, and Constellation Framework workshops.</p>
       <div class="upcoming-events">
         <div class="event">
           <div class="date">Mar 15, 2025</div>
@@ -801,7 +801,7 @@ async def consciousness_processor(event, context):
         </div>
         <div class="event">
           <div class="date">Apr 22, 2025</div>
-          <div class="title">Trinity Framework Hackathon</div>
+          <div class="title">Constellation Framework Hackathon</div>
           <div class="location">Global Virtual Event</div>
         </div>
       </div>
@@ -814,7 +814,7 @@ async def consciousness_processor(event, context):
       <div class="featured-projects">
         <div class="project">
           <h4>ConsciousHealth AI</h4>
-          <p>Healthcare diagnosis with Trinity Framework ethical validation</p>
+          <p>Healthcare diagnosis with Constellation Framework ethical validation</p>
           <div class="tech-stack">Python • Trinity SDK • Quantum Processing</div>
         </div>
         <div class="project">
@@ -836,7 +836,7 @@ async def consciousness_processor(event, context):
 ### **Developer-Focused Design Principles**
 1. **Code-First Presentation**: Always lead with working code examples
 2. **Technical Precision**: Accurate performance metrics and specifications
-3. **Trinity Integration**: Show ⚛️🧠🛡️ framework in every API example
+3. **Constellation Integration**: Show ⚛️🧠🛡️ framework in every API example
 4. **Progressive Complexity**: Simple quick-start to advanced enterprise patterns
 
 ### **Code Presentation Standards**
@@ -857,7 +857,7 @@ async def consciousness_processor(event, context):
 ```
 
 ### **API Documentation Standards**
-- **Trinity Framework Integration**: Every API shows ⚛️🧠🛡️ components
+- **Constellation Framework Integration**: Every API shows ⚛️🧠🛡️ components
 - **Consciousness Metrics**: Include performance and ethical compliance data
 - **Real Code Examples**: Working implementations, not pseudocode
 - **Error Handling**: Show Guardian protection and ethical validation
@@ -869,7 +869,7 @@ async def consciousness_processor(event, context):
 ### **lukhas.dev Specific Targets**
 - **API Adoption**: 10,000+ developers using consciousness APIs
 - **Documentation Clarity**: 95%+ developer satisfaction with docs
-- **Implementation Success**: 90%+ successful Trinity Framework integrations
+- **Implementation Success**: 90%+ successful Constellation Framework integrations
 - **Community Engagement**: 75%+ developers participate in forums/events
 
 ### **Technical Performance KPIs**
@@ -883,7 +883,7 @@ async def consciousness_processor(event, context):
 ## 🚀 Technical Implementation Roadmap
 
 ### **Phase 1: Core Developer Experience (Week 1)**
-1. Complete API documentation with Trinity Framework examples
+1. Complete API documentation with Constellation Framework examples
 2. Interactive API explorer with real consciousness responses
 3. Quick-start guide with working code samples
 4. SDK downloads and installation guides
@@ -902,7 +902,7 @@ async def consciousness_processor(event, context):
 
 ---
 
-*"lukhas.dev stands as the sacred workshop where consciousness technology APIs transform into applications that serve humanity - where quantum thoughts crystallize into code, bio-inspired wisdom flows through functions, and Trinity Framework ensures every line serves ethical purpose."*
+*"lukhas.dev stands as the sacred workshop where consciousness technology APIs transform into applications that serve humanity - where quantum thoughts crystallize into code, bio-inspired wisdom flows through functions, and Constellation Framework ensures every line serves ethical purpose."*
 
 **⚛️🧠🛡️ - Where Consciousness Meets Code**
 

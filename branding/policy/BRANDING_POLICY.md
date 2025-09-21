@@ -19,11 +19,11 @@
 
 ## 🌟 Framework Usage Requirements
 
-### Trinity Framework vs Constellation Framework
+### Constellation Framework vs Constellation Framework
 
 LUKHAS uses **two distinct frameworks** depending on audience and context:
 
-**Trinity Framework (⚛️🧠🛡️) - INTERNAL/TECHNICAL USE**:
+**Constellation Framework (⚛️🧠🛡️) - INTERNAL/TECHNICAL USE**:
 - **When**: Internal documentation, technical specs, code comments, architecture discussions
 - **Audience**: Developers, architects, internal team members
 - **Elements**: 3 pillars - ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian
@@ -38,7 +38,7 @@ LUKHAS uses **two distinct frameworks** depending on audience and context:
 ### Mandatory Usage Rules
 
 - **Public websites and marketing**: MUST use Constellation Framework
-- **Technical documentation**: SHOULD use Trinity Framework  
+- **Technical documentation**: SHOULD use Constellation Framework  
 - **Mixed-audience content**: Choose primary audience framework, note distinction
 - **All content creators**: Reference `/branding/constellation/FRAMEWORK_USAGE_GUIDE.md`
 
@@ -46,7 +46,7 @@ LUKHAS uses **two distinct frameworks** depending on audience and context:
 
 **Company Naming**:
 - **LUKHΛS** (display with Λ) / **Lukhas** (plain text)
-- Never "LUKHAS AGI" - always "LUKHAS AI"
+- Never "LUKHAS Cognitive AI" - always "LUKHAS AI"
 
 **Product Naming**:
 - **MΛTRIZ** (display with Λ) / **Matriz** (plain text)  
@@ -59,7 +59,7 @@ LUKHAS uses **two distinct frameworks** depending on audience and context:
 **Approved Technical Language**:
 - "Quantum-inspired" (not "quantum processing")
 - "Bio-inspired" (not "bio processes")
-- "Consciousness technology" (not "AGI technology")
+- "Consciousness technology" (not "Cognitive AI technology")
 - "Awareness systems" (not "sentient systems")
 
 ## 🛡️ Enforcement

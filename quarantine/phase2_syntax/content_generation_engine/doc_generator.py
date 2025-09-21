@@ -1,6 +1,6 @@
 """
 Documentation Generation Engine
-Implements intelligent documentation generation with Lukhas AGI capabilities.
+Implements intelligent documentation generation with Lukhas Cognitive AI capabilities.
 """
 from typing import List
 import streamlit as st
@@ -49,7 +49,7 @@ class DocumentationConfig(BaseModel):
 
 class DocGenerator:
     """
-    Core documentation generation engine that integrates with Lukhas AGI capabilities.
+    Core documentation generation engine that integrates with Lukhas Cognitive AI capabilities.
     """
 
     def __init__(self, skg: SystemKnowledgeGraph, template_dir: Optional[str] = None):
@@ -317,7 +317,7 @@ class DocGenerator:
 
     def _enhance_with_lucas_patterns(self, sections: list[DocSection], config: DocumentationConfig) -> list[DocSection]:
         """
-        Apply Lukhas AGI patterns to enhance documentation quality.
+        Apply Lukhas Cognitive AI patterns to enhance documentation quality.
         This could include:
         - Adjusting complexity based on bio-oscillator data
         - Adding cultural context

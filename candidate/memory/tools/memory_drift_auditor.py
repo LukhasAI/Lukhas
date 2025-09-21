@@ -14,7 +14,7 @@
 ║
 ║ │ thoughts and whispers of past experiences intertwine, lies the Memory Drift    │
 ║ │ Auditor—a sentinel of integrity, a watchful guardian of the vast expanse of   │
-║ │ the LUKHAS AGI's cerebral landscape. Like a seasoned cartographer tracing      │
+║ │ the LUKHAS Cognitive AI's cerebral landscape. Like a seasoned cartographer tracing      │
 ║ │ the contours of an ever-shifting realm, this module embarks upon a noble       │
 ║ │ quest to illuminate the hidden drifts and elusive gaps nestled within the      │
 ║ │ intricate fabric of memory.                                                    │
@@ -2086,7 +2086,7 @@ class MemoryDriftAuditor:
 
         # Header
         md_lines.append("# ΛAUDITOR Memory Drift Audit Report")
-        md_lines.append("**LUKHAS AGI Memory Forensics and Integrity Analysis**")
+        md_lines.append("**LUKHAS Cognitive AI Memory Forensics and Integrity Analysis**")
         md_lines.append("")
 
         # Metadata section

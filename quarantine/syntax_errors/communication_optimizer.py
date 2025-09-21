@@ -20,7 +20,7 @@ class CommunicationOptimizer:
     """Optimizes module communication pathways in LUKHAS """
 
     def __init__(self):
-        self.root_path = Path("/Users/agi_dev/Lukhas"
+        self.root_path = Path("/Users/cognitive_dev/Lukhas"
         self.optimizations_made = []
         self.phase_status = {
             "phase1": "pending",

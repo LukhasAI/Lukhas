@@ -6,10 +6,10 @@
     {
       "name": "auctor_commercial",
       "system_type": "content_engine",
-      "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/content_engines/auctor_commercial",
+      "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/content_engines/auctor_commercial",
       "status": "migrated",
       "voice_coherence": 46.529994400111995,
-      "trinity_integration": true,
+      "constellation_integration": true,
       "consciousness_tech_focus": true,
       "elite_ready": false,
       "last_updated": "2025-08-18T02:39:38.220783"
@@ -17,10 +17,10 @@
     {
       "name": "lambda_bot_enterprise",
       "system_type": "content_engine",
-      "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/content_engines/lambda_bot_enterprise",
+      "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/content_engines/lambda_bot_enterprise",
       "status": "migrated",
       "voice_coherence": 44.06018518518519,
-      "trinity_integration": true,
+      "constellation_integration": true,
       "consciousness_tech_focus": true,
       "elite_ready": false,
       "last_updated": "2025-08-18T02:39:38.243162"
@@ -28,10 +28,10 @@
     {
       "name": "lambda_web_manager",
       "system_type": "content_engine",
-      "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/content_engines/lambda_web_manager",
+      "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/content_engines/lambda_web_manager",
       "status": "migrated",
       "voice_coherence": 54.86452835527812,
-      "trinity_integration": true,
+      "constellation_integration": true,
       "consciousness_tech_focus": true,
       "elite_ready": false,
       "last_updated": "2025-08-18T02:39:38.270634"
@@ -39,10 +39,10 @@
     {
       "name": "notion_integration",
       "system_type": "content_engine",
-      "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/content_engines/notion_integration",
+      "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/content_engines/notion_integration",
       "status": "migrated",
       "voice_coherence": 2.4691358024691357,
-      "trinity_integration": false,
+      "constellation_integration": false,
       "consciousness_tech_focus": false,
       "elite_ready": false,
       "last_updated": "2025-08-18T02:39:38.272340"
@@ -50,10 +50,10 @@
     {
       "name": "document_generation",
       "system_type": "content_engine",
-      "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/content_engines/document_generation",
+      "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/content_engines/document_generation",
       "status": "migrated",
       "voice_coherence": 46.0540691835461,
-      "trinity_integration": true,
+      "constellation_integration": true,
       "consciousness_tech_focus": true,
       "elite_ready": false,
       "last_updated": "2025-08-18T02:39:38.339226"
@@ -61,10 +61,10 @@
     {
       "name": "auditor_platform",
       "system_type": "enterprise_system",
-      "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/enterprise_systems/auditor_platform",
+      "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/enterprise_systems/auditor_platform",
       "status": "migrated",
       "voice_coherence": 19.606481481481485,
-      "trinity_integration": true,
+      "constellation_integration": true,
       "consciousness_tech_focus": false,
       "elite_ready": false,
       "last_updated": "2025-08-18T02:39:38.349344"
@@ -72,10 +72,10 @@
     {
       "name": "aegis_ai",
       "system_type": "enterprise_system",
-      "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/enterprise_systems/aegis_ai",
+      "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/enterprise_systems/aegis_ai",
       "status": "migrated",
       "voice_coherence": 38.88888888888889,
-      "trinity_integration": true,
+      "constellation_integration": true,
       "consciousness_tech_focus": true,
       "elite_ready": false,
       "last_updated": "2025-08-18T02:39:38.351713"
@@ -83,10 +83,10 @@
     {
       "name": "harmonizer",
       "system_type": "enterprise_system",
-      "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/enterprise_systems/harmonizer",
+      "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/enterprise_systems/harmonizer",
       "status": "migrated",
       "voice_coherence": 38.18173939676569,
-      "trinity_integration": true,
+      "constellation_integration": true,
       "consciousness_tech_focus": true,
       "elite_ready": false,
       "last_updated": "2025-08-18T02:39:38.361804"
@@ -94,10 +94,10 @@
     {
       "name": "ios_apps",
       "system_type": "mobile_app",
-      "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/mobile_applications/ios_apps",
+      "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/mobile_applications/ios_apps",
       "status": "migrated",
       "voice_coherence": 39.875616704885,
-      "trinity_integration": true,
+      "constellation_integration": true,
       "consciousness_tech_focus": true,
       "elite_ready": false,
       "last_updated": "2025-08-18T02:39:38.752556"

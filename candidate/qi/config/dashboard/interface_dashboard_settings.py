@@ -20,7 +20,7 @@ Integration Date: 2025-05-31T07:55:27.731081
 │ DESCRIPTION    :                                                           │
 │   Stores and manages persistent settings for the user's dashboard.         │
 │   Manages user interface preferences including widget visibility,         │
-│   dark/light modes, app pairing, tier visibility, and AGI triggers.       │
+│   dark/light modes, app pairing, tier visibility, and Cognitive AI triggers.       │
 │ TYPE           : Settings & Personalization Manager                        │
 │ VERSION        : v1.0.0                                                    │
 │ AUTHOR         : LUKHAS SYSTEMS                                             │
@@ -105,9 +105,9 @@ def get_paired_apps(user_id):
 # 📦 FUTURE:
 #    - Persist settings to encrypted Lukhas ID vault
 #    - Tier-specific auto-login (via IP metadata + face unlock)
-#    - AGI-aware UI triggers based on biometric/environmental cues
+#    - Cognitive AI-aware UI triggers based on biometric/environmental cues
 #    - Customizable symbolic dashboards (emoji, ambient state, UX mood)
-#    - Shared experience mode for households or co-working AGI
+#    - Shared experience mode for households or co-working Cognitive AI
 #
 # END OF FILE
 # ─────────────────────────────────────────────────────────────────────────────

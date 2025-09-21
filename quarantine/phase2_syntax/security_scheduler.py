@@ -5,7 +5,7 @@
 Schedule security fixes to run automatically at specified times.
 Handles both dependency vulnerabilities and code security issues.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 
 import json

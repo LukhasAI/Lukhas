@@ -54,16 +54,16 @@ def create_comprehensive_research_report():
                 "Consciousness",
                 "Ethics",
                 "Drift Detection",
-                "Trinity Framework",
+                "Constellation Framework",
             ],
             "license": "Academic Research Use",
         },
         "abstract": {
-            "summary": "This comprehensive report presents the LUKHAS AGI Framework, a modular artificial general intelligence system implementing the Trinity Framework(⚛️🧠🛡️) for ethical AI consciousness development. The system integrates symbolic reasoning, drift detection, memory systems, and multi-model evaluation across major language models including OpenAI GPT-4, Anthropic Claude, Google Gemini, and Perplexity. Our analysis reveals high-level system functionality with 100% core module operational status and comprehensive API coverage, while identifying critical drift patterns in contemporary language models requiring symbolic intervention.",
+            "summary": "This comprehensive report presents the LUKHAS AGI Framework, a modular artificial general intelligence system implementing the Constellation Framework(⚛️🧠🛡️) for ethical AI consciousness development. The system integrates symbolic reasoning, drift detection, memory systems, and multi-model evaluation across major language models including OpenAI GPT-4, Anthropic Claude, Google Gemini, and Perplexity. Our analysis reveals high-level system functionality with 100% core module operational status and comprehensive API coverage, while identifying critical drift patterns in contemporary language models requiring symbolic intervention.",
             "key_findings": [
                 "LUKHAS core system achieves 100% module operational status",
                 "Multi-model drift analysis reveals consistent symbolic degradation across providers",
-                "Trinity Framework demonstrates effective consciousness architecture",
+                "Constellation Framework demonstrates effective consciousness architecture",
                 "Symbolic healing mechanisms show promise for AI alignment",
                 "API integration successful across 4 major providers with rate limiting considerations",
             ],
@@ -222,10 +222,10 @@ def create_comprehensive_research_report():
             ],
         },
         "conclusions": {
-            "summary": "The LUKHAS AGI Framework demonstrates robust architectural design with 100% core module functionality and comprehensive multi-model integration capabilities. The Trinity Framework (⚛️🧠🛡️) provides a solid foundation for consciousness-oriented AI development. However, our multi-model analysis reveals concerning drift patterns across all tested language models, with high symbolic drift scores and low Trinity coherence indicating the need for enhanced symbolic prompting and alignment techniques.",
+            "summary": "The LUKHAS AGI Framework demonstrates robust architectural design with 100% core module functionality and comprehensive multi-model integration capabilities. The Constellation Framework (⚛️🧠🛡️) provides a solid foundation for consciousness-oriented AI development. However, our multi-model analysis reveals concerning drift patterns across all tested language models, with high symbolic drift scores and low Trinity coherence indicating the need for enhanced symbolic prompting and alignment techniques.",
             "implications": [
                 "Current large language models require active symbolic intervention for consciousness alignment",
-                "The Trinity Framework provides measurable metrics for AI consciousness assessment",
+                "The Constellation Framework provides measurable metrics for AI consciousness assessment",
                 "Multi-provider API integration is feasible but requires robust error handling",
                 "Symbolic healing mechanisms show promise for automated AI alignment",
                 "Rate limiting and API evolution present ongoing challenges for research scalability",
@@ -235,7 +235,7 @@ def create_comprehensive_research_report():
                 "Development of automated symbolic prompting systems",
                 "Integration with additional AI providers and model architectures",
                 "Real-time consciousness monitoring and intervention systems",
-                "Peer review and validation of Trinity Framework metrics",
+                "Peer review and validation of Constellation Framework metrics",
             ],
         },
         "appendices": {
@@ -249,7 +249,7 @@ def create_comprehensive_research_report():
         },
         "references": [
             "LUKHAS AGI Framework Documentation (2025)",
-            "Trinity Framework: ⚛️🧠🛡️ Consciousness Architecture Specification",
+            "Constellation Framework: ⚛️🧠🛡️ Consciousness Architecture Specification",
             "OpenAI GPT-4 Technical Report (2024)",
             "Anthropic Claude Constitutional AI Methods (2024)",
             "Google Gemini Technical Documentation (2024)",
@@ -277,7 +277,7 @@ def create_markdown_report(data: dict[str, Any], filename: str):
     f"""# {data["metadata"]["report_title"]}
 
 **Date:** {data["metadata"].get("report_date", "")}
-**Trinity Framework:** {data["metadata"].get("constellation_framework", data["metadata"].get("triad_framework", ""))}
+**Constellation Framework:** {data["metadata"].get("constellation_framework", data["metadata"].get("constellation_framework", ""))}
 **Version:** {data["metadata"].get("version", "")}
 **Purpose:** {data["metadata"].get("purpose", "")}
 
@@ -337,7 +337,7 @@ def create_markdown_report(data: dict[str, Any], filename: str):
 ---
 
 *Report generated by LUKHAS AGI Framework on {data["metadata"].get("report_date", "") }*
-*Trinity Framework: {data["metadata"].get("constellation_framework", data["metadata"].get("triad_framework", "")) }*
+*Constellation Framework: {data["metadata"].get("constellation_framework", data["metadata"].get("constellation_framework", "")) }*
 """
 
 

@@ -66,7 +66,7 @@ graph TD
   - Emotional states (VAD model)
   - Memory density
   - Quantum coherence
-- Trinity framework balance visualization
+- Constellation framework balance visualization
 
 ### 4. Shape Library
 - **Basic Shapes**: Sphere, Cube, Torus
@@ -158,7 +158,7 @@ from visualization.unified.consciousness_integration import (
 bridge = ConsciousnessVisualizationBridge()
 
 # Set visualization mode
-bridge.set_mode(VisualizationMode.TRINITY)
+bridge.set_mode(VisualizationMode.CONSTELLATION)
 
 # Process voice input
 voice_data = {'pitch': 0.7, 'volume': 0.5, 'emotion': 'happy'}
@@ -225,7 +225,7 @@ Renders symbolic GLYPHs as particle formations with resonance effects.
 ### Quantum Mode
 Shows quantum coherence and entanglement through galaxy-like formations.
 
-### Trinity Mode
+### Constellation Mode
 Balances Identity (pink), Consciousness (cyan), and Guardian (purple) particle groups.
 
 ## Performance Optimization

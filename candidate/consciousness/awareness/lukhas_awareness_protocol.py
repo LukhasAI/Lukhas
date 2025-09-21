@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 class LucasAwarenessProtocol:
     """
-    Core consciousness awareness protocol for LUKHAS AGI.
+    Core consciousness awareness protocol for LUKHAS Cognitive AI.
     Handles awareness state management and consciousness integration.
     """
 

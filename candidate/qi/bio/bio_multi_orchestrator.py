@@ -18,13 +18,13 @@ logger = logging.getLogger(__name__)
 LUKHAS - Quantum Bio Multi Orchestrator
 ==============================
 
-An enterprise-grade Artificial General Intelligence (AGI) framework
+An enterprise-grade Cognitive Artificial Intelligence (Cognitive AI) framework
 combining symbolic reasoning, emotional intelligence, quantum-inspired computing,
 and bio-inspired architecture for next-generation AI applications.
 
 Module: Quantum Bio Multi Orchestrator
 Path: lukhas/quantum/bio_multi_orchestrator.py
-Description: Quantum module for advanced AGI functionality
+Description: Quantum module for advanced Cognitive functionality
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.
@@ -234,10 +234,10 @@ class MultiAGIOrchestrator:
         AIMPORT_TODO: Bot file paths are hardcoded and user-specific. This needs to be
                       made configurable (e.g., via environment variables, config file, or service discovery).
         """
-        self.log.info("Discovering and registering AGI bots...")
+        self.log.info("Discovering and registering Cognitive AI bots...")
         base_bot_path_str = os.getenv("LUKHAS_BOTS_BASE_PATH", "/Users/A_G_I/CodexGPT_Lukhas")
 
-        agi_bot_definitions_config: list[dict[str, Any]] = [
+        cognitive_bot_definitions_config: list[dict[str, Any]] = [
             {
                 "bot_id": "primary_agi",
                 "bot_type": AGIBotType.PRIMARY,
@@ -270,7 +270,7 @@ class MultiAGIOrchestrator:
             },
         ]
 
-        for bot_def in agi_bot_definitions_config:
+        for bot_def in cognitive_bot_definitions_config:
             bot_file_full_path = Path(base_bot_path_str) / bot_def["relative_file_path"]
 
             if bot_file_full_path.exists() and bot_file_full_path.is_file():

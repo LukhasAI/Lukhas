@@ -1,0 +1,259 @@
+identity:
+  name: constellation.framework
+  layer: foundational
+  summary: Constellation Framework core with Identity, Consciousness, and Guardian triumvirate
+  status: active
+  tier: 1
+  constellation_framework_version: 2.0.0
+
+discovery:
+  import_patterns:
+  - from constellation.framework import ConstellationCore
+  - from constellation.framework import IdentityComponent
+  - from constellation.framework import ConsciousnessComponent
+  - from constellation.framework import GuardianComponent
+  - from constellation.framework import T4Validator
+  import_aliases:
+  - constellation
+  file_patterns:
+  - constellation/framework/**/*.py
+  - tests/constellation/framework/**/*.py
+  entry_points:
+  - constellation/framework/__init__.py
+
+ownership:
+  owner: '@ConstellationTeam'
+  lifecycle: evolving
+  last_review: '2025-09-20T13:00:00Z'
+  promotion_rules:
+    requires_t4_validation: true
+    requires_cognitive_alignment: true
+
+contracts:
+  api:
+    surface:
+    - 'python: constellation.framework.ConstellationCore'
+    - 'python: constellation.framework.IdentityComponent'
+    - 'python: constellation.framework.ConsciousnessComponent'
+    - 'python: constellation.framework.GuardianComponent'
+    - 'python: constellation.framework.T4Validator'
+    - 'python: constellation.framework.ConstructorAwareBase'
+    - 'python: constellation.framework.CognitiveAlignmentValidator'
+    - 'python: constellation.framework.EthicalConstraintEngine'
+    version: v2.0.0
+    compatibility:
+      backward: false
+      forward: minor
+    t4_compliance:
+      enabled: true
+      reliability_target: 0.9999
+      validation_level: T4_STANDARD
+  invariants:
+  - framework loads without errors
+  - triumvirate components maintain coherence
+  - T4 validation standards enforced
+  - cognitive alignment maintained above 95%
+  - constructor-aware instantiation verified
+
+dependencies:
+  internal:
+    requires:
+    - matriz.core
+    - candidate.core
+    - candidate.governance
+    provides:
+    - constellation.framework
+  external:
+    libs:
+    - pydantic>=2.0.0
+    - asyncio
+    - typing-extensions
+  coupling_metrics:
+    afferent: 15
+    efferent: 8
+    instability_index: 0.35
+
+runtime:
+  processes:
+    entrypoints:
+    - python -m constellation.framework
+    concurrency_model: async
+  config:
+    files:
+    - config/constellation.yaml
+    - config/t4_validation.yaml
+    env_vars_required:
+    - CONSTELLATION_FRAMEWORK_CONFIG
+    - T4_VALIDATION_ENDPOINT
+    - COGNITIVE_ALIGNMENT_THRESHOLD
+    feature_flags:
+    - ENABLE_T4_VALIDATION
+    - ENABLE_COGNITIVE_ALIGNMENT
+    - ENABLE_CONSTRUCTOR_AWARENESS
+    - ENABLE_ETHICAL_CONSTRAINTS
+  resources:
+    cpu_limit: 2.0 vcpu
+    mem_limit: 2048 MiB
+
+data_and_events:
+  data_classes:
+  - name: ConstellationCore
+    schema_ref: audit/SCHEMAS/constellationcore.json
+    description: Core Constellation Framework orchestrator
+    cognitive_alignment_required: true
+  - name: IdentityComponent
+    schema_ref: audit/SCHEMAS/identitycomponent.json
+    description: Identity management component of triumvirate
+    cognitive_alignment_required: true
+  - name: ConsciousnessComponent
+    schema_ref: audit/SCHEMAS/consciousnesscomponent.json
+    description: Consciousness processing component
+    cognitive_alignment_required: true
+  - name: GuardianComponent
+    schema_ref: audit/SCHEMAS/guardiancomponent.json
+    description: Ethical guardian and compliance component
+    cognitive_alignment_required: true
+  - name: T4Validator
+    schema_ref: audit/SCHEMAS/t4validator.json
+    description: T4/0.01% reliability validation engine
+    cognitive_alignment_required: true
+  - name: ConstructorAwareBase
+    schema_ref: audit/SCHEMAS/constructorawarebase.json
+    description: Base class for constructor-aware instantiation
+    cognitive_alignment_required: true
+  - name: CognitiveAlignmentValidator
+    schema_ref: audit/SCHEMAS/cognitivealignmentvalidator.json
+    description: Cognitive alignment validation system
+    cognitive_alignment_required: true
+  - name: EthicalConstraintEngine
+    schema_ref: audit/SCHEMAS/ethicalconstraintengine.json
+    description: Ethical constraint enforcement engine
+    cognitive_alignment_required: true
+  framework_events:
+  - name: CONSTELLATION_INITIALIZED
+    description: Emitted when Constellation Framework initializes
+    validation_required: true
+  - name: TRIUMVIRATE_COHERENCE_ACHIEVED
+    description: Emitted when all three components achieve coherence
+    validation_required: true
+  - name: T4_VALIDATION_COMPLETED
+    description: Emitted when T4 validation completes
+    validation_required: true
+  - name: COGNITIVE_ALIGNMENT_VERIFIED
+    description: Emitted when cognitive alignment is verified
+    validation_required: true
+  - name: ETHICAL_CONSTRAINT_TRIGGERED
+    description: Emitted when ethical constraints are activated
+    validation_required: true
+  pii:
+    contains: false
+    classification: foundational
+    ethical_review_status: approved
+
+security:
+  secrets:
+    sources:
+    - env
+    - vault
+    files:
+    - config/secrets/constellation.key
+  authz_model: constellation_framework
+  compliance:
+    data_classification: foundational
+    requires_ethical_review: true
+    t4_compliance_verified: true
+
+observability:
+  logs:
+    format: structured_json
+    level: info
+    constellation_framework_tracing: true
+    t4_compliance_logging: true
+  metrics:
+    exporter: prometheus
+    key_metrics:
+    - name: constellation_framework_coherence_score
+      target: '>=0.98'
+      type: gauge
+    - name: constellation_triumvirate_health
+      target: '>=0.99'
+      type: gauge
+    - name: constellation_t4_compliance_rate
+      target: '>=0.9999'
+      type: gauge
+    - name: constellation_cognitive_alignment_score
+      target: '>=0.95'
+      type: gauge
+    - name: constellation_constructor_instantiation_success_rate
+      target: '>=0.999'
+      type: gauge
+    - name: constellation_ethical_constraint_activations
+      target: '<10/hour'
+      type: counter
+  slos:
+    error_rate_pct: 0.01
+    availability_pct: 99.99
+    coherence_threshold: 98.0
+    t4_compliance_rate: 99.99
+    cognitive_alignment_threshold: 95.0
+
+test_posture:
+  coverage:
+    current: 0.95
+    target: 0.98
+  tests:
+    unit: 150
+    integration: 45
+    t4_validation: 25
+    cognitive_alignment: 20
+  test_frameworks:
+  - pytest
+  - pytest-asyncio
+  - hypothesis
+  - constellation-test-framework
+
+risk_and_change:
+  risks:
+  - id: R-CONSTELLATION-COHERENCE
+    title: Triumvirate component coherence dependency
+    likelihood: low
+    impact: high
+    mitigation: Continuous coherence monitoring and automatic recovery
+    status: controlled
+  - id: R-CONSTELLATION-T4-COMPLIANCE
+    title: T4 reliability standards maintenance
+    likelihood: medium
+    impact: critical
+    mitigation: Automated validation with manual oversight
+    status: active
+  - id: R-CONSTELLATION-COGNITIVE-ALIGNMENT
+    title: Cognitive alignment validation dependency
+    likelihood: low
+    impact: medium
+    mitigation: Multiple validation pathways with fallbacks
+    status: controlled
+  triumvirate_governance:
+    identity_oversight: active
+    consciousness_monitoring: continuous
+    guardian_enforcement: enabled
+
+provenance:
+  schema_version: '2.0'
+  last_updated: '2025-09-20T13:00:00Z'
+  source_paths:
+  - constellation/framework
+  generated_by:
+    tool: constellation-framework-generator
+    version: 2.0.0
+    timestamp: '2025-09-20T13:00:00Z'
+  validation:
+    schema_valid: true
+    last_validated: '2025-09-20T13:00:00Z'
+    validator_version: 2.0.0
+    t4_compliance_verified: true
+  constellation_framework_certification:
+    certified: true
+    certification_level: T4
+    reliability_score: 0.9999
+    certification_date: '2025-09-20T13:00:00Z'
+    certifying_authority: 'LUKHAS T4 Validation Authority'

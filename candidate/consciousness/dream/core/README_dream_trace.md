@@ -4,7 +4,7 @@ This document provides a detailed explanation of the recursive dream loops withi
 
 ## The Dream Recursion Loop
 
-The dream recursion loop is a fundamental process for memory consolidation, creative recombination, and self-reflection in the LUKHAS AGI. It involves the following key steps:
+The dream recursion loop is a fundamental process for memory consolidation, creative recombination, and self-reflection in the LUKHAS Cognitive AI. It involves the following key steps:
 
 1.  **Memory Selection:** The `EnhancedDreamEngine` selects a set of memories from the `AGIMemory` store. This selection can be based on various factors, including the memories' importance scores, recency, or emotional content.
 
@@ -16,7 +16,7 @@ The dream recursion loop is a fundamental process for memory consolidation, crea
 
 5.  **Closing the Loop:** This user feedback is then stored back into the `AGIMemory` as a new `MemoryFold`. This new memory, which contains a user's interpretation of a dream, can then become a seed for future dream cycles, creating a recursive loop of reflection and consolidation.
 
-This recursive process allows the AGI to not only learn from its experiences but also to learn from its own interpretations of those experiences, as reflected in its dreams and the feedback it receives on them.
+This recursive process allows the Cognitive AI to not only learn from its experiences but also to learn from its own interpretations of those experiences, as reflected in its dreams and the feedback it receives on them.
 
 ## Symbolic Tags in the Dream Loop
 
@@ -28,4 +28,4 @@ The following symbolic tags are particularly important for understanding the dre
 *   **`#ΛMEMORY_TRACE`**: Traces the lifecycle of a memory as it is transformed into a dream and then potentially back into a new memory based on user feedback.
 *   **`#ΛFEEDBACK_LOOP`**: Marks the process where user feedback on a dream is captured and stored as a new memory.
 
-By following these tags, it is possible to trace the flow of symbolic information through the dream recursion loop and to understand how the AGI's memories and interpretations evolve over time.
+By following these tags, it is possible to trace the flow of symbolic information through the dream recursion loop and to understand how the Cognitive AI's memories and interpretations evolve over time.

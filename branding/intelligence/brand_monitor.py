@@ -1,5 +1,5 @@
 """
-LUKHAS Brand Intelligence Monitor - Trinity Framework (⚛️🧠🛡️)
+LUKHAS Brand Intelligence Monitor - Constellation Framework (⚛️🧠🛡️)
 Real-time brand consistency tracking and intelligence analytics
 """
 
@@ -26,7 +26,7 @@ def create_brand_alert_display(alert_type: str, alert_level: str, data: dict) ->
         "consistency_violation": "📊",
         "trend_alert": "📈",
         "terminology_issue": "📝",
-        "trinity_framework": "⚛️🧠🛡️",
+        "constellation_framework": "⚛️🧠🛡️",
     }
 
     alert_symbol = alert_symbols.get(alert_level, "❓")
@@ -59,14 +59,14 @@ class BrandIntelligenceMonitor:
                 "required_terminology": [
                     "LUKHAS AI",
                     "consciousness",
-                    "Trinity Framework",
+                    "Constellation Framework",
                     "quantum-inspired",
                     "bio-inspired",
                     "Λ",
                 ],
                 "forbidden_terminology": [
                     "LUKHAS PWM",
-                    "LUKHAS AGI",
+                    "LUKHAS Cognitive AI",
                     "PWM",
                     "lambda function",
                     "lambda processing",
@@ -109,9 +109,9 @@ class BrandIntelligenceMonitor:
         """Compile regex patterns for efficient brand element detection"""
         patterns = {}
 
-        # Trinity Framework patterns
+        # Constellation Framework patterns
         patterns["triad_framework"] = re.compile(
-            r"trinity\s+framework|⚛️.*🧠.*🛡️|identity.*consciousness.*guardian", re.IGNORECASE
+            r"constellation\s+framework|⚛️.*🧠.*🛡️|identity.*consciousness.*guardian", re.IGNORECASE
         )
 
         # Consciousness patterns
@@ -124,7 +124,7 @@ class BrandIntelligenceMonitor:
         patterns["lambda_improper"] = re.compile(r"lambda\s+function|lambda\s+processing")
 
         # Deprecated terminology patterns
-        patterns["deprecated_terms"] = re.compile(r"LUKHAS\s+PWM|LUKHAS\s+AGI|\bPWM\b|AI\s+system", re.IGNORECASE)
+        patterns["deprecated_terms"] = re.compile(r"LUKHAS\s+PWM|LUKHAS\s+Cognitive AI|\bPWM\b|AI\s+system", re.IGNORECASE)
 
         # Tone layer indicators
         patterns["poetic_indicators"] = re.compile(
@@ -296,7 +296,7 @@ class BrandIntelligenceMonitor:
         # Terminology compliance analysis
         terminology_analysis = self._analyze_terminology_compliance(content_text)
 
-        # Trinity Framework presence analysis
+        # Constellation Framework presence analysis
         triad_analysis = self._analyze_triad_presence(content_text)
 
         # Tone layer analysis
@@ -357,13 +357,13 @@ class BrandIntelligenceMonitor:
         }
 
     def _analyze_triad_presence(self, content_text: str) -> dict[str, Any]:
-        """Analyze Trinity Framework presence and coherence"""
+        """Analyze Constellation Framework presence and coherence"""
 
-        # Check for Trinity symbols
+        # Check for Constellation symbols
         triad_symbols = self.monitoring_config["brand_identity_elements"]["triad_symbols"]
         symbols_found = sum(1 for symbol in triad_symbols if symbol in content_text)
 
-        # Check for Trinity Framework mention
+        # Check for Constellation Framework mention
         framework_mentioned = bool(self.brand_patterns["triad_framework"].search(content_text))
 
         # Check for individual components (Identity, Consciousness, Guardian)
@@ -375,7 +375,7 @@ class BrandIntelligenceMonitor:
         consciousness_present = any(indicator.lower() in content_text.lower() for indicator in consciousness_indicators)
         guardian_present = any(indicator.lower() in content_text.lower() for indicator in guardian_indicators)
 
-        # Calculate Trinity alignment score
+        # Calculate Constellation alignment score
         alignment_factors = [
             symbols_found / len(triad_symbols),  # Symbol presence
             1.0 if framework_mentioned else 0.0,  # Framework mention
@@ -463,18 +463,18 @@ class BrandIntelligenceMonitor:
     def _calculate_consistency_score(
         self,
         terminology: dict[str, Any],
-        trinity: dict[str, Any],
+        constellation: dict[str, Any],
         tone: dict[str, Any],
         lambda_usage: dict[str, Any],
     ) -> float:
         """Calculate overall brand consistency score"""
 
         # Weighted combination of all factors
-        weights = {"terminology": 0.35, "trinity": 0.25, "tone": 0.25, "lambda": 0.15}
+        weights = {"terminology": 0.35, "constellation": 0.25, "tone": 0.25, "lambda": 0.15}
 
         consistency_score = (
             terminology["compliance_score"] * weights["terminology"]
-            + trinity["triad_score"] * weights["trinity"]
+            + constellation["triad_score"] * weights["constellation"]
             + tone["tone_clarity"] * weights["tone"]
             + lambda_usage["lambda_score"] * weights["lambda"]
         )
@@ -511,7 +511,7 @@ class BrandIntelligenceMonitor:
     def _generate_improvement_suggestions(
         self,
         terminology: dict[str, Any],
-        trinity: dict[str, Any],
+        constellation: dict[str, Any],
         tone: dict[str, Any],
         lambda_usage: dict[str, Any],
     ) -> list[str]:
@@ -526,13 +526,13 @@ class BrandIntelligenceMonitor:
             if terminology["required_terms_found"] < terminology["required_terms_total"] / 2:
                 suggestions.append("Increase usage of approved LUKHAS terminology")
 
-        # Trinity suggestions
-        if trinity["triad_score"] < 0.6:
-            missing_components = [comp for comp, present in trinity["components_present"].items() if not present]
+        # Constellation suggestions
+        if constellation["triad_score"] < 0.6:
+            missing_components = [comp for comp, present in constellation["components_present"].items() if not present]
             if missing_components:
-                suggestions.append(f"Include Trinity Framework components: {', '.join(missing_components)}")
-            if not trinity["framework_mentioned"]:
-                suggestions.append("Reference Trinity Framework explicitly")
+                suggestions.append(f"Include Constellation Framework components: {', '.join(missing_components)}")
+            if not constellation["framework_mentioned"]:
+                suggestions.append("Reference Constellation Framework explicitly")
 
         # Tone suggestions
         if tone["tone_clarity"] < 0.5:
@@ -642,7 +642,7 @@ class BrandIntelligenceMonitor:
             {
                 "category": "brand_strengthening",
                 "priority": "high",
-                "recommendation": "Enhance Trinity Framework integration across all touchpoints",
+                "recommendation": "Enhance Constellation Framework integration across all touchpoints",
                 "expected_impact": "15% improvement in brand coherence",
                 "implementation_timeline": "30_days",
             },
@@ -670,7 +670,7 @@ class BrandIntelligenceMonitor:
             {
                 "id": "rt_001",
                 "type": "user_interaction",
-                "text": "Welcome to LUKHAS AI consciousness platform where the Trinity Framework guides every interaction",
+                "text": "Welcome to LUKHAS AI consciousness platform where the Constellation Framework guides every interaction",
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         ]
@@ -797,7 +797,7 @@ class BrandIntelligenceMonitor:
     ) -> list[str]:
         """Generate actionable brand insights"""
         return [
-            "Trinity Framework integration showing strong consistency across content",
+            "Constellation Framework integration showing strong consistency across content",
             "Terminology compliance remains high with minor improvement opportunities",
             "User-friendly tone dominance supports accessibility goals",
         ]
@@ -809,7 +809,7 @@ class BrandIntelligenceMonitor:
         return [
             {
                 "category": "consistency",
-                "recommendation": "Maintain current Trinity Framework integration approach",
+                "recommendation": "Maintain current Constellation Framework integration approach",
                 "priority": "medium",
             },
             {
@@ -828,7 +828,7 @@ if __name__ == "__main__":
     test_content = {
         "id": "test_001",
         "type": "user_interaction",
-        "text": "Welcome to LUKHAS AI consciousness platform. Our Trinity Framework (⚛️🧠🛡️) ensures authentic, conscious, and protected interactions through quantum-inspired and bio-inspired technologies.",
+        "text": "Welcome to LUKHAS AI consciousness platform. Our Constellation Framework (⚛️🧠🛡️) ensures authentic, conscious, and protected interactions through quantum-inspired and bio-inspired technologies.",
     }
 
     result = monitor.analyze_brand_consistency(test_content)
@@ -837,7 +837,7 @@ if __name__ == "__main__":
     print(f"Consistency Score: {result['consistency_score']}")
     print(f"Alert Level: {result['alert_level']}")
     print(f"Terminology Compliance: {result['terminology_analysis']['compliance_score']:.3f}")
-    print(f"Trinity Score: {result['triad_analysis']['triad_score']:.3f}")
+    print(f"Constellation Score: {result['triad_analysis']['triad_score']:.3f}")
     print(f"Needs Attention: {result['needs_immediate_attention']}")
 
     if result["improvement_suggestions"]:

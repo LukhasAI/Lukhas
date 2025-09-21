@@ -24,14 +24,14 @@ class ConsciousnessBridgeState(Enum):
 
 
 class DreamConsciousnessBridge:
-    """Advanced bridge between dream and consciousness systems with Trinity Framework compliance."""
+    """Advanced bridge between dream and consciousness systems with Constellation Framework compliance."""
 
     def __init__(self):
         self.bridge_state = ConsciousnessBridgeState.DISCONNECTED
         self.active_connections: dict[str, dict] = {}
         self.synchronization_log: list[dict] = []
         self.bridge_counter = 0
-        logger.info("🌉 Dream Consciousness Bridge initialized - Trinity Framework active")
+        logger.info("🌉 Dream Consciousness Bridge initialized - Constellation Framework active")
 
     def establish_bridge(self, dream_id: str, consciousness_context: dict[str, Any]) -> str:
         """⚛️ Establish bridge between dream and consciousness while preserving identity."""
@@ -49,7 +49,7 @@ class DreamConsciousnessBridge:
             "established_at": datetime.now(timezone.utc).isoformat(),
             "last_sync": None,
             "sync_count": 0,
-            "trinity_validated": True
+            "constellation_validated": True
         }
 
         self.active_connections[bridge_id] = connection
@@ -73,7 +73,7 @@ class DreamConsciousnessBridge:
             "dream_state": self._extract_dream_state(connection["dream_id"]),
             "consciousness_state": self._extract_consciousness_state(connection["consciousness_context"]),
             "synchronization_quality": self._calculate_sync_quality(),
-            "trinity_coherence": self._validate_trinity_coherence()
+            "constellation_coherence": self._validate_trinity_coherence()
         }
 
         # Update connection
@@ -102,7 +102,7 @@ class DreamConsciousnessBridge:
         return {
             "awareness_level": "heightened",
             "processing_mode": "symbolic",
-            "trinity_balance": {
+            "constellation_balance": {
                 "identity": 0.85,
                 "consciousness": 0.90,
                 "guardian": 0.88
@@ -115,7 +115,7 @@ class DreamConsciousnessBridge:
         return 0.92  # Simplified quality calculation
 
     def _validate_trinity_coherence(self) -> float:
-        """Validate Trinity Framework coherence across bridge."""
+        """Validate Constellation Framework coherence across bridge."""
         return 0.89  # Simplified coherence validation
 
     def transfer_symbolic_content(self, bridge_id: str, content: list[str]) -> dict[str, Any]:
@@ -157,7 +157,7 @@ class DreamConsciousnessBridge:
             "total_syncs": connection["sync_count"],
             "duration": "calculated",
             "closed_at": datetime.now(timezone.utc).isoformat(),
-            "trinity_validated": True
+            "constellation_validated": True
         }
 
         # Update bridge state if no active connections
@@ -174,7 +174,7 @@ class DreamConsciousnessBridge:
             "active_connections": len(self.active_connections),
             "total_synchronizations": len(self.synchronization_log),
             "system_health": "optimal",
-            "trinity_operational": True
+            "constellation_operational": True
         }
 
 

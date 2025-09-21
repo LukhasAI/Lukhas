@@ -22,7 +22,7 @@ from pathlib import Path
 
 
 class T4OllamaCoreProcessor:
-    def __init__(self, workspace_path="/Users/agi_dev/LOCAL-REPOS/Lukhas", timezone):
+    def __init__(self, workspace_path="/Users/cognitive_dev/LOCAL-REPOS/Lukhas", timezone):
         self.workspace = Path(workspace_path)
         self.core_dirs = ["lukhas", "identity", "api"]
         self.batch_size = 10

@@ -1,0 +1,541 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "lukhas/core",
+    "lane": "development",
+    "purpose": "Directory containing 21 Python files and 8 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "production"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "swarm.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/swarm.json",
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "trace.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "mk_crumb"
+        ]
+      },
+      {
+        "filename": "consciousness_stream.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.clock",
+          "lukhas.core.ring"
+        ],
+        "exports": [
+          "ConsciousnessStream",
+          "_NoopMetric",
+          "create_consciousness_stream",
+          "start",
+          "stop",
+          "get_stream_metrics",
+          "get_recent_events",
+          "replay_events",
+          "labels",
+          "inc",
+          "observe",
+          "set"
+        ]
+      },
+      {
+        "filename": "distributed_tracing.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TraceSpan",
+          "TraceContext",
+          "TraceCollector",
+          "DistributedTracer",
+          "AIAgentTracer",
+          "AgentState",
+          "StateSnapshotter",
+          "EventReplayer",
+          "get_global_collector",
+          "get_global_tracer",
+          "create_ai_tracer",
+          "demo_distributed_tracing",
+          "to_dict",
+          "finish",
+          "add_tag",
+          "add_log",
+          "span_id",
+          "parent_span_id",
+          "with_span",
+          "set_baggage_item",
+          "get_baggage_item",
+          "to_headers",
+          "from_headers",
+          "add_span",
+          "get_trace",
+          "get_traces_by_operation",
+          "get_trace_statistics",
+          "start_trace",
+          "start_span",
+          "finish_span",
+          "add_tag",
+          "add_log",
+          "trace_operation",
+          "get_current_context",
+          "trace_agent_operation",
+          "trace_agent_collaboration",
+          "trace_memory_operation",
+          "take_snapshot",
+          "restore_latest_snapshot",
+          "replay_trace",
+          "replay_agent_state"
+        ]
+      },
+      {
+        "filename": "metrics_exporters.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "start_prometheus_exporter",
+          "init_opentelemetry",
+          "enable_runtime_exporters"
+        ]
+      },
+      {
+        "filename": "lanes.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "lane_guard",
+          "deco",
+          "wrapper"
+        ]
+      },
+      {
+        "filename": "breakthrough.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "_NoopCounter",
+          "_NoopGauge",
+          "BreakthroughDetector",
+          "labels",
+          "inc",
+          "labels",
+          "set",
+          "step",
+          "reset"
+        ]
+      },
+      {
+        "filename": "clock.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Ticker",
+          "create_consciousness_ticker",
+          "example_subscriber",
+          "subscribe",
+          "unsubscribe",
+          "get_metrics",
+          "run",
+          "stop"
+        ]
+      },
+      {
+        "filename": "drift.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DriftConfig",
+          "DriftMonitor",
+          "_Noop",
+          "update",
+          "labels",
+          "set"
+        ]
+      },
+      {
+        "filename": "core_wrapper.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "CoreStatus",
+          "GlyphResult",
+          "SymbolicResult",
+          "GlyphEngine",
+          "ActorSystem",
+          "SymbolicWorld",
+          "SymbolicReasoner",
+          "CoreWrapper",
+          "DecisionEngine",
+          "register_glyph_engine",
+          "register_actor_system",
+          "register_symbolic_world",
+          "register_symbolic_reasoner",
+          "get_core",
+          "encode_concept",
+          "create_triad_glyph",
+          "get_core_status",
+          "register_decision_engine",
+          "decide",
+          "encode_concept",
+          "decode_glyph",
+          "create_triad_glyph",
+          "send",
+          "register",
+          "create_symbol",
+          "link_symbols",
+          "get_related_symbols",
+          "reason",
+          "find_patterns",
+          "encode_concept",
+          "create_triad_glyph",
+          "create_symbol",
+          "link_symbols",
+          "perform_symbolic_reasoning",
+          "send_actor_message",
+          "register_actor",
+          "get_status",
+          "restart_core",
+          "decide"
+        ]
+      },
+      {
+        "filename": "event_sourcing.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Event",
+          "EventStore",
+          "EventSourcedAggregate",
+          "AIAgentAggregate",
+          "EventReplayService",
+          "get_global_event_store",
+          "to_dict",
+          "from_dict",
+          "append_event",
+          "get_events_for_aggregate",
+          "get_events_by_correlation_id",
+          "get_events_in_time_range",
+          "replay_events",
+          "apply_event",
+          "raise_event",
+          "commit_events",
+          "apply_event",
+          "create_agent",
+          "assign_task",
+          "complete_task",
+          "update_memory",
+          "add_capability",
+          "replay_aggregate_to_point_in_time",
+          "get_causal_chain",
+          "analyze_agent_behavior"
+        ]
+      },
+      {
+        "filename": "guardian_sentinel.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "consciousness_ticker.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.clock",
+          "lukhas.core.ring"
+        ],
+        "exports": [
+          "ConsciousnessTicker",
+          "_N",
+          "start",
+          "stop",
+          "labels",
+          "observe",
+          "inc"
+        ]
+      },
+      {
+        "filename": "efficient_communication.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MessagePriority",
+          "CommunicationMode",
+          "Message",
+          "MessageRouter",
+          "EventBus",
+          "P2PChannel",
+          "EfficientCommunicationFabric",
+          "EnergyMonitor",
+          "get_global_communication_fabric",
+          "is_expired",
+          "to_dict",
+          "register_node",
+          "select_communication_mode",
+          "find_optimal_path",
+          "can_afford_message",
+          "record_message_sent",
+          "subscribe",
+          "unsubscribe",
+          "get_connection_stats",
+          "subscribe_to_events",
+          "get_communication_stats",
+          "record_energy_usage",
+          "get_stats"
+        ]
+      },
+      {
+        "filename": "contracts.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "supervisor_agent.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SupervisorAgent",
+          "get_supervisor_agent",
+          "get_escalation_stats",
+          "get_active_escalations",
+          "get_escalation_history"
+        ]
+      },
+      {
+        "filename": "policy_guard.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "PolicyResult",
+          "ReplayDecision",
+          "LanePolicyConfig",
+          "PolicyGuard",
+          "_NoopMetric",
+          "create_policy_guard",
+          "to_log_entry",
+          "check_replay",
+          "get_decision_log",
+          "get_policy_stats",
+          "get_promotion_stats",
+          "reset_stats",
+          "labels",
+          "inc",
+          "observe",
+          "set"
+        ]
+      },
+      {
+        "filename": "import_router.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ModuleRouter",
+          "import_with_fallback",
+          "import_class",
+          "resolve_import",
+          "add_module_mapping",
+          "add_class_alias",
+          "resolve_module_path",
+          "import_module",
+          "import_class",
+          "add_module_mapping",
+          "add_class_alias"
+        ]
+      },
+      {
+        "filename": "ring.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Ring",
+          "DecimatingRing",
+          "push",
+          "pop_all",
+          "capacity",
+          "utilization",
+          "push",
+          "get_backpressure_stats",
+          "reset_stats"
+        ]
+      },
+      {
+        "filename": "actor_system.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/actor_system.json",
+        "dependencies": [],
+        "exports": [
+          "ActorRef",
+          "ActorSystem",
+          "Actor",
+          "AIAgentActor",
+          "get_global_actor_system",
+          "send",
+          "send",
+          "register",
+          "unregister",
+          "register_handler",
+          "receive",
+          "handle_unknown_message",
+          "add_capability",
+          "assign_task",
+          "complete_task",
+          "receive"
+        ]
+      },
+      {
+        "filename": "decorators.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "colonies",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "bridge",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "filesystem",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "common",
+        "has_index": false,
+        "purpose": "Subdirectory with 6 Python files",
+        "component_count": 6
+      },
+      {
+        "name": "logs",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "symbolism",
+        "has_index": false,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "orchestration",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "policy",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "README.md"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 21,
+    "estimated_complexity": "high",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.95,
+    "matriz_compatibility": "standard",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "lukhas",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

@@ -30,7 +30,7 @@ Phase FORTIFY implements deterministic selection algorithms with priority-based 
 - Emotional memory normalization
 - Opt-in staleness filtering
 - Privacy-aware telemetry
-- Trinity Framework compliance validation
+- Constellation Framework compliance validation
 
 **Docs:** [`ARCHITECTURE_DREAM.md`](../ARCHITECTURE_DREAM.md) | **PR:** [`.github/PR_DESCRIPTION_FORTIFY.md`](../.github/PR_DESCRIPTION_FORTIFY.md)
 

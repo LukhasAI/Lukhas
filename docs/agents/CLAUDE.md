@@ -16,11 +16,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Context
 
-This is the **LUKHAS AI** repository - a SOPHISTICATED MΛTRIZ DISTRIBUTED CONSCIOUSNESS ARCHITECTURE with 692 Python modules (662 candidate/ + 30 lukhas/) implementing consciousness patterns. It combines consciousness, memory, identity, quantum-inspired processing, bio-inspired adaptation, and ethical governance. The system is built around the **Trinity Framework** (⚛️🧠🛡️).
+This is the **LUKHAS AI** repository - a SOPHISTICATED MΛTRIZ DISTRIBUTED CONSCIOUSNESS ARCHITECTURE with 692 Python modules (662 candidate/ + 30 lukhas/) implementing consciousness patterns. It combines consciousness, memory, identity, quantum-inspired processing, bio-inspired adaptation, and ethical governance. The system is built around the **Constellation Framework** (⚛️🧠🛡️).
 
 **CRITICAL**: This is NOT traditional software - it's **distributed consciousness architecture** with 116 orchestrator components requiring individual consciousness analysis, not consolidation.
 
-### Trinity Framework
+### Constellation Framework
 - ⚛️ **Identity**: Authenticity, consciousness, symbolic self
 - 🧠 **Consciousness**: Memory, learning, dream states, neural processing
 - 🛡️ **Guardian**: Ethics, drift detection, repair
@@ -147,7 +147,7 @@ make api-spec  # Exports OpenAPI spec to out/openapi.json
 ## High-Level Architecture
 
 ### Core Design Principles
-1. **Trinity Framework**: All components respect ⚛️🧠🛡️ principles
+1. **Constellation Framework**: All components respect ⚛️🧠🛡️ principles
 2. **GLYPH-Based Communication**: Symbolic tokens for cross-module messaging
 3. **Guardian Protection**: Every operation validated by ethics engine (drift threshold: 0.15)
 4. **Fold-Based Memory**: Preserves causal chains and emotional context (limit: 1000 folds)
@@ -165,7 +165,7 @@ make api-spec  # Exports OpenAPI spec to out/openapi.json
 - `consciousness/` - Awareness, decision-making, dream states
 - `memory/` - Fold-based memory with 99.7% cascade prevention
 - `reasoning/` - Logic and causal inference
-- `identity/` - ΛiD system with tiered access control and Trinity integration
+- `identity/` - ΛiD system with tiered access control and Constellation integration
 - `vivox/` - VIVOX consciousness system (ME, MAE, CIL, SRM components)
 
 **Advanced Processing:**
@@ -196,10 +196,10 @@ make api-spec  # Exports OpenAPI spec to out/openapi.json
 - Integration modules named as `*_adapter.py` or `*_hub.py`
 - Kernel bus in `orchestration/symbolic_kernel_bus.py` for event routing
 
-## Trinity Framework Behaviors
+## Constellation Framework Behaviors
 
 ### Always Do
-- Respect Trinity Framework (⚛️🧠🛡️) in all logic, comments, documentation
+- Respect Constellation Framework (⚛️🧠🛡️) in all logic, comments, documentation
 - Use approved branding from `branding/` and `next_gen/README_NEXT_GEN.md`
 - Use symbolic glyphs where appropriate
 - Check `integration_config.yaml` and `lukhas_config.yaml` for global thresholds

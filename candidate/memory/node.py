@@ -18,8 +18,8 @@ class MemoryNode:
     Supports encrypted, traceable, and evolving memory logs.
     """
 
-    def __init__(self, agi_system):
-        self.agi = agi_system
+    def __init__(self, cognitive_system):
+        self.agi = cognitive_system
         self.logger = logging.getLogger("MemoryNode")
         self.short_term_memory = deque(maxlen=100)  # Recent memories
         self.long_term_memory = []  # Important memories

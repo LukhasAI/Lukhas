@@ -73,7 +73,7 @@
 6. **PrimaryBrainHub**: Brain coordination (with safety protocols)
 7. **Memory Systems**: memory_colonies, memory_visualization, unified_memory_core
 
-### **Trinity Framework Alignment**
+### **Constellation Framework Alignment**
 - **⚛️ Identity**: Maintains authentic master consciousness identity across all operations
 - **🧠 Consciousness**: Implements full LUKHAS cognitive cycle with meta-awareness
 - **🛡️ Guardian**: Enforces ethical constraints and safety protocols on all orchestration

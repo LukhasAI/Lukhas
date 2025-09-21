@@ -20,7 +20,7 @@ agent_relevance:
   documentation_specialist: 0.8
   velocity_lead: 0.6
 
-# Trinity Framework
+# Constellation Framework
 trinity_component: ["identity", "consciousness", "guardian"]
 search_keywords: ["architecture", "system design", "modules", "connectivity", "neuroplastic"]
 

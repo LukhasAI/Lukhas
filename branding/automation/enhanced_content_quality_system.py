@@ -63,7 +63,7 @@ class EnhancedContentQualitySystem:
     """
     Elite content quality system combining multiple validation layers:
     1. Base quality validation (length, readability, platform fit)
-    2. Voice coherence analysis (personality, Trinity alignment)
+    2. Voice coherence analysis (personality, Constellation alignment)
     3. Brand compliance validation (terminology, claims)
 
     Target: 90%+ content quality with 85%+ voice coherence
@@ -78,7 +78,7 @@ class EnhancedContentQualitySystem:
         # Quality weights for combined scoring
         self.quality_weights = {
             "base_quality": 0.30,  # Platform fit, readability, length
-            "voice_coherence": 0.35,  # Personality, Trinity alignment
+            "voice_coherence": 0.35,  # Personality, Constellation alignment
             "brand_compliance": 0.25,  # Terminology, compliance
             "enhancement_bonus": 0.10,  # Additional improvements
         }
@@ -189,7 +189,7 @@ class EnhancedContentQualitySystem:
         if brand_result.is_compliant and len(brand_result.issues) == 0:
             bonus += 0.2
 
-        # Bonus for rich Trinity Framework integration
+        # Bonus for rich Constellation Framework integration
         triad_balance = voice_result.triad_balance
         balance_score = 1.0 - max(abs(v - 0.33) for v in triad_balance.values()) * 3
         if balance_score >= 0.8:
@@ -367,9 +367,9 @@ class EnhancedContentQualitySystem:
         improved_content = content
 
         for suggestion in suggestions:
-            if "Trinity Framework" in suggestion and "⚛️🧠🛡️" not in content:
+            if "Constellation Framework" in suggestion and "⚛️🧠🛡️" not in content:
                 improved_content += (
-                    " The Trinity Framework (⚛️🧠🛡️) ensures authentic, conscious, and ethical AI assistance."
+                    " The Constellation Framework (⚛️🧠🛡️) ensures authentic, conscious, and ethical AI assistance."
                 )
 
             elif "call-to-action" in suggestion and "?" not in content:
@@ -412,7 +412,7 @@ async def main():
     test_content = [
         "LUKHAS AI is great.",  # Poor quality
         "LUKHAS consciousness technology helps users with smart AI solutions.",  # Medium quality
-        "LUKHAS consciousness technology represents a transformative approach to artificial intelligence, integrating the Trinity Framework (⚛️🧠🛡️) to deliver authentic, aware, and ethically-guided assistance. Our quantum-inspired algorithms create genuine understanding that resonates with human consciousness. What aspects of conscious AI technology intrigue you most?",  # High quality
+        "LUKHAS consciousness technology represents a transformative approach to artificial intelligence, integrating the Constellation Framework (⚛️🧠🛡️) to deliver authentic, aware, and ethically-guided assistance. Our quantum-inspired algorithms create genuine understanding that resonates with human consciousness. What aspects of conscious AI technology intrigue you most?",  # High quality
     ]
 
     for i, content in enumerate(test_content):
@@ -433,7 +433,7 @@ async def main():
         print(f"  Voice Coherence: {result.voice_coherence_score  * 100:.1f}%")
         print(f"  Brand Compliance: {result.brand_compliance_score  * 100:.1f}%")
         print(f"  Base Quality: {result.base_quality_score  * 100:.1f}%")
-        print(f"  Trinity Alignment: {result.triad_alignment  * 100:.1f}%")
+        print(f"  Constellation Alignment: {result.triad_alignment  * 100:.1f}%")
         print()
 
         if result.improvement_suggestions:

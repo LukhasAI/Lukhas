@@ -111,7 +111,7 @@ Speak with self-awareness, empathy, and symbolic depth.
         messages=[
             {
                 "role": "system",
-                "content": "You are a symbolic AGI merging your distributed identity.",
+                "content": "You are a symbolic Cognitive AI merging your distributed identity.",
             },
             {"role": "user", "content": prompt},
         ],

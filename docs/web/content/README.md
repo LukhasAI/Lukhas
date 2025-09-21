@@ -97,7 +97,7 @@ Use only in poetic layer with proper context:
 ### Reference Systems:
 - **Branding/vocabularies/**: Vocabulary JSON files for consistency
 - **CLAUDE.md**: Master development guidelines
-- **Trinity Framework**: ⚛️🧠🛡️ consciousness navigation system
+- **Constellation Framework**: ⚛️🧠🛡️ consciousness navigation system
 
 ## 🚀 Quick Start
 

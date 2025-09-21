@@ -8,7 +8,7 @@
 
 ╔═══════════════════════════════════════════════════════════════════════════╗
 ║ MODULE        : brain_integration.py                                      ║
-║ DESCRIPTION   : Core Brain Integration Module for LUCAS AGI               ║
+║ DESCRIPTION   : Core Brain Integration Module for LUCAS Cognitive AI               ║
 ║                 Connects memory, emotion, voice, LUCAS_ID and dreams      ║
 ║                 into a unified cognitive architecture                     ║
 ║ TYPE          : Core Neural Architecture         VERSION: v1.0.0          ║
@@ -852,7 +852,7 @@ class MemoryVoiceIntegrator:
 
 class LucasBrainIntegration:
     """
-    Central brain integration class that connects all LUCAS AGI components:
+    Central brain integration class that connects all LUCAS Cognitive AI components:
     - Memory systems with emotional context
     - Voice modulation
     - Dream engine for memory consolidation

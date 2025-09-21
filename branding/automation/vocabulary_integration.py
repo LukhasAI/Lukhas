@@ -33,7 +33,7 @@ class VocabularyIntegration:
         self.vocab_path = self.base_path / "vocabularies"
         self.logs_path = self.base_path / "logs"
 
-        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
         self.master_vocabulary = {}
         self.transformation_rules = {}
 
@@ -209,7 +209,7 @@ class VocabularyIntegration:
         integration_terms = [
             "consciousness",
             "quantum",
-            "trinity",
+            "constellation",
             "harmony",
             "synthesis",
             "sacred",
@@ -294,11 +294,11 @@ class VocabularyIntegration:
 
         content_length = len(content.split())
 
-        # Check for Trinity Framework usage (highest weight)
+        # Check for Constellation Framework usage (highest weight)
         triad_score = 0
         if "⚛️🧠🛡️" in content:
             triad_score += 25
-        if "Trinity Framework" in content:
+        if "Constellation Framework" in content:
             triad_score += 20
         if any(term in content.lower() for term in ["identity", "consciousness", "guardian"]):
             triad_score += 10

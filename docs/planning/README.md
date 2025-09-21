@@ -41,8 +41,8 @@ This directory contains strategic planning documents, roadmaps, and project plan
 
 ## 🎯 **Planning Framework**
 
-### **Trinity Framework Integration**
-All planning documents align with the Trinity Framework (⚛️🧠🛡️):
+### **Constellation Framework Integration**
+All planning documents align with the Constellation Framework (⚛️🧠🛡️):
 - **⚛️ Identity**: Authentic development pathway planning
 - **🧠 Consciousness**: Cognitive development roadmaps
 - **🛡️ Guardian**: Ethical development and safety planning

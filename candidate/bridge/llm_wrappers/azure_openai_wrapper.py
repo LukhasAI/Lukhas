@@ -12,7 +12,7 @@
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ The Azure OpenAI Wrapper provides enterprise-grade integration with OpenAI
-║ models deployed on Azure infrastructure. This wrapper enables LUKHAS AGI
+║ models deployed on Azure infrastructure. This wrapper enables LUKHAS Cognitive AI
 ║ to leverage Azure's security, compliance, and regional deployment benefits
 ║ while accessing GPT-4 and other OpenAI models.
 ║
@@ -147,7 +147,7 @@ class AzureOpenaiWrapper:
 ║
 ║ REFERENCES:
 ║   - Docs: docs/bridge/llm-wrappers/azure-openai.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=azure-wrapper
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=azure-wrapper
 ║   - Wiki: wiki.lukhas.ai/azure-openai-integration
 ║
 ║ COPYRIGHT & LICENSE:
@@ -156,7 +156,7 @@ class AzureOpenaiWrapper:
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

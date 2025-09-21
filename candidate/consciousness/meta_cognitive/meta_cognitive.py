@@ -348,7 +348,7 @@ class EnhancedMetaCognitiveOrchestrator:
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: meta_cognitive.py
 # VERSION: 1.0.0
-# TIER SYSTEM: Tier 4-5 (Advanced AGI meta-cognition and orchestration)
+# TIER SYSTEM: Tier 4-5 (Advanced Cognitive AI meta-cognition and orchestration)
 # ΛTRACE INTEGRATION: ENABLED
 # CAPABILITIES: Orchestrates cognitive tasks by integrating system awareness,
 #               DAST (conceptual), and quantum-inspired processing (conceptual) with a

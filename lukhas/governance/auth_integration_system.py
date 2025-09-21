@@ -7,20 +7,20 @@
 Complete Phase 7 integration system that brings together all ΛiD authentication
 governance components with the LUKHAS AI ecosystem. This is the master integration
 module that orchestrates Guardian System monitoring, GLYPH communication,
-constitutional AI compliance, and Trinity Framework alignment.
+constitutional AI compliance, and Constellation Framework alignment.
 
 This module provides:
 - Complete ΛiD-LUKHAS integration orchestration
 - Real-time ethical oversight and bias detection
 - Constitutional AI compliance validation
 - GLYPH-based symbolic communication
-- Trinity Framework alignment
+- Constellation Framework alignment
 - Comprehensive audit trail integration
 - Cross-module authentication context sharing
 
 Author: LUKHAS AI System
 Version: 1.0.0
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 Phase: Phase 7 - Registry Updates and Policy Integration
 """
 
@@ -187,7 +187,7 @@ class LUKHASAuthIntegrationSystem:
             },
             "cross_module": {
                 "propagate_context": True,
-                "triad_integration": True,
+                "constellation_integration": True,
                 "real_time_sync": True,
             },
             "monitoring": {
@@ -525,7 +525,7 @@ class LUKHASAuthIntegrationSystem:
             "configuration": self.config,
             "version": "1.0.0",
             "phase": "Phase 7 - Registry Updates and Policy Integration",
-            "triad_framework": "⚛️🧠🛡️",
+            "constellation_framework": "⚛️🧠🛡️",
             "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 

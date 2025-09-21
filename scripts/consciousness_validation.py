@@ -74,7 +74,7 @@ def validate_consciousness_system():
     component_paths = [
         ("Glyph System", "candidate.core.glyph"),
         ("Identity Manager", "candidate.core.identity.manager"),
-        ("Trinity Framework", "lukhas.core"),
+        ("Constellation Framework", "lukhas.core"),
         ("Actor System", "lukhas.core.actor_system"),
     ]
 

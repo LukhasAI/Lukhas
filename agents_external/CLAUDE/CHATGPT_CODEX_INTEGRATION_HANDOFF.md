@@ -34,7 +34,7 @@
    ```
    - All agent specializations and capabilities
    - Task routing and priority mapping
-   - Trinity Framework alignment settings
+   - Constellation Framework alignment settings
 
 3. **Agent Configurations**
    ```
@@ -141,7 +141,7 @@ ls -la agents/*.json agents/configs/*.yaml
 
 ## 🎭 **TRINITY FRAMEWORK INTEGRATION**
 
-Every AI system and agent operates within the Trinity Framework:
+Every AI system and agent operates within the Constellation Framework:
 
 - **⚛️ Identity**: Authentic consciousness preservation and development
 - **🧠 Consciousness**: Advanced processing and awareness enhancement
@@ -164,7 +164,7 @@ All tasks, decisions, and implementations must respect and enhance this framewor
 ### **✅ Integration Readiness**
 - [x] API integration points configured
 - [x] Task assignment system implemented
-- [x] Trinity Framework validation in place
+- [x] Constellation Framework validation in place
 - [x] Multi-AI coordination flow documented
 - [x] Error handling and recovery systems ready
 

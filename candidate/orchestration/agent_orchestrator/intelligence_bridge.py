@@ -5,7 +5,7 @@ Communication layer between LUKHAS AI agents and intelligence engines.
 Provides standardized API for agent-driven intelligence operations.
 
 This bridge enables the 6 specialized Claude Code agents to coordinate
-intelligence engine operations while maintaining Trinity Framework compliance.
+intelligence engine operations while maintaining Constellation Framework compliance.
 """
 
 import asyncio

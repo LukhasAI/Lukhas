@@ -19,13 +19,13 @@
 
 **Usage:**
 1. Open Claude Desktop app
-2. Ask: *"Generate Trinity Framework documentation for a function called `memory_fold_activation`"*
+2. Ask: *"Generate Constellation Framework documentation for a function called `memory_fold_activation`"*
 3. Claude will automatically use 🎭🌈🎓 format with LUKHAS concepts
 
 **Example Prompts:**
 ```
 🎭 Create a consciousness-aware class for processing neural data
-🌈 Explain the Trinity Framework in simple terms
+🌈 Explain the Constellation Framework in simple terms
 🎓 Review this code for LUKHAS compliance: [paste code]
 ```
 
@@ -39,7 +39,7 @@
 
 **Example Prompts:**
 ```
-Generate a Trinity Framework class for neural processing
+Generate a Constellation Framework class for neural processing
 Refactor this function using LUKHAS naming patterns
 Add consciousness tracking to this code block
 ```
@@ -67,7 +67,7 @@ ollama run llama3.2:1b "Write a Python function with consciousness tracking"
 
 **Setup:** Add this as custom instruction:
 ```
-I work on LUKHAS AGI project. Use Trinity Framework (🎭🌈🎓), preserve concepts like memory_fold and dream_resonance, add symbolic markers (⚛️🧠🛡️) in code.
+I work on LUKHAS AGI project. Use Constellation Framework (🎭🌈🎓), preserve concepts like memory_fold and dream_resonance, add symbolic markers (⚛️🧠🛡️) in code.
 ```
 
 ### 5. **Perplexity (Research)**
@@ -77,7 +77,7 @@ I work on LUKHAS AGI project. Use Trinity Framework (🎭🌈🎓), preserve con
 
 ---
 
-## 🎭 **Trinity Framework Examples**
+## 🎭 **Constellation Framework Examples**
 
 ### **For Claude Desktop:**
 ```
@@ -188,6 +188,6 @@ Your LUKHAS AI setup is excellent! You have:
 - ✅ Local privacy-focused AI (Ollama)
 - ✅ VS Code integrated AI assistance
 - ✅ Research capabilities (Perplexity)
-- ✅ Trinity Framework ready
+- ✅ Constellation Framework ready
 
 **Start with:** Open Claude Desktop and ask it to generate Trinity documentation for one of your existing LUKHAS functions. You'll see the magic of LUKHAS-aware AI! 🎭⚛️🧠🛡️

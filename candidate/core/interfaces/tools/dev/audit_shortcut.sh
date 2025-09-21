@@ -2,7 +2,7 @@
 
 #!/bin/bash
 
-echo "🔧 LUKHAS AGI: Audit + News Shortcut Menu"
+echo "🔧 LUKHAS Cognitive AI: Audit + News Shortcut Menu"
 echo "----------------------------------------"
 echo "1. 🧠 Trigger Audit Logger"
 echo "2. 🌐 Publish Lukhas News Opinion"

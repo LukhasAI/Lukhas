@@ -157,7 +157,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
             margin-bottom: 10px;
         }
 
-        .trinity-badges {
+        .constellation-badges {
             display: flex;
             justify-content: center;
             gap: 15px;
@@ -285,7 +285,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
     <div class="header">
         <h1>⚛️ Wave C Aka Qualia Dashboard</h1>
         <div class="subtitle">Phenomenological Processing Pipeline Monitoring</div>
-        <div class="trinity-badges">
+        <div class="constellation-badges">
             <div class="badge badge-identity">⚛️ Identity</div>
             <div class="badge badge-consciousness">🧠 Consciousness</div>
             <div class="badge badge-guardian">🛡️ Guardian</div>

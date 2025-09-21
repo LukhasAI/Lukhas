@@ -9,8 +9,8 @@
 # - Performance: 92% ethical drift prevention, 99.3% decision reproducibility
 # ═══════════════════════════════════════════════════════════════════════════
 # Original file header comment:
-# LUKHAS Consciousness-Aware AGI Authentication Engine
-# File: /lukhas_wallet/agi_consciousness_engine.py (Original path comment)
+# LUKHAS Consciousness-Aware Cognitive AI Authentication Engine
+# File: /lukhas_wallet/cognitive_consciousness_engine.py (Original path comment)
 import asyncio
 import hashlib
 import json
@@ -28,7 +28,7 @@ try:
     from lukhas.branding_bridge import (
         BrandContext,
         get_brand_voice,
-        get_trinity_context,
+        get_constellation_context,
         normalize_output_text,
         validate_output,
     )
@@ -38,8 +38,8 @@ except ImportError:
     BRANDING_AVAILABLE = False
 
 # Initialize logger for ΛTRACE
-logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.agi_consciousness_engine")
-logger.info("ΛTRACE: Initializing agi_consciousness_engine module (Chunk 1).")
+logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.cognitive_consciousness_engine")
+logger.info("ΛTRACE: Initializing cognitive_consciousness_engine module (Chunk 1).")
 
 
 # Placeholder for the tier decorator
@@ -789,7 +789,7 @@ class SelfAwareAdaptationModule:
 
 class LUKHASConsciousnessEngine:
     """
-    Main LUKHAS AGI consciousness engine. This class integrates various
+    Main LUKHAS Cognitive AI consciousness engine. This class integrates various
     sub-modules like ConsciousnessPattern detection, AnthropicEthicsEngine,
     and SelfAwareAdaptationModule to process requests with consciousness awareness,
     evolve its state based on feedback, and provide status information.
@@ -1109,11 +1109,11 @@ async def main_example():  # Renamed from main
 
 # Human-readable comment: Main execution block.
 if __name__ == "__main__":
-    logger.info("ΛTRACE: agi_consciousness_engine.py executed as __main__.")
+    logger.info("ΛTRACE: cognitive_consciousness_engine.py executed as __main__.")
     asyncio.run(main_example())
 
 # ═══════════════════════════════════════════════════════════════════════════
-# FILENAME: agi_consciousness_engine.py (Assembled from chunks)
+# FILENAME: cognitive_consciousness_engine.py (Assembled from chunks)
 # VERSION: 1.1.0 # Incremented version
 # TIER SYSTEM: Tier 4-5 (Advanced consciousness engine functions)
 # ΛTRACE INTEGRATION: ENABLED

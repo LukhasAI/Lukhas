@@ -1,0 +1,16 @@
+{
+  "meta": {
+    "run_id": "20250921-052448_868bc5ed",
+    "model": "llama-3.1-sonar-large-128k-online",
+    "premise": "Replace celestial metaphors with 8 diverse families: Neural Gardens (organic), Architectural Bridges (structural), Harmonic Resonance (musical), Woven Patterns (textile), Geological Strata (earth), Fluid Dynamics (liquid), Prismatic Light (optical), Circuit Patterns (electronic). Enforce novelty ≥0.8, clarity ≥0.95, zero repetition. Target: consciousness technology with 3-layer flow (Poetic → Academic → User-Friendly) and MATRIZ integration.",
+    "pipeline_version": "1.0.0",
+    "lukhas_version": "Constellation Framework",
+    "timestamp": 1758428688.335212
+  },
+  "error": {
+    "run_id": "20250921-052448_868bc5ed",
+    "success": false,
+    "error": "401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions",
+    "output_dir": "/Users/agi_dev/LOCAL-REPOS/Lukhas/perp_runs"
+  }
+}

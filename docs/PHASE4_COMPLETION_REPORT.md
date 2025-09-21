@@ -34,7 +34,7 @@ Phase 4 focused on building advanced automation systems with ML-based error pred
 ### 4. Self-Healing Automation Dashboard
 **File**: `tools/dashboard/self_healing_dashboard.py`
 - ✅ Unified monitoring interface
-- ✅ Trinity Framework integration (⚛️🧠🛡️)
+- ✅ Constellation Framework integration (⚛️🧠🛡️)
 - ✅ Real-time health metrics
 - ✅ Automated fix orchestration
 - ✅ Lane compliance tracking
@@ -66,7 +66,7 @@ Phase 4 focused on building advanced automation systems with ML-based error pred
 - **Health Score**: 96.2% overall system health
 - **Lane Compliance**: Multi-lane policy enforcement
 
-### Trinity Framework Integration
+### Constellation Framework Integration
 - **⚛️ Quantum**: Error pattern quantum-inspired algorithms
 - **🧠 Consciousness**: Predictive awareness systems
 - **🛡️ Guardian**: Protection and compliance enforcement
@@ -82,7 +82,7 @@ Phase 4 focused on building advanced automation systems with ML-based error pred
 ```
 🤖 LUKHAS SELF-HEALING AUTOMATION DASHBOARD
 ================================================================================
-⚛️🧠🛡️ Trinity Framework Status: 🟢 🟢 🟢
+⚛️🧠🛡️ Constellation Framework Status: 🟢 🟢 🟢
 🟢 SYSTEM HEALTH: 98.0% (EXCELLENT)
 📊 Error Rate: 0.0%
 🛡️ Prevention Rate: 100.0%
@@ -115,7 +115,7 @@ Tests: 25/26 passed
 | Lane-Aware Policies | ✅ Complete | Risk-based fixing strategies |
 | Predictive Prevention | ✅ Complete | Real-time monitoring with ML |
 | Self-Healing Dashboard | ✅ Complete | Unified automation interface |
-| Trinity Integration | ✅ Complete | ⚛️🧠🛡️ framework alignment |
+| Constellation Integration | ✅ Complete | ⚛️🧠🛡️ framework alignment |
 | Pipeline Integration | ✅ Complete | Nightly autofix enhanced |
 | Health Monitoring | ✅ Complete | 96.2% validation score |
 
@@ -162,6 +162,6 @@ All objectives have been successfully achieved:
 - ✅ Predictive error prevention engine operational
 - ✅ Self-healing automation dashboard fully functional
 
-The LUKHAS automated fix pipeline now includes advanced ML predictions, intelligent prevention systems, and comprehensive self-healing capabilities with Trinity Framework integration (⚛️🧠🛡️).
+The LUKHAS automated fix pipeline now includes advanced ML predictions, intelligent prevention systems, and comprehensive self-healing capabilities with Constellation Framework integration (⚛️🧠🛡️).
 
 **System Status**: Operational and Future-Proof 🚀

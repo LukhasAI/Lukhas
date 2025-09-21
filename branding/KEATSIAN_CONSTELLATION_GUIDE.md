@@ -95,7 +95,7 @@ The poetic opening creates wonder and context in just eight words. The accessibl
 - [ ] Hides structural elements from readers
 
 ### ✅ **Brand Consistency**
-- [ ] Uses "LUKHAS AI" (never "LUKHAS AGI")
+- [ ] Uses "LUKHAS AI" (never "LUKHAS Cognitive AI")
 - [ ] "Quantum-inspired" not "quantum processing"
 - [ ] "Bio-inspired" not "biological processing"
 - [ ] No production-ready claims without approval

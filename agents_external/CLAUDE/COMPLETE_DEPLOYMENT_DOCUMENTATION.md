@@ -23,7 +23,7 @@ The LUKHAS CLAUDE_ARMY has been successfully deployed with **25 specialized agen
 ### **🎖️ SUPREME ARMY CONFIGURATIONS (agents/)**
 **Location:** `/agents/*.json` (18 files)
 
-#### **Tier 1: Trinity Framework Generals (3)**
+#### **Tier 1: Constellation Framework Generals (3)**
 ```
 agents/supreme_consciousness_architect_config.json     # 👑 Supreme Commander
 agents/guardian_system_commander_config.json          # 🛡️ Guardian Authority
@@ -222,9 +222,9 @@ def assign_agent(task_content):
     # ... full mapping in inter_agent_automation.py
 ```
 
-### **4. Trinity Framework Integration**
+### **4. Constellation Framework Integration**
 ```python
-# Every task must respect Trinity Framework
+# Every task must respect Constellation Framework
 trinity_alignment = {
     "identity": 0.7,      # ⚛️ Identity preservation
     "consciousness": 1.0,  # 🧠 Consciousness enhancement
@@ -247,7 +247,7 @@ trinity_alignment = {
 - [x] Supreme Army military hierarchy (Generals→Colonels→Majors→Lieutenants)
 - [x] Claude Desktop daily development agents
 - [x] Inter-agent automation pipeline
-- [x] Trinity Framework integration (⚛️🧠🛡️)
+- [x] Constellation Framework integration (⚛️🧠🛡️)
 - [x] Task assignment and coordination system
 
 ### **🔧 Automation Systems ✅ DEPLOYED**
@@ -312,7 +312,7 @@ python3 CLAUDE_ARMY/inter_agent_automation.py
 - ✅ **Full Inter-Agent Automation Pipeline** implemented and tested
 - ✅ **Complete File Organization** according to CLAUDE_ARMY specifications
 - ✅ **Zero Duplicate Files** - 95%+ cleanup achieved
-- ✅ **Trinity Framework Integration** (⚛️🧠🛡️) across all systems
+- ✅ **Constellation Framework Integration** (⚛️🧠🛡️) across all systems
 - ✅ **Ready for Multi-AI Coordination** with ChatGPT-5 and Codex
 
 ### **🚀 READY FOR HANDOFF**

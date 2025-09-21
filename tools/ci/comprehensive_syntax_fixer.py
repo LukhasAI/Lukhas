@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-🎯 T4 COMPREHENSIVE SYNTAX FIXER - LUKHAS AI Trinity Framework
+🎯 T4 COMPREHENSIVE SYNTAX FIXER - LUKHAS AI Constellation Framework
 ==============================================================
 ⚛️ Advanced syntax error resolution with consciousness-aware patterns
-🧠 Multi-pattern syntax healing with Trinity Framework compliance
+🧠 Multi-pattern syntax healing with Constellation Framework compliance
 🛡️ Guardian-validated automated syntax repair system
 
 This tool systematically fixes the most common syntax error patterns
@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 class ComprehensiveSyntaxFixer:
-    """Trinity Framework compliant syntax error healing system"""
+    """Constellation Framework compliant syntax error healing system"""
 
     def __init__(self):
         self.fixed_count = 0
@@ -194,7 +194,7 @@ class ComprehensiveSyntaxFixer:
 
     def process_syntax_errors(self):
         """Process and fix all syntax errors"""
-        logger.info("🎯 T4 COMPREHENSIVE SYNTAX FIXER - LUKHAS Trinity Framework")
+        logger.info("🎯 T4 COMPREHENSIVE SYNTAX FIXER - LUKHAS Constellation Framework")
         logger.info("=" * 65)
         logger.info("⚛️ Advanced syntax error resolution with consciousness-aware patterns")
 

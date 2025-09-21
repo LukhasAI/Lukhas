@@ -1,7 +1,7 @@
 """
 LUKHAS AI Bio Core Module
 Core biological-inspired processing components
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 
 from .architecture_analyzer import BioSymbolicArchitectureAnalyzer

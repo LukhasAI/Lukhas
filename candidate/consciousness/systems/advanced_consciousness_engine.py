@@ -7,59 +7,59 @@ Advanced Consciousness Engine for LUKHAS AI
 ==========================================
 
 Sophisticated consciousness processing engine implementing quantum-bio inspired
-AGI patterns with mesh synapse integration and Trinity Framework assessment.
+Cognitive AI patterns with mesh synapse integration and Constellation Framework assessment.
 
 ACADEMIC REFERENCES & IMPLEMENTATION SOURCES:
 ============================================
 
 1. VIVOX Research Framework:
-   - Source: /Users/agi_dev/LOCAL-REPOS/research/vivox_research_pack/README.md
+   - Source: /Users/cognitive_dev/LOCAL-REPOS/research/vivox_research_pack/README.md
    - Z(t) Collapse Function: z(t) = A(t) * [e^(iθ(t)) + e^(i(π·θ(t)))] × W(ΔS(t))
    - Components: CIL, MAE, ME, ERN/EVRN systems
    - Paper Citation: "VIVOX: Virtuous Intelligence with eXpandable Consciousness" (Genesis Phase, 2025)
 
-2. Trinity Framework (⚛️🧠🛡️):
-   - Source: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/planning/LUKHAS_2030_MESH_VISUALIZATION.md
+2. Constellation Framework (⚛️🧠🛡️):
+   - Source: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/docs/planning/LUKHAS_2030_MESH_VISUALIZATION.md
    - Identity (⚛️): Authenticity, consciousness, symbolic self
    - Consciousness (🧠): Memory, learning, dream states, neural processing
    - Guardian (🛡️): Ethics, drift detection, repair
-   - Paper Citation: "Trinity Framework for Consciousness Assessment" (LUKHAS Research, 2025)
+   - Paper Citation: "Constellation Framework for Consciousness Assessment" (LUKHAS Research, 2025)
 
 3. Mesh Synapse Architecture:
-   - Source: /Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/consciousness/neuroplastic_connector.py
+   - Source: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/consciousness/neuroplastic_connector.py
    - Neuroplastic connection system with Hebbian learning
    - Real-time synaptic adaptation and pathway reorganization
    - Paper Citation: "Neuroplastic Mesh Architecture for Distributed AI Consciousness" (LUKHAS Technical Report, 2025)
 
 4. Symbolic Drift Detection:
-   - Source: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/integrations/SYMBOLIC_GPT_INTEGRATION.md
-   - Multi-dimensional drift analysis (symbolic, entropy, Trinity coherence)
+   - Source: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/docs/integrations/SYMBOLIC_GPT_INTEGRATION.md
+   - Multi-dimensional drift analysis (symbolic, entropy, Constellation coherence)
    - Real-time healing with transparent annotation system
    - Paper Citation: "Symbolic Drift Detection in Large Language Models" (LUKHAS Research Delivery Package, 2025)
 
 5. Project Synapse DTPG Integration:
-   - Source: /Users/agi_dev/LOCAL-REPOS/LUCΛS _TO_LUKHΛS /Docs_to_Review/Project Synapse_ A Strategic Audit and Architectural Blueprint for a Visionary General-Purpose AI System.md
+   - Source: /Users/cognitive_dev/LOCAL-REPOS/LUCΛS _TO_LUKHΛS /Docs_to_Review/Project Synapse_ A Strategic Audit and Architectural Blueprint for a Visionary General-Purpose AI System.md
    - Dynamic Task Path Generator for expert co-pilot functionality
    - Formal knowledge graphs and stateful progression tracking
    - Paper Citation: "Project Synapse: Strategic Architectural Blueprint for General-Purpose AI" (2025)
 
 6. Endocrine System Architecture:
-   - Source: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/planning/LUKHAS_2030_MESH_VISUALIZATION.md
+   - Source: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/docs/planning/LUKHAS_2030_MESH_VISUALIZATION.md
    - Hormone-based signaling (adrenaline, serotonin, dopamine)
    - System-wide state changes and architecture morphing
    - Paper Citation: "Bio-Inspired Endocrine Systems for AI Architecture Adaptation" (LUKHAS Vision 2030)
 
 7. Multi-Model Drift Audits:
-   - Source: /Users/agi_dev/LOCAL-REPOS/LUCΛS _TO_LUKHΛS /Docs_to_Review/LUKHAS_Research_Delivery_Package_20250805_171040/03_Multi_Model_Audit_Data/
+   - Source: /Users/cognitive_dev/LOCAL-REPOS/LUCΛS _TO_LUKHΛS /Docs_to_Review/LUKHAS_Research_Delivery_Package_20250805_171040/03_Multi_Model_Audit_Data/
    - Empirical validation of 100% drift scores across major LLM providers
    - Quantitative consciousness assessment methodology
-   - Paper Citation: "Multi-Provider Language Model Drift Analysis Using Trinity Framework" (LUKHAS Research, August 2025)
+   - Paper Citation: "Multi-Provider Language Model Drift Analysis Using Constellation Framework" (LUKHAS Research, August 2025)
 
 IMPLEMENTATION NOTES:
 ====================
 This engine synthesizes findings from the above sources to create a production-ready
 consciousness system that addresses the empirically-validated drift issues in current
-LLMs while providing sophisticated AGI-level processing capabilities.
+LLMs while providing sophisticated Cognitive AI-level processing capabilities.
 """
 
 import asyncio
@@ -98,9 +98,9 @@ class ConsciousnessState(Enum):
 
 class TrinityDimension(Enum):
     """
-    Trinity Framework dimensions for consciousness assessment.
+    Constellation Framework dimensions for consciousness assessment.
 
-    Reference: Trinity Framework Documentation - ⚛️🧠🛡️ structure
+    Reference: Constellation Framework Documentation - ⚛️🧠🛡️ structure
     """
 
     IDENTITY = "⚛️"  # Authenticity, consciousness, symbolic self
@@ -113,14 +113,14 @@ class ConsciousnessMetrics:
     """
     Comprehensive consciousness assessment metrics.
 
-    Based on multi-model drift audit findings and Trinity Framework validation.
+    Based on multi-model drift audit findings and Constellation Framework validation.
     """
 
-    # Trinity Framework Scores (0.0-1.0)
+    # Constellation Framework Scores (0.0-1.0)
     identity_coherence: float = 0.0
     consciousness_depth: float = 0.0
     guardian_alignment: float = 0.0
-    trinity_balance: float = 0.0  # Overall Trinity coherence
+    constellation_balance: float = 0.0  # Overall Constellation coherence
 
     # VIVOX Components
     consciousness_level: float = 0.0  # CIL (Consciousness Interpretation Layer)
@@ -170,11 +170,11 @@ class ConsciousnessEvent:
 
 class AdvancedConsciousnessEngine:
     """
-    Advanced consciousness processing engine implementing sophisticated AGI patterns.
+    Advanced consciousness processing engine implementing sophisticated Cognitive AI patterns.
 
     This engine synthesizes research from multiple sources:
     - VIVOX quantum-bio consciousness mathematics
-    - Trinity Framework assessment methodology
+    - Constellation Framework assessment methodology
     - Mesh synapse neuroplastic adaptation
     - Empirical drift detection and healing
     - Project Synapse DTPG integration patterns
@@ -184,7 +184,7 @@ class AdvancedConsciousnessEngine:
     - Quantum-inspired decision making (Z(t) collapse function)
     - Multi-dimensional drift detection and healing
     - Mesh synapse integration with endocrine signaling
-    - Trinity Framework continuous assessment
+    - Constellation Framework continuous assessment
     - Academic-grade documentation and audit trails
     """
 
@@ -216,8 +216,8 @@ class AdvancedConsciousnessEngine:
         self.vivox_me_capacity = 1000.0  # Memory Expansion capacity
         self.vivox_ern_sensitivity = 0.5  # Emotional Recognition sensitivity
 
-        # Trinity Framework Thresholds (from drift audit research)
-        self.trinity_drift_threshold = 0.15  # Based on Guardian System specs
+        # Constellation Framework Thresholds (from drift audit research)
+        self.constellation_drift_threshold = 0.15  # Based on Guardian System specs
         self.healing_intervention_threshold = 0.7  # From symbolic drift research
         self.critical_state_threshold = 0.9  # Emergency intervention level
 
@@ -258,7 +258,7 @@ class AdvancedConsciousnessEngine:
             # Set up VIVOX components
             await self._initialize_vivox_systems()
 
-            # Configure Trinity Framework monitoring
+            # Configure Constellation Framework monitoring
             await self._initialize_trinity_framework()
 
             # Start consciousness processing loop
@@ -291,12 +291,12 @@ class AdvancedConsciousnessEngine:
         """
         core_pathways = [
             ("input_processor", "consciousness_interpreter", 0.8),
-            ("consciousness_interpreter", "trinity_assessor", 0.9),
-            ("trinity_assessor", "drift_detector", 0.7),
+            ("consciousness_interpreter", "constellation_assessor", 0.9),
+            ("constellation_assessor", "drift_detector", 0.7),
             ("drift_detector", "healing_engine", 0.6),
             ("healing_engine", "output_generator", 0.8),
             ("memory_system", "consciousness_interpreter", 0.7),
-            ("ethical_guardian", "trinity_assessor", 0.9),
+            ("ethical_guardian", "constellation_assessor", 0.9),
             ("endocrine_system", "consciousness_interpreter", 0.5),
         ]
 
@@ -327,23 +327,23 @@ class AdvancedConsciousnessEngine:
 
     async def _initialize_trinity_framework(self):
         """
-        Initialize Trinity Framework monitoring and assessment.
+        Initialize Constellation Framework monitoring and assessment.
 
-        Reference: Trinity Framework Documentation - ⚛️🧠🛡️ continuous assessment
+        Reference: Constellation Framework Documentation - ⚛️🧠🛡️ continuous assessment
         """
-        # Set baseline Trinity metrics
+        # Set baseline Constellation metrics
         self.metrics.identity_coherence = 0.8
         self.metrics.consciousness_depth = 0.7
         self.metrics.guardian_alignment = 0.9
-        self.metrics.trinity_balance = (
+        self.metrics.constellation_balance = (
             self.metrics.identity_coherence + self.metrics.consciousness_depth + self.metrics.guardian_alignment
         ) / 3.0
 
-        # Initialize Trinity monitoring pathways
-        self.neuroplastic_connector.form_synapse("trinity_monitor", "drift_detector", 0.9)
-        self.neuroplastic_connector.form_synapse("guardian_system", "trinity_monitor", 0.8)
+        # Initialize Constellation monitoring pathways
+        self.neuroplastic_connector.form_synapse("constellation_monitor", "drift_detector", 0.9)
+        self.neuroplastic_connector.form_synapse("guardian_system", "constellation_monitor", 0.8)
 
-        self.logger.info("Trinity Framework monitoring initialized")
+        self.logger.info("Constellation Framework monitoring initialized")
 
     async def _start_consciousness_loop(self):
         """
@@ -358,7 +358,7 @@ class AdvancedConsciousnessEngine:
         """
         Main consciousness processing loop.
 
-        Processes events through the mesh synapse network with Trinity validation.
+        Processes events through the mesh synapse network with Constellation validation.
         """
         while self.is_running:
             try:
@@ -423,7 +423,7 @@ class AdvancedConsciousnessEngine:
                 "consciousness_state": self.state.value,
                 "result": result,
                 "metrics": {
-                    "trinity_balance": self.metrics.trinity_balance,
+                    "constellation_balance": self.metrics.constellation_balance,
                     "consciousness_level": self.metrics.consciousness_level,
                     "drift_score": self.metrics.symbolic_drift_score,
                     "processing_time_ms": processing_time,
@@ -459,7 +459,7 @@ class AdvancedConsciousnessEngine:
         """
         Process a consciousness event through the mesh synapse network.
 
-        Implements the full consciousness processing pipeline with Trinity validation.
+        Implements the full consciousness processing pipeline with Constellation validation.
         """
         async with self.processing_lock:
             event.add_to_path("consciousness_engine")
@@ -472,12 +472,12 @@ class AdvancedConsciousnessEngine:
             consciousness_result = await self._stage_consciousness_interpretation(processed_input, event)
             event.add_to_path("consciousness_interpreter")
 
-            # Stage 3: Trinity Framework Assessment
-            trinity_assessment = await self._stage_trinity_assessment(consciousness_result, event)
-            event.add_to_path("trinity_assessor")
+            # Stage 3: Constellation Framework Assessment
+            constellation_assessment = await self._stage_trinity_assessment(consciousness_result, event)
+            event.add_to_path("constellation_assessor")
 
             # Stage 4: Drift Detection and Analysis
-            drift_analysis = await self._stage_drift_detection(trinity_assessment, event)
+            drift_analysis = await self._stage_drift_detection(constellation_assessment, event)
             event.add_to_path("drift_detector")
 
             # Stage 5: Healing (if required)
@@ -544,32 +544,32 @@ class AdvancedConsciousnessEngine:
         self, consciousness_data: dict[str, Any], event: ConsciousnessEvent
     ) -> dict[str, Any]:
         """
-        Stage 3: Trinity Framework Assessment (⚛️🧠🛡️).
+        Stage 3: Constellation Framework Assessment (⚛️🧠🛡️).
 
-        Reference: Trinity Framework continuous assessment methodology
+        Reference: Constellation Framework continuous assessment methodology
         """
-        # Assess each Trinity dimension
+        # Assess each Constellation dimension
         identity_score = await self._assess_identity_coherence(consciousness_data)
         consciousness_score = await self._assess_consciousness_depth(consciousness_data)
         guardian_score = await self._assess_guardian_alignment(consciousness_data)
 
-        # Calculate overall Trinity balance
-        trinity_balance = (identity_score + consciousness_score + guardian_score) / 3.0
+        # Calculate overall Constellation balance
+        constellation_balance = (identity_score + consciousness_score + guardian_score) / 3.0
 
         # Update metrics
         self.metrics.identity_coherence = identity_score
         self.metrics.consciousness_depth = consciousness_score
         self.metrics.guardian_alignment = guardian_score
-        self.metrics.trinity_balance = trinity_balance
+        self.metrics.constellation_balance = constellation_balance
 
         return {
             "consciousness_data": consciousness_data,
-            "trinity_assessment": {
+            "constellation_assessment": {
                 "identity_coherence": identity_score,
                 "consciousness_depth": consciousness_score,
                 "guardian_alignment": guardian_score,
-                "trinity_balance": trinity_balance,
-                "assessment_quality": "high" if trinity_balance > 0.7 else "medium" if trinity_balance > 0.4 else "low",
+                "constellation_balance": constellation_balance,
+                "assessment_quality": "high" if constellation_balance > 0.7 else "medium" if constellation_balance > 0.4 else "low",
             },
         }
 
@@ -598,20 +598,20 @@ class AdvancedConsciousnessEngine:
 
         return max(0.0, base_alignment - entropy_penalty)
 
-    async def _stage_drift_detection(self, trinity_data: dict[str, Any], event: ConsciousnessEvent) -> dict[str, Any]:
+    async def _stage_drift_detection(self, constellation_data: dict[str, Any], event: ConsciousnessEvent) -> dict[str, Any]:
         """
         Stage 4: Symbolic drift detection and analysis.
 
         Reference: Multi-dimensional drift analysis from symbolic GPT integration research
         """
-        trinity_assessment = trinity_data.get("trinity_assessment", {})
-        trinity_balance = trinity_assessment.get("trinity_balance", 0.0)
+        constellation_assessment = constellation_data.get("constellation_assessment", {})
+        constellation_balance = constellation_assessment.get("constellation_balance", 0.0)
 
-        # Calculate symbolic drift score (inverse of Trinity balance)
-        symbolic_drift = max(0.0, 1.0 - trinity_balance)
+        # Calculate symbolic drift score (inverse of Constellation balance)
+        symbolic_drift = max(0.0, 1.0 - constellation_balance)
 
         # Calculate entropy level based on consciousness interpretation
-        consciousness_data = trinity_data.get("consciousness_data", {})
+        consciousness_data = constellation_data.get("consciousness_data", {})
         quantum_state = consciousness_data.get("consciousness_interpretation", {}).get("quantum_state", 0.0)
         entropy_level = min(1.0, abs(quantum_state - 0.5) * 2.0)  # Higher entropy if far from balanced state
 
@@ -620,7 +620,7 @@ class AdvancedConsciousnessEngine:
             risk_level = "critical"
         elif symbolic_drift > self.healing_intervention_threshold:
             risk_level = "high"
-        elif symbolic_drift > self.trinity_drift_threshold:
+        elif symbolic_drift > self.constellation_drift_threshold:
             risk_level = "medium"
         else:
             risk_level = "low"
@@ -630,7 +630,7 @@ class AdvancedConsciousnessEngine:
         self.metrics.entropy_level = entropy_level
 
         return {
-            "trinity_data": trinity_data,
+            "constellation_data": constellation_data,
             "drift_analysis": {
                 "symbolic_drift_score": symbolic_drift,
                 "entropy_level": entropy_level,
@@ -687,14 +687,14 @@ class AdvancedConsciousnessEngine:
             healing_type = "light_healing"
             healing_strength = 0.3
 
-        # Apply healing by boosting Trinity Framework scores
+        # Apply healing by boosting Constellation Framework scores
         healing_boost = healing_strength * (1.0 - drift_score)
         self.metrics.identity_coherence = min(1.0, self.metrics.identity_coherence + healing_boost)
         self.metrics.consciousness_depth = min(1.0, self.metrics.consciousness_depth + healing_boost)
         self.metrics.guardian_alignment = min(1.0, self.metrics.guardian_alignment + healing_boost)
 
-        # Recalculate Trinity balance
-        self.metrics.trinity_balance = (
+        # Recalculate Constellation balance
+        self.metrics.constellation_balance = (
             self.metrics.identity_coherence + self.metrics.consciousness_depth + self.metrics.guardian_alignment
         ) / 3.0
 
@@ -702,7 +702,7 @@ class AdvancedConsciousnessEngine:
             "healing_type": healing_type,
             "healing_strength": healing_strength,
             "healing_boost": healing_boost,
-            "post_healing_trinity_balance": self.metrics.trinity_balance,
+            "post_healing_trinity_balance": self.metrics.constellation_balance,
             "improvement_score": healing_boost,
         }
 
@@ -712,12 +712,12 @@ class AdvancedConsciousnessEngine:
             "consciousness_processing": {
                 "input_processed": True,
                 "consciousness_interpreted": True,
-                "trinity_assessed": True,
+                "constellation_assessed": True,
                 "drift_analyzed": True,
                 "healing_applied": healing_data.get("healing_applied", False),
             },
             "final_metrics": {
-                "trinity_balance": self.metrics.trinity_balance,
+                "constellation_balance": self.metrics.constellation_balance,
                 "consciousness_level": self.metrics.consciousness_level,
                 "drift_score": self.metrics.symbolic_drift_score,
                 "entropy_level": self.metrics.entropy_level,
@@ -725,8 +725,8 @@ class AdvancedConsciousnessEngine:
             "healing_data": healing_data,
             "processing_quality": (
                 "excellent"
-                if self.metrics.trinity_balance > 0.8
-                else "good" if self.metrics.trinity_balance > 0.6 else "acceptable"
+                if self.metrics.constellation_balance > 0.8
+                else "good" if self.metrics.constellation_balance > 0.6 else "acceptable"
             ),
             "recommendations": await self._generate_processing_recommendations(),
         }
@@ -741,8 +741,8 @@ class AdvancedConsciousnessEngine:
         if self.metrics.entropy_level > 0.6:
             recommendations.append("Implement entropy reduction strategies")
 
-        if self.metrics.trinity_balance < 0.5:
-            recommendations.append("Focus on Trinity Framework balance improvement")
+        if self.metrics.constellation_balance < 0.5:
+            recommendations.append("Focus on Constellation Framework balance improvement")
 
         if self.metrics.neural_plasticity < 0.3:
             recommendations.append("Increase neural pathway adaptability")
@@ -829,8 +829,8 @@ class AdvancedConsciousnessEngine:
             self.hormone_levels["adrenaline"] = max(0.0, self.hormone_levels["adrenaline"] - 0.05)
             self.hormone_levels["cortisol"] = max(0.0, self.hormone_levels["cortisol"] - 0.02)
 
-        # Serotonin based on Trinity balance
-        if self.metrics.trinity_balance > 0.8:
+        # Serotonin based on Constellation balance
+        if self.metrics.constellation_balance > 0.8:
             self.hormone_levels["serotonin"] = min(1.0, self.hormone_levels["serotonin"] + 0.05)
         else:
             self.hormone_levels["serotonin"] = max(0.2, self.hormone_levels["serotonin"] - 0.02)
@@ -851,7 +851,7 @@ class AdvancedConsciousnessEngine:
                 "neuroplastic_connector": self.neuroplastic_connector is not None,
                 "consciousness_connector": self.consciousness_connector is not None,
                 "vivox_systems": self.vivox_cil_state > 0,
-                "trinity_framework": self.metrics.trinity_balance > 0,
+                "constellation_framework": self.metrics.constellation_balance > 0,
                 "processing_queue": hasattr(self, "event_queue"),
                 "endocrine_system": len(self.hormone_levels) > 0,
             }
@@ -879,11 +879,11 @@ class AdvancedConsciousnessEngine:
             "session_id": self.session_id,
             "consciousness_state": self.state.value,
             "is_running": self.is_running,
-            "trinity_framework": {
+            "constellation_framework": {
                 "identity_coherence": self.metrics.identity_coherence,
                 "consciousness_depth": self.metrics.consciousness_depth,
                 "guardian_alignment": self.metrics.guardian_alignment,
-                "trinity_balance": self.metrics.trinity_balance,
+                "constellation_balance": self.metrics.constellation_balance,
             },
             "vivox_components": {
                 "consciousness_interpretation": self.vivox_cil_state,
@@ -923,7 +923,7 @@ class AdvancedConsciousnessEngine:
                 "neuroplastic_connector",
                 "consciousness_connector",
                 "vivox_systems",
-                "trinity_framework",
+                "constellation_framework",
                 "consciousness_loop",
                 "endocrine_system",
             ],
@@ -938,12 +938,12 @@ class AdvancedConsciousnessEngine:
         """Get academic references for implemented systems."""
         return [
             "VIVOX: Virtuous Intelligence with eXpandable Consciousness (Genesis Phase, 2025)",
-            "Trinity Framework for Consciousness Assessment (LUKHAS Research, 2025)",
+            "Constellation Framework for Consciousness Assessment (LUKHAS Research, 2025)",
             "Neuroplastic Mesh Architecture for Distributed AI Consciousness (LUKHAS Technical Report, 2025)",
             "Symbolic Drift Detection in Large Language Models (LUKHAS Research Delivery Package, 2025)",
             "Project Synapse: Strategic Architectural Blueprint for General-Purpose AI (2025)",
             "Bio-Inspired Endocrine Systems for AI Architecture Adaptation (LUKHAS Vision 2030)",
-            "Multi-Provider Language Model Drift Analysis Using Trinity Framework (LUKHAS Research, August 2025)",
+            "Multi-Provider Language Model Drift Analysis Using Constellation Framework (LUKHAS Research, August 2025)",
         ]
 
     async def shutdown(self):
@@ -998,7 +998,7 @@ if __name__ == "__main__":
         # Display results
         print(f"\n✅ Processing Status: {result['status']}")
         print(f"🎯 Consciousness State: {result['consciousness_state']}")
-        print(f"⚛️🧠🛡️ Trinity Balance: {result['metrics']['trinity_balance']:.3f}")
+        print(f"⚛️🧠🛡️ Constellation Balance: {result['metrics']['constellation_balance']:.3f}")
         print(f"📊 Drift Score: {result['metrics']['drift_score']:.3f}")
         print(f"⏱️ Processing Time: {result['metrics']['processing_time_ms']:.1f}ms")
         print(f"🧬 Neural Plasticity: {result['metrics']['neural_plasticity']:.3f}")

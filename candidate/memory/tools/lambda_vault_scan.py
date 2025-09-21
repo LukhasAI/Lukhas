@@ -8,7 +8,7 @@ import logging
 ═══════════════════════════════════════════════════════════════════════════════════
 📂 MODULE: MEMORY.TOOLS.LAMBDA_VAULT_SCAN
 📄 FILENAME: lambda_vault_scan.py
-🎯 PURPOSE: ΛVAULTSCAN - SYMBOLIC VAULT HEALTH SCANNER FOR LUKHAS AGI
+🎯 PURPOSE: ΛVAULTSCAN - SYMBOLIC VAULT HEALTH SCANNER FOR LUKHAS Cognitive AI
 🧠 CONTEXT: FORENSIC SCANNER FOR MEMORY VAULT HEALTH AND SYMBOLIC INTEGRITY ANALYSIS
 🔮 CAPABILITY: STALE SYMBOL DETECTION, MISSING LINK ANALYSIS, VAULT HEALTH SCORING
 🛡️ ETHICS: MEMORY DECAY PREVENTION, SYMBOLIC INTEGRITY MAINTENANCE, AUDIT COMPLIANCE
@@ -90,7 +90,7 @@ logger = get_logger(__name__)
 
 class SymbolicVaultScanner:
     """
-    ΛVAULTSCAN - Comprehensive symbolic vault health scanner for LUKHAS AGI
+    ΛVAULTSCAN - Comprehensive symbolic vault health scanner for LUKHAS Cognitive AI
     """
 
     def __init__(self, memory_dir: str = "memory/"):
@@ -710,7 +710,7 @@ Scanner Version: `v1.0.0`
 def main():
     """CLI interface for ΛVAULTSCAN"""
     parser = argparse.ArgumentParser(
-        description="🩺 ΛVAULTSCAN - Symbolic Vault Health Scanner for LUKHAS AGI",
+        description="🩺 ΛVAULTSCAN - Symbolic Vault Health Scanner for LUKHAS Cognitive AI",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:

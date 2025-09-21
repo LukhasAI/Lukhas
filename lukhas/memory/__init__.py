@@ -1,7 +1,7 @@
 """
 LUKHAS AI Memory Module
 Fold-based memory with cascade prevention and emotional valence tracking
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 from typing import Any, Optional

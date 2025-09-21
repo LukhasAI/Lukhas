@@ -132,7 +132,7 @@ class DriftMetrics:
 
 ## Integration with LUKHAS Production Systems
 
-### Trinity Framework Alignment
+### Constellation Framework Alignment
 - **⚛️ Identity**: User identity verification for earnings
 - **🧠 Consciousness**: Consciousness-aware advertising generation
 - **🛡️ Guardian**: Ethics enforcement and drift detection

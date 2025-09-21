@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 class MultiUserSync:
-    """Manages simultaneous entropy contribution from multiple users with AGI-proof standards."""
+    """Manages simultaneous entropy contribution from multiple users with Cognitive AI-proof standards."""
 
     def __init__(self, audit_logger):
         self.audit_logger = audit_logger

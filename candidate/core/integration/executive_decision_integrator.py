@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Central integration hub that orchestrates executive decision-making modules with
 ║ LUKHAS core systems. Provides unified workflows, cross-module communication,
-║ and comprehensive API interfaces for enterprise-grade AGI deployment.
+║ and comprehensive API interfaces for enterprise-grade cognitive AI deployment.
 ║
 ║ INTEGRATION SCOPE:
 ║ - HDS (Hyperspace Dream Simulator) - Multi-dimensional scenario exploration
@@ -602,7 +602,7 @@ class WorkflowOrchestrator:
         Create MEG (Meta Ethics Governor) ethical decision from integration request.
 
         Implements orchestration workflow for ethical decision-making with
-        Trinity Framework compliance and transparent step-by-step processing.
+        Constellation Framework compliance and transparent step-by-step processing.
         """
         start_time = datetime.now(timezone.utc)
         decision_id = f"meg_decision_{request.request_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
@@ -1851,7 +1851,7 @@ class CEOAttitudeIntegrationHub:
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

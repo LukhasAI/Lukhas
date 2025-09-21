@@ -2,7 +2,7 @@
 """
 🧬 LUKHAS Non-Core Module Testing Suite
 Comprehensive testing for dream, colony, consciousness, and sub-core modules
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 import importlib

@@ -1,7 +1,7 @@
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: __init__.py
 # MODULE: consciousness
-# DESCRIPTION: Initializes the LUKHAS AI 'consciousness' package, a core AGI
+# DESCRIPTION: Initializes the LUKHAS AI 'consciousness' package, a core Cognitive AI
 #              system responsible for consciousness simulation, cognitive
 #              architecture control, awareness, and related high-level functions.
 # DEPENDENCIES: logging, .cognitive_architecture_controller, .consciousness_service,
@@ -61,7 +61,7 @@ logger.info(f"ΛTRACE: 'consciousness' package initialized. Exposed symbols in _
 # TIER SYSTEM: Tier 3-5 (Consciousness systems are advanced capabilities)
 # ΛTRACE INTEGRATION: ENABLED
 # CAPABILITIES: Initializes the consciousness package and exports key controllers,
-#               services, and protocols related to AGI consciousness and cognition.
+#               services, and protocols related to Cognitive AI consciousness and cognition.
 # FUNCTIONS: None directly exposed by this __init__.py beyond imported symbols.
 # CLASSES: Exports CognitiveArchitectureController, ConsciousnessService, LucasAwarenessProtocol.
 # DECORATORS: None.
@@ -74,7 +74,7 @@ logger.info(f"ΛTRACE: 'consciousness' package initialized. Exposed symbols in _
 #   from consciousness import CognitiveArchitectureController, ConsciousnessService
 #   controller = CognitiveArchitectureController(config)
 #   service = ConsciousnessService(controller)
-# INTEGRATION NOTES: This package is central to the AGI's higher cognitive functions.
+# INTEGRATION NOTES: This package is central to the Cognitive AI's higher cognitive functions.
 #   Ensure all sub-modules (especially chunked ones like
 #   cognitive_architecture_controller) are correctly assembled for imports to succeed.
 # MAINTENANCE: Update imports and __all__ list as the package structure evolves.

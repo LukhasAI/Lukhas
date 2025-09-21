@@ -1,6 +1,6 @@
 # CONSCIOUSNESS MODULE ANALYSIS REPORT
 **Generated**: 2025-07-24 20:34
-**Analysis Scope**: /Users/agi_dev/Downloads/Consolidation-Repo/lukhas/consciousness/
+**Analysis Scope**: /Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/consciousness/
 **Test Context**: "Consciousness Architecture" failing with "Service should have initialize method"
 
 ---
@@ -156,7 +156,7 @@ The consciousness module contains a sophisticated architecture with comprehensiv
 
 ## TEST RESULTS CONTEXT
 
-Based on `/Users/agi_dev/Downloads/Consolidation-Repo/test_results_advanced_agi.json`:
+Based on `/Users/cognitive_dev/Downloads/Consolidation-Repo/test_results_advanced_agi.json`:
 
 ### ✅ PASSING TESTS
 - **Consciousness Architecture**: PASS (120ms) - "Consciousness architecture operational"

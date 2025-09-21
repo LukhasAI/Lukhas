@@ -55,8 +55,8 @@ This directory contains comprehensive integration documentation for LUKHAS AI sy
 
 ## 🎯 **Integration Principles**
 
-### **Trinity Framework Integration**
-All integrations follow the Trinity Framework (⚛️🧠🛡️):
+### **Constellation Framework Integration**
+All integrations follow the Constellation Framework (⚛️🧠🛡️):
 - **⚛️ Identity**: Secure identity verification across integrations
 - **🧠 Consciousness**: Intelligent integration with consciousness awareness
 - **🛡️ Guardian**: Protected integration with security validation

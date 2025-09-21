@@ -54,7 +54,7 @@ INTEGRATION: Core orchestration layer connecting all AGI subsystems through
 - Backup coordinator election
 - Data replication strategies
 
-VERSION: v1.0.0 • CREATED: 2025-01-21 • AUTHOR: LUKHAS AGI TEAM
+VERSION: v1.0.0 • CREATED: 2025-01-21 • AUTHOR: LUKHAS Cognitive AI TEAM
 SYMBOLIC TAGS: ΛMESH, ΛCOGNITIVE, ΛORCHESTRATION, ΛDISTRIBUTED, ΛCOORDINATOR
 """
 

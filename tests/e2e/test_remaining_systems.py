@@ -12,7 +12,7 @@ Testing the remaining major LUKHAS systems for complete coverage:
 - Documentation & Compliance Systems (3 systems)
 - Web & Frontend Systems (2 systems)
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 GOAL: Push from 50% to 80%+ coverage by testing remaining major areas
 """
@@ -979,7 +979,7 @@ def run_remaining_systems_testing():
     print("🔄🌟📚🔧 LUKHAS REMAINING SYSTEMS TEST SUITE")
     print("=" * 80)
     print("Testing remaining major LUKHAS systems to push coverage from 50% to 80%+")
-    print("Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian")
+    print("Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian")
     print("=" * 80)
 
     # Initialize all test suites for remaining systems

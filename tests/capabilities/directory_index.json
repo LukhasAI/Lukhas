@@ -1,0 +1,150 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "tests/capabilities",
+    "lane": "development",
+    "purpose": "Directory containing 5 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "test_router_no_unrouted.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.metrics",
+          "candidate.core.matriz_consciousness_integration"
+        ],
+        "exports": [
+          "normalize_metrics"
+        ]
+      },
+      {
+        "filename": "test_adapters_contract.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "discover_adapters",
+          "test_adapter_contract_compliance",
+          "test_all_adapters_discoverable"
+        ]
+      },
+      {
+        "filename": "test_observability_contracts.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.metrics_exporters",
+          "lukhas.core.metrics_exporters",
+          "lukhas.core.metrics_exporters",
+          "lukhas.core.breakthrough",
+          "lukhas.core"
+        ],
+        "exports": [
+          "test_prometheus_exporter_starts_and_exposes_metrics",
+          "test_prometheus_exporter_disabled_when_no_port",
+          "test_otel_disabled_is_noop",
+          "test_enable_runtime_exporters_idempotent",
+          "test_prometheus_exporter_handles_invalid_port",
+          "test_metrics_families_present_in_output",
+          "test_otel_missing_packages_handled_gracefully",
+          "test_prometheus_missing_package_is_logged",
+          "mock_import",
+          "mock_import"
+        ]
+      },
+      {
+        "filename": "test_governance_suite.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.policy_guard",
+          "lukhas.memory.sync",
+          "lukhas.core.consciousness_stream"
+        ],
+        "exports": [
+          "TestGovernanceCapabilities",
+          "setup_method",
+          "test_policy_denial_deterministic_logs",
+          "test_cross_lane_promotion_gates",
+          "test_memory_sync_safety_under_load",
+          "test_governance_coherence_requirements",
+          "test_governance_regression_performance",
+          "test_governance_integration_with_consciousness_stream",
+          "test_governance_metrics_collection",
+          "test_promotion_metrics_integration"
+        ]
+      },
+      {
+        "filename": "test_backpressure_decimation.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.matriz_consciousness_integration"
+        ],
+        "exports": []
+      }
+    ],
+    "subdirectories": [],
+    "documentation": [
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "README.md"
+    ],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 5,
+    "estimated_complexity": "low",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "standard",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "tests",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

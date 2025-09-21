@@ -137,10 +137,10 @@ execution_plan:
   consciousness_validation:
     title: "⚛️ Consciousness System Validation & Optimization"
     duration_hours: 3
-    focus: "Ensure consciousness system meets Trinity Framework standards"
+    focus: "Ensure consciousness system meets Constellation Framework standards"
     steps:
       - "Run full test suite validation"
-      - "Verify Trinity Framework compliance"
+      - "Verify Constellation Framework compliance"
       - "Test consciousness-emotion integration"
       - "Validate neuroplastic adaptation"
       - "Confirm Guardian System integration"
@@ -158,4 +158,4 @@ real_lukhas_context:
     - "Integrated emotional regulation"
     - "Working event bus communication"
     - "Successful neuroplastic adaptation"
-    - "Trinity Framework compliance"
+    - "Constellation Framework compliance"

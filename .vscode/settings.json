@@ -167,7 +167,7 @@
   "editor.acceptSuggestionOnEnter": "on",
   "editor.wordBasedSuggestions": "allDocuments",
   
-  // 🛡️ Trinity Framework Context Enhancement
+  // 🛡️ Constellation Framework Context Enhancement
   "editor.inlineSuggest.enabled": true,
   "editor.inlineSuggest.suppressSuggestions": false,
   "editor.inlineSuggest.showToolbar": "always",

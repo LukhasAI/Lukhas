@@ -9,7 +9,7 @@
 🔍 MODULE: dream.tools.symbolic_anomaly_explorer
 📄 FILENAME: symbolic_anomaly_explorer.py
 🎯 PURPOSE: Dream/Symbolic Anomaly Explorer - Detect irregularities in dream sessions
-🧠 CONTEXT: LUKHAS AGI Jules-13 Dream Analysis & Symbolic Pattern Detection
+🧠 CONTEXT: LUKHAS Cognitive AI Jules-13 Dream Analysis & Symbolic Pattern Detection
 🔮 CAPABILITY: Session analysis, anomaly detection, drift overlay, visual reporting
 🛡️ ETHICS: Transparent dream analysis, pattern recognition, recursive loop detection
 🚀 VERSION: v1.0.0 • 📅 CREATED: 2025-07-22 • ✍️ AUTHOR: CLAUDE-CODE (Jules-13)
@@ -1267,7 +1267,7 @@ def cli_analysis(
     export_markdown: bool = True
 ):
     """CLI interface for dream anomaly analysis."""
-    print("🔍 LUKHAS AGI - Symbolic Anomaly Explorer")
+    print("🔍 LUKHAS Cognitive AI - Symbolic Anomaly Explorer")
     print("=" * 50)
 
     try:
@@ -1317,7 +1317,7 @@ def cli_analysis(
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description="LUKHAS AGI Symbolic Anomaly Explorer")
+    parser = argparse.ArgumentParser(description="LUKHAS Cognitive AI Symbolic Anomaly Explorer")
     parser.add_argument(
         "-n",
         "--sessions",

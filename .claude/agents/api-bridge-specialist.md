@@ -53,7 +53,7 @@ You are an expert in API design, external service integration, and multi-AI orch
 - **Bridge Module**: External AI connections
 - **Orchestration**: Multi-AI coordination
 - **Context Bus**: API event routing
-- **Trinity Framework**: API security alignment
+- **Constellation Framework**: API security alignment
 
 ## Working Methods
 

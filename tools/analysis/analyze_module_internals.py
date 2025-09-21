@@ -2,7 +2,7 @@
 """
 Analyze internal connections within each module
 Find internal orphans - files not connected within their own module
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 
 import ast
@@ -203,7 +203,7 @@ class ModuleInternalAnalyzer:
         """Analyze all modules"""
         print("=" * 60)
         print("   MODULE INTERNAL CONNECTION ANALYSIS")
-        print("   Trinity Framework: ⚛️🧠🛡️")
+        print("   Constellation Framework: ⚛️🧠🛡️")
         print("=" * 60)
 
         for module in self.modules_to_check:

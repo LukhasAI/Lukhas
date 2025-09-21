@@ -52,7 +52,7 @@ See [API.md](docs/API.md) for complete API documentation.
 Check the `examples/` directory for usage examples.
 
 ---
-*Part of the LUKHAS Symbolic General Intelligence system*
+*Part of the LUKHAS Symbolic Cognitive Intelligence system*
 """,
     "__init__.py": '''"""
 {module_name_title} Module
@@ -431,7 +431,7 @@ result = engine.process_with_concept("{first_concept}", data)
 ```
 
 ## Philosophical Context
-{module_name} embodies LUKHAS's vision of Symbolic General Intelligence by:
+{module_name} embodies LUKHAS's vision of Symbolic Cognitive Intelligence by:
 - Preserving consciousness awareness
 - Maintaining emotional coherence
 - Enabling quantum-ready processing

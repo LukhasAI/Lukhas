@@ -18,7 +18,7 @@ This directory contains comprehensive documentation of LUKHAS AI's original rese
   - Research impact and future development
 
 #### 🧠 **Consciousness Innovations** *(Planned)*
-- **CONSCIOUSNESS_ARCHITECTURE.md** - Trinity Framework (⚛️🧠🛡️)
+- **CONSCIOUSNESS_ARCHITECTURE.md** - Constellation Framework (⚛️🧠🛡️)
 - **VIVOX_SYSTEM_INNOVATION.md** - VIVOX consciousness system design
 - **MEMORY_FOLD_DISCOVERY.md** - Memory folding architecture
 - **ETHICAL_AI_BREAKTHROUGH.md** - Mathematical ethics implementation
@@ -35,7 +35,7 @@ This directory contains comprehensive documentation of LUKHAS AI's original rese
 ### **Core Discoveries**
 1. **Z_C Collapse Formula** - Mathematical consciousness collapse (2024-2025)
 2. **VIVOX DriftScore** - Consciousness drift detection system
-3. **Trinity Framework** - Identity-Consciousness-Guardian architecture
+3. **Constellation Framework** - Identity-Consciousness-Guardian architecture
 4. **Memory Folding** - Efficient consciousness memory storage
 
 ### **Patent Portfolio** *(Status: Under Development)*

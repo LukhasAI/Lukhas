@@ -93,7 +93,7 @@ class ConsciousnessModuleEmitter:
         awareness_level: float = 0.7,
         reflection_depth: int = 1,
         bio_data: Optional[BioSymbolicData] = None,
-        trinity_compliance: Optional[ConstellationAlignmentData] = None,
+        constellation_compliance: Optional[ConstellationAlignmentData] = None,
         target_modules: Optional[list[str]] = None,
         processing_hints: Optional[dict[str, Any]] = None,
         **kwargs,
@@ -108,7 +108,7 @@ class ConsciousnessModuleEmitter:
                 'awareness_level': awareness_level,
                 'reflection_depth': reflection_depth,
                 'bio_symbolic_data': bio_data,
-                'constellation_alignment': trinity_compliance,
+                'constellation_alignment': constellation_compliance,
                 'target_modules': target_modules or [],
                 'processing_hints': processing_hints or {},
             }
@@ -383,7 +383,7 @@ class IdentityEmitter(ConsciousnessModuleEmitter):
     ) -> Optional[ConsciousnessSignal]:
         """Emit identity authentication signal"""
 
-        trinity_compliance = ConstellationAlignmentData(
+        constellation_compliance = ConstellationAlignmentData(
             identity_auth_score=auth_score,
             consciousness_coherence=identity_context.get("coherence", 0.8),
             guardian_compliance=0.95,
@@ -411,7 +411,7 @@ class IdentityEmitter(ConsciousnessModuleEmitter):
             processing_hints={
                 "coherence_score": coherence_score,
                 "coherence_factors": coherence_factors,
-                "trinity_component": "identity",
+                "constellation_component": "identity",
             },
         )
 
@@ -451,7 +451,7 @@ class GovernanceEmitter(ConsciousnessModuleEmitter):
     ) -> Optional[ConsciousnessSignal]:
         """Emit guardian compliance signal"""
 
-        trinity_compliance = ConstellationAlignmentData(
+        constellation_compliance = ConstellationAlignmentData(
             identity_auth_score=0.9,
             consciousness_coherence=0.8,
             guardian_compliance=compliance_score,

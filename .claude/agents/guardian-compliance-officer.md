@@ -168,7 +168,7 @@ python ethics/test_scenarios.py --framework all
 - **Asilomar AI Principles**: Long-term safety
 - **Montreal Declaration**: Responsible AI development
 
-## Trinity Framework Integration
+## Constellation Framework Integration
 
 - **⚛️ Identity**: Protect user identity and privacy
 - **🧠 Consciousness**: Ethical consciousness development

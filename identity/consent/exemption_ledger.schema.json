@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GuardianExemption",
+  "type": "object",
+  "required": ["plan_id", "tenant", "env", "lambda_id", "action", "rule_name", "tags", "confidences", "band", "created_at"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "plan_id": { "type": "string" },
+    "tenant": { "type": "string" },
+    "env": { "type": "string" },
+    "lambda_id": { "type": "string" },
+    "action": { "type": "string", "enum": ["allow", "warn", "require_human", "block"] },
+    "rule_name": { "type": "string" },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "confidences": { "type": "object", "additionalProperties": { "type": "number", "minimum": 0, "maximum": 1 } },
+    "band": { "type": "string", "enum": ["minor", "major", "high", "critical"] },
+    "purpose": { "type": "string" },
+    "retention_days": { "type": "integer", "minimum": 0 },
+    "justification": { "type": "string" },
+    "override_requested": { "type": "boolean" },
+    "override_granted": { "type": "boolean" },
+    "approver1_id": { "type": "string" },
+    "approver2_id": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

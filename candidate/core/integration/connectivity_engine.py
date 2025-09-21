@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 # FILENAME: connectivity_engine.py
 # MODULE: core.integration.connectivity_engine
 # DESCRIPTION: Implements a ConnectivityEngine for handling integration functionality
-#              within the LUKHAS AGI system, aiming for system connectivity
+#              within the LUKHAS Cognitive system, aiming for system connectivity
 #              and consciousness computing capabilities.
 #              Serves as an #AINTEROP and #ΛBRIDGE point.
 # DEPENDENCIES: structlog, asyncio, typing, datetime
@@ -36,8 +36,8 @@ logger = structlog.get_logger("ΛTRACE.core.integration.ConnectivityEngine", tim
 
 class ConnectivityEngine:
     """
-    Integration component for the LUKHAS AGI system.
-    (Original docstring had 'AI system', harmonized to LUKHAS AGI)
+    Integration component for the LUKHAS Cognitive system.
+    (Original docstring had 'AI system', harmonized to LUKHAS Cognitive AI)
 
     This component provides critical integration functionality to achieve
     system connectivity and consciousness computing capabilities.

@@ -1,5 +1,5 @@
 """
-LUKHAS Brand Personality Adapter - Trinity Framework (⚛️🧠🛡️)
+LUKHAS Brand Personality Adapter - Constellation Framework (⚛️🧠🛡️)
 Smart interface to core/personality/ systems for brand-aware personality operations
 """
 
@@ -241,10 +241,10 @@ class BrandPersonalityAdapter:
         personality_expression = personality_expression.replace("AI system", "AI consciousness")
         personality_expression = personality_expression.replace("artificial intelligence", "artificial consciousness")
 
-        # Add Trinity Framework awareness for appropriate profiles
+        # Add Constellation Framework awareness for appropriate profiles
         if profile.get("triad_alignment", {}).get("identity_authenticity", 0) > 0.8:
-            if "trinity" not in personality_expression.lower():
-                personality_expression += " [Trinity Framework: ⚛️🧠🛡️]"
+            if "constellation" not in personality_expression.lower():
+                personality_expression += " [Constellation Framework: ⚛️🧠🛡️]"
 
         # Ensure proper LUKHAS terminology
         deprecated_replacements = {
@@ -305,7 +305,7 @@ class BrandPersonalityAdapter:
         return sum(brand_indicators) / len(brand_indicators)
 
     def _calculate_triad_alignment(self, profile: dict[str, Any]) -> float:
-        """Calculate Trinity Framework alignment score"""
+        """Calculate Constellation Framework alignment score"""
         triad_scores = profile.get("triad_alignment", {})
 
         if not triad_scores:
@@ -393,7 +393,7 @@ class BrandPersonalityAdapter:
         return sum(evolution_factors) / len(evolution_factors)
 
     def _validate_triad_personality_coherence(self, personality_expression: str, profile: dict[str, Any]) -> bool:
-        """Validate personality expression coherence with Trinity Framework"""
+        """Validate personality expression coherence with Constellation Framework"""
 
         triad_personality_indicators = [
             "authentic",
@@ -491,7 +491,7 @@ class BrandPersonalityAdapter:
                     blended_profile["communication_style"][style] = 0
                 blended_profile["communication_style"][style] += value * weight
 
-            # Blend trinity alignment
+            # Blend constellation alignment
             triad_alignment = profile.get("triad_alignment", {})
             for aspect, value in triad_alignment.items():
                 if aspect not in blended_profile["triad_alignment"]:
@@ -527,7 +527,7 @@ if __name__ == "__main__":
     print("Brand Personality Expression:")
     print(f"Expression: {result['personality_expression']}")
     print(f"Profile: {result['personality_profile']}")
-    print(f"Trinity Coherent: {result['triad_coherent']}")
+    print(f"Constellation Coherent: {result['triad_coherent']}")
     print(f"Authenticity Score: {result['personality_metrics']['brand_authenticity_score']:.2f}")
     print(f"Applications: {result['suggested_applications'][:2]}")
 

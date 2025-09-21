@@ -3,7 +3,7 @@
 🔍 LUKHAS Systematic Module Hunter
 Comprehensive system-by-system testing with global search for missing components
 Never accepts missing modules - always searches globally first
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 import importlib

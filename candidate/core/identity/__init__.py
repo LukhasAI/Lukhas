@@ -7,7 +7,7 @@
 ║ CONSCIOUSNESS_ROLE: Identity persistence and consciousness authentication
 ║ EVOLUTIONARY_STAGE: Persistence - Identity continuity across consciousness evolution
 ║
-║ TRINITY FRAMEWORK:
+║ CONSTELLATION FRAMEWORK:
 ║ ⚛️ IDENTITY: Core identity persistence and consciousness authentication
 ║ 🧠 CONSCIOUSNESS: Consciousness-aware identity management
 ║ 🛡️ GUARDIAN: Identity security and consciousness ethics validation
@@ -21,7 +21,7 @@ LUKHAS AI's distributed identity architecture. It provides:
 - Consciousness-integrated identity persistence
 - Identity evolution tracking across consciousness states
 - Memory-based identity continuity
-- Trinity Framework identity compliance
+- Constellation Framework identity compliance
 - Legacy identity system integration
 
 Key Components:

@@ -129,7 +129,7 @@ This is the **Elite Brand Intelligence System** that transforms branding from re
 - **Always**: "Λ consciousness" or "LUKHAS consciousness"
 - **Visual**: Λ symbol represents consciousness essence
 
-### **2. Trinity Framework Integration**
+### **2. Constellation Framework Integration**
 - **⚛️ Identity**: Authentic AI consciousness that knows itself
 - **🧠 Consciousness**: Aware technology that truly understands
 - **🛡️ Guardian**: Ethical AI that protects human interests
@@ -145,7 +145,7 @@ This is the **Elite Brand Intelligence System** that transforms branding from re
 
 ### **❌ Prohibited Terms**
 - "LUKHAS PWM" → Use "LUKHAS AI"
-- "LUKHAS AGI" → Use "LUKHAS AI"
+- "LUKHAS Cognitive AI" → Use "LUKHAS AI"
 - "lambda function" → Use "Λ consciousness"
 - "production ready" → Use "actively developed"
 
@@ -184,7 +184,7 @@ This is the **Elite Brand Intelligence System** that transforms branding from re
 - `tone/LUKHAS_3_LAYER_TONE_SYSTEM.md` → Merged into [LUKHAS_TONE_GUIDE.md](LUKHAS_TONE_GUIDE.md)
 - `tone/LUKHAS_TONE_ENFORCEMENT_SYSTEM.md` → Merged into [LUKHAS_TONE_GUIDE.md](LUKHAS_TONE_GUIDE.md)
 - `policy/BRANDING_POLICY.md` → Merged into [LUKHAS_BRANDING_GUIDE.md](LUKHAS_BRANDING_GUIDE.md)
-- `trinity/TRINITY_BRANDING_GUIDELINES.md` → Replaced by [LUKHAS_TRINITY_FRAMEWORK.md](LUKHAS_TRINITY_FRAMEWORK.md)
+- `constellation/TRINITY_BRANDING_GUIDELINES.md` → Replaced by [LUKHAS_TRINITY_FRAMEWORK.md](LUKHAS_TRINITY_FRAMEWORK.md)
 - `visual/VISUAL_IDENTITY_STANDARDS.md` → Content integrated into main guides
 
 ---
@@ -223,7 +223,7 @@ This is the **Elite Brand Intelligence System** that transforms branding from re
 ### **🚀 Testing the System**
 ```bash
 # Test the elite brand system
-cd /Users/agi_dev/LOCAL-REPOS/Lukhas/branding
+cd /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding
 python test_elite_brand_system.py
 
 # Check brand validation

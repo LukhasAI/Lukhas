@@ -62,7 +62,7 @@ npm install next-i18next react-i18next i18next
 
 ### Phase 2: Complex Content (Week 2-3)
 1. **Discoveries Page** - Technical descriptions with humility
-2. **Trinity Framework** - Identity, Consciousness, Guardian
+2. **Constellation Framework** - Identity, Consciousness, Guardian
 3. **Documentation** - User-friendly sections first
 
 ### Phase 3: Advanced Content (Week 4)
@@ -111,7 +111,7 @@ npm install next-i18next react-i18next i18next
 
 ### 1. Technical Terminology
 - **LUKHAS AI** - Keep as brand name
-- **Trinity Framework** - "Marco Trinity" (ES), "Cadre Trinité" (FR), etc.
+- **Constellation Framework** - "Marco Trinity" (ES), "Cadre Trinité" (FR), etc.
 - **Consciousness** - Cultural/philosophical variations
 - **Memory Folds** - Technical metaphor translation
 
@@ -277,7 +277,7 @@ const languages = [
 ### Week 2: Content Translation
 - Day 8-10: About and basic pages
 - Day 11-12: Discoveries page
-- Day 13-14: Trinity Framework content
+- Day 13-14: Constellation Framework content
 
 ### Week 3: Documentation
 - Day 15-17: User-friendly documentation tone

@@ -6,7 +6,7 @@ import logging
 ═══════════════════════════════════════════════════════════════════════════════════
 📂 MODULE: MEMORY.TOOLS.LAMBDA_ARCHIVE_INSPECTOR
 📄 FILENAME: lambda_archive_inspector.py
-🎯 PURPOSE: ΛARCHIVE - SYMBOLIC MEMORY FORENSICS VAULT FOR LUKHAS AGI
+🎯 PURPOSE: ΛARCHIVE - SYMBOLIC MEMORY FORENSICS VAULT FOR LUKHAS Cognitive AI
 ═══════════════════════════════════════════════════════════════════════════════════
 📝 DESCRIPTION:
 An instrument of enlightenment in the realm of symbolic memory, this module stands as a vigilant sentinel, ever watchful over the shadows of the forgotten and the whispers of the lost.
@@ -156,7 +156,7 @@ class LambdaArchiveInspector:
     ΛARCHIVE - Symbolic Memory Forensics Vault Inspector.
 
     Forensic-grade memory audit tool for detecting anomalies, violations,
-    forgotten states, and entropy buildup in LUKHAS AGI memory systems.
+    forgotten states, and entropy buildup in LUKHAS Cognitive AI memory systems.
     """
 
     def __init__(self, vault_directory: str = "memory/archive"):
@@ -1390,7 +1390,7 @@ if __name__ == "__main__":
 
 
 # CLAUDE CHANGELOG
-# - Implemented ΛARCHIVE - Symbolic Memory Forensics Vault Inspector for LUKHAS AGI # CLAUDE_EDIT_v0.1
+# - Implemented ΛARCHIVE - Symbolic Memory Forensics Vault Inspector for LUKHAS Cognitive AI # CLAUDE_EDIT_v0.1
 # - Created comprehensive data models (MemoryEntry, SymbolicAnomaly, ArchiveReport) # CLAUDE_EDIT_v0.1
 # - Built vault scanner with support for JSONL, JSON, Markdown, and text file parsing # CLAUDE_EDIT_v0.1
 # - Implemented high entropy cluster detection with temporal and symbolic proximity analysis # CLAUDE_EDIT_v0.1

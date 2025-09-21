@@ -238,7 +238,7 @@ class ExponentialLearningSystem:
 ║
 ║ REFERENCES:
 ║   - Docs: docs/learning/exponential-learning.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=exponential-learning
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=exponential-learning
 ║   - Wiki: wiki.lukhas.ai/learning-architectures
 ║
 ║ COPYRIGHT & LICENSE:
@@ -247,7 +247,7 @@ class ExponentialLearningSystem:
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════════

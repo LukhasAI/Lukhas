@@ -17,11 +17,11 @@ After T4 framework implementation and test consolidation (~450 working tests fro
 The `claude.me` files provide critical domain-specific context for Jules agents. These files contain architecture overviews, component relationships, and domain-specific instructions that help agents understand the codebase structure.
 
 **Core Navigation Contexts:**
-- **Root Overview**: [`claude.me`](claude.me) - Master architecture (7,000+ files, Trinity Framework)
+- **Root Overview**: [`claude.me`](claude.me) - Master architecture (7,000+ files, Constellation Framework)
 - **MATRIZ Engine**: [`matriz/claude.me`](matriz/claude.me) - Cognitive DNA processing
 - **Candidate Workspace**: [`candidate/claude.me`](candidate/claude.me) - Primary development domain
 
-**Trinity Framework Contexts (⚛️🧠🛡️):**
+**Constellation Framework Contexts (⚛️🧠🛡️):**
 - **⚛️ Identity Systems**:
   - [`identity/claude.me`](identity/claude.me) - Lambda ID foundation
   - [`candidate/core/identity/claude.me`](candidate/core/identity/claude.me) - Identity development
@@ -111,7 +111,7 @@ To get started with Jules agents for test development, follow these steps:
   - Identity core (ΛTRACE persistence; audit chain linking)
   - Consent/Scopes (tier boundaries, validation, history → ΛTRACE)
   - SSO/biometrics/symbolic challenge (gated, mocked)
-  - Capabilities: Cross-module integration, complex business logic, Trinity Framework alignment
+  - Capabilities: Cross-module integration, complex business logic, Constellation Framework alignment
   - Risk Level: HIGH - Requires Claude Code review for critical changes
 
 - **Jules-04..05**: Orchestration/Consciousness (complex logic)
@@ -202,7 +202,7 @@ LUKHAS employs a multi-layered agent system with different specializations and d
 
 **⚠️ IMPORTANT: claude.me Configuration Distribution**
 40+ `claude.me` files exist throughout the workspace providing context-specific instructions that help both Claude Code and Jules agents understand domain architecture:
-- **Root**: [`claude.me`](claude.me) - Master architecture overview (7,000+ files, Trinity Framework)
+- **Root**: [`claude.me`](claude.me) - Master architecture overview (7,000+ files, Constellation Framework)
 - **Distributed**: Domain-specific context files in candidate/, lukhas/, products/, ethics/, governance/, etc.
 - **Integration**: These files provide essential project understanding for all agent interactions
 - **Navigation Aid**: Each `claude.me` file contains domain-specific architecture, component relationships, and integration patterns
@@ -383,13 +383,13 @@ Jules agents should refer to these `claude.me` files for domain-specific underst
 **Core System Contexts:**
 | Domain | Path | Purpose |
 |--------|------|---------|
-| Root Architecture | `claude.me` | Master system overview (7,000+ files, Trinity Framework) |
+| Root Architecture | `claude.me` | Master system overview (7,000+ files, Constellation Framework) |
 | MATRIZ Engine | `matriz/claude.me`, `matriz/core/claude.me` | Cognitive DNA processing |
 | Candidate Development | `candidate/claude.me` | Primary development workspace (2,877 files) |
 | LUKHAS Integration | `lukhas/claude.me` | Integration layer (148 files) |
 | Products Deployment | `products/claude.me` | Production systems (4,093 files) |
 
-**Trinity Framework Domains:**
+**Constellation Framework Domains:**
 | Component | Development | Integration | Foundation |
 |-----------|------------|-------------|------------|
 | ⚛️ Identity | `candidate/core/identity/claude.me` | `lukhas/identity/claude.me` | `identity/claude.me` |
@@ -419,7 +419,7 @@ Jules agents should refer to these `claude.me` files for domain-specific underst
 ### Navigation Tips for Jules Agents
 1. **Start with root `claude.me`** for system overview
 2. **Check domain-specific `claude.me`** before working in any directory
-3. **Refer to Trinity Framework contexts** for architectural alignment
+3. **Refer to Constellation Framework contexts** for architectural alignment
 4. **Use TODO[JULES-X] markers** to identify priority work
 5. **Follow test allocation assignments** in docs/testing/
 
@@ -489,7 +489,7 @@ Example: `TODO-CRIT-IDENTITY-1a2b3c4d`
 - QI/cryptography/Guardian safety code
 - Consciousness engines and awareness systems
 - Identity and authentication systems
-- Trinity Framework boundary changes
+- Constellation Framework boundary changes
 
 ### **Feature Flag Requirements**
 - All QI/Entropy/QRG work behind feature flags + kill switch

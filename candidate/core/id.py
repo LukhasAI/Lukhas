@@ -2,7 +2,7 @@
 LUKHAS_ID Enhanced Authentication System
 =======================================
 
-The foundation of the LUKHAS symbolic AGI ecosystem.
+The foundation of the LUKHAS symbolic Cognitive AI ecosystem.
 Provides tiered access control, quantum security, and compliance framework.
 
 Author: LUKHAS Team

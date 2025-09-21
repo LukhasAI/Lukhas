@@ -272,7 +272,7 @@ Purpose: {purpose}
 This is a critical system component that {role}
 Tags: {tags}
 
-Copyright (c) 2025 LUKHAS AGI Research. All rights reserved.
+Copyright (c) 2025 LUKHAS Cognitive AI Research. All rights reserved.
 Licensed under the LUKHAS Core License - see LICENSE.md for details.
 """
 '''

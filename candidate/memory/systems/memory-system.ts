@@ -1,5 +1,5 @@
 /**
- * Public interface for Lukhas AGI memory system.
+ * Public interface for Lukhas Cognitive AI memory system.
  * Jobs: Beautiful simplicity for end users.
  * Altman: Safety and security by default.
  */

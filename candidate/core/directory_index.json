@@ -1,0 +1,2372 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/core",
+    "lane": "development",
+    "purpose": "Core systems integration hub with experimental MATRIZ pipeline components and Constellation Framework prototypes",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "integration",
+    "last_updated": "2025-09-20",
+    "matriz_pipeline_integration": {
+      "memory_stage": "experimental",
+      "attention_stage": "experimental",
+      "thought_stage": "experimental",
+      "action_stage": "experimental",
+      "decision_stage": "experimental",
+      "awareness_stage": "experimental"
+    },
+    "constellation_stars": {
+      "anchor_star_integration": "identity_systems",
+      "trail_star_integration": "memory_systems",
+      "horizon_star_integration": "vision_systems",
+      "watch_star_integration": "guardian_systems"
+    }
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "bootstrap.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "minimal_actor.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Actor",
+          "echo_behavior",
+          "send"
+        ]
+      },
+      {
+        "filename": "fault_tolerance.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SupervisionStrategy",
+          "Supervisor",
+          "add_child",
+          "handle_failure"
+        ]
+      },
+      {
+        "filename": "integrated_system.py",
+        "component_type": "DATA_MODEL",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.colonies.base"
+        ],
+        "exports": [
+          "DistributedAISystem",
+          "MitochondriaModel",
+          "task_priority_score"
+        ]
+      },
+      {
+        "filename": "integration_hub.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "IntegrationConfig",
+          "IntegrationResult",
+          "UnifiedIntegration",
+          "register_component",
+          "unregister_component",
+          "invoke_component",
+          "batch_invoke",
+          "create_data_pipeline",
+          "execute_pipeline",
+          "get_component_status",
+          "get_integration_metrics",
+          "cleanup",
+          "export_configuration",
+          "import_configuration"
+        ]
+      },
+      {
+        "filename": "swarm.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/swarm.json",
+        "dependencies": [
+          "candidate.core.fault_tolerance",
+          "candidate.core.minimal_actor",
+          "candidate.core.enhanced_swarm",
+          "candidate.core.enhanced_swarm",
+          "candidate.core.enhanced_swarm"
+        ],
+        "exports": [
+          "ResourceState",
+          "SwarmAgent",
+          "AgentColony",
+          "SwarmHub",
+          "receive",
+          "update_resource_state",
+          "add_symbolic_tag",
+          "create_agent",
+          "populate_agents",
+          "handle_failure",
+          "register_colony",
+          "create_colony",
+          "get_colony",
+          "handle_heartbeat",
+          "update_colony_resource_state",
+          "check_colony_health",
+          "get_symbolic_address"
+        ]
+      },
+      {
+        "filename": "resource_efficiency_analyzer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ResourceType",
+          "ResourceSnapshot",
+          "ResourceTrend",
+          "EfficiencyReport",
+          "ResourceEfficiencyAnalyzer",
+          "to_dict",
+          "to_json",
+          "start_monitoring",
+          "stop_monitoring",
+          "analyze_efficiency",
+          "get_quick_stats",
+          "export_metrics"
+        ]
+      },
+      {
+        "filename": "quorum_override.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "QuorumOverride",
+          "request_access"
+        ]
+      },
+      {
+        "filename": "metrics.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Counter",
+          "Histogram",
+          "Gauge",
+          "labels",
+          "inc",
+          "labels",
+          "observe",
+          "labels",
+          "set"
+        ]
+      },
+      {
+        "filename": "module_manager.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ModuleStatus",
+          "ModulePriority",
+          "ModuleConfig",
+          "ModuleInfo",
+          "ModuleManager",
+          "FallbackIdentityClient",
+          "FallbackMemorySystem",
+          "get_module_manager",
+          "initialize_system",
+          "require_module",
+          "register_module",
+          "load_module",
+          "load_all",
+          "get_module",
+          "get_status_report",
+          "health_check",
+          "decorator",
+          "wrapper",
+          "verify_user_access",
+          "log_activity",
+          "store",
+          "retrieve"
+        ]
+      },
+      {
+        "filename": "resource_scheduler.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SwarmResourceScheduler",
+          "schedule_task"
+        ]
+      },
+      {
+        "filename": "glyph.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "plugin_registry.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "PluginType",
+          "Plugin",
+          "PluginRegistry",
+          "get_plugin_type",
+          "get_plugin_name",
+          "get_version",
+          "register_plugin",
+          "get_plugin",
+          "list_plugins"
+        ]
+      },
+      {
+        "filename": "constellation_alignment_system.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AlignmentLevel",
+          "AlignmentRule",
+          "ComplianceViolation",
+          "ComplianceConfiguration",
+          "ComplianceReport",
+          "ConstellationAlignmentValidator",
+          "ConstellationAlignmentMonitor",
+          "get_constellation_validator",
+          "get_constellation_monitor",
+          "validate_signal_compliance",
+          "get_compliance_statistics",
+          "generate_compliance_report",
+          "start_monitoring",
+          "update_from_cycle",
+          "stop_monitoring",
+          "get_recent_alerts",
+          "get_monitoring_status"
+        ]
+      },
+      {
+        "filename": "actor_supervision_integration.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.actor_system",
+          "lukhas.core.supervision"
+        ],
+        "exports": [
+          "SupervisedActorSystem",
+          "patch_actor_system_for_supervision",
+          "patch_actor_for_supervision",
+          "new_init"
+        ]
+      },
+      {
+        "filename": "integrator.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/integrator.json",
+        "dependencies": [
+          "candidate.core.bio_systems.qi_layer",
+          "candidate.core.security.access_control",
+          "candidate.core.security.compliance",
+          "candidate.core.security.qi_auth",
+          "candidate.core.unified_integration"
+        ],
+        "exports": [
+          "EnhancedCoreConfig",
+          "CoreMessageType",
+          "EnhancedCoreIntegrator",
+          "QIBioOscillator",
+          "BioOrchestrator",
+          "AccessTier",
+          "AccessController",
+          "QIAuthenticator",
+          "ComplianceMonitor",
+          "UnifiedIntegration",
+          "lukhas_tier_required",
+          "decorator",
+          "register_component",
+          "send_message_to_component",
+          "get_system_status",
+          "broadcast_event",
+          "subscribe_to_event",
+          "get_context_bus_metrics",
+          "verify_component_state",
+          "verify_message_state",
+          "sign_message",
+          "get_coherence",
+          "register_component",
+          "process_message",
+          "process_event",
+          "get_health",
+          "register_component",
+          "check_permission",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "resource_optimization_integration.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.interfaces.core_interface",
+          "lukhas.core.interfaces.dependency_injection",
+          "lukhas.memory.memory_optimization"
+        ],
+        "exports": [
+          "ResourceState",
+          "OptimizationStrategy",
+          "ResourceMetrics",
+          "ResourceOptimizationCoordinator",
+          "ResourceError",
+          "to_dict",
+          "get_resource_summary",
+          "energy_aware_memory_compression",
+          "resource_aware_communication"
+        ]
+      },
+      {
+        "filename": "id.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AccessTier",
+          "ComplianceRegion",
+          "EmotionalMemoryVector",
+          "QISignature",
+          "AuditLogEntry",
+          "TraumaLockedMemory",
+          "ComplianceMonitor",
+          "LukhosIDManager",
+          "to_dict",
+          "to_dict",
+          "lock_memory",
+          "unlock_memory",
+          "check_compliance",
+          "get_compliance_status"
+        ]
+      },
+      {
+        "filename": "distributed_tracing.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TraceSpan",
+          "TraceContext",
+          "TraceCollector",
+          "DistributedTracer",
+          "AIAgentTracer",
+          "AgentState",
+          "StateSnapshotter",
+          "EventReplayer",
+          "get_global_collector",
+          "get_global_tracer",
+          "create_ai_tracer",
+          "demo_distributed_tracing",
+          "to_dict",
+          "finish",
+          "add_tag",
+          "add_log",
+          "span_id",
+          "parent_span_id",
+          "with_span",
+          "set_baggage_item",
+          "get_baggage_item",
+          "to_headers",
+          "from_headers",
+          "add_span",
+          "get_trace",
+          "get_traces_by_operation",
+          "get_trace_statistics",
+          "start_trace",
+          "start_span",
+          "finish_span",
+          "add_tag",
+          "add_log",
+          "trace_operation",
+          "get_current_context",
+          "trace_agent_operation",
+          "trace_agent_collaboration",
+          "trace_memory_operation",
+          "take_snapshot",
+          "restore_latest_snapshot",
+          "replay_trace",
+          "replay_agent_state"
+        ]
+      },
+      {
+        "filename": "models.py",
+        "component_type": "DATA_MODEL",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "BaseModel",
+          "to_lukhas_dict"
+        ]
+      },
+      {
+        "filename": "api_diff_analyzer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "p2p_fabric.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "P2PNode",
+          "connect",
+          "broadcast"
+        ]
+      },
+      {
+        "filename": "matriz_consciousness_integration.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MatrizConsciousnessSystem",
+          "create_matriz_consciousness_system",
+          "get_global_matriz_system",
+          "get_system_status"
+        ]
+      },
+      {
+        "filename": "image_processing_pipeline.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EventType",
+          "ImageEvent",
+          "ProcessingStage",
+          "ImageProcessingColony",
+          "ColonySupervisor",
+          "ImageProcessingWorker",
+          "ValidationColony",
+          "PreprocessingColony",
+          "FeatureExtractionColony",
+          "ClassificationColony",
+          "ThumbnailColony",
+          "AggregationColony",
+          "ImageProcessingPipeline",
+          "EventBus",
+          "to_dict",
+          "from_dict",
+          "handle_worker_failure",
+          "is_healthy",
+          "get_pipeline_stats",
+          "subscribe",
+          "publish"
+        ]
+      },
+      {
+        "filename": "framework_integration.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/framework_integration.json",
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "bio_symbolic_processor.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "BioPatternType",
+          "SymbolicRepresentationType",
+          "BioSymbolicPattern",
+          "AdaptationRule",
+          "BioSymbolicProcessor",
+          "create_bio_symbolic_processor",
+          "get_bio_symbolic_processor",
+          "process_consciousness_signal",
+          "get_processing_statistics",
+          "evolve_adaptation_rules"
+        ]
+      },
+      {
+        "filename": "consciousness_signal_router.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "RoutingStrategy",
+          "SignalFilter",
+          "RoutingRule",
+          "NetworkNode",
+          "NetworkMetrics",
+          "ConsciousnessSignalRouter",
+          "CascadeDetector",
+          "get_consciousness_router",
+          "boot_sanity_check",
+          "register_node",
+          "register_signal_handler",
+          "get_network_status",
+          "get_signal_processing_stats",
+          "check_signal",
+          "get_stats",
+          "coherence_filter",
+          "awareness_filter",
+          "constellation_compliance_filter",
+          "frequency_band_filter",
+          "signal_type_filter",
+          "update_metrics_task",
+          "cleanup_task"
+        ]
+      },
+      {
+        "filename": "oracle_nervous_system.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.colonies.oracle_colony",
+          "candidate.core.colonies.oracle_colony",
+          "dream.dream_engine.lukhas_oracle_dream"
+        ],
+        "exports": [
+          "OracleCapabilityType",
+          "OracleIntegrationLevel",
+          "OracleCapability",
+          "NervousSystemRequest",
+          "NervousSystemResponse",
+          "OracleNervousSystem"
+        ]
+      },
+      {
+        "filename": "tier_unification_adapter.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.identity_integration",
+          "lukhas.governance.identity.core.user_tier_mapping"
+        ],
+        "exports": [
+          "TierSystemAdapter",
+          "OneiricTierAdapter",
+          "EmotionalTierAdapter",
+          "UnifiedTierAdapter",
+          "TierUnificationAdapter",
+          "get_unified_adapter",
+          "oneiric_tier_required",
+          "emotional_tier_required",
+          "to_lambda_tier",
+          "from_lambda_tier",
+          "validate_access",
+          "to_lambda_tier",
+          "from_lambda_tier",
+          "validate_access",
+          "create_middleware",
+          "to_lambda_tier",
+          "from_lambda_tier",
+          "validate_access",
+          "get_emotional_access_matrix",
+          "normalize_any_tier",
+          "create_unified_decorator",
+          "normalize_tier",
+          "validate_access",
+          "create_decorator",
+          "middleware",
+          "decorator"
+        ]
+      },
+      {
+        "filename": "consciousness_network_monitor.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "core_hub.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.bridges.core_consciousness_bridge",
+          "lukhas.core.bridges.core_safety_bridge",
+          "candidate.core.bio_symbolic_swarm_hub",
+          "candidate.core.cluster_sharding",
+          "candidate.core.core_system",
+          "candidate.core.enhanced_swarm",
+          "candidate.core.event_replay_snapshot",
+          "candidate.core.id",
+          "candidate.core.integrator",
+          "candidate.core.resource_efficiency_analyzer",
+          "candidate.core.swarm",
+          "candidate.orchestration.golden_trio.trio_orchestrator",
+          "candidate.bridge.integration_bridge",
+          "candidate.core.event_replay_snapshot",
+          "candidate.core.event_replay_snapshot",
+          "candidate.core.integration.service_discovery"
+        ],
+        "exports": [
+          "CoreHub",
+          "MinimalBioOrchestrator",
+          "get_core_hub",
+          "register_service",
+          "get_service",
+          "list_services",
+          "register_event_handler",
+          "get_endpoints",
+          "broadcast_to_all_hubs",
+          "receive_message",
+          "get_health"
+        ]
+      },
+      {
+        "filename": "cluster_sharding.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ShardManager",
+          "get_shard_id",
+          "assign_actor",
+          "move_actor",
+          "get_actor_state"
+        ]
+      },
+      {
+        "filename": "enhanced_swarm.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AgentState",
+          "CapabilityLevel",
+          "MemoryType",
+          "AgentCapability",
+          "AgentMemory",
+          "EnhancedSwarmAgent",
+          "EnhancedColony",
+          "EnhancedSwarmHub",
+          "update_confidence",
+          "to_dict",
+          "store",
+          "retrieve",
+          "clear",
+          "add_capability",
+          "get_capability",
+          "update_capability_confidence",
+          "add_agent",
+          "remove_agent",
+          "get_agents_with_capability",
+          "add_colony",
+          "remove_colony",
+          "get_total_agents",
+          "find_agents_with_capability"
+        ]
+      },
+      {
+        "filename": "telemetry.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "NoOpTracer",
+          "NoOpSpan",
+          "LukhasTracer",
+          "AgentSpans",
+          "get_tracer",
+          "start_span",
+          "get_current_span",
+          "set_attribute",
+          "set_status",
+          "add_event",
+          "record_exception",
+          "span",
+          "instrument",
+          "export_metrics",
+          "lid_issue",
+          "lid_verify",
+          "lid_webauthn",
+          "consent_record",
+          "consent_check",
+          "adapter_metadata",
+          "bus_publish",
+          "bus_handoff",
+          "pipeline_execute",
+          "sync_wrapper"
+        ]
+      },
+      {
+        "filename": "system_init.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.config.env_validator",
+          "lukhas.core.module_manager",
+          "candidate.orchestration.signals",
+          "lukhas.governance.identity.interface"
+        ],
+        "exports": [
+          "LUKHASSystem",
+          "LUKHASContext",
+          "setup_logging",
+          "initialize_lukhas",
+          "main",
+          "initialize",
+          "shutdown",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "event_sourcing.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Event",
+          "EventStore",
+          "EventSourcedAggregate",
+          "AIAgentAggregate",
+          "EventReplayService",
+          "get_global_event_store",
+          "to_dict",
+          "from_dict",
+          "append_event",
+          "get_events_for_aggregate",
+          "get_events_by_correlation_id",
+          "get_events_in_time_range",
+          "replay_events",
+          "apply_event",
+          "raise_event",
+          "commit_events",
+          "apply_event",
+          "create_agent",
+          "assign_task",
+          "complete_task",
+          "update_memory",
+          "add_capability",
+          "replay_aggregate_to_point_in_time",
+          "get_causal_chain",
+          "analyze_agent_behavior"
+        ]
+      },
+      {
+        "filename": "specialized_colonies.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.swarm"
+        ],
+        "exports": [
+          "ReasoningColony",
+          "MemoryColony",
+          "CreativityColony"
+        ]
+      },
+      {
+        "filename": "symbolic_arbitration.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TagConflictResolver",
+          "TagLineageTracker",
+          "resolve",
+          "add_event",
+          "get_history"
+        ]
+      },
+      {
+        "filename": "core_system.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "LukhasCore",
+          "get_lukhas_core",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "energy_consumption_analysis.py",
+        "component_type": "DATA_MODEL",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EnergyComponent",
+          "EnergyProfile",
+          "EnergyMetric",
+          "EnergyBudget",
+          "EnergyModel",
+          "EnergyConsumptionAnalyzer",
+          "EnergyAwareComponent",
+          "power_watts",
+          "to_dict",
+          "remaining_budget",
+          "budget_percentage_used",
+          "time_elapsed",
+          "is_within_budget",
+          "reset",
+          "record_observation",
+          "predict_energy",
+          "record_energy_consumption",
+          "create_budget",
+          "set_active_budget",
+          "predict_operation_energy",
+          "get_energy_statistics",
+          "set_energy_profile",
+          "export_metrics"
+        ]
+      },
+      {
+        "filename": "matriz_integrated_demonstration.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MatrizIntegratedConsciousnessDemo"
+        ]
+      },
+      {
+        "filename": "fallback_services.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "FallbackEthicsService",
+          "FallbackMemoryService",
+          "FallbackCreativityService",
+          "FallbackConsciousnessService",
+          "FallbackLearningService",
+          "FallbackQuantumService",
+          "FallbackIdentityClient",
+          "assess_action",
+          "check_compliance",
+          "store_memory",
+          "retrieve_memory",
+          "search_memory",
+          "generate_content",
+          "synthesize_dream",
+          "process_awareness",
+          "introspect",
+          "get_consciousness_state",
+          "learn_from_data",
+          "adapt_behavior",
+          "qi_compute",
+          "qi_entangle",
+          "verify_user_access",
+          "log_activity"
+        ]
+      },
+      {
+        "filename": "consistency_manager.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.tiered_state_management"
+        ],
+        "exports": [
+          "Consistency",
+          "ConsistencyManager"
+        ]
+      },
+      {
+        "filename": "module_registry.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.governance.identity.core.lambd_id_service",
+          "candidate.governance.identity.interface"
+        ],
+        "exports": [
+          "ModuleInfo",
+          "ModuleRegistry",
+          "TierLevel",
+          "require_tier",
+          "register_module",
+          "get_module",
+          "require_module_tier",
+          "list_modules",
+          "get_module_health",
+          "register_core_connections",
+          "register_connection",
+          "shutdown",
+          "decorator",
+          "wrapper"
+        ]
+      },
+      {
+        "filename": "event_bus.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DreamEventType",
+          "Event",
+          "EventBus",
+          "subscribe",
+          "unsubscribe",
+          "subscribe_to_dream_events",
+          "get_event_bus_stats",
+          "filtered_callback"
+        ]
+      },
+      {
+        "filename": "adaptive_ux_engine.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "InterfaceMode",
+          "ExportFormat",
+          "UserContext",
+          "AdaptiveResponse",
+          "NeuroSymbolicEngine",
+          "CognitiveDNA",
+          "AdaptiveUXEngine"
+        ]
+      },
+      {
+        "filename": "consciousness_data_flow.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "FlowState",
+          "RoutingStrategy",
+          "ConsciousnessRoute",
+          "NetworkTopology",
+          "FlowMetrics",
+          "ConsciousnessDataFlowManager",
+          "add_health_callback",
+          "add_emergency_handler",
+          "get_flow_metrics",
+          "get_network_status"
+        ]
+      },
+      {
+        "filename": "notion_sync.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "core_utilities.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.swarm",
+          "lukhas.core.symbolic_diagnostics.trace_repair_engine",
+          "lukhas.core.tiered_state_management",
+          "lukhas.memory.core_memory.memory_collapse_verifier"
+        ],
+        "exports": [
+          "Actor",
+          "QuorumOverride",
+          "ReasoningColony",
+          "MemoryColony",
+          "CreativityColony",
+          "Consistency",
+          "ConsistencyManager",
+          "IntegrityProbe",
+          "QuantizedCycleManager",
+          "ResourceEfficiencyAnalyzer",
+          "echo_behavior",
+          "get_resource_efficiency_table",
+          "send",
+          "request_access",
+          "run_consistency_check",
+          "collect_metrics"
+        ]
+      },
+      {
+        "filename": "supervision.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.actor_system"
+        ],
+        "exports": [
+          "SupervisionDirective",
+          "RestartPolicy",
+          "FailureInfo",
+          "SupervisionStrategy",
+          "SupervisionDecider",
+          "DefaultSupervisionDecider",
+          "AllForOneStrategy",
+          "OneForOneStrategy",
+          "RestForOneStrategy",
+          "CircuitBreaker",
+          "SupervisorActor",
+          "RootSupervisor",
+          "DepartmentSupervisor",
+          "calculate_restart_delay",
+          "register_child",
+          "get_affected_children",
+          "record_success",
+          "record_failure",
+          "can_proceed",
+          "reset",
+          "get_supervision_stats"
+        ]
+      },
+      {
+        "filename": "bot.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "BotMode",
+          "TaskType",
+          "ComponentType",
+          "UnifiedBot",
+          "create_bot",
+          "create_auditor",
+          "create_doc_generator",
+          "create_web_manager",
+          "create_agent",
+          "process_task",
+          "run_component_task"
+        ]
+      },
+      {
+        "filename": "common.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ComponentStatus",
+          "MessageType",
+          "BaseComponent",
+          "BaseMessage",
+          "ComponentError",
+          "ValidationError",
+          "CommunicationError",
+          "get_timestamp",
+          "validate_component_id",
+          "get_config",
+          "set_status",
+          "add_metadata"
+        ]
+      },
+      {
+        "filename": "efficient_communication.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.interfaces.dependency_injection"
+        ],
+        "exports": [
+          "MessagePriority",
+          "CommunicationMode",
+          "Message",
+          "MessageRouter",
+          "EventBus",
+          "P2PChannel",
+          "EfficientCommunicationFabric",
+          "EnergyMonitor",
+          "is_expired",
+          "to_dict",
+          "register_node",
+          "select_communication_mode",
+          "find_optimal_path",
+          "can_afford_message",
+          "record_message_sent",
+          "subscribe",
+          "unsubscribe",
+          "get_connection_stats",
+          "subscribe_to_events",
+          "get_communication_stats",
+          "get_statistics",
+          "record_energy_usage",
+          "get_stats"
+        ]
+      },
+      {
+        "filename": "observability_steering.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ObservabilityLevel",
+          "SystemHealth",
+          "ActorSnapshot",
+          "MessageFlow",
+          "EmergentPattern",
+          "ObservabilityCollector",
+          "SteeringController",
+          "ObservableActor",
+          "ObservabilityDashboard",
+          "ObservableAgent",
+          "start",
+          "stop",
+          "record_actor_snapshot",
+          "record_message_flow",
+          "record_system_event",
+          "register_pattern_detector",
+          "get_system_overview",
+          "register_steering_policy",
+          "get_custom_metrics",
+          "register_visualization",
+          "get_pattern_summary",
+          "get_custom_metrics"
+        ]
+      },
+      {
+        "filename": "collaboration.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.coordination"
+        ],
+        "exports": [
+          "ReactiveDataPipeline",
+          "DynamicTaskNegotiation",
+          "SelfOrganizingSwarm",
+          "run_pipeline",
+          "run_negotiation",
+          "run_training"
+        ]
+      },
+      {
+        "filename": "task_manager.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TaskStatus",
+          "TaskPriority",
+          "Task",
+          "TaskQueue",
+          "Agent",
+          "Lukh\u03bbsTaskManager",
+          "add_queue",
+          "register_agent",
+          "create_task",
+          "get_task_status",
+          "get_system_status"
+        ]
+      },
+      {
+        "filename": "validation_script_fixes.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_validation_script",
+          "fix_efficient_communication",
+          "main",
+          "replace_send_message",
+          "add_message_count",
+          "add_counter_increment"
+        ]
+      },
+      {
+        "filename": "matriz_consciousness_signals.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ConsciousnessSignalType",
+          "ConstellationStar",
+          "BioSymbolicData",
+          "ConsciousnessStateDelta",
+          "ConstellationAlignmentData",
+          "TemporalContext",
+          "ConsciousnessSignal",
+          "ConsciousnessSignalFactory",
+          "to_matriz_node",
+          "validate_signal",
+          "calculate_integrity_hash",
+          "create_awareness_signal",
+          "create_reflection_signal",
+          "create_evolution_signal",
+          "create_integration_signal"
+        ]
+      },
+      {
+        "filename": "settings.py",
+        "component_type": "CONFIGURATION",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "validate_settings"
+        ]
+      },
+      {
+        "filename": "mailbox.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MessagePriority",
+          "MailboxType",
+          "PrioritizedMessage",
+          "DeadLetterQueue",
+          "BackPressureStrategy",
+          "Mailbox",
+          "UnboundedMailbox",
+          "BoundedMailbox",
+          "PriorityMailbox",
+          "PersistentMailbox",
+          "MailboxFactory",
+          "MailboxActor",
+          "PriorityActor",
+          "qsize",
+          "is_full",
+          "get_stats",
+          "qsize",
+          "qsize",
+          "qsize",
+          "get_priority_stats",
+          "create_mailbox",
+          "add_message_filter",
+          "get_mailbox_stats"
+        ]
+      },
+      {
+        "filename": "neuroplastic_connector.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/neuroplastic_connector.json",
+        "dependencies": [],
+        "exports": [
+          "CoreConnector",
+          "connect_component",
+          "emit_hormone",
+          "get_stress_response"
+        ]
+      },
+      {
+        "filename": "identity_aware_base_colony.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.colonies.base_colony",
+          "candidate.core.colonies.ethics_swarm_colony",
+          "candidate.core.oracle_nervous_system",
+          "lukhas.consciousness.systems.consciousness_colony_integration"
+        ],
+        "exports": [
+          "IdentityValidationError",
+          "TierAccessDeniedError",
+          "QISecurityError",
+          "IdentityAwareBaseColony",
+          "DefaultIdentityAwareColony",
+          "create_identity_aware_colony",
+          "get_supported_capabilities_for_tier",
+          "get_identity_statistics"
+        ]
+      },
+      {
+        "filename": "errors.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SymbolicIntegrityError"
+        ]
+      },
+      {
+        "filename": "quantized_thought_cycles.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "CyclePhase",
+          "CycleState",
+          "ThoughtQuantum",
+          "CycleMetrics",
+          "QuantizedThoughtProcessor",
+          "get_cycle_trace",
+          "get_metrics"
+        ]
+      },
+      {
+        "filename": "quantized_cycle_manager.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "QuantizedCycleManager"
+        ]
+      },
+      {
+        "filename": "matriz_signal_emitters.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EmissionTrigger",
+          "EmissionRule",
+          "ConsciousnessModuleEmitter",
+          "ConsciousnessEmitter",
+          "OrchestrationEmitter",
+          "IdentityEmitter",
+          "GovernanceEmitter",
+          "SymbolicCoreEmitter",
+          "MatrizSignalEmissionCoordinator",
+          "get_emission_coordinator",
+          "create_consciousness_emitter",
+          "create_orchestration_emitter",
+          "create_identity_emitter",
+          "create_governance_emitter",
+          "create_symbolic_emitter",
+          "get_emission_stats",
+          "register_emitter",
+          "create_module_emitters",
+          "get_global_emission_stats"
+        ]
+      },
+      {
+        "filename": "neural_bridge.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "NeuroplasticBridge",
+          "register_module",
+          "create_synapse",
+          "get_network_state"
+        ]
+      },
+      {
+        "filename": "enhanced_matriz_adapter.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SignalType",
+          "ConsciousnessSignal",
+          "BioSymbolicPattern",
+          "EnhancedMatrizAdapter",
+          "ConsciousnessType",
+          "EvolutionaryStage",
+          "create_consciousness_node",
+          "get_consciousness_network_metrics",
+          "validate_consciousness_node",
+          "save_consciousness_node"
+        ]
+      },
+      {
+        "filename": "targeted_api_fixes.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "apply_actor_ref_fixes",
+          "fix_communication_fabric",
+          "fix_integrated_system",
+          "update_validation_script",
+          "main",
+          "add_total_messages",
+          "add_send_large_data",
+          "fix_import"
+        ]
+      },
+      {
+        "filename": "identity_aware_base.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.governance.identity.interface",
+          "lukhas.governance.identity.core.user_tier_mapping"
+        ],
+        "exports": [
+          "IdentityAwareService",
+          "TieredOperationMixin",
+          "ResourceLimitedService",
+          "FallbackIdentityClient",
+          "tier_required",
+          "identity_client",
+          "validate_user_tier",
+          "check_user_consent",
+          "log_user_activity",
+          "get_user_context",
+          "clear_user_cache",
+          "get_service_info",
+          "execute_tiered_operation",
+          "get_user_resource_limits",
+          "check_resource_availability",
+          "consume_resource",
+          "decorator",
+          "wrapper",
+          "verify_user_access",
+          "check_consent",
+          "log_activity"
+        ]
+      },
+      {
+        "filename": "actor_model.py",
+        "component_type": "DATA_MODEL",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Actor",
+          "PingActor",
+          "PongActor",
+          "receive",
+          "send",
+          "receive",
+          "receive"
+        ]
+      },
+      {
+        "filename": "coordination.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ContractNetInitiator",
+          "ContractNetParticipant",
+          "call_for_proposals",
+          "receive_proposal",
+          "award_contract",
+          "handle_call_for_proposals",
+          "can_perform_task",
+          "calculate_bid"
+        ]
+      },
+      {
+        "filename": "swarm_visualizer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.swarm"
+        ],
+        "exports": [
+          "SwarmVisualizer",
+          "generate_mermaid_graph"
+        ]
+      },
+      {
+        "filename": "identity_integration.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.governance.identity.interface"
+        ],
+        "exports": [
+          "TierMappingConfig",
+          "IdentityContext",
+          "ModuleIntegrationExamples",
+          "get_identity_client",
+          "require_identity",
+          "validate_and_log",
+          "normalize_tier",
+          "get_tier_index",
+          "decorator",
+          "memory_operation_example",
+          "dream_generation_example",
+          "qi_operation_example",
+          "context_manager_example",
+          "wrapper"
+        ]
+      },
+      {
+        "filename": "memory_core.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "resource_efficiency.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ResourceEfficiencyAnalyzer",
+          "get_resource_efficiency_table",
+          "collect_metrics"
+        ]
+      },
+      {
+        "filename": "metrics_contract.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "BioProcessorStats",
+          "RouterStats",
+          "NetworkMetrics",
+          "normalize_metrics",
+          "validate_bio_processor_stats",
+          "validate_router_stats",
+          "assert_bio_processor_contract",
+          "assert_router_contract"
+        ]
+      },
+      {
+        "filename": "tier_aware_colony_proxy.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "actor_system.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/actor_system.json",
+        "dependencies": [],
+        "exports": [
+          "ActorRef",
+          "ActorSystem",
+          "Actor",
+          "AIAgentActor",
+          "get_global_actor_system",
+          "send",
+          "send",
+          "register",
+          "register_handler",
+          "receive"
+        ]
+      },
+      {
+        "filename": "p2p_communication.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "PeerStatus",
+          "MessageType",
+          "PeerInfo",
+          "P2PMessage",
+          "P2PNode",
+          "to_dict",
+          "to_bytes",
+          "from_bytes",
+          "register_handler",
+          "get_network_stats"
+        ]
+      },
+      {
+        "filename": "matriz_adapter.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/matriz_adapter.json",
+        "dependencies": [],
+        "exports": [
+          "CoreMatrizAdapter",
+          "create_node",
+          "emit_glyph_event",
+          "emit_orchestration_event",
+          "emit_symbolic_reasoning",
+          "emit_actor_event",
+          "emit_integration_event",
+          "validate_node",
+          "save_node"
+        ]
+      },
+      {
+        "filename": "state_management.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "StateManager",
+          "apply_event",
+          "log_event",
+          "take_snapshot"
+        ]
+      },
+      {
+        "filename": "observatory.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.consciousness.reflection.unified_memory_manager"
+        ],
+        "exports": [
+          "Observatory",
+          "get_decision_trail",
+          "get_system_status"
+        ]
+      },
+      {
+        "filename": "decorators.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.memory.systems.tier_system",
+          "lukhas.memory.systems.tier_system"
+        ],
+        "exports": [
+          "TierLevel",
+          "PermissionScope",
+          "lukhas_tier_required",
+          "glyph_bind",
+          "trace",
+          "core_tier_required",
+          "decorator",
+          "decorator",
+          "decorator",
+          "decorator",
+          "wrapper",
+          "wrapper",
+          "wrapper",
+          "wrapper"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "symbolic_legacy",
+        "has_index": true,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "agi",
+        "has_index": true,
+        "purpose": "Subdirectory with 6 Python files",
+        "component_count": 6
+      },
+      {
+        "name": "quantum_financial",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "net",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "colonies",
+        "has_index": true,
+        "purpose": "Subdirectory with 16 Python files",
+        "component_count": 16
+      },
+      {
+        "name": "symbolic_bridge",
+        "has_index": true,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "identity",
+        "has_index": true,
+        "purpose": "Subdirectory with 17 Python files",
+        "component_count": 17
+      },
+      {
+        "name": "spine",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "config",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "security",
+        "has_index": true,
+        "purpose": "Subdirectory with 12 Python files",
+        "component_count": 12
+      },
+      {
+        "name": "qi_biometrics",
+        "has_index": true,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "collective",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "log_system",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "integration",
+        "has_index": true,
+        "purpose": "Subdirectory with 24 Python files",
+        "component_count": 24
+      },
+      {
+        "name": "bio_systems",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "personality",
+        "has_index": true,
+        "purpose": "Subdirectory with 5 Python files",
+        "component_count": 5
+      },
+      {
+        "name": "symbolic_diagnostics",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "consciousness",
+        "has_index": true,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "qi_financial",
+        "has_index": true,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "business",
+        "has_index": true,
+        "purpose": "Subdirectory with 5 Python files",
+        "component_count": 5
+      },
+      {
+        "name": "unified",
+        "has_index": true,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "output",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "architectures",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "quantum_empathy",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "utils",
+        "has_index": true,
+        "purpose": "Subdirectory with 7 Python files",
+        "component_count": 7
+      },
+      {
+        "name": "observability",
+        "has_index": true,
+        "purpose": "Subdirectory with 6 Python files",
+        "component_count": 6
+      },
+      {
+        "name": "introspection",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "compliance",
+        "has_index": true,
+        "purpose": "Subdirectory with 5 Python files",
+        "component_count": 5
+      },
+      {
+        "name": "bridges",
+        "has_index": true,
+        "purpose": "Subdirectory with 9 Python files",
+        "component_count": 9
+      },
+      {
+        "name": "explainability",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "tagging",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "endocrine",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "rem",
+        "has_index": true,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "tags",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "safety",
+        "has_index": true,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "consciousness_ascension",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "integrations",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "adapters",
+        "has_index": true,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "container",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "common",
+        "has_index": true,
+        "purpose": "Subdirectory with 7 Python files",
+        "component_count": 7
+      },
+      {
+        "name": "symbolic_reasoning",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "ethics",
+        "has_index": true,
+        "purpose": "Subdirectory with 5 Python files",
+        "component_count": 5
+      },
+      {
+        "name": "audit",
+        "has_index": true,
+        "purpose": "Subdirectory with 6 Python files",
+        "component_count": 6
+      },
+      {
+        "name": "reality_synthesis",
+        "has_index": true,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "engines",
+        "has_index": true,
+        "purpose": "Subdirectory with 6 Python files",
+        "component_count": 6
+      },
+      {
+        "name": "ai",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "quantum_biometrics",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "examples",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "symbolism",
+        "has_index": true,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "symbolic_core",
+        "has_index": true,
+        "purpose": "Subdirectory with 5 Python files",
+        "component_count": 5
+      },
+      {
+        "name": "planetary_consciousness",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "verifold",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "orchestration",
+        "has_index": true,
+        "purpose": "Subdirectory with 14 Python files",
+        "component_count": 14
+      },
+      {
+        "name": "governance",
+        "has_index": true,
+        "purpose": "Subdirectory with 9 Python files",
+        "component_count": 9
+      },
+      {
+        "name": "db",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "api",
+        "has_index": true,
+        "purpose": "Subdirectory with 6 Python files",
+        "component_count": 6
+      },
+      {
+        "name": "multiverse_creative",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "glyph",
+        "has_index": true,
+        "purpose": "Subdirectory with 17 Python files",
+        "component_count": 17
+      },
+      {
+        "name": "meta_learning",
+        "has_index": true,
+        "purpose": "Subdirectory with 7 Python files",
+        "component_count": 7
+      },
+      {
+        "name": "telemetry",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "symbolic",
+        "has_index": true,
+        "purpose": "Subdirectory with 67 Python files",
+        "component_count": 67
+      },
+      {
+        "name": "user_interface_manager",
+        "has_index": true,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "qi_empathy",
+        "has_index": true,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "monitoring",
+        "has_index": true,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "events",
+        "has_index": true,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "performance",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "infrastructure",
+        "has_index": true,
+        "purpose": "Subdirectory with 5 Python files",
+        "component_count": 5
+      },
+      {
+        "name": "modules",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "neural_architectures",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "neural",
+        "has_index": true,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "interaction",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "helpers",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "logging",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "base",
+        "has_index": true,
+        "purpose": "Subdirectory with 7 Python files",
+        "component_count": 7
+      },
+      {
+        "name": "services",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "cognitive_preparedness",
+        "has_index": true,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "interfaces",
+        "has_index": true,
+        "purpose": "Subdirectory with 21 Python files",
+        "component_count": 21
+      },
+      {
+        "name": "hub_services",
+        "has_index": true,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "flow",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "router",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "LAYER.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "MAILBOX_ARCHITECTURE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "API_REFERENCE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "FAULT_TOLERANCE_ARCHITECTURE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "IMPLEMENTATION_SUMMARY.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README_core_trace.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "QUICK_START_FAULT_TOLERANCE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README_core_drift.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "QUICK_START_GUIDE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "AGENT_COORDINATION.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "AGI_Core_System.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "INTERNAL_USE_README.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "MISSION_ACCOMPLISHED_REPORT.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "GOLDEN_FEATURES_AUDIT.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README_INDEX.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "DEPLOYMENT_STATUS.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README_MATRIZ_CONSCIOUSNESS_INTEGRATION.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "lukhas_context.md",
+        "type": "lukhas_context.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "hello.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "SYSTEM_HEALTH_REPORT.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "AUTOMATIC_TESTING_GUIDE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "API_INDEX.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "API_MISMATCH_REPORT.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README_MATRIZ_CONSCIOUSNESS_SYSTEM.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "claude.me",
+        "type": "claude.me",
+        "has_sync_header": true
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "README.md",
+      "lukhas_context.md",
+      "claude.me"
+    ],
+    "common_tasks": [
+      {
+        "task": "API integration",
+        "files_involved": [
+          "targeted_api_fixes.py"
+        ],
+        "complexity": "medium"
+      }
+    ],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Bypassing MATRIZ pipeline validation",
+      "Violating T4/0.01% reliability standards",
+      "Direct production lane imports from development components"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 84,
+    "estimated_complexity": "high",
+    "consciousness_integration": "intermediate",
+    "matriz_compatibility": "experimental",
+    "t4_compliance_score": 0.7,
+    "plugin_registry_compatible": true,
+    "constructor_aware_patterns": true,
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate",
+    "related_directories": [],
+    "constellation_cluster": "core_integration_hub",
+    "dependency_weight": "moderate"
+  }
+}

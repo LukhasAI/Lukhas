@@ -29,7 +29,7 @@ Located in `reports/deep_search/`:
 ## 🎯 Key Validation Points
 
 1. **Lane Architecture Compliance** - No candidate/ → lukhas/ violations
-2. **Trinity Framework Adherence** - ⚛️🧠🛡️ principles throughout
+2. **Constellation Framework Adherence** - ⚛️🧠🛡️ principles throughout
 3. **Test Coverage** - Comprehensive smoke and integration tests
 4. **Security Posture** - Guardian System v1.0.0 drift detection
 5. **Branding Consistency** - Approved terminology and messaging

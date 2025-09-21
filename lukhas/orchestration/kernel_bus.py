@@ -5,7 +5,7 @@ LUKHAS Kernel Bus - Accepted Lane Interface
 Simplified event coordination system for inter-module communication.
 Feature flag: CONTEXT_BUS_ACTIVE enables full functionality.
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 from __future__ import annotations

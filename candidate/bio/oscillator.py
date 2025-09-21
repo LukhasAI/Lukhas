@@ -1,7 +1,7 @@
 """
 LUKHAS AI Bio Module - Oscillator
 Consolidated from 9 variants
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 from abc import ABC, abstractmethod
 from dataclasses import dataclass

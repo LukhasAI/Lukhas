@@ -3,7 +3,7 @@
 Enforces preferred phrasing in agent-visible outputs:
 - Use 'quantum-inspired' instead of 'quantum process/processing/processes'
 - Use 'bio-inspired' instead of 'bio process/processing/processes'
-- Use 'Lukhas AI' instead of 'Lukhas AGI' (case variants handled)
+- Use 'Lukhas AI' instead of 'Lukhas Cognitive AI' (case variants handled)
 
 Intended for lightweight post-processing. Keep replacements conservative.
 """
@@ -13,8 +13,8 @@ from __future__ import annotations
 import re
 
 _REPLACEMENTS: tuple[tuple[re.Pattern[str], str], ...] = (
-    # Lukhas AGI -> Lukhas AI (various caseings)
-    (re.compile(r"\bLUKHAS\s+AGI\b", re.IGNORECASE), "Lukhas AI"),
+    # Lukhas Cognitive AI -> Lukhas AI (various caseings)
+    (re.compile(r"\bLUKHAS\s+Cognitive AI\b", re.IGNORECASE), "Lukhas AI"),
     # quantum process family -> quantum-inspired
     (
         re.compile(
@@ -54,7 +54,7 @@ def normalize_output(text: str | None) -> str | None:
     for pat, repl in _REPLACEMENTS:
         out = pat.sub(repl, out)
     # Preserve casing for 'LUKHAS' if it was originally uppercase in the segment.
-    # Simple heuristic: if 'LUKHAS' present with AI/AGI, re-upcase.
+    # Simple heuristic: if 'LUKHAS' present with AI/Cognitive AI, re-upcase.
     out = re.sub(r"\bLukhas AI\b", "LUKHAS AI", out) if "LUKHAS" in text else out
     return out
 

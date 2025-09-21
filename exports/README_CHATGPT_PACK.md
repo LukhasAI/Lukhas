@@ -24,7 +24,7 @@
 ## 💡 Sample ChatGPT Prompts
 
 ```
-"Analyze the LUKHAS AI Trinity Framework architecture and suggest improvements"
+"Analyze the LUKHAS AI Constellation Framework architecture and suggest improvements"
 
 "Review the consciousness-aware development patterns and identify potential issues"
 
@@ -68,7 +68,7 @@
 ## 🎯 Key Analysis Areas
 
 **Architecture Review:**
-- Trinity Framework (⚛️🧠🛡️) implementation
+- Constellation Framework (⚛️🧠🛡️) implementation
 - Lane-based modular development
 - Multi-agent coordination patterns
 

@@ -785,7 +785,7 @@ async def main():
     quantum_bot = QIConsciousnessΛBot()
 
     # Start quantum consciousness analysis
-    session = await quantum_bot.start_quantum_consciousness_analysis("/Users/agi_dev/LOCAL-REPOS/Lukhas")
+    session = await quantum_bot.start_quantum_consciousness_analysis("/Users/cognitive_dev/LOCAL-REPOS/Lukhas")
 
     print("\n⚛️ Quantum Consciousness Session Active:")
     print(f"   Session ID: {session.session_id}")

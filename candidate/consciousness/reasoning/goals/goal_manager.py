@@ -17,8 +17,8 @@ class GoalManagementNode:
     Translates intents into actionable goals and sub-goals.
     """
 
-    def __init__(self, agi_system):
-        self.agi = agi_system
+    def __init__(self, cognitive_system):
+        self.agi = cognitive_system
         self.logger = logging.getLogger("GoalManagementNode")
         self.active_goals = []  # Currently active goals
         self.completed_goals = []  # History of completed goals

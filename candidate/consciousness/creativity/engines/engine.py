@@ -4,7 +4,7 @@ logger = logging.getLogger(__name__)
 """
 🎨 LUKHAS CREATE ENGINE - Advanced Content Generation System
 
-This module implements the flagship creative content generation engine with AGI-powered
+This module implements the flagship creative content generation engine with Cognitive AI-powered
 creativity, following the LUKHAS symbolic architecture for intelligent content creation.
 
 Based on the audit findings, this engine provides:
@@ -53,7 +53,7 @@ class CreateRequest:
 
 @dataclass
 class CreateResponse:
-    """Structured creation response with AGI capabilities"""
+    """Structured creation response with Cognitive capabilities"""
 
     content: str
     confidence: float
@@ -65,7 +65,7 @@ class CreateResponse:
 
 class LukhasCreateEngine:
     """
-    🎨 Advanced AGI-powered content creation engine
+    🎨 Advanced Cognitive AI-powered content creation engine
 
     Provides intelligent content generation across multiple domains with
     symbolic reasoning and contextual awareness.
@@ -88,7 +88,7 @@ class LukhasCreateEngine:
 
     async def create(self, request: str, context: Optional[dict[str, Any]] = None, **kwargs) -> CreateResponse:
         """
-        🚀 Main creation interface - Generate content using AGI capabilities
+        🚀 Main creation interface - Generate content using Cognitive capabilities
 
         Args:
             request: Natural language creation request
@@ -227,7 +227,7 @@ class LukhasCreateEngine:
         return CreateResponse(
             content=content,
             confidence=confidence,
-            creation_method=f"agi_{request.type.value}",
+            creation_method=f"cognitive_{request.type.value}",
             alternative_versions=alternatives,
             metadata={
                 "creation_type": request.type.value,

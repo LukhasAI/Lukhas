@@ -1,0 +1,16 @@
+name: legacy-core-nightly
+
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Legacy import audit
+        run: |
+          set -e
+          make legacy-check

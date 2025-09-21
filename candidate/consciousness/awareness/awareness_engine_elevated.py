@@ -9,7 +9,7 @@
 Lukhas Awareness Engine - Elevated Tracking Framework
 ====================================================
 Production-grade awareness tracking with modular interfaces for symbolic, quantum, and classical components.
-Designed for institutional alignment and AGI-grade instrumentation across the Lukhas ecosystem.
+Designed for institutional alignment and Cognitive AI-grade instrumentation across the Lukhas ecosystem.
 
 Features:
 - Modular interfaces (via ABCs) for symbolic, quantum, and classical subcomponents

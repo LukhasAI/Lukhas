@@ -55,7 +55,7 @@ def run_all():
 def main():
     # Keep as print since this is CLI user output
     print("🌌 Launching LUKHAS Dream Interface...")
-    parser = argparse.ArgumentParser(description="Symbolic Dream CLI for LUKHAS AGI")
+    parser = argparse.ArgumentParser(description="Symbolic Dream CLI for LUKHAS Cognitive AI")
     parser.add_argument("--inject", action="store_true", help="Inject a symbolic test dream")
     parser.add_argument("--queue", action="store_true", help="Queue narratable dreams")
     parser.add_argument("--narrate", action="store_true", help="Run the voice narrator")

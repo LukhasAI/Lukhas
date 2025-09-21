@@ -11,7 +11,7 @@ Your LUKHAS workspace now contains the **most comprehensive AI-driven web ecosys
 
 ### **Phase 1: Core Website Infrastructure** ✅
 📂 `/lukhas_website/` - Production marketing site (Next.js 14, running on localhost:3004)
-- Trinity Framework branding and messaging
+- Constellation Framework branding and messaging
 - 3D animated hero sections with Three.js
 - Agent architecture displays and pricing pages
 - EU compliance and privacy-focused design
@@ -91,7 +91,7 @@ Your LUKHAS workspace now contains the **most comprehensive AI-driven web ecosys
 
 #### **📚 Strategic Documentation (7 files)**
 - **CEO strategic vision and roadmap** documents
-- **Trinity framework specification** and implementation guides
+- **Constellation framework specification** and implementation guides
 - **2030 vision and development strategy** comprehensive plans
 - **Complete concept preservation** guides for LUKHAS philosophy
 

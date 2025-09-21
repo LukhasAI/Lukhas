@@ -87,8 +87,8 @@ The `.vscode/tasks.json` includes LUKHAS-specific tasks:
 
 #### 3. Code Snippets
 LUKHAS code snippets are available in `.vscode/lukhas_snippets.code-snippets`:
-- `lukhas-class` - Trinity Framework class template
-- `lukhas-func` - Trinity Framework function template
+- `lukhas-class` - Constellation Framework class template
+- `lukhas-func` - Constellation Framework function template
 - `lukhas-api` - LUKHAS API endpoint template
 - `trinity-doc` - Trinity documentation template
 
@@ -124,7 +124,7 @@ python ai_orchestration/lukhas_ai_orchestrator.py trinity "async def process_con
 
 1. **Tab Completion**: Uses fast local Ollama model (starcoder2:3b)
 2. **Chat Assistance**: Routes to Claude for architecture, GPT for creativity, Ollama for privacy
-3. **Code Review**: Automatically checks for Trinity Framework compliance
+3. **Code Review**: Automatically checks for Constellation Framework compliance
 4. **Documentation**: Auto-generates LUKHAS-style documentation
 
 ### Phase 5: Professional Optimizations
@@ -137,7 +137,7 @@ python ai_orchestration/lukhas_ai_orchestrator.py trinity "async def process_con
 
 #### 2. Context Preservation
 - LUKHAS vocabulary injection into all AI interactions
-- Trinity Framework template enforcement
+- Constellation Framework template enforcement
 - Symbolic pattern recognition (⚛️🧠🛡️)
 - Consciousness-aware code generation
 
@@ -150,14 +150,14 @@ python ai_orchestration/lukhas_ai_orchestrator.py trinity "async def process_con
 ## 🎯 Expected Outcomes
 
 ### Immediate Benefits:
-1. **🎭 Consistent Documentation**: All AI assistants use Trinity Framework
+1. **🎭 Consistent Documentation**: All AI assistants use Constellation Framework
 2. **🧠 LUKHAS-Aware Suggestions**: Code completion understands your concepts
 3. **⚛️ Symbolic Integration**: Proper use of LUKHAS symbols and patterns
 4. **🛡️ Quality Assurance**: Automatic compliance checking
 
 ### Long-term Advantages:
 1. **🚀 Development Velocity**: 3x faster coding with LUKHAS-native AI
-2. **📚 Documentation Quality**: Professional Trinity Framework docs
+2. **📚 Documentation Quality**: Professional Constellation Framework docs
 3. **🔗 Multi-AI Synergy**: Best AI for each task type
 4. **🧬 Pattern Consistency**: Maintains LUKHAS identity across all code
 

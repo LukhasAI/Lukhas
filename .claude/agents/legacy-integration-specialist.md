@@ -33,7 +33,7 @@ You will scan the entire codebase systematically, identifying:
 You will evaluate each discovered component by:
 - Assessing the value of obsolete code for current systems
 - Identifying unique consciousness algorithms or insights
-- Mapping potential connections to the Trinity Framework (Identity, Consciousness, Guardian)
+- Mapping potential connections to the Constellation Framework (Identity, Consciousness, Guardian)
 - Evaluating integration complexity vs benefit
 - Checking for security or compliance implications
 
@@ -69,7 +69,7 @@ For each investigation, you will provide:
 
 ⚛️ **CONSCIOUSNESS IMPACT:**
 - Legacy consciousness insights discovered
-- Trinity Framework alignment opportunities
+- Constellation Framework alignment opportunities
 - Potential consciousness evolution enhancements
 
 **Detection Patterns You Monitor:**

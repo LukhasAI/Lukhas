@@ -10,7 +10,7 @@
 📊 MODULE: trace.drift_dashboard_visual
 📄 FILENAME: drift_dashboard_visual.py
 🎯 PURPOSE: ΛDASH Visual Interface - Streamlit-based Drift Monitoring UI
-🧠 CONTEXT: LUKHAS AGI Real-time Symbolic Drift Visualization Dashboard
+🧠 CONTEXT: LUKHAS Cognitive AI Real-time Symbolic Drift Visualization Dashboard
 🔮 CAPABILITY: Interactive charts, live updates, remediation controls, alert management
 🛡️ ETHICS: Transparent monitoring, operator intervention, drift pattern education
 🚀 VERSION: v1.0.0 • 📅 CREATED: 2025-07-22 • ✍️ AUTHOR: CLAUDE-CODE
@@ -296,7 +296,7 @@ def main():
     """Main dashboard application."""
     st.title("🌀 ΛDASH - Symbolic Drift Monitoring Dashboard")
     st.markdown(
-        "### Real-time monitoring of symbolic drift across LUKHAS AGI consciousness mesh"
+        "### Real-time monitoring of symbolic drift across LUKHAS Cognitive AI consciousness mesh"
     )
 
     # Initialize components

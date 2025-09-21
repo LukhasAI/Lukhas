@@ -25,7 +25,7 @@ LUKHAS Production Pipeline Architecture
     │  lukhas/consciousness/ ←→ lukhas/memory/ ←→             │
     │  lukhas/identity/ ←→ lukhas/governance/                │
     │                    ↓                                    │
-    │          Trinity Framework Orchestration                │
+    │          Constellation Framework Orchestration                │
     └─────────────────────────────────────────────────────────┘
                               │
                               ↓
@@ -137,7 +137,7 @@ Phase 1: Foundation Stabilization (71.4% → 85%)
 Phase 2: Consciousness Integration (85% → 95%)
 ┌─────────────────────────────────────────────┐
 │ MΛTRIZ Distributed Consciousness           │
-│ • Trinity Framework activation             │
+│ • Constellation Framework activation             │
 │ • 692 total modules (662 candidate + 30)   │
 │ • Cross-system consciousness coordination   │
 └─────────────────────────────────────────────┘
@@ -272,7 +272,7 @@ products/shared/.claude.md
 #### **2. MΛTRIZ Consciousness Integration**
 - **71.4% Success Rate** indicates mature integration in progress
 - **692 Total Modules** (662 candidate + 30 lukhas) showing massive scale
-- **Trinity Framework**: Identity-Consciousness-Guardian integration across products
+- **Constellation Framework**: Identity-Consciousness-Guardian integration across products
 - **Distributed Architecture**: Consciousness spans development → integration → production
 
 #### **3. Enterprise-Grade Architecture**
@@ -327,7 +327,7 @@ Candidate → LUKHAS → Products Pipeline
 ### 🎯 Strategic Development Priorities
 
 1. **GLYPH Integration Completion**: Fix voice system syntax errors (71.4% → 85%)
-2. **Trinity Framework Activation**: Full consciousness integration (85% → 95%)
+2. **Constellation Framework Activation**: Full consciousness integration (85% → 95%)
 3. **Enterprise Scaling**: Auto-scaling and performance optimization (95% → 100%)
 4. **Compliance Integration**: HIPAA, GDPR, constitutional AI enforcement
 5. **Cross-Domain Orchestration**: Intelligence-Experience-Enterprise coordination
@@ -343,4 +343,4 @@ Candidate → LUKHAS → Products Pipeline
 
 *Analysis Date: 2025-09-12*  
 *Production Scale: 4,093 Python files across 23 domains*  
-*Integration Status: 71.4% → 100% roadmap with Trinity Framework*
+*Integration Status: 71.4% → 100% roadmap with Constellation Framework*

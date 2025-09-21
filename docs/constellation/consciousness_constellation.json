@@ -1,0 +1,3657 @@
+{
+  "directed": true,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "file_path": "candidate/consciousness/orchestration_bridge.py",
+      "import_count": 7,
+      "id": "candidate.consciousness.orchestration_bridge"
+    },
+    {
+      "id": "candidate.orchestration.brain.personality.personality"
+    },
+    {
+      "id": "candidate.orchestration.brain.cognitive.cognitive_updater"
+    },
+    {
+      "id": "candidate.orchestration.brain.monitoring.rate_modulator"
+    },
+    {
+      "id": "candidate.core.common"
+    },
+    {
+      "file_path": "candidate/consciousness/services.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.services"
+    },
+    {
+      "id": "consciousness.bridge"
+    },
+    {
+      "file_path": "candidate/consciousness/bridge.py",
+      "import_count": 1,
+      "id": "candidate.consciousness.bridge"
+    },
+    {
+      "file_path": "candidate/consciousness/dream_bridge_adapter.py",
+      "import_count": 5,
+      "id": "candidate.consciousness.dream_bridge_adapter"
+    },
+    {
+      "file_path": "candidate/consciousness/qi_consciousness_integration.py",
+      "import_count": 7,
+      "id": "candidate.consciousness.qi_consciousness_integration"
+    },
+    {
+      "id": "consciousness.consciousness_service"
+    },
+    {
+      "file_path": "candidate/consciousness/platform.py",
+      "import_count": 2,
+      "id": "candidate.consciousness.platform"
+    },
+    {
+      "file_path": "candidate/consciousness/activation.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.activation"
+    },
+    {
+      "file_path": "candidate/consciousness/dream_bridge.py",
+      "import_count": 6,
+      "id": "candidate.consciousness.dream_bridge"
+    },
+    {
+      "id": "candidate.core.orchestration.integration_hub"
+    },
+    {
+      "id": "candidate.memory.core"
+    },
+    {
+      "file_path": "candidate/consciousness/pattern_separator.py",
+      "import_count": 5,
+      "id": "candidate.consciousness.pattern_separator"
+    },
+    {
+      "file_path": "candidate/consciousness/neuroplastic_connector.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.neuroplastic_connector"
+    },
+    {
+      "file_path": "candidate/consciousness/matriz_adapter.py",
+      "import_count": 5,
+      "id": "candidate.consciousness.matriz_adapter"
+    },
+    {
+      "file_path": "candidate/consciousness/persona_similarity_engine.py",
+      "import_count": 8,
+      "id": "candidate.consciousness.persona_similarity_engine"
+    },
+    {
+      "file_path": "candidate/consciousness/loop_meta_learning.py",
+      "import_count": 8,
+      "id": "candidate.consciousness.loop_meta_learning"
+    },
+    {
+      "id": "lukhas.memory.core"
+    },
+    {
+      "file_path": "candidate/consciousness/cognitive/adapter.py",
+      "import_count": 14,
+      "id": "candidate.consciousness.cognitive.adapter"
+    },
+    {
+      "file_path": "candidate/consciousness/cognitive/reflective_introspection.py",
+      "import_count": 5,
+      "id": "candidate.consciousness.cognitive.reflective_introspection"
+    },
+    {
+      "file_path": "candidate/consciousness/core/engine_poetic.py",
+      "import_count": 9,
+      "id": "candidate.consciousness.core.engine_poetic"
+    },
+    {
+      "file_path": "candidate/consciousness/core/engine_complete.py",
+      "import_count": 13,
+      "id": "candidate.consciousness.core.engine_complete"
+    },
+    {
+      "file_path": "candidate/consciousness/core/engine_codex.py",
+      "import_count": 7,
+      "id": "candidate.consciousness.core.engine_codex"
+    },
+    {
+      "file_path": "candidate/consciousness/core/engine_alt.py",
+      "import_count": 7,
+      "id": "candidate.consciousness.core.engine_alt"
+    },
+    {
+      "file_path": "candidate/consciousness/core/engine.py",
+      "import_count": 12,
+      "id": "candidate.consciousness.core.engine"
+    },
+    {
+      "id": "lukhas.branding_bridge"
+    },
+    {
+      "file_path": "candidate/consciousness/constellation/framework_integration.py",
+      "import_count": 9,
+      "id": "candidate.consciousness.trinity.framework_integration"
+    },
+    {
+      "file_path": "candidate/consciousness/connected/cognitive_sync_adapter.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.connected.cognitive_sync_adapter"
+    },
+    {
+      "file_path": "candidate/consciousness/connected/cognitive_updater.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.connected.cognitive_updater"
+    },
+    {
+      "file_path": "candidate/consciousness/creativity/service.py",
+      "import_count": 6,
+      "id": "candidate.consciousness.creativity.service"
+    },
+    {
+      "id": "lukhas.governance.identity.interface"
+    },
+    {
+      "file_path": "candidate/consciousness/creativity/creative_expression_core.py",
+      "import_count": 2,
+      "id": "candidate.consciousness.creativity.creative_expression_core"
+    },
+    {
+      "file_path": "candidate/consciousness/creativity/services.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.creativity.services"
+    },
+    {
+      "file_path": "candidate/consciousness/creativity/haiku_generator.py",
+      "import_count": 14,
+      "id": "candidate.consciousness.creativity.haiku_generator"
+    },
+    {
+      "id": "consciousness.core_consciousness.qi_consciousness_integration"
+    },
+    {
+      "file_path": "candidate/consciousness/creativity/creative_expression_processor.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.creativity.creative_expression_processor"
+    },
+    {
+      "file_path": "candidate/consciousness/creativity/healix_visualizer.py",
+      "import_count": 10,
+      "id": "candidate.consciousness.creativity.healix_visualizer"
+    },
+    {
+      "file_path": "candidate/consciousness/creativity/creative_expressions_engine.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.creativity.creative_expressions_engine"
+    },
+    {
+      "file_path": "candidate/consciousness/creativity/personality_refiner.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.creativity.personality_refiner"
+    },
+    {
+      "file_path": "candidate/consciousness/creativity/qi_creative_types.py",
+      "import_count": 7,
+      "id": "candidate.consciousness.creativity.qi_creative_types"
+    },
+    {
+      "file_path": "candidate/consciousness/creativity/creative_engine.py",
+      "import_count": 17,
+      "id": "candidate.consciousness.creativity.creative_engine"
+    },
+    {
+      "file_path": "candidate/consciousness/creativity/voice_integrator.py",
+      "import_count": 10,
+      "id": "candidate.consciousness.creativity.voice_integrator"
+    },
+    {
+      "file_path": "candidate/consciousness/creativity/creative_core.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.creativity.creative_core"
+    },
+    {
+      "file_path": "candidate/consciousness/creativity/personality/narrative_engine_dream_narrator_queue.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.creativity.personality.narrative_engine_dream_narrator_queue"
+    },
+    {
+      "file_path": "candidate/consciousness/creativity/personality/brain.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.creativity.personality.brain"
+    },
+    {
+      "file_path": "candidate/consciousness/creativity/personality/creative_core.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.creativity.personality.creative_core"
+    },
+    {
+      "file_path": "candidate/consciousness/creativity/personality/voice/voice_narrator.py",
+      "import_count": 5,
+      "id": "candidate.consciousness.creativity.personality.voice.voice_narrator"
+    },
+    {
+      "id": "candidate.core.utils.symbolic_utils"
+    },
+    {
+      "file_path": "candidate/consciousness/creativity/personality/voice/voice_personality.py",
+      "import_count": 8,
+      "id": "candidate.consciousness.creativity.personality.voice.voice_personality"
+    },
+    {
+      "id": "candidate.orchestration.brain.orchestration.emotional_oscillator"
+    },
+    {
+      "id": "candidate.core.personality.creative_expressions"
+    },
+    {
+      "id": "candidate.orchestration.brain.personality.personality_refiner"
+    },
+    {
+      "file_path": "candidate/consciousness/creativity/engines/engine.py",
+      "import_count": 6,
+      "id": "candidate.consciousness.creativity.engines.engine"
+    },
+    {
+      "file_path": "candidate/consciousness/creativity/systems/creative_expressions_creativity_engine.py",
+      "import_count": 2,
+      "id": "candidate.consciousness.creativity.systems.creative_expressions_creativity_engine"
+    },
+    {
+      "file_path": "candidate/consciousness/creativity/systems/voice_personality_creativity_engine.py",
+      "import_count": 8,
+      "id": "candidate.consciousness.creativity.systems.voice_personality_creativity_engine"
+    },
+    {
+      "file_path": "candidate/consciousness/creativity/emotion/voice_profiling_emotion_engine.py",
+      "import_count": 8,
+      "id": "candidate.consciousness.creativity.emotion.voice_profiling_emotion_engine"
+    },
+    {
+      "file_path": "candidate/consciousness/awareness/awareness_monitoring_system.py",
+      "import_count": 10,
+      "id": "candidate.consciousness.awareness.awareness_monitoring_system"
+    },
+    {
+      "file_path": "candidate/consciousness/awareness/lukhas_awareness_protocol.py",
+      "import_count": 2,
+      "id": "candidate.consciousness.awareness.lukhas_awareness_protocol"
+    },
+    {
+      "file_path": "candidate/consciousness/awareness/awareness_engine_elevated.py",
+      "import_count": 11,
+      "id": "candidate.consciousness.awareness.awareness_engine_elevated"
+    },
+    {
+      "file_path": "candidate/consciousness/awareness/symbolic_trace_logger.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.awareness.symbolic_trace_logger"
+    },
+    {
+      "file_path": "candidate/consciousness/awareness/awareness_protocol.py",
+      "import_count": 7,
+      "id": "candidate.consciousness.awareness.awareness_protocol"
+    },
+    {
+      "file_path": "candidate/consciousness/awareness/bio_symbolic_awareness_adapter.py",
+      "import_count": 9,
+      "id": "candidate.consciousness.awareness.bio_symbolic_awareness_adapter"
+    },
+    {
+      "file_path": "candidate/consciousness/awareness/attention_monitor.py",
+      "import_count": 7,
+      "id": "candidate.consciousness.awareness.attention_monitor"
+    },
+    {
+      "file_path": "candidate/consciousness/awareness/symbolic_qi_attention.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.awareness.symbolic_qi_attention"
+    },
+    {
+      "file_path": "candidate/consciousness/awareness/awareness_engine.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.awareness.awareness_engine"
+    },
+    {
+      "file_path": "candidate/consciousness/awareness/system_awareness.py",
+      "import_count": 5,
+      "id": "candidate.consciousness.awareness.system_awareness"
+    },
+    {
+      "file_path": "candidate/consciousness/awareness/awareness_log_synchronizer.py",
+      "import_count": 5,
+      "id": "candidate.consciousness.awareness.awareness_log_synchronizer"
+    },
+    {
+      "id": "lukhas.tiers"
+    },
+    {
+      "file_path": "candidate/consciousness/awareness/awareness_processor.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.awareness.awareness_processor"
+    },
+    {
+      "file_path": "candidate/consciousness/awareness/awareness_tracker.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.awareness.awareness_tracker"
+    },
+    {
+      "file_path": "candidate/consciousness/unified/oscillator.py",
+      "import_count": 6,
+      "id": "candidate.consciousness.unified.oscillator"
+    },
+    {
+      "file_path": "candidate/consciousness/unified/symbolic_bio_symbolic_orchestrator.py",
+      "import_count": 14,
+      "id": "candidate.consciousness.unified.symbolic_bio_symbolic_orchestrator"
+    },
+    {
+      "id": "candidate.core.symbolism.tags"
+    },
+    {
+      "id": "candidate.core.colonies.base_colony"
+    },
+    {
+      "file_path": "candidate/consciousness/unified/auto_consciousness.py",
+      "import_count": 7,
+      "id": "candidate.consciousness.unified.auto_consciousness"
+    },
+    {
+      "file_path": "candidate/consciousness/unified/consolidate_consciousness_unification.py",
+      "import_count": 1,
+      "id": "candidate.consciousness.unified.consolidate_consciousness_unification"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/id_reasoning_engine.py",
+      "import_count": 15,
+      "id": "candidate.consciousness.reasoning.id_reasoning_engine"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/coherence_patch_validator.py",
+      "import_count": 9,
+      "id": "candidate.consciousness.reasoning.coherence_patch_validator"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/response_reasoning_summary_text_delta_event.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.reasoning.response_reasoning_summary_text_delta_event"
+    },
+    {
+      "id": "candidate.core.models"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/response_reasoning_summary_done_event.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.reasoning.response_reasoning_summary_done_event"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/reasoning_engine.py",
+      "import_count": 8,
+      "id": "candidate.consciousness.reasoning.reasoning_engine"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/conflict_resolver.py",
+      "import_count": 7,
+      "id": "candidate.consciousness.reasoning.conflict_resolver"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/config.py",
+      "import_count": 1,
+      "id": "candidate.consciousness.reasoning.config"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/response_reasoning_summary_part_done_event.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.reasoning.response_reasoning_summary_part_done_event"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/reasoning_errors.py",
+      "import_count": 1,
+      "id": "candidate.consciousness.reasoning.reasoning_errors"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/\u039bBot_reasoning.py",
+      "import_count": 13,
+      "id": "candidate.consciousness.reasoning.\u039bBot_reasoning"
+    },
+    {
+      "id": "candidate.orchestration.brain.abstract_reasoning.confidence_calibrator"
+    },
+    {
+      "id": "candidate.orchestration.brain.abstract_reasoning.bio_quantum_engine"
+    },
+    {
+      "id": "candidate.orchestration.brain.MultiBrainSymphony"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/reasoning_diagnostics.py",
+      "import_count": 13,
+      "id": "candidate.consciousness.reasoning.reasoning_diagnostics"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/oracle_predictor.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.reasoning.oracle_predictor"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/reasoning_hub.py",
+      "import_count": 5,
+      "id": "candidate.consciousness.reasoning.reasoning_hub"
+    },
+    {
+      "id": "candidate.core.integration.service_discovery"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/openai_oracle_adapter.py",
+      "import_count": 7,
+      "id": "candidate.consciousness.reasoning.openai_oracle_adapter"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/openai_core_service.py",
+      "import_count": 12,
+      "id": "candidate.consciousness.reflection.openai_core_service"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/response_reasoning_summary_delta_event.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.reasoning.response_reasoning_summary_delta_event"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/symbolic_loop_harmonizer.py",
+      "import_count": 9,
+      "id": "candidate.consciousness.reasoning.symbolic_loop_harmonizer"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/adaptive_reasoning_loop.py",
+      "import_count": 5,
+      "id": "candidate.consciousness.reasoning.adaptive_reasoning_loop"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/response_reasoning_item.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.reasoning.response_reasoning_item"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/master_loop.py",
+      "import_count": 11,
+      "id": "candidate.consciousness.reasoning.master_loop"
+    },
+    {
+      "id": "symbolic.lukhas_visualizer"
+    },
+    {
+      "id": "symbolic.lukhas_reflector"
+    },
+    {
+      "id": "symbolic.lukhas_dreams"
+    },
+    {
+      "id": "symbolic.lukhas_guardian"
+    },
+    {
+      "id": "symbolic.lukhas_voice"
+    },
+    {
+      "id": "symbolic.lukhas_personality"
+    },
+    {
+      "id": "symbolic.lukhas_emotion"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/response_reasoning_done_event.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.reasoning.response_reasoning_done_event"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/LBot_reasoning_processed.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.reasoning.LBot_reasoning_processed"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/reasoning.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.reasoning.reasoning"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/response_reasoning_delta_event.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.reasoning.response_reasoning_delta_event"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/response_reasoning_item_param.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.reasoning.response_reasoning_item_param"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/identity.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.reasoning.identity"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/reasoning_colony.py",
+      "import_count": 11,
+      "id": "candidate.consciousness.reasoning.reasoning_colony"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/response_reasoning_summary_part_added_event.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.reasoning.response_reasoning_summary_part_added_event"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/reasoning_metrics.py",
+      "import_count": 7,
+      "id": "candidate.consciousness.reasoning.reasoning_metrics"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/trace_summary_builder.py",
+      "import_count": 6,
+      "id": "candidate.consciousness.reasoning.trace_summary_builder"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/response_reasoning_summary_text_done_event.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.reasoning.response_reasoning_summary_text_done_event"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/ethical/ConsentManager.py",
+      "import_count": 1,
+      "id": "candidate.consciousness.reasoning.ethical.ConsentManager"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/analysis/engine.py",
+      "import_count": 15,
+      "id": "candidate.consciousness.reasoning.analysis.engine"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/goals/goal_manager.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.reasoning.goals.goal_manager"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/utils/agentic_trace.py",
+      "import_count": 2,
+      "id": "candidate.consciousness.reasoning.utils.agentic_trace"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/advanced_engines/intelligence_engines.py",
+      "import_count": 8,
+      "id": "candidate.consciousness.reasoning.advanced_engines.intelligence_engines"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/intent/intent_processor.py",
+      "import_count": 2,
+      "id": "candidate.consciousness.reasoning.intent.intent_processor"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/hooks/dream_reflect_hook.py",
+      "import_count": 1,
+      "id": "candidate.consciousness.reasoning.hooks.dream_reflect_hook"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/diagnostics/trace_mapper.py",
+      "import_count": 2,
+      "id": "candidate.consciousness.reasoning.diagnostics.trace_mapper"
+    },
+    {
+      "file_path": "candidate/consciousness/reasoning/decision/bridge.py",
+      "import_count": 12,
+      "id": "candidate.consciousness.reasoning.decision.bridge"
+    },
+    {
+      "id": "candidate.core.utils.orchestration_energy_aware_execution_planner"
+    },
+    {
+      "id": "candidate.core.integration.neuro_symbolic_fusion_layer"
+    },
+    {
+      "id": "lukhas.memory.governance.ethical_drift_governor"
+    },
+    {
+      "file_path": "candidate/consciousness/testing/chaos_engineering_framework.py",
+      "import_count": 11,
+      "id": "candidate.consciousness.testing.chaos_engineering_framework"
+    },
+    {
+      "file_path": "candidate/consciousness/testing/metamorphic_testing_framework.py",
+      "import_count": 11,
+      "id": "candidate.consciousness.testing.metamorphic_testing_framework"
+    },
+    {
+      "file_path": "candidate/consciousness/testing/invariant_testing_framework.py",
+      "import_count": 11,
+      "id": "candidate.consciousness.testing.invariant_testing_framework"
+    },
+    {
+      "file_path": "candidate/consciousness/expansion/awareness_boundary_transcender.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.expansion.awareness_boundary_transcender"
+    },
+    {
+      "id": "candidate.core.interfaces"
+    },
+    {
+      "file_path": "candidate/consciousness/expansion/consciousness_expansion_engine.py",
+      "import_count": 13,
+      "id": "candidate.consciousness.expansion.consciousness_expansion_engine"
+    },
+    {
+      "id": "candidate.orchestration.symbolic_kernel_bus"
+    },
+    {
+      "id": "candidate.core.symbolic_engine"
+    },
+    {
+      "id": "lukhas.governance.guardian_system"
+    },
+    {
+      "id": "candidate.core.container.service_container"
+    },
+    {
+      "id": "consciousness_multiplication_engine"
+    },
+    {
+      "id": "consciousness_dimensionality_expander"
+    },
+    {
+      "id": "meta_consciousness_developer"
+    },
+    {
+      "file_path": "candidate/consciousness/expansion/meta_consciousness_developer.py",
+      "import_count": 5,
+      "id": "candidate.consciousness.expansion.meta_consciousness_developer"
+    },
+    {
+      "file_path": "candidate/consciousness/expansion/consciousness_multiplication_engine.py",
+      "import_count": 6,
+      "id": "candidate.consciousness.expansion.consciousness_multiplication_engine"
+    },
+    {
+      "file_path": "candidate/consciousness/expansion/consciousness_dimensionality_expander.py",
+      "import_count": 5,
+      "id": "candidate.consciousness.expansion.consciousness_dimensionality_expander"
+    },
+    {
+      "id": "consciousness_expansion_engine"
+    },
+    {
+      "file_path": "candidate/consciousness/resilience/circuit_breaker_framework.py",
+      "import_count": 11,
+      "id": "candidate.consciousness.resilience.circuit_breaker_framework"
+    },
+    {
+      "file_path": "candidate/consciousness/examples/basic/example.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.examples.basic.example"
+    },
+    {
+      "file_path": "candidate/consciousness/states/qi_consciousness_hub.py",
+      "import_count": 12,
+      "id": "candidate.consciousness.states.qi_consciousness_hub"
+    },
+    {
+      "id": "candidate.orchestration.brain.consciousness_core"
+    },
+    {
+      "file_path": "candidate/consciousness/states/bio_qi_engine.py",
+      "import_count": 12,
+      "id": "candidate.consciousness.states.bio_qi_engine"
+    },
+    {
+      "file_path": "candidate/consciousness/states/qi_mesh_visualizer.py",
+      "import_count": 17,
+      "id": "candidate.consciousness.states.qi_mesh_visualizer"
+    },
+    {
+      "file_path": "candidate/consciousness/states/openai_consciousness_adapter.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.states.openai_consciousness_adapter"
+    },
+    {
+      "file_path": "candidate/consciousness/states/symbolic_drift_tracker.py",
+      "import_count": 10,
+      "id": "candidate.consciousness.states.symbolic_drift_tracker"
+    },
+    {
+      "file_path": "candidate/consciousness/states/bio_engine.py",
+      "import_count": 12,
+      "id": "candidate.consciousness.states.bio_engine"
+    },
+    {
+      "file_path": "candidate/consciousness/states/FederatedLearningSystem.py",
+      "import_count": 8,
+      "id": "candidate.consciousness.states.FederatedLearningSystem"
+    },
+    {
+      "file_path": "candidate/consciousness/states/simulation_controller.py",
+      "import_count": 8,
+      "id": "candidate.consciousness.states.simulation_controller"
+    },
+    {
+      "id": "candidate.core.bio_systems.bio_oscillator"
+    },
+    {
+      "file_path": "candidate/consciousness/states/symbolic_fallback_systems.py",
+      "import_count": 6,
+      "id": "candidate.consciousness.states.symbolic_fallback_systems"
+    },
+    {
+      "file_path": "candidate/consciousness/states/federated_learning_system.py",
+      "import_count": 8,
+      "id": "candidate.consciousness.states.federated_learning_system"
+    },
+    {
+      "file_path": "candidate/consciousness/states/shared_state.py",
+      "import_count": 12,
+      "id": "candidate.consciousness.states.shared_state"
+    },
+    {
+      "id": "candidate.core.identity.vault.lukhas_id"
+    },
+    {
+      "file_path": "candidate/consciousness/states/async_client.py",
+      "import_count": 20,
+      "id": "candidate.consciousness.states.async_client"
+    },
+    {
+      "file_path": "candidate/consciousness/states/emotional_memory_manager.py",
+      "import_count": 5,
+      "id": "candidate.consciousness.states.emotional_memory_manager"
+    },
+    {
+      "file_path": "candidate/consciousness/states/cognitive_load_estimator.py",
+      "import_count": 7,
+      "id": "candidate.consciousness.states.cognitive_load_estimator"
+    },
+    {
+      "file_path": "candidate/consciousness/states/world_models.py",
+      "import_count": 7,
+      "id": "candidate.consciousness.states.world_models"
+    },
+    {
+      "file_path": "candidate/consciousness/states/tiered_state_management.py",
+      "import_count": 12,
+      "id": "candidate.consciousness.states.tiered_state_management"
+    },
+    {
+      "file_path": "candidate/consciousness/states/qi_mesh_integrator.py",
+      "import_count": 10,
+      "id": "candidate.consciousness.states.qi_mesh_integrator"
+    },
+    {
+      "file_path": "candidate/consciousness/perception/symbolic_nervous_system.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.perception.symbolic_nervous_system"
+    },
+    {
+      "file_path": "candidate/consciousness/perception/sensor_fusion.py",
+      "import_count": 1,
+      "id": "candidate.consciousness.perception.sensor_fusion"
+    },
+    {
+      "file_path": "candidate/consciousness/perception/cross_modal_validation.py",
+      "import_count": 1,
+      "id": "candidate.consciousness.perception.cross_modal_validation"
+    },
+    {
+      "file_path": "candidate/consciousness/meta_cognitive/meta_cognitive.py",
+      "import_count": 7,
+      "id": "candidate.consciousness.meta_cognitive.meta_cognitive"
+    },
+    {
+      "file_path": "candidate/consciousness/systems/validator.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.systems.validator"
+    },
+    {
+      "file_path": "candidate/consciousness/systems/integrator.py",
+      "import_count": 17,
+      "id": "candidate.consciousness.systems.integrator"
+    },
+    {
+      "file_path": "candidate/consciousness/systems/mapper.py",
+      "import_count": 7,
+      "id": "candidate.consciousness.systems.mapper"
+    },
+    {
+      "file_path": "candidate/consciousness/systems/consciousness.py",
+      "import_count": 5,
+      "id": "candidate.consciousness.systems.consciousness"
+    },
+    {
+      "file_path": "candidate/consciousness/systems/lambda_bot_consciousness_integration.py",
+      "import_count": 6,
+      "id": "candidate.consciousness.systems.lambda_bot_consciousness_integration"
+    },
+    {
+      "id": "\u03bbBot_consciousness_monitor"
+    },
+    {
+      "file_path": "candidate/consciousness/systems/consciousness_colony_integration.py",
+      "import_count": 12,
+      "id": "candidate.consciousness.systems.consciousness_colony_integration"
+    },
+    {
+      "id": "candidate.core.colonies.memory_colony"
+    },
+    {
+      "id": "candidate.core.swarm"
+    },
+    {
+      "id": "consciousness.systems.engine"
+    },
+    {
+      "id": "candidate.core.colonies.creativity_colony"
+    },
+    {
+      "id": "candidate.core.colonies.reasoning_colony"
+    },
+    {
+      "id": "candidate.bridge.shared_state"
+    },
+    {
+      "file_path": "candidate/consciousness/systems/lambda_mirror.py",
+      "import_count": 25,
+      "id": "candidate.consciousness.systems.lambda_mirror"
+    },
+    {
+      "file_path": "candidate/consciousness/systems/advanced_consciousness_engine.py",
+      "import_count": 12,
+      "id": "candidate.consciousness.systems.advanced_consciousness_engine"
+    },
+    {
+      "file_path": "candidate/consciousness/systems/\u039bBot_consciousness_monitor.py",
+      "import_count": 5,
+      "id": "candidate.consciousness.systems.\u039bBot_consciousness_monitor"
+    },
+    {
+      "file_path": "candidate/consciousness/systems/unified_consciousness_engine.py",
+      "import_count": 10,
+      "id": "candidate.consciousness.systems.unified_consciousness_engine"
+    },
+    {
+      "file_path": "candidate/consciousness/systems/state.py",
+      "import_count": 5,
+      "id": "candidate.consciousness.systems.state"
+    },
+    {
+      "file_path": "candidate/consciousness/systems/cognitive_systems/voice_personality.py",
+      "import_count": 8,
+      "id": "candidate.consciousness.systems.cognitive_systems.voice_personality"
+    },
+    {
+      "file_path": "candidate/consciousness/systems/dream_engine/dream_reflection_loop.py",
+      "import_count": 16,
+      "id": "candidate.consciousness.systems.dream_engine.dream_reflection_loop"
+    },
+    {
+      "id": "lukhas.memory.systems.dream_memory_fold"
+    },
+    {
+      "file_path": "candidate/consciousness/systems/reflection/reflection.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.systems.reflection.reflection"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/colony_dream_coordinator.py",
+      "import_count": 11,
+      "id": "candidate.consciousness.dream.colony_dream_coordinator"
+    },
+    {
+      "id": "candidate.orchestration.colony_orchestrator"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/redirect_justifier.py",
+      "import_count": 1,
+      "id": "candidate.consciousness.dream.redirect_justifier"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/breakthrough_detector.py",
+      "import_count": 12,
+      "id": "candidate.consciousness.dream.breakthrough_detector"
+    },
+    {
+      "id": "candidate.core.common.exceptions"
+    },
+    {
+      "id": "candidate.core.interfaces.dependency_injection"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/dream_visualization.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.dream.dream_visualization"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/dream_pipeline.py",
+      "import_count": 12,
+      "id": "candidate.consciousness.dream.dream_pipeline"
+    },
+    {
+      "id": "consciousness.reflection.unified_memory_manager"
+    },
+    {
+      "id": "dream_engine.lukhas_oracle_dream"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/dream_narrator_queue.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.dream.dream_narrator_queue"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/parallel_reality_simulator.py",
+      "import_count": 16,
+      "id": "candidate.consciousness.dream.parallel_reality_simulator"
+    },
+    {
+      "id": "candidate.core.interfaces.memory_interface"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/lucid_dreaming.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.dream.lucid_dreaming"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/dream_stats.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.dream.dream_stats"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/dream_replay.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.dream.dream_replay"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/dream_director.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.dream.dream_director"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/symbolic_dream_interpretation.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.dream.symbolic_dream_interpretation"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/dream.py",
+      "import_count": 5,
+      "id": "candidate.consciousness.dream.dream"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/innovation_drift_protection.py",
+      "import_count": 18,
+      "id": "candidate.consciousness.dream.innovation_drift_protection"
+    },
+    {
+      "id": "candidate.core.monitoring.drift_monitor"
+    },
+    {
+      "id": "lukhas.memory.temporal.drift_dashboard"
+    },
+    {
+      "id": "consciousness.states.symbolic_drift_tracker"
+    },
+    {
+      "id": "lukhas.memory.integrity.collapse_hash"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/oracle_dream.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.dream.oracle_dream"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/dream_mutator.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.dream.dream_mutator"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/redirect_trace_replayer.py",
+      "import_count": 2,
+      "id": "candidate.consciousness.dream.redirect_trace_replayer"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/dream_export_streamlit.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.dream.dream_export_streamlit"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/openai_dream_integration.py",
+      "import_count": 10,
+      "id": "candidate.consciousness.dream.openai_dream_integration"
+    },
+    {
+      "id": "candidate.bridge.llm_wrappers.unified_openai_client"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/immersive_ingestion.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.dream.immersive_ingestion"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/dream_service_init.py",
+      "import_count": 6,
+      "id": "candidate.consciousness.dream.dream_service_init"
+    },
+    {
+      "id": "consciousness.unified.auto_consciousness"
+    },
+    {
+      "id": "consciousness.dream.core.dream_engine"
+    },
+    {
+      "id": "consciousness.dream.parallel_reality_simulator"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/reality_synthesis_engine.py",
+      "import_count": 12,
+      "id": "candidate.consciousness.dream.reality_synthesis_engine"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/dream_trace_linker.py",
+      "import_count": 16,
+      "id": "candidate.consciousness.dream.dream_trace_linker"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/dream_injector.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.dream.dream_injector"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/dream_data_sources.py",
+      "import_count": 15,
+      "id": "candidate.consciousness.dream.dream_data_sources"
+    },
+    {
+      "id": "consciousness.awareness.system_awareness"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/autonomous_innovation_core.py",
+      "import_count": 14,
+      "id": "candidate.consciousness.dream.autonomous_innovation_core"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/dream_analytics.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.dream.dream_analytics"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/dream_summary_generator.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.dream.dream_summary_generator"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/dream_verification_colony.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.dream.dream_verification_colony"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/parallel_reality_safety.py",
+      "import_count": 13,
+      "id": "candidate.consciousness.dream.parallel_reality_safety"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/visualization/memoryscape_viewport.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.dream.visualization.memoryscape_viewport"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/visualization/dream_log_viewer.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.dream.visualization.dream_log_viewer"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/visualization/dream_viewer.py",
+      "import_count": 2,
+      "id": "candidate.consciousness.dream.visualization.dream_viewer"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/expand/archetypes.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.dream.expand.archetypes"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/expand/evolution.py",
+      "import_count": 6,
+      "id": "candidate.consciousness.dream.expand.evolution"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/expand/mesh.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.dream.expand.mesh"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/expand/resonance.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.dream.expand.resonance"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/expand/replay.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.dream.expand.replay"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/expand/noise.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.dream.expand.noise"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/expand/mediation.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.dream.expand.mediation"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/expand/atlas.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.dream.expand.atlas"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/expand/sentinel.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.dream.expand.sentinel"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/tools/run_dream_analysis.py",
+      "import_count": 5,
+      "id": "candidate.consciousness.dream.tools.run_dream_analysis"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/core/dream_log.py",
+      "import_count": 2,
+      "id": "candidate.consciousness.dream.core.dream_log"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/core/dream_memory_integration.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.dream.core.dream_memory_integration"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/core/dream_memory_manager.py",
+      "import_count": 7,
+      "id": "candidate.consciousness.dream.core.dream_memory_manager"
+    },
+    {
+      "id": "lukhas.memory.folds.fold_engine"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/core/dream_loop_generator.py",
+      "import_count": 2,
+      "id": "candidate.consciousness.dream.core.dream_loop_generator"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/core/dream_seed_simple.py",
+      "import_count": 1,
+      "id": "candidate.consciousness.dream.core.dream_seed_simple"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/core/dream_stats.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.dream.core.dream_stats"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/core/dream_snapshot.py",
+      "import_count": 2,
+      "id": "candidate.consciousness.dream.core.dream_snapshot"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/core/dream_replay.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.dream.core.dream_replay"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/core/dream_engine.py",
+      "import_count": 10,
+      "id": "candidate.consciousness.dream.core.dream_engine"
+    },
+    {
+      "id": "consciousness.dream.engine.dream_engine"
+    },
+    {
+      "id": "candidate.core.unified.integration"
+    },
+    {
+      "id": "candidate.core.unified.orchestration"
+    },
+    {
+      "id": "candidate.core.unified.bio_signals"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/core/voice_parameter.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.dream.core.voice_parameter"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/core/dream_state_manager.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.dream.core.dream_state_manager"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/core/dream_feedback_controller.py",
+      "import_count": 2,
+      "id": "candidate.consciousness.dream.core.dream_feedback_controller"
+    },
+    {
+      "id": "lukhas.memory.emotional"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/core/ethics_guard.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.dream.core.ethics_guard"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/core/dream_export_streamlit.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.dream.core.dream_export_streamlit"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/core/dream_emotion_bridge.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.dream.core.dream_emotion_bridge"
+    },
+    {
+      "id": "candidate.memory.emotional"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/core/dream_cli.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.dream.core.dream_cli"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/core/dream_reflection_loop_simple.py",
+      "import_count": 1,
+      "id": "candidate.consciousness.dream.core.dream_reflection_loop_simple"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/core/dream_log_viewer.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.dream.core.dream_log_viewer"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/core/dream_seed.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.dream.core.dream_seed"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/core/dream_sequence_coordinator.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.dream.core.dream_sequence_coordinator"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/core/dream_injector.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.dream.core.dream_injector"
+    },
+    {
+      "id": "candidate.core.modules.nias.dream_recorder"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/core/dream_limiter.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.dream.core.dream_limiter"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/core/dream_viewer.py",
+      "import_count": 2,
+      "id": "candidate.consciousness.dream.core.dream_viewer"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/integration/dream_orchestration_hub.py",
+      "import_count": 5,
+      "id": "candidate.consciousness.dream.integration.dream_orchestration_hub"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/integration/dream_consciousness_bridge.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.dream.integration.dream_consciousness_bridge"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/integration/dream_memory_fusion.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.dream.integration.dream_memory_fusion"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/oneiric/demo/web_app.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.dream.oneiric.demo.web_app"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/oneiric/oneiric_core/analysis/drift_score.py",
+      "import_count": 1,
+      "id": "candidate.consciousness.dream.oneiric.oneiric_core.analysis.drift_score"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/oneiric/oneiric_core/utils/symbolic_logger.py",
+      "import_count": 1,
+      "id": "candidate.consciousness.dream.oneiric.oneiric_core.utils.symbolic_logger"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/oneiric/oneiric_core/engine/dream_engine_fastapi.py",
+      "import_count": 16,
+      "id": "candidate.consciousness.dream.oneiric.oneiric_core.engine.dream_engine_fastapi"
+    },
+    {
+      "id": "lukhas.memory.core_memory.dream_memory_manager"
+    },
+    {
+      "id": "candidate.core.unified_integration"
+    },
+    {
+      "id": "candidate.core.bio_systems.qi_layer"
+    },
+    {
+      "id": "consciousness.core_consciousness.dream_engine.dream_reflection_loop"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/oneiric/frontend/node_modules/flatted/python/flatted.py",
+      "import_count": 1,
+      "id": "candidate.consciousness.dream.oneiric.frontend.node_modules.flattedthon.flatted"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/cli/dream_processor.py",
+      "import_count": 3,
+      "id": "candidate.consciousness.dream.cli.dream_processor"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/cli/dream_cli.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.dream.cli.dream_cli"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/cli/dream_replay_cli.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.dream.cli.dream_replay_cli"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/dashboard/dream_metrics_db.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.dream.dashboard.dream_metrics_db"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/dashboard/dream_metrics_view.py",
+      "import_count": 6,
+      "id": "candidate.consciousness.dream.dashboard.dream_metrics_view"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/processors/dream_processor.py",
+      "import_count": 2,
+      "id": "candidate.consciousness.dream.processors.dream_processor"
+    },
+    {
+      "id": "lukhas.memory.systems.helix_dna"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/processors/dream_processor_integrator.py",
+      "import_count": 2,
+      "id": "candidate.consciousness.dream.processors.dream_processor_integrator"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/stability/redirect_forecaster.py",
+      "import_count": 2,
+      "id": "candidate.consciousness.dream.stability.redirect_forecaster"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/symbolic/archetypal_patterns.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.dream.symbolic.archetypal_patterns"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/symbolic/dream_symbolism.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.dream.symbolic.dream_symbolism"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/symbolic/dream_interpretation.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.dream.symbolic.dream_interpretation"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/engine/dream_engine.py",
+      "import_count": 9,
+      "id": "candidate.consciousness.dream.engine.dream_engine"
+    },
+    {
+      "id": "candidate.orchestration.brain.cognitive.voice_engine"
+    },
+    {
+      "id": "lukhas.memory.systems.helix_mapper"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/rl/rl_dream_cycle.py",
+      "import_count": 2,
+      "id": "candidate.consciousness.dream.rl.rl_dream_cycle"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/base/dream_loop/dream_loop.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.dream.base.dream_loop.dream_loop"
+    },
+    {
+      "file_path": "candidate/consciousness/dream/base/dream_refold/dream_refold.py",
+      "import_count": 1,
+      "id": "candidate.consciousness.dream.base.dream_refold.dream_refold"
+    },
+    {
+      "file_path": "candidate/consciousness/qi_integration/qi_creative_consciousness.py",
+      "import_count": 8,
+      "id": "candidate.consciousness.qi_integration.qi_creative_consciousness"
+    },
+    {
+      "file_path": "candidate/consciousness/qi_integration/qi_consciousness_integration.py",
+      "import_count": 9,
+      "id": "candidate.consciousness.qi_integration.qi_consciousness_integration"
+    },
+    {
+      "file_path": "candidate/consciousness/qi_integration/qi_consciousness_visualizer.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.qi_integration.qi_consciousness_visualizer"
+    },
+    {
+      "file_path": "candidate/consciousness/qi_integration/qi_consciousness_integration_wrapper.py",
+      "import_count": 6,
+      "id": "candidate.consciousness.qi_integration.qi_consciousness_integration_wrapper"
+    },
+    {
+      "id": "qi_consciousness_integration"
+    },
+    {
+      "file_path": "candidate/consciousness/interfaces/natural_language_interface.py",
+      "import_count": 13,
+      "id": "candidate.consciousness.interfaces.natural_language_interface"
+    },
+    {
+      "file_path": "candidate/consciousness/quantum/superposition_processor.py",
+      "import_count": 10,
+      "id": "candidate.consciousness.quantum.superposition_processor"
+    },
+    {
+      "file_path": "candidate/consciousness/quantum/collapse_governance_system.py",
+      "import_count": 10,
+      "id": "candidate.consciousness.quantum.collapse_governance_system"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/id_reasoning_engine.py",
+      "import_count": 15,
+      "id": "candidate.consciousness.reflection.id_reasoning_engine"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/dream_narrator.py",
+      "import_count": 9,
+      "id": "candidate.consciousness.reflection.dream_narrator"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/consciousness_api.py",
+      "import_count": 10,
+      "id": "candidate.consciousness.reflection.consciousness_api"
+    },
+    {
+      "id": "consciousness.qi_integration.qi_consciousness_integration"
+    },
+    {
+      "id": "consciousness.awareness.awareness_engine"
+    },
+    {
+      "id": "consciousness.reflection.self_reflection_engine"
+    },
+    {
+      "id": "consciousness.core.engine"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/federated_meta_learning.py",
+      "import_count": 8,
+      "id": "candidate.consciousness.reflection.federated_meta_learning"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/swarm.py",
+      "import_count": 13,
+      "id": "candidate.consciousness.reflection.swarm"
+    },
+    {
+      "id": "candidate.core.actor_system"
+    },
+    {
+      "id": "candidate.core.distributed_tracing"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/service.py",
+      "import_count": 7,
+      "id": "candidate.consciousness.reflection.service"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/system.py",
+      "import_count": 8,
+      "id": "candidate.consciousness.reflection.system"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/brain_integration.py",
+      "import_count": 11,
+      "id": "candidate.consciousness.reflection.brain_integration"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/reflection_layer.py",
+      "import_count": 23,
+      "id": "candidate.consciousness.reflection.reflection_layer"
+    },
+    {
+      "id": "candidate.core.user_interface_manager.voice_handler"
+    },
+    {
+      "id": "candidate.core.interfaces.logic.voice.voice_renderer"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/controller.py",
+      "import_count": 23,
+      "id": "candidate.consciousness.reflection.controller"
+    },
+    {
+      "id": "candidate.orchestration.brain.privacy_manager"
+    },
+    {
+      "id": "consciousness.consciousness_integrator"
+    },
+    {
+      "id": "lukhas.governance.identity.auth_backend.audit_logger"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/MetaLearningAdapter.py",
+      "import_count": 6,
+      "id": "candidate.consciousness.reflection.MetaLearningAdapter"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/integration_manager.py",
+      "import_count": 9,
+      "id": "candidate.consciousness.reflection.integration_manager"
+    },
+    {
+      "id": "candidate.orchestration.brain.cognitive_agi_enhancement"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/cognitive_architecture_controller.py",
+      "import_count": 17,
+      "id": "candidate.consciousness.reflection.cognitive_architecture_controller"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/awareness_system.py",
+      "import_count": 15,
+      "id": "candidate.consciousness.reflection.awareness_system"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/metalearningenhancementsystem.py",
+      "import_count": 11,
+      "id": "candidate.consciousness.reflection.metalearningenhancementsystem"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/memory_hub.py",
+      "import_count": 29,
+      "id": "candidate.consciousness.reflection.memory_hub"
+    },
+    {
+      "id": "lukhas.memory.systems.multimodal_memory_integration"
+    },
+    {
+      "id": "lukhas.memory.systems.memory_planning_mock"
+    },
+    {
+      "id": "lukhas.memory.systems.memory_profiler_mock"
+    },
+    {
+      "id": "lukhas.memory.distributed_state_manager"
+    },
+    {
+      "id": "candidate.core.bridges.memory_consciousness_bridge"
+    },
+    {
+      "id": "candidate.core.bridges.memory_learning_bridge"
+    },
+    {
+      "id": "lukhas.memory.repair.trauma_repair_wrapper"
+    },
+    {
+      "id": "lukhas.memory.emotional_memory_manager_unified"
+    },
+    {
+      "id": "candidate.core.core_hub"
+    },
+    {
+      "id": "lukhas.memory.systems.memory_helix_golden"
+    },
+    {
+      "id": "lukhas.memory.colonies.episodic_memory_integration"
+    },
+    {
+      "id": "lukhas.memory.systems.memory_profiler_wrapper"
+    },
+    {
+      "id": "lukhas.memory.qi_manager"
+    },
+    {
+      "id": "candidate.bridge.symbolic_memory_mapper"
+    },
+    {
+      "id": "lukhas.memory.voice_memory_manager"
+    },
+    {
+      "id": "lukhas.memory.systems.memory_planning_wrapper"
+    },
+    {
+      "id": "lukhas.memory.systems.neurosymbolic_integration"
+    },
+    {
+      "id": "lukhas.memory.core.base_manager"
+    },
+    {
+      "id": "lukhas.memory.systems.symbolic_delta_compression"
+    },
+    {
+      "id": "lukhas.memory.systems.memory_tracker_integration"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/symbolic_drift_analyzer.py",
+      "import_count": 25,
+      "id": "candidate.consciousness.reflection.symbolic_drift_analyzer"
+    },
+    {
+      "id": "candidate.core.glyph.glyphs"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/abas_qi_specialist.py",
+      "import_count": 12,
+      "id": "candidate.consciousness.reflection.abas_qi_specialist"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/research_awareness_engine.py",
+      "import_count": 11,
+      "id": "candidate.consciousness.reflection.research_awareness_engine"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/client.py",
+      "import_count": 22,
+      "id": "candidate.consciousness.reflection.client"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/integrated_safety_system.py",
+      "import_count": 18,
+      "id": "candidate.consciousness.reflection.integrated_safety_system"
+    },
+    {
+      "id": "candidate.core.colonies.ethics_swarm_colony"
+    },
+    {
+      "id": "candidate.core.quantized_thought_cycles"
+    },
+    {
+      "id": "lukhas.memory.systems.memory_safety_features"
+    },
+    {
+      "id": "candidate.core.colonies.governance_colony_enhanced"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/oscillator.py",
+      "import_count": 9,
+      "id": "candidate.consciousness.reflection.oscillator"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/dreamseed_unified.py",
+      "import_count": 12,
+      "id": "candidate.consciousness.reflection.dreamseed_unified"
+    },
+    {
+      "id": "candidate.core.tier_unification_adapter"
+    },
+    {
+      "id": "lukhas.governance.identity.core.user_tier_mapping"
+    },
+    {
+      "id": "candidate.core.identity_integration"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/lambda_dependa_bot.py",
+      "import_count": 22,
+      "id": "candidate.consciousness.reflection.lambda_dependa_bot"
+    },
+    {
+      "id": "candidate.core.common.config"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/identity_hub.py",
+      "import_count": 25,
+      "id": "candidate.consciousness.reflection.identity_hub"
+    },
+    {
+      "id": "candidate.core.bridges.identity_core_bridge"
+    },
+    {
+      "id": "lukhas.governance.identity.core.swarm.tier_aware_swarm_hub"
+    },
+    {
+      "id": "lukhas.governance.identity.core.auth.biometric_integration"
+    },
+    {
+      "id": "lukhas.governance.identity.core.sent.consent_manager"
+    },
+    {
+      "id": "candidate.core.identity.persona_engine"
+    },
+    {
+      "id": "lukhas.governance.identity.core.brain_identity_integration"
+    },
+    {
+      "id": "lukhas.governance.identity.auth_utils.grid_size_calculator"
+    },
+    {
+      "id": "lukhas.governance.identity.auth_utils.attention_monitor"
+    },
+    {
+      "id": "lukhas.governance.identity.auth_backend.trust_scorer"
+    },
+    {
+      "id": "lukhas.governance.identity.core.qrs_manager"
+    },
+    {
+      "id": "consciousness.reflection.memory_hub"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/colony_orchestrator.py",
+      "import_count": 20,
+      "id": "candidate.consciousness.reflection.colony_orchestrator"
+    },
+    {
+      "id": "candidate.core.tier_aware_colony_proxy"
+    },
+    {
+      "id": "candidate.core.colonies.oracle_colony"
+    },
+    {
+      "id": "candidate.core.colonies.temporal_colony"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/emotional.py",
+      "import_count": 10,
+      "id": "candidate.consciousness.reflection.emotional"
+    },
+    {
+      "id": "candidate.core.symbolic.drift.symbolic_drift_tracker"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/core.py",
+      "import_count": 21,
+      "id": "candidate.consciousness.reflection.core"
+    },
+    {
+      "id": "lukhas.memory.structural_conscience"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/EthicalReasoningSystem.py",
+      "import_count": 11,
+      "id": "candidate.consciousness.reflection.EthicalReasoningSystem"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/meta_learning.py",
+      "import_count": 8,
+      "id": "candidate.consciousness.reflection.meta_learning"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/practical_optimizations.py",
+      "import_count": 19,
+      "id": "candidate.consciousness.reflection.practical_optimizations"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/lambda_mirror.py",
+      "import_count": 14,
+      "id": "candidate.consciousness.reflection.lambda_mirror"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/self_reflection_engine.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.reflection.self_reflection_engine"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/visionary_orchestrator.py",
+      "import_count": 14,
+      "id": "candidate.consciousness.reflection.visionary_orchestrator"
+    },
+    {
+      "id": "candidate.core.advanced_symbolic_loop"
+    },
+    {
+      "id": "candidate.core.memory.memory_manager"
+    },
+    {
+      "id": "candidate.core.logging"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/master_orchestrator.py",
+      "import_count": 17,
+      "id": "candidate.consciousness.reflection.master_orchestrator"
+    },
+    {
+      "id": "candidate.memory.consolidation.memory_visualization"
+    },
+    {
+      "id": "candidate.orchestration.swarm_orchestration_adapter"
+    },
+    {
+      "id": "candidate.memory.consolidation.memory_colonies"
+    },
+    {
+      "id": "candidate.memory.folds.unified_memory_core"
+    },
+    {
+      "id": "candidate.orchestration.brain.primary_hub"
+    },
+    {
+      "id": "candidate.orchestration.workflow_engine"
+    },
+    {
+      "id": "candidate.orchestration.bio_symbolic_orchestrator"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/bio_crista_optimizer_adapter.py",
+      "import_count": 7,
+      "id": "candidate.consciousness.reflection.bio_crista_optimizer_adapter"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/certificate_manager.py",
+      "import_count": 16,
+      "id": "candidate.consciousness.reflection.certificate_manager"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/qrg_100_percent_coverage.py",
+      "import_count": 8,
+      "id": "candidate.consciousness.reflection.qrg_100_percent_coverage"
+    },
+    {
+      "id": "lukhas.qi.steganographic_demo"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/distributed_state_manager.py",
+      "import_count": 13,
+      "id": "candidate.consciousness.reflection.distributed_state_manager"
+    },
+    {
+      "id": "candidate.core.cluster_sharding"
+    },
+    {
+      "id": "candidate.core.event_sourcing"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/ethical_drift_sentinel.py",
+      "import_count": 11,
+      "id": "candidate.consciousness.reflection.ethical_drift_sentinel"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/orchestration_service.py",
+      "import_count": 16,
+      "id": "candidate.consciousness.reflection.orchestration_service"
+    },
+    {
+      "id": "candidate.core.performance.performance_orchestrator"
+    },
+    {
+      "id": "candidate.bridge.message_bus"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/privacy_preserving_memory_vault.py",
+      "import_count": 20,
+      "id": "candidate.consciousness.reflection.privacy_preserving_memory_vault"
+    },
+    {
+      "id": "candidate.core.integration.governance.__init__"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/unified_memory_manager.py",
+      "import_count": 10,
+      "id": "candidate.consciousness.reflection.unified_memory_manager"
+    },
+    {
+      "id": "lukhas.memory.systems.memory_visualizer"
+    },
+    {
+      "id": "lukhas.memory.memory_fold"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/circuit_breaker.py",
+      "import_count": 16,
+      "id": "candidate.consciousness.reflection.circuit_breaker"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/openai_modulated_service.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.reflection.openai_modulated_service"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/content_enterprise_orchestrator.py",
+      "import_count": 21,
+      "id": "candidate.consciousness.reflection.content_enterprise_orchestrator"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/layer.py",
+      "import_count": 7,
+      "id": "candidate.consciousness.reflection.layer"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/event_replay_snapshot.py",
+      "import_count": 18,
+      "id": "candidate.consciousness.reflection.event_replay_snapshot"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/bio_system.py",
+      "import_count": 8,
+      "id": "candidate.consciousness.reflection.bio_system"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/MetaLearningEnhancement.py",
+      "import_count": 11,
+      "id": "candidate.consciousness.reflection.MetaLearningEnhancement"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/meta_learning_adapter.py",
+      "import_count": 7,
+      "id": "candidate.consciousness.reflection.meta_learning_adapter"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/qi_dream_adapter.py",
+      "import_count": 7,
+      "id": "candidate.consciousness.reflection.qi_dream_adapter"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/meta_cognitive_orchestrator_alt.py",
+      "import_count": 12,
+      "id": "candidate.consciousness.reflection.meta_cognitive_orchestrator_alt"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/monitoring_observability.py",
+      "import_count": 28,
+      "id": "candidate.consciousness.reflection.monitoring_observability"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/ethical_reasoning_system.py",
+      "import_count": 10,
+      "id": "candidate.consciousness.reflection.ethical_reasoning_system"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/learning_system.py",
+      "import_count": 8,
+      "id": "candidate.consciousness.reflection.learning_system"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/processing_core.py",
+      "import_count": 0,
+      "id": "candidate.consciousness.reflection.processing_core"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/_dict_learning.py",
+      "import_count": 15,
+      "id": "candidate.consciousness.reflection._dict_learning"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/qi_memory_manager.py",
+      "import_count": 6,
+      "id": "candidate.consciousness.reflection.qi_memory_manager"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/token_budget_controller.py",
+      "import_count": 8,
+      "id": "candidate.consciousness.reflection.token_budget_controller"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/agent_coordination.py",
+      "import_count": 11,
+      "id": "candidate.consciousness.reflection.agent_coordination"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/full_connectivity_resolver.py",
+      "import_count": 5,
+      "id": "candidate.consciousness.reflection.full_connectivity_resolver"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/awareness.py",
+      "import_count": 4,
+      "id": "candidate.consciousness.reflection.awareness"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/qi_layer.py",
+      "import_count": 5,
+      "id": "candidate.consciousness.reflection.qi_layer"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/core_integrator.py",
+      "import_count": 8,
+      "id": "candidate.consciousness.reflection.core_integrator"
+    },
+    {
+      "id": "candidate.orchestration.brain.integration.brain_integration"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/consciousness_hub.py",
+      "import_count": 17,
+      "id": "candidate.consciousness.reflection.consciousness_hub"
+    },
+    {
+      "id": "consciousness.qi_consciousness_hub"
+    },
+    {
+      "id": "consciousness.systems.lambda_bot_consciousness_integration"
+    },
+    {
+      "id": "consciousness.systems.qi_consciousness_integration_wrapper"
+    },
+    {
+      "id": "consciousness.cognitive_architecture_controller"
+    },
+    {
+      "id": "consciousness.cognitive.adapter"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/actor_system.py",
+      "import_count": 13,
+      "id": "candidate.consciousness.reflection.actor_system"
+    },
+    {
+      "file_path": "candidate/consciousness/reflection/symbolic_weaver.py",
+      "import_count": 18,
+      "id": "candidate.consciousness.reflection.symbolic_weaver"
+    }
+  ],
+  "links": [
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.orchestration_bridge",
+      "target": "candidate.orchestration.brain.personality.personality"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.orchestration_bridge",
+      "target": "candidate.orchestration.brain.cognitive.cognitive_updater"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.orchestration_bridge",
+      "target": "candidate.orchestration.brain.monitoring.rate_modulator"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.orchestration_bridge",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.services",
+      "target": "consciousness.bridge"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream_bridge_adapter",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.qi_consciousness_integration",
+      "target": "consciousness.consciousness_service"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream_bridge",
+      "target": "candidate.core.orchestration.integration_hub"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream_bridge",
+      "target": "candidate.memory.core"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream_bridge",
+      "target": "consciousness.bridge"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.neuroplastic_connector",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.loop_meta_learning",
+      "target": "lukhas.memory.core"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.cognitive.adapter",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.core.engine_poetic",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.core.engine",
+      "target": "lukhas.branding_bridge"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.creativity.service",
+      "target": "lukhas.governance.identity.interface"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.creativity.haiku_generator",
+      "target": "lukhas.branding_bridge"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.creativity.haiku_generator",
+      "target": "consciousness.core_consciousness.qi_consciousness_integration"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.creativity.haiku_generator",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.creativity.creative_core",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.creativity.personality.voice.voice_narrator",
+      "target": "candidate.core.utils.symbolic_utils"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.creativity.personality.voice.voice_narrator",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.creativity.personality.voice.voice_personality",
+      "target": "candidate.orchestration.brain.orchestration.emotional_oscillator"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.creativity.personality.voice.voice_personality",
+      "target": "candidate.core.personality.creative_expressions"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.creativity.personality.voice.voice_personality",
+      "target": "candidate.orchestration.brain.personality.personality_refiner"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.creativity.personality.voice.voice_personality",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.creativity.engines.engine",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.creativity.systems.voice_personality_creativity_engine",
+      "target": "candidate.orchestration.brain.orchestration.emotional_oscillator"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.creativity.systems.voice_personality_creativity_engine",
+      "target": "candidate.core.personality.creative_expressions"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.creativity.systems.voice_personality_creativity_engine",
+      "target": "candidate.orchestration.brain.personality.personality_refiner"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.creativity.systems.voice_personality_creativity_engine",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.awareness.awareness_protocol",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.awareness.bio_symbolic_awareness_adapter",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.awareness.attention_monitor",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.awareness.system_awareness",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.awareness.awareness_log_synchronizer",
+      "target": "lukhas.tiers"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.awareness.awareness_tracker",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.unified.symbolic_bio_symbolic_orchestrator",
+      "target": "candidate.core.symbolism.tags"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.unified.symbolic_bio_symbolic_orchestrator",
+      "target": "candidate.core.colonies.base_colony"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.id_reasoning_engine",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.coherence_patch_validator",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.response_reasoning_summary_text_delta_event",
+      "target": "candidate.core.models"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.response_reasoning_summary_done_event",
+      "target": "candidate.core.models"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.reasoning_engine",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.response_reasoning_summary_part_done_event",
+      "target": "candidate.core.models"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.reasoning_errors",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.\u039bBot_reasoning",
+      "target": "candidate.orchestration.brain.abstract_reasoning.confidence_calibrator"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.\u039bBot_reasoning",
+      "target": "candidate.orchestration.brain.abstract_reasoning.bio_quantum_engine"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.\u039bBot_reasoning",
+      "target": "candidate.orchestration.brain.MultiBrainSymphony"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.reasoning_diagnostics",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.reasoning_hub",
+      "target": "candidate.core.integration.service_discovery"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.openai_oracle_adapter",
+      "target": "candidate.consciousness.reflection.openai_core_service"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.openai_core_service",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.response_reasoning_summary_delta_event",
+      "target": "candidate.core.models"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.symbolic_loop_harmonizer",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.adaptive_reasoning_loop",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.response_reasoning_item",
+      "target": "candidate.core.models"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.master_loop",
+      "target": "symbolic.lukhas_visualizer"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.master_loop",
+      "target": "symbolic.lukhas_reflector"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.master_loop",
+      "target": "symbolic.lukhas_dreams"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.master_loop",
+      "target": "symbolic.lukhas_guardian"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.master_loop",
+      "target": "symbolic.lukhas_voice"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.master_loop",
+      "target": "symbolic.lukhas_personality"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.master_loop",
+      "target": "symbolic.lukhas_emotion"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.response_reasoning_done_event",
+      "target": "candidate.core.models"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.response_reasoning_delta_event",
+      "target": "candidate.core.models"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.reasoning_colony",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.response_reasoning_summary_part_added_event",
+      "target": "candidate.core.models"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.reasoning_metrics",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.trace_summary_builder",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.response_reasoning_summary_text_done_event",
+      "target": "candidate.core.models"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.utils.agentic_trace",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.diagnostics.trace_mapper",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.decision.bridge",
+      "target": "candidate.core.utils.orchestration_energy_aware_execution_planner"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.decision.bridge",
+      "target": "candidate.core.integration.neuro_symbolic_fusion_layer"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reasoning.decision.bridge",
+      "target": "lukhas.memory.governance.ethical_drift_governor"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.expansion.awareness_boundary_transcender",
+      "target": "candidate.core.interfaces"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.expansion.consciousness_expansion_engine",
+      "target": "candidate.orchestration.symbolic_kernel_bus"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.expansion.consciousness_expansion_engine",
+      "target": "candidate.core.symbolic_engine"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.expansion.consciousness_expansion_engine",
+      "target": "lukhas.governance.guardian_system"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.expansion.consciousness_expansion_engine",
+      "target": "candidate.core.container.service_container"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.expansion.consciousness_expansion_engine",
+      "target": "candidate.core.interfaces"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.expansion.consciousness_expansion_engine",
+      "target": "consciousness_multiplication_engine"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.expansion.consciousness_expansion_engine",
+      "target": "consciousness_dimensionality_expander"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.expansion.consciousness_expansion_engine",
+      "target": "meta_consciousness_developer"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.expansion.meta_consciousness_developer",
+      "target": "candidate.core.interfaces"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.expansion.consciousness_multiplication_engine",
+      "target": "candidate.core.interfaces"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.expansion.consciousness_dimensionality_expander",
+      "target": "candidate.core.interfaces"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.expansion.consciousness_dimensionality_expander",
+      "target": "consciousness_expansion_engine"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.states.qi_consciousness_hub",
+      "target": "candidate.orchestration.brain.consciousness_core"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.states.qi_consciousness_hub",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.states.qi_mesh_visualizer",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.states.symbolic_drift_tracker",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.states.bio_engine",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.states.FederatedLearningSystem",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.states.simulation_controller",
+      "target": "candidate.core.bio_systems.bio_oscillator"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.states.shared_state",
+      "target": "candidate.core.identity.vault.lukhas_id"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.states.async_client",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.states.cognitive_load_estimator",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.states.world_models",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.states.tiered_state_management",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.states.qi_mesh_integrator",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.systems.validator",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.systems.integrator",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.systems.mapper",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.systems.consciousness",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.systems.lambda_bot_consciousness_integration",
+      "target": "\u03bbBot_consciousness_monitor"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.systems.lambda_bot_consciousness_integration",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.systems.consciousness_colony_integration",
+      "target": "candidate.core.colonies.memory_colony"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.systems.consciousness_colony_integration",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.systems.consciousness_colony_integration",
+      "target": "candidate.core.swarm"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.systems.consciousness_colony_integration",
+      "target": "consciousness.systems.engine"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.systems.consciousness_colony_integration",
+      "target": "candidate.core.colonies.creativity_colony"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.systems.consciousness_colony_integration",
+      "target": "candidate.core.colonies.reasoning_colony"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.systems.consciousness_colony_integration",
+      "target": "candidate.bridge.shared_state"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.systems.advanced_consciousness_engine",
+      "target": "candidate.consciousness.neuroplastic_connector"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.systems.advanced_consciousness_engine",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.systems.unified_consciousness_engine",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.systems.state",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.systems.cognitive_systems.voice_personality",
+      "target": "candidate.orchestration.brain.orchestration.emotional_oscillator"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.systems.cognitive_systems.voice_personality",
+      "target": "candidate.core.personality.creative_expressions"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.systems.cognitive_systems.voice_personality",
+      "target": "candidate.orchestration.brain.personality.personality_refiner"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.systems.cognitive_systems.voice_personality",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.systems.dream_engine.dream_reflection_loop",
+      "target": "lukhas.memory.systems.dream_memory_fold"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.systems.dream_engine.dream_reflection_loop",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.colony_dream_coordinator",
+      "target": "candidate.orchestration.symbolic_kernel_bus"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.colony_dream_coordinator",
+      "target": "candidate.core.swarm"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.colony_dream_coordinator",
+      "target": "candidate.orchestration.colony_orchestrator"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.breakthrough_detector",
+      "target": "candidate.core.interfaces"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.breakthrough_detector",
+      "target": "candidate.core.common.exceptions"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.breakthrough_detector",
+      "target": "candidate.core.interfaces.dependency_injection"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.breakthrough_detector",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.dream_pipeline",
+      "target": "consciousness.reflection.unified_memory_manager"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.dream_pipeline",
+      "target": "dream_engine.lukhas_oracle_dream"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.parallel_reality_simulator",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.parallel_reality_simulator",
+      "target": "candidate.core.interfaces"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.parallel_reality_simulator",
+      "target": "candidate.core.interfaces.dependency_injection"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.parallel_reality_simulator",
+      "target": "candidate.core.interfaces.memory_interface"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.parallel_reality_simulator",
+      "target": "candidate.core.common.exceptions"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.dream_director",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.innovation_drift_protection",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.innovation_drift_protection",
+      "target": "candidate.core.interfaces"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.innovation_drift_protection",
+      "target": "candidate.core.monitoring.drift_monitor"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.innovation_drift_protection",
+      "target": "lukhas.memory.temporal.drift_dashboard"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.innovation_drift_protection",
+      "target": "candidate.core.interfaces.dependency_injection"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.innovation_drift_protection",
+      "target": "consciousness.states.symbolic_drift_tracker"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.innovation_drift_protection",
+      "target": "lukhas.memory.integrity.collapse_hash"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.innovation_drift_protection",
+      "target": "candidate.core.common.exceptions"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.openai_dream_integration",
+      "target": "candidate.bridge.llm_wrappers.unified_openai_client"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.dream_service_init",
+      "target": "consciousness.unified.auto_consciousness"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.dream_service_init",
+      "target": "consciousness.dream.core.dream_engine"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.dream_service_init",
+      "target": "consciousness.dream.parallel_reality_simulator"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.dream_service_init",
+      "target": "candidate.core.interfaces.dependency_injection"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.reality_synthesis_engine",
+      "target": "candidate.core.interfaces"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.reality_synthesis_engine",
+      "target": "candidate.core.common.exceptions"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.reality_synthesis_engine",
+      "target": "candidate.core.interfaces.dependency_injection"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.reality_synthesis_engine",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.dream_data_sources",
+      "target": "consciousness.awareness.system_awareness"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.dream_data_sources",
+      "target": "consciousness.reflection.unified_memory_manager"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.autonomous_innovation_core",
+      "target": "candidate.core.interfaces"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.autonomous_innovation_core",
+      "target": "candidate.core.common.exceptions"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.autonomous_innovation_core",
+      "target": "candidate.core.interfaces.dependency_injection"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.autonomous_innovation_core",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.parallel_reality_safety",
+      "target": "candidate.core.interfaces"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.parallel_reality_safety",
+      "target": "candidate.core.common.exceptions"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.parallel_reality_safety",
+      "target": "candidate.core.interfaces.dependency_injection"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.parallel_reality_safety",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.core.dream_memory_manager",
+      "target": "lukhas.memory.folds.fold_engine"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.core.dream_engine",
+      "target": "consciousness.dream.engine.dream_engine"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.core.dream_engine",
+      "target": "candidate.core.unified.integration"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.core.dream_engine",
+      "target": "candidate.core.unified.orchestration"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.core.dream_engine",
+      "target": "candidate.core.unified.bio_signals"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.core.dream_feedback_controller",
+      "target": "lukhas.memory.emotional"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.core.dream_emotion_bridge",
+      "target": "candidate.memory.emotional"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.core.dream_cli",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.core.dream_injector",
+      "target": "candidate.core.modules.nias.dream_recorder"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.core.dream_limiter",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.oneiric.oneiric_core.engine.dream_engine_fastapi",
+      "target": "lukhas.memory.core_memory.dream_memory_manager"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.oneiric.oneiric_core.engine.dream_engine_fastapi",
+      "target": "candidate.core.unified_integration"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.oneiric.oneiric_core.engine.dream_engine_fastapi",
+      "target": "candidate.core.bio_systems.qi_layer"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.oneiric.oneiric_core.engine.dream_engine_fastapi",
+      "target": "consciousness.core_consciousness.dream_engine.dream_reflection_loop"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.processors.dream_processor",
+      "target": "lukhas.memory.systems.helix_dna"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.engine.dream_engine",
+      "target": "candidate.orchestration.brain.cognitive.voice_engine"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.engine.dream_engine",
+      "target": "lukhas.memory.systems.helix_mapper"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.engine.dream_engine",
+      "target": "candidate.core.colonies.creativity_colony"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.dream.engine.dream_engine",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.qi_integration.qi_consciousness_integration",
+      "target": "consciousness.consciousness_service"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.qi_integration.qi_consciousness_integration",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.qi_integration.qi_consciousness_visualizer",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.qi_integration.qi_consciousness_integration_wrapper",
+      "target": "qi_consciousness_integration"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.qi_integration.qi_consciousness_integration_wrapper",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.interfaces.natural_language_interface",
+      "target": "lukhas.branding_bridge"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.interfaces.natural_language_interface",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.interfaces.natural_language_interface",
+      "target": "candidate.core.interfaces"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.interfaces.natural_language_interface",
+      "target": "candidate.core.interfaces.dependency_injection"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.interfaces.natural_language_interface",
+      "target": "candidate.core.common.exceptions"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.id_reasoning_engine",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.dream_narrator",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.consciousness_api",
+      "target": "consciousness.qi_integration.qi_consciousness_integration"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.consciousness_api",
+      "target": "consciousness.awareness.awareness_engine"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.consciousness_api",
+      "target": "consciousness.reflection.self_reflection_engine"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.consciousness_api",
+      "target": "consciousness.core.engine"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.federated_meta_learning",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.swarm",
+      "target": "candidate.core.actor_system"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.swarm",
+      "target": "candidate.core.distributed_tracing"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.swarm",
+      "target": "candidate.core.colonies.base_colony"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.swarm",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.service",
+      "target": "lukhas.governance.identity.interface"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.system",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.reflection_layer",
+      "target": "candidate.core.user_interface_manager.voice_handler"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.reflection_layer",
+      "target": "candidate.core.monitoring.drift_monitor"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.reflection_layer",
+      "target": "candidate.core.interfaces.logic.voice.voice_renderer"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.controller",
+      "target": "candidate.orchestration.brain.privacy_manager"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.controller",
+      "target": "consciousness.consciousness_integrator"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.controller",
+      "target": "lukhas.governance.identity.auth_backend.audit_logger"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.integration_manager",
+      "target": "candidate.orchestration.brain.cognitive_agi_enhancement"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.awareness_system",
+      "target": "candidate.core.unified.integration"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.awareness_system",
+      "target": "consciousness.awareness.awareness_engine"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.metalearningenhancementsystem",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.memory_hub",
+      "target": "lukhas.memory.systems.multimodal_memory_integration"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.memory_hub",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.memory_hub",
+      "target": "lukhas.memory.systems.memory_planning_mock"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.memory_hub",
+      "target": "lukhas.memory.systems.memory_profiler_mock"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.memory_hub",
+      "target": "lukhas.memory.distributed_state_manager"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.memory_hub",
+      "target": "candidate.core.bridges.memory_consciousness_bridge"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.memory_hub",
+      "target": "candidate.core.bridges.memory_learning_bridge"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.memory_hub",
+      "target": "lukhas.memory.repair.trauma_repair_wrapper"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.memory_hub",
+      "target": "lukhas.memory.emotional_memory_manager_unified"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.memory_hub",
+      "target": "candidate.core.core_hub"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.memory_hub",
+      "target": "lukhas.memory.systems.memory_helix_golden"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.memory_hub",
+      "target": "lukhas.memory.colonies.episodic_memory_integration"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.memory_hub",
+      "target": "lukhas.memory.systems.memory_profiler_wrapper"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.memory_hub",
+      "target": "candidate.core.integration.service_discovery"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.memory_hub",
+      "target": "lukhas.memory.qi_manager"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.memory_hub",
+      "target": "candidate.bridge.symbolic_memory_mapper"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.memory_hub",
+      "target": "lukhas.memory.voice_memory_manager"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.memory_hub",
+      "target": "lukhas.memory.systems.memory_planning_wrapper"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.memory_hub",
+      "target": "lukhas.memory.systems.neurosymbolic_integration"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.memory_hub",
+      "target": "lukhas.memory.core.base_manager"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.memory_hub",
+      "target": "lukhas.memory.systems.symbolic_delta_compression"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.memory_hub",
+      "target": "consciousness.reflection.unified_memory_manager"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.memory_hub",
+      "target": "lukhas.memory.systems.memory_tracker_integration"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.symbolic_drift_analyzer",
+      "target": "candidate.core.glyph.glyphs"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.symbolic_drift_analyzer",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.integrated_safety_system",
+      "target": "candidate.core.colonies.ethics_swarm_colony"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.integrated_safety_system",
+      "target": "candidate.core.quantized_thought_cycles"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.integrated_safety_system",
+      "target": "candidate.core.colonies.base_colony"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.integrated_safety_system",
+      "target": "lukhas.memory.systems.memory_safety_features"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.integrated_safety_system",
+      "target": "candidate.core.colonies.governance_colony_enhanced"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.dreamseed_unified",
+      "target": "candidate.core.tier_unification_adapter"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.dreamseed_unified",
+      "target": "lukhas.governance.identity.core.user_tier_mapping"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.dreamseed_unified",
+      "target": "candidate.core.identity_integration"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.dreamseed_unified",
+      "target": "lukhas.memory.emotional"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.dreamseed_unified",
+      "target": "lukhas.memory.governance.ethical_drift_governor"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.lambda_dependa_bot",
+      "target": "candidate.core.common.config"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.identity_hub",
+      "target": "candidate.core.bridges.identity_core_bridge"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.identity_hub",
+      "target": "lukhas.governance.identity.core.swarm.tier_aware_swarm_hub"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.identity_hub",
+      "target": "lukhas.governance.identity.core.auth.biometric_integration"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.identity_hub",
+      "target": "lukhas.governance.identity.core.sent.consent_manager"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.identity_hub",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.identity_hub",
+      "target": "candidate.core.identity.persona_engine"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.identity_hub",
+      "target": "lukhas.governance.identity.core.brain_identity_integration"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.identity_hub",
+      "target": "candidate.core.core_hub"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.identity_hub",
+      "target": "lukhas.governance.identity.auth_utils.grid_size_calculator"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.identity_hub",
+      "target": "lukhas.governance.identity.auth_utils.attention_monitor"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.identity_hub",
+      "target": "lukhas.governance.identity.interface"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.identity_hub",
+      "target": "lukhas.governance.identity.auth_backend.trust_scorer"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.identity_hub",
+      "target": "lukhas.governance.identity.core.qrs_manager"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.identity_hub",
+      "target": "consciousness.reflection.memory_hub"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.colony_orchestrator",
+      "target": "candidate.core.colonies.memory_colony"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.colony_orchestrator",
+      "target": "candidate.core.tier_aware_colony_proxy"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.colony_orchestrator",
+      "target": "candidate.core.colonies.ethics_swarm_colony"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.colony_orchestrator",
+      "target": "candidate.core.colonies.oracle_colony"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.colony_orchestrator",
+      "target": "candidate.core.colonies.base_colony"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.colony_orchestrator",
+      "target": "candidate.core.colonies.creativity_colony"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.colony_orchestrator",
+      "target": "candidate.core.colonies.reasoning_colony"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.colony_orchestrator",
+      "target": "candidate.core.colonies.temporal_colony"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.emotional",
+      "target": "candidate.core.symbolic.drift.symbolic_drift_tracker"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.core",
+      "target": "lukhas.memory.structural_conscience"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.meta_learning",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.practical_optimizations",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.self_reflection_engine",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.visionary_orchestrator",
+      "target": "candidate.core.advanced_symbolic_loop"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.visionary_orchestrator",
+      "target": "candidate.core.memory.memory_manager"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.visionary_orchestrator",
+      "target": "candidate.core.logging"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.master_orchestrator",
+      "target": "candidate.memory.consolidation.memory_visualization"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.master_orchestrator",
+      "target": "candidate.orchestration.swarm_orchestration_adapter"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.master_orchestrator",
+      "target": "candidate.core.utils.orchestration_energy_aware_execution_planner"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.master_orchestrator",
+      "target": "candidate.memory.consolidation.memory_colonies"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.master_orchestrator",
+      "target": "candidate.orchestration.colony_orchestrator"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.master_orchestrator",
+      "target": "candidate.memory.folds.unified_memory_core"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.master_orchestrator",
+      "target": "candidate.orchestration.brain.primary_hub"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.master_orchestrator",
+      "target": "candidate.orchestration.workflow_engine"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.master_orchestrator",
+      "target": "candidate.orchestration.bio_symbolic_orchestrator"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.qrg_100_percent_coverage",
+      "target": "lukhas.qi.steganographic_demo"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.distributed_state_manager",
+      "target": "candidate.core.cluster_sharding"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.distributed_state_manager",
+      "target": "candidate.core.event_sourcing"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.distributed_state_manager",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.orchestration_service",
+      "target": "lukhas.governance.identity.interface"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.orchestration_service",
+      "target": "candidate.core.performance.performance_orchestrator"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.orchestration_service",
+      "target": "candidate.bridge.message_bus"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.privacy_preserving_memory_vault",
+      "target": "candidate.core.integration.governance.__init__"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.privacy_preserving_memory_vault",
+      "target": "lukhas.memory.emotional"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.unified_memory_manager",
+      "target": "lukhas.memory.systems.memory_visualizer"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.unified_memory_manager",
+      "target": "lukhas.memory.memory_fold"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.circuit_breaker",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.event_replay_snapshot",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.bio_system",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.MetaLearningEnhancement",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.learning_system",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.agent_coordination",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.awareness",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.core_integrator",
+      "target": "candidate.orchestration.brain.integration.brain_integration"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.consciousness_hub",
+      "target": "consciousness.qi_consciousness_hub"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.consciousness_hub",
+      "target": "consciousness.systems.lambda_bot_consciousness_integration"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.consciousness_hub",
+      "target": "candidate.core.common"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.consciousness_hub",
+      "target": "consciousness.systems.qi_consciousness_integration_wrapper"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.consciousness_hub",
+      "target": "consciousness.cognitive_architecture_controller"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.consciousness_hub",
+      "target": "consciousness.cognitive.adapter"
+    },
+    {
+      "relationship": "imports",
+      "source": "candidate.consciousness.reflection.actor_system",
+      "target": "candidate.core.common"
+    }
+  ]
+}

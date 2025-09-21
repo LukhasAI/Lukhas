@@ -10,7 +10,7 @@
 
 ## Memory Integration Overview
 
-LUKHAS memory serves as the **persistent state pillar** for the Memory component in the Trinity Framework, providing unified fold system coordination and cross-system memory integration between CANDIDATE development and PRODUCTS deployment. This is where distributed memory components achieve coordinated persistence through Identity-Memory-Consciousness integration.
+LUKHAS memory serves as the **persistent state pillar** for the Memory component in the Constellation Framework, providing unified fold system coordination and cross-system memory integration between CANDIDATE development and PRODUCTS deployment. This is where distributed memory components achieve coordinated persistence through Identity-Memory-Consciousness integration.
 
 ### **Integration Scope**
 - **Trinity Role**: Memory 🗃️ pillar in Identity ⚛️ + Memory 🗃️ + Consciousness 🧠 framework
@@ -20,7 +20,7 @@ LUKHAS memory serves as the **persistent state pillar** for the Memory component
 
 ### **Trinity Memory Architecture**
 ```
-Trinity Framework Memory Integration
+Constellation Framework Memory Integration
 ┌─────────────────────────────────────────────┐
 │  ⚛️ Identity + 🗃️ Memory + 🧠 Consciousness  │
 │                                             │
@@ -73,7 +73,7 @@ class MemoryWrapperIntegration:
 - **Unified Interface**: Single memory access point across all LUKHAS systems
 - **Fold Coordination**: 1000-fold memory system with 99.7% cascade prevention
 - **State Management**: Memory state persistence and cross-system synchronization
-- **Trinity Integration**: Memory coordination with Identity and Consciousness
+- **Constellation Integration**: Memory coordination with Identity and Consciousness
 
 ### **FoldSystemManager** (`fold_system_manager.py`)
 **Hierarchical memory organization** - 1000-fold system coordination
@@ -134,12 +134,12 @@ async def integrate_emotional_memory_systems(self, emotional_experience):
 **Development memory to integration coordination**
 
 ```
-CANDIDATE Memory → LUKHAS Integration → Trinity Coordination
+CANDIDATE Memory → LUKHAS Integration → Constellation Coordination
         │                │                    │
    Fold Development  →  Wrapper Interface →  Identity Context
    Emotional Memory  →  System Manager   →  Consciousness Coupling
    VAD Encoding      →  MATRIZ Bridge    →  Cross-System State
-   Cascade Prevention →  Trinity Integration → Production Ready
+   Cascade Prevention →  Constellation Integration → Production Ready
 ```
 
 #### **Development Integration Patterns**
@@ -154,7 +154,7 @@ CANDIDATE Memory → LUKHAS Integration → Trinity Coordination
 ```
 LUKHAS Integration → PRODUCTS Deployment → Enterprise Memory
         │                  │                    │
-   Trinity Framework →  Production APIs →  Enterprise Scale
+   Constellation Framework →  Production APIs →  Enterprise Scale
    Wrapper Interfaces → Service Deployment → User Memory
    State Management  →  Monitoring Systems → Performance Scaling
    Cross-System Coord → Enterprise Integration → Memory Analytics
@@ -162,11 +162,11 @@ LUKHAS Integration → PRODUCTS Deployment → Enterprise Memory
 
 #### **Production Integration Patterns**
 - **Service Deployment**: LUKHAS memory coordination → PRODUCTS memory services
-- **Enterprise Scaling**: Trinity Framework → Enterprise memory systems
+- **Enterprise Scaling**: Constellation Framework → Enterprise memory systems
 - **Monitoring Integration**: Memory state management → Production monitoring
 - **User Experience**: Memory coordination → User-facing memory applications
 
-## 🔗 Trinity Framework Integration
+## 🔗 Constellation Framework Integration
 
 ### **Identity ⚛️ ↔ Memory 🗃️ Coordination**
 **Namespace-aware memory management**
@@ -260,7 +260,7 @@ async def deploy_memory_to_production(self, memory_systems):
     # 1. Production Readiness Validation
     readiness_check = await self.validate_memory_production_readiness(memory_systems)
 
-    # 2. Trinity Framework Production Setup
+    # 2. Constellation Framework Production Setup
     trinity_production = await self.setup_trinity_memory_production(
         readiness_check
     )
@@ -290,7 +290,7 @@ async def deploy_memory_to_production(self, memory_systems):
 
 ## 📊 Memory Integration Status
 
-### **Trinity Framework Memory Health**
+### **Constellation Framework Memory Health**
 - ✅ **MemoryWrapper**: Unified memory interface active with fold coordination
 - ✅ **FoldSystemManager**: 1000-fold system with 99.7% cascade prevention
 - ✅ **MatrizAdapter**: Symbolic reasoning memory bridge operational
@@ -303,17 +303,17 @@ async def deploy_memory_to_production(self, memory_systems):
 - ✅ **Performance Optimization**: Memory system performance enhancement
 
 ### **Production Integration Status**
-- ✅ **Deployment Readiness**: Trinity Framework memory production preparation
+- ✅ **Deployment Readiness**: Constellation Framework memory production preparation
 - 🔄 **Enterprise Integration**: Enterprise memory scaling development
 - ✅ **Monitoring Systems**: Memory monitoring and observability integration
 - ✅ **Performance Analytics**: Memory system performance tracking
 
 ## 🎯 Memory Integration Priorities
 
-### **Trinity Framework Enhancement**
+### **Constellation Framework Enhancement**
 1. **Fold System Optimization**: Enhanced 1000-fold management and cascade prevention
 2. **Emotional Memory**: Advanced VAD encoding and consciousness coupling
-3. **Performance Scaling**: Trinity Framework memory performance optimization
+3. **Performance Scaling**: Constellation Framework memory performance optimization
 4. **Cross-System State**: Enhanced memory state coordination and synchronization
 
 ### **Bridge System Development**
@@ -330,8 +330,8 @@ async def deploy_memory_to_production(self, memory_systems):
 
 ---
 
-**Trinity Integration**: Memory 🗃️ pillar coordination | **Components**: Wrapper + FoldManager + MATRIZ + Emotional
-**Bridge**: CANDIDATE ↔ LUKHAS ↔ PRODUCTS memory coordination | **Status**: Trinity Framework active
+**Constellation Integration**: Memory 🗃️ pillar coordination | **Components**: Wrapper + FoldManager + MATRIZ + Emotional
+**Bridge**: CANDIDATE ↔ LUKHAS ↔ PRODUCTS memory coordination | **Status**: Constellation Framework active
 **Production**: Enterprise scaling with monitoring and performance optimization
 
-*Primary memory integration layer - coordinate Trinity Framework memory systems*
+*Primary memory integration layer - coordinate Constellation Framework memory systems*

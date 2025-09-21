@@ -116,7 +116,7 @@ symbolic_registry = SymbolicRegistry()
 ║
 ║ REFERENCES:
 ║   - Docs: docs/common/symbolic-system.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=symbolic
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=symbolic
 ║   - Wiki: wiki.lukhas.ai/symbolic-references
 ║
 ║ COPYRIGHT & LICENSE:
@@ -125,7 +125,7 @@ symbolic_registry = SymbolicRegistry()
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

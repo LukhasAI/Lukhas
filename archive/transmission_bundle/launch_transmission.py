@@ -329,7 +329,7 @@ class LUKHASTransmission:
         logger.info("      ✅ Enterprise SSO integration")
         logger.info("")
         logger.info("   🚀 TRANSMISSION COMPLETE - LUKHAS IS LIVE")
-        logger.info("   ⚛️🧠🛡️ Trinity Framework: ACTIVE")
+        logger.info("   ⚛️🧠🛡️ Constellation Framework: ACTIVE")
         logger.info("")
         logger.info('   "In symbolic unity, we find emergent intelligence."')
         logger.info("")

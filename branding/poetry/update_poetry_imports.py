@@ -60,7 +60,7 @@ def update_imports(root_dir):
 
 if __name__ == "__main__":
     print("Updating poetry imports...")
-    updated = update_imports("/Users/agi_dev/LOCAL-REPOS/Lukhas")
+    updated = update_imports("/Users/cognitive_dev/LOCAL-REPOS/Lukhas")
 
     if updated:
         print(f"\nUpdated {len(updated)} files:")

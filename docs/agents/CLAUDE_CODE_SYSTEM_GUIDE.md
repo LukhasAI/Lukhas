@@ -166,7 +166,7 @@ The Constellation Framework provides user-facing navigation across the conscious
 7. **🛡️ Guardian** - The Watch Star → `lukhas.com`
 8. **⚛️ Quantum** - The Ambiguity Star → `lukhas.xyz`, `lukhas.lab`
 
-### Trinity Framework (Internal/Technical)
+### Constellation Framework (Internal/Technical)
 
 **Internal consciousness architecture** based on original 3 pillars:
 - **⚛️ Identity**: Core consciousness identity and authentication systems

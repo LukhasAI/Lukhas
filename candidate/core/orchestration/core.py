@@ -1,7 +1,7 @@
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - ORCHESTRATION CORE
-║ Central coordination and module lifecycle management for LUKHAS AGI
+║ Central coordination and module lifecycle management for LUKHAS Cognitive AI
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Module: core.py
@@ -11,7 +11,7 @@
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
-║ The Orchestration Core serves as the central nervous system for LUKHAS AGI,
+║ The Orchestration Core serves as the central nervous system for LUKHAS Cognitive AI,
 ║ providing coordination, module lifecycle management, and consciousness simulation.
 ║ Implements bio-inspired architecture with ethical governance integration and
 ║ advanced memory capabilities across all system components.
@@ -484,7 +484,7 @@ class OrchestrationCore:
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

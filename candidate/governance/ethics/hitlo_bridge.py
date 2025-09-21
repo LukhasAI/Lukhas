@@ -550,7 +550,7 @@ def create_ethics_hitlo_bridge(
 ║
 ║ REFERENCES:
 ║   - Docs: docs/ethics/hitlo_bridge.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=ethics-hitlo
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=ethics-hitlo
 ║   - Wiki: internal.lukhas.ai/ethics/hitlo-bridge
 ║
 ║ COPYRIGHT & LICENSE:
@@ -559,7 +559,7 @@ def create_ethics_hitlo_bridge(
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

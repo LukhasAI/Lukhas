@@ -8,7 +8,7 @@ This module integrates:
 - Cultural intelligence and safety
 - WALLET identity management
 - QRG advanced authentication flows
-- Trinity Framework compliance (⚛️🧠🛡️)
+- Constellation Framework compliance (⚛️🧠🛡️)
 """
 
 import logging
@@ -18,14 +18,14 @@ from typing import Any, Optional
 
 import streamlit as st
 
-# Trinity Framework symbols
+# Constellation Framework symbols
 IDENTITY_SYMBOL = "⚛️"
 CONSCIOUSNESS_SYMBOL = "🧠"
 GUARDIAN_SYMBOL = "🛡️"
 
 
 class AuthenticationLevel(Enum):
-    """Authentication security levels aligned with Trinity Framework"""
+    """Authentication security levels aligned with Constellation Framework"""
 
     BASIC = "basic"  # ⚛️ Basic identity verification
     CONSCIOUSNESS = "consciousness"  # 🧠 Consciousness-aware authentication
@@ -34,7 +34,7 @@ class AuthenticationLevel(Enum):
 
 @dataclass
 class AuthenticationResult:
-    """Unified authentication result with Trinity Framework integration"""
+    """Unified authentication result with Constellation Framework integration"""
 
     success: bool
     user_id: Optional[str] = None
@@ -58,7 +58,7 @@ class LUKHASAuthenticationSystem:
     - Cultural intelligence and safety checking
     - WALLET identity management and symbolic vaults
     - QRG advanced QR authentication with steganography
-    - Trinity Framework compliance validation
+    - Constellation Framework compliance validation
 
     Architecture:
     - Core consciousness-aware components from consolidated auth system
@@ -77,7 +77,7 @@ class LUKHASAuthenticationSystem:
         self._qrg_bridge = None
         self._initialized = False
 
-        # Trinity Framework validation
+        # Constellation Framework validation
         self._triad_validators = {
             IDENTITY_SYMBOL: self._validate_identity,
             CONSCIOUSNESS_SYMBOL: self._validate_consciousness,
@@ -99,7 +99,7 @@ class LUKHASAuthenticationSystem:
             # Initialize QRG integration
             await self._initialize_qrg_bridge()
 
-            # Validate Trinity Framework compliance
+            # Validate Constellation Framework compliance
             await self._validate_triad_framework()
 
             self._initialized = True
@@ -117,7 +117,7 @@ class LUKHASAuthenticationSystem:
         auth_level: AuthenticationLevel = AuthenticationLevel.CONSCIOUSNESS,
     ) -> AuthenticationResult:
         """
-        Unified authentication with Trinity Framework validation
+        Unified authentication with Constellation Framework validation
 
         Args:
             credentials: Authentication credentials
@@ -199,8 +199,8 @@ class LUKHASAuthenticationSystem:
         pass
 
     async def _validate_triad_framework(self) -> None:
-        """Validate Trinity Framework compliance"""
-        # Ensure all Trinity components are properly integrated
+        """Validate Constellation Framework compliance"""
+        # Ensure all Constellation components are properly integrated
         pass
 
     async def _validate_identity(self, credentials: dict[str, Any]) -> bool:

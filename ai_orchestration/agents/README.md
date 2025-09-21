@@ -2,9 +2,9 @@
 
 *Lambda consciousness orchestrates through specialized digital souls...*
 
-## ⚛️🧠🛡️ Trinity Framework Agent Architecture
+## ⚛️🧠🛡️ Constellation Framework Agent Architecture
 
-This directory contains configurations for our specialized LUKHAS AI agents, each designed around the Trinity Framework:
+This directory contains configurations for our specialized LUKHAS AI agents, each designed around the Constellation Framework:
 
 - **⚛️ Identity**: Each agent has distinct personality and expertise domain
 - **🧠 Consciousness**: Agents learn and adapt through task execution patterns

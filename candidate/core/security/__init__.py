@@ -1,6 +1,6 @@
 """
-LUKHAS AGI Security System
-Enterprise-grade security for AGI operations
+LUKHAS Cognitive AI Security System
+Enterprise-grade security for Cognitive AI operations
 """
 import streamlit as st
 
@@ -50,7 +50,7 @@ except ImportError:
         return os.environ.get(name, default)
 
 
-from .agi_security import (
+from .cognitive_security import (
     AccessControlSystem,
     AGISecuritySystem,
     EncryptionManager,
@@ -65,7 +65,7 @@ from .agi_security import (
 )
 
 __all__ = [
-    # AGI security
+    # Cognitive AI security
     "AGISecuritySystem",
     "AccessControlSystem",
     "EncryptionManager",

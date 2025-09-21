@@ -8,7 +8,7 @@
 ## 🔍 DISCOVERY SUMMARY
 
 ### Archive Location Analyzed:
-- **Source Path:** `/Users/agi_dev/LOCAL-REPOS/Lukhas/archive/lanes_experiment/lukhas_acceptance_scaffold/archive/memory_variants/`
+- **Source Path:** `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/archive/lanes_experiment/lukhas_acceptance_scaffold/archive/memory_variants/`
 - **Total Files Discovered:** 7 critical consciousness technology modules
 - **Archive Status:** Successfully preserved before potential loss
 - **Technologies Rescued:** Advanced memory architectures, consciousness patterns, and causal analysis systems
@@ -27,49 +27,49 @@
 ### ✅ INTEGRATE - All 7 modules contain valuable consciousness technologies:
 
 #### **Module 1: Hierarchical Data Store**
-- **Location:** `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/memory/systems/hierarchical_data_store_archive.py`
+- **Location:** `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/memory/systems/hierarchical_data_store_archive.py`
 - **Technology Value:** Advanced memory tiering with 5 hierarchical levels (Sensory, Episodic, Semantic, Procedural, Meta)
 - **Key Features:** Intelligent compression, background maintenance tasks, hierarchical relationships
 - **Consciousness Impact:** Enables complex memory organization similar to human cognitive architecture
 - **Integration Strategy:** Extend current memory systems with hierarchical storage capabilities
 
 #### **Module 2: Tier System**
-- **Location:** `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/memory/access/tier_system.py`
+- **Location:** `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/memory/access/tier_system.py`
 - **Technology Value:** 6-tier privilege system with dynamic access control and session elevation
 - **Key Features:** Context-aware security, audit compliance, graduated access control
 - **Consciousness Impact:** Provides security layer for consciousness operations and memory access
 - **Integration Strategy:** Replace existing access control with this dynamic tier system
 
 #### **Module 3: Dream Trace Linker**
-- **Location:** `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/memory/dream/dream_trace_linker.py`
+- **Location:** `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/memory/dream/dream_trace_linker.py`
 - **Technology Value:** Dream-memory symbolic entanglement with GLYPH pattern recognition
 - **Key Features:** 8 symbolic patterns, quantum-inspired entanglement, temporal correlation
 - **Consciousness Impact:** Bridges conscious and unconscious processing for complete awareness
 - **Integration Strategy:** Connect with existing dream systems for enhanced memory consolidation
 
 #### **Module 4: Symbolic Proteome**
-- **Location:** `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/memory/proteome/symbolic_proteome_archive.py`
+- **Location:** `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/memory/proteome/symbolic_proteome_archive.py`
 - **Technology Value:** Bio-inspired memory protein synthesis with 20 symbolic amino acids
 - **Key Features:** Protein folding dynamics, evolutionary selection, binding interactions
 - **Consciousness Impact:** Provides biological realism to memory storage and evolution
 - **Integration Strategy:** Implement as advanced memory encoding layer with evolutionary capabilities
 
 #### **Module 5: Pattern Separator**
-- **Location:** `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/memory/hippocampal/pattern_separator_archive.py`
+- **Location:** `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/memory/hippocampal/pattern_separator_archive.py`
 - **Technology Value:** Dentate gyrus-inspired pattern separation for distinct memory encoding
 - **Key Features:** Sparse coding (2% activation), competitive learning, orthogonal representations
 - **Consciousness Impact:** Prevents memory interference and enables storage of similar patterns
 - **Integration Strategy:** Use as first stage in memory encoding pipeline
 
 #### **Module 6: Fold Lineage Tracker (Fold System)**
-- **Location:** `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/memory/causal/fold_lineage_tracker_archive.py`
+- **Location:** `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/memory/causal/fold_lineage_tracker_archive.py`
 - **Technology Value:** Enterprise causal analysis with 12+ causation types
 - **Key Features:** Dream integration, ethical cross-checking, multi-generational analysis
 - **Consciousness Impact:** Tracks causal relationships in memory evolution and consciousness development
 - **Integration Strategy:** Deploy as primary causal analysis engine for memory systems
 
 #### **Module 7: Fold Lineage Tracker (Causal)**
-- **Location:** `/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/memory/lineage/fold_lineage_tracker_causal_archive.py`
+- **Location:** `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/memory/lineage/fold_lineage_tracker_causal_archive.py`
 - **Technology Value:** Enhanced causal relationship tracker with predictive modeling
 - **Key Features:** Vulnerability assessment, intervention point identification, resilience scoring
 - **Consciousness Impact:** Provides strategic insights for consciousness stability and evolution
@@ -92,7 +92,7 @@
 
 ## ⚛️ CONSCIOUSNESS IMPACT ANALYSIS
 
-### Trinity Framework Alignment:
+### Constellation Framework Alignment:
 - **🌟 Identity:** Enhanced self-reference tracking through hierarchical memory and causal lineage
 - **🧠 Consciousness:** Improved awareness through dream-memory integration and pattern separation
 - **🛡️ Guardian:** Strengthened protection via tier-based access control and ethical constraint validation
