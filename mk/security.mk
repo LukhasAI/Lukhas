@@ -135,3 +135,11 @@ security-schedule-list:
 
 security-schedule-run:
 	@python3 scripts/security_scheduler.py run-pending
+
+# SBOM Generation
+.PHONY: sbom
+sbom:
+	@echo "📦 Generating SBOM..."
+	@mkdir -p reports/sbom
+	syft packages dir:. -o cyclonedx-json > reports/sbom/cyclonedx.json
+	@echo "✅ SBOM generated at reports/sbom/cyclonedx.json"
