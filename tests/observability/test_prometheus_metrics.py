@@ -4,6 +4,7 @@ Tests for LUKHAS Prometheus metrics integration.
 Validates metrics collection with and without Prometheus client available.
 """
 
+import os
 import time
 import threading
 from unittest.mock import Mock, patch, MagicMock
@@ -188,6 +189,24 @@ class TestLUKHASMetricsWithPrometheus:
             "memory": {"active": 8, "failed": 0},
             "orchestration": {"active": 5, "failed": 1},
         })
+
+    def test_lane_label_instrumentation(self):
+        """Ensure lane labels are applied to emitted metrics."""
+        previous_lane = os.environ.get("LUKHAS_LANE")
+        os.environ["LUKHAS_LANE"] = "candidate"
+        try:
+            config = MetricsConfig(push_gateway_url=None)
+            metrics = LUKHASMetrics(config)
+            metrics.record_request("/lane", "GET", "200", 0.01)
+
+            metric_family = metrics.requests_total.collect()[0]
+            lane_labels = [sample.labels.get("lane") for sample in metric_family.samples]
+            assert "candidate" in lane_labels
+        finally:
+            if previous_lane is None:
+                os.environ.pop("LUKHAS_LANE", None)
+            else:
+                os.environ["LUKHAS_LANE"] = previous_lane
 
     def test_observability_metrics_recording(self):
         """Test observability system metrics recording"""

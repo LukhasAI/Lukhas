@@ -10,6 +10,12 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Optional
 
+from .metrics import (
+    increment_cascade_events,
+    observe_fold_count,
+    observe_recall_latency,
+)
+
 try:
     from lukhas.observability.matriz_decorators import matriz_record
 
@@ -64,6 +70,12 @@ class FoldManager:
             "total_operations": 0,
         }
         self._start_time = time.time()
+        self._update_fold_count_metric()
+
+    def _update_fold_count_metric(self) -> None:
+        """Synchronise Prometheus fold count gauge."""
+        # ΛTAG: memory_metrics
+        observe_fold_count(len(self.folds))
 
     @emit_node("memory:fold:create")
     def create_fold(
@@ -105,6 +117,8 @@ class FoldManager:
             self.performance_metrics["creation_times"].append(creation_time)
             self.performance_metrics["total_operations"] += 1
 
+            self._update_fold_count_metric()
+
             return fold
 
         except Exception as e:
@@ -120,6 +134,8 @@ class FoldManager:
         """Prevent memory cascade by intelligently pruning folds"""
         if not self.cascade_prevention_active:
             return
+
+        increment_cascade_events()
 
         try:
             # Record cascade event
@@ -155,6 +171,9 @@ class FoldManager:
                 if fold.id in self.active_folds:
                     self.active_folds.remove(fold.id)
 
+        finally:
+            self._update_fold_count_metric()
+
     @emit_node("memory:fold:access")
     def retrieve_fold(self, fold_id: str, mode: str = "dry_run") -> Optional[MemoryFold]:
         """Retrieve a specific fold with access tracking"""
@@ -165,6 +184,7 @@ class FoldManager:
                 # Simulate fold retrieval
                 access_time = (time.time() - start_time) * 1000
                 self.performance_metrics["access_times"].append(access_time)
+                observe_recall_latency(access_time / 1000.0, "dry_run")
 
                 # Return mock fold for dry_run
                 if fold_id in self.folds:
@@ -178,6 +198,8 @@ class FoldManager:
             # Record performance
             access_time = (time.time() - start_time) * 1000
             self.performance_metrics["access_times"].append(access_time)
+            result_label = "hit" if fold else "miss"
+            observe_recall_latency(access_time / 1000.0, result_label)
 
             return fold
 

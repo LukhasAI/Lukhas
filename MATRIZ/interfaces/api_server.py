@@ -15,11 +15,12 @@ Features:
 """
 
 import logging
+import os
 import time
 import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any, Dict, Optional
 
 import uvicorn
 from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, WebSocket, WebSocketDisconnect
@@ -89,6 +90,14 @@ class HealthResponse(BaseModel):
     registered_nodes: int = Field(..., description="Number of registered cognitive nodes")
     total_queries: int = Field(..., description="Total queries processed")
     active_websockets: int = Field(..., description="Number of active WebSocket connections")
+    lane: str = Field(..., description="Active LUKHAS lane label")
+    within_latency_budget: bool = Field(..., description="Latency budget compliance (250ms p95)")
+    last_latency_ms: Optional[float] = Field(None, description="Most recent pipeline latency in milliseconds")
+    node_health_snapshot: dict[str, dict[str, Any]] = Field(
+        default_factory=dict,
+        description="Per-node health summary",
+    )
+    issues: list[str] = Field(default_factory=list, description="Active health concerns")
 
 
 class NodeInfo(BaseModel):
@@ -121,6 +130,59 @@ class WebSocketMessage(BaseModel):
 # Global state tracking
 start_time = time.time()
 total_queries = 0
+
+
+def _compute_orchestrator_health() -> Dict[str, Any]:
+    """Construct an orchestrator health snapshot for status endpoints."""
+    lane = os.getenv("LUKHAS_LANE", "experimental").lower() or "unknown"
+
+    snapshot: Dict[str, Any] = {
+        "lane": lane,
+        "status": "critical",
+        "registered_nodes": 0,
+        "within_latency_budget": False,
+        "last_latency_ms": None,
+        "node_health_snapshot": {},
+        "issues": [],
+    }
+
+    if orchestrator is None:
+        snapshot["issues"].append("orchestrator_not_initialized")
+        return snapshot
+
+    registered_nodes = len(orchestrator.available_nodes)
+    snapshot["registered_nodes"] = registered_nodes
+    snapshot["node_health_snapshot"] = {
+        name: {
+            "capabilities": getattr(node, "capabilities", []),
+            "healthy": True,
+        }
+        for name, node in orchestrator.available_nodes.items()
+    }
+
+    if registered_nodes == 0:
+        snapshot["issues"].append("no_nodes_registered")
+    else:
+        snapshot["status"] = "healthy"
+
+    if orchestrator.execution_trace:
+        last_trace = orchestrator.execution_trace[-1]
+        last_latency_ms = last_trace.processing_time * 1000
+        snapshot["last_latency_ms"] = last_latency_ms
+        within_budget = last_latency_ms <= 250
+        snapshot["within_latency_budget"] = within_budget
+        if not within_budget:
+            snapshot["issues"].append("latency_budget_exceeded")
+            snapshot["status"] = "degraded"
+    else:
+        snapshot["within_latency_budget"] = True
+        if snapshot["status"] == "healthy" and total_queries == 0:
+            snapshot["issues"].append("no_queries_processed")
+
+    if snapshot["status"] == "critical" and not snapshot["issues"]:
+        snapshot["issues"].append("unknown_issue")
+
+    return snapshot
 
 
 def get_orchestrator() -> CognitiveOrchestrator:
@@ -246,31 +308,52 @@ async def root():
 async def health_check():
     """Basic health check endpoint"""
     global total_queries, start_time, websocket_connections, orchestrator
+    snapshot = _compute_orchestrator_health()
 
     return HealthResponse(
-        status="healthy",
+        status=snapshot["status"],
         timestamp=datetime.now(timezone.utc).isoformat(),
         version="1.0.0",
         uptime_seconds=time.time() - start_time,
-        registered_nodes=len(orchestrator.available_nodes) if orchestrator else 0,
+        registered_nodes=snapshot["registered_nodes"],
         total_queries=total_queries,
         active_websockets=len(websocket_connections),
+        lane=snapshot["lane"],
+        within_latency_budget=snapshot["within_latency_budget"],
+        last_latency_ms=snapshot["last_latency_ms"],
+        node_health_snapshot=snapshot["node_health_snapshot"],
+        issues=snapshot["issues"],
     )
 
 
 @app.get("/health/ready", tags=["Health"])
 async def readiness_check():
     """Readiness check for container orchestration"""
-    if orchestrator is None or len(orchestrator.available_nodes) == 0:
-        raise HTTPException(status_code=503, detail="Service not ready")
+    snapshot = _compute_orchestrator_health()
+    if snapshot["status"] == "critical":
+        raise HTTPException(
+            status_code=503,
+            detail={"status": "not_ready", "issues": snapshot["issues"]},
+        )
 
-    return {"status": "ready", "timestamp": datetime.now(timezone.utc).isoformat()}
+    return {
+        "status": "ready",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "lane": snapshot["lane"],
+        "within_latency_budget": snapshot["within_latency_budget"],
+        "issues": snapshot["issues"],
+    }
 
 
 @app.get("/health/live", tags=["Health"])
 async def liveness_check():
     """Liveness check for container orchestration"""
-    return {"status": "alive", "timestamp": datetime.now(timezone.utc).isoformat()}
+    snapshot = _compute_orchestrator_health()
+    return {
+        "status": "alive",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "lane": snapshot["lane"],
+    }
 
 
 # Query processing endpoints

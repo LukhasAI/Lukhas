@@ -11,11 +11,98 @@ Features:
 """
 
 import asyncio
+import os
 import time
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Tuple
 from enum import Enum
+
+try:
+    from prometheus_client import Counter, Histogram
+except Exception:  # pragma: no cover - metrics optional in tests
+    class _NoopMetric:
+        def labels(self, *_, **__):  # type: ignore[return-value]
+            return self
+
+        def observe(self, *_, **__):
+            return None
+
+        def inc(self, *_, **__):
+            return None
+
+    Counter = Histogram = _NoopMetric  # type: ignore
+
+_DEFAULT_LANE = os.getenv("LUKHAS_LANE", "experimental").lower()
+
+# ΛTAG: orchestrator_metrics -- async pipeline stage instrumentation
+if isinstance(Histogram, type):
+    _ASYNC_PIPELINE_DURATION = Histogram(
+        "lukhas_matriz_async_pipeline_duration_seconds",
+        "Async MATRIZ pipeline duration",
+        ["lane", "status", "within_budget"],
+        buckets=[0.01, 0.05, 0.1, 0.15, 0.2, 0.25, 0.35, 0.5, 1.0],
+    )
+    _ASYNC_PIPELINE_TOTAL = Counter(
+        "lukhas_matriz_async_pipeline_total",
+        "Async MATRIZ pipeline executions",
+        ["lane", "status", "within_budget"],
+    )
+    _ASYNC_STAGE_DURATION = Histogram(
+        "lukhas_matriz_async_stage_duration_seconds",
+        "Async MATRIZ stage duration",
+        ["lane", "stage", "outcome"],
+        buckets=[0.001, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5],
+    )
+    _ASYNC_STAGE_TOTAL = Counter(
+        "lukhas_matriz_async_stage_total",
+        "Async MATRIZ stage executions",
+        ["lane", "stage", "outcome"],
+    )
+else:  # pragma: no cover
+    _ASYNC_PIPELINE_DURATION = Histogram()
+    _ASYNC_PIPELINE_TOTAL = Counter()
+    _ASYNC_STAGE_DURATION = Histogram()
+    _ASYNC_STAGE_TOTAL = Counter()
+
+
+def _lane_value() -> str:
+    """Resolve the current lane label for orchestrator metrics."""
+    lane = os.getenv("LUKHAS_LANE", _DEFAULT_LANE).lower()
+    return lane or "unknown"
+
+
+def _record_stage_metrics(stage_type: "StageType", duration_ms: float, outcome: str) -> None:
+    """Record Prometheus metrics for individual stages."""
+    outcome_label = outcome if outcome in {"success", "timeout", "error"} else "unknown"
+    lane = _lane_value()
+    _ASYNC_STAGE_DURATION.labels(
+        lane=lane,
+        stage=stage_type.value,
+        outcome=outcome_label,
+    ).observe(max(duration_ms, 0.0) / 1000.0)
+    _ASYNC_STAGE_TOTAL.labels(
+        lane=lane,
+        stage=stage_type.value,
+        outcome=outcome_label,
+    ).inc()
+
+
+def _record_pipeline_metrics(duration_ms: float, status: str, within_budget: Optional[bool]) -> None:
+    """Record Prometheus metrics for full pipeline runs."""
+    status_label = status if status in {"success", "error", "timeout"} else "unknown"
+    within_label = "unknown" if within_budget is None else str(within_budget).lower()
+    lane = _lane_value()
+    _ASYNC_PIPELINE_DURATION.labels(
+        lane=lane,
+        status=status_label,
+        within_budget=within_label,
+    ).observe(max(duration_ms, 0.0) / 1000.0)
+    _ASYNC_PIPELINE_TOTAL.labels(
+        lane=lane,
+        status=status_label,
+        within_budget=within_label,
+    ).inc()
 
 from .node_interface import CognitiveNode, NodeReflection, NodeState, NodeTrigger
 from .orchestrator import ExecutionTrace
@@ -96,6 +183,7 @@ async def run_with_timeout(
     try:
         result = await asyncio.wait_for(coro, timeout=timeout_sec)
         duration_ms = (time.perf_counter() - start) * 1000
+        _record_stage_metrics(stage_type, duration_ms, "success")
 
         return StageResult(
             stage_type=stage_type,
@@ -106,6 +194,7 @@ async def run_with_timeout(
 
     except asyncio.TimeoutError:
         duration_ms = (time.perf_counter() - start) * 1000
+        _record_stage_metrics(stage_type, duration_ms, "timeout")
         return StageResult(
             stage_type=stage_type,
             success=False,
@@ -116,6 +205,7 @@ async def run_with_timeout(
 
     except Exception as e:
         duration_ms = (time.perf_counter() - start) * 1000
+        _record_stage_metrics(stage_type, duration_ms, "error")
         return StageResult(
             stage_type=stage_type,
             success=False,
@@ -191,6 +281,7 @@ class AsyncCognitiveOrchestrator:
             )
         except asyncio.TimeoutError:
             total_ms = (time.perf_counter() - start_time) * 1000
+            _record_pipeline_metrics(total_ms, "timeout", False)
             return {
                 "error": f"Pipeline timeout exceeded {self.total_timeout}s",
                 "partial_results": [asdict(r) for r in stage_results],
@@ -409,6 +500,7 @@ class AsyncCognitiveOrchestrator:
     ) -> Dict[str, Any]:
         """Build error response with metrics"""
         total_ms = (time.perf_counter() - start_time) * 1000
+        _record_pipeline_metrics(total_ms, "error", False)
 
         return {
             "error": error,
@@ -433,6 +525,9 @@ class AsyncCognitiveOrchestrator:
             for r in stage_results
         }
 
+        within_budget = total_duration_ms < self.total_timeout * 1000
+        _record_pipeline_metrics(total_duration_ms, "success", within_budget)
+
         return {
             "answer": result.get("answer", "No answer"),
             "confidence": result.get("confidence", 0.0),
@@ -443,7 +538,7 @@ class AsyncCognitiveOrchestrator:
                 "stages_completed": sum(1 for r in stage_results if r.success),
                 "stages_failed": sum(1 for r in stage_results if not r.success),
                 "timeout_count": sum(1 for r in stage_results if r.timeout),
-                "within_budget": total_duration_ms < self.total_timeout * 1000,
+                "within_budget": within_budget,
             },
             "node_health": self.node_health,
         }
